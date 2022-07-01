@@ -35,6 +35,8 @@ class VariableEditorViewModel(
         getApplicationComponent().inject(this)
     }
 
+    private var typeHasFragment: Boolean = false
+
     private val outgoingEventBridge = EventBridge(VariableEditorToVariableTypeEvent::class.java)
     private val incomingEventBridge = EventBridge(VariableTypeToVariableEditorEvent::class.java)
 
@@ -99,6 +101,7 @@ class VariableEditorViewModel(
             .subscribe { event ->
                 when (event) {
                     is VariableTypeToVariableEditorEvent.Validated -> onValidated(event.valid)
+                    is VariableTypeToVariableEditorEvent.Initialized -> typeHasFragment = true
                 }
             }
             .attachTo(destroyer)
@@ -150,7 +153,11 @@ class VariableEditorViewModel(
         isSaving = true
         waitForOperationsToFinish {
             if (validate()) {
-                outgoingEventBridge.submit(VariableEditorToVariableTypeEvent.Validate)
+                if (typeHasFragment) {
+                    outgoingEventBridge.submit(VariableEditorToVariableTypeEvent.Validate)
+                } else {
+                    incomingEventBridge.submit(VariableTypeToVariableEditorEvent.Validated(valid = true))
+                }
             } else {
                 isSaving = false
             }

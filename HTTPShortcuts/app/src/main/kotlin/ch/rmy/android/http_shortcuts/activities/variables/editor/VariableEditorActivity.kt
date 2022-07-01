@@ -79,6 +79,7 @@ class VariableEditorActivity : BaseActivity() {
         val tag = "variable_edit_fragment_${variableType.type}"
         val fragment = supportFragmentManager.findFragmentByTag(tag) as? BaseFragment<*>
             ?: createEditorFragment()
+            ?: return
 
         supportFragmentManager
             .beginTransaction()
@@ -86,7 +87,7 @@ class VariableEditorActivity : BaseActivity() {
             .commitAllowingStateLoss()
     }
 
-    private fun createEditorFragment(): BaseFragment<*> =
+    private fun createEditorFragment(): BaseFragment<*>? =
         when (variableType) {
             VariableType.CONSTANT -> ConstantTypeFragment.create(variableId)
             VariableType.TEXT -> TextTypeFragment()
@@ -98,6 +99,8 @@ class VariableEditorActivity : BaseActivity() {
             VariableType.DATE -> DateTypeFragment()
             VariableType.TIME -> TimeTypeFragment()
             VariableType.SLIDER -> SliderTypeFragment()
+            VariableType.CLIPBOARD -> null
+            VariableType.UUID -> null
         }
 
     private fun initUserInputBindings() {

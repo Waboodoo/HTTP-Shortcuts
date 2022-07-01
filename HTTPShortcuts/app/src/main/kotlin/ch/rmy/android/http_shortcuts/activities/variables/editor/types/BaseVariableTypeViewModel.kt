@@ -44,6 +44,7 @@ abstract class BaseVariableTypeViewModel<InitData : Any, ViewState : Any>(applic
                 }
             }
             .attachTo(destroyer)
+        outgoingEventBridge.submit(VariableTypeToVariableEditorEvent.Initialized)
     }
 
     protected open fun onVariableChanged() {

@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.variables.usecases
 
 import androidx.annotation.CheckResult
 import ch.rmy.android.framework.extensions.runFor
-import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
@@ -34,18 +33,25 @@ constructor() {
         }
 
     private fun getOptions(): List<VariableTypeOption> =
-        VariableTypeMappings.TYPES
-            .flatMap { typeMapping ->
-                listOf<VariableTypeOption>(
-                    VariableTypeOption.Variable(
-                        name = StringResLocalizable(typeMapping.name),
-                        type = typeMapping.type,
-                        description = StringResLocalizable(typeMapping.description),
-                    )
-                )
-                    .runIf(typeMapping.type == VariableType.CONSTANT) {
-                        plusElement(VariableTypeOption.Separator)
+        STRUCTURED_TYPES
+            .let { sections ->
+                sections.fold(emptyList()) { list, section ->
+                    val optionsInSection = section.map { type ->
+                        val typeMapping = VariableTypeMappings.getTypeMapping(type)
+                        VariableTypeOption.Variable(
+                            name = StringResLocalizable(typeMapping.name),
+                            type = typeMapping.type,
+                            description = StringResLocalizable(typeMapping.description),
+                        )
                     }
+                    if (list.isNotEmpty()) {
+                        list
+                            .plus(VariableTypeOption.Separator)
+                            .plus(optionsInSection)
+                    } else {
+                        optionsInSection
+                    }
+                }
             }
 
     private sealed interface VariableTypeOption {
@@ -56,5 +62,29 @@ constructor() {
         ) : VariableTypeOption
 
         object Separator : VariableTypeOption
+    }
+
+    companion object {
+        private val STRUCTURED_TYPES
+            get() = listOf(
+                listOf(
+                    VariableType.CONSTANT,
+                ),
+                listOf(
+                    VariableType.SELECT,
+                    VariableType.TEXT,
+                    VariableType.NUMBER,
+                    VariableType.SLIDER,
+                    VariableType.PASSWORD,
+                    VariableType.DATE,
+                    VariableType.TIME,
+                    VariableType.COLOR,
+                ),
+                listOf(
+                    VariableType.TOGGLE,
+                    VariableType.CLIPBOARD,
+                    VariableType.UUID,
+                ),
+            )
     }
 }

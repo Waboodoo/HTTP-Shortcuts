@@ -10,11 +10,14 @@ enum class VariableType(
     NUMBER("number", supportsDialogTitle = true, supportsDialogMessage = true),
     PASSWORD("password", supportsDialogTitle = true, supportsDialogMessage = true),
     SELECT("select", supportsDialogTitle = true),
-    TOGGLE("toggle"),
     COLOR("color", supportsDialogTitle = true),
     DATE("date", supportsDialogTitle = true),
     TIME("time", supportsDialogTitle = true),
-    SLIDER("slider", supportsDialogTitle = true, supportsDialogMessage = true);
+    SLIDER("slider", supportsDialogTitle = true, supportsDialogMessage = true),
+    TOGGLE("toggle"),
+    UUID("uuid"),
+    CLIPBOARD("clipboard"),
+    ;
 
     override fun toString() =
         type

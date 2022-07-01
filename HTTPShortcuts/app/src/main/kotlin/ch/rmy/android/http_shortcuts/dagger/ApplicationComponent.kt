@@ -64,6 +64,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.VibrateAction
 import ch.rmy.android.http_shortcuts.tiles.QuickTileService
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
+import ch.rmy.android.http_shortcuts.variables.types.ClipboardType
 import ch.rmy.android.http_shortcuts.variables.types.ColorType
 import ch.rmy.android.http_shortcuts.variables.types.DateType
 import ch.rmy.android.http_shortcuts.variables.types.SelectType
@@ -71,6 +72,7 @@ import ch.rmy.android.http_shortcuts.variables.types.SliderType
 import ch.rmy.android.http_shortcuts.variables.types.TextType
 import ch.rmy.android.http_shortcuts.variables.types.TimeType
 import ch.rmy.android.http_shortcuts.variables.types.ToggleType
+import ch.rmy.android.http_shortcuts.variables.types.UUIDType
 import ch.rmy.android.http_shortcuts.widget.WidgetProvider
 import dagger.BindsInstance
 import dagger.Component
@@ -232,4 +234,8 @@ interface ApplicationComponent {
     fun inject(copyToClipboardAction: CopyToClipboardAction)
 
     fun inject(getClipboardContentAction: GetClipboardContentAction)
+
+    fun inject(uuidType: UUIDType)
+
+    fun inject(clipboardType: ClipboardType)
 }
