@@ -10,6 +10,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.CheckBox
 import androidx.core.view.isVisible
+import androidx.core.view.postDelayed
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.framework.extensions.openURL
@@ -47,6 +48,13 @@ constructor(
                         val loadingIndicator = dialog.findViewById<View>(R.id.loading_indicator)
                         val showAtStartupCheckbox = dialog.findViewById<CheckBox>(R.id.checkbox_show_at_startup)
 
+                        fun revealDelayed() {
+                            webView.postDelayed(50) {
+                                webView.isVisible = true
+                                loadingIndicator.isVisible = false
+                            }
+                        }
+
                         webView.settings.javaScriptEnabled = true
                         webView.webViewClient = object : WebViewClient() {
                             override fun onPageFinished(view: WebView?, url: String?) {
@@ -56,12 +64,10 @@ constructor(
                                         document.getElementById('root').className = 'dark';
                                     """
                                     ) {
-                                        webView.isVisible = true
-                                        loadingIndicator.isVisible = false
+                                        revealDelayed()
                                     }
                                 } else {
-                                    webView.isVisible = true
-                                    loadingIndicator.isVisible = false
+                                    revealDelayed()
                                 }
                             }
 

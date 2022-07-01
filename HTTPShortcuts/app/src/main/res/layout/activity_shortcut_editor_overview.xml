@@ -37,19 +37,13 @@
                     android:contentDescription="@string/icon_description"
                     app:srcCompat="@drawable/ic_launcher" />
 
-                <fr.castorflex.android.circularprogressbar.CircularProgressBar
+                <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/icon_loading_indicator"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
                     android:layout_gravity="center"
                     android:indeterminate="true"
-                    android:visibility="gone"
-                    app:cpb_color="?colorPrimary"
-                    app:cpb_max_sweep_angle="300"
-                    app:cpb_min_sweep_angle="30"
-                    app:cpb_rotation_speed="1"
-                    app:cpb_stroke_width="2dp"
-                    app:cpb_sweep_speed="0.3" />
+                    android:visibility="gone" />
 
             </FrameLayout>
 

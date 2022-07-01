@@ -166,18 +166,14 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.preference:preference-ktx:1.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
-    implementation("android.arch.lifecycle:extensions:1.1.1")
-    implementation("android.arch.lifecycle:viewmodel:1.1.1")
+    implementation("android.arch.lifecycle:extensions:1.1.1") // TODO: Replace with androix
+    implementation("android.arch.lifecycle:viewmodel:1.1.1") // TODO: Replace with androix
     implementation("androidx.core:core-splashscreen:1.0.0-rc01")
 
     /* Dialogs / Activities */
     implementation("com.afollestad.material-dialogs:core:3.3.0")
     implementation("com.afollestad.material-dialogs:input:3.3.0")
     implementation("com.github.skydoves:colorpickerview:2.2.4")
-
-    /* Animated progress bar */
-    implementation("com.github.castorflex.smoothprogressbar:library:1.1.0")
-    implementation("com.github.castorflex.smoothprogressbar:library-circular:1.3.0")
 
     /* Image cropping */
     implementation("com.github.yalantis:ucrop:2.2.8")

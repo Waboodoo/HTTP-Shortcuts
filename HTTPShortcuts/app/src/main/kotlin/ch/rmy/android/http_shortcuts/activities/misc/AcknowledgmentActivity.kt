@@ -6,6 +6,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.view.isVisible
+import androidx.core.view.postDelayed
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.framework.extensions.isVisible
@@ -31,10 +32,10 @@ class AcknowledgmentActivity : BaseActivity() {
                     override fun onPageFinished(view: WebView?, url: String?) {
                         if (context.isDarkThemeEnabled()) {
                             evaluateJavascript("document.getElementById('root').className = 'dark';") {
-                                reveal()
+                                revealDelayed()
                             }
                         } else {
-                            reveal()
+                            revealDelayed()
                         }
                     }
 
@@ -58,9 +59,11 @@ class AcknowledgmentActivity : BaseActivity() {
             }
     }
 
-    private fun reveal() {
-        binding.acknowledgmentsWebview.isVisible = true
-        binding.loadingIndicator.isVisible = false
+    private fun revealDelayed() {
+        binding.acknowledgmentsWebview.postDelayed(50) {
+            binding.acknowledgmentsWebview.isVisible = true
+            binding.loadingIndicator.isVisible = false
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
