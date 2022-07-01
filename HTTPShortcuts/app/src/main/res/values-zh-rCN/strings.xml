@@ -1881,4 +1881,16 @@
 
     <!-- Label above input box, for suffix text displayed after the number in a number slider (input dialog) -->
     <string name="label_variable_slider_suffix">"后缀文本"</string>
+
+    <!-- label, shown in variable editor, to allow the user to enter a dialog text that will be shown when the variable is evaluated -->
+    <string name="label_variable_text">"对话框文本（可选）"</string>
+
+    <!-- Shortcut Action Title: Action that allows to retrieve the latest item from the device's clipboard -->
+    <string name="action_get_clipboard_content_title">"获取剪贴板内容"</string>
+
+    <!-- Button label on menu, for searching. Currently only used in Code Snippet picker but might be used to search in other places -->
+    <string name="menu_action_search">"搜索"</string>
+
+    <!-- Generic message for empty state when a search yields no results, displayed in the middle of the screen -->
+    <string name="instructions_search_no_results">"无结果"</string>
 </resources>
