@@ -7,4 +7,5 @@ abstract class CodeSnippetPickerEvent : ViewModelEvent() {
     object OpenIpackIconPicker : CodeSnippetPickerEvent()
     object OpenRingtonePicker : CodeSnippetPickerEvent()
     object OpenTaskerTaskPicker : CodeSnippetPickerEvent()
+    object UpdateSearch : CodeSnippetPickerEvent()
 }

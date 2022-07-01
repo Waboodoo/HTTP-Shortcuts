@@ -296,14 +296,6 @@ class CodeSnippetPickerViewModel(application: Application) :
         }
     }
 
-    fun onSearchExpanded() {
-        updateSearchQuery("")
-    }
-
-    fun onSearchCollapsed() {
-        updateSearchQuery(null)
-    }
-
     fun onSearchSubmitted(query: String) {
         updateSearchQuery(query)
     }
@@ -312,7 +304,7 @@ class CodeSnippetPickerViewModel(application: Application) :
         updateSearchQuery(query)
     }
 
-    private fun updateSearchQuery(query: String?) {
+    private fun updateSearchQuery(query: String) {
         updateViewState {
             copy(
                 searchQuery = query,
@@ -323,8 +315,9 @@ class CodeSnippetPickerViewModel(application: Application) :
 
     fun onBackPressed() {
         doWithViewState { viewState ->
-            if (viewState.searchQuery != null) {
-                updateSearchQuery(null)
+            if (viewState.searchQuery.isNotEmpty()) {
+                updateSearchQuery("")
+                emitEvent(CodeSnippetPickerEvent.UpdateSearch)
             } else {
                 finish()
             }

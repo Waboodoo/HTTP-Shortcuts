@@ -50,9 +50,11 @@ class CodeSnippetPickerActivity : BaseActivity() {
 
     private lateinit var binding: ActivityCodeSnippetPickerBinding
     private var searchMenu: MenuItem? = null
-    private var searchStateInitialized = false
+    private var searchMenuStateUpdated by Delegates.observable(false) { _, _, _ ->
+        updateSearchMenuStateIfNeeded()
+    }
     private var searchQuery: String? by Delegates.observable(null) { _, _, _ ->
-        initSearchMenuStateIfNeeded()
+        updateSearchMenuStateIfNeeded()
     }
 
     override fun onCreated(savedState: Bundle?) {
@@ -120,6 +122,9 @@ class CodeSnippetPickerActivity : BaseActivity() {
             is CodeSnippetPickerEvent.OpenTaskerTaskPicker -> {
                 openTaskerTaskPicker()
             }
+            is CodeSnippetPickerEvent.UpdateSearch -> {
+                searchMenuStateUpdated = false
+            }
             else -> super.handleEvent(event)
         }
     }
@@ -143,11 +148,10 @@ class CodeSnippetPickerActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        searchStateInitialized = false
         menuInflater.inflate(R.menu.code_snippet_picker_activity_menu, menu)
         searchMenu = menu.findItem(R.id.action_search)
             .apply {
-                initSearchMenuStateIfNeeded()
+                updateSearchMenuStateIfNeeded()
                 (actionView as SearchView)
                     .setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                         override fun onQueryTextSubmit(query: String) =
@@ -157,27 +161,19 @@ class CodeSnippetPickerActivity : BaseActivity() {
                             consume { viewModel.onSearchTyped(newText) }
                     })
             }
-            .setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-                override fun onMenuItemActionExpand(menuItem: MenuItem) =
-                    consume(viewModel::onSearchExpanded)
-
-                override fun onMenuItemActionCollapse(menuItem: MenuItem) =
-                    consume(viewModel::onSearchCollapsed)
-            })
         return super.onCreateOptionsMenu(menu)
     }
 
-    private fun initSearchMenuStateIfNeeded() {
-        if (searchStateInitialized) {
+    private fun updateSearchMenuStateIfNeeded() {
+        if (searchMenuStateUpdated) {
             return
         }
-        val query = searchQuery ?: return
         val menuItem = searchMenu ?: return
         (menuItem.actionView as SearchView).apply {
-            setQuery(query, false)
-            isIconified = false
+            setQuery(searchQuery, false)
+            isIconified = searchQuery.isNullOrEmpty()
         }
-        searchStateInitialized = true
+        searchMenuStateUpdated = true
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
