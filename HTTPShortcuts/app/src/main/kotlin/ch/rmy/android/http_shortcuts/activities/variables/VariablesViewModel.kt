@@ -58,12 +58,19 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
         getApplicationComponent().inject(this)
     }
 
+    private var variablesInitialized = false
     private var variables: List<VariableModel> = emptyList()
+        set(value) {
+            field = value
+            variablesInitialized = true
+        }
     private var usedVariableIds: Set<VariableId>? = null
         set(value) {
             if (field != value) {
                 field = value
-                recomputeVariablesInViewState()
+                if (variablesInitialized) {
+                    recomputeVariablesInViewState()
+                }
             }
         }
 
