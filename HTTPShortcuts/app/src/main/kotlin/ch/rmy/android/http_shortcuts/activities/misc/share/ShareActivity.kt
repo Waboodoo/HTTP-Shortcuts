@@ -11,11 +11,11 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.ui.Entrypoint
-import ch.rmy.android.framework.utils.UUIDUtils
+import ch.rmy.android.framework.utils.RxUtils
+import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.utils.FileUtil
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -58,21 +58,23 @@ class ShareActivity : BaseActivity(), Entrypoint {
             return
         }
         val context = applicationContext
-        Single.fromCallable {
+        RxUtils.single {
             cacheSharedFiles(context, fileUris)
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(action) { e ->
-                showToast(R.string.error_generic)
-                logException(e)
-                finishWithoutAnimation()
+                if (!isFinishing) {
+                    showToast(R.string.error_generic)
+                    logException(e)
+                    finishWithoutAnimation()
+                }
             }
             .attachTo(destroyer)
     }
 
     companion object {
-        private fun cacheSharedFiles(context: Context, fileUris: List<Uri>) =
+        private fun cacheSharedFiles(context: Context, fileUris: List<Uri>): List<Uri> =
             fileUris
                 .map { fileUri ->
                     context.contentResolver.openInputStream(fileUri)!!
@@ -88,6 +90,6 @@ class ShareActivity : BaseActivity(), Entrypoint {
                         }
                 }
 
-        private fun createCacheFileName() = "shared_${UUIDUtils.newUUID()}"
+        private fun createCacheFileName() = "shared_${newUUID()}"
     }
 }
