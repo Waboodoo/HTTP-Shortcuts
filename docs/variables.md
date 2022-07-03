@@ -25,11 +25,6 @@ A *static variable* (formerly called *constant*) stores a static value, until ex
 
 It is also possible to change the value of a static variable programmatically before or after a shortcut runs, e.g., to store parts of a HTTP response into it. See the [Scripting](scripting.md#variables) documentation for more details.
 
-<a name="toggle"></a>
-### Toggle
-
-The *toggle* type consists of a list of values. Every time it is used it resolves to the next value in the list. When the last value is reached it starts again from the first.
-
 <a name="multiple-choice"></a>
 ### Multiple-Choice
 
@@ -57,9 +52,24 @@ The *date* and *time* types trigger a prompt dialog where a date or time can be 
 
 The *color* type triggers a prompt dialog where a color can be selected. Its value is returned in RGB hex format (e.g., ff0000 for red).
 
+<a name="toggle"></a>
+### Toggle
+
+The *toggle* type consists of a list of values. Every time it is used it resolves to the next value in the list. When the last value is reached it starts again from the first.
+
+<a name="uuid"></a>
+### UUID
+
+The *uuid* type will generate a random UUID (*U*niversally *U*nique *Id*entifier) and use that as its value.
+
+Please note that the UUID is generated once per shortcut execution, not once per variable use, meaning that if you use the same variable multiple times within one shortcut it will have the same value in all places. If you need multiple UUIDs for a single shortcut execution you'll need to use multiple different variables.
+
+<a name="clipboard-content"></a>
+### Clipboard Content
+
+Variables of type *clipboard content* will resolve to the latest textual value that was copied to the clipboard. If there is no text in the clipboard or the last thing that was copied does not have a textual representation, the variable will have an empty value.
 
 ## Sharing Values into Variables
-In the advanced settings section of a variable you can mark it as *Allow 'Share …'*. This makes it possible to provide the value of this variable through Android's *Share*-dialog, e.g., by sharing a URL or text snippet from another app. The variable will then assume the shared value during execution.
+In the advanced settings section of a variable you can mark it as *Allow Receiving Value from Share Dialog*. This makes it possible to provide the value of this variable through Android's *Share*-dialog, e.g., by sharing a URL or text snippet from another app. The variable will then assume the shared value during execution.
 
 If you enable this option, you will also find a dropdown further down which lets you pick which part of the shared value the variable should assume: the text, the title (if any), or both.
-
