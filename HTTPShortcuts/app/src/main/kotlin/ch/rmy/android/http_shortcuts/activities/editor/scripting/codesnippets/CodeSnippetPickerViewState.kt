@@ -8,5 +8,5 @@ data class CodeSnippetPickerViewState(
     val searchQuery: String = "",
 ) {
     val isEmptyStateVisible: Boolean
-        get() = !searchQuery.isNullOrBlank() && items.isEmpty()
+        get() = searchQuery.isNotBlank() && items.isEmpty()
 }

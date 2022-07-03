@@ -23,9 +23,11 @@ fun <V : ViewModel> FragmentActivity.bindViewModelOf(clazz: Class<V>): ReadOnlyP
 fun <V : ViewModel> Fragment.bindViewModelOf(clazz: Class<V>, getKey: (() -> String)? = null): ReadOnlyProperty<Fragment, V> =
     bind(clazz, viewModelProviderFinder, getKey)
 
+@Suppress("unused")
 private val FragmentActivity.viewModelProviderFinder: FragmentActivity.() -> ViewModelProvider
     get() = { ViewModelProvider(this) }
 
+@Suppress("unused")
 private val Fragment.viewModelProviderFinder: Fragment.() -> ViewModelProvider
     get() = { ViewModelProvider(this) }
 

@@ -72,7 +72,7 @@ class VariableResolver(private val context: Context) {
                         resolvedVariables[resolvedVariable.key] =
                             Variables.rawPlaceholdersToResolvedValues(
                                 resolvedVariable.value,
-                                resolvedVariables.mapKeys { it.key.id },
+                                resolvedVariables.mapKeys { (variable, _) -> variable.id },
                             )
                     }
                 }

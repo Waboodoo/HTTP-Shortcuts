@@ -253,7 +253,7 @@ class CodeSnippetPickerViewModel(application: Application) :
 
     fun onSectionClicked(id: Int) {
         doWithViewState { viewState ->
-            if (!viewState.searchQuery.isNullOrBlank()) {
+            if (viewState.searchQuery.isNotBlank()) {
                 return@doWithViewState
             }
             if (expandedSections.contains(id)) {

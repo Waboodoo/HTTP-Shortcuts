@@ -35,7 +35,7 @@ class ReplaceActionsWithScriptsMigration : BaseMigration {
     private fun jsonActionListToJsCode(jsonList: String?): String {
         val codeBuilder = StringBuilder()
         val array = JSONArray(jsonList ?: "[]")
-        for (i in 0..(array.length() - 1)) {
+        for (i in 0 until array.length()) {
             val action = array.getJSONObject(i)
             codeBuilder.append("_runAction(\"")
             codeBuilder.append(action.getString("type"))
