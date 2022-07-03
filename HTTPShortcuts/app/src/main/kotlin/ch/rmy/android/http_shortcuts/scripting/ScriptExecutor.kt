@@ -62,13 +62,19 @@ class ScriptExecutor(
 
     private fun runWithExceptionHandling(block: () -> Unit): Completable =
         Completable.create { emitter ->
-            jsContext.setExceptionHandler { exception ->
+            try {
+                jsContext.setExceptionHandler { exception ->
+                    if (!emitter.isDisposed) {
+                        emitter.onError(lastException ?: exception)
+                    }
+                }
+                block()
+                emitter.onComplete()
+            } catch (e: Throwable) {
                 if (!emitter.isDisposed) {
-                    emitter.onError(lastException ?: exception)
+                    emitter.onError(e)
                 }
             }
-            block()
-            emitter.onComplete()
         }
             .onErrorResumeNext { e ->
                 Completable.error(
@@ -248,9 +254,7 @@ class ScriptExecutor(
                                     recursionDepth = recursionDepth,
                                     callback = { request ->
                                         Single.create { emitter ->
-                                            if (sendResult != null) {
-                                                error("Another action is already waiting for a result")
-                                            }
+                                            check(sendResult == null) { "Another action is already waiting for a result" }
                                             sendResult = emitter::onSuccess
                                             sendRequest(request)
                                         }

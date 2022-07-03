@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -25,10 +24,10 @@ fun <V : ViewModel> Fragment.bindViewModelOf(clazz: Class<V>, getKey: (() -> Str
     bind(clazz, viewModelProviderFinder, getKey)
 
 private val FragmentActivity.viewModelProviderFinder: FragmentActivity.() -> ViewModelProvider
-    get() = { ViewModelProviders.of(this) }
+    get() = { ViewModelProvider(this) }
 
 private val Fragment.viewModelProviderFinder: Fragment.() -> ViewModelProvider
-    get() = { ViewModelProviders.of(activity!!) }
+    get() = { ViewModelProvider(this) }
 
 private fun <T, V : ViewModel> bind(clazz: Class<V>, finder: T.() -> ViewModelProvider, getKey: (() -> String)? = null) =
     LazyWithTarget { t: T, _ ->

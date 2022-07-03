@@ -165,9 +165,7 @@ dependencies {
     implementation("androidx.annotation:annotation:1.4.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.preference:preference-ktx:1.2.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
-    implementation("android.arch.lifecycle:extensions:1.1.1") // TODO: Replace with androix
-    implementation("android.arch.lifecycle:viewmodel:1.1.1") // TODO: Replace with androix
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0")
     implementation("androidx.core:core-splashscreen:1.0.0-rc01")
 
     /* Dialogs / Activities */
@@ -195,6 +193,8 @@ dependencies {
     implementation("com.joaomgcd:taskerpluginlibrary:0.4.2")
 
     /* Scripting */
+    // This is not the latest version, but it's the latest one that has a published artifact, and the newer ones lead to
+    // a larger build size without adding significant benefits, so I'm keeping this at the old version for now
     implementation("com.github.LiquidPlayer:LiquidCore:0.6.2")
 
     /* Location lookup (for Scripting) */

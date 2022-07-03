@@ -15,7 +15,7 @@ import ch.rmy.android.http_shortcuts.databinding.VariableEditorConstantBinding
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import javax.inject.Inject
 
-class ConstantTypeFragment private constructor() : BaseFragment<VariableEditorConstantBinding>() {
+class ConstantTypeFragment : BaseFragment<VariableEditorConstantBinding>() {
 
     @Inject
     lateinit var variableViewUtils: VariableViewUtils
