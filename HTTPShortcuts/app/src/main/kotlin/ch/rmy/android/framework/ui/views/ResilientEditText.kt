@@ -1,6 +1,7 @@
 package ch.rmy.android.framework.ui.views
 
 import android.content.Context
+import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
@@ -8,6 +9,7 @@ import android.view.inputmethod.InputConnection
 import android.view.inputmethod.InputConnectionWrapper
 import androidx.appcompat.R
 import androidx.appcompat.widget.AppCompatEditText
+import ch.rmy.android.framework.extensions.logException
 
 class ResilientEditText @JvmOverloads constructor(
     context: Context,
@@ -36,4 +38,12 @@ class ResilientEditText @JvmOverloads constructor(
                         }
                 }
             }
+
+    override fun onDraw(canvas: Canvas?) {
+        try {
+            super.onDraw(canvas)
+        } catch (e: ArrayIndexOutOfBoundsException) {
+            logException(e)
+        }
+    }
 }
