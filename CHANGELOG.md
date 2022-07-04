@@ -17,8 +17,9 @@
 - Stetho (for network traffic inspection via Chrome) was removed from the app, as it was not working properly and posed a potential security risk
 
 ### Bugfixes
+- Inserting a variable placeholder into the "Message" field for response display settings works again as expected
 - The User-Agent request header no longer contains mismatched parentheses
-- For Right-to-left written languages (specifically Hebrew) the variable picker button no longer overlaps with other views
+- For languages written right-to-left (specifically Hebrew) the variable picker button no longer overlaps with other views
 
 ## Version 2.19.0
 

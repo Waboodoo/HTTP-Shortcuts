@@ -133,7 +133,7 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
     fun onSuccessMessageVariableButtonClicked() {
         dialogState = getVariablePlaceholderPickerDialog.invoke(
             onVariableSelected = {
-                emitEvent(BasicRequestSettingsEvent.InsertVariablePlaceholder(it))
+                emitEvent(ResponseEvent.InsertVariablePlaceholder(it))
             },
             onEditVariableButtonClicked = {
                 openActivity(

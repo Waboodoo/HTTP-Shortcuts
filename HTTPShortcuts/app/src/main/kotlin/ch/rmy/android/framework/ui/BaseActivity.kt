@@ -146,7 +146,10 @@ abstract class BaseActivity : AppCompatActivity() {
             is ViewModelEvent.ShowToast -> {
                 showToast(event.message.localize(context).toString(), long = event.long)
             }
-            else -> logException(IllegalArgumentException("Unhandled event: $event"))
+            else -> {
+                showToast(R.string.error_generic)
+                logException(IllegalArgumentException("Unhandled event: $event"))
+            }
         }
     }
 
