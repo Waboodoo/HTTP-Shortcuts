@@ -11,6 +11,7 @@ import androidx.preference.Preference
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.initialize
+import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.showSnackbar
 import ch.rmy.android.framework.extensions.startActivity
@@ -68,6 +69,7 @@ class SettingsActivity : BaseActivity() {
             initListPreference("theme") {
                 restartToApplyThemeChanges()
             }
+                .isEnabled = !requireContext().isDarkThemeEnabled()
 
             initListPreference("dark_theme") { newSetting ->
                 DarkThemeHelper.applyDarkThemeSettings(newSetting as String)

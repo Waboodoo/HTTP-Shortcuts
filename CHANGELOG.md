@@ -14,6 +14,7 @@
 - It is now possible to add the same shortcut multiple times to a multi-shortcut, and additionally it is now possible to add multiple shortcuts at once
 
 ### Miscellaneous
+- The option to change the app's theme is disabled when dark mode is on
 - Stetho (for network traffic inspection via Chrome) was removed from the app, as it was not working properly and posed a potential security risk
 
 ### Bugfixes
