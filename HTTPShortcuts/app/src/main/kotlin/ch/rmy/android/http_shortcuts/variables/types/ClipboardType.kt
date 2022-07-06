@@ -5,6 +5,7 @@ import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 class ClipboardType : BaseVariableType() {
@@ -22,4 +23,5 @@ class ClipboardType : BaseVariableType() {
                 ?.toString()
                 ?: ""
         }
+            .subscribeOn(AndroidSchedulers.mainThread())
 }
