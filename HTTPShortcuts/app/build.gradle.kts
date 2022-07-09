@@ -140,13 +140,14 @@ android {
     }
 }
 
-if (bugsnagAPIKey.isNotEmpty()) {
-    bugsnag {
-        uploadJvmMappings.set(false)
-        uploadNdkMappings.set(false)
-        uploadNdkUnityLibraryMappings.set(false)
-        reportBuilds.set(false)
+bugsnag {
+    if (bugsnagAPIKey.isEmpty()) {
+        enabled.set(false)
     }
+    uploadJvmMappings.set(false)
+    uploadNdkMappings.set(false)
+    uploadNdkUnityLibraryMappings.set(false)
+    reportBuilds.set(false)
 }
 
 dependencies {
