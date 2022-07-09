@@ -68,4 +68,3 @@ tasks.register("syncChangeLog") {
         )
     }
 }
-

@@ -160,7 +160,7 @@ dependencies {
     /* Support libraries */
     implementation("androidx.core:core-ktx:1.8.0@aar")
     implementation("androidx.appcompat:appcompat:1.6.0-alpha05")
-    implementation("androidx.fragment:fragment-ktx:1.4.1")
+    implementation("androidx.fragment:fragment-ktx:1.5.0")
     implementation("com.google.android.material:material:1.6.1")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.annotation:annotation:1.4.0")
