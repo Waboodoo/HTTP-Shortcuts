@@ -1,6 +1,10 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
+import android.view.LayoutInflater
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.databinding.DialogTextBinding
+import ch.rmy.android.http_shortcuts.extensions.createDestroyer
+import ch.rmy.android.http_shortcuts.extensions.reloadImageSpans
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
@@ -18,9 +22,18 @@ class DialogAction(private val message: String, private val title: String) : Bas
         return if (finalMessage.isNotEmpty()) {
             Completable
                 .create { emitter ->
+                    val destroyer = emitter.createDestroyer()
+                    val view = DialogTextBinding.inflate(LayoutInflater.from(executionContext.context))
+                    val textView = view.text
+                    textView.text = HTMLUtil.formatWithImageSupport(
+                        finalMessage,
+                        executionContext.context.resources,
+                        textView::reloadImageSpans,
+                        destroyer,
+                    )
                     DialogBuilder(executionContext.context)
                         .title(title)
-                        .message(HTMLUtil.format(finalMessage))
+                        .view(view.root)
                         .positive(R.string.dialog_ok)
                         .dismissListener { emitter.onComplete() }
                         .show()

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.ImageView
 import androidx.activity.result.launch
 import androidx.core.app.ActivityCompat
@@ -42,6 +43,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.databinding.DialogTextBinding
 import ch.rmy.android.http_shortcuts.exceptions.BrowserNotFoundException
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
@@ -51,6 +53,7 @@ import ch.rmy.android.http_shortcuts.exceptions.UnsupportedFeatureException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.extensions.cancel
 import ch.rmy.android.http_shortcuts.extensions.loadImage
+import ch.rmy.android.http_shortcuts.extensions.reloadImageSpans
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
@@ -719,10 +722,15 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                             imageView.loadImage(response!!.contentFile!!, preventMemoryCache = true)
                             builder.view(imageView)
                         } else {
+                            val view = DialogTextBinding.inflate(LayoutInflater.from(context))
+                            val textView = view.text
                             val finalOutput = (output ?: response?.getContentAsString(context) ?: "")
                                 .ifBlank { getString(R.string.message_blank_response) }
-                                .let(HTMLUtil::format)
-                            builder.message(finalOutput)
+                                .let {
+                                    HTMLUtil.formatWithImageSupport(it, resources, textView::reloadImageSpans, destroyer)
+                                }
+                            textView.text = finalOutput
+                            builder.view(textView)
                         }
                     }
                     .positive(R.string.dialog_ok)

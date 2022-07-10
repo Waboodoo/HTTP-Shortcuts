@@ -1,27 +1,38 @@
 package ch.rmy.android.http_shortcuts.utils
 
+import android.content.res.Resources
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
+import ch.rmy.android.framework.utils.Destroyer
 
 object HTMLUtil {
+    fun format(string: String): Spanned =
+        fromHTML(string.convertNewlines().normalize())
 
-    fun getHTML(string: String): Spanned =
-        fromHTML(normalize(string))
+    fun formatWithImageSupport(
+        string: String,
+        resources: Resources,
+        onImageLoaded: () -> Unit,
+        destroyer: Destroyer,
+    ): Spanned =
+        fromHTML(string.convertNewlines().normalize(), ImageGetter(resources, onImageLoaded, destroyer))
 
-    private fun normalize(string: String): String =
-        string.replace("<pre>", "<tt>")
+    private fun String.normalize(): String =
+        replace("<pre>", "<tt>")
             .replace("</pre>", "</tt>")
 
-    @Suppress("DEPRECATION")
-    private fun fromHTML(string: String): Spanned =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Html.fromHtml(string, 0)
-        } else {
-            Html.fromHtml(string)
-        }
+    private fun String.convertNewlines() =
+        removeSuffix("\n").replace("\n", "<br>")
 
-    fun format(string: String): Spanned = getHTML(
-        string.replace("\n", "<br>")
-    )
+    @Suppress("DEPRECATION")
+    private fun fromHTML(
+        string: String,
+        imageGetter: ImageGetter? = null,
+    ): Spanned =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Html.fromHtml(string, 0, imageGetter, null)
+        } else {
+            Html.fromHtml(string, imageGetter, null)
+        }
 }

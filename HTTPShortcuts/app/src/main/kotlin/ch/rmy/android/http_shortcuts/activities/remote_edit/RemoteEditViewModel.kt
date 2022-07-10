@@ -103,7 +103,7 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
                     context.getString(R.string.instructions_remote_edit_step_3, "<b>${escapeHtml(humanReadableEditorAddress)}</b>"),
                     context.getString(R.string.instructions_remote_edit_step_4),
                 )
-                    .map(HTMLUtil::getHTML)
+                    .map(HTMLUtil::format)
             )
         }
 
