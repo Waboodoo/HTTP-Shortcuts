@@ -1,3 +1,12 @@
+## Version 2.21.0
+
+### Improvements
+- Dialogs now support the `<img>`-HTML-tag, allowing you to display images e.g., via the `showDialog()` function. Base64-encoded images are also supported.
+
+### Bugfixes
+- Fixed a crash when interacting with the clipboard via variables or Scripting
+- Fixed the F-Droid build, so that hopefully the app can be published there again
+
 ## Version 2.20.0
 
 ### Variables
