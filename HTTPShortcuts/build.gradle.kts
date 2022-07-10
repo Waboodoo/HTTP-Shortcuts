@@ -8,13 +8,13 @@ buildscript {
         classpath("io.realm:realm-gradle-plugin:10.8.1")
         classpath("com.bugsnag:bugsnag-android-gradle-plugin:7.2.1")
         classpath("org.jetbrains:markdown:0.3.1")
-        classpath(kotlin("gradle-plugin", "1.7.0"))
+        classpath(kotlin("gradle-plugin", "1.7.10"))
     }
 }
 
 plugins {
     id("com.diffplug.spotless") version "6.4.2"
-    id("org.jetbrains.kotlin.jvm") version "1.7.0" apply false
+    id("org.jetbrains.kotlin.jvm") version "1.7.10" apply false
 }
 
 ext {
