@@ -46,6 +46,7 @@ class ImageGetter(
             .subscribe(
                 { drawable ->
                     drawableWrapper.wrappedDrawable = drawable
+                    drawableWrapper.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
                     onImageLoaded()
                 },
                 { error ->
