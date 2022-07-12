@@ -31,7 +31,7 @@ fun TextView.reloadImageSpans() {
             getSpans<ImageSpan>()
                 .map { it.drawable }
                 .forEach { drawable ->
-                    if (drawable.intrinsicWidth > width && drawable.intrinsicWidth != 0) {
+                    if (drawable.intrinsicWidth > width && drawable.intrinsicWidth > 0) {
                         val aspectRatio = drawable.intrinsicWidth / drawable.intrinsicHeight.toDouble()
                         val newImageWidth = width
                         val newImageHeight = (newImageWidth / aspectRatio).toInt()

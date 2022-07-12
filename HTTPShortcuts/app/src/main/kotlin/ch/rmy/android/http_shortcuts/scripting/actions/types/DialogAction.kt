@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.databinding.DialogTextBinding
@@ -27,10 +28,11 @@ class DialogAction(private val message: String, private val title: String) : Bas
                     val textView = view.text
                     textView.text = HTMLUtil.formatWithImageSupport(
                         finalMessage,
-                        executionContext.context.resources,
+                        executionContext.context,
                         textView::reloadImageSpans,
                         destroyer,
                     )
+                    textView.movementMethod = LinkMovementMethod.getInstance()
                     DialogBuilder(executionContext.context)
                         .title(title)
                         .view(view.root)

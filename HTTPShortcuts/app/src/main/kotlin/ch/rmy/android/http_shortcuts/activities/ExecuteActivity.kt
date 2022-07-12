@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.widget.ImageView
 import androidx.activity.result.launch
@@ -727,9 +728,10 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                             val finalOutput = (output ?: response?.getContentAsString(context) ?: "")
                                 .ifBlank { getString(R.string.message_blank_response) }
                                 .let {
-                                    HTMLUtil.formatWithImageSupport(it, resources, textView::reloadImageSpans, destroyer)
+                                    HTMLUtil.formatWithImageSupport(it, context, textView::reloadImageSpans, destroyer)
                                 }
                             textView.text = finalOutput
+                            textView.movementMethod = LinkMovementMethod.getInstance()
                             builder.view(textView)
                         }
                     }

@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.utils
 
-import android.content.res.Resources
+import android.content.Context
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
@@ -12,11 +12,11 @@ object HTMLUtil {
 
     fun formatWithImageSupport(
         string: String,
-        resources: Resources,
+        context: Context,
         onImageLoaded: () -> Unit,
         destroyer: Destroyer,
     ): Spanned =
-        fromHTML(string.convertNewlines().normalize(), ImageGetter(resources, onImageLoaded, destroyer))
+        fromHTML(string.convertNewlines().normalize(), ImageGetter(context, onImageLoaded, destroyer))
 
     private fun String.normalize(): String =
         replace("<pre>", "<tt>")

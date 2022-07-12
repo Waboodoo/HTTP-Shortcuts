@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.utils
 
-import android.content.res.Resources
-import android.graphics.Bitmap
+import android.content.Context
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.text.Html.ImageGetter
@@ -9,6 +8,7 @@ import android.util.Base64
 import androidx.appcompat.graphics.drawable.DrawableWrapper
 import androidx.core.graphics.drawable.toDrawable
 import ch.rmy.android.framework.extensions.attachTo
+import ch.rmy.android.framework.extensions.dimen
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.http_shortcuts.R
@@ -20,17 +20,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class ImageGetter(
-    private val resources: Resources,
+    private val context: Context,
     private val onImageLoaded: () -> Unit,
     private val destroyer: Destroyer,
 ) : ImageGetter {
     override fun getDrawable(source: String): Drawable {
-        val drawableWrapper = DrawableWrapper(
-            resources.getDrawable(R.drawable.image_placeholder, null),
-        )
-
+        val placeholderSize = dimen(context, R.dimen.html_image_placeholder_size)
+        val drawableWrapper = DrawableWrapper(context.resources.getDrawable(R.drawable.image_placeholder, null))
+        drawableWrapper.setBounds(0, 0, placeholderSize, placeholderSize)
         Single.fromCallable {
-            val bitmap: Bitmap = if (source.isBase64EncodedImage()) {
+            if (source.isBase64EncodedImage()) {
                 val imageAsBytes = source.getBase64ImageData()
                 BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.size)
             } else {
@@ -40,7 +39,7 @@ class ImageGetter(
                     .memoryPolicy(MemoryPolicy.NO_CACHE)
                     .get()
             }
-            bitmap.toDrawable(resources)
+                .toDrawable(context.resources)
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -51,7 +50,8 @@ class ImageGetter(
                 },
                 { error ->
                     logException(error)
-                    drawableWrapper.wrappedDrawable = resources.getDrawable(R.drawable.bitsies_cancel, null)
+                    drawableWrapper.wrappedDrawable = context.resources.getDrawable(R.drawable.bitsies_cancel, null)
+                    drawableWrapper.setBounds(0, 0, placeholderSize * 2, placeholderSize * 2)
                     onImageLoaded()
                 },
             )
