@@ -1,14 +1,21 @@
 package ch.rmy.android.http_shortcuts.activities.misc.share
 
 import android.app.Application
+import android.content.Context
 import android.net.Uri
 import androidx.annotation.StringRes
+import androidx.annotation.WorkerThread
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.context
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runFor
+import ch.rmy.android.framework.utils.RxUtils
+import ch.rmy.android.framework.utils.UUIDUtils.newUUID
+import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import ch.rmy.android.framework.viewmodel.viewstate.ProgressDialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
@@ -21,10 +28,14 @@ import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
+import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.variables.VariableLookup
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import com.afollestad.materialdialogs.callbacks.onCancel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.InitData, ShareViewState>(application), WithDialog {
@@ -46,8 +57,9 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
         get() = initData.text ?: ""
     private val title: String
         get() = initData.title ?: ""
-    private val fileUris: List<Uri>
-        get() = initData.fileUris
+    private lateinit var fileUris: List<Uri>
+
+    private var disposable: Disposable? = null
 
     override var dialogState: DialogState?
         get() = currentViewState?.dialogState
@@ -74,6 +86,41 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
     }
 
     override fun onInitialized() {
+        if (initData.fileUris.isEmpty()) {
+            fileUris = emptyList()
+            startShareFlow()
+            return
+        }
+
+        RxUtils.single {
+            cacheSharedFiles(context, initData.fileUris)
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                showProgressDialog(R.string.generic_processing_in_progress)
+            }
+            .doFinally {
+                hideProgressDialog()
+            }
+            .subscribe(
+                { cachedFiles ->
+                    fileUris = cachedFiles
+                    startShareFlow()
+                },
+                { e ->
+                    showToast(R.string.error_generic)
+                    logException(e)
+                    finish(skipAnimation = true)
+                },
+            )
+            .also {
+                disposable = it
+            }
+            .attachTo(destroyer)
+    }
+
+    private fun startShareFlow() {
         if (text.isEmpty()) {
             handleFileSharing()
         } else {
@@ -182,6 +229,21 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
         finish(skipAnimation = true)
     }
 
+    private fun showProgressDialog(message: Int) {
+        dialogState = ProgressDialogState(StringResLocalizable(message), ::onProgressDialogCanceled)
+    }
+
+    private fun hideProgressDialog() {
+        if (dialogState?.id == ProgressDialogState.DIALOG_ID) {
+            dialogState = null
+        }
+    }
+
+    private fun onProgressDialogCanceled() {
+        disposable?.dispose()
+        finish(skipAnimation = true)
+    }
+
     data class InitData(
         val text: String?,
         val title: String?,
@@ -205,5 +267,24 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
                     ParameterType.IMAGE -> isImage != false
                 }
             }
+
+        @WorkerThread
+        private fun cacheSharedFiles(context: Context, fileUris: List<Uri>): List<Uri> =
+            fileUris
+                .map { fileUri ->
+                    context.contentResolver.openInputStream(fileUri)!!
+                        .use { stream ->
+                            FileUtil.createCacheFile(context, createCacheFileName())
+                                .also { file ->
+                                    FileUtil.getFileName(context.contentResolver, fileUri)
+                                        ?.let { fileName ->
+                                            FileUtil.putCacheFileOriginalName(file, fileName)
+                                        }
+                                    stream.copyTo(context.contentResolver.openOutputStream(file)!!)
+                                }
+                        }
+                }
+
+        private fun createCacheFileName() = "shared_${newUUID()}"
     }
 }

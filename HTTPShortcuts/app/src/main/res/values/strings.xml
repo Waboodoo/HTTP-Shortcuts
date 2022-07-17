@@ -1261,4 +1261,6 @@
     <string name="menu_action_search">Search</string>
     <!-- Generic message for empty state when a search yields no results, displayed in the middle of the screen -->
     <string name="instructions_search_no_results">No results</string>
+    <!-- Status message shown while some data or files are being processed, e.g. for sharing -->
+    <string name="generic_processing_in_progress">Processing…</string>
 </resources>
