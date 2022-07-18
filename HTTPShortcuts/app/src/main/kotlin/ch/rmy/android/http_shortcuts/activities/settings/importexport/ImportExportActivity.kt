@@ -84,7 +84,7 @@ class ImportExportActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.variables_activity_menu, menu)
+        menuInflater.inflate(R.menu.import_export_activity_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -132,11 +132,6 @@ class ImportExportActivity : BaseActivity() {
             } catch (e: ActivityNotFoundException) {
                 requireActivity().showToast(R.string.error_not_supported)
             }
-        }
-
-        override fun onDestroy() {
-            super.onDestroy()
-            destroyer.destroy()
         }
     }
 
