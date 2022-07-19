@@ -1,7 +1,5 @@
 package ch.rmy.android.http_shortcuts.utils
 
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
 import java.util.Locale
 import javax.inject.Inject
 
@@ -33,7 +31,8 @@ constructor(
     }
 
     private fun setLocale(locale: Locale) {
-        AppCompatDelegate.setApplicationLocales(LocaleListCompat.create(locale))
+        // TODO: Re-enable this once there is a stable release of androidx.appcompat:appcompat:1.6+
+        // AppCompatDelegate.setApplicationLocales(LocaleListCompat.create(locale))
     }
 
     private fun getLocale(localeSpec: String): Locale {

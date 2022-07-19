@@ -7,6 +7,7 @@
             app:entries="@array/language_options"
             app:entryValues="@array/language_values"
             app:icon="@drawable/ic_language"
+            app:isPreferenceVisible="false"
             app:key="language"
             app:persistent="true"
             app:title="@string/settings_language" />
