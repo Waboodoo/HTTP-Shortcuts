@@ -212,7 +212,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     }
 
     private fun initViewModelBindings() {
-        // Code-smell/tech debt: We cannot use observe here, as the activity also needs to due its job when its not in the foreground
+        // Code-smell/tech debt: We cannot use observe here, as the activity also needs to do its job when its not in the foreground
         // TODO: Factor this out of the activity as much as possible, maybe into a service or worker
         viewModel.viewState
             .observeOn(AndroidSchedulers.mainThread())
