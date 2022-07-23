@@ -175,6 +175,7 @@ open class DialogBuilder(val context: Context) {
                     adapter = MenuListAdapter(this@DialogBuilder.context, items, dialog)
                     divider = null
                 }
+            listView.itemsCanFocus = true
 
             customView(view = listView)
         }
