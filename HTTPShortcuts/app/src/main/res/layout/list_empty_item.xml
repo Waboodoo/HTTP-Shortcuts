@@ -4,10 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- the layout is made focusable so that DPAD navigation to the FAB works even when the list is empty -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:focusable="true"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="16dp">
