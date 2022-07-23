@@ -15,6 +15,7 @@ val mockitoVersion: String by properties
 val bugsnagAPIKey: String by rootProject.ext
 val poeditorAPIKey: String by rootProject.ext
 val poeditorProjectId: String by rootProject.ext
+val useBugsnag = bugsnagAPIKey.isNotEmpty()
 
 android {
     namespace = "ch.rmy.android.http_shortcuts"
@@ -141,13 +142,11 @@ android {
 }
 
 bugsnag {
-    if (bugsnagAPIKey.isEmpty()) {
-        enabled.set(false)
-    }
-    uploadJvmMappings.set(false)
+    enabled.set(useBugsnag)
+    uploadJvmMappings.set(useBugsnag)
     uploadNdkMappings.set(false)
     uploadNdkUnityLibraryMappings.set(false)
-    reportBuilds.set(false)
+    reportBuilds.set(useBugsnag)
 }
 
 dependencies {
