@@ -29,15 +29,19 @@ class ImageGetter(
         val drawableWrapper = DrawableWrapper(context.resources.getDrawable(R.drawable.image_placeholder, null))
         drawableWrapper.setBounds(0, 0, placeholderSize, placeholderSize)
         Single.fromCallable {
-            if (source.isBase64EncodedImage()) {
-                val imageAsBytes = source.getBase64ImageData()
-                BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.size)
-            } else {
-                Picasso.get()
-                    .load(source)
-                    .networkPolicy(NetworkPolicy.NO_CACHE)
-                    .memoryPolicy(MemoryPolicy.NO_CACHE)
-                    .get()
+            when {
+                source.isBase64EncodedImage() -> {
+                    val imageAsBytes = source.getBase64ImageData()
+                    BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.size)
+                }
+                source.run { startsWith("https://", ignoreCase = true) || startsWith("http://", ignoreCase = true) } -> {
+                    Picasso.get()
+                        .load(source)
+                        .networkPolicy(NetworkPolicy.NO_CACHE)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE)
+                        .get()
+                }
+                else -> throw UnsupportedImageSourceException()
             }
                 .toDrawable(context.resources)
         }
@@ -50,7 +54,9 @@ class ImageGetter(
                     onImageLoaded()
                 },
                 { error ->
-                    logException(error)
+                    if (error !is UnsupportedImageSourceException) {
+                        logException(error)
+                    }
                     drawableWrapper.wrappedDrawable = context.resources.getDrawable(R.drawable.bitsies_cancel, null)
                     drawableWrapper.setBounds(0, 0, placeholderSize * 2, placeholderSize * 2)
                     onImageLoaded()
@@ -60,6 +66,8 @@ class ImageGetter(
 
         return drawableWrapper
     }
+
+    private class UnsupportedImageSourceException : Exception()
 
     companion object {
         private fun String.isBase64EncodedImage(): Boolean =
