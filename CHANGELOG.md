@@ -1,3 +1,17 @@
+## Version 2.21.1
+
+### Improvements
+- Improved support for navigating the app with a DPAD or arrow keys, for better TV support
+- When sharing files into the app, a loading indicator is now displayed while the files are being processed
+- There is now some debouncing to avoid accidentally executing the same shortcut twice in a row
+
+### Miscellaneous
+- The language selector is temporarily removed from the app, as a side-effect of a mitigation of another bug. Hopefully it will be back soon.
+
+### Bugfixes
+- Selecting text from the HTTP response in the fullscreen window no longer crashes the app
+- The menu on the Import/Export screen no longer shows a "Sort" option which doesn't do anything
+
 ## Version 2.21.0
 
 ### Improvements
