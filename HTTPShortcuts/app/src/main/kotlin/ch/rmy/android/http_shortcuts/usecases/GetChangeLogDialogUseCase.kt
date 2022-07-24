@@ -42,7 +42,7 @@ constructor(
                     .positive(android.R.string.ok)
                     .build()
                     .onShow { dialog ->
-                        settings.changeLogLastVersion = VersionUtil.getVersion(context)
+                        settings.changeLogLastVersion = VersionUtil.getVersionName(context)
 
                         val webView = dialog.findViewById<WebView>(R.id.changelog_webview)
                         val loadingIndicator = dialog.findViewById<View>(R.id.loading_indicator)

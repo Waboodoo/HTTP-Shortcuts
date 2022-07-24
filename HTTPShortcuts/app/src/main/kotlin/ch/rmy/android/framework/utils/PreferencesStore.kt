@@ -23,24 +23,11 @@ abstract class PreferencesStore(context: Context, preferencesName: String? = nul
     protected fun getInt(key: String): Int? =
         preferences.getInt(key, Int.MIN_VALUE).takeUnless { it == Int.MIN_VALUE }
 
-    protected fun getLong(key: String): Long? =
-        preferences.getLong(key, Long.MIN_VALUE).takeUnless { it == Long.MIN_VALUE }
-
     protected fun putString(key: String, value: String?) {
         preferences.edit { putString(key, value) }
     }
 
     protected fun putBoolean(key: String, value: Boolean) {
         preferences.edit { putBoolean(key, value) }
-    }
-
-    protected fun putLong(key: String, value: Long?) {
-        preferences.edit {
-            if (value != null) {
-                putLong(key, value)
-            } else {
-                remove(key)
-            }
-        }
     }
 }

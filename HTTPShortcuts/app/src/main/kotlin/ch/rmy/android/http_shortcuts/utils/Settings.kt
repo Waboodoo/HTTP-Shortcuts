@@ -46,13 +46,9 @@ constructor(
         get() = getBoolean(KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN)
         set(hidden) = putBoolean(KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN, hidden)
 
-    var changeLogLastVersion: Long?
-        get() = try {
-            getLong(KEY_CHANGE_LOG_LAST_VERSION)
-        } catch (e: ClassCastException) {
-            getInt(KEY_CHANGE_LOG_LAST_VERSION)?.toLong()
-        }
-        set(version) = putLong(KEY_CHANGE_LOG_LAST_VERSION, version)
+    var changeLogLastVersion: String?
+        get() = getString(KEY_CHANGE_LOG_LAST_VERSION)
+        set(version) = putString(KEY_CHANGE_LOG_LAST_VERSION, version)
 
     var theme: String
         get() = getString(KEY_THEME) ?: THEME_BLUE
@@ -102,7 +98,7 @@ constructor(
         private const val KEY_CRASH_REPORTING = "crash_reporting"
         private const val KEY_IMPORT_URL = "import_url"
         private const val KEY_CHANGE_LOG_PERMANENTLY_HIDDEN = "change_log_permanently_hidden"
-        private const val KEY_CHANGE_LOG_LAST_VERSION = "change_log_last_version"
+        private const val KEY_CHANGE_LOG_LAST_VERSION = "change_log_last_seen_version"
         private const val KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN = "network_restriction_permanently_hidden"
         private const val KEY_REMOTE_EDIT_SERVER = "remote_edit_server"
         private const val KEY_REMOTE_EDIT_DEVICE_ID = "remote_edit_device_id"

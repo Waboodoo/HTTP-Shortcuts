@@ -2,16 +2,9 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
 import android.content.pm.PackageManager
-import androidx.core.content.pm.PackageInfoCompat
+import android.os.Build
 
 object VersionUtil {
-    fun getVersion(context: Context): Long =
-        try {
-            (PackageInfoCompat.getLongVersionCode(getPackageInfo(context)) / 10000) - 110000
-        } catch (e: PackageManager.NameNotFoundException) {
-            0L
-        }
-
     fun getVersionName(context: Context): String =
         try {
             getPackageInfo(context).versionName
@@ -19,6 +12,11 @@ object VersionUtil {
             "???"
         }
 
+    @Suppress("DEPRECATION")
     private fun getPackageInfo(context: Context) =
-        context.packageManager.getPackageInfo(context.packageName, 0)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.packageManager.getPackageInfo(context.packageName, PackageManager.PackageInfoFlags.of(0))
+        } else {
+            context.packageManager.getPackageInfo(context.packageName, 0)
+        }
 }
