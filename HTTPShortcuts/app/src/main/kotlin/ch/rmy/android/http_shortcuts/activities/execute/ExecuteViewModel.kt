@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.execute
 
 import android.app.Application
+import android.os.SystemClock
 import androidx.annotation.StringRes
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.logException
@@ -18,6 +19,7 @@ import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 class ExecuteViewModel(
     application: Application,
@@ -59,6 +61,14 @@ class ExecuteViewModel(
     override fun initViewState() = ExecuteViewState()
 
     override fun onInitializationStarted(data: InitData) {
+        if (isRepetition()) {
+            finalizeInitialization(silent = true)
+            finishWithoutAnimation()
+            return
+        }
+        lastExecutionTime = SystemClock.elapsedRealtime()
+        lastExecutionData = data
+
         if (initData.executionId != null) {
             pendingExecutionsRepository.removePendingExecution(initData.executionId!!)
         } else {
@@ -70,6 +80,16 @@ class ExecuteViewModel(
                 ::onDataLoadError,
             )
             .attachTo(destroyer)
+    }
+
+    private fun isRepetition(): Boolean {
+        val time = lastExecutionTime ?: return false
+        val data = lastExecutionData ?: return false
+        return data.executionId == null &&
+            initData.executionId == null &&
+            data.shortcutId == initData.shortcutId &&
+            data.variableValues == initData.variableValues &&
+            SystemClock.elapsedRealtime() - time < REPETITION_DEBOUNCE_TIME.inWholeMilliseconds
     }
 
     private fun loadData(): Completable {
@@ -134,4 +154,11 @@ class ExecuteViewModel(
         val variableValues: Map<String, String>,
         val executionId: String?,
     )
+
+    companion object {
+        private val REPETITION_DEBOUNCE_TIME = 500.milliseconds
+
+        private var lastExecutionTime: Long? = null
+        private var lastExecutionData: InitData? = null
+    }
 }
