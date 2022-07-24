@@ -41,7 +41,7 @@
     <string name="label_username">"Kullanıcı Adı"</string>
 
     <!-- Label above input field in editor, for shortcut authentication password -->
-    <string name="label_password">"Şifre"</string>
+    <string name="label_password">"Parola"</string>
 
     <!-- Label above input field in editor, for shortcut authentication token -->
     <string name="label_auth_token">"Jeton"</string>
@@ -1610,4 +1610,121 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
 
     <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response cookie -->
     <string name="dialog_code_snippet_response_cookie">"Yanıt Çerezi Al ada göre"</string>
+
+    <!-- Shortcut Action Title: Open a URL (e.g. in a browser) -->
+    <string name="action_type_open_url_title">"URL Aç"</string>
+
+    <!-- Shortcut Action Title: Open another app (via its package name) -->
+    <string name="action_type_open_app_title">"Uygulama Aç"</string>
+
+    <!-- Shortcut Action Title: Get the SSID of the current Wi-Fi -->
+    <string name="action_type_get_wifi_ssid">"Wi-fi SSID bilgisini al"</string>
+
+    <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
+    <string name="error_no_app_found_for_url">"%s URL'i açmak için uygulama bulunamadı."</string>
+
+    <!-- Label above input field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="label_browser_package_name">"Tarayıcı"</string>
+
+    <!-- Option in "Change Icon" dialog, allows user to fetch the favicon of the shortcut's URL to use as a shortcut icon -->
+    <string name="choose_page_favicon">"Sayfanın simgesini getir"</string>
+
+    <!-- Title of window for managing and selecting custom icons -->
+    <string name="title_custom_icons">"Kişisel simgeler"</string>
+
+    <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
+    <string name="confirm_delete_custom_icon_message">"Simge silinsin mi?"</string>
+
+    <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
+    <string name="button_delete_all_unused_icons">"Kullanılmayan simgeleri sil"</string>
+
+    <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
+    <string name="confirm_delete_all_unused_custom_icons_message">"Tüm kullanılmayan simgeler silinsin mi?"</string>
+
+    <!-- label, displayed next to variable in variables list when a variable is not used anywhere -->
+    <string name="label_variable_unused">"kullanılmayan"</string>
+
+    <!-- Label of an option in the share dialog, for receiving only the text -->
+    <string name="label_share_support_option_text">"Sadece metin"</string>
+
+    <!-- Label of an option in the share dialog, for receiving only the title (subject) -->
+    <string name="label_share_support_option_title">"Sadece başlık"</string>
+
+    <!-- Label of an option in the share dialog, for receiving the title (subject) and the text -->
+    <string name="label_share_support_option_title_and_text">"Başlık ve Metin"</string>
+
+    <!-- Title of section in settings that allows user to change the title of the app's main screen -->
+    <string name="settings_app_title_title">"Uygulama Başlığı"</string>
+
+    <!-- Shortcut Action Title: Change Shortcut Description -->
+    <string name="action_type_change_icon_description">"Kısayol açıklamasını değiştir"</string>
+
+    <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="placeholder_browser_package_name">"Varsayılan tarayıcıyı kullan"</string>
+
+    <!-- Page title, for editing a category -->
+    <string name="title_edit_category">"Kategoriyi düzenle"</string>
+
+    <!-- Option to choose from when selecting the background of a category: Default (white, or black in night mode) -->
+    <string name="category_background_type_default">"Varsayılan"</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a category's changes were saved -->
+    <string name="message_category_edited">"Kategori güncellendi."</string>
+
+    <!-- Label above input field in category editor, for category name -->
+    <string name="label_category_name">"Kategori Adı"</string>
+
+    <!-- Label above dropdown input field for selecting the background for a category -->
+    <string name="label_category_background">"Arkaplan"</string>
+
+    <!-- Option in category editor to choose the shortcut click behavior, to set it to the global default -->
+    <string name="settings_click_behavior_global_default">"Genel ayarları kullan"</string>
+
+    <!-- Option to choose from when selecting the background of a category: custom color -->
+    <string name="category_background_type_color">"Renk"</string>
+
+    <!-- Button label, shown on dialog that asks user if they want to recover a shortcut that has unsaved changes -->
+    <string name="button_recover">"Kurtar"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options for interacting with the network or querying its state -->
+    <string name="dialog_code_snippet_network">"Ağ"</string>
+
+    <!-- Shortcut Action Title: Scan Barcode (e.g. QR Code) -->
+    <string name="action_type_scan_barcode_title">"Barkod Tara"</string>
+
+    <!-- Shortcut Action Title: Get the device's current (physical) location -->
+    <string name="action_type_get_location_title">"Mevcut konumu al"</string>
+
+    <!-- Button text: translate app (prompt to help & become a translator) -->
+    <string name="settings_help_translate">"Çeviriyi destekle"</string>
+
+    <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
+    <string name="settings_help_translate_summary">"Bu uygulamayı kendi dilinize çevirerek daha iyi yapmamıza yardım et"</string>
+
+    <!-- Button in Variables menu, allowing the user to (alphabetically) sort all variables -->
+    <string name="button_sort_variables">"Sırala"</string>
+
+    <!-- Message: Shown in a snackbar after all variables have been sorted (alphabetically) -->
+    <string name="message_variables_sorted">"Değişkenler sıralandı."</string>
+
+    <!-- Dialog button: Confirm exporting the selected shortcuts -->
+    <string name="dialog_button_export">"Dışa aktar"</string>
+
+    <!-- Dialog title: shown in dialog when selecting which shortcuts to export -->
+    <string name="dialog_title_select_shortcuts_for_export">"Kısayolları seç"</string>
+
+    <!-- Shortcut Action Title: Action that allows to retrieve the latest item from the device's clipboard -->
+    <string name="action_get_clipboard_content_title">"Pano İçeriğini Al"</string>
+
+    <!-- Button label on menu, for searching. Currently only used in Code Snippet picker but might be used to search in other places -->
+    <string name="menu_action_search">"Ara"</string>
+
+    <!-- Generic message for empty state when a search yields no results, displayed in the middle of the screen -->
+    <string name="instructions_search_no_results">"Sonuç yok"</string>
+
+    <!-- Type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
+    <string name="variable_type_clipboard">"Pano İçeriği"</string>
+
+    <!-- Status message shown while some data or files are being processed, e.g. for sharing -->
+    <string name="generic_processing_in_progress">"İşleniyor…"</string>
 </resources>

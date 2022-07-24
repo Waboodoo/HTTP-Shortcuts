@@ -1905,4 +1905,7 @@
 
     <!-- Description for type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
     <string name="variable_type_clipboard_description">"假定上次复制到剪贴板的值"</string>
+
+    <!-- Status message shown while some data or files are being processed, e.g. for sharing -->
+    <string name="generic_processing_in_progress">"处理中…"</string>
 </resources>
