@@ -1,4 +1,4 @@
-A simple Android app that allows you to create shortcuts and widgets that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request, with the possibility of processing and displaying the response in various ways. Ideal for home automation projects.
+A simple but powerful Android app that allows you to create shortcuts and widgets that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request, with the possibility of processing and displaying the response in various ways. Ideal for home automation projects.
 
 <a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"><img alt="Get it on Google Play" src="../assets/play_store.svg" height="80" style="margin-right: 20px"></a><a href="https://f-droid.org/en/packages/ch.rmy.android.http_shortcuts/"><img alt="Get it on F-Droid" src="../assets/f_droid.svg" height="80"></a>
 
@@ -6,24 +6,23 @@ A simple Android app that allows you to create shortcuts and widgets that can be
 
 This app is open-source and can be found on [Github](https://github.com/Waboodoo/HTTP-Shortcuts).
 
-Runs on Android 5 (Lollipop) or newer. For Android 4.0 - Android 4.4.4, download and [install the APK of version 2.9.0](https://github.com/Waboodoo/HTTP-Shortcuts/releases/tag/v2.9.0).
-
 ## Features
+- Completely free, open-source, no ads and [(almost) no tracking](privacy-policy.md)
 - Supports HTTP and HTTPS (TLSv1.3), and methods GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE
 - Basic Authentication, Digest Authentication, Bearer Authentication and Client Certificate Authentication
 - Custom request headers
-- Custom request body (text only)
+- Custom request body (text based or from file)
 - File upload through form-data parameters
 - Display response as a toast, window or dialog, or run silently
-- Built-in icons, support for Ipack icons and custom icons
-- Colorful Themes and Dark Mode support
-- Grouping into categories through tabs
-- Value injection through [global variables](variables.md) (e.g., text, numbers, passwords, selections, colors, dates, …)
+- Big set of colorful built-in icons, support for custom icons
+- Dark Mode support
+- Value injection through [global variables](variables.md) with dynamically determined values (e.g., text, numbers, passwords, selections, colors, dates, …)
 - Run [JavaScript code](scripting.md) before & after execution and invoke actions (e.g., vibrate, show toast, parse JSON response…), allowing to create powerful workflows
+- Keep everything organized by categorizing into different tabs
 - Import & Export in JSON or cURL format
 - 3rd party integration (e.g. Tasker)
 - Configure it from your browser using the [Web Editor](https://http-shortcuts.rmy.ch/editor)
-- Completely free, open-source, no ads and [(almost) no tracking](privacy-policy.md)
+- Runs on Android 5 (Lollipop) or newer. For Android 4.0 - Android 4.4.4, download and [install the APK of version 2.9.0](https://github.com/Waboodoo/HTTP-Shortcuts/releases/tag/v2.9.0).
 
 ## Screenshots
 ![Main Screen](../assets/screenshots/01.png)
