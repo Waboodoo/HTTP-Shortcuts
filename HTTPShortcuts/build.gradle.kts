@@ -1,3 +1,7 @@
+import org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor
+import org.intellij.markdown.html.HtmlGenerator
+import org.intellij.markdown.parser.MarkdownParser
+
 buildscript {
     repositories {
         mavenCentral()
@@ -56,10 +60,9 @@ tasks.register("syncChangeLog") {
     doLast {
         val changelogMarkdown = File("../CHANGELOG.md").readText()
         val template = File("changelog_template.html").readText()
-        val flavour = org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor()
-        val parsedTree = org.intellij.markdown.parser.MarkdownParser(flavour)
-            .buildMarkdownTreeFromString(changelogMarkdown)
-        val html = org.intellij.markdown.html.HtmlGenerator(changelogMarkdown, parsedTree, flavour)
+        val flavour = CommonMarkFlavourDescriptor()
+        val parsedTree = MarkdownParser(flavour).buildMarkdownTreeFromString(changelogMarkdown)
+        val html = HtmlGenerator(changelogMarkdown, parsedTree, flavour)
             .generateHtml()
             .removePrefix("<body>")
             .removeSuffix("</body>")
