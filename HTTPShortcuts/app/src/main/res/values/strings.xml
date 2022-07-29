@@ -305,6 +305,10 @@
     <string name="settings_github">View on Github</string>
     <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">That\'s right, this app is open-source</string>
+    <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
+    <string name="settings_donate">Donate</string>
+    <!-- Button subtitle, for option to open the app's Donate page in a browser, for users who wish to support the app -->
+    <string name="settings_donate_summary">Show your appreciation by buying me a drink</string>
     <!-- Dialog title, for changelog, shown when a new version of the app is released -->
     <string name="changelog_title_whats_new">What\'s new?</string>
     <!-- Dialog title, for changelog, showing what's new in a release -->

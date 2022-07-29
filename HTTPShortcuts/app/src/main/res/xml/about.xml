@@ -44,6 +44,12 @@
             app:title="@string/settings_github" />
 
         <Preference
+            app:icon="@drawable/ic_gift"
+            app:key="donate"
+            app:summary="@string/settings_donate_summary"
+            app:title="@string/settings_donate" />
+
+        <Preference
             app:icon="@drawable/ic_acknowledgments"
             app:key="acknowledgments"
             app:summary="@string/settings_licenses_summary"

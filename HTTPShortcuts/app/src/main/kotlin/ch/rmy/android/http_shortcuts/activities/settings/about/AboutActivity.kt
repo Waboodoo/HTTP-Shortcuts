@@ -86,6 +86,10 @@ class AboutActivity : BaseActivity() {
                 openURL(ExternalURLs.GITHUB)
             }
 
+            initPreference("donate") {
+                openURL(ExternalURLs.DONATION_PAGE)
+            }
+
             initPreference("translate") {
                 openURL(ExternalURLs.TRANSLATION)
             }
