@@ -36,8 +36,12 @@ class ImageGetter(
         Single.fromCallable {
             when {
                 source.isBase64EncodedImage() -> {
-                    val imageAsBytes = source.getBase64ImageData()
-                    BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.size)
+                    try {
+                        val imageAsBytes = source.getBase64ImageData()
+                        BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.size)
+                    } catch (e: IllegalArgumentException) {
+                        throw UnsupportedImageSourceException()
+                    }
                 }
                 source.run { startsWith("https://", ignoreCase = true) || startsWith("http://", ignoreCase = true) } -> {
                     Picasso.get()
