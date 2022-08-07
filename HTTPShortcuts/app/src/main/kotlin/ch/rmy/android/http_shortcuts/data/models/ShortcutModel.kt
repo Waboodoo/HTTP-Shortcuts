@@ -177,6 +177,7 @@ open class ShortcutModel(
             other.codeOnSuccess != codeOnSuccess ||
             other.codeOnFailure != codeOnFailure ||
             other.followRedirects != followRedirects ||
+            other.requireConfirmation != requireConfirmation ||
             other.acceptCookies != acceptCookies ||
             other.proxyHost != proxyHost ||
             other.proxyPort != proxyPort ||
