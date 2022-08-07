@@ -24,10 +24,15 @@ class ImageGetter(
     private val onImageLoaded: () -> Unit,
     private val destroyer: Destroyer,
 ) : ImageGetter {
-    override fun getDrawable(source: String): Drawable {
+    override fun getDrawable(source: String?): Drawable {
         val placeholderSize = dimen(context, R.dimen.html_image_placeholder_size)
         val drawableWrapper = DrawableWrapper(context.resources.getDrawable(R.drawable.image_placeholder, null))
         drawableWrapper.setBounds(0, 0, placeholderSize, placeholderSize)
+
+        if (source == null) {
+            return drawableWrapper
+        }
+
         Single.fromCallable {
             when {
                 source.isBase64EncodedImage() -> {
