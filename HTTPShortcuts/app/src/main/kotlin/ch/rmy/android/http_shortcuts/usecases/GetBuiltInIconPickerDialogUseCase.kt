@@ -36,21 +36,18 @@ constructor() {
         }
 
     private fun getIcons(context: Context): List<ShortcutIcon.BuiltInIcon> =
-        getNormalIcons(context).plus(getTintedIcons(context))
+        getColoredIcons(context).plus(getTintableIcons(context))
 
-    private fun getNormalIcons(context: Context): List<ShortcutIcon.BuiltInIcon> =
-        Icons.ICONS
+    private fun getColoredIcons(context: Context): List<ShortcutIcon.BuiltInIcon> =
+        Icons.getColoredIcons()
             .map {
                 ShortcutIcon.BuiltInIcon.fromDrawableResource(context, it)
             }
 
-    private fun getTintedIcons(context: Context): List<ShortcutIcon.BuiltInIcon> =
-        Icons.TintColors.values()
-            .flatMap { tint ->
-                Icons.TINTABLE_ICONS.map { iconResource ->
-                    ShortcutIcon.BuiltInIcon.fromDrawableResource(context, iconResource, tint)
-                }
-            }
+    private fun getTintableIcons(context: Context): List<ShortcutIcon.BuiltInIcon> =
+        Icons.getTintableIcons().map { iconResource ->
+            ShortcutIcon.BuiltInIcon.fromDrawableResource(context, iconResource, Icons.TintColors.BLACK)
+        }
 
     companion object {
         private const val DIALOG_ID = "built-in-icon-picker"

@@ -21,6 +21,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PlaySoundActionType
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.usecases.GetBuiltInIconPickerDialogUseCase
+import ch.rmy.android.http_shortcuts.usecases.GetIconColorPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.GetIconPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs.getScriptingDocumentation
@@ -56,6 +57,9 @@ class CodeSnippetPickerViewModel(application: Application) :
 
     @Inject
     lateinit var getItemWrappers: GetItemWrappersUseCase
+
+    @Inject
+    lateinit var getIconColorPickerDialog: GetIconColorPickerDialogUseCase
 
     init {
         getApplicationComponent().inject(this)
@@ -156,7 +160,7 @@ class CodeSnippetPickerViewModel(application: Application) :
         dialogState = getIconPickerDialog(
             callbacks = object : GetIconPickerDialogUseCase.Callbacks {
                 override fun openBuiltInIconSelectionDialog() {
-                    dialogState = getBuiltInIconPickerDialog(::onIconSelected)
+                    dialogState = getBuiltInIconPickerDialog(::onShortcutIconSelected)
                 }
 
                 override fun openCustomIconPicker() {
@@ -224,6 +228,16 @@ class CodeSnippetPickerViewModel(application: Application) :
                 .positive(R.string.button_create_first_variable) { openVariableEditor() }
                 .build()
         }
+    }
+
+    private fun onShortcutIconSelected(icon: ShortcutIcon) {
+        dialogState = getIconColorPickerDialog(
+            icon,
+            onDismissed = {
+                dialogState?.let(::onDialogDismissed)
+            },
+            onColorSelected = ::onIconSelected,
+        )
     }
 
     fun onIconSelected(icon: ShortcutIcon) {

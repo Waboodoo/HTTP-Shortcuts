@@ -45,6 +45,7 @@ import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager
 import ch.rmy.android.http_shortcuts.usecases.GetBuiltInIconPickerDialogUseCase
+import ch.rmy.android.http_shortcuts.usecases.GetIconColorPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.GetIconPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
@@ -95,6 +96,9 @@ class ShortcutEditorViewModel(
 
     @Inject
     lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
+
+    @Inject
+    lateinit var getIconColorPickerDialog: GetIconColorPickerDialogUseCase
 
     init {
         getApplicationComponent().inject(this)
@@ -545,7 +549,7 @@ class ShortcutEditorViewModel(
             callbacks = object : GetIconPickerDialogUseCase.Callbacks {
                 override fun openBuiltInIconSelectionDialog() {
                     dialogState = getBuiltInIconPickerDialog { icon ->
-                        onShortcutIconChanged(icon)
+                        onShortcutIconSelected(icon)
                     }
                 }
 
@@ -561,6 +565,16 @@ class ShortcutEditorViewModel(
                     emitEvent(ShortcutEditorEvent.OpenIpackIconPicker)
                 }
             },
+        )
+    }
+
+    private fun onShortcutIconSelected(icon: ShortcutIcon) {
+        dialogState = getIconColorPickerDialog(
+            icon,
+            onDismissed = {
+                dialogState?.let(::onDialogDismissed)
+            },
+            onColorSelected = ::onShortcutIconChanged,
         )
     }
 

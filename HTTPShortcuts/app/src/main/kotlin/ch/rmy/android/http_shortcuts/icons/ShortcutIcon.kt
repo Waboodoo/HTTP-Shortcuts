@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.icons
 
 import android.content.Context
 import android.net.Uri
+import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.replacePrefix
@@ -9,6 +10,8 @@ import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.utils.ColorUtil.colorIntToHexString
+import ch.rmy.android.http_shortcuts.utils.ColorUtil.hexStringToColorInt
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import java.io.File
 
@@ -22,12 +25,23 @@ sealed interface ShortcutIcon {
                 getDrawableUri(context, identifier)
             }
 
-        val tint: Int?
-            get() =
-                Icons.TintColors.values().firstOrNull {
-                    iconName.startsWith(it.prefix)
+        val tint: Int? = run {
+            COLOR_SUFFIX_REGEX.matchEntire(iconName)
+                ?.let { matchResult ->
+                    matchResult.groupValues[2]
+                        .hexStringToColorInt()
                 }
+                ?: Icons.TintColors.values()
+                    .firstOrNull {
+                        iconName.startsWith(it.prefix)
+                    }
                     ?.color
+                ?: iconName.takeIf { it.startsWith(LEGACY_COLOR_PREFIX) }
+                    ?.let {
+                        LEGACY_COLORS[it.removePrefix(LEGACY_COLOR_PREFIX)]
+                            ?.plus(0xff000000.toInt())
+                    }
+        }
 
         @DrawableRes
         fun getDrawableIdentifier(context: Context): Int =
@@ -39,13 +53,26 @@ sealed interface ShortcutIcon {
                 .takeUnless { it == 0 }
                 ?: NoIcon.ICON_RESOURCE
 
-        private val normalizedIconName: String =
+        private val normalizedIconName: String = run {
             iconName
+                .run {
+                    COLOR_SUFFIX_REGEX.matchEntire(this)
+                        ?.let { matchResult ->
+                            matchResult.groupValues[1]
+                        }
+                        ?: this
+                }
                 .runFor(Icons.TintColors.values().asIterable()) { tintColor ->
                     runIf(startsWith(tintColor.prefix)) {
                         replacePrefix(tintColor.prefix, Icons.DEFAULT_TINT_PREFIX)
                     }
                 }
+                .run {
+                    if (startsWith(LEGACY_COLOR_PREFIX)) {
+                        "black_circle"
+                    } else this
+                }
+        }
 
         override fun toString() = iconName
 
@@ -55,6 +82,9 @@ sealed interface ShortcutIcon {
         override fun hashCode() =
             iconName.hashCode()
 
+        fun withTint(@ColorInt tint: Int): BuiltInIcon =
+            BuiltInIcon("${normalizedIconName}_${tint.colorIntToHexString()}")
+
         companion object {
             fun fromDrawableResource(
                 context: Context,
@@ -63,10 +93,31 @@ sealed interface ShortcutIcon {
             ): BuiltInIcon {
                 val iconName = context.resources.getResourceEntryName(resource)
                     .runIfNotNull(tint) {
-                        replacePrefix(Icons.DEFAULT_TINT_PREFIX, it.prefix)
+                        plus("_${it.color.colorIntToHexString()}")
                     }
                 return BuiltInIcon(iconName)
             }
+
+            private val COLOR_SUFFIX_REGEX = "^(.+)_([A-F0-9]{6})$".toRegex(RegexOption.IGNORE_CASE)
+
+            private const val LEGACY_COLOR_PREFIX = "circle_"
+
+            private val LEGACY_COLORS = mapOf(
+                "black" to 0x000000,
+                "blue" to 0x0067FF,
+                "blue_dark" to 0x002980,
+                "cyan" to 0x00FAFD,
+                "green" to 0x64FF00,
+                "green_dark" to 0x246800,
+                "orange" to 0xFF9C00,
+                "brown" to 0x724B1E,
+                "magenta" to 0xFF00F3,
+                "purple" to 0x9600FD,
+                "red" to 0xCC0000,
+                "yellow" to 0xFFFD00,
+                "white" to 0xFFFFFF,
+                "grey" to 0x888888,
+            )
         }
     }
 

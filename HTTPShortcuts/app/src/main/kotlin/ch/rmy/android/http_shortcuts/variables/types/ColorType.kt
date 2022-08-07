@@ -9,6 +9,8 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.extensions.cancel
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
+import ch.rmy.android.http_shortcuts.utils.ColorUtil.colorIntToHexString
+import ch.rmy.android.http_shortcuts.utils.ColorUtil.hexStringToColorInt
 import com.skydoves.colorpickerview.ColorPickerDialog
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import io.reactivex.Single
@@ -37,8 +39,7 @@ class ColorType : BaseVariableType() {
                     R.string.dialog_ok,
                     ColorEnvelopeListener { envelope, fromUser ->
                         if (fromUser && variable.isValid) {
-                            val colorFormatted = String.format("%06x", envelope.color and 0xffffff)
-                            emitter.onSuccess(colorFormatted)
+                            emitter.onSuccess(envelope.color.colorIntToHexString())
                         }
                     }
                 )
@@ -62,8 +63,6 @@ class ColorType : BaseVariableType() {
             .storeValueIfNeeded(variable, variablesRepository)
 
     private fun getInitialColor(variable: VariableModel): Int =
-        if (variable.rememberValue && variable.value?.length == 6) {
-            val color = variable.value?.toIntOrNull(16) ?: Color.BLACK
-            color + 0xff000000.toInt()
-        } else Color.BLACK
+        variable.takeIf { it.rememberValue }?.value?.hexStringToColorInt()
+            ?: Color.BLACK
 }
