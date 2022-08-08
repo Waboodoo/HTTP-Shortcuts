@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.app.Activity
+import ch.rmy.android.framework.extensions.safeRemoveIf
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,7 +23,7 @@ constructor() {
         }
 
         fun deregisterActivity(activity: Activity) {
-            activeActivities.removeIf { reference -> reference.get().let { it == null || it == activity } }
+            activeActivities.safeRemoveIf { reference -> reference.get().let { it == null || it == activity } }
         }
     }
 }
