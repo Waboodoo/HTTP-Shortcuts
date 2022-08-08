@@ -117,6 +117,7 @@ class CategoryEditorActivity : BaseActivity() {
                 binding.inputColor.setBackgroundColor(viewState.backgroundColor)
             }
             saveButton?.isVisible = viewState.saveButtonVisible
+            binding.layoutContainer.isVisible = true
             setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)

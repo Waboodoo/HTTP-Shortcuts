@@ -104,6 +104,7 @@ class AuthenticationActivity : BaseActivity() {
             binding.inputToken.rawString = viewState.token
             binding.buttonClientCert.isEnabled = viewState.isClientCertButtonEnabled
             binding.buttonClientCert.setSubtitle(viewState.clientCertSubtitle)
+            binding.layoutContainer.isVisible = true
             setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)

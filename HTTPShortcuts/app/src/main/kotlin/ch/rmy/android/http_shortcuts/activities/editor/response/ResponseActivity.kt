@@ -99,6 +99,7 @@ class ResponseActivity : BaseActivity() {
             binding.containerInputSuccessMessage.isVisible = viewState.successMessageVisible
             binding.inputIncludeMetaInformation.isVisible = viewState.includeMetaInformationVisible
             binding.warningToastLimitations.isVisible = viewState.showToastInfo
+            binding.layoutContainer.isVisible = true
             setDialogState(viewState.dialogState, viewModel)
         }
         viewModel.events.observe(this, ::handleEvent)
