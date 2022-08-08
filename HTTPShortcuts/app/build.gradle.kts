@@ -159,14 +159,14 @@ dependencies {
     /* Support libraries */
     implementation("androidx.core:core-ktx:1.8.0@aar")
     implementation("androidx.appcompat:appcompat:1.4.2")
-    implementation("androidx.fragment:fragment-ktx:1.5.0")
+    implementation("androidx.fragment:fragment-ktx:1.5.1")
     implementation("com.google.android.material:material:1.6.1")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.annotation:annotation:1.4.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.preference:preference-ktx:1.2.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0")
-    implementation("androidx.core:core-splashscreen:1.0.0-rc01")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    implementation("androidx.core:core-splashscreen:1.0.0")
 
     /* Dialogs / Activities */
     implementation("com.afollestad.material-dialogs:core:3.3.0")
