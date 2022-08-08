@@ -1611,6 +1611,9 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response cookie -->
     <string name="dialog_code_snippet_response_cookie">"Yanıt Çerezi Al ada göre"</string>
 
+    <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts">"Henüz tetiklenebilecek bir kısayol eklemediniz."</string>
+
     <!-- Shortcut Action Title: Open a URL (e.g. in a browser) -->
     <string name="action_type_open_url_title">"URL Aç"</string>
 
@@ -1623,6 +1626,15 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">"%s URL'i açmak için uygulama bulunamadı."</string>
 
+    <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
+    <string name="error_no_app_found">"%s adında bir uygulama bulunamadı."</string>
+
+    <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->
+    <string name="error_invalid_base64">"Hatalı Base64: %s"</string>
+
+    <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
+    <string name="action_type_trigger_shortcut_description">"Mevcut kısayol çalıştıktan sonra çalışacak başka bir kısayol zamanla"</string>
+
     <!-- Label above input field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">"Tarayıcı"</string>
 
@@ -1632,8 +1644,16 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <!-- Title of window for managing and selecting custom icons -->
     <string name="title_custom_icons">"Kişisel simgeler"</string>
 
+    <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
+    <string name="error_browser_not_found">"%s adında bir tarayıcı bulunamadı."</string>
+
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
     <string name="confirm_delete_custom_icon_message">"Simge silinsin mi?"</string>
+
+    <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
+    <string name="confirm_delete_custom_icon_still_in_use_message">"Bu kısayol en az 1 kısayolda kullanılıyor. Bunu silmek sorunlara yol açabilir.
+
+Yine de silinsin mi?"</string>
 
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
     <string name="button_delete_all_unused_icons">"Kullanılmayan simgeleri sil"</string>
