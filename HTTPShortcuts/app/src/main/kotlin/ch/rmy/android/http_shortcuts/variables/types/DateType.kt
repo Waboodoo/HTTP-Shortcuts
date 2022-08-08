@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.extensions.cancel
+import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -24,6 +25,9 @@ class DateType : BaseVariableType() {
     @Inject
     lateinit var variablesRepository: VariableRepository
 
+    @Inject
+    lateinit var activityProvider: ActivityProvider
+
     override fun inject(applicationComponent: ApplicationComponent) {
         applicationComponent.inject(this)
     }
@@ -32,7 +36,7 @@ class DateType : BaseVariableType() {
         Single.create<Date> { emitter ->
             val calendar = getInitialDate(variable.value)
             val datePicker = DatePickerDialog(
-                context,
+                activityProvider.getActivity(),
                 null,
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),

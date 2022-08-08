@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 
@@ -43,6 +44,16 @@ abstract class BaseActivity : BaseActivity() {
 
     protected open fun onCreated(savedState: Bundle?) {
         // intentionally left blank
+    }
+
+    override fun onStart() {
+        super.onStart()
+        ActivityProvider.registerActivity(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        ActivityProvider.deregisterActivity(this)
     }
 
     private fun showRealmError() {

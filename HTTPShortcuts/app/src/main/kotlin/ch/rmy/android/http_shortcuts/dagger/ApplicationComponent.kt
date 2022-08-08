@@ -59,6 +59,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.CopyToClipboardActi
 import ch.rmy.android.http_shortcuts.scripting.actions.types.EnqueueShortcutAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetClipboardContentAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetLocationAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.GetVariableAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.VibrateAction
@@ -238,4 +239,6 @@ interface ApplicationComponent {
     fun inject(uuidType: UUIDType)
 
     fun inject(clipboardType: ClipboardType)
+
+    fun inject(getVariableAction: GetVariableAction)
 }

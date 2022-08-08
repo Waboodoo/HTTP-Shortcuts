@@ -10,7 +10,7 @@ class PasswordType : TextType() {
 
     override fun resolveValue(context: Context, variable: VariableModel): Single<String> =
         Single.create<String> { emitter ->
-            createDialogBuilder(context, variable, emitter)
+            createDialogBuilder(activityProvider.getActivity(), variable, emitter)
                 .textInput(
                     prefill = variable.value?.takeIf { variable.rememberValue } ?: "",
                     inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD,

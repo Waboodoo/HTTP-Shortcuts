@@ -122,6 +122,9 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     @Inject
     lateinit var httpRequester: HttpRequester
 
+    @Inject
+    lateinit var variableResolver: VariableResolver
+
     private val viewModel: ExecuteViewModel by bindViewModel()
 
     /* TODO: Get rid of these fields */
@@ -393,7 +396,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     private fun resolveVariablesAndExecute(): Completable =
         variableRepository.getVariables()
             .flatMap { variables ->
-                VariableResolver(context)
+                variableResolver
                     .resolve(
                         variables,
                         shortcut,
@@ -509,8 +512,8 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
             Completable.defer {
                 DialogBuilder(context)
-                    .title(getString(R.string.title_permission_dialog))
-                    .message(getString(R.string.message_permission_rational))
+                    .title(R.string.title_permission_dialog)
+                    .message(R.string.message_permission_rational)
                     .positive(R.string.dialog_ok)
                     .showAsCompletable()
             }

@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.import_export
 
-import android.content.Context
 import ch.rmy.android.framework.extensions.detachFromRealm
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
@@ -20,8 +19,8 @@ import javax.inject.Inject
 class CurlExporter
 @Inject
 constructor(
-    private val context: Context,
     private val variableRepository: VariableRepository,
+    private val variableResolver: VariableResolver,
 ) {
 
     fun generateCommand(shortcut: ShortcutModel): Single<CurlCommand> {
@@ -36,8 +35,7 @@ constructor(
         variableRepository
             .getVariables()
             .flatMap { variables ->
-                VariableResolver(context)
-                    .resolve(variables, shortcut)
+                variableResolver.resolve(variables, shortcut)
             }
 
     private fun generateCommand(shortcut: ShortcutModel, variableValues: Map<VariableKey, String>): CurlCommand =

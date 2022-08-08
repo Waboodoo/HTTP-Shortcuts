@@ -568,7 +568,10 @@ class ShortcutEditorViewModel(
         if (isSaving) {
             return
         }
-        fetchFavicon(shortcut.url)
+        variableRepository.getVariables()
+            .flatMap { variables ->
+                fetchFavicon(shortcut.url, variables)
+            }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {

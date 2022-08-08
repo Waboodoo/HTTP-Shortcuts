@@ -10,8 +10,13 @@ import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
 import io.reactivex.Completable
 import io.reactivex.Single
+import javax.inject.Inject
 
-class VariableResolver(private val context: Context) {
+class VariableResolver
+@Inject
+constructor(
+    private val context: Context,
+) {
 
     fun resolve(
         variables: List<VariableModel>,
@@ -21,7 +26,23 @@ class VariableResolver(private val context: Context) {
         val variableManager = VariableManager(variables)
         val requiredVariableIds = extractVariableIds(shortcut, variableManager, includeScripting = false)
             .toMutableSet()
+        return resolve(variableManager, requiredVariableIds, preResolvedValues)
+    }
 
+    fun resolve(
+        variables: List<VariableModel>,
+        requiredVariableIds: Set<VariableId>,
+        preResolvedValues: Map<VariableKey, String> = emptyMap(),
+    ): Single<VariableManager> {
+        val variableManager = VariableManager(variables)
+        return resolve(variableManager, requiredVariableIds, preResolvedValues)
+    }
+
+    private fun resolve(
+        variableManager: VariableManager,
+        requiredVariableIds: Set<VariableId>,
+        preResolvedValues: Map<VariableKey, String>,
+    ): Single<VariableManager> {
         val preResolvedVariables = mutableMapOf<VariableModel, String>()
         preResolvedValues
             .forEach { (variableKey, value) ->

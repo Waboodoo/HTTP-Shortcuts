@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
+import android.app.Activity
 import android.content.Context
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
@@ -27,11 +28,11 @@ abstract class BaseVariableType {
     companion object {
 
         internal fun createDialogBuilder(
-            context: Context,
+            activity: Activity,
             variable: VariableModel,
             emitter: SingleEmitter<String>,
         ) =
-            DialogBuilder(context)
+            DialogBuilder(activity)
                 .runIf(variable.title.isNotEmpty()) {
                     title(variable.title)
                 }

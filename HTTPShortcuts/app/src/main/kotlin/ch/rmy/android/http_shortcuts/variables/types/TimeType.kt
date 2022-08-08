@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.extensions.cancel
+import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,6 +24,9 @@ class TimeType : BaseVariableType() {
     @Inject
     lateinit var variablesRepository: VariableRepository
 
+    @Inject
+    lateinit var activityProvider: ActivityProvider
+
     override fun inject(applicationComponent: ApplicationComponent) {
         applicationComponent.inject(this)
     }
@@ -31,7 +35,7 @@ class TimeType : BaseVariableType() {
         Single.create<Date> { emitter ->
             val calendar = getInitialTime(variable.value)
             val timePicker = TimePickerDialog(
-                context,
+                activityProvider.getActivity(),
                 { _, hourOfDay, minute ->
                     val newDate = Calendar.getInstance()
                     newDate.set(Calendar.HOUR_OF_DAY, hourOfDay)
