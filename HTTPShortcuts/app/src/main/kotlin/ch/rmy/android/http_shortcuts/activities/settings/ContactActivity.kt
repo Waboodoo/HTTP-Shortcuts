@@ -18,11 +18,13 @@ import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.databinding.ActivityContactBinding
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.utils.VersionUtil
 import java.util.Locale
 import javax.inject.Inject
 
@@ -30,6 +32,9 @@ class ContactActivity : BaseActivity() {
 
     @Inject
     lateinit var settings: Settings
+
+    @Inject
+    lateinit var versionUtil: VersionUtil
 
     private lateinit var binding: ActivityContactBinding
 
@@ -41,8 +46,11 @@ class ContactActivity : BaseActivity() {
             }
         }
 
-    override fun onCreated(savedState: Bundle?) {
+    override fun inject(applicationComponent: ApplicationComponent) {
         getApplicationComponent().inject(this)
+    }
+
+    override fun onCreated(savedState: Bundle?) {
         binding = applyBinding(ActivityContactBinding.inflate(layoutInflater))
         setTitle(R.string.title_contact)
 
@@ -113,20 +121,11 @@ class ContactActivity : BaseActivity() {
     private fun collectMetaData() =
         MetaData(
             androidSdkVersion = Build.VERSION.SDK_INT,
-            appVersionCode = getVersionCode(),
+            appVersionCode = versionUtil.getVersionCode(),
             device = "${Build.MANUFACTURER} ${Build.MODEL}",
             language = Locale.getDefault().language,
             userId = Settings(context).userId,
         )
-
-    private fun getVersionCode(): Long =
-        with(packageManager.getPackageInfo(packageName, 0)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                longVersionCode
-            } else {
-                versionCode.toLong()
-            }
-        }
 
     class IntentBuilder : BaseIntentBuilder(ContactActivity::class)
 

@@ -1,16 +1,15 @@
 package ch.rmy.android.http_shortcuts.activities.main.usecases
 
-import android.content.Context
 import androidx.annotation.CheckResult
 import ch.rmy.android.http_shortcuts.utils.Settings
-import ch.rmy.android.http_shortcuts.utils.VersionUtil.getVersionName
+import ch.rmy.android.http_shortcuts.utils.VersionUtil
 import javax.inject.Inject
 
 class ShouldShowChangeLogDialogUseCase
 @Inject
 constructor(
-    private val context: Context,
     private val settings: Settings,
+    private val versionUtil: VersionUtil,
 ) {
     @CheckResult
     operator fun invoke(): Boolean {
@@ -18,7 +17,7 @@ constructor(
         if (isPermanentlyHidden) {
             return false
         }
-        val version = getVersionName(context)
+        val version = versionUtil.getVersionName()
         settings.changeLogLastVersion = version
         return lastSeenVersion != null && version != lastSeenVersion
     }

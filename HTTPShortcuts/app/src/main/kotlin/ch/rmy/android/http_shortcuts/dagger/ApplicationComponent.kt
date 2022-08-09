@@ -31,6 +31,7 @@ import ch.rmy.android.http_shortcuts.activities.misc.share.ShareViewModel
 import ch.rmy.android.http_shortcuts.activities.misc.voice.VoiceViewModel
 import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditViewModel
 import ch.rmy.android.http_shortcuts.activities.settings.ContactActivity
+import ch.rmy.android.http_shortcuts.activities.settings.about.AboutActivity
 import ch.rmy.android.http_shortcuts.activities.settings.about.AboutViewModel
 import ch.rmy.android.http_shortcuts.activities.settings.globalcode.GlobalScriptingActivity
 import ch.rmy.android.http_shortcuts.activities.settings.globalcode.GlobalScriptingViewModel
@@ -241,4 +242,6 @@ interface ApplicationComponent {
     fun inject(clipboardType: ClipboardType)
 
     fun inject(getVariableAction: GetVariableAction)
+
+    fun inject(aboutActivity: AboutActivity)
 }

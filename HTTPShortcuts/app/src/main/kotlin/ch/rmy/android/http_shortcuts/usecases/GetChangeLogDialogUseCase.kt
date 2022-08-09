@@ -27,6 +27,7 @@ class GetChangeLogDialogUseCase
 @Inject
 constructor(
     private val settings: Settings,
+    private val versionUtil: VersionUtil,
 ) {
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -42,7 +43,7 @@ constructor(
                     .positive(android.R.string.ok)
                     .build()
                     .onShow { dialog ->
-                        settings.changeLogLastVersion = VersionUtil.getVersionName(context)
+                        settings.changeLogLastVersion = versionUtil.getVersionName()
 
                         val webView = dialog.findViewById<WebView>(R.id.changelog_webview)
                         val loadingIndicator = dialog.findViewById<View>(R.id.loading_indicator)

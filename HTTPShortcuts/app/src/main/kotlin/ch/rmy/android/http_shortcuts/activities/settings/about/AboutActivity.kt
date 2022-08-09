@@ -14,12 +14,22 @@ import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.misc.AcknowledgmentActivity
 import ch.rmy.android.http_shortcuts.activities.settings.BaseSettingsFragment
 import ch.rmy.android.http_shortcuts.activities.settings.ContactActivity
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.VersionUtil
+import javax.inject.Inject
 
 class AboutActivity : BaseActivity() {
 
     val viewModel: AboutViewModel by bindViewModel()
+
+    @Inject
+    lateinit var versionUtil: VersionUtil
+
+    override fun inject(applicationComponent: ApplicationComponent) {
+        getApplicationComponent().inject(this)
+    }
 
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()
@@ -100,7 +110,7 @@ class AboutActivity : BaseActivity() {
         }
 
         private val versionName: String
-            get() = VersionUtil.getVersionName(requireContext())
+            get() = (activity as AboutActivity).versionUtil.getVersionName()
 
         private fun contactDeveloper() {
             ContactActivity.IntentBuilder()
