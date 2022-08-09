@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import android.content.Context
-import android.text.Spannable
 import android.text.SpannableString
+import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import ch.rmy.android.framework.extensions.color
@@ -12,6 +12,7 @@ import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
+import ch.rmy.android.http_shortcuts.utils.InvalidSpanRemover
 import javax.inject.Inject
 
 class VariableEditText @JvmOverloads constructor(
@@ -25,6 +26,7 @@ class VariableEditText @JvmOverloads constructor(
 
     init {
         getApplicationComponent().inject(this)
+        addTextChangedListener(InvalidSpanRemover())
     }
 
     private val placeholderColor by lazy {
@@ -62,8 +64,8 @@ class VariableEditText @JvmOverloads constructor(
             return
         }
 
-        val span = VariableSpan(placeholderColor, placeholder.variableId)
-        placeholderText.setSpan(span, 0, placeholderText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        val span = VariableSpan(placeholderColor, placeholder.variableId, length = placeholderText.length)
+        placeholderText.setSpan(span, 0, placeholderText.length, SPAN_EXCLUSIVE_EXCLUSIVE)
         text.insert(position, placeholderText)
     }
 }

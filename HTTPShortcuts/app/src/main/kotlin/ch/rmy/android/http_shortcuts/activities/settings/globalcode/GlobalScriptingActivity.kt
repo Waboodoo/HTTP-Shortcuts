@@ -23,6 +23,7 @@ import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.databinding.ActivityGlobalScriptingBinding
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutSpanManager
+import ch.rmy.android.http_shortcuts.utils.InvalidSpanRemover
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -68,6 +69,7 @@ class GlobalScriptingActivity : BaseActivity() {
 
     private fun initViews() {
         binding = applyBinding(ActivityGlobalScriptingBinding.inflate(layoutInflater))
+        binding.inputCode.addTextChangedListener(InvalidSpanRemover())
         binding.buttonAddCodeSnippet.setOnClickListener {
             viewModel.onCodeSnippetButtonClicked()
         }

@@ -26,6 +26,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.databinding.ActivityScriptingBinding
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutSpanManager
+import ch.rmy.android.http_shortcuts.utils.InvalidSpanRemover
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import javax.inject.Inject
@@ -82,6 +83,9 @@ class ScriptingActivity : BaseActivity() {
 
     private fun initViews() {
         binding = applyBinding(ActivityScriptingBinding.inflate(layoutInflater))
+        binding.inputCodePrepare.addTextChangedListener(InvalidSpanRemover())
+        binding.inputCodeSuccess.addTextChangedListener(InvalidSpanRemover())
+        binding.inputCodeFailure.addTextChangedListener(InvalidSpanRemover())
         setTitle(R.string.label_scripting)
     }
 

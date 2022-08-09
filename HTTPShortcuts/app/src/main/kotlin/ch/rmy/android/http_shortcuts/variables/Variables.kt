@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.variables
 
 import android.text.Spannable
 import android.text.SpannableStringBuilder
-import android.text.Spanned
+import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
 import androidx.annotation.ColorInt
 import ch.rmy.android.framework.utils.UUIDUtils.UUID_REGEX
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
@@ -85,9 +85,9 @@ object Variables {
         while (it.hasNext()) {
             val replacement = it.next()
             val placeholderText = toPrettyPlaceholder(replacement.placeholder.variableKey)
-            val span = VariableSpan(color, replacement.placeholder.variableId)
+            val span = VariableSpan(color, replacement.placeholder.variableId, length = placeholderText.length)
             builder.replace(replacement.startIndex, replacement.endIndex, placeholderText)
-            builder.setSpan(span, replacement.startIndex, replacement.startIndex + placeholderText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            builder.setSpan(span, replacement.startIndex, replacement.startIndex + placeholderText.length, SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         return builder
     }
@@ -118,7 +118,8 @@ object Variables {
             val variableId = matcher.group(1)!!
             val placeholder = variablePlaceholderProvider.findPlaceholderById(variableId)
             val variableKey = placeholder?.variableKey ?: "???"
-            text.setSpan(JSVariableSpan(color, variableKey), matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            val span = JSVariableSpan(color, variableKey, matcher.group().length)
+            text.setSpan(span, matcher.start(), matcher.end(), SPAN_EXCLUSIVE_EXCLUSIVE)
         }
     }
 
