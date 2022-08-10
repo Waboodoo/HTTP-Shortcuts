@@ -1,6 +1,15 @@
 ## Version 2.22.0
 
-Work in progress
+### Improvements
+- When picking a built-in icon which consists of only one color, it is now possible to pick a custom color for it. This replaces the predefined colored circle icons.
+
+### Miscellaneous
+- Added some minor UI animations to the shortcut editor to make it clearer when new input elements become available
+
+### Bugfixes
+- Variable and shortcut placeholders in Scripting can now be properly deleted via the backspace key, which previously occasionally would not work
+- It is now possible to fetch the favicon for a shortcut even when the shortcut's URL contains variable placeholders
+- When editing a shortcut and only changing the "Require Confirmation" checkbox, the Save button now appears as expected
 
 ## Version 2.21.1
 
