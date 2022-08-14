@@ -60,6 +60,7 @@ class ExecutionSettingsActivity : BaseActivity() {
             binding.inputLauncherShortcut.isChecked = viewState.launcherShortcut
             binding.inputQuickTileShortcut.isVisible = viewState.quickSettingsTileShortcutOptionVisible
             binding.inputQuickTileShortcut.isChecked = viewState.quickSettingsTileShortcut
+            binding.inputWaitForConnection.isVisible = viewState.waitForConnectionOptionVisible
             binding.inputWaitForConnection.isChecked = viewState.waitForConnection
             binding.inputDelay.setSubtitle(viewState.delaySubtitle)
             setDialogState(viewState.dialogState, viewModel)

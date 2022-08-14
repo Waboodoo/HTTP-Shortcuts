@@ -9,7 +9,9 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.activities.editor.executionsettings.usecases.GetDelayDialogUseCase
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.tiles.QuickSettingsTileManager
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import javax.inject.Inject
@@ -61,6 +63,7 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
         updateViewState {
             copy(
                 waitForConnection = shortcut.isWaitForNetwork,
+                waitForConnectionOptionVisible = shortcut.type == ShortcutExecutionType.APP,
                 launcherShortcut = shortcut.launcherShortcut,
                 quickSettingsTileShortcut = shortcut.quickSettingsTileShortcut,
                 delay = shortcut.delay.milliseconds,

@@ -10,6 +10,7 @@ data class ExecutionSettingsViewState(
     val dialogState: DialogState? = null,
     val delay: Duration = 0.milliseconds,
     val waitForConnection: Boolean = false,
+    val waitForConnectionOptionVisible: Boolean = false,
     val requireConfirmation: Boolean = false,
     val launcherShortcutOptionVisible: Boolean = false,
     val launcherShortcut: Boolean = false,
