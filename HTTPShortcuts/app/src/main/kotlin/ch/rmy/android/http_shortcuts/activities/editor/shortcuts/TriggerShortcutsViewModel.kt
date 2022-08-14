@@ -26,6 +26,9 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager.getCodeFromTriggeredShortcutIds
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager.getTriggeredShortcutIdsFromCode
+import com.afollestad.materialdialogs.WhichButton
+import com.afollestad.materialdialogs.actions.getActionButton
+import com.afollestad.materialdialogs.callbacks.onShow
 import javax.inject.Inject
 
 class TriggerShortcutsViewModel(application: Application) :
@@ -152,6 +155,7 @@ class TriggerShortcutsViewModel(application: Application) :
 
     private fun showShortcutPickerForAdding(placeholders: List<ShortcutPlaceholder>) {
         val selectedShortcutIds = mutableSetOf<ShortcutId>()
+        var onSelectionChanged: () -> Unit = {}
         dialogState = DialogState.create {
             title(R.string.title_add_trigger_shortcut)
                 .runFor(placeholders) { shortcut ->
@@ -161,6 +165,7 @@ class TriggerShortcutsViewModel(application: Application) :
                         checked = { shortcut.id in selectedShortcutIds },
                     ) { checked ->
                         selectedShortcutIds.addOrRemove(shortcut.id, checked)
+                        onSelectionChanged()
                     }
                 }
                 .positive(R.string.dialog_ok) {
@@ -171,6 +176,13 @@ class TriggerShortcutsViewModel(application: Application) :
                     )
                 }
                 .build()
+                .onShow { dialog ->
+                    val okButton = dialog.getActionButton(WhichButton.POSITIVE)
+                    onSelectionChanged = {
+                        okButton.isEnabled = selectedShortcutIds.isNotEmpty()
+                    }
+                        .apply { invoke() }
+                }
         }
     }
 
