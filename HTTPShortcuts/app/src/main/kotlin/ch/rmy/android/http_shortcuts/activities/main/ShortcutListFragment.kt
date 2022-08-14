@@ -36,15 +36,15 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
         fileUri?.let(viewModel::onFilePickedForExport)
     }
 
-    val categoryId: CategoryId by lazy {
+    val categoryId: CategoryId by lazy(LazyThreadSafetyMode.NONE) {
         args.getString(ARG_CATEGORY_ID) ?: ""
     }
 
-    val layoutType: CategoryLayoutType by lazy {
+    val layoutType: CategoryLayoutType by lazy(LazyThreadSafetyMode.NONE) {
         CategoryLayoutType.parse(args.getString(ARG_CATEGORY_LAYOUT_TYPE))
     }
 
-    val selectionMode by lazy {
+    val selectionMode by lazy(LazyThreadSafetyMode.NONE) {
         args.getSerializable(ARG_SELECTION_MODE) as SelectionMode
     }
 
@@ -56,7 +56,7 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
 
     private lateinit var adapter: BaseShortcutAdapter
 
-    private val wallpaper: Drawable? by lazy {
+    private val wallpaper: Drawable? by lazy(LazyThreadSafetyMode.NONE) {
         try {
             WallpaperManager.getInstance(context).drawable
         } catch (e: SecurityException) {

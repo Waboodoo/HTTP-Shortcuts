@@ -12,7 +12,7 @@ object VariableTypeMappings {
     fun getTypeMapping(type: VariableType): VariableTypeMapping =
         TYPES_MAP[type]!!
 
-    private val TYPES_MAP by lazy {
+    private val TYPES_MAP by lazy(LazyThreadSafetyMode.NONE) {
         TYPES.associateBy { it.type }
     }
 

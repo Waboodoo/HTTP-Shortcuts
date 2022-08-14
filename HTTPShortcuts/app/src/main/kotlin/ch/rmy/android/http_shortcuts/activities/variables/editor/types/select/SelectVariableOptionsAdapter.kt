@@ -43,7 +43,7 @@ constructor(
         private val binding: SelectOptionBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private val variablePlaceholderColor by lazy {
+        private val variablePlaceholderColor by lazy(LazyThreadSafetyMode.NONE) {
             color(context, R.color.variable)
         }
 

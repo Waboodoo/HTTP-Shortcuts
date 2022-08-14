@@ -15,7 +15,7 @@ import ch.rmy.android.http_shortcuts.extensions.applyTheme
 
 class TriggerShortcutsActivity : BaseActivity() {
 
-    private val currentShortcutId: ShortcutId? by lazy {
+    private val currentShortcutId: ShortcutId? by lazy(LazyThreadSafetyMode.NONE) {
         intent.getStringExtra(EXTRA_SHORTCUT_ID)
     }
 

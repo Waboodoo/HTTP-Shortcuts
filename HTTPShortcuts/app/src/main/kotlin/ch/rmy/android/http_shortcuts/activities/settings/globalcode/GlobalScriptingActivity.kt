@@ -46,10 +46,10 @@ class GlobalScriptingActivity : BaseActivity() {
 
     private val viewModel: GlobalScriptingViewModel by bindViewModel()
 
-    private val variablePlaceholderColor by lazy {
+    private val variablePlaceholderColor by lazy(LazyThreadSafetyMode.NONE) {
         color(context, R.color.variable)
     }
-    private val shortcutPlaceholderColor by lazy {
+    private val shortcutPlaceholderColor by lazy(LazyThreadSafetyMode.NONE) {
         color(context, R.color.shortcut)
     }
 

@@ -55,16 +55,16 @@ class ScriptingActivity : BaseActivity() {
         }
     }
 
-    private val currentShortcutId: ShortcutId? by lazy {
+    private val currentShortcutId: ShortcutId? by lazy(LazyThreadSafetyMode.NONE) {
         intent.getStringExtra(EXTRA_SHORTCUT_ID)
     }
 
     private val viewModel: ScriptingViewModel by bindViewModel()
 
-    private val variablePlaceholderColor by lazy {
+    private val variablePlaceholderColor by lazy(LazyThreadSafetyMode.NONE) {
         color(context, R.color.variable)
     }
-    private val shortcutPlaceholderColor by lazy {
+    private val shortcutPlaceholderColor by lazy(LazyThreadSafetyMode.NONE) {
         color(context, R.color.shortcut)
     }
 

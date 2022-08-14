@@ -13,7 +13,7 @@ import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 
 abstract class BaseActivity : BaseActivity() {
 
-    val themeHelper by lazy {
+    val themeHelper by lazy(LazyThreadSafetyMode.NONE) {
         ThemeHelper(context)
     }
 

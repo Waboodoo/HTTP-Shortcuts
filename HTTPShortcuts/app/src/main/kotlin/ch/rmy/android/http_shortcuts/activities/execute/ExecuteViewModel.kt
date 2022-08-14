@@ -37,7 +37,7 @@ class ExecuteViewModel(
     private lateinit var globalCode: String
     private lateinit var shortcut: ShortcutModel
 
-    private val fileIds: List<String> by lazy {
+    private val fileIds: List<String> by lazy(LazyThreadSafetyMode.NONE) {
         // TODO: Move this into a use case?
         initData.variableValues["\$files"]
             ?.trim('[', ']')

@@ -21,7 +21,7 @@ class Application : android.app.Application(), ApplicationComponentProvider, Wit
     private val context: Context
         get() = this
 
-    override val applicationComponent: ApplicationComponent by lazy {
+    override val applicationComponent: ApplicationComponent by lazy(LazyThreadSafetyMode.NONE) {
         DaggerApplicationComponent.builder()
             .application(this)
             .build()

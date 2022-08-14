@@ -8,10 +8,6 @@ import kotlin.math.roundToInt
 
 abstract class ColoredSpan(private val color: Int) : ReplacementSpan() {
 
-    private val typeface by lazy {
-        Typeface.create(Typeface.MONOSPACE, Typeface.BOLD)
-    }
-
     protected open val displayedText: String? = null
 
     override fun draw(canvas: Canvas, text: CharSequence, start: Int, end: Int, x: Float, top: Int, y: Int, bottom: Int, paint: Paint) {
@@ -38,5 +34,11 @@ abstract class ColoredSpan(private val color: Int) : ReplacementSpan() {
         paint.typeface = typeface
         val textWidth = paint.measureText(text, 0, text.length)
         return textWidth.roundToInt()
+    }
+
+    companion object {
+        private val typeface by lazy {
+            Typeface.create(Typeface.MONOSPACE, Typeface.BOLD)
+        }
     }
 }

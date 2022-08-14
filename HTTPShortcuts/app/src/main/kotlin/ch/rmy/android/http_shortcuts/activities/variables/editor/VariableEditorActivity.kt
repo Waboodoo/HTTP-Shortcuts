@@ -34,10 +34,10 @@ import ch.rmy.android.http_shortcuts.databinding.ActivityVariableEditorBinding
 
 class VariableEditorActivity : BaseActivity() {
 
-    private val variableId: VariableId? by lazy {
+    private val variableId: VariableId? by lazy(LazyThreadSafetyMode.NONE) {
         intent.getStringExtra(EXTRA_VARIABLE_ID)
     }
-    private val variableType: VariableType by lazy {
+    private val variableType: VariableType by lazy(LazyThreadSafetyMode.NONE) {
         VariableType.parse(intent.getStringExtra(EXTRA_VARIABLE_TYPE))
     }
 

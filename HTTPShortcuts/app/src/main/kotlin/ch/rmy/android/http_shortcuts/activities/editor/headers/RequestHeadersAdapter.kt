@@ -71,7 +71,7 @@ constructor(
             }
         }
 
-        private val variablePlaceholderColor by lazy {
+        private val variablePlaceholderColor by lazy(LazyThreadSafetyMode.NONE) {
             color(context, R.color.variable)
         }
 

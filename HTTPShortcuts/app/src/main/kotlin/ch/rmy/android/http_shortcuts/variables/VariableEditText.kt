@@ -29,7 +29,7 @@ class VariableEditText @JvmOverloads constructor(
         addTextChangedListener(InvalidSpanRemover())
     }
 
-    private val placeholderColor by lazy {
+    private val placeholderColor by lazy(LazyThreadSafetyMode.NONE) {
         color(context, R.color.variable)
     }
 

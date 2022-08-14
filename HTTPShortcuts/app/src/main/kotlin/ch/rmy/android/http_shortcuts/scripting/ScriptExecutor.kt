@@ -36,7 +36,7 @@ class ScriptExecutor(
     private val sendRequest: (ActionRequest) -> Unit,
 ) {
 
-    private val jsContext by lazy {
+    private val jsContext by lazy(LazyThreadSafetyMode.NONE) {
         JSContext()
             .also {
                 registerActionAliases(it, actionFactory.getAliases())
