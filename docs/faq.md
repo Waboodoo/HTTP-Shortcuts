@@ -69,6 +69,10 @@ You can use [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch
 ## Something's not working with my requests. Can I get more detailed information for debugging?
 One way to get more information about the request and the response is by opening the *Reponse Handling* section when editing a shortcut and changing the *Display Type* to *Window* and then ticking the *Show Meta Information* checkbox. This will display the full response in a window, along with all response headers and some additional meta information.
 
+<a name="infinite-loops"></a>
+## I accidentally created an infinite loop of shortcuts triggering other shortcuts, how do I stop it?
+First, force stop the app. Then, assuming you're viewing this page in a browser on the same device where you have the app installed, click this link: <a href="http-shortcuts://cancel-executions">CANCEL ALL EXECUTIONS</a>. The link will open the app but in a safe mode, where all scheduled shortcut executions are cancelled.
+
 ## What about voice recognition?
 
 There is currently no support for voice recognition in HTTP Shortcuts, with the exception of a very basic and experimental feature. Try "OK Google, search [Name of Shortcut] in HTTP Shortcuts".

@@ -72,6 +72,15 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
             return
         }
 
+        if (deepLinkUrl.isCancelExecutions()) {
+            openActivity(
+                MainActivity.IntentBuilder()
+                    .cancelPendingExecutions()
+            )
+            finish(skipAnimation = true)
+            return
+        }
+
         val importUrl = deepLinkUrl.getImportUrl()
         if (importUrl != null) {
             openActivity(
@@ -103,8 +112,11 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
         finish(skipAnimation = true)
     }
 
+    private fun Uri.isCancelExecutions() =
+        host == "cancel-executions" && path?.trimEnd('/').isNullOrEmpty()
+
     private fun Uri.getImportUrl(): Uri? =
-        takeIf { host == "import" && path?.trimEnd('/') == "" }
+        takeIf { host == "import" && path?.trimEnd('/').isNullOrEmpty() }
             ?.getQueryParameter("url")
             ?.toUri()
 

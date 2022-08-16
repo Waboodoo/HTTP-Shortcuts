@@ -35,6 +35,7 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
+import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
@@ -108,6 +109,9 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     @Inject
     lateinit var widgetManager: WidgetManager
 
+    @Inject
+    lateinit var pendingExecutionsRepository: PendingExecutionsRepository
+
     private val eventBridge = EventBridge(ChildViewModelEvent::class.java)
 
     init {
@@ -169,7 +173,13 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         observeToolbarTitle()
         observeAppLock()
 
-        scheduleExecutions()
+        if (initData.cancelPendingExecutions) {
+            pendingExecutionsRepository.removeAllPendingExecutions()
+                .subscribe()
+                .attachTo(destroyer)
+        } else {
+            scheduleExecutions()
+        }
         updateLauncherShortcuts(categories)
 
         if (selectionMode === SelectionMode.NORMAL) {
@@ -541,5 +551,6 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         val initialCategoryId: CategoryId?,
         val widgetId: Int?,
         val importUrl: Uri?,
+        val cancelPendingExecutions: Boolean,
     )
 }

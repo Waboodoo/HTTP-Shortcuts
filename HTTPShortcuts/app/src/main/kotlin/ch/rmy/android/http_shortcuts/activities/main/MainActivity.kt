@@ -111,6 +111,7 @@ class MainActivity : BaseActivity(), Entrypoint {
                 initialCategoryId = intent?.extras?.getString(EXTRA_CATEGORY_ID),
                 widgetId = WidgetManager.getWidgetIdFromIntent(intent),
                 importUrl = intent?.extras?.getParcelable(EXTRA_IMPORT_URL),
+                cancelPendingExecutions = intent?.extras?.getBoolean(EXTRA_CANCEL_PENDING_EXECUTIONS) ?: false,
             )
         )
         initViews()
@@ -293,6 +294,10 @@ class MainActivity : BaseActivity(), Entrypoint {
         fun importUrl(importUrl: Uri) = also {
             intent.putExtra(EXTRA_IMPORT_URL, importUrl)
         }
+
+        fun cancelPendingExecutions() = also {
+            intent.putExtra(EXTRA_CANCEL_PENDING_EXECUTIONS, true)
+        }
     }
 
     companion object {
@@ -303,5 +308,6 @@ class MainActivity : BaseActivity(), Entrypoint {
         const val EXTRA_SELECTION_NAME = "ch.rmy.android.http_shortcuts.shortcut_name"
         private const val EXTRA_CATEGORY_ID = "ch.rmy.android.http_shortcuts.category_id"
         private const val EXTRA_IMPORT_URL = "ch.rmy.android.http_shortcuts.import_url"
+        private const val EXTRA_CANCEL_PENDING_EXECUTIONS = "ch.rmy.android.http_shortcuts.cancel_executions"
     }
 }

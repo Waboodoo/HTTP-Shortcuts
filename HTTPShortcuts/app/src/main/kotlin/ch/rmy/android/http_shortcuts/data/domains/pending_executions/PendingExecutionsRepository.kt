@@ -71,4 +71,11 @@ constructor(
             .map {
                 Optional(it.firstOrNull())
             }
+
+    fun removeAllPendingExecutions() =
+        commitTransaction {
+            getPendingExecutions()
+                .findAll()
+                .deleteAllFromRealm()
+        }
 }
