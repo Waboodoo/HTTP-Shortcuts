@@ -24,8 +24,9 @@ constructor(
                     }
             }
 
-    val language: String?
+    var language: String?
         get() = getString(KEY_LANGUAGE)?.takeUnless { it == LANGUAGE_DEFAULT }
+        set(value) = putString(KEY_LANGUAGE, value ?: LANGUAGE_DEFAULT)
 
     val clickBehavior: ShortcutClickBehavior
         get() = ShortcutClickBehavior.parse(getString(KEY_CLICK_BEHAVIOR))

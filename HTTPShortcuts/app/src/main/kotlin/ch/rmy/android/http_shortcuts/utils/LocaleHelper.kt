@@ -1,38 +1,48 @@
 package ch.rmy.android.http_shortcuts.utils
 
+import android.app.LocaleManager
+import android.content.Context
+import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.getSystemService
+import androidx.core.os.LocaleListCompat
+import ch.rmy.android.framework.extensions.runIfNotNull
 import java.util.Locale
 import javax.inject.Inject
 
 class LocaleHelper
 @Inject
 constructor(
+    private val context: Context,
     private val settings: Settings,
 ) {
 
-    private var deviceLocale: Locale? = null
-
     fun applyLocaleFromSettings() {
-        applyLocale(settings.language)
+        val storedPreferredLanguage = settings.language
+        if (Build.VERSION.SDK_INT >= 33) {
+            context.getSystemService<LocaleManager>()!!.applicationLocales
+                .get(0)
+                .let { locale ->
+                    if (locale?.language != storedPreferredLanguage?.split('-')?.first()) {
+                        settings.language = locale?.language.runIfNotNull(locale?.country) {
+                            plus("-$it")
+                        }
+                    }
+                }
+        }
+        applyLocale(storedPreferredLanguage)
     }
 
     fun applyLocale(locale: String?) {
-        if (deviceLocale == null) {
-            deviceLocale = Locale.getDefault()
-        }
         val preferredLocale = locale
             ?.let(::getLocale)
-            ?: run {
-                if (deviceLocale == Locale.getDefault()) {
-                    return
-                }
-                deviceLocale!!
-            }
         setLocale(preferredLocale)
     }
 
-    private fun setLocale(locale: Locale) {
-        // TODO: Re-enable this once there is a stable release of androidx.appcompat:appcompat:1.6+
-        // AppCompatDelegate.setApplicationLocales(LocaleListCompat.create(locale))
+    private fun setLocale(locale: Locale?) {
+        AppCompatDelegate.setApplicationLocales(
+            if (locale != null) LocaleListCompat.create(locale) else LocaleListCompat.getEmptyLocaleList()
+        )
     }
 
     private fun getLocale(localeSpec: String): Locale {

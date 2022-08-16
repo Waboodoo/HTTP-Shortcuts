@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.text.Html.ImageGetter
 import android.util.Base64
-import androidx.appcompat.graphics.drawable.DrawableWrapper
 import androidx.core.graphics.drawable.toDrawable
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.dimen
