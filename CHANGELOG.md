@@ -1,3 +1,13 @@
+## Version 2.23.0
+
+### Improvements
+- Added a mechanism to break the app out of an infinite loop of shortcuts triggering other shortcuts
+- Re-added the language picker
+- Added support for themed icons (Android 13 only)
+
+### Bugfixes
+- Browser shortcuts, Multi-shortcuts, and Scripting shortcuts no longer show the "Wait for connection" option, as it has no effect for them
+
 ## Version 2.22.0
 
 ### Improvements
