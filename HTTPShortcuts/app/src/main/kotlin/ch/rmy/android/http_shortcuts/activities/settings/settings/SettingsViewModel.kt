@@ -115,4 +115,8 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
     fun onLanguageChanged(newLanguage: String) {
         localeHelper.applyLocale(newLanguage.takeUnless { it == Settings.LANGUAGE_DEFAULT })
     }
+
+    fun onAddQuickSettingsTileButtonClicked() {
+        emitEvent(SettingsEvent.AddQuickSettingsTile)
+    }
 }

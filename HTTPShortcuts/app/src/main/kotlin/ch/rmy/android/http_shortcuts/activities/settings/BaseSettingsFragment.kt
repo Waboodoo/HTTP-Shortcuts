@@ -11,34 +11,35 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat() {
 
     protected val destroyer = Destroyer()
 
-    protected fun initPreference(key: String, action: () -> Unit = {}): Preference {
-        val preference = findPreference<Preference>(key)!!
-        preference.applyTheme()
-        preference.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-            action()
-            true
-        }
-        return preference
-    }
-
-    protected fun initListPreference(key: String, action: (newValue: Any) -> Unit = {}): ListPreference {
-        val preference = findPreference<ListPreference>(key)!!
-        preference.applyTheme()
-        preference.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
-            if (isAdded) {
-                updateSummary(preference, newValue)
-                action(newValue)
+    protected fun initPreference(key: String, isVisible: Boolean = true, action: () -> Unit = {}): Preference =
+        findPreference<Preference>(key)!!
+            .apply {
+                this.isVisible = isVisible
+                applyTheme()
+                onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                    action()
+                    true
+                }
             }
-            true
-        }
-        updateSummary(preference, null)
-        return preference
-    }
 
-    private fun updateSummary(preference: ListPreference, value: Any?) {
-        val index = preference.findIndexOfValue((value ?: preference.value) as String?)
+    protected fun initListPreference(key: String, action: (newValue: Any) -> Unit = {}): ListPreference =
+        findPreference<ListPreference>(key)!!
+            .apply {
+                applyTheme()
+                onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
+                    if (isAdded) {
+                        updateSummary(newValue)
+                        action(newValue)
+                    }
+                    true
+                }
+                updateSummary(null)
+            }
+
+    private fun ListPreference.updateSummary(value: Any?) {
+        val index = findIndexOfValue((value ?: this.value) as String?)
             .takeUnless { it == -1 }
-        preference.summary = preference.entries[index ?: 0]
+        summary = entries[index ?: 0]
     }
 
     protected fun showSnackbar(message: CharSequence) {

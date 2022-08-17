@@ -1,11 +1,17 @@
 package ch.rmy.android.http_shortcuts.activities.settings.settings
 
 import android.app.Activity
+import android.app.StatusBarManager
+import android.app.StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_ADDED
+import android.app.StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_ALREADY_ADDED
 import android.content.ActivityNotFoundException
+import android.content.ComponentName
 import android.content.Intent
+import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.preference.Preference
 import ch.rmy.android.framework.extensions.bindViewModel
@@ -17,6 +23,7 @@ import ch.rmy.android.framework.extensions.showSnackbar
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.settings.BaseSettingsFragment
@@ -52,6 +59,28 @@ class SettingsActivity : BaseActivity() {
         viewModel.events.observe(this, ::handleEvent)
     }
 
+    override fun handleEvent(event: ViewModelEvent) {
+        when (event) {
+            is SettingsEvent.AddQuickSettingsTile -> addQuickSettingsTile()
+            else -> super.handleEvent(event)
+        }
+    }
+
+    private fun addQuickSettingsTile() {
+        if (Build.VERSION.SDK_INT >= 33) {
+            getSystemService<StatusBarManager>()!!.requestAddTileService(
+                ComponentName.createRelative(context, "ch.rmy.android.http_shortcuts.tiles.QuickTileService"),
+                getString(R.string.action_quick_settings_tile_trigger),
+                Icon.createWithResource(context, R.drawable.ic_quick_settings_tile),
+                mainExecutor,
+            ) { result ->
+                if (result == TILE_ADD_REQUEST_RESULT_TILE_ALREADY_ADDED || result == TILE_ADD_REQUEST_RESULT_TILE_ADDED) {
+                    showSnackbar(R.string.message_quick_settings_tile_added)
+                }
+            }
+        }
+    }
+
     class SettingsFragment : BaseSettingsFragment() {
 
         private val viewModel: SettingsViewModel
@@ -80,6 +109,10 @@ class SettingsActivity : BaseActivity() {
                 viewModel.onChangeTitleButtonClicked()
             }
 
+            initPreference("quick_settings_tile", isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                viewModel.onAddQuickSettingsTileButtonClicked()
+            }
+
             initPreference("lock_settings") {
                 viewModel.onLockAppButtonClicked()
             }
@@ -88,22 +121,19 @@ class SettingsActivity : BaseActivity() {
                 openGlobalScriptingEditor()
             }
 
-            if (Logging.supportsCrashReporting) {
-                initListPreference("crash_reporting") { newValue ->
-                    if (newValue == "false") {
-                        Logging.disableCrashReporting(requireContext())
-                    }
+            findPreference<Preference>("privacy")!!.isVisible = Logging.supportsCrashReporting
+            initListPreference("crash_reporting") { newValue ->
+                if (newValue == "false") {
+                    Logging.disableCrashReporting(requireContext())
                 }
-            } else {
-                findPreference<Preference>("privacy")!!.isVisible = false
             }
 
             initPreference("clear_cookies") {
                 viewModel.onClearCookiesButtonClicked()
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                initPreference("allow_overlay") {
+            initPreference("allow_overlay", isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     try {
                         startActivity(
                             Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
@@ -113,26 +143,23 @@ class SettingsActivity : BaseActivity() {
                         showSnackbar(R.string.error_not_supported)
                     }
                 }
-            } else {
-                findPreference<Preference>("allow_overlay")!!.isVisible = false
             }
 
-            if (Build.MANUFACTURER?.equals("xiaomi", ignoreCase = true) == true) {
-                initPreference("allow_overlay_xiaomi") {
-                    try {
-                        startActivity(
-                            Intent("miui.intent.action.APP_PERM_EDITOR")
-                                .setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity")
-                                .putExtra("extra_pkgname", requireContext().packageName)
-                        )
-                    } catch (e: ActivityNotFoundException) {
-                        showSnackbar(R.string.error_not_supported)
-                    }
+            initPreference("allow_overlay_xiaomi", isVisible = isXiaomiDevice()) {
+                try {
+                    startActivity(
+                        Intent("miui.intent.action.APP_PERM_EDITOR")
+                            .setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity")
+                            .putExtra("extra_pkgname", requireContext().packageName)
+                    )
+                } catch (e: ActivityNotFoundException) {
+                    showSnackbar(R.string.error_not_supported)
                 }
-            } else {
-                findPreference<Preference>("allow_overlay_xiaomi")!!.isVisible = false
             }
         }
+
+        private fun isXiaomiDevice() =
+            Build.MANUFACTURER?.equals("xiaomi", ignoreCase = true) == true
 
         private fun restartToApplyThemeChanges() {
             requireActivity().apply {

@@ -652,6 +652,10 @@
     <string name="settings_lock_app_title">Lock Settings</string>
     <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
     <string name="settings_lock_app_summary">Prevent changes to shortcuts and settings</string>
+    <!-- Title of section in settings that allows user to add a quick settings tile. -->
+    <string name="settings_add_quick_settings_tile_title">Quick Settings Tile</string>
+    <!-- Summary/subtitle of section in settings that allows user to add a quick settings tile. -->
+    <string name="settings_add_quick_settings_tile_summary">Add a tile to quickly trigger shortcuts from the notification shade</string>
     <!-- Title of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_title">App Title</string>
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
@@ -1267,4 +1271,6 @@
     <string name="instructions_search_no_results">No results</string>
     <!-- Status message shown while some data or files are being processed, e.g. for sharing -->
     <string name="generic_processing_in_progress">Processing…</string>
+    <!-- Message: shown in snackbar, indicates to the user that the app's quick settings tile was successfully added to the device's notification shade -->
+    <string name="message_quick_settings_tile_added">Quick Settings tile added.</string>
 </resources>

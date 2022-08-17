@@ -50,6 +50,12 @@
             app:summary="@string/settings_lock_app_summary"
             app:title="@string/settings_lock_app_title" />
 
+        <Preference
+            app:icon="@drawable/ic_add_quick_settings_tile"
+            app:key="quick_settings_tile"
+            app:summary="@string/settings_add_quick_settings_tile_summary"
+            app:title="@string/settings_add_quick_settings_tile_title" />
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_title_scripting">
