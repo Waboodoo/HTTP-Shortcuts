@@ -1833,7 +1833,7 @@ Trotzdem löschen?"</string>
     <string name="message_variables_sorted">"Variablen sortiert."</string>
 
     <!-- Description for type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant_description">"Speichert einen konstanten Werte. Dieser kann mit dem 'Scripting' feature dynamisch verändert werden."</string>
+    <string name="variable_type_constant_description">"Speichert einen konstanten Wert. Dieser kann mit dem 'Scripting'-Feature dynamisch verändert werden."</string>
 
     <!-- Description for type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text_description">"Zeigt ein Dialogfenster mit einem Text-Eingabefeld an"</string>
@@ -1848,7 +1848,7 @@ Trotzdem löschen?"</string>
     <string name="variable_type_password_description">"Zeigt ein Dialogfenster mit einem Passwort-Eingabefeld an"</string>
 
     <!-- Description for type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
-    <string name="variable_type_select_description">"Zeigt ein Auswahl-Dialogfenster zur Wahl eines oder mehrerer Werte an"</string>
+    <string name="variable_type_select_description">"Zeigt ein Dialogfenster zur Auswahl eines oder mehrerer Werte an"</string>
 
     <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle_description">"Wechselt automatisch auf einen anderen Wert bei jeder Verwendung"</string>
@@ -1893,7 +1893,7 @@ Trotzdem löschen?"</string>
     <string name="variable_type_uuid">"UUID"</string>
 
     <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
-    <string name="variable_type_uuid_description">"Generiert eine neue zufällige UUID bei jeder Ausführung"</string>
+    <string name="variable_type_uuid_description">"Generiert eine neue zufällige UUID bei jeder Verwendung"</string>
 
     <!-- Type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
     <string name="variable_type_clipboard">"Zwischenablagen-Inhalt"</string>
@@ -1903,4 +1903,19 @@ Trotzdem löschen?"</string>
 
     <!-- Status message shown while some data or files are being processed, e.g. for sharing -->
     <string name="generic_processing_in_progress">"In Bearbeitung…"</string>
+
+    <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
+    <string name="settings_donate">"Spenden"</string>
+
+    <!-- Button subtitle, for option to open the app's Donate page in a browser, for users who wish to support the app -->
+    <string name="settings_donate_summary">"Wenn dir die App gefällt, spendiere mir doch ein Getränk"</string>
+
+    <!-- Title of section in settings that allows user to add a quick settings tile. -->
+    <string name="settings_add_quick_settings_tile_title">"Quick Settings Tile"</string>
+
+    <!-- Summary/subtitle of section in settings that allows user to add a quick settings tile. -->
+    <string name="settings_add_quick_settings_tile_summary">"Führe Shortcuts mit einem Klick in der Benachrichtigungsleiste aus"</string>
+
+    <!-- Message: shown in snackbar, indicates to the user that the app's quick settings tile was successfully added to the device's notification shade -->
+    <string name="message_quick_settings_tile_added">"Quick Settings Tile hinzugefügt."</string>
 </resources>
