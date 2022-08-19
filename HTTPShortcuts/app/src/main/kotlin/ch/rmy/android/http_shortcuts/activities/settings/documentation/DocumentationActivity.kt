@@ -46,6 +46,7 @@ class DocumentationActivity : BaseActivity() {
 
     private fun initViews(savedState: Bundle?) {
         binding = applyBinding(ActivityDocumentationBinding.inflate(layoutInflater))
+        setTitle(R.string.title_documentation)
         binding.webView.initWebView()
         savedState?.let(binding.webView::restoreState)
     }
