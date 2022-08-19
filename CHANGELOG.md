@@ -1,11 +1,17 @@
 ## Version 2.23.0
 
 ### Improvements
+- All documentation is now bundled into the app, allowing you to read it even when offline and without having to leave the app
 - Added a mechanism to break the app out of an infinite loop of shortcuts triggering other shortcuts
 - Re-added the language picker
+- It is now possible set up the quick settings tile directly from the settings screen (Android 13 only)
 - Added support for themed icons (Android 13 only)
 
+### Miscellaneous
+- Rearranged the settings a bit for more clarity
+
 ### Bugfixes
+- Shortcuts with a delay are no longer delayed twice in a row when triggered from a Multi-Shortcut or via `enqueueShortcut()`
 - Browser shortcuts, Multi-shortcuts, and Scripting shortcuts no longer show the "Wait for connection" option, as it has no effect for them
 
 ## Version 2.22.0
