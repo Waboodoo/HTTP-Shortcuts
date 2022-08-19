@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.getParcelable
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -33,7 +34,7 @@ class ShareActivity : BaseActivity(), Entrypoint {
 
     private fun getFileUris(): List<Uri> =
         if (intent.action == Intent.ACTION_SEND) {
-            intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)?.let { listOf(it) }
+            intent.getParcelable<Uri>(Intent.EXTRA_STREAM)?.let { listOf(it) }
         } else {
             intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM)
         }

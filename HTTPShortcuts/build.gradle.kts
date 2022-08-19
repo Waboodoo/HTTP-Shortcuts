@@ -1,7 +1,3 @@
-import org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor
-import org.intellij.markdown.html.HtmlGenerator
-import org.intellij.markdown.parser.MarkdownParser
-
 buildscript {
     repositories {
         mavenCentral()
@@ -51,23 +47,5 @@ allprojects {
                 "insert_final_newline" to "true",
             ))
         }
-    }
-}
-
-tasks.register("syncChangeLog") {
-    description = "copies the CHANGELOG.md file's content into the app so it can be displayed"
-
-    doLast {
-        val changelogMarkdown = File("../CHANGELOG.md").readText()
-        val template = File("changelog_template.html").readText()
-        val flavour = CommonMarkFlavourDescriptor()
-        val parsedTree = MarkdownParser(flavour).buildMarkdownTreeFromString(changelogMarkdown)
-        val html = HtmlGenerator(changelogMarkdown, parsedTree, flavour)
-            .generateHtml()
-            .removePrefix("<body>")
-            .removeSuffix("</body>")
-        File("app/src/main/assets/changelog.html").writeText(
-            template.replace("<!-- CONTENT -->", html)
-        )
     }
 }

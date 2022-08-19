@@ -1273,4 +1273,8 @@
     <string name="generic_processing_in_progress">Processing…</string>
     <!-- Message: shown in snackbar, indicates to the user that the app's quick settings tile was successfully added to the device's notification shade -->
     <string name="message_quick_settings_tile_added">Quick Settings tile added.</string>
+    <!-- Title: Shown on the Documentation screen, where users can read through the app's documentation -->
+    <string name="title_documentation">Documentation</string>
+    <!-- Button text: Shown on Documentation screen, allows to view the current page in the external browser -->
+    <string name="button_open_documentation_in_browser">Open in browser</string>
 </resources>

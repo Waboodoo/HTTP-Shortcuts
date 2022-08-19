@@ -6,6 +6,7 @@ import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.usecases.GetChangeLogDialogUseCase
+import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.Settings
 import javax.inject.Inject
 
@@ -35,5 +36,9 @@ class AboutViewModel(application: Application) : BaseViewModel<Unit, AboutViewSt
         updateViewState {
             copy(dialogState = getChangeLogDialog())
         }
+    }
+
+    fun onDocumentationButtonClicked() {
+        openURL(ExternalURLs.DOCUMENTATION_PAGE)
     }
 }

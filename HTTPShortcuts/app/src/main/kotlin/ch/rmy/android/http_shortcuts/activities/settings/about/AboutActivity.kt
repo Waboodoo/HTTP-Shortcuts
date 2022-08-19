@@ -77,7 +77,7 @@ class AboutActivity : BaseActivity() {
             }
 
             initPreference("documentation") {
-                openURL(ExternalURLs.DOCUMENTATION_PAGE)
+                viewModel.onDocumentationButtonClicked()
             }
 
             if (InstallUtil.isAppInstalledFromPlayStore(requireContext())) {

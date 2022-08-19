@@ -1,9 +1,14 @@
 package ch.rmy.android.http_shortcuts.activities
 
 import android.os.Bundle
+import androidx.core.net.toUri
+import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.ui.BaseActivity
 import ch.rmy.android.framework.ui.Entrypoint
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.settings.documentation.DocumentationActivity
+import ch.rmy.android.http_shortcuts.activities.settings.documentation.DocumentationUrlManager
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.RealmFactory
@@ -69,4 +74,20 @@ abstract class BaseActivity : BaseActivity() {
 
     override fun computeStatusBarColor(): Int =
         themeHelper.statusBarColor
+
+    override fun handleEvent(event: ViewModelEvent) {
+        when (event) {
+            is ViewModelEvent.OpenURL -> {
+                val uri = event.url.toUri()
+                if (DocumentationUrlManager.canHandle(uri)) {
+                    DocumentationActivity.IntentBuilder()
+                        .url(uri)
+                        .startActivity(this)
+                } else {
+                    super.handleEvent(event)
+                }
+            }
+            else -> super.handleEvent(event)
+        }
+    }
 }

@@ -6,4 +6,6 @@ build/
 *.aab
 app/release
 app/releaseFull
+app/src/main/assets/changelog.html
+app/src/main/assets/docs/*.html
 /captures/

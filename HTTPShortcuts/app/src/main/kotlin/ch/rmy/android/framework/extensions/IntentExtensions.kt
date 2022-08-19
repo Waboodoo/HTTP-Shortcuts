@@ -3,6 +3,7 @@ package ch.rmy.android.framework.extensions
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.activity.result.ActivityResultLauncher
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
@@ -38,3 +39,7 @@ fun IntentBuilder.startActivity(context: Context) {
 fun <T : Any?> ActivityResultLauncher<T>.launch(options: ActivityOptionsCompat? = null) {
     launch(null, options)
 }
+
+@Suppress("DEPRECATION")
+inline fun <reified T : Any?> Intent.getParcelable(key: String): T? =
+    if (Build.VERSION.SDK_INT >= 33) getParcelableExtra(key, T::class.java) else getParcelableExtra(key)

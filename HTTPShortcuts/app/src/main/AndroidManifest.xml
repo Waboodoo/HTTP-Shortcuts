@@ -292,6 +292,11 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
+            android:name=".activities.settings.documentation.DocumentationActivity"
+            android:label="@string/title_documentation"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name=".activities.misc.deeplink.DeepLinkActivity"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"

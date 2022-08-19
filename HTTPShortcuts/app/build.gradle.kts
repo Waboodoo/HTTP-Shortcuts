@@ -1,3 +1,8 @@
+import com.android.build.gradle.internal.tasks.factory.dependsOn
+import org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor
+import org.intellij.markdown.html.HtmlGenerator
+import org.intellij.markdown.parser.MarkdownParser
+
 plugins {
     id("de.jansauer.poeditor") version "1.1.0"
     id("com.android.application")
@@ -161,6 +166,9 @@ android {
     sourceSets.getByName("releaseFull") {
         java.setSrcDirs(listOf("src/withCrashLogging/kotlin", "src/withGoogleServices/kotlin"))
     }
+
+    project.tasks.preBuild.dependsOn("syncDocumentation")
+    project.tasks.preBuild.dependsOn("syncChangeLog")
 }
 
 bugsnag {
@@ -266,4 +274,59 @@ poeditor {
         "sync_terms" to true,
     ))
     // translation definitions omitted as the plugin currently does not support filtering by "translated" status, making its pull feature unusable
+}
+
+fun generateHtmlFromMarkdown(inputFile: String, outputFile: String, templateFile: String, mutate: String.() -> String = { this }) {
+    val changelogMarkdown = File("../$inputFile").readText()
+    val template = File(templateFile).readText()
+    val flavour = CommonMarkFlavourDescriptor()
+    val parsedTree = MarkdownParser(flavour).buildMarkdownTreeFromString(changelogMarkdown)
+    val html = HtmlGenerator(changelogMarkdown, parsedTree, flavour)
+        .generateHtml()
+        .removePrefix("<body>")
+        .removeSuffix("</body>")
+        .mutate()
+    File("app/src/main/assets/$outputFile").writeText(
+        template.replace("<!-- CONTENT -->", html)
+    )
+}
+
+tasks.register("syncChangeLog") {
+    description = "copies the CHANGELOG.md file's content into the app so it can be displayed"
+
+    doFirst {
+        generateHtmlFromMarkdown(
+            inputFile = "CHANGELOG.md",
+            outputFile = "changelog.html",
+            templateFile = "changelog_template.html",
+        )
+    }
+}
+
+tasks.register("syncDocumentation") {
+    description = "copies the documentation markdown files' contents into the app so they can be displayed"
+
+    val files = listOf(
+        "categories",
+        "documentation",
+        "execution-flow",
+        "faq",
+        "import-export",
+        "introduction",
+        "scripting",
+        "shortcuts",
+        "variables",
+    )
+
+    doFirst {
+        files.forEach { fileName ->
+            generateHtmlFromMarkdown(
+                inputFile = "docs/$fileName.md",
+                outputFile = "docs/$fileName.html",
+                templateFile = "documentation_template.html",
+            ) {
+                replace("src=\"../", "src=\"https://http-shortcuts.rmy.ch/")
+            }
+        }
+    }
 }
