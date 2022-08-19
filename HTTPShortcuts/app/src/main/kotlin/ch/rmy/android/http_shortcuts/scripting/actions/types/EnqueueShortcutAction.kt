@@ -39,7 +39,7 @@ class EnqueueShortcutAction(
         }
         return shortcutRepository.getShortcutByNameOrId(shortcutNameOrId ?: executionContext.shortcutId)
             .flatMapCompletable { shortcut ->
-                val delay = delay ?: shortcut.delay
+                val delay = delay ?: 0
                 pendingExecutionsRepository.createPendingExecution(
                     shortcutId = shortcut.id,
                     resolvedVariables = variableValues?.mapValues { it.value?.toString() ?: "" } ?: emptyMap(),
