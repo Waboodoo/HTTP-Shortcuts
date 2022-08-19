@@ -21,9 +21,9 @@ When creating a variable, you have to select its type. The type dictates how the
 <a name="constant"></a>
 ### Static Variable
 
-A *static variable* (formerly called *constant*) stores a static value, until explicitly changed. A typical use case is to store a piece of information that is shared across multiple shortcut, such as an authentication token or a domain name. This way it can easily be changed.
+A *static variable* (formerly called *constant*) stores a static value. A typical use case is to store a piece of information that is shared across multiple shortcuts, such as an authentication token or a domain name. This way it can easily be changed.
 
-It is also possible to change the value of a static variable programmatically before or after a shortcut runs, e.g., to store parts of a HTTP response into it. See the [Scripting](scripting.md#variables) documentation for more details.
+It is also possible to change the value of a static variable programmatically before or after a shortcut runs, e.g., to store parts of an HTTP response into it. See the [Scripting](scripting.md#variables) documentation for more details.
 
 <a name="multiple-choice"></a>
 ### Multiple-Choice

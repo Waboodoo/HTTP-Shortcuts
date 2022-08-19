@@ -145,7 +145,7 @@ With this function you can display a toast message on the screen. Simply pass yo
 showToast('Hello World');
 ```
 
-Please note that no toast will be displayed if the string you pass is empty.
+Please note that no toast will be displayed if the string you pass is empty. Also note that a toast will show at most two lines of text, so it is best suited for short messages.
 
 <a name="show-dialog"></a>
 ### showDialog

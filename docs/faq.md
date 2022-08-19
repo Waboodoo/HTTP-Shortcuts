@@ -41,7 +41,7 @@ Currently there is no such functionality in the app, or only in a very limited m
 
 ## Can I trigger a shortcut with text shared from another app? Can I share text (e.g. a link) into a shortcut?
 
-If you want to share text via a HTTP shortcut, you can do so like this:
+If you want to share text via an HTTP shortcut, you can do so like this:
 
 1. Open the app
 2. Open the dropdown menu at the top right and select *Variables*
