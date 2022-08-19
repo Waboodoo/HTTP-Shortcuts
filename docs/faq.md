@@ -61,6 +61,10 @@ If you want to share text via a HTTP shortcut, you can do so like this:
 
 If you want to share a file, you can so by opening the *Request Body / Parameters* section in the shortcut editor and there either set the *Request Body Type* to *File (Picker)* or set it to *Parameters (form-data)* and then add a parameter of type *Single File* or *Multiple Files*. After that save your changes. You should now be able to share files into the HTTP Shortcuts app and it will allow you to pick the shortcut as a target. This will execute the shortcut and it will use the content of the shared file as the request body or as a form parameter.
 
+## Can I pass values from one shortcut to another?
+
+Yes, you can. To do so, you need to first create a [global variable](variables.md) (of static type) to hold the value. You can then use the [Scripting](scripting.md) feature to store a value into that variable from one of your shortcuts and then use or read out the value again in the other shortcut. To store a value into a variable, use the [setVariable](scripting.md#variables) function.
+
 ## How do I pass variables from Tasker to HTTP Shortcuts?
 
 You can use [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) to trigger a shortcut. To pass a value from Tasker to HTTP Shortcuts you need to create a variable of type *Static Variable* in HTTP Shortcuts and a global variable with the same name in Tasker. Make sure to do so BEFORE you select the shortcut from Tasker. All global variables that have matching variables in HTTP Shortcuts are automatically passed over.
