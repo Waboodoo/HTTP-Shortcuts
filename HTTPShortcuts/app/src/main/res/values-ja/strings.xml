@@ -1894,4 +1894,19 @@
 
     <!-- Status message shown while some data or files are being processed, e.g. for sharing -->
     <string name="generic_processing_in_progress">"処理中…"</string>
+
+    <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
+    <string name="settings_donate">"寄付"</string>
+
+    <!-- Button subtitle, for option to open the app's Donate page in a browser, for users who wish to support the app -->
+    <string name="settings_donate_summary">"感謝を表しに一杯おごってくれますか？"</string>
+
+    <!-- Title of section in settings that allows user to add a quick settings tile. -->
+    <string name="settings_add_quick_settings_tile_title">"クイック設定タイル"</string>
+
+    <!-- Summary/subtitle of section in settings that allows user to add a quick settings tile. -->
+    <string name="settings_add_quick_settings_tile_summary">"通知領域から素早くショートカットをトリガーするタイルを追加"</string>
+
+    <!-- Message: shown in snackbar, indicates to the user that the app's quick settings tile was successfully added to the device's notification shade -->
+    <string name="message_quick_settings_tile_added">"クイック設定タイルを追加しました"</string>
 </resources>
