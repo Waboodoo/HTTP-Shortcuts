@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.data.migration.migrations.ParameterTypeMigr
 import ch.rmy.android.http_shortcuts.data.migration.migrations.RemoveLegacyActionsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
+import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseActionMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseHandlingMigration
 import io.realm.DynamicRealm
 import io.realm.DynamicRealmObject
@@ -382,6 +383,9 @@ class DatabaseMigration : RealmMigration {
                 schema.get("Variable")!!
                     .addField("message", String::class.java, FieldAttribute.REQUIRED)
             }
+            53L -> { // 2.23.0
+                ResponseActionMigration.migrateRealm(realm)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -407,6 +411,6 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 52L
+        const val VERSION = 53L
     }
 }

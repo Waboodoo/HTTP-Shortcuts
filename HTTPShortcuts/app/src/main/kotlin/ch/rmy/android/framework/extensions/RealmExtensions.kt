@@ -20,7 +20,7 @@ fun <T : RealmObject> RealmList<T>.detachFromRealm(): List<T> =
     realm?.copyFromRealm(this) ?: this
 
 fun <T : RealmObject, ID : Any> RealmList<T>.swap(id1: ID, id2: ID, getId: T.() -> ID) {
-    val oldPosition = indexOfFirst { it.getId() == id1 }.takeUnless { it == -1 } ?: return
-    val newPosition = indexOfFirst { it.getId() == id2 }.takeUnless { it == -1 } ?: return
+    val oldPosition = indexOfFirstOrNull { it.getId() == id1 } ?: return
+    val newPosition = indexOfFirstOrNull { it.getId() == id2 } ?: return
     move(oldPosition, newPosition)
 }

@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
+import ch.rmy.android.framework.extensions.indexOfFirstOrNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -38,9 +39,8 @@ data class MainViewState(
         get() = toolbarTitle.takeUnlessEmpty()?.toLocalizable() ?: StringResLocalizable(R.string.app_name)
 
     val activeCategoryIndex: Int
-        get() = categoryTabItems.indexOfFirst { category ->
+        get() = categoryTabItems.indexOfFirstOrNull { category ->
             category.categoryId == activeCategoryId
         }
-            .takeUnless { it == -1 }
             ?: 0
 }

@@ -16,16 +16,21 @@ import androidx.activity.result.contract.ActivityResultContract
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
+import ch.rmy.android.framework.extensions.getParcelable
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.framework.extensions.showSnackbar
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseImageBinding
 import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponsePlainBinding
 import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseSyntaxHighlightingBinding
@@ -49,8 +54,12 @@ import ch.rmy.android.http_shortcuts.utils.SizeLimitedReader
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class DisplayResponseActivity : BaseActivity() {
+
+    @Inject
+    lateinit var clipboardUtil: ClipboardUtil
 
     private val openFilePicker = registerForActivityResult(OpenFilePicker) { file ->
         file?.let(::saveResponseToFile)
@@ -73,7 +82,7 @@ class DisplayResponseActivity : BaseActivity() {
             ?: ""
     }
     private val responseFileUri: Uri? by lazy {
-        intent?.extras?.getParcelable(EXTRA_RESPONSE_FILE_URI)
+        intent?.getParcelable(EXTRA_RESPONSE_FILE_URI)
     }
     private val type: String? by lazy {
         intent?.extras?.getString(EXTRA_TYPE)
@@ -92,6 +101,14 @@ class DisplayResponseActivity : BaseActivity() {
     }
     private val showDetails: Boolean by lazy {
         intent?.extras?.getBoolean(EXTRA_DETAILS, false) ?: false
+    }
+    private val actions: List<ResponseDisplayAction> by lazy {
+        (intent?.extras?.getStringArrayList(EXTRA_ACTIONS) ?: emptyList())
+            .mapNotNull(ResponseDisplayAction::parse)
+    }
+
+    override fun inject(applicationComponent: ApplicationComponent) {
+        getApplicationComponent().inject(this)
     }
 
     override fun onCreated(savedState: Bundle?) {
@@ -216,27 +233,55 @@ class DisplayResponseActivity : BaseActivity() {
         }
     }
 
+    private val actionMap: MutableMap<Int, ResponseDisplayAction> = mutableMapOf()
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.display_response_activity_menu, menu)
-        menu.findItem(R.id.action_share_response).isVisible = canShare()
-        menu.findItem(R.id.action_save_response_as_file).isVisible = canExport()
+        actions.forEachIndexed { index, action ->
+            val id = index + 100
+            actionMap[id] = action
+            when (action) {
+                ResponseDisplayAction.RERUN -> {
+                    menu.add(0, id, index, R.string.action_rerun_shortcut)
+                        .setIcon(R.drawable.ic_rerun)
+                }
+                ResponseDisplayAction.SHARE -> {
+                    menu.add(0, id, index, R.string.share_button)
+                        .setIcon(R.drawable.ic_share)
+                        .setVisible(canShare())
+                }
+                ResponseDisplayAction.COPY -> {
+                    menu.add(0, id, index, R.string.action_copy_response)
+                        .setIcon(R.drawable.ic_copy)
+                        .setVisible(canCopy())
+                }
+                ResponseDisplayAction.SAVE -> {
+                    menu.add(0, id, index, R.string.button_save_response_as_file)
+                        .setIcon(R.drawable.ic_save_file)
+                        .setVisible(canExport())
+                }
+            }
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+        }
         return super.onCreateOptionsMenu(menu)
     }
 
     private fun canShare() =
         text.isNotEmpty() && responseFileUri != null
 
+    private fun canCopy() =
+        text.isNotEmpty() && text.length < MAX_COPY_LENGTH
+
     private fun canExport() =
         text.isNotEmpty() && responseFileUri != null
 
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_rerun -> consume { rerunShortcut() }
-        R.id.action_share_response -> consume { shareResponse() }
-        R.id.action_save_response_as_file -> consume {
-            openFilePicker()
+    override fun onOptionsItemSelected(item: MenuItem) =
+        when (actionMap[item.itemId]) {
+            ResponseDisplayAction.RERUN -> consume { rerunShortcut() }
+            ResponseDisplayAction.SHARE -> consume { shareResponse() }
+            ResponseDisplayAction.COPY -> consume { copyResponse() }
+            ResponseDisplayAction.SAVE -> consume { openFilePicker() }
+            else -> super.onOptionsItemSelected(item)
         }
-        else -> super.onOptionsItemSelected(item)
-    }
 
     private fun rerunShortcut() {
         ExecuteActivity.IntentBuilder(shortcutId)
@@ -261,6 +306,10 @@ class DisplayResponseActivity : BaseActivity() {
 
     private fun shouldShareAsText() =
         !isImage(type) && text.length < MAX_SHARE_LENGTH
+
+    private fun copyResponse() {
+        clipboardUtil.copyToClipboard(text)
+    }
 
     private fun openFilePicker() {
         suppressAutoClose = true
@@ -400,6 +449,10 @@ class DisplayResponseActivity : BaseActivity() {
         fun timing(timing: Long?) = also {
             intent.putExtra(EXTRA_TIMING, timing ?: return@also)
         }
+
+        fun actions(actions: List<ResponseDisplayAction>) = also {
+            intent.putStringArrayListExtra(EXTRA_ACTIONS, ArrayList(actions.map { it.key }))
+        }
     }
 
     companion object {
@@ -413,9 +466,11 @@ class DisplayResponseActivity : BaseActivity() {
         private const val EXTRA_STATUS_CODE = "status_code"
         private const val EXTRA_TIMING = "timing"
         private const val EXTRA_DETAILS = "details"
+        private const val EXTRA_ACTIONS = "actions"
 
         private const val MAX_TEXT_LENGTH = 700000
         private const val MAX_SHARE_LENGTH = 300000
+        private const val MAX_COPY_LENGTH = 300000
         private const val FINISH_DELAY = 8000L
 
         private const val CONTENT_SIZE_LIMIT = 2 * 1000L * 1000L

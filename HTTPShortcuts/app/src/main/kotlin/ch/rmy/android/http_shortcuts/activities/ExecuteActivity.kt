@@ -27,6 +27,7 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.ui.Entrypoint
+import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.framework.utils.DateUtil
 import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -41,6 +42,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
+import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
@@ -79,6 +81,7 @@ import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import ch.rmy.android.http_shortcuts.utils.ProgressIndicator
 import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
@@ -124,6 +127,9 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     @Inject
     lateinit var variableResolver: VariableResolver
+
+    @Inject
+    lateinit var clipboardUtil: ClipboardUtil
 
     private val viewModel: ExecuteViewModel by bindViewModel()
 
@@ -739,6 +745,31 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                         }
                     }
                     .positive(R.string.dialog_ok)
+                    .runIfNotNull(shortcut.responseHandling?.displayActions?.firstOrNull()) { action ->
+                        val text = output ?: response?.getContentAsString(context) ?: ""
+                        when (action) {
+                            ResponseDisplayAction.RERUN -> {
+                                neutral(R.string.action_rerun_shortcut) {
+                                    rerunShortcut()
+                                }
+                            }
+                            ResponseDisplayAction.SHARE -> {
+                                runIf(text.isNotEmpty() && text.length < MAX_SHARE_LENGTH) {
+                                    neutral(R.string.share_button) {
+                                        shareResponse(text, response?.contentType ?: "", response?.contentFile)
+                                    }
+                                }
+                            }
+                            ResponseDisplayAction.COPY -> {
+                                runIf(text.isNotEmpty() && text.length < MAX_COPY_LENGTH) {
+                                    neutral(R.string.share_button) {
+                                        copyResponse(text)
+                                    }
+                                }
+                            }
+                            ResponseDisplayAction.SAVE -> this
+                        }
+                    }
                     .showAsCompletable()
             }
             ResponseHandlingModel.UI_TYPE_WINDOW -> {
@@ -761,11 +792,40 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                             .headers(response?.headers)
                             .statusCode(response?.statusCode)
                     }
+                    .actions(shortcut.responseHandling?.displayActions ?: emptyList())
                     .startActivity(this)
                 Completable.complete()
             }
             else -> Completable.complete()
         }
+
+    private fun rerunShortcut() {
+        IntentBuilder(shortcut.id)
+            .startActivity(context)
+        finishWithoutAnimation()
+    }
+
+    private fun shareResponse(text: String, type: String, responseFileUri: Uri?) {
+        if (shouldShareAsText(text, type)) {
+            ShareUtil.shareText(context, text)
+        } else {
+            Intent(Intent.ACTION_SEND)
+                .setType(type)
+                .putExtra(Intent.EXTRA_STREAM, responseFileUri)
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                .let {
+                    Intent.createChooser(it, shortcutName)
+                }
+                .startActivity(this)
+        }
+    }
+
+    private fun shouldShareAsText(text: String, type: String) =
+        !isImage(type) && text.length < MAX_SHARE_LENGTH
+
+    private fun copyResponse(text: String) {
+        clipboardUtil.copyToClipboard(text)
+    }
 
     private fun resumeAfterFileRequest(fileUris: List<Uri>?) {
         if (fileUploadManager == null) {
@@ -846,6 +906,8 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         private const val MAX_RETRY = 5
         private const val RETRY_BACKOFF = 2.4
 
+        private const val MAX_SHARE_LENGTH = 300000
+        private const val MAX_COPY_LENGTH = 300000
         private const val TOAST_MAX_LENGTH = 400
 
         private const val INVISIBLE_PROGRESS_THRESHOLD = 1000L

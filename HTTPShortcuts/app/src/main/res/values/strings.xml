@@ -554,6 +554,8 @@
     <string name="share_title">Share…</string>
     <!-- Menu button shown on response window, allows the user to execute the current shortcut again -->
     <string name="action_rerun_shortcut">Rerun</string>
+    <!-- Menu button shown on response window, allows the user to copy the response into the clipboard -->
+    <string name="action_copy_response">Copy</string>
     <!-- Menu button, allows saving a response as a file -->
     <string name="button_save_response_as_file">Save as file</string>
     <!-- Section title, for section in variable editor containing options specific to the variable type -->

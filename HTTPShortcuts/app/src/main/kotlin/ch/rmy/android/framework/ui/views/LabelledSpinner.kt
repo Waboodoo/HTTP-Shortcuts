@@ -7,6 +7,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.res.use
+import ch.rmy.android.framework.extensions.indexOfFirstOrNull
 import ch.rmy.android.framework.extensions.layoutInflater
 import ch.rmy.android.http_shortcuts.databinding.LabelledSpinnerBinding
 import io.reactivex.Observable
@@ -61,8 +62,7 @@ class LabelledSpinner @JvmOverloads constructor(
     var selectedItem: String = ""
         set(value) {
             val index = items
-                .indexOfFirst { it.key == value }
-                .takeUnless { it == -1 }
+                .indexOfFirstOrNull { it.key == value }
                 ?: return
             val before = field
             field = value

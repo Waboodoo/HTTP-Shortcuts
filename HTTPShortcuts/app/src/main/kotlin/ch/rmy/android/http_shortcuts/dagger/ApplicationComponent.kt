@@ -30,6 +30,7 @@ import ch.rmy.android.http_shortcuts.activities.misc.deeplink.DeepLinkViewModel
 import ch.rmy.android.http_shortcuts.activities.misc.share.ShareViewModel
 import ch.rmy.android.http_shortcuts.activities.misc.voice.VoiceViewModel
 import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditViewModel
+import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
 import ch.rmy.android.http_shortcuts.activities.settings.ContactActivity
 import ch.rmy.android.http_shortcuts.activities.settings.about.AboutActivity
 import ch.rmy.android.http_shortcuts.activities.settings.about.AboutViewModel
@@ -244,4 +245,6 @@ interface ApplicationComponent {
     fun inject(getVariableAction: GetVariableAction)
 
     fun inject(aboutActivity: AboutActivity)
+
+    fun inject(displayResponseActivity: DisplayResponseActivity)
 }

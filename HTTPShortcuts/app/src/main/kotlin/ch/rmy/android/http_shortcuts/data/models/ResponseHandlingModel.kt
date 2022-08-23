@@ -1,5 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.models
 
+import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
+import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.RealmClass
 
@@ -10,7 +12,28 @@ open class ResponseHandlingModel(
     var failureOutput: String = FAILURE_OUTPUT_DETAILED,
     var successMessage: String = "",
     var includeMetaInfo: Boolean = false,
+    displayActions: List<ResponseDisplayAction> = listOf(
+        ResponseDisplayAction.RERUN,
+        ResponseDisplayAction.SHARE,
+        ResponseDisplayAction.SAVE,
+    ),
 ) : RealmObject() {
+
+    private var actions: RealmList<String>
+
+    init {
+        actions = RealmList<String>().apply {
+            addAll(displayActions.map { it.key })
+        }
+    }
+
+    var displayActions: List<ResponseDisplayAction>
+        get() = actions.mapNotNull(ResponseDisplayAction::parse)
+        set(value) {
+            actions = RealmList<String>().apply {
+                addAll(value.map { it.key })
+            }
+        }
 
     fun validate() {
         if (uiType !in setOf(UI_TYPE_WINDOW, UI_TYPE_DIALOG, UI_TYPE_TOAST)) {
@@ -31,7 +54,8 @@ open class ResponseHandlingModel(
             other.successOutput == successOutput &&
             other.failureOutput == failureOutput &&
             other.successMessage == successMessage &&
-            other.includeMetaInfo == includeMetaInfo
+            other.includeMetaInfo == includeMetaInfo &&
+            other.actions == actions
 
     companion object {
 
