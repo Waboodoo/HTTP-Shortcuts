@@ -413,6 +413,7 @@ class ShortcutListViewModel(
         performOperation(
             shortcutRepository.duplicateShortcut(shortcutId, newName, newPosition, categoryId)
         ) {
+            updateLauncherShortcuts()
             showSnackbar(StringResLocalizable(R.string.shortcut_duplicated, name))
         }
     }
@@ -623,6 +624,7 @@ class ShortcutListViewModel(
                 .andThen(widgetsRepository.deleteDeadWidgets())
         ) {
             showSnackbar(StringResLocalizable(R.string.shortcut_deleted, shortcut.name))
+            updateLauncherShortcuts()
             eventBridge.submit(ChildViewModelEvent.RemoveShortcutFromHomeScreen(shortcut.toLauncherShortcut()))
         }
     }
