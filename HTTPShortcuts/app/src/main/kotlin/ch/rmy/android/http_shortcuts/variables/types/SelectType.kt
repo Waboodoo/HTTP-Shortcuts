@@ -30,15 +30,17 @@ class SelectType : BaseVariableType() {
                 createDialogBuilder(activityProvider.getActivity(), variable, emitter)
                     .run {
                         if (isMultiSelect(variable)) {
-                            val selectedOptions = mutableSetOf<String>()
+                            val selectedOptions = mutableListOf<String>()
                             runFor(variable.options!!) { option ->
                                 checkBoxItem(name = option.labelOrValue, checked = { option.id in selectedOptions }) { isChecked ->
                                     selectedOptions.addOrRemove(option.id, isChecked)
                                 }
                                     .positive(R.string.dialog_ok) {
                                         emitter.onSuccess(
-                                            variable.options!!
-                                                .filter { selectedOptions.contains(it.id) }
+                                            selectedOptions
+                                                .mapNotNull { optionId ->
+                                                    variable.options!!.find { it.id == optionId }
+                                                }
                                                 .joinToString(getSeparator(variable)) { option ->
                                                     option.value
                                                 }
