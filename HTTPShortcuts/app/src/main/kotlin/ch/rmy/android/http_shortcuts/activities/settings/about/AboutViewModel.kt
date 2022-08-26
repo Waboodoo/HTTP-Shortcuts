@@ -41,4 +41,8 @@ class AboutViewModel(application: Application) : BaseViewModel<Unit, AboutViewSt
     fun onDocumentationButtonClicked() {
         openURL(ExternalURLs.DOCUMENTATION_PAGE)
     }
+
+    fun onPrivacyPolicyButtonClicked() {
+        openURL(ExternalURLs.PRIVACY_POLICY)
+    }
 }

@@ -14,6 +14,7 @@ object DocumentationUrlManager {
         "faq",
         "import-export",
         "introduction",
+        "privacy-policy",
         "scripting",
         "shortcuts",
         "variables",

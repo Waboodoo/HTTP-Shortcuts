@@ -2,6 +2,9 @@ body {
     padding-left: 16px;
     padding-right: 16px;
 }
+h1 {
+    display: none;
+}
 h2 {
     font-size: 1.2em;
     border-bottom: 1px solid #999999;
@@ -17,10 +20,9 @@ h3 + p {
 }
 ul {
     padding-left: 1em;
-    margin-top: 0.5em;
 }
 li {
-    font-size: 0.9em;
+    font-size: 1em;
 }
 a {
     color: #487092;
@@ -34,6 +36,10 @@ a {
 a, .dark a {
     text-decoration: none;
     color: #0277BD;
+}
+a:empty {
+    position: relative;
+    top: -8px;
 }
 code {
     margin: 0 0.1em;

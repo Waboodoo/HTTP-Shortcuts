@@ -20,6 +20,7 @@ import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.framework.extensions.isVisible
 import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.openURL
+import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.extensions.tryOrIgnore
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -89,6 +90,9 @@ class DocumentationActivity : BaseActivity() {
                     }
                 } else {
                     hideLoading()
+                }
+                evaluateJavascript("""document.getElementsByTagName("h1")[0].innerText""") { pageTitle ->
+                    setSubtitle(pageTitle.trim('"').takeUnless { it.isEmpty() || it == "null" || it == "Documentation" }?.toLocalizable())
                 }
             }
         }

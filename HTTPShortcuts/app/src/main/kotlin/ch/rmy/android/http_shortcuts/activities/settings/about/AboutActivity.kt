@@ -73,7 +73,7 @@ class AboutActivity : BaseActivity() {
             }
 
             initPreference("privacy_policy") {
-                openURL(ExternalURLs.PRIVACY_POLICY)
+                viewModel.onPrivacyPolicyButtonClicked()
             }
 
             initPreference("documentation") {

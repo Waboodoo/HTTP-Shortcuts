@@ -313,6 +313,7 @@ tasks.register("syncDocumentation") {
         "faq",
         "import-export",
         "introduction",
+        "privacy-policy",
         "scripting",
         "shortcuts",
         "variables",
