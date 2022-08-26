@@ -1214,12 +1214,6 @@
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">"נכשל לשלוח Intent"</string>
 
-    <!-- Name of setting that allows the user to enable running all HTTP requests in the foreground. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground">"הרץ בקשות בחזית"</string>
-
-    <!-- Subtitle of setting that allows the user to enable running all HTTP requests in the foreground. This is the description of a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground_summary">"אפשר אם קיצורי דרך לא עובדים מחוץ ליישומון"</string>
-
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"פתרון תקלות"</string>
 

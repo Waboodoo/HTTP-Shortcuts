@@ -1246,12 +1246,6 @@ Możesz włączyć tę funkcję, edytując skrót i zaznaczając pole wyboru \"%
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">"Nie udało się wysłać intencji"</string>
 
-    <!-- Name of setting that allows the user to enable running all HTTP requests in the foreground. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground">"Uruchom żądania na pierwszym planie"</string>
-
-    <!-- Subtitle of setting that allows the user to enable running all HTTP requests in the foreground. This is the description of a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground_summary">"Włącz, jeśli skróty nie działają spoza aplikacji"</string>
-
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"Rozwiązywanie problemów"</string>
 

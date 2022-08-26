@@ -1204,12 +1204,6 @@
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">"发送意图失败"</string>
 
-    <!-- Name of setting that allows the user to enable running all HTTP requests in the foreground. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground">"在前台运行请求"</string>
-
-    <!-- Subtitle of setting that allows the user to enable running all HTTP requests in the foreground. This is the description of a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground_summary">"启用该选项，若快捷方式在应用程序外无法正常工作"</string>
-
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"故障排除"</string>
 
@@ -1923,4 +1917,10 @@
 
     <!-- Message: shown in snackbar, indicates to the user that the app's quick settings tile was successfully added to the device's notification shade -->
     <string name="message_quick_settings_tile_added">"已添加快速设置磁贴。"</string>
+
+    <!-- Title: Shown on the Documentation screen, where users can read through the app's documentation -->
+    <string name="title_documentation">"文档"</string>
+
+    <!-- Button text: Shown on Documentation screen, allows to view the current page in the external browser -->
+    <string name="button_open_documentation_in_browser">"在浏览器中打开"</string>
 </resources>

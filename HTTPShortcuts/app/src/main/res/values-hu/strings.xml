@@ -1075,9 +1075,6 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid bearer auth token configured -->
     <string name="error_invalid_bearer_auth">"Érvénytelen Bearer hitelesítő token (%s)."</string>
 
-    <!-- Name of setting that allows the user to enable running all HTTP requests in the foreground. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground">"Kérések futtatása előtérben"</string>
-
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"Hibaelhárítás"</string>
 

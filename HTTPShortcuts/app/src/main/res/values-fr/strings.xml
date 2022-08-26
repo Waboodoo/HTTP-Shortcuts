@@ -1053,12 +1053,6 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <string name="dialog_code_snippet_get_shortcut_description">"Obtenir la description du raccourci
 "</string>
 
-    <!-- Name of setting that allows the user to enable running all HTTP requests in the foreground. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground">"Exécuter des requêtes au premier plan"</string>
-
-    <!-- Subtitle of setting that allows the user to enable running all HTTP requests in the foreground. This is the description of a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground_summary">"Activer si les raccourcis ne fonctionnent pas depuis l'extérieur de l'application"</string>
-
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"Dépannage"</string>
 

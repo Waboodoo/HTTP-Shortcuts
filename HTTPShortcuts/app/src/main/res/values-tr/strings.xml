@@ -1212,12 +1212,6 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">"Intent gönderilemedi"</string>
 
-    <!-- Name of setting that allows the user to enable running all HTTP requests in the foreground. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground">"İstekleri Ön Planda Çalıştır"</string>
-
-    <!-- Subtitle of setting that allows the user to enable running all HTTP requests in the foreground. This is the description of a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground_summary">"Kısayollar uygulamanın dışından çalışmıyorsa etkinleştirin"</string>
-
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"Sorun giderme"</string>
 

@@ -1214,12 +1214,6 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">"Impossibile inviare l'intento"</string>
 
-    <!-- Name of setting that allows the user to enable running all HTTP requests in the foreground. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground">"Esegui richieste in primo piano"</string>
-
-    <!-- Subtitle of setting that allows the user to enable running all HTTP requests in the foreground. This is the description of a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground_summary">"Abilitare se le scorciatoie non funzionano all'esterno dell'app"</string>
-
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"Risoluzione dei problemi"</string>
 

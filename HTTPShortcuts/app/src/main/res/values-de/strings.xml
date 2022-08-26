@@ -1204,12 +1204,6 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">"Senden von Intent fehlgeschlagen"</string>
 
-    <!-- Name of setting that allows the user to enable running all HTTP requests in the foreground. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground">"Requests im Vordergrund ausführen"</string>
-
-    <!-- Subtitle of setting that allows the user to enable running all HTTP requests in the foreground. This is the description of a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground_summary">"Hilft falls Shortcuts außerhalb der App nicht funktionieren"</string>
-
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"Problembehebung"</string>
 
@@ -1924,4 +1918,7 @@ Trotzdem löschen?"</string>
 
     <!-- Button text: Shown on Documentation screen, allows to view the current page in the external browser -->
     <string name="button_open_documentation_in_browser">"Im Browser öffnen"</string>
+
+    <!-- Menu button shown on response window, allows the user to copy the response into the clipboard -->
+    <string name="action_copy_response">"Kopieren"</string>
 </resources>
