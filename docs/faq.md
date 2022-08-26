@@ -8,8 +8,6 @@ There is no catch. I'm a developer who one day realized he needed an app like th
 
 This usually happens when Data Saver or Battery Saver is enabled, as those restrict how apps can use the network. Try disabling them or whitelisting the HTTP Shortcuts app.
 
-You may also try enabling the *Run Requests in Foreground* option which you find on the *Settings* screen.
-
 ## I don't like the blue arrow icon that overlays all my shortcuts on the home screen. Can I remove it?
 
 Unfortunately, this icon overlay is added by the Android system itself, not the app. There is a potential workaround though. Try adding a shortcut via your home screen's widget menu (usually accessed by long pressing on the home screen), and when prompted by the app about which method to use for placement, select the *Legacy* option. Please note that this may not always work, and if it doesn't then there really is no way to remove the icon overlay. Also note that this will prevent you from dynamically changing the name or icon of the shortcut, i.e., you'll need to remove and re-add it to the home screen manually if you change its name or icon.

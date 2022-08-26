@@ -58,10 +58,6 @@ constructor(
     val darkThemeSetting: String
         get() = getString(KEY_DARK_THEME) ?: DARK_THEME_AUTO
 
-    var isForceForegroundEnabled: Boolean
-        get() = getBoolean(KEY_FORCE_FOREGROUND)
-        set(value) = putBoolean(KEY_FORCE_FOREGROUND, value)
-
     val useLegacyExportFormat: Boolean
         get() = getBoolean(KEY_LEGACY_EXPORT_FORMAT)
 
@@ -110,7 +106,6 @@ constructor(
         private const val KEY_REMOTE_EDIT_PASSWORD = "remote_edit_password"
         private const val KEY_THEME = "theme"
         private const val KEY_DARK_THEME = "dark_theme"
-        private const val KEY_FORCE_FOREGROUND = "force_foreground"
         private const val KEY_LEGACY_EXPORT_FORMAT = "use_legacy_export_format"
         private const val KEY_PREVIOUS_ICON_COLOR = "previous_icon_color"
     }

@@ -99,12 +99,6 @@
             app:summary="@string/settings_allow_overlay_xiaomi_summary"
             app:title="@string/settings_allow_overlay_xiaomi" />
 
-        <SwitchPreference
-            app:key="force_foreground"
-            app:persistent="true"
-            app:summary="@string/settings_force_foreground_summary"
-            app:title="@string/settings_force_foreground" />
-
     </PreferenceCategory>
 
 </PreferenceScreen>

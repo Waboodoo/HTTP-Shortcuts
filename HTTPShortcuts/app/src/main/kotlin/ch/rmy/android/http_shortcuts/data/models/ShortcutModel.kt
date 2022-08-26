@@ -202,9 +202,6 @@ open class ShortcutModel(
         return true
     }
 
-    val isFeedbackUsingUI
-        get() = isFeedbackInWindow || isFeedbackInDialog
-
     val isFeedbackInWindow
         get() = type.usesResponse && responseHandling?.uiType == ResponseHandlingModel.UI_TYPE_WINDOW
 

@@ -331,19 +331,11 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     }
                 }
             )
-            .run {
-                if (!shouldFinishImmediately()) {
-                    // TODO: Find out if the condition can be removed, as ideally we'd always be attached to the destroyer
-                    attachTo(destroyer)
-                }
-            }
+            .attachTo(destroyer)
     }
 
     private fun requiresConfirmation() =
         shortcut.requireConfirmation && tryNumber == 0
-
-    private fun shouldFinishAfterExecution() =
-        !shortcut.isFeedbackUsingUI || shouldDelayExecution()
 
     private fun shouldDelayExecution() =
         shortcut.delay > 0 && tryNumber == 0
@@ -352,12 +344,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         shortcut.isWaitForNetwork &&
             error !is ErrorResponse &&
             (error is UnknownHostException || !NetworkUtil.isNetworkConnected(context))
-
-    private fun shouldFinishImmediately() =
-        shouldFinishAfterExecution() &&
-            !usesScripting() &&
-            !NetworkUtil.isNetworkPerformanceRestricted(context) &&
-            !settings.isForceForegroundEnabled
 
     private fun promptForConfirmationIfNeeded(): Completable =
         if (requiresConfirmation()) {
@@ -477,7 +463,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     private fun checkWifiNetworkSsid(): Completable =
         if (shortcut.wifiSsid.isEmpty() || NetworkUtil.getCurrentSsid(context).orEmpty() == shortcut.wifiSsid) {
             Completable.fromAction {
-                finishActivityIfNeeded()
+                showProgress()
             }
         } else {
             showWifiPickerConfirmation()
@@ -506,13 +492,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         } else {
             showRequestPermissionRationalIfNeeded().concatWith(requestPermissionsForWifiCheck())
         }
-
-    private fun finishActivityIfNeeded() {
-        if (shouldFinishImmediately()) {
-            finishWithoutAnimation()
-        }
-        showProgress()
-    }
 
     private fun showRequestPermissionRationalIfNeeded(): Completable =
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
