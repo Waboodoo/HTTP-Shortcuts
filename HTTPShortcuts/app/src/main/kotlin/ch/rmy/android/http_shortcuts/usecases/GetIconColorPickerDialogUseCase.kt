@@ -4,13 +4,16 @@ import android.graphics.Color
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import ch.rmy.android.http_shortcuts.utils.Settings
 import com.skydoves.colorpickerview.ColorPickerDialog
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import javax.inject.Inject
 
 class GetIconColorPickerDialogUseCase
 @Inject
-constructor() {
+constructor(
+    private val settings: Settings,
+) {
     operator fun invoke(icon: ShortcutIcon, onDismissed: () -> Unit, onColorSelected: (ShortcutIcon) -> Unit): DialogState? =
         if (icon is ShortcutIcon.BuiltInIcon && icon.tint != null) {
             DialogState.create {
@@ -19,6 +22,7 @@ constructor() {
                         R.string.dialog_ok,
                         ColorEnvelopeListener { envelope, fromUser ->
                             if (fromUser) {
+                                settings.previousIconColor = envelope.color
                                 onColorSelected(icon.withTint(envelope.color))
                             }
                         },
@@ -33,7 +37,7 @@ constructor() {
                     .attachBrightnessSlideBar(true)
                     .setBottomSpace(12)
                     .apply {
-                        colorPickerView.setInitialColor(Color.BLACK)
+                        colorPickerView.setInitialColor(settings.previousIconColor ?: Color.BLACK)
                     }
                     .create()
             }

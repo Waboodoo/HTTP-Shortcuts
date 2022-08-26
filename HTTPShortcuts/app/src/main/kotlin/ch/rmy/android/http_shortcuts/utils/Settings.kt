@@ -77,6 +77,10 @@ constructor(
         get() = getString(KEY_REMOTE_EDIT_PASSWORD)?.takeUnlessEmpty()
         set(value) = putString(KEY_REMOTE_EDIT_PASSWORD, value ?: "")
 
+    var previousIconColor: Int?
+        get() = getInt(KEY_PREVIOUS_ICON_COLOR)
+        set(value) = putInt(KEY_PREVIOUS_ICON_COLOR, value ?: 0)
+
     companion object {
 
         const val LANGUAGE_DEFAULT = "default"
@@ -108,5 +112,6 @@ constructor(
         private const val KEY_DARK_THEME = "dark_theme"
         private const val KEY_FORCE_FOREGROUND = "force_foreground"
         private const val KEY_LEGACY_EXPORT_FORMAT = "use_legacy_export_format"
+        private const val KEY_PREVIOUS_ICON_COLOR = "previous_icon_color"
     }
 }

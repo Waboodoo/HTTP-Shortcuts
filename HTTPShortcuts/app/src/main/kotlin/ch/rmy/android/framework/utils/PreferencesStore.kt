@@ -30,4 +30,8 @@ abstract class PreferencesStore(context: Context, preferencesName: String? = nul
     protected fun putBoolean(key: String, value: Boolean) {
         preferences.edit { putBoolean(key, value) }
     }
+
+    protected fun putInt(key: String, value: Int) {
+        preferences.edit { putInt(key, value) }
+    }
 }
