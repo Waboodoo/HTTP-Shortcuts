@@ -5,15 +5,22 @@ import android.graphics.Color
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
-import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import com.skydoves.colorpickerview.ColorPickerDialog
-import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
+import ch.rmy.android.http_shortcuts.utils.ColorPickerFactory
+import javax.inject.Inject
 
 class WidgetSettingsViewModel(application: Application) :
     BaseViewModel<WidgetSettingsViewModel.InitData, WidgetSettingsViewState>(application),
     WithDialog {
+
+    @Inject
+    lateinit var colorPickerFactory: ColorPickerFactory
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     private val shortcutId: ShortcutId
         get() = initData.shortcutId
@@ -50,28 +57,13 @@ class WidgetSettingsViewModel(application: Application) :
     private fun showColorPicker() {
         doWithViewState { viewState ->
             dialogState = DialogState.create("widget-color-picker") {
-                ColorPickerDialog.Builder(context)
-                    .setPositiveButton(
-                        R.string.dialog_ok,
-                        ColorEnvelopeListener { envelope, fromUser ->
-                            if (fromUser) {
-                                onLabelColorSelected(envelope.color)
-                            }
-                        },
-                    )
-                    .setNegativeButton(R.string.dialog_cancel) { dialogInterface, _ ->
-                        dialogInterface.dismiss()
-                    }
-                    .setOnDismissListener {
+                colorPickerFactory.createColorPicker(
+                    onColorPicked = ::onLabelColorSelected,
+                    onCanceled = {
                         dialogState?.let(::onDialogDismissed)
-                    }
-                    .attachAlphaSlideBar(false)
-                    .attachBrightnessSlideBar(true)
-                    .setBottomSpace(12)
-                    .apply {
-                        colorPickerView.setInitialColor(viewState.labelColor)
-                    }
-                    .create()
+                    },
+                    initialColor = viewState.labelColor,
+                )
             }
         }
     }

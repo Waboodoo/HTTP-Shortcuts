@@ -11,7 +11,7 @@ fun String.replacePrefix(oldPrefix: String, newPrefix: String) =
         "$newPrefix${removePrefix(oldPrefix)}"
     }
 
-fun String.takeUnlessEmpty() =
+fun <T : CharSequence> T.takeUnlessEmpty(): T? =
     takeUnless { it.isEmpty() }
 
 fun ByteArray.toHexString() =

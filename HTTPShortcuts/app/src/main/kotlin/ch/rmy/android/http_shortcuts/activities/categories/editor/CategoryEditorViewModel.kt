@@ -15,9 +15,8 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
+import ch.rmy.android.http_shortcuts.utils.ColorPickerFactory
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
-import com.skydoves.colorpickerview.ColorPickerDialog
-import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import io.reactivex.Completable
 import javax.inject.Inject
 
@@ -30,6 +29,9 @@ class CategoryEditorViewModel(application: Application) :
 
     @Inject
     lateinit var launcherShortcutManager: LauncherShortcutManager
+
+    @Inject
+    lateinit var colorPickerFactory: ColorPickerFactory
 
     init {
         getApplicationComponent().inject(this)
@@ -119,28 +121,13 @@ class CategoryEditorViewModel(application: Application) :
     fun onColorButtonClicked() {
         doWithViewState { viewState ->
             dialogState = DialogState.create("category-color-picker") {
-                ColorPickerDialog.Builder(context)
-                    .setPositiveButton(
-                        R.string.dialog_ok,
-                        ColorEnvelopeListener { envelope, fromUser ->
-                            if (fromUser) {
-                                onBackgroundColorSelected(envelope.color)
-                            }
-                        },
-                    )
-                    .setNegativeButton(R.string.dialog_cancel) { dialogInterface, _ ->
-                        dialogInterface.dismiss()
-                    }
-                    .setOnDismissListener {
+                colorPickerFactory.createColorPicker(
+                    onColorPicked = ::onBackgroundColorSelected,
+                    onCanceled = {
                         dialogState?.let(::onDialogDismissed)
-                    }
-                    .attachAlphaSlideBar(false)
-                    .attachBrightnessSlideBar(true)
-                    .setBottomSpace(12)
-                    .apply {
-                        colorPickerView.setInitialColor(viewState.backgroundColor)
-                    }
-                    .create()
+                    },
+                    initialColor = viewState.backgroundColor,
+                )
             }
         }
     }
