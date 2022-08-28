@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
+import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.HeaderModel
@@ -238,6 +239,11 @@ constructor(
     fun setResponseIncludeMetaInfo(includeMetaInfo: Boolean): Completable =
         commitTransactionForResponseHandling { responseHandling ->
             responseHandling.includeMetaInfo = includeMetaInfo
+        }
+
+    fun setDisplayActions(actions: List<ResponseDisplayAction>): Completable =
+        commitTransactionForResponseHandling { responseHandling ->
+            responseHandling.displayActions = actions
         }
 
     fun setCodeOnPrepare(code: String): Completable =

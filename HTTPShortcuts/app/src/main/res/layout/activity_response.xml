@@ -80,6 +80,13 @@
                 android:layout_marginBottom="16dp"
                 android:text="@string/message_response_handling_toast_limitations" />
 
+            <ch.rmy.android.framework.ui.views.LabelledSpinner
+                android:id="@+id/input_dialog_action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/label_dialog_action_dropdown" />
+
             <CheckBox
                 android:id="@+id/input_include_meta_information"
                 android:layout_width="match_parent"

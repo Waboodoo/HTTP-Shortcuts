@@ -15,6 +15,7 @@ import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
+import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
 import ch.rmy.android.http_shortcuts.databinding.ActivityResponseBinding
 
@@ -54,6 +55,11 @@ class ResponseActivity : BaseActivity() {
                 it.first to getString(it.second)
             }
         )
+        binding.inputDialogAction.setItemsFromPairs(
+            DIALOG_ACTIONS.map {
+                it.first to getString(it.second)
+            }
+        )
 
         binding.instructionsScriptingHint.text = getString(R.string.message_response_handling_scripting_hint, getString(R.string.label_scripting))
     }
@@ -74,6 +80,15 @@ class ResponseActivity : BaseActivity() {
             .observeTextChanges()
             .subscribe {
                 viewModel.onSuccessMessageChanged(binding.inputSuccessMessage.rawString)
+            }
+            .attachTo(destroyer)
+        binding.inputDialogAction
+            .selectionChanges
+            .subscribe { actionKey ->
+                viewModel.onDialogActionChanged(
+                    actionKey.takeUnless { it == DIALOG_ACTION_NONE }
+                        ?.let(ResponseDisplayAction::parse)
+                )
             }
             .attachTo(destroyer)
         binding.inputIncludeMetaInformation
@@ -99,6 +114,8 @@ class ResponseActivity : BaseActivity() {
             binding.containerInputSuccessMessage.isVisible = viewState.successMessageVisible
             binding.inputIncludeMetaInformation.isVisible = viewState.includeMetaInformationVisible
             binding.warningToastLimitations.isVisible = viewState.showToastInfo
+            binding.inputDialogAction.isVisible = viewState.dialogActionVisible
+            binding.inputDialogAction.selectedItem = viewState.dialogAction?.key ?: DIALOG_ACTION_NONE
             binding.layoutContainer.isVisible = true
             setDialogState(viewState.dialogState, viewModel)
         }
@@ -136,6 +153,14 @@ class ResponseActivity : BaseActivity() {
             ResponseHandlingModel.FAILURE_OUTPUT_DETAILED to R.string.option_response_handling_failure_output_detailed,
             ResponseHandlingModel.FAILURE_OUTPUT_SIMPLE to R.string.option_response_handling_failure_output_simple,
             ResponseHandlingModel.FAILURE_OUTPUT_NONE to R.string.option_response_handling_failure_output_none,
+        )
+
+        private const val DIALOG_ACTION_NONE = "none"
+        private val DIALOG_ACTIONS = listOf(
+            DIALOG_ACTION_NONE to R.string.label_dialog_action_none,
+            ResponseDisplayAction.RERUN.key to R.string.action_rerun_shortcut,
+            ResponseDisplayAction.SHARE.key to R.string.share_button,
+            ResponseDisplayAction.COPY.key to R.string.action_copy_response,
         )
     }
 }

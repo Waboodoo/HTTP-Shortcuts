@@ -1071,6 +1071,8 @@
     <string name="message_remove_deleted_trigger_shortcut">Remove deleted shortcut from the list of triggered shortcuts?</string>
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
     <string name="label_response_handling_type">Display Type</string>
+    <!-- Label for dropdown in shortcut editor, for picking the main action that should be displayed on the dialog that displays the HTTP response -->
+    <string name="label_dialog_action_dropdown">Dialog Action</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
     <string name="option_response_handling_type_toast">Toast Popup</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
@@ -1275,4 +1277,6 @@
     <string name="title_documentation">Documentation</string>
     <!-- Button text: Shown on Documentation screen, allows to view the current page in the external browser -->
     <string name="button_open_documentation_in_browser">Open in browser</string>
+    <!-- Option in dropdown menu for selecting the main action available on a dialog that displays the HTTP response, allows to show no action -->
+    <string name="label_dialog_action_none">None</string>
 </resources>

@@ -741,7 +741,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                             }
                             ResponseDisplayAction.COPY -> {
                                 runIf(text.isNotEmpty() && text.length < MAX_COPY_LENGTH) {
-                                    neutral(R.string.share_button) {
+                                    neutral(R.string.action_copy_response) {
                                         copyResponse(text)
                                     }
                                 }
