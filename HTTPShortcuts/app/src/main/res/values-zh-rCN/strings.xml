@@ -1923,4 +1923,7 @@
 
     <!-- Button text: Shown on Documentation screen, allows to view the current page in the external browser -->
     <string name="button_open_documentation_in_browser">"在浏览器中打开"</string>
+
+    <!-- Menu button shown on response window, allows the user to copy the response into the clipboard -->
+    <string name="action_copy_response">"复制"</string>
 </resources>
