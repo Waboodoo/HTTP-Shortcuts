@@ -59,7 +59,7 @@ class WidgetSettingsViewModel(application: Application) :
             dialogState = DialogState.create("widget-color-picker") {
                 colorPickerFactory.createColorPicker(
                     onColorPicked = ::onLabelColorSelected,
-                    onCanceled = {
+                    onDismissed = {
                         dialogState?.let(::onDialogDismissed)
                     },
                     initialColor = viewState.labelColor,

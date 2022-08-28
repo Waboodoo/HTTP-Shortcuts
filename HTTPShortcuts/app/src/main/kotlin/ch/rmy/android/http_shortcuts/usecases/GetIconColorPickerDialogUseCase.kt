@@ -21,7 +21,7 @@ constructor(
                         settings.previousIconColor = color
                         onColorSelected(icon.withTint(color))
                     },
-                    onCanceled = onDismissed,
+                    onDismissed = onDismissed,
                     initialColor = settings.previousIconColor ?: Color.BLACK,
                 )
             }

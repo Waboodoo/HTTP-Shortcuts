@@ -12,5 +12,5 @@ object ColorUtil {
         } else Color.BLACK
 
     fun Int.colorIntToHexString(): String =
-        String.format("%06x", this and 0xffffff)
+        String.format("%06x", this and 0xffffff).uppercase()
 }

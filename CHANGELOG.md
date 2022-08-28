@@ -1,6 +1,7 @@
 ## Version 2.23.0
 
 ### Improvements
+- All color pickers in the app now show you the RGB hex code for the selected color and allow picking a color by entering a new code
 - All documentation is now bundled into the app, allowing you to read it even when offline and without having to leave the app
 - Added a mechanism to break the app out of an infinite loop of shortcuts triggering other shortcuts
 - Re-added the language picker

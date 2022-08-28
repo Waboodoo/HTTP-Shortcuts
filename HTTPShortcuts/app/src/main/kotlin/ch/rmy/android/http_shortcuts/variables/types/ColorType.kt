@@ -37,7 +37,7 @@ class ColorType : BaseVariableType() {
                 onColorPicked = { color ->
                     emitter.onSuccess(color.colorIntToHexString())
                 },
-                onCanceled = {
+                onDismissed = {
                     if (!emitter.isDisposed) {
                         emitter.cancel()
                     }

@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.enums
 
 import androidx.annotation.ColorInt
+import ch.rmy.android.http_shortcuts.utils.ColorUtil.colorIntToHexString
 
 sealed interface CategoryBackgroundType {
 
@@ -30,7 +31,7 @@ sealed interface CategoryBackgroundType {
         override fun serialize(): String = "$PREFIX${getHexString()}"
 
         fun getHexString() =
-            String.format("#%06x", color and 0xffffff)
+            "#${color.colorIntToHexString()}"
 
         override val useTextShadow: Boolean
             get() = true

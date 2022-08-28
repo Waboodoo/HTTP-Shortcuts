@@ -123,7 +123,7 @@ class CategoryEditorViewModel(application: Application) :
             dialogState = DialogState.create("category-color-picker") {
                 colorPickerFactory.createColorPicker(
                     onColorPicked = ::onBackgroundColorSelected,
-                    onCanceled = {
+                    onDismissed = {
                         dialogState?.let(::onDialogDismissed)
                     },
                     initialColor = viewState.backgroundColor,
