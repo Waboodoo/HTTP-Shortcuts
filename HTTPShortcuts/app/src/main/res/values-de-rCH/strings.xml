@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
     <string name="error_response_too_large">"Response zu gross um angezeigt zu werden (maximal %s)"</string>
 
@@ -7,14 +7,11 @@
     <string name="label_variable_slider_step">"Schrittgrösse"</string>
 
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
-    <string name="error_slider_max_not_greater_than_min">"Der Maximalwert muss grösser sein als der Minimalwert."</string>
+    <string name="error_slider_max_not_greater_than_min" tools:ignore="Typos">"Der Maximalwert muss grösser sein als der Minimalwert."</string>
 
     <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
-    <string name="error_slider_step_size_must_be_positive">"Die Schrittgrösse muss grösser als 0 sein."</string>
-
-    <!-- Subtitle of setting that allows the user to enable running all HTTP requests in the foreground. This is the description of a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_force_foreground_summary">"Hilft falls Shortcuts ausserhalb der App nicht funktionieren"</string>
+    <string name="error_slider_step_size_must_be_positive" tools:ignore="Typos">"Die Schrittgrösse muss grösser als 0 sein."</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
-    <string name="dialog_code_snippet_get_file_size">"Grösse (in Bytes) von ausgewählter Datei auslesen"</string>
+    <string name="dialog_code_snippet_get_file_size" tools:ignore="Typos">"Grösse (in Bytes) von ausgewählter Datei auslesen"</string>
 </resources>
