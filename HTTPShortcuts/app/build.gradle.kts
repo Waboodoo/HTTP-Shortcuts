@@ -20,6 +20,7 @@ val mockitoVersion: String by properties
 val bugsnagAPIKey: String by rootProject.ext
 val poeditorAPIKey: String by rootProject.ext
 val poeditorProjectId: String by rootProject.ext
+val autoBuildDocs: Boolean by rootProject.ext
 val useBugsnag = bugsnagAPIKey.isNotEmpty()
 
 android {
@@ -167,8 +168,10 @@ android {
         java.setSrcDirs(listOf("src/withCrashLogging/kotlin", "src/withGoogleServices/kotlin"))
     }
 
-    project.tasks.preBuild.dependsOn("syncDocumentation")
-    project.tasks.preBuild.dependsOn("syncChangeLog")
+    if (autoBuildDocs) {
+        project.tasks.preBuild.dependsOn("syncDocumentation")
+        project.tasks.preBuild.dependsOn("syncChangeLog")
+    }
 }
 
 bugsnag {

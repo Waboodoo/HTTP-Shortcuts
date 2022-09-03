@@ -18,9 +18,10 @@ plugins {
 }
 
 ext {
-    set("bugsnagAPIKey", System.getenv("BUGSNAG_API_KEY") ?: "")
-    set("poeditorAPIKey", System.getenv("PO_EDITOR_API_KEY") ?: "")
-    set("poeditorProjectId", System.getenv("PO_EDITOR_PROJECT_ID") ?: "")
+    set("bugsnagAPIKey", System.getenv("HTTP_SHORTCUTS_BUGSNAG_API_KEY") ?: "")
+    set("poeditorAPIKey", System.getenv("HTTP_SHORTCUTS_PO_EDITOR_API_KEY") ?: "")
+    set("poeditorProjectId", System.getenv("HTTP_SHORTCUTS_PO_EDITOR_PROJECT_ID") ?: "")
+    set("autoBuildDocs", System.getenv("HTTP_SHORTCUTS_AUTO_BUILD_DOCS") == "true")
     set("buildTimestamp", java.util.Date().time.toString())
 }
 

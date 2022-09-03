@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<!-- This file is generated from documentation_template.html, do not edit -->
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body id="root">
+<h1>Import &amp; Export</h1><p>The app allows you to export all of your shortcuts and variables into a zip file, which you can either store on your device directly or share into another app to send or upload it somewhere. You'll find these options by opening the dropdown menu on the app's main screen and selecting &quot;Import / Export&quot;.</p><p>On the same screen you'll also find the option to import shortcuts from a file, either from the file system or from a URL.</p><p>You can also export a single shortcut by long pressing on it and selecting the &quot;Export&quot; option from the context menu.</p><p><a name="remote-edit"></a></p><h2>Remote Editing</h2><p>On the Import / Export Screen you'll also find the &quot;Edit on Computer&quot; option. It allows you to temporarily upload all of your shortcuts to a remote server and then conveniently edit them from a computer via the <a href="https://http-shortcuts.rmy.ch/editor">Web Editor</a>, and then download the changes back into the app. This way you can avoid doing tedious amounts of typing on your phone.</p><p><a name="import-deep-linking"></a></p><h2>Hosting Templates for Easy Importing</h2><p>If you want to share your shortcuts as a template or as part of a tutorial, you can allow others to easily import them by uploading the exported zip file somewhere on your website (or any publicly accessible host) and then constructing a deep-link URL using the following format:</p><pre><code>http-shortcuts://import?url=[URL]
+</code></pre><p>where <code>[URL]</code> is a URL-encoded version of the URL where your exported file can be downloaded from. You can then include this deep-link URL on your website so that people can click on it to immediately import your shortcuts into their app.</p>
+</body>
+</html>
