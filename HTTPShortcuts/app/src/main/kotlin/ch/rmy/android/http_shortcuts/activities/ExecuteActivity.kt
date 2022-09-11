@@ -169,7 +169,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         }
     }
     private val openCamera = registerForActivityResult(FilePickerUtil.OpenCamera) { resultCallback ->
-        resultCallback?.invoke(this)
+        resultCallback.invoke(this)
             ?.let { file ->
                 resumeAfterFileRequest(fileUris = listOf(file))
             }

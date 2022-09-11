@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
 import androidx.core.content.FileProvider
+import ch.rmy.android.framework.extensions.applyIf
 import ch.rmy.android.framework.extensions.tryOrLog
 import java.io.BufferedWriter
 import java.io.File
@@ -18,8 +19,21 @@ object FileUtil {
 
     private val cacheFileNames: MutableMap<Uri, String> = ConcurrentHashMap()
 
-    fun createCacheFile(context: Context, file: String): Uri =
-        getUriFromFile(context, File(context.cacheDir, file))
+    fun createCacheFile(context: Context, file: String, deleteIfExists: Boolean = false): Uri =
+        getUriFromFile(
+            context,
+            File(context.cacheDir, file)
+                .applyIf(deleteIfExists) {
+                    delete()
+                }
+        )
+
+    fun getCacheFileIfValid(context: Context, file: String): Uri? =
+        File(context.cacheDir, file)
+            .takeIf { it.isFile && it.length() > 0 }
+            ?.let {
+                getUriFromFile(context, it)
+            }
 
     fun getOutputStream(context: Context, uri: Uri) =
         context.contentResolver.openOutputStream(uri, "wt")!!
