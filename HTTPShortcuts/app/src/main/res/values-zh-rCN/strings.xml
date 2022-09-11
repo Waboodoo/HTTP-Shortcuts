@@ -1926,4 +1926,10 @@
 
     <!-- Menu button shown on response window, allows the user to copy the response into the clipboard -->
     <string name="action_copy_response">"复制"</string>
+
+    <!-- Label for dropdown in shortcut editor, for picking the main action that should be displayed on the dialog that displays the HTTP response -->
+    <string name="label_dialog_action_dropdown">"对话框操作"</string>
+
+    <!-- Option in dropdown menu for selecting the main action available on a dialog that displays the HTTP response, allows to show no action -->
+    <string name="label_dialog_action_none">"无"</string>
 </resources>
