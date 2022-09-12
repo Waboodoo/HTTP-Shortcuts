@@ -1,3 +1,15 @@
+## Version 2.24.0
+
+### Improvements
+- You can now choose which action buttons are displayed on the fullscreen window that displays the HTTP response: rerun, share, copy, and save to file
+- Improved interaction with 3rd party camera apps, even when they're not playing by the rules
+
+### Miscellaneous
+- Added a '#' to the color picker dialog to make it clearer that it asks for an RGB hex value
+
+### Bugfixes
+- Fixed the F-Droid build once again
+
 ## Version 2.23.0
 
 ### Improvements
