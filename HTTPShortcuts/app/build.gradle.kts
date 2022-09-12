@@ -190,8 +190,8 @@ dependencies {
     kapt("com.google.dagger:dagger-compiler:2.41")
 
     /* Support libraries */
-    implementation("androidx.core:core-ktx:1.8.0@aar")
-    implementation("androidx.appcompat:appcompat:1.6.0-beta01")
+    implementation("androidx.core:core-ktx:1.9.0@aar")
+    implementation("androidx.appcompat:appcompat:1.6.0-rc01")
     implementation("androidx.fragment:fragment-ktx:1.5.2")
     implementation("com.google.android.material:material:1.6.1")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
