@@ -46,7 +46,7 @@ constructor(
             } else {
                 binding.inputColor.setSelection(6)
             }
-            binding.inputColor.setBackgroundColor(selectedColor)
+            binding.inputColorBackdrop.setBackgroundColor(selectedColor)
         }
 
         binding.inputColor.filters = arrayOf(
@@ -54,6 +54,7 @@ constructor(
             InputFilter.LengthFilter(6),
         )
         binding.inputColor.addTextChangedListener { text ->
+            binding.inputColorBackdrop.text = "#${text} "
             if (!suppressTextWatcher) {
                 val color = text?.toString()
                     ?.takeIf { it.length == 6 }

@@ -28,24 +28,30 @@
             android:layout_marginBottom="10dp"
             app:selector_BrightnessSlider="@drawable/wheel" />
 
-        <EditText
-            android:id="@+id/input_color"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:gravity="center"
-            android:inputType="textNoSuggestions"
-            android:lines="1"
-            android:padding="8dp"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:shadowColor="#bb000000"
-            android:shadowDx="3"
-            android:shadowDy="3"
-            android:shadowRadius="5"
-            android:textColor="#ffffff"
-            android:textSize="14sp" />
+            android:layout_marginEnd="16dp">
+
+            <TextView
+                android:id="@+id/input_color_backdrop"
+                style="@style/ColorPickerInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:shadowColor="#bb000000"
+                android:shadowDx="3"
+                android:shadowDy="3"
+                android:shadowRadius="5" />
+
+            <EditText
+                android:id="@+id/input_color"
+                style="@style/ColorPickerInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions" />
+
+        </FrameLayout>
 
     </LinearLayout>
 
