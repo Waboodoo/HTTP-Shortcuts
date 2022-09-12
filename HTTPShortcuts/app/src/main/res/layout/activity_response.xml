@@ -93,6 +93,26 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_include_meta_information" />
 
+            <CheckBox
+                android:id="@+id/input_show_rerun_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <CheckBox
+                android:id="@+id/input_show_share_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <CheckBox
+                android:id="@+id/input_show_copy_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <CheckBox
+                android:id="@+id/input_show_save_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <include layout="@layout/divider_line" />
 
             <TextView

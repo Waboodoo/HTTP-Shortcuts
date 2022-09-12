@@ -62,6 +62,10 @@ class ResponseActivity : BaseActivity() {
         )
 
         binding.instructionsScriptingHint.text = getString(R.string.message_response_handling_scripting_hint, getString(R.string.label_scripting))
+        binding.inputShowShareButton.text = getString(R.string.label_response_actions_show_button, getString(R.string.share_button))
+        binding.inputShowCopyButton.text = getString(R.string.label_response_actions_show_button, getString(R.string.action_copy_response))
+        binding.inputShowRerunButton.text = getString(R.string.label_response_actions_show_button, getString(R.string.action_rerun_shortcut))
+        binding.inputShowSaveButton.text = getString(R.string.label_response_actions_show_button, getString(R.string.button_save_response_as_file))
     }
 
     private fun initUserInputBindings() {
@@ -95,6 +99,30 @@ class ResponseActivity : BaseActivity() {
             .observeChecked()
             .subscribe(viewModel::onIncludeMetaInformationChanged)
             .attachTo(destroyer)
+        binding.inputShowSaveButton
+            .observeChecked()
+            .subscribe { enabled ->
+                viewModel.onShowActionButtonChanged(ResponseDisplayAction.SAVE, enabled)
+            }
+            .attachTo(destroyer)
+        binding.inputShowShareButton
+            .observeChecked()
+            .subscribe { enabled ->
+                viewModel.onShowActionButtonChanged(ResponseDisplayAction.SHARE, enabled)
+            }
+            .attachTo(destroyer)
+        binding.inputShowCopyButton
+            .observeChecked()
+            .subscribe { enabled ->
+                viewModel.onShowActionButtonChanged(ResponseDisplayAction.COPY, enabled)
+            }
+            .attachTo(destroyer)
+        binding.inputShowRerunButton
+            .observeChecked()
+            .subscribe { enabled ->
+                viewModel.onShowActionButtonChanged(ResponseDisplayAction.RERUN, enabled)
+            }
+            .attachTo(destroyer)
 
         binding.variableButtonSuccessMessage.setOnClickListener {
             viewModel.onSuccessMessageVariableButtonClicked()
@@ -116,6 +144,14 @@ class ResponseActivity : BaseActivity() {
             binding.warningToastLimitations.isVisible = viewState.showToastInfo
             binding.inputDialogAction.isVisible = viewState.dialogActionVisible
             binding.inputDialogAction.selectedItem = viewState.dialogAction?.key ?: DIALOG_ACTION_NONE
+            binding.inputShowCopyButton.isVisible = viewState.showActionButtonCheckboxes
+            binding.inputShowSaveButton.isVisible = viewState.showActionButtonCheckboxes
+            binding.inputShowRerunButton.isVisible = viewState.showActionButtonCheckboxes
+            binding.inputShowShareButton.isVisible = viewState.showActionButtonCheckboxes
+            binding.inputShowCopyButton.isChecked = viewState.showCopyActionEnabled
+            binding.inputShowSaveButton.isChecked = viewState.showSaveActionEnabled
+            binding.inputShowRerunButton.isChecked = viewState.showRerunActionEnabled
+            binding.inputShowShareButton.isChecked = viewState.showShareActionEnabled
             binding.layoutContainer.isVisible = true
             setDialogState(viewState.dialogState, viewModel)
         }

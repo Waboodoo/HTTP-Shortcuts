@@ -13,7 +13,7 @@ data class ResponseViewState(
     val responseFailureOutput: String = "",
     val includeMetaInformation: Boolean = false,
     val successMessage: String = "",
-    val dialogAction: ResponseDisplayAction? = null,
+    val responseDisplayActions: List<ResponseDisplayAction> = emptyList(),
 ) {
     private val hasOutput
         get() = responseSuccessOutput != ResponseHandlingModel.SUCCESS_OUTPUT_NONE ||
@@ -33,4 +33,22 @@ data class ResponseViewState(
 
     val showToastInfo
         get() = responseUiType == ResponseHandlingModel.UI_TYPE_TOAST
+
+    val showActionButtonCheckboxes
+        get() = responseUiType == ResponseHandlingModel.UI_TYPE_WINDOW
+
+    val showShareActionEnabled: Boolean
+        get() = ResponseDisplayAction.SHARE in responseDisplayActions
+
+    val showCopyActionEnabled: Boolean
+        get() = ResponseDisplayAction.COPY in responseDisplayActions
+
+    val showRerunActionEnabled: Boolean
+        get() = ResponseDisplayAction.RERUN in responseDisplayActions
+
+    val showSaveActionEnabled: Boolean
+        get() = ResponseDisplayAction.SAVE in responseDisplayActions
+
+    val dialogAction: ResponseDisplayAction?
+        get() = responseDisplayActions.firstOrNull()
 }

@@ -69,7 +69,7 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
                 responseFailureOutput = responseHandling.failureOutput,
                 includeMetaInformation = responseHandling.includeMetaInfo,
                 successMessage = responseHandling.successMessage,
-                dialogAction = responseHandling.displayActions.firstOrNull(),
+                responseDisplayActions = responseHandling.displayActions,
             )
         }
     }
@@ -88,36 +88,12 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
     }
 
     fun onResponseUiTypeChanged(responseUiType: String) {
-        if (responseUiType == ResponseHandlingModel.UI_TYPE_WINDOW) {
-            // This is a temporary workaround. Currently, there is no UI to select the actions for the window response UI type,
-            // so in order to not interfere negatively with the dialog response UI type and get into a non-recoverable state,
-            // we reset the display actions to their default here.
-            updateViewState {
-                copy(
-                    responseUiType = responseUiType,
-                    dialogAction = ResponseDisplayAction.RERUN,
-                )
-            }
-            performOperation(
-                temporaryShortcutRepository.setResponseUiType(responseUiType)
-                    .andThen(
-                        temporaryShortcutRepository.setDisplayActions(
-                            listOf(
-                                ResponseDisplayAction.RERUN,
-                                ResponseDisplayAction.SHARE,
-                                ResponseDisplayAction.SAVE,
-                            )
-                        )
-                    )
-            )
-        } else {
-            updateViewState {
-                copy(responseUiType = responseUiType)
-            }
-            performOperation(
-                temporaryShortcutRepository.setResponseUiType(responseUiType)
-            )
+        updateViewState {
+            copy(responseUiType = responseUiType)
         }
+        performOperation(
+            temporaryShortcutRepository.setResponseUiType(responseUiType)
+        )
     }
 
     fun onResponseSuccessOutputChanged(responseSuccessOutput: String) {
@@ -156,6 +132,29 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
         )
     }
 
+    fun onShowActionButtonChanged(action: ResponseDisplayAction, show: Boolean) {
+        doWithViewState { viewState ->
+            if (viewState.responseUiType != ResponseHandlingModel.UI_TYPE_WINDOW) {
+                return@doWithViewState
+            }
+            val actions = listOf(
+                ResponseDisplayAction.RERUN,
+                ResponseDisplayAction.SHARE,
+                ResponseDisplayAction.COPY,
+                ResponseDisplayAction.SAVE,
+            )
+                .filter {
+                    (it != action && it in viewState.responseDisplayActions) || (it == action && show)
+                }
+            updateViewState {
+                copy(responseDisplayActions = actions)
+            }
+            performOperation(
+                temporaryShortcutRepository.setDisplayActions(actions)
+            )
+        }
+    }
+
     fun onSuccessMessageVariableButtonClicked() {
         dialogState = getVariablePlaceholderPickerDialog.invoke(
             onVariableSelected = {
@@ -174,11 +173,12 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
             if (viewState.responseUiType != ResponseHandlingModel.UI_TYPE_DIALOG) {
                 return@doWithViewState
             }
+            val actions = action?.let(::listOf) ?: emptyList()
             updateViewState {
-                copy(dialogAction = action)
+                copy(responseDisplayActions = actions)
             }
             performOperation(
-                temporaryShortcutRepository.setDisplayActions(action?.let(::listOf) ?: emptyList())
+                temporaryShortcutRepository.setDisplayActions(actions)
             )
         }
     }
