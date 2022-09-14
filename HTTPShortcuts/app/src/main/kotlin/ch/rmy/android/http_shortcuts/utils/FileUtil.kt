@@ -62,16 +62,18 @@ object FileUtil {
 
     fun getFileName(contentResolver: ContentResolver, fileUri: Uri): String? {
         if (fileUri.scheme == "content") {
-            contentResolver.query(fileUri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)
-                ?.use { cursor ->
-                    cursor.moveToFirst()
-                    val fileName = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                        .takeUnless { it == -1 }
-                        ?.let(cursor::getString)
-                    if (fileName != null) {
-                        return fileName
+            tryOrLog {
+                contentResolver.query(fileUri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)
+                    ?.use { cursor ->
+                        cursor.moveToFirst()
+                        val fileName = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                            .takeUnless { it == -1 }
+                            ?.let(cursor::getString)
+                        if (fileName != null) {
+                            return fileName
+                        }
                     }
-                }
+            }
         }
         return null
     }

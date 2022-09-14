@@ -172,6 +172,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
     private fun handleFileSharing() {
         val isImage = fileUris.singleOrNull()
             ?.let(context.contentResolver::getType)
+            ?.takeUnless { it == "application/octet-stream" }
             ?.let(FileTypeUtil::isImage)
         val shortcutsForFileSharing = getTargetableShortcutsForFileSharing(isImage)
         when (shortcutsForFileSharing.size) {
