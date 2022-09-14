@@ -1918,4 +1918,7 @@
 
     <!-- Option in dropdown menu for selecting the main action available on a dialog that displays the HTTP response, allows to show no action -->
     <string name="label_dialog_action_none">"なし"</string>
+
+    <!-- Label on checkbox that allows to enable/disable the use of a certain action to be displayed in the HTTP response window (e.g. "Share" button) -->
+    <string name="label_response_actions_show_button">"［%s］ボタンを表示"</string>
 </resources>
