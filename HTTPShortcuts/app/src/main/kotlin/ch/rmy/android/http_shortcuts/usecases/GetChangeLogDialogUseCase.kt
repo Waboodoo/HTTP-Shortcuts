@@ -13,6 +13,7 @@ import androidx.core.view.isVisible
 import androidx.core.view.postDelayed
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
@@ -43,51 +44,56 @@ constructor(
                     .positive(android.R.string.ok)
                     .build()
                     .onShow { dialog ->
-                        settings.changeLogLastVersion = versionUtil.getVersionName()
+                        try {
+                            settings.changeLogLastVersion = versionUtil.getVersionName()
 
-                        val webView = dialog.findViewById<WebView>(R.id.changelog_webview)
-                        val loadingIndicator = dialog.findViewById<View>(R.id.loading_indicator)
-                        val showAtStartupCheckbox = dialog.findViewById<CheckBox>(R.id.checkbox_show_at_startup)
+                            val webView = dialog.findViewById<WebView>(R.id.changelog_webview)
+                            val loadingIndicator = dialog.findViewById<View>(R.id.loading_indicator)
+                            val showAtStartupCheckbox = dialog.findViewById<CheckBox>(R.id.checkbox_show_at_startup)
 
-                        fun revealDelayed() {
-                            webView.postDelayed(50) {
-                                webView.isVisible = true
-                                loadingIndicator.isVisible = false
-                            }
-                        }
-
-                        webView.settings.javaScriptEnabled = true
-                        webView.webViewClient = object : WebViewClient() {
-                            override fun onPageFinished(view: WebView?, url: String?) {
-                                if (context.isDarkThemeEnabled()) {
-                                    webView.evaluateJavascript(
-                                        """
-                                        document.getElementById('root').className = 'dark';
-                                    """
-                                    ) {
-                                        revealDelayed()
-                                    }
-                                } else {
-                                    revealDelayed()
+                            fun revealDelayed() {
+                                webView.postDelayed(50) {
+                                    webView.isVisible = true
+                                    loadingIndicator.isVisible = false
                                 }
                             }
 
-                            override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest) = consume {
-                                context.openURL(request.url)
+                            webView.settings.javaScriptEnabled = true
+                            webView.webViewClient = object : WebViewClient() {
+                                override fun onPageFinished(view: WebView?, url: String?) {
+                                    if (context.isDarkThemeEnabled()) {
+                                        webView.evaluateJavascript(
+                                            """
+                                        document.getElementById('root').className = 'dark';
+                                    """
+                                        ) {
+                                            revealDelayed()
+                                        }
+                                    } else {
+                                        revealDelayed()
+                                    }
+                                }
+
+                                override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest) = consume {
+                                    context.openURL(request.url)
+                                }
                             }
-                        }
 
-                        if (!stateRestored) {
-                            webView.loadUrl(CHANGELOG_ASSET_URL)
-                        }
+                            if (!stateRestored) {
+                                webView.loadUrl(CHANGELOG_ASSET_URL)
+                            }
 
-                        showAtStartupCheckbox.isChecked = !settings.isChangeLogPermanentlyHidden
-                        showAtStartupCheckbox.setOnCheckedChangeListener { _, isChecked ->
-                            settings.isChangeLogPermanentlyHidden = !isChecked
-                        }
+                            showAtStartupCheckbox.isChecked = !settings.isChangeLogPermanentlyHidden
+                            showAtStartupCheckbox.setOnCheckedChangeListener { _, isChecked ->
+                                settings.isChangeLogPermanentlyHidden = !isChecked
+                            }
 
-                        dialog.setOnDismissListener {
-                            webView.destroy()
+                            dialog.setOnDismissListener {
+                                webView.destroy()
+                                viewModel?.onDialogDismissed(this)
+                            }
+                        } catch (e: Throwable) {
+                            logException(e)
                             viewModel?.onDialogDismissed(this)
                         }
                     }
