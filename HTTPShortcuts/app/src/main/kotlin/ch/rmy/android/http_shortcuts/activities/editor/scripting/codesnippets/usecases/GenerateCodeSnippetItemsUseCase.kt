@@ -416,6 +416,13 @@ constructor(
                     insertText("wakeOnLan(\"", "\");\n")
                 }
                 item(
+                    R.string.action_type_send_tcp_packet,
+                    docRef = "send-tcp-packet",
+                    keywords = setOf("network"),
+                ) {
+                    insertText("sendTCPPacket(\"message", "\", \"host\", 1337);\n")
+                }
+                item(
                     R.string.action_type_send_udp_packet,
                     docRef = "send-udp-packet",
                     keywords = setOf("network"),

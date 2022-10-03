@@ -424,6 +424,17 @@ wakeOnLan('01-23-45-67-89-ab');
 wakeOnLan('01-23-45-67-89-ab', '255.255.255.255', 9);
 ```
 
+<a name="send-tcp-packet"></a>
+### Send TCP Packet
+
+You can use the `sendTCPPacket` function to send a TCP packet to another device on your network. Pass the packet data as the first parameter (either as a string, `Uint8Array` or array of numbers denoting bytes), the target host's name or IP address as the second parameter and its TCP port as the third parameter.
+
+```js
+sendTCPPacket('hello', '192.168.1.42', 1337);
+
+sendTCPPacket([0x68, 0x65, 0x6C, 0x6C, 0x6F], 'example.com', 4242);
+```
+
 <a name="send-udp-packet"></a>
 ### Send UDP Packet
 
