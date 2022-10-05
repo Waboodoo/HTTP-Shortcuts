@@ -192,10 +192,10 @@ dependencies {
     /* Support libraries */
     implementation("androidx.core:core-ktx:1.9.0@aar")
     implementation("androidx.appcompat:appcompat:1.6.0-rc01")
-    implementation("androidx.fragment:fragment-ktx:1.5.2")
+    implementation("androidx.fragment:fragment-ktx:1.5.3")
     implementation("com.google.android.material:material:1.6.1")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
-    implementation("androidx.annotation:annotation:1.4.0")
+    implementation("androidx.annotation:annotation:1.5.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.preference:preference-ktx:1.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
@@ -218,8 +218,6 @@ dependencies {
     implementation("com.github.franmontiel:PersistentCookieJar:v1.0.1")
     implementation("org.conscrypt:conscrypt-android:2.5.2")
 
-    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0")
-
     /* Scheduling */
     implementation("androidx.work:work-runtime-ktx:2.7.1")
     implementation("androidx.work:work-rxjava2:2.7.1")
@@ -235,6 +233,9 @@ dependencies {
     /* Location lookup (for Scripting) */
     debugImplementation("com.google.android.gms:play-services-location:20.0.0")
     "releaseFullImplementation"("com.google.android.gms:play-services-location:20.0.0")
+
+    /* MQTT (for Scripting) */
+    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
 
     /* Password hashing */
     implementation("org.mindrot:jbcrypt:0.4")
