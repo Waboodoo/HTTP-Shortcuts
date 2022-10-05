@@ -780,6 +780,8 @@
     <string name="action_type_send_udp_packet">Send UDP Packet</string>
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">Send TCP Packet</string>
+    <!-- Shortcut Action Title: Send an MQTT message to a broker -->
+    <string name="action_type_send_mqtt_message">Send MQTT Message</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">Abort Execution</string>
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->

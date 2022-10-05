@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutActio
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ScanBarcodeActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SelectionActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendIntentActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.SendMQTTMessagesActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendTCPPacketActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendUDPPacketActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableActionType
@@ -80,6 +81,7 @@ class ActionFactory {
                 ScanBarcodeActionType(),
                 SelectionActionType(),
                 SendIntentActionType(),
+                SendMQTTMessagesActionType(),
                 SendTCPPacketActionType(),
                 SendUDPPacketActionType(),
                 SetVariableActionType(),

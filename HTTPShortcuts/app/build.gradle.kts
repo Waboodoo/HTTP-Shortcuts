@@ -218,6 +218,8 @@ dependencies {
     implementation("com.github.franmontiel:PersistentCookieJar:v1.0.1")
     implementation("org.conscrypt:conscrypt-android:2.5.2")
 
+    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0")
+
     /* Scheduling */
     implementation("androidx.work:work-runtime-ktx:2.7.1")
     implementation("androidx.work:work-rxjava2:2.7.1")

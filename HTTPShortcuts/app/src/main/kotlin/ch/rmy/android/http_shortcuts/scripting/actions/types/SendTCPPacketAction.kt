@@ -8,7 +8,6 @@ import io.reactivex.schedulers.Schedulers
 import java.net.InetAddress
 import java.net.Socket
 
-
 class SendTCPPacketAction(
     private val data: ByteArray,
     private val ipAddress: String,

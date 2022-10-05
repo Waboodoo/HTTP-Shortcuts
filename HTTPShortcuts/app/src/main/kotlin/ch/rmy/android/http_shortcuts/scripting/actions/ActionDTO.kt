@@ -11,6 +11,9 @@ class ActionDTO(
     val data: List<JSValue?> = emptyList(),
 ) {
 
+    val argCount: Int
+        get() = data.size
+
     fun getString(index: Int): String? {
         val value = data.getOrNull(index)
         return when {

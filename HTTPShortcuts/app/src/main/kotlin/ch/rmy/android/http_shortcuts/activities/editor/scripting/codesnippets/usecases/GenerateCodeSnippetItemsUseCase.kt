@@ -416,6 +416,17 @@ constructor(
                     insertText("wakeOnLan(\"", "\");\n")
                 }
                 item(
+                    R.string.action_type_send_mqtt_message,
+                    docRef = "send-mqtt-message",
+                    keywords = setOf("network", "client", "publish"),
+                ) {
+                    insertText(
+                        "sendMQTTMessages(\"tcp://broker:port\", {\"username\": \"\", \"password\": \"\"}, [\n    " +
+                            "{\"topic\": \"\", \"payload\": \"\"},\n]};\n",
+                        "",
+                    )
+                }
+                item(
                     R.string.action_type_send_tcp_packet,
                     docRef = "send-tcp-packet",
                     keywords = setOf("network"),
