@@ -424,6 +424,20 @@ wakeOnLan('01-23-45-67-89-ab');
 wakeOnLan('01-23-45-67-89-ab', '255.255.255.255', 9);
 ```
 
+<a name="send-mqtt-message"></a>
+### Send MQTT message
+
+The `sendMqttMessages` function allows you to connect to an MQTT broker, send (i.e. publish) one or more messages to it, and then disconnect again. The first parameter is the URI of the server/broker, the second (optional) parameter provides options for the connection (e.g. username and password) and the third parameter is a list of all the messages that should be sent.
+
+```js
+sendMQTTMessages("tcp://192.168.0.42:1234", {"username": "admin", "password": "1234"}, [
+    {"topic": "hallway-lamp/set", "payload": "{\"state\":\"ON\"}"},
+    {"topic": "desk-lamp/set", "payload": "{\"state\":\"ON\", \"brightness\": 255}"},
+]);
+```
+
+Please note that this does not provide any particular quality of service guarantees, and that it is not possible to subscribe to topics this way.
+
 <a name="send-tcp-packet"></a>
 ### Send TCP Packet
 
