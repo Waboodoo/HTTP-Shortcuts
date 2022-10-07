@@ -386,6 +386,10 @@ class DatabaseMigration : RealmMigration {
             53L -> { // 2.23.0
                 ResponseActionMigration.migrateRealm(realm)
             }
+            54L -> {
+                schema.get("Base")!!
+                    .addRealmListField("pollingShortcuts", schema.get("Shortcut"))
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -411,6 +415,6 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 53L
+        const val VERSION = 54L
     }
 }

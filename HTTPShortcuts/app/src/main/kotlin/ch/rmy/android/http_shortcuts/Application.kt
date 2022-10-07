@@ -52,5 +52,7 @@ class Application : android.app.Application(), ApplicationComponentProvider, Wit
         }
 
         DarkThemeHelper.applyDarkThemeSettings(Settings(context).darkThemeSetting)
+
+        PollingShortcutsWorker(context).startPolling()
     }
 }

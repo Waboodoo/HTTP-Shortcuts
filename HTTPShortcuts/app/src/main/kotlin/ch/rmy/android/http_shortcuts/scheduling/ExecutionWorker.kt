@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
+import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -63,6 +64,13 @@ class ExecutionWorker(private val context: Context, workerParams: WorkerParamete
                 .tryNumber(pendingExecution.tryNumber)
                 .recursionDepth(pendingExecution.recursionDepth)
                 .executionId(pendingExecution.id)
+                .startActivity(context)
+        }
+
+        fun runPollingExecution(context: Context, shortcut: ShortcutModel) {
+            ExecuteActivity.IntentBuilder(shortcutId = shortcut.id)
+                .recursionDepth(0)
+                .executionId(shortcut.id)
                 .startActivity(context)
         }
     }

@@ -28,6 +28,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.settings.BaseSettingsFragment
 import ch.rmy.android.http_shortcuts.activities.settings.globalcode.GlobalScriptingActivity
+import ch.rmy.android.http_shortcuts.activities.settings.polling.ShortcutPollingActivity
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 
@@ -121,6 +122,11 @@ class SettingsActivity : BaseActivity() {
                 openGlobalScriptingEditor()
             }
 
+            initPreference("polling_shortcuts") {
+                openPollingShortcutsList()
+            }
+
+
             findPreference<Preference>("privacy")!!.isVisible = Logging.supportsCrashReporting
             initListPreference("crash_reporting") { newValue ->
                 if (newValue == "false") {
@@ -171,6 +177,10 @@ class SettingsActivity : BaseActivity() {
 
         private fun openGlobalScriptingEditor() {
             GlobalScriptingActivity.IntentBuilder()
+                .startActivity(this)
+        }
+        private fun openPollingShortcutsList() {
+            ShortcutPollingActivity.IntentBuilder()
                 .startActivity(this)
         }
 

@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.dagger
 
 import ch.rmy.android.http_shortcuts.Application
+import ch.rmy.android.http_shortcuts.PollingShortcutsWorker
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.categories.CategoriesViewModel
 import ch.rmy.android.http_shortcuts.activities.categories.editor.CategoryEditorViewModel
@@ -37,6 +38,8 @@ import ch.rmy.android.http_shortcuts.activities.settings.about.AboutViewModel
 import ch.rmy.android.http_shortcuts.activities.settings.globalcode.GlobalScriptingActivity
 import ch.rmy.android.http_shortcuts.activities.settings.globalcode.GlobalScriptingViewModel
 import ch.rmy.android.http_shortcuts.activities.settings.importexport.ImportExportViewModel
+import ch.rmy.android.http_shortcuts.activities.settings.polling.ShortcutPollingActivity
+import ch.rmy.android.http_shortcuts.activities.settings.polling.ShortcutPollingViewModel
 import ch.rmy.android.http_shortcuts.activities.settings.settings.SettingsViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorViewModel
@@ -56,27 +59,10 @@ import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
 import ch.rmy.android.http_shortcuts.plugin.PluginEditActivity
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionWorker
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionsWorker
-import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeDescriptionAction
-import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeIconAction
-import ch.rmy.android.http_shortcuts.scripting.actions.types.CopyToClipboardAction
-import ch.rmy.android.http_shortcuts.scripting.actions.types.EnqueueShortcutAction
-import ch.rmy.android.http_shortcuts.scripting.actions.types.GetClipboardContentAction
-import ch.rmy.android.http_shortcuts.scripting.actions.types.GetLocationAction
-import ch.rmy.android.http_shortcuts.scripting.actions.types.GetVariableAction
-import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutAction
-import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableAction
-import ch.rmy.android.http_shortcuts.scripting.actions.types.VibrateAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.*
 import ch.rmy.android.http_shortcuts.tiles.QuickTileService
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
-import ch.rmy.android.http_shortcuts.variables.types.ClipboardType
-import ch.rmy.android.http_shortcuts.variables.types.ColorType
-import ch.rmy.android.http_shortcuts.variables.types.DateType
-import ch.rmy.android.http_shortcuts.variables.types.SelectType
-import ch.rmy.android.http_shortcuts.variables.types.SliderType
-import ch.rmy.android.http_shortcuts.variables.types.TextType
-import ch.rmy.android.http_shortcuts.variables.types.TimeType
-import ch.rmy.android.http_shortcuts.variables.types.ToggleType
-import ch.rmy.android.http_shortcuts.variables.types.UUIDType
+import ch.rmy.android.http_shortcuts.variables.types.*
 import ch.rmy.android.http_shortcuts.widget.WidgetProvider
 import dagger.BindsInstance
 import dagger.Component
@@ -140,6 +126,8 @@ interface ApplicationComponent {
     fun inject(aboutViewModel: AboutViewModel)
 
     fun inject(globalScriptingViewModel: GlobalScriptingViewModel)
+
+    fun inject(shortcutPollingViewModel: ShortcutPollingViewModel)
 
     fun inject(importExportViewModel: ImportExportViewModel)
 
@@ -207,6 +195,8 @@ interface ApplicationComponent {
 
     fun inject(globalScriptingActivity: GlobalScriptingActivity)
 
+    fun inject(ShortcutPollingActivity: ShortcutPollingActivity)
+
     fun inject(constantTypeFragment: ConstantTypeFragment)
 
     fun inject(selectTypeFragment: SelectTypeFragment)
@@ -250,4 +240,6 @@ interface ApplicationComponent {
     fun inject(displayResponseActivity: DisplayResponseActivity)
 
     fun inject(widgetSettingsViewModel: WidgetSettingsViewModel)
+
+    fun inject(pollingWorker: PollingShortcutsWorker)
 }

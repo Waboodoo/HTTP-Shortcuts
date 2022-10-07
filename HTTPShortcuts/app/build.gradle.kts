@@ -187,6 +187,7 @@ dependencies {
 
     /* Dependency Injection */
     implementation("com.google.dagger:dagger:2.41")
+    implementation("androidx.lifecycle:lifecycle-process:2.4.1")
     kapt("com.google.dagger:dagger-compiler:2.41")
 
     /* Support libraries */

@@ -64,6 +64,11 @@
             app:key="global_scripting"
             app:summary="@string/settings_global_scripting_summary"
             app:title="@string/settings_global_scripting" />
+        <Preference
+            app:icon="@drawable/black_synchronize"
+            app:key="polling_shortcuts"
+            app:summary="@string/settings_polling_shortcuts_summary"
+            app:title="@string/title_polling_shortcuts" />
     </PreferenceCategory>
 
     <PreferenceCategory

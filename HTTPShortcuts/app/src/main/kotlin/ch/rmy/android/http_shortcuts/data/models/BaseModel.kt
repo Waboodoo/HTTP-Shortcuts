@@ -18,6 +18,8 @@ open class BaseModel : RealmObject() {
     val shortcuts: List<ShortcutModel>
         get() = categories.flatMap { it.shortcuts }
 
+    var pollingShortcuts: RealmList<ShortcutModel> = RealmList()
+
     fun validate() {
         categories.forEach(CategoryModel::validate)
         variables.forEach(VariableModel::validate)

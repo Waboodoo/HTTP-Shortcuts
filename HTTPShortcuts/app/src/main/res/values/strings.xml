@@ -1143,6 +1143,8 @@
     <string name="settings_global_scripting">Global Scripting</string>
     <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="settings_global_scripting_summary">Run JavaScript code before every shortcut execution</string>
+    <string name="title_polling_shortcuts">Polling Shortcuts</string>
+    <string name="settings_polling_shortcuts_summary">Execute shortcuts periodically in the background.</string>
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
     <string name="placeholder_javascript_global_scripting">Add JavaScript code here to run at the start of every shortcut execution, e.g., to prepare some variables or define some functions which can be used in a shortcut\'s Scripting section.</string>
     <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
@@ -1285,4 +1287,6 @@
     <string name="label_dialog_action_none">None</string>
     <!-- Label on checkbox that allows to enable/disable the use of a certain action to be displayed in the HTTP response window (e.g. "Share" button) -->
     <string name="label_response_actions_show_button">Show \"%s\" button</string>
+    <string name="empty_state_polling_shortcuts_instructions">Add all shortcuts to this list that you want to trigger in the background. The first shortcut will be executed first.\n\nClick the + button to get started.</string>
+    <string name="empty_state_polling_shortcuts">You haven\'t added any shortcuts to be polled yet.</string>
 </resources>

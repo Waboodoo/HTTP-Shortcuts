@@ -23,6 +23,7 @@ import ch.rmy.android.http_shortcuts.import_export.Importer
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.kotlin.where
 import javax.inject.Inject
@@ -47,6 +48,26 @@ constructor(
                     ?.globalCode
                     ?: ""
             }
+
+    fun getPollingShortcuts(): Single<RealmList<ShortcutModel>> =
+        query {
+            getBase()
+        }
+            .map {
+                it.first().let { base ->
+                    base.pollingShortcuts
+                }
+            }
+
+    fun setPollingShortcuts(pollingShortcuts: List<ShortcutModel>): Completable =
+        commitTransaction {
+            getBase()
+                .findFirst()
+                ?.let { base ->
+                    base.pollingShortcuts.clear()
+                    base.pollingShortcuts.addAll(pollingShortcuts)
+                }
+        }
 
     fun getToolbarTitle(): Single<String> =
         queryItem {

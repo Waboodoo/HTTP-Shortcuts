@@ -256,6 +256,11 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
+            android:name=".activities.settings.polling.ShortcutPollingActivity"
+            android:label="@string/title_polling_shortcuts"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name=".activities.editor.scripting.codesnippets.CodeSnippetPickerActivity"
             android:label="@string/title_add_code_snippet"
             android:windowSoftInputMode="adjustResize" />
