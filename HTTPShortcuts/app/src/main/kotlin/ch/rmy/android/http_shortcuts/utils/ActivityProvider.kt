@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.app.Activity
 import ch.rmy.android.framework.extensions.safeRemoveIf
+import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -12,7 +13,7 @@ class ActivityProvider
 constructor() {
 
     fun getActivity(): Activity =
-        activeActivities.lastOrNull()?.get() ?: error("No active activity found")
+        activeActivities.lastOrNull()?.get() ?: throw NoActivityAvailableException()
 
     companion object {
 

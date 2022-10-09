@@ -51,6 +51,7 @@ import ch.rmy.android.http_shortcuts.exceptions.BrowserNotFoundException
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
 import ch.rmy.android.http_shortcuts.exceptions.MissingLocationPermissionException
+import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
 import ch.rmy.android.http_shortcuts.exceptions.ResumeLaterException
 import ch.rmy.android.http_shortcuts.exceptions.UnsupportedFeatureException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
@@ -281,7 +282,9 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     is ResumeLaterException -> {
                         Completable.error(error)
                     }
-                    is CanceledByUserException -> {
+                    is NoActivityAvailableException,
+                    is CanceledByUserException,
+                    -> {
                         Completable.complete()
                     }
                     is UserException -> {
@@ -896,6 +899,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                 throwable is IOException ||
                 throwable is UserException ||
                 throwable is CanceledByUserException ||
+                throwable is NoActivityAvailableException ||
                 throwable is ResumeLaterException
     }
 }
