@@ -176,7 +176,7 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         emitEvent(ViewModelEvent.ShowToast(stringRes, long = long))
     }
 
-    protected fun finish(result: Int? = null, intent: Intent? = null, skipAnimation: Boolean = false) {
+    protected open fun finish(result: Int? = null, intent: Intent? = null, skipAnimation: Boolean = false) {
         emitEvent(ViewModelEvent.Finish(result, intent, skipAnimation))
     }
 

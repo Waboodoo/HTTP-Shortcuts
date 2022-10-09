@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor
 
 import android.app.Activity
 import android.app.Application
+import android.content.Intent
 import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.context
@@ -118,6 +119,8 @@ class ShortcutEditorViewModel(
                 }
             }
         }
+
+    private var isFinishing = false
 
     private var oldShortcut: ShortcutModel? = null
 
@@ -332,7 +335,7 @@ class ShortcutEditorViewModel(
         }
 
     fun onShortcutIconChanged(icon: ShortcutIcon) {
-        if (isSaving) {
+        if (isSaving || isFinishing) {
             return
         }
         updateViewState {
@@ -346,7 +349,7 @@ class ShortcutEditorViewModel(
     }
 
     fun onShortcutNameChanged(name: String) {
-        if (!isInitialized || isSaving) {
+        if (!isInitialized || isSaving || isFinishing) {
             return
         }
         updateViewState {
@@ -358,7 +361,7 @@ class ShortcutEditorViewModel(
     }
 
     fun onShortcutDescriptionChanged(description: String) {
-        if (!isInitialized || isSaving) {
+        if (!isInitialized || isSaving || isFinishing) {
             return
         }
         updateViewState {
@@ -370,7 +373,7 @@ class ShortcutEditorViewModel(
     }
 
     fun onTestButtonClicked() {
-        if (isSaving) {
+        if (isSaving || isFinishing) {
             return
         }
         doWithViewState { viewState ->
@@ -384,7 +387,7 @@ class ShortcutEditorViewModel(
     }
 
     fun onSaveButtonClicked() {
-        if (isSaving) {
+        if (isSaving || isFinishing) {
             return
         }
         doWithViewState { viewState ->
@@ -443,7 +446,7 @@ class ShortcutEditorViewModel(
     }
 
     fun onBackPressed() {
-        if (isSaving) {
+        if (isSaving || isFinishing) {
             return
         }
         waitForOperationsToFinish {
@@ -473,42 +476,42 @@ class ShortcutEditorViewModel(
     }
 
     fun onBasicRequestSettingsButtonClicked() {
-        if (isSaving) {
+        if (isSaving || isFinishing) {
             return
         }
         openActivity(BasicRequestSettingsActivity.IntentBuilder())
     }
 
     fun onHeadersButtonClicked() {
-        if (isSaving) {
+        if (isSaving || isFinishing) {
             return
         }
         openActivity(RequestHeadersActivity.IntentBuilder())
     }
 
     fun onRequestBodyButtonClicked() {
-        if (isSaving) {
+        if (isSaving || isFinishing) {
             return
         }
         openActivity(RequestBodyActivity.IntentBuilder())
     }
 
     fun onAuthenticationButtonClicked() {
-        if (isSaving) {
+        if (isSaving || isFinishing) {
             return
         }
         openActivity(AuthenticationActivity.IntentBuilder())
     }
 
     fun onResponseHandlingButtonClicked() {
-        if (isSaving) {
+        if (isSaving || isFinishing) {
             return
         }
         openActivity(ResponseActivity.IntentBuilder())
     }
 
     fun onScriptingButtonClicked() {
-        if (isSaving) {
+        if (isSaving || isFinishing) {
             return
         }
         openActivity(
@@ -518,7 +521,7 @@ class ShortcutEditorViewModel(
     }
 
     fun onTriggerShortcutsButtonClicked() {
-        if (isSaving) {
+        if (isSaving || isFinishing) {
             return
         }
         openActivity(
@@ -528,14 +531,14 @@ class ShortcutEditorViewModel(
     }
 
     fun onExecutionSettingsButtonClicked() {
-        if (isSaving) {
+        if (isSaving || isFinishing) {
             return
         }
         openActivity(ExecutionSettingsActivity.IntentBuilder())
     }
 
     fun onAdvancedSettingsButtonClicked() {
-        if (isSaving) {
+        if (isSaving || isFinishing) {
             return
         }
         openActivity(AdvancedSettingsActivity.IntentBuilder())
@@ -614,6 +617,11 @@ class ShortcutEditorViewModel(
                 },
             )
             .attachTo(destroyer)
+    }
+
+    override fun finish(result: Int?, intent: Intent?, skipAnimation: Boolean) {
+        isFinishing = true
+        super.finish(result, intent, skipAnimation)
     }
 
     data class InitData(
