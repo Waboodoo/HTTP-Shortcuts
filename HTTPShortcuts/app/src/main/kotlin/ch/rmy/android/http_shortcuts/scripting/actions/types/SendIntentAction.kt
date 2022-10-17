@@ -12,27 +12,27 @@ import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.extensions.toListOfObjects
 import ch.rmy.android.http_shortcuts.extensions.toListOfStrings
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import io.reactivex.Completable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
 class SendIntentAction(private val jsonData: String) : BaseAction() {
 
-    override fun execute(executionContext: ExecutionContext): Completable =
-        Completable.fromAction {
-
-            val parameters = JSONObject(jsonData)
-            val intent = constructIntent(parameters)
-
+    override suspend fun execute(executionContext: ExecutionContext) {
+        val context = executionContext.context
+        val parameters = JSONObject(jsonData)
+        val intent = constructIntent(parameters)
+        withContext(Dispatchers.Main) {
             try {
                 when (parameters.optString(KEY_TYPE).lowercase()) {
                     TYPE_ACTIVITY -> {
-                        executionContext.context.startActivity(intent)
+                        context.startActivity(intent)
                     }
                     TYPE_SERVICE -> {
-                        executionContext.context.startService(intent)
+                        context.startService(intent)
                     }
                     else -> {
-                        executionContext.context.sendBroadcast(intent)
+                        context.sendBroadcast(intent)
                     }
                 }
             } catch (e: Exception) {
@@ -45,6 +45,7 @@ class SendIntentAction(private val jsonData: String) : BaseAction() {
                 }
             }
         }
+    }
 
     companion object {
 

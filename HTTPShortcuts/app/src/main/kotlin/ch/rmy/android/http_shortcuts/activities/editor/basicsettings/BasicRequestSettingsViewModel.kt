@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor.basicsettings
 
 import android.app.Application
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
@@ -14,6 +14,8 @@ import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Unit, BasicRequestSettingsViewState>(application), WithDialog {
@@ -49,15 +51,20 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
     override fun initViewState() = BasicRequestSettingsViewState()
 
     override fun onInitialized() {
-        temporaryShortcutRepository.getTemporaryShortcut()
-            .subscribe(
-                ::initViewStateFromShortcut,
-                ::onInitializationError,
-            )
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            try {
+                val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
+                initViewStateFromShortcut(temporaryShortcut)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                onInitializationError(e)
+            }
+        }
 
-        keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
+        }
     }
 
     private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
@@ -83,7 +90,8 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
     }
 
     fun onBackPressed() {
-        waitForOperationsToFinish {
+        viewModelScope.launch {
+            waitForOperationsToFinish()
             finish()
         }
     }
@@ -92,27 +100,27 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
         updateViewState {
             copy(url = url)
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setUrl(url)
-        )
+        }
     }
 
     fun onMethodChanged(method: String) {
         updateViewState {
             copy(method = method)
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setMethod(method)
-        )
+        }
     }
 
     fun onBrowserPackageNameChanged(packageName: String) {
         updateViewState {
             copy(browserPackageName = packageName)
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setBrowserPackageName(packageName)
-        )
+        }
     }
 
     fun onUrlVariableButtonClicked() {

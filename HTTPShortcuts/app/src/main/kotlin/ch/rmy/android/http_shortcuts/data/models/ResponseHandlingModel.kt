@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import io.realm.RealmList
-import io.realm.RealmObject
+import io.realm.RealmModel
 import io.realm.annotations.RealmClass
 
 @RealmClass(name = "ResponseHandling", embedded = true)
@@ -17,7 +17,7 @@ open class ResponseHandlingModel(
         ResponseDisplayAction.SHARE,
         ResponseDisplayAction.SAVE,
     ),
-) : RealmObject() {
+) : RealmModel {
 
     private var actions: RealmList<String>
 

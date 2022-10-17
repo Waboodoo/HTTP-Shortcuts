@@ -25,6 +25,3 @@ fun Activity.restartWithoutAnimation() {
     startActivity(Intent(this, this::class.java))
     overridePendingTransition(0, 0)
 }
-
-inline fun createIntent(block: Intent.() -> Unit): Intent =
-    Intent().apply(block)

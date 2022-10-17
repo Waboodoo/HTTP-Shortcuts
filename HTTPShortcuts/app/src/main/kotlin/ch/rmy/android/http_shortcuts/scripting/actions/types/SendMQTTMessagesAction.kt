@@ -4,8 +4,8 @@ import ch.rmy.android.framework.extensions.applyIfNotNull
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import io.reactivex.Completable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.eclipse.paho.client.mqttv3.MqttClient
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
 import org.eclipse.paho.client.mqttv3.MqttException
@@ -18,8 +18,8 @@ class SendMQTTMessagesAction(
     private val messages: List<Message>,
 ) : BaseAction() {
 
-    override fun execute(executionContext: ExecutionContext): Completable =
-        Completable.fromAction {
+    override suspend fun execute(executionContext: ExecutionContext) {
+        withContext(Dispatchers.IO) {
             try {
                 val client = MqttClient(serverUri, MqttClient.generateClientId(), null)
                 val options = MqttConnectOptions()
@@ -45,7 +45,7 @@ class SendMQTTMessagesAction(
                 }
             }
         }
-            .subscribeOn(Schedulers.io())
+    }
 
     data class Message(val topic: String, val payload: ByteArray)
 }

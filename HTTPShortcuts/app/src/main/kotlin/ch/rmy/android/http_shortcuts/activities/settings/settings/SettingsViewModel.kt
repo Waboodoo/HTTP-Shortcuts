@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.settings.settings
 
 import android.app.Application
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -14,6 +14,8 @@ import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.usecases.GetToolbarTitleChangeDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.Settings
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 import org.mindrot.jbcrypt.BCrypt
 import javax.inject.Inject
 
@@ -60,20 +62,19 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
     }
 
     private fun onAppLockDialogSubmitted(password: String) {
-        appRepository.setLock(BCrypt.hashpw(password, BCrypt.gensalt()))
-            .compose(progressMonitor.transformer())
-            .subscribe(
-                {
-                    finishWithOkResult(
-                        SettingsActivity.OpenSettings.createResult(appLocked = true),
-                    )
-                },
-                { e ->
-                    showSnackbar(R.string.error_generic, long = true)
-                    logException(e)
-                },
-            )
-            .attachTo(destroyer)
+        launchWithProgressTracking {
+            try {
+                appRepository.setLock(BCrypt.hashpw(password, BCrypt.gensalt()))
+                finishWithOkResult(
+                    SettingsActivity.OpenSettings.createResult(appLocked = true),
+                )
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                showSnackbar(R.string.error_generic, long = true)
+                logException(e)
+            }
+        }
     }
 
     fun onClearCookiesButtonClicked() {
@@ -97,9 +98,11 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
     }
 
     fun onChangeTitleButtonClicked() {
-        appRepository.getToolbarTitle()
-            .subscribe(::showToolbarTitleChangeDialog)
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            showToolbarTitleChangeDialog(
+                appRepository.getToolbarTitle()
+            )
+        }
     }
 
     private fun showToolbarTitleChangeDialog(oldTitle: String) {
@@ -107,7 +110,8 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
     }
 
     private fun onToolbarTitleChangeSubmitted(newTitle: String) {
-        performOperation(appRepository.setToolbarTitle(newTitle)) {
+        viewModelScope.launch {
+            appRepository.setToolbarTitle(newTitle)
             showSnackbar(R.string.message_title_changed)
         }
     }

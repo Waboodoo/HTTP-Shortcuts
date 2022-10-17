@@ -8,8 +8,6 @@ import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
-import io.reactivex.Completable
-import io.reactivex.Single
 import javax.inject.Inject
 
 class VariableResolver
@@ -18,68 +16,63 @@ constructor(
     private val context: Context,
 ) {
 
-    fun resolve(
+    suspend fun resolve(
         variables: List<VariableModel>,
         shortcut: ShortcutModel,
         preResolvedValues: Map<VariableKey, String> = emptyMap(),
-    ): Single<VariableManager> {
+    ): VariableManager {
         val variableManager = VariableManager(variables)
         val requiredVariableIds = extractVariableIds(shortcut, variableManager, includeScripting = false)
             .toMutableSet()
         return resolve(variableManager, requiredVariableIds, preResolvedValues)
     }
 
-    fun resolve(
+    suspend fun resolve(
         variables: List<VariableModel>,
         requiredVariableIds: Set<VariableId>,
         preResolvedValues: Map<VariableKey, String> = emptyMap(),
-    ): Single<VariableManager> {
+    ): VariableManager {
         val variableManager = VariableManager(variables)
         return resolve(variableManager, requiredVariableIds, preResolvedValues)
     }
 
-    private fun resolve(
+    private suspend fun resolve(
         variableManager: VariableManager,
         requiredVariableIds: Set<VariableId>,
         preResolvedValues: Map<VariableKey, String>,
-    ): Single<VariableManager> {
+    ): VariableManager {
         val preResolvedVariables = mutableMapOf<VariableModel, String>()
-        preResolvedValues
-            .forEach { (variableKey, value) ->
-                variableManager.getVariableByKeyOrId(variableKey)?.let { variable ->
-                    preResolvedVariables[variable] = value
-                }
+        preResolvedValues.forEach { (variableKey, value) ->
+            variableManager.getVariableByKeyOrId(variableKey)?.let { variable ->
+                preResolvedVariables[variable] = value
             }
+        }
 
         val variablesToResolve = requiredVariableIds
             .mapNotNull { variableId ->
                 variableManager.getVariableById(variableId)
             }
 
-        return resolveVariables(variablesToResolve, preResolvedVariables)
-            .flatMap { resolvedVariables ->
-                resolveRecursiveVariables(variableManager, resolvedVariables)
-            }
-            .map { resolvedValues ->
-                resolvedValues
-                    .forEach { (variable, value) ->
-                        variableManager.setVariableValue(variable, value)
-                    }
-                variableManager
-            }
+        val resolvedVariables = resolveVariables(variablesToResolve, preResolvedVariables)
+        val resolvedValues = resolveRecursiveVariables(variableManager, resolvedVariables)
+        resolvedValues.forEach { (variable, value) ->
+            variableManager.setVariableValue(variable, value)
+        }
+
+        return variableManager
     }
 
-    private fun resolveRecursiveVariables(
+    private suspend fun resolveRecursiveVariables(
         variableLookup: VariableLookup,
         preResolvedValues: Map<VariableModel, String>,
         recursionDepth: Int = 0,
-    ): Single<Map<VariableModel, String>> {
+    ): Map<VariableModel, String> {
         val requiredVariableIds = mutableSetOf<String>()
         preResolvedValues.values.forEach { value ->
             requiredVariableIds.addAll(Variables.extractVariableIds(value))
         }
         if (recursionDepth >= MAX_RECURSION_DEPTH || requiredVariableIds.isEmpty()) {
-            return Single.just(preResolvedValues)
+            return preResolvedValues
         }
 
         val variablesToResolve = requiredVariableIds
@@ -87,27 +80,25 @@ constructor(
                 variableLookup.getVariableById(variableId)
             }
         return resolveVariables(variablesToResolve, preResolvedValues)
-            .map {
-                it.toMutableMap().also { resolvedVariables ->
-                    resolvedVariables.forEach { resolvedVariable ->
-                        resolvedVariables[resolvedVariable.key] =
-                            Variables.rawPlaceholdersToResolvedValues(
-                                resolvedVariable.value,
-                                resolvedVariables.mapKeys { (variable, _) -> variable.id },
-                            )
-                    }
+            .toMutableMap()
+            .also { resolvedVariables ->
+                resolvedVariables.forEach { resolvedVariable ->
+                    resolvedVariables[resolvedVariable.key] =
+                        Variables.rawPlaceholdersToResolvedValues(
+                            resolvedVariable.value,
+                            resolvedVariables.mapKeys { (variable, _) -> variable.id },
+                        )
                 }
             }
-            .flatMap { resolvedVariables ->
+            .let { resolvedVariables ->
                 resolveRecursiveVariables(variableLookup, resolvedVariables, recursionDepth + 1)
             }
     }
 
-    fun resolveVariables(
+    suspend fun resolveVariables(
         variablesToResolve: List<VariableModel>,
         preResolvedValues: Map<VariableModel, String> = emptyMap(),
-    ): Single<Map<VariableModel, String>> {
-        var completable = Completable.complete()
+    ): Map<VariableModel, String> {
         val resolvedVariables = preResolvedValues.toMutableMap()
 
         for (variable in variablesToResolve) {
@@ -125,16 +116,10 @@ constructor(
             }
 
             val variableType = VariableTypeFactory.getType(variable.variableType)
-            completable = completable.concatWith(
-                variableType.resolve(context, variable)
-                    .doOnSuccess { resolvedValue ->
-                        resolvedVariables[variable] = resolvedValue
-                    }
-                    .ignoreElement()
-            )
+            resolvedVariables[variable] = variableType.resolve(context, variable)
         }
 
-        return completable.toSingle { resolvedVariables }
+        return resolvedVariables
     }
 
     companion object {

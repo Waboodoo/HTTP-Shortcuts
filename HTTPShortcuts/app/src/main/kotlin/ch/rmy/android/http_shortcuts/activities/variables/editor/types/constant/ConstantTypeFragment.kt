@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import ch.rmy.android.framework.extensions.addArguments
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
-import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.observeTextChanges
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
+import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
@@ -49,19 +49,16 @@ class ConstantTypeFragment : BaseFragment<VariableEditorConstantBinding>() {
     }
 
     private fun initUserInputBindings() {
-        binding.inputVariableValue
-            .observeTextChanges()
-            .subscribe {
-                viewModel.onValueChanged(binding.inputVariableValue.rawString)
-            }
-            .attachTo(destroyer)
+        binding.inputVariableValue.doOnTextChanged {
+            viewModel.onValueChanged(binding.inputVariableValue.rawString)
+        }
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             binding.inputVariableValue.rawString = viewState.value
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     companion object {

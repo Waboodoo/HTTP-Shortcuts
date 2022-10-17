@@ -8,8 +8,7 @@ import ch.rmy.android.http_shortcuts.data.domains.getWidgetsByIds
 import ch.rmy.android.http_shortcuts.data.domains.getWidgetsForShortcut
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.WidgetModel
-import io.reactivex.Completable
-import io.reactivex.Single
+import io.realm.kotlin.deleteFromRealm
 import javax.inject.Inject
 
 class WidgetsRepository
@@ -18,7 +17,7 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRepository(realmFactory) {
 
-    fun createWidget(widgetId: Int, shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?): Completable =
+    suspend fun createWidget(widgetId: Int, shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) {
         commitTransaction {
             copyOrUpdate(
                 WidgetModel(
@@ -29,18 +28,19 @@ constructor(
                 )
             )
         }
+    }
 
-    fun getWidgetsByIds(widgetIds: List<Int>): Single<List<WidgetModel>> =
+    suspend fun getWidgetsByIds(widgetIds: List<Int>): List<WidgetModel> =
         query {
             getWidgetsByIds(widgetIds)
         }
 
-    fun getWidgetsByShortcutId(shortcutId: ShortcutId): Single<List<WidgetModel>> =
+    suspend fun getWidgetsByShortcutId(shortcutId: ShortcutId): List<WidgetModel> =
         query {
             getWidgetsForShortcut(shortcutId)
         }
 
-    fun deleteDeadWidgets() =
+    suspend fun deleteDeadWidgets() {
         commitTransaction {
             getDeadWidgets()
                 .findAll()
@@ -48,11 +48,13 @@ constructor(
                     widget.deleteFromRealm()
                 }
         }
+    }
 
-    fun deleteWidgets(widgetIds: List<Int>): Completable =
+    suspend fun deleteWidgets(widgetIds: List<Int>) {
         commitTransaction {
             getWidgetsByIds(widgetIds)
                 .findAll()
                 .deleteAllFromRealm()
         }
+    }
 }

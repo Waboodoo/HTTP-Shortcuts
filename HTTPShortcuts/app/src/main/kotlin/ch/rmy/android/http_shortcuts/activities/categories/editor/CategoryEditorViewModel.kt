@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.categories.editor
 
 import android.app.Application
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
@@ -17,7 +17,8 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import ch.rmy.android.http_shortcuts.utils.ColorPickerFactory
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
-import io.reactivex.Completable
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CategoryEditorViewModel(application: Application) :
@@ -52,15 +53,17 @@ class CategoryEditorViewModel(application: Application) :
 
     override fun onInitializationStarted(data: InitData) {
         if (data.categoryId != null) {
-            categoryRepository.getCategory(data.categoryId)
-                .subscribe(
-                    { category ->
-                        this.category = category
-                        finalizeInitialization()
-                    },
-                    ::handleInitializationError,
-                )
-                .attachTo(destroyer)
+            viewModelScope.launch {
+                try {
+                    val category = categoryRepository.getCategory(data.categoryId)
+                    this@CategoryEditorViewModel.category = category
+                    finalizeInitialization()
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    handleInitializationError(e)
+                }
+            }
         } else {
             category = CategoryModel()
             finalizeInitialization()
@@ -143,13 +146,14 @@ class CategoryEditorViewModel(application: Application) :
             if (!viewState.hasChanges) {
                 return@doWithViewState
             }
-            performOperation(saveChanges(viewState)) {
+            viewModelScope.launch {
+                saveChanges(viewState)
                 finishWithOkResult()
             }
         }
     }
 
-    private fun saveChanges(viewState: CategoryEditorViewState): Completable =
+    private suspend fun saveChanges(viewState: CategoryEditorViewState) {
         if (isNewCategory) {
             categoryRepository.createCategory(
                 name = viewState.categoryName,
@@ -165,12 +169,9 @@ class CategoryEditorViewModel(application: Application) :
                 background = viewState.categoryBackgroundType,
                 clickBehavior = viewState.categoryClickBehavior,
             )
-                .andThen(
-                    Completable.fromAction {
-                        launcherShortcutManager.updatePinnedCategoryShortcut(category.id, viewState.categoryName)
-                    }
-                )
+            launcherShortcutManager.updatePinnedCategoryShortcut(category.id, viewState.categoryName)
         }
+    }
 
     fun onBackPressed() {
         doWithViewState { viewState ->

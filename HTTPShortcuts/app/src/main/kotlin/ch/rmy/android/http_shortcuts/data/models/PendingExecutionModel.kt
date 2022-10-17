@@ -4,7 +4,7 @@ import ch.rmy.android.framework.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import io.realm.RealmList
-import io.realm.RealmObject
+import io.realm.RealmModel
 import io.realm.annotations.Index
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
@@ -26,7 +26,7 @@ open class PendingExecutionModel(
     var waitForNetwork: Boolean = false,
     var recursionDepth: Int = 0,
     var resolvedVariables: RealmList<ResolvedVariableModel> = RealmList(),
-) : RealmObject() {
+) : RealmModel {
 
     companion object {
 

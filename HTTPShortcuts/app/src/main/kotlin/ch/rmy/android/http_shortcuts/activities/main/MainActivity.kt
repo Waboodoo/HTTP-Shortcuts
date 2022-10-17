@@ -12,11 +12,12 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.view.isVisible
 import androidx.viewpager.widget.ViewPager
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.isVisible
 import ch.rmy.android.framework.extensions.launch
-import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.restartWithoutAnimation
 import ch.rmy.android.framework.extensions.titleView
 import ch.rmy.android.framework.ui.BaseIntentBuilder
@@ -164,7 +165,7 @@ class MainActivity : BaseActivity(), Entrypoint {
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             binding.loadingIndicator.isVisible = false
             setTitle(viewState.toolbarTitleLocalizable)
             adapter.setCategories(viewState.categoryTabItems, viewState.selectionMode)
@@ -181,7 +182,7 @@ class MainActivity : BaseActivity(), Entrypoint {
             setToolbarScrolling(viewState.isToolbarScrollable)
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     private fun setToolbarScrolling(isScrollable: Boolean) {

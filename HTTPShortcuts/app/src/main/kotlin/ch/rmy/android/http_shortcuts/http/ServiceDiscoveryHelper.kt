@@ -6,85 +6,89 @@ import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo
 import androidx.core.content.getSystemService
 import ch.rmy.android.framework.extensions.logInfo
-import io.reactivex.Single
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.time.Duration.Companion.seconds
 
 object ServiceDiscoveryHelper {
 
     private const val SERVICE_NAME_SUFFIX = ".local"
     private const val SERVICE_TYPE = "_http._tcp"
-    private const val DISCOVER_TIMEOUT = 2000L
+    private val DISCOVER_TIMEOUT = 2.seconds
 
     fun isDiscoverable(uri: Uri) =
         uri.host?.endsWith(SERVICE_NAME_SUFFIX, ignoreCase = true) == true
 
-    fun discoverService(context: Context, serviceName: String): Single<ServiceInfo> = Single.create<ServiceInfo> { emitter ->
-        val nsdManager = requireNotNull(context.getSystemService<NsdManager>())
-
-        val discoveryListener = object : NsdManager.DiscoveryListener {
-            override fun onStartDiscoveryFailed(serviceType: String?, errorCode: Int) {
-                logInfo("Start Discovery Failed")
-                emitter.onError(RuntimeException("Service Discovery Start Failed"))
-            }
-
-            override fun onStopDiscoveryFailed(serviceType: String?, errorCode: Int) {
-                emitter.onError(RuntimeException("Service Discovery Stop Failed"))
-            }
-
-            override fun onDiscoveryStarted(serviceType: String?) {
-                logInfo("Service Discovery Started")
-            }
-
-            override fun onDiscoveryStopped(serviceType: String?) {
-                logInfo("Service Discovery Stopped")
-            }
-
-            override fun onServiceFound(serviceInfo: NsdServiceInfo) {
-                logInfo("Service Found: ${serviceInfo.serviceName} ${serviceInfo.serviceType}")
-                if (!isCorrectServiceType(serviceInfo)) {
-                    return
-                }
-                nsdManager.resolveService(
-                    serviceInfo,
-                    object : NsdManager.ResolveListener {
-                        override fun onResolveFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {
-                            logInfo("Resolve Failed")
-                        }
-
-                        override fun onServiceResolved(serviceInfo: NsdServiceInfo) {
-                            logInfo("Service Resolved")
-                            if (serviceInfo.serviceName.contains(serviceName.removeSuffix(SERVICE_NAME_SUFFIX), ignoreCase = true)) {
-                                emitter.onSuccess(
-                                    ServiceInfo(
-                                        address = serviceInfo.host.hostAddress!!,
-                                        port = serviceInfo.port,
-                                    )
-                                )
-                            }
-                        }
-                    },
-                )
-            }
-
-            override fun onServiceLost(serviceInfo: NsdServiceInfo?) {
-                logInfo("Service Lost")
+    suspend fun discoverService(context: Context, serviceName: String): ServiceInfo {
+        coroutineScope {
+            launch {
+                delay(DISCOVER_TIMEOUT)
+                throw ServiceLookupTimeoutException()
             }
         }
+        return suspendCancellableCoroutine { continuation ->
+            val nsdManager = requireNotNull(context.getSystemService<NsdManager>())
 
-        nsdManager.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, discoveryListener)
-        emitter.setDisposable(object : Disposable {
-            override fun dispose() {
-                nsdManager.stopServiceDiscovery(discoveryListener)
+            val discoveryListener = object : NsdManager.DiscoveryListener {
+                override fun onStartDiscoveryFailed(serviceType: String?, errorCode: Int) {
+                    logInfo("Start Discovery Failed")
+                    continuation.resumeWithException(RuntimeException("Service Discovery Start Failed"))
+                }
+
+                override fun onStopDiscoveryFailed(serviceType: String?, errorCode: Int) {
+                    continuation.resumeWithException(RuntimeException("Service Discovery Stop Failed"))
+                }
+
+                override fun onDiscoveryStarted(serviceType: String?) {
+                    logInfo("Service Discovery Started")
+                }
+
+                override fun onDiscoveryStopped(serviceType: String?) {
+                    logInfo("Service Discovery Stopped")
+                }
+
+                override fun onServiceFound(serviceInfo: NsdServiceInfo) {
+                    logInfo("Service Found: ${serviceInfo.serviceName} ${serviceInfo.serviceType}")
+                    if (!isCorrectServiceType(serviceInfo)) {
+                        return
+                    }
+                    nsdManager.resolveService(
+                        serviceInfo,
+                        object : NsdManager.ResolveListener {
+                            override fun onResolveFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {
+                                logInfo("Resolve Failed")
+                            }
+
+                            override fun onServiceResolved(serviceInfo: NsdServiceInfo) {
+                                logInfo("Service Resolved")
+                                if (serviceInfo.serviceName.contains(serviceName.removeSuffix(SERVICE_NAME_SUFFIX), ignoreCase = true)) {
+                                    continuation.resume(
+                                        ServiceInfo(
+                                            address = serviceInfo.host.hostAddress!!,
+                                            port = serviceInfo.port,
+                                        )
+                                    )
+                                }
+                            }
+                        },
+                    )
+                }
+
+                override fun onServiceLost(serviceInfo: NsdServiceInfo?) {
+                    logInfo("Service Lost")
+                }
             }
 
-            override fun isDisposed() =
-                emitter.isDisposed
-        })
+            nsdManager.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, discoveryListener)
+            continuation.invokeOnCancellation {
+                nsdManager.stopServiceDiscovery(discoveryListener)
+            }
+        }
     }
-        .subscribeOn(Schedulers.io())
-        .ambWith(Single.error<ServiceInfo>(ServiceLookupTimeoutException()).delay(DISCOVER_TIMEOUT, TimeUnit.MILLISECONDS, true))
 
     private fun isCorrectServiceType(serviceInfo: NsdServiceInfo) =
         normalizeServiceName(serviceInfo.serviceType) == SERVICE_TYPE

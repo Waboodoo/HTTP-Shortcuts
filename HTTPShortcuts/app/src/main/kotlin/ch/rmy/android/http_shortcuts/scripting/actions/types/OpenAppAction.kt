@@ -5,22 +5,26 @@ import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import io.reactivex.Completable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class OpenAppAction(private val packageName: String) : BaseAction() {
 
-    override fun execute(executionContext: ExecutionContext): Completable =
-        Completable.fromAction {
+    override suspend fun execute(executionContext: ExecutionContext) {
+        withContext(Dispatchers.Main) {
             try {
                 executionContext.context.packageManager.getLaunchIntentForPackage(packageName)
                     ?.startActivity(executionContext.context)
-                    ?: throw ActionException { context ->
-                        context.getString(R.string.error_no_app_found, packageName)
-                    }
+                    ?: throwUnsupportedError()
             } catch (e: ActivityNotFoundException) {
-                throw ActionException { context ->
-                    context.getString(R.string.error_no_app_found, packageName)
-                }
+                throwUnsupportedError()
             }
         }
+    }
+
+    private fun throwUnsupportedError(): Nothing {
+        throw ActionException { context ->
+            context.getString(R.string.error_no_app_found, packageName)
+        }
+    }
 }

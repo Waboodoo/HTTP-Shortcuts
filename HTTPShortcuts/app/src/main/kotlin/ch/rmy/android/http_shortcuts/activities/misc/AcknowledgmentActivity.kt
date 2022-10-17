@@ -8,6 +8,7 @@ import android.webkit.WebViewClient
 import androidx.core.view.isVisible
 import androidx.core.view.postDelayed
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.doOnDestroy
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.framework.extensions.isVisible
 import ch.rmy.android.framework.extensions.openURL
@@ -50,7 +51,7 @@ class AcknowledgmentActivity : BaseActivity() {
                 } else {
                     loadUrl(ACKNOWLEDGMENTS_ASSET_URL)
                 }
-                destroyer.own { destroy() }
+                doOnDestroy { destroy() }
             }
         }
             ?: run {

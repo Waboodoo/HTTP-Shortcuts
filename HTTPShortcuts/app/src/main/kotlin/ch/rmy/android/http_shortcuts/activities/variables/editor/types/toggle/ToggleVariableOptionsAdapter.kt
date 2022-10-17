@@ -10,8 +10,9 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.databinding.ToggleOptionBinding
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 class ToggleVariableOptionsAdapter
@@ -24,10 +25,9 @@ constructor(
         data class OptionClicked(val id: String) : UserEvent
     }
 
-    private val userEventSubject = PublishSubject.create<UserEvent>()
+    private val userEventChannel = Channel<UserEvent>(capacity = Channel.UNLIMITED)
 
-    val userEvents: Observable<UserEvent>
-        get() = userEventSubject
+    val userEvents: Flow<UserEvent> = userEventChannel.receiveAsFlow()
 
     override fun createViewHolder(viewType: Int, parent: ViewGroup, layoutInflater: LayoutInflater) =
         SelectOptionViewHolder(ToggleOptionBinding.inflate(layoutInflater, parent, false))
@@ -52,7 +52,7 @@ constructor(
 
         init {
             binding.root.setOnClickListener {
-                userEventSubject.onNext(UserEvent.OptionClicked(optionId))
+                userEventChannel.trySend(UserEvent.OptionClicked(optionId))
             }
         }
 

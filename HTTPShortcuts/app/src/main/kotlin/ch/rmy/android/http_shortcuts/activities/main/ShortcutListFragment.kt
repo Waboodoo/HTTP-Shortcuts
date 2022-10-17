@@ -7,10 +7,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.rmy.android.framework.extensions.addArguments
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.color
-import ch.rmy.android.framework.extensions.observe
+import ch.rmy.android.framework.extensions.whileLifecycleActive
 import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
@@ -100,11 +101,12 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
 
     private fun initUserInputBindings() {
         initDragOrdering()
-
-        adapter.userEvents.observe(this) { event ->
-            when (event) {
-                is BaseShortcutAdapter.UserEvent.ShortcutClicked -> viewModel.onShortcutClicked(event.id)
-                is BaseShortcutAdapter.UserEvent.ShortcutLongClicked -> viewModel.onShortcutLongClicked(event.id)
+        whileLifecycleActive {
+            adapter.userEvents.collect { event ->
+                when (event) {
+                    is BaseShortcutAdapter.UserEvent.ShortcutClicked -> viewModel.onShortcutClicked(event.id)
+                    is BaseShortcutAdapter.UserEvent.ShortcutLongClicked -> viewModel.onShortcutLongClicked(event.id)
+                }
             }
         }
     }
@@ -116,15 +118,15 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
             getId = { (it as? BaseShortcutAdapter.BaseShortcutViewHolder)?.shortcutId },
         )
         dragOrderingHelper.attachTo(binding.shortcutList)
-        dragOrderingHelper.movementSource
-            .subscribe { (shortcutId1, shortcutId2) ->
+        whileLifecycleActive {
+            dragOrderingHelper.movementSource.collect { (shortcutId1, shortcutId2) ->
                 viewModel.onShortcutMoved(shortcutId1, shortcutId2)
             }
-            .attachTo(destroyer)
+        }
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             adapter.items = viewState.shortcuts
             adapter.isLongClickingEnabled = viewState.isLongClickingEnabled
             binding.shortcutList.alpha = if (viewState.isInMovingMode) 0.7f else 1f
@@ -133,7 +135,7 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
             updateBackground(viewState.background)
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     private fun updateBackground(background: CategoryBackgroundType) {

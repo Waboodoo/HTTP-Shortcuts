@@ -10,7 +10,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import io.realm.RealmList
-import io.realm.RealmObject
+import io.realm.RealmModel
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
@@ -21,7 +21,7 @@ open class ShortcutModel(
     var id: ShortcutId = "",
     icon: ShortcutIcon = ShortcutIcon.NoIcon,
     var executionType: String? = ShortcutExecutionType.APP.type,
-) : RealmObject() {
+) : RealmModel {
 
     @Required
     var name: String = ""

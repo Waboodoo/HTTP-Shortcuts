@@ -1,18 +1,13 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.Manifest
-import androidx.fragment.app.FragmentActivity
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.utils.PermissionManager
 import ch.rmy.android.http_shortcuts.utils.PlayServicesUtil
-import com.tbruyelle.rxpermissions2.RxPermissions
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.CancellationException
 import org.json.JSONObject
 import javax.inject.Inject
 
@@ -21,61 +16,47 @@ class GetLocationAction : BaseAction() {
     @Inject
     lateinit var playServicesUtil: PlayServicesUtil
 
+    @Inject
+    lateinit var permissionManager: PermissionManager
+
     override fun inject(applicationComponent: ApplicationComponent) {
         applicationComponent.inject(this)
     }
 
-    override fun executeForValue(executionContext: ExecutionContext): Single<Any> =
+    override suspend fun execute(executionContext: ExecutionContext): JSONObject {
         checkForPlayServices()
-            .andThen(requestLocationPermissionIfNeeded(executionContext.context as FragmentActivity))
-            .andThen(fetchLocation())
+        requestLocationPermissionIfNeeded()
+        return fetchLocation()
+    }
 
-    private fun checkForPlayServices(): Completable =
-        Completable.fromAction {
-            if (!playServicesUtil.isPlayServicesAvailable()) {
-                throw ActionException {
-                    // TODO: Localize
-                    "Play Services are required to get the device's location, but they are not installed or not available."
-                }
+    private fun checkForPlayServices() {
+        if (!playServicesUtil.isPlayServicesAvailable()) {
+            throw ActionException {
+                // TODO: Localize
+                "Play Services are required to get the device's location, but they are not installed or not available."
             }
         }
+    }
 
-    private fun requestLocationPermissionIfNeeded(activity: FragmentActivity): Completable =
-        Observable.defer {
-            RxPermissions(activity)
-                .request(Manifest.permission.ACCESS_FINE_LOCATION)
-        }
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .flatMapCompletable { granted ->
-                if (granted) {
-                    Completable.complete()
-                } else {
-                    Completable.error(
-                        ActionException { context ->
-                            context.getString(R.string.error_failed_to_get_location)
-                        }
-                    )
-                }
+    private suspend fun requestLocationPermissionIfNeeded() {
+        val granted = permissionManager.requestLocationPermissionIfNeeded()
+        if (!granted) {
+            throw ActionException { context ->
+                context.getString(R.string.error_failed_to_get_location)
             }
+        }
+    }
 
-    private fun fetchLocation(): Single<Any> =
-        Single.create { emitter ->
-            playServicesUtil.getLocation(
-                onSuccess = { location ->
-                    emitter.onSuccess(location.toResult())
-                },
-                onError = { error ->
-                    logException(error)
-                    emitter.onError(
-                        ActionException { context ->
-                            context.getString(R.string.error_failed_to_get_location)
-                        }
-                    )
-                },
-            )
-                .let {
-                    emitter.setCancellable { it.destroy() }
-                }
+    private suspend fun fetchLocation(): JSONObject =
+        try {
+            playServicesUtil.getLocation().toResult()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            logException(e)
+            throw ActionException { context ->
+                context.getString(R.string.error_failed_to_get_location)
+            }
         }
 
     companion object {

@@ -5,14 +5,14 @@ import android.text.SpannableStringBuilder
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.isVisible
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.insertAroundCursor
-import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.setHint
 import ch.rmy.android.framework.extensions.setTextSafely
@@ -100,24 +100,15 @@ class ScriptingActivity : BaseActivity() {
             viewModel.onAddCodeSnippetFailureButtonClicked()
         }
 
-        binding.inputCodePrepare
-            .observeTextChanges()
-            .subscribe {
-                viewModel.onCodePrepareChanged(it.toString())
-            }
-            .attachTo(destroyer)
-        binding.inputCodeSuccess
-            .observeTextChanges()
-            .subscribe {
-                viewModel.onCodeSuccessChanged(it.toString())
-            }
-            .attachTo(destroyer)
-        binding.inputCodeFailure
-            .observeTextChanges()
-            .subscribe {
-                viewModel.onCodeFailureChanged(it.toString())
-            }
-            .attachTo(destroyer)
+        binding.inputCodePrepare.doOnTextChanged {
+            viewModel.onCodePrepareChanged(it.toString())
+        }
+        binding.inputCodeSuccess.doOnTextChanged {
+            viewModel.onCodeSuccessChanged(it.toString())
+        }
+        binding.inputCodeFailure.doOnTextChanged {
+            viewModel.onCodeFailureChanged(it.toString())
+        }
     }
 
     private fun processTextForView(input: String): CharSequence {
@@ -146,7 +137,7 @@ class ScriptingActivity : BaseActivity() {
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             viewState.shortcuts?.let(shortcutPlaceholderProvider::applyShortcuts)
             binding.inputCodePrepare.minLines = viewState.codePrepareMinLines
             binding.inputCodePrepare.setHint(viewState.codePrepareHint)
@@ -157,7 +148,7 @@ class ScriptingActivity : BaseActivity() {
             binding.inputCodePrepare.setTextSafely(processTextForView(viewState.codeOnPrepare))
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun handleEvent(event: ViewModelEvent) {

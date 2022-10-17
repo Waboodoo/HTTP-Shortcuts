@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor.scripting
 
 import android.app.Application
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
@@ -15,6 +15,8 @@ import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ScriptingViewModel(application: Application) : BaseViewModel<Unit, ScriptingViewState>(application), WithDialog {
@@ -49,23 +51,29 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
     override fun initViewState() = ScriptingViewState()
 
     override fun onInitialized() {
-        temporaryShortcutRepository.getTemporaryShortcut()
-            .subscribe(
-                ::initViewStateFromShortcut,
-                ::onInitializationError,
-            )
-            .attachTo(destroyer)
-
-        shortcutRepository.getObservableShortcuts()
-            .subscribe { shortcuts ->
-                updateViewState {
-                    copy(shortcuts = shortcuts)
-                }
+        viewModelScope.launch {
+            try {
+                val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
+                initViewStateFromShortcut(temporaryShortcut)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                onInitializationError(e)
             }
-            .attachTo(destroyer)
+        }
 
-        keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            shortcutRepository.getObservableShortcuts()
+                .collect { shortcuts ->
+                    updateViewState {
+                        copy(shortcuts = shortcuts)
+                    }
+                }
+        }
+
+        viewModelScope.launch {
+            keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
+        }
     }
 
     private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
@@ -128,9 +136,9 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
                 codeOnPrepare = code,
             )
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setCodeOnPrepare(code)
-        )
+        }
     }
 
     fun onCodeSuccessChanged(code: String) {
@@ -139,9 +147,9 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
                 codeOnSuccess = code,
             )
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setCodeOnSuccess(code)
-        )
+        }
     }
 
     fun onCodeFailureChanged(code: String) {
@@ -150,9 +158,9 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
                 codeOnFailure = code,
             )
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setCodeOnFailure(code)
-        )
+        }
     }
 
     fun onHelpButtonClicked() {
@@ -160,7 +168,8 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
     }
 
     fun onBackPressed() {
-        waitForOperationsToFinish {
+        viewModelScope.launch {
+            waitForOperationsToFinish()
             finish()
         }
     }

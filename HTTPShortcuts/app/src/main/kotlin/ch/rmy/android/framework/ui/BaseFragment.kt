@@ -10,14 +10,11 @@ import androidx.viewbinding.ViewBinding
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.framework.extensions.startActivity
-import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 
 abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
-
-    val destroyer = Destroyer()
 
     protected val args
         get() = arguments ?: Bundle()
@@ -45,12 +42,6 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        destroyer.destroy()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        destroyer.destroy()
     }
 
     protected open fun setupViews() {

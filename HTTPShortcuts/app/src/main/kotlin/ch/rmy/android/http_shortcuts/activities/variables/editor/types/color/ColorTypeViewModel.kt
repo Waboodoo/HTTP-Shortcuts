@@ -15,8 +15,8 @@ class ColorTypeViewModel(application: Application) : BaseVariableTypeViewModel<U
     )
 
     fun onRememberValueChanged(enabled: Boolean) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.setRememberValue(enabled)
-        )
+        }
     }
 }

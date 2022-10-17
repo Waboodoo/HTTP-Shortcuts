@@ -1,22 +1,28 @@
 package ch.rmy.android.http_shortcuts.utils
 
-import android.Manifest
-import android.app.Activity
-import android.content.Context
-import android.content.pm.PackageManager
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import com.markodevcic.peko.Peko
+import com.markodevcic.peko.PermissionResult
+import javax.inject.Inject
 
-object PermissionManager {
+class PermissionManager
+@Inject
+constructor() {
 
-    fun requestFileStoragePermissionIfNeeded(activity: Activity) {
-        if (!hasFileStoragePermission(activity)) {
-            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_CODE)
-        }
-    }
+    @Inject
+    lateinit var activityProvider: ActivityProvider
 
-    private fun hasFileStoragePermission(context: Context) =
-        ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+    suspend fun requestFileStoragePermissionIfNeeded() =
+        requestPermissionIfNeeded(READ_EXTERNAL_STORAGE)
 
-    private const val REQUEST_CODE = 17
+    suspend fun requestLocationPermissionIfNeeded(): Boolean =
+        requestPermissionIfNeeded(ACCESS_FINE_LOCATION)
+
+    fun shouldShowRationaleForLocationPermission(): Boolean =
+        ActivityCompat.shouldShowRequestPermissionRationale(activityProvider.getActivity(), ACCESS_FINE_LOCATION)
+
+    private suspend fun requestPermissionIfNeeded(permission: String): Boolean =
+        Peko.requestPermissionsAsync(activityProvider.getActivity(), permission) is PermissionResult.Granted
 }

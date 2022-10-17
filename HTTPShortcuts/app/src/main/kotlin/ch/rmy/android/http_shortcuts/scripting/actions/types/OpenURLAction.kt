@@ -7,12 +7,13 @@ import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import io.reactivex.Completable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class OpenURLAction(private val url: String) : BaseAction() {
 
-    override fun execute(executionContext: ExecutionContext): Completable =
-        Completable.fromAction {
+    override suspend fun execute(executionContext: ExecutionContext) {
+        withContext(Dispatchers.Main) {
             val uri = url.toUri()
             if (uri.scheme?.equals("file", ignoreCase = true) == true) {
                 throw ActionException {
@@ -28,4 +29,5 @@ class OpenURLAction(private val url: String) : BaseAction() {
                 }
             }
         }
+    }
 }

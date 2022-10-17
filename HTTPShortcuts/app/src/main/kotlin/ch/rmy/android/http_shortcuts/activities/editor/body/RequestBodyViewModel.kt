@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor.body
 
 import android.app.Application
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
@@ -21,6 +21,8 @@ import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.usecases.GetKeyValueDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, RequestBodyViewState>(application), WithDialog {
@@ -69,15 +71,20 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
     override fun initViewState() = RequestBodyViewState()
 
     override fun onInitialized() {
-        temporaryShortcutRepository.getTemporaryShortcut()
-            .subscribe(
-                ::initViewStateFromShortcut,
-                ::onInitializationError,
-            )
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            try {
+                val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
+                initViewStateFromShortcut(temporaryShortcut)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                onInitializationError(e)
+            }
+        }
 
-        keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
+        }
     }
 
     private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
@@ -107,34 +114,30 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
                 copy(requestBodyType = type)
             }
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setRequestBodyType(type)
-        )
+        }
     }
 
     fun onParameterMoved(parameterId1: String, parameterId2: String) {
         parameters = parameters.swapped(parameterId1, parameterId2) { id }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.moveParameter(parameterId1, parameterId2)
-        )
+        }
     }
 
     private fun onAddStringParameterDialogConfirmed(key: String, value: String) {
-        temporaryShortcutRepository.addStringParameter(key, value)
-            .compose(progressMonitor.singleTransformer())
-            .subscribe { newParameter ->
-                parameters = parameters.plus(newParameter)
-            }
-            .attachTo(destroyer)
+        launchWithProgressTracking {
+            val newParameter = temporaryShortcutRepository.addStringParameter(key, value)
+            parameters = parameters.plus(newParameter)
+        }
     }
 
     private fun onAddFileParameterDialogConfirmed(key: String, fileName: String, multiple: Boolean, image: Boolean) {
-        temporaryShortcutRepository.addFileParameter(key, fileName, multiple, image)
-            .compose(progressMonitor.singleTransformer())
-            .subscribe { newParameter ->
-                parameters = parameters.plus(newParameter)
-            }
-            .attachTo(destroyer)
+        launchWithProgressTracking {
+            val newParameter = temporaryShortcutRepository.addFileParameter(key, fileName, multiple, image)
+            parameters = parameters.plus(newParameter)
+        }
     }
 
     private fun onEditParameterDialogConfirmed(parameterId: String, key: String, value: String = "", fileName: String = "") {
@@ -152,9 +155,9 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
                     parameter
                 }
             }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.updateParameter(parameterId, key, value, fileName)
-        )
+        }
     }
 
     private fun onRemoveParameterButtonClicked(parameterId: String) {
@@ -162,9 +165,9 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
             .filter { parameter ->
                 parameter.id != parameterId
             }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.removeParameter(parameterId)
-        )
+        }
     }
 
     fun onAddParameterButtonClicked() {
@@ -351,9 +354,9 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
         updateViewState {
             copy(contentType = contentType)
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setContentType(contentType)
-        )
+        }
     }
 
     fun onBodyContentChanged(bodyContent: String) {
@@ -364,9 +367,9 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
             updateViewState {
                 copy(bodyContent = bodyContent)
             }
-            performOperation(
+            launchWithProgressTracking {
                 temporaryShortcutRepository.setBodyContent(bodyContent)
-            )
+            }
         }
     }
 
@@ -384,7 +387,8 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
     }
 
     fun onBackPressed() {
-        waitForOperationsToFinish {
+        viewModelScope.launch {
+            waitForOperationsToFinish()
             finish()
         }
     }

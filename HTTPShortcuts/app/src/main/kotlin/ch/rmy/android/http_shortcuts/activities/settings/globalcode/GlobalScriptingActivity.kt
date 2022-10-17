@@ -5,14 +5,14 @@ import android.text.SpannableStringBuilder
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.insertAroundCursor
-import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -26,8 +26,6 @@ import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutSpanManager
 import ch.rmy.android.http_shortcuts.utils.InvalidSpanRemover
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
-import io.reactivex.android.schedulers.AndroidSchedulers
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class GlobalScriptingActivity : BaseActivity() {
@@ -80,14 +78,14 @@ class GlobalScriptingActivity : BaseActivity() {
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             viewState.shortcuts?.let(shortcutPlaceholderProvider::applyShortcuts)
             binding.inputCode.setTextSafely(processTextForView(viewState.globalCode))
             saveButton?.isVisible = viewState.saveButtonVisible
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun handleEvent(event: ViewModelEvent) {
@@ -122,13 +120,9 @@ class GlobalScriptingActivity : BaseActivity() {
     }
 
     private fun bindTextChangeListener(textView: EditText) {
-        textView.observeTextChanges()
-            .throttleFirst(300, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                viewModel.onGlobalCodeChanged(it.toString())
-            }
-            .attachTo(destroyer)
+        textView.doOnTextChanged {
+            viewModel.onGlobalCodeChanged(it.toString())
+        }
     }
 
     private fun insertCodeSnippet(textBeforeCursor: String, textAfterCursor: String) {

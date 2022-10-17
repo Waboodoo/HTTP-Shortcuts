@@ -4,11 +4,14 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import io.reactivex.Completable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
+import kotlin.time.Duration.Companion.milliseconds
 
 class WakeOnLanAction(
     private val macAddress: String,
@@ -16,34 +19,33 @@ class WakeOnLanAction(
     private val port: Int,
 ) : BaseAction() {
 
-    override fun execute(executionContext: ExecutionContext): Completable =
-        Completable.fromAction {
+    override suspend fun execute(executionContext: ExecutionContext) {
+        val macAddress = parseMacAddress(macAddress)
+        withContext(Dispatchers.IO) {
             try {
                 sendMagicPacket(
-                    macAddress = parseMacAddress(macAddress),
+                    macAddress = macAddress,
                     ipAddress = InetAddress.getByName(ipAddress),
                     port = port,
                 )
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
-                if (e is ActionException) {
-                    throw e
-                } else {
-                    logException(e)
-                    throw ActionException { context ->
-                        context.getString(R.string.error_action_type_send_wol_failed, e.message)
-                    }
+                logException(e)
+                throw ActionException { context ->
+                    context.getString(R.string.error_action_type_send_wol_failed, e.message)
                 }
             }
         }
-            .subscribeOn(Schedulers.io())
+    }
 
     companion object {
 
         private const val FF: Byte = 0xff.toByte()
         private const val RESEND_PACKET_COUNT = 3
-        private const val RESEND_DELAY = 350L
+        private val RESEND_DELAY = 350.milliseconds
 
-        private fun sendMagicPacket(macAddress: List<Byte>, ipAddress: InetAddress, port: Int) {
+        private suspend fun sendMagicPacket(macAddress: List<Byte>, ipAddress: InetAddress, port: Int) {
             val data = mutableListOf(FF, FF, FF, FF, FF, FF)
             for (i in 0 until 16) {
                 data.addAll(macAddress)
@@ -55,7 +57,7 @@ class WakeOnLanAction(
                 .use { socket ->
                     for (i in 0 until RESEND_PACKET_COUNT) {
                         if (i != 0) {
-                            Thread.sleep(RESEND_DELAY)
+                            delay(RESEND_DELAY)
                         }
                         socket.send(packet)
                     }

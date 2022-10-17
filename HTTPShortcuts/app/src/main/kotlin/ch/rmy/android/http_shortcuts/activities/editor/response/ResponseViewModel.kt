@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor.response
 
 import android.app.Application
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -16,6 +16,8 @@ import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ResponseViewModel(application: Application) : BaseViewModel<Unit, ResponseViewState>(application), WithDialog {
@@ -48,15 +50,20 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
     override fun initViewState() = ResponseViewState()
 
     override fun onInitialized() {
-        temporaryShortcutRepository.getTemporaryShortcut()
-            .subscribe(
-                ::initViewStateFromShortcut,
-                ::onInitializationError,
-            )
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            try {
+                val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
+                initViewStateFromShortcut(temporaryShortcut)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                onInitializationError(e)
+            }
+        }
 
-        keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
+        }
     }
 
     private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
@@ -91,45 +98,45 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
         updateViewState {
             copy(responseUiType = responseUiType)
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setResponseUiType(responseUiType)
-        )
+        }
     }
 
     fun onResponseSuccessOutputChanged(responseSuccessOutput: String) {
         updateViewState {
             copy(responseSuccessOutput = responseSuccessOutput)
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setResponseSuccessOutput(responseSuccessOutput)
-        )
+        }
     }
 
     fun onResponseFailureOutputChanged(responseFailureOutput: String) {
         updateViewState {
             copy(responseFailureOutput = responseFailureOutput)
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setResponseFailureOutput(responseFailureOutput)
-        )
+        }
     }
 
     fun onSuccessMessageChanged(successMessage: String) {
         updateViewState {
             copy(successMessage = successMessage)
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setResponseSuccessMessage(successMessage)
-        )
+        }
     }
 
     fun onIncludeMetaInformationChanged(includeMetaInformation: Boolean) {
         updateViewState {
             copy(includeMetaInformation = includeMetaInformation)
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setResponseIncludeMetaInfo(includeMetaInformation)
-        )
+        }
     }
 
     fun onShowActionButtonChanged(action: ResponseDisplayAction, show: Boolean) {
@@ -149,9 +156,9 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
             updateViewState {
                 copy(responseDisplayActions = actions)
             }
-            performOperation(
+            launchWithProgressTracking {
                 temporaryShortcutRepository.setDisplayActions(actions)
-            )
+            }
         }
     }
 
@@ -177,14 +184,15 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
             updateViewState {
                 copy(responseDisplayActions = actions)
             }
-            performOperation(
+            launchWithProgressTracking {
                 temporaryShortcutRepository.setDisplayActions(actions)
-            )
+            }
         }
     }
 
     fun onBackPressed() {
-        waitForOperationsToFinish {
+        viewModelScope.launch {
+            waitForOperationsToFinish()
             finish()
         }
     }

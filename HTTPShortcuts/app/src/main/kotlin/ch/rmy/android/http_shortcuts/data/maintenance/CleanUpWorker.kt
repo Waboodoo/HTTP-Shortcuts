@@ -1,17 +1,17 @@
 package ch.rmy.android.http_shortcuts.data.maintenance
 
 import android.content.Context
+import androidx.work.CoroutineWorker
 import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.RxWorker
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
-import io.reactivex.Single
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class CleanUpWorker(context: Context, params: WorkerParameters) : RxWorker(context, params) {
+class CleanUpWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
 
     @Inject
     lateinit var appRepository: AppRepository
@@ -20,10 +20,14 @@ class CleanUpWorker(context: Context, params: WorkerParameters) : RxWorker(conte
         getApplicationComponent().inject(this)
     }
 
-    override fun createWork(): Single<Result> =
-        appRepository.deleteUnusedData()
-            .toSingleDefault(Result.success())
-            .onErrorReturnItem(Result.failure())
+    override suspend fun doWork(): Result =
+        try {
+            appRepository.deleteUnusedData()
+            Result.success()
+        } catch (e: Exception) {
+            logException(e)
+            Result.failure()
+        }
 
     companion object {
 

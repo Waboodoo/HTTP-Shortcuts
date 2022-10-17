@@ -6,16 +6,16 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.launch
 import androidx.core.view.isVisible
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
+import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.focus
 import ch.rmy.android.framework.extensions.isVisible
 import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.framework.extensions.logInfo
-import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setMaxLength
 import ch.rmy.android.framework.extensions.setSubtitle
 import ch.rmy.android.framework.extensions.setTextSafely
@@ -104,22 +104,16 @@ class ShortcutEditorActivity : BaseActivity() {
             viewModel.onAdvancedSettingsButtonClicked()
         }
 
-        binding.inputShortcutName
-            .observeTextChanges()
-            .subscribe { name ->
-                viewModel.onShortcutNameChanged(name.toString())
-            }
-            .attachTo(destroyer)
-        binding.inputDescription
-            .observeTextChanges()
-            .subscribe { description ->
-                viewModel.onShortcutDescriptionChanged(description.toString())
-            }
-            .attachTo(destroyer)
+        binding.inputShortcutName.doOnTextChanged { name ->
+            viewModel.onShortcutNameChanged(name.toString())
+        }
+        binding.inputDescription.doOnTextChanged { description ->
+            viewModel.onShortcutDescriptionChanged(description.toString())
+        }
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             binding.loadingIndicator.isVisible = false
             binding.mainView.isVisible = true
             val type = viewState.shortcutExecutionType
@@ -166,7 +160,7 @@ class ShortcutEditorActivity : BaseActivity() {
             saveMenuItem?.isVisible = viewState.isSaveButtonVisible
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override val navigateUpIcon = R.drawable.ic_clear

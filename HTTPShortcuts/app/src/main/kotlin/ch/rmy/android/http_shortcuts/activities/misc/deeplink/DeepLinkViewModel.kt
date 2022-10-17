@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.misc.deeplink
 import android.app.Application
 import android.net.Uri
 import androidx.core.net.toUri
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -19,6 +19,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import com.afollestad.materialdialogs.callbacks.onCancel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewModel.InitData, DeepLinkViewState>(application), WithDialog {
@@ -92,16 +93,14 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
         }
 
         val shortcutIdOrName = deepLinkUrl.getShortcutNameOrId()
-        shortcutRepository.getShortcutByNameOrId(shortcutIdOrName)
-            .subscribe(
-                { shortcut ->
-                    executeShortcut(shortcut.id, deepLinkUrl.getVariableValues())
-                },
-                {
-                    showMessageDialog(StringResLocalizable(R.string.error_shortcut_not_found_for_deep_link, shortcutIdOrName))
-                },
-            )
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            try {
+                val shortcut = shortcutRepository.getShortcutByNameOrId(shortcutIdOrName)
+                executeShortcut(shortcut.id, deepLinkUrl.getVariableValues())
+            } catch (e: NoSuchElementException) {
+                showMessageDialog(StringResLocalizable(R.string.error_shortcut_not_found_for_deep_link, shortcutIdOrName))
+            }
+        }
     }
 
     private fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKey, String>) {

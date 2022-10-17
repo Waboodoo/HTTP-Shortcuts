@@ -13,7 +13,6 @@ import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
-import io.reactivex.Completable
 import javax.inject.Inject
 
 class RenameShortcutAction(private val name: String, private val shortcutNameOrId: ShortcutNameOrId?) : BaseAction() {
@@ -28,49 +27,39 @@ class RenameShortcutAction(private val name: String, private val shortcutNameOrI
         applicationComponent.inject(this)
     }
 
-    override fun execute(executionContext: ExecutionContext): Completable =
+    override suspend fun execute(executionContext: ExecutionContext) {
         renameShortcut(
             executionContext.context,
             this.shortcutNameOrId ?: executionContext.shortcutId,
             executionContext.variableManager,
         )
+    }
 
-    private fun renameShortcut(context: Context, shortcutNameOrId: ShortcutNameOrId, variableManager: VariableManager): Completable {
+    private suspend fun renameShortcut(context: Context, shortcutNameOrId: ShortcutNameOrId, variableManager: VariableManager) {
         val newName = Variables.rawPlaceholdersToResolvedValues(name, variableManager.getVariableValuesByIds())
             .trim()
             .truncate(ShortcutModel.NAME_MAX_LENGTH)
         if (newName.isEmpty()) {
-            return Completable.complete()
+            return
         }
 
-        return shortcutRepository.getShortcutByNameOrId(shortcutNameOrId)
-            .flatMapCompletable { shortcut ->
-                shortcutRepository.setName(shortcut.id, newName)
-                    .andThen(
-                        Completable.fromAction {
-                            val launcherShortcutManager = LauncherShortcutManager(context)
-                            if (launcherShortcutManager.supportsPinning()) {
-                                launcherShortcutManager.updatePinnedShortcut(
-                                    shortcutId = shortcut.id,
-                                    shortcutName = newName,
-                                    shortcutIcon = shortcut.icon,
-                                )
-                            }
-                        }
-                    )
-                    .andThen(widgetManager.updateWidgets(context, shortcut.id))
+        val shortcut = try {
+            shortcutRepository.getShortcutByNameOrId(shortcutNameOrId)
+        } catch (e: NoSuchElementException) {
+            throw ActionException {
+                it.getString(R.string.error_shortcut_not_found_for_renaming, shortcutNameOrId)
             }
-            .onErrorResumeNext { error ->
-                if (error is NoSuchElementException) {
-                    Completable
-                        .error(
-                            ActionException {
-                                it.getString(R.string.error_shortcut_not_found_for_renaming, shortcutNameOrId)
-                            }
-                        )
-                } else {
-                    Completable.error(error)
-                }
-            }
+        }
+        shortcutRepository.setName(shortcut.id, newName)
+
+        LauncherShortcutManager(context)
+            .takeIf { it.supportsPinning() }
+            ?.updatePinnedShortcut(
+                shortcutId = shortcut.id,
+                shortcutName = newName,
+                shortcutIcon = shortcut.icon,
+            )
+
+        widgetManager.updateWidgets(context, shortcut.id)
     }
 }

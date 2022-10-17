@@ -3,8 +3,9 @@ package ch.rmy.android.http_shortcuts.activities.settings.about
 import android.os.Bundle
 import androidx.preference.Preference
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.initialize
-import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.ui.BaseIntentBuilder
@@ -49,10 +50,10 @@ class AboutActivity : BaseActivity() {
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     class AboutFragment : BaseSettingsFragment() {

@@ -6,13 +6,14 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import io.realm.RealmList
+import io.realm.RealmModel
 import io.realm.RealmObject
 import java.lang.reflect.Type
 
-class ModelSerializer : JsonSerializer<RealmObject> {
-    private val classMap = mutableMapOf<Class<out RealmObject>, RealmObject>()
-    override fun serialize(src: RealmObject, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
-        val instance = classMap.computeIfAbsent(src::class.java) {
+class ModelSerializer : JsonSerializer<RealmModel> {
+    private val classMap = mutableMapOf<Class<out RealmModel>, RealmModel>()
+    override fun serialize(src: RealmModel, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
+        val instance = classMap.getOrPut(src::class.java) {
             src::class.java.getConstructor().newInstance()
         }
         val output = JsonObject()
@@ -48,7 +49,7 @@ class ModelSerializer : JsonSerializer<RealmObject> {
                                 output.add(fieldName, array)
                             }
                         }
-                        is RealmObject -> {
+                        is RealmModel -> {
                             output.add(fieldName, context.serialize(value))
                         }
                     }

@@ -1,15 +1,15 @@
 package ch.rmy.android.framework.extensions
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.webkit.WebView
 import android.widget.CheckBox
-import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -17,18 +17,15 @@ import androidx.core.content.getSystemService
 import androidx.core.content.res.use
 import androidx.core.view.children
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import ch.rmy.android.framework.ui.views.PanelButton
-import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.framework.utils.SimpleAnimationListener
-import ch.rmy.android.framework.utils.SimpleTextWatcher
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.subjects.PublishSubject
-import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
 var ViewBinding.isVisible: Boolean
@@ -88,38 +85,32 @@ val Toolbar.titleView: TextView?
         .filterIsInstance<TextView>()
         .firstOrNull()
 
-fun CheckBox.observeChecked(): Observable<Boolean> {
-    val subject = PublishSubject.create<Boolean>()
-    val listener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
-        subject.onNext(isChecked)
+fun CheckBox.doOnCheckedChanged(onCheckedChanged: (checked: Boolean) -> Unit) {
+    setOnCheckedChangeListener { _, isChecked ->
+        onCheckedChanged(isChecked)
     }
-    return subject
-        .doOnSubscribe {
-            setOnCheckedChangeListener(listener)
-        }
-        .doOnDispose {
-            setOnCheckedChangeListener(null)
-        }
 }
 
-fun EditText.observeTextChanges(): Observable<CharSequence> {
-    val subject = PublishSubject.create<CharSequence>()
-    val watcher = object : SimpleTextWatcher {
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            if (getTag(R.string.edit_text_suppress_listeners) != true) {
-                subject.onNext(s)
+fun EditText.doOnTextChanged(onTextChanged: (text: CharSequence) -> Unit) {
+    var onCooldown = false
+    var value: CharSequence? = null
+    val handler = Handler(Looper.getMainLooper())
+    val runnable = Runnable {
+        value?.let(onTextChanged)
+        onCooldown = false
+    }
+    doOnTextChanged { s, _, _, _ ->
+        if (getTag(R.string.edit_text_suppress_listeners) != true) {
+            if (!onCooldown) {
+                onTextChanged(s ?: "")
+                onCooldown = true
+            } else {
+                value = s
             }
+            handler.removeCallbacks(runnable)
+            handler.postDelayed(runnable, 200)
         }
     }
-    return subject
-        .doOnSubscribe {
-            addTextChangedListener(watcher)
-        }
-        .doOnDispose {
-            removeTextChangedListener(watcher)
-        }
-        .throttleLatest(200, TimeUnit.MILLISECONDS, true)
-        .observeOn(AndroidSchedulers.mainThread())
 }
 
 fun EditText.setTextSafely(text: CharSequence) {
@@ -213,6 +204,10 @@ fun View.zoomToggle(visible: Boolean) {
     }
 }
 
-fun WebView.attachTo(destroyer: Destroyer) {
-    destroyer.own { destroy() }
+fun LifecycleOwner.doOnDestroy(action: () -> Unit) {
+    lifecycle.addObserver(object : DefaultLifecycleObserver {
+        override fun onDestroy(owner: LifecycleOwner) {
+            action()
+        }
+    })
 }

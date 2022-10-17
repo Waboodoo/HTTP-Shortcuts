@@ -3,13 +3,15 @@ package ch.rmy.android.http_shortcuts.activities.editor.body
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
+import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.initialize
-import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setTextSafely
+import ch.rmy.android.framework.extensions.whileLifecycleActive
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -19,6 +21,7 @@ import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.databinding.ActivityRequestBodyBinding
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RequestBodyActivity : BaseActivity() {
@@ -75,33 +78,27 @@ class RequestBodyActivity : BaseActivity() {
     private fun initUserInputBindings() {
         initDragOrdering()
 
-        adapter.userEvents
-            .subscribe { event ->
+        whileLifecycleActive {
+            adapter.userEvents.collect { event ->
                 when (event) {
                     is ParameterAdapter.UserEvent.ParameterClicked -> viewModel.onParameterClicked(event.id)
                 }
             }
-            .attachTo(destroyer)
+        }
 
-        binding.inputRequestBodyType.selectionChanges
-            .subscribe { requestBodyType ->
+        lifecycleScope.launch {
+            binding.inputRequestBodyType.selectionChanges.collect { requestBodyType ->
                 viewModel.onRequestBodyTypeChanged(RequestBodyType.parse(requestBodyType))
             }
-            .attachTo(destroyer)
+        }
 
-        binding.inputContentType
-            .observeTextChanges()
-            .subscribe { newContentType ->
-                viewModel.onContentTypeChanged(newContentType.toString())
-            }
-            .attachTo(destroyer)
+        binding.inputContentType.doOnTextChanged { newContentType ->
+            viewModel.onContentTypeChanged(newContentType.toString())
+        }
 
-        binding.inputBodyContent
-            .observeTextChanges()
-            .subscribe {
-                viewModel.onBodyContentChanged(binding.inputBodyContent.rawString)
-            }
-            .attachTo(destroyer)
+        binding.inputBodyContent.doOnTextChanged {
+            viewModel.onBodyContentChanged(binding.inputBodyContent.rawString)
+        }
 
         binding.buttonAddParameter.setOnClickListener {
             viewModel.onAddParameterButtonClicked()
@@ -114,15 +111,15 @@ class RequestBodyActivity : BaseActivity() {
             getId = { (it as? ParameterAdapter.ParameterViewHolder)?.parameterId },
         )
         dragOrderingHelper.attachTo(binding.parameterList)
-        dragOrderingHelper.movementSource
-            .subscribe { (parameterId1, parameterId2) ->
+        whileLifecycleActive {
+            dragOrderingHelper.movementSource.collect { (parameterId1, parameterId2) ->
                 viewModel.onParameterMoved(parameterId1, parameterId2)
             }
-            .attachTo(destroyer)
+        }
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             adapter.items = viewState.parameters
             isDraggingEnabled = viewState.isDraggingEnabled
             binding.inputRequestBodyType.selectedItem = viewState.requestBodyType.type
@@ -134,7 +131,7 @@ class RequestBodyActivity : BaseActivity() {
             binding.containerInputBodyContent.isVisible = viewState.bodyContentVisible
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun handleEvent(event: ViewModelEvent) {

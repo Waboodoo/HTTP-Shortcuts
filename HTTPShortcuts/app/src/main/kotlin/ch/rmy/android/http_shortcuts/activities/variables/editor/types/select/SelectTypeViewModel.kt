@@ -39,9 +39,9 @@ class SelectTypeViewModel(application: Application) : BaseVariableTypeViewModel<
     }
 
     fun onOptionMoved(optionId1: String, optionId2: String) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.moveOption(optionId1, optionId2)
-        )
+        }
     }
 
     override fun validate() =
@@ -73,31 +73,31 @@ class SelectTypeViewModel(application: Application) : BaseVariableTypeViewModel<
     }
 
     fun onAddDialogConfirmed(label: String, value: String) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.addOption(label, value)
-        )
+        }
     }
 
     fun onEditDialogConfirmed(optionId: String, label: String, value: String) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.updateOption(optionId, label, value)
-        )
+        }
     }
 
     fun onDeleteOptionSelected(optionId: String) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.removeOption(optionId)
-        )
+        }
     }
 
     private fun saveData(viewState: SelectTypeViewState) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.setDataForType(
                 mapOf(
                     SelectType.KEY_MULTI_SELECT to viewState.isMultiSelect.toString(),
                     SelectType.KEY_SEPARATOR to viewState.separator,
                 )
             )
-        )
+        }
     }
 }

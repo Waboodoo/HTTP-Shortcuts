@@ -13,8 +13,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContract
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.doOnDestroy
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.getParcelable
 import ch.rmy.android.framework.extensions.logException
@@ -51,9 +52,10 @@ import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.TYPE_YAML_ALT
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.isImage
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import ch.rmy.android.http_shortcuts.utils.SizeLimitedReader
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DisplayResponseActivity : BaseActivity() {
@@ -204,11 +206,15 @@ class DisplayResponseActivity : BaseActivity() {
             if (showDetails) {
                 val binding = applyBinding(ActivityDisplayResponseWebviewWithDetailsBinding.inflate(layoutInflater))
                 binding.responseWebView.loadFromString(text, url)
-                binding.responseWebView.attachTo(destroyer)
+                doOnDestroy {
+                    binding.responseWebView.destroy()
+                }
             } else {
                 val binding = applyBinding(ActivityDisplayResponseWebviewBinding.inflate(layoutInflater))
                 binding.responseWebView.loadFromString(text, url)
-                binding.responseWebView.attachTo(destroyer)
+                doOnDestroy {
+                    binding.responseWebView.destroy()
+                }
             }
         } catch (e: Exception) {
             logException(e)
@@ -220,12 +226,20 @@ class DisplayResponseActivity : BaseActivity() {
         try {
             if (showDetails) {
                 val binding = applyBinding(ActivityDisplayResponseSyntaxHighlightingWithDetailsBinding.inflate(layoutInflater))
-                binding.formattedResponseText.setCode(text, language)
-                binding.formattedResponseText.attachTo(destroyer)
+                lifecycleScope.launch {
+                    binding.formattedResponseText.setCode(text, language)
+                }
+                doOnDestroy {
+                    binding.formattedResponseText.destroy()
+                }
             } else {
                 val binding = applyBinding(ActivityDisplayResponseSyntaxHighlightingBinding.inflate(layoutInflater))
-                binding.formattedResponseText.setCode(text, language)
-                binding.formattedResponseText.attachTo(destroyer)
+                lifecycleScope.launch {
+                    binding.formattedResponseText.setCode(text, language)
+                }
+                doOnDestroy {
+                    binding.formattedResponseText.destroy()
+                }
             }
         } catch (e: Exception) {
             logException(e)
@@ -326,32 +340,26 @@ class DisplayResponseActivity : BaseActivity() {
             setCanceledOnTouchOutside(false)
         }
         // TODO: Separate concerns better (this should not be in the activity)
-        Completable
-            .fromAction {
-                context.contentResolver.openOutputStream(uri).use { output ->
-                    context.contentResolver.openInputStream(responseFileUri!!).use { input ->
-                        input!!.copyTo(output!!)
+        lifecycleScope.launch {
+            progressDialog.showIfPossible()
+            try {
+                withContext(Dispatchers.IO) {
+                    context.contentResolver.openOutputStream(uri).use { output ->
+                        context.contentResolver.openInputStream(responseFileUri!!).use { input ->
+                            input!!.copyTo(output!!)
+                        }
                     }
                 }
-            }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
-                progressDialog.showIfPossible()
-            }
-            .doOnEvent {
+                showSnackbar(R.string.message_response_saved_to_file)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                showSnackbar(R.string.error_generic)
+                logException(e)
+            } finally {
                 progressDialog.hide()
             }
-            .subscribe(
-                {
-                    showSnackbar(R.string.message_response_saved_to_file)
-                },
-                { e ->
-                    showSnackbar(R.string.error_generic)
-                    logException(e)
-                },
-            )
-            .attachTo(destroyer)
+        }
     }
 
     override val navigateUpIcon = R.drawable.ic_clear

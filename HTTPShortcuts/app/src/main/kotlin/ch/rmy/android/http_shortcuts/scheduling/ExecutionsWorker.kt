@@ -1,17 +1,17 @@
 package ch.rmy.android.http_shortcuts.scheduling
 
 import android.content.Context
+import androidx.work.CoroutineWorker
 import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.RxWorker
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.RealmFactory
-import io.reactivex.Single
 import javax.inject.Inject
 
 class ExecutionsWorker(context: Context, workerParams: WorkerParameters) :
-    RxWorker(context, workerParams) {
+    CoroutineWorker(context, workerParams) {
 
     @Inject
     lateinit var executionScheduler: ExecutionScheduler
@@ -20,14 +20,16 @@ class ExecutionsWorker(context: Context, workerParams: WorkerParameters) :
         getApplicationComponent().inject(this)
     }
 
-    override fun createWork(): Single<Result> =
-        Single.defer {
-            RealmFactory.init(applicationContext)
-            executionScheduler
-                .schedule()
-                .toSingleDefault(Result.success())
-                .onErrorReturnItem(Result.failure())
+    override suspend fun doWork(): Result {
+        RealmFactory.init(applicationContext)
+        return try {
+            executionScheduler.schedule()
+            Result.success()
+        } catch (e: Exception) {
+            logException(e)
+            Result.failure()
         }
+    }
 
     companion object {
         private const val TAG = "executions_worker"

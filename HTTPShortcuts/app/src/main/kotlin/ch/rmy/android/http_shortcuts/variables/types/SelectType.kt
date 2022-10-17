@@ -7,10 +7,14 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.extensions.canceledByUser
+import ch.rmy.android.http_shortcuts.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.coroutines.resume
 
 class SelectType : BaseVariableType() {
 
@@ -24,10 +28,10 @@ class SelectType : BaseVariableType() {
         applicationComponent.inject(this)
     }
 
-    override fun resolveValue(context: Context, variable: VariableModel): Single<String> =
-        Single
-            .create<String> { emitter ->
-                createDialogBuilder(activityProvider.getActivity(), variable, emitter)
+    override suspend fun resolveValue(context: Context, variable: VariableModel): String {
+        val value = withContext(Dispatchers.Main) {
+            suspendCancellableCoroutine<String> { continuation ->
+                createDialogBuilder(activityProvider.getActivity(), variable, continuation)
                     .run {
                         if (isMultiSelect(variable)) {
                             val selectedOptions = mutableListOf<String>()
@@ -36,7 +40,7 @@ class SelectType : BaseVariableType() {
                                     selectedOptions.addOrRemove(option.id, isChecked)
                                 }
                                     .positive(R.string.dialog_ok) {
-                                        emitter.onSuccess(
+                                        continuation.resume(
                                             selectedOptions
                                                 .mapNotNull { optionId ->
                                                     variable.options!!.find { it.id == optionId }
@@ -50,15 +54,21 @@ class SelectType : BaseVariableType() {
                         } else {
                             runFor(variable.options!!) { option ->
                                 item(name = option.labelOrValue) {
-                                    emitter.onSuccess(option.value)
+                                    continuation.resume(option.value)
                                 }
                             }
                         }
                     }
-                    .showIfPossible()
+                    .showOrElse {
+                        continuation.canceledByUser()
+                    }
             }
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .storeValueIfNeeded(variable, variablesRepository)
+        }
+        if (variable.rememberValue) {
+            variablesRepository.setVariableValue(variable.id, value)
+        }
+        return value
+    }
 
     companion object {
         const val KEY_MULTI_SELECT = "multi_select"

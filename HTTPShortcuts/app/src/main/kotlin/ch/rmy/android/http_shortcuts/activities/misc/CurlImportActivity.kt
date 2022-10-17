@@ -5,11 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
+import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.focus
-import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
@@ -34,11 +33,9 @@ class CurlImportActivity : BaseActivity() {
         binding = applyBinding(ActivityCurlImportBinding.inflate(layoutInflater))
         setTitle(R.string.title_curl_import)
 
-        binding.curlImportCommand.observeTextChanges()
-            .subscribe { text ->
-                commandEmpty = text.isEmpty()
-            }
-            .attachTo(destroyer)
+        binding.curlImportCommand.doOnTextChanged { text ->
+            commandEmpty = text.isEmpty()
+        }
     }
 
     override fun onResume() {

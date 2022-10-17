@@ -1,18 +1,18 @@
 package ch.rmy.android.http_shortcuts.activities.response
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.webkit.WebView
 import androidx.core.text.TextUtilsCompat.htmlEncode
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
-import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
+@SuppressLint("SetJavaScriptEnabled")
 class SyntaxHighlightView
 @JvmOverloads constructor(
     context: Context,
@@ -20,24 +20,21 @@ class SyntaxHighlightView
     defStyleAttr: Int = 0,
 ) : WebView(context, attrs, defStyleAttr) {
 
-    private var disposable: Disposable? = null
-
     init {
         setBackgroundColor(Color.TRANSPARENT)
         settings.javaScriptEnabled = true
     }
 
-    fun setCode(content: String, language: Language) {
-        disposable?.dispose()
+    suspend fun setCode(content: String, language: Language) {
         if (language == Language.JSON) {
-            disposable = Single.fromCallable {
-                GsonUtil.prettyPrint(content)
-            }
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ prettyJson ->
+            tryOrLog {
+                val prettyJson = withContext(Dispatchers.Default) {
+                    GsonUtil.prettyPrint(content)
+                }
+                withContext(Dispatchers.Main) {
                     apply(prettyJson, language.language)
-                }, ::logException)
+                }
+            }
         } else {
             apply(content, language.language)
         }

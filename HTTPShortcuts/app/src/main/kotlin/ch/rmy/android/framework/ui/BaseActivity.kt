@@ -24,7 +24,6 @@ import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.framework.extensions.showSnackbar
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
-import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.framework.utils.SnackbarManager
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -35,8 +34,6 @@ import ch.rmy.android.http_shortcuts.R
 abstract class BaseActivity : AppCompatActivity() {
 
     internal var toolbar: Toolbar? = null
-
-    val destroyer = Destroyer()
 
     val baseView: ViewGroup?
         get() = (findViewById<ViewGroup>(android.R.id.content))?.getChildAt(0) as ViewGroup?
@@ -188,11 +185,6 @@ abstract class BaseActivity : AppCompatActivity() {
         currentDialog?.setOnDismissListener(null)
         currentDialog?.dismiss()
         currentDialog = null
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        destroyer.destroy()
     }
 
     companion object {

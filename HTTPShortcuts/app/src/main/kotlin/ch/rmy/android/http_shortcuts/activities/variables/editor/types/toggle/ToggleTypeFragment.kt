@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.initialize
-import ch.rmy.android.framework.extensions.observe
+import ch.rmy.android.framework.extensions.whileLifecycleActive
 import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
@@ -15,6 +16,7 @@ import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.databinding.ToggleOptionEditorItemBinding
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorToggleBinding
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import javax.inject.Inject
@@ -57,9 +59,11 @@ class ToggleTypeFragment : BaseFragment<VariableEditorToggleBinding>() {
     private fun initUserInputBindings() {
         initDragOrdering()
 
-        adapter.userEvents.observe(this) { event ->
-            when (event) {
-                is ToggleVariableOptionsAdapter.UserEvent.OptionClicked -> viewModel.onOptionClicked(event.id)
+        whileLifecycleActive {
+            adapter.userEvents.collect { event ->
+                when (event) {
+                    is ToggleVariableOptionsAdapter.UserEvent.OptionClicked -> viewModel.onOptionClicked(event.id)
+                }
             }
         }
 
@@ -73,20 +77,20 @@ class ToggleTypeFragment : BaseFragment<VariableEditorToggleBinding>() {
             isEnabledCallback = { isDraggingEnabled },
             getId = { (it as? ToggleVariableOptionsAdapter.SelectOptionViewHolder)?.optionId },
         )
-        dragOrderingHelper.movementSource
-            .subscribe { (optionId1, optionId2) ->
+        whileLifecycleActive {
+            dragOrderingHelper.movementSource.collect { (optionId1, optionId2) ->
                 viewModel.onOptionMoved(optionId1, optionId2)
             }
-            .attachTo(destroyer)
+        }
         dragOrderingHelper.attachTo(binding.toggleOptionsList)
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             adapter.items = viewState.options
             isDraggingEnabled = viewState.isDraggingEnabled
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun handleEvent(event: ViewModelEvent) {

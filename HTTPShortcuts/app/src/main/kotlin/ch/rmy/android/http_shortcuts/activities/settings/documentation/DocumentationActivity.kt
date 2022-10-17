@@ -14,11 +14,11 @@ import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.core.view.postDelayed
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.getParcelable
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.framework.extensions.isVisible
-import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.extensions.tryOrIgnore
@@ -119,7 +119,7 @@ class DocumentationActivity : BaseActivity() {
     }
 
     private fun initViewModelBindings() {
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun handleEvent(event: ViewModelEvent) {

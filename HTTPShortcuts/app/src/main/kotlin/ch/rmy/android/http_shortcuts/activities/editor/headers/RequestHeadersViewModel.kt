@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.headers
 
 import android.app.Application
 import android.content.Context
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -17,6 +17,8 @@ import ch.rmy.android.http_shortcuts.data.models.HeaderModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.usecases.GetKeyValueDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, RequestHeadersViewState>(application), WithDialog {
@@ -59,15 +61,20 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
     override fun initViewState() = RequestHeadersViewState()
 
     override fun onInitialized() {
-        temporaryShortcutRepository.getTemporaryShortcut()
-            .subscribe(
-                ::initViewStateFromShortcut,
-                ::onInitializationError,
-            )
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            try {
+                val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
+                initViewStateFromShortcut(temporaryShortcut)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                onInitializationError(e)
+            }
+        }
 
-        keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
+        }
     }
 
     private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
@@ -81,9 +88,9 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
 
     fun onHeaderMoved(headerId1: String, headerId2: String) {
         headers = headers.swapped(headerId1, headerId2) { id }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.moveHeader(headerId1, headerId2)
-        )
+        }
     }
 
     fun onAddHeaderButtonClicked() {
@@ -129,12 +136,10 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
     }
 
     private fun onAddHeaderDialogConfirmed(key: String, value: String) {
-        temporaryShortcutRepository.addHeader(key, value)
-            .compose(progressMonitor.singleTransformer())
-            .subscribe { newHeader ->
-                headers = headers.plus(newHeader)
-            }
-            .attachTo(destroyer)
+        launchWithProgressTracking {
+            val newHeader = temporaryShortcutRepository.addHeader(key, value)
+            headers = headers.plus(newHeader)
+        }
     }
 
     private fun onEditHeaderDialogConfirmed(headerId: String, key: String, value: String) {
@@ -146,18 +151,18 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
                     header
                 }
             }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.updateHeader(headerId, key, value)
-        )
+        }
     }
 
     private fun onRemoveHeaderButtonClicked(headerId: String) {
         headers = headers.filter { header ->
             header.id != headerId
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.removeHeader(headerId)
-        )
+        }
     }
 
     fun onHeaderClicked(id: String) {
@@ -189,7 +194,8 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
     }
 
     fun onBackPressed() {
-        waitForOperationsToFinish {
+        viewModelScope.launch {
+            waitForOperationsToFinish()
             finish()
         }
     }

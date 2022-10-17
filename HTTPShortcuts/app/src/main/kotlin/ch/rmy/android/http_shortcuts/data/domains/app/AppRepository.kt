@@ -3,8 +3,8 @@ package ch.rmy.android.http_shortcuts.data.domains.app
 import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
+import ch.rmy.android.framework.extensions.deleteAllFromRealm
 import ch.rmy.android.framework.extensions.runIfNotNull
-import ch.rmy.android.framework.utils.Optional
 import ch.rmy.android.http_shortcuts.data.domains.getAppLock
 import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
@@ -20,11 +20,9 @@ import ch.rmy.android.http_shortcuts.data.models.ResolvedVariableModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.import_export.Importer
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.realm.RealmObject
 import io.realm.kotlin.where
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class AppRepository
@@ -33,45 +31,46 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRepository(realmFactory) {
 
-    fun getBase(): Single<BaseModel> =
+    suspend fun getBase(): BaseModel =
         queryItem {
             getBase()
         }
 
-    fun getGlobalCode(): Single<String> =
+    suspend fun getGlobalCode(): String =
         query {
             getBase()
         }
-            .map {
-                it.firstOrNull()
-                    ?.globalCode
-                    ?: ""
-            }
+            .firstOrNull()
+            ?.globalCode
+            .orEmpty()
 
-    fun getToolbarTitle(): Single<String> =
+    suspend fun getToolbarTitle(): String =
         queryItem {
             getBase()
         }
-            .map { base ->
-                base.title?.takeUnless { it.isBlank() } ?: ""
-            }
+            .title
+            ?.takeUnless { it.isBlank() }
+            .orEmpty()
 
-    fun getObservableToolbarTitle(): Observable<String> =
+    fun getObservableToolbarTitle(): Flow<String> =
         observeItem {
             getBase()
         }
             .map { base ->
-                base.title?.takeUnless { it.isBlank() } ?: ""
+                base.title
+                    ?.takeUnless { it.isBlank() }
+                    .orEmpty()
             }
 
-    fun setToolbarTitle(title: String): Completable =
+    suspend fun setToolbarTitle(title: String) {
         commitTransaction {
             getBase()
                 .findFirst()
                 ?.title = title
         }
+    }
 
-    fun setGlobalCode(globalCode: String?): Completable =
+    suspend fun setGlobalCode(globalCode: String?) {
         commitTransaction {
             getBase()
                 .findFirst()
@@ -79,36 +78,37 @@ constructor(
                     base.globalCode = globalCode
                 }
         }
+    }
 
-    fun getLock(): Single<Optional<AppLockModel>> =
+    suspend fun getLock(): AppLockModel? =
         query {
             getAppLock()
         }
-            .map {
-                Optional(it.firstOrNull())
-            }
+            .firstOrNull()
 
-    fun getObservableLock(): Observable<Optional<AppLockModel>> =
+    fun getObservableLock(): Flow<AppLockModel?> =
         observeQuery {
             getAppLock()
         }
             .map {
-                Optional(it.firstOrNull())
+                it.firstOrNull()
             }
 
-    fun setLock(passwordHash: String): Completable =
+    suspend fun setLock(passwordHash: String) {
         commitTransaction {
             copyOrUpdate(AppLockModel(passwordHash))
         }
+    }
 
-    fun removeLock(): Completable =
+    suspend fun removeLock() {
         commitTransaction {
             getAppLock()
                 .findAll()
                 .deleteAllFromRealm()
         }
+    }
 
-    fun importBase(base: BaseModel, importMode: Importer.ImportMode) =
+    suspend fun importBase(base: BaseModel, importMode: Importer.ImportMode) {
         commitTransaction {
             val oldBase = getBase().findFirst()!!
             if (base.title != null) {
@@ -124,7 +124,7 @@ constructor(
                     }
 
                     base.categories.forEach { category ->
-                        importCategory(this, oldBase, category)
+                        importCategory(oldBase, category)
                     }
 
                     val persistedVariables = copyOrUpdate(base.variables)
@@ -140,32 +140,33 @@ constructor(
                 }
             }
         }
+    }
 
-    private fun importCategory(realmTransactionContext: RealmTransactionContext, base: BaseModel, category: CategoryModel) {
+    private fun RealmTransactionContext.importCategory(base: BaseModel, category: CategoryModel) {
         val oldCategory = base.categories.find { it.id == category.id }
         if (oldCategory == null) {
-            base.categories.add(realmTransactionContext.copyOrUpdate(category))
+            base.categories.add(copyOrUpdate(category))
         } else {
             oldCategory.name = category.name
             oldCategory.categoryBackgroundType = category.categoryBackgroundType
             oldCategory.hidden = category.hidden
             oldCategory.categoryLayoutType = category.categoryLayoutType
             category.shortcuts.forEach { shortcut ->
-                importShortcut(realmTransactionContext, oldCategory, shortcut)
+                importShortcut(oldCategory, shortcut)
             }
         }
     }
 
-    private fun importShortcut(realmTransactionContext: RealmTransactionContext, category: CategoryModel, shortcut: ShortcutModel) {
+    private fun RealmTransactionContext.importShortcut(category: CategoryModel, shortcut: ShortcutModel) {
         val oldShortcut = category.shortcuts.find { it.id == shortcut.id }
         if (oldShortcut == null) {
-            category.shortcuts.add(realmTransactionContext.copyOrUpdate(shortcut))
+            category.shortcuts.add(copyOrUpdate(shortcut))
         } else {
-            realmTransactionContext.copyOrUpdate(shortcut)
+            copyOrUpdate(shortcut)
         }
     }
 
-    fun deleteUnusedData() =
+    suspend fun deleteUnusedData() {
         commitTransaction {
             val base = getBase().findFirst() ?: return@commitTransaction
             val temporaryShortcut = getTemporaryShortcut().findFirst()
@@ -251,11 +252,6 @@ constructor(
                     it.id !in usedResolvedVariableIds
                 }
                 .deleteAllFromRealm()
-        }
-
-    private fun <T : RealmObject> List<T>.deleteAllFromRealm() {
-        forEach {
-            it.deleteFromRealm()
         }
     }
 }

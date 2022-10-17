@@ -2,11 +2,11 @@ package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 
 import android.os.Bundle
 import androidx.core.view.isVisible
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
+import ch.rmy.android.framework.extensions.doOnCheckedChanged
 import ch.rmy.android.framework.extensions.initialize
-import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.observeChecked
 import ch.rmy.android.framework.extensions.setSubtitle
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
@@ -32,29 +32,17 @@ class ExecutionSettingsActivity : BaseActivity() {
     }
 
     private fun initUserInputBindings() {
-        binding.inputRequireConfirmation
-            .observeChecked()
-            .subscribe(viewModel::onRequireConfirmationChanged)
-            .attachTo(destroyer)
-        binding.inputLauncherShortcut
-            .observeChecked()
-            .subscribe(viewModel::onLauncherShortcutChanged)
-            .attachTo(destroyer)
-        binding.inputQuickTileShortcut
-            .observeChecked()
-            .subscribe(viewModel::onQuickSettingsTileShortcutChanged)
-            .attachTo(destroyer)
-        binding.inputWaitForConnection
-            .observeChecked()
-            .subscribe(viewModel::onWaitForConnectionChanged)
-            .attachTo(destroyer)
+        binding.inputRequireConfirmation.doOnCheckedChanged(viewModel::onRequireConfirmationChanged)
+        binding.inputLauncherShortcut.doOnCheckedChanged(viewModel::onLauncherShortcutChanged)
+        binding.inputQuickTileShortcut.doOnCheckedChanged(viewModel::onQuickSettingsTileShortcutChanged)
+        binding.inputWaitForConnection.doOnCheckedChanged(viewModel::onWaitForConnectionChanged)
         binding.inputDelay.setOnClickListener {
             viewModel.onDelayButtonClicked()
         }
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             binding.inputRequireConfirmation.isChecked = viewState.requireConfirmation
             binding.inputLauncherShortcut.isVisible = viewState.launcherShortcutOptionVisible
             binding.inputLauncherShortcut.isChecked = viewState.launcherShortcut
@@ -65,7 +53,7 @@ class ExecutionSettingsActivity : BaseActivity() {
             binding.inputDelay.setSubtitle(viewState.delaySubtitle)
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun onBackPressed() {

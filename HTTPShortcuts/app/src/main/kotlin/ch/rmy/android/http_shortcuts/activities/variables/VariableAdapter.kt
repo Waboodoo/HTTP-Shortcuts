@@ -9,8 +9,9 @@ import ch.rmy.android.framework.ui.BaseAdapter
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.databinding.ListEmptyItemBinding
 import ch.rmy.android.http_shortcuts.databinding.ListItemVariableBinding
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 
 class VariableAdapter : BaseAdapter<VariableListItem>() {
 
@@ -18,10 +19,9 @@ class VariableAdapter : BaseAdapter<VariableListItem>() {
         data class VariableClicked(val id: String) : UserEvent
     }
 
-    private val userEventSubject = PublishSubject.create<UserEvent>()
+    private val userEventChannel = Channel<UserEvent>(capacity = Channel.UNLIMITED)
 
-    val userEvents: Observable<UserEvent>
-        get() = userEventSubject
+    val userEvents: Flow<UserEvent> = userEventChannel.receiveAsFlow()
 
     override fun areItemsTheSame(oldItem: VariableListItem, newItem: VariableListItem): Boolean =
         when (oldItem) {
@@ -58,7 +58,7 @@ class VariableAdapter : BaseAdapter<VariableListItem>() {
 
         init {
             binding.root.setOnClickListener {
-                userEventSubject.onNext(UserEvent.VariableClicked(variableId))
+                userEventChannel.trySend(UserEvent.VariableClicked(variableId))
             }
         }
 

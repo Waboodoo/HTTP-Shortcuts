@@ -13,6 +13,8 @@ import androidx.core.content.getSystemService
 import androidx.core.graphics.scale
 import ch.rmy.android.framework.extensions.setTintCompat
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.InputStream
 import java.util.Date
@@ -144,11 +146,13 @@ object IconUtil {
             }
         }
 
-    fun getCustomIconNamesInApp(context: Context): List<String> =
-        context.filesDir
-            .listFiles { file ->
-                file.name.matches(CUSTOM_ICON_NAME_REGEX.toRegex()) && file.length() < CUSTOM_ICON_MAX_FILE_SIZE
-            }
-            ?.map { it.name }
-            ?: emptyList()
+    suspend fun getCustomIconNamesInApp(context: Context): List<String> =
+        withContext(Dispatchers.IO) {
+            context.filesDir
+                .listFiles { file ->
+                    file.name.matches(CUSTOM_ICON_NAME_REGEX.toRegex()) && file.length() < CUSTOM_ICON_MAX_FILE_SIZE
+                }
+                ?.map { it.name }
+                ?: emptyList()
+        }
 }

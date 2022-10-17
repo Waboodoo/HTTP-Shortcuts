@@ -3,14 +3,16 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.VibrationUtil
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 class VibrateAction(private val patternId: Int, private val waitForCompletion: Boolean) : BaseAction() {
 
@@ -21,23 +23,25 @@ class VibrateAction(private val patternId: Int, private val waitForCompletion: B
         applicationComponent.inject(this)
     }
 
-    override fun execute(executionContext: ExecutionContext): Completable {
+    override suspend fun execute(executionContext: ExecutionContext) {
         val vibrator = vibrationUtil.getVibrator()
-            ?: return Completable.complete()
+            ?: return
 
         val pattern = findPattern(patternId)
-        return Completable.fromAction {
+        withContext(Dispatchers.Main) {
             pattern.execute(vibrator)
         }
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .runIf(waitForCompletion) {
-                delay(pattern.duration, TimeUnit.MILLISECONDS)
-            }
+        if (waitForCompletion) {
+            delay(pattern.duration)
+        }
     }
 
     interface VibrationPattern {
 
-        val duration: Long
+        val duration: Duration
+
+        val milliseconds: Long
+            get() = duration.inWholeMilliseconds
 
         fun execute(vibrator: Vibrator)
     }
@@ -47,21 +51,19 @@ class VibrateAction(private val patternId: Int, private val waitForCompletion: B
         private fun findPattern(patternId: Int): VibrationPattern =
             when (patternId) {
                 1 -> object : VibrationPattern {
-                    override val duration: Long
-                        get() = 1000L
+                    override val duration = 1.seconds
 
                     override fun execute(vibrator: Vibrator) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE))
+                            vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE))
                         } else {
                             @Suppress("DEPRECATION")
-                            vibrator.vibrate(duration)
+                            vibrator.vibrate(milliseconds)
                         }
                     }
                 }
                 2 -> object : VibrationPattern {
-                    override val duration: Long
-                        get() = 1200L
+                    override val duration = 1200.milliseconds
 
                     override fun execute(vibrator: Vibrator) {
                         val pattern = longArrayOf(200L, 200L, 200L, 200L, 200L, 200L)
@@ -74,15 +76,14 @@ class VibrateAction(private val patternId: Int, private val waitForCompletion: B
                     }
                 }
                 else -> object : VibrationPattern {
-                    override val duration: Long
-                        get() = 300L
+                    override val duration = 300.milliseconds
 
                     override fun execute(vibrator: Vibrator) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE))
+                            vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE))
                         } else {
                             @Suppress("DEPRECATION")
-                            vibrator.vibrate(duration)
+                            vibrator.vibrate(milliseconds)
                         }
                     }
                 }

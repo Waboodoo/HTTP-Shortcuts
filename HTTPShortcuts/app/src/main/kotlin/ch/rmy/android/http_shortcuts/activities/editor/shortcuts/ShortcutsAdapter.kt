@@ -9,8 +9,9 @@ import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.models.Shortcut
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.models.ShortcutListItemId
 import ch.rmy.android.http_shortcuts.databinding.ListEmptyItemBinding
 import ch.rmy.android.http_shortcuts.databinding.ListItemShortcutTriggerBinding
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 
 class ShortcutsAdapter : BaseAdapter<ShortcutListItem>() {
 
@@ -18,10 +19,9 @@ class ShortcutsAdapter : BaseAdapter<ShortcutListItem>() {
         data class ShortcutClicked(val id: ShortcutListItemId) : UserEvent
     }
 
-    private val userEventSubject = PublishSubject.create<UserEvent>()
+    private val userEventChannel = Channel<UserEvent>(capacity = Channel.UNLIMITED)
 
-    val userEvents: Observable<UserEvent>
-        get() = userEventSubject
+    val userEvents: Flow<UserEvent> = userEventChannel.receiveAsFlow()
 
     override fun areItemsTheSame(oldItem: ShortcutListItem, newItem: ShortcutListItem): Boolean =
         when (oldItem) {
@@ -58,7 +58,7 @@ class ShortcutsAdapter : BaseAdapter<ShortcutListItem>() {
 
         init {
             binding.root.setOnClickListener {
-                userEventSubject.onNext(UserEvent.ShortcutClicked(id))
+                userEventChannel.trySend(UserEvent.ShortcutClicked(id))
             }
         }
 

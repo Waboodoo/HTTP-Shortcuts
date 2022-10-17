@@ -6,7 +6,7 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import io.realm.RealmList
-import io.realm.RealmObject
+import io.realm.RealmModel
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
@@ -18,7 +18,7 @@ open class CategoryModel(
     categoryLayoutType: CategoryLayoutType = CategoryLayoutType.LINEAR_LIST,
     categoryBackgroundType: CategoryBackgroundType = CategoryBackgroundType.Default,
     clickBehavior: ShortcutClickBehavior? = null,
-) : RealmObject() {
+) : RealmModel {
 
     @PrimaryKey
     var id: CategoryId = ""

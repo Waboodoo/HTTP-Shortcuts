@@ -4,8 +4,8 @@ import android.app.Application
 import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.style.StyleSpan
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.addOrRemove
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.extensions.toLocalizable
@@ -29,6 +29,8 @@ import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager.
 import com.afollestad.materialdialogs.WhichButton
 import com.afollestad.materialdialogs.actions.getActionButton
 import com.afollestad.materialdialogs.callbacks.onShow
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class TriggerShortcutsViewModel(application: Application) :
@@ -47,11 +49,14 @@ class TriggerShortcutsViewModel(application: Application) :
     private val currentShortcutId
         get() = initData.currentShortcutId
 
-    private var shortcutInitialized = false
+    private var shortcutsInitialized = false
     private lateinit var shortcuts: List<ShortcutModel>
 
     private var shortcutIdsInUse = emptyList<ShortcutListItemId>()
         set(value) {
+            if (field == value) {
+                return
+            }
             field = value
             updateViewState {
                 copy(
@@ -59,11 +64,11 @@ class TriggerShortcutsViewModel(application: Application) :
                         .ifEmpty { listOf(ShortcutListItem.EmptyState) },
                 )
             }
-            performOperation(
+            launchWithProgressTracking {
                 temporaryShortcutRepository.setCodeOnPrepare(
                     getCodeFromTriggeredShortcutIds(value.map { it.shortcutId })
                 )
-            )
+            }
         }
 
     override var dialogState: DialogState?
@@ -81,20 +86,25 @@ class TriggerShortcutsViewModel(application: Application) :
     override fun initViewState() = TriggerShortcutsViewState()
 
     override fun onInitialized() {
-        shortcutRepository.getObservableShortcuts()
-            .subscribe { shortcuts ->
-                this.shortcuts = shortcuts
-                if (!shortcutInitialized) {
-                    shortcutInitialized = true
-                    temporaryShortcutRepository.getTemporaryShortcut()
-                        .subscribe(
-                            ::initViewStateFromShortcut,
-                            ::onInitializationError,
-                        )
-                        .attachTo(destroyer)
+        viewModelScope.launch {
+            shortcutRepository.getObservableShortcuts()
+                .collect { shortcuts ->
+                    this@TriggerShortcutsViewModel.shortcuts = shortcuts
+                    if (!shortcutsInitialized) {
+                        shortcutsInitialized = true
+                        viewModelScope.launch {
+                            try {
+                                val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
+                                initViewStateFromShortcut(temporaryShortcut)
+                            } catch (e: CancellationException) {
+                                throw e
+                            } catch (e: Exception) {
+                                onInitializationError(e)
+                            }
+                        }
+                    }
                 }
-            }
-            .attachTo(destroyer)
+        }
     }
 
     private fun initViewStateFromShortcut(shortcut: ShortcutModel) {

@@ -3,21 +3,22 @@ package ch.rmy.android.http_shortcuts.variables.types
 import android.app.TimePickerDialog
 import android.content.Context
 import android.text.format.DateFormat
-import ch.rmy.android.framework.extensions.showIfPossible
+import ch.rmy.android.framework.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
-import ch.rmy.android.http_shortcuts.extensions.cancel
+import ch.rmy.android.http_shortcuts.extensions.canceledByUser
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
-import io.reactivex.Completable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
+import kotlin.coroutines.resume
 
 class TimeType : BaseVariableType() {
 
@@ -31,44 +32,42 @@ class TimeType : BaseVariableType() {
         applicationComponent.inject(this)
     }
 
-    override fun resolveValue(context: Context, variable: VariableModel): Single<String> =
-        Single.create<Date> { emitter ->
-            val calendar = getInitialTime(variable.value)
-            val timePicker = TimePickerDialog(
-                activityProvider.getActivity(),
-                { _, hourOfDay, minute ->
-                    val newDate = Calendar.getInstance()
-                    newDate.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                    newDate.set(Calendar.MINUTE, minute)
-                    emitter.onSuccess(newDate.time)
-                },
-                calendar.get(Calendar.HOUR_OF_DAY),
-                calendar.get(Calendar.MINUTE),
-                DateFormat.is24HourFormat(context),
-            )
-            if (variable.title.isNotEmpty()) {
-                timePicker.setTitle(variable.title)
-            }
-            timePicker.setCancelable(true)
-            timePicker.setCanceledOnTouchOutside(true)
+    override suspend fun resolveValue(context: Context, variable: VariableModel): String {
+        val selectedDate = withContext(Dispatchers.Main) {
+            suspendCancellableCoroutine<Date> { continuation ->
+                val calendar = getInitialTime(variable.value)
+                val timePicker = TimePickerDialog(
+                    activityProvider.getActivity(),
+                    { _, hourOfDay, minute ->
+                        val newDate = Calendar.getInstance()
+                        newDate.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                        newDate.set(Calendar.MINUTE, minute)
+                        continuation.resume(newDate.time)
+                    },
+                    calendar.get(Calendar.HOUR_OF_DAY),
+                    calendar.get(Calendar.MINUTE),
+                    DateFormat.is24HourFormat(context),
+                )
+                if (variable.title.isNotEmpty()) {
+                    timePicker.setTitle(variable.title)
+                }
+                timePicker.setCancelable(true)
+                timePicker.setCanceledOnTouchOutside(true)
 
-            timePicker.showIfPossible()
-            timePicker.setOnDismissListener {
-                emitter.cancel()
+                timePicker.showOrElse {
+                    continuation.canceledByUser()
+                }
+                timePicker.setOnDismissListener {
+                    continuation.canceledByUser()
+                }
             }
         }
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .flatMap { resolvedDate ->
-                if (variable.rememberValue) {
-                    variablesRepository.setVariableValue(variable.id, DATE_FORMAT.format(resolvedDate.time))
-                } else {
-                    Completable.complete()
-                }
-                    .toSingle {
-                        SimpleDateFormat(getTimeFormat(variable), Locale.US)
-                            .format(resolvedDate.time)
-                    }
-            }
+        if (variable.rememberValue) {
+            variablesRepository.setVariableValue(variable.id, DATE_FORMAT.format(selectedDate.time))
+        }
+        return SimpleDateFormat(getTimeFormat(variable), Locale.US)
+            .format(selectedDate.time)
+    }
 
     private fun getInitialTime(previousValue: String?) =
         Calendar.getInstance()

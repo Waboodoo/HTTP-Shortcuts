@@ -21,12 +21,12 @@ class ShortcutListAdapter : BaseShortcutAdapter() {
 
         init {
             binding.root.setOnClickListener {
-                userEventSubject.onNext(UserEvent.ShortcutClicked(shortcutId))
+                userEventChannel.trySend(UserEvent.ShortcutClicked(shortcutId))
             }
             binding.root.setOnLongClickListener {
                 if (isLongClickingEnabled) {
                     consume {
-                        userEventSubject.onNext(UserEvent.ShortcutLongClicked(shortcutId))
+                        userEventChannel.trySend(UserEvent.ShortcutLongClicked(shortcutId))
                     }
                 } else {
                     false

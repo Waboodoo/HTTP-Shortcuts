@@ -4,24 +4,22 @@ import ch.rmy.android.framework.extensions.toHexString
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import io.reactivex.Single
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 class HashAction(private val algorithm: String, private val text: String) : BaseAction() {
 
-    override fun executeForValue(executionContext: ExecutionContext): Single<Any> =
-        Single.fromCallable {
-            val algorithmName = SUPPORTED_ALGORITHMS[normalizeAlgorithm(algorithm)]
-                ?: throwUnsupportedError()
-            try {
-                MessageDigest.getInstance(algorithmName)
-                    .digest(text.toByteArray())
-                    .toHexString()
-            } catch (e: NoSuchAlgorithmException) {
-                throwUnsupportedError()
-            }
+    override suspend fun execute(executionContext: ExecutionContext): String {
+        val algorithmName = SUPPORTED_ALGORITHMS[normalizeAlgorithm(algorithm)]
+            ?: throwUnsupportedError()
+        return try {
+            MessageDigest.getInstance(algorithmName)
+                .digest(text.toByteArray())
+                .toHexString()
+        } catch (e: NoSuchAlgorithmException) {
+            throwUnsupportedError()
         }
+    }
 
     private fun throwUnsupportedError(): Nothing {
         throw ActionException {

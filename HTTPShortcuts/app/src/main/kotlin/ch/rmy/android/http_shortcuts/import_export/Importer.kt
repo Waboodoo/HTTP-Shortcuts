@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import ch.rmy.android.framework.extensions.isWebUrl
 import ch.rmy.android.framework.extensions.logInfo
-import ch.rmy.android.framework.utils.RxUtils
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.migration.ImportMigrator
@@ -16,9 +15,9 @@ import ch.rmy.android.http_shortcuts.utils.NoCloseInputStream
 import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
 import com.google.gson.JsonSyntaxException
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
@@ -38,9 +37,9 @@ constructor(
     private val appRepository: AppRepository,
 ) {
 
-    fun importFromUri(uri: Uri, importMode: ImportMode): Single<ImportStatus> =
-        RxUtils
-            .single {
+    suspend fun importFromUri(uri: Uri, importMode: ImportMode): ImportStatus =
+        try {
+            withContext(Dispatchers.IO) {
                 val cacheFile = FileUtil.createCacheFile(context, IMPORT_TEMP_FILE)
                 getStream(context, uri).use { inStream ->
                     FileUtil.getOutputStream(context, cacheFile).use { outStream ->
@@ -58,52 +57,53 @@ constructor(
                     }
                 }
             }
-            .onErrorResumeNext { error ->
-                Single.error(handleError(error))
-            }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            throw handleError(e)
+        }
 
-    private fun importFromZIP(inputStream: InputStream, importMode: ImportMode): ImportStatus {
-        var importStatus: ImportStatus? = null
-        ZipInputStream(inputStream).use { stream ->
-            while (true) {
-                val entry = stream.nextEntry ?: break
-                when {
-                    entry.name == Exporter.JSON_FILE -> {
-                        importStatus = importFromJSON(NoCloseInputStream(stream), importMode)
-                    }
-                    IconUtil.isCustomIconName(entry.name) -> {
-                        NoCloseInputStream(stream).copyTo(FileOutputStream(File(context.filesDir, entry.name)))
-                    }
-                    else -> {
-                        stream.closeEntry()
+    private suspend fun importFromZIP(inputStream: InputStream, importMode: ImportMode): ImportStatus =
+        withContext(Dispatchers.IO) {
+            var importStatus: ImportStatus? = null
+            ZipInputStream(inputStream).use { stream ->
+                while (true) {
+                    val entry = stream.nextEntry ?: break
+                    when {
+                        entry.name == Exporter.JSON_FILE -> {
+                            importStatus = importFromJSON(NoCloseInputStream(stream), importMode)
+                        }
+                        IconUtil.isCustomIconName(entry.name) -> {
+                            NoCloseInputStream(stream).copyTo(FileOutputStream(File(context.filesDir, entry.name)))
+                        }
+                        else -> {
+                            stream.closeEntry()
+                        }
                     }
                 }
             }
+            importStatus ?: throw ZipException("Invalid file")
         }
-        return importStatus ?: throw ZipException("Invalid file")
-    }
 
-    fun importFromJSON(inputStream: InputStream, importMode: ImportMode): ImportStatus {
-        val importData = BufferedReader(InputStreamReader(inputStream)).use { reader ->
-            JsonParser.parseReader(reader)
+    suspend fun importFromJSON(inputStream: InputStream, importMode: ImportMode): ImportStatus =
+        withContext(Dispatchers.IO) {
+            val importData = BufferedReader(InputStreamReader(inputStream)).use { reader ->
+                JsonParser.parseReader(reader)
+            }
+            logInfo("Importing from v${importData.asJsonObject.get("version") ?: "?"}: ${importData.asJsonObject.keySet()}")
+            val migratedImportData = ImportMigrator.migrate(importData)
+            val newBase = GsonUtil.importData(migratedImportData)
+            try {
+                newBase.validate()
+            } catch (e: IllegalArgumentException) {
+                throw ImportException(e.message!!)
+            }
+            appRepository.importBase(newBase, importMode)
+            ImportStatus(
+                importedShortcuts = newBase.shortcuts.size,
+                needsRussianWarning = newBase.shortcuts.any { it.url.contains(".beeline.ru") }
+            )
         }
-        logInfo("Importing from v${importData.asJsonObject.get("version") ?: "?"}: ${importData.asJsonObject.keySet()}")
-        val migratedImportData = ImportMigrator.migrate(importData)
-        val newBase = GsonUtil.importData(migratedImportData)
-        try {
-            newBase.validate()
-        } catch (e: IllegalArgumentException) {
-            throw ImportException(e.message!!)
-        }
-        appRepository.importBase(newBase, importMode)
-            .blockingAwait() // TODO: Refactor this so we don't have to block the thread
-        return ImportStatus(
-            importedShortcuts = newBase.shortcuts.size,
-            needsRussianWarning = newBase.shortcuts.any { it.url.contains(".beeline.ru") }
-        )
-    }
 
     private fun getStream(context: Context, uri: Uri): InputStream =
         if (uri.isWebUrl) {

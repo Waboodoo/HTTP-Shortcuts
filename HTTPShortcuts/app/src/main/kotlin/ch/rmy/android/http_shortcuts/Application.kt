@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts
 
 import android.content.Context
 import ch.rmy.android.framework.WithRealm
-import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponentProvider
 import ch.rmy.android.http_shortcuts.dagger.DaggerApplicationComponent
@@ -11,7 +10,6 @@ import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.Settings
-import io.reactivex.plugins.RxJavaPlugins
 import org.conscrypt.Conscrypt
 import java.security.Security
 import javax.inject.Inject
@@ -41,8 +39,6 @@ class Application : android.app.Application(), ApplicationComponentProvider, Wit
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
 
         Logging.initCrashReporting(context)
-
-        RxJavaPlugins.setErrorHandler(::logException)
 
         try {
             RealmFactory.init(applicationContext)

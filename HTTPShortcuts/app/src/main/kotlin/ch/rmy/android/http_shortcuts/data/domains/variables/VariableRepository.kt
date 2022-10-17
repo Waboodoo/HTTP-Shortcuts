@@ -11,9 +11,8 @@ import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
 import ch.rmy.android.http_shortcuts.data.domains.getVariableById
 import ch.rmy.android.http_shortcuts.data.domains.getVariableByKeyOrId
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
+import io.realm.kotlin.deleteFromRealm
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class VariableRepository
@@ -22,40 +21,40 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRepository(realmFactory) {
 
-    fun getVariableByKeyOrId(keyOrId: VariableKeyOrId): Single<VariableModel> =
+    suspend fun getVariableByKeyOrId(keyOrId: VariableKeyOrId): VariableModel =
         queryItem {
             getVariableByKeyOrId(keyOrId)
         }
 
-    fun getObservableVariables(): Observable<List<VariableModel>> =
+    fun getObservableVariables(): Flow<List<VariableModel>> =
         observeList {
             getBase().findFirst()!!.variables
         }
 
-    fun getVariables(): Single<List<VariableModel>> =
+    suspend fun getVariables(): List<VariableModel> =
         queryItem {
             getBase()
         }
-            .map { base ->
-                base.variables
-            }
+            .variables
 
-    fun setVariableValue(variableId: VariableId, value: String): Completable =
+    suspend fun setVariableValue(variableId: VariableId, value: String) {
         commitTransaction {
             getVariableById(variableId)
                 .findFirst()
                 ?.value = value
         }
+    }
 
-    fun moveVariable(variableId1: VariableId, variableId2: VariableId) =
+    suspend fun moveVariable(variableId1: VariableId, variableId2: VariableId) {
         commitTransaction {
             getBase()
                 .findFirst()
                 ?.variables
                 ?.swap(variableId1, variableId2) { id }
         }
+    }
 
-    fun duplicateVariable(variableId: VariableId, newKey: String) =
+    suspend fun duplicateVariable(variableId: VariableId, newKey: String) {
         commitTransaction {
             val oldVariable = getVariableById(variableId)
                 .findFirst()
@@ -74,8 +73,9 @@ constructor(
             val newPersistedVariable = copyOrUpdate(newVariable)
             base.variables.add(oldPosition + 1, newPersistedVariable)
         }
+    }
 
-    fun deleteVariable(variableId: VariableId) =
+    suspend fun deleteVariable(variableId: VariableId) {
         commitTransaction {
             getVariableById(variableId)
                 .findFirst()
@@ -84,15 +84,17 @@ constructor(
                     deleteFromRealm()
                 }
         }
+    }
 
-    fun createTemporaryVariableFromVariable(variableId: VariableId): Completable =
+    suspend fun createTemporaryVariableFromVariable(variableId: VariableId) {
         commitTransaction {
             val variable = getVariableById(variableId)
                 .findFirst()!!
             copyVariable(variable, VariableModel.TEMPORARY_ID)
         }
+    }
 
-    fun copyTemporaryVariableToVariable(variableId: VariableId) =
+    suspend fun copyTemporaryVariableToVariable(variableId: VariableId) {
         commitTransaction {
             val temporaryVariable = getTemporaryVariable()
                 .findFirst() ?: return@commitTransaction
@@ -103,6 +105,7 @@ constructor(
                 base.variables.add(variable)
             }
         }
+    }
 
     private fun RealmTransactionContext.copyVariable(sourceVariable: VariableModel, targetVariableId: VariableId): VariableModel =
         sourceVariable.detachFromRealm()
@@ -114,7 +117,7 @@ constructor(
             }
             .let(::copyOrUpdate)
 
-    fun sortVariablesAlphabetically() =
+    suspend fun sortVariablesAlphabetically() {
         commitTransaction {
             val base = getBase()
                 .findFirst()
@@ -124,4 +127,5 @@ constructor(
             base.variables.clear()
             base.variables.addAll(sortedVariables)
         }
+    }
 }

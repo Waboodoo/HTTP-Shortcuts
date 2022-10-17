@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
 import android.app.Application
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
@@ -18,16 +18,20 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CategoriesViewModel(application: Application) : BaseViewModel<Unit, CategoriesViewState>(application), WithDialog {
 
     @Inject
     lateinit var categoryRepository: CategoryRepository
+
     @Inject
     lateinit var launcherShortcutManager: LauncherShortcutManager
+
     @Inject
     lateinit var getContextMenuDialog: GetContextMenuDialogUseCase
+
     @Inject
     lateinit var getDeletionDialog: GetDeletionDialogUseCase
 
@@ -51,9 +55,9 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     )
 
     override fun onInitializationStarted(data: Unit) {
-        categoryRepository.getObservableCategories()
-            .subscribe { categories ->
-                this.categories = categories
+        viewModelScope.launch {
+            categoryRepository.getObservableCategories().collect { categories ->
+                this@CategoriesViewModel.categories = categories
                 if (isInitialized) {
                     updateViewState {
                         copy(categories = mapCategories(categories))
@@ -62,11 +66,12 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
                     finalizeInitialization()
                 }
             }
-            .attachTo(destroyer)
+        }
     }
 
     fun onBackPressed() {
-        waitForOperationsToFinish {
+        viewModelScope.launch {
+            waitForOperationsToFinish()
             finish(hasChanged)
         }
     }
@@ -101,7 +106,8 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
         updateViewState {
             copy(categories = categories.swapped(categoryId1, categoryId2) { id })
         }
-        performOperation(categoryRepository.moveCategory(categoryId1, categoryId2)) {
+        launchWithProgressTracking {
+            categoryRepository.moveCategory(categoryId1, categoryId2)
             hasChanged = true
         }
     }
@@ -115,14 +121,16 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     }
 
     fun onCategoryVisibilityChanged(categoryId: CategoryId, hidden: Boolean) {
-        performOperation(categoryRepository.toggleCategoryHidden(categoryId, hidden)) {
+        launchWithProgressTracking {
+            categoryRepository.toggleCategoryHidden(categoryId, hidden)
             hasChanged = true
             showSnackbar(if (hidden) R.string.message_category_hidden else R.string.message_category_visible)
         }
     }
 
     fun onCategoryDeletionConfirmed(categoryId: CategoryId) {
-        performOperation(categoryRepository.deleteCategory(categoryId)) {
+        launchWithProgressTracking {
+            categoryRepository.deleteCategory(categoryId)
             hasChanged = true
             showSnackbar(R.string.message_category_deleted)
         }

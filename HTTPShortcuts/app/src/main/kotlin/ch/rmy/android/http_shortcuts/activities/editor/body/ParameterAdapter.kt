@@ -13,8 +13,9 @@ import ch.rmy.android.http_shortcuts.databinding.ListEmptyItemBinding
 import ch.rmy.android.http_shortcuts.databinding.ListItemParameterBinding
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 class ParameterAdapter
@@ -28,10 +29,9 @@ constructor(
         data class ParameterClicked(val id: String) : UserEvent
     }
 
-    private val userEventSubject = PublishSubject.create<UserEvent>()
+    private val userEventChannel = Channel<UserEvent>(capacity = Channel.UNLIMITED)
 
-    val userEvents: Observable<UserEvent>
-        get() = userEventSubject
+    val userEvents: Flow<UserEvent> = userEventChannel.receiveAsFlow()
 
     override fun areItemsTheSame(oldItem: ParameterListItem, newItem: ParameterListItem): Boolean =
         when (oldItem) {
@@ -69,7 +69,7 @@ constructor(
 
         init {
             binding.root.setOnClickListener {
-                userEventSubject.onNext(UserEvent.ParameterClicked(parameterId))
+                userEventChannel.trySend(UserEvent.ParameterClicked(parameterId))
             }
         }
 
