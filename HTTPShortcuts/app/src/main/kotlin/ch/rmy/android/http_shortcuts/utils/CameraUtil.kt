@@ -10,5 +10,5 @@ constructor(
     private val context: Context,
 ) {
     fun hasCamera(): Boolean =
-        context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)
+        context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
 }
