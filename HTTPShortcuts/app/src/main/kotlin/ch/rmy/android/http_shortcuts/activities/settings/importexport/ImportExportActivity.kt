@@ -7,10 +7,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.launch
-import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
@@ -57,10 +58,10 @@ class ImportExportActivity : BaseActivity() {
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun handleEvent(event: ViewModelEvent) {

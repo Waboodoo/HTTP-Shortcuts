@@ -10,8 +10,10 @@ import androidx.core.content.res.use
 import ch.rmy.android.framework.extensions.indexOfFirstOrNull
 import ch.rmy.android.framework.extensions.layoutInflater
 import ch.rmy.android.http_shortcuts.databinding.LabelledSpinnerBinding
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 
 class LabelledSpinner @JvmOverloads constructor(
     context: Context,
@@ -22,10 +24,9 @@ class LabelledSpinner @JvmOverloads constructor(
 
     private val binding = LabelledSpinnerBinding.inflate(layoutInflater, this)
 
-    private val selectionChangeSubject = PublishSubject.create<String>()
+    private val _selectionChanges = MutableStateFlow<String?>(null)
 
-    val selectionChanges: Observable<String>
-        get() = selectionChangeSubject
+    val selectionChanges: Flow<String> = _selectionChanges.asStateFlow().filterNotNull()
 
     var items: List<Item> = emptyList()
         set(value) {
@@ -68,7 +69,7 @@ class LabelledSpinner @JvmOverloads constructor(
             field = value
             binding.spinner.setSelection(index)
             if (before != value && before.isNotEmpty()) {
-                selectionChangeSubject.onNext(value)
+                _selectionChanges.value = value
             }
         }
 

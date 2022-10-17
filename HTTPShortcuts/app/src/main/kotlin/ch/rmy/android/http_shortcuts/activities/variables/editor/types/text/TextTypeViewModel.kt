@@ -18,14 +18,14 @@ class TextTypeViewModel(application: Application) : BaseVariableTypeViewModel<Un
     )
 
     fun onRememberValueChanged(enabled: Boolean) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.setRememberValue(enabled)
-        )
+        }
     }
 
     fun onMultilineChanged(enabled: Boolean) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.setMultiline(enabled)
-        )
+        }
     }
 }

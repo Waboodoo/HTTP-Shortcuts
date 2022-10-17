@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
-import androidx.annotation.CheckResult
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
@@ -16,7 +15,6 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
 import ch.rmy.android.http_shortcuts.data.models.WidgetModel
 import ch.rmy.android.http_shortcuts.utils.IconUtil
-import io.reactivex.Completable
 import javax.inject.Inject
 
 class WidgetManager
@@ -25,31 +23,23 @@ constructor(
     private val widgetsRepository: WidgetsRepository,
 ) {
 
-    @CheckResult
-    fun createWidget(widgetId: Int, shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) =
+    suspend fun createWidget(widgetId: Int, shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) {
         widgetsRepository.createWidget(widgetId, shortcutId, showLabel, labelColor)
+    }
 
-    @CheckResult
-    fun updateWidgets(context: Context, widgetIds: List<Int>): Completable =
+    suspend fun updateWidgets(context: Context, widgetIds: List<Int>) {
         widgetsRepository.getWidgetsByIds(widgetIds)
-            .flatMapCompletable { widgets ->
-                Completable.fromAction {
-                    widgets.forEach { widget ->
-                        updateWidget(context, widget)
-                    }
-                }
+            .forEach { widget ->
+                updateWidget(context, widget)
             }
+    }
 
-    @CheckResult
-    fun updateWidgets(context: Context, shortcutId: ShortcutId): Completable =
+    suspend fun updateWidgets(context: Context, shortcutId: ShortcutId) {
         widgetsRepository.getWidgetsByShortcutId(shortcutId)
-            .flatMapCompletable { widgets ->
-                Completable.fromAction {
-                    widgets.forEach { widget ->
-                        updateWidget(context, widget)
-                    }
-                }
+            .forEach { widget ->
+                updateWidget(context, widget)
             }
+    }
 
     private fun updateWidget(context: Context, widget: WidgetModel) {
         val shortcut = widget.shortcut ?: return
@@ -83,9 +73,10 @@ constructor(
         }
     }
 
-    fun deleteWidgets(widgetIds: List<Int>): Completable =
+    suspend fun deleteWidgets(widgetIds: List<Int>) {
         widgetsRepository.deleteDeadWidgets()
-            .andThen(widgetsRepository.deleteWidgets(widgetIds))
+        widgetsRepository.deleteWidgets(widgetIds)
+    }
 
     companion object {
 

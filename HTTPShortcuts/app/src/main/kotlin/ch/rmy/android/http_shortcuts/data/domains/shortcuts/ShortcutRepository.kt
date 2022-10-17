@@ -14,9 +14,9 @@ import ch.rmy.android.http_shortcuts.data.domains.getShortcutByNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
+import io.realm.kotlin.deleteFromRealm
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ShortcutRepository
@@ -25,27 +25,24 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRepository(realmFactory) {
 
-    fun getShortcutById(shortcutId: ShortcutId): Single<ShortcutModel> =
+    suspend fun getShortcutById(shortcutId: ShortcutId): ShortcutModel =
         query {
             getShortcutById(shortcutId)
         }
-            .map { it.first() }
+            .first()
 
-    fun getShortcutsByIds(shortcutIds: Collection<ShortcutId>): Single<List<ShortcutModel>> =
+    suspend fun getShortcutsByIds(shortcutIds: Collection<ShortcutId>): List<ShortcutModel> =
         queryItem {
             getBase()
         }
-            .map { base ->
-                base.shortcuts.filter { it.id in shortcutIds }
-            }
+            .shortcuts.filter { it.id in shortcutIds }
 
-    fun getShortcutByNameOrId(shortcutNameOrId: ShortcutNameOrId): Single<ShortcutModel> =
-        query {
+    suspend fun getShortcutByNameOrId(shortcutNameOrId: ShortcutNameOrId): ShortcutModel =
+        queryItem {
             getShortcutByNameOrId(shortcutNameOrId)
         }
-            .map { it.first() }
 
-    fun getObservableShortcuts(): Observable<List<ShortcutModel>> =
+    fun getObservableShortcuts(): Flow<List<ShortcutModel>> =
         observeList {
             getBase().findFirst()!!.categories
         }
@@ -55,26 +52,26 @@ constructor(
                 }
             }
 
-    fun getShortcuts(): Single<List<ShortcutModel>> =
+    suspend fun getShortcuts(): List<ShortcutModel> =
         queryItem {
             getBase()
         }
-            .map { base ->
-                base.shortcuts
-            }
+            .shortcuts
 
-    fun moveShortcutToCategory(shortcutId: ShortcutId, targetCategoryId: CategoryId) =
+    suspend fun moveShortcutToCategory(shortcutId: ShortcutId, targetCategoryId: CategoryId) {
         commitTransaction {
             moveShortcut(shortcutId, targetCategoryId = targetCategoryId)
         }
+    }
 
-    fun swapShortcutPositions(categoryId: CategoryId, shortcutId1: ShortcutId, shortcutId2: ShortcutId) =
+    suspend fun swapShortcutPositions(categoryId: CategoryId, shortcutId1: ShortcutId, shortcutId2: ShortcutId) {
         commitTransaction {
             getCategoryById(categoryId)
                 .findFirst()
                 ?.shortcuts
                 ?.swap(shortcutId1, shortcutId2) { id }
         }
+    }
 
     private fun RealmTransactionContext.moveShortcut(shortcutId: ShortcutId, targetPosition: Int? = null, targetCategoryId: CategoryId? = null) {
         val shortcut = getShortcutById(shortcutId)
@@ -99,7 +96,7 @@ constructor(
         }
     }
 
-    fun duplicateShortcut(shortcutId: ShortcutId, newName: String, newPosition: Int?, categoryId: CategoryId) =
+    suspend fun duplicateShortcut(shortcutId: ShortcutId, newName: String, newPosition: Int?, categoryId: CategoryId) {
         commitTransaction {
             val shortcut = getShortcutById(shortcutId)
                 .findFirst()
@@ -108,15 +105,17 @@ constructor(
             newShortcut.name = newName
             moveShortcut(newShortcut.id, newPosition, categoryId)
         }
+    }
 
-    fun createTemporaryShortcutFromShortcut(shortcutId: ShortcutId) =
+    suspend fun createTemporaryShortcutFromShortcut(shortcutId: ShortcutId) {
         commitTransaction {
             val shortcut = getShortcutById(shortcutId)
                 .findFirst()!!
             copyShortcut(shortcut, ShortcutModel.TEMPORARY_ID)
         }
+    }
 
-    fun copyTemporaryShortcutToShortcut(shortcutId: ShortcutId, categoryId: CategoryId?) =
+    suspend fun copyTemporaryShortcutToShortcut(shortcutId: ShortcutId, categoryId: CategoryId?) {
         commitTransaction {
             val temporaryShortcut = getTemporaryShortcut()
                 .findFirst() ?: return@commitTransaction
@@ -130,6 +129,7 @@ constructor(
                 }
             }
         }
+    }
 
     private fun RealmTransactionContext.copyShortcut(sourceShortcut: ShortcutModel, targetShortcutId: ShortcutId): ShortcutModel =
         sourceShortcut.detachFromRealm()
@@ -144,7 +144,7 @@ constructor(
             }
             .let(::copyOrUpdate)
 
-    fun deleteShortcut(shortcutId: ShortcutId) =
+    suspend fun deleteShortcut(shortcutId: ShortcutId) {
         commitTransaction {
             getShortcutById(shortcutId)
                 .findFirst()
@@ -155,25 +155,29 @@ constructor(
                     deleteFromRealm()
                 }
         }
+    }
 
-    fun setIcon(shortcutId: ShortcutId, icon: ShortcutIcon): Completable =
+    suspend fun setIcon(shortcutId: ShortcutId, icon: ShortcutIcon) {
         commitTransaction {
             getShortcutById(shortcutId)
                 .findFirst()
                 ?.icon = icon
         }
+    }
 
-    fun setName(shortcutId: ShortcutId, name: String): Completable =
+    suspend fun setName(shortcutId: ShortcutId, name: String) {
         commitTransaction {
             getShortcutById(shortcutId)
                 .findFirst()
                 ?.name = name
         }
+    }
 
-    fun setDescription(shortcutId: ShortcutId, description: String): Completable =
+    suspend fun setDescription(shortcutId: ShortcutId, description: String) {
         commitTransaction {
             getShortcutById(shortcutId)
                 .findFirst()
                 ?.description = description
         }
+    }
 }

@@ -10,7 +10,6 @@ import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.HttpStatus
-import io.reactivex.exceptions.CompositeException
 import java.net.ConnectException
 import java.net.UnknownHostException
 
@@ -59,7 +58,6 @@ class ErrorFormatter(private val context: Context) {
 
     private fun getErrorMessage(error: Throwable): String =
         when (error) {
-            is CompositeException -> error.exceptions.joinToString(separator = "\n") { getErrorMessage(it) }
             is UserException -> error.getLocalizedMessage(context)
             is ConnectException,
             is UnknownHostException,

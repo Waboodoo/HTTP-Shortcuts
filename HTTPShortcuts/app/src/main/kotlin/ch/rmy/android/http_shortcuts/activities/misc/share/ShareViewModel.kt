@@ -5,11 +5,10 @@ import android.content.Context
 import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.annotation.WorkerThread
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runFor
-import ch.rmy.android.framework.utils.RxUtils
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -33,9 +32,9 @@ import ch.rmy.android.http_shortcuts.variables.VariableLookup
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import com.afollestad.materialdialogs.callbacks.onCancel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.InitData, ShareViewState>(application), WithDialog {
@@ -59,7 +58,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
         get() = initData.title ?: ""
     private lateinit var fileUris: List<Uri>
 
-    private var disposable: Disposable? = null
+    private var currentJob: Job? = null
 
     override var dialogState: DialogState?
         get() = currentViewState?.dialogState
@@ -72,17 +71,11 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
     override fun initViewState() = ShareViewState()
 
     override fun onInitializationStarted(data: InitData) {
-        shortcutRepository.getShortcuts()
-            .subscribe { shortcuts ->
-                this.shortcuts = shortcuts
-                variableRepository.getVariables()
-                    .subscribe { variables ->
-                        this.variables = variables
-                        finalizeInitialization()
-                    }
-                    .attachTo(destroyer)
-            }
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            shortcuts = shortcutRepository.getShortcuts()
+            variables = variableRepository.getVariables()
+            finalizeInitialization()
+        }
     }
 
     override fun onInitialized() {
@@ -92,32 +85,22 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
             return
         }
 
-        RxUtils.single {
-            cacheSharedFiles(context, initData.fileUris)
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
-                showProgressDialog(R.string.generic_processing_in_progress)
-            }
-            .doFinally {
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
+            showProgressDialog(R.string.generic_processing_in_progress)
+            try {
+                fileUris = cacheSharedFiles(context, initData.fileUris)
+                startShareFlow()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                showToast(R.string.error_generic)
+                logException(e)
+                finish(skipAnimation = true)
+            } finally {
                 hideProgressDialog()
             }
-            .subscribe(
-                { cachedFiles ->
-                    fileUris = cachedFiles
-                    startShareFlow()
-                },
-                { e ->
-                    showToast(R.string.error_generic)
-                    logException(e)
-                    finish(skipAnimation = true)
-                },
-            )
-            .also {
-                disposable = it
-            }
-            .attachTo(destroyer)
+        }
     }
 
     private fun startShareFlow() {
@@ -241,7 +224,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
     }
 
     private fun onProgressDialogCanceled() {
-        disposable?.dispose()
+        currentJob?.cancel()
         finish(skipAnimation = true)
     }
 

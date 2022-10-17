@@ -3,11 +3,12 @@ package ch.rmy.android.http_shortcuts.activities.editor.authentication
 import android.content.ActivityNotFoundException
 import android.os.Bundle
 import androidx.core.view.isVisible
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
+import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.initialize
-import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setSubtitle
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.ui.BaseIntentBuilder
@@ -20,6 +21,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.databinding.ActivityAuthenticationBinding
 import ch.rmy.android.http_shortcuts.utils.ClientCertUtil
+import kotlinx.coroutines.launch
 
 class AuthenticationActivity : BaseActivity() {
 
@@ -63,30 +65,23 @@ class AuthenticationActivity : BaseActivity() {
             viewModel.onTokenVariableButtonClicked()
         }
 
-        binding.inputAuthenticationType
-            .selectionChanges
-            .subscribe {
+        lifecycleScope.launch {
+            binding.inputAuthenticationType.selectionChanges.collect {
                 viewModel.onAuthenticationTypeChanged(ShortcutAuthenticationType.parse(it))
             }
-            .attachTo(destroyer)
+        }
 
-        binding.inputUsername.observeTextChanges()
-            .subscribe {
-                viewModel.onUsernameChanged(binding.inputUsername.rawString)
-            }
-            .attachTo(destroyer)
+        binding.inputUsername.doOnTextChanged {
+            viewModel.onUsernameChanged(binding.inputUsername.rawString)
+        }
 
-        binding.inputPassword.observeTextChanges()
-            .subscribe {
-                viewModel.onPasswordChanged(binding.inputPassword.rawString)
-            }
-            .attachTo(destroyer)
+        binding.inputPassword.doOnTextChanged {
+            viewModel.onPasswordChanged(binding.inputPassword.rawString)
+        }
 
-        binding.inputToken.observeTextChanges()
-            .subscribe {
-                viewModel.onTokenChanged(binding.inputToken.rawString)
-            }
-            .attachTo(destroyer)
+        binding.inputToken.doOnTextChanged {
+            viewModel.onTokenChanged(binding.inputToken.rawString)
+        }
 
         binding.buttonClientCert.setOnClickListener {
             viewModel.onClientCertButtonClicked()
@@ -94,7 +89,7 @@ class AuthenticationActivity : BaseActivity() {
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             binding.containerUsername.isVisible = viewState.isUsernameAndPasswordVisible
             binding.containerPassword.isVisible = viewState.isUsernameAndPasswordVisible
             binding.containerToken.isVisible = viewState.isTokenVisible
@@ -107,7 +102,7 @@ class AuthenticationActivity : BaseActivity() {
             binding.layoutContainer.isVisible = true
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun handleEvent(event: ViewModelEvent) {

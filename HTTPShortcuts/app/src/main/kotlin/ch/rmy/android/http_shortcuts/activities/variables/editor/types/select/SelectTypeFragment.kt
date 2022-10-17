@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
+import ch.rmy.android.framework.extensions.doOnCheckedChanged
+import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.initialize
-import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.observeChecked
-import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setTextSafely
+import ch.rmy.android.framework.extensions.whileLifecycleActive
 import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
@@ -18,6 +19,7 @@ import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.databinding.SelectOptionEditorItemBinding
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorSelectBinding
+import ch.rmy.android.http_shortcuts.extensions.showIfPossible
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import javax.inject.Inject
@@ -59,25 +61,21 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
 
     private fun initUserInputBindings() {
         initDragOrdering()
-        adapter.userEvents.observe(this) { event ->
-            when (event) {
-                is SelectVariableOptionsAdapter.UserEvent.OptionClicked -> viewModel.onOptionClicked(event.id)
+        whileLifecycleActive {
+            adapter.userEvents.collect { event ->
+                when (event) {
+                    is SelectVariableOptionsAdapter.UserEvent.OptionClicked -> viewModel.onOptionClicked(event.id)
+                }
             }
         }
 
         binding.selectOptionsAddButton.setOnClickListener {
             viewModel.onAddButtonClicked()
         }
-        binding.inputMultiSelect
-            .observeChecked()
-            .subscribe(viewModel::onMultiSelectChanged)
-            .attachTo(destroyer)
-        binding.inputSeparator
-            .observeTextChanges()
-            .subscribe {
-                viewModel.onSeparatorChanged(it.toString())
-            }
-            .attachTo(destroyer)
+        binding.inputMultiSelect.doOnCheckedChanged(viewModel::onMultiSelectChanged)
+        binding.inputSeparator.doOnTextChanged {
+            viewModel.onSeparatorChanged(it.toString())
+        }
     }
 
     private fun initDragOrdering() {
@@ -85,23 +83,23 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
             isEnabledCallback = { isDraggingEnabled },
             getId = { (it as? SelectVariableOptionsAdapter.SelectOptionViewHolder)?.optionId },
         )
-        dragOrderingHelper.movementSource
-            .subscribe { (optionId1, optionId2) ->
+        whileLifecycleActive {
+            dragOrderingHelper.movementSource.collect { (optionId1, optionId2) ->
                 viewModel.onOptionMoved(optionId1, optionId2)
             }
-            .attachTo(destroyer)
+        }
         dragOrderingHelper.attachTo(binding.selectOptionsList)
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             adapter.items = viewState.options
             binding.inputSeparator.setTextSafely(viewState.separator)
             binding.inputSeparator.isEnabled = viewState.separatorEnabled
             binding.inputMultiSelect.isChecked = viewState.isMultiSelect
             isDraggingEnabled = viewState.isDraggingEnabled
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun handleEvent(event: ViewModelEvent) {

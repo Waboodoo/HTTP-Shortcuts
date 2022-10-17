@@ -9,6 +9,9 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import ch.rmy.android.framework.ui.IntentBuilder
 
+inline fun createIntent(block: Intent.() -> Unit): Intent =
+    Intent().apply(block)
+
 fun Intent.startActivity(activity: Activity) {
     activity.startActivity(this)
 }

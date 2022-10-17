@@ -6,12 +6,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.isVisible
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.isVisible
-import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setMaxLength
 import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.ui.BaseActivityResultContract
@@ -20,14 +21,21 @@ import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.categories.editor.models.CategoryBackground
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import ch.rmy.android.http_shortcuts.databinding.ActivityCategoryEditorBinding
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class CategoryEditorActivity : BaseActivity() {
+
+    @Inject
+    lateinit var permissionManager: PermissionManager
 
     override val navigateUpIcon = R.drawable.ic_clear
 
@@ -35,6 +43,10 @@ class CategoryEditorActivity : BaseActivity() {
 
     private lateinit var binding: ActivityCategoryEditorBinding
     private var saveButton: MenuItem? = null
+
+    override fun inject(applicationComponent: ApplicationComponent) {
+        getApplicationComponent().inject(this)
+    }
 
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize(
@@ -76,35 +88,33 @@ class CategoryEditorActivity : BaseActivity() {
     }
 
     private fun initUserInputBindings() {
-        binding.inputCategoryName.observeTextChanges()
-            .subscribe {
-                viewModel.onCategoryNameChanged(it.toString())
-            }
-            .attachTo(destroyer)
+        binding.inputCategoryName.doOnTextChanged {
+            viewModel.onCategoryNameChanged(it.toString())
+        }
 
-        binding.inputLayoutType.selectionChanges
-            .subscribe {
+        lifecycleScope.launch {
+            binding.inputLayoutType.selectionChanges.collect {
                 viewModel.onLayoutTypeChanged(CategoryLayoutType.parse(it))
             }
-            .attachTo(destroyer)
+        }
 
-        binding.inputBackgroundType.selectionChanges
-            .subscribe {
+        lifecycleScope.launch {
+            binding.inputBackgroundType.selectionChanges.collect {
                 viewModel.onBackgroundChanged(CategoryBackground.valueOf(it))
             }
-            .attachTo(destroyer)
-        binding.inputClickBehavior.selectionChanges
-            .subscribe { clickBehavior ->
+        }
+        lifecycleScope.launch {
+            binding.inputClickBehavior.selectionChanges.collect { clickBehavior ->
                 viewModel.onClickBehaviorChanged(
                     clickBehavior.takeUnless { it == SHORTCUT_BEHAVIOR_DEFAULT }
                         ?.let(ShortcutClickBehavior::parse)
                 )
             }
-            .attachTo(destroyer)
+        }
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             binding.loadingIndicator.isVisible = false
             setTitle(viewState.toolbarTitle)
             binding.inputCategoryName.setTextSafely(viewState.categoryName)
@@ -120,13 +130,15 @@ class CategoryEditorActivity : BaseActivity() {
             binding.layoutContainer.isVisible = true
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun handleEvent(event: ViewModelEvent) {
         when (event) {
             is CategoryEditorEvent.RequestFilePermissionsIfNeeded -> {
-                PermissionManager.requestFileStoragePermissionIfNeeded(this)
+                lifecycleScope.launch {
+                    permissionManager.requestFileStoragePermissionIfNeeded()
+                }
             }
             else -> super.handleEvent(event)
         }

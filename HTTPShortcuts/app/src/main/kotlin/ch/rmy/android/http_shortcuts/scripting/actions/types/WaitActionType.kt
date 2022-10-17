@@ -2,13 +2,14 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
+import kotlin.time.Duration.Companion.milliseconds
 
 class WaitActionType : BaseActionType() {
 
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO) = WaitAction(
-        duration = actionDTO.getInt(0)?.takeIf { it > 0 } ?: 0,
+        duration = (actionDTO.getInt(0)?.takeIf { it > 0 } ?: 0).milliseconds,
     )
 
     override fun getAlias() = ActionAlias(

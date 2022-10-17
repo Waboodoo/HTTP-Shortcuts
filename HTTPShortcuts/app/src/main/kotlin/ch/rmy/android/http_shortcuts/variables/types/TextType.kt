@@ -5,12 +5,16 @@ import android.text.InputType
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.extensions.canceledByUser
+import ch.rmy.android.http_shortcuts.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.coroutines.resume
 
-open class TextType : BaseVariableType() {
+class TextType : BaseVariableType() {
 
     @Inject
     lateinit var variablesRepository: VariableRepository
@@ -22,16 +26,23 @@ open class TextType : BaseVariableType() {
         applicationComponent.inject(this)
     }
 
-    override fun resolveValue(context: Context, variable: VariableModel): Single<String> =
-        Single.create<String> { emitter ->
-            createDialogBuilder(activityProvider.getActivity(), variable, emitter)
-                .textInput(
-                    prefill = variable.value?.takeIf { variable.rememberValue } ?: "",
-                    inputType = InputType.TYPE_CLASS_TEXT or (if (variable.isMultiline) InputType.TYPE_TEXT_FLAG_MULTI_LINE else 0),
-                    callback = emitter::onSuccess,
-                )
-                .showIfPossible()
+    override suspend fun resolveValue(context: Context, variable: VariableModel): String {
+        val value = withContext(Dispatchers.Main) {
+            suspendCancellableCoroutine<String> { continuation ->
+                createDialogBuilder(activityProvider.getActivity(), variable, continuation)
+                    .textInput(
+                        prefill = variable.value?.takeIf { variable.rememberValue } ?: "",
+                        inputType = InputType.TYPE_CLASS_TEXT or (if (variable.isMultiline) InputType.TYPE_TEXT_FLAG_MULTI_LINE else 0),
+                        callback = continuation::resume,
+                    )
+                    .showOrElse {
+                        continuation.canceledByUser()
+                    }
+            }
         }
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .storeValueIfNeeded(variable, variablesRepository)
+        if (variable.rememberValue) {
+            variablesRepository.setVariableValue(variable.id, value)
+        }
+        return value
+    }
 }

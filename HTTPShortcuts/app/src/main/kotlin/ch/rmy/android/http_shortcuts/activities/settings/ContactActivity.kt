@@ -8,9 +8,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.net.toUri
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.consume
-import ch.rmy.android.framework.extensions.observeTextChanges
+import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
@@ -56,11 +55,9 @@ class ContactActivity : BaseActivity() {
 
         binding.contactInstructions.text = getString(R.string.contact_instructions, CAPTCHA_CODE)
 
-        binding.inputCaptcha.observeTextChanges()
-            .subscribe {
-                inputValid = binding.inputCaptcha.text.toString().equals(CAPTCHA_CODE, ignoreCase = true)
-            }
-            .attachTo(destroyer)
+        binding.inputCaptcha.doOnTextChanged {
+            inputValid = binding.inputCaptcha.text.toString().equals(CAPTCHA_CODE, ignoreCase = true)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

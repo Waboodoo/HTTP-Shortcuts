@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets
 
 import android.app.Application
 import android.net.Uri
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -26,9 +26,9 @@ import ch.rmy.android.http_shortcuts.usecases.GetIconPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs.getScriptingDocumentation
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CodeSnippetPickerViewModel(application: Application) :
@@ -79,16 +79,12 @@ class CodeSnippetPickerViewModel(application: Application) :
     private var expandedSections = mutableSetOf<Int>()
 
     override fun onInitializationStarted(data: InitData) {
-        Single.fromCallable {
-            generateCodeSnippetItems(initData, ::onCodeSnippetItemEvent)
-        }
-            .subscribeOn(Schedulers.computation())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { sectionItems ->
-                this.sectionItems = sectionItems
-                finalizeInitialization()
+        viewModelScope.launch {
+            this@CodeSnippetPickerViewModel.sectionItems = withContext(Dispatchers.Default) {
+                generateCodeSnippetItems(initData, ::onCodeSnippetItemEvent)
             }
-            .attachTo(destroyer)
+            finalizeInitialization()
+        }
     }
 
     override fun initViewState() = CodeSnippetPickerViewState(
@@ -99,12 +95,14 @@ class CodeSnippetPickerViewModel(application: Application) :
         getItemWrappers(sectionItems, expandedSections, query)
 
     override fun onInitialized() {
-        variableRepository.getObservableVariables()
-            .subscribe(variablePlaceholderProvider::applyVariables)
-            .attachTo(destroyer)
-        shortcutRepository.getObservableShortcuts()
-            .subscribe(shortcutPlaceholderProvider::applyShortcuts)
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            variableRepository.getObservableVariables()
+                .collect(variablePlaceholderProvider::applyVariables)
+        }
+        viewModelScope.launch {
+            shortcutRepository.getObservableShortcuts()
+                .collect(shortcutPlaceholderProvider::applyShortcuts)
+        }
     }
 
     private fun onCodeSnippetItemEvent(event: GenerateCodeSnippetItemsUseCase.Event) {

@@ -2,9 +2,10 @@ package ch.rmy.android.http_shortcuts.activities.editor.shortcuts
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
-import ch.rmy.android.framework.extensions.observe
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
+import ch.rmy.android.framework.extensions.whileLifecycleActive
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.R
@@ -48,15 +49,15 @@ class TriggerShortcutsActivity : BaseActivity() {
     }
 
     private fun initUserInputBindings() {
-        adapter.userEvents
-            .subscribe { event ->
+        whileLifecycleActive {
+            adapter.userEvents.collect { event ->
                 when (event) {
                     is ShortcutsAdapter.UserEvent.ShortcutClicked -> {
                         viewModel.onShortcutClicked(event.id)
                     }
                 }
             }
-            .attachTo(destroyer)
+        }
 
         binding.buttonAddTrigger.setOnClickListener {
             viewModel.onAddButtonClicked()
@@ -70,20 +71,20 @@ class TriggerShortcutsActivity : BaseActivity() {
             getId = { (it as? ShortcutsAdapter.ShortcutViewHolder)?.id },
         )
         dragOrderingHelper.attachTo(binding.triggerShortcutsList)
-        dragOrderingHelper.movementSource
-            .subscribe { (shortcutId1, shortcutId2) ->
+        whileLifecycleActive {
+            dragOrderingHelper.movementSource.collect { (shortcutId1, shortcutId2) ->
                 viewModel.onShortcutMoved(shortcutId1, shortcutId2)
             }
-            .attachTo(destroyer)
+        }
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             adapter.items = viewState.shortcuts
             isDraggingEnabled = viewState.isDraggingEnabled
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     class IntentBuilder : BaseIntentBuilder(TriggerShortcutsActivity::class) {

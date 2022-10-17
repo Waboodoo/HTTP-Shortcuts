@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import io.reactivex.Single
 import java.security.NoSuchAlgorithmException
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
@@ -14,18 +13,17 @@ class HmacAction(
     private val message: String,
 ) : BaseAction() {
 
-    override fun executeForValue(executionContext: ExecutionContext): Single<Any> =
-        Single.fromCallable {
-            val algorithmName = SUPPORTED_ALGORITHMS[normalizeAlgorithm(algorithm)]
-                ?: throwUnsupportedError()
-            try {
-                hmac(algorithmName, key, message.toByteArray())
-            } catch (e: NoSuchAlgorithmException) {
-                throwUnsupportedError()
-            } catch (e: IllegalArgumentException) {
-                throwUnsupportedError()
-            }
+    override suspend fun execute(executionContext: ExecutionContext): ByteArray {
+        val algorithmName = SUPPORTED_ALGORITHMS[normalizeAlgorithm(algorithm)]
+            ?: throwUnsupportedError()
+        return try {
+            hmac(algorithmName, key, message.toByteArray())
+        } catch (e: NoSuchAlgorithmException) {
+            throwUnsupportedError()
+        } catch (e: IllegalArgumentException) {
+            throwUnsupportedError()
         }
+    }
 
     private fun throwUnsupportedError(): Nothing {
         throw ActionException {

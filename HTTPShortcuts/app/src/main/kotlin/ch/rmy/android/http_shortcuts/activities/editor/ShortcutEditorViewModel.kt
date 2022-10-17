@@ -3,11 +3,9 @@ package ch.rmy.android.http_shortcuts.activities.editor
 import android.app.Activity
 import android.app.Application
 import android.content.Intent
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.context
-import ch.rmy.android.framework.extensions.runIfNotNull
-import ch.rmy.android.framework.extensions.subscribeOptional
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -57,9 +55,8 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ShortcutEditorViewModel(
@@ -146,34 +143,35 @@ class ShortcutEditorViewModel(
     override fun onInitializationStarted(data: InitData) {
         sessionInfoStore.editingShortcutId = data.shortcutId
         sessionInfoStore.editingShortcutCategoryId = data.categoryId
-        when {
-            data.recoveryMode -> Completable.complete()
-            data.shortcutId == null -> {
-                temporaryShortcutRepository.createNewTemporaryShortcut(
-                    initialIcon = Icons.getRandomInitialIcon(context),
-                    executionType = executionType,
-                )
-            }
-            else -> {
-                shortcutRepository.createTemporaryShortcutFromShortcut(data.shortcutId)
+        viewModelScope.launch {
+            try {
+                when {
+                    data.recoveryMode -> Unit
+                    data.shortcutId == null -> {
+                        temporaryShortcutRepository.createNewTemporaryShortcut(
+                            initialIcon = Icons.getRandomInitialIcon(context),
+                            executionType = executionType,
+                        )
+                    }
+                    else -> {
+                        shortcutRepository.createTemporaryShortcutFromShortcut(data.shortcutId)
+                    }
+                }
+                data.curlCommand?.let {
+                    temporaryShortcutRepository.importFromCurl(it)
+                }
+                observeTemporaryShortcut()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                finish()
+                handleUnexpectedError(e)
             }
         }
-            .runIfNotNull(data.curlCommand) {
-                andThen(temporaryShortcutRepository.importFromCurl(it))
-            }
-            .subscribe(
-                {
-                    observeTemporaryShortcut()
-                },
-                { error ->
-                    finish()
-                    handleUnexpectedError(error)
-                },
-            )
-            .attachTo(destroyer)
 
-        keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
+        }
     }
 
     override fun initViewState() = ShortcutEditorViewState(
@@ -182,34 +180,35 @@ class ShortcutEditorViewModel(
     )
 
     private fun observeTemporaryShortcut() {
-        temporaryShortcutRepository.getObservableTemporaryShortcut()
-            .subscribe { shortcut ->
-                this.shortcut = shortcut
-                if (!isInitialized) {
-                    oldShortcut = shortcut
-                    finalizeInitialization(silent = true)
+        viewModelScope.launch {
+            temporaryShortcutRepository.getObservableTemporaryShortcut()
+                .collect { shortcut ->
+                    this@ShortcutEditorViewModel.shortcut = shortcut
+                    if (!isInitialized) {
+                        oldShortcut = shortcut
+                        finalizeInitialization(silent = true)
+                    }
+                    updateViewState {
+                        copy(
+                            toolbarSubtitle = getToolbarSubtitle(),
+                            shortcutExecutionType = shortcut.type,
+                            shortcutIcon = shortcut.icon,
+                            shortcutName = shortcut.name,
+                            shortcutDescription = shortcut.description,
+                            isExecutable = canExecute(),
+                            hasChanges = hasChanges(),
+                            requestBodyButtonEnabled = shortcut.allowsBody(),
+                            basicSettingsSubtitle = getBasicSettingsSubtitle(),
+                            headersSubtitle = getHeadersSubtitle(),
+                            requestBodySubtitle = getRequestBodySubtitle(),
+                            requestBodySettingsSubtitle = getRequestBodySubtitle(),
+                            authenticationSettingsSubtitle = getAuthenticationSubtitle(),
+                            scriptingSubtitle = getScriptingSubtitle(),
+                            triggerShortcutsSubtitle = getTriggerShortcutsSubtitle(),
+                        )
+                    }
                 }
-                updateViewState {
-                    copy(
-                        toolbarSubtitle = getToolbarSubtitle(),
-                        shortcutExecutionType = shortcut.type,
-                        shortcutIcon = shortcut.icon,
-                        shortcutName = shortcut.name,
-                        shortcutDescription = shortcut.description,
-                        isExecutable = canExecute(),
-                        hasChanges = hasChanges(),
-                        requestBodyButtonEnabled = shortcut.allowsBody(),
-                        basicSettingsSubtitle = getBasicSettingsSubtitle(),
-                        headersSubtitle = getHeadersSubtitle(),
-                        requestBodySubtitle = getRequestBodySubtitle(),
-                        requestBodySettingsSubtitle = getRequestBodySubtitle(),
-                        authenticationSettingsSubtitle = getAuthenticationSubtitle(),
-                        scriptingSubtitle = getScriptingSubtitle(),
-                        triggerShortcutsSubtitle = getTriggerShortcutsSubtitle(),
-                    )
-                }
-            }
-            .attachTo(destroyer)
+        }
     }
 
     private fun hasChanges() =
@@ -342,9 +341,9 @@ class ShortcutEditorViewModel(
             copy(shortcutIcon = icon)
         }
         doWithViewState {
-            performOperation(
+            launchWithProgressTracking {
                 temporaryShortcutRepository.setIcon(icon)
-            )
+            }
         }
     }
 
@@ -355,9 +354,11 @@ class ShortcutEditorViewModel(
         updateViewState {
             copy(shortcutName = name)
         }
-        performOperation(
-            temporaryShortcutRepository.setName(name)
-        )
+        viewModelScope.launch {
+            withProgressTracking {
+                temporaryShortcutRepository.setName(name)
+            }
+        }
     }
 
     fun onShortcutDescriptionChanged(description: String) {
@@ -367,9 +368,9 @@ class ShortcutEditorViewModel(
         updateViewState {
             copy(shortcutDescription = description)
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setDescription(description)
-        )
+        }
     }
 
     fun onTestButtonClicked() {
@@ -380,7 +381,8 @@ class ShortcutEditorViewModel(
             if (!viewState.isExecutable) {
                 return@doWithViewState
             }
-            waitForOperationsToFinish {
+            viewModelScope.launch {
+                waitForOperationsToFinish()
                 openActivity(ExecuteActivity.IntentBuilder(TEMPORARY_ID))
             }
         }
@@ -395,7 +397,8 @@ class ShortcutEditorViewModel(
                 return@doWithViewState
             }
             isSaving = true
-            waitForOperationsToFinish {
+            viewModelScope.launch {
+                waitForOperationsToFinish()
                 trySave()
             }
         }
@@ -423,25 +426,34 @@ class ShortcutEditorViewModel(
     private fun save() {
         val isNewShortcut = shortcutId == null
         val shortcutId = shortcutId ?: newUUID()
-        performOperation(
-            shortcutRepository.copyTemporaryShortcutToShortcut(shortcutId, categoryId?.takeIf { isNewShortcut })
-                .andThen(temporaryShortcutRepository.deleteTemporaryShortcut())
-                .doOnError {
-                    isSaving = false
-                },
-        ) {
-            onSaveSuccessful(shortcutId)
+
+        viewModelScope.launch {
+            try {
+                withProgressTracking {
+                    shortcutRepository.copyTemporaryShortcutToShortcut(shortcutId, categoryId?.takeIf { isNewShortcut })
+                    temporaryShortcutRepository.deleteTemporaryShortcut()
+                }
+                onSaveSuccessful(shortcutId)
+            } catch (e: Exception) {
+                isSaving = false
+                throw e
+            }
         }
     }
 
     private fun onSaveSuccessful(shortcutId: ShortcutId) {
         launcherShortcutManager.updatePinnedShortcut(shortcutId, shortcut.name, shortcut.icon)
-        performOperation(widgetManager.updateWidgets(context, shortcutId))
-        waitForOperationsToFinish {
-            CleanUpWorker.schedule(context)
-            finishWithOkResult(
-                ShortcutEditorActivity.OpenShortcutEditor.createResult(shortcutId),
-            )
+        viewModelScope.launch {
+            withProgressTracking {
+                widgetManager.updateWidgets(context, shortcutId)
+            }
+            viewModelScope.launch {
+                waitForOperationsToFinish()
+                CleanUpWorker.schedule(context)
+                finishWithOkResult(
+                    ShortcutEditorActivity.OpenShortcutEditor.createResult(shortcutId),
+                )
+            }
         }
     }
 
@@ -449,7 +461,8 @@ class ShortcutEditorViewModel(
         if (isSaving || isFinishing) {
             return
         }
-        waitForOperationsToFinish {
+        viewModelScope.launch {
+            waitForOperationsToFinish()
             if (hasChanges()) {
                 showDiscardDialog()
             } else {
@@ -468,10 +481,15 @@ class ShortcutEditorViewModel(
     }
 
     private fun onDiscardDialogConfirmed() {
-        performOperation(temporaryShortcutRepository.deleteTemporaryShortcut())
-        waitForOperationsToFinish {
-            CleanUpWorker.schedule(context)
-            finish(result = Activity.RESULT_CANCELED)
+        viewModelScope.launch {
+            withProgressTracking {
+                temporaryShortcutRepository.deleteTemporaryShortcut()
+            }
+            viewModelScope.launch {
+                waitForOperationsToFinish()
+                CleanUpWorker.schedule(context)
+                finish(result = Activity.RESULT_CANCELED)
+            }
         }
     }
 
@@ -586,37 +604,30 @@ class ShortcutEditorViewModel(
         if (isSaving) {
             return
         }
-        variableRepository.getVariables()
-            .flatMap { variables ->
-                fetchFavicon(shortcut.url, variables)
+        viewModelScope.launch {
+            updateViewState {
+                copy(iconLoading = true)
             }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
-                updateViewState {
-                    copy(iconLoading = true)
+            try {
+                val variables = variableRepository.getVariables()
+                val icon = fetchFavicon(shortcut.url, variables)
+                if (icon != null) {
+                    onShortcutIconChanged(icon)
+                } else {
+                    showSnackbar(R.string.error_failed_to_fetch_favicon)
                 }
-            }
-            .doFinally {
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: CanceledByUserException) {
+                throw e
+            } catch (e: Exception) {
+                handleUnexpectedError(e)
+            } finally {
                 updateViewState {
                     copy(iconLoading = false)
                 }
             }
-            .subscribeOptional(
-                { icon ->
-                    if (icon != null) {
-                        onShortcutIconChanged(icon)
-                    } else {
-                        showSnackbar(R.string.error_failed_to_fetch_favicon)
-                    }
-                },
-                { error ->
-                    if (error !is CanceledByUserException) {
-                        handleUnexpectedError(error)
-                    }
-                },
-            )
-            .attachTo(destroyer)
+        }
     }
 
     override fun finish(result: Int?, intent: Intent?, skipAnimation: Boolean) {

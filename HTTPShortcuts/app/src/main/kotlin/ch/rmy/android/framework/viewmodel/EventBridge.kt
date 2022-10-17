@@ -1,22 +1,24 @@
 package ch.rmy.android.framework.viewmodel
 
-import com.victorrendina.rxqueue2.QueueSubject
-import io.reactivex.Observable
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 
 class EventBridge<T : Any>(private val clazz: Class<T>) {
 
     fun submit(event: T) {
-        getSubject(clazz).onNext(event)
+        getChannel(clazz).trySend(event)
     }
 
-    val events: Observable<T> =
-        getSubject(clazz)
+    val events: Flow<T> =
+        getChannel(clazz).receiveAsFlow()
 
+    @Suppress("UNCHECKED_CAST")
     companion object {
 
-        private val subjectsMapSingleton = mutableMapOf<Class<*>, QueueSubject<*>>()
+        private val channelsMapSingleton = mutableMapOf<Class<*>, Channel<*>>()
 
-        private fun <T> getSubject(clazz: Class<T>): QueueSubject<T> =
-            subjectsMapSingleton.getOrPut(clazz) { QueueSubject.create<T>() } as QueueSubject<T>
+        private fun <T> getChannel(clazz: Class<T>): Channel<T> =
+            channelsMapSingleton.getOrPut(clazz) { Channel<T>(capacity = Channel.UNLIMITED) } as Channel<T>
     }
 }

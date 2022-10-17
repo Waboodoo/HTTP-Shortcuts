@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.misc.voice
 
 import android.app.Application
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import com.afollestad.materialdialogs.callbacks.onCancel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class VoiceViewModel(application: Application) : BaseViewModel<VoiceViewModel.InitData, VoiceViewState>(application), WithDialog {
@@ -63,16 +64,14 @@ class VoiceViewModel(application: Application) : BaseViewModel<VoiceViewModel.In
     }
 
     override fun onInitialized() {
-        shortcutRepository.getShortcutByNameOrId(shortcutName)
-            .subscribe(
-                { shortcut ->
-                    executeShortcut(shortcut.id)
-                },
-                {
-                    showMessageDialog(StringResLocalizable(R.string.error_shortcut_not_found_for_deep_link, shortcutName))
-                },
-            )
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            try {
+                val shortcut = shortcutRepository.getShortcutByNameOrId(shortcutName)
+                executeShortcut(shortcut.id)
+            } catch (e: NoSuchElementException) {
+                showMessageDialog(StringResLocalizable(R.string.error_shortcut_not_found_for_deep_link, shortcutName))
+            }
+        }
     }
 
     private fun executeShortcut(shortcutId: ShortcutId) {

@@ -7,9 +7,8 @@ import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.utils.FileUtil
-import io.reactivex.Completable
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.Credentials
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
@@ -30,18 +29,16 @@ class RemoteEditManager(
     private val importer: Importer,
 ) {
 
-    fun upload(deviceId: String, password: String): Completable =
-        Single.just(File(context.cacheDir, "remote-edit.json"))
-            .flatMapCompletable { file ->
-                exporter.exportToUri(FileUtil.getUriFromFile(context, file), format = ExportFormat.LEGACY_JSON)
-                    .flatMapCompletable {
-                        pushToServer(deviceId, password, file)
-                    }
-            }
-            .subscribeOn(Schedulers.io())
+    suspend fun upload(deviceId: String, password: String) {
+        withContext(Dispatchers.IO) {
+            val file = File(context.cacheDir, "remote-edit.json")
+            exporter.exportToUri(FileUtil.getUriFromFile(context, file), format = ExportFormat.LEGACY_JSON)
+            pushToServer(deviceId, password, file)
+        }
+    }
 
-    private fun pushToServer(deviceId: String, password: String, file: File) =
-        Completable.fromAction {
+    private suspend fun pushToServer(deviceId: String, password: String, file: File) {
+        withContext(Dispatchers.IO) {
             try {
                 processRequest(
                     newRequestBuilder(deviceId, password)
@@ -67,10 +64,10 @@ class RemoteEditManager(
                 file.delete()
             }
         }
-            .subscribeOn(Schedulers.io())
+    }
 
-    fun download(deviceId: String, password: String): Single<Importer.ImportStatus> =
-        Single.fromCallable {
+    suspend fun download(deviceId: String, password: String): Importer.ImportStatus =
+        withContext(Dispatchers.IO) {
             processRequest(
                 newRequestBuilder(deviceId, password)
                     .build()
@@ -79,7 +76,6 @@ class RemoteEditManager(
                     importer.importFromJSON(inputStream, importMode = Importer.ImportMode.REPLACE)
                 }
         }
-            .subscribeOn(Schedulers.io())
 
     private fun newRequestBuilder(deviceId: String, password: String) =
         Request.Builder()

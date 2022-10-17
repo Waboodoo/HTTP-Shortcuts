@@ -11,6 +11,7 @@ import com.joaomgcd.taskerpluginlibrary.config.TaskerPluginConfig
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInputInfo
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInputInfos
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input>, Entrypoint {
@@ -45,10 +46,12 @@ class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input>, Entrypoint
                 shortcutId = "???",
                 shortcutName = "???",
             ),
-            getTaskerInputInfos(),
+            runBlocking {
+                getTaskerInputInfos()
+            },
         )
 
-    private fun getTaskerInputInfos() =
+    private suspend fun getTaskerInputInfos() =
         TaskerInputInfos().apply {
             getVariableKeys()
                 .forEach { variableKey ->
@@ -64,9 +67,8 @@ class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input>, Entrypoint
                 }
         }
 
-    private fun getVariableKeys() =
+    private suspend fun getVariableKeys() =
         variableRepository.getVariables()
-            .blockingGet() // TODO: Find a way to avoid using blockingGet
             .map { it.key }
 
     override fun assignFromInput(input: TaskerInput<Input>) {

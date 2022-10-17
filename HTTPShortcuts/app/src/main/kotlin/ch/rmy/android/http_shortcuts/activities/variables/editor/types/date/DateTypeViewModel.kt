@@ -20,17 +20,17 @@ class DateTypeViewModel(application: Application) : BaseVariableTypeViewModel<Un
     )
 
     fun onDateFormatChanged(dateFormat: String) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.setDataForType(
                 mapOf(DateType.KEY_FORMAT to dateFormat)
             )
-        )
+        }
     }
 
     fun onRememberValueChanged(enabled: Boolean) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.setRememberValue(enabled)
-        )
+        }
     }
 
     override fun validate(): Boolean {

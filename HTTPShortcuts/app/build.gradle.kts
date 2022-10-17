@@ -184,6 +184,7 @@ bugsnag {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     /* Dependency Injection */
     implementation("com.google.dagger:dagger:2.41")
@@ -218,9 +219,11 @@ dependencies {
     implementation("com.github.franmontiel:PersistentCookieJar:v1.0.1")
     implementation("org.conscrypt:conscrypt-android:2.5.2")
 
+    /* Permissions */
+    implementation("com.markodevcic:peko:2.2.0")
+
     /* Scheduling */
     implementation("androidx.work:work-runtime-ktx:2.7.1")
-    implementation("androidx.work:work-rxjava2:2.7.1")
 
     /* Tasker integration */
     implementation("com.joaomgcd:taskerpluginlibrary:0.4.2")
@@ -252,12 +255,6 @@ dependencies {
     /* JSON serialization & deserialization */
     implementation("com.google.code.gson:gson:2.8.9")
 
-    /* RX */
-    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
-    implementation("io.reactivex.rxjava2:rxjava:2.2.21")
-    implementation("com.github.tbruyelle:rxpermissions:0.11")
-    implementation("com.victorrendina:rxqueue2:2.0.0")
-
     /* Testing */
     testImplementation("org.hamcrest:hamcrest-library:$hamcrestVersion")
     testImplementation("junit:junit:$junitVersion")
@@ -266,6 +263,12 @@ dependencies {
     testImplementation("org.mockito:mockito-inline:$mockitoVersion")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
     testImplementation("androidx.test:core-ktx:1.4.0")
+}
+
+configurations.all {
+    // Exclude RxJava2 (which would otherwise be included by Realm) as we don't need it
+    exclude(group = "io.reactivex.rxjava2", module = "rxandroid")
+    exclude(group = "io.reactivex.rxjava2", module = "rxjava")
 }
 
 poeditor {

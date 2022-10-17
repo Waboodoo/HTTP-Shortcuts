@@ -6,42 +6,45 @@ import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.annotation.UiThread
 import androidx.lifecycle.AndroidViewModel
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.ui.IntentBuilder
-import ch.rmy.android.framework.utils.Destroyer
-import ch.rmy.android.framework.utils.ProgressMonitor
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
-import com.victorrendina.rxqueue2.QueueSubject
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.subjects.BehaviorSubject
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicInteger
 
 abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Application) : AndroidViewModel(application) {
 
     protected lateinit var initData: InitData
         private set
 
-    protected val progressMonitor = ProgressMonitor()
+    private val eventChannel = Channel<ViewModelEvent>(
+        capacity = Channel.UNLIMITED,
+    )
 
-    private val eventSubject = QueueSubject.create<ViewModelEvent>()
+    val events: Flow<ViewModelEvent> = eventChannel.receiveAsFlow()
 
-    val events: Observable<ViewModelEvent>
-        get() = eventSubject.observeOn(AndroidSchedulers.mainThread())
+    private val mutableViewState = MutableStateFlow<ViewState?>(null)
 
-    private val viewStateSubject = BehaviorSubject.create<ViewState>()
-
-    val viewState: Observable<ViewState>
-        get() = viewStateSubject.observeOn(AndroidSchedulers.mainThread())
+    val viewState: Flow<ViewState> = mutableViewState.asStateFlow().filterNotNull()
 
     protected var currentViewState: ViewState? = null
         private set
 
+    private val inProgress = AtomicInteger()
+    private var nothingInProgress: CompletableDeferred<Unit>? = null
+
     protected fun emitEvent(event: ViewModelEvent) {
-        eventSubject.onNext(event)
+        eventChannel.trySend(event)
     }
 
     private var suppressViewStatePublishing = false
@@ -66,7 +69,7 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         }
         currentViewState = mutation(currentViewState!!)
         if (!suppressViewStatePublishing) {
-            viewStateSubject.onNext(currentViewState!!)
+            mutableViewState.value = currentViewState!!
         }
     }
 
@@ -74,7 +77,9 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
     protected fun emitCurrentViewState() {
         currentViewState
             ?.takeUnless { suppressViewStatePublishing }
-            ?.let(viewStateSubject::onNext)
+            ?.let {
+                mutableViewState.value = it
+            }
     }
 
     @UiThread
@@ -87,11 +92,9 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         action()
         suppressViewStatePublishing = false
         if (currentViewState != null) {
-            viewStateSubject.onNext(currentViewState!!)
+            mutableViewState.value = currentViewState!!
         }
     }
-
-    protected val destroyer = Destroyer()
 
     private var isInitializationStarted = false
 
@@ -128,7 +131,7 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
             }
         delayedViewStateUpdates.clear()
         if (publishViewState) {
-            viewStateSubject.onNext(currentViewState!!)
+            mutableViewState.value = currentViewState!!
         }
         isInitialized = true
         onInitialized()
@@ -141,14 +144,23 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
 
     protected abstract fun initViewState(): ViewState
 
-    protected fun performOperation(operation: Completable, onComplete: (() -> Unit) = {}) {
-        operation
-            .compose(progressMonitor.transformer())
-            .subscribe(
-                onComplete,
-                ::handleUnexpectedError,
-            )
-            .attachTo(destroyer)
+    protected fun launchWithProgressTracking(operation: suspend () -> Unit) =
+        viewModelScope.launch {
+            operation()
+        }
+
+    protected suspend fun withProgressTracking(operation: suspend () -> Unit) {
+        if (inProgress.incrementAndGet() == 1) {
+            nothingInProgress = CompletableDeferred()
+        }
+        try {
+            operation()
+        } finally {
+            if (inProgress.decrementAndGet() == 0) {
+                nothingInProgress?.complete(Unit)
+                nothingInProgress = null
+            }
+        }
     }
 
     protected fun handleUnexpectedError(error: Throwable) {
@@ -156,12 +168,8 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         showSnackbar(R.string.error_generic, long = true)
     }
 
-    protected fun waitForOperationsToFinish(action: () -> Unit) {
-        progressMonitor.anyInProgress
-            .takeWhile { it }
-            .ignoreElements()
-            .subscribe(action)
-            .attachTo(destroyer)
+    protected suspend fun waitForOperationsToFinish() {
+        nothingInProgress?.await()
     }
 
     protected fun showSnackbar(@StringRes stringRes: Int, long: Boolean = false) {
@@ -201,9 +209,5 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
 
     protected fun sendBroadcast(intent: Intent) {
         emitEvent(ViewModelEvent.SendBroadcast(intent))
-    }
-
-    final override fun onCleared() {
-        destroyer.destroy()
     }
 }

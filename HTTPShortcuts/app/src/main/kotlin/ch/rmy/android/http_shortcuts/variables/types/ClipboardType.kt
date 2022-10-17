@@ -4,8 +4,8 @@ import android.content.Context
 import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ClipboardType : BaseVariableType() {
@@ -17,11 +17,10 @@ class ClipboardType : BaseVariableType() {
         applicationComponent.inject(this)
     }
 
-    override fun resolveValue(context: Context, variable: VariableModel) =
-        Single.fromCallable {
+    override suspend fun resolveValue(context: Context, variable: VariableModel) =
+        withContext(Dispatchers.Main) {
             clipboardUtil.getFromClipboard()
                 ?.toString()
-                ?: ""
+                .orEmpty()
         }
-            .subscribeOn(AndroidSchedulers.mainThread())
 }

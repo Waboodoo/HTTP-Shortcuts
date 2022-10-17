@@ -3,13 +3,13 @@ package ch.rmy.android.http_shortcuts.activities.main
 import android.app.Activity
 import android.app.Application
 import android.net.Uri
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
+import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
-import ch.rmy.android.framework.extensions.subscribeOptional
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -52,7 +52,7 @@ import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
-import io.reactivex.Single
+import kotlinx.coroutines.launch
 import org.mindrot.jbcrypt.BCrypt
 import javax.inject.Inject
 
@@ -139,12 +139,10 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
             )
         }
 
-        categoryRepository.getCategories()
-            .subscribe { categories ->
-                this.categories = categories
-                finalizeInitialization()
-            }
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            this@MainViewModel.categories = categoryRepository.getCategories()
+            finalizeInitialization()
+        }
     }
 
     override fun initViewState() = MainViewState(
@@ -174,9 +172,9 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         observeAppLock()
 
         if (initData.cancelPendingExecutions) {
-            pendingExecutionsRepository.removeAllPendingExecutions()
-                .subscribe()
-                .attachTo(destroyer)
+            viewModelScope.launch {
+                pendingExecutionsRepository.removeAllPendingExecutions()
+            }
         } else {
             scheduleExecutions()
         }
@@ -199,25 +197,24 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     private fun scheduleExecutions() {
-        executionScheduler.schedule()
-            .subscribe()
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            executionScheduler.schedule()
+        }
     }
 
     private fun showStartupDialogsIfNeeded() {
-        shouldShowRecoveryDialog()
-            .subscribeOptional { recoveryInfo ->
-                if (recoveryInfo != null) {
-                    showRecoveryDialog(recoveryInfo)
+        viewModelScope.launch {
+            val recoveryInfo = shouldShowRecoveryDialog()
+            if (recoveryInfo != null) {
+                showRecoveryDialog(recoveryInfo)
+            } else {
+                if (shouldShowChangeLogDialog()) {
+                    dialogState = getChangeLogDialog(whatsNew = true)
                 } else {
-                    if (shouldShowChangeLogDialog()) {
-                        dialogState = getChangeLogDialog(whatsNew = true)
-                    } else {
-                        showNetworkRestrictionWarningDialogIfNeeded()
-                    }
+                    showNetworkRestrictionWarningDialogIfNeeded()
                 }
             }
-            .attachTo(destroyer)
+        }
     }
 
     private fun showRecoveryDialog(recoveryInfo: RecoveryInfo) {
@@ -238,7 +235,9 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
                 )
             },
             onDiscard = {
-                performOperation(temporaryShortcutRepository.deleteTemporaryShortcut())
+                launchWithProgressTracking {
+                    temporaryShortcutRepository.deleteTemporaryShortcut()
+                }
             },
         )
     }
@@ -250,8 +249,9 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     private fun observeChildViewModelEvents() {
-        eventBridge.events.subscribe(::handleChildViewModelEvent)
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            eventBridge.events.collect(::handleChildViewModelEvent)
+        }
     }
 
     private fun handleChildViewModelEvent(event: ChildViewModelEvent) {
@@ -262,12 +262,11 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
                 }
             }
             is ChildViewModelEvent.ShortcutEdited -> {
-                categoryRepository.getCategories()
-                    .subscribe { categories ->
-                        this.categories = categories
-                        updateLauncherShortcuts(categories)
-                    }
-                    .attachTo(destroyer)
+                viewModelScope.launch {
+                    val categories = categoryRepository.getCategories()
+                    this@MainViewModel.categories = categories
+                    updateLauncherShortcuts(categories)
+                }
             }
             is ChildViewModelEvent.PlaceShortcutOnHomeScreen -> placeShortcutOnHomeScreen(event.shortcut)
             is ChildViewModelEvent.RemoveShortcutFromHomeScreen -> removeShortcutFromHomeScreen(event.shortcut)
@@ -293,23 +292,23 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     private fun observeToolbarTitle() {
-        appRepository.getObservableToolbarTitle()
-            .subscribe { toolbarTitle ->
+        viewModelScope.launch {
+            appRepository.getObservableToolbarTitle().collect { toolbarTitle ->
                 updateViewState {
                     copy(toolbarTitle = toolbarTitle)
                 }
             }
-            .attachTo(destroyer)
+        }
     }
 
     private fun observeAppLock() {
-        appRepository.getObservableLock()
-            .subscribe { optionalLock ->
+        viewModelScope.launch {
+            appRepository.getObservableLock().collect { appLock ->
                 updateViewState {
-                    copy(isLocked = optionalLock.value != null)
+                    copy(isLocked = appLock != null)
                 }
             }
-            .attachTo(destroyer)
+        }
     }
 
     fun onSettingsButtonClicked() {
@@ -378,7 +377,8 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     private fun onToolbarTitleChangeSubmitted(newTitle: String) {
-        performOperation(appRepository.setToolbarTitle(newTitle)) {
+        launchWithProgressTracking {
+            appRepository.setToolbarTitle(newTitle)
             showSnackbar(R.string.message_title_changed)
         }
     }
@@ -407,26 +407,20 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onUnlockDialogSubmitted(password: String) {
-        performOperation(
-            appRepository.getLock()
-                .flatMap { optionalLock ->
-                    val passwordHash = optionalLock.value?.passwordHash
-                    if (passwordHash != null && BCrypt.checkpw(password, passwordHash)) {
-                        appRepository.removeLock()
-                            .toSingleDefault(true)
-                    } else {
-                        Single.just(passwordHash == null)
-                    }
-                }
-                .doOnSuccess { unlocked ->
-                    if (unlocked) {
-                        showSnackbar(R.string.message_app_unlocked)
-                    } else {
-                        showUnlockDialog(StringResLocalizable(R.string.dialog_text_unlock_app_retry))
-                    }
-                }
-                .ignoreElement()
-        )
+        launchWithProgressTracking {
+            val lock = appRepository.getLock()
+            val passwordHash = lock?.passwordHash
+            val isUnlocked = if (passwordHash != null && BCrypt.checkpw(password, passwordHash)) consume {
+                appRepository.removeLock()
+            } else {
+                passwordHash == null
+            }
+            if (isUnlocked) {
+                showSnackbar(R.string.message_app_unlocked)
+            } else {
+                showUnlockDialog(StringResLocalizable(R.string.dialog_text_unlock_app_retry))
+            }
+        }
     }
 
     fun onCurlImportOptionSelected() {
@@ -434,13 +428,12 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onShortcutCreated(shortcutId: ShortcutId) {
-        categoryRepository.getCategories()
-            .subscribe { categories ->
-                this.categories = categories
-                updateLauncherShortcuts(categories)
-                selectShortcut(shortcutId)
-            }
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            val categories = categoryRepository.getCategories()
+            this@MainViewModel.categories = categories
+            updateLauncherShortcuts(categories)
+            selectShortcut(shortcutId)
+        }
     }
 
     private fun selectShortcut(shortcutId: ShortcutId) {
@@ -471,15 +464,13 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     private fun returnForHomeScreenWidgetPlacement(shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) {
         val widgetId = initData.widgetId ?: return
-        widgetManager
-            .createWidget(widgetId, shortcutId, showLabel, labelColor)
-            .andThen(widgetManager.updateWidgets(context, shortcutId))
-            .subscribe {
-                finishWithOkResult(
-                    WidgetManager.getIntent(widgetId)
-                )
-            }
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            widgetManager.createWidget(widgetId, shortcutId, showLabel, labelColor)
+            widgetManager.updateWidgets(context, shortcutId)
+            finishWithOkResult(
+                WidgetManager.getIntent(widgetId)
+            )
+        }
     }
 
     fun onShortcutPlacementConfirmed(shortcutId: ShortcutId, useLegacyMethod: Boolean) {

@@ -4,8 +4,8 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CopyToClipboardAction(private val text: String) : BaseAction() {
@@ -17,12 +17,11 @@ class CopyToClipboardAction(private val text: String) : BaseAction() {
         applicationComponent.inject(this)
     }
 
-    override fun execute(executionContext: ExecutionContext): Completable =
-        Completable
-            .fromAction {
-                text
-                    .takeUnlessEmpty()
-                    ?.let(clipboardUtil::copyToClipboard)
-            }
-            .subscribeOn(AndroidSchedulers.mainThread())
+    override suspend fun execute(executionContext: ExecutionContext) {
+        withContext(Dispatchers.Main) {
+            text
+                .takeUnlessEmpty()
+                ?.let(clipboardUtil::copyToClipboard)
+        }
+    }
 }

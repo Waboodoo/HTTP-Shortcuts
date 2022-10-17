@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
-import ch.rmy.android.framework.utils.Destroyer
+import kotlinx.coroutines.CoroutineScope
 
 object HTMLUtil {
     fun format(string: String): Spanned =
@@ -14,9 +14,9 @@ object HTMLUtil {
         string: String,
         context: Context,
         onImageLoaded: () -> Unit,
-        destroyer: Destroyer,
+        coroutineScope: CoroutineScope,
     ): Spanned =
-        fromHTML(string.convertNewlines().normalize(), ImageGetter(context, onImageLoaded, destroyer))
+        fromHTML(string.convertNewlines().normalize(), ImageGetter(context, onImageLoaded, coroutineScope))
 
     private fun String.normalize(): String =
         replace("<pre>", "<tt>")

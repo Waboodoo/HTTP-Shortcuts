@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.editor.usecases
 import android.content.Context
 import android.graphics.BitmapFactory
 import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.framework.utils.Optional
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -13,8 +12,9 @@ import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.favicongrabber.FaviconGrabber
 import ch.rmy.favicongrabber.models.IconResult
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.lang.Exception
 import javax.inject.Inject
@@ -29,32 +29,28 @@ constructor(
 
     private val client = httpClientFactory.getClient(context)
 
-    operator fun invoke(url: String, variables: List<VariableModel>): Single<Optional<ShortcutIcon>> =
-        variableResolver.resolve(variables, Variables.extractVariableIds(url))
-            .map { variableManager ->
-                Variables.rawPlaceholdersToResolvedValues(url, variableManager.getVariableValuesByIds())
+    suspend operator fun invoke(url: String, variables: List<VariableModel>): ShortcutIcon? {
+        val variableManager = variableResolver.resolve(variables, Variables.extractVariableIds(url))
+        val finalUrl = Variables.rawPlaceholdersToResolvedValues(url, variableManager.getVariableValuesByIds())
+
+        val iconSize = IconUtil.getIconSize(context)
+        val candidates = withContext(Dispatchers.IO) {
+            FaviconGrabber(client, context.cacheDir, userAgent = UserAgentUtil.userAgent)
+                .grab(finalUrl, preferredSize = iconSize)
+                .mapNotNull(::toCandidate)
+                .sortedByDescending { it.size }
+        }
+
+        return try {
+            candidates.firstNotNullOfOrNull { candidate ->
+                toShortcutIcon(context, candidate.file)
             }
-            .observeOn(Schedulers.io())
-            .map { finalUrl ->
-                val iconSize = IconUtil.getIconSize(context)
-                FaviconGrabber(client, context.cacheDir, userAgent = UserAgentUtil.userAgent)
-                    .grab(finalUrl, preferredSize = iconSize)
-                    .mapNotNull(::toCandidate)
-                    .sortedByDescending { it.size }
+        } finally {
+            candidates.forEach { candidate ->
+                candidate.file.delete()
             }
-            .map { candidates ->
-                try {
-                    Optional(
-                        candidates.firstNotNullOfOrNull { candidate ->
-                            toShortcutIcon(context, candidate.file)
-                        }
-                    )
-                } finally {
-                    candidates.forEach { candidate ->
-                        candidate.file.delete()
-                    }
-                }
-            }
+        }
+    }
 
     private fun toCandidate(result: IconResult): Candidate? {
         try {
@@ -72,7 +68,11 @@ constructor(
                 }
         } catch (e: Exception) {
             result.file.delete()
-            logException(e)
+            if (e is CancellationException) {
+                throw e
+            } else {
+                logException(e)
+            }
         }
         return null
     }
@@ -82,6 +82,8 @@ constructor(
             file.inputStream().use { inStream ->
                 IconUtil.createIconFromStream(context, inStream)
             }
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             logException(e)
             null

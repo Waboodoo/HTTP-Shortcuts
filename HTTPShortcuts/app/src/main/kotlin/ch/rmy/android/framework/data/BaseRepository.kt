@@ -1,55 +1,74 @@
 package ch.rmy.android.framework.data
 
 import ch.rmy.android.framework.extensions.detachFromRealm
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.realm.Realm
 import io.realm.RealmList
-import io.realm.RealmObject
+import io.realm.RealmModel
 import io.realm.RealmQuery
+import io.realm.kotlin.toFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.ProducerScope
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 
 abstract class BaseRepository(private val realmFactory: RealmFactory) {
 
-    protected fun <T : RealmObject> query(query: RealmContext.() -> RealmQuery<T>): Single<List<T>> =
-        Single.fromCallable {
+    protected suspend fun <T : RealmModel> query(query: RealmContext.() -> RealmQuery<T>): List<T> =
+        withContext(Dispatchers.IO) {
             realmFactory.createRealm().use { realm ->
                 query(realm.createContext())
                     .findAll()
                     .detachFromRealm()
             }
         }
-            .subscribeOn(Schedulers.io())
 
-    protected fun <T : RealmObject> queryItem(query: RealmContext.() -> RealmQuery<T>): Single<T> =
-        query(query)
-            .map {
-                it.first()
+    protected suspend fun <T : RealmModel> queryItem(query: RealmContext.() -> RealmQuery<T>): T =
+        query(query).first()
+
+    protected fun <T : RealmModel> observeQuery(query: RealmContext.() -> RealmQuery<T>): Flow<List<T>> =
+        channelFlow {
+            withRealmContext(realmFactory) {
+                query()
+                    .findAllAsync()
+                    .toFlow()
+                    .collect(channel::send)
             }
+        }
 
-    protected fun <T : RealmObject> observeQuery(query: RealmContext.() -> RealmQuery<T>): Observable<List<T>> =
-        RealmQueryObservable(realmFactory, query)
-            .subscribeOn(AndroidSchedulers.mainThread()) // TODO: Move this away from main thread
-            .observeOn(AndroidSchedulers.mainThread())
+    protected fun <T : RealmModel> observeList(query: RealmContext.() -> RealmList<T>): Flow<List<T>> =
+        channelFlow {
+            withRealmContext(realmFactory) {
+                query()
+                    .toFlow()
+                    .collect(channel::send)
+            }
+        }
 
-    protected fun <T : RealmObject> observeList(query: RealmContext.() -> RealmList<T>): Observable<List<T>> =
-        RealmListObservable(realmFactory, query)
-            .subscribeOn(AndroidSchedulers.mainThread()) // TODO: Move this away from main thread
-            .observeOn(AndroidSchedulers.mainThread())
+    private suspend fun ProducerScope<*>.withRealmContext(realmFactory: RealmFactory, block: suspend RealmContext.() -> Unit) {
+        var realm: Realm
+        withContext(Dispatchers.Main) { // TODO: Check if this could be done on a different thread (which has a looper)
+            realm = realmFactory.createRealm()
+            realm.createContext().block()
+        }
+        awaitClose(realm::close)
+    }
 
-    protected fun <T : RealmObject> observeItem(query: RealmContext.() -> RealmQuery<T>): Observable<T> =
+    protected fun <T : RealmModel> observeItem(query: RealmContext.() -> RealmQuery<T>): Flow<T> =
         observeQuery(query)
             .filter { it.isNotEmpty() }
             .map { it.first() }
 
-    protected fun commitTransaction(transaction: RealmTransactionContext.() -> Unit): Completable =
-        Completable.fromAction {
+    protected suspend fun commitTransaction(transaction: RealmTransactionContext.() -> Unit) {
+        withContext(Dispatchers.IO) {
             realmFactory.createRealm().use { realm ->
                 realm.executeTransaction {
                     transaction(realm.createTransactionContext())
                 }
             }
         }
-            .subscribeOn(Schedulers.single())
+    }
 }

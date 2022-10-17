@@ -4,8 +4,8 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class GetClipboardContentAction : BaseAction() {
@@ -17,12 +17,10 @@ class GetClipboardContentAction : BaseAction() {
         applicationComponent.inject(this)
     }
 
-    override fun executeForValue(executionContext: ExecutionContext): Single<out Any> =
-        Single.fromCallable {
+    override suspend fun execute(executionContext: ExecutionContext): String? =
+        withContext(Dispatchers.Main) {
             clipboardUtil.getFromClipboard()
                 ?.toString()
                 ?.takeUnlessEmpty()
-                ?: NO_RESULT
         }
-            .subscribeOn(AndroidSchedulers.mainThread())
 }

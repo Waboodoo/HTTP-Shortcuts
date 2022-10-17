@@ -16,8 +16,9 @@ import ch.rmy.android.http_shortcuts.databinding.ListItemCategoryBinding
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 
 class CategoryAdapter : BaseAdapter<CategoryListItem>() {
 
@@ -25,10 +26,9 @@ class CategoryAdapter : BaseAdapter<CategoryListItem>() {
         data class CategoryClicked(val id: String) : UserEvent
     }
 
-    private val userEventSubject = PublishSubject.create<UserEvent>()
+    private val userEventChannel = Channel<UserEvent>(capacity = Channel.UNLIMITED)
 
-    val userEvents: Observable<UserEvent>
-        get() = userEventSubject
+    val userEvents: Flow<UserEvent> = userEventChannel.receiveAsFlow()
 
     override fun areItemsTheSame(oldItem: CategoryListItem, newItem: CategoryListItem): Boolean =
         oldItem.id == newItem.id
@@ -49,7 +49,7 @@ class CategoryAdapter : BaseAdapter<CategoryListItem>() {
 
         init {
             binding.root.setOnClickListener {
-                userEventSubject.onNext(UserEvent.CategoryClicked(categoryId))
+                userEventChannel.trySend(UserEvent.CategoryClicked(categoryId))
             }
         }
 

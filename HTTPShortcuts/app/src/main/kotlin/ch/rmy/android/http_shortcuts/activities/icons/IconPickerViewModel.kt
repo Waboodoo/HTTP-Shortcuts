@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.icons
 import android.app.Application
 import android.net.Uri
 import androidx.core.net.toFile
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -18,8 +18,10 @@ import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
-import io.reactivex.Completable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
 
@@ -55,18 +57,17 @@ class IconPickerViewModel(application: Application) : BaseViewModel<Unit, IconPi
         }
 
     override fun onInitializationStarted(data: Unit) {
-        getIconListItems()
-            .subscribe(
-                { icons ->
-                    this.icons = icons
-                    finalizeInitialization()
-                },
-                { error ->
-                    finish()
-                    handleUnexpectedError(error)
-                },
-            )
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            try {
+                icons = getIconListItems()
+                finalizeInitialization()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                finish()
+                handleUnexpectedError(e)
+            }
+        }
     }
 
     override fun initViewState() = IconPickerViewState(
@@ -163,14 +164,13 @@ class IconPickerViewModel(application: Application) : BaseViewModel<Unit, IconPi
     private fun onBulkDeletionConfirmed() {
         doWithViewState { viewState ->
             val icons = viewState.icons.filter { it.isUnused }
-            Completable.fromAction {
-                icons.forEach {
-                    it.icon.getFile(context)?.delete()
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    icons.forEach {
+                        it.icon.getFile(context)?.delete()
+                    }
                 }
             }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
-                .attachTo(destroyer)
             updateViewState {
                 copy(
                     icons = this.icons.filterNot { it.isUnused },

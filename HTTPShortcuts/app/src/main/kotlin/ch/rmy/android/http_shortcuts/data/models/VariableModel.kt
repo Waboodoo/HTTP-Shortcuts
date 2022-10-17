@@ -7,7 +7,7 @@ import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.variables.Variables
 import io.realm.RealmList
-import io.realm.RealmObject
+import io.realm.RealmModel
 import io.realm.annotations.Ignore
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
@@ -33,7 +33,7 @@ open class VariableModel(
     @Required
     var message: String = "",
     variableType: VariableType = VariableType.CONSTANT,
-) : RealmObject() {
+) : RealmModel {
 
     private var flags: Int = 0
 

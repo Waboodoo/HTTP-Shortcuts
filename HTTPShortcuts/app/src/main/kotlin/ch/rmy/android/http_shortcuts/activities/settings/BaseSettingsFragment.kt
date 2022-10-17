@@ -4,12 +4,9 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import ch.rmy.android.framework.extensions.showSnackbar
-import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 
 abstract class BaseSettingsFragment : PreferenceFragmentCompat() {
-
-    protected val destroyer = Destroyer()
 
     protected fun initPreference(key: String, isVisible: Boolean = true, action: () -> Unit = {}): Preference =
         findPreference<Preference>(key)!!
@@ -44,10 +41,5 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat() {
 
     protected fun showSnackbar(message: CharSequence) {
         activity?.showSnackbar(message)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        destroyer.destroy()
     }
 }

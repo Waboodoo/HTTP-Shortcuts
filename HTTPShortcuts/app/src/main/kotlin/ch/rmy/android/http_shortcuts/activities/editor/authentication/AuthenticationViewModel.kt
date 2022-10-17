@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.authentication
 import android.app.Application
 import android.net.Uri
 import android.text.InputType
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
@@ -18,6 +18,8 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, AuthenticationViewState>(application), WithDialog {
@@ -53,15 +55,20 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
     override fun initViewState() = AuthenticationViewState()
 
     override fun onInitialized() {
-        temporaryShortcutRepository.getTemporaryShortcut()
-            .subscribe(
-                ::initViewStateFromShortcut,
-                ::onInitializationError,
-            )
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            try {
+                val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
+                initViewStateFromShortcut(temporaryShortcut)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                onInitializationError(e)
+            }
+        }
 
-        keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
+        }
     }
 
     private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
@@ -88,9 +95,9 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
                 authenticationType = authenticationType,
             )
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setAuthenticationType(authenticationType)
-        )
+        }
     }
 
     fun onUsernameChanged(username: String) {
@@ -98,9 +105,9 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
             copy(username = username)
         }
 
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setUsername(username)
-        )
+        }
     }
 
     fun onPasswordChanged(password: String) {
@@ -108,9 +115,9 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
             copy(password = password)
         }
 
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setPassword(password)
-        )
+        }
     }
 
     fun onTokenChanged(token: String) {
@@ -118,18 +125,18 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
             copy(token = token)
         }
 
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setToken(token)
-        )
+        }
     }
 
     fun onClientCertParamsChanged(clientCertParams: ClientCertParams?) {
         updateViewState {
             copy(clientCertParams = clientCertParams)
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setClientCertParams(clientCertParams)
-        )
+        }
     }
 
     fun onClientCertButtonClicked() {
@@ -164,13 +171,16 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
     }
 
     fun onCertificateFileSelected(file: Uri) {
-        copyCertificateFile(file)
-            .compose(progressMonitor.singleTransformer())
-            .subscribe(
-                ::promptForPassword,
-                ::handleUnexpectedError,
-            )
-            .attachTo(destroyer)
+        launchWithProgressTracking {
+            try {
+                val fileName = copyCertificateFile(file)
+                promptForPassword(fileName)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                handleUnexpectedError(e)
+            }
+        }
     }
 
     private fun promptForPassword(fileName: String) {
@@ -188,7 +198,8 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
     }
 
     fun onBackPressed() {
-        waitForOperationsToFinish {
+        viewModelScope.launch {
+            waitForOperationsToFinish()
             finish()
         }
     }

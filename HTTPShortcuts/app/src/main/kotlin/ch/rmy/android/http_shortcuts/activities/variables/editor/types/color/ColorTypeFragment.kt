@@ -3,11 +3,11 @@ package ch.rmy.android.http_shortcuts.activities.variables.editor.types.color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
+import ch.rmy.android.framework.extensions.doOnCheckedChanged
 import ch.rmy.android.framework.extensions.initialize
-import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.observeChecked
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorColorBinding
 
@@ -29,16 +29,13 @@ class ColorTypeFragment : BaseFragment<VariableEditorColorBinding>() {
     }
 
     private fun initUserInputBindings() {
-        binding.inputRememberValue
-            .observeChecked()
-            .subscribe(viewModel::onRememberValueChanged)
-            .attachTo(destroyer)
+        binding.inputRememberValue.doOnCheckedChanged(viewModel::onRememberValueChanged)
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             binding.inputRememberValue.isChecked = viewState.rememberValue
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 }

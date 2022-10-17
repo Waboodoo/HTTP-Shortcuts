@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
-import io.realm.RealmObject
+import io.realm.RealmModel
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
@@ -18,7 +18,7 @@ open class ParameterModel(
     var value: String = "",
     parameterType: ParameterType = ParameterType.STRING,
     var fileName: String = "",
-) : RealmObject() {
+) : RealmModel {
 
     @Required
     private var type: String = ParameterType.STRING.type

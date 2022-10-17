@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
-import io.realm.RealmObject
+import io.realm.RealmModel
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
@@ -15,7 +15,7 @@ open class OptionModel(
     var label: String = "",
     @Required
     var value: String = "",
-) : RealmObject() {
+) : RealmModel {
 
     val labelOrValue: String
         get() = label

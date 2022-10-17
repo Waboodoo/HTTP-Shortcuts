@@ -12,8 +12,9 @@ import ch.rmy.android.http_shortcuts.databinding.ListEmptyItemBinding
 import ch.rmy.android.http_shortcuts.databinding.ListItemHeaderBinding
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 class RequestHeadersAdapter
@@ -27,10 +28,9 @@ constructor(
         data class HeaderClicked(val id: String) : UserEvent
     }
 
-    private val userEventSubject = PublishSubject.create<UserEvent>()
+    private val userEventChannel = Channel<UserEvent>(capacity = Channel.UNLIMITED)
 
-    val userEvents: Observable<UserEvent>
-        get() = userEventSubject
+    val userEvents: Flow<UserEvent> = userEventChannel.receiveAsFlow()
 
     override fun areItemsTheSame(oldItem: HeaderListItem, newItem: HeaderListItem): Boolean =
         when (oldItem) {
@@ -67,7 +67,7 @@ constructor(
 
         init {
             binding.root.setOnClickListener {
-                userEventSubject.onNext(UserEvent.HeaderClicked(headerId))
+                userEventChannel.trySend(UserEvent.HeaderClicked(headerId))
             }
         }
 

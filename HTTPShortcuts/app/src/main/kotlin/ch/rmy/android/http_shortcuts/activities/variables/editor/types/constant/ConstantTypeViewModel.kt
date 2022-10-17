@@ -17,9 +17,9 @@ class ConstantTypeViewModel(application: Application) :
     )
 
     fun onValueChanged(value: String) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.setValue(value)
-        )
+        }
     }
 
     data class InitData(

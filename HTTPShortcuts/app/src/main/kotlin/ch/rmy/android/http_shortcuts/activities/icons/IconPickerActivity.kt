@@ -7,12 +7,14 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.isVisible
 import ch.rmy.android.framework.extensions.logInfo
-import ch.rmy.android.framework.extensions.observe
+import ch.rmy.android.framework.extensions.whileLifecycleActive
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.FilePickerUtil
@@ -64,10 +66,12 @@ class IconPickerActivity : BaseActivity() {
     }
 
     private fun initUserInputBindings() {
-        adapter.userEvents.observe(this) { event ->
-            when (event) {
-                is IconPickerAdapter.UserEvent.IconClicked -> viewModel.onIconClicked(event.icon)
-                is IconPickerAdapter.UserEvent.IconLongClicked -> viewModel.onIconLongClicked(event.icon)
+        whileLifecycleActive {
+            adapter.userEvents.collect { event ->
+                when (event) {
+                    is IconPickerAdapter.UserEvent.IconClicked -> viewModel.onIconClicked(event.icon)
+                    is IconPickerAdapter.UserEvent.IconLongClicked -> viewModel.onIconLongClicked(event.icon)
+                }
             }
         }
 
@@ -77,7 +81,7 @@ class IconPickerActivity : BaseActivity() {
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             binding.loadingIndicator.isVisible = false
             binding.buttonCreateIcon.isVisible = true
             adapter.items = viewState.icons
@@ -85,7 +89,7 @@ class IconPickerActivity : BaseActivity() {
             deleteMenuItem?.isVisible = viewState.isDeleteButtonVisible
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun handleEvent(event: ViewModelEvent) {

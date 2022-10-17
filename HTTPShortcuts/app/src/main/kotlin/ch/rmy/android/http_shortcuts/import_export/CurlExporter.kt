@@ -10,10 +10,10 @@ import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
+import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables.rawPlaceholdersToResolvedValues
 import ch.rmy.curlcommand.CurlCommand
-import io.reactivex.Single
 import javax.inject.Inject
 
 class CurlExporter
@@ -23,20 +23,16 @@ constructor(
     private val variableResolver: VariableResolver,
 ) {
 
-    fun generateCommand(shortcut: ShortcutModel): Single<CurlCommand> {
+    suspend fun generateCommand(shortcut: ShortcutModel): CurlCommand {
         val detachedShortcut = shortcut.detachFromRealm()
-        return resolveVariables(detachedShortcut)
-            .map { variableManager ->
-                generateCommand(detachedShortcut, variableManager.getVariableValuesByIds())
-            }
+        val variableManager = resolveVariables(detachedShortcut)
+        return generateCommand(detachedShortcut, variableManager.getVariableValuesByIds())
     }
 
-    private fun resolveVariables(shortcut: ShortcutModel) =
-        variableRepository
-            .getVariables()
-            .flatMap { variables ->
-                variableResolver.resolve(variables, shortcut)
-            }
+    private suspend fun resolveVariables(shortcut: ShortcutModel): VariableManager {
+        val variables = variableRepository.getVariables()
+        return variableResolver.resolve(variables, shortcut)
+    }
 
     private fun generateCommand(shortcut: ShortcutModel, variableValues: Map<VariableKey, String>): CurlCommand =
         CurlCommand.Builder()

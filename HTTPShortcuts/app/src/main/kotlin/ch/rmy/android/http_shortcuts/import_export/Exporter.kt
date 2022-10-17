@@ -23,9 +23,9 @@ import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.usecases.GetUsedCustomIconsUseCase
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileInputStream
 import java.util.zip.ZipEntry
@@ -40,45 +40,44 @@ constructor(
     private val getUsedCustomIcons: GetUsedCustomIconsUseCase,
 ) {
 
-    fun exportToUri(
+    suspend fun exportToUri(
         uri: Uri,
         format: ExportFormat = ExportFormat.ZIP,
         shortcutIds: Collection<ShortcutId>? = null,
         variableIds: Collection<VariableId>? = null,
         excludeDefaults: Boolean = false,
-    ): Single<ExportStatus> =
-        getBase(shortcutIds, variableIds)
-            .map { base ->
-                when (format) {
-                    ExportFormat.ZIP -> {
-                        ZipOutputStream(FileUtil.getOutputStream(context, uri)).use { out ->
+    ): ExportStatus {
+        val base = getBase(shortcutIds, variableIds)
+        return withContext(Dispatchers.IO) {
+            when (format) {
+                ExportFormat.ZIP -> {
+                    ZipOutputStream(FileUtil.getOutputStream(context, uri)).use { out ->
 
-                            out.putNextEntry(ZipEntry(JSON_FILE))
-                            val writer = out.bufferedWriter()
-                            val result = export(writer, base, excludeDefaults)
+                        out.putNextEntry(ZipEntry(JSON_FILE))
+                        val writer = out.bufferedWriter()
+                        val exportStatus = export(writer, base, excludeDefaults)
+                        writer.flush()
+                        out.closeEntry()
+
+                        getFilesToExport(context, base, shortcutIds).forEach { file ->
+                            out.putNextEntry(ZipEntry(file.name))
+                            FileInputStream(file).copyTo(out)
                             writer.flush()
                             out.closeEntry()
-
-                            getFilesToExport(context, base, shortcutIds).forEach { file ->
-                                out.putNextEntry(ZipEntry(file.name))
-                                FileInputStream(file).copyTo(out)
-                                writer.flush()
-                                out.closeEntry()
-                            }
-                            result
                         }
+                        exportStatus
                     }
-                    ExportFormat.LEGACY_JSON -> {
-                        FileUtil.getWriter(context, uri).use { writer ->
-                            export(writer, base, excludeDefaults)
-                        }
+                }
+                ExportFormat.LEGACY_JSON -> {
+                    FileUtil.getWriter(context, uri).use { writer ->
+                        export(writer, base, excludeDefaults)
                     }
                 }
             }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+        }
+    }
 
-    private fun export(
+    private suspend fun export(
         writer: Appendable,
         base: BaseModel,
         excludeDefaults: Boolean = false,
@@ -87,59 +86,60 @@ constructor(
         return ExportStatus(exportedShortcuts = base.shortcuts.size)
     }
 
-    private fun getBase(shortcutIds: Collection<ShortcutId>?, variableIds: Collection<VariableId>?): Single<BaseModel> =
+    private suspend fun getBase(shortcutIds: Collection<ShortcutId>?, variableIds: Collection<VariableId>?): BaseModel =
         appRepository.getBase()
-            .map { base ->
-                base.applyIfNotNull(shortcutIds) {
-                    title = null
-                    categories.forEach { category ->
-                        category.shortcuts.safeRemoveIf { shortcut ->
-                            shortcut.id !in shortcutIds!!
-                        }
-                    }
-                    categories.safeRemoveIf { category ->
-                        category.shortcuts.isEmpty()
+            .applyIfNotNull(shortcutIds) {
+                title = null
+                categories.forEach { category ->
+                    category.shortcuts.safeRemoveIf { shortcut ->
+                        shortcut.id !in shortcutIds!!
                     }
                 }
-                    .applyIfNotNull(variableIds) {
-                        variables.safeRemoveIf { !variableIds!!.contains(it.id) }
-                    }
+                categories.safeRemoveIf { category ->
+                    category.shortcuts.isEmpty()
+                }
+            }
+            .applyIfNotNull(variableIds) {
+                variables.safeRemoveIf { !variableIds!!.contains(it.id) }
             }
 
-    private fun exportData(base: BaseModel, writer: Appendable, excludeDefaults: Boolean = false) {
-        try {
-            val serializer = ModelSerializer()
-            GsonUtil.gson
-                .newBuilder()
-                .setPrettyPrinting()
-                .runIf(excludeDefaults) {
-                    runFor(MODEL_CLASSES) { clazz ->
-                        registerTypeAdapter(clazz.java, serializer)
+    private suspend fun exportData(base: BaseModel, writer: Appendable, excludeDefaults: Boolean = false) {
+        withContext(Dispatchers.IO) {
+            try {
+                val serializer = ModelSerializer()
+                GsonUtil.gson
+                    .newBuilder()
+                    .setPrettyPrinting()
+                    .runIf(excludeDefaults) {
+                        runFor(MODEL_CLASSES) { clazz ->
+                            registerTypeAdapter(clazz.java, serializer)
+                        }
                     }
+                    .create()
+                    .toJson(base, writer)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Throwable) {
+                if (e !is NoClassDefFoundError) {
+                    logException(e)
                 }
-                .create()
-                .toJson(base, writer)
-        } catch (e: Throwable) {
-            if (e !is NoClassDefFoundError) {
-                logException(e)
+                GsonUtil.gson
+                    .newBuilder()
+                    .setPrettyPrinting()
+                    .create()
+                    .toJson(base, writer)
             }
-            GsonUtil.gson
-                .newBuilder()
-                .setPrettyPrinting()
-                .create()
-                .toJson(base, writer)
         }
     }
 
-    private fun getFilesToExport(context: Context, base: BaseModel, shortcutIds: Collection<ShortcutId>?): List<File> =
+    private suspend fun getFilesToExport(context: Context, base: BaseModel, shortcutIds: Collection<ShortcutId>?): List<File> =
         getShortcutIconFiles(context, shortcutIds)
             .plus(getClientCertFiles(context, base, shortcutIds))
             .filter { it.exists() }
             .toList()
 
-    private fun getShortcutIconFiles(context: Context, shortcutIds: Collection<ShortcutId>?) =
+    private suspend fun getShortcutIconFiles(context: Context, shortcutIds: Collection<ShortcutId>?) =
         getUsedCustomIcons(shortcutIds)
-            .blockingGet()
             .mapNotNull {
                 it.getFile(context)
             }

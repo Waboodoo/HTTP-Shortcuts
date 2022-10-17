@@ -7,9 +7,10 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
-import ch.rmy.android.framework.extensions.observe
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
@@ -54,7 +55,7 @@ class WidgetSettingsActivity : BaseActivity() {
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             binding.widgetLabel.isVisible = viewState.showLabel
             binding.inputLabelColor.isEnabled = viewState.showLabel
             binding.widgetIcon.setIcon(viewState.shortcutIcon)
@@ -63,7 +64,7 @@ class WidgetSettingsActivity : BaseActivity() {
             binding.widgetLabel.setTextColor(viewState.labelColor)
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

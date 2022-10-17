@@ -11,8 +11,9 @@ import ch.rmy.android.framework.ui.BaseAdapter
 import ch.rmy.android.framework.ui.views.ExpandableSection
 import ch.rmy.android.framework.ui.views.SimpleListItemView
 import ch.rmy.android.http_shortcuts.R
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 
 class CodeSnippetAdapter : BaseAdapter<ItemWrapper>() {
 
@@ -22,10 +23,9 @@ class CodeSnippetAdapter : BaseAdapter<ItemWrapper>() {
         data class CodeSnippetAuxiliaryIconClicked(val id: Int) : UserEvent
     }
 
-    private val userEventSubject = PublishSubject.create<UserEvent>()
+    private val userEventChannel = Channel<UserEvent>(capacity = Channel.UNLIMITED)
 
-    val userEvents: Observable<UserEvent>
-        get() = userEventSubject
+    val userEvents: Flow<UserEvent> = userEventChannel.receiveAsFlow()
 
     override fun areItemsTheSame(oldItem: ItemWrapper, newItem: ItemWrapper): Boolean =
         when (oldItem) {
@@ -84,7 +84,7 @@ class CodeSnippetAdapter : BaseAdapter<ItemWrapper>() {
 
         init {
             view.setOnClickListener {
-                userEventSubject.onNext(UserEvent.SectionClicked(sectionId))
+                userEventChannel.trySend(UserEvent.SectionClicked(sectionId))
             }
         }
 
@@ -108,10 +108,10 @@ class CodeSnippetAdapter : BaseAdapter<ItemWrapper>() {
 
         init {
             view.setOnClickListener {
-                userEventSubject.onNext(UserEvent.CodeSnippetClicked(codeSnippetId))
+                userEventChannel.trySend(UserEvent.CodeSnippetClicked(codeSnippetId))
             }
             view.setAuxiliaryIconClickListener {
-                userEventSubject.onNext(UserEvent.CodeSnippetAuxiliaryIconClicked(codeSnippetId))
+                userEventChannel.trySend(UserEvent.CodeSnippetAuxiliaryIconClicked(codeSnippetId))
             }
         }
 

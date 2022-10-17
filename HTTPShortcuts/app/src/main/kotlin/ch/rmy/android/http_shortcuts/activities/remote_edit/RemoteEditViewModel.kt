@@ -4,7 +4,7 @@ import android.app.Application
 import android.text.Html.escapeHtml
 import androidx.annotation.StringRes
 import androidx.core.net.toUri
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -23,8 +23,9 @@ import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.StringUtils
 import ch.rmy.android.http_shortcuts.utils.Validation
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, RemoteEditViewState>(application), WithDialog {
@@ -45,7 +46,7 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
         getApplicationComponent().inject(this)
     }
 
-    private var disposable: Disposable? = null
+    private var currentJob: Job? = null
 
     private var serverUrl: String
         get() = settings.remoteEditServerUrl ?: REMOTE_BASE_URL
@@ -151,28 +152,21 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
     }
 
     private fun startUpload() {
-        getRemoteEditManager()
-            .upload(deviceId, password)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
+            try {
                 showProgressDialog(R.string.remote_edit_upload_in_progress)
-            }
-            .doFinally {
+                getRemoteEditManager().upload(deviceId, password)
+                showSnackbar(R.string.message_remote_edit_upload_successful)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                logException(e)
+                showMessageDialog(R.string.error_remote_edit_upload)
+            } finally {
                 hideProgressDialog()
             }
-            .subscribe(
-                {
-                    showSnackbar(R.string.message_remote_edit_upload_successful)
-                },
-                { error ->
-                    logException(error)
-                    showMessageDialog(R.string.error_remote_edit_upload)
-                }
-            )
-            .also {
-                disposable = it
-            }
-            .attachTo(destroyer)
+        }
     }
 
     fun onDownloadButtonClicked() {
@@ -184,35 +178,26 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
     }
 
     private fun startDownload() {
-        getRemoteEditManager()
-            .download(deviceId, password)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
+            try {
                 showProgressDialog(R.string.remote_edit_download_in_progress)
-            }
-            .doFinally {
+                getRemoteEditManager().download(deviceId, password)
+                setResult(
+                    intent = RemoteEditActivity.OpenRemoteEditor.createResult(changesImported = true),
+                )
+                showSnackbar(R.string.message_remote_edit_download_successful)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: ImportException) {
+                showMessageDialog(context.getString(R.string.error_remote_edit_download) + " " + e.message)
+            } catch (e: Exception) {
+                logException(e)
+                showMessageDialog(R.string.error_remote_edit_download)
+            } finally {
                 hideProgressDialog()
             }
-            .subscribe(
-                {
-                    setResult(
-                        intent = RemoteEditActivity.OpenRemoteEditor.createResult(changesImported = true),
-                    )
-                    showSnackbar(R.string.message_remote_edit_download_successful)
-                },
-                { error ->
-                    if (error is ImportException) {
-                        showMessageDialog(context.getString(R.string.error_remote_edit_download) + " " + error.message)
-                    } else {
-                        logException(error)
-                        showMessageDialog(R.string.error_remote_edit_download)
-                    }
-                }
-            )
-            .also {
-                disposable = it
-            }
-            .attachTo(destroyer)
+        }
     }
 
     private fun getRemoteEditManager() =
@@ -238,7 +223,7 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
     }
 
     private fun onProgressDialogCanceled() {
-        disposable?.dispose()
+        currentJob?.cancel()
     }
 
     private fun showMessageDialog(@StringRes message: Int) {

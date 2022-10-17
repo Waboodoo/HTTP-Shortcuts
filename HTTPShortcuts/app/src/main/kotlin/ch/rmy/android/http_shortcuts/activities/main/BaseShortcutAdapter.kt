@@ -11,8 +11,9 @@ import ch.rmy.android.framework.ui.BaseAdapter
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.databinding.ListEmptyItemBinding
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 
 abstract class BaseShortcutAdapter : BaseAdapter<ShortcutListItem>() {
 
@@ -21,12 +22,11 @@ abstract class BaseShortcutAdapter : BaseAdapter<ShortcutListItem>() {
         data class ShortcutLongClicked(val id: String) : UserEvent
     }
 
-    protected val userEventSubject = PublishSubject.create<UserEvent>()
+    protected val userEventChannel = Channel<UserEvent>(capacity = Channel.UNLIMITED)
+
+    val userEvents: Flow<UserEvent> = userEventChannel.receiveAsFlow()
 
     var isLongClickingEnabled = false
-
-    val userEvents: Observable<UserEvent>
-        get() = userEventSubject
 
     override fun areItemsTheSame(oldItem: ShortcutListItem, newItem: ShortcutListItem): Boolean =
         when (oldItem) {

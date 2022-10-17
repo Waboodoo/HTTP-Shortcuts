@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor.advancedsettings
 
 import android.app.Application
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.utils.localization.DurationLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
@@ -13,6 +13,8 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRep
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
@@ -50,15 +52,20 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
     override fun initViewState() = AdvancedSettingsViewState()
 
     override fun onInitialized() {
-        temporaryShortcutRepository.getTemporaryShortcut()
-            .subscribe(
-                ::initViewStateFromShortcut,
-                ::onInitializationError,
-            )
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            try {
+                val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
+                initViewStateFromShortcut(temporaryShortcut)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                onInitializationError(e)
+            }
+        }
 
-        keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
+        }
     }
 
     private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
@@ -84,63 +91,63 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
         updateViewState {
             copy(followRedirects = followRedirects)
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setFollowRedirects(followRedirects)
-        )
+        }
     }
 
     fun onAcceptAllCertificatesChanged(acceptAllCertificates: Boolean) {
         updateViewState {
             copy(acceptAllCertificates = acceptAllCertificates)
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setAcceptAllCertificates(acceptAllCertificates)
-        )
+        }
     }
 
     fun onAcceptCookiesChanged(acceptCookies: Boolean) {
         updateViewState {
             copy(acceptCookies = acceptCookies)
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setAcceptCookies(acceptCookies)
-        )
+        }
     }
 
     private fun onTimeoutChanged(timeout: Duration) {
         updateViewState {
             copy(timeout = timeout)
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setTimeout(timeout)
-        )
+        }
     }
 
     fun onProxyHostChanged(proxyHost: String) {
         updateViewState {
             copy(proxyHost = proxyHost)
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setProxyHost(proxyHost)
-        )
+        }
     }
 
     fun onProxyPortChanged(proxyPort: Int?) {
         updateViewState {
             copy(proxyPort = proxyPort?.toString() ?: "")
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setProxyPort(proxyPort)
-        )
+        }
     }
 
     fun onWifiSsidChanged(ssid: String) {
         updateViewState {
             copy(wifiSsid = ssid)
         }
-        performOperation(
+        launchWithProgressTracking {
             temporaryShortcutRepository.setWifiSsid(ssid)
-        )
+        }
     }
 
     fun onTimeoutButtonClicked() {
@@ -160,7 +167,8 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
     }
 
     fun onBackPressed() {
-        waitForOperationsToFinish {
+        viewModelScope.launch {
+            waitForOperationsToFinish()
             finish()
         }
     }

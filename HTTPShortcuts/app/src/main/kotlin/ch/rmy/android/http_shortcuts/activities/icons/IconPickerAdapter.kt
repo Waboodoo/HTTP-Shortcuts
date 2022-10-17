@@ -7,8 +7,9 @@ import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.ui.BaseAdapter
 import ch.rmy.android.http_shortcuts.databinding.IconPickerListItemBinding
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 
 class IconPickerAdapter : BaseAdapter<IconPickerListItem>() {
 
@@ -17,10 +18,9 @@ class IconPickerAdapter : BaseAdapter<IconPickerListItem>() {
         data class IconLongClicked(val icon: ShortcutIcon.CustomIcon) : UserEvent
     }
 
-    private val userEventSubject = PublishSubject.create<UserEvent>()
+    private val userEventChannel = Channel<UserEvent>(capacity = Channel.UNLIMITED)
 
-    val userEvents: Observable<UserEvent>
-        get() = userEventSubject
+    val userEvents: Flow<UserEvent> = userEventChannel.receiveAsFlow()
 
     override fun areItemsTheSame(oldItem: IconPickerListItem, newItem: IconPickerListItem): Boolean =
         oldItem.icon == newItem.icon
@@ -40,11 +40,11 @@ class IconPickerAdapter : BaseAdapter<IconPickerListItem>() {
 
         init {
             binding.root.setOnClickListener {
-                userEventSubject.onNext(UserEvent.IconClicked(icon))
+                userEventChannel.trySend(UserEvent.IconClicked(icon))
             }
             binding.root.setOnLongClickListener {
                 consume {
-                    userEventSubject.onNext(UserEvent.IconLongClicked(icon))
+                    userEventChannel.trySend(UserEvent.IconLongClicked(icon))
                 }
             }
         }

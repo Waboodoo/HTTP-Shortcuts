@@ -5,6 +5,7 @@ import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.getCaseInsensitive
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
+import ch.rmy.android.framework.extensions.resume
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.R
@@ -18,10 +19,13 @@ import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionFactory
-import ch.rmy.android.http_shortcuts.scripting.actions.types.BaseAction
 import ch.rmy.android.http_shortcuts.variables.VariableManager
-import io.reactivex.Completable
-import io.reactivex.Single
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import org.json.JSONException
 import org.liquidplayer.javascript.JSContext
 import org.liquidplayer.javascript.JSException
@@ -29,6 +33,7 @@ import org.liquidplayer.javascript.JSFunction
 import org.liquidplayer.javascript.JSObject
 import org.liquidplayer.javascript.JSUint8Array
 import org.liquidplayer.javascript.JSValue
+import kotlin.coroutines.resumeWithException
 
 class ScriptExecutor(
     private val context: Context,
@@ -46,73 +51,75 @@ class ScriptExecutor(
 
     private var lastException: Throwable? = null
 
-    private var sendResult: ((ActionResult) -> Unit)? = null
+    private var sendResult: CompletableDeferred<ActionResult>? = null
 
-    fun initialize(
+    suspend fun initialize(
         shortcut: ShortcutModel,
         variableManager: VariableManager,
         fileUploadManager: FileUploadManager?,
         recursionDepth: Int = 0,
-    ): Completable =
+    ) {
         runWithExceptionHandling {
             registerShortcut(shortcut)
             registerFiles(fileUploadManager)
             registerActions(context, shortcut.id, variableManager, recursionDepth)
         }
+    }
 
-    private fun runWithExceptionHandling(block: () -> Unit): Completable =
-        Completable.create { emitter ->
-            try {
+    private suspend fun runWithExceptionHandling(block: () -> Unit) {
+        try {
+            suspendCancellableCoroutine<Unit> { continuation ->
                 jsContext.setExceptionHandler { exception ->
-                    if (!emitter.isDisposed) {
-                        emitter.onError(lastException ?: exception)
+                    if (continuation.isActive) {
+                        continuation.resumeWithException(lastException ?: exception)
                     }
                 }
                 block()
-                emitter.onComplete()
-            } catch (e: Throwable) {
-                if (!emitter.isDisposed) {
-                    emitter.onError(e)
+                if (continuation.isActive) {
+                    continuation.resume()
                 }
             }
-        }
-            .onErrorResumeNext { e ->
-                Completable.error(
-                    when (e) {
-                        is JSException -> if (e.error.message() == "java.lang.reflect.InvocationTargetException") {
-                            JavaScriptException("Invalid function arguments", e)
-                        } else {
-                            JavaScriptException(e)
-                        }
-                        is JSONException -> JavaScriptException(e)
-                        else -> e
-                    }
-                )
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            throw when (e) {
+                is JSException -> if (e.error.message() == "java.lang.reflect.InvocationTargetException") {
+                    JavaScriptException("Invalid function arguments", e)
+                } else {
+                    JavaScriptException(e)
+                }
+                is JSONException -> JavaScriptException(e)
+                else -> e
             }
+        }
+    }
 
     fun pushActionResult(result: ActionResult) {
-        if (sendResult == null) {
+        val deferred = sendResult
+        if (deferred == null) {
             // TODO: Remove this error handling once I know whether/how it triggers
             context.showToast(R.string.error_generic)
             logException(IllegalStateException("ScriptExecutor received result but no callback was available to handle it"))
             return
         }
-        sendResult!!.invoke(result)
+        sendResult = null
+        deferred.complete(result)
     }
 
-    fun execute(
+    suspend fun execute(
         script: String,
         response: ShortcutResponse? = null,
         error: Exception? = null,
-    ): Completable =
-        if (script.isEmpty()) {
-            Completable.complete()
-        } else {
-            runWithExceptionHandling {
-                registerResponse(response, error)
-                jsContext.evaluateScript(script)
+    ) {
+        if (script.isNotEmpty()) {
+            withContext(Dispatchers.Default) {
+                runWithExceptionHandling {
+                    registerResponse(response, error)
+                    jsContext.evaluateScript(script)
+                }
             }
         }
+    }
 
     private fun registerShortcut(shortcut: ShortcutModel) {
         jsContext.property(
@@ -243,28 +250,29 @@ class ScriptExecutor(
                             data = data,
                         )
                     )
+                        ?: return null
 
                     return try {
-                        action
-                            ?.run(
+                        val result = runBlocking {
+                            action.run(
                                 ExecutionContext(
                                     context = context,
                                     shortcutId = shortcutId,
                                     variableManager = variableManager,
                                     recursionDepth = recursionDepth,
                                     callback = { request ->
-                                        Single.create { emitter ->
-                                            check(sendResult == null) { "Another action is already waiting for a result" }
-                                            sendResult = emitter::onSuccess
-                                            sendRequest(request)
-                                        }
+                                        check(sendResult == null) { "Another action is already waiting for a result" }
+                                        val deferred = CompletableDeferred<ActionResult>()
+                                        sendResult = deferred
+                                        sendRequest(request)
+                                        deferred.await()
                                     },
                                 )
                             )
-                            ?.blockingGet()
-                            ?.let { result ->
-                                convertResult(jsContext, result)
-                            }
+                        }
+                        convertResult(jsContext, result)
+                    } catch (e: CancellationException) {
+                        throw e
                     } catch (e: Throwable) {
                         lastException = if (e is RuntimeException && e.cause != null) e.cause else e
                         null
@@ -277,6 +285,8 @@ class ScriptExecutor(
 
     companion object {
 
+        private const val NO_RESULT = "[[[no result]]]"
+
         private const val READ_ONLY =
             JSContext.JSPropertyAttributeReadOnly or JSContext.JSPropertyAttributeDontDelete
 
@@ -286,7 +296,7 @@ class ScriptExecutor(
                 const _convertResult = (result) => {
                     if (result === null || result === undefined) {
                         throw "Error";
-                    } else if (result === "${BaseAction.NO_RESULT}") {
+                    } else if (result === "$NO_RESULT") {
                         return null;
                     } else {
                         return result;
@@ -322,16 +332,15 @@ class ScriptExecutor(
                 }
         }
 
-        private fun convertResult(jsContext: JSContext, result: Any?): JSValue? =
+        private fun convertResult(jsContext: JSContext, result: Any?): JSValue =
             when (result) {
-                null -> null
                 is ByteArray -> JSUint8Array(jsContext, result.size)
                     .apply {
                         result.forEachIndexed { index, byte ->
                             set(index, byte)
                         }
                     }
-                else -> JSValue(jsContext, result)
+                else -> JSValue(jsContext, result ?: NO_RESULT)
             }
     }
 }

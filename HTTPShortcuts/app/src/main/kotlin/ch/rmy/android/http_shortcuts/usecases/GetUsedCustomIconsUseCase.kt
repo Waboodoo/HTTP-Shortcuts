@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.usecases
 
 import androidx.annotation.CheckResult
 import ch.rmy.android.framework.extensions.runIfNotNull
-import ch.rmy.android.framework.utils.Optional
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
@@ -10,7 +9,8 @@ import ch.rmy.android.http_shortcuts.data.models.BaseModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
-import io.reactivex.Single
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class GetUsedCustomIconsUseCase
@@ -21,26 +21,26 @@ constructor(
 ) {
 
     @CheckResult
-    operator fun invoke(
+    suspend operator fun invoke(
         shortcutIds: Collection<ShortcutId>? = null,
         includeTemporaryShortcut: Boolean = false,
-    ): Single<List<ShortcutIcon.CustomIcon>> =
-        appRepository.getBase()
-            .flatMap { base ->
-                if (includeTemporaryShortcut) {
-                    getTemporaryShortcut()
-                } else {
-                    Single.just(Optional.empty())
-                }
-                    .map { temporaryShortcutOptional ->
-                        getCustomShortcutIcons(base, shortcutIds, temporaryShortcutOptional.value)
-                    }
+    ): List<ShortcutIcon.CustomIcon> =
+        withContext(Dispatchers.Default) {
+            val base = appRepository.getBase()
+            val temporaryShortcut = if (includeTemporaryShortcut) {
+                getTemporaryShortcut()
+            } else {
+                null
             }
+            getCustomShortcutIcons(base, shortcutIds, temporaryShortcut)
+        }
 
-    private fun getTemporaryShortcut(): Single<Optional<ShortcutModel>> =
-        temporaryShortcutRepository.getTemporaryShortcut()
-            .map { Optional(it) }
-            .onErrorReturn { Optional.empty() }
+    private suspend fun getTemporaryShortcut(): ShortcutModel? =
+        try {
+            temporaryShortcutRepository.getTemporaryShortcut()
+        } catch (e: NoSuchElementException) {
+            null
+        }
 
     private fun getCustomShortcutIcons(base: BaseModel, shortcutIds: Collection<ShortcutId>?, temporaryShortcut: ShortcutModel?) =
         base.shortcuts

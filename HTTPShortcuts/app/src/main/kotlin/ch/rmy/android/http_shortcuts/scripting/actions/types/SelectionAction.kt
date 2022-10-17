@@ -3,38 +3,46 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
+import ch.rmy.android.http_shortcuts.extensions.canceledByUser
+import ch.rmy.android.http_shortcuts.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.resume
 
 class SelectionAction(
     private val dataObject: Map<String, Any?>?,
     private val dataList: List<Any?>?,
 ) : BaseAction() {
 
-    override fun executeForValue(executionContext: ExecutionContext): Single<Any> {
+    override suspend fun execute(executionContext: ExecutionContext): String? {
         val options = parseData(dataObject, dataList)
-        return if (options.isNotEmpty()) {
-            Single.create<String> { emitter ->
+        if (options.isEmpty()) {
+            return null
+        }
+
+        return withContext(Dispatchers.Main) {
+            suspendCancellableCoroutine<String> { continuation ->
                 DialogBuilder(executionContext.context)
                     .runFor(options.entries) { entry ->
                         item(name = entry.value) {
-                            emitter.onSuccess("-${entry.key}")
+                            continuation.resume("-${entry.key}")
                         }
                     }
-                    .dismissListener { emitter.onSuccess("") }
-                    .show()
+                    .dismissListener {
+                        if (continuation.isActive) {
+                            continuation.resume("")
+                        }
+                    }
+                    .showOrElse {
+                        continuation.canceledByUser()
+                    }
             }
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .map {
-                    it.takeUnlessEmpty()
-                        ?.removePrefix("-")
-                        ?: NO_RESULT
-                }
-        } else {
-            Single.just(NO_RESULT)
         }
+            .takeUnlessEmpty()
+            ?.removePrefix("-")
     }
 
     private fun parseData(dataObject: Map<String, Any?>?, dataList: List<Any?>?): Map<String, String> =

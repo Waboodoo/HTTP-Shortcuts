@@ -4,8 +4,8 @@ import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.test.TestContext
-import ch.rmy.android.http_shortcuts.test.get
 import com.nhaarman.mockitokotlin2.mock
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.Test
@@ -19,14 +19,15 @@ class VariableResolverTest {
 
     @Test
     fun `test variable resolution of static variables`() {
-        val variableManager = VariableResolver(context)
-            .resolve(
-                variables = listOf(
-                    VariableModel(id = "1234", key = "myVariable", value = "Hello World")
-                ),
-                shortcut = withContent("{{1234}}")
-            )
-            .get()
+        val variableManager = runBlocking {
+            VariableResolver(context)
+                .resolve(
+                    variables = listOf(
+                        VariableModel(id = "1234", key = "myVariable", value = "Hello World")
+                    ),
+                    shortcut = withContent("{{1234}}")
+                )
+        }
 
         assertThat(
             variableManager.getVariableValueById("1234"),
@@ -48,15 +49,16 @@ class VariableResolverTest {
 
     @Test
     fun `test variable resolution of static variables referencing other static variables`() {
-        val variableManager = VariableResolver(context)
-            .resolve(
-                variables = listOf(
-                    VariableModel(id = "1234", key = "myVariable1", value = "Hello {{5678}}"),
-                    VariableModel(id = "5678", key = "myVariable2", value = "World")
-                ),
-                shortcut = withContent("{{1234}}")
-            )
-            .get()
+        val variableManager = runBlocking {
+            VariableResolver(context)
+                .resolve(
+                    variables = listOf(
+                        VariableModel(id = "1234", key = "myVariable1", value = "Hello {{5678}}"),
+                        VariableModel(id = "5678", key = "myVariable2", value = "World")
+                    ),
+                    shortcut = withContent("{{1234}}")
+                )
+        }
 
         assertThat(
             variableManager.getVariableValueById("5678"),

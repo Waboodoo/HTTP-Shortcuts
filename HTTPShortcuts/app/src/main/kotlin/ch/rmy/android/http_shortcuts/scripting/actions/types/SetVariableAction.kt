@@ -7,7 +7,6 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import io.reactivex.Completable
 import javax.inject.Inject
 
 class SetVariableAction(val variableKeyOrId: VariableKeyOrId, val value: String) : BaseAction() {
@@ -19,29 +18,23 @@ class SetVariableAction(val variableKeyOrId: VariableKeyOrId, val value: String)
         applicationComponent.inject(this)
     }
 
-    override fun execute(executionContext: ExecutionContext): Completable =
-        Completable.defer {
-            executionContext.variableManager.setVariableValueByKeyOrId(variableKeyOrId, value)
+    override suspend fun execute(executionContext: ExecutionContext) {
+        executionContext.variableManager.setVariableValueByKeyOrId(variableKeyOrId, value)
+        val variable = try {
             variableRepository.getVariableByKeyOrId(variableKeyOrId)
-                .flatMapCompletable { variable ->
-                    variableRepository.setVariableValue(variable.id, value.truncate(MAX_VARIABLE_LENGTH))
-                }
-                .onErrorResumeNext { error ->
-                    Completable.error(
-                        if (error is NoSuchElementException) {
-                            ActionException {
-                                it.getString(
-                                    R.string.error_variable_not_found_write,
-                                    variableKeyOrId,
-                                )
-                            }
-                        } else error
-                    )
-                }
+        } catch (e: NoSuchElementException) {
+            throw ActionException {
+                it.getString(
+                    R.string.error_variable_not_found_write,
+                    variableKeyOrId,
+                )
+            }
         }
+        variableRepository.setVariableValue(variable.id, value.truncate(MAX_VARIABLE_LENGTH))
+    }
 
     companion object {
 
-        private const val MAX_VARIABLE_LENGTH = 30000
+        private const val MAX_VARIABLE_LENGTH = 30_000
     }
 }

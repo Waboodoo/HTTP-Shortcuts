@@ -5,32 +5,30 @@ import android.content.Context
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
-import ch.rmy.android.http_shortcuts.extensions.cancel
+import ch.rmy.android.http_shortcuts.extensions.canceledByUser
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
-import io.reactivex.Single
-import io.reactivex.SingleEmitter
+import kotlinx.coroutines.CancellableContinuation
 
 abstract class BaseVariableType {
 
-    protected abstract fun resolveValue(context: Context, variable: VariableModel): Single<String>
+    protected abstract suspend fun resolveValue(context: Context, variable: VariableModel): String
 
     open fun inject(applicationComponent: ApplicationComponent) {
         // intentionally left blank
     }
 
-    fun resolve(context: Context, variable: VariableModel): Single<String> {
+    suspend fun resolve(context: Context, variable: VariableModel): String {
         inject(context.getApplicationComponent())
         return resolveValue(context, variable)
     }
 
     companion object {
 
-        internal fun createDialogBuilder(
+        fun createDialogBuilder(
             activity: Activity,
             variable: VariableModel,
-            emitter: SingleEmitter<String>,
+            continuation: CancellableContinuation<String>,
         ) =
             DialogBuilder(activity)
                 .runIf(variable.title.isNotEmpty()) {
@@ -40,15 +38,7 @@ abstract class BaseVariableType {
                     message(variable.message)
                 }
                 .dismissListener {
-                    emitter.cancel()
+                    continuation.canceledByUser()
                 }
-
-        internal fun Single<String>.storeValueIfNeeded(variable: VariableModel, variablesRepository: VariableRepository): Single<String> =
-            runIf(variable.rememberValue) {
-                flatMap { resolvedValue ->
-                    variablesRepository.setVariableValue(variable.id, resolvedValue)
-                        .toSingle { resolvedValue }
-                }
-            }
     }
 }

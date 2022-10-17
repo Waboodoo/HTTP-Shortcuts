@@ -6,14 +6,15 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.isVisible
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.doOnCheckedChanged
+import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.focus
 import ch.rmy.android.framework.extensions.isVisible
-import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.observeChecked
-import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -31,6 +32,7 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.types.toggle.To
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.databinding.ActivityVariableEditorBinding
+import kotlinx.coroutines.launch
 
 class VariableEditorActivity : BaseActivity() {
 
@@ -104,52 +106,29 @@ class VariableEditorActivity : BaseActivity() {
         }
 
     private fun initUserInputBindings() {
-        binding.inputVariableKey
-            .observeTextChanges()
-            .subscribe { text ->
-                viewModel.onVariableKeyChanged(text?.toString() ?: "")
-            }
-            .attachTo(destroyer)
+        binding.inputVariableKey.doOnTextChanged { text ->
+            viewModel.onVariableKeyChanged(text.toString())
+        }
+        binding.inputVariableTitle.doOnTextChanged { text ->
+            viewModel.onVariableTitleChanged(text.toString())
+        }
+        binding.inputVariableMessage.doOnTextChanged { text ->
+            viewModel.onVariableMessageChanged(text.toString())
+        }
 
-        binding.inputVariableTitle
-            .observeTextChanges()
-            .subscribe { text ->
-                viewModel.onVariableTitleChanged(text?.toString() ?: "")
-            }
-            .attachTo(destroyer)
+        binding.inputUrlEncode.doOnCheckedChanged(viewModel::onUrlEncodeChanged)
+        binding.inputJsonEncode.doOnCheckedChanged(viewModel::onJsonEncodeChanged)
+        binding.inputAllowShare.doOnCheckedChanged(viewModel::onAllowShareChanged)
 
-        binding.inputVariableMessage
-            .observeTextChanges()
-            .subscribe { text ->
-                viewModel.onVariableMessageChanged(text?.toString() ?: "")
-            }
-            .attachTo(destroyer)
-
-        binding.inputUrlEncode
-            .observeChecked()
-            .subscribe(viewModel::onUrlEncodeChanged)
-            .attachTo(destroyer)
-
-        binding.inputJsonEncode
-            .observeChecked()
-            .subscribe(viewModel::onJsonEncodeChanged)
-            .attachTo(destroyer)
-
-        binding.inputAllowShare
-            .observeChecked()
-            .subscribe(viewModel::onAllowShareChanged)
-            .attachTo(destroyer)
-
-        binding.inputShareSupport
-            .selectionChanges
-            .subscribe { selectedOption ->
+        lifecycleScope.launch {
+            binding.inputShareSupport.selectionChanges.collect { selectedOption ->
                 viewModel.onShareSupportChanged(VariableEditorViewState.ShareSupport.valueOf(selectedOption))
             }
-            .attachTo(destroyer)
+        }
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             binding.loadingIndicator.isVisible = false
             binding.mainView.isVisible = true
             setTitle(viewState.title)
@@ -174,7 +153,7 @@ class VariableEditorActivity : BaseActivity() {
             binding.inputShareSupport.isVisible = viewState.shareSupportVisible
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun handleEvent(event: ViewModelEvent) {

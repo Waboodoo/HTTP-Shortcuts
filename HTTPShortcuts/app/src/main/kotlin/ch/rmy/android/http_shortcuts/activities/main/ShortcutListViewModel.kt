@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
@@ -57,7 +57,9 @@ import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.curlcommand.CurlCommand
-import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ShortcutListViewModel(
@@ -141,7 +143,7 @@ class ShortcutListViewModel(
     private var exportingShortcutId: ShortcutId? = null
     private var isAppLocked = false
 
-    private var disposable: Disposable? = null
+    private var currentJob: Job? = null
 
     override var dialogState: DialogState?
         get() = currentViewState?.dialogState
@@ -152,48 +154,49 @@ class ShortcutListViewModel(
         }
 
     override fun onInitializationStarted(data: InitData) {
-        categoryRepository.getObservableCategory(data.categoryId)
-            .subscribe { category ->
-                this.category = category
-                if (isInitialized) {
-                    recomputeShortcutList()
-                } else {
-                    finalizeInitialization()
+        viewModelScope.launch {
+            categoryRepository.getObservableCategory(data.categoryId)
+                .collect { category ->
+                    this@ShortcutListViewModel.category = category
+                    if (isInitialized) {
+                        recomputeShortcutList()
+                    } else {
+                        finalizeInitialization()
+                    }
                 }
-            }
-            .attachTo(destroyer)
+        }
 
-        categoryRepository.getCategories()
-            .subscribe { categories ->
-                this.categories = categories
-            }
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            this@ShortcutListViewModel.categories = categoryRepository.getCategories()
+        }
 
-        variableRepository.getObservableVariables()
-            .subscribe { variables ->
-                this.variables = variables
-            }
-            .attachTo(destroyer)
-
-        pendingExecutionsRepository.getObservablePendingExecutions()
-            .subscribe { pendingShortcuts ->
-                this.pendingShortcuts = pendingShortcuts
-                if (isInitialized) {
-                    recomputeShortcutList()
+        viewModelScope.launch {
+            variableRepository.getObservableVariables()
+                .collect { variables ->
+                    this@ShortcutListViewModel.variables = variables
                 }
-            }
-            .attachTo(destroyer)
+        }
 
-        appRepository.getObservableLock()
-            .subscribe { lockOptional ->
-                isAppLocked = lockOptional.value != null
+        viewModelScope.launch {
+            pendingExecutionsRepository.getObservablePendingExecutions()
+                .collect { pendingShortcuts ->
+                    this@ShortcutListViewModel.pendingShortcuts = pendingShortcuts
+                    if (isInitialized) {
+                        recomputeShortcutList()
+                    }
+                }
+        }
+
+        viewModelScope.launch {
+            appRepository.getObservableLock().collect { appLock ->
+                isAppLocked = appLock != null
                 if (isInitialized) {
                     updateViewState {
                         copy(isAppLocked = this@ShortcutListViewModel.isAppLocked)
                     }
                 }
             }
-            .attachTo(destroyer)
+        }
     }
 
     override fun initViewState() = ShortcutListViewState(
@@ -267,20 +270,19 @@ class ShortcutListViewModel(
     }
 
     private fun updateLauncherShortcuts() {
-        categoryRepository.getCategories()
-            .subscribe { categories ->
-                launcherShortcutManager.updateAppShortcuts(launcherShortcutMapper(categories))
-            }
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            val categories = categoryRepository.getCategories()
+            launcherShortcutManager.updateAppShortcuts(launcherShortcutMapper(categories))
+        }
     }
 
     fun onShortcutMoved(shortcutId1: ShortcutId, shortcutId2: ShortcutId) {
         updateViewState {
             copy(shortcuts = shortcuts.swapped(shortcutId1, shortcutId2) { (this as? ShortcutListItem.Shortcut)?.id })
         }
-        performOperation(
+        launchWithProgressTracking {
             shortcutRepository.swapShortcutPositions(category.id, shortcutId1, shortcutId2)
-        )
+        }
     }
 
     fun onShortcutClicked(shortcutId: ShortcutId) {
@@ -368,12 +370,11 @@ class ShortcutListViewModel(
 
     private fun cancelPendingExecution(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
-        pendingExecutionsRepository.removePendingExecutionsForShortcut(shortcutId)
-            .andThen(executionScheduler.schedule())
-            .subscribe {
-                showSnackbar(StringResLocalizable(R.string.pending_shortcut_execution_cancelled, shortcut.name))
-            }
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            pendingExecutionsRepository.removePendingExecutionsForShortcut(shortcutId)
+            executionScheduler.schedule()
+            showSnackbar(StringResLocalizable(R.string.pending_shortcut_execution_cancelled, shortcut.name))
+        }
     }
 
     fun onEditOptionSelected(shortcutId: ShortcutId) {
@@ -410,9 +411,8 @@ class ShortcutListViewModel(
             .takeIf { it != -1 }
             ?.let { it + 1 }
 
-        performOperation(
+        launchWithProgressTracking {
             shortcutRepository.duplicateShortcut(shortcutId, newName, newPosition, categoryId)
-        ) {
             updateLauncherShortcuts()
             showSnackbar(StringResLocalizable(R.string.shortcut_duplicated, name))
         }
@@ -450,19 +450,19 @@ class ShortcutListViewModel(
 
     fun onExportAsCurlOptionSelected(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
-        curlExporter.generateCommand(shortcut)
-            .subscribe(
-                { command ->
-                    showCurlExportDialog(shortcut.name, command)
-                },
-                { e ->
-                    if (e !is CanceledByUserException) {
-                        showToast(R.string.error_generic)
-                        logException(e)
-                    }
-                },
-            )
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            try {
+                val command = curlExporter.generateCommand(shortcut)
+                showCurlExportDialog(shortcut.name, command)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: CanceledByUserException) {
+                throw e
+            } catch (e: Exception) {
+                showToast(R.string.error_generic)
+                logException(e)
+            }
+        }
     }
 
     private fun showCurlExportDialog(name: String, command: CurlCommand) {
@@ -487,87 +487,78 @@ class ShortcutListViewModel(
 
     fun onFilePickedForExport(file: Uri) {
         val shortcut = exportingShortcutId?.let(::getShortcutById) ?: return
-        getUsedVariableIds(shortcut.id)
-            .flatMap { variableIds ->
-                exporter.exportToUri(
-                    file,
-                    format = getExportFormat(),
-                    excludeDefaults = true,
-                    shortcutIds = setOf(shortcut.id),
-                    variableIds = variableIds,
-                )
-            }
-            .doOnSubscribe {
-                showProgressDialog(R.string.export_in_progress)
-            }
-            .doFinally {
-                hideProgressDialog()
-            }
-            .subscribe(
-                { status ->
-                    showSnackbar(
-                        QuantityStringLocalizable(
-                            R.plurals.shortcut_export_success,
-                            status.exportedShortcuts,
-                            status.exportedShortcuts,
-                        )
-                    )
-                },
-                { error ->
-                    logException(error)
-                    dialogState = DialogState.create {
-                        message(context.getString(R.string.export_failed_with_reason, error.message))
-                            .positive(R.string.dialog_ok)
-                            .build()
-                    }
-                },
-            )
-            .also {
-                disposable = it
-            }
-            .attachTo(destroyer)
-    }
 
-    private fun sendExport() {
-        val shortcut = exportingShortcutId?.let(::getShortcutById) ?: return
-        val format = getExportFormat()
-        val cacheFile = FileUtil.createCacheFile(context, format.getFileName(single = true))
-
-        getUsedVariableIds(shortcut.id)
-            .flatMap { variableIds ->
-                exporter
-                    .exportToUri(
-                        cacheFile,
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
+            showProgressDialog(R.string.export_in_progress)
+            try {
+                val status = try {
+                    val variableIds = getUsedVariableIds(shortcut.id)
+                    exporter.exportToUri(
+                        file,
+                        format = getExportFormat(),
                         excludeDefaults = true,
                         shortcutIds = setOf(shortcut.id),
                         variableIds = variableIds,
                     )
+                } finally {
+                    hideProgressDialog()
+                }
+                showSnackbar(
+                    QuantityStringLocalizable(
+                        R.plurals.shortcut_export_success,
+                        status.exportedShortcuts,
+                        status.exportedShortcuts,
+                    )
+                )
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                logException(e)
+                dialogState = DialogState.create {
+                    message(context.getString(R.string.export_failed_with_reason, e.message))
+                        .positive(R.string.dialog_ok)
+                        .build()
+                }
             }
-            .doOnSubscribe {
-                showProgressDialog(R.string.export_in_progress)
-            }
-            .doFinally {
+        }
+    }
+
+    private fun sendExport() {
+        val shortcut = exportingShortcutId?.let(::getShortcutById) ?: return
+
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
+            showProgressDialog(R.string.export_in_progress)
+            try {
+                val format = getExportFormat()
+                val cacheFile = FileUtil.createCacheFile(context, format.getFileName(single = true))
+
+                exporter.exportToUri(
+                    cacheFile,
+                    excludeDefaults = true,
+                    shortcutIds = setOf(shortcut.id),
+                    variableIds = getUsedVariableIds(shortcut.id),
+                )
+
+                openActivity(object : IntentBuilder {
+                    override fun build(context: Context) =
+                        Intent(Intent.ACTION_SEND)
+                            .setType(format.fileTypeForSharing)
+                            .putExtra(Intent.EXTRA_STREAM, cacheFile)
+                            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            .let {
+                                Intent.createChooser(it, context.getString(R.string.title_export))
+                            }
+                })
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                handleUnexpectedError(e)
+            } finally {
                 hideProgressDialog()
             }
-            .subscribe(
-                {
-                    openActivity(object : IntentBuilder {
-                        override fun build(context: Context) =
-                            Intent(Intent.ACTION_SEND)
-                                .setType(format.fileTypeForSharing)
-                                .putExtra(Intent.EXTRA_STREAM, cacheFile)
-                                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                .let {
-                                    Intent.createChooser(it, context.getString(R.string.title_export))
-                                }
-                    })
-                },
-                ::handleUnexpectedError,
-            )
-            .also {
-                disposable = it
-            }
-            .attachTo(destroyer)
+        }
     }
 
     private fun showProgressDialog(message: Int) {
@@ -581,7 +572,7 @@ class ShortcutListViewModel(
     }
 
     private fun onProgressDialogCanceled() {
-        disposable?.dispose()
+        currentJob?.cancel()
     }
 
     private fun getExportFormat() =
@@ -601,9 +592,8 @@ class ShortcutListViewModel(
 
     fun onMoveTargetCategorySelected(shortcutId: ShortcutId, categoryId: CategoryId) {
         val shortcut = getShortcutById(shortcutId) ?: return
-        performOperation(
+        launchWithProgressTracking {
             shortcutRepository.moveShortcutToCategory(shortcutId, categoryId)
-        ) {
             showSnackbar(StringResLocalizable(R.string.shortcut_moved, shortcut.name))
             if (shortcut.launcherShortcut) {
                 updateLauncherShortcuts()
@@ -618,11 +608,10 @@ class ShortcutListViewModel(
 
     fun onDeletionConfirmed(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
-        performOperation(
+        launchWithProgressTracking {
             shortcutRepository.deleteShortcut(shortcutId)
-                .mergeWith(pendingExecutionsRepository.removePendingExecutionsForShortcut(shortcutId))
-                .andThen(widgetsRepository.deleteDeadWidgets())
-        ) {
+            pendingExecutionsRepository.removePendingExecutionsForShortcut(shortcutId)
+            widgetsRepository.deleteDeadWidgets()
             showSnackbar(StringResLocalizable(R.string.shortcut_deleted, shortcut.name))
             updateLauncherShortcuts()
             eventBridge.submit(ChildViewModelEvent.RemoveShortcutFromHomeScreen(shortcut.toLauncherShortcut()))

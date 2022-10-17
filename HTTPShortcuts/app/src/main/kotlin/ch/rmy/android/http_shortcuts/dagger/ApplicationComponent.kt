@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.dagger
 import ch.rmy.android.http_shortcuts.Application
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.categories.CategoriesViewModel
+import ch.rmy.android.http_shortcuts.activities.categories.editor.CategoryEditorActivity
 import ch.rmy.android.http_shortcuts.activities.categories.editor.CategoryEditorViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.AdvancedSettingsActivity
@@ -66,11 +67,14 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.GetVariableAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.VibrateAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.WifiSSIDAction
 import ch.rmy.android.http_shortcuts.tiles.QuickTileService
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.types.ClipboardType
 import ch.rmy.android.http_shortcuts.variables.types.ColorType
 import ch.rmy.android.http_shortcuts.variables.types.DateType
+import ch.rmy.android.http_shortcuts.variables.types.NumberType
+import ch.rmy.android.http_shortcuts.variables.types.PasswordType
 import ch.rmy.android.http_shortcuts.variables.types.SelectType
 import ch.rmy.android.http_shortcuts.variables.types.SliderType
 import ch.rmy.android.http_shortcuts.variables.types.TextType
@@ -250,4 +254,12 @@ interface ApplicationComponent {
     fun inject(displayResponseActivity: DisplayResponseActivity)
 
     fun inject(widgetSettingsViewModel: WidgetSettingsViewModel)
+
+    fun inject(wifiSSIDAction: WifiSSIDAction)
+
+    fun inject(numberType: NumberType)
+
+    fun inject(passwordType: PasswordType)
+
+    fun inject(categoryEditorActivity: CategoryEditorActivity)
 }

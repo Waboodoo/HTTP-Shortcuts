@@ -2,13 +2,14 @@ package ch.rmy.android.http_shortcuts.activities.variables.editor.types
 
 import android.app.Application
 import androidx.annotation.CallSuper
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.EventBridge
 import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorToVariableTypeEvent
 import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableTypeToVariableEditorEvent
 import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryVariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 abstract class BaseVariableTypeViewModel<InitData : Any, ViewState : Any>(application: Application) :
@@ -23,27 +24,28 @@ abstract class BaseVariableTypeViewModel<InitData : Any, ViewState : Any>(applic
     protected lateinit var variable: VariableModel
 
     override fun onInitializationStarted(data: InitData) {
-        temporaryVariableRepository.getObservableTemporaryVariable()
-            .subscribe { variable ->
-                this.variable = variable
-                if (isInitialized) {
-                    onVariableChanged()
-                } else {
-                    finalizeInitialization()
+        viewModelScope.launch {
+            temporaryVariableRepository.getObservableTemporaryVariable()
+                .collect { variable ->
+                    this@BaseVariableTypeViewModel.variable = variable
+                    if (isInitialized) {
+                        onVariableChanged()
+                    } else {
+                        finalizeInitialization()
+                    }
                 }
-            }
-            .attachTo(destroyer)
+        }
     }
 
     @CallSuper
     override fun onInitialized() {
-        incomingEventBridge.events
-            .subscribe { event ->
+        viewModelScope.launch {
+            incomingEventBridge.events.collect { event ->
                 when (event) {
                     VariableEditorToVariableTypeEvent.Validate -> onValidationEvent()
                 }
             }
-            .attachTo(destroyer)
+        }
         outgoingEventBridge.submit(VariableTypeToVariableEditorEvent.Initialized)
     }
 
@@ -51,7 +53,8 @@ abstract class BaseVariableTypeViewModel<InitData : Any, ViewState : Any>(applic
     }
 
     private fun onValidationEvent() {
-        waitForOperationsToFinish {
+        viewModelScope.launch {
+            waitForOperationsToFinish()
             sendValidationResult(validate())
         }
     }

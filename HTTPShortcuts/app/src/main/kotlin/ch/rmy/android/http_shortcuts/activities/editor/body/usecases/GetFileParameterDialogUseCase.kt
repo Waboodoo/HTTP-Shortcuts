@@ -4,11 +4,9 @@ import android.view.View
 import android.widget.EditText
 import androidx.annotation.CheckResult
 import androidx.core.view.isVisible
-import ch.rmy.android.framework.extensions.attachTo
-import ch.rmy.android.framework.extensions.observeTextChanges
+import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.showSoftKeyboard
-import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
@@ -35,8 +33,7 @@ constructor(
         onConfirm: (keyName: String, fileName: String) -> Unit,
         onRemove: () -> Unit,
     ): DialogState {
-        val destroyer = Destroyer()
-        return DialogState.create(id = "get-file-parameter", onDismiss = destroyer::destroy) {
+        return DialogState.create(id = "get-file-parameter") {
             view(R.layout.dialog_file_parameter_editor)
                 .title(title)
                 .canceledOnTouchOutside(false)
@@ -72,11 +69,9 @@ constructor(
 
                     val okButton = dialog.getActionButton(WhichButton.POSITIVE)
                     okButton.isEnabled = keyInput.text.isNotEmpty()
-                    keyInput.observeTextChanges()
-                        .subscribe { text ->
-                            okButton.isEnabled = text.isNotEmpty()
-                        }
-                        .attachTo(destroyer)
+                    keyInput.doOnTextChanged { text ->
+                        okButton.isEnabled = text.isNotEmpty()
+                    }
                 }
         }
     }

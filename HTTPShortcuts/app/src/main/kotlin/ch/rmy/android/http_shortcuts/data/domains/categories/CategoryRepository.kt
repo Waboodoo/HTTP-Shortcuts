@@ -10,9 +10,8 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
+import io.realm.kotlin.deleteFromRealm
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class CategoryRepository
@@ -21,35 +20,33 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRepository(realmFactory) {
 
-    fun getCategories(): Single<List<CategoryModel>> =
+    suspend fun getCategories(): List<CategoryModel> =
         queryItem {
             getBase()
         }
-            .map { base ->
-                base.categories
-            }
+            .categories
 
-    fun getObservableCategories(): Observable<List<CategoryModel>> =
+    fun getObservableCategories(): Flow<List<CategoryModel>> =
         observeList {
             getBase().findFirst()!!.categories
         }
 
-    fun getCategory(categoryId: CategoryId): Single<CategoryModel> =
+    suspend fun getCategory(categoryId: CategoryId): CategoryModel =
         queryItem {
             getCategoryById(categoryId)
         }
 
-    fun getObservableCategory(categoryId: CategoryId): Observable<CategoryModel> =
+    fun getObservableCategory(categoryId: CategoryId): Flow<CategoryModel> =
         observeItem {
             getCategoryById(categoryId)
         }
 
-    fun createCategory(
+    suspend fun createCategory(
         name: String,
         layoutType: CategoryLayoutType,
         background: CategoryBackgroundType,
         clickBehavior: ShortcutClickBehavior?,
-    ): Completable =
+    ) {
         commitTransaction {
             val base = getBase()
                 .findFirst()
@@ -64,8 +61,9 @@ constructor(
             category.id = newUUID()
             categories.add(copy(category))
         }
+    }
 
-    fun deleteCategory(categoryId: CategoryId): Completable =
+    suspend fun deleteCategory(categoryId: CategoryId) {
         commitTransaction {
             val category = getCategoryById(categoryId)
                 .findFirst()
@@ -77,14 +75,15 @@ constructor(
             category.shortcuts.deleteAllFromRealm()
             category.deleteFromRealm()
         }
+    }
 
-    fun updateCategory(
+    suspend fun updateCategory(
         categoryId: CategoryId,
         name: String,
         layoutType: CategoryLayoutType,
         background: CategoryBackgroundType,
         clickBehavior: ShortcutClickBehavior?,
-    ): Completable =
+    ) {
         commitTransaction {
             getCategoryById(categoryId)
                 .findFirst()
@@ -95,18 +94,21 @@ constructor(
                     category.clickBehavior = clickBehavior
                 }
         }
+    }
 
-    fun toggleCategoryHidden(categoryId: CategoryId, hidden: Boolean): Completable =
+    suspend fun toggleCategoryHidden(categoryId: CategoryId, hidden: Boolean) {
         commitTransaction {
             getCategoryById(categoryId)
                 .findFirst()
                 ?.hidden = hidden
         }
+    }
 
-    fun moveCategory(categoryId1: CategoryId, categoryId2: CategoryId): Completable =
+    suspend fun moveCategory(categoryId1: CategoryId, categoryId2: CategoryId) {
         commitTransaction {
             getBase().findFirst()
                 ?.categories
                 ?.swap(categoryId1, categoryId2) { id }
         }
+    }
 }

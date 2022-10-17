@@ -2,11 +2,12 @@ package ch.rmy.android.http_shortcuts.activities.editor.basicsettings
 
 import android.os.Bundle
 import androidx.core.view.isVisible
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
+import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.initialize
-import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
@@ -15,6 +16,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.models.Inst
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.databinding.ActivityBasicRequestSettingsBinding
+import kotlinx.coroutines.launch
 
 class BasicRequestSettingsActivity : BaseActivity() {
 
@@ -56,24 +58,19 @@ class BasicRequestSettingsActivity : BaseActivity() {
     }
 
     private fun initUserInputBindings() {
-        binding.inputMethod
-            .selectionChanges
-            .subscribe(viewModel::onMethodChanged)
-            .attachTo(destroyer)
+        lifecycleScope.launch {
+            binding.inputMethod.selectionChanges.collect(viewModel::onMethodChanged)
+        }
 
-        binding.inputUrl
-            .observeTextChanges()
-            .subscribe {
-                viewModel.onUrlChanged(binding.inputUrl.rawString)
-            }
-            .attachTo(destroyer)
+        binding.inputUrl.doOnTextChanged {
+            viewModel.onUrlChanged(binding.inputUrl.rawString)
+        }
 
-        binding.inputBrowserPackageName
-            .selectionChanges
-            .subscribe {
+        lifecycleScope.launch {
+            binding.inputBrowserPackageName.selectionChanges.collect {
                 viewModel.onBrowserPackageNameChanged(it.takeUnless { it == DEFAULT_BROWSER_OPTION } ?: "")
             }
-            .attachTo(destroyer)
+        }
 
         binding.variableButtonUrl.setOnClickListener {
             viewModel.onUrlVariableButtonClicked()
@@ -81,7 +78,7 @@ class BasicRequestSettingsActivity : BaseActivity() {
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             binding.inputMethod.isVisible = viewState.methodVisible
             binding.inputMethod.selectedItem = viewState.method
             binding.inputUrl.rawString = viewState.url
@@ -90,7 +87,7 @@ class BasicRequestSettingsActivity : BaseActivity() {
             binding.inputBrowserPackageName.isVisible = viewState.browserPackageNameVisible
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun handleEvent(event: ViewModelEvent) {

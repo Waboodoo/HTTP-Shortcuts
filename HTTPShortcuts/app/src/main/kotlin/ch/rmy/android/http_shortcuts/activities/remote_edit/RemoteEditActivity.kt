@@ -4,13 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
+import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.initialize
-import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setText
 import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.ui.BaseActivityResultContract
@@ -37,12 +37,9 @@ class RemoteEditActivity : BaseActivity() {
     }
 
     private fun initUserInputBindings() {
-        binding.inputPassword
-            .observeTextChanges()
-            .subscribe {
-                viewModel.onPasswordChanged(it.toString())
-            }
-            .attachTo(destroyer)
+        binding.inputPassword.doOnTextChanged {
+            viewModel.onPasswordChanged(it.toString())
+        }
 
         binding.buttonRemoteEditUpload.setOnClickListener {
             viewModel.onUploadButtonClicked()
@@ -53,7 +50,7 @@ class RemoteEditActivity : BaseActivity() {
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             binding.instructionsList.setText(viewState.instructions)
             binding.remoteEditDeviceId.text = viewState.deviceId
             binding.inputPassword.setTextSafely(viewState.password)
@@ -61,7 +58,7 @@ class RemoteEditActivity : BaseActivity() {
             binding.buttonRemoteEditDownload.isEnabled = viewState.canDownload
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

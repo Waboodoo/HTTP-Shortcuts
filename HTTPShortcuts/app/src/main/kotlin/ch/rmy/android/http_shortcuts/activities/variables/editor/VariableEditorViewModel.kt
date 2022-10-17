@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor
 
 import android.app.Application
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
@@ -19,6 +19,8 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.variables.Variables
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class VariableEditorViewModel(
@@ -73,61 +75,66 @@ class VariableEditorViewModel(
         }
 
     override fun onInitializationStarted(data: InitData) {
-        if (data.variableId != null) {
-            variableRepository
-                .createTemporaryVariableFromVariable(data.variableId)
-        } else {
-            temporaryVariableRepository.createNewTemporaryVariable(variableType)
-        }
-            .subscribe(
-                ::onTemporaryVariableCreated,
-                ::handleInitializationError,
-            )
-            .attachTo(destroyer)
-
-        variableRepository.getObservableVariables()
-            .subscribe { variables ->
-                variableKeysInUse = variables
-                    .filter { variable ->
-                        variable.id != variableId
-                    }
-                    .map { variable ->
-                        variable.key
-                    }
+        viewModelScope.launch {
+            try {
+                if (data.variableId != null) {
+                    variableRepository.createTemporaryVariableFromVariable(data.variableId)
+                } else {
+                    temporaryVariableRepository.createNewTemporaryVariable(variableType)
+                }
+                onTemporaryVariableCreated()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                handleInitializationError(e)
             }
-            .attachTo(destroyer)
+        }
 
-        incomingEventBridge.events
-            .subscribe { event ->
+        viewModelScope.launch {
+            variableRepository.getObservableVariables()
+                .collect { variables ->
+                    variableKeysInUse = variables
+                        .filter { variable ->
+                            variable.id != variableId
+                        }
+                        .map { variable ->
+                            variable.key
+                        }
+                }
+        }
+
+        viewModelScope.launch {
+            incomingEventBridge.events.collect { event ->
                 when (event) {
                     is VariableTypeToVariableEditorEvent.Validated -> onValidated(event.valid)
                     is VariableTypeToVariableEditorEvent.Initialized -> typeHasFragment = true
                 }
             }
-            .attachTo(destroyer)
+        }
     }
 
     private fun onTemporaryVariableCreated() {
-        temporaryVariableRepository.getObservableTemporaryVariable()
-            .subscribe { variable ->
-                this.variable = variable
-                if (oldVariable == null) {
-                    oldVariable = variable
-                    finalizeInitialization(silent = true)
+        viewModelScope.launch {
+            temporaryVariableRepository.getObservableTemporaryVariable()
+                .collect { variable ->
+                    this@VariableEditorViewModel.variable = variable
+                    if (oldVariable == null) {
+                        oldVariable = variable
+                        finalizeInitialization(silent = true)
+                    }
+                    updateViewState {
+                        copy(
+                            variableKey = variable.key,
+                            variableTitle = variable.title,
+                            variableMessage = variable.message,
+                            urlEncodeChecked = variable.urlEncode,
+                            jsonEncodeChecked = variable.jsonEncode,
+                            allowShareChecked = variable.isShareText || variable.isShareTitle,
+                            shareSupport = variable.getShareSupport(),
+                        )
+                    }
                 }
-                updateViewState {
-                    copy(
-                        variableKey = variable.key,
-                        variableTitle = variable.title,
-                        variableMessage = variable.message,
-                        urlEncodeChecked = variable.urlEncode,
-                        jsonEncodeChecked = variable.jsonEncode,
-                        allowShareChecked = variable.isShareText || variable.isShareTitle,
-                        shareSupport = variable.getShareSupport(),
-                    )
-                }
-            }
-            .attachTo(destroyer)
+        }
     }
 
     private fun handleInitializationError(error: Throwable) {
@@ -151,7 +158,8 @@ class VariableEditorViewModel(
             return
         }
         isSaving = true
-        waitForOperationsToFinish {
+        viewModelScope.launch {
+            waitForOperationsToFinish()
             if (validate()) {
                 if (typeHasFragment) {
                     outgoingEventBridge.submit(VariableEditorToVariableTypeEvent.Validate)
@@ -173,18 +181,18 @@ class VariableEditorViewModel(
     }
 
     private fun save() {
-        variableRepository.copyTemporaryVariableToVariable(variableId ?: newUUID())
-            .subscribe(
-                {
-                    finish()
-                },
-                { error ->
-                    isSaving = false
-                    showSnackbar(R.string.error_generic)
-                    logException(error)
-                },
-            )
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            try {
+                variableRepository.copyTemporaryVariableToVariable(variableId ?: newUUID())
+                finish()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                isSaving = false
+                showSnackbar(R.string.error_generic)
+                logException(e)
+            }
+        }
     }
 
     private fun validate(): Boolean {
@@ -229,9 +237,9 @@ class VariableEditorViewModel(
 
     fun onVariableKeyChanged(key: String) {
         updateVariableKey(key)
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.setKey(key)
-        )
+        }
     }
 
     private fun updateVariableKey(key: String) {
@@ -243,47 +251,47 @@ class VariableEditorViewModel(
     }
 
     fun onVariableTitleChanged(title: String) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.setTitle(title)
-        )
+        }
     }
 
     fun onVariableMessageChanged(message: String) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.setMessage(message)
-        )
+        }
     }
 
     fun onUrlEncodeChanged(enabled: Boolean) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.setUrlEncode(enabled)
-        )
+        }
     }
 
     fun onJsonEncodeChanged(enabled: Boolean) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.setJsonEncode(enabled)
-        )
+        }
     }
 
     fun onAllowShareChanged(enabled: Boolean) {
         doWithViewState { viewState ->
-            performOperation(
+            launchWithProgressTracking {
                 temporaryVariableRepository.setSharingSupport(
                     shareText = enabled && viewState.shareSupport.text,
                     shareTitle = enabled && viewState.shareSupport.title,
                 )
-            )
+            }
         }
     }
 
     fun onShareSupportChanged(shareSupport: VariableEditorViewState.ShareSupport) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.setSharingSupport(
                 shareText = shareSupport.text,
                 shareTitle = shareSupport.title,
             )
-        )
+        }
     }
 
     private fun VariableModel.getShareSupport(): VariableEditorViewState.ShareSupport {

@@ -8,9 +8,9 @@ import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.OptionModel
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
-import io.reactivex.Completable
-import io.reactivex.Observable
 import io.realm.RealmList
+import io.realm.kotlin.deleteFromRealm
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class TemporaryVariableRepository
@@ -19,12 +19,12 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRepository(realmFactory) {
 
-    fun getObservableTemporaryVariable(): Observable<VariableModel> =
+    fun getObservableTemporaryVariable(): Flow<VariableModel> =
         observeItem {
             getTemporaryVariable()
         }
 
-    fun createNewTemporaryVariable(type: VariableType): Completable =
+    suspend fun createNewTemporaryVariable(type: VariableType) {
         commitTransaction {
             copyOrUpdate(
                 VariableModel(
@@ -33,59 +33,70 @@ constructor(
                 )
             )
         }
+    }
 
-    fun setKey(key: String): Completable =
+    suspend fun setKey(key: String) {
         commitTransactionForVariable { variable ->
             variable.key = key
         }
+    }
 
-    fun setTitle(title: String): Completable =
+    suspend fun setTitle(title: String) {
         commitTransactionForVariable { variable ->
             variable.title = title
         }
+    }
 
-    fun setMessage(message: String): Completable =
+    suspend fun setMessage(message: String) {
         commitTransactionForVariable { variable ->
             variable.message = message
         }
+    }
 
-    fun setUrlEncode(enabled: Boolean): Completable =
+    suspend fun setUrlEncode(enabled: Boolean) {
         commitTransactionForVariable { variable ->
             variable.urlEncode = enabled
         }
+    }
 
-    fun setJsonEncode(enabled: Boolean): Completable =
+    suspend fun setJsonEncode(enabled: Boolean) {
         commitTransactionForVariable { variable ->
             variable.jsonEncode = enabled
         }
+    }
 
-    fun setSharingSupport(shareText: Boolean, shareTitle: Boolean): Completable =
+    suspend fun setSharingSupport(shareText: Boolean, shareTitle: Boolean) {
         commitTransactionForVariable { variable ->
             variable.isShareText = shareText
             variable.isShareTitle = shareTitle
         }
+    }
 
-    fun setRememberValue(enabled: Boolean): Completable =
+    suspend fun setRememberValue(enabled: Boolean) {
         commitTransactionForVariable { variable ->
             variable.rememberValue = enabled
         }
+    }
 
-    fun setMultiline(enabled: Boolean): Completable =
+    suspend fun setMultiline(enabled: Boolean) {
         commitTransactionForVariable { variable ->
             variable.isMultiline = enabled
         }
+    }
 
-    fun setValue(value: String): Completable =
+    suspend fun setValue(value: String) {
         commitTransactionForVariable { variable ->
             variable.value = value
         }
+    }
 
-    fun setDataForType(data: Map<String, String?>): Completable =
+    suspend fun setDataForType(data: Map<String, String?>) {
         commitTransactionForVariable { variable ->
             variable.dataForType = data
         }
+    }
 
-    private fun commitTransactionForVariable(transaction: RealmTransactionContext.(VariableModel) -> Unit) =
+    private suspend fun commitTransactionForVariable(transaction: RealmTransactionContext.(VariableModel) -> Unit) {
         commitTransaction {
             transaction(
                 getTemporaryVariable()
@@ -93,13 +104,15 @@ constructor(
                     ?: return@commitTransaction
             )
         }
+    }
 
-    fun moveOption(optionId1: String, optionId2: String) =
+    suspend fun moveOption(optionId1: String, optionId2: String) {
         commitTransactionForVariable { variable ->
             variable.options?.swap(optionId1, optionId2) { id }
         }
+    }
 
-    fun addOption(label: String, value: String) =
+    suspend fun addOption(label: String, value: String) {
         commitTransactionForVariable { variable ->
             if (variable.options == null) {
                 variable.options = RealmList()
@@ -113,8 +126,9 @@ constructor(
                 )
             )
         }
+    }
 
-    fun updateOption(optionId: String, label: String, value: String) =
+    suspend fun updateOption(optionId: String, label: String, value: String) {
         commitTransactionForVariable { variable ->
             val option = variable.options
                 ?.find { it.id == optionId }
@@ -122,11 +136,13 @@ constructor(
             option.label = label
             option.value = value
         }
+    }
 
-    fun removeOption(optionId: String) =
+    suspend fun removeOption(optionId: String) {
         commitTransactionForVariable { variable ->
             variable.options
                 ?.find { it.id == optionId }
                 ?.deleteFromRealm()
         }
+    }
 }

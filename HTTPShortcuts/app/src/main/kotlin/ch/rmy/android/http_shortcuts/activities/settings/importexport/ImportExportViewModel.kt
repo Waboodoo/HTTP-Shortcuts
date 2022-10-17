@@ -4,14 +4,12 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.annotation.StringRes
 import androidx.core.net.toUri
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.isWebUrl
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.ui.IntentBuilder
-import ch.rmy.android.framework.utils.Optional
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StaticLocalizable
@@ -35,8 +33,9 @@ import ch.rmy.android.http_shortcuts.usecases.GetExportDestinationOptionsDialogU
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
-import io.reactivex.Single
-import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ImportExportViewModel(application: Application) :
@@ -70,7 +69,7 @@ class ImportExportViewModel(application: Application) :
         getApplicationComponent().inject(this)
     }
 
-    private var disposable: Disposable? = null
+    private var currentJob: Job? = null
 
     override var dialogState: DialogState?
         get() = currentViewState?.dialogState
@@ -105,15 +104,9 @@ class ImportExportViewModel(application: Application) :
     }
 
     fun onExportButtonClicked() {
-        getShortcutSelectionDialog(::onShortcutsForExportSelected)
-            .withProgressDialog(R.string.export_in_progress)
-            .subscribe { dialogState ->
-                this.dialogState = dialogState
-            }
-            .also {
-                disposable = it
-            }
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            this@ImportExportViewModel.dialogState = getShortcutSelectionDialog(::onShortcutsForExportSelected)
+        }
     }
 
     private fun onShortcutsForExportSelected(shortcutIds: Collection<ShortcutId>?) {
@@ -127,103 +120,92 @@ class ImportExportViewModel(application: Application) :
     }
 
     fun onFilePickedForExport(file: Uri) {
-        startExportToUri(shortcutIdsForExport, file)
-        shortcutIdsForExport = null
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
+            startExportToUri(shortcutIdsForExport, file)
+            shortcutIdsForExport = null
+        }
     }
 
     private fun onExportViaSharingOptionSelected() {
-        sendExport(shortcutIdsForExport)
-        shortcutIdsForExport = null
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
+            sendExport(shortcutIdsForExport)
+            shortcutIdsForExport = null
+        }
     }
 
-    private fun getVariableIdsForExport(shortcutIds: Collection<ShortcutId>?): Single<Optional<Set<VariableId>>> =
+    private suspend fun getVariableIdsForExport(shortcutIds: Collection<ShortcutId>?): Set<VariableId>? =
         if (shortcutIds != null) {
             getUsedVariableIds(shortcutIds)
-                .map(::Optional)
-        } else {
-            Single.just(Optional.empty())
-        }
+        } else null
 
-    private fun startExportToUri(shortcutIds: Collection<ShortcutId>?, file: Uri) {
-        getVariableIdsForExport(shortcutIds)
-            .flatMap { variableIds ->
-                exporter.exportToUri(
-                    file,
-                    shortcutIds = shortcutIds,
-                    variableIds = variableIds.value,
-                    format = getExportFormat(),
-                    excludeDefaults = true,
-                )
-            }
-            .withProgressDialog(R.string.export_in_progress)
-            .subscribe(
-                { status ->
-                    showSnackbar(
-                        QuantityStringLocalizable(
-                            R.plurals.shortcut_export_success,
-                            status.exportedShortcuts,
-                            status.exportedShortcuts,
-                        )
-                    )
-                },
-                { error ->
-                    logException(error)
-                    dialogState = DialogState.create {
-                        message(StringResLocalizable(R.string.export_failed_with_reason, error.message ?: error.javaClass.simpleName))
-                            .positive(R.string.dialog_ok)
-                            .build()
-                    }
-                },
+    private suspend fun startExportToUri(shortcutIds: Collection<ShortcutId>?, file: Uri) {
+        try {
+            showProgressDialog(R.string.export_in_progress)
+            val variableIds = getVariableIdsForExport(shortcutIds)
+            val status = exporter.exportToUri(
+                file,
+                shortcutIds = shortcutIds,
+                variableIds = variableIds,
+                format = getExportFormat(),
+                excludeDefaults = true,
             )
-            .also {
-                disposable = it
+
+            showSnackbar(
+                QuantityStringLocalizable(
+                    R.plurals.shortcut_export_success,
+                    status.exportedShortcuts,
+                    status.exportedShortcuts,
+                )
+            )
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            logException(e)
+            dialogState = DialogState.create {
+                message(StringResLocalizable(R.string.export_failed_with_reason, e.message ?: e.javaClass.simpleName))
+                    .positive(R.string.dialog_ok)
+                    .build()
             }
-            .attachTo(destroyer)
+        } finally {
+            hideProgressDialog()
+        }
     }
 
-    private fun sendExport(shortcutIds: Collection<ShortcutId>?) {
+    private suspend fun sendExport(shortcutIds: Collection<ShortcutId>?) {
         val format = getExportFormat()
         val cacheFile = FileUtil.createCacheFile(context, format.getFileName(single = false))
 
-        getVariableIdsForExport(shortcutIds)
-            .flatMap { variableIds ->
-                exporter
-                    .exportToUri(
-                        cacheFile,
-                        shortcutIds = shortcutIds,
-                        variableIds = variableIds.value,
-                        excludeDefaults = true,
-                    )
-            }
-            .withProgressDialog(R.string.export_in_progress)
-            .subscribe(
-                {
-                    openActivity(object : IntentBuilder {
-                        override fun build(context: Context) =
-                            Intent(Intent.ACTION_SEND)
-                                .setType(format.fileTypeForSharing)
-                                .putExtra(Intent.EXTRA_STREAM, cacheFile)
-                                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                .let {
-                                    Intent.createChooser(it, context.getString(R.string.title_export))
-                                }
-                    })
-                },
-                ::handleUnexpectedError,
-            )
-            .also {
-                disposable = it
-            }
-            .attachTo(destroyer)
-    }
+        try {
+            showProgressDialog(R.string.export_in_progress)
+            val variableIds = getVariableIdsForExport(shortcutIds)
+            exporter
+                .exportToUri(
+                    cacheFile,
+                    shortcutIds = shortcutIds,
+                    variableIds = variableIds,
+                    excludeDefaults = true,
+                )
 
-    private fun <T> Single<T>.withProgressDialog(@StringRes label: Int): Single<T> =
-        doOnSubscribe {
-            showProgressDialog(label)
+            openActivity(object : IntentBuilder {
+                override fun build(context: Context) =
+                    Intent(Intent.ACTION_SEND)
+                        .setType(format.fileTypeForSharing)
+                        .putExtra(Intent.EXTRA_STREAM, cacheFile)
+                        .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        .let {
+                            Intent.createChooser(it, context.getString(R.string.title_export))
+                        }
+            })
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            handleUnexpectedError(e)
+        } finally {
+            hideProgressDialog()
         }
-            .doFinally {
-                hideProgressDialog()
-            }
+    }
 
     private fun showProgressDialog(message: Int) {
         dialogState = ProgressDialogState(StringResLocalizable(message), ::onProgressDialogCanceled)
@@ -236,7 +218,7 @@ class ImportExportViewModel(application: Application) :
     }
 
     private fun onProgressDialogCanceled() {
-        disposable?.dispose()
+        currentJob?.cancel()
     }
 
     private fun getExportFormat() =
@@ -276,37 +258,36 @@ class ImportExportViewModel(application: Application) :
     }
 
     private fun startImport(uri: Uri) {
-        importer
-            .importFromUri(uri, importMode = Importer.ImportMode.MERGE)
-            .withProgressDialog(R.string.import_in_progress)
-            .subscribe(
-                { status ->
-                    if (status.needsRussianWarning) {
-                        dialogState = getRussianWarningDialog()
-                    }
-                    showSnackbar(
-                        QuantityStringLocalizable(
-                            R.plurals.shortcut_import_success,
-                            status.importedShortcuts,
-                            status.importedShortcuts,
-                        )
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
+            try {
+                showProgressDialog(R.string.import_in_progress)
+                val status = importer.importFromUri(uri, importMode = Importer.ImportMode.MERGE)
+                if (status.needsRussianWarning) {
+                    dialogState = getRussianWarningDialog()
+                }
+                showSnackbar(
+                    QuantityStringLocalizable(
+                        R.plurals.shortcut_import_success,
+                        status.importedShortcuts,
+                        status.importedShortcuts,
                     )
-                    setResult(
-                        intent = ImportExportActivity.OpenImportExport.createResult(categoriesChanged = true)
-                    )
-                    setCategoriesChangedFlag()
-                },
-                { e ->
-                    if (e !is ImportException) {
-                        logException(e)
-                    }
-                    onImportFailed(StaticLocalizable(e.message ?: e::class.java.simpleName))
-                },
-            )
-            .also {
-                disposable = it
+                )
+                setResult(
+                    intent = ImportExportActivity.OpenImportExport.createResult(categoriesChanged = true)
+                )
+                setCategoriesChangedFlag()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                if (e !is ImportException) {
+                    logException(e)
+                }
+                onImportFailed(StaticLocalizable(e.message ?: e::class.java.simpleName))
+            } finally {
+                hideProgressDialog()
             }
-            .attachTo(destroyer)
+        }
     }
 
     private fun onImportFailed(message: Localizable) {

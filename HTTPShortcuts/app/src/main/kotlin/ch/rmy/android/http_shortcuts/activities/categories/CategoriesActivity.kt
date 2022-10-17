@@ -6,11 +6,13 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.launch
-import ch.rmy.android.framework.extensions.observe
+import ch.rmy.android.framework.extensions.whileLifecycleActive
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.DragOrderingHelper
@@ -64,10 +66,12 @@ class CategoriesActivity : BaseActivity() {
     private fun initUserInputBindings() {
         initDragOrdering()
 
-        adapter.userEvents.observe(this) { event ->
-            when (event) {
-                is CategoryAdapter.UserEvent.CategoryClicked -> {
-                    viewModel.onCategoryClicked(event.id)
+        whileLifecycleActive {
+            adapter.userEvents.collect { event ->
+                when (event) {
+                    is CategoryAdapter.UserEvent.CategoryClicked -> {
+                        viewModel.onCategoryClicked(event.id)
+                    }
                 }
             }
         }
@@ -83,18 +87,20 @@ class CategoriesActivity : BaseActivity() {
             getId = { (it as? CategoryAdapter.CategoryViewHolder)?.categoryId },
         )
         dragOrderingHelper.attachTo(binding.categoryList)
-        dragOrderingHelper.movementSource.observe(this) { (categoryId1, categoryId2) ->
-            viewModel.onCategoryMoved(categoryId1, categoryId2)
+        whileLifecycleActive {
+            dragOrderingHelper.movementSource.collect { (categoryId1, categoryId2) ->
+                viewModel.onCategoryMoved(categoryId1, categoryId2)
+            }
         }
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             adapter.items = viewState.categories
             isDraggingEnabled = viewState.isDraggingEnabled
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun handleEvent(event: ViewModelEvent) {

@@ -12,6 +12,7 @@ import ch.rmy.android.http_shortcuts.activities.settings.documentation.Documenta
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
@@ -69,7 +70,9 @@ abstract class BaseActivity : BaseActivity() {
             .dismissListener {
                 finish()
             }
-            .showIfPossible()
+            .showOrElse {
+                finish()
+            }
     }
 
     override fun computeStatusBarColor(): Int =

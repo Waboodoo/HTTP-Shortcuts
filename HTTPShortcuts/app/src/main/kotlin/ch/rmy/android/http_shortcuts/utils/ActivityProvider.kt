@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.utils
 
-import android.app.Activity
+import androidx.annotation.UiThread
+import androidx.fragment.app.FragmentActivity
 import ch.rmy.android.framework.extensions.safeRemoveIf
 import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
 import java.lang.ref.WeakReference
@@ -12,18 +13,20 @@ class ActivityProvider
 @Inject
 constructor() {
 
-    fun getActivity(): Activity =
+    fun getActivity(): FragmentActivity =
         activeActivities.lastOrNull()?.get() ?: throw NoActivityAvailableException()
 
     companion object {
 
-        private val activeActivities = mutableListOf<WeakReference<Activity>>()
+        private val activeActivities = mutableListOf<WeakReference<FragmentActivity>>()
 
-        fun registerActivity(activity: Activity) {
+        @UiThread
+        fun registerActivity(activity: FragmentActivity) {
             activeActivities.add(WeakReference(activity))
         }
 
-        fun deregisterActivity(activity: Activity) {
+        @UiThread
+        fun deregisterActivity(activity: FragmentActivity) {
             activeActivities.safeRemoveIf { reference -> reference.get().let { it == null || it == activity } }
         }
     }

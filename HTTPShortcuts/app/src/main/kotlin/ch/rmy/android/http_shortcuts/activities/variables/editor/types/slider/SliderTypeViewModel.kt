@@ -22,9 +22,9 @@ class SliderTypeViewModel(application: Application) : BaseVariableTypeViewModel<
     )
 
     fun onRememberValueChanged(enabled: Boolean) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.setRememberValue(enabled)
-        )
+        }
     }
 
     fun onMinValueChanged(minValue: String) {
@@ -64,7 +64,7 @@ class SliderTypeViewModel(application: Application) : BaseVariableTypeViewModel<
 
     private fun storeData() {
         doWithViewState { viewState ->
-            performOperation(
+            launchWithProgressTracking {
                 temporaryVariableRepository.setDataForType(
                     SliderType.getData(
                         maxValue = viewState.maxValue,
@@ -74,7 +74,7 @@ class SliderTypeViewModel(application: Application) : BaseVariableTypeViewModel<
                         suffix = viewState.suffix,
                     )
                 )
-            )
+            }
         }
     }
 

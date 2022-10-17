@@ -2,10 +2,11 @@ package ch.rmy.android.http_shortcuts.activities.editor.headers
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.initialize
-import ch.rmy.android.framework.extensions.observe
+import ch.rmy.android.framework.extensions.whileLifecycleActive
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.http_shortcuts.R
@@ -52,13 +53,13 @@ class RequestHeadersActivity : BaseActivity() {
     private fun initUserInputBindings() {
         initDragOrdering()
 
-        adapter.userEvents
-            .subscribe { event ->
+        whileLifecycleActive {
+            adapter.userEvents.collect { event ->
                 when (event) {
                     is RequestHeadersAdapter.UserEvent.HeaderClicked -> viewModel.onHeaderClicked(event.id)
                 }
             }
-            .attachTo(destroyer)
+        }
 
         binding.buttonAddHeader.setOnClickListener {
             viewModel.onAddHeaderButtonClicked()
@@ -71,21 +72,20 @@ class RequestHeadersActivity : BaseActivity() {
             getId = { (it as? RequestHeadersAdapter.HeaderViewHolder)?.headerId },
         )
         dragOrderingHelper.attachTo(binding.headerList)
-        dragOrderingHelper.movementSource
-            .subscribe { (headerId1, headerId2) ->
+        whileLifecycleActive {
+            dragOrderingHelper.movementSource.collect { (headerId1, headerId2) ->
                 viewModel.onHeaderMoved(headerId1, headerId2)
             }
-            .attachTo(destroyer)
+        }
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             adapter.items = viewState.headerItems
             isDraggingEnabled = viewState.isDraggingEnabled
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun onBackPressed() {

@@ -21,7 +21,6 @@ import androidx.core.view.isVisible
 import androidx.core.widget.ImageViewCompat
 import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.runIf
-import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -33,7 +32,6 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.input.input
-import io.reactivex.Completable
 
 open class DialogBuilder(val context: Context) {
 
@@ -180,20 +178,7 @@ open class DialogBuilder(val context: Context) {
             customView(view = listView)
         }
 
-    fun show() = build().showIfPossible()
-
-    fun showIfPossible() = show()
-
-    fun showAsCompletable(): Completable =
-        Completable.create { emitter ->
-            dismissListener {
-                emitter.onComplete()
-            }
-                .showIfPossible()
-                ?: let {
-                    emitter.onComplete()
-                }
-        }
+    fun show() = build().show()
 
     private sealed interface MenuItem {
 

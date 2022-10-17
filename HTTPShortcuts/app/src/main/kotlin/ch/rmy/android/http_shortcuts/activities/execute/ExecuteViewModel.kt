@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.execute
 import android.app.Application
 import android.os.SystemClock
 import androidx.annotation.StringRes
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -16,8 +16,10 @@ import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExec
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -69,17 +71,19 @@ class ExecuteViewModel(
         lastExecutionTime = SystemClock.elapsedRealtime()
         lastExecutionData = data
 
-        if (initData.executionId != null) {
-            pendingExecutionsRepository.removePendingExecution(initData.executionId!!)
-        } else {
-            Completable.complete()
+        viewModelScope.launch {
+            try {
+                initData.executionId?.let {
+                    pendingExecutionsRepository.removePendingExecution(it)
+                }
+                loadData()
+                onDataLoaded()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                onDataLoadError(e)
+            }
         }
-            .andThen(loadData())
-            .subscribe(
-                ::onDataLoaded,
-                ::onDataLoadError,
-            )
-            .attachTo(destroyer)
     }
 
     private fun isRepetition(): Boolean {
@@ -92,22 +96,17 @@ class ExecuteViewModel(
             SystemClock.elapsedRealtime() - time < REPETITION_DEBOUNCE_TIME.inWholeMilliseconds
     }
 
-    private fun loadData(): Completable {
-        val loadGlobalCode = appRepository.getGlobalCode()
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSuccess { globalCode ->
-                this.globalCode = globalCode
+    private suspend fun loadData() {
+        coroutineScope {
+            val globalCodeDeferred = async {
+                appRepository.getGlobalCode()
             }
-            .ignoreElement()
-
-        val loadShortcut = shortcutRepository.getShortcutById(initData.shortcutId)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSuccess { shortcut ->
-                this.shortcut = shortcut
+            val shortcutDeferred = async {
+                shortcutRepository.getShortcutById(initData.shortcutId)
             }
-            .ignoreElement()
-
-        return Completable.merge(listOf(loadGlobalCode, loadShortcut))
+            this@ExecuteViewModel.globalCode = globalCodeDeferred.await()
+            this@ExecuteViewModel.shortcut = shortcutDeferred.await()
+        }
     }
 
     private fun onDataLoaded() {

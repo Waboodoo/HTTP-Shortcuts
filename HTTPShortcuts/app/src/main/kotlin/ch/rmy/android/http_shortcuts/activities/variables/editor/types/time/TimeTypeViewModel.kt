@@ -20,17 +20,17 @@ class TimeTypeViewModel(application: Application) : BaseVariableTypeViewModel<Un
     )
 
     fun onTimeFormatChanged(timeFormat: String) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.setDataForType(
                 mapOf(TimeType.KEY_FORMAT to timeFormat)
             )
-        )
+        }
     }
 
     fun onRememberValueChanged(enabled: Boolean) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.setRememberValue(enabled)
-        )
+        }
     }
 
     override fun validate(): Boolean {

@@ -39,27 +39,27 @@ class ToggleTypeViewModel(application: Application) : BaseVariableTypeViewModel<
     }
 
     fun onAddDialogConfirmed(value: String) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.addOption(label = "", value)
-        )
+        }
     }
 
     fun onEditDialogConfirmed(optionId: String, value: String) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.updateOption(optionId, label = "", value)
-        )
+        }
     }
 
     fun onDeleteOptionSelected(optionId: String) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.removeOption(optionId)
-        )
+        }
     }
 
     fun onOptionMoved(optionId1: String, optionId2: String) {
-        performOperation(
+        launchWithProgressTracking {
             temporaryVariableRepository.moveOption(optionId1, optionId2)
-        )
+        }
     }
 
     override fun validate() =

@@ -1,12 +1,12 @@
 package ch.rmy.android.http_shortcuts.activities.editor.advancedsettings
 
 import android.os.Bundle
-import ch.rmy.android.framework.extensions.attachTo
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
+import ch.rmy.android.framework.extensions.doOnCheckedChanged
+import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.initialize
-import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.observeChecked
-import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setSubtitle
 import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.ui.BaseIntentBuilder
@@ -39,34 +39,19 @@ class AdvancedSettingsActivity : BaseActivity() {
     }
 
     private fun initUserInputBindings() {
-        binding.inputFollowRedirects
-            .observeChecked()
-            .subscribe(viewModel::onFollowRedirectsChanged)
-            .attachTo(destroyer)
-        binding.inputAcceptCertificates
-            .observeChecked()
-            .subscribe(viewModel::onAcceptAllCertificatesChanged)
-            .attachTo(destroyer)
-        binding.inputAcceptCookies
-            .observeChecked()
-            .subscribe(viewModel::onAcceptCookiesChanged)
-            .attachTo(destroyer)
+        binding.inputFollowRedirects.doOnCheckedChanged(viewModel::onFollowRedirectsChanged)
+        binding.inputAcceptCertificates.doOnCheckedChanged(viewModel::onAcceptAllCertificatesChanged)
+        binding.inputAcceptCookies.doOnCheckedChanged(viewModel::onAcceptCookiesChanged)
 
-        binding.inputProxyHost.observeTextChanges()
-            .subscribe {
-                viewModel.onProxyHostChanged(binding.inputProxyHost.rawString)
-            }
-            .attachTo(destroyer)
-        binding.inputProxyPort.observeTextChanges()
-            .subscribe {
-                viewModel.onProxyPortChanged(it.toString().toIntOrNull())
-            }
-            .attachTo(destroyer)
-        binding.inputSsid.observeTextChanges()
-            .subscribe {
-                viewModel.onWifiSsidChanged(it.toString())
-            }
-            .attachTo(destroyer)
+        binding.inputProxyHost.doOnTextChanged {
+            viewModel.onProxyHostChanged(binding.inputProxyHost.rawString)
+        }
+        binding.inputProxyPort.doOnTextChanged {
+            viewModel.onProxyPortChanged(it.toString().toIntOrNull())
+        }
+        binding.inputSsid.doOnTextChanged {
+            viewModel.onWifiSsidChanged(it.toString())
+        }
 
         binding.inputTimeout.setOnClickListener {
             viewModel.onTimeoutButtonClicked()
@@ -77,7 +62,7 @@ class AdvancedSettingsActivity : BaseActivity() {
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             binding.inputFollowRedirects.isChecked = viewState.followRedirects
             binding.inputAcceptCertificates.isChecked = viewState.acceptAllCertificates
             binding.inputAcceptCookies.isChecked = viewState.acceptCookies
@@ -87,7 +72,7 @@ class AdvancedSettingsActivity : BaseActivity() {
             binding.inputSsid.setTextSafely(viewState.wifiSsid)
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun handleEvent(event: ViewModelEvent) {

@@ -10,9 +10,6 @@ import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class GetUsedVariableIdsUseCase
@@ -22,24 +19,18 @@ constructor(
     private val variableRepository: VariableRepository,
 ) {
 
-    operator fun invoke(shortcutId: ShortcutId?) =
+    suspend operator fun invoke(shortcutId: ShortcutId?) =
         invoke(shortcutId?.let(::setOf))
 
-    operator fun invoke(shortcutIds: Collection<ShortcutId>? = null): Single<Set<VariableId>> =
-        variableRepository.getVariables()
-            .flatMap { variables ->
-                if (shortcutIds != null) {
-                    shortcutRepository.getShortcutsByIds(shortcutIds)
-                        .onErrorReturn { emptyList() }
-                } else {
-                    shortcutRepository.getShortcuts()
-                }
-                    .map { shortcuts ->
-                        determineVariablesInUse(variables, shortcuts)
-                    }
-            }
-            .subscribeOn(Schedulers.computation())
-            .observeOn(AndroidSchedulers.mainThread())
+    suspend operator fun invoke(shortcutIds: Collection<ShortcutId>? = null): Set<VariableId> {
+        val variables = variableRepository.getVariables()
+        val shortcuts = if (shortcutIds != null) {
+            shortcutRepository.getShortcutsByIds(shortcutIds)
+        } else {
+            shortcutRepository.getShortcuts()
+        }
+        return determineVariablesInUse(variables, shortcuts)
+    }
 
     private fun determineVariablesInUse(variables: List<VariableModel>, shortcuts: List<ShortcutModel>): Set<VariableId> {
         val variableManager = VariableManager(variables)

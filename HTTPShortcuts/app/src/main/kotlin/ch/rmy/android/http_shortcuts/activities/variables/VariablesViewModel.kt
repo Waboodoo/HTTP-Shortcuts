@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.variables
 
 import android.app.Application
-import ch.rmy.android.framework.extensions.attachTo
-import ch.rmy.android.framework.extensions.logException
+import androidx.lifecycle.viewModelScope
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -26,9 +26,7 @@ import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables.KEY_MAX_LENGTH
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class VariablesViewModel(application: Application) : BaseViewModel<Unit, VariablesViewState>(application), WithDialog {
@@ -89,15 +87,17 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
     override fun initViewState() = VariablesViewState()
 
     override fun onInitialized() {
-        variableRepository.getObservableVariables()
-            .subscribe { variables ->
-                this.variables = variables
-                recomputeVariablesInViewState()
-            }
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            variableRepository.getObservableVariables()
+                .collect { variables ->
+                    this@VariablesViewModel.variables = variables
+                    recomputeVariablesInViewState()
+                }
+        }
 
-        keepVariablePlaceholderProviderUpdated()
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            keepVariablePlaceholderProviderUpdated()
+        }
     }
 
     private fun recomputeVariablesInViewState() {
@@ -120,9 +120,9 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
             }
 
     fun onVariableMoved(variableId1: VariableId, variableId2: VariableId) {
-        performOperation(
+        launchWithProgressTracking {
             variableRepository.moveVariable(variableId1, variableId2)
-        )
+        }
     }
 
     fun onCreateButtonClicked() {
@@ -157,14 +157,9 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
 
     fun onDuplicateOptionSelected(variableId: VariableId) {
         val variable = getVariable(variableId) ?: return
-        performOperation(
-            Single.fromCallable {
-                generateNewKey(variable.key)
-            }
-                .flatMapCompletable { newKey ->
-                    variableRepository.duplicateVariable(variableId, newKey)
-                }
-        ) {
+        launchWithProgressTracking {
+            val newKey = generateNewKey(variable.key)
+            variableRepository.duplicateVariable(variableId, newKey)
             showSnackbar(StringResLocalizable(R.string.message_variable_duplicated, variable.key))
         }
     }
@@ -185,34 +180,29 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
 
     fun onDeletionOptionSelected(variableId: VariableId) {
         val variable = getVariable(variableId) ?: return
-        getShortcutNamesWhereVariableIsInUse(variableId)
-            .subscribe { shortcutNames ->
-                dialogState = getDeletionDialog(
-                    variableId = variableId,
-                    title = variable.key,
-                    message = getDeletionMessage(shortcutNames),
-                    viewModel = this,
-                )
-            }
-            .attachTo(destroyer)
+        viewModelScope.launch {
+            val shortcutNames = getShortcutNamesWhereVariableIsInUse(variableId)
+            dialogState = getDeletionDialog(
+                variableId = variableId,
+                title = variable.key,
+                message = getDeletionMessage(shortcutNames),
+                viewModel = this@VariablesViewModel,
+            )
+        }
     }
 
-    private fun getShortcutNamesWhereVariableIsInUse(variableId: VariableId): Single<List<String>> {
+    private suspend fun getShortcutNamesWhereVariableIsInUse(variableId: VariableId): List<String> {
         val variableLookup = VariableManager(variables)
         // TODO: Also check if the variable is used inside another variable
         return shortcutRepository.getShortcuts()
-            .observeOn(Schedulers.computation())
-            .map { shortcuts ->
-                shortcuts.filter { shortcut ->
-                    VariableResolver.extractVariableIds(shortcut, variableLookup)
-                        .contains(variableId)
-                }
-                    .map { shortcut ->
-                        shortcut.name
-                    }
-                    .distinct()
+            .filter { shortcut ->
+                VariableResolver.extractVariableIds(shortcut, variableLookup)
+                    .contains(variableId)
             }
-            .observeOn(AndroidSchedulers.mainThread())
+            .map { shortcut ->
+                shortcut.name
+            }
+            .distinct()
     }
 
     private fun getDeletionMessage(shortcutNames: List<String>): Localizable =
@@ -235,37 +225,35 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
 
     fun onDeletionConfirmed(variableId: VariableId) {
         val variable = getVariable(variableId) ?: return
-        performOperation(variableRepository.deleteVariable(variableId)) {
+        launchWithProgressTracking {
+            variableRepository.deleteVariable(variableId)
             showSnackbar(StringResLocalizable(R.string.variable_deleted, variable.key))
             recomputeUsedVariableIds()
         }
     }
 
     fun onBackPressed() {
-        waitForOperationsToFinish {
+        viewModelScope.launch {
+            waitForOperationsToFinish()
             finish()
         }
     }
 
     fun onStart() {
-        recomputeUsedVariableIds()
+        viewModelScope.launch {
+            recomputeUsedVariableIds()
+        }
     }
 
-    private fun recomputeUsedVariableIds() {
-        getUsedVariableIdsUseCase()
-            .subscribe(
-                {
-                    usedVariableIds = it
-                },
-                { error ->
-                    logException(error)
-                },
-            )
-            .attachTo(destroyer)
+    private suspend fun recomputeUsedVariableIds() {
+        tryOrLog {
+            usedVariableIds = getUsedVariableIdsUseCase()
+        }
     }
 
     fun onSortButtonClicked() {
-        performOperation(variableRepository.sortVariablesAlphabetically()) {
+        launchWithProgressTracking {
+            variableRepository.sortVariablesAlphabetically()
             showSnackbar(R.string.message_variables_sorted)
         }
     }

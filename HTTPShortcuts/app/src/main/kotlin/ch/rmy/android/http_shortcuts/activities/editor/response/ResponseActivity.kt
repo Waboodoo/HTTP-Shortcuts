@@ -2,13 +2,14 @@ package ch.rmy.android.http_shortcuts.activities.editor.response
 
 import android.os.Bundle
 import androidx.core.view.isVisible
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.bindViewModel
+import ch.rmy.android.framework.extensions.collectEventsWhileActive
+import ch.rmy.android.framework.extensions.collectViewStateWhileActive
+import ch.rmy.android.framework.extensions.doOnCheckedChanged
+import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.isVisible
-import ch.rmy.android.framework.extensions.observe
-import ch.rmy.android.framework.extensions.observeChecked
-import ch.rmy.android.framework.extensions.observeTextChanges
 import ch.rmy.android.framework.extensions.setHint
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -18,6 +19,7 @@ import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
 import ch.rmy.android.http_shortcuts.databinding.ActivityResponseBinding
+import kotlinx.coroutines.launch
 
 class ResponseActivity : BaseActivity() {
 
@@ -69,60 +71,39 @@ class ResponseActivity : BaseActivity() {
     }
 
     private fun initUserInputBindings() {
-        binding.inputResponseUiType.selectionChanges
-            .subscribe(viewModel::onResponseUiTypeChanged)
-            .attachTo(destroyer)
-        binding.inputResponseSuccessOutput
-            .selectionChanges
-            .subscribe(viewModel::onResponseSuccessOutputChanged)
-            .attachTo(destroyer)
-        binding.inputResponseFailureOutput
-            .selectionChanges
-            .subscribe(viewModel::onResponseFailureOutputChanged)
-            .attachTo(destroyer)
-        binding.inputSuccessMessage
-            .observeTextChanges()
-            .subscribe {
-                viewModel.onSuccessMessageChanged(binding.inputSuccessMessage.rawString)
-            }
-            .attachTo(destroyer)
-        binding.inputDialogAction
-            .selectionChanges
-            .subscribe { actionKey ->
+        lifecycleScope.launch {
+            binding.inputResponseUiType.selectionChanges.collect(viewModel::onResponseUiTypeChanged)
+        }
+        lifecycleScope.launch {
+            binding.inputResponseSuccessOutput.selectionChanges.collect(viewModel::onResponseSuccessOutputChanged)
+        }
+        lifecycleScope.launch {
+            binding.inputResponseFailureOutput.selectionChanges.collect(viewModel::onResponseFailureOutputChanged)
+        }
+        binding.inputSuccessMessage.doOnTextChanged {
+            viewModel.onSuccessMessageChanged(binding.inputSuccessMessage.rawString)
+        }
+        lifecycleScope.launch {
+            binding.inputDialogAction.selectionChanges.collect { actionKey ->
                 viewModel.onDialogActionChanged(
                     actionKey.takeUnless { it == DIALOG_ACTION_NONE }
                         ?.let(ResponseDisplayAction::parse)
                 )
             }
-            .attachTo(destroyer)
-        binding.inputIncludeMetaInformation
-            .observeChecked()
-            .subscribe(viewModel::onIncludeMetaInformationChanged)
-            .attachTo(destroyer)
-        binding.inputShowSaveButton
-            .observeChecked()
-            .subscribe { enabled ->
-                viewModel.onShowActionButtonChanged(ResponseDisplayAction.SAVE, enabled)
-            }
-            .attachTo(destroyer)
-        binding.inputShowShareButton
-            .observeChecked()
-            .subscribe { enabled ->
-                viewModel.onShowActionButtonChanged(ResponseDisplayAction.SHARE, enabled)
-            }
-            .attachTo(destroyer)
-        binding.inputShowCopyButton
-            .observeChecked()
-            .subscribe { enabled ->
-                viewModel.onShowActionButtonChanged(ResponseDisplayAction.COPY, enabled)
-            }
-            .attachTo(destroyer)
-        binding.inputShowRerunButton
-            .observeChecked()
-            .subscribe { enabled ->
-                viewModel.onShowActionButtonChanged(ResponseDisplayAction.RERUN, enabled)
-            }
-            .attachTo(destroyer)
+        }
+        binding.inputIncludeMetaInformation.doOnCheckedChanged(viewModel::onIncludeMetaInformationChanged)
+        binding.inputShowSaveButton.doOnCheckedChanged { enabled ->
+            viewModel.onShowActionButtonChanged(ResponseDisplayAction.SAVE, enabled)
+        }
+        binding.inputShowShareButton.doOnCheckedChanged { enabled ->
+            viewModel.onShowActionButtonChanged(ResponseDisplayAction.SHARE, enabled)
+        }
+        binding.inputShowCopyButton.doOnCheckedChanged { enabled ->
+            viewModel.onShowActionButtonChanged(ResponseDisplayAction.COPY, enabled)
+        }
+        binding.inputShowRerunButton.doOnCheckedChanged { enabled ->
+            viewModel.onShowActionButtonChanged(ResponseDisplayAction.RERUN, enabled)
+        }
 
         binding.variableButtonSuccessMessage.setOnClickListener {
             viewModel.onSuccessMessageVariableButtonClicked()
@@ -130,7 +111,7 @@ class ResponseActivity : BaseActivity() {
     }
 
     private fun initViewModelBindings() {
-        viewModel.viewState.observe(this) { viewState ->
+        collectViewStateWhileActive(viewModel) { viewState ->
             binding.loadingIndicator.isVisible = false
             binding.inputSuccessMessage.setHint(viewState.successMessageHint)
             binding.inputResponseUiType.selectedItem = viewState.responseUiType
@@ -155,7 +136,7 @@ class ResponseActivity : BaseActivity() {
             binding.layoutContainer.isVisible = true
             setDialogState(viewState.dialogState, viewModel)
         }
-        viewModel.events.observe(this, ::handleEvent)
+        collectEventsWhileActive(viewModel, ::handleEvent)
     }
 
     override fun handleEvent(event: ViewModelEvent) {

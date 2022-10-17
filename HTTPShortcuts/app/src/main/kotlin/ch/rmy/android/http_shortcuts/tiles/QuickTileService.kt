@@ -17,6 +17,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)
@@ -47,8 +48,9 @@ class QuickTileService : TileService() {
     }
 
     private fun getShortcuts() =
-        shortcutRepository.getShortcuts()
-            .blockingGet() // TODO: Avoid blocking
+        runBlocking {
+            shortcutRepository.getShortcuts()
+        }
             .sortedBy { it.name }
             .filter { it.quickSettingsTileShortcut }
 

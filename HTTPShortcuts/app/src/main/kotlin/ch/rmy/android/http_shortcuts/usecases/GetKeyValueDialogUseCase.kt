@@ -3,12 +3,10 @@ package ch.rmy.android.http_shortcuts.usecases
 import android.text.InputType
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import ch.rmy.android.framework.extensions.attachTo
-import ch.rmy.android.framework.extensions.observeTextChanges
+import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.setText
 import ch.rmy.android.framework.extensions.showSoftKeyboard
-import ch.rmy.android.framework.utils.Destroyer
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
@@ -38,8 +36,7 @@ constructor(
         onConfirm: (key: String, value: String) -> Unit,
         onRemove: () -> Unit,
     ): DialogState {
-        val destroyer = Destroyer()
-        return DialogState.create(id = "key-value-dialog", onDismiss = destroyer::destroy) {
+        return DialogState.create(id = "key-value-dialog") {
             view(R.layout.dialog_key_value_editor)
                 .title(title)
                 .canceledOnTouchOutside(false)
@@ -57,9 +54,6 @@ constructor(
                     }
                 }
                 .negative(R.string.dialog_cancel)
-                .dismissListener {
-                    destroyer.destroy()
-                }
                 .build()
                 .also { dialog ->
                     val keyInput = dialog.findViewById<VariableEditText>(R.id.key_value_key)
@@ -95,18 +89,14 @@ constructor(
 
                     val okButton = dialog.getActionButton(WhichButton.POSITIVE)
                     okButton.isEnabled = keyInput.text.isNotEmpty()
-                    keyInput.observeTextChanges()
-                        .subscribe { text ->
-                            keyInput.error = keyValidator.invoke(text)
-                            okButton.isEnabled = keyInput.text.isNotEmpty() && keyInput.error == null && valueInput.error == null
-                        }
-                        .attachTo(destroyer)
-                    valueInput.observeTextChanges()
-                        .subscribe { text ->
-                            valueInput.error = valueValidator.invoke(text)
-                            okButton.isEnabled = keyInput.text.isNotEmpty() && keyInput.error == null && valueInput.error == null
-                        }
-                        .attachTo(destroyer)
+                    keyInput.doOnTextChanged { text ->
+                        keyInput.error = keyValidator.invoke(text)
+                        okButton.isEnabled = keyInput.text.isNotEmpty() && keyInput.error == null && valueInput.error == null
+                    }
+                    valueInput.doOnTextChanged { text ->
+                        valueInput.error = valueValidator.invoke(text)
+                        okButton.isEnabled = keyInput.text.isNotEmpty() && keyInput.error == null && valueInput.error == null
+                    }
                 }
         }
     }

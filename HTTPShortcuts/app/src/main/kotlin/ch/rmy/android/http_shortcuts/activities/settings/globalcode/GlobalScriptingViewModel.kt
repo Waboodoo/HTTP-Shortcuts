@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.settings.globalcode
 
 import android.app.Application
-import ch.rmy.android.framework.extensions.attachTo
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
@@ -12,7 +12,7 @@ import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
-import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, GlobalScriptingViewState>(application), WithDialog {
@@ -45,24 +45,26 @@ class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, G
     override fun initViewState() = GlobalScriptingViewState()
 
     override fun onInitialized() {
-        shortcutRepository.getObservableShortcuts()
-            .subscribe { shortcuts ->
-                shortcutsInitialized = true
-                updateViewState {
-                    copy(shortcuts = shortcuts)
+        viewModelScope.launch {
+            shortcutRepository.getObservableShortcuts()
+                .collect { shortcuts ->
+                    shortcutsInitialized = true
+                    updateViewState {
+                        copy(shortcuts = shortcuts)
+                    }
                 }
-            }
-            .attachTo(destroyer)
+        }
 
-        variableRepository.getObservableVariables()
-            .subscribe { variables ->
-                variablesInitialized = true
-                initializeGlobalCodeIfPossible()
-                updateViewState {
-                    copy(variables = variables)
+        viewModelScope.launch {
+            variableRepository.getObservableVariables()
+                .collect { variables ->
+                    variablesInitialized = true
+                    initializeGlobalCodeIfPossible()
+                    updateViewState {
+                        copy(variables = variables)
+                    }
                 }
-            }
-            .attachTo(destroyer)
+        }
     }
 
     private fun initializeGlobalCodeIfPossible() {
@@ -70,13 +72,12 @@ class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, G
             return
         }
         globalCodeInitialized = true
-        appRepository.getGlobalCode()
-            .subscribe { globalCode ->
-                updateViewState {
-                    copy(globalCode = globalCode)
-                }
+        viewModelScope.launch {
+            val globalCode = appRepository.getGlobalCode()
+            updateViewState {
+                copy(globalCode = globalCode)
             }
-            .attachTo(destroyer)
+        }
     }
 
     fun onHelpButtonClicked() {
@@ -104,12 +105,14 @@ class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, G
 
     fun onSaveButtonClicked() {
         doWithViewState { viewState ->
-            appRepository.setGlobalCode(viewState.globalCode.trim().takeUnlessEmpty())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    finish()
-                }
-                .attachTo(destroyer)
+            viewModelScope.launch {
+                appRepository.setGlobalCode(
+                    viewState.globalCode
+                        .trim()
+                        .takeUnlessEmpty()
+                )
+                finish()
+            }
         }
     }
 
