@@ -10,6 +10,7 @@ import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.isWebUrl
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.ui.IntentBuilder
+import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StaticLocalizable
@@ -25,13 +26,13 @@ import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariab
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.usecases.GetExportDestinationOptionsDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
-import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
@@ -92,7 +93,7 @@ class ImportExportViewModel(application: Application) :
     }
 
     private fun openImportUrlDialog(prefill: String) {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             title(R.string.dialog_title_import_from_url)
                 .textInput(
                     prefill = prefill,
@@ -163,7 +164,7 @@ class ImportExportViewModel(application: Application) :
             throw e
         } catch (e: Exception) {
             logException(e)
-            dialogState = DialogState.create {
+            dialogState = createDialogState {
                 message(StringResLocalizable(R.string.export_failed_with_reason, e.message ?: e.javaClass.simpleName))
                     .positive(R.string.dialog_ok)
                     .build()
@@ -291,7 +292,7 @@ class ImportExportViewModel(application: Application) :
     }
 
     private fun onImportFailed(message: Localizable) {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             message(StringResLocalizable(R.string.import_failed_with_reason, message))
                 .positive(R.string.dialog_ok)
                 .build()

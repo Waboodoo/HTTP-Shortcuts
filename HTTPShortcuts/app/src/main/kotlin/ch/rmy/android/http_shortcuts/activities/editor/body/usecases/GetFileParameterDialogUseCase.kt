@@ -10,6 +10,7 @@ import ch.rmy.android.framework.extensions.showSoftKeyboard
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
@@ -33,7 +34,7 @@ constructor(
         onConfirm: (keyName: String, fileName: String) -> Unit,
         onRemove: () -> Unit,
     ): DialogState {
-        return DialogState.create(id = "get-file-parameter") {
+        return createDialogState(id = "get-file-parameter") {
             view(R.layout.dialog_file_parameter_editor)
                 .title(title)
                 .canceledOnTouchOutside(false)

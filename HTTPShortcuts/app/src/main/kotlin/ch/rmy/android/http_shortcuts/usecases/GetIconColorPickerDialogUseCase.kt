@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.usecases
 
 import android.graphics.Color
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.ColorPickerFactory
 import ch.rmy.android.http_shortcuts.utils.Settings
@@ -15,7 +16,7 @@ constructor(
 ) {
     operator fun invoke(icon: ShortcutIcon, onDismissed: () -> Unit, onColorSelected: (ShortcutIcon) -> Unit): DialogState? =
         if (icon is ShortcutIcon.BuiltInIcon && icon.tint != null) {
-            DialogState.create {
+            createDialogState {
                 colorPickerFactory.createColorPicker(
                     onColorPicked = { color ->
                         settings.previousIconColor = color

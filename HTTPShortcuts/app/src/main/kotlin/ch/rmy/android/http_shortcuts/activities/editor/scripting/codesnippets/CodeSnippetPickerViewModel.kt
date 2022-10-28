@@ -17,6 +17,7 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PlaySoundActionType
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
@@ -137,7 +138,7 @@ class CodeSnippetPickerViewModel(application: Application) :
             callback("\"\"")
             return
         }
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             title(title)
                 .item(R.string.label_insert_action_code_for_current_shortcut) {
                     callback("\"\"")
@@ -177,7 +178,7 @@ class CodeSnippetPickerViewModel(application: Application) :
             showGetVariablesInstructionDialog()
             return
         }
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             runFor(variablePlaceholderProvider.placeholders) { variable ->
                 item(name = variable.variableKey, descriptionRes = VariableTypeMappings.getTypeName(variable.variableType)) {
                     returnResult("getVariable(/*[variable]*/\"${variable.variableId}\"/*[/variable]*/)", "")
@@ -188,7 +189,7 @@ class CodeSnippetPickerViewModel(application: Application) :
     }
 
     private fun showGetVariablesInstructionDialog() {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             title(R.string.help_title_variables)
                 .message(R.string.help_text_code_snippet_get_variable_no_variable)
                 .negative(android.R.string.cancel)
@@ -208,7 +209,7 @@ class CodeSnippetPickerViewModel(application: Application) :
             showSetVariablesInstructionDialog()
             return
         }
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             runFor(variablePlaceholderProvider.placeholders) { variable ->
                 item(name = variable.variableKey, descriptionRes = VariableTypeMappings.getTypeName(variable.variableType)) {
                     returnResult("setVariable(/*[variable]*/\"${variable.variableId}\"/*[/variable]*/, \"", "\");\n")
@@ -219,7 +220,7 @@ class CodeSnippetPickerViewModel(application: Application) :
     }
 
     private fun showSetVariablesInstructionDialog() {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             title(R.string.help_title_variables)
                 .message(R.string.help_text_code_snippet_set_variable_no_variable)
                 .negative(android.R.string.cancel)

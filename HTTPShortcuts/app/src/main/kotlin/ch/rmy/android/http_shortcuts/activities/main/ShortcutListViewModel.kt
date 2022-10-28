@@ -12,6 +12,7 @@ import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.framework.ui.IntentBuilder
+import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -46,6 +47,7 @@ import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.extensions.toLauncherShortcut
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.import_export.CurlExporter
@@ -53,7 +55,6 @@ import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.usecases.GetExportDestinationOptionsDialogUseCase
-import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.curlcommand.CurlCommand
@@ -515,7 +516,7 @@ class ShortcutListViewModel(
                 throw e
             } catch (e: Exception) {
                 logException(e)
-                dialogState = DialogState.create {
+                dialogState = createDialogState {
                     message(context.getString(R.string.export_failed_with_reason, e.message))
                         .positive(R.string.dialog_ok)
                         .build()

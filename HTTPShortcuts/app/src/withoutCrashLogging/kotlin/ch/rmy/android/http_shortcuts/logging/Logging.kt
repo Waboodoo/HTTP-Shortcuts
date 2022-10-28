@@ -9,7 +9,7 @@ import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.http_shortcuts.BuildConfig
 
 @SuppressLint("StaticFieldLeak")
-object Logging {
+object Logging : ch.rmy.android.framework.extensions.Logging {
 
     private var context: Context? = null
 
@@ -26,7 +26,7 @@ object Logging {
     @Suppress("MayBeConstant")
     val supportsCrashReporting: Boolean = false
 
-    fun logException(origin: String, e: Throwable) {
+    override fun logException(origin: String, e: Throwable) {
         if (BuildConfig.DEBUG) {
             Log.e(origin, "An error occurred", e)
             e.printStackTrace()
@@ -36,7 +36,7 @@ object Logging {
         }
     }
 
-    fun logInfo(origin: String, message: String) {
+    override fun logInfo(origin: String, message: String) {
         if (BuildConfig.DEBUG) {
             Log.i(origin, message)
         }

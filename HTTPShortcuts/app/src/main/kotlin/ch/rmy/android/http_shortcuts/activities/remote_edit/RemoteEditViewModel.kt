@@ -15,6 +15,7 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.framework.viewmodel.viewstate.ProgressDialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.ImportException
@@ -113,7 +114,7 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
     }
 
     private fun openChangeRemoteHostDialog() {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             title(R.string.title_change_remote_server)
                 .textInput(
                     prefill = serverUrl,
@@ -227,7 +228,7 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
     }
 
     private fun showMessageDialog(@StringRes message: Int) {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             message(message)
                 .positive(R.string.dialog_ok)
                 .build()
@@ -235,7 +236,7 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
     }
 
     private fun showMessageDialog(message: String) {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             message(message)
                 .positive(R.string.dialog_ok)
                 .build()

@@ -30,6 +30,7 @@ import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.framework.utils.DateUtil
 import ch.rmy.android.framework.utils.FilePickerUtil
+import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteEvent
@@ -78,7 +79,6 @@ import ch.rmy.android.http_shortcuts.utils.BarcodeScannerContract
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.isImage
-import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
@@ -100,6 +100,7 @@ import java.net.UnknownHostException
 import java.util.HashMap
 import javax.inject.Inject
 import kotlin.math.pow
+import kotlin.time.Duration.Companion.minutes
 
 class ExecuteActivity : BaseActivity(), Entrypoint {
 
@@ -263,7 +264,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
         doOnDestroy {
             if (fileUploadManager != null) {
-                FileUtil.deleteOldCacheFiles(context)
+                FileUtil.deleteOldCacheFiles(context, maxCacheFileAge = 5.minutes)
             }
             ExecutionsWorker.schedule(context)
         }

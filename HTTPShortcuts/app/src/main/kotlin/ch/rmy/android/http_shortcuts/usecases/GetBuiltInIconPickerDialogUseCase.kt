@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.icons.BuiltInIconAdapter
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -15,7 +16,7 @@ class GetBuiltInIconPickerDialogUseCase
 constructor() {
 
     operator fun invoke(onIconSelected: (ShortcutIcon.BuiltInIcon) -> Unit): DialogState =
-        DialogState.create(DIALOG_ID) {
+        createDialogState(DIALOG_ID) {
             title(R.string.title_choose_icon)
                 .view(R.layout.dialog_icon_selector)
                 .build()

@@ -2,10 +2,10 @@ package ch.rmy.android.http_shortcuts.activities.main.usecases
 
 import androidx.annotation.CheckResult
 import ch.rmy.android.framework.extensions.runIf
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.ShortcutListViewModel
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import javax.inject.Inject
 
 class GetContextMenuDialogUseCase
@@ -14,7 +14,7 @@ constructor() {
 
     @CheckResult
     operator fun invoke(shortcutId: ShortcutId, title: String, isPending: Boolean, isMovable: Boolean, viewModel: ShortcutListViewModel) =
-        DialogState.create(DIALOG_ID) {
+        createDialogState(DIALOG_ID) {
             title(title)
                 .item(R.string.action_place) {
                     viewModel.onPlaceOnHomeScreenOptionSelected(shortcutId)

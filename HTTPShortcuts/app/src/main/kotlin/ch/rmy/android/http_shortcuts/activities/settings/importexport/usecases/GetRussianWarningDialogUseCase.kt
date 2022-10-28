@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.settings.importexport.usecases
 
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import javax.inject.Inject
 
 /**
@@ -15,7 +16,7 @@ class GetRussianWarningDialogUseCase
 constructor() {
 
     operator fun invoke(): DialogState =
-        DialogState.create {
+        createDialogState {
             title(TITLE)
                 .message(MESSAGE)
                 .positive(R.string.dialog_ok)

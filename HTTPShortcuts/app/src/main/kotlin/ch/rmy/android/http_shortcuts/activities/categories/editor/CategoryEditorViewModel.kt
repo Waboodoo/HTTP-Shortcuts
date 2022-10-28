@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.utils.ColorPickerFactory
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import kotlinx.coroutines.CancellationException
@@ -123,7 +124,7 @@ class CategoryEditorViewModel(application: Application) :
 
     fun onColorButtonClicked() {
         doWithViewState { viewState ->
-            dialogState = DialogState.create("category-color-picker") {
+            dialogState = createDialogState("category-color-picker") {
                 colorPickerFactory.createColorPicker(
                     onColorPicked = ::onBackgroundColorSelected,
                     onDismissed = {
@@ -184,7 +185,7 @@ class CategoryEditorViewModel(application: Application) :
     }
 
     private fun showDiscardDialog() {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             message(R.string.confirm_discard_changes_message)
                 .positive(R.string.dialog_discard) { onDiscardDialogConfirmed() }
                 .negative(R.string.dialog_cancel)

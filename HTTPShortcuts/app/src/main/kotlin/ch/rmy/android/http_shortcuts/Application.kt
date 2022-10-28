@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts
 
 import android.content.Context
 import ch.rmy.android.framework.WithRealm
+import ch.rmy.android.framework.extensions.GlobalLogger
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponentProvider
 import ch.rmy.android.http_shortcuts.dagger.DaggerApplicationComponent
@@ -39,6 +40,7 @@ class Application : android.app.Application(), ApplicationComponentProvider, Wit
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
 
         Logging.initCrashReporting(context)
+        GlobalLogger.registerLogging(Logging)
 
         try {
             RealmFactory.init(applicationContext)

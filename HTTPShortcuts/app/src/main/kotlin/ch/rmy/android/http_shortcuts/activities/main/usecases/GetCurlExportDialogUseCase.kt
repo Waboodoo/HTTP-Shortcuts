@@ -5,6 +5,7 @@ import android.widget.TextView
 import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import ch.rmy.curlcommand.CurlCommand
 import ch.rmy.curlcommand.CurlConstructor
@@ -18,7 +19,7 @@ constructor(
 ) {
 
     operator fun invoke(title: String, command: CurlCommand): DialogState =
-        DialogState.create(DIALOG_ID) {
+        createDialogState(DIALOG_ID) {
             val curlCommand = CurlConstructor.toCurlCommandString(command)
             this
                 .title(title)

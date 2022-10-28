@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.usecases
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import javax.inject.Inject
 
 class GetIconPickerDialogUseCase
@@ -10,7 +11,7 @@ class GetIconPickerDialogUseCase
 constructor() {
 
     operator fun invoke(includeFaviconOption: Boolean = false, callbacks: Callbacks): DialogState =
-        DialogState.create(DIALOG_ID) {
+        createDialogState(DIALOG_ID) {
             title(R.string.change_icon)
                 .item(R.string.choose_icon, action = callbacks::openBuiltInIconSelectionDialog)
                 .item(R.string.choose_image, action = callbacks::openCustomIconPicker)

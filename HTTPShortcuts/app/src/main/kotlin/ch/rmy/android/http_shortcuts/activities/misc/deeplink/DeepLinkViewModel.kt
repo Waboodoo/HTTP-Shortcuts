@@ -17,6 +17,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import com.afollestad.materialdialogs.callbacks.onCancel
 import kotlinx.coroutines.launch
@@ -46,7 +47,7 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
     }
 
     private fun showMessageDialog(message: Localizable) {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             message(message)
                 .positive(R.string.dialog_ok) {
                     onMessageDialogCanceled()

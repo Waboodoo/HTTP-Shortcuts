@@ -10,6 +10,7 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.usecases.GetToolbarTitleChangeDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
@@ -49,7 +50,7 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
     }
 
     private fun showAppLockDialog() {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             title(R.string.dialog_title_lock_app)
                 .message(R.string.dialog_text_lock_app)
                 .positive(R.string.button_lock_app)
@@ -82,7 +83,7 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
     }
 
     private fun showClearCookiesDialog() {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             message(R.string.confirm_clear_cookies_message)
                 .positive(R.string.dialog_delete) {
                     onClearCookiesDialogConfirmed()

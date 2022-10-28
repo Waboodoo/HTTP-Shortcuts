@@ -6,6 +6,7 @@ import ch.rmy.android.framework.utils.SimpleOnSeekBarChangeListener
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
@@ -22,7 +23,7 @@ constructor() {
         getLabel: (Duration) -> Localizable,
         onDelayChanged: (timeout: Duration) -> Unit,
     ): DialogState =
-        DialogState.create(id = "delay-dialog") {
+        createDialogState(id = "delay-dialog") {
             title(R.string.label_delay_execution)
                 .view(R.layout.dialog_time_picker)
                 .positive(R.string.dialog_ok) {

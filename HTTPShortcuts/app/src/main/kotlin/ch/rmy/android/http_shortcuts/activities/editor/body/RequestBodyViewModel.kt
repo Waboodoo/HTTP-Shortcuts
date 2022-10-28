@@ -18,6 +18,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.models.ParameterModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.usecases.GetKeyValueDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
@@ -222,7 +223,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
     }
 
     private fun showParameterTypeDialog() {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             title(R.string.dialog_title_parameter_type)
                 .item(R.string.option_parameter_type_string, action = ::showAddParameterDialogForString)
                 .item(R.string.option_parameter_type_image) {

@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import kotlinx.coroutines.CancellationException
@@ -150,7 +151,7 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
     }
 
     private fun showClientCertDialog() {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             title(R.string.title_client_cert)
                 .item(R.string.label_client_cert_from_os, descriptionRes = R.string.label_client_cert_from_os_subtitle) {
                     promptForClientCertAlias()
@@ -184,7 +185,7 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
     }
 
     private fun promptForPassword(fileName: String) {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             title(R.string.title_client_cert_file_password)
                 .textInput(
                     inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD,

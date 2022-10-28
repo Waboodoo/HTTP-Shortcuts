@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExec
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -135,7 +136,7 @@ class ExecuteViewModel(
     }
 
     private fun showErrorDialog(@StringRes message: Int) {
-        dialogState = DialogState.create(id = "execution-error") {
+        dialogState = createDialogState(id = "execution-error") {
             title(R.string.dialog_title_error)
                 .message(message)
                 .positive(R.string.dialog_ok)

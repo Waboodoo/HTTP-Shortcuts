@@ -40,6 +40,7 @@ import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -472,7 +473,7 @@ class ShortcutEditorViewModel(
     }
 
     private fun showDiscardDialog() {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             message(R.string.confirm_discard_changes_message)
                 .positive(R.string.dialog_discard) { onDiscardDialogConfirmed() }
                 .negative(R.string.dialog_cancel)

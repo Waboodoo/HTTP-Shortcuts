@@ -3,10 +3,10 @@ package ch.rmy.android.http_shortcuts.activities.categories.usecases
 import androidx.annotation.CheckResult
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.utils.localization.Localizable
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.categories.CategoriesViewModel
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import javax.inject.Inject
 
 class GetContextMenuDialogUseCase
@@ -23,7 +23,7 @@ constructor() {
         deleteOptionVisible: Boolean,
         viewModel: CategoriesViewModel,
     ) =
-        DialogState.create {
+        createDialogState {
             title(title)
                 .item(R.string.action_edit) {
                     viewModel.onEditCategoryOptionSelected(categoryId)

@@ -5,6 +5,7 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.MainViewModel
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import javax.inject.Inject
 
 class GetShortcutCreationDialogUseCase
@@ -13,7 +14,7 @@ constructor() {
 
     @CheckResult
     operator fun invoke(viewModel: MainViewModel): DialogState =
-        DialogState.create(DIALOG_ID) {
+        createDialogState(DIALOG_ID) {
             title(R.string.title_create_new_shortcut_options_dialog)
                 .item(R.string.button_create_new) {
                     viewModel.onCreationDialogOptionSelected(ShortcutExecutionType.APP)

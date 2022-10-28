@@ -18,6 +18,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.variables.Variables
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
@@ -223,7 +224,7 @@ class VariableEditorViewModel(
         oldVariable?.isSameAs(variable) == false
 
     private fun showDiscardDialog() {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             message(R.string.confirm_discard_changes_message)
                 .positive(R.string.dialog_discard) { onDiscardDialogConfirmed() }
                 .negative(R.string.dialog_cancel)

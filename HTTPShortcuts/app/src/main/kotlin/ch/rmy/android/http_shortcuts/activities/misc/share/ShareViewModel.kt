@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runFor
+import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -26,8 +27,8 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
-import ch.rmy.android.http_shortcuts.utils.FileUtil
 import ch.rmy.android.http_shortcuts.variables.VariableLookup
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
@@ -179,7 +180,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
     }
 
     private fun showInstructions(@StringRes text: Int) {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             message(text)
                 .positive(R.string.dialog_ok) {
                     onInstructionsCanceled()
@@ -196,7 +197,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
     }
 
     private fun showShortcutSelection(shortcuts: List<ShortcutModel>, variableValues: Map<VariableKey, String> = emptyMap()) {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             runFor(shortcuts) { shortcut ->
                 item(name = shortcut.name, shortcutIcon = shortcut.icon) {
                     executeShortcut(shortcut.id, variableValues)

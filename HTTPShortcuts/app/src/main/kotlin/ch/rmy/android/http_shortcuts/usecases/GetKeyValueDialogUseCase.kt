@@ -10,6 +10,7 @@ import ch.rmy.android.framework.extensions.showSoftKeyboard
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
@@ -36,7 +37,7 @@ constructor(
         onConfirm: (key: String, value: String) -> Unit,
         onRemove: () -> Unit,
     ): DialogState {
-        return DialogState.create(id = "key-value-dialog") {
+        return createDialogState(id = "key-value-dialog") {
             view(R.layout.dialog_key_value_editor)
                 .title(title)
                 .canceledOnTouchOutside(false)

@@ -11,6 +11,7 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -87,7 +88,7 @@ class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, G
     fun onBackPressed() {
         doWithViewState { viewState ->
             if (viewState.saveButtonVisible) {
-                dialogState = DialogState.create {
+                dialogState = createDialogState {
                     message(R.string.confirm_discard_changes_message)
                         .positive(R.string.dialog_discard) { onDiscardDialogConfirmed() }
                         .negative(R.string.dialog_cancel)

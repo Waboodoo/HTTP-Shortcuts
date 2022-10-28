@@ -13,7 +13,7 @@ import com.bugsnag.android.ThreadSendPolicy
 import java.io.IOException
 import java.util.Date
 
-object Logging {
+object Logging : ch.rmy.android.framework.extensions.Logging {
 
     /**
      * Disable crash logging after 3 months to prevent old bugs from spamming
@@ -68,7 +68,7 @@ object Logging {
     }
 
     @Suppress("UNUSED_PARAMETER")
-    fun logException(origin: String, e: Throwable) {
+    override fun logException(origin: String, e: Throwable) {
         if (initialized && !shouldIgnore(e)) {
             Bugsnag.notify(e)
         }
@@ -82,7 +82,7 @@ object Logging {
             e.stackTrace.any { it.className.contains("Miui") }
 
     @Suppress("UNUSED_PARAMETER")
-    fun logInfo(origin: String, message: String) {
+    override fun logInfo(origin: String, message: String) {
         if (initialized) {
             Bugsnag.leaveBreadcrumb(message)
         }

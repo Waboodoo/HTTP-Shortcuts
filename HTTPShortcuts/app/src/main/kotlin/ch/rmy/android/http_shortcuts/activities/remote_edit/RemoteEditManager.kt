@@ -2,11 +2,11 @@ package ch.rmy.android.http_shortcuts.activities.remote_edit
 
 import android.content.Context
 import android.net.Uri
+import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.Importer
-import ch.rmy.android.http_shortcuts.utils.FileUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.Credentials

@@ -4,6 +4,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.utils.Settings
 import com.afollestad.materialdialogs.callbacks.onShow
 import javax.inject.Inject
@@ -15,7 +16,7 @@ constructor(
 ) {
 
     operator fun invoke(): DialogState =
-        DialogState.create {
+        createDialogState {
             positive(R.string.dialog_ok)
                 .view(R.layout.dismissable_dialog)
                 .build()

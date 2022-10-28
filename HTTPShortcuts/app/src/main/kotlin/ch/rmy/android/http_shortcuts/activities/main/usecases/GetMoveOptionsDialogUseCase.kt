@@ -1,9 +1,9 @@
 package ch.rmy.android.http_shortcuts.activities.main.usecases
 
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.ShortcutListViewModel
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import javax.inject.Inject
 
 class GetMoveOptionsDialogUseCase
@@ -11,7 +11,7 @@ class GetMoveOptionsDialogUseCase
 constructor() {
 
     operator fun invoke(shortcutId: ShortcutId, viewModel: ShortcutListViewModel) =
-        DialogState.create {
+        createDialogState {
             item(R.string.action_enable_moving) {
                 viewModel.onMoveModeOptionSelected()
             }

@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.http
 import android.content.Context
 import android.net.Uri
 import ch.rmy.android.framework.extensions.runIf
-import ch.rmy.android.http_shortcuts.utils.FileUtil
+import ch.rmy.android.framework.utils.FileUtil
 import okhttp3.Response
 import java.io.File
 import java.io.InputStream

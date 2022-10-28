@@ -7,6 +7,7 @@ import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.ColorPickerFactory
 import javax.inject.Inject
@@ -56,7 +57,7 @@ class WidgetSettingsViewModel(application: Application) :
 
     private fun showColorPicker() {
         doWithViewState { viewState ->
-            dialogState = DialogState.create("widget-color-picker") {
+            dialogState = createDialogState("widget-color-picker") {
                 colorPickerFactory.createColorPicker(
                     onColorPicked = ::onLabelColorSelected,
                     onDismissed = {

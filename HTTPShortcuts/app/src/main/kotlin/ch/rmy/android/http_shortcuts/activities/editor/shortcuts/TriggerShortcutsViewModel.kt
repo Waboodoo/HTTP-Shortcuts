@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager.getCodeFromTriggeredShortcutIds
@@ -155,7 +156,7 @@ class TriggerShortcutsViewModel(application: Application) :
     }
 
     private fun showNoShortcutsError() {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             title(R.string.title_add_trigger_shortcut)
                 .message(R.string.error_add_trigger_shortcut_no_shortcuts)
                 .positive(R.string.dialog_ok)
@@ -166,7 +167,7 @@ class TriggerShortcutsViewModel(application: Application) :
     private fun showShortcutPickerForAdding(placeholders: List<ShortcutPlaceholder>) {
         val selectedShortcutIds = mutableSetOf<ShortcutId>()
         var onSelectionChanged: () -> Unit = {}
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             title(R.string.title_add_trigger_shortcut)
                 .runFor(placeholders) { shortcut ->
                     checkBoxItem(
@@ -220,7 +221,7 @@ class TriggerShortcutsViewModel(application: Application) :
     }
 
     private fun showRemoveShortcutDialog(id: ShortcutListItemId, message: Localizable) {
-        dialogState = DialogState.create {
+        dialogState = createDialogState {
             title(R.string.title_remove_trigger_shortcut)
                 .message(message)
                 .positive(R.string.dialog_remove) {
