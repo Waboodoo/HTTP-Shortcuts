@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.settings.settings
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
-import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
@@ -30,6 +29,9 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
 
     @Inject
     lateinit var localeHelper: LocaleHelper
+
+    @Inject
+    lateinit var cookieManager: CookieManager
 
     init {
         getApplicationComponent().inject(this)
@@ -94,7 +96,7 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
     }
 
     private fun onClearCookiesDialogConfirmed() {
-        CookieManager.clearCookies(context)
+        cookieManager.clearCookies()
         showSnackbar(R.string.message_cookies_cleared)
     }
 

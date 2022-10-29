@@ -20,11 +20,6 @@ class ProgressIndicator(private val activity: BaseActivity) {
 
     private val handler = Handler(Looper.getMainLooper())
 
-    fun showProgress() {
-        handler.removeCallbacks(showProgressRunnable)
-        handler.post(showProgressRunnable)
-    }
-
     fun showProgressDelayed(delay: Long) {
         handler.removeCallbacks(showProgressRunnable)
         handler.postDelayed(showProgressRunnable, delay)

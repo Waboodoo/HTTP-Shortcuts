@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.usecases
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebResourceRequest
@@ -37,8 +37,8 @@ constructor(
 
             private var stateRestored = false
 
-            override fun createDialog(context: Context, viewModel: WithDialog?): Dialog =
-                DialogBuilder(context)
+            override fun createDialog(activity: Activity, viewModel: WithDialog?): Dialog =
+                DialogBuilder(activity)
                     .view(R.layout.changelog_dialog)
                     .title(if (whatsNew) R.string.changelog_title_whats_new else R.string.changelog_title)
                     .positive(android.R.string.ok)
@@ -61,7 +61,7 @@ constructor(
                             webView.settings.javaScriptEnabled = true
                             webView.webViewClient = object : WebViewClient() {
                                 override fun onPageFinished(view: WebView?, url: String?) {
-                                    if (context.isDarkThemeEnabled()) {
+                                    if (activity.isDarkThemeEnabled()) {
                                         webView.evaluateJavascript(
                                             """
                                         document.getElementById('root').className = 'dark';
@@ -75,7 +75,7 @@ constructor(
                                 }
 
                                 override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest) = consume {
-                                    context.openURL(request.url)
+                                    activity.openURL(request.url)
                                 }
                             }
 

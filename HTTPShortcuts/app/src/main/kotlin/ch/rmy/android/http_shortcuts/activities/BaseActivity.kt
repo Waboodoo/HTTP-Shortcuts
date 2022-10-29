@@ -63,7 +63,7 @@ abstract class BaseActivity : BaseActivity() {
     }
 
     private fun showRealmError() {
-        DialogBuilder(context)
+        DialogBuilder(this)
             .title(R.string.dialog_title_error)
             .message(R.string.error_realm_unavailable, isHtml = true)
             .positive(R.string.dialog_ok)

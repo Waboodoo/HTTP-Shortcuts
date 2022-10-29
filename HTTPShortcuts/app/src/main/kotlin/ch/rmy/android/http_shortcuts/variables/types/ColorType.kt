@@ -7,7 +7,6 @@ import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
-import ch.rmy.android.http_shortcuts.extensions.canceledByUser
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.ColorPickerFactory
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.colorIntToHexString
@@ -41,13 +40,13 @@ class ColorType : BaseVariableType() {
                         continuation.resume(color.colorIntToHexString())
                     },
                     onDismissed = {
-                        continuation.canceledByUser()
+                        continuation.cancel()
                     },
                     title = variable.title.toLocalizable(),
                     initialColor = getInitialColor(variable),
                 )
                     .showOrElse {
-                        continuation.canceledByUser()
+                        continuation.cancel()
                     }
             }
         }

@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.settings.importexport.usecases
 
+import android.app.Activity
 import android.app.Dialog
-import android.content.Context
 import ch.rmy.android.framework.extensions.addOrRemove
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.viewmodel.WithDialog
@@ -30,8 +30,8 @@ constructor(
 
             private var onSelectionChanged: (() -> Unit)? = null
 
-            override fun createDialog(context: Context, viewModel: WithDialog?): Dialog =
-                DialogBuilder(context)
+            override fun createDialog(activity: Activity, viewModel: WithDialog?): Dialog =
+                DialogBuilder(activity)
                     .title(R.string.dialog_title_select_shortcuts_for_export)
                     .runFor(shortcuts) { shortcut ->
                         checkBoxItem(

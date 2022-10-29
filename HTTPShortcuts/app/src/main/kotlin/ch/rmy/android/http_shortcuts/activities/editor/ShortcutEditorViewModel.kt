@@ -39,7 +39,6 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel.Companion.TEMPORARY_ID
-import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.icons.Icons
@@ -618,8 +617,6 @@ class ShortcutEditorViewModel(
                     showSnackbar(R.string.error_failed_to_fetch_favicon)
                 }
             } catch (e: CancellationException) {
-                throw e
-            } catch (e: CanceledByUserException) {
                 throw e
             } catch (e: Exception) {
                 handleUnexpectedError(e)

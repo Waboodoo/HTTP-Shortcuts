@@ -46,7 +46,6 @@ import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
-import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.extensions.toLauncherShortcut
 import ch.rmy.android.http_shortcuts.extensions.type
@@ -456,8 +455,6 @@ class ShortcutListViewModel(
                 val command = curlExporter.generateCommand(shortcut)
                 showCurlExportDialog(shortcut.name, command)
             } catch (e: CancellationException) {
-                throw e
-            } catch (e: CanceledByUserException) {
                 throw e
             } catch (e: Exception) {
                 showToast(R.string.error_generic)

@@ -34,6 +34,7 @@ class HttpRequester
 constructor(
     private val context: Context,
     private val httpClientFactory: HttpClientFactory,
+    private val cookieManager: CookieManager,
 ) {
 
     private val contentResolver: ContentResolver
@@ -45,7 +46,7 @@ constructor(
         variableManager: VariableManager,
         responseFileStorage: ResponseFileStorage,
         fileUploadManager: FileUploadManager? = null,
-        cookieJar: CookieJar? = null,
+        useCookieJar: Boolean = false,
     ): ShortcutResponse =
         withContext(Dispatchers.IO) {
             val variables = variableManager.getVariableValuesByIds()
@@ -62,6 +63,8 @@ constructor(
                     }
                     ?.trim(),
             )
+
+            val cookieJar = if (useCookieJar) cookieManager.getCookieJar() else null
 
             try {
                 makeRequest(context, shortcut, variableManager, requestData, responseFileStorage, fileUploadManager, cookieJar)

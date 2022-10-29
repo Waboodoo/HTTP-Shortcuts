@@ -3,15 +3,11 @@ package ch.rmy.android.http_shortcuts.scripting
 import android.content.Context
 import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.getCaseInsensitive
-import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.resume
-import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.tryOrLog
-import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
-import ch.rmy.android.http_shortcuts.exceptions.CanceledByUserException
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
 import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
@@ -21,8 +17,8 @@ import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionFactory
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
@@ -33,12 +29,14 @@ import org.liquidplayer.javascript.JSFunction
 import org.liquidplayer.javascript.JSObject
 import org.liquidplayer.javascript.JSUint8Array
 import org.liquidplayer.javascript.JSValue
+import javax.inject.Inject
 import kotlin.coroutines.resumeWithException
 
-class ScriptExecutor(
+class ScriptExecutor
+@Inject
+constructor(
     private val context: Context,
     private val actionFactory: ActionFactory,
-    private val sendRequest: (ActionRequest) -> Unit,
 ) {
 
     private val jsContext by lazy(LazyThreadSafetyMode.NONE) {
@@ -50,8 +48,6 @@ class ScriptExecutor(
     }
 
     private var lastException: Throwable? = null
-
-    private var sendResult: CompletableDeferred<ActionResult>? = null
 
     suspend fun initialize(
         shortcut: ShortcutModel,
@@ -94,29 +90,19 @@ class ScriptExecutor(
         }
     }
 
-    fun pushActionResult(result: ActionResult) {
-        val deferred = sendResult
-        if (deferred == null) {
-            // TODO: Remove this error handling once I know whether/how it triggers
-            context.showToast(R.string.error_generic)
-            logException(IllegalStateException("ScriptExecutor received result but no callback was available to handle it"))
-            return
-        }
-        sendResult = null
-        deferred.complete(result)
-    }
-
     suspend fun execute(
         script: String,
         response: ShortcutResponse? = null,
         error: Exception? = null,
     ) {
-        if (script.isNotEmpty()) {
-            withContext(Dispatchers.Default) {
-                runWithExceptionHandling {
-                    registerResponse(response, error)
-                    jsContext.evaluateScript(script)
-                }
+        if (script.isEmpty()) {
+            return
+        }
+        withContext(Dispatchers.Default) {
+            ensureActive()
+            runWithExceptionHandling {
+                registerResponse(response, error)
+                jsContext.evaluateScript(script)
             }
         }
     }
@@ -210,7 +196,7 @@ class ScriptExecutor(
                 @Suppress("unused")
                 @Keep
                 fun run() {
-                    lastException = CanceledByUserException()
+                    lastException = CancellationException()
                 }
             },
             READ_ONLY,
@@ -260,19 +246,13 @@ class ScriptExecutor(
                                     shortcutId = shortcutId,
                                     variableManager = variableManager,
                                     recursionDepth = recursionDepth,
-                                    callback = { request ->
-                                        check(sendResult == null) { "Another action is already waiting for a result" }
-                                        val deferred = CompletableDeferred<ActionResult>()
-                                        sendResult = deferred
-                                        sendRequest(request)
-                                        deferred.await()
-                                    },
                                 )
                             )
                         }
                         convertResult(jsContext, result)
                     } catch (e: CancellationException) {
-                        throw e
+                        lastException = e
+                        null
                     } catch (e: Throwable) {
                         lastException = if (e is RuntimeException && e.cause != null) e.cause else e
                         null

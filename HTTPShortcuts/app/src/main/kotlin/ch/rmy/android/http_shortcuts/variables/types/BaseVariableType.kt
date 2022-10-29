@@ -6,7 +6,6 @@ import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
-import ch.rmy.android.http_shortcuts.extensions.canceledByUser
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import kotlinx.coroutines.CancellableContinuation
 
@@ -38,7 +37,7 @@ abstract class BaseVariableType {
                     message(variable.message)
                 }
                 .dismissListener {
-                    continuation.canceledByUser()
+                    continuation.cancel()
                 }
     }
 }
