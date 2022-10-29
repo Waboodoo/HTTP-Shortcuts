@@ -166,7 +166,7 @@ abstract class BaseActivity : AppCompatActivity() {
         logInfo("Setting dialog state: ${dialogState?.let { it.id ?: "no-id" } ?: "no dialog"}")
         currentDialog?.dismiss()
         currentDialogState = dialogState
-        currentDialog = dialogState?.createDialog(context, viewModel)
+        currentDialog = dialogState?.createDialog(this, viewModel)
         currentDialog?.showIfPossible()
         currentDialog?.let { dialog ->
             savedDialogState?.let { dialogState ->

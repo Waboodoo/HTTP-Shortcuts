@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 import kotlinx.coroutines.runBlocking
@@ -25,6 +26,9 @@ class QuickTileService : TileService() {
 
     @Inject
     lateinit var shortcutRepository: ShortcutRepository
+
+    @Inject
+    lateinit var activityProvider: ActivityProvider
 
     override fun onCreate() {
         super.onCreate()
@@ -56,7 +60,7 @@ class QuickTileService : TileService() {
 
     private fun showInstructions() {
         applyTheme()
-        val dialog = DialogBuilder(context)
+        val dialog = DialogBuilder(activityProvider.getActivity())
             .message(
                 getString(
                     R.string.instructions_quick_settings_tile,
@@ -71,7 +75,7 @@ class QuickTileService : TileService() {
 
     private fun showPickerDialog(shortcuts: List<ShortcutModel>) {
         applyTheme()
-        val dialog = DialogBuilder(context)
+        val dialog = DialogBuilder(activityProvider.getActivity())
             .runFor(shortcuts) { shortcut ->
                 item(name = shortcut.name, shortcutIcon = shortcut.icon) {
                     executeShortcut(shortcut.id)

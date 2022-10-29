@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.extensions
 
+import android.app.Activity
 import android.app.Dialog
-import android.content.Context
 import ch.rmy.android.framework.extensions.resume
 import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.framework.viewmodel.WithDialog
@@ -24,8 +24,7 @@ suspend fun DialogBuilder.showAndAwaitDismissal() {
                 continuation.resume()
             }
         }
-            .showIfPossible()
-            ?: let {
+            .showOrElse {
                 if (continuation.isActive) {
                     continuation.resume()
                 }
@@ -38,8 +37,8 @@ fun createDialogState(id: String? = null, onDismiss: (() -> Unit)? = null, trans
         override val id: String?
             get() = id
 
-        override fun createDialog(context: Context, viewModel: WithDialog?) =
-            DialogBuilder(context)
+        override fun createDialog(activity: Activity, viewModel: WithDialog?) =
+            DialogBuilder(activity)
                 .dismissListener {
                     onDismiss?.invoke()
                     viewModel?.onDialogDismissed(this)

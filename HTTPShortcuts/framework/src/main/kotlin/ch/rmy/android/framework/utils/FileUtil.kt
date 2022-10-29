@@ -48,15 +48,13 @@ object FileUtil {
         )
 
     fun deleteOldCacheFiles(context: Context, maxCacheFileAge: Duration) {
-        tryOrLog {
-            val now = Date().time
-            context.cacheDir
-                .listFiles()
-                ?.filter { now - it.lastModified() > maxCacheFileAge.inWholeMilliseconds }
-                ?.forEach {
-                    it.delete()
-                }
-        }
+        val now = Date().time
+        context.cacheDir
+            .listFiles()
+            ?.filter { now - it.lastModified() > maxCacheFileAge.inWholeMilliseconds }
+            ?.forEach {
+                it.delete()
+            }
     }
 
     fun getFileName(contentResolver: ContentResolver, fileUri: Uri): String? {

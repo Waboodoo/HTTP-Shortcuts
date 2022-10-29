@@ -9,8 +9,4 @@ class ExecutionContext(
     val shortcutId: ShortcutId,
     val variableManager: VariableManager,
     val recursionDepth: Int,
-    private val callback: suspend (ActionRequest) -> ActionResult,
-) {
-    suspend fun sendRequest(actionRequest: ActionRequest): ActionResult =
-        callback(actionRequest)
-}
+)

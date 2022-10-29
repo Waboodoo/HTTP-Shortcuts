@@ -23,7 +23,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingActivi
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetPickerViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcutsViewModel
-import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
+import ch.rmy.android.http_shortcuts.activities.execute.Execution
 import ch.rmy.android.http_shortcuts.activities.icons.IconPickerViewModel
 import ch.rmy.android.http_shortcuts.activities.main.MainViewModel
 import ch.rmy.android.http_shortcuts.activities.main.ShortcutListViewModel
@@ -59,14 +59,19 @@ import ch.rmy.android.http_shortcuts.scheduling.ExecutionWorker
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionsWorker
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeDescriptionAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeIconAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.ConfirmAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.CopyToClipboardAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.DialogAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.EnqueueShortcutAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetClipboardContentAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetLocationAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetVariableAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.ScanBarcodeAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.VibrateAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.WifiIPAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WifiSSIDAction
 import ch.rmy.android.http_shortcuts.tiles.QuickTileService
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
@@ -231,8 +236,6 @@ interface ApplicationComponent {
 
     fun inject(vibrateAction: VibrateAction)
 
-    fun inject(executeViewModel: ExecuteViewModel)
-
     fun inject(getLocationAction: GetLocationAction)
 
     fun inject(contactActivity: ContactActivity)
@@ -262,4 +265,16 @@ interface ApplicationComponent {
     fun inject(passwordType: PasswordType)
 
     fun inject(categoryEditorActivity: CategoryEditorActivity)
+
+    fun inject(execution: Execution)
+
+    fun inject(wifiIPAction: WifiIPAction)
+
+    fun inject(confirmAction: ConfirmAction)
+
+    fun inject(dialogAction: DialogAction)
+
+    fun inject(promptAction: PromptAction)
+
+    fun inject(scanBarcodeAction: ScanBarcodeAction)
 }

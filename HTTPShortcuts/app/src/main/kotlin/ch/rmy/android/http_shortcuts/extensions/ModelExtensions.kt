@@ -1,5 +1,7 @@
 package ch.rmy.android.http_shortcuts.extensions
 
+import android.content.Context
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
@@ -13,3 +15,6 @@ fun ShortcutModel.toLauncherShortcut() =
         name = name,
         icon = icon,
     )
+
+fun ShortcutModel.getSafeName(context: Context) =
+    name.ifEmpty { context.getString(R.string.shortcut_safe_name) }

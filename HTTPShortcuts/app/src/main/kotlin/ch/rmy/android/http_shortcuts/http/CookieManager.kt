@@ -5,18 +5,26 @@ import com.franmontiel.persistentcookiejar.PersistentCookieJar
 import com.franmontiel.persistentcookiejar.cache.CookieCache
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
+import okhttp3.CookieJar
+import javax.inject.Inject
 
-object CookieManager {
+class CookieManager
+@Inject
+constructor(
+    private val context: Context,
+) {
 
-    fun getCookieJar(context: Context) =
+    fun getCookieJar(): CookieJar =
         PersistentCookieJar(cookieSessionStore, SharedPrefsCookiePersistor(context))
 
-    fun clearCookies(context: Context) {
+    fun clearCookies() {
         cookieSessionStore.clear()
         SharedPrefsCookiePersistor(context).clear()
     }
 
-    private val cookieSessionStore: CookieCache by lazy {
-        SetCookieCache()
+    companion object {
+        private val cookieSessionStore: CookieCache by lazy {
+            SetCookieCache()
+        }
     }
 }

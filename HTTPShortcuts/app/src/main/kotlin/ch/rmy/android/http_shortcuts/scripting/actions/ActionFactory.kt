@@ -40,8 +40,11 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.WaitActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WakeOnLanActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WifiIPActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WifiSSIDActionType
+import javax.inject.Inject
 
-class ActionFactory {
+class ActionFactory
+@Inject
+constructor() {
 
     fun fromDTO(actionDTO: ActionDTO): BaseAction? =
         getType(actionDTO.type)

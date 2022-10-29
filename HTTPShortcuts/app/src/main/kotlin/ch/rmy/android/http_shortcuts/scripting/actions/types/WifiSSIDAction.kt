@@ -7,7 +7,6 @@ import ch.rmy.android.framework.extensions.resume
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
-import ch.rmy.android.http_shortcuts.extensions.canceledByUser
 import ch.rmy.android.http_shortcuts.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
@@ -27,13 +26,16 @@ class WifiSSIDAction : BaseAction() {
     @Inject
     lateinit var activityProvider: ActivityProvider
 
+    @Inject
+    lateinit var networkUtil: NetworkUtil
+
     override fun inject(applicationComponent: ApplicationComponent) {
         applicationComponent.inject(this)
     }
 
     override suspend fun execute(executionContext: ExecutionContext): String? {
         ensureLocationPermissionIsEnabled(activityProvider.getActivity())
-        return NetworkUtil.getCurrentSsid(executionContext.context)
+        return networkUtil.getCurrentSsid()
     }
 
     private suspend fun ensureLocationPermissionIsEnabled(activity: FragmentActivity) {
@@ -48,7 +50,7 @@ class WifiSSIDAction : BaseAction() {
                             continuation.resume()
                         }
                         .showOrElse {
-                            continuation.canceledByUser()
+                            continuation.cancel()
                         }
                 }
             }

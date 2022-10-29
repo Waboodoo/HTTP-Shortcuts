@@ -7,7 +7,6 @@ import ch.rmy.android.framework.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
-import ch.rmy.android.http_shortcuts.extensions.canceledByUser
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -55,10 +54,10 @@ class TimeType : BaseVariableType() {
                 timePicker.setCanceledOnTouchOutside(true)
 
                 timePicker.showOrElse {
-                    continuation.canceledByUser()
+                    continuation.cancel()
                 }
                 timePicker.setOnDismissListener {
-                    continuation.canceledByUser()
+                    continuation.cancel()
                 }
             }
         }

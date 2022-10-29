@@ -20,6 +20,7 @@ import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.databinding.SelectOptionEditorItemBinding
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorSelectBinding
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
+import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import javax.inject.Inject
@@ -31,6 +32,9 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
 
     @Inject
     lateinit var adapter: SelectVariableOptionsAdapter
+
+    @Inject
+    lateinit var activityProvider: ActivityProvider
 
     private val viewModel: SelectTypeViewModel by bindViewModel()
 
@@ -113,7 +117,7 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
     private fun showAddDialog() {
         val binding = SelectOptionEditorItemBinding.inflate(layoutInflater)
         variableViewUtils.bindVariableViews(binding.selectOptionValue, binding.variableButtonValue)
-        DialogBuilder(requireContext())
+        DialogBuilder(activityProvider.getActivity())
             .title(R.string.title_add_select_option)
             .view(binding.root)
             .positive(R.string.dialog_ok) {
@@ -131,7 +135,7 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
         variableViewUtils.bindVariableViews(binding.selectOptionValue, binding.variableButtonValue)
         binding.selectOptionLabel.setText(label)
         binding.selectOptionValue.rawString = value
-        DialogBuilder(requireContext())
+        DialogBuilder(activityProvider.getActivity())
             .title(R.string.title_edit_select_option)
             .view(binding.root)
             .positive(R.string.dialog_ok) {

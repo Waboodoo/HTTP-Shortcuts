@@ -8,29 +8,34 @@ import android.net.ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.PowerManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.R
+import javax.inject.Inject
 
-object NetworkUtil {
+class NetworkUtil
+@Inject
+constructor(
+    private val context: Context,
+    private val activityProvider: ActivityProvider,
+) {
 
-    fun isNetworkConnected(context: Context): Boolean =
+    fun isNetworkConnected(): Boolean =
         context.getSystemService<ConnectivityManager>()
             ?.activeNetworkInfo
             ?.isConnected
             ?: false
 
-    fun isNetworkPerformanceRestricted(context: Context) =
-        isDataSaverModeEnabled(context) || isBatterySaverModeEnabled(context)
+    fun isNetworkPerformanceRestricted() =
+        isDataSaverModeEnabled() || isBatterySaverModeEnabled()
 
-    private fun isBatterySaverModeEnabled(context: Context): Boolean =
+    private fun isBatterySaverModeEnabled(): Boolean =
         context.getSystemService<PowerManager>()
             ?.isPowerSaveMode
             ?: false
 
-    private fun isDataSaverModeEnabled(context: Context): Boolean =
+    private fun isDataSaverModeEnabled(): Boolean =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             context.getSystemService<ConnectivityManager>()
                 ?.run { isActiveNetworkMetered && restrictBackgroundStatus == RESTRICT_BACKGROUND_STATUS_ENABLED }
@@ -39,13 +44,13 @@ object NetworkUtil {
             false
         }
 
-    fun getCurrentSsid(context: Context): String? =
+    fun getCurrentSsid(): String? =
         context.applicationContext.getSystemService<WifiManager>()
             ?.connectionInfo
             ?.ssid
             ?.trim('"')
 
-    fun getIPV4Address(context: Context): String? =
+    fun getIPV4Address(): String? =
         context.applicationContext.getSystemService<WifiManager>()
             ?.connectionInfo
             ?.ipAddress
@@ -55,14 +60,14 @@ object NetworkUtil {
     private fun formatIPV4Address(ip: Int): String =
         "${ip shr 0 and 0xFF}.${ip shr 8 and 0xFF}.${ip shr 16 and 0xFF}.${ip shr 24 and 0xFF}"
 
-    fun showWifiPicker(activity: AppCompatActivity) {
+    fun showWifiPicker() {
         try {
             Intent(WifiManager.ACTION_PICK_WIFI_NETWORK)
                 .putExtra("extra_prefs_show_button_bar", true)
                 .putExtra("wifi_enable_next_on_connect", true)
-                .startActivity(activity)
+                .startActivity(activityProvider.getActivity())
         } catch (e: ActivityNotFoundException) {
-            activity.showToast(R.string.error_not_supported)
+            context.showToast(R.string.error_not_supported)
         }
     }
 }

@@ -17,6 +17,7 @@ import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.databinding.ToggleOptionEditorItemBinding
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorToggleBinding
 import ch.rmy.android.http_shortcuts.extensions.showIfPossible
+import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import javax.inject.Inject
@@ -28,6 +29,9 @@ class ToggleTypeFragment : BaseFragment<VariableEditorToggleBinding>() {
 
     @Inject
     lateinit var adapter: ToggleVariableOptionsAdapter
+
+    @Inject
+    lateinit var activityProvider: ActivityProvider
 
     private val viewModel: ToggleTypeViewModel by bindViewModel()
 
@@ -104,7 +108,7 @@ class ToggleTypeFragment : BaseFragment<VariableEditorToggleBinding>() {
     private fun showAddDialog() {
         val binding = ToggleOptionEditorItemBinding.inflate(layoutInflater)
         variableViewUtils.bindVariableViews(binding.toggleOptionValue, binding.variableButtonValue)
-        DialogBuilder(requireContext())
+        DialogBuilder(activityProvider.getActivity())
             .title(R.string.title_add_toggle_option)
             .view(binding.root)
             .positive(R.string.dialog_ok) {
@@ -118,7 +122,7 @@ class ToggleTypeFragment : BaseFragment<VariableEditorToggleBinding>() {
         val binding = ToggleOptionEditorItemBinding.inflate(layoutInflater)
         variableViewUtils.bindVariableViews(binding.toggleOptionValue, binding.variableButtonValue)
         binding.toggleOptionValue.rawString = value
-        DialogBuilder(requireContext())
+        DialogBuilder(activityProvider.getActivity())
             .title(R.string.title_edit_toggle_option)
             .view(binding.root)
             .positive(R.string.dialog_ok) {
