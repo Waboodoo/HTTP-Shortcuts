@@ -19,6 +19,7 @@ import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.Variables
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import okhttp3.CookieJar
@@ -65,9 +66,11 @@ constructor(
             try {
                 makeRequest(context, shortcut, variableManager, requestData, responseFileStorage, fileUploadManager, cookieJar)
             } catch (e: UnknownHostException) {
+                ensureActive()
                 if (ServiceDiscoveryHelper.isDiscoverable(requestData.uri)) {
                     val newRequestData = try {
                         val newHost = ServiceDiscoveryHelper.discoverService(context, requestData.uri.host!!)
+                        ensureActive()
                         requestData.copy(
                             url = requestData.uri
                                 .buildUpon()

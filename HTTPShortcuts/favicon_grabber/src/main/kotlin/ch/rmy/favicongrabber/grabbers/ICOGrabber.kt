@@ -8,9 +8,9 @@ class ICOGrabber(
     private val httpUtil: HttpUtil,
 ) : Grabber {
 
-    override fun grabIconsFrom(pageUrl: HttpUrl, preferredSize: Int): List<IconResult> {
+    override suspend fun grabIconsFrom(pageUrl: HttpUrl, preferredSize: Int): List<IconResult> {
         val faviconFile = getFaviconUrl(pageUrl)
-            ?.let(httpUtil::downloadIntoFile)
+            ?.let { httpUtil.downloadIntoFile(it) }
         return if (faviconFile != null) {
             listOf(IconResult(faviconFile))
         } else {

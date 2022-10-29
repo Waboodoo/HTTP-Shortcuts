@@ -7,6 +7,7 @@ plugins {
 }
 
 val kotlinVersion: String by properties
+val coroutinesVersion: String by properties
 val hamcrestVersion: String by properties
 val junitVersion: String by properties
 val robolectricVersion: String by properties
@@ -43,7 +44,7 @@ android {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
     implementation("androidx.core:core-ktx:1.9.0@aar")
     implementation("androidx.annotation:annotation:1.5.0")
 

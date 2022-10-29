@@ -1,5 +1,8 @@
 package ch.rmy.favicongrabber.utils
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -14,26 +17,29 @@ class HttpUtil(
     private val userAgent: String,
 ) {
 
-    fun downloadIntoFile(url: HttpUrl): File? {
-        var targetFile: File? = null
-        try {
-            makeRequest(url).use { response ->
-                response
-                    ?.byteStream()
-                    ?.use { inStream ->
-                        targetFile = File.createTempFile(TEMP_FILE_PREFIX, null, targetDirectory)
-                        targetFile
-                            ?.outputStream()
-                            ?.use { outStream ->
-                                inStream.copyTo(outStream)
-                                return targetFile
-                            }
-                    }
+    suspend fun downloadIntoFile(url: HttpUrl): File? {
+        return withContext(Dispatchers.IO) {
+            var targetFile: File? = null
+            try {
+                ensureActive()
+                makeRequest(url).use { response ->
+                    response
+                        ?.byteStream()
+                        ?.use { inStream ->
+                            targetFile = File.createTempFile(TEMP_FILE_PREFIX, null, targetDirectory)
+                            targetFile
+                                ?.outputStream()
+                                ?.use { outStream ->
+                                    inStream.copyTo(outStream)
+                                    return@withContext targetFile
+                                }
+                        }
+                }
+            } catch (e: IOException) {
+                targetFile?.delete()
             }
-        } catch (e: IOException) {
-            targetFile?.delete()
+            null
         }
-        return null
     }
 
     fun downloadIntoString(url: HttpUrl): String? {

@@ -13,7 +13,7 @@ import okhttp3.HttpUrl
 class ManifestGrabber(
     private val httpUtil: HttpUtil,
 ) : Grabber {
-    override fun grabIconsFrom(pageUrl: HttpUrl, preferredSize: Int): List<IconResult> {
+    override suspend fun grabIconsFrom(pageUrl: HttpUrl, preferredSize: Int): List<IconResult> {
         val pageContent = httpUtil.downloadIntoString(pageUrl)
             ?: return emptyList()
 

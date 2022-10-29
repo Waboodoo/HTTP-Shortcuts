@@ -9,7 +9,7 @@ import okhttp3.HttpUrl
 class PageMetaGrabber(
     private val httpUtil: HttpUtil,
 ) : Grabber {
-    override fun grabIconsFrom(pageUrl: HttpUrl, preferredSize: Int): List<IconResult> {
+    override suspend fun grabIconsFrom(pageUrl: HttpUrl, preferredSize: Int): List<IconResult> {
         val pageContent = httpUtil.downloadIntoString(pageUrl)
             ?: return emptyList()
 
@@ -22,7 +22,7 @@ class PageMetaGrabber(
         for (candidate in candidates) {
             val file = pageUrl.resolve(candidate.href)
                 ?.takeUnless { it.encodedPath == DEFAULT_FAVICON_PATH }
-                ?.let(httpUtil::downloadIntoFile)
+                ?.let { httpUtil.downloadIntoFile(it) }
             if (file != null) {
                 results.add(IconResult(file))
                 if (results.size >= PREFERRED_NUMBER_OF_RESULTS) {

@@ -17,6 +17,7 @@ import com.google.gson.JsonParser
 import com.google.gson.JsonSyntaxException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.File
@@ -43,6 +44,7 @@ constructor(
                 val cacheFile = FileUtil.createCacheFile(context, IMPORT_TEMP_FILE)
                 getStream(context, uri).use { inStream ->
                     FileUtil.getOutputStream(context, cacheFile).use { outStream ->
+                        ensureActive()
                         inStream.copyTo(outStream)
                     }
                 }

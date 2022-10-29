@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.usecases.GetUsedCustomIconsUseCase
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileInputStream
@@ -60,6 +61,7 @@ constructor(
                         out.closeEntry()
 
                         getFilesToExport(context, base, shortcutIds).forEach { file ->
+                            ensureActive()
                             out.putNextEntry(ZipEntry(file.name))
                             FileInputStream(file).copyTo(out)
                             writer.flush()

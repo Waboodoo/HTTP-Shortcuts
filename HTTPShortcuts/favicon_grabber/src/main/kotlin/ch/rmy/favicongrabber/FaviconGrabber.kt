@@ -6,6 +6,9 @@ import ch.rmy.favicongrabber.grabbers.ManifestGrabber
 import ch.rmy.favicongrabber.grabbers.PageMetaGrabber
 import ch.rmy.favicongrabber.models.IconResult
 import ch.rmy.favicongrabber.utils.HttpUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
@@ -17,16 +20,18 @@ class FaviconGrabber(
     private val userAgent: String,
 ) {
 
-    fun grab(url: String, preferredSize: Int): List<IconResult> {
+    suspend fun grab(url: String, preferredSize: Int): List<IconResult> {
         val pageUrl = url.toHttpUrlOrNull()
             ?: return emptyList()
 
         val pageCache = mutableMapOf<HttpUrl, String?>()
         val httpUtil = HttpUtil(client, targetDirectory, pageCache, userAgent)
         val grabbers = getGrabbers(httpUtil)
-
-        return grabbers.flatMap { grabber ->
-            grabber.grabIconsFrom(pageUrl, preferredSize)
+        return withContext(Dispatchers.IO) {
+            grabbers.flatMap { grabber ->
+                ensureActive()
+                grabber.grabIconsFrom(pageUrl, preferredSize)
+            }
         }
     }
 
