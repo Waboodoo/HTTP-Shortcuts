@@ -52,12 +52,12 @@ constructor(
     suspend fun initialize(
         shortcut: ShortcutModel,
         variableManager: VariableManager,
-        fileUploadManager: FileUploadManager?,
+        fileUploadResult: FileUploadManager.Result?,
         recursionDepth: Int = 0,
     ) {
         runWithExceptionHandling {
             registerShortcut(shortcut)
-            registerFiles(fileUploadManager)
+            registerFiles(fileUploadResult)
             registerActions(context, shortcut.id, variableManager, recursionDepth)
         }
     }
@@ -164,10 +164,10 @@ constructor(
         jsContext.property("networkError", error?.message, READ_ONLY)
     }
 
-    private fun registerFiles(fileUploadManager: FileUploadManager?) {
+    private fun registerFiles(fileUploadResult: FileUploadManager.Result?) {
         jsContext.property(
             "selectedFiles",
-            fileUploadManager?.getFiles()
+            fileUploadResult?.getFiles()
                 ?.map { file ->
                     mapOf(
                         "id" to file.id,

@@ -48,15 +48,6 @@ class FileUploadManager private constructor(
         files.associateByTo(fileLookup) { it.id }
     }
 
-    fun getFiles(): List<File> =
-        registeredFiles.flatten()
-
-    fun getFiles(index: Int): List<File> =
-        registeredFiles.getOrNull(index) ?: emptyList()
-
-    fun getFile(index: Int): File? =
-        registeredFiles.getOrNull(index)?.firstOrNull()
-
     fun getNextFileRequest(): FileRequest? =
         fileRequests.takeIf { it.hasNext() }?.next()
 
@@ -117,6 +108,9 @@ class FileUploadManager private constructor(
     private fun generateId(): String =
         newUUID()
 
+    fun getResult(): Result =
+        Result(registeredFiles)
+
     data class File(
         val id: String,
         val mimeType: String,
@@ -124,6 +118,20 @@ class FileUploadManager private constructor(
         val data: Uri,
         val fileSize: Long?,
     )
+
+    data class Result(
+        private val registeredFiles: List<List<File>>,
+    ) {
+
+        fun getFiles(): List<File> =
+            registeredFiles.flatten()
+
+        fun getFiles(index: Int): List<File> =
+            registeredFiles.getOrNull(index) ?: emptyList()
+
+        fun getFile(index: Int): File? =
+            registeredFiles.getOrNull(index)?.firstOrNull()
+    }
 
     class FileRequest(val multiple: Boolean, val image: Boolean)
 

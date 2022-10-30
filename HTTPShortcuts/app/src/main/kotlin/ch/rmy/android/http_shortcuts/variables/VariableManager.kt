@@ -56,7 +56,7 @@ class VariableManager(variables: List<VariableModel>) : VariableLookup {
             }
     }
 
-    fun getVariableValuesByIds(): Map<VariableKey, String> =
+    fun getVariableValuesByIds(): Map<VariableId, String> =
         variableValuesById
 
     fun getVariableValuesByKeys(): Map<VariableKey, String> =

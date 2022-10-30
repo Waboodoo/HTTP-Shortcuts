@@ -203,7 +203,7 @@ class Execution(
             return
         }
 
-        val fileUploadManager = handleFiles()
+        val fileUploadResult = handleFiles()
 
         emit(Status.IN_PROGRESS)
 
@@ -211,7 +211,7 @@ class Execution(
             scriptExecutor.initialize(
                 shortcut = shortcut,
                 variableManager = variableManager,
-                fileUploadManager = fileUploadManager,
+                fileUploadResult = fileUploadResult,
                 recursionDepth = params.recursionDepth,
             )
             scriptExecutor.execute(globalCode)
@@ -241,9 +241,9 @@ class Execution(
                 .executeShortcut(
                     context,
                     shortcut,
-                    variableManager,
-                    ResponseFileStorage(context, shortcut.id),
-                    fileUploadManager,
+                    variableValues = variableManager.getVariableValuesByIds(),
+                    ResponseFileStorage(context, shortcut.id), // TODO: Create an injectable factory for this, instead pass only a session-id in here
+                    fileUploadResult = fileUploadResult,
                     useCookieJar = shortcut.acceptCookies,
                 )
         } catch (e: UnknownHostException) {
@@ -331,7 +331,7 @@ class Execution(
             preResolvedValues = params.variableValues,
         )
 
-    private suspend fun handleFiles(): FileUploadManager? = coroutineScope {
+    private suspend fun handleFiles(): FileUploadManager.Result? = coroutineScope {
         if (!shortcut.usesRequestParameters() && !shortcut.usesGenericFileBody() && !shortcut.usesImageFileBody()) {
             return@coroutineScope null
         }
@@ -366,7 +366,7 @@ class Execution(
             }
         }
 
-        fileUploadManager
+        fileUploadManager.getResult()
     }
 
     private fun usesScripting() =

@@ -8,6 +8,7 @@ import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
@@ -16,7 +17,6 @@ import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
-import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.Variables
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
@@ -43,23 +43,21 @@ constructor(
     suspend fun executeShortcut(
         context: Context,
         shortcut: ShortcutModel,
-        variableManager: VariableManager,
+        variableValues: Map<VariableId, String>,
         responseFileStorage: ResponseFileStorage,
-        fileUploadManager: FileUploadManager? = null,
+        fileUploadResult: FileUploadManager.Result? = null,
         useCookieJar: Boolean = false,
     ): ShortcutResponse =
         withContext(Dispatchers.IO) {
-            val variables = variableManager.getVariableValuesByIds()
-
             val requestData = RequestData(
-                url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, variables).trim(),
-                username = Variables.rawPlaceholdersToResolvedValues(shortcut.username, variables),
-                password = Variables.rawPlaceholdersToResolvedValues(shortcut.password, variables),
-                authToken = Variables.rawPlaceholdersToResolvedValues(shortcut.authToken, variables),
-                body = Variables.rawPlaceholdersToResolvedValues(shortcut.bodyContent, variables),
+                url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, variableValues).trim(),
+                username = Variables.rawPlaceholdersToResolvedValues(shortcut.username, variableValues),
+                password = Variables.rawPlaceholdersToResolvedValues(shortcut.password, variableValues),
+                authToken = Variables.rawPlaceholdersToResolvedValues(shortcut.authToken, variableValues),
+                body = Variables.rawPlaceholdersToResolvedValues(shortcut.bodyContent, variableValues),
                 proxyHost = shortcut.proxyHost
                     ?.let {
-                        Variables.rawPlaceholdersToResolvedValues(it, variables)
+                        Variables.rawPlaceholdersToResolvedValues(it, variableValues)
                     }
                     ?.trim(),
             )
@@ -67,7 +65,7 @@ constructor(
             val cookieJar = if (useCookieJar) cookieManager.getCookieJar() else null
 
             try {
-                makeRequest(context, shortcut, variableManager, requestData, responseFileStorage, fileUploadManager, cookieJar)
+                makeRequest(context, shortcut, variableValues, requestData, responseFileStorage, fileUploadResult, cookieJar)
             } catch (e: UnknownHostException) {
                 ensureActive()
                 if (ServiceDiscoveryHelper.isDiscoverable(requestData.uri)) {
@@ -84,7 +82,7 @@ constructor(
                     } catch (discoveryError: ServiceDiscoveryHelper.ServiceLookupTimeoutException) {
                         requestData
                     }
-                    makeRequest(context, shortcut, variableManager, newRequestData, responseFileStorage, fileUploadManager, cookieJar)
+                    makeRequest(context, shortcut, variableValues, newRequestData, responseFileStorage, fileUploadResult, cookieJar)
                 } else {
                     throw e
                 }
@@ -94,14 +92,13 @@ constructor(
     private suspend fun makeRequest(
         context: Context,
         shortcut: ShortcutModel,
-        variableManager: VariableManager,
+        variablesValues: Map<VariableId, String>,
         requestData: RequestData,
         responseFileStorage: ResponseFileStorage,
-        fileUploadManager: FileUploadManager? = null,
+        fileUploadResult: FileUploadManager.Result? = null,
         cookieJar: CookieJar? = null,
     ): ShortcutResponse =
         suspendCancellableCoroutine { continuation ->
-            val variables = variableManager.getVariableValuesByIds()
             val useDigestAuth = shortcut.authenticationType == ShortcutAuthenticationType.DIGEST
             val client = httpClientFactory.getClient(
                 context = context,
@@ -124,7 +121,7 @@ constructor(
                         .body(requestData.body)
                 }
                 .runIf(shortcut.usesGenericFileBody() || shortcut.usesImageFileBody()) {
-                    val file = fileUploadManager?.getFile(0)
+                    val file = fileUploadResult?.getFile(0)
                     runIfNotNull(file) {
                         contentType(determineContentType(shortcut) ?: it.mimeType)
                             .body(contentResolver.openInputStream(it.data)!!, length = it.fileSize)
@@ -133,13 +130,13 @@ constructor(
                 .runIf(shortcut.usesRequestParameters()) {
                     contentType(determineContentType(shortcut))
                         .run {
-                            attachParameters(this, shortcut, variables, fileUploadManager)
+                            attachParameters(this, shortcut, variablesValues, fileUploadResult)
                         }
                 }
                 .runFor(shortcut.headers) { header ->
                     header(
-                        Variables.rawPlaceholdersToResolvedValues(header.key, variables),
-                        Variables.rawPlaceholdersToResolvedValues(header.value, variables)
+                        Variables.rawPlaceholdersToResolvedValues(header.key, variablesValues),
+                        Variables.rawPlaceholdersToResolvedValues(header.value, variablesValues)
                     )
                 }
                 .runIf(shortcut.authenticationType == ShortcutAuthenticationType.BASIC) {
@@ -179,14 +176,14 @@ constructor(
         requestBuilder: RequestBuilder,
         shortcut: ShortcutModel,
         variables: Map<VariableKey, String>,
-        fileUploadManager: FileUploadManager?,
+        fileUploadResult: FileUploadManager.Result?,
     ): RequestBuilder {
         var fileIndex = -1
         return requestBuilder.runFor(shortcut.parameters) { parameter ->
             val parameterName = Variables.rawPlaceholdersToResolvedValues(parameter.key, variables)
             when (parameter.parameterType) {
                 ParameterType.FILES -> {
-                    runIfNotNull(fileUploadManager) {
+                    runIfNotNull(fileUploadResult) {
                         fileIndex++
                         val files = it.getFiles(fileIndex)
                         runFor(files) { file ->
@@ -203,7 +200,7 @@ constructor(
                 ParameterType.IMAGE,
                 ParameterType.FILE,
                 -> {
-                    runIfNotNull(fileUploadManager) {
+                    runIfNotNull(fileUploadResult) {
                         fileIndex++
                         runIfNotNull(it.getFile(fileIndex)) { file ->
                             fileParameter(
