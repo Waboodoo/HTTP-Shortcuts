@@ -70,6 +70,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.GetVariableAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ScanBarcodeAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.SelectionAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.VibrateAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WifiIPAction
@@ -280,4 +281,6 @@ interface ApplicationComponent {
     fun inject(scanBarcodeAction: ScanBarcodeAction)
 
     fun inject(httpRequesterWorker: HttpRequesterWorker)
+
+    fun inject(selectionAction: SelectionAction)
 }
