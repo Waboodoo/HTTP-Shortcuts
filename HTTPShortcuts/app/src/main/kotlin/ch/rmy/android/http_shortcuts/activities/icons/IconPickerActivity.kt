@@ -86,7 +86,7 @@ class IconPickerActivity : BaseActivity() {
             binding.buttonCreateIcon.isVisible = true
             adapter.items = viewState.icons
             layoutManager.setEmpty(viewState.isEmptyStateVisible)
-            deleteMenuItem?.isVisible = viewState.isDeleteButtonVisible
+            applyViewStateToMenuItems(viewState)
             setDialogState(viewState.dialogState, viewModel)
         }
         collectEventsWhileActive(viewModel, ::handleEvent)
@@ -111,7 +111,12 @@ class IconPickerActivity : BaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.icon_picker_menu, menu)
         deleteMenuItem = menu.findItem(R.id.action_delete_unused_icons)
+        viewModel.latestViewState?.let(::applyViewStateToMenuItems)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun applyViewStateToMenuItems(viewState: IconPickerViewState) {
+        deleteMenuItem?.isVisible = viewState.isDeleteButtonVisible
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =

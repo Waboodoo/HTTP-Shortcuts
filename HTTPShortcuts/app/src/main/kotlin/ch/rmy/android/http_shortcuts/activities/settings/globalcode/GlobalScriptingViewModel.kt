@@ -34,6 +34,7 @@ class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, G
     private var shortcutsInitialized = false
     private var variablesInitialized = false
     private var globalCodeInitialized = false
+    private var previousGlobalCode = ""
 
     override var dialogState: DialogState?
         get() = currentViewState?.dialogState
@@ -75,6 +76,7 @@ class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, G
         globalCodeInitialized = true
         viewModelScope.launch {
             val globalCode = appRepository.getGlobalCode()
+            previousGlobalCode = globalCode
             updateViewState {
                 copy(globalCode = globalCode)
             }
@@ -124,7 +126,7 @@ class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, G
         updateViewState {
             copy(
                 globalCode = globalCode,
-                saveButtonVisible = true,
+                saveButtonVisible = globalCode != previousGlobalCode,
             )
         }
     }

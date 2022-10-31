@@ -37,6 +37,9 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
 
     val viewState: Flow<ViewState> = mutableViewState.asStateFlow().filterNotNull()
 
+    val latestViewState: ViewState?
+        get() = mutableViewState.value
+
     protected var currentViewState: ViewState? = null
         private set
 

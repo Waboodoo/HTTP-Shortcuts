@@ -156,8 +156,7 @@ class ShortcutEditorActivity : BaseActivity() {
             binding.buttonScripting.setSubtitle(viewState.scriptingSubtitle)
             binding.buttonTriggerShortcuts.setSubtitle(viewState.triggerShortcutsSubtitle)
             binding.buttonRequestBody.isEnabled = viewState.requestBodyButtonEnabled
-            testMenuItem?.isVisible = viewState.isExecuteButtonVisible
-            saveMenuItem?.isVisible = viewState.isSaveButtonVisible
+            applyViewStateToMenuItems(viewState)
             setDialogState(viewState.dialogState, viewModel)
         }
         collectEventsWhileActive(viewModel, ::handleEvent)
@@ -169,7 +168,13 @@ class ShortcutEditorActivity : BaseActivity() {
         menuInflater.inflate(R.menu.editor_activity_menu, menu)
         saveMenuItem = menu.findItem(R.id.action_save_shortcut)
         testMenuItem = menu.findItem(R.id.action_test_shortcut)
+        viewModel.latestViewState?.let(::applyViewStateToMenuItems)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun applyViewStateToMenuItems(viewState: ShortcutEditorViewState) {
+        testMenuItem?.isVisible = viewState.isExecuteButtonVisible
+        saveMenuItem?.isVisible = viewState.isSaveButtonVisible
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =

@@ -173,12 +173,7 @@ class MainActivity : BaseActivity(), Entrypoint {
             activeCategoryIndex = viewState.activeCategoryIndex
             binding.tabs.isVisible = viewState.isTabBarVisible
             binding.buttonCreateShortcut.isVisible = viewState.isCreateButtonVisible
-            menuItemSettings?.isVisible = viewState.isRegularMenuButtonVisible
-            menuItemImportExport?.isVisible = viewState.isRegularMenuButtonVisible
-            menuItemAbout?.isVisible = viewState.isRegularMenuButtonVisible
-            menuItemCategories?.isVisible = viewState.isRegularMenuButtonVisible
-            menuItemVariables?.isVisible = viewState.isRegularMenuButtonVisible
-            menuItemUnlock?.isVisible = viewState.isUnlockButtonVisible
+            applyViewStateToMenuItems(viewState)
             setToolbarScrolling(viewState.isToolbarScrollable)
             setDialogState(viewState.dialogState, viewModel)
         }
@@ -222,7 +217,17 @@ class MainActivity : BaseActivity(), Entrypoint {
         menuItemCategories = menu.findItem(R.id.action_categories)
         menuItemVariables = menu.findItem(R.id.action_variables)
         menuItemUnlock = menu.findItem(R.id.action_unlock)
+        viewModel.latestViewState?.let(::applyViewStateToMenuItems)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun applyViewStateToMenuItems(viewState: MainViewState) {
+        menuItemSettings?.isVisible = viewState.isRegularMenuButtonVisible
+        menuItemImportExport?.isVisible = viewState.isRegularMenuButtonVisible
+        menuItemAbout?.isVisible = viewState.isRegularMenuButtonVisible
+        menuItemCategories?.isVisible = viewState.isRegularMenuButtonVisible
+        menuItemVariables?.isVisible = viewState.isRegularMenuButtonVisible
+        menuItemUnlock?.isVisible = viewState.isUnlockButtonVisible
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {

@@ -126,7 +126,7 @@ class CategoryEditorActivity : BaseActivity() {
                 binding.inputColor.text = viewState.backgroundColorAsText
                 binding.inputColor.setBackgroundColor(viewState.backgroundColor)
             }
-            saveButton?.isVisible = viewState.saveButtonVisible
+            applyViewStateToMenuItems(viewState)
             binding.layoutContainer.isVisible = true
             setDialogState(viewState.dialogState, viewModel)
         }
@@ -147,7 +147,12 @@ class CategoryEditorActivity : BaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.category_editor_activity_menu, menu)
         saveButton = menu.findItem(R.id.action_save_category)
+        viewModel.latestViewState?.let(::applyViewStateToMenuItems)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun applyViewStateToMenuItems(viewState: CategoryEditorViewState) {
+        saveButton?.isVisible = viewState.saveButtonVisible
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {

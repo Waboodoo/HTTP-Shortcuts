@@ -82,7 +82,7 @@ class GlobalScriptingActivity : BaseActivity() {
             viewState.variables?.let(variablePlaceholderProvider::applyVariables)
             viewState.shortcuts?.let(shortcutPlaceholderProvider::applyShortcuts)
             binding.inputCode.setTextSafely(processTextForView(viewState.globalCode))
-            saveButton?.isVisible = viewState.saveButtonVisible
+            applyViewStateToMenuItems(viewState)
             setDialogState(viewState.dialogState, viewModel)
         }
         collectEventsWhileActive(viewModel, ::handleEvent)
@@ -136,7 +136,12 @@ class GlobalScriptingActivity : BaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.global_scripting_activity_menu, menu)
         saveButton = menu.findItem(R.id.action_save_changes)
+        viewModel.latestViewState?.let(::applyViewStateToMenuItems)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun applyViewStateToMenuItems(viewState: GlobalScriptingViewState) {
+        saveButton?.isVisible = viewState.saveButtonVisible
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
