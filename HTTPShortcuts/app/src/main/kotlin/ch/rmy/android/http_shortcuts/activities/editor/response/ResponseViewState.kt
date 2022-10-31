@@ -35,7 +35,7 @@ data class ResponseViewState(
         get() = responseUiType == ResponseHandlingModel.UI_TYPE_TOAST
 
     val showActionButtonCheckboxes
-        get() = responseUiType == ResponseHandlingModel.UI_TYPE_WINDOW
+        get() = responseUiType == ResponseHandlingModel.UI_TYPE_WINDOW && hasOutput
 
     val showShareActionEnabled: Boolean
         get() = ResponseDisplayAction.SHARE in responseDisplayActions
