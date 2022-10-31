@@ -10,8 +10,10 @@ import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.framework.utils.DateUtil
+import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
+import ch.rmy.android.http_shortcuts.activities.execute.usecases.CheckHeadlessExecutionUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.CheckWifiSSIDUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.ExtractFileIdsFromVariableValuesUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.OpenInBrowserUseCase
@@ -36,7 +38,7 @@ import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.HttpRequester
-import ch.rmy.android.http_shortcuts.http.ResponseFileStorage
+import ch.rmy.android.http_shortcuts.http.HttpRequesterWorker
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
@@ -116,6 +118,12 @@ class Execution(
     @Inject
     lateinit var externalRequests: ExternalRequests
 
+    @Inject
+    lateinit var httpRequesterStarter: HttpRequesterWorker.Starter
+
+    @Inject
+    lateinit var checkHeadlessExecution: CheckHeadlessExecutionUseCase
+
     init {
         context.getApplicationComponent().inject(this)
     }
@@ -142,18 +150,16 @@ class Execution(
                 logException(e)
             }
 
-            coroutineScope {
-                when (val failureOutput = shortcut.responseHandling?.failureOutput) {
-                    ResponseHandlingModel.FAILURE_OUTPUT_DETAILED,
-                    ResponseHandlingModel.FAILURE_OUTPUT_SIMPLE,
-                    -> {
-                        displayResult(
-                            generateOutputFromError(e, simple = failureOutput == ResponseHandlingModel.FAILURE_OUTPUT_SIMPLE),
-                            response = (e as? ErrorResponse)?.shortcutResponse,
-                        )
-                    }
-                    else -> Unit
+            when (val failureOutput = shortcut.responseHandling?.failureOutput) {
+                ResponseHandlingModel.FAILURE_OUTPUT_DETAILED,
+                ResponseHandlingModel.FAILURE_OUTPUT_SIMPLE,
+                -> {
+                    displayResult(
+                        generateOutputFromError(e, simple = failureOutput == ResponseHandlingModel.FAILURE_OUTPUT_SIMPLE),
+                        response = (e as? ErrorResponse)?.shortcutResponse,
+                    )
                 }
+                else -> Unit
             }
         }
     }
@@ -234,15 +240,26 @@ class Execution(
             }
         }
 
-        // TODO: Check if the HTTP request can be run headless, and if so, run it in a worker and return early
-        // headless iff: response type is none or toast & no codeOnFailure and no codeOnSuccess
+        val sessionId = "${shortcut.id}_${newUUID()}"
+
+        if (checkHeadlessExecution(shortcut)) {
+            httpRequesterStarter.invoke(
+                shortcutId = shortcut.id,
+                sessionId = sessionId,
+                variableValues = variableManager.getVariableValuesByIds(),
+                fileUploadResult = fileUploadResult,
+            )
+            emit(Status.WRAPPING_UP)
+            return
+        }
+
         val response = try {
             httpRequester
                 .executeShortcut(
                     context,
                     shortcut,
+                    sessionId = sessionId,
                     variableValues = variableManager.getVariableValuesByIds(),
-                    ResponseFileStorage(context, shortcut.id), // TODO: Create an injectable factory for this, instead pass only a session-id in here
                     fileUploadResult = fileUploadResult,
                     useCookieJar = shortcut.acceptCookies,
                 )

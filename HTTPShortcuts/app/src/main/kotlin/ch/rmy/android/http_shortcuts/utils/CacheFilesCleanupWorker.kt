@@ -7,8 +7,10 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.FileUtil
+import ch.rmy.android.http_shortcuts.extensions.context
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 import kotlin.time.Duration.Companion.minutes
 
 class CacheFilesCleanupWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
@@ -16,7 +18,7 @@ class CacheFilesCleanupWorker(context: Context, params: WorkerParameters) : Coro
     override suspend fun doWork(): Result =
         try {
             withContext(Dispatchers.IO) {
-                FileUtil.deleteOldCacheFiles(applicationContext, maxCacheFileAge = 5.minutes)
+                FileUtil.deleteOldCacheFiles(context, maxCacheFileAge = 5.minutes)
             }
             Result.success()
         } catch (e: Exception) {
@@ -24,11 +26,12 @@ class CacheFilesCleanupWorker(context: Context, params: WorkerParameters) : Coro
             Result.failure()
         }
 
-    companion object {
-
-        private const val TAG = "cache-file-cleanup"
-
-        fun schedule(context: Context) {
+    class Starter
+    @Inject
+    constructor(
+        private val context: Context,
+    ) {
+        operator fun invoke() {
             with(WorkManager.getInstance(context)) {
                 cancelAllWorkByTag(TAG)
                 enqueue(
@@ -38,5 +41,9 @@ class CacheFilesCleanupWorker(context: Context, params: WorkerParameters) : Coro
                 )
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "cache-file-cleanup"
     }
 }

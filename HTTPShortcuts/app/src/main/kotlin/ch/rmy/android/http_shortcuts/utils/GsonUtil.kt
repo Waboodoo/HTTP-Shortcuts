@@ -1,15 +1,23 @@
 package ch.rmy.android.http_shortcuts.utils
 
+import android.net.Uri
+import androidx.core.net.toUri
 import ch.rmy.android.http_shortcuts.data.models.BaseModel
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import com.google.gson.reflect.TypeToken
 import io.realm.RealmObject
+import java.lang.reflect.Type
 
 object GsonUtil {
 
@@ -38,7 +46,16 @@ object GsonUtil {
     val gson: Gson by lazy {
         GsonBuilder()
             .addSerializationExclusionStrategy(RealmExclusionStrategy())
+            .registerTypeAdapter(Uri::class.java, UriSerializer)
             .create()
+    }
+
+    object UriSerializer : JsonSerializer<Uri>, JsonDeserializer<Uri> {
+        override fun serialize(src: Uri, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement =
+            JsonPrimitive(src.toString())
+
+        override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Uri? =
+            json?.asString?.toUri()
     }
 
     private class RealmExclusionStrategy : ExclusionStrategy {

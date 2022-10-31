@@ -9,10 +9,10 @@ import java.io.File
 import java.io.InputStream
 import java.util.zip.GZIPInputStream
 
-class ResponseFileStorage(private val context: Context, private val id: String) {
+class ResponseFileStorage(private val context: Context, private val sessionId: String) {
 
     private val file by lazy {
-        File(context.cacheDir, "response_$id")
+        File(context.cacheDir, "response_$sessionId")
     }
 
     fun store(response: Response): Uri {

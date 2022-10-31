@@ -19,7 +19,7 @@ import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExec
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.plugin.SessionMonitor
-import ch.rmy.android.http_shortcuts.scheduling.ExecutionsWorker
+import ch.rmy.android.http_shortcuts.scheduling.ExecutionSchedulerWorker
 import ch.rmy.android.http_shortcuts.utils.CacheFilesCleanupWorker
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.ProgressIndicator
@@ -38,6 +38,12 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     @Inject
     lateinit var pendingExecutionsRepository: PendingExecutionsRepository
+
+    @Inject
+    lateinit var cacheFilesCleanupStarter: CacheFilesCleanupWorker.Starter
+
+    @Inject
+    lateinit var executionSchedulerStarter: ExecutionSchedulerWorker.Starter
 
     private val viewModel: ExecuteViewModel by bindViewModel()
 
@@ -82,8 +88,8 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         initViewModelBindings()
 
         doOnDestroy {
-            CacheFilesCleanupWorker.schedule(context)
-            ExecutionsWorker.schedule(context)
+            cacheFilesCleanupStarter()
+            executionSchedulerStarter()
         }
     }
 

@@ -29,11 +29,12 @@ class CleanUpWorker(context: Context, params: WorkerParameters) : CoroutineWorke
             Result.failure()
         }
 
-    companion object {
-
-        private const val TAG = "realm-cleanup"
-
-        fun schedule(context: Context) {
+    class Starter
+    @Inject
+    constructor(
+        private val context: Context,
+    ) {
+        operator fun invoke() {
             with(WorkManager.getInstance(context)) {
                 cancelAllWorkByTag(TAG)
                 enqueue(
@@ -44,5 +45,9 @@ class CleanUpWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                 )
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "realm-cleanup"
     }
 }

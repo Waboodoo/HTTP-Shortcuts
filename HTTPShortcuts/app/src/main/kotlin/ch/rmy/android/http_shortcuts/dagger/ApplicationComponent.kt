@@ -54,9 +54,10 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.types.toggle.To
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.toggle.ToggleTypeViewModel
 import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsViewModel
 import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
+import ch.rmy.android.http_shortcuts.http.HttpRequesterWorker
 import ch.rmy.android.http_shortcuts.plugin.PluginEditActivity
+import ch.rmy.android.http_shortcuts.scheduling.ExecutionSchedulerWorker
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionWorker
-import ch.rmy.android.http_shortcuts.scheduling.ExecutionsWorker
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeDescriptionAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeIconAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ConfirmAction
@@ -174,7 +175,7 @@ interface ApplicationComponent {
 
     fun inject(executionWorker: ExecutionWorker)
 
-    fun inject(executionsWorker: ExecutionsWorker)
+    fun inject(executionSchedulerWorker: ExecutionSchedulerWorker)
 
     fun inject(changeDescriptionAction: ChangeDescriptionAction)
 
@@ -277,4 +278,6 @@ interface ApplicationComponent {
     fun inject(promptAction: PromptAction)
 
     fun inject(scanBarcodeAction: ScanBarcodeAction)
+
+    fun inject(httpRequesterWorker: HttpRequesterWorker)
 }

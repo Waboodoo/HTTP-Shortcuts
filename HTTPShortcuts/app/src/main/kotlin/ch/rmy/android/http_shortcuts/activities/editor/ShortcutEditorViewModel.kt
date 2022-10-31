@@ -99,6 +99,9 @@ class ShortcutEditorViewModel(
     @Inject
     lateinit var getIconColorPickerDialog: GetIconColorPickerDialogUseCase
 
+    @Inject
+    lateinit var cleanUpStarter: CleanUpWorker.Starter
+
     init {
         getApplicationComponent().inject(this)
     }
@@ -449,7 +452,7 @@ class ShortcutEditorViewModel(
             }
             viewModelScope.launch {
                 waitForOperationsToFinish()
-                CleanUpWorker.schedule(context)
+                cleanUpStarter()
                 finishWithOkResult(
                     ShortcutEditorActivity.OpenShortcutEditor.createResult(shortcutId),
                 )
@@ -487,7 +490,7 @@ class ShortcutEditorViewModel(
             }
             viewModelScope.launch {
                 waitForOperationsToFinish()
-                CleanUpWorker.schedule(context)
+                cleanUpStarter()
                 finish(result = Activity.RESULT_CANCELED)
             }
         }

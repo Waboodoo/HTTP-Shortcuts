@@ -8,9 +8,10 @@ import androidx.work.WorkerParameters
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.extensions.context
 import javax.inject.Inject
 
-class ExecutionsWorker(context: Context, workerParams: WorkerParameters) :
+class ExecutionSchedulerWorker(context: Context, workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {
 
     @Inject
@@ -21,7 +22,7 @@ class ExecutionsWorker(context: Context, workerParams: WorkerParameters) :
     }
 
     override suspend fun doWork(): Result {
-        RealmFactory.init(applicationContext)
+        RealmFactory.init(context)
         return try {
             executionScheduler.schedule()
             Result.success()
@@ -31,18 +32,24 @@ class ExecutionsWorker(context: Context, workerParams: WorkerParameters) :
         }
     }
 
-    companion object {
-        private const val TAG = "executions_worker"
-
-        fun schedule(context: Context) {
+    class Starter
+    @Inject
+    constructor(
+        private val context: Context,
+    ) {
+        operator fun invoke() {
             with(WorkManager.getInstance(context)) {
                 cancelAllWorkByTag(TAG)
                 enqueue(
-                    OneTimeWorkRequestBuilder<ExecutionsWorker>()
+                    OneTimeWorkRequestBuilder<ExecutionSchedulerWorker>()
                         .addTag(TAG)
                         .build()
                 )
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "executions_worker"
     }
 }

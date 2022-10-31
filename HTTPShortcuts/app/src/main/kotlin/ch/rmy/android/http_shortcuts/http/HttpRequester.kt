@@ -34,6 +34,7 @@ class HttpRequester
 constructor(
     private val context: Context,
     private val httpClientFactory: HttpClientFactory,
+    private val responseFileStorageFactory: ResponseFileStorageFactory,
     private val cookieManager: CookieManager,
 ) {
 
@@ -43,12 +44,13 @@ constructor(
     suspend fun executeShortcut(
         context: Context,
         shortcut: ShortcutModel,
+        sessionId: String,
         variableValues: Map<VariableId, String>,
-        responseFileStorage: ResponseFileStorage,
         fileUploadResult: FileUploadManager.Result? = null,
         useCookieJar: Boolean = false,
     ): ShortcutResponse =
         withContext(Dispatchers.IO) {
+            val responseFileStorage = responseFileStorageFactory.create(sessionId)
             val requestData = RequestData(
                 url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, variableValues).trim(),
                 username = Variables.rawPlaceholdersToResolvedValues(shortcut.username, variableValues),
