@@ -12,10 +12,15 @@ import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.HttpStatus
 import java.net.ConnectException
 import java.net.UnknownHostException
+import javax.inject.Inject
 
-class ErrorFormatter(private val context: Context) {
+class ErrorFormatter
+@Inject
+constructor(
+    private val context: Context,
+) {
 
-    fun getPrettyError(error: Throwable, shortcutName: String, includeBody: Boolean): String =
+    fun getPrettyError(error: Throwable, shortcutName: String, includeBody: Boolean = false): String =
         when (error) {
             is ErrorResponse -> {
                 getHttpErrorMessage(error, shortcutName, includeBody)

@@ -450,6 +450,16 @@ constructor(
                     insertText("uuidv4()")
                 }
                 item(
+                    R.string.action_type_execute_shortcut_title,
+                    R.string.action_type_execute_shortcut_description,
+                    docRef = "execute-shortcut",
+                    keywords = setOf("trigger", "start", "invoke", "execute", "immediately", "preemptively", "call", "nested", "recursive"),
+                ) {
+                    pickShortcut(R.string.action_type_execute_shortcut_title) { shortcutPlaceholder ->
+                        insertText("executeShortcut($shortcutPlaceholder);\n")
+                    }
+                }
+                item(
                     R.string.action_type_trigger_shortcut_title,
                     R.string.action_type_trigger_shortcut_description,
                     docRef = "trigger-shortcut",

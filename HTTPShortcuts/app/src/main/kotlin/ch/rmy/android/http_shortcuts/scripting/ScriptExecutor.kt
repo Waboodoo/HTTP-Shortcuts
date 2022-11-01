@@ -2,14 +2,11 @@ package ch.rmy.android.http_shortcuts.scripting
 
 import android.content.Context
 import androidx.annotation.Keep
-import ch.rmy.android.framework.extensions.getCaseInsensitive
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.resume
-import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
-import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
@@ -26,7 +23,6 @@ import org.json.JSONException
 import org.liquidplayer.javascript.JSContext
 import org.liquidplayer.javascript.JSException
 import org.liquidplayer.javascript.JSFunction
-import org.liquidplayer.javascript.JSObject
 import org.liquidplayer.javascript.JSUint8Array
 import org.liquidplayer.javascript.JSValue
 import javax.inject.Inject
@@ -37,6 +33,7 @@ class ScriptExecutor
 constructor(
     private val context: Context,
     private val actionFactory: ActionFactory,
+    private val responseObjectFactory: ResponseObjectFactory,
 ) {
 
     private val jsContext by lazy(LazyThreadSafetyMode.NONE) {
@@ -123,41 +120,10 @@ constructor(
         if (response == null && error == null) {
             return
         }
-        (response ?: (error as? ErrorResponse)?.shortcutResponse)?.let { responseObject ->
-            val responseJsObject = JSObject(jsContext)
-            responseJsObject.property(
-                "body",
-                try {
-                    responseObject.getContentAsString(context)
-                } catch (e: ResponseTooLargeException) {
-                    ""
-                }
-            )
-            responseJsObject.property("headers", tryOrLog { responseObject.headersAsMultiMap }, READ_ONLY)
-            responseJsObject.property("cookies", tryOrLog { responseObject.cookiesAsMultiMap }, READ_ONLY)
-            responseJsObject.property("statusCode", responseObject.statusCode, READ_ONLY)
-            responseJsObject.property(
-                "getHeader",
-                object : JSFunction(jsContext, "run") {
-                    @Suppress("unused")
-                    @Keep
-                    fun run(headerName: String): String? =
-                        responseObject.headers.getLast(headerName)
-                },
-                READ_ONLY,
-            )
-            responseJsObject.property(
-                "getCookie",
-                object : JSFunction(jsContext, "run") {
-                    @Suppress("unused")
-                    @Keep
-                    fun run(cookieName: String): String? =
-                        responseObject.cookiesAsMultiMap.getCaseInsensitive(cookieName)?.last()
-                },
-                READ_ONLY,
-            )
-            responseJsObject
-        }
+        (response ?: (error as? ErrorResponse)?.shortcutResponse)
+            ?.let { responseObject ->
+                responseObjectFactory.create(jsContext, responseObject)
+            }
             .let {
                 jsContext.property("response", it, READ_ONLY)
             }
@@ -243,6 +209,7 @@ constructor(
                             action.run(
                                 ExecutionContext(
                                     context = context,
+                                    jsContext = jsContext,
                                     shortcutId = shortcutId,
                                     variableManager = variableManager,
                                     recursionDepth = recursionDepth,

@@ -11,6 +11,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.ConfirmActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.CopyToClipboardActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.DialogActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.EnqueueShortcutActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.ExecuteShortcutActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetClipboardContentActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetLocationActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetVariableActionType
@@ -70,6 +71,7 @@ constructor() {
                 CopyToClipboardActionType(),
                 DialogActionType(),
                 EnqueueShortcutActionType(),
+                ExecuteShortcutActionType(),
                 GetClipboardContentActionType(),
                 GetLocationActionType(),
                 GetVariableActionType(),

@@ -9,6 +9,8 @@ import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CheckWifiSSIDUseCase
@@ -32,11 +34,13 @@ constructor(
 
     private suspend fun showPermissionRationaleIfNeeded() {
         if (permissionManager.shouldShowRationaleForLocationPermission()) {
-            DialogBuilder(activityProvider.getActivity())
-                .title(R.string.title_permission_dialog)
-                .message(R.string.message_permission_rational)
-                .positive(R.string.dialog_ok)
-                .showAndAwaitDismissal()
+            withContext(Dispatchers.Main) {
+                DialogBuilder(activityProvider.getActivity())
+                    .title(R.string.title_permission_dialog)
+                    .message(R.string.message_permission_rational)
+                    .positive(R.string.dialog_ok)
+                    .showAndAwaitDismissal()
+            }
         }
     }
 
@@ -48,13 +52,15 @@ constructor(
     }
 
     private suspend fun showWifiSwitcherDialog(shortcutName: String, wifiSSID: String) {
-        DialogBuilder(activityProvider.getActivity())
-            .title(shortcutName)
-            .message(Localizable.create { it.getString(R.string.message_wrong_wifi_network, wifiSSID) })
-            .positive(R.string.action_label_select) {
-                networkUtil.showWifiPicker()
-            }
-            .negative(R.string.dialog_cancel)
-            .showAndAwaitDismissal()
+        withContext(Dispatchers.Main) {
+            DialogBuilder(activityProvider.getActivity())
+                .title(shortcutName)
+                .message(Localizable.create { it.getString(R.string.message_wrong_wifi_network, wifiSSID) })
+                .positive(R.string.action_label_select) {
+                    networkUtil.showWifiPicker()
+                }
+                .negative(R.string.dialog_cancel)
+                .showAndAwaitDismissal()
+        }
     }
 }

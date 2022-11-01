@@ -468,7 +468,7 @@ This section lists all of the built-in functions which do not fall into a specif
 <a name="trigger-shortcut"></a>
 ### enqueueShortcut
 
-With this function you can enqueue a shortcut to execute after the current one. Simply pass the name or ID of a shortcut as the first parameter.
+With this function you can enqueue a shortcut to execute after the current one (or after the last enqueued one if there are already shortcuts scheduled to execute). Simply pass the name or ID of a shortcut as the first parameter.
 
 ```js
 enqueueShortcut('My Other Shortcut');
@@ -483,13 +483,56 @@ enqueueShortcut('My Other Shortcut', {
 });
 ```
 
-As an optional third parameter, you can pass the number of milliseconds by which to delay the execution. This way you can schedule a shortcut to run at a later point in time. Please note that the delay will not be exact.
+As an optional third parameter, you can pass the number of milliseconds by which to delay the execution. This way you can schedule a shortcut to run at a later point in time. Please note that the delay will not be exact and can not exceed 5 minutes.
 
 ```js
-enqueueShortcut('My Other Shortcut', null, 10 * 60 * 1000); // runs in 10 minutes
+enqueueShortcut('My Other Shortcut', null, 2 * 60 * 1000); // runs in 2 minutes
 ```
 
-Note that the shortcut will only be executed once the current shortcut (and all shortcuts that have been enqueued before it) has finished executing. It will *not* be executed immediately.
+Note that the shortcut will only be executed once the current shortcut (and all shortcuts that have been enqueued before it) has finished executing. It will *not* be executed immediately. If you need the shortcut to run immediately, use `executeShortcut` instead.
+
+<a name="execute-shortcut"></a>
+### executeShortcut
+
+This function allows you to execute another shortcut within the current one and receive its result. Pass the name or ID of a shortcut as the first parameter.
+
+```js
+executeShortcut('My Other Shortcut');
+```
+
+Optionally you can pass an object as the second parameter to provide values for variables. This will not change the stored values of the variables but they will assume the specified value when the other shortcut is executed. This is particularly useful for dynamic variable types (such as *"Text Input"* or *"Multiple Choice Selection"*).
+
+```js
+executeShortcut('My Other Shortcut', {
+    'My_Variable1': 'Hello World',
+    'My_Variable2': ':D',
+});
+```
+
+The function will return an object which contains a `status` field which you can query to see if the shortcut's execution was successful. It may contain the values "success", "failure", or "unknown".
+
+- "success" means that the shortcut successfully executed an HTTP request. Its response is returned in the `response` field, using the same [format](#handle-response) as the `response` object that is available for the all shortcut executions.
+- "failure" means that the shortcut's HTTP request failed, either due to a network error or the HTTP status was not 2xx. In this case, you can get more information about the failure via the `response` field or the `networkError` field.
+- "unknown" means that the shortcut did not (directly) make an HTTP request and therefore has no response. This will happen if the shortcut is not an HTTP shortcut or if the HTTP request was delayed or rescheduled.
+
+```js
+const result = executeShortcut('My Other Shortcut');
+if (result.status === 'success') {
+    const body = result.response.body;
+    alert(body);
+} else if (result.status === 'failure') {
+    if (result.networkError) {
+        alert(result.networkError);
+    } else {
+        alert(result.response.body);
+    }
+}
+```
+
+Please note the following technical limitations:
+- A shortcut that is executed this way cannot display its response in a fullscreen window. If you need to display its response, please change the response display type to use a toast or dialog window instead.
+- A shortcut that is executed this way shares the resolution of variable values with the original, i.e., calling shortcut. This means that if you have e.g. a multiple choice variable that is used in both of the shortcuts, you will be prompted to select a value only once (not twice) and the selected value will be used for both shortcut executions.
+- There is a maximum recursion depth of 3, meaning that you can not arbitrarily nest shortcut executions within shortcut executions. This is to prevent infinite recursion and stack overflows.
 
 #### Forwarding Files
 
