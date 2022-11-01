@@ -35,11 +35,12 @@ class SliderType : BaseVariableType() {
     @SuppressLint("SetTextI18n")
     override suspend fun resolveValue(context: Context, variable: VariableModel): String {
         val value = withContext(Dispatchers.Main) {
+            val activity = activityProvider.getActivity()
             suspendCancellableCoroutine<String> { continuation ->
                 val range = findRange(variable)
                 val prefix = findPrefix(variable)
                 val suffix = findSuffix(variable)
-                val binding = VariableDialogSliderBinding.inflate(LayoutInflater.from(context))
+                val binding = VariableDialogSliderBinding.inflate(LayoutInflater.from(activity))
                 binding.slider.max = findSliderMax(range)
 
                 if (variable.rememberValue) {
@@ -57,7 +58,7 @@ class SliderType : BaseVariableType() {
                 })
                 binding.sliderValue.text = prefix + findValue(binding.slider.progress, range) + suffix
 
-                createDialogBuilder(activityProvider.getActivity(), variable, continuation)
+                createDialogBuilder(activity, variable, continuation)
                     .view(binding.root)
                     .positive(R.string.dialog_ok) {
                         val value = findValue(binding.slider.progress, range)

@@ -172,7 +172,7 @@ open class DialogBuilder(val activity: Activity) {
 
     fun build(): MaterialDialog =
         dialog.runIf(items.isNotEmpty()) {
-            val listView = MenuDialogBinding.inflate(LayoutInflater.from(context)).root
+            val listView = MenuDialogBinding.inflate(LayoutInflater.from(activity)).root
                 .apply {
                     adapter = MenuListAdapter(this@DialogBuilder.context, items, dialog)
                     divider = null

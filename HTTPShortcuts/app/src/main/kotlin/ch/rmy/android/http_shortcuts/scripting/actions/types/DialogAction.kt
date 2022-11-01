@@ -35,7 +35,8 @@ class DialogAction(private val message: String, private val title: String) : Bas
         }
 
         withContext(Dispatchers.Main) {
-            val view = DialogTextBinding.inflate(LayoutInflater.from(executionContext.context))
+            val activity = activityProvider.getActivity()
+            val view = DialogTextBinding.inflate(LayoutInflater.from(activity))
             val textView = view.text
             textView.text = HTMLUtil.formatWithImageSupport(
                 string = finalMessage,
@@ -44,7 +45,7 @@ class DialogAction(private val message: String, private val title: String) : Bas
                 coroutineScope = this,
             )
             textView.movementMethod = LinkMovementMethod.getInstance()
-            DialogBuilder(activityProvider.getActivity())
+            DialogBuilder(activity)
                 .title(title)
                 .view(view.root)
                 .positive(R.string.dialog_ok)

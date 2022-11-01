@@ -39,15 +39,16 @@ constructor(
 
     suspend operator fun invoke(shortcut: ShortcutModel, response: ShortcutResponse?, output: String?) = coroutineScope {
         val shortcutName = shortcut.getSafeName(context)
-        DialogBuilder(activityProvider.getActivity())
+        val activity = activityProvider.getActivity()
+        DialogBuilder(activity)
             .title(shortcutName)
             .let { builder ->
                 if (output == null && FileTypeUtil.isImage(response?.contentType)) {
-                    val imageView = ImageView(context)
+                    val imageView = ImageView(activity)
                     imageView.loadImage(response!!.contentFile!!, preventMemoryCache = true)
                     builder.view(imageView)
                 } else {
-                    val view = DialogTextBinding.inflate(LayoutInflater.from(context))
+                    val view = DialogTextBinding.inflate(LayoutInflater.from(activity))
                     val textView = view.text
                     val finalOutput = (output ?: response?.getContentAsString(context) ?: "")
                         .ifBlank { context.getString(R.string.message_blank_response) }
