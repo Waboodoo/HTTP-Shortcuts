@@ -123,17 +123,11 @@
     <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
     <string name="template_shortcut_name_copy">"%1$s (コピー)"</string>
 
-    <!-- Option in "Change Icon" dialog, allows user to pick an icon from an ipack app (i.e., a special icon provider app) -->
-    <string name="choose_ipack">"Ipack アイコン"</string>
-
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
     <string name="change_icon">"アイコンを変更"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
     <string name="choose_image">"新しいカスタム画像"</string>
-
-    <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
-    <string name="choose_ipack_icon">"Ipackアイコン"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
     <string name="choose_icon">"組み込みアイコン"</string>
@@ -1921,4 +1915,10 @@
 
     <!-- Label on checkbox that allows to enable/disable the use of a certain action to be displayed in the HTTP response window (e.g. "Share" button) -->
     <string name="label_response_actions_show_button">"［%s］ボタンを表示"</string>
+
+    <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
+    <string name="action_type_send_tcp_packet">"TCPパケットを送信"</string>
+
+    <!-- Shortcut Action Title: Send an MQTT message to a broker -->
+    <string name="action_type_send_mqtt_message">"MQTTメッセージを送信"</string>
 </resources>

@@ -4,6 +4,5 @@ import ch.rmy.android.framework.viewmodel.ViewModelEvent
 
 abstract class ShortcutEditorEvent : ViewModelEvent() {
     object OpenCustomIconPicker : ShortcutEditorEvent()
-    object OpenIpackIconPicker : ShortcutEditorEvent()
     object FocusNameInputField : ShortcutEditorEvent()
 }

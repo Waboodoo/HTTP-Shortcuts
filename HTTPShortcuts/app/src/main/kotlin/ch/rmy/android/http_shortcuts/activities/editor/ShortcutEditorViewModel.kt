@@ -585,10 +585,6 @@ class ShortcutEditorViewModel(
                 override fun fetchFavicon() {
                     onFetchFaviconOptionSelected()
                 }
-
-                override fun openIpackPicker() {
-                    emitEvent(ShortcutEditorEvent.OpenIpackIconPicker)
-                }
             },
         )
     }

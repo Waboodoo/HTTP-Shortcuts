@@ -30,15 +30,11 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.databinding.ActivityShortcutEditorOverviewBinding
-import ch.rmy.android.http_shortcuts.icons.IpackPickerContract
 import ch.rmy.curlcommand.CurlCommand
 
 class ShortcutEditorActivity : BaseActivity() {
 
     private val pickCustomIcon = registerForActivityResult(IconPickerActivity.PickIcon) { icon ->
-        icon?.let(viewModel::onShortcutIconChanged)
-    }
-    private val pickIpackIcon = registerForActivityResult(IpackPickerContract) { icon ->
         icon?.let(viewModel::onShortcutIconChanged)
     }
 
@@ -197,9 +193,6 @@ class ShortcutEditorActivity : BaseActivity() {
             }
             is ShortcutEditorEvent.OpenCustomIconPicker -> {
                 pickCustomIcon.launch()
-            }
-            is ShortcutEditorEvent.OpenIpackIconPicker -> {
-                pickIpackIcon.launch()
             }
             else -> super.handleEvent(event)
         }

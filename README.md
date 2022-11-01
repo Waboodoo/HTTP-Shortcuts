@@ -31,7 +31,7 @@ Find more information and documentation on the [official website](https://http-s
 - Client Certificate Authentication
 - Support for TLSv1.3
 - Support for HTTP proxies
-- Built-in icons, support for Ipack icons and custom icons
+- Use a built-in icon or a custom image
 - Display response as a toast, window or dialog, or run silently
 - Display response as HTML-formatted text, as image or as web page
 - Grouping into categories through tabs

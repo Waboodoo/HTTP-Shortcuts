@@ -118,17 +118,11 @@
     <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
     <string name="template_shortcut_name_copy">"%1$s (copie)"</string>
 
-    <!-- Option in "Change Icon" dialog, allows user to pick an icon from an ipack app (i.e., a special icon provider app) -->
-    <string name="choose_ipack">"Choisir un icône du systeme"</string>
-
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
     <string name="change_icon">"Changer l'icône"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
     <string name="choose_image">"Image personnalisée"</string>
-
-    <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
-    <string name="choose_ipack_icon">"Choisir un icône systeme"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
     <string name="choose_icon">"Choisir un icône intégrée"</string>
@@ -1292,6 +1286,9 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
     <!-- Shortcut Action Description: Allows converting a byte array into a string using the Scripting feature -->
     <string name="action_type_to_string_description">"Convertir un \"Uint8Array\" en \"string\""</string>
 
+    <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
+    <string name="button_delete_all_unused_icons">"Supprimer les icones non utilisés"</string>
+
     <!-- label, displayed next to variable in variables list when a variable is not used anywhere -->
     <string name="label_variable_unused">"inutilisée"</string>
 
@@ -1306,4 +1303,16 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
 
     <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
     <string name="settings_help_translate_summary">"Aidez-moi à améliorer cette application en la traduisant dans votre langue !"</string>
+
+    <!-- Button in Variables menu, allowing the user to (alphabetically) sort all variables -->
+    <string name="button_sort_variables">"Trier"</string>
+
+    <!-- Dialog button: Confirm exporting the selected shortcuts -->
+    <string name="dialog_button_export">"Exporter"</string>
+
+    <!-- Button label on menu, for searching. Currently only used in Code Snippet picker but might be used to search in other places -->
+    <string name="menu_action_search">"Rechercher"</string>
+
+    <!-- Button text: Shown on Documentation screen, allows to view the current page in the external browser -->
+    <string name="button_open_documentation_in_browser">"Ouvrir dans le navigateur"</string>
 </resources>

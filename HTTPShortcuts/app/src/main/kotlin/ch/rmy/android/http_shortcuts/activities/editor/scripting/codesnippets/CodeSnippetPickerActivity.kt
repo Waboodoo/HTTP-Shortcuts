@@ -26,7 +26,6 @@ import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.icons.IconPickerActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.databinding.ActivityCodeSnippetPickerBinding
-import ch.rmy.android.http_shortcuts.icons.IpackPickerContract
 import ch.rmy.android.http_shortcuts.plugin.TaskerTaskPickerContract
 import ch.rmy.android.http_shortcuts.utils.RingtonePickerContract
 import kotlin.properties.Delegates
@@ -34,9 +33,6 @@ import kotlin.properties.Delegates
 class CodeSnippetPickerActivity : BaseActivity() {
 
     private val pickCustomIcon = registerForActivityResult(IconPickerActivity.PickIcon) { icon ->
-        icon?.let(viewModel::onIconSelected)
-    }
-    private val pickIpackIcon = registerForActivityResult(IpackPickerContract) { icon ->
         icon?.let(viewModel::onIconSelected)
     }
     private val pickRingtone = registerForActivityResult(RingtonePickerContract) { ringtone ->
@@ -116,9 +112,6 @@ class CodeSnippetPickerActivity : BaseActivity() {
         when (event) {
             is CodeSnippetPickerEvent.OpenCustomIconPicker -> {
                 pickCustomIcon.launch()
-            }
-            is CodeSnippetPickerEvent.OpenIpackIconPicker -> {
-                pickIpackIcon.launch()
             }
             is CodeSnippetPickerEvent.OpenRingtonePicker -> {
                 openRingtonePicker()

@@ -165,10 +165,6 @@ class CodeSnippetPickerViewModel(application: Application) :
                 override fun openCustomIconPicker() {
                     emitEvent(CodeSnippetPickerEvent.OpenCustomIconPicker)
                 }
-
-                override fun openIpackPicker() {
-                    emitEvent(CodeSnippetPickerEvent.OpenIpackIconPicker)
-                }
             },
         )
     }

@@ -18,7 +18,6 @@ constructor() {
                 .runIf(includeFaviconOption) {
                     item(R.string.choose_page_favicon, action = callbacks::fetchFavicon)
                 }
-                .item(R.string.choose_ipack_icon, action = callbacks::openIpackPicker)
                 .build()
         }
 
@@ -28,8 +27,6 @@ constructor() {
         fun openCustomIconPicker()
 
         fun fetchFavicon() {}
-
-        fun openIpackPicker()
     }
 
     companion object {

@@ -11,10 +11,10 @@
     <string name="shortcut_safe_name">"Kısayol"</string>
 
     <!-- Title in editor when editing a shortcut -->
-    <string name="edit_shortcut">"Kısayolu düzenle"</string>
+    <string name="edit_shortcut">"Kısayolu Düzenle"</string>
 
     <!-- Title in editor when creating a new shortcut -->
-    <string name="create_shortcut">"Kısayol oluştur"</string>
+    <string name="create_shortcut">"Kısayol Oluştur"</string>
 
     <!-- Content description of icon image, accessibility information -->
     <string name="icon_description">"Simge"</string>
@@ -47,7 +47,7 @@
     <string name="label_auth_token">"Jeton"</string>
 
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
-    <string name="action_place">"Ana ekrana yerleştir"</string>
+    <string name="action_place">"Ana Ekrana Yerleştir"</string>
 
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">"Çalıştır"</string>
@@ -68,18 +68,20 @@
     <string name="action_move_to_category">"Kategoriye taşı…"</string>
 
     <!-- Empty state, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts">"henüz kısayol yok"</string>
+    <string name="empty_state_shortcuts">"Henüz kısayolunuz yok."</string>
 
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts_instructions">"Bir kısayol, isteğe bağlı olarak yanıtı işleyip görüntüleyerek tek bir HTTP isteği göndermenize olanak tanır.
+    <string name="empty_state_shortcuts_instructions">"Kısayol, isteğe bağlı olarak yanıtı işleyip görüntüleyerek tek bir HTTP isteği göndermenize olanak tanır.
 
 Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri kontrol edin."</string>
 
     <!-- Empty state, shown in list when there are no variables yet -->
-    <string name="empty_state_variables">"henüz değişken yok"</string>
+    <string name="empty_state_variables">"Henüz herhangi bir değişkeniniz yok."</string>
 
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">"Değişken eklemek için + butonuna basın"</string>
+    <string name="empty_state_variables_instructions">"Değişkenler, kısayollarınıza, örneğin URL'ye, başlıklara veya istek gövdesine dinamik olarak değerler eklemenize olanak tanır.  Değişken bir yer tutucunun eklenebileceği tüm yerleri bulmak için bir kısayol düzenlerken \"{}\" düğmesini arayın.
+
+Bir değişken eklemek için + düğmesine tıklayın."</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">"Bu kısayolu silinsin mi?"</string>
@@ -97,13 +99,13 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="executed">"%s çalıştırıldı."</string>
 
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
-    <string name="shortcut_not_found">"Kısayol bulunamadı. Ana ekrana tekrar eklemeniz gerekebilir."</string>
+    <string name="shortcut_not_found">"Kısayol bulunamadı.  Ana ekrana yeniden eklemeniz gerekebilir."</string>
 
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
-    <string name="validation_name_not_empty">"Lütfen bir isim giriniz"</string>
+    <string name="validation_name_not_empty">"Lütfen bir ad girin."</string>
 
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
-    <string name="validation_url_invalid">"Lütfen bir HTTP(S) URL'si girin."</string>
+    <string name="validation_url_invalid">"Lütfen bir HTTP(S) url'si girin."</string>
 
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">"%1$s, %2$d (%3$s) durum koduyla başarısız oldu."</string>
@@ -112,7 +114,7 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="error_other">"%1$s başarısız oldu: %2$s"</string>
 
     <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
-    <string name="error_response_too_large">"Yanıt çok büyük (limit %s)"</string>
+    <string name="error_response_too_large">"Yanıt görüntülenemeyecek kadar büyük (sınır %s)"</string>
 
     <!-- Error shown when a selected image cannot be used as an icon -->
     <string name="error_set_image">"Resim simge olarak kullanılamadı."</string>
@@ -120,24 +122,17 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
     <string name="template_shortcut_name_copy">"%1$s (kopya)"</string>
 
-    <!-- Option in "Change Icon" dialog, allows user to pick an icon from an ipack app (i.e., a special icon provider app) -->
-    <string name="choose_ipack">"Bir Ipack seçin"</string>
-
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
     <string name="change_icon">"Simge Değiştir"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_image">"Özel resim"</string>
-
-    <!-- Option in "Change Icon" dialog, allows user to select an icon from an Ipack icon set (from a third-party icon app) -->
-    <string name="choose_ipack_icon">"Ipack simgesi seçin"</string>
+    <string name="choose_image">"Özel Resim"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
-    <string name="choose_icon">"Yerleşik simge seçin"</string>
+    <string name="choose_icon">"Yerleşik Simge"</string>
 
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
-    <string name="title_choose_icon">"Yerleşik Simge Seçin
-"</string>
+    <string name="title_choose_icon">"Yerleşik Simge Seçin"</string>
 
     <!-- Title of dialog to edit a parameter on a shortcut -->
     <string name="title_post_param_edit">"Parametreyi Düzenle"</string>
@@ -152,8 +147,7 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="title_post_param_add_file">"Dosya Parametresi Ekle"</string>
 
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
-    <!-- Fuzzy -->
-    <string name="label_post_param_key">"Parametre"</string>
+    <string name="label_post_param_key">"Parametre Adı"</string>
 
     <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
     <string name="label_post_param_file_name">"Dosya Adı (isteğe bağlı)"</string>
@@ -174,7 +168,7 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="section_request_headers">"İstek Üstbilgisi"</string>
 
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
-    <string name="section_request_body">"İstek Gövdesi"</string>
+    <string name="section_request_body">"İstek Gövdesi / Parametreler"</string>
 
     <!-- Title of dialog to edit a custom header of a shortcut -->
     <string name="title_custom_header_edit">"Üstbilgiyi Düzenle"</string>
@@ -195,7 +189,7 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="title_settings">"Ayarlar"</string>
 
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
-    <string name="menu_action_unlock_app">"Ayarların kilidini aç"</string>
+    <string name="menu_action_unlock_app">"Kilidi Aç"</string>
 
     <!-- Title of theme settings -->
     <string name="settings_theme">"Tema"</string>
@@ -204,7 +198,7 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="settings_title_basic">"Temel Ayarlar"</string>
 
     <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
-    <string name="settings_click_behavior">"Kısayol Tıklama İşlemi"</string>
+    <string name="settings_click_behavior">"Kısayol Tıklama Eylemi"</string>
 
     <!-- Name of setting that allows the user to change the app's language -->
     <string name="settings_language">"Dil"</string>
@@ -216,16 +210,16 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="settings_click_behavior_edit">"Kısayolu Düzenle"</string>
 
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
-    <string name="settings_click_behavior_menu">"Seçenekler menüsünü göster"</string>
+    <string name="settings_click_behavior_menu">"Seçenekler Menüsünü Göster"</string>
 
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">"Gizlilik"</string>
 
     <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
-    <string name="settings_crash_reporting">"Kilitlenme Raporlaması"</string>
+    <string name="settings_crash_reporting">"Kilitlenme Raporlama"</string>
 
     <!-- Option for crash reporting opt in -->
-    <string name="settings_crash_reporting_allow">"Uygulamanın iyileştirilmesine yardımcı olmak için kilitlenme raporları gönderin"</string>
+    <string name="settings_crash_reporting_allow">"Uygulamayı iyileştirmeye yardımcı olmak için kilitlenme raporları gönderin"</string>
 
     <!-- Option for crash reporting opt out -->
     <string name="settings_crash_reporting_disallow">"Herhangi bir kilitlenme raporu göndermeyin"</string>
@@ -234,17 +228,17 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="settings_export">"Kısayolları ve Değişkenleri Dışa Aktar"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
-    <!-- Fuzzy -->
     <plurals name="shortcut_export_success">
         <item quantity="one">"%d kısayol dışa aktarıldı."</item>
         <item quantity="other">"%d kısayol dışa aktarıldı."</item>
     </plurals>
 
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
-    <string name="export_in_progress">"Kısayollar dışa aktarılıyor…"</string>
+    <string name="export_in_progress">"Dışa aktarılıyor…"</string>
 
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">"Kısayollar içe aktarılamadı: %s"</string>
+    <string name="import_failed_with_reason">"Kısayollar içe aktarılamadı:
+%s"</string>
 
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">"Kısayollar dışa aktarılamadı: %s"</string>
@@ -253,14 +247,13 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="import_failure_reason_invalid_json">"Geçersiz JSON"</string>
 
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
-    <!-- Fuzzy -->
     <plurals name="shortcut_import_success">
         <item quantity="one">"%d kısayol içe aktarıldı."</item>
         <item quantity="other">"%d kısayol içe aktarıldı."</item>
     </plurals>
 
     <!-- Message shown in progress dialog while shortcuts are being imported -->
-    <string name="import_in_progress">"Kısayollar içe aktarılıyor…"</string>
+    <string name="import_in_progress">"İçe aktarılıyor…"</string>
 
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">"Zaman aşımı"</string>
@@ -293,19 +286,19 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="pattern_minutes_seconds">"%1$s, %2$s"</string>
 
     <!-- Title of option in settings to show change changelog of current and past versions -->
-    <string name="settings_changelog">"Değişiklikler"</string>
+    <string name="settings_changelog">"Değişiklik günlüğü"</string>
 
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
     <string name="settings_changelog_summary">"Versiyon %1$s"</string>
 
     <!-- Button title, for option to contact the app developer (via email) -->
-    <string name="settings_mail">"Geliştirici ile iletişim kur"</string>
+    <string name="settings_mail">"Geliştiriciyle İletişime Geçin"</string>
 
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
-    <string name="settings_mail_summary">"Sorular, özellik istekleri, geri bildirim,…"</string>
+    <string name="settings_mail_summary">"Sorular, özellik istekleri, geri bildirim, …"</string>
 
     <!-- Button title, for option to open the app's Github page in a browser -->
-    <string name="settings_github">"Github'da görüntüleyin"</string>
+    <string name="settings_github">"Github'da görüntüle"</string>
 
     <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">"Doğru, bu uygulama açık kaynak kodludur"</string>
@@ -314,22 +307,22 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="changelog_title_whats_new">"Neler yeni?"</string>
 
     <!-- Dialog title, for changelog, showing what's new in a release -->
-    <string name="changelog_title">"Değişiklikler"</string>
+    <string name="changelog_title">"Değişiklik günlüğü"</string>
 
     <!-- Checkbox label, shown on Changelog dialog, allowing user to enable that the dialog shows when the app is started -->
     <string name="changelog_checkbox_show_at_startup">"Başlangıçta göster"</string>
 
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
-    <string name="execution_delayed">"İnternet bağlantısı mevcut olduğunda %1$s çalıştırılacak."</string>
+    <string name="execution_delayed">"İnternet bağlantısı sağlandığında %1$s yürütülecek."</string>
 
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
     <string name="label_wait_for_connection">"Çevrimdışıyken bağlantıyı bekleyin"</string>
 
     <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
-    <string name="label_delay_execution">"Gecikme uygula"</string>
+    <string name="label_delay_execution">"Gecikmeli Yürütme"</string>
 
     <!-- Button, shown on Settings page, to allow opening the app's Play Store page -->
-    <string name="settings_play_store">"Play Store'da görüntüle"</string>
+    <string name="settings_play_store">"Play Store'da Görüntüle"</string>
 
     <!-- Button subtitle for "View in Play Store" button -->
     <string name="settings_play_store_summary">"Derecelendirmeleriniz ve yorumlarınız için teşekkür ederiz"</string>
@@ -359,8 +352,7 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="section_authentication">"Kimlik Doğrulama"</string>
 
     <!-- Label, for dropdown picker, allowing to select the authentication method (i.e., how to authenticate) of a shortcut -->
-    <string name="label_authentication_method">"Kimlik Doğrulama Yöntemi
-"</string>
+    <string name="label_authentication_method">"Kimlik Doğrulama Yöntemi"</string>
 
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">"Tekrar gösterme"</string>
@@ -419,12 +411,10 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="message_category_visible">"Kategori artık gizli değil."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
-    <string name="message_category_created">"Kategori oluşturuldu.
-"</string>
+    <string name="message_category_created">"Kategori oluşturuldu."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
-    <string name="message_category_deleted">"Kategori silindi.
-"</string>
+    <string name="message_category_deleted">"Kategori silindi."</string>
 
     <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
     <plurals name="shortcut_count">
@@ -436,8 +426,7 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="label_category_hidden">"%s (gizli)"</string>
 
     <!-- Dialog title/button, for feature to move a shortcut to a different category -->
-    <string name="title_move_to_category">"Kategoriye Taşı
-"</string>
+    <string name="title_move_to_category">"Kategoriye Taşı"</string>
 
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">"HTTP Kısayol ile çalıştır"</string>
@@ -551,16 +540,20 @@ Başlamak için + düğmesini tıklayın veya Hakkında bölümündeki Belgeleri
     <string name="help_title_variables">"Değişkenler"</string>
 
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button">"Bu düğme, değişkenler, yani dinamik değerler için yer tutucuları kısayolunuza eklemenizi sağlar."</string>
+    <string name="help_text_variable_button">"Bu düğme, kısayolunuza değişkenler, yani dinamik değerler için yer tutucular eklemenizi sağlar.
+
+Henüz yapılandırılmış herhangi bir değişkeniniz yok.  Aşağıdaki OLUŞTUR düğmesine tıklayarak bunu yapabilirsiniz."</string>
 
     <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button_for_variables">"Bu düğme, bu değişkene diğer değişkenlerin değerleri için yer tutucuları eklemenizi sağlar."</string>
+    <string name="help_text_variable_button_for_variables">"Bu düğme, diğer değişkenlerin değerleri için yer tutucuları buna dahil etmenizi sağlar.
+
+Ancak henüz yapılandırılmış herhangi bir değişkeniniz yok."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
     <string name="help_text_code_snippet_get_variable_no_variable">"Henüz değişkeniniz yok. Başlamak için aşağıdaki OLUŞTUR düğmesini tıklayın."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">"Henüz bu işlemle ayarlanabilecek statik değişkenleriniz (sabitleriniz) yok.  Başlamak için aşağıdaki OLUŞTUR düğmesini tıklayın."</string>
+    <string name="help_text_code_snippet_set_variable_no_variable">"Henüz bu eylemle ayarlanabilecek statik değişkenleriniz yok.  Başlamak için aşağıdaki OLUŞTUR düğmesine tıklayın."</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">"Oluştur"</string>
@@ -696,13 +689,13 @@ Daha fazla bilgi için değişken bölümündeki yardım düğmesine tıklayın.
     <string name="settings_privacy_policy">"Gizlilik Politikası"</string>
 
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
-    <string name="settings_privacy_policy_summary">"Hayır, verilerinizi çalmıyoruz."</string>
+    <string name="settings_privacy_policy_summary">"Hayır, verilerinizi çalmıyoruz"</string>
 
     <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
     <string name="settings_lock_app_title">"Kilitleme Ayarları"</string>
 
     <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
-    <string name="settings_lock_app_summary">"Kısayollarda ve ayarlarda yapılan değişiklikleri önleyin."</string>
+    <string name="settings_lock_app_summary">"Kısayollarda ve ayarlarda değişiklik yapılmasını engelle"</string>
 
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">"En az"</string>
@@ -711,8 +704,7 @@ Daha fazla bilgi için değişken bölümündeki yardım düğmesine tıklayın.
     <string name="label_variable_slider_max">"En fazla"</string>
 
     <!-- Label above input box, for step size (numeric) value of a horizontal slider -->
-    <string name="label_variable_slider_step">"Adım boyutu
-"</string>
+    <string name="label_variable_slider_step">"Adım boyutu"</string>
 
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
     <string name="error_slider_max_not_greater_than_min">"Maksimum değer minimum değerden büyük olmalıdır."</string>
@@ -736,7 +728,7 @@ Daha fazla bilgi için değişken bölümündeki yardım düğmesine tıklayın.
     <string name="request_body_option_custom_text">"Özel Metin"</string>
 
     <!-- Label above input box for Request Content-Type -->
-    <string name="label_content_type">"İçerik Türü (Content-Type)"</string>
+    <string name="label_content_type">"İçerik Türü"</string>
 
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
     <string name="button_copy_curl_export">"Kopyala"</string>
@@ -805,7 +797,7 @@ Daha fazla bilgi için değişken bölümündeki yardım düğmesine tıklayın.
     <string name="title_select_placement_method">"Yerleşim Yöntemi"</string>
 
     <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->
-    <string name="description_select_placement_method">"Kısayolu yerleştirmek için kullanılacak yöntemi seçin.  \"Varsayılan\" yöntemle ilgili sorunlarla karşılaşırsanız, bunun yerine \"Eski\" yöntemini deneyebilirsiniz.  Lütfen bazı özelliklerin (örneğin kısayol adını değiştirme) Eski yöntemde kullanılamadığını unutmayın."</string>
+    <string name="description_select_placement_method">"Kısayolu yerleştirmek için kullanılacak yöntemi seçin.  \"Varsayılan\" yöntemle ilgili sorunlarla karşılaşırsanız, bunun yerine \"Eski\" yöntemi deneyebilirsiniz.  Lütfen bazı özelliklerin (ör. kısayol adını değiştirme) Eski yöntemle kullanılamadığını unutmayın."</string>
 
     <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
     <string name="label_placement_method_default">"Varsayılan"</string>
@@ -1024,8 +1016,7 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <string name="dialog_title_parameter_type">"Parametre Türü"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
-    <!-- Fuzzy -->
-    <string name="option_parameter_type_string">"Metin (varsayılan)"</string>
+    <string name="option_parameter_type_string">"Metin"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
     <string name="option_parameter_type_file">"Tek Dosya"</string>
@@ -1043,9 +1034,7 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <string name="language_default">"Sistem Varsayılanı"</string>
 
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
-    <!-- Fuzzy -->
-    <string name="error_text_too_long_for_variable">"Metin %d karakter sınırını aşıyor. Değişken yer tutucu eklenemez.
-"</string>
+    <string name="error_text_too_long_for_variable">"Metin %d karakter sınırını aşıyor.  Değişken yer tutucu eklenemiyor."</string>
 
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">"Ana ekrana yerleştirmek için bir kısayol seçin veya oluşturun."</string>
@@ -1069,10 +1058,9 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <string name="error_invalid_character">"Geçersiz karakter: %s"</string>
 
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
-    <!-- Fuzzy -->
     <plurals name="warning_variable_still_in_use_in_shortcuts">
-        <item quantity="one">"Bu değişken 1 kısayolda hala kullanılıyor: %1$s"</item>
-        <item quantity="other">"Bu değişken %2$d kısayolda hala kullanılıyor: %1$s"</item>
+        <item quantity="one">"Bu değişken hala %2$d kısayolda kullanılıyor: %1$s"</item>
+        <item quantity="other">"Bu değişken hala %2$d kısayolda kullanılıyor: %1$s"</item>
     </plurals>
 
     <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
@@ -1130,10 +1118,10 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <string name="placeholder_javascript_code_generic">"JavaScript kodunu buraya ekleyin"</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the shortcut -->
-    <string name="placeholder_javascript_code_before">"Kısayol yürütülmeden önce çalıştırmak için, örneğin bazı değişkenleri hazırlamak için JavaScript kodunu buraya ekleyin."</string>
+    <string name="placeholder_javascript_code_before">"Kısayol yürütülmeden önce çalıştırılacak JavaScript kodunu buraya ekleyin, örneğin bazı değişkenleri hazırlamak için."</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs after the shortcut on success -->
-    <string name="placeholder_javascript_code_success">"Kısayol yürütüldükten sonra, örneğin yanıtı işlemek için JavaScript kodunu buraya ekleyin."</string>
+    <string name="placeholder_javascript_code_success">"Kısayol yürütüldükten sonra çalıştırılacak JavaScript kodunu buraya ekleyin, örneğin yanıtı işlemek için."</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs when execution fails -->
     <string name="placeholder_javascript_code_failure">"İsteğin başarısız olması durumunda çalıştırmak için JavaScript kodunu buraya ekleyin."</string>
@@ -1149,7 +1137,6 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     </plurals>
 
     <!-- Dialog title: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <!-- Fuzzy -->
     <string name="title_add_trigger_shortcut">"Kısayol Ekle"</string>
 
     <!-- Dialog error message: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed but the user doesn't have any shortcuts yet -->
@@ -1351,7 +1338,7 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <string name="error_variable_not_found_read">"Değişken hatası: var olmayan değişkenin değeri alınmaya çalışıldı: %s"</string>
 
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
-    <string name="error_variable_not_found_write">"Değişken hatası: Var olmayan veya statik olmayan (sabit) değişkenin değeri ayarlanmaya çalışıldı: %s"</string>
+    <string name="error_variable_not_found_write">"Değişken hatası: Var olmayan değişkenin değeri ayarlanmaya çalışıldı: %s"</string>
 
     <!-- Title of code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="title_global_scripting">"Global Komut Dosyası"</string>
@@ -1363,7 +1350,7 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <string name="settings_global_scripting_summary">"Her kısayol çalıştırmadan önce JavaScript kodunu çalıştırın"</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
-    <string name="placeholder_javascript_global_scripting">"Her kısayol çalıştırmanın başlangıcında çalıştırmak için, örneğin bazı değişkenleri hazırlamak veya bir kısayolun Komut Dosyası bölümünde kullanılabilecek bazı işlevleri tanımlamak için JavaScript kodunu buraya ekleyin."</string>
+    <string name="placeholder_javascript_global_scripting">"JavaScript kodunu, her kısayol yürütmesinin başında çalıştırmak için buraya ekleyin, örn., bazı değişkenleri hazırlamak veya bir kısayolun Komut Dosyası bölümünde kullanılabilecek bazı işlevleri tanımlamak."</string>
 
     <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
     <string name="action_save_global_scripting">"Değişiklikleri Kaydet"</string>
@@ -1389,7 +1376,7 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <string name="title_permission_dialog">"İzinler gerekli"</string>
 
     <!-- Message: Rational given for location permission in wifi/ssid check -->
-    <string name="message_permission_rational">"Kısayolun yapılandırılmış kablosuz ağda yürütülüp yürütülmediğini kontrol etmek için konum izinleri gereklidir.  Bu, Android işletim sistemi tarafından uygulanan bir gerekliliktir.  Konum verilerinize doğrudan erişilmez."</string>
+    <string name="message_permission_rational">"Mevcut Wi-Fi ağının adını (SSID) kontrol etmek için konum izinleri gereklidir.  Bu, Android işletim sistemi tarafından dayatılan bir gerekliliktir.  Konum verilerinize doğrudan erişilmez."</string>
 
     <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
     <string name="message_wrong_wifi_network">"Bu kısayol için yapılandırılmış olan kablosuz ağa bağlanılmadı \"%1$s\". Şimdi başka bir kablosuz ağ seçilsin mi?"</string>
@@ -1464,7 +1451,7 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <string name="settings_use_legacy_export_format">"Eski Dosya Biçimini Kullan"</string>
 
     <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format_summary">"Kısayolları ve değişkenleri eski dosya biçimini (yani tek bir JSON dosyası) kullanarak dışa aktarmayı etkinleştirin.  Bu, özel kısayol simgelerinin dışa aktarılmasını önleyecektir."</string>
+    <string name="settings_use_legacy_export_format_summary">"Eski dosya biçimini (yani tek bir JSON dosyası) kullanarak kısayolları ve değişkenleri dışa aktarmayı etkinleştirin.  Bu, özel kısayol simgelerinin dışa aktarılmasını önleyecektir."</string>
 
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">"İstemci Sertifikası Kimlik Doğrulaması"</string>
@@ -1557,7 +1544,7 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <string name="action_type_wake_on_lan">"Wake-on-LAN"</string>
 
     <!-- Error message: Shown when a JS error occurs. %d is a placeholder for the line number, %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">"JavaScript hatası (%1$d. satır):
+    <string name="error_js_pattern_with_line_number">"JavaScript hatası (satır %1$d):
 %2$s"</string>
 
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
@@ -1608,6 +1595,11 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">"Henüz tetiklenebilecek bir kısayol eklemediniz."</string>
 
+    <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts_instructions">"Bu çoklu kısayolun bir parçası olarak tetiklemek istediğiniz tüm kısayolları bu listeye ekleyin.
+
+Başlamak için + düğmesini tıklayın."</string>
+
     <!-- Shortcut Action Title: Open a URL (e.g. in a browser) -->
     <string name="action_type_open_url_title">"URL Aç"</string>
 
@@ -1626,8 +1618,17 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->
     <string name="error_invalid_base64">"Hatalı Base64: %s"</string>
 
+    <!-- Error message: Shown to the user when the app tries to determine the SSID (name) of the current Wi-Fi but failed, e.g. because of a missing permission -->
+    <string name="error_failed_to_get_wifi_ssid">"Mevcut Wi-Fi'nin SSID'si belirlenemedi."</string>
+
+    <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
+    <string name="placeholder_request_body_content">"Ham HTTP istek gövdesini buraya girin.  \"{}\" düğmesini kullanarak değişken yer tutucular ekleyebilirsiniz."</string>
+
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_description">"Mevcut kısayol çalıştıktan sonra çalışacak başka bir kısayol zamanla"</string>
+
+    <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="message_remove_deleted_trigger_shortcut">"Silinen kısayol, tetiklenen kısayolları listesinden kaldırılsın mı?"</string>
 
     <!-- Label above input field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">"Tarayıcı"</string>
@@ -1639,7 +1640,7 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <string name="title_custom_icons">"Kişisel simgeler"</string>
 
     <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
-    <string name="error_browser_not_found">"%s adında bir tarayıcı bulunamadı."</string>
+    <string name="error_browser_not_found">"%s paket adına sahip tarayıcı bulunamadı"</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
     <string name="confirm_delete_custom_icon_message">"Simge silinsin mi?"</string>
@@ -1655,8 +1656,20 @@ Yine de silinsin mi?"</string>
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
     <string name="confirm_delete_all_unused_custom_icons_message">"Tüm kullanılmayan simgeler silinsin mi?"</string>
 
+    <!-- Error message, shown in snackbar when the user tried to fetch a page's favicon but it failed -->
+    <string name="error_failed_to_fetch_favicon">"Simge getirilemedi.  Bu web sitesinde uygun bir simge olmayabilir."</string>
+
+    <!-- Shortcut Action Title: Allows removing leading and trailing whitespace characters from a string -->
+    <string name="action_type_trim_string">"Metni Kırp"</string>
+
+    <!-- Shortcut Action Description: Allows removing leading and trailing whitespace characters from a string -->
+    <string name="action_type_trim_string_description">"Baştaki ve sondaki boşluk karakterlerini kaldırın"</string>
+
     <!-- label, displayed next to variable in variables list when a variable is not used anywhere -->
     <string name="label_variable_unused">"kullanılmayan"</string>
+
+    <!-- Label of dropdown menu, for selecting which type of data to receive from the share dialog to use as the value of a variable -->
+    <string name="label_share_support">"Paylaşımdan Alınacak Veriler"</string>
 
     <!-- Label of an option in the share dialog, for receiving only the text -->
     <string name="label_share_support_option_text">"Sadece metin"</string>
@@ -1667,11 +1680,23 @@ Yine de silinsin mi?"</string>
     <!-- Label of an option in the share dialog, for receiving the title (subject) and the text -->
     <string name="label_share_support_option_title_and_text">"Başlık ve Metin"</string>
 
+    <!-- Title of dialog to add a new files parameter to a shortcut -->
+    <string name="title_post_param_add_files">"Dosya Parametresi Ekle"</string>
+
     <!-- Title of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_title">"Uygulama Başlığı"</string>
 
+    <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
+    <string name="settings_app_title_summary">"Uygulamanın ana ekranının başlığını değiştirin"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when using a client certificate for authentication -->
+    <string name="subtitle_authentication_client_cert">"İstemci sertifikasını kullan"</string>
+
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <string name="action_type_change_icon_description">"Kısayol açıklamasını değiştir"</string>
+
+    <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_changing_description">"Mevcut olmadığı için \"%1$s\" kısayolunun açıklaması değiştirilemedi."</string>
 
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">"Varsayılan tarayıcıyı kullan"</string>
@@ -1688,17 +1713,77 @@ Yine de silinsin mi?"</string>
     <!-- Label above input field in category editor, for category name -->
     <string name="label_category_name">"Kategori Adı"</string>
 
+    <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
+    <string name="label_category_layout_type">"Düzen Türü"</string>
+
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">"Arkaplan"</string>
 
     <!-- Option in category editor to choose the shortcut click behavior, to set it to the global default -->
     <string name="settings_click_behavior_global_default">"Genel ayarları kullan"</string>
 
+    <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
+    <string name="description_customizable_widget">"Kısayol etiketinizin rengini veya etiketin tamamen gizlenip gizlenmeyeceğini seçin."</string>
+
+    <!-- Option when picking the layout for a category: Show shortcuts in a dense grid -->
+    <string name="layout_type_dense_grid">"Yoğun Izgara"</string>
+
+    <!-- Option when picking the layout for a category: Show shortcuts in a medium grid -->
+    <string name="layout_type_medium_grid">"Orta Izgara"</string>
+
+    <!-- Option when picking the layout for a category: Show shortcuts in a wide grid -->
+    <string name="layout_type_wide_grid">"Geniş Izgara"</string>
+
     <!-- Option to choose from when selecting the background of a category: custom color -->
     <string name="category_background_type_color">"Renk"</string>
 
+    <!-- Title of dialog to edit an image parameter on a shortcut -->
+    <string name="title_post_param_edit_image">"Resim Parametresini Düzenle"</string>
+
+    <!-- Title of dialog to add a new image parameter to a shortcut -->
+    <string name="title_post_param_add_image">"Resim Parametresi Ekle"</string>
+
+    <!-- Dropdown option for request body: image (i.e., user gets to take a picture with the camera which is used as the request body) -->
+    <string name="request_body_option_image">"Görüntü (Kamera)"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when request body is set to 'Image' -->
+    <string name="subtitle_request_body_image">"Resim isteği gövde seti"</string>
+
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for image parameter -->
+    <string name="option_parameter_type_image">"Görüntü (Kamera)"</string>
+
+    <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
+    <string name="subtitle_parameter_value_image">"Görüntü"</string>
+
+    <!-- Title of an action in the code snippet picker: Parse a JSON string -->
+    <string name="action_type_parse_json">"JSON'u ayrıştır"</string>
+
+    <!-- Title of an action in the code snippet picker: Parse an XML string -->
+    <string name="action_type_parse_xml">"XML'i ayrıştır"</string>
+
+    <!-- Title of dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it -->
+    <string name="title_unsaved_changes_detected">"Kaydedilmemiş Kısayol Bulundu"</string>
+
+    <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
+    <string name="message_unsaved_changes_detected">"\"%s\" kısayolunda kaydedilmemiş değişiklikler bulundu.  Değişiklikleri kurtarmak ve düzenlemeye devam etmek ister misiniz?"</string>
+
+    <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. -->
+    <string name="message_unsaved_changes_detected_no_name">"Bir kısayolda kaydedilmemiş değişiklikler bulundu.  Değişiklikleri kurtarmak ve düzenlemeye devam etmek ister misiniz?"</string>
+
     <!-- Button label, shown on dialog that asks user if they want to recover a shortcut that has unsaved changes -->
     <string name="button_recover">"Kurtar"</string>
+
+    <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
+    <string name="settings_allow_overlay_xiaomi">"Arka Plandayken Açılır Pencerelerin Görüntülenmesine İzin Ver"</string>
+
+    <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
+    <string name="settings_allow_overlay_xiaomi_summary">"Ana Ekrandan tetiklendiğinde kısayollar çalışmıyorsa etkinleştirin"</string>
+
+    <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
+    <string name="running_tasker_plugin">"Tasker bir Kısayolu tetikliyor"</string>
+
+    <!-- Shortcut Action Title: generate a random UUID (Universal Unique Identifier, version 4) -->
+    <string name="action_type_generate_uuid">"Rastgele UUID Oluştur"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options for interacting with the network or querying its state -->
     <string name="dialog_code_snippet_network">"Ağ"</string>
@@ -1706,14 +1791,29 @@ Yine de silinsin mi?"</string>
     <!-- Shortcut Action Title: Scan Barcode (e.g. QR Code) -->
     <string name="action_type_scan_barcode_title">"Barkod Tara"</string>
 
+    <!-- Shortcut Action Description: Scan Barcode (e.g. QR Code) -->
+    <string name="action_type_scan_barcode_description">"'QR Droid', 'Barkod Tarayıcı' veya 'İkili Göz' uygulamasının yüklenmesini gerektirir"</string>
+
+    <!-- Error message: Shown when the user tries to use the 'scanBarcode' function but doesn't have the required app installed -->
+    <string name="error_barcode_scanner_not_installed">"Barkodları taramak için 'QR Droid', 'Barkod Tarayıcı' veya 'İkili Göz' uygulamasının yüklenmesi gerekir."</string>
+
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">"Mevcut konumu al"</string>
+
+    <!-- Message: Brief explanation of what a toast message is and what its limitations are -->
+    <string name="message_response_handling_toast_limitations">"Tostlar, yalnızca 2 satırlık metinle sınırlı oldukları için çok kısa mesajlar için uygundur."</string>
+
+    <!-- Error message: Shown to the user when the app tries to determine the device's current location but failed, e.g. because of a missing permission -->
+    <string name="error_failed_to_get_location">"Cihazın fiziksel konumu belirlenemedi."</string>
+
+    <!-- Shortcut Action Description: Get the device's current (physical) location -->
+    <string name="action_type_get_location_description">"Cihazın fiziksel konumunu sorgular ve onu bir nesne olarak döndürür"</string>
 
     <!-- Button text: translate app (prompt to help & become a translator) -->
     <string name="settings_help_translate">"Çeviriyi destekle"</string>
 
     <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
-    <string name="settings_help_translate_summary">"Bu uygulamayı kendi dilinize çevirerek daha iyi yapmamıza yardım et"</string>
+    <string name="settings_help_translate_summary">"Bu uygulamayı kendi dilinize çevirerek daha iyi hale getirmeme yardım edin!"</string>
 
     <!-- Button in Variables menu, allowing the user to (alphabetically) sort all variables -->
     <string name="button_sort_variables">"Sırala"</string>
@@ -1721,11 +1821,53 @@ Yine de silinsin mi?"</string>
     <!-- Message: Shown in a snackbar after all variables have been sorted (alphabetically) -->
     <string name="message_variables_sorted">"Değişkenler sıralandı."</string>
 
+    <!-- Description for type of variable: Constant, i.e., a variable that always has the same value -->
+    <string name="variable_type_constant_description">"Sabit bir değer depolar.  Değer, 'Komut Dosyası' özelliği aracılığıyla programlı olarak değiştirilebilir"</string>
+
+    <!-- Description for type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
+    <string name="variable_type_text_description">"Metin giriş alanı içeren bir iletişim kutusu gösterir"</string>
+
+    <!-- Description for type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
+    <string name="variable_type_number_description">"Sayı giriş alanı içeren bir iletişim kutusu gösterir"</string>
+
+    <!-- Description for type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
+    <string name="variable_type_slider_description">"Minimum ve maksimum değere sahip bir sayı kaydırıcılı bir iletişim kutusu gösterir"</string>
+
+    <!-- Description type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
+    <string name="variable_type_password_description">"Şifre giriş alanı içeren bir iletişim kutusu gösterir"</string>
+
+    <!-- Description for type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
+    <string name="variable_type_select_description">"Bir veya birden çok değer seçmek için bir seçim iletişim kutusu gösterir"</string>
+
+    <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
+    <string name="variable_type_toggle_description">"Her kullanıldığında farklı bir değere geçer"</string>
+
+    <!-- Description for type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
+    <string name="variable_type_date_description">"Tarih seçici içeren bir iletişim kutusu gösterir"</string>
+
+    <!-- Description for type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
+    <string name="variable_type_time_description">"Saat seçici içeren bir iletişim kutusu gösterir"</string>
+
+    <!-- Description for type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
+    <string name="variable_type_color_description">"Renk seçici içeren bir iletişim kutusu gösterir"</string>
+
+    <!-- Shortcut Action Title: Send a UDP packet to another device on the network -->
+    <string name="action_type_send_udp_packet">"UDP Paketi Gönder"</string>
+
     <!-- Dialog button: Confirm exporting the selected shortcuts -->
     <string name="dialog_button_export">"Dışa aktar"</string>
 
     <!-- Dialog title: shown in dialog when selecting which shortcuts to export -->
     <string name="dialog_title_select_shortcuts_for_export">"Kısayolları seç"</string>
+
+    <!-- Label above input box, for prefix text displayed in front of the number in a number slider (input dialog) -->
+    <string name="label_variable_slider_prefix">"Önek Metni"</string>
+
+    <!-- Label above input box, for suffix text displayed after the number in a number slider (input dialog) -->
+    <string name="label_variable_slider_suffix">"Sonek Metni"</string>
+
+    <!-- label, shown in variable editor, to allow the user to enter a dialog text that will be shown when the variable is evaluated -->
+    <string name="label_variable_text">"İletişim Metni (isteğe bağlı)"</string>
 
     <!-- Shortcut Action Title: Action that allows to retrieve the latest item from the device's clipboard -->
     <string name="action_get_clipboard_content_title">"Pano İçeriğini Al"</string>
@@ -1736,9 +1878,57 @@ Yine de silinsin mi?"</string>
     <!-- Generic message for empty state when a search yields no results, displayed in the middle of the screen -->
     <string name="instructions_search_no_results">"Sonuç yok"</string>
 
+    <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid">"UUID"</string>
+
+    <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid_description">"Her yürütmede yeni bir rastgele UUID oluşturur"</string>
+
     <!-- Type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
     <string name="variable_type_clipboard">"Pano İçeriği"</string>
 
+    <!-- Description for type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
+    <string name="variable_type_clipboard_description">"Panoya en son kopyalanan değeri varsayar"</string>
+
     <!-- Status message shown while some data or files are being processed, e.g. for sharing -->
     <string name="generic_processing_in_progress">"İşleniyor…"</string>
+
+    <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
+    <string name="settings_donate">"Bağış"</string>
+
+    <!-- Button subtitle, for option to open the app's Donate page in a browser, for users who wish to support the app -->
+    <string name="settings_donate_summary">"Bana bir içecek ısmarlayarak takdirini göster"</string>
+
+    <!-- Title of section in settings that allows user to add a quick settings tile. -->
+    <string name="settings_add_quick_settings_tile_title">"Hızlı Ayarlar Kutucuğu"</string>
+
+    <!-- Summary/subtitle of section in settings that allows user to add a quick settings tile. -->
+    <string name="settings_add_quick_settings_tile_summary">"Bildirim gölgesinden kısayolları hızlı bir şekilde tetiklemek için bir kutucuk ekleyin"</string>
+
+    <!-- Message: shown in snackbar, indicates to the user that the app's quick settings tile was successfully added to the device's notification shade -->
+    <string name="message_quick_settings_tile_added">"Hızlı Ayarlar kutucuğu eklendi."</string>
+
+    <!-- Title: Shown on the Documentation screen, where users can read through the app's documentation -->
+    <string name="title_documentation">"Belgeler"</string>
+
+    <!-- Button text: Shown on Documentation screen, allows to view the current page in the external browser -->
+    <string name="button_open_documentation_in_browser">"Tarayıcıda aç"</string>
+
+    <!-- Menu button shown on response window, allows the user to copy the response into the clipboard -->
+    <string name="action_copy_response">"Kopyala"</string>
+
+    <!-- Label for dropdown in shortcut editor, for picking the main action that should be displayed on the dialog that displays the HTTP response -->
+    <string name="label_dialog_action_dropdown">"İletişim Eylemi"</string>
+
+    <!-- Option in dropdown menu for selecting the main action available on a dialog that displays the HTTP response, allows to show no action -->
+    <string name="label_dialog_action_none">"Hiçbiri"</string>
+
+    <!-- Label on checkbox that allows to enable/disable the use of a certain action to be displayed in the HTTP response window (e.g. "Share" button) -->
+    <string name="label_response_actions_show_button">"\"%s\" düğmesini göster"</string>
+
+    <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
+    <string name="action_type_send_tcp_packet">"TCP Paketi Gönder"</string>
+
+    <!-- Shortcut Action Title: Send an MQTT message to a broker -->
+    <string name="action_type_send_mqtt_message">"MQTT Mesajı Gönder"</string>
 </resources>
