@@ -26,7 +26,9 @@ import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ShowResultDialogUseCase
@@ -39,54 +41,56 @@ constructor(
 
     suspend operator fun invoke(shortcut: ShortcutModel, response: ShortcutResponse?, output: String?) = coroutineScope {
         val shortcutName = shortcut.getSafeName(context)
-        val activity = activityProvider.getActivity()
-        DialogBuilder(activity)
-            .title(shortcutName)
-            .let { builder ->
-                if (output == null && FileTypeUtil.isImage(response?.contentType)) {
-                    val imageView = ImageView(activity)
-                    imageView.loadImage(response!!.contentFile!!, preventMemoryCache = true)
-                    builder.view(imageView)
-                } else {
-                    val view = DialogTextBinding.inflate(LayoutInflater.from(activity))
-                    val textView = view.text
-                    val finalOutput = (output ?: response?.getContentAsString(context) ?: "")
-                        .ifBlank { context.getString(R.string.message_blank_response) }
-                        .let {
-                            HTMLUtil.formatWithImageSupport(it, context, textView::reloadImageSpans, this)
-                        }
-                    textView.text = finalOutput
-                    textView.movementMethod = LinkMovementMethod.getInstance()
-                    builder.view(textView)
-                }
-            }
-            .positive(R.string.dialog_ok)
-            .runIfNotNull(shortcut.responseHandling?.displayActions?.firstOrNull()) { action ->
-                val text = output ?: response?.getContentAsString(context) ?: ""
-                when (action) {
-                    ResponseDisplayAction.RERUN -> {
-                        neutral(R.string.action_rerun_shortcut) {
-                            rerunShortcut(shortcut.id)
-                        }
+        withContext(Dispatchers.Main) {
+            val activity = activityProvider.getActivity()
+            DialogBuilder(activity)
+                .title(shortcutName)
+                .let { builder ->
+                    if (output == null && FileTypeUtil.isImage(response?.contentType)) {
+                        val imageView = ImageView(activity)
+                        imageView.loadImage(response!!.contentFile!!, preventMemoryCache = true)
+                        builder.view(imageView)
+                    } else {
+                        val view = DialogTextBinding.inflate(LayoutInflater.from(activity))
+                        val textView = view.text
+                        val finalOutput = (output ?: response?.getContentAsString(context) ?: "")
+                            .ifBlank { context.getString(R.string.message_blank_response) }
+                            .let {
+                                HTMLUtil.formatWithImageSupport(it, context, textView::reloadImageSpans, this)
+                            }
+                        textView.text = finalOutput
+                        textView.movementMethod = LinkMovementMethod.getInstance()
+                        builder.view(textView)
                     }
-                    ResponseDisplayAction.SHARE -> {
-                        runIf(text.isNotEmpty() && text.length < MAX_SHARE_LENGTH) {
-                            neutral(R.string.share_button) {
-                                shareResponse(shortcutName, text, response?.contentType ?: "", response?.contentFile)
+                }
+                .positive(R.string.dialog_ok)
+                .runIfNotNull(shortcut.responseHandling?.displayActions?.firstOrNull()) { action ->
+                    val text = output ?: response?.getContentAsString(context) ?: ""
+                    when (action) {
+                        ResponseDisplayAction.RERUN -> {
+                            neutral(R.string.action_rerun_shortcut) {
+                                rerunShortcut(shortcut.id)
                             }
                         }
-                    }
-                    ResponseDisplayAction.COPY -> {
-                        runIf(text.isNotEmpty() && text.length < MAX_COPY_LENGTH) {
-                            neutral(R.string.action_copy_response) {
-                                copyResponse(text)
+                        ResponseDisplayAction.SHARE -> {
+                            runIf(text.isNotEmpty() && text.length < MAX_SHARE_LENGTH) {
+                                neutral(R.string.share_button) {
+                                    shareResponse(shortcutName, text, response?.contentType ?: "", response?.contentFile)
+                                }
                             }
                         }
+                        ResponseDisplayAction.COPY -> {
+                            runIf(text.isNotEmpty() && text.length < MAX_COPY_LENGTH) {
+                                neutral(R.string.action_copy_response) {
+                                    copyResponse(text)
+                                }
+                            }
+                        }
+                        ResponseDisplayAction.SAVE -> this
                     }
-                    ResponseDisplayAction.SAVE -> this
                 }
-            }
-            .showAndAwaitDismissal()
+                .showAndAwaitDismissal()
+        }
     }
 
     private fun rerunShortcut(shortcutId: ShortcutId) {

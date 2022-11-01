@@ -14,7 +14,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.extensions.context
@@ -35,6 +35,9 @@ class HttpRequesterWorker(context: Context, params: WorkerParameters) : Coroutin
 
     @Inject
     lateinit var httpRequester: HttpRequester
+
+    @Inject
+    lateinit var errorFormatter: ErrorFormatter
 
     init {
         getApplicationComponent().inject(this)
@@ -94,7 +97,7 @@ class HttpRequesterWorker(context: Context, params: WorkerParameters) : Coroutin
                 GsonUtil.gson.fromJson(it, Params::class.java)
             }
 
-    private suspend fun handleDisplayingOfResult(shortcut: ShortcutModel, response: ShortcutResponse, variableValues: Map<VariableKey, String>) {
+    private suspend fun handleDisplayingOfResult(shortcut: ShortcutModel, response: ShortcutResponse, variableValues: Map<VariableId, String>) {
         when (shortcut.responseHandling!!.successOutput) {
             ResponseHandlingModel.SUCCESS_OUTPUT_MESSAGE -> {
                 displayResult(
@@ -114,7 +117,7 @@ class HttpRequesterWorker(context: Context, params: WorkerParameters) : Coroutin
         }
     }
 
-    private fun injectVariables(string: String, variableValues: Map<VariableKey, String>): String =
+    private fun injectVariables(string: String, variableValues: Map<VariableId, String>): String =
         Variables.rawPlaceholdersToResolvedValues(string, variableValues)
 
     private suspend fun displayResult(shortcut: ShortcutModel, output: String?, response: ShortcutResponse? = null) {
@@ -133,12 +136,12 @@ class HttpRequesterWorker(context: Context, params: WorkerParameters) : Coroutin
     }
 
     private fun generateOutputFromError(error: Throwable, shortcutName: String, simple: Boolean = false) =
-        ErrorFormatter(context).getPrettyError(error, shortcutName, includeBody = !simple)
+        errorFormatter.getPrettyError(error, shortcutName, includeBody = !simple)
 
     private data class Params(
         val shortcutId: ShortcutId,
         val sessionId: String,
-        val variableValues: Map<VariableKey, String>,
+        val variableValues: Map<VariableId, String>,
         val fileUploadResult: FileUploadManager.Result?,
     )
 
@@ -150,7 +153,7 @@ class HttpRequesterWorker(context: Context, params: WorkerParameters) : Coroutin
         operator fun invoke(
             shortcutId: ShortcutId,
             sessionId: String,
-            variableValues: Map<VariableKey, String>,
+            variableValues: Map<VariableId, String>,
             fileUploadResult: FileUploadManager.Result?,
         ) {
             val params = Params(shortcutId, sessionId, variableValues, fileUploadResult)

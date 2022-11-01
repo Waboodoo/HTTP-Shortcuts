@@ -3,17 +3,26 @@ package ch.rmy.android.http_shortcuts.activities.execute
 import android.app.Application
 import android.os.SystemClock
 import androidx.lifecycle.viewModelScope
-import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
+import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
 class ExecuteViewModel(
     application: Application,
 ) : BaseViewModel<ExecutionParams, ExecuteViewState>(application), WithDialog {
+
+    @Inject
+    lateinit var executionFactory: ExecutionFactory
+
+    init {
+        getApplicationComponent().inject(this)
+    }
 
     private lateinit var execution: Execution
 
@@ -37,7 +46,7 @@ class ExecuteViewModel(
         lastExecutionData = data
 
         viewModelScope.launch {
-            execution = Execution(context, data)
+            execution = executionFactory.createExecution(data)
             finalizeInitialization(silent = true)
             execute()
         }
@@ -58,13 +67,13 @@ class ExecuteViewModel(
             try {
                 execution.execute().collect { status ->
                     when (status) {
-                        Execution.Status.PREPARING -> Unit
-                        Execution.Status.IN_PROGRESS -> {
+                        is ExecutionStatus.InProgress -> {
                             emitEvent(ExecuteEvent.ShowProgress)
                         }
-                        Execution.Status.WRAPPING_UP -> {
+                        is ExecutionStatus.WrappingUp -> {
                             emitEvent(ExecuteEvent.HideProgress)
                         }
+                        else -> Unit
                     }
                 }
             } finally {

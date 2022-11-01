@@ -2,12 +2,14 @@ package ch.rmy.android.http_shortcuts.activities.execute.models
 
 import android.net.Uri
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 
 data class ExecutionParams(
     val shortcutId: ShortcutId,
-    val variableValues: Map<String, String>,
-    val executionId: String?,
-    val tryNumber: Int,
-    val recursionDepth: Int,
-    val fileUris: List<Uri>,
+    val variableValues: Map<VariableKey, String> = emptyMap(),
+    val executionId: String? = null,
+    val tryNumber: Int = 0,
+    val recursionDepth: Int = 0,
+    val fileUris: List<Uri> = emptyList(),
+    val isNested: Boolean = false,
 )

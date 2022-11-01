@@ -23,6 +23,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingActivi
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetPickerViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcutsViewModel
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
 import ch.rmy.android.http_shortcuts.activities.execute.Execution
 import ch.rmy.android.http_shortcuts.activities.icons.IconPickerViewModel
 import ch.rmy.android.http_shortcuts.activities.main.MainViewModel
@@ -64,6 +65,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.ConfirmAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.CopyToClipboardAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.DialogAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.EnqueueShortcutAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.ExecuteShortcutAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetClipboardContentAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetLocationAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetVariableAction
@@ -283,4 +285,8 @@ interface ApplicationComponent {
     fun inject(httpRequesterWorker: HttpRequesterWorker)
 
     fun inject(selectionAction: SelectionAction)
+
+    fun inject(executeShortcutAction: ExecuteShortcutAction)
+
+    fun inject(executeViewModel: ExecuteViewModel)
 }

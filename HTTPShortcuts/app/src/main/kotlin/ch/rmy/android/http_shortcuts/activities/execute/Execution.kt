@@ -13,6 +13,7 @@ import ch.rmy.android.framework.utils.DateUtil
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
+import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.CheckHeadlessExecutionUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.CheckWifiSSIDUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.ExtractFileIdsFromVariableValuesUseCase
@@ -51,12 +52,14 @@ import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.net.UnknownHostException
 import javax.inject.Inject
@@ -124,6 +127,9 @@ class Execution(
     @Inject
     lateinit var checkHeadlessExecution: CheckHeadlessExecutionUseCase
 
+    @Inject
+    lateinit var errorFormatter: ErrorFormatter
+
     init {
         context.getApplicationComponent().inject(this)
     }
@@ -135,8 +141,8 @@ class Execution(
         shortcut.getSafeName(context)
     }
 
-    suspend fun execute(): Flow<Status> = flow {
-        emit(Status.PREPARING)
+    suspend fun execute(): Flow<ExecutionStatus> = flow {
+        emit(ExecutionStatus.Preparing)
         try {
             executeWithoutExceptionHandling()
         } catch (e: UserException) {
@@ -146,39 +152,28 @@ class Execution(
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
-            if (!isExpected(e)) {
-                logException(e)
-            }
-
-            when (val failureOutput = shortcut.responseHandling?.failureOutput) {
-                ResponseHandlingModel.FAILURE_OUTPUT_DETAILED,
-                ResponseHandlingModel.FAILURE_OUTPUT_SIMPLE,
-                -> {
-                    displayResult(
-                        generateOutputFromError(e, simple = failureOutput == ResponseHandlingModel.FAILURE_OUTPUT_SIMPLE),
-                        response = (e as? ErrorResponse)?.shortcutResponse,
-                    )
-                }
-                else -> Unit
-            }
+            context.showToast(R.string.error_generic)
+            logException(e)
         }
     }
 
     private suspend fun displayError(error: Throwable) {
         generateOutputFromError(error)
             .let { message ->
-                DialogBuilder(activityProvider.getActivity())
-                    .title(R.string.dialog_title_error)
-                    .message(message)
-                    .positive(R.string.dialog_ok)
-                    .showAndAwaitDismissal()
+                withContext(Dispatchers.Main) {
+                    DialogBuilder(activityProvider.getActivity())
+                        .title(R.string.dialog_title_error)
+                        .message(message)
+                        .positive(R.string.dialog_ok)
+                        .showAndAwaitDismissal()
+                }
             }
     }
 
     private fun generateOutputFromError(error: Throwable, simple: Boolean = false) =
-        ErrorFormatter(context).getPrettyError(error, shortcutName, includeBody = !simple)
+        errorFormatter.getPrettyError(error, shortcutName, includeBody = !simple)
 
-    private suspend fun FlowCollector<Status>.executeWithoutExceptionHandling() {
+    private suspend fun FlowCollector<ExecutionStatus>.executeWithoutExceptionHandling() {
         if (params.executionId != null) {
             pendingExecutionsRepository.removePendingExecution(params.executionId)
         }
@@ -187,7 +182,7 @@ class Execution(
             loadData()
         } catch (e: NoSuchElementException) {
             showShortcutNotFoundDialog()
-            return
+            throw CancellationException()
         }
 
         if (requiresConfirmation()) {
@@ -211,7 +206,7 @@ class Execution(
 
         val fileUploadResult = handleFiles()
 
-        emit(Status.IN_PROGRESS)
+        emit(ExecutionStatus.InProgress)
 
         if ((params.tryNumber == 0 || (params.tryNumber == 1 && shortcut.delay > 0)) && usesScripting()) {
             scriptExecutor.initialize(
@@ -232,7 +227,6 @@ class Execution(
             ShortcutExecutionType.SCRIPTING,
             ShortcutExecutionType.TRIGGER,
             -> {
-                // nothing more to do
                 return
             }
             ShortcutExecutionType.APP -> {
@@ -242,14 +236,13 @@ class Execution(
 
         val sessionId = "${shortcut.id}_${newUUID()}"
 
-        if (checkHeadlessExecution(shortcut)) {
+        if (params.recursionDepth == 0 && checkHeadlessExecution(shortcut)) {
             httpRequesterStarter.invoke(
                 shortcutId = shortcut.id,
                 sessionId = sessionId,
                 variableValues = variableManager.getVariableValuesByIds(),
                 fileUploadResult = fileUploadResult,
             )
-            emit(Status.WRAPPING_UP)
             return
         }
 
@@ -285,6 +278,21 @@ class Execution(
                     script = shortcut.codeOnFailure,
                     error = e,
                 )
+
+                when (val failureOutput = shortcut.responseHandling?.failureOutput) {
+                    ResponseHandlingModel.FAILURE_OUTPUT_DETAILED,
+                    ResponseHandlingModel.FAILURE_OUTPUT_SIMPLE,
+                    -> {
+                        displayResult(
+                            generateOutputFromError(e, simple = failureOutput == ResponseHandlingModel.FAILURE_OUTPUT_SIMPLE),
+                            response = (e as? ErrorResponse)?.shortcutResponse,
+                        )
+                    }
+                    else -> Unit
+                }
+
+                emit(ExecutionStatus.CompletedWithError(e, (e as? ErrorResponse)?.shortcutResponse, variableManager.getVariableValuesByIds()))
+                return
             }
             throw e
         }
@@ -294,9 +302,9 @@ class Execution(
             response = response,
         )
 
-        emit(Status.WRAPPING_UP)
-
+        emit(ExecutionStatus.WrappingUp)
         handleDisplayingOfResult(response, variableManager)
+        emit(ExecutionStatus.CompletedSuccessfully(response, variableManager.getVariableValuesByIds()))
     }
 
     private fun shouldReschedule(error: Throwable): Boolean =
@@ -435,6 +443,11 @@ class Execution(
                 showResultDialog(shortcut, response, output)
             }
             ResponseHandlingModel.UI_TYPE_WINDOW -> {
+                if (params.isNested) {
+                    // When running in nested mode (i.e., the shortcut was invoked from another shortcut), we cannot open another activity
+                    // because it would interrupt the execution. Therefore, we suppress it here.
+                    return
+                }
                 DisplayResponseActivity.IntentBuilder(shortcut.id)
                     .name(shortcutName)
                     .type(response?.contentType)
@@ -460,19 +473,10 @@ class Execution(
         }
     }
 
-    enum class Status {
-        PREPARING,
-        IN_PROGRESS,
-        WRAPPING_UP,
-    }
-
     companion object {
         private const val MAX_RETRY = 5
         private const val RETRY_BACKOFF = 2.4
 
         private const val TOAST_MAX_LENGTH = 400
-
-        private fun isExpected(throwable: Throwable?) =
-            throwable is ErrorResponse || throwable is IOException
     }
 }
