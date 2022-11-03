@@ -17,6 +17,7 @@ constructor(
             "???"
         }
 
+    @Suppress("DEPRECATION")
     fun getVersionCode(): Long =
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

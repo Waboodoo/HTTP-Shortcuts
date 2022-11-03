@@ -24,6 +24,33 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
+
+    buildTypes {
+        /* Used for development & testing */
+        getByName("debug") {
+            isMinifyEnabled = false
+        }
+
+        /* Used for F-Droid */
+        getByName("release") {
+            isMinifyEnabled = true
+        }
+
+        /* Used for Play Store & Github release page */
+        create("releaseFull") {
+            isMinifyEnabled = true
+        }
+    }
+
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("x86", "x86_64", "armeabi-v7a", "arm64-v8a")
+            isUniversalApk = true
+        }
+    }
+
     buildFeatures {
         buildConfig = true
         viewBinding = true
@@ -33,10 +60,12 @@ android {
         resValues = false
         shaders = false
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         languageVersion = "1.6"
     }
@@ -50,7 +79,7 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:1.6.0-rc01")
     implementation("com.google.android.material:material:1.7.0")
-    implementation("androidx.fragment:fragment-ktx:1.5.3")
+    implementation("androidx.fragment:fragment-ktx:1.5.4")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.preference:preference-ktx:1.2.0")
