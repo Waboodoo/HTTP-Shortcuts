@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.settings.documentation
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -16,6 +17,7 @@ import androidx.core.view.postDelayed
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.collectEventsWhileActive
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.doOnDestroy
 import ch.rmy.android.framework.extensions.getParcelable
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.framework.extensions.isVisible
@@ -52,6 +54,7 @@ class DocumentationActivity : BaseActivity() {
         savedState?.let(binding.webView::restoreState)
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun WebView.initWebView() {
         webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
@@ -103,6 +106,10 @@ class DocumentationActivity : BaseActivity() {
             allowContentAccess = false
             allowFileAccess = false
             userAgentString = UserAgentUtil.userAgent
+        }
+
+        doOnDestroy {
+            destroy()
         }
     }
 
