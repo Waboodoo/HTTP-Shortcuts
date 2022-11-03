@@ -1,3 +1,17 @@
+## Version 2.25.0
+
+### Improvements
+- It is now possible to use the newly added "executeShortcut" function to have a shortcut trigger another shortcut to execute immediately and use its response in Scripting
+- You can now use the Scripting feature to send TCP packets and MQTT messages
+- Simple shortcuts now automatically run in "headless mode", meaning that the HTTP request is done in the background instead of you having to look at the loading indicator until the request is complete
+
+### Miscellaneous
+- Support for Ipack icons was removed
+- Many big changes under the hood, so there's a good chance some new bugs snuck in. Please let me know if you encounter any.
+
+### Bugfixes
+- When configuring a shortcut to run silently (i.e., neither response nor errors are displayed), the checkboxes for selecting the available actions are no longer shown, as they have no effect
+
 ## Version 2.24.0
 
 ### Improvements
