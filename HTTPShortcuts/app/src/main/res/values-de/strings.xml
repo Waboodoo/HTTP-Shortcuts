@@ -1930,4 +1930,10 @@ Trotzdem löschen?"</string>
 
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">"MQTT-Nachricht senden"</string>
+
+    <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
+    <string name="action_type_execute_shortcut_title">"Shortcut sofort ausführen"</string>
+
+    <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
+    <string name="action_type_execute_shortcut_description">"Führe einen anderen Shortcut sofort aus und erhalte sein Result zurück."</string>
 </resources>
