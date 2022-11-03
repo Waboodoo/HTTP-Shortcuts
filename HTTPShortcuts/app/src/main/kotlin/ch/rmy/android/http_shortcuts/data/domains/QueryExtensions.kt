@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.data.domains
 import ch.rmy.android.framework.data.RealmContext
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
+import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
@@ -74,7 +75,7 @@ fun RealmContext.getPendingExecutions(shortcutId: ShortcutId? = null, waitForNet
         }
         .sort(PendingExecutionModel.FIELD_ENQUEUED_AT)
 
-fun RealmContext.getPendingExecution(id: String): RealmQuery<PendingExecutionModel> =
+fun RealmContext.getPendingExecution(id: ExecutionId): RealmQuery<PendingExecutionModel> =
     realmInstance
         .where<PendingExecutionModel>()
         .equalTo(PendingExecutionModel.FIELD_ID, id)

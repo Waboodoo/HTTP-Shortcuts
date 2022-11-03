@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.framework.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import io.realm.RealmList
@@ -14,7 +15,7 @@ import java.util.Date
 @RealmClass(name = "PendingExecution")
 open class PendingExecutionModel(
     @PrimaryKey
-    var id: String = "",
+    var id: ExecutionId = "",
     var shortcutId: ShortcutId = "",
     @Suppress("unused")
     @Index

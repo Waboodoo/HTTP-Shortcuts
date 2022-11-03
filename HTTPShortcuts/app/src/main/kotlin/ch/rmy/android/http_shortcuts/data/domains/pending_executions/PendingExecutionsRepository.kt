@@ -17,7 +17,7 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRepository(realmFactory) {
 
-    suspend fun getPendingExecution(id: String): PendingExecutionModel =
+    suspend fun getPendingExecution(id: ExecutionId): PendingExecutionModel =
         queryItem {
             getPendingExecution(id)
         }
@@ -49,7 +49,7 @@ constructor(
         }
     }
 
-    suspend fun removePendingExecution(executionId: String) {
+    suspend fun removePendingExecution(executionId: ExecutionId) {
         commitTransaction {
             getPendingExecution(executionId)
                 .findAll()

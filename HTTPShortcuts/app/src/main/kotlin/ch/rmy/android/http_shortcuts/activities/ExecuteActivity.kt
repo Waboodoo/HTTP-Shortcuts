@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.activities.execute.ExecuteEvent
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
+import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
@@ -168,7 +169,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             )
         }
 
-        fun executionId(id: String) = also {
+        fun executionId(id: ExecutionId) = also {
             intent.putExtra(EXTRA_EXECUTION_SCHEDULE_ID, id)
         }
     }
