@@ -11,7 +11,6 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
-import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.scripting.ResponseObjectFactory
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
@@ -75,13 +74,21 @@ class ExecuteShortcutAction(
             execution.execute()
         }.lastOrNull()
 
+        (finalStatus as? ExecutionStatus.WithVariables)?.variableValues?.let {
+            executionContext.variableManager.storeVariableValues(it)
+        }
+
+        val responseObject = (finalStatus as? ExecutionStatus.WithResponse)
+            ?.response
+            ?.let { responseObjectFactory.create(executionContext.jsContext, it) }
+
         return when (finalStatus) {
             is ExecutionStatus.CompletedSuccessfully -> {
                 executionContext.variableManager.storeVariableValues(finalStatus.variableValues)
                 createResult(
                     executionContext.jsContext,
                     status = "success",
-                    response = finalStatus.response?.let { responseObjectFactory.create(executionContext.jsContext, it) },
+                    response = responseObject,
                 )
             }
             is ExecutionStatus.CompletedWithError -> {
@@ -89,10 +96,8 @@ class ExecuteShortcutAction(
                 createResult(
                     executionContext.jsContext,
                     status = "failure",
-                    response = (finalStatus.error as? ErrorResponse)
-                        ?.shortcutResponse
-                        ?.let { responseObjectFactory.create(executionContext.jsContext, it) },
-                    error = finalStatus.error.takeIf { it is IOException }?.message,
+                    response = responseObject,
+                    error = finalStatus.error?.message,
                 )
             }
             else -> createResult(

@@ -152,7 +152,9 @@ class Execution(
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
-            context.showToast(R.string.error_generic)
+            withContext(Dispatchers.Main) {
+                context.showToast(R.string.error_generic)
+            }
             logException(e)
         }
     }
@@ -206,7 +208,7 @@ class Execution(
 
         val fileUploadResult = handleFiles()
 
-        emit(ExecutionStatus.InProgress)
+        emit(ExecutionStatus.InProgress(variableManager.getVariableValuesByIds()))
 
         if ((params.tryNumber == 0 || (params.tryNumber == 1 && shortcut.delay > 0)) && usesScripting()) {
             scriptExecutor.initialize(
@@ -221,12 +223,14 @@ class Execution(
 
         when (shortcut.type) {
             ShortcutExecutionType.BROWSER -> {
+                emit(ExecutionStatus.WrappingUp(variableManager.getVariableValuesByIds()))
                 openShortcutInBrowser(variableManager)
                 return
             }
             ShortcutExecutionType.SCRIPTING,
             ShortcutExecutionType.TRIGGER,
             -> {
+                emit(ExecutionStatus.WrappingUp(variableManager.getVariableValuesByIds()))
                 return
             }
             ShortcutExecutionType.APP -> {
@@ -291,7 +295,7 @@ class Execution(
                     else -> Unit
                 }
 
-                emit(ExecutionStatus.CompletedWithError(e, (e as? ErrorResponse)?.shortcutResponse, variableManager.getVariableValuesByIds()))
+                emit(ExecutionStatus.CompletedWithError(e as? IOException, (e as? ErrorResponse)?.shortcutResponse, variableManager.getVariableValuesByIds()))
                 return
             }
             throw e
@@ -302,7 +306,7 @@ class Execution(
             response = response,
         )
 
-        emit(ExecutionStatus.WrappingUp)
+        emit(ExecutionStatus.WrappingUp(variableManager.getVariableValuesByIds()))
         handleDisplayingOfResult(response, variableManager)
         emit(ExecutionStatus.CompletedSuccessfully(response, variableManager.getVariableValuesByIds()))
     }
@@ -427,49 +431,51 @@ class Execution(
     }
 
     private suspend fun displayResult(output: String?, response: ShortcutResponse? = null) {
-        when (shortcut.responseHandling?.uiType) {
-            ResponseHandlingModel.UI_TYPE_TOAST -> {
-                context.showToast(
-                    (output ?: response?.getContentAsString(context) ?: "")
-                        .truncate(maxLength = TOAST_MAX_LENGTH)
-                        .let(HTMLUtil::format)
-                        .ifBlank { context.getString(R.string.message_blank_response) },
-                    long = shortcut.responseHandling?.successOutput == ResponseHandlingModel.SUCCESS_OUTPUT_RESPONSE
-                )
-            }
-            ResponseHandlingModel.UI_TYPE_DIALOG,
-            null,
-            -> {
-                showResultDialog(shortcut, response, output)
-            }
-            ResponseHandlingModel.UI_TYPE_WINDOW -> {
-                if (params.isNested) {
-                    // When running in nested mode (i.e., the shortcut was invoked from another shortcut), we cannot open another activity
-                    // because it would interrupt the execution. Therefore, we suppress it here.
-                    return
+        withContext(Dispatchers.Main) {
+            when (shortcut.responseHandling?.uiType) {
+                ResponseHandlingModel.UI_TYPE_TOAST -> {
+                    context.showToast(
+                        (output ?: response?.getContentAsString(context) ?: "")
+                            .truncate(maxLength = TOAST_MAX_LENGTH)
+                            .let(HTMLUtil::format)
+                            .ifBlank { context.getString(R.string.message_blank_response) },
+                        long = shortcut.responseHandling?.successOutput == ResponseHandlingModel.SUCCESS_OUTPUT_RESPONSE
+                    )
                 }
-                DisplayResponseActivity.IntentBuilder(shortcut.id)
-                    .name(shortcutName)
-                    .type(response?.contentType)
-                    .runIfNotNull(output) {
-                        text(it)
+                ResponseHandlingModel.UI_TYPE_DIALOG,
+                null,
+                -> {
+                    showResultDialog(shortcut, response, output)
+                }
+                ResponseHandlingModel.UI_TYPE_WINDOW -> {
+                    if (params.isNested) {
+                        // When running in nested mode (i.e., the shortcut was invoked from another shortcut), we cannot open another activity
+                        // because it would interrupt the execution. Therefore, we suppress it here.
+                        return@withContext
                     }
-                    .runIfNotNull(response?.contentFile) {
-                        responseFileUri(it)
-                    }
-                    .runIfNotNull(response?.url) {
-                        url(it)
-                    }
-                    .runIf(shortcut.responseHandling?.includeMetaInfo == true) {
-                        showDetails(true)
-                            .timing(response?.timing)
-                            .headers(response?.headers)
-                            .statusCode(response?.statusCode)
-                    }
-                    .actions(shortcut.responseHandling?.displayActions ?: emptyList())
-                    .startActivity(activityProvider.getActivity())
+                    DisplayResponseActivity.IntentBuilder(shortcut.id)
+                        .name(shortcutName)
+                        .type(response?.contentType)
+                        .runIfNotNull(output) {
+                            text(it)
+                        }
+                        .runIfNotNull(response?.contentFile) {
+                            responseFileUri(it)
+                        }
+                        .runIfNotNull(response?.url) {
+                            url(it)
+                        }
+                        .runIf(shortcut.responseHandling?.includeMetaInfo == true) {
+                            showDetails(true)
+                                .timing(response?.timing)
+                                .headers(response?.headers)
+                                .statusCode(response?.statusCode)
+                        }
+                        .actions(shortcut.responseHandling?.displayActions ?: emptyList())
+                        .startActivity(activityProvider.getActivity())
+                }
+                else -> Unit
             }
-            else -> Unit
         }
     }
 
