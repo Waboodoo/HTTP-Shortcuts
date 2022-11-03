@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.withContext
 import org.liquidplayer.javascript.JSContext
 import org.liquidplayer.javascript.JSObject
-import java.io.IOException
 import javax.inject.Inject
 
 class ExecuteShortcutAction(
@@ -78,33 +77,20 @@ class ExecuteShortcutAction(
             executionContext.variableManager.storeVariableValues(it)
         }
 
-        val responseObject = (finalStatus as? ExecutionStatus.WithResponse)
-            ?.response
-            ?.let { responseObjectFactory.create(executionContext.jsContext, it) }
-
-        return when (finalStatus) {
-            is ExecutionStatus.CompletedSuccessfully -> {
-                executionContext.variableManager.storeVariableValues(finalStatus.variableValues)
-                createResult(
-                    executionContext.jsContext,
-                    status = "success",
-                    response = responseObject,
-                )
-            }
-            is ExecutionStatus.CompletedWithError -> {
-                executionContext.variableManager.storeVariableValues(finalStatus.variableValues)
-                createResult(
-                    executionContext.jsContext,
-                    status = "failure",
-                    response = responseObject,
-                    error = finalStatus.error?.message,
-                )
-            }
-            else -> createResult(
-                executionContext.jsContext,
-                status = "unknown",
-            )
-        }
+        return createResult(
+            executionContext.jsContext,
+            status = when (finalStatus) {
+                is ExecutionStatus.CompletedSuccessfully -> "success"
+                is ExecutionStatus.CompletedWithError -> "failure"
+                else -> "unknown"
+            },
+            response = (finalStatus as? ExecutionStatus.WithResponse)
+                ?.response
+                ?.let { responseObjectFactory.create(executionContext.jsContext, it) },
+            error = (finalStatus as? ExecutionStatus.CompletedWithError)
+                ?.error
+                ?.message,
+        )
     }
 
     companion object {

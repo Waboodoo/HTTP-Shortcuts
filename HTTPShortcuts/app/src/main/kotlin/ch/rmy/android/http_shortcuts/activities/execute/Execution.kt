@@ -295,7 +295,13 @@ class Execution(
                     else -> Unit
                 }
 
-                emit(ExecutionStatus.CompletedWithError(e as? IOException, (e as? ErrorResponse)?.shortcutResponse, variableManager.getVariableValuesByIds()))
+                emit(
+                    ExecutionStatus.CompletedWithError(
+                        error = e as? IOException,
+                        response = (e as? ErrorResponse)?.shortcutResponse,
+                        variableValues = variableManager.getVariableValuesByIds(),
+                    ),
+                )
                 return
             }
             throw e
