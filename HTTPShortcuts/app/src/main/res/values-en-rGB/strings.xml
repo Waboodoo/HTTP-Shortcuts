@@ -40,4 +40,6 @@
     <string name="variable_type_color_description">Shows a dialogue with a colour picker</string>
     <!-- Label for dropdown in shortcut editor, for picking the main action that should be displayed on the dialog that displays the HTTP response -->
     <string name="label_dialog_action_dropdown">Dialogue Action</string>
+    <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
+    <string name="description_customizable_widget">Choose the colour of your shortcut\'s label, or whether to hide the label completely.</string>
 </resources>
