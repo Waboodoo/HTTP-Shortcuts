@@ -16,7 +16,6 @@ import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.EventBridge
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.framework.viewmodel.viewstate.ProgressDialogState
@@ -128,8 +127,6 @@ class ShortcutListViewModel(
 
     @Inject
     lateinit var launcherShortcutManager: LauncherShortcutManager
-
-    private val eventBridge = EventBridge(ChildViewModelEvent::class.java)
 
     init {
         getApplicationComponent().inject(this)
@@ -257,7 +254,7 @@ class ShortcutListViewModel(
         updateViewState {
             copy(isInMovingMode = true)
         }
-        eventBridge.submit(ChildViewModelEvent.MovingModeChanged(true))
+        emitEvent(ShortcutListEvent.MovingModeChanged(true))
         showSnackbar(R.string.message_moving_enabled, long = true)
     }
 
@@ -265,7 +262,7 @@ class ShortcutListViewModel(
         updateViewState {
             copy(isInMovingMode = false)
         }
-        eventBridge.submit(ChildViewModelEvent.MovingModeChanged(false))
+        emitEvent(ShortcutListEvent.MovingModeChanged(false))
         updateLauncherShortcuts()
     }
 
@@ -309,7 +306,7 @@ class ShortcutListViewModel(
     }
 
     private fun selectShortcut(shortcutId: ShortcutId) {
-        eventBridge.submit(ChildViewModelEvent.SelectShortcut(shortcutId))
+        emitEvent(ShortcutListEvent.SelectShortcut(shortcutId))
     }
 
     private fun executeShortcut(shortcutId: ShortcutId) {
@@ -357,7 +354,7 @@ class ShortcutListViewModel(
 
     fun onPlaceOnHomeScreenOptionSelected(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
-        eventBridge.submit(ChildViewModelEvent.PlaceShortcutOnHomeScreen(shortcut.toLauncherShortcut()))
+        emitEvent(ShortcutListEvent.PlaceShortcutOnHomeScreen(shortcut.toLauncherShortcut()))
     }
 
     fun onExecuteOptionSelected(shortcutId: ShortcutId) {
@@ -601,7 +598,7 @@ class ShortcutListViewModel(
 
     fun onShortcutEdited() {
         logInfo("Shortcut editing completed")
-        eventBridge.submit(ChildViewModelEvent.ShortcutEdited)
+        emitEvent(ShortcutListEvent.ShortcutEdited)
     }
 
     fun onDeletionConfirmed(shortcutId: ShortcutId) {
@@ -612,7 +609,7 @@ class ShortcutListViewModel(
             widgetsRepository.deleteDeadWidgets()
             showSnackbar(StringResLocalizable(R.string.shortcut_deleted, shortcut.name))
             updateLauncherShortcuts()
-            eventBridge.submit(ChildViewModelEvent.RemoveShortcutFromHomeScreen(shortcut.toLauncherShortcut()))
+            emitEvent(ShortcutListEvent.RemoveShortcutFromHomeScreen(shortcut.toLauncherShortcut()))
         }
     }
 

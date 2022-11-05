@@ -55,6 +55,9 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
 
     private val viewModel: ShortcutListViewModel by bindViewModel { "$categoryId-$layoutType-$selectionMode" }
 
+    private val parentViewModel: MainViewModel
+        get() = (requireActivity() as MainActivity).viewModel
+
     private lateinit var adapter: BaseShortcutAdapter
 
     private val wallpaper: Drawable? by lazy(LazyThreadSafetyMode.NONE) {
@@ -179,6 +182,21 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
                     single = true,
                 )
             )
+            is ShortcutListEvent.MovingModeChanged -> {
+                parentViewModel.onMovingModeChanged(event.enabled)
+            }
+            is ShortcutListEvent.ShortcutEdited -> {
+                parentViewModel.onShortcutEdited()
+            }
+            is ShortcutListEvent.PlaceShortcutOnHomeScreen -> {
+                parentViewModel.onPlaceShortcutOnHomeScreen(event.shortcut)
+            }
+            is ShortcutListEvent.RemoveShortcutFromHomeScreen -> {
+                parentViewModel.onRemoveShortcutFromHomeScreen(event.shortcut)
+            }
+            is ShortcutListEvent.SelectShortcut -> {
+                parentViewModel.onSelectShortcut(event.shortcutId)
+            }
             else -> super.handleEvent(event)
         }
     }

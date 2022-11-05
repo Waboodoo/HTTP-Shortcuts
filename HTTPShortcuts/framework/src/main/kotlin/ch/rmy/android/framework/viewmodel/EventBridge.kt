@@ -4,6 +4,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 
+@Deprecated("This code smell will hopefully be gone soon")
 class EventBridge<T : Any>(private val clazz: Class<T>) {
 
     fun submit(event: T) {

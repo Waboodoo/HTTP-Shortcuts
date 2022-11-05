@@ -13,7 +13,6 @@ import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.EventBridge
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
@@ -112,8 +111,6 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     @Inject
     lateinit var pendingExecutionsRepository: PendingExecutionsRepository
 
-    private val eventBridge = EventBridge(ChildViewModelEvent::class.java)
-
     init {
         getApplicationComponent().inject(this)
     }
@@ -167,7 +164,6 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
             }
 
     override fun onInitialized() {
-        observeChildViewModelEvents()
         observeToolbarTitle()
         observeAppLock()
 
@@ -245,32 +241,6 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     private fun showNetworkRestrictionWarningDialogIfNeeded() {
         if (shouldShowNetworkRestrictionDialog()) {
             dialogState = getNetworkRestrictionDialog()
-        }
-    }
-
-    private fun observeChildViewModelEvents() {
-        viewModelScope.launch {
-            eventBridge.events.collect(::handleChildViewModelEvent)
-        }
-    }
-
-    private fun handleChildViewModelEvent(event: ChildViewModelEvent) {
-        when (event) {
-            is ChildViewModelEvent.MovingModeChanged -> {
-                updateViewState {
-                    copy(isInMovingMode = event.enabled)
-                }
-            }
-            is ChildViewModelEvent.ShortcutEdited -> {
-                viewModelScope.launch {
-                    val categories = categoryRepository.getCategories()
-                    this@MainViewModel.categories = categories
-                    updateLauncherShortcuts(categories)
-                }
-            }
-            is ChildViewModelEvent.PlaceShortcutOnHomeScreen -> placeShortcutOnHomeScreen(event.shortcut)
-            is ChildViewModelEvent.RemoveShortcutFromHomeScreen -> removeShortcutFromHomeScreen(event.shortcut)
-            is ChildViewModelEvent.SelectShortcut -> selectShortcut(event.shortcutId)
         }
     }
 
@@ -535,6 +505,32 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
                 showNetworkRestrictionWarningDialogIfNeeded()
             }
         }
+    }
+
+    fun onMovingModeChanged(enabled: Boolean) {
+        updateViewState {
+            copy(isInMovingMode = enabled)
+        }
+    }
+
+    fun onShortcutEdited() {
+        viewModelScope.launch {
+            val categories = categoryRepository.getCategories()
+            this@MainViewModel.categories = categories
+            updateLauncherShortcuts(categories)
+        }
+    }
+
+    fun onPlaceShortcutOnHomeScreen(shortcut: LauncherShortcut) {
+        placeShortcutOnHomeScreen(shortcut)
+    }
+
+    fun onRemoveShortcutFromHomeScreen(shortcut: LauncherShortcut) {
+        removeShortcutFromHomeScreen(shortcut)
+    }
+
+    fun onSelectShortcut(shortcutId: ShortcutId) {
+        selectShortcut(shortcutId)
     }
 
     data class InitData(

@@ -85,7 +85,7 @@ class MainActivity : BaseActivity(), Entrypoint {
         }
     }
 
-    private val viewModel: MainViewModel by bindViewModel()
+    val viewModel: MainViewModel by bindViewModel()
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: CategoryPagerAdapter
