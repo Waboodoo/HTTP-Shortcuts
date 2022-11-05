@@ -9,13 +9,14 @@ import ch.rmy.android.framework.extensions.collectEventsWhileActive
 import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
+import ch.rmy.android.http_shortcuts.activities.variables.editor.types.WithValidation
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorConstantBinding
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import javax.inject.Inject
 
-class ConstantTypeFragment : BaseFragment<VariableEditorConstantBinding>() {
+class ConstantTypeFragment : BaseFragment<VariableEditorConstantBinding>(), WithValidation {
 
     @Inject
     lateinit var variableViewUtils: VariableViewUtils
@@ -59,6 +60,10 @@ class ConstantTypeFragment : BaseFragment<VariableEditorConstantBinding>() {
             binding.inputVariableValue.rawString = viewState.value
         }
         collectEventsWhileActive(viewModel, ::handleEvent)
+    }
+
+    override fun validate() {
+        viewModel.onValidationEvent()
     }
 
     companion object {

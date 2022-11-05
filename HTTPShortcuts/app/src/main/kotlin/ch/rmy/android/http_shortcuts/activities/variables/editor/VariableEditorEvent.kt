@@ -4,4 +4,5 @@ import ch.rmy.android.framework.viewmodel.ViewModelEvent
 
 abstract class VariableEditorEvent : ViewModelEvent() {
     object FocusVariableKeyInput : VariableEditorEvent()
+    object Validate : VariableEditorEvent()
 }

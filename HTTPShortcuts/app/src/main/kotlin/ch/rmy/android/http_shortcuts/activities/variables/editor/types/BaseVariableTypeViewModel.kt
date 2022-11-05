@@ -5,7 +5,6 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.EventBridge
-import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorToVariableTypeEvent
 import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableTypeToVariableEditorEvent
 import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryVariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
@@ -18,7 +17,6 @@ abstract class BaseVariableTypeViewModel<InitData : Any, ViewState : Any>(applic
     @Inject
     lateinit var temporaryVariableRepository: TemporaryVariableRepository
 
-    private val incomingEventBridge = EventBridge(VariableEditorToVariableTypeEvent::class.java)
     private val outgoingEventBridge = EventBridge(VariableTypeToVariableEditorEvent::class.java)
 
     protected lateinit var variable: VariableModel
@@ -39,20 +37,13 @@ abstract class BaseVariableTypeViewModel<InitData : Any, ViewState : Any>(applic
 
     @CallSuper
     override fun onInitialized() {
-        viewModelScope.launch {
-            incomingEventBridge.events.collect { event ->
-                when (event) {
-                    VariableEditorToVariableTypeEvent.Validate -> onValidationEvent()
-                }
-            }
-        }
         outgoingEventBridge.submit(VariableTypeToVariableEditorEvent.Initialized)
     }
 
     protected open fun onVariableChanged() {
     }
 
-    private fun onValidationEvent() {
+    fun onValidationEvent() {
         viewModelScope.launch {
             waitForOperationsToFinish()
             sendValidationResult(validate())

@@ -40,7 +40,6 @@ class VariableEditorViewModel(
 
     private var typeHasFragment: Boolean = false
 
-    private val outgoingEventBridge = EventBridge(VariableEditorToVariableTypeEvent::class.java)
     private val incomingEventBridge = EventBridge(VariableTypeToVariableEditorEvent::class.java)
 
     private val variableId: VariableId?
@@ -163,7 +162,7 @@ class VariableEditorViewModel(
             waitForOperationsToFinish()
             if (validate()) {
                 if (typeHasFragment) {
-                    outgoingEventBridge.submit(VariableEditorToVariableTypeEvent.Validate)
+                    emitEvent(VariableEditorEvent.Validate)
                 } else {
                     incomingEventBridge.submit(VariableTypeToVariableEditorEvent.Validated(valid = true))
                 }

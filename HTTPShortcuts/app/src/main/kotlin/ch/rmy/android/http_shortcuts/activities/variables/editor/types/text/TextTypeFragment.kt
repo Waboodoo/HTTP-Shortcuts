@@ -10,9 +10,10 @@ import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.doOnCheckedChanged
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
+import ch.rmy.android.http_shortcuts.activities.variables.editor.types.WithValidation
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorTextBinding
 
-class TextTypeFragment : BaseFragment<VariableEditorTextBinding>() {
+class TextTypeFragment : BaseFragment<VariableEditorTextBinding>(), WithValidation {
 
     private val viewModel: TextTypeViewModel by bindViewModel()
 
@@ -41,5 +42,9 @@ class TextTypeFragment : BaseFragment<VariableEditorTextBinding>() {
             binding.inputMultiline.isChecked = viewState.isMultiline
         }
         collectEventsWhileActive(viewModel, ::handleEvent)
+    }
+
+    override fun validate() {
+        viewModel.onValidationEvent()
     }
 }

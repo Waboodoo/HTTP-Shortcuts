@@ -21,6 +21,7 @@ import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
+import ch.rmy.android.http_shortcuts.activities.variables.editor.types.WithValidation
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.color.ColorTypeFragment
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.constant.ConstantTypeFragment
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.date.DateTypeFragment
@@ -46,6 +47,8 @@ class VariableEditorActivity : BaseActivity() {
     private lateinit var defaultColor: ColorStateList
 
     private val viewModel: VariableEditorViewModel by bindViewModel()
+
+    private var fragment: BaseFragment<*>? = null
 
     private lateinit var binding: ActivityVariableEditorBinding
 
@@ -87,6 +90,7 @@ class VariableEditorActivity : BaseActivity() {
             .beginTransaction()
             .replace(R.id.variable_type_fragment_container, fragment, tag)
             .commitAllowingStateLoss()
+        this.fragment = fragment
     }
 
     private fun createEditorFragment(): BaseFragment<*>? =
@@ -159,6 +163,7 @@ class VariableEditorActivity : BaseActivity() {
     override fun handleEvent(event: ViewModelEvent) {
         when (event) {
             is VariableEditorEvent.FocusVariableKeyInput -> binding.inputVariableKey.focus()
+            is VariableEditorEvent.Validate -> (fragment as? WithValidation)?.validate()
             else -> super.handleEvent(event)
         }
     }

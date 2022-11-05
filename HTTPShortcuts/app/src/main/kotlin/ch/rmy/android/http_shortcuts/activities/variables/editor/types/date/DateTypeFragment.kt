@@ -11,9 +11,10 @@ import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
+import ch.rmy.android.http_shortcuts.activities.variables.editor.types.WithValidation
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorDateBinding
 
-class DateTypeFragment : BaseFragment<VariableEditorDateBinding>() {
+class DateTypeFragment : BaseFragment<VariableEditorDateBinding>(), WithValidation {
 
     private val viewModel: DateTypeViewModel by bindViewModel()
 
@@ -44,5 +45,9 @@ class DateTypeFragment : BaseFragment<VariableEditorDateBinding>() {
             binding.inputRememberValue.isChecked = viewState.rememberValue
         }
         collectEventsWhileActive(viewModel, ::handleEvent)
+    }
+
+    override fun validate() {
+        viewModel.onValidationEvent()
     }
 }

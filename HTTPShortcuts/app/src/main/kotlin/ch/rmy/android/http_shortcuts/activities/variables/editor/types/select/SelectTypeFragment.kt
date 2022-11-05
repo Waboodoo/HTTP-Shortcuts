@@ -16,6 +16,7 @@ import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
+import ch.rmy.android.http_shortcuts.activities.variables.editor.types.WithValidation
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.databinding.SelectOptionEditorItemBinding
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorSelectBinding
@@ -25,7 +26,7 @@ import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import javax.inject.Inject
 
-class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
+class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>(), WithValidation {
 
     @Inject
     lateinit var variableViewUtils: VariableViewUtils
@@ -150,5 +151,9 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>() {
                 viewModel.onDeleteOptionSelected(optionId)
             }
             .showIfPossible()
+    }
+
+    override fun validate() {
+        viewModel.onValidationEvent()
     }
 }

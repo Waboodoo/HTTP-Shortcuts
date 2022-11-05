@@ -9,9 +9,10 @@ import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.doOnCheckedChanged
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
+import ch.rmy.android.http_shortcuts.activities.variables.editor.types.WithValidation
 import ch.rmy.android.http_shortcuts.databinding.VariableEditorColorBinding
 
-class ColorTypeFragment : BaseFragment<VariableEditorColorBinding>() {
+class ColorTypeFragment : BaseFragment<VariableEditorColorBinding>(), WithValidation {
 
     private val viewModel: ColorTypeViewModel by bindViewModel()
 
@@ -37,5 +38,9 @@ class ColorTypeFragment : BaseFragment<VariableEditorColorBinding>() {
             binding.inputRememberValue.isChecked = viewState.rememberValue
         }
         collectEventsWhileActive(viewModel, ::handleEvent)
+    }
+
+    override fun validate() {
+        viewModel.onValidationEvent()
     }
 }
