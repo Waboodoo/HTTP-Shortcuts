@@ -46,6 +46,9 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     @Inject
     lateinit var executionSchedulerStarter: ExecutionSchedulerWorker.Starter
 
+    @Inject
+    lateinit var sessionMonitor: SessionMonitor
+
     private val viewModel: ExecuteViewModel by bindViewModel()
 
     private val progressIndicator: ProgressIndicator by lazy {
@@ -72,7 +75,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     override fun onCreated(savedState: Bundle?) {
         getApplicationComponent().inject(this)
-        SessionMonitor.onSessionStarted()
+        sessionMonitor.onSessionStarted()
         setTheme(themeHelper.transparentTheme)
 
         viewModel.initialize(
@@ -91,6 +94,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         doOnDestroy {
             cacheFilesCleanupStarter()
             executionSchedulerStarter()
+            sessionMonitor.onSessionComplete()
         }
     }
 
@@ -119,11 +123,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     override fun onBackPressed() {
         finishWithoutAnimation()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        SessionMonitor.onSessionComplete()
     }
 
     class IntentBuilder(private val shortcutId: ShortcutId? = null) : BaseIntentBuilder(ExecuteActivity::class) {

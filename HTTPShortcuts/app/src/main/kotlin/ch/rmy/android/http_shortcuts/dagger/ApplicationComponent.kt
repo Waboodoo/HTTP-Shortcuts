@@ -57,6 +57,7 @@ import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsViewModel
 import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
 import ch.rmy.android.http_shortcuts.http.HttpRequesterWorker
 import ch.rmy.android.http_shortcuts.plugin.PluginEditActivity
+import ch.rmy.android.http_shortcuts.plugin.TriggerShortcutActionRunner
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionSchedulerWorker
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionWorker
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeDescriptionAction
@@ -289,4 +290,6 @@ interface ApplicationComponent {
     fun inject(executeShortcutAction: ExecuteShortcutAction)
 
     fun inject(executeViewModel: ExecuteViewModel)
+
+    fun inject(triggerShortcutActionRunner: TriggerShortcutActionRunner)
 }

@@ -1,44 +1,40 @@
 package ch.rmy.android.http_shortcuts.plugin
 
-import java.util.concurrent.TimeoutException
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.withTimeout
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.time.Duration
 
-object SessionMonitor {
+@Singleton
+class SessionMonitor
+@Inject
+constructor() {
 
-    private var sessionStatus: SessionStatus = SessionStatus.SCHEDULED
+    private var startedDeferred: CompletableDeferred<Unit>? = null
+    private var completedDeferred: CompletableDeferred<Unit>? = null
 
-    fun onSessionScheduled() {
-        sessionStatus = SessionStatus.SCHEDULED
+    suspend fun monitorSession(startTimeout: Duration, completionTimeout: Duration) {
+        withTimeout(startTimeout) {
+            startedDeferred?.await()
+        }
+        withTimeout(completionTimeout) {
+            completedDeferred?.await()
+        }
     }
 
-    fun monitorSession(startTimeout: Int, completionTimeout: Int) {
-        val start = System.currentTimeMillis()
-        while (sessionStatus == SessionStatus.SCHEDULED) {
-            Thread.sleep(300)
-            if (System.currentTimeMillis() - start > startTimeout) {
-                throw SessionStartException()
-            }
-        }
-        while (sessionStatus != SessionStatus.COMPLETED) {
-            Thread.sleep(300)
-            if (System.currentTimeMillis() - start > completionTimeout) {
-                throw TimeoutException()
-            }
-        }
+    fun onSessionScheduled() {
+        startedDeferred = CompletableDeferred()
+        completedDeferred = CompletableDeferred()
     }
 
     fun onSessionStarted() {
-        sessionStatus = SessionStatus.RUNNING
+        startedDeferred?.complete(Unit)
+        startedDeferred = null
     }
 
     fun onSessionComplete() {
-        sessionStatus = SessionStatus.COMPLETED
+        completedDeferred?.complete(Unit)
+        completedDeferred = null
     }
-
-    enum class SessionStatus {
-        SCHEDULED,
-        RUNNING,
-        COMPLETED,
-    }
-
-    class SessionStartException : Exception()
 }
