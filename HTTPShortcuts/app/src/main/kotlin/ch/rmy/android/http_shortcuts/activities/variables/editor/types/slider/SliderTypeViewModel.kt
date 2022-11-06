@@ -82,11 +82,11 @@ class SliderTypeViewModel(application: Application) : BaseVariableTypeViewModel<
         with(currentViewState!!) {
             when {
                 maxValue <= minValue -> {
-                    showToast(R.string.error_slider_max_not_greater_than_min)
+                    showSnackbar(R.string.error_slider_max_not_greater_than_min)
                     false
                 }
                 stepSize <= 0 -> {
-                    showToast(R.string.error_slider_step_size_must_be_positive)
+                    showSnackbar(R.string.error_slider_step_size_must_be_positive)
                     false
                 }
                 else -> true
