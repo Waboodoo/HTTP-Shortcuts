@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor
 
-sealed interface VariableTypeToVariableEditorEvent {
-    object Initialized : VariableTypeToVariableEditorEvent
-    data class Validated(val valid: Boolean) : VariableTypeToVariableEditorEvent
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
+
+abstract class VariableTypeToVariableEditorEvent : ViewModelEvent() {
+    data class Validated(val valid: Boolean) : VariableTypeToVariableEditorEvent()
 }

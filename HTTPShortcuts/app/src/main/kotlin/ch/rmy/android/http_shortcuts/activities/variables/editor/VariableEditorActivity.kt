@@ -46,7 +46,7 @@ class VariableEditorActivity : BaseActivity() {
 
     private lateinit var defaultColor: ColorStateList
 
-    private val viewModel: VariableEditorViewModel by bindViewModel()
+    val viewModel: VariableEditorViewModel by bindViewModel()
 
     private var fragment: BaseFragment<*>? = null
 

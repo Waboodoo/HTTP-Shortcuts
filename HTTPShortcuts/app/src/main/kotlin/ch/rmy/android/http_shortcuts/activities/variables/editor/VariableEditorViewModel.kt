@@ -6,7 +6,6 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.EventBridge
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
@@ -37,10 +36,6 @@ class VariableEditorViewModel(
     init {
         getApplicationComponent().inject(this)
     }
-
-    private var typeHasFragment: Boolean = false
-
-    private val incomingEventBridge = EventBridge(VariableTypeToVariableEditorEvent::class.java)
 
     private val variableId: VariableId?
         get() = initData.variableId
@@ -102,15 +97,6 @@ class VariableEditorViewModel(
                         }
                 }
         }
-
-        viewModelScope.launch {
-            incomingEventBridge.events.collect { event ->
-                when (event) {
-                    is VariableTypeToVariableEditorEvent.Validated -> onValidated(event.valid)
-                    is VariableTypeToVariableEditorEvent.Initialized -> typeHasFragment = true
-                }
-            }
-        }
     }
 
     private fun onTemporaryVariableCreated() {
@@ -161,10 +147,10 @@ class VariableEditorViewModel(
         viewModelScope.launch {
             waitForOperationsToFinish()
             if (validate()) {
-                if (typeHasFragment) {
+                if (variableType.hasFragment) {
                     emitEvent(VariableEditorEvent.Validate)
                 } else {
-                    incomingEventBridge.submit(VariableTypeToVariableEditorEvent.Validated(valid = true))
+                    onValidated(valid = true)
                 }
             } else {
                 isSaving = false
@@ -172,7 +158,7 @@ class VariableEditorViewModel(
         }
     }
 
-    private fun onValidated(valid: Boolean) {
+    fun onValidated(valid: Boolean) {
         if (valid) {
             save()
         } else {

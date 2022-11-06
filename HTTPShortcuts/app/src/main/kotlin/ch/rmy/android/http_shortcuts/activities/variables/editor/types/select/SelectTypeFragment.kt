@@ -16,6 +16,9 @@ import ch.rmy.android.framework.utils.DragOrderingHelper
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
+import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorActivity
+import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorViewModel
+import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableTypeToVariableEditorEvent
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.WithValidation
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.databinding.SelectOptionEditorItemBinding
@@ -38,6 +41,9 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>(), WithVali
     lateinit var activityProvider: ActivityProvider
 
     private val viewModel: SelectTypeViewModel by bindViewModel()
+
+    private val parentViewModel: VariableEditorViewModel
+        get() = (requireActivity() as VariableEditorActivity).viewModel
 
     private var isDraggingEnabled = false
 
@@ -111,6 +117,7 @@ class SelectTypeFragment : BaseFragment<VariableEditorSelectBinding>(), WithVali
         when (event) {
             is SelectTypeEvent.ShowAddDialog -> showAddDialog()
             is SelectTypeEvent.ShowEditDialog -> showEditDialog(event.optionId, event.label, event.value)
+            is VariableTypeToVariableEditorEvent.Validated -> parentViewModel.onValidated(event.valid)
             else -> super.handleEvent(event)
         }
     }

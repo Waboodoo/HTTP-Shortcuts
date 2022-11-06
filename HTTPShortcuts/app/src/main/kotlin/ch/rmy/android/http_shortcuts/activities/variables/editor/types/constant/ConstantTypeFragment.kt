@@ -8,7 +8,11 @@ import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.collectEventsWhileActive
 import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.doOnTextChanged
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.activities.BaseFragment
+import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorActivity
+import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorViewModel
+import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableTypeToVariableEditorEvent
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.WithValidation
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
@@ -22,6 +26,9 @@ class ConstantTypeFragment : BaseFragment<VariableEditorConstantBinding>(), With
     lateinit var variableViewUtils: VariableViewUtils
 
     private val viewModel: ConstantTypeViewModel by bindViewModel()
+
+    private val parentViewModel: VariableEditorViewModel
+        get() = (requireActivity() as VariableEditorActivity).viewModel
 
     override fun inject(applicationComponent: ApplicationComponent) {
         applicationComponent.inject(this)
@@ -43,6 +50,13 @@ class ConstantTypeFragment : BaseFragment<VariableEditorConstantBinding>(), With
         initViews()
         initUserInputBindings()
         initViewModelBindings()
+    }
+
+    override fun handleEvent(event: ViewModelEvent) {
+        when (event) {
+            is VariableTypeToVariableEditorEvent.Validated -> parentViewModel.onValidated(event.valid)
+            else -> super.handleEvent(event)
+        }
     }
 
     private fun initViews() {
