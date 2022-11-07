@@ -40,7 +40,7 @@ class DialogAction(private val message: String, private val title: String) : Bas
             val textView = view.text
             textView.text = HTMLUtil.formatWithImageSupport(
                 string = finalMessage,
-                context = executionContext.context,
+                context = activity,
                 onImageLoaded = textView::reloadImageSpans,
                 coroutineScope = this,
             )

@@ -18,6 +18,9 @@ import javax.inject.Inject
 class RenameShortcutAction(private val name: String, private val shortcutNameOrId: ShortcutNameOrId?) : BaseAction() {
 
     @Inject
+    lateinit var context: Context
+
+    @Inject
     lateinit var shortcutRepository: ShortcutRepository
 
     @Inject
@@ -29,13 +32,12 @@ class RenameShortcutAction(private val name: String, private val shortcutNameOrI
 
     override suspend fun execute(executionContext: ExecutionContext) {
         renameShortcut(
-            executionContext.context,
             this.shortcutNameOrId ?: executionContext.shortcutId,
             executionContext.variableManager,
         )
     }
 
-    private suspend fun renameShortcut(context: Context, shortcutNameOrId: ShortcutNameOrId, variableManager: VariableManager) {
+    private suspend fun renameShortcut(shortcutNameOrId: ShortcutNameOrId, variableManager: VariableManager) {
         val newName = Variables.rawPlaceholdersToResolvedValues(name, variableManager.getVariableValuesByIds())
             .trim()
             .truncate(ShortcutModel.NAME_MAX_LENGTH)

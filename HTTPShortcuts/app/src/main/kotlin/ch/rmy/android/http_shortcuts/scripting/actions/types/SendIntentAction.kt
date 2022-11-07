@@ -8,31 +8,41 @@ import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.extensions.toListOfObjects
 import ch.rmy.android.http_shortcuts.extensions.toListOfStrings
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import javax.inject.Inject
 
 class SendIntentAction(private val jsonData: String) : BaseAction() {
 
+    @Inject
+    lateinit var activityProvider: ActivityProvider
+
+    override fun inject(applicationComponent: ApplicationComponent) {
+        applicationComponent.inject(this)
+    }
+
     override suspend fun execute(executionContext: ExecutionContext) {
-        val context = executionContext.context
         val parameters = JSONObject(jsonData)
         val intent = constructIntent(parameters)
         withContext(Dispatchers.Main) {
+            val activity = activityProvider.getActivity()
             try {
                 when (parameters.optString(KEY_TYPE).lowercase()) {
                     TYPE_ACTIVITY -> {
-                        context.startActivity(intent)
+                        activity.startActivity(intent)
                     }
                     TYPE_SERVICE -> {
-                        context.startService(intent)
+                        activity.startService(intent)
                     }
                     else -> {
-                        context.sendBroadcast(intent)
+                        activity.sendBroadcast(intent)
                     }
                 }
             } catch (e: Exception) {

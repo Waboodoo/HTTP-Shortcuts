@@ -70,11 +70,18 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.ExecuteShortcutActi
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetClipboardContentAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetLocationAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetVariableAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenAppAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenURLAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.PlaySoundAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ScanBarcodeAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SelectionAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.SendIntentAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.TextToSpeechAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.ToastAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.TriggerTaskerTaskAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.VibrateAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WifiIPAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WifiSSIDAction
@@ -292,4 +299,18 @@ interface ApplicationComponent {
     fun inject(executeViewModel: ExecuteViewModel)
 
     fun inject(triggerShortcutActionRunner: TriggerShortcutActionRunner)
+
+    fun inject(openURLAction: OpenURLAction)
+
+    fun inject(openAppAction: OpenAppAction)
+
+    fun inject(triggerTaskerTaskAction: TriggerTaskerTaskAction)
+
+    fun inject(toastAction: ToastAction)
+
+    fun inject(playSoundAction: PlaySoundAction)
+
+    fun inject(sendIntentAction: SendIntentAction)
+
+    fun inject(textToSpeechAction: TextToSpeechAction)
 }

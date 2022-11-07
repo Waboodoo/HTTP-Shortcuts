@@ -15,6 +15,9 @@ import javax.inject.Inject
 class ChangeIconAction(private val iconName: String, private val shortcutNameOrId: ShortcutNameOrId?) : BaseAction() {
 
     @Inject
+    lateinit var context: Context
+
+    @Inject
     lateinit var shortcutRepository: ShortcutRepository
 
     @Inject
@@ -25,9 +28,9 @@ class ChangeIconAction(private val iconName: String, private val shortcutNameOrI
     }
 
     override suspend fun execute(executionContext: ExecutionContext) =
-        changeIcon(executionContext.context, this.shortcutNameOrId ?: executionContext.shortcutId)
+        changeIcon(this.shortcutNameOrId ?: executionContext.shortcutId)
 
-    private suspend fun changeIcon(context: Context, shortcutNameOrId: ShortcutNameOrId) {
+    private suspend fun changeIcon(shortcutNameOrId: ShortcutNameOrId) {
         val newIcon = ShortcutIcon.fromName(iconName)
         val shortcut = try {
             shortcutRepository.getShortcutByNameOrId(shortcutNameOrId)

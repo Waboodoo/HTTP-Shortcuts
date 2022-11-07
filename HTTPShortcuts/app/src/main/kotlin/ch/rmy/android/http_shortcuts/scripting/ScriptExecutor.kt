@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.resume
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
@@ -207,8 +208,8 @@ constructor(
                     return try {
                         val result = runBlocking {
                             action.run(
+                                applicationComponent = context.getApplicationComponent(),
                                 ExecutionContext(
-                                    context = context,
                                     jsContext = jsContext,
                                     shortcutId = shortcutId,
                                     variableManager = variableManager,

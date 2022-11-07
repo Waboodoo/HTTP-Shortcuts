@@ -5,12 +5,22 @@ import android.content.Intent
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 class OpenURLAction(private val url: String) : BaseAction() {
+
+    @Inject
+    lateinit var activityProvider: ActivityProvider
+
+    override fun inject(applicationComponent: ApplicationComponent) {
+        applicationComponent.inject(this)
+    }
 
     override suspend fun execute(executionContext: ExecutionContext) {
         withContext(Dispatchers.Main) {
@@ -22,7 +32,7 @@ class OpenURLAction(private val url: String) : BaseAction() {
             }
             try {
                 Intent(Intent.ACTION_VIEW, uri)
-                    .startActivity(executionContext.context)
+                    .startActivity(activityProvider.getActivity())
             } catch (e: ActivityNotFoundException) {
                 throw ActionException { context ->
                     context.getString(R.string.error_no_app_found_for_url, url)
