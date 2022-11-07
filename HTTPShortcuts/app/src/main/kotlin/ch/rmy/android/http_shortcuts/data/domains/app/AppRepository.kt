@@ -114,7 +114,7 @@ constructor(
             if (base.title != null) {
                 oldBase.title = base.title
             }
-            if (!base.globalCode.isNullOrEmpty() && oldBase.globalCode.isNullOrEmpty()) {
+            if (!base.globalCode.isNullOrEmpty()) {
                 oldBase.globalCode = base.globalCode
             }
             when (importMode) {
