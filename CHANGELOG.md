@@ -10,6 +10,8 @@
 - Many big changes under the hood, so there's a good chance some new bugs snuck in. Please let me know if you encounter any.
 
 ### Bugfixes
+- In many cases, triggering shortcuts from 3rd party apps wasn't working anymore on Android 13. This should now be fixed.
+- When using the Remote Editor, global scripting code is now correctly pulled instead of being ignored in some cases
 - When configuring a shortcut to run silently (i.e., neither response nor errors are displayed), the checkboxes for selecting the available actions are no longer shown, as they have no effect
 
 ## Version 2.24.0
