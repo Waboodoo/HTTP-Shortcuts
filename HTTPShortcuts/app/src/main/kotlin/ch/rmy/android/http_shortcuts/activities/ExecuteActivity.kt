@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.activities
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -125,26 +124,12 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         finishWithoutAnimation()
     }
 
-    class IntentBuilder(private val shortcutId: ShortcutId? = null) : BaseIntentBuilder(ExecuteActivity::class) {
+    class IntentBuilder(shortcutId: ShortcutId? = null) : BaseIntentBuilder(ExecuteActivity::class) {
 
         init {
             intent.action = ACTION_EXECUTE_SHORTCUT
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_ANIMATION
-        }
-
-        override fun build(context: Context): Intent {
-            if (shortcutId != null) {
-                shortcut(shortcutId, context)
-            }
-            return super.build(context)
-        }
-
-        private fun shortcut(shortcutId: ShortcutId, context: Context) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
-            intent.data = Uri.fromParts("content", context.packageName, null)
-                .buildUpon()
-                .appendPath(shortcutId)
-                .build()
         }
 
         fun tryNumber(tryNumber: Int) = also {

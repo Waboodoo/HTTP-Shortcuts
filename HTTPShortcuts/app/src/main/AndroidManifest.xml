@@ -61,6 +61,7 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
@@ -235,6 +236,7 @@
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="ch.rmy.android.http_shortcuts.execute" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -361,6 +363,7 @@
             </intent-filter>
         </activity>
 
+        <!-- TODO: This alias can probably be removed now -->
         <activity-alias
             android:name=".ExecuteActivity"
             android:configChanges="orientation|screenSize"
