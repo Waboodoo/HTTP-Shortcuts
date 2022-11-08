@@ -25,9 +25,15 @@ import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.StringUtils
 import ch.rmy.android.http_shortcuts.utils.Validation
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, RemoteEditViewState>(application), WithDialog {
 
@@ -155,8 +161,8 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
     private fun startUpload() {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
+            val dialogJob = showProgressDialogAsync(R.string.remote_edit_upload_in_progress)
             try {
-                showProgressDialog(R.string.remote_edit_upload_in_progress)
                 getRemoteEditManager().upload(deviceId, password)
                 showSnackbar(R.string.message_remote_edit_upload_successful)
             } catch (e: CancellationException) {
@@ -165,6 +171,7 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
                 logException(e)
                 showMessageDialog(R.string.error_remote_edit_upload)
             } finally {
+                dialogJob.cancel()
                 hideProgressDialog()
             }
         }
@@ -181,8 +188,8 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
     private fun startDownload() {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
+            val dialogJob = showProgressDialogAsync(R.string.remote_edit_download_in_progress)
             try {
-                showProgressDialog(R.string.remote_edit_download_in_progress)
                 getRemoteEditManager().download(deviceId, password)
                 setResult(
                     intent = RemoteEditActivity.OpenRemoteEditor.createResult(changesImported = true),
@@ -196,6 +203,7 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
                 logException(e)
                 showMessageDialog(R.string.error_remote_edit_download)
             } finally {
+                dialogJob.cancel()
                 hideProgressDialog()
             }
         }
@@ -213,9 +221,12 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
             importer = importer,
         )
 
-    private fun showProgressDialog(message: Int) {
-        dialogState = ProgressDialogState(StringResLocalizable(message), ::onProgressDialogCanceled)
-    }
+    private fun CoroutineScope.showProgressDialogAsync(message: Int): Deferred<Unit> =
+        async {
+            delay(INVISIBLE_PROGRESS_THRESHOLD)
+            ensureActive()
+            dialogState = ProgressDialogState(StringResLocalizable(message), ::onProgressDialogCanceled)
+        }
 
     private fun hideProgressDialog() {
         if (dialogState?.id == ProgressDialogState.DIALOG_ID) {
@@ -244,6 +255,8 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
     }
 
     companion object {
+
+        private val INVISIBLE_PROGRESS_THRESHOLD = 400.milliseconds
 
         private const val REMOTE_BASE_URL = "https://http-shortcuts.rmy.ch/editor"
         private const val REMOTE_API_PATH = "api/files/"

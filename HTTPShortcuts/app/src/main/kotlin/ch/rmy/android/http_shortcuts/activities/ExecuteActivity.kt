@@ -169,6 +169,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         const val EXTRA_FILES = "files"
         const val EXTRA_EXECUTION_SCHEDULE_ID = "schedule_id"
 
-        private const val INVISIBLE_PROGRESS_THRESHOLD = 500L
+        private const val INVISIBLE_PROGRESS_THRESHOLD = 400L
     }
 }
