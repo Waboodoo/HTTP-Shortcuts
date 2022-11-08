@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.res.ColorStateList
@@ -34,10 +33,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.input.input
 
-open class DialogBuilder(val activity: Activity) {
-
-    val context: Context
-        get() = activity
+class DialogBuilder(val context: Context) {
 
     private val dialog = MaterialDialog(context)
     private val items = mutableListOf<MenuItem>()
@@ -172,7 +168,7 @@ open class DialogBuilder(val activity: Activity) {
 
     fun build(): MaterialDialog =
         dialog.runIf(items.isNotEmpty()) {
-            val listView = MenuDialogBinding.inflate(LayoutInflater.from(activity)).root
+            val listView = MenuDialogBinding.inflate(LayoutInflater.from(context)).root
                 .apply {
                     adapter = MenuListAdapter(this@DialogBuilder.context, items, dialog)
                     divider = null

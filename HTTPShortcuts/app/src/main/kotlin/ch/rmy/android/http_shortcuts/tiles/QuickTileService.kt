@@ -15,7 +15,6 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
-import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 import kotlinx.coroutines.runBlocking
@@ -27,9 +26,6 @@ class QuickTileService : TileService() {
     @Inject
     lateinit var shortcutRepository: ShortcutRepository
 
-    @Inject
-    lateinit var activityProvider: ActivityProvider
-
     override fun onCreate() {
         super.onCreate()
         context.getApplicationComponent().inject(this)
@@ -39,15 +35,9 @@ class QuickTileService : TileService() {
         val shortcuts = getShortcuts()
 
         when (shortcuts.size) {
-            0 -> {
-                showInstructions()
-            }
-            1 -> {
-                executeShortcut(shortcuts[0].id)
-            }
-            else -> {
-                showPickerDialog(shortcuts)
-            }
+            0 -> showInstructions()
+            1 -> executeShortcut(shortcuts[0].id)
+            else -> showPickerDialog(shortcuts)
         }
     }
 
@@ -60,7 +50,7 @@ class QuickTileService : TileService() {
 
     private fun showInstructions() {
         applyTheme()
-        val dialog = DialogBuilder(activityProvider.getActivity())
+        DialogBuilder(context)
             .message(
                 getString(
                     R.string.instructions_quick_settings_tile,
@@ -70,24 +60,24 @@ class QuickTileService : TileService() {
             )
             .positive(R.string.dialog_ok)
             .build()
-        show(dialog)
+            .showInService()
     }
 
     private fun showPickerDialog(shortcuts: List<ShortcutModel>) {
         applyTheme()
-        val dialog = DialogBuilder(activityProvider.getActivity())
+        DialogBuilder(context)
             .runFor(shortcuts) { shortcut ->
                 item(name = shortcut.name, shortcutIcon = shortcut.icon) {
                     executeShortcut(shortcut.id)
                 }
             }
             .build()
-        show(dialog)
+            .showInService()
     }
 
-    private fun show(dialog: Dialog) {
+    private fun Dialog.showInService() {
         try {
-            showDialog(dialog)
+            showDialog(this)
         } catch (e: WindowManager.BadTokenException) {
             // Ignore
         } catch (e: Throwable) {
