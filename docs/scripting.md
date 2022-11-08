@@ -511,8 +511,8 @@ executeShortcut('My Other Shortcut', {
 
 The function will return an object which contains a `status` field which you can query to see if the shortcut's execution was successful. It may contain the values "success", "failure", or "unknown".
 
-- "success" means that the shortcut successfully executed an HTTP request. Its response is returned in the `response` field, using the same [format](#handle-response) as the `response` object that is available for the all shortcut executions.
-- "failure" means that the shortcut's HTTP request failed, either due to a network error or the HTTP status was not 2xx. In this case, you can get more information about the failure via the `response` field or the `networkError` field.
+- "success" means that the shortcut successfully executed an HTTP request. Its response is returned in the `response` field, using the same [format](#handle-response) as the `response` object that is available for all shortcut executions.
+- "failure" means that the shortcut's HTTP request failed, either due to a network error or the HTTP status was not 2xx or 3xx. In this case, you can get more information about the failure via the `response` field or the `networkError` field, one of which is always non-null in this case.
 - "unknown" means that the shortcut did not (directly) make an HTTP request and therefore has no response. This will happen if the shortcut is not an HTTP shortcut or if the HTTP request was delayed or rescheduled.
 
 ```js
@@ -536,7 +536,7 @@ Please note the following technical limitations:
 
 #### Forwarding Files
 
-When enqueuing a shortcut, it is possible to forward one or more selected files to it. This can be useful if you have a shortcut that uses a file in a form parameter or its request body, and you want to use the same file also for another shortcut to include in another request. To do this, pass the [IDs of the files](#files) in via the special `$files` variable. You can pass either a single file ID or an array of file IDs, as shown in the following examples:
+When executing or enqueuing another shortcut, it is possible to forward one or more selected files to it. This can be useful if you have a shortcut that uses a file in a form parameter or its request body, and you want to use the same file also for another shortcut to include in another request. To do this, pass the [IDs of the files](#files) in via the special `$files` variable. You can pass either a single file ID or an array of file IDs, as shown in the following examples:
 
 ```js
 // Pass a single file
@@ -554,6 +554,8 @@ enqueueShortcut('My Other Shortcut', {
     '$files': selectedFiles.map(file => file.id),
 });
 ```
+
+This mechanism works both for the `enqueueShortcut` and the `executeShortcut` function.
 
 <a name="uuid-v4"></a>
 ### Generate UUID
