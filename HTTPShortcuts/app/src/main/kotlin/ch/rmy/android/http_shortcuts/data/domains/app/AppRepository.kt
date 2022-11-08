@@ -111,14 +111,15 @@ constructor(
     suspend fun importBase(base: BaseModel, importMode: Importer.ImportMode) {
         commitTransaction {
             val oldBase = getBase().findFirst()!!
-            if (base.title != null) {
-                oldBase.title = base.title
-            }
-            if (base.globalCode != null) {
-                oldBase.globalCode = base.globalCode
-            }
             when (importMode) {
                 Importer.ImportMode.MERGE -> {
+                    if (base.title != null && oldBase.title.isNullOrEmpty()) {
+                        oldBase.title = base.title
+                    }
+                    if (base.globalCode != null && oldBase.globalCode.isNullOrEmpty()) {
+                        oldBase.globalCode = base.globalCode
+                    }
+
                     if (oldBase.categories.singleOrNull()?.shortcuts?.isEmpty() == true) {
                         oldBase.categories.clear()
                     }
@@ -132,6 +133,13 @@ constructor(
                     oldBase.variables.addAll(persistedVariables)
                 }
                 Importer.ImportMode.REPLACE -> {
+                    if (base.title != null) {
+                        oldBase.title = base.title
+                    }
+                    if (base.globalCode != null) {
+                        oldBase.globalCode = base.globalCode
+                    }
+
                     oldBase.categories.clear()
                     oldBase.categories.addAll(copyOrUpdate(base.categories))
 
