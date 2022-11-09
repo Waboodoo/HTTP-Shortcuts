@@ -9,6 +9,7 @@ import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.focus
+import ch.rmy.android.framework.extensions.getSerializable
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
@@ -72,7 +73,7 @@ class CurlImportActivity : BaseActivity() {
         private const val EXTRA_CURL_COMMAND = "curl_command"
 
         override fun parseResult(resultCode: Int, intent: Intent?): CurlCommand? =
-            intent?.getSerializableExtra(EXTRA_CURL_COMMAND) as? CurlCommand
+            intent?.getSerializable(EXTRA_CURL_COMMAND)
 
         fun createResult(command: CurlCommand): Intent =
             createIntent {

@@ -19,7 +19,7 @@ constructor(
 
     fun applyLocaleFromSettings() {
         val storedPreferredLanguage = settings.language
-        if (Build.VERSION.SDK_INT >= 33) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             context.getSystemService<LocaleManager>()!!.applicationLocales
                 .get(0)
                 .let { locale ->

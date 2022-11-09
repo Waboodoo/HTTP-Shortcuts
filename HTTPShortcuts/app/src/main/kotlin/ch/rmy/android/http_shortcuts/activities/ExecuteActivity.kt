@@ -7,6 +7,8 @@ import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.doOnDestroy
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
+import ch.rmy.android.framework.extensions.getParcelableList
+import ch.rmy.android.framework.extensions.getSerializable
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -21,7 +23,6 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.plugin.SessionMonitor
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionSchedulerWorker
 import ch.rmy.android.http_shortcuts.utils.CacheFilesCleanupWorker
-import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.ProgressIndicator
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -65,8 +66,8 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         lifecycleScope.launch {
             pendingExecutionsRepository
                 .createPendingExecution(
-                    shortcutId = IntentUtil.getShortcutId(intent),
-                    resolvedVariables = IntentUtil.getVariableValues(intent),
+                    shortcutId = intent.extractShortcutId(),
+                    resolvedVariables = intent.extractVariableValues(),
                     tryNumber = 0,
                 )
         }
@@ -79,12 +80,12 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
         viewModel.initialize(
             ExecutionParams(
-                shortcutId = IntentUtil.getShortcutId(intent),
-                variableValues = IntentUtil.getVariableValues(intent),
+                shortcutId = intent.extractShortcutId(),
+                variableValues = intent.extractVariableValues(),
                 executionId = intent.extras?.getString(EXTRA_EXECUTION_SCHEDULE_ID),
                 tryNumber = intent.extras?.getInt(EXTRA_TRY_NUMBER) ?: 0,
                 recursionDepth = intent.extras?.getInt(EXTRA_RECURSION_DEPTH) ?: 0,
-                fileUris = intent.extras?.getParcelableArrayList(EXTRA_FILES) ?: emptyList(),
+                fileUris = intent.getParcelableList(EXTRA_FILES) ?: emptyList(),
             )
         )
 
@@ -160,15 +161,24 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     companion object {
 
-        const val ACTION_EXECUTE_SHORTCUT = "ch.rmy.android.http_shortcuts.execute"
+        private const val ACTION_EXECUTE_SHORTCUT = "ch.rmy.android.http_shortcuts.execute"
 
-        const val EXTRA_SHORTCUT_ID = "id"
-        const val EXTRA_VARIABLE_VALUES = "variable_values"
-        const val EXTRA_TRY_NUMBER = "try_number"
-        const val EXTRA_RECURSION_DEPTH = "recursion_depth"
-        const val EXTRA_FILES = "files"
-        const val EXTRA_EXECUTION_SCHEDULE_ID = "schedule_id"
+        private const val EXTRA_SHORTCUT_ID = "id"
+        private const val EXTRA_VARIABLE_VALUES = "variable_values"
+        private const val EXTRA_TRY_NUMBER = "try_number"
+        private const val EXTRA_RECURSION_DEPTH = "recursion_depth"
+        private const val EXTRA_FILES = "files"
+        private const val EXTRA_EXECUTION_SCHEDULE_ID = "schedule_id"
 
         private const val INVISIBLE_PROGRESS_THRESHOLD = 400L
+
+        fun Intent.extractShortcutId(): ShortcutId =
+            getStringExtra(EXTRA_SHORTCUT_ID)
+                ?: data?.lastPathSegment
+                ?: ""
+
+        fun Intent.extractVariableValues(): Map<VariableKey, String> =
+            getSerializable<HashMap<VariableKey, String>>(EXTRA_VARIABLE_VALUES)
+                ?: emptyMap()
     }
 }

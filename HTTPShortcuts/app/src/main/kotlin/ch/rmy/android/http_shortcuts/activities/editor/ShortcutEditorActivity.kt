@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.result.launch
 import androidx.core.view.isVisible
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.collectEventsWhileActive
@@ -13,6 +12,7 @@ import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.focus
+import ch.rmy.android.framework.extensions.getSerializable
 import ch.rmy.android.framework.extensions.isVisible
 import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.framework.extensions.logInfo
@@ -49,7 +49,7 @@ class ShortcutEditorActivity : BaseActivity() {
             ShortcutEditorViewModel.InitData(
                 categoryId = intent.getStringExtra(EXTRA_CATEGORY_ID),
                 shortcutId = intent.getStringExtra(EXTRA_SHORTCUT_ID),
-                curlCommand = intent.getSerializableExtra(EXTRA_CURL_COMMAND) as CurlCommand?,
+                curlCommand = intent.getSerializable(EXTRA_CURL_COMMAND),
                 executionType = intent.getStringExtra(EXTRA_EXECUTION_TYPE)
                     ?.let(ShortcutExecutionType::get)
                     ?: ShortcutExecutionType.APP,

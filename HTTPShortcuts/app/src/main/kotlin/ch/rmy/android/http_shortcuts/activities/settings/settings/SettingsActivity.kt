@@ -68,7 +68,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun addQuickSettingsTile() {
-        if (Build.VERSION.SDK_INT >= 33) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             getSystemService<StatusBarManager>()!!.requestAddTileService(
                 ComponentName.createRelative(context, "ch.rmy.android.http_shortcuts.tiles.QuickTileService"),
                 getString(R.string.action_quick_settings_tile_trigger),

@@ -6,8 +6,6 @@ import android.graphics.Bitmap
 import android.provider.MediaStore
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
@@ -16,20 +14,6 @@ object IntentUtil {
     private const val ACTION_INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT"
     private const val ACTION_UNINSTALL_SHORTCUT = "com.android.launcher.action.UNINSTALL_SHORTCUT"
     private const val EXTRA_SHORTCUT_DUPLICATE = "duplicate"
-
-    fun getShortcutId(intent: Intent): ShortcutId =
-        intent.getStringExtra(ExecuteActivity.EXTRA_SHORTCUT_ID)
-            ?: intent.data?.lastPathSegment
-            ?: ""
-
-    fun getVariableValues(intent: Intent): Map<VariableKey, String> {
-        val serializable = intent.getSerializableExtra(ExecuteActivity.EXTRA_VARIABLE_VALUES)
-        if (serializable is Map<*, *>) {
-            @Suppress("UNCHECKED_CAST")
-            return serializable as Map<VariableKey, String>
-        }
-        return emptyMap()
-    }
 
     @Suppress("DEPRECATION")
     fun getLegacyShortcutPlacementIntent(context: Context, shortcut: LauncherShortcut, install: Boolean): Intent {

@@ -8,6 +8,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import ch.rmy.android.framework.ui.IntentBuilder
+import java.io.Serializable
 
 inline fun createIntent(block: Intent.() -> Unit): Intent =
     Intent().apply(block)
@@ -45,4 +46,12 @@ fun <T : Any?> ActivityResultLauncher<T>.launch(options: ActivityOptionsCompat? 
 
 @Suppress("DEPRECATION")
 inline fun <reified T : Any?> Intent.getParcelable(key: String): T? =
-    if (Build.VERSION.SDK_INT >= 33) getParcelableExtra(key, T::class.java) else getParcelableExtra(key)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) getParcelableExtra(key, T::class.java) else getParcelableExtra(key)
+
+@Suppress("DEPRECATION")
+inline fun <reified T : Any?> Intent.getParcelableList(key: String): List<T>? =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) getParcelableArrayListExtra(key, T::class.java) else getParcelableArrayListExtra(key)
+
+@Suppress("DEPRECATION")
+inline fun <reified T : Serializable?> Intent.getSerializable(key: String): T? =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) getSerializableExtra(key, T::class.java) else getSerializableExtra(key) as? T
