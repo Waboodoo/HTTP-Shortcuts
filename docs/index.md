@@ -17,7 +17,13 @@ This app is open-source and can be found on [Github](https://github.com/Waboodoo
 - Big set of colorful built-in icons, support for custom icons
 - Dark Mode support
 - Value injection through [global variables](variables.md) with dynamically determined values (e.g., text, numbers, passwords, selections, colors, dates, …)
-- Run [JavaScript code](scripting.md) before & after execution and invoke actions (e.g., vibrate, show toast, parse JSON response…), allowing to create powerful workflows
+- Run arbitrary [JavaScript](https://http-shortcuts.rmy.ch/scripting) before & after execution, which allows for lots of customization with features such as:
+  - compute values such as timestamps, random numbers, UUIDs, hashes, HMACs, base64, etc.
+  - parse JSON or XML and extract data from them
+  - show toast message or message dialogs
+  - vibrate or play notification sounds
+  - trigger other shortcuts to chain multiple HTTP requests 
+  - interact with other devices and services by sending TCP or UDP packets, MQTT messages or using Wake-on-LAN
 - Keep everything organized by categorizing into different tabs
 - Import & Export in JSON or cURL format
 - 3rd party integration (e.g. Tasker)
