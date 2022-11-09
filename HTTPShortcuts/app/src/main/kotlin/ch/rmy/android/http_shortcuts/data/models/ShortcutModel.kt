@@ -202,12 +202,6 @@ open class ShortcutModel(
         return true
     }
 
-    val isFeedbackInWindow
-        get() = type.usesResponse && responseHandling?.uiType == ResponseHandlingModel.UI_TYPE_WINDOW
-
-    val isFeedbackInDialog
-        get() = type.usesResponse && responseHandling?.uiType == ResponseHandlingModel.UI_TYPE_DIALOG
-
     var isWaitForNetwork
         get() = retryPolicy == RETRY_POLICY_WAIT_FOR_INTERNET
         set(value) {

@@ -359,8 +359,6 @@
     <string name="title_categories">Categories</string>
     <!-- Page title, for editing a category -->
     <string name="title_edit_category">Edit Category</string>
-    <!-- Generic action, shown on dialog, to rename things -->
-    <string name="action_rename">Rename</string>
     <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
     <string name="action_hide_category">Hide</string>
     <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->

@@ -373,9 +373,6 @@ Klik tombol + untuk menambah variabel."</string>
     <!-- Page title, for page showing all configured categories -->
     <string name="title_categories">"Kategori"</string>
 
-    <!-- Generic action, shown on dialog, to rename things -->
-    <string name="action_rename">"Ganti nama"</string>
-
     <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
     <string name="action_hide_category">"Sembunyikan"</string>
 

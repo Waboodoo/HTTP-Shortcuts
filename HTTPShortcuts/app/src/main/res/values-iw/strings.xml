@@ -380,9 +380,6 @@
     <!-- Page title, for page showing all configured categories -->
     <string name="title_categories">"קטגוריות"</string>
 
-    <!-- Generic action, shown on dialog, to rename things -->
-    <string name="action_rename">"שנה שם"</string>
-
     <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
     <string name="action_hide_category">"הסתר"</string>
 

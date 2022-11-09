@@ -14,7 +14,6 @@ import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.NoCloseInputStream
 import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
-import com.google.gson.JsonSyntaxException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
@@ -122,7 +121,7 @@ constructor(
 
     private fun getHumanReadableErrorMessage(e: Throwable, recursive: Boolean = true): String? = with(context) {
         when (e) {
-            is JsonParseException, is JsonSyntaxException -> {
+            is JsonParseException -> {
                 getString(R.string.import_failure_reason_invalid_json)
             }
             is ImportVersionMismatchException -> {

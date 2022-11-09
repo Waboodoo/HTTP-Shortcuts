@@ -375,9 +375,6 @@
     <!-- Page title, for page showing all configured categories -->
     <string name="title_categories">"Categorie"</string>
 
-    <!-- Generic action, shown on dialog, to rename things -->
-    <string name="action_rename">"Rinomina"</string>
-
     <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
     <string name="action_hide_category">"Nascondi"</string>
 

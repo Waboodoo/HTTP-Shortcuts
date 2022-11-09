@@ -326,9 +326,6 @@
     <!-- Page title, for page showing all configured categories -->
     <string name="title_categories">"Categories"</string>
 
-    <!-- Generic action, shown on dialog, to rename things -->
-    <string name="action_rename">"Renombrar"</string>
-
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"Llista"</string>
 
