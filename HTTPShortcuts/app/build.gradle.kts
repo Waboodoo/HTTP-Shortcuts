@@ -12,12 +12,11 @@ plugins {
     id("realm-android")
 }
 
-val kotlinVersion: String by properties
-val coroutinesVersion: String by properties
 val hamcrestVersion: String by properties
 val junitVersion: String by properties
 val robolectricVersion: String by properties
 val mockitoVersion: String by properties
+
 val bugsnagAPIKey: String by rootProject.ext
 val poeditorAPIKey: String by rootProject.ext
 val poeditorProjectId: String by rootProject.ext
@@ -186,22 +185,10 @@ bugsnag {
 dependencies {
     implementation(project(path = ":framework"))
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
-
     /* Dependency Injection */
-    implementation("com.google.dagger:dagger:2.41")
     kapt("com.google.dagger:dagger-compiler:2.41")
 
     /* Support libraries */
-    implementation("androidx.core:core-ktx:1.9.0@aar")
-    implementation("androidx.appcompat:appcompat:1.6.0-rc01")
-    implementation("androidx.fragment:fragment-ktx:1.5.4")
-    implementation("com.google.android.material:material:1.7.0")
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
-    implementation("androidx.annotation:annotation:1.5.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.preference:preference-ktx:1.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
     implementation("androidx.core:core-splashscreen:1.0.0")
 
