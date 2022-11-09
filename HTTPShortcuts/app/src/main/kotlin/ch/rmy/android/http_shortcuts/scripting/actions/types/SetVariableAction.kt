@@ -24,7 +24,7 @@ class SetVariableAction(val variableKeyOrId: VariableKeyOrId, val value: String)
             variableRepository.getVariableByKeyOrId(variableKeyOrId)
         } catch (e: NoSuchElementException) {
             throw ActionException {
-                it.getString(
+                getString(
                     R.string.error_variable_not_found_write,
                     variableKeyOrId,
                 )

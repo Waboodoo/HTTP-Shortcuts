@@ -40,7 +40,7 @@ class ChangeDescriptionAction(private val description: String, private val short
             shortcutRepository.getShortcutByNameOrId(shortcutNameOrId)
         } catch (e: NoSuchElementException) {
             throw ActionException {
-                it.getString(R.string.error_shortcut_not_found_for_changing_description, shortcutNameOrId)
+                getString(R.string.error_shortcut_not_found_for_changing_description, shortcutNameOrId)
             }
         }
         shortcutRepository.setDescription(shortcut.id, newDescription)

@@ -32,8 +32,8 @@ class WakeOnLanAction(
                 throw e
             } catch (e: Exception) {
                 logException(e)
-                throw ActionException { context ->
-                    context.getString(R.string.error_action_type_send_wol_failed, e.message)
+                throw ActionException {
+                    getString(R.string.error_action_type_send_wol_failed, e.message)
                 }
             }
         }
@@ -73,8 +73,8 @@ class WakeOnLanAction(
                         ?.toByte()
                 }
                 .takeIf { it.size == 6 }
-                ?: throw ActionException { context ->
-                    context.getString(R.string.error_action_type_send_wol_invalid_mac_address, macAddress)
+                ?: throw ActionException {
+                    getString(R.string.error_action_type_send_wol_invalid_mac_address, macAddress)
                 }
     }
 }

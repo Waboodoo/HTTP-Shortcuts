@@ -11,8 +11,8 @@ class Base64DecodeAction(private val encoded: String) : BaseAction() {
         try {
             Base64.decode(encoded, Base64.DEFAULT)
         } catch (e: IllegalArgumentException) {
-            throw ActionException { context ->
-                context.getString(R.string.error_invalid_base64, encoded)
+            throw ActionException {
+                getString(R.string.error_invalid_base64, encoded)
             }
         }
 }

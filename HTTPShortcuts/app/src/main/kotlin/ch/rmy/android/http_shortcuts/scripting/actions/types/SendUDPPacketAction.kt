@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import kotlinx.coroutines.CancellationException
@@ -29,7 +30,7 @@ class SendUDPPacketAction(
             } catch (e: Exception) {
                 logException(e)
                 throw ActionException {
-                    "Failed to send UDP packet: $e"
+                    getString(R.string.error_failed_to_send_udp, e.message ?: e.toString())
                 }
             }
         }

@@ -32,8 +32,7 @@ class GetLocationAction : BaseAction() {
     private fun checkForPlayServices() {
         if (!playServicesUtil.isPlayServicesAvailable()) {
             throw ActionException {
-                // TODO: Localize
-                "Play Services are required to get the device's location, but they are not installed or not available."
+                getString(R.string.error_play_services_not_available_for_location)
             }
         }
     }
@@ -41,8 +40,8 @@ class GetLocationAction : BaseAction() {
     private suspend fun requestLocationPermissionIfNeeded() {
         val granted = permissionManager.requestLocationPermissionIfNeeded()
         if (!granted) {
-            throw ActionException { context ->
-                context.getString(R.string.error_failed_to_get_location)
+            throw ActionException {
+                getString(R.string.error_failed_to_get_location)
             }
         }
     }
@@ -54,8 +53,8 @@ class GetLocationAction : BaseAction() {
             throw e
         } catch (e: Exception) {
             logException(e)
-            throw ActionException { context ->
-                context.getString(R.string.error_failed_to_get_location)
+            throw ActionException {
+                getString(R.string.error_failed_to_get_location)
             }
         }
 

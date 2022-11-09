@@ -45,7 +45,7 @@ class TextToSpeechAction(private val message: String, private val language: Stri
 
                     tts = TextToSpeech(context) { code ->
                         if (code != TextToSpeech.SUCCESS) {
-                            continuation.resumeWithException(ActionException { it.getString(R.string.error_tts_failed) })
+                            continuation.resumeWithException(ActionException { getString(R.string.error_tts_failed) })
                             return@TextToSpeech
                         }
 
@@ -57,7 +57,7 @@ class TextToSpeechAction(private val message: String, private val language: Stri
 
                                 override fun onError(utteranceId: String?, errorCode: Int) {
                                     if (utteranceId == id) {
-                                        continuation.resumeWithException(ActionException { it.getString(R.string.error_tts_failed) })
+                                        continuation.resumeWithException(ActionException { getString(R.string.error_tts_failed) })
                                     }
                                 }
 

@@ -23,7 +23,7 @@ class HashAction(private val algorithm: String, private val text: String) : Base
 
     private fun throwUnsupportedError(): Nothing {
         throw ActionException {
-            it.getString(
+            getString(
                 R.string.error_unsupported_hash_algorithm,
                 algorithm,
                 SUPPORTED_ALGORITHMS.keys.joinToString(),

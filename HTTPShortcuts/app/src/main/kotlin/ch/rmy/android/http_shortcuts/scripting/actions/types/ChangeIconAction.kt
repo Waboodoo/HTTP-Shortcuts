@@ -36,7 +36,7 @@ class ChangeIconAction(private val iconName: String, private val shortcutNameOrI
             shortcutRepository.getShortcutByNameOrId(shortcutNameOrId)
         } catch (e: NoSuchElementException) {
             throw ActionException {
-                it.getString(R.string.error_shortcut_not_found_for_changing_icon, shortcutNameOrId)
+                getString(R.string.error_shortcut_not_found_for_changing_icon, shortcutNameOrId)
             }
         }
 

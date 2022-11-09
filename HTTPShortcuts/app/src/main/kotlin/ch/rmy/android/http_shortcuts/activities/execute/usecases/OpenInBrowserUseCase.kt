@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.startActivity
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.BrowserNotFoundException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
 import ch.rmy.android.http_shortcuts.exceptions.UnsupportedFeatureException
@@ -26,9 +27,8 @@ constructor(
                 throw InvalidUrlException(url)
             }
             if (uri.scheme?.equals("file", ignoreCase = true) == true) {
-                // TODO: Localize error message
                 throw UserException.create {
-                    "URLs with file:// scheme are not supported"
+                    getString(R.string.error_unsupported_file_url)
                 }
             }
             Intent(Intent.ACTION_VIEW, uri)

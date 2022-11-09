@@ -9,7 +9,6 @@ object Validation {
         url.matches("^(http(s?)://.+)|((h(t(t(p(s)?)?)?)?)?\\{\\{$VARIABLE_ID_REGEX\\}\\}.*)".toRegex(RegexOption.IGNORE_CASE))
 
     fun isAcceptableUrl(url: String) =
-        // TODO: Refine this check
         url.isNotEmpty() && url != "http://" && url != "https://"
 
     fun isValidUrl(uri: Uri) =

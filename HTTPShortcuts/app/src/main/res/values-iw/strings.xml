@@ -1206,7 +1206,7 @@
     <string name="action_type_send_intent_title">"שלח Intent"</string>
 
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
-    <string name="error_action_type_send_intent_failed">"נכשל לשלוח Intent"</string>
+    <string name="error_action_type_send_intent_failed">"נכשל לשלוח Intent: %s"</string>
 
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"פתרון תקלות"</string>

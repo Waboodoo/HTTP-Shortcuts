@@ -15,8 +15,8 @@ constructor(
     suspend fun scanBarcode(): String? =
         when (val result = getResult(ExternalRequest.ScanBarcode)) {
             is ExternalResult.BarcodeScanned -> result.content
-            is ExternalResult.AppNotAvailable -> throw UserException.create { context ->
-                context.getString(R.string.error_barcode_scanner_not_installed)
+            is ExternalResult.AppNotAvailable -> throw UserException.create {
+                getString(R.string.error_barcode_scanner_not_installed)
             }
             is ExternalResult.Cancelled -> null
             else -> error("Unexpected result")

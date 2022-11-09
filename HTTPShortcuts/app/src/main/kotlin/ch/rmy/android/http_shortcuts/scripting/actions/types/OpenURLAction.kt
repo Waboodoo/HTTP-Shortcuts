@@ -27,15 +27,15 @@ class OpenURLAction(private val url: String) : BaseAction() {
             val uri = url.toUri()
             if (uri.scheme?.equals("file", ignoreCase = true) == true) {
                 throw ActionException {
-                    "Opening files using openUrl() is not supported"
+                    getString(R.string.error_opening_files_using_open_url_not_supported)
                 }
             }
             try {
                 Intent(Intent.ACTION_VIEW, uri)
                     .startActivity(activityProvider.getActivity())
             } catch (e: ActivityNotFoundException) {
-                throw ActionException { context ->
-                    context.getString(R.string.error_no_app_found_for_url, url)
+                throw ActionException {
+                    getString(R.string.error_no_app_found_for_url, url)
                 }
             }
         }

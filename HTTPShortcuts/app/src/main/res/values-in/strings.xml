@@ -1155,7 +1155,7 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
 
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <!-- Fuzzy -->
-    <string name="error_action_type_send_intent_failed">"Gagal mengirim niat"</string>
+    <string name="error_action_type_send_intent_failed">"Gagal mengirim niat: %s"</string>
 
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"Pemecahan masalah"</string>

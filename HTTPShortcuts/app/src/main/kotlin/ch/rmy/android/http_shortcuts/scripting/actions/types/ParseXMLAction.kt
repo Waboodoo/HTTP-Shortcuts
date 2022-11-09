@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.util.Xml
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.SimpleXMLContentHandler
@@ -50,8 +51,7 @@ class ParseXMLAction(private val xmlInput: String) : BaseAction() {
                 logException(e)
             }
             throw ActionException {
-                // TODO: Localize error message
-                "Invalid XML: ${e.message}"
+                getString(R.string.error_invalid_xml, e.message)
             }
         }
         return root!!

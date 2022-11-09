@@ -29,7 +29,7 @@ class GetVariableAction(val variableKeyOrId: VariableKeyOrId) : BaseAction() {
                 getVariableValue(variableKeyOrId, executionContext.variableManager)
             } catch (e2: VariableNotFoundException) {
                 throw ActionException {
-                    it.getString(R.string.error_variable_not_found_read, variableKeyOrId)
+                    getString(R.string.error_variable_not_found_read, variableKeyOrId)
                 }
             }
         }

@@ -1206,7 +1206,7 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <string name="action_type_send_intent_title">"Invia intento"</string>
 
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
-    <string name="error_action_type_send_intent_failed">"Impossibile inviare l'intento"</string>
+    <string name="error_action_type_send_intent_failed">"Impossibile inviare l'intento: %s"</string>
 
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"Risoluzione dei problemi"</string>

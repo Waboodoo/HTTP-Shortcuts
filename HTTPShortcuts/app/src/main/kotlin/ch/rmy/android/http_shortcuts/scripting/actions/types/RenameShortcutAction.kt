@@ -49,7 +49,7 @@ class RenameShortcutAction(private val name: String, private val shortcutNameOrI
             shortcutRepository.getShortcutByNameOrId(shortcutNameOrId)
         } catch (e: NoSuchElementException) {
             throw ActionException {
-                it.getString(R.string.error_shortcut_not_found_for_renaming, shortcutNameOrId)
+                getString(R.string.error_shortcut_not_found_for_renaming, shortcutNameOrId)
             }
         }
         shortcutRepository.setName(shortcut.id, newName)

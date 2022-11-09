@@ -49,9 +49,8 @@ class SendIntentAction(private val jsonData: String) : BaseAction() {
                 if (shouldLogException(e)) {
                     logException(e)
                 }
-                throw ActionException { context ->
-                    // TODO: Better explain and localize the error message
-                    context.getString(R.string.error_action_type_send_intent_failed) + ": " + e.message
+                throw ActionException {
+                    getString(R.string.error_action_type_send_intent_failed, e.message)
                 }
             }
         }

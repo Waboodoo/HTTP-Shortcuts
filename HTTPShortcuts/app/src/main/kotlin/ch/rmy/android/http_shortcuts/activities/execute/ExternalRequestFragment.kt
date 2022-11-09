@@ -5,7 +5,10 @@ import android.os.Bundle
 import androidx.activity.result.launch
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.utils.FilePickerUtil
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.BarcodeScannerContract
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
@@ -55,14 +58,24 @@ class ExternalRequestFragment : Fragment() {
 
     private fun returnResult(result: ExternalResult) {
         removeSelf()
-        deferred!!.complete(result) // TODO: Handle case where deferred is null
+        if (deferred == null) {
+            context?.showToast(R.string.error_generic)
+            logException(IllegalStateException("Failed to return result from external app, process was restarted"))
+            return
+        }
+        deferred!!.complete(result)
         deferred = null
         request = null
     }
 
     private fun cancel() {
         removeSelf()
-        deferred!!.cancel() // TODO: Handle case where deferred is null
+        if (deferred == null) {
+            context?.showToast(R.string.error_generic)
+            logException(IllegalStateException("Failed to cancel from external app, process was restarted"))
+            return
+        }
+        deferred!!.cancel()
         deferred = null
         request = null
     }

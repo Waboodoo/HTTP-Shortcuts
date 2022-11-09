@@ -27,7 +27,7 @@ class HmacAction(
 
     private fun throwUnsupportedError(): Nothing {
         throw ActionException {
-            it.getString(
+            getString(
                 R.string.error_unsupported_hmac_algorithm,
                 algorithm,
                 SUPPORTED_ALGORITHMS.keys.joinToString(),

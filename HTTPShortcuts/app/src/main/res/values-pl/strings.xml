@@ -1238,7 +1238,7 @@ Możesz włączyć tę funkcję, edytując skrót i zaznaczając pole wyboru \"%
     <string name="action_type_send_intent_title">"Wyślij instancję"</string>
 
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
-    <string name="error_action_type_send_intent_failed">"Nie udało się wysłać intencji"</string>
+    <string name="error_action_type_send_intent_failed">"Nie udało się wysłać intencji: %s"</string>
 
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"Rozwiązywanie problemów"</string>

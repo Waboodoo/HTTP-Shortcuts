@@ -1196,7 +1196,7 @@
     <string name="action_type_send_intent_title">"发送意图"</string>
 
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
-    <string name="error_action_type_send_intent_failed">"发送意图失败"</string>
+    <string name="error_action_type_send_intent_failed">"发送意图失败: %s"</string>
 
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"故障排除"</string>

@@ -46,14 +46,14 @@ class ExecuteShortcutAction(
     override suspend fun execute(executionContext: ExecutionContext): JSObject {
         if (executionContext.recursionDepth >= MAX_RECURSION_DEPTH) {
             throw ActionException {
-                it.getString(R.string.action_type_trigger_shortcut_error_recursion_depth_reached)
+                getString(R.string.action_type_trigger_shortcut_error_recursion_depth_reached)
             }
         }
         val shortcut = try {
             shortcutRepository.getShortcutByNameOrId(shortcutNameOrId ?: executionContext.shortcutId)
         } catch (e: NoSuchElementException) {
             throw ActionException {
-                it.getString(R.string.error_shortcut_not_found_for_triggering, shortcutNameOrId)
+                getString(R.string.error_shortcut_not_found_for_triggering, shortcutNameOrId)
             }
         }
 

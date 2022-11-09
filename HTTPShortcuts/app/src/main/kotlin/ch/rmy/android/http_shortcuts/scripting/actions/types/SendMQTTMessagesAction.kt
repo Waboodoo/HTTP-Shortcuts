@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.framework.extensions.applyIfNotNull
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +42,7 @@ class SendMQTTMessagesAction(
             } catch (e: MqttException) {
                 logException(e)
                 throw ActionException {
-                    "Failed to send MQTT message: $e"
+                    getString(R.string.error_failed_to_send_mqtt, e.message ?: e.toString())
                 }
             }
         }

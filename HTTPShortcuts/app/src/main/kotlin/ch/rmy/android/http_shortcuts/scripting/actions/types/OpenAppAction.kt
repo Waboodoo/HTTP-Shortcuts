@@ -37,8 +37,8 @@ class OpenAppAction(private val packageName: String) : BaseAction() {
     }
 
     private fun throwUnsupportedError(): Nothing {
-        throw ActionException { context ->
-            context.getString(R.string.error_no_app_found, packageName)
+        throw ActionException {
+            getString(R.string.error_no_app_found, packageName)
         }
     }
 }

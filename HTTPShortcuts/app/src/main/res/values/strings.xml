@@ -763,7 +763,7 @@
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">Open App</string>
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
-    <string name="error_action_type_send_intent_failed">Failed to send intent</string>
+    <string name="error_action_type_send_intent_failed">Failed to send intent: %s</string>
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
     <string name="error_action_type_send_wol_failed">Failed to send Wake-on-LAN packet: %s</string>
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails because on an invalid MAC address -->
@@ -1215,6 +1215,8 @@
     <string name="error_failed_to_get_wifi_ssid">Failed to determine the SSID of the current Wi-Fi.</string>
     <!-- Error message: Shown to the user when the app tries to determine the device's current location but failed, e.g. because of a missing permission -->
     <string name="error_failed_to_get_location">The device\'s physical location could not be determined.</string>
+    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
+    <string name="error_play_services_not_available_for_location">Play Services are required to get the device\'s location, but they are not installed or not available.</string>
     <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
     <string name="placeholder_request_body_content">Enter the raw HTTP request body here. You can add variable placeholders via the \"{}\" button.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
@@ -1285,4 +1287,16 @@
     <string name="label_dialog_action_none">None</string>
     <!-- Label on checkbox that allows to enable/disable the use of a certain action to be displayed in the HTTP response window (e.g. "Share" button) -->
     <string name="label_response_actions_show_button">Show \"%s\" button</string>
+    <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
+    <string name="error_unsupported_file_url">URLs with file:// scheme are not supported</string>
+    <!-- Error message: Shown when the user tries to parse XML using the parseXML JS function, but the XML is invalid. %s is a placeholder for a more detailed description of the error -->
+    <string name="error_invalid_xml">Invalid XML: %s</string>
+    <!-- Error message: Shown when the user tries to send an MQTT message via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_send_mqtt">Failed to send MQTT message: %s</string>
+    <!-- Error message: Shown when the user tries to send a UDP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_send_udp">Failed to send UDP packet: %s</string>
+    <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_send_tcp">Failed to send TCP packet: %s</string>
+    <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
+    <string name="error_opening_files_using_open_url_not_supported">Opening files using openUrl() is not supported</string>
 </resources>

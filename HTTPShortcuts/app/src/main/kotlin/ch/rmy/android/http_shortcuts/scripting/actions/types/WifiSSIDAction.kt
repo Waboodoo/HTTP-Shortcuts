@@ -61,8 +61,8 @@ class WifiSSIDAction : BaseAction() {
     private suspend fun requestLocationPermissionIfNeeded() {
         val granted = permissionManager.requestLocationPermissionIfNeeded()
         if (!granted) {
-            throw ActionException { context ->
-                context.getString(R.string.error_failed_to_get_wifi_ssid)
+            throw ActionException {
+                getString(R.string.error_failed_to_get_wifi_ssid)
             }
         }
     }

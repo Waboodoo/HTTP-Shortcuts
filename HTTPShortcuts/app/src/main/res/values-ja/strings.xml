@@ -1186,7 +1186,7 @@
     <string name="action_type_send_intent_title">"インテントを送信"</string>
 
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
-    <string name="error_action_type_send_intent_failed">"インテント送信に失敗"</string>
+    <string name="error_action_type_send_intent_failed">"インテント送信に失敗: %s"</string>
 
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"トラブルシューティング"</string>

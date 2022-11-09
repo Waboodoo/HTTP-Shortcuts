@@ -1196,7 +1196,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="action_type_send_intent_title">"Intent senden"</string>
 
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
-    <string name="error_action_type_send_intent_failed">"Senden von Intent fehlgeschlagen"</string>
+    <string name="error_action_type_send_intent_failed">"Senden von Intent fehlgeschlagen: %s"</string>
 
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"Problembehebung"</string>
@@ -1936,4 +1936,25 @@ Trotzdem löschen?"</string>
 
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">"Führe einen anderen Shortcut sofort aus und erhalte sein Result zurück."</string>
+
+    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
+    <string name="error_play_services_not_available_for_location">"Um den Standort des Geräts zu bestimmen werden Play Services benötigt. Diese scheinen jedoch nicht installiert oder verfügbar zu sein."</string>
+
+    <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
+    <string name="error_unsupported_file_url">"URLs mit file:// Schema werden nicht unterstützt"</string>
+
+    <!-- Error message: Shown when the user tries to parse XML using the parseXML JS function, but the XML is invalid. %s is a placeholder for a more detailed description of the error -->
+    <string name="error_invalid_xml">"Ungültiges XML: %s"</string>
+
+    <!-- Error message: Shown when the user tries to send an MQTT message via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_send_mqtt">"Senden von MQTT-Nachricht fehlgeschlagen: %s"</string>
+
+    <!-- Error message: Shown when the user tries to send a UDP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_send_udp">"Senden von UDP-Paket fehlgeschlagen: %s"</string>
+
+    <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_send_tcp">"Senden von TCP-Paket fehlgeschlagen: %s"</string>
+
+    <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
+    <string name="error_opening_files_using_open_url_not_supported">"Das Öffnen von Dateien ist mit openUrl() nicht möglich"</string>
 </resources>
