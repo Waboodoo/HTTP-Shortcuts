@@ -84,30 +84,45 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
     }
 
     fun onWaitForConnectionChanged(waitForConnection: Boolean) {
+        updateViewState {
+            copy(waitForConnection = waitForConnection)
+        }
         launchWithProgressTracking {
             temporaryShortcutRepository.setWaitForConnection(waitForConnection)
         }
     }
 
     fun onLauncherShortcutChanged(launcherShortcut: Boolean) {
+        updateViewState {
+            copy(launcherShortcut = launcherShortcut)
+        }
         launchWithProgressTracking {
             temporaryShortcutRepository.setLauncherShortcut(launcherShortcut)
         }
     }
 
     fun onQuickSettingsTileShortcutChanged(quickSettingsTileShortcut: Boolean) {
+        updateViewState {
+            copy(quickSettingsTileShortcut = quickSettingsTileShortcut)
+        }
         launchWithProgressTracking {
             temporaryShortcutRepository.setQuickSettingsTileShortcut(quickSettingsTileShortcut)
         }
     }
 
     private fun onDelayChanged(delay: Duration) {
+        updateViewState {
+            copy(delay = delay)
+        }
         launchWithProgressTracking {
             temporaryShortcutRepository.setDelay(delay)
         }
     }
 
     fun onRequireConfirmationChanged(requireConfirmation: Boolean) {
+        updateViewState {
+            copy(requireConfirmation = requireConfirmation)
+        }
         launchWithProgressTracking {
             temporaryShortcutRepository.setRequireConfirmation(requireConfirmation)
         }
@@ -121,9 +136,7 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
         doWithViewState { viewState ->
             dialogState = getDelayDialog(
                 delay = viewState.delay,
-                getLabel = { duration ->
-                    DurationLocalizable(duration)
-                },
+                getLabel = ::DurationLocalizable,
                 onDelayChanged = ::onDelayChanged,
             )
         }
