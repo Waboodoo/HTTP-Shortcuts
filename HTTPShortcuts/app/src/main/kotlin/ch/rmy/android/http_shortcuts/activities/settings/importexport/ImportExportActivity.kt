@@ -11,6 +11,7 @@ import ch.rmy.android.framework.extensions.collectEventsWhileActive
 import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
+import ch.rmy.android.framework.extensions.getParcelable
 import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.ui.BaseActivityResultContract
@@ -36,7 +37,7 @@ class ImportExportActivity : BaseActivity() {
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize(
             ImportExportViewModel.InitData(
-                importUrl = intent.extras?.getParcelable(EXTRA_IMPORT_URL),
+                importUrl = intent.getParcelable(EXTRA_IMPORT_URL),
             )
         )
         initViews(savedState == null)

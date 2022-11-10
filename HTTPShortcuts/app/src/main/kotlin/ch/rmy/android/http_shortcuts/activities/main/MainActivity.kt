@@ -16,6 +16,7 @@ import ch.rmy.android.framework.extensions.collectEventsWhileActive
 import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
+import ch.rmy.android.framework.extensions.getParcelable
 import ch.rmy.android.framework.extensions.isVisible
 import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.framework.extensions.restartWithoutAnimation
@@ -111,7 +112,7 @@ class MainActivity : BaseActivity(), Entrypoint {
                 selectionMode = determineMode(intent.action),
                 initialCategoryId = intent?.extras?.getString(EXTRA_CATEGORY_ID),
                 widgetId = WidgetManager.getWidgetIdFromIntent(intent),
-                importUrl = intent?.extras?.getParcelable(EXTRA_IMPORT_URL),
+                importUrl = intent?.getParcelable(EXTRA_IMPORT_URL),
                 cancelPendingExecutions = intent?.extras?.getBoolean(EXTRA_CANCEL_PENDING_EXECUTIONS) ?: false,
             )
         )

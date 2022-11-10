@@ -18,6 +18,7 @@ import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.doOnDestroy
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.getParcelable
+import ch.rmy.android.framework.extensions.getSerializable
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.framework.extensions.showSnackbar
@@ -96,7 +97,7 @@ class DisplayResponseActivity : BaseActivity() {
         intent?.extras?.getInt(EXTRA_STATUS_CODE)?.takeUnless { it == 0 }
     }
     private val headers: Map<String, List<String>> by lazy {
-        (intent?.extras?.getSerializable(EXTRA_HEADERS) as? Map<String, List<String>>) ?: emptyMap()
+        intent?.getSerializable(EXTRA_HEADERS) ?: emptyMap()
     }
     private val timing: Long? by lazy {
         intent?.extras?.getLong(EXTRA_TIMING)?.takeUnless { it == 0L }
