@@ -25,6 +25,6 @@ The app may request access to your device's file system. This is only used for d
 ### Location Access
 The app may request the permission to access your device's physical location. This is used for 2 specific features only, both of which are non-essential and completely optional to use:
 
-- Checking the SSID of the wifi the device is currently connected to
+- Checking the SSID of the Wi-Fi the device is currently connected to
 - Using the [`getLocation()`](scripting#get-location) function for Scripting
 

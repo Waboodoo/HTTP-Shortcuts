@@ -6,9 +6,9 @@ When you click a shortcut, either on your home screen or within the app, it will
 
 If you selected the *"Require confirmation before execution"* option for your shortcut, you will be asked to confirm in this step. If you select *"Cancel"* the remaining steps will not be executed.
 
-## 2. Check Wifi SSID
+## 2. Check Wi-Fi SSID
 
-If you configured your shortcut to only run when on a specific wifi, this step will check whether that condition is met. If it is not, the remaining steps will not be executed and instead you will be prompted to switch wifis.
+If you configured your shortcut to only run when on a specific Wi-Fi, this step will check whether that condition is met. If it is not, the remaining steps will not be executed and instead you will be prompted to switch Wi-Fis.
 
 ## 3. Resolve Variables
 
