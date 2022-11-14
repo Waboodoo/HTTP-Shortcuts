@@ -1,3 +1,9 @@
+## Version 2.25.1
+
+### Bugfixes
+- Widgets no longer trigger the wrong shortcut when clicked
+- App no longer crashes when using multiple choice variables
+
 ## Version 2.25.0
 
 ### Improvements
