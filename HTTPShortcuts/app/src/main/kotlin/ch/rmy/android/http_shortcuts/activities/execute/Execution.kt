@@ -418,7 +418,7 @@ class Execution(
         Variables.rawPlaceholdersToResolvedValues(string, variableManager.getVariableValuesByIds())
 
     private suspend fun handleDisplayingOfResult(response: ShortcutResponse, variableManager: VariableManager) {
-        when (shortcut.responseHandling!!.successOutput) {
+        when (shortcut.responseHandling?.successOutput) {
             ResponseHandlingModel.SUCCESS_OUTPUT_MESSAGE -> {
                 displayResult(
                     output = shortcut.responseHandling
@@ -432,7 +432,6 @@ class Execution(
                 )
             }
             ResponseHandlingModel.SUCCESS_OUTPUT_RESPONSE -> displayResult(output = null, response)
-            ResponseHandlingModel.SUCCESS_OUTPUT_NONE -> Unit
         }
     }
 
