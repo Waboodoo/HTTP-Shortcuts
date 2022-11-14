@@ -52,7 +52,7 @@ constructor(
                         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             PendingIntent.FLAG_IMMUTABLE
                         } else 0
-                        PendingIntent.getActivity(context, 0, intent, flags)
+                        PendingIntent.getActivity(context, widget.widgetId, intent, flags)
                     }
             )
             if (widget.showLabel) {
