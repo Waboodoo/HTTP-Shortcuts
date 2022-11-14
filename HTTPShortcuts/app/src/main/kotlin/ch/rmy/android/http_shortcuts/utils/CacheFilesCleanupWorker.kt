@@ -10,8 +10,10 @@ import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.extensions.context
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 class CacheFilesCleanupWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
 
@@ -37,6 +39,7 @@ class CacheFilesCleanupWorker(context: Context, params: WorkerParameters) : Coro
                 enqueue(
                     OneTimeWorkRequestBuilder<CacheFilesCleanupWorker>()
                         .addTag(TAG)
+                        .setInitialDelay(CLEANUP_DELAY.inWholeMilliseconds, TimeUnit.MILLISECONDS)
                         .build()
                 )
             }
@@ -45,5 +48,6 @@ class CacheFilesCleanupWorker(context: Context, params: WorkerParameters) : Coro
 
     companion object {
         private const val TAG = "cache-file-cleanup"
+        private val CLEANUP_DELAY = 10.seconds
     }
 }

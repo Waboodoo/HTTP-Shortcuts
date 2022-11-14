@@ -54,9 +54,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     private val progressIndicator: ProgressIndicator by lazy {
         ProgressIndicator(this)
             .also { progressIndicator ->
-                doOnDestroy {
-                    progressIndicator.destroy()
-                }
+                doOnDestroy(progressIndicator::destroy)
             }
     }
 
@@ -90,12 +88,13 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         )
 
         initViewModelBindings()
+    }
 
-        doOnDestroy {
-            cacheFilesCleanupStarter()
-            executionSchedulerStarter()
-            sessionMonitor.onSessionComplete()
-        }
+    override fun finish() {
+        cacheFilesCleanupStarter()
+        executionSchedulerStarter()
+        sessionMonitor.onSessionComplete()
+        super.finish()
     }
 
     private fun initViewModelBindings() {
