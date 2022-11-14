@@ -38,18 +38,18 @@ class SelectType : BaseVariableType() {
                                 checkBoxItem(name = option.labelOrValue, checked = { option.id in selectedOptions }) { isChecked ->
                                     selectedOptions.addOrRemove(option.id, isChecked)
                                 }
-                                    .positive(R.string.dialog_ok) {
-                                        continuation.resume(
-                                            selectedOptions
-                                                .mapNotNull { optionId ->
-                                                    variable.options!!.find { it.id == optionId }
-                                                }
-                                                .joinToString(getSeparator(variable)) { option ->
-                                                    option.value
-                                                }
-                                        )
-                                    }
                             }
+                                .positive(R.string.dialog_ok) {
+                                    continuation.resume(
+                                        selectedOptions
+                                            .mapNotNull { optionId ->
+                                                variable.options!!.find { it.id == optionId }
+                                            }
+                                            .joinToString(getSeparator(variable)) { option ->
+                                                option.value
+                                            }
+                                    )
+                                }
                         } else {
                             runFor(variable.options!!) { option ->
                                 item(name = option.labelOrValue) {
