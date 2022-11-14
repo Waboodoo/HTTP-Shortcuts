@@ -10,6 +10,7 @@ import com.bugsnag.android.Bugsnag
 import com.bugsnag.android.Configuration
 import com.bugsnag.android.ErrorTypes
 import com.bugsnag.android.ThreadSendPolicy
+import kotlinx.coroutines.CancellationException
 import java.io.IOException
 import java.util.Date
 import kotlin.time.Duration.Companion.days
@@ -79,6 +80,7 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
     private fun shouldIgnore(e: Throwable) =
         e is IOException ||
             e.cause is IOException ||
+            e is CancellationException ||
             e is InflateException ||
             e is RealmFactory.RealmNotFoundException ||
             e.stackTrace.any { it.className.contains("Miui") }

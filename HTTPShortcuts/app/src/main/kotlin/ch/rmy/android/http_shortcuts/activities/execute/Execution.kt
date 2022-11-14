@@ -185,7 +185,7 @@ class Execution(
             loadData()
         } catch (e: NoSuchElementException) {
             showShortcutNotFoundDialog()
-            throw CancellationException()
+            throw CancellationException("Cancelling because shortcut was not found")
         }
 
         if (requiresConfirmation()) {
@@ -276,7 +276,7 @@ class Execution(
                 }
                 rescheduleExecution(variableManager)
                 executionScheduler.schedule()
-                throw CancellationException()
+                return
             }
             throw e
         } catch (e: Exception) {

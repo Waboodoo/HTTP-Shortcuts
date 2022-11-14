@@ -28,7 +28,7 @@ constructor(
         requestLocationPermission()
         if (networkUtil.getCurrentSsid().orEmpty() != wifiSsid) {
             showWifiSwitcherDialog(shortcutName, wifiSsid)
-            throw CancellationException()
+            throw CancellationException("Cancelling because not connected to the desired Wi-Fi")
         }
     }
 

@@ -163,7 +163,7 @@ constructor(
                 @Suppress("unused")
                 @Keep
                 fun run() {
-                    lastException = CancellationException()
+                    lastException = CancellationException("User requested abort")
                 }
             },
             READ_ONLY,
