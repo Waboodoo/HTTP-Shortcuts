@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ExecutionFactory
@@ -44,7 +45,9 @@ class ExecuteShortcutAction(
     }
 
     override suspend fun execute(executionContext: ExecutionContext): JSObject {
+        logInfo("Preparing to execute shortcut ($shortcutNameOrId)")
         if (executionContext.recursionDepth >= MAX_RECURSION_DEPTH) {
+            logInfo("Not executing shortcut, reached maximum recursion depth")
             throw ActionException {
                 getString(R.string.action_type_trigger_shortcut_error_recursion_depth_reached)
             }
@@ -52,6 +55,7 @@ class ExecuteShortcutAction(
         val shortcut = try {
             shortcutRepository.getShortcutByNameOrId(shortcutNameOrId ?: executionContext.shortcutId)
         } catch (e: NoSuchElementException) {
+            logInfo("Not executing shortcut, not found")
             throw ActionException {
                 getString(R.string.error_shortcut_not_found_for_triggering, shortcutNameOrId)
             }

@@ -143,6 +143,7 @@ class Execution(
     }
 
     suspend fun execute(): Flow<ExecutionStatus> = flow {
+        logInfo("Beginning to execute shortcut (${params.shortcutId})")
         emit(ExecutionStatus.Preparing)
         try {
             executeWithoutExceptionHandling()
@@ -317,6 +318,7 @@ class Execution(
 
         emit(ExecutionStatus.WrappingUp(variableManager.getVariableValuesByIds()))
         handleDisplayingOfResult(response, variableManager)
+        logInfo("Execution completed successfully (${params.shortcutId})")
         emit(ExecutionStatus.CompletedSuccessfully(response, variableManager.getVariableValuesByIds()))
     }
 
