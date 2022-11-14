@@ -51,7 +51,7 @@ class FileUploadManager private constructor(
     fun getNextFileRequest(): FileRequest? =
         fileRequests.takeIf { it.hasNext() }?.next()
 
-    fun fulfilFileRequest(fileUris: List<Uri>) {
+    fun fulfillFileRequest(fileUris: List<Uri>) {
         registerFiles(fileUris.map(::uriToFile))
     }
 

@@ -398,9 +398,9 @@ class Execution(
             fileRequest = fileUploadManager.getNextFileRequest() ?: break
             ensureActive()
             if (fileRequest.image) {
-                fileUploadManager.fulfilFileRequest(externalRequests.openCamera())
+                fileUploadManager.fulfillFileRequest(externalRequests.openCamera())
             } else {
-                fileUploadManager.fulfilFileRequest(externalRequests.openFilePicker(fileRequest.multiple))
+                fileUploadManager.fulfillFileRequest(externalRequests.openFilePicker(fileRequest.multiple))
             }
         }
 
