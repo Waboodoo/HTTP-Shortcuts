@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.execute
 
 import android.content.Context
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
@@ -195,6 +196,7 @@ class Execution(
         val variableManager = resolveVariables()
 
         if (shouldDelayExecution()) {
+            logInfo("Delaying execution")
             pendingExecutionsRepository.createPendingExecution(
                 shortcutId = shortcut.id,
                 resolvedVariables = variableManager.getVariableValuesByKeys(),
@@ -241,6 +243,7 @@ class Execution(
         val sessionId = "${shortcut.id}_${newUUID()}"
 
         if (params.recursionDepth == 0 && checkHeadlessExecution(shortcut)) {
+            logInfo("Preparing to execute HTTP request in headless mode")
             httpRequesterStarter.invoke(
                 shortcutId = shortcut.id,
                 sessionId = sessionId,

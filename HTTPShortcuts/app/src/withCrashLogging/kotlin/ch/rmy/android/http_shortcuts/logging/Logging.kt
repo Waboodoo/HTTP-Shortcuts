@@ -12,13 +12,15 @@ import com.bugsnag.android.ErrorTypes
 import com.bugsnag.android.ThreadSendPolicy
 import java.io.IOException
 import java.util.Date
+import kotlin.time.Duration.Companion.days
+import kotlin.time.times
 
 object Logging : ch.rmy.android.framework.extensions.Logging {
 
     /**
      * Disable crash logging after 3 months to prevent old bugs from spamming
      */
-    private const val MAX_APP_AGE = 3 * 30 * 24 * 60 * 60 * 1000L
+    private val MAX_APP_AGE = 3 * 30.days
 
     private var initialized = false
 
@@ -49,7 +51,7 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
             }
 
     private val isAppOutdated
-        get() = Date().time - BuildConfig.BUILD_TIMESTAMP.toLong() > MAX_APP_AGE
+        get() = Date().time - BuildConfig.BUILD_TIMESTAMP.toLong() > MAX_APP_AGE.inWholeMilliseconds
 
     @Suppress("MayBeConstant")
     val supportsCrashReporting: Boolean = true
@@ -67,9 +69,9 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
         }
     }
 
-    @Suppress("UNUSED_PARAMETER")
     override fun logException(origin: String, e: Throwable) {
         if (initialized && !shouldIgnore(e)) {
+            Bugsnag.leaveBreadcrumb("Logging exception from $origin")
             Bugsnag.notify(e)
         }
     }
@@ -81,10 +83,9 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
             e is RealmFactory.RealmNotFoundException ||
             e.stackTrace.any { it.className.contains("Miui") }
 
-    @Suppress("UNUSED_PARAMETER")
     override fun logInfo(origin: String, message: String) {
         if (initialized) {
-            Bugsnag.leaveBreadcrumb(message)
+            Bugsnag.leaveBreadcrumb("$origin: $message")
         }
     }
 }

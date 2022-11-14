@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
@@ -19,6 +20,7 @@ class SetVariableAction(val variableKeyOrId: VariableKeyOrId, val value: String)
     }
 
     override suspend fun execute(executionContext: ExecutionContext) {
+        logInfo("Setting variable value (${value.length} characters)")
         executionContext.variableManager.setVariableValueByKeyOrId(variableKeyOrId, value)
         val variable = try {
             variableRepository.getVariableByKeyOrId(variableKeyOrId)
