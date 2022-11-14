@@ -76,7 +76,9 @@ class IconView : AppCompatImageView {
         try {
             super.onDraw(canvas)
         } catch (e: Throwable) {
-            logException(e)
+            if (e !is OutOfMemoryError) {
+                logException(e)
+            }
             setImageResource(R.drawable.bitsies_cancel)
         }
     }
