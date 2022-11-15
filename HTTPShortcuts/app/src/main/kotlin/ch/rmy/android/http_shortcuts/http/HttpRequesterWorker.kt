@@ -17,6 +17,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.extensions.context
 import ch.rmy.android.http_shortcuts.extensions.getSafeName
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
@@ -79,7 +80,7 @@ class HttpRequesterWorker(context: Context, params: WorkerParameters) : Coroutin
                 else -> Unit
             }
 
-            if (e !is IOException && e !is ErrorResponse) {
+            if (e !is IOException && e !is ErrorResponse && e !is UserException) {
                 logException(e)
                 return Result.failure()
             }
