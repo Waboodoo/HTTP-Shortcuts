@@ -165,11 +165,15 @@ class Execution(
         generateOutputFromError(error)
             .let { message ->
                 withContext(Dispatchers.Main) {
-                    DialogBuilder(activityProvider.getActivity())
-                        .title(R.string.dialog_title_error)
-                        .message(message)
-                        .positive(R.string.dialog_ok)
-                        .showAndAwaitDismissal()
+                    try {
+                        DialogBuilder(activityProvider.getActivity())
+                            .title(R.string.dialog_title_error)
+                            .message(message)
+                            .positive(R.string.dialog_ok)
+                            .showAndAwaitDismissal()
+                    } catch (e: NoActivityAvailableException) {
+                        context.showToast(message, long = true)
+                    }
                 }
             }
     }
