@@ -10,16 +10,14 @@ class SendMQTTMessagesActionType : BaseActionType() {
     override val type = TYPE
 
     override fun fromDTO(actionDTO: ActionDTO): SendMQTTMessagesAction {
-        val options = if (actionDTO.argCount >= 3) {
-            actionDTO.getObject(1)
-        } else {
-            null
-        }
-        val messages = if (actionDTO.argCount >= 3) {
+        var optionsAvailable = true
+        val messages = (
             actionDTO.getList(2)
-        } else {
-            actionDTO.getList(1)
-        }
+                ?: run {
+                    optionsAvailable = false
+                    actionDTO.getList(1)
+                }
+            )
             .orEmpty()
             .mapNotNull {
                 when (it) {
@@ -33,6 +31,11 @@ class SendMQTTMessagesActionType : BaseActionType() {
                     else -> null
                 }
             }
+        val options = if (optionsAvailable) {
+            actionDTO.getObject(1)
+        } else {
+            null
+        }
 
         return SendMQTTMessagesAction(
             serverUri = actionDTO.getString(0) ?: "",

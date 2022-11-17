@@ -422,7 +422,7 @@ constructor(
                 ) {
                     insertText(
                         "sendMQTTMessages(\"tcp://broker:port\", {\"username\": \"\", \"password\": \"\"}, [\n    " +
-                            "{\"topic\": \"\", \"payload\": \"\"},\n]};\n",
+                            "{\"topic\": \"\", \"payload\": \"\"},\n]);\n",
                         "",
                     )
                 }
