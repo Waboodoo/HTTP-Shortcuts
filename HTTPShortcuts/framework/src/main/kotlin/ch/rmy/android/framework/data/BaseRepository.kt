@@ -5,7 +5,6 @@ import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmModel
 import io.realm.RealmQuery
-import io.realm.kotlin.executeTransactionAwait
 import io.realm.kotlin.toFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ProducerScope
@@ -64,9 +63,11 @@ abstract class BaseRepository(private val realmFactory: RealmFactory) {
             .map { it.first() }
 
     protected suspend fun commitTransaction(transaction: RealmTransactionContext.() -> Unit) {
-        realmFactory.createRealm().use { realm ->
-            realm.executeTransactionAwait {
-                transaction(it.createTransactionContext())
+        withContext(Dispatchers.IO) {
+            realmFactory.createRealm().use { realm ->
+                realm.executeTransaction {
+                    transaction(realm.createTransactionContext())
+                }
             }
         }
     }
