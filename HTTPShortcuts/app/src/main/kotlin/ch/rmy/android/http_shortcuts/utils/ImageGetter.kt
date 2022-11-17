@@ -41,6 +41,7 @@ class ImageGetter(
                             try {
                                 val imageAsBytes = source.getBase64ImageData()
                                 BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.size)
+                                    ?: throw UnsupportedImageSourceException()
                             } catch (e: IllegalArgumentException) {
                                 throw UnsupportedImageSourceException()
                             }
