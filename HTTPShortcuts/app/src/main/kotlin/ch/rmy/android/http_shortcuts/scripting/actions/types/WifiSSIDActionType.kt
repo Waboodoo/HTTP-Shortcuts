@@ -12,6 +12,7 @@ class WifiSSIDActionType : BaseActionType() {
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
         parameters = 1,
+        functionNameAliases = setOf("getWifiSsid"),
     )
 
     companion object {
