@@ -27,11 +27,11 @@ interface Logging {
 }
 
 fun Any.logException(e: Throwable) {
-    GlobalLogger.logException(this.javaClass.simpleName.ifEmpty { "anonymous" }, e)
+    GlobalLogger.logException(this.javaClass.name.ifEmpty { "anonymous" }, e)
 }
 
 fun Any.logInfo(message: String) {
-    GlobalLogger.logInfo(this.javaClass.simpleName.ifEmpty { "anonymous" }, message)
+    GlobalLogger.logInfo(this.javaClass.name.ifEmpty { "anonymous" }, message)
 }
 
 inline fun <T> Any.tryOrLog(block: () -> T): T? =
@@ -47,7 +47,7 @@ inline fun <T> Any.tryOrIgnore(block: () -> T): T? =
         block()
     } catch (e: Throwable) {
         if (BuildConfig.DEBUG) {
-            Log.e(this.javaClass.simpleName, "An ignorable error occurred", e)
+            Log.e(this.javaClass.name, "An ignorable error occurred", e)
         }
         null
     }
