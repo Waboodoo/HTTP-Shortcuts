@@ -1,7 +1,8 @@
 package ch.rmy.android.http_shortcuts.data.models
 
+import ch.rmy.android.framework.extensions.isInt
+import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
-import ch.rmy.android.framework.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
@@ -219,46 +220,38 @@ open class ShortcutModel(
                 )
 
     fun validate() {
-        if (!UUIDUtils.isUUID(id) && id.toIntOrNull() == null) {
-            throw IllegalArgumentException("Invalid shortcut ID found, must be UUID: $id")
+        require(id.isUUID() || id.isInt()) {
+            "Invalid shortcut ID found, must be UUID: $id"
         }
-
-        if (name.length > NAME_MAX_LENGTH) {
-            throw IllegalArgumentException("Shortcut name too long: $name")
+        require(name.length <= NAME_MAX_LENGTH) {
+            "Shortcut name too long: $name"
         }
-
-        if (name.isEmpty()) {
-            throw IllegalArgumentException("Shortcut must have a name")
+        require(name.isNotBlank()) {
+            "Shortcut must have a name"
         }
-
-        if (method !in setOf(METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_PATCH, METHOD_DELETE, METHOD_HEAD, METHOD_OPTIONS, METHOD_TRACE)) {
-            throw IllegalArgumentException("Invalid method: $method")
+        require(method in setOf(METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_PATCH, METHOD_DELETE, METHOD_HEAD, METHOD_OPTIONS, METHOD_TRACE)) {
+            "Invalid method: $method"
         }
-
-        if (ShortcutExecutionType.values().none { it.type == executionType }) {
-            throw IllegalArgumentException("Invalid shortcut executionType: $executionType")
+        require(ShortcutExecutionType.values().any { it.type == executionType }) {
+            "Invalid shortcut executionType: $executionType"
         }
-
-        if (retryPolicy !in setOf(RETRY_POLICY_NONE, RETRY_POLICY_WAIT_FOR_INTERNET)) {
-            throw IllegalArgumentException("Invalid retry policy: $retryPolicy")
+        require(retryPolicy in setOf(RETRY_POLICY_NONE, RETRY_POLICY_WAIT_FOR_INTERNET)) {
+            "Invalid retry policy: $retryPolicy"
         }
-
-        if (RequestBodyType.values().none { it.type == requestBodyType }) {
-            throw IllegalArgumentException("Invalid request body type: $requestBodyType")
+        require(RequestBodyType.values().any { it.type == requestBodyType }) {
+            "Invalid request body type: $requestBodyType"
         }
-
-        if (ShortcutAuthenticationType.values().none { it.type == authentication }) {
-            throw IllegalArgumentException("Invalid authentication: $authentication")
+        require(ShortcutAuthenticationType.values().any { it.type == authentication }) {
+            "Invalid authentication: $authentication"
         }
-
-        if (timeout < 0) {
-            throw IllegalArgumentException("Invalid timeout: $timeout")
+        require(timeout >= 0) {
+            "Invalid timeout: $timeout"
         }
-
-        if (delay < 0) {
-            throw IllegalArgumentException("Invalid delay: $delay")
+        require(delay >= 0) {
+            "Invalid delay: $delay"
         }
-
+        headers.forEach(HeaderModel::validate)
+        parameters.forEach(ParameterModel::validate)
         responseHandling?.validate()
     }
 

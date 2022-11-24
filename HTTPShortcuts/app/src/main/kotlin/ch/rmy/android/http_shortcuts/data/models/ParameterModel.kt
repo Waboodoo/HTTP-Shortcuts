@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.models
 
+import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import io.realm.RealmModel
@@ -41,4 +42,13 @@ open class ParameterModel(
 
     val isStringParameter: Boolean
         get() = type == ParameterType.STRING.type
+
+    fun validate() {
+        require(id.isUUID()) {
+            "Invalid parameter ID found, must be UUID: $id"
+        }
+        require(key.isNotEmpty()) {
+            "Parameter without a key found"
+        }
+    }
 }

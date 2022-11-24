@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.models
 
+import ch.rmy.android.framework.extensions.hasDuplicatesBy
 import io.realm.RealmList
 import io.realm.RealmModel
 import io.realm.annotations.RealmClass
@@ -21,13 +22,26 @@ open class BaseModel : RealmModel {
     fun validate() {
         categories.forEach(CategoryModel::validate)
         variables.forEach(VariableModel::validate)
-        if (hasDuplicateVariableKeys()) {
-            throw IllegalArgumentException("Duplicate variable keys")
+        require(!categories.hasDuplicatesBy { it.id }) {
+            "Duplicate category IDs"
         }
-    }
-
-    private fun hasDuplicateVariableKeys(): Boolean {
-        val keys = variables.map { it.key }
-        return keys.distinct().size != keys.size
+        require(!variables.hasDuplicatesBy { it.id }) {
+            "Duplicate variable IDs"
+        }
+        require(!variables.flatMap { it.options ?: emptyList() }.hasDuplicatesBy { it.id }) {
+            "Duplicate variable option IDs"
+        }
+        require(!variables.hasDuplicatesBy { it.key }) {
+            "Duplicate variable keys"
+        }
+        require(!shortcuts.hasDuplicatesBy { it.id }) {
+            "Duplicate shortcut IDs"
+        }
+        require(!shortcuts.flatMap { it.headers }.hasDuplicatesBy { it.id }) {
+            "Duplicate header IDs"
+        }
+        require(!shortcuts.flatMap { it.parameters }.hasDuplicatesBy { it.id }) {
+            "Duplicate parameter IDs"
+        }
     }
 }

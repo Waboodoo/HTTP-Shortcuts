@@ -1,6 +1,7 @@
 package ch.rmy.android.framework.extensions
 
 import androidx.annotation.IntRange
+import ch.rmy.android.framework.utils.UUIDUtils
 import ch.rmy.android.framework.utils.localization.StaticLocalizable
 
 fun String.truncate(@IntRange(from = 1) maxLength: Int) =
@@ -19,3 +20,9 @@ fun ByteArray.toHexString() =
 
 fun String.toLocalizable() =
     StaticLocalizable(this)
+
+fun String.isUUID() =
+    UUIDUtils.isUUID(this)
+
+fun String.isInt() =
+    toIntOrNull() != null

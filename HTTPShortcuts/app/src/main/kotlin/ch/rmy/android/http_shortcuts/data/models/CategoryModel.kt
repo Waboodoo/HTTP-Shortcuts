@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.models
 
-import ch.rmy.android.framework.utils.UUIDUtils.isUUID
+import ch.rmy.android.framework.extensions.isInt
+import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
@@ -58,22 +59,18 @@ open class CategoryModel(
     }
 
     fun validate() {
-        if (!isUUID(id) && id.toIntOrNull() == null) {
-            throw IllegalArgumentException("Invalid category ID found, must be UUID: $id")
+        require(id.isUUID() || id.isInt()) {
+            "Invalid category ID found, must be UUID: $id"
         }
-
-        if (CategoryLayoutType.values().none { it.type == layoutType || it.legacyAlias == layoutType }) {
-            throw IllegalArgumentException("Invalid layout type: $layoutType")
+        require(CategoryLayoutType.values().any { it.type == layoutType || it.legacyAlias == layoutType }) {
+            "Invalid layout type: $layoutType"
         }
-
-        if (name.isBlank()) {
-            throw IllegalArgumentException("Category without a name found")
+        require(name.isNotBlank()) {
+            "Category without a name found"
         }
-
-        if (name.length > NAME_MAX_LENGTH) {
-            throw IllegalArgumentException("Category name too long: $name")
+        require(name.length <= NAME_MAX_LENGTH) {
+            "Category name too long: $name"
         }
-
         shortcuts.forEach(ShortcutModel::validate)
     }
 

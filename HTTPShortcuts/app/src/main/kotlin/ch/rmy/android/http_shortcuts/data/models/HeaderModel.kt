@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.models
 
+import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import io.realm.RealmModel
 import io.realm.annotations.PrimaryKey
@@ -18,4 +19,13 @@ open class HeaderModel(
 ) : RealmModel {
 
     fun isSameAs(other: HeaderModel) = other.key == key && other.value == value
+
+    fun validate() {
+        require(id.isUUID()) {
+            "Invalid header ID found, must be UUID: $id"
+        }
+        require(key.isNotEmpty()) {
+            "Header without a key found"
+        }
+    }
 }

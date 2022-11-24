@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.models
 
+import ch.rmy.android.framework.extensions.createRealmList
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import io.realm.RealmList
 import io.realm.RealmModel
@@ -30,22 +31,18 @@ open class ResponseHandlingModel(
     var displayActions: List<ResponseDisplayAction>
         get() = actions.mapNotNull(ResponseDisplayAction::parse)
         set(value) {
-            actions = RealmList<String>().apply {
-                addAll(value.map { it.key })
-            }
+            actions = createRealmList(value.map { it.key })
         }
 
     fun validate() {
-        if (uiType !in setOf(UI_TYPE_WINDOW, UI_TYPE_DIALOG, UI_TYPE_TOAST)) {
-            throw IllegalArgumentException("Invalid response handling type: $uiType")
+        require(uiType in setOf(UI_TYPE_WINDOW, UI_TYPE_DIALOG, UI_TYPE_TOAST)) {
+            "Invalid response handling type: $uiType"
         }
-
-        if (successOutput !in setOf(SUCCESS_OUTPUT_MESSAGE, SUCCESS_OUTPUT_RESPONSE, SUCCESS_OUTPUT_NONE)) {
-            throw IllegalArgumentException("Invalid response handling success output: $successOutput")
+        require(successOutput in setOf(SUCCESS_OUTPUT_MESSAGE, SUCCESS_OUTPUT_RESPONSE, SUCCESS_OUTPUT_NONE)) {
+            "Invalid response handling success output: $successOutput"
         }
-
-        if (failureOutput !in setOf(FAILURE_OUTPUT_DETAILED, FAILURE_OUTPUT_SIMPLE, FAILURE_OUTPUT_NONE)) {
-            throw IllegalArgumentException("Invalid response handling failure output: $failureOutput")
+        require(failureOutput in setOf(FAILURE_OUTPUT_DETAILED, FAILURE_OUTPUT_SIMPLE, FAILURE_OUTPUT_NONE)) {
+            "Invalid response handling failure output: $failureOutput"
         }
     }
 

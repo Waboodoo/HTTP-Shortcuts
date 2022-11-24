@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.models
 
-import ch.rmy.android.framework.utils.UUIDUtils
+import ch.rmy.android.framework.extensions.isInt
+import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
@@ -123,17 +124,16 @@ open class VariableModel(
     override fun toString() = "Variable($type, $key, $id)"
 
     fun validate() {
-        if (!UUIDUtils.isUUID(id) && id.toIntOrNull() == null) {
-            throw IllegalArgumentException("Invalid variable ID found, must be UUID: $id")
+        require(id.isUUID() || id.isInt()) {
+            "Invalid variable ID found, must be UUID: $id"
         }
-
-        if (!Variables.isValidVariableKey(key)) {
-            throw IllegalArgumentException("Invalid variable key: $key")
+        require(Variables.isValidVariableKey(key)) {
+            "Invalid variable key: $key"
         }
-
-        if (VariableType.values().none { it.type == type }) {
-            throw IllegalArgumentException("Invalid variable type: $type")
+        require(VariableType.values().any { it.type == type }) {
+            "Invalid variable type: $type"
         }
+        options?.forEach(OptionModel::validate)
     }
 
     companion object {

@@ -29,3 +29,6 @@ fun <T : RealmModel> List<T>.deleteAllFromRealm() {
         it.deleteFromRealm()
     }
 }
+
+fun <T> createRealmList(items: List<T>): RealmList<T> =
+    RealmList<T>().apply { addAll(items) }

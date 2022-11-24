@@ -91,3 +91,6 @@ fun <T> MutableCollection<T>.addOrRemove(item: T, add: Boolean) {
 
 inline fun <T> Collection<T>.indexOfFirstOrNull(predicate: (T) -> Boolean): Int? =
     indexOfFirst(predicate).takeUnless { it == -1 }
+
+inline fun <T> Collection<T>.hasDuplicatesBy(getKey: (T) -> Any?): Boolean =
+    distinctBy(getKey).size != size

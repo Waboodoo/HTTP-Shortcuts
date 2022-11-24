@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.models
 
+import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import io.realm.RealmModel
 import io.realm.annotations.PrimaryKey
@@ -23,4 +24,10 @@ open class OptionModel(
             .ifEmpty { "-" }
 
     fun isSameAs(other: OptionModel) = other.label == label && other.value == value
+
+    fun validate() {
+        require(id.isUUID()) {
+            "Invalid option ID found, must be UUID: $id"
+        }
+    }
 }
