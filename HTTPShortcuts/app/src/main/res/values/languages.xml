@@ -4,6 +4,7 @@
     <string name="language_catalan" translatable="false">Català</string>
     <string name="language_german" translatable="false">Deutsch</string>
     <string name="language_spanish" translatable="false">Español</string>
+    <string name="language_mexican_spanish" translatable="false">Español (México)</string>
     <string name="language_french" translatable="false">Français</string>
     <string name="language_indonesian" translatable="false">Bahasa Indonesia</string>
     <string name="language_italian" translatable="false">Italiano</string>
@@ -24,6 +25,7 @@
         <item>@string/language_catalan</item>
         <item>@string/language_german</item>
         <item>@string/language_spanish</item>
+        <item>@string/language_mexican_spanish</item>
         <item>@string/language_french</item>
         <item>@string/language_indonesian</item>
         <item>@string/language_italian</item>
@@ -45,6 +47,7 @@
         <item>ca</item>
         <item>de</item>
         <item>es</item>
+        <item>es-rMX</item>
         <item>fr</item>
         <item>in</item>
         <item>it</item>
