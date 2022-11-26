@@ -100,7 +100,7 @@ constructor(
 
     private fun shareResponse(shortcutName: String, text: String, type: String, responseFileUri: Uri?) {
         if (shouldShareAsText(text, type)) {
-            ShareUtil.shareText(context, text)
+            ShareUtil.shareText(activityProvider.getActivity(), text)
         } else {
             Intent(Intent.ACTION_SEND)
                 .setType(type)

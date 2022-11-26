@@ -306,7 +306,7 @@ class DisplayResponseActivity : BaseActivity() {
 
     private fun shareResponse() {
         if (shouldShareAsText()) {
-            ShareUtil.shareText(context, text)
+            ShareUtil.shareText(this, text)
         } else {
             Intent(Intent.ACTION_SEND)
                 .setType(type)
