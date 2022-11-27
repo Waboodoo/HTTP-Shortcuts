@@ -205,7 +205,7 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.8")
 
     /* HTTP & Network */
-    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
     implementation("io.github.rburgst:okhttp-digest:2.6")
     implementation("com.github.franmontiel:PersistentCookieJar:v1.0.1")
     implementation("org.conscrypt:conscrypt-android:2.5.2")
@@ -225,8 +225,8 @@ dependencies {
     implementation("com.github.LiquidPlayer:LiquidCore:0.6.2")
 
     /* Location lookup (for Scripting) */
-    debugImplementation("com.google.android.gms:play-services-location:21.0.0")
-    "releaseFullImplementation"("com.google.android.gms:play-services-location:21.0.0")
+    debugImplementation("com.google.android.gms:play-services-location:21.0.1")
+    "releaseFullImplementation"("com.google.android.gms:play-services-location:21.0.1")
 
     /* MQTT (for Scripting) */
     implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
@@ -253,7 +253,7 @@ dependencies {
     testImplementation("org.mockito:mockito-core:$mockitoVersion")
     testImplementation("org.mockito:mockito-inline:$mockitoVersion")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
-    testImplementation("androidx.test:core-ktx:1.4.0")
+    testImplementation("androidx.test:core-ktx:1.5.0")
 }
 
 configurations.all {

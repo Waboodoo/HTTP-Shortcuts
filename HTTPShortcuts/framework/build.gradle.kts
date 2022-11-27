@@ -94,5 +94,5 @@ dependencies {
     testApi("org.mockito:mockito-core:$mockitoVersion")
     testApi("org.mockito:mockito-inline:$mockitoVersion")
     testApi("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
-    testApi("androidx.test:core-ktx:1.4.0")
+    testApi("androidx.test:core-ktx:1.5.0")
 }
