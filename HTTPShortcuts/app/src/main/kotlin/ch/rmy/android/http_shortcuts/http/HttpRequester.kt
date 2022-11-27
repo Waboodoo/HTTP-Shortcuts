@@ -15,7 +15,7 @@ import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYPE
-import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE
+import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE_WITH_CHARSET
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
 import ch.rmy.android.http_shortcuts.variables.Variables
 import kotlinx.coroutines.Dispatchers
@@ -239,7 +239,7 @@ constructor(
         private fun determineContentType(shortcut: ShortcutModel): String? =
             when (shortcut.bodyType) {
                 RequestBodyType.FORM_DATA -> FORM_MULTIPART_CONTENT_TYPE
-                RequestBodyType.X_WWW_FORM_URLENCODE -> FORM_URLENCODE_CONTENT_TYPE
+                RequestBodyType.X_WWW_FORM_URLENCODE -> FORM_URLENCODE_CONTENT_TYPE_WITH_CHARSET
                 else -> shortcut.contentType.takeUnlessEmpty()
             }
     }

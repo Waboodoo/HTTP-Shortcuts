@@ -135,7 +135,10 @@ class RequestBuilder(private val method: String, url: String) {
 
     private fun getBody(): RequestBody = when {
         contentType == FORM_MULTIPART_CONTENT_TYPE -> FormMultipartRequestBody(parameters)
-        contentType == FORM_URLENCODE_CONTENT_TYPE -> constructBodyFromString(constructFormUrlEncodedBody())
+        contentType?.startsWith(FORM_URLENCODE_CONTENT_TYPE, ignoreCase = true) == true -> constructBodyFromString(
+            constructFormUrlEncodedBody()
+                .ifEmpty { body ?: "" }
+        )
         bodyStream != null -> constructBodyFromStream(bodyStream!!, bodyLength)
         else -> constructBodyFromString(body ?: "")
     }
