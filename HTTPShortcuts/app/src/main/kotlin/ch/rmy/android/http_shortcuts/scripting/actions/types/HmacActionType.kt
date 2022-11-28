@@ -10,7 +10,7 @@ class HmacActionType : BaseActionType() {
     override fun fromDTO(actionDTO: ActionDTO) = HmacAction(
         algorithm = actionDTO.getString(0) ?: "",
         key = actionDTO.getByteArray(1) ?: ByteArray(0),
-        message = actionDTO.getString(2) ?: "",
+        message = actionDTO.getByteArray(2) ?: ByteArray(0),
     )
 
     override fun getAlias() = ActionAlias(

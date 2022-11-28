@@ -10,14 +10,14 @@ import javax.crypto.spec.SecretKeySpec
 class HmacAction(
     private val algorithm: String,
     private val key: ByteArray,
-    private val message: String,
+    private val message: ByteArray,
 ) : BaseAction() {
 
     override suspend fun execute(executionContext: ExecutionContext): ByteArray {
         val algorithmName = SUPPORTED_ALGORITHMS[normalizeAlgorithm(algorithm)]
             ?: throwUnsupportedError()
         return try {
-            hmac(algorithmName, key, message.toByteArray())
+            hmac(algorithmName, key, message)
         } catch (e: NoSuchAlgorithmException) {
             throwUnsupportedError()
         } catch (e: IllegalArgumentException) {
