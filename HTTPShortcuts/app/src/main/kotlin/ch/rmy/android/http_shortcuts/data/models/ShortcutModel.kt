@@ -5,6 +5,7 @@ import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
+import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
@@ -83,9 +84,15 @@ open class ShortcutModel(
 
     var acceptCookies: Boolean = true
 
+    private var proxy: String = "HTTP"
+
     var proxyHost: String? = null
 
     var proxyPort: Int? = null
+
+    var proxyUsername: String? = null
+
+    var proxyPassword: String? = null
 
     var wifiSsid: String = ""
 
@@ -126,6 +133,12 @@ open class ShortcutModel(
         get() = ShortcutAuthenticationType.parse(authentication)
         set(value) {
             authentication = value.type
+        }
+
+    var proxyType: ProxyType
+        get() = ProxyType.parse(proxy)
+        set(value) {
+            proxy = value.type
         }
 
     init {
@@ -180,8 +193,11 @@ open class ShortcutModel(
             other.followRedirects != followRedirects ||
             other.requireConfirmation != requireConfirmation ||
             other.acceptCookies != acceptCookies ||
+            other.proxyType != proxyType ||
             other.proxyHost != proxyHost ||
             other.proxyPort != proxyPort ||
+            other.proxyUsername != proxyUsername ||
+            other.proxyPassword != proxyPassword ||
             other.wifiSsid != wifiSsid ||
             other.clientCert != clientCert ||
             other.browserPackageName != browserPackageName

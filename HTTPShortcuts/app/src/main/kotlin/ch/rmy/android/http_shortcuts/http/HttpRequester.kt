@@ -57,11 +57,7 @@ constructor(
                 password = Variables.rawPlaceholdersToResolvedValues(shortcut.password, variableValues),
                 authToken = Variables.rawPlaceholdersToResolvedValues(shortcut.authToken, variableValues),
                 body = Variables.rawPlaceholdersToResolvedValues(shortcut.bodyContent, variableValues),
-                proxyHost = shortcut.proxyHost
-                    ?.let {
-                        Variables.rawPlaceholdersToResolvedValues(it, variableValues)
-                    }
-                    ?.trim(),
+                proxy = getProxyParams(shortcut, variableValues),
             )
 
             val cookieJar = if (useCookieJar) cookieManager.getCookieJar() else null
@@ -91,6 +87,31 @@ constructor(
             }
         }
 
+    private fun getProxyParams(shortcut: ShortcutModel, variableValues: Map<VariableId, String>): ProxyParams? {
+        val host = (shortcut.proxyHost ?: return null)
+            .let {
+                Variables.rawPlaceholdersToResolvedValues(it, variableValues)
+            }
+            .trim()
+
+        val username = shortcut.proxyUsername
+            ?.let {
+                Variables.rawPlaceholdersToResolvedValues(it, variableValues)
+            }
+        val password = shortcut.proxyPassword
+            ?.let {
+                Variables.rawPlaceholdersToResolvedValues(it, variableValues)
+            }
+
+        return ProxyParams(
+            type = shortcut.proxyType,
+            host = host,
+            port = shortcut.proxyPort ?: return null,
+            username = username.orEmpty(),
+            password = password.orEmpty(),
+        )
+    }
+
     private suspend fun makeRequest(
         context: Context,
         shortcut: ShortcutModel,
@@ -110,8 +131,7 @@ constructor(
                 password = requestData.password.takeIf { useDigestAuth },
                 followRedirects = shortcut.followRedirects,
                 timeout = shortcut.timeout.toLong(),
-                proxyHost = requestData.proxyHost,
-                proxyPort = shortcut.proxyPort,
+                proxy = requestData.proxy,
                 cookieJar = cookieJar,
             )
 

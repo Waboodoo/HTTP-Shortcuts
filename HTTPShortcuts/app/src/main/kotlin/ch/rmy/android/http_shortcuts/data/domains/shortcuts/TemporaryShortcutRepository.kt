@@ -8,6 +8,7 @@ import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
+import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
@@ -339,6 +340,12 @@ constructor(
         }
     }
 
+    suspend fun setProxyType(proxyType: ProxyType) {
+        commitTransactionForShortcut { shortcut ->
+            shortcut.proxyType = proxyType
+        }
+    }
+
     suspend fun setProxyHost(host: String) {
         commitTransactionForShortcut { shortcut ->
             shortcut.proxyHost = host.trim().takeUnless { it.isEmpty() }
@@ -348,6 +355,18 @@ constructor(
     suspend fun setProxyPort(port: Int?) {
         commitTransactionForShortcut { shortcut ->
             shortcut.proxyPort = port
+        }
+    }
+
+    suspend fun setProxyUsername(username: String) {
+        commitTransactionForShortcut { shortcut ->
+            shortcut.proxyUsername = username.takeUnless { it.isEmpty() }
+        }
+    }
+
+    suspend fun setProxyPassword(password: String) {
+        commitTransactionForShortcut { shortcut ->
+            shortcut.proxyPassword = password.takeUnless { it.isEmpty() }
         }
     }
 

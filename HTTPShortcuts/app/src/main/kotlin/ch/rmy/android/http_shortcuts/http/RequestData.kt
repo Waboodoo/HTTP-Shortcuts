@@ -10,7 +10,7 @@ data class RequestData(
     val password: String,
     val authToken: String,
     val body: String,
-    val proxyHost: String?,
+    val proxy: ProxyParams?,
 ) {
 
     val uri

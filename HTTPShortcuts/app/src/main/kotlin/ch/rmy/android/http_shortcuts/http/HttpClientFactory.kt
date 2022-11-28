@@ -5,6 +5,7 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
+import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.exceptions.ClientCertException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidProxyException
 import com.burgstaller.okhttp.digest.Credentials
@@ -12,7 +13,9 @@ import okhttp3.ConnectionSpec
 import okhttp3.CookieJar
 import okhttp3.OkHttpClient
 import org.conscrypt.Conscrypt
+import java.net.Authenticator
 import java.net.InetSocketAddress
+import java.net.PasswordAuthentication
 import java.net.Proxy
 import java.security.KeyStore
 import java.security.SecureRandom
@@ -34,8 +37,7 @@ constructor() {
         password: String? = null,
         followRedirects: Boolean = true,
         timeout: Long = 10000,
-        proxyHost: String? = null,
-        proxyPort: Int? = null,
+        proxy: ProxyParams? = null,
         cookieJar: CookieJar? = null,
     ): OkHttpClient =
         (
@@ -57,9 +59,25 @@ constructor() {
             .runIfNotNull(cookieJar) {
                 cookieJar(it)
             }
-            .runIf(proxyHost != null && proxyPort != null) {
+            .runIfNotNull(proxy) {
+                Authenticator.setDefault(object : Authenticator() {
+                    override fun getPasswordAuthentication(): PasswordAuthentication {
+                        if (it.host.equals(requestingHost, ignoreCase = true) && it.port == requestingPort) {
+                            return PasswordAuthentication(it.username, it.password.toCharArray())
+                        }
+                        return super.getPasswordAuthentication()
+                    }
+                })
                 try {
-                    proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyHost!!, proxyPort!!)))
+                    proxy(
+                        Proxy(
+                            when (it.type) {
+                                ProxyType.HTTP -> Proxy.Type.HTTP
+                                ProxyType.SOCKS -> Proxy.Type.SOCKS
+                            },
+                            InetSocketAddress(it.host, it.port),
+                        )
+                    )
                 } catch (e: IllegalArgumentException) {
                     throw InvalidProxyException(e.message!!)
                 }

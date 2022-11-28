@@ -152,6 +152,10 @@ constructor(
 
                 if (shortcut.proxyHost != null) {
                     addAll(Variables.extractVariableIds(shortcut.proxyHost!!))
+                    if (shortcut.proxyType.supportsAuthentication) {
+                        shortcut.proxyUsername?.let { addAll(Variables.extractVariableIds(it)) }
+                        shortcut.proxyPassword?.let { addAll(Variables.extractVariableIds(it)) }
+                    }
                 }
 
                 if (includeScripting) {

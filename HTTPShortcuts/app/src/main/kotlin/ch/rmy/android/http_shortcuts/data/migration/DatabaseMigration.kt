@@ -386,6 +386,15 @@ class DatabaseMigration : RealmMigration {
             53L -> { // 2.23.0
                 ResponseActionMigration.migrateRealm(realm)
             }
+            54L -> { // 2.26.0
+                schema.get("Shortcut")!!
+                    .addField("proxy", String::class.java)
+                    .addField("proxyUsername", String::class.java)
+                    .addField("proxyPassword", String::class.java)
+                realm.where("Shortcut").findAll().forEach { shortcut ->
+                    shortcut.setString("proxy", "HTTP")
+                }
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -411,6 +420,6 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 53L
+        const val VERSION = 54L
     }
 }

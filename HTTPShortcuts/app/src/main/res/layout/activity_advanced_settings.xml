@@ -14,6 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:orientation="vertical"
             android:paddingTop="16dp"
             android:paddingBottom="16dp">
@@ -78,10 +79,18 @@
 
             <include layout="@layout/divider_line" />
 
+            <ch.rmy.android.framework.ui.views.LabelledSpinner
+                android:id="@+id/input_proxy_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/label_proxy_type" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
@@ -125,10 +134,75 @@
                     android:id="@+id/input_proxy_port"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
                     android:inputType="number" />
 
             </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/proxy_username_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <TextView
+                    android:id="@+id/label_proxy_username"
+                    style="@style/Label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_proxy_username" />
+
+                <ch.rmy.android.http_shortcuts.variables.VariableEditText
+                    android:id="@+id/input_proxy_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/label_proxy_username"
+                    android:inputType="textNoSuggestions"
+                    android:lines="1"
+                    android:paddingEnd="@dimen/variable_button_spacing" />
+
+                <ch.rmy.android.http_shortcuts.variables.VariableButton
+                    android:id="@+id/variable_button_proxy_username"
+                    style="@style/VariableButton"
+                    android:layout_below="@+id/label_proxy_username"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/proxy_password_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <TextView
+                    android:id="@+id/label_proxy_password"
+                    style="@style/Label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_proxy_password" />
+
+                <ch.rmy.android.http_shortcuts.variables.VariableEditText
+                    android:id="@+id/input_proxy_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/label_proxy_password"
+                    android:inputType="textNoSuggestions"
+                    android:lines="1"
+                    android:paddingEnd="@dimen/variable_button_spacing" />
+
+                <ch.rmy.android.http_shortcuts.variables.VariableButton
+                    android:id="@+id/variable_button_proxy_password"
+                    style="@style/VariableButton"
+                    android:layout_below="@+id/label_proxy_password"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp" />
 
             <include layout="@layout/divider_line" />
 

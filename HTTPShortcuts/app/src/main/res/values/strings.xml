@@ -242,10 +242,16 @@
     <string name="import_in_progress">Importing…</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Timeout</string>
+    <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
+    <string name="label_proxy_type">Proxy Type</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
     <string name="label_proxy_host">Proxy Hostname / IP Address</string>
     <!-- Label, for option to set the proxy port for a shortcut -->
     <string name="label_proxy_port">Proxy Port</string>
+    <!-- Label, for option to set the proxy username for a shortcut -->
+    <string name="label_proxy_username">Proxy Username</string>
+    <!-- Label, for option to set the proxy password for a shortcut -->
+    <string name="label_proxy_password">Proxy Password</string>
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">Client Certificate Authentication</string>
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->

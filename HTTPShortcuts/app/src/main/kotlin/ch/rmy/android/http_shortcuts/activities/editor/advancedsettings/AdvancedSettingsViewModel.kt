@@ -4,12 +4,15 @@ import android.app.Application
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.utils.localization.DurationLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.usecases.GetTimeoutDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
+import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
+import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
@@ -75,8 +78,11 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
                 acceptAllCertificates = shortcut.acceptAllCertificates,
                 acceptCookies = shortcut.acceptCookies,
                 timeout = shortcut.timeout.milliseconds,
+                proxyType = shortcut.proxyType,
                 proxyHost = shortcut.proxyHost ?: "",
                 proxyPort = shortcut.proxyPort?.toString() ?: "",
+                proxyUsername = shortcut.proxyUsername ?: "",
+                proxyPassword = shortcut.proxyPassword ?: "",
                 wifiSsid = shortcut.wifiSsid,
             )
         }
@@ -123,6 +129,15 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
         }
     }
 
+    fun onProxyTypeChanged(proxyType: ProxyType) {
+        updateViewState {
+            copy(proxyType = proxyType)
+        }
+        launchWithProgressTracking {
+            temporaryShortcutRepository.setProxyType(proxyType)
+        }
+    }
+
     fun onProxyHostChanged(proxyHost: String) {
         updateViewState {
             copy(proxyHost = proxyHost)
@@ -138,6 +153,24 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
         }
         launchWithProgressTracking {
             temporaryShortcutRepository.setProxyPort(proxyPort)
+        }
+    }
+
+    fun onProxyUsernameChanged(proxyUsername: String) {
+        updateViewState {
+            copy(proxyUsername = proxyUsername)
+        }
+        launchWithProgressTracking {
+            temporaryShortcutRepository.setProxyUsername(proxyUsername)
+        }
+    }
+
+    fun onProxyPasswordChanged(proxyPassword: String) {
+        updateViewState {
+            copy(proxyPassword = proxyPassword)
+        }
+        launchWithProgressTracking {
+            temporaryShortcutRepository.setProxyPassword(proxyPassword)
         }
     }
 
@@ -174,9 +207,27 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
     }
 
     fun onProxyHostVariableButtonClicked() {
+        showVariablePlaceholderDialog {
+            AdvancedSettingsEvent.InsertVariablePlaceholderIntoProxyHost(it)
+        }
+    }
+
+    fun onProxyUsernameVariableButtonClicked() {
+        showVariablePlaceholderDialog {
+            AdvancedSettingsEvent.InsertVariablePlaceholderIntoProxyUsername(it)
+        }
+    }
+
+    fun onProxyPasswordVariableButtonClicked() {
+        showVariablePlaceholderDialog {
+            AdvancedSettingsEvent.InsertVariablePlaceholderIntoProxyPassword(it)
+        }
+    }
+
+    private fun showVariablePlaceholderDialog(onVariableSelected: (VariablePlaceholder) -> ViewModelEvent) {
         dialogState = getVariablePlaceholderPickerDialog.invoke(
             onVariableSelected = {
-                emitEvent(AdvancedSettingsEvent.InsertVariablePlaceholder(it))
+                emitEvent(onVariableSelected(it))
             },
             onEditVariableButtonClicked = {
                 openActivity(
