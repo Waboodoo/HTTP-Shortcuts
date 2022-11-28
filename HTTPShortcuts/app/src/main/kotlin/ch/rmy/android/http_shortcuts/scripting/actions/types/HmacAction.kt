@@ -37,12 +37,12 @@ class HmacAction(
 
     companion object {
 
-        private fun normalizeAlgorithm(algorithm: String) =
+        internal fun normalizeAlgorithm(algorithm: String) =
             algorithm.lowercase()
                 .replace("-", "")
                 .replace("_", "")
 
-        private fun hmac(algorithm: String, key: ByteArray, message: ByteArray): ByteArray {
+        internal fun hmac(algorithm: String, key: ByteArray, message: ByteArray): ByteArray {
             val mac = Mac.getInstance(algorithm)
             mac.init(SecretKeySpec(key, algorithm))
             return mac.doFinal(message)

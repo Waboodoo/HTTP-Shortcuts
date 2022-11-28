@@ -35,7 +35,7 @@ class DocumentationActivity : BaseActivity() {
 
     private lateinit var binding: ActivityDocumentationBinding
 
-    private val viewModel: DocumentationViewModel by bindViewModel()
+    internal val viewModel: DocumentationViewModel by bindViewModel()
 
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize(
@@ -113,12 +113,12 @@ class DocumentationActivity : BaseActivity() {
         }
     }
 
-    private fun showLoading() {
+    internal fun showLoading() {
         binding.webView.isVisible = false
         binding.loadingIndicator.isVisible = true
     }
 
-    private fun hideLoading() {
+    internal fun hideLoading() {
         binding.webView.postDelayed(50) {
             binding.webView.isVisible = true
             binding.loadingIndicator.isVisible = false

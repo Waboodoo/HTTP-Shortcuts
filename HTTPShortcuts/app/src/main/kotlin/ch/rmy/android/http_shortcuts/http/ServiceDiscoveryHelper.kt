@@ -90,7 +90,7 @@ object ServiceDiscoveryHelper {
         }
     }
 
-    private fun isCorrectServiceType(serviceInfo: NsdServiceInfo) =
+    internal fun isCorrectServiceType(serviceInfo: NsdServiceInfo) =
         normalizeServiceName(serviceInfo.serviceType) == SERVICE_TYPE
 
     private fun normalizeServiceName(serviceName: String) =

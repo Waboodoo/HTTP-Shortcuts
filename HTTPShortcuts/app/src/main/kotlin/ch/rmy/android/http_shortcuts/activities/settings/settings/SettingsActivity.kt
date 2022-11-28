@@ -34,7 +34,7 @@ import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 
 class SettingsActivity : BaseActivity() {
 
-    private val viewModel: SettingsViewModel by bindViewModel()
+    internal val viewModel: SettingsViewModel by bindViewModel()
 
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()

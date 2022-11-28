@@ -76,7 +76,7 @@ constructor() {
             1.hours,
         )
 
-        private fun delayToProgress(delay: Duration) =
+        internal fun delayToProgress(delay: Duration) =
             DELAY_OPTIONS
                 .indexOfFirst {
                     it >= delay
@@ -84,7 +84,7 @@ constructor() {
                 .takeUnless { it == -1 }
                 ?: DELAY_OPTIONS.lastIndex
 
-        private fun progressToDelay(progress: Int) =
+        internal fun progressToDelay(progress: Int) =
             DELAY_OPTIONS[progress]
     }
 }

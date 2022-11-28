@@ -187,7 +187,7 @@ sealed interface ShortcutIcon {
                 else -> BuiltInIcon(iconName)
             }
 
-        private fun getDrawableUri(context: Context, @DrawableRes identifier: Int): Uri =
+        internal fun getDrawableUri(context: Context, @DrawableRes identifier: Int): Uri =
             "android.resource://${context.packageName}/$identifier".toUri()
     }
 }

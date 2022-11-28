@@ -61,7 +61,7 @@ constructor() {
             .associate { it.first to it.second!! }
 
     companion object {
-        private val types: List<BaseActionType> by lazy {
+        internal val types: List<BaseActionType> by lazy {
             listOf(
                 Base64DecodeActionType(),
                 Base64EncodeActionType(),

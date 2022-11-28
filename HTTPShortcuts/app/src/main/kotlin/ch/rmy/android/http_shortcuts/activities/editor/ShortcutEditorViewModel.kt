@@ -589,7 +589,7 @@ class ShortcutEditorViewModel(
         )
     }
 
-    private fun onShortcutIconSelected(icon: ShortcutIcon) {
+    internal fun onShortcutIconSelected(icon: ShortcutIcon) {
         dialogState = getIconColorPickerDialog(
             icon,
             onDismissed = {

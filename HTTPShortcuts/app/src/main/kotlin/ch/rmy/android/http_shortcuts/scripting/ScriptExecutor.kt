@@ -37,7 +37,7 @@ constructor(
     private val responseObjectFactory: ResponseObjectFactory,
 ) {
 
-    private val jsContext by lazy(LazyThreadSafetyMode.NONE) {
+    internal val jsContext by lazy(LazyThreadSafetyMode.NONE) {
         JSContext()
             .also {
                 registerActionAliases(it, actionFactory.getAliases())
@@ -238,7 +238,7 @@ constructor(
         private const val READ_ONLY =
             JSContext.JSPropertyAttributeReadOnly or JSContext.JSPropertyAttributeDontDelete
 
-        private fun registerActionAliases(jsContext: JSContext, aliases: Map<String, ActionAlias>) {
+        internal fun registerActionAliases(jsContext: JSContext, aliases: Map<String, ActionAlias>) {
             jsContext.evaluateScript(
                 """
                 const _convertResult = (result) => {
@@ -280,7 +280,7 @@ constructor(
                 }
         }
 
-        private fun convertResult(jsContext: JSContext, result: Any?): JSValue =
+        internal fun convertResult(jsContext: JSContext, result: Any?): JSValue =
             when (result) {
                 is ByteArray -> JSUint8Array(jsContext, result.size)
                     .apply {

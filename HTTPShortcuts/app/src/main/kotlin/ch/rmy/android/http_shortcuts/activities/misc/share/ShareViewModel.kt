@@ -237,12 +237,12 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
 
     companion object {
 
-        private fun ShortcutModel.hasShareVariable(variableIds: Set<VariableId>, variableLookup: VariableLookup): Boolean {
+        internal fun ShortcutModel.hasShareVariable(variableIds: Set<VariableId>, variableLookup: VariableLookup): Boolean {
             val variableIdsInShortcut = VariableResolver.extractVariableIds(this, variableLookup)
             return variableIds.any { variableIdsInShortcut.contains(it) }
         }
 
-        private fun ShortcutModel.hasFileParameter(isImage: Boolean?): Boolean =
+        internal fun ShortcutModel.hasFileParameter(isImage: Boolean?): Boolean =
             parameters.any {
                 when (it.parameterType) {
                     ParameterType.STRING -> false
@@ -254,7 +254,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
             }
 
         @WorkerThread
-        private fun cacheSharedFiles(context: Context, fileUris: List<Uri>): List<Uri> =
+        internal fun cacheSharedFiles(context: Context, fileUris: List<Uri>): List<Uri> =
             fileUris
                 .map { fileUri ->
                     context.contentResolver.openInputStream(fileUri)!!

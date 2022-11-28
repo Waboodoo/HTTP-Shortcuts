@@ -36,7 +36,7 @@ class SendTCPPacketAction(
     }
 
     companion object {
-        private fun sendPacket(data: ByteArray, ipAddress: InetAddress, port: Int) {
+        internal fun sendPacket(data: ByteArray, ipAddress: InetAddress, port: Int) {
             Socket(ipAddress, port).use { socket ->
                 with(socket.getOutputStream()) {
                     write(data)

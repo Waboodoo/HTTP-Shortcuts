@@ -57,7 +57,7 @@ class ParseXMLAction(private val xmlInput: String) : BaseAction() {
         return root!!
     }
 
-    private fun createElement(name: String, attributes: Attributes): JSONObject =
+    internal fun createElement(name: String, attributes: Attributes): JSONObject =
         JSONObject()
             .put("name", name)
             .put("attributes", attributes.parse())

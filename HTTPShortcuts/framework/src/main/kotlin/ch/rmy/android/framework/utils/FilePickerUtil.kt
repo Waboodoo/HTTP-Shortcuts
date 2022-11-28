@@ -43,7 +43,7 @@ object FilePickerUtil {
                 ?: intent.data?.let { listOf(it) }
     }
 
-    private fun createIntent(multiple: Boolean = false, type: String? = null): Intent =
+    internal fun createIntent(multiple: Boolean = false, type: String? = null): Intent =
         Intent(Intent.ACTION_OPEN_DOCUMENT)
             .apply {
                 this.type = type ?: "*/*"

@@ -21,7 +21,7 @@ class ICOGrabber(
     companion object {
         private const val DEFAULT_FAVICON_PATH = "/favicon.ico"
 
-        private fun getFaviconUrl(pageUrl: HttpUrl) =
+        internal fun getFaviconUrl(pageUrl: HttpUrl) =
             pageUrl.resolve(DEFAULT_FAVICON_PATH)
     }
 }

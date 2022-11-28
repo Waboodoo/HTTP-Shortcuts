@@ -78,10 +78,10 @@ class ImageGetter(
     private class UnsupportedImageSourceException : Exception()
 
     companion object {
-        private fun String.isBase64EncodedImage(): Boolean =
+        internal fun String.isBase64EncodedImage(): Boolean =
             matches("^data:image/[^;]+;base64,.+".toRegex(RegexOption.IGNORE_CASE))
 
-        private fun String.getBase64ImageData(): ByteArray =
+        internal fun String.getBase64ImageData(): ByteArray =
             dropWhile { it != ',' }
                 .drop(1)
                 .let {

@@ -73,7 +73,7 @@ class TaskerIntent(taskName: String) : Intent(ACTION_TASK) {
                         FLAG_ACTIVITY_NO_HISTORY
                 )
 
-        private fun getRandomString() =
+        internal fun getRandomString() =
             Random.nextLong().toString()
     }
 }

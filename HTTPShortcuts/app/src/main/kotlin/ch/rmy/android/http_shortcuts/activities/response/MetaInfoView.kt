@@ -31,7 +31,7 @@ class MetaInfoView @JvmOverloads constructor(
 
     companion object {
 
-        private fun toStyledSpan(data: List<Pair<String, String>>): CharSequence {
+        internal fun toStyledSpan(data: List<Pair<String, String>>): CharSequence {
             val builder = SpannableStringBuilder()
             var offset = 0
             data.forEach { (name, value) ->

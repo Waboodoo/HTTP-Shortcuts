@@ -167,7 +167,7 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     companion object {
         private const val MAX_ICONS = 5
 
-        private fun mapCategories(categories: List<CategoryModel>): List<CategoryListItem> =
+        internal fun mapCategories(categories: List<CategoryModel>): List<CategoryListItem> =
             categories.map { category ->
                 CategoryListItem(
                     id = category.id,

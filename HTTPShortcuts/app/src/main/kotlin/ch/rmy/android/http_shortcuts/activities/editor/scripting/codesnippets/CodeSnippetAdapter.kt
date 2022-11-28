@@ -131,7 +131,7 @@ class CodeSnippetAdapter : BaseAdapter<ItemWrapper>() {
         private const val VIEW_TYPE_SECTION = 1
         private const val VIEW_TYPE_CODE_SNIPPET = 2
 
-        private fun <T : View> T.applyLayoutParams() = apply {
+        internal fun <T : View> T.applyLayoutParams() = apply {
             layoutParams = RecyclerView.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         }
     }

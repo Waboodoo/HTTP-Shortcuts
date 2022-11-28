@@ -201,7 +201,7 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
     }
 
     companion object {
-        private fun mapHeaders(headers: List<HeaderModel>): List<HeaderListItem> =
+        internal fun mapHeaders(headers: List<HeaderModel>): List<HeaderListItem> =
             headers.map { header ->
                 HeaderListItem.Header(
                     id = header.id,
@@ -249,7 +249,7 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
             "Warning",
         )
 
-        private fun validateHeaderName(context: Context, name: CharSequence): String? =
+        internal fun validateHeaderName(context: Context, name: CharSequence): String? =
             name
                 .firstOrNull { c ->
                     c <= '\u0020' || c >= '\u007f'
@@ -258,7 +258,7 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
                     context.getString(R.string.error_invalid_character, invalidChar)
                 }
 
-        private fun validateHeaderValue(context: Context, value: CharSequence): String? =
+        internal fun validateHeaderValue(context: Context, value: CharSequence): String? =
             value
                 .firstOrNull { c ->
                     (c <= '\u001f' && c != '\t') || c >= '\u007f'

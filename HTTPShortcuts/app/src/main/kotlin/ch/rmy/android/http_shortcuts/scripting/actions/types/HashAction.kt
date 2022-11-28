@@ -33,7 +33,7 @@ class HashAction(private val algorithm: String, private val text: String) : Base
 
     companion object {
 
-        private fun normalizeAlgorithm(algorithm: String) =
+        internal fun normalizeAlgorithm(algorithm: String) =
             algorithm.lowercase()
                 .replace("-", "")
                 .replace("_", "")

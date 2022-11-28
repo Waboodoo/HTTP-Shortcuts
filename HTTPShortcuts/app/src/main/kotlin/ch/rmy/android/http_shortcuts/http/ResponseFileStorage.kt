@@ -36,7 +36,7 @@ class ResponseFileStorage(private val context: Context, private val sessionId: S
     }
 
     companion object {
-        private fun isGzipped(response: Response): Boolean =
+        internal fun isGzipped(response: Response): Boolean =
             response.header(HttpHeaders.CONTENT_ENCODING) == "gzip"
     }
 }

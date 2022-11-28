@@ -163,7 +163,7 @@ class SendIntentAction(private val jsonData: String) : BaseAction() {
                     }
             }
 
-        private fun shouldLogException(e: Exception): Boolean =
+        internal fun shouldLogException(e: Exception): Boolean =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && e is FileUriExposedException) {
                 false
             } else {

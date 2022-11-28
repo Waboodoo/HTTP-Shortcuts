@@ -101,13 +101,13 @@ class ExecuteShortcutAction(
 
         private const val MAX_RECURSION_DEPTH = 3
 
-        private fun VariableManager.storeVariableValues(variableValues: Map<VariableId, String>) {
+        internal fun VariableManager.storeVariableValues(variableValues: Map<VariableId, String>) {
             variableValues.forEach { (variableId, value) ->
                 setVariableValueByKeyOrId(variableId, value)
             }
         }
 
-        private fun createResult(jsContext: JSContext, status: String, response: JSObject? = null, error: String? = null) =
+        internal fun createResult(jsContext: JSContext, status: String, response: JSObject? = null, error: String? = null) =
             JSObject(jsContext).apply {
                 property("status", status)
                 property("response", response)

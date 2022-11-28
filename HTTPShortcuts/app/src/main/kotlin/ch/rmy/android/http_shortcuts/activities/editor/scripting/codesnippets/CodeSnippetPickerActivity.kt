@@ -42,7 +42,7 @@ class CodeSnippetPickerActivity : BaseActivity() {
         taskName?.let(viewModel::onTaskerTaskSelected)
     }
 
-    private val viewModel: CodeSnippetPickerViewModel by bindViewModel()
+    internal val viewModel: CodeSnippetPickerViewModel by bindViewModel()
 
     private val adapter = CodeSnippetAdapter()
 

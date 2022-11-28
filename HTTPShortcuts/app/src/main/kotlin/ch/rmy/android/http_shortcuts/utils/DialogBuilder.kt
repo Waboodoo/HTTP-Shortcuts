@@ -38,7 +38,7 @@ class DialogBuilder(val context: Context) {
     private val dialog = MaterialDialog(context)
     private val items = mutableListOf<MenuItem>()
 
-    private val themeHelper: ThemeHelper
+    internal val themeHelper: ThemeHelper
         get() = (context as BaseActivity).themeHelper
 
     fun title(@StringRes title: Int) = also {

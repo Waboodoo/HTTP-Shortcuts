@@ -22,7 +22,7 @@ class PlaySoundActionType : BaseActionType() {
         private const val TYPE = "play_sound"
         private const val FUNCTION_NAME = "playSound"
 
-        private fun String.normalize(): String =
+        internal fun String.normalize(): String =
             runIf(!contains("://")) {
                 CONTENT_PREFIX + this
             }

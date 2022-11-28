@@ -45,7 +45,7 @@ class WakeOnLanAction(
         private const val RESEND_PACKET_COUNT = 3
         private val RESEND_DELAY = 350.milliseconds
 
-        private suspend fun sendMagicPacket(macAddress: List<Byte>, ipAddress: InetAddress, port: Int) {
+        internal suspend fun sendMagicPacket(macAddress: List<Byte>, ipAddress: InetAddress, port: Int) {
             val data = mutableListOf(FF, FF, FF, FF, FF, FF)
             for (i in 0 until 16) {
                 data.addAll(macAddress)
@@ -64,7 +64,7 @@ class WakeOnLanAction(
                 }
         }
 
-        private fun parseMacAddress(macAddress: String): List<Byte> =
+        internal fun parseMacAddress(macAddress: String): List<Byte> =
             macAddress.split(':', '-')
                 .mapNotNull {
                     it

@@ -37,7 +37,7 @@ abstract class ColoredSpan(private val color: Int) : ReplacementSpan() {
     }
 
     companion object {
-        private val typeface by lazy {
+        internal val typeface by lazy {
             Typeface.create(Typeface.MONOSPACE, Typeface.BOLD)
         }
     }

@@ -9,7 +9,7 @@ import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import java.io.FileNotFoundException
 
-class FileUploadManager private constructor(
+class FileUploadManager internal constructor(
     private val contentResolver: ContentResolver,
     private val sharedFileUris: List<Uri>,
     private val forwardedFileIds: List<String>,

@@ -26,7 +26,7 @@ constructor() {
         }
 
     companion object {
-        private fun getDeepLinkUrl(shortcutId: ShortcutId) =
+        internal fun getDeepLinkUrl(shortcutId: ShortcutId) =
             "http-shortcuts://$shortcutId"
     }
 }

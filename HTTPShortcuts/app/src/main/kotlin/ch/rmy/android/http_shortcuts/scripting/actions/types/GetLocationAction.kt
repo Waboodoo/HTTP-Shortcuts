@@ -59,7 +59,7 @@ class GetLocationAction : BaseAction() {
         }
 
     companion object {
-        private fun PlayServicesUtil.Location?.toResult(): JSONObject =
+        internal fun PlayServicesUtil.Location?.toResult(): JSONObject =
             when {
                 this != null -> {
                     createJSONObject(

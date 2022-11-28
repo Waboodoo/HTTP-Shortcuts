@@ -60,7 +60,7 @@ class AcknowledgmentActivity : BaseActivity() {
             }
     }
 
-    private fun revealDelayed() {
+    internal fun revealDelayed() {
         binding.acknowledgmentsWebview.postDelayed(50) {
             binding.acknowledgmentsWebview.isVisible = true
             binding.loadingIndicator.isVisible = false

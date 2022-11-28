@@ -37,7 +37,7 @@ class SendUDPPacketAction(
     }
 
     companion object {
-        private fun sendPacket(data: ByteArray, ipAddress: InetAddress, port: Int) {
+        internal fun sendPacket(data: ByteArray, ipAddress: InetAddress, port: Int) {
             val packet = DatagramPacket(data, data.size, ipAddress, port)
             DatagramSocket().send(packet)
         }

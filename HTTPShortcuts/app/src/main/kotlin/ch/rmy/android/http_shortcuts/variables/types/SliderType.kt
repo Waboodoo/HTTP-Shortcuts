@@ -119,24 +119,24 @@ class SliderType : BaseVariableType() {
             KEY_SUFFIX to suffix,
         )
 
-        private fun findRange(variable: VariableModel): Range =
+        internal fun findRange(variable: VariableModel): Range =
             Range(
                 min = findMin(variable),
                 max = findMax(variable),
                 step = findStep(variable),
             )
 
-        private fun findSliderMax(range: Range): Int =
+        internal fun findSliderMax(range: Range): Int =
             with(range) {
                 ((max - min) / step).toInt()
             }
 
-        private fun findSliderValue(value: Double, range: Range): Int =
+        internal fun findSliderValue(value: Double, range: Range): Int =
             with(range) {
                 ((value - min) / step).toInt()
             }
 
-        private fun findValue(sliderValue: Int, range: Range): String =
+        internal fun findValue(sliderValue: Int, range: Range): String =
             with(range) {
                 ((10000 * (sliderValue * step + min)).roundToInt() / 10000.0).toString()
                     .runIf(isIntsOnly) {

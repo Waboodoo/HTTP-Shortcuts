@@ -341,7 +341,7 @@ class CodeSnippetPickerViewModel(application: Application) :
     )
 
     companion object {
-        private fun escape(input: String) =
+        internal fun escape(input: String) =
             input.replace("\"", "\\\"")
     }
 }

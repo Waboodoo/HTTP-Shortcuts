@@ -65,7 +65,7 @@ constructor() {
     }
 
     companion object {
-        private val STRUCTURED_TYPES
+        internal val STRUCTURED_TYPES
             get() = listOf(
                 listOf(
                     VariableType.CONSTANT,

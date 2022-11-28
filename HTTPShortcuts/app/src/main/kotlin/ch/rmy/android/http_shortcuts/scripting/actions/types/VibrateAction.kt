@@ -48,7 +48,7 @@ class VibrateAction(private val patternId: Int, private val waitForCompletion: B
 
     companion object {
 
-        private fun findPattern(patternId: Int): VibrationPattern =
+        internal fun findPattern(patternId: Int): VibrationPattern =
             when (patternId) {
                 1 -> object : VibrationPattern {
                     override val duration = 1.seconds

@@ -72,7 +72,7 @@ class VariableManager(variables: List<VariableModel>) : VariableLookup {
             }
 
     companion object {
-        private fun encodeValue(variable: VariableModel, value: String) =
+        internal fun encodeValue(variable: VariableModel, value: String) =
             value
                 .runIf(variable.jsonEncode) {
                     JSONObject.quote(this).drop(1).dropLast(1)

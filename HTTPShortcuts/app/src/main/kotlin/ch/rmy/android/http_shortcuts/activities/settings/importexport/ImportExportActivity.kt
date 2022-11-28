@@ -31,7 +31,7 @@ class ImportExportActivity : BaseActivity() {
         fileUri?.let(viewModel::onFilePickedForExport)
     }
 
-    private val viewModel: ImportExportViewModel by bindViewModel()
+    internal val viewModel: ImportExportViewModel by bindViewModel()
     private lateinit var fragment: ImportExportFragment
 
     override fun onCreated(savedState: Bundle?) {

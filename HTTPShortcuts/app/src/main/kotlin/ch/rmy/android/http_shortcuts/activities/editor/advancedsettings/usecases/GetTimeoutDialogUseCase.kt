@@ -70,14 +70,14 @@ constructor() {
             10.minutes,
         )
 
-        private fun timeoutToProgress(timeout: Duration) =
+        internal fun timeoutToProgress(timeout: Duration) =
             TIMEOUT_OPTIONS.indexOfFirst {
                 it >= timeout
             }
                 .takeUnless { it == -1 }
                 ?: TIMEOUT_OPTIONS.lastIndex
 
-        private fun progressToTimeout(progress: Int) =
+        internal fun progressToTimeout(progress: Int) =
             TIMEOUT_OPTIONS[progress]
     }
 }

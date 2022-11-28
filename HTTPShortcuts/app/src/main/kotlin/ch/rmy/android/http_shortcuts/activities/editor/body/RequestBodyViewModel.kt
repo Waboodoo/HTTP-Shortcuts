@@ -395,7 +395,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
     }
 
     companion object {
-        private fun mapParameters(parameters: List<ParameterModel>): List<ParameterListItem> =
+        internal fun mapParameters(parameters: List<ParameterModel>): List<ParameterListItem> =
             parameters.map { parameter ->
                 ParameterListItem.Parameter(
                     id = parameter.id,
@@ -415,7 +415,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
 
         private val JSON_OBJECT_START = "^\\s*\\{\\s*\".*".toRegex()
 
-        private fun String.isJsonObjectStart() =
+        internal fun String.isJsonObjectStart() =
             matches(JSON_OBJECT_START)
     }
 }

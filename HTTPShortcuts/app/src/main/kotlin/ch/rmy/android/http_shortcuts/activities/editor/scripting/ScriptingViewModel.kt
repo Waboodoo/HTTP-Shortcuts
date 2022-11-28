@@ -205,13 +205,13 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
     }
 
     companion object {
-        private fun getMinLinesForCode(type: ShortcutExecutionType) = if (type == ShortcutExecutionType.SCRIPTING) {
+        internal fun getMinLinesForCode(type: ShortcutExecutionType) = if (type == ShortcutExecutionType.SCRIPTING) {
             14
         } else {
             6
         }
 
-        private fun getHintText(type: ShortcutExecutionType) = if (type == ShortcutExecutionType.SCRIPTING) {
+        internal fun getHintText(type: ShortcutExecutionType) = if (type == ShortcutExecutionType.SCRIPTING) {
             R.string.placeholder_javascript_code_generic
         } else {
             R.string.placeholder_javascript_code_before

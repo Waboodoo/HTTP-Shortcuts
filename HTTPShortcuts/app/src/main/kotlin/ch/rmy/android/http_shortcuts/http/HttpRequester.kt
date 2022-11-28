@@ -247,7 +247,7 @@ constructor(
 
     companion object {
 
-        private fun prepareResponse(url: String, response: Response, contentFile: Uri?) =
+        internal fun prepareResponse(url: String, response: Response, contentFile: Uri?) =
             ShortcutResponse(
                 url = url,
                 headers = HttpHeaders.parse(response.headers),
@@ -256,7 +256,7 @@ constructor(
                 timing = response.receivedResponseAtMillis - response.sentRequestAtMillis,
             )
 
-        private fun determineContentType(shortcut: ShortcutModel): String? =
+        internal fun determineContentType(shortcut: ShortcutModel): String? =
             when (shortcut.bodyType) {
                 RequestBodyType.FORM_DATA -> FORM_MULTIPART_CONTENT_TYPE
                 RequestBodyType.X_WWW_FORM_URLENCODE -> FORM_URLENCODE_CONTENT_TYPE_WITH_CHARSET

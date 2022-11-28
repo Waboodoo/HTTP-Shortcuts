@@ -29,7 +29,7 @@ class TriggerTaskerTaskAction(
     }
 
     companion object {
-        private fun getVariableValues(json: String): Map<String, String> =
+        internal fun getVariableValues(json: String): Map<String, String> =
             try {
                 GsonUtil.fromJsonObject<Any?>(json)
                     .mapValues { it.value?.toString() ?: "" }

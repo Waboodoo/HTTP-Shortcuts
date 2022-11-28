@@ -3,7 +3,7 @@ package ch.rmy.curlcommand
 import java.io.Serializable
 import java.net.URLEncoder
 
-class CurlCommand private constructor() : Serializable {
+class CurlCommand internal constructor() : Serializable {
 
     var url = ""
         private set
@@ -126,7 +126,7 @@ class CurlCommand private constructor() : Serializable {
 
         const val METHOD_GET = "GET"
 
-        private fun encode(text: String): String =
+        internal fun encode(text: String): String =
             URLEncoder.encode(text, PARAMETER_ENCODING)
     }
 }

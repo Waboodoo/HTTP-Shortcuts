@@ -34,7 +34,7 @@ class CommandLineBuilder(private val command: String) {
 
         private const val OPTION_PATTERN = "^-{1,2}[a-zA-Z0-9][a-zA-Z0-9-_]*$"
 
-        private fun escapeIfNecessary(string: String): String =
+        internal fun escapeIfNecessary(string: String): String =
             if (needsEscaping(string)) escape(string) else string
 
         private fun needsEscaping(string: String): Boolean =

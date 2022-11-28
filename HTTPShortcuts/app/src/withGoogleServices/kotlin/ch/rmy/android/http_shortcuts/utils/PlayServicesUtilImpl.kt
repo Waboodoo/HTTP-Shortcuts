@@ -44,7 +44,7 @@ class PlayServicesUtilImpl(
     companion object {
         private val MAX_LOOKUP_TIME = 20.seconds
 
-        private fun Location.toDataObject() =
+        internal fun Location.toDataObject() =
             PlayServicesUtil.Location(
                 latitude = latitude,
                 longitude = longitude,

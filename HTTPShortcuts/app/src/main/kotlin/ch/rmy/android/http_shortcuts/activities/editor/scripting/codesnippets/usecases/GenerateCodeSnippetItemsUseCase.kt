@@ -537,12 +537,12 @@ constructor(
     }
 
     companion object {
-        private fun createSectionList(context: Context, callback: (Event) -> Unit, buildList: SectionListBuilder.() -> Unit): List<SectionItem> =
+        internal fun createSectionList(context: Context, callback: (Event) -> Unit, buildList: SectionListBuilder.() -> Unit): List<SectionItem> =
             SectionListBuilder(context, ActionContext(callback))
                 .apply(buildList)
                 .build()
 
-        private class SectionListBuilder(private val context: Context, private val actionContext: ActionContext) {
+        internal class SectionListBuilder(private val context: Context, private val actionContext: ActionContext) {
 
             private val items = mutableListOf<SectionItem>()
 
@@ -557,7 +557,7 @@ constructor(
             fun build() = items
         }
 
-        private class ItemListBuilder(private val context: Context, private val actionContext: ActionContext) {
+        internal class ItemListBuilder(private val context: Context, private val actionContext: ActionContext) {
 
             private val items = mutableListOf<CodeSnippetItem>()
 
@@ -596,7 +596,7 @@ constructor(
             fun build() = items
         }
 
-        private class ActionContext(val sendEvent: (Event) -> Unit) {
+        internal class ActionContext(val sendEvent: (Event) -> Unit) {
             fun insertText(textBeforeCursor: String, textAfterCursor: String = "") {
                 sendEvent(Event.InsertText(textBeforeCursor, textAfterCursor))
             }

@@ -469,7 +469,7 @@ constructor(
     }
 
     companion object {
-        private fun decode(text: String): String =
+        internal fun decode(text: String): String =
             try {
                 URLDecoder.decode(text, "utf-8")
             } catch (e: IllegalArgumentException) {

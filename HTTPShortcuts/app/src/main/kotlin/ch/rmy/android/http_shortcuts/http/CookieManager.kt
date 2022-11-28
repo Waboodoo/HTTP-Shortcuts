@@ -23,7 +23,7 @@ constructor(
     }
 
     companion object {
-        private val cookieSessionStore: CookieCache by lazy {
+        internal val cookieSessionStore: CookieCache by lazy {
             SetCookieCache()
         }
     }

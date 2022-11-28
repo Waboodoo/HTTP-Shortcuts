@@ -264,7 +264,7 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
         private const val DEVICE_ID_CHARACTERS = "abcdefghijklmnopqrstuvwxyz0123456789"
         private const val DEVICE_ID_LENGTH = 8
 
-        private fun generateDeviceId(): String =
+        internal fun generateDeviceId(): String =
             (0 until DEVICE_ID_LENGTH)
                 .map {
                     DEVICE_ID_CHARACTERS.random()
