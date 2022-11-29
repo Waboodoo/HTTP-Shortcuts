@@ -74,6 +74,7 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
                 quickSettingsTileShortcut = shortcut.quickSettingsTileShortcut,
                 delay = shortcut.delay.milliseconds,
                 requireConfirmation = shortcut.requireConfirmation,
+                excludeFromHistory = shortcut.excludeFromHistory,
             )
         }
     }
@@ -89,6 +90,15 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
         }
         launchWithProgressTracking {
             temporaryShortcutRepository.setWaitForConnection(waitForConnection)
+        }
+    }
+
+    fun onExcludeFromHistoryChanged(excludeFromHistory: Boolean) {
+        updateViewState {
+            copy(excludeFromHistory = excludeFromHistory)
+        }
+        launchWithProgressTracking {
+            temporaryShortcutRepository.setExcludeFromHistory(excludeFromHistory)
         }
     }
 

@@ -17,6 +17,7 @@ import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
+import ch.rmy.android.http_shortcuts.activities.history.HistoryActivity
 import ch.rmy.android.http_shortcuts.activities.main.models.CategoryTabItem
 import ch.rmy.android.http_shortcuts.activities.main.models.RecoveryInfo
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetNetworkRestrictionDialogUseCase
@@ -287,6 +288,10 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     fun onImportExportButtonClicked() {
         emitEvent(MainEvent.OpenImportExport)
+    }
+
+    fun onHistoryButtonClicked() {
+        openActivity(HistoryActivity.IntentBuilder())
     }
 
     fun onAboutButtonClicked() {

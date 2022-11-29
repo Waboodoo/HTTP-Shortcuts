@@ -17,6 +17,11 @@
         android:title="@string/title_import_export"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_history"
+        android:icon="@drawable/ic_history"
+        android:title="@string/title_event_history"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/title_settings"

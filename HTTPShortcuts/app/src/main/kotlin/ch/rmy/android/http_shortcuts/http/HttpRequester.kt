@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.http
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
+import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
@@ -14,6 +15,9 @@ import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.extensions.shouldIncludeInHistory
+import ch.rmy.android.http_shortcuts.history.HistoryEvent
+import ch.rmy.android.http_shortcuts.history.HistoryEventLogger
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE_WITH_CHARSET
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
@@ -24,6 +28,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import okhttp3.CookieJar
 import okhttp3.Response
+import java.io.IOException
 import java.net.UnknownHostException
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -36,6 +41,7 @@ constructor(
     private val httpClientFactory: HttpClientFactory,
     private val responseFileStorageFactory: ResponseFileStorageFactory,
     private val cookieManager: CookieManager,
+    private val historyEventLogger: HistoryEventLogger,
 ) {
 
     private val contentResolver: ContentResolver
@@ -171,27 +177,65 @@ constructor(
 
             responseFileStorage.clear()
 
+            if (shortcut.shouldIncludeInHistory()) {
+                historyEventLogger.logEvent(
+                    HistoryEvent.HttpRequestSent(
+                        shortcutName = shortcut.name,
+                        url = request.url.toString().toUri(),
+                        method = request.method,
+                        headers = request.headers.toMultimap(),
+                    )
+                )
+            }
+
             logInfo("Starting HTTP request")
-            client
-                .newCall(request)
-                .apply {
-                    continuation.invokeOnCancellation {
-                        cancel()
+            try {
+                client
+                    .newCall(request)
+                    .apply {
+                        continuation.invokeOnCancellation {
+                            cancel()
+                        }
                     }
-                }
-                .execute()
-                .use { okHttpResponse ->
-                    logInfo("HTTP request completed")
-                    val contentFile = if (shortcut.usesResponseBody) {
-                        responseFileStorage.store(okHttpResponse)
-                    } else null
-                    val shortcutResponse = prepareResponse(requestData.url, okHttpResponse, contentFile)
-                    if (okHttpResponse.code in 200..399) {
-                        continuation.resume(shortcutResponse)
-                    } else {
-                        continuation.resumeWithException(ErrorResponse(shortcutResponse))
+                    .execute()
+                    .use { okHttpResponse ->
+                        logInfo("HTTP request completed")
+                        val contentFile = if (shortcut.usesResponseBody) {
+                            responseFileStorage.store(okHttpResponse)
+                        } else null
+
+                        val isSuccess = okHttpResponse.code in 200..399
+
+                        if (shortcut.shouldIncludeInHistory()) {
+                            historyEventLogger.logEvent(
+                                HistoryEvent.HttpResponseReceived(
+                                    shortcutName = shortcut.name,
+                                    responseCode = okHttpResponse.code,
+                                    headers = okHttpResponse.headers.toMultimap(),
+                                    isSuccess = isSuccess,
+                                )
+                            )
+                        }
+
+                        val shortcutResponse = prepareResponse(requestData.url, okHttpResponse, contentFile)
+                        if (isSuccess) {
+                            continuation.resume(shortcutResponse)
+                        } else {
+                            continuation.resumeWithException(ErrorResponse(shortcutResponse))
+                        }
                     }
+            } catch (e: IOException) {
+                if (shortcut.shouldIncludeInHistory()) {
+                    historyEventLogger.logEvent(
+                        HistoryEvent.NetworkError(
+                            shortcutName = shortcut.name,
+                            error = e.message?.takeUnlessEmpty()
+                                ?: e.javaClass.simpleName.replace("exception", "", ignoreCase = true),
+                        )
+                    )
                 }
+                throw e
+            }
         }
 
     private fun attachParameters(

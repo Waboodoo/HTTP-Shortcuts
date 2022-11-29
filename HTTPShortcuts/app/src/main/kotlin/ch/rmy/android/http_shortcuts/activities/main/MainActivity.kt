@@ -96,6 +96,7 @@ class MainActivity : BaseActivity(), Entrypoint {
     private var menuItemAbout: MenuItem? = null
     private var menuItemCategories: MenuItem? = null
     private var menuItemVariables: MenuItem? = null
+    private var menuItemHistory: MenuItem? = null
     private var menuItemUnlock: MenuItem? = null
 
     private var activeCategoryIndex: Int = 0
@@ -217,6 +218,7 @@ class MainActivity : BaseActivity(), Entrypoint {
         menuItemAbout = menu.findItem(R.id.action_about)
         menuItemCategories = menu.findItem(R.id.action_categories)
         menuItemVariables = menu.findItem(R.id.action_variables)
+        menuItemHistory = menu.findItem(R.id.action_history)
         menuItemUnlock = menu.findItem(R.id.action_unlock)
         viewModel.latestViewState?.let(::applyViewStateToMenuItems)
         return super.onCreateOptionsMenu(menu)
@@ -228,12 +230,14 @@ class MainActivity : BaseActivity(), Entrypoint {
         menuItemAbout?.isVisible = viewState.isRegularMenuButtonVisible
         menuItemCategories?.isVisible = viewState.isRegularMenuButtonVisible
         menuItemVariables?.isVisible = viewState.isRegularMenuButtonVisible
+        menuItemHistory?.isVisible = viewState.isRegularMenuButtonVisible
         menuItemUnlock?.isVisible = viewState.isUnlockButtonVisible
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_settings -> consume { viewModel.onSettingsButtonClicked() }
         R.id.action_import_export -> consume { viewModel.onImportExportButtonClicked() }
+        R.id.action_history -> consume { viewModel.onHistoryButtonClicked() }
         R.id.action_about -> consume { viewModel.onAboutButtonClicked() }
         R.id.action_categories -> consume { viewModel.onCategoriesButtonClicked() }
         R.id.action_variables -> consume { viewModel.onVariablesButtonClicked() }

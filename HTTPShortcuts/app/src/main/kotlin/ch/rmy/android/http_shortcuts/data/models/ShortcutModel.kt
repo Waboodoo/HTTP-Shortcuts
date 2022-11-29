@@ -111,6 +111,8 @@ open class ShortcutModel(
     @Required
     var browserPackageName: String = ""
 
+    var excludeFromHistory: Boolean = false
+
     var icon: ShortcutIcon
         get() = ShortcutIcon.fromName(iconName)
         set(value) {
@@ -200,7 +202,8 @@ open class ShortcutModel(
             other.proxyPassword != proxyPassword ||
             other.wifiSsid != wifiSsid ||
             other.clientCert != clientCert ||
-            other.browserPackageName != browserPackageName
+            other.browserPackageName != browserPackageName ||
+            other.excludeFromHistory != excludeFromHistory
         ) {
             return false
         }

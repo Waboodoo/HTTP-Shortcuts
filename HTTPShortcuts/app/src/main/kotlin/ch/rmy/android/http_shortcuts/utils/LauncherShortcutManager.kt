@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import javax.inject.Inject
 
@@ -62,12 +63,12 @@ constructor(
                     shortcutName = launcherShortcut.name,
                     shortcutIcon = launcherShortcut.icon,
                     rank = index,
-                    trigger = TRIGGER_APP,
+                    trigger = ShortcutTriggerType.APP_SHORTCUT,
                 )
             }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
-    private fun createShortcutInfo(shortcut: LauncherShortcut, trigger: String) =
+    private fun createShortcutInfo(shortcut: LauncherShortcut, trigger: ShortcutTriggerType) =
         createShortcutInfo(shortcut.id, shortcut.name, shortcut.icon, trigger = trigger)
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
@@ -76,7 +77,7 @@ constructor(
         shortcutName: String,
         shortcutIcon: ShortcutIcon,
         rank: Int = 0,
-        trigger: String,
+        trigger: ShortcutTriggerType,
     ): ShortcutInfo {
         val icon = IconUtil.getIcon(context, shortcutIcon)
         val label = shortcutName.ifEmpty { "-" }
@@ -108,7 +109,7 @@ constructor(
     fun pinShortcut(shortcut: LauncherShortcut) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutManager = context.getSystemService<ShortcutManager>()!!
-            val shortcutInfo = createShortcutInfo(shortcut, trigger = TRIGGER_PINNED)
+            val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
             shortcutManager.requestPinShortcut(shortcutInfo, null)
         }
     }
@@ -116,7 +117,7 @@ constructor(
     fun createShortcutPinIntent(shortcut: LauncherShortcut): Intent {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutManager = context.getSystemService<ShortcutManager>()!!
-            val shortcutInfo = createShortcutInfo(shortcut, trigger = TRIGGER_PINNED)
+            val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
             return shortcutManager.createShortcutResultIntent(shortcutInfo)
         }
         throw RuntimeException()
@@ -125,7 +126,7 @@ constructor(
     fun updatePinnedShortcut(shortcutId: ShortcutId, shortcutName: String, shortcutIcon: ShortcutIcon) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutManager = context.getSystemService<ShortcutManager>()!!
-            val shortcutInfo = createShortcutInfo(shortcutId, shortcutName, shortcutIcon, trigger = TRIGGER_PINNED)
+            val shortcutInfo = createShortcutInfo(shortcutId, shortcutName, shortcutIcon, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
             shortcutManager.updateShortcuts(listOf(shortcutInfo))
         }
     }
@@ -166,8 +167,5 @@ constructor(
     companion object {
         private const val ID_PREFIX_SHORTCUT = "shortcut_"
         private const val ID_PREFIX_CATEGORY = "category_"
-
-        private const val TRIGGER_PINNED = "pinned-shortcut"
-        private const val TRIGGER_APP = "app-shortcut"
     }
 }

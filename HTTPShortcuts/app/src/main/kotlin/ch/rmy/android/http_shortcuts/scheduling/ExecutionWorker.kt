@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -56,7 +57,7 @@ class ExecutionWorker(private val context: Context, workerParams: WorkerParamete
                 .tryNumber(pendingExecution.tryNumber)
                 .recursionDepth(pendingExecution.recursionDepth)
                 .executionId(pendingExecution.id)
-                .trigger("schedule")
+                .trigger(ShortcutTriggerType.SCHEDULE)
                 .startActivity(context)
         }
     }

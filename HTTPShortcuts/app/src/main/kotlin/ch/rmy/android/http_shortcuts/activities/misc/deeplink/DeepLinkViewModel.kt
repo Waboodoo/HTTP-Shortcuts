@@ -17,6 +17,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import com.afollestad.materialdialogs.callbacks.onCancel
@@ -107,7 +108,7 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
     private fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKey, String>) {
         openActivity(
             ExecuteActivity.IntentBuilder(shortcutId)
-                .trigger("deep-link")
+                .trigger(ShortcutTriggerType.DEEP_LINK)
                 .variableValues(variableValues)
         )
         finish(skipAnimation = true)

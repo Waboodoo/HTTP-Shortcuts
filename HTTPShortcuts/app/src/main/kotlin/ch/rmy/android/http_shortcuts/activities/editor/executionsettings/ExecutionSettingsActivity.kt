@@ -36,6 +36,7 @@ class ExecutionSettingsActivity : BaseActivity() {
         binding.inputLauncherShortcut.doOnCheckedChanged(viewModel::onLauncherShortcutChanged)
         binding.inputQuickTileShortcut.doOnCheckedChanged(viewModel::onQuickSettingsTileShortcutChanged)
         binding.inputWaitForConnection.doOnCheckedChanged(viewModel::onWaitForConnectionChanged)
+        binding.inputExcludeFromHistory.doOnCheckedChanged(viewModel::onExcludeFromHistoryChanged)
         binding.inputDelay.setOnClickListener {
             viewModel.onDelayButtonClicked()
         }
@@ -50,6 +51,7 @@ class ExecutionSettingsActivity : BaseActivity() {
             binding.inputQuickTileShortcut.isChecked = viewState.quickSettingsTileShortcut
             binding.inputWaitForConnection.isVisible = viewState.waitForConnectionOptionVisible
             binding.inputWaitForConnection.isChecked = viewState.waitForConnection
+            binding.inputExcludeFromHistory.isChecked = viewState.excludeFromHistory
             binding.inputDelay.setSubtitle(viewState.delaySubtitle)
             setDialogState(viewState.dialogState, viewModel)
         }

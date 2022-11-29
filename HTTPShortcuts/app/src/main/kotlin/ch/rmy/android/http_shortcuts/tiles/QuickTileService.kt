@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
@@ -91,7 +92,7 @@ class QuickTileService : TileService() {
 
     private fun executeShortcut(shortcutId: ShortcutId) {
         ExecuteActivity.IntentBuilder(shortcutId)
-            .trigger("quick-settings-tile")
+            .trigger(ShortcutTriggerType.QUICK_SETTINGS_TILE)
             .build(context)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             .let { intent ->

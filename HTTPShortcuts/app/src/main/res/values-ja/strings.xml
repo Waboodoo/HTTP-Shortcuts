@@ -1946,4 +1946,34 @@
 
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">"openURL()を使用して「ファイルを開く」はサポートされていません"</string>
+
+    <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
+    <string name="label_proxy_type">"プロキシ タイプ"</string>
+
+    <!-- Label, for option to set the proxy username for a shortcut -->
+    <string name="label_proxy_username">"プロキシ ユーザー名"</string>
+
+    <!-- Label, for option to set the proxy password for a shortcut -->
+    <string name="label_proxy_password">"プロキシ パスワード"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
+    <string name="action_type_prompt_date_title">"日付入力"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
+    <string name="action_type_prompt_time_title">"時刻入力"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a color -->
+    <string name="action_type_prompt_color_title">"カラー入力"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a password -->
+    <string name="action_type_prompt_password_title">"パスワード入力"</string>
+
+    <!-- Page title, for page showing all events that happened recently -->
+    <string name="title_event_history">"イベント履歴"</string>
+
+    <!-- Button in Event History screen, to clear all events and empty the history -->
+    <string name="button_clear_history">"履歴消去"</string>
+
+    <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
+    <string name="message_history_cleared">"履歴を消去しました"</string>
 </resources>

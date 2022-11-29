@@ -36,6 +36,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel.Companion.TEMPORARY_ID
@@ -386,7 +387,7 @@ class ShortcutEditorViewModel(
             }
             viewModelScope.launch {
                 waitForOperationsToFinish()
-                openActivity(ExecuteActivity.IntentBuilder(TEMPORARY_ID).trigger("test-button"))
+                openActivity(ExecuteActivity.IntentBuilder(TEMPORARY_ID).trigger(ShortcutTriggerType.TEST_IN_EDITOR))
             }
         }
     }

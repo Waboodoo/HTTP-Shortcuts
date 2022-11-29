@@ -11,6 +11,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.scripting.ResponseObjectFactory
@@ -69,7 +70,7 @@ class ExecuteShortcutAction(
                         plus(overriddenVariableValues.mapValues { it.value?.toString().orEmpty() })
                     },
                 recursionDepth = executionContext.recursionDepth + 1,
-                trigger = "scripting",
+                trigger = ShortcutTriggerType.SCRIPTING,
                 isNested = true,
             )
         )

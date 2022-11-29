@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.WidgetModel
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import javax.inject.Inject
@@ -47,7 +48,7 @@ constructor(
             views.setOnClickPendingIntent(
                 R.id.widget_base,
                 ExecuteActivity.IntentBuilder(shortcut.id)
-                    .trigger("widget")
+                    .trigger(ShortcutTriggerType.WIDGET)
                     .build(context)
                     .let { intent ->
                         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

@@ -14,4 +14,7 @@
 
     <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
     <string name="dialog_code_snippet_get_file_size" tools:ignore="Typos">"Grösse (in Bytes) von ausgewählter Datei auslesen"</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
+    <string name="label_exclude_from_history" tools:ignore="Typos">"Von Verlauf ausschliessen"</string>
 </resources>

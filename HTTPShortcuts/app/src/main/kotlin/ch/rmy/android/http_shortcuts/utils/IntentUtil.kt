@@ -7,6 +7,7 @@ import android.provider.MediaStore
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 object IntentUtil {
@@ -18,7 +19,7 @@ object IntentUtil {
     @Suppress("DEPRECATION")
     fun getLegacyShortcutPlacementIntent(context: Context, shortcut: LauncherShortcut, install: Boolean): Intent {
         val shortcutIntent = ExecuteActivity.IntentBuilder(shortcut.id)
-            .trigger("legacy-shortcut")
+            .trigger(ShortcutTriggerType.LEGACY_SHORTCUT)
             .build(context)
         val addIntent = createIntent {
             putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)

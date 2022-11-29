@@ -11,12 +11,14 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.models.AppLockModel
 import ch.rmy.android.http_shortcuts.data.models.BaseModel
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
+import ch.rmy.android.http_shortcuts.data.models.HistoryEventModel
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.data.models.WidgetModel
 import io.realm.Case
 import io.realm.RealmQuery
+import io.realm.Sort
 import io.realm.kotlin.where
 
 fun RealmContext.getBase(): RealmQuery<BaseModel> =
@@ -98,3 +100,8 @@ fun RealmContext.getWidgetsForShortcut(shortcutId: ShortcutId): RealmQuery<Widge
     realmInstance
         .where<WidgetModel>()
         .equalTo("${WidgetModel.FIELD_SHORTCUT}.${ShortcutModel.FIELD_ID}", shortcutId)
+
+fun RealmContext.getHistoryEvents(): RealmQuery<HistoryEventModel> =
+    realmInstance
+        .where<HistoryEventModel>()
+        .sort(HistoryEventModel.FIELD_TIME, Sort.DESCENDING)

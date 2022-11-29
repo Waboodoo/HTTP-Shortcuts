@@ -1975,4 +1975,23 @@ Trotzdem löschen?"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a password -->
     <string name="action_type_prompt_password_title">"Aufforderung zur Passworteingabe"</string>
+
+    <!-- Page title, for page showing all events that happened recently -->
+    <string name="title_event_history">"Verlauf"</string>
+
+    <!-- Button in Event History screen, to clear all events and empty the history -->
+    <string name="button_clear_history">"Verlauf löschen"</string>
+
+    <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
+    <string name="message_history_cleared">"Verlauf gelöscht."</string>
+
+    <!-- Empty state, shown in event history when there are no events yet -->
+    <string name="empty_state_history">"Keine Ereignisse"</string>
+
+    <!-- Empty state instructions, shown in event history when there are no events -->
+    <string name="empty_state_history_instructions">"Details über das Ausführen von Shortcuts werden hier aufgelistet, was bei der Problembehebung helfen kann.
+Du kannst einzelne Shortcuts verbergen durch eine Einstellung in \"%s\"."</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
+    <string name="label_exclude_from_history">"Von Verlauf ausschließen"</string>
 </resources>
