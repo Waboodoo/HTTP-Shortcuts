@@ -42,4 +42,6 @@
     <string name="label_dialog_action_dropdown">Dialogue Action</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
     <string name="description_customizable_widget">Choose the colour of your shortcut\'s label, or whether to hide the label completely.</string>
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a color -->
+    <string name="action_type_prompt_color_title">Prompt for Colour</string>
 </resources>

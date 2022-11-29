@@ -74,6 +74,10 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenAppAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenURLAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PlaySoundAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptColorAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptDateAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptPasswordAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptTimeAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ScanBarcodeAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SelectionAction
@@ -313,4 +317,12 @@ interface ApplicationComponent {
     fun inject(sendIntentAction: SendIntentAction)
 
     fun inject(textToSpeechAction: TextToSpeechAction)
+
+    fun inject(promptDateAction: PromptDateAction)
+
+    fun inject(promptTimeAction: PromptTimeAction)
+
+    fun inject(promptColorAction: PromptColorAction)
+
+    fun inject(promptPasswordAction: PromptPasswordAction)
 }

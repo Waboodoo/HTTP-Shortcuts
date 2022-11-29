@@ -22,6 +22,10 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenURLActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ParseXMLActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PlaySoundActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptColorActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptDateActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptPasswordActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptTimeActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ScanBarcodeActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SelectionActionType
@@ -82,6 +86,10 @@ constructor() {
                 ParseXMLActionType(),
                 PlaySoundActionType(),
                 PromptActionType(),
+                PromptColorActionType(),
+                PromptDateActionType(),
+                PromptPasswordActionType(),
+                PromptTimeActionType(),
                 RenameShortcutActionType(),
                 ScanBarcodeActionType(),
                 SelectionActionType(),

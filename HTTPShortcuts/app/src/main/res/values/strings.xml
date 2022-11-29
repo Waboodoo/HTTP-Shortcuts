@@ -728,6 +728,14 @@
     <string name="action_type_selection_title">Show Selection (Multiple-Choice)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
     <string name="action_type_prompt_title">Prompt for Text</string>
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
+    <string name="action_type_prompt_date_title">Prompt for Date</string>
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a time -->
+    <string name="action_type_prompt_time_title">Prompt for Time</string>
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a color -->
+    <string name="action_type_prompt_color_title">Prompt for Color</string>
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a password -->
+    <string name="action_type_prompt_password_title">Prompt for Password</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to confirm something -->
     <string name="action_type_confirm_title">Ask for Confirmation</string>
     <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->

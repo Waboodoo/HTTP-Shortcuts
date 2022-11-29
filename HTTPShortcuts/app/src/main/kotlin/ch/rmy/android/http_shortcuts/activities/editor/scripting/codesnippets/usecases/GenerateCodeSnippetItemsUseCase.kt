@@ -186,6 +186,34 @@ constructor(
                     insertText("prompt(\"Message", "\")")
                 }
                 item(
+                    R.string.action_type_prompt_password_title,
+                    docRef = "prompt-password",
+                    keywords = setOf("dialog", "display", "show", "prompt", "text", "input", "passphrase", "pin", "secret", "hidden"),
+                ) {
+                    insertText("promptPassword(\"Message", "\")")
+                }
+                item(
+                    R.string.action_type_prompt_date_title,
+                    docRef = "prompt-date",
+                    keywords = setOf("dialog", "display", "show", "prompt", "input", "date", "time", "picker"),
+                ) {
+                    insertText("promptDate()")
+                }
+                item(
+                    R.string.action_type_prompt_time_title,
+                    docRef = "prompt-time",
+                    keywords = setOf("dialog", "display", "show", "prompt", "input", "date", "time", "calendar", "picker", "clock"),
+                ) {
+                    insertText("promptTime()")
+                }
+                item(
+                    R.string.action_type_prompt_color_title,
+                    docRef = "prompt-color",
+                    keywords = setOf("dialog", "display", "show", "prompt", "input", "chroma", "rgb", "picker"),
+                ) {
+                    insertText("promptColor()")
+                }
+                item(
                     R.string.action_type_confirm_title,
                     docRef = "prompt-confirm",
                     keywords = setOf("dialog", "display", "ask", "confirm", "input"),
