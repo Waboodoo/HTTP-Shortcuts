@@ -23,7 +23,7 @@ constructor(
                         onColorSelected(icon.withTint(color))
                     },
                     onDismissed = onDismissed,
-                    initialColor = settings.previousIconColor ?: Color.BLACK,
+                    initialColor = settings.previousIconColor ?: Color.WHITE,
                 )
             }
         } else {

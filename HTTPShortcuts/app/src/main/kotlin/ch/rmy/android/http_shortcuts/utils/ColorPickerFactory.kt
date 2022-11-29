@@ -32,7 +32,7 @@ constructor(
 
         binding.colorPickerView.attachBrightnessSlider(binding.brightnessSlideBar)
         var suppressTextWatcher = false
-        var selectedColor = initialColor ?: Color.BLACK
+        var selectedColor = initialColor ?: Color.WHITE
         binding.colorPickerView.setInitialColor(selectedColor)
 
         fun updateColorInputView() {

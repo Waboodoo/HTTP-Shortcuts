@@ -58,5 +58,5 @@ class ColorType : BaseVariableType() {
 
     private fun getInitialColor(variable: VariableModel): Int =
         variable.takeIf { it.rememberValue }?.value?.hexStringToColorInt()
-            ?: Color.BLACK
+            ?: Color.WHITE
 }
