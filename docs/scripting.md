@@ -179,6 +179,46 @@ if (confirm('Are you sure?')) {
 const myName = prompt('What is your name?');
 ```
 
+<a name="prompt-password"></a>
+### promptPassword
+
+The `promptPassword()` function opens a text input dialog that asks for a password. The entered password is then returned, or `null` if the dialog is cancelled. Pass a message in as the first parameter, and optionally a second parameter to prefill the text input field.
+
+```js
+const myPassword = promptPassword("Please enter your password:");
+const myPassword2 = promptPassword("Please enter your password:", "secret123");
+```
+
+<a name="prompt-color"></a>
+### promptColor
+
+The `promptColor()` function opens a color picker. The selected color is returned in hex RGB (e.g. FF0000 for red), or `null` if the picker is cancelled. As an optional parameter you can pass in the preselected color.
+
+```js
+const myColor = promptColor();
+const myColor2 = promptColor("#FF0000");
+```
+
+<a name="prompt-date"></a>
+### promptDate
+
+The `promptDate()` function opens a date picker. The selected date is returned, or `null` if the picker is cancelled. As the first parameter, you may pass the date format that should be used for the return value (defaults to YYYY-MM-DD), and as a second parameter you may pass the preselected date (in YYYY-MM-DD format).
+
+```js
+const myDate = promptDate();
+const myDate2 = promptDate("YYYY-MM-DD", "2050-12-31");
+```
+
+<a name="prompt-time"></a>
+### promptTime
+
+The `promptTime()` function opens a time picker. The selected time is returned, or `null` if the picker is cancelled. As the first parameter, you may pass the time format that should be used for the return value (defaults to HH:mm), and as a second parameter you may pass the preselected time (in HH:mm format).
+
+```js
+const myTime = promptTime();
+const myTime2 = promptTime("HH/mm", "13:37");
+```
+
 <a name="show-selection"></a>
 ### showSelection
 
@@ -333,7 +373,7 @@ const hashed = hash('SHA-256', 'Hello world');
 <a name="hmac"></a>
 ### hmac
 
-With the `hmac` function you can compute the [HMAC](https://en.wikipedia.org/wiki/HMAC) of a given message. The first parameter denotes the hashing algorithm to use (supported algorithms are `MD5`, `SHA-1`, `SHA-256`, and `SHA-512`), the second one the secret key, and the third one the message string for which to compute the HMAC. The returned value is a `Uint8Array`.
+With the `hmac` function you can compute the [HMAC](https://en.wikipedia.org/wiki/HMAC) of a given message. The first parameter denotes the hashing algorithm to use (supported algorithms are `MD5`, `SHA-1`, `SHA-256`, and `SHA-512`), the second one the secret key, and the third one the message (as a string or byte array) for which to compute the HMAC. The returned value is a `Uint8Array`.
 
 ```js
 const myHMAC = hmac('SHA-256', 'my_key123', 'Hello world');
