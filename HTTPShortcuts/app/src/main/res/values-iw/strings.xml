@@ -1518,4 +1518,471 @@
 
     <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting. -->
     <string name="message_response_handling_scripting_hint">"אם אתה צריך עוד תכונות מתקדמות בשביל לעבד ולהציג את התגובה, תבדוק את סעיף '%s', שמאפשר לך להגדיר לוגיקה מותאמת אישית בעזרת JavaScript."</string>
+
+    <!-- Menu button shown on response window, allows the user to execute the current shortcut again -->
+    <string name="action_rerun_shortcut">"הפעלה חוזרת"</string>
+
+    <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
+    <string name="label_multiline">"רב קו"</string>
+
+    <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
+    <string name="message_json_encode_instructions">"הפעל זאת אם אתה משתמש במשתנה זה בתוך מחרוזת JSON, למשל, בגוף בקשה. תווים מיוחדים יימלטו."</string>
+
+    <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
+    <string name="message_url_encode_instructions">"הפעל זאת אם אתה משתמש במשתנה זה בתוך כתובת אתר, למשל, כחלק ממחרוזת שאילתה. תווים מיוחדים יימלטו."</string>
+
+    <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay">"אפשר הצגה מעל אפליקציות אחרות"</string>
+
+    <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay_summary">"הפעל אם קיצורי הדרך אינם פועלים כאשר הם מופעלים מאריח הגדרות מהירות או אפליקציית צד שלישי"</string>
+
+    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
+    <string name="action_enable_moving">"אפשר העברה בתוך קטגוריה"</string>
+
+    <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
+    <string name="message_moving_enabled">"סדר מחדש את קיצורי הדרך על ידי גרירתם."</string>
+
+    <!-- Category dropdown option: Place category on home screen -->
+    <string name="action_place_category">"מקום במסך הבית"</string>
+
+    <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
+    <string name="action_type_wake_on_lan">"Wake-on-LAN"</string>
+
+    <!-- Error message: Shown when a JS error occurs. %d is a placeholder for the line number, %s is a placeholder for the more detailed error message. -->
+    <string name="error_js_pattern_with_line_number">"שגיאת JavaScript (בשורה %1$d):
+%2$s"</string>
+
+    <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
+    <string name="label_select_variable_separator">"מפריד"</string>
+
+    <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
+    <string name="label_select_variable_multi_select">"אפשר בחירה במספר אפשרויות"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
+    <string name="error_action_type_send_wol_failed">"שליחת חבילת Wake-on-LAN נכשלה: %s"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails because on an invalid MAC address -->
+    <string name="error_action_type_send_wol_invalid_mac_address">"כתובת MAC לא חוקית: %s"</string>
+
+    <!-- Section title in shortcut editor, groups together settings related to triggering, scheduling and executing a shortcut -->
+    <string name="label_execution_settings">"הגדרות טריגר וביצוע"</string>
+
+    <!-- Section subtitle, shown underneath "Trigger & Execution Settings" -->
+    <string name="label_execution_settings_subtitle">"הגדירו מתי וכיצד יש לבצע את קיצור הדרך"</string>
+
+    <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
+    <string name="import_failure_reason_data_version_mismatch">"הקובץ שנבחר יוצא על ידי גרסה חדשה יותר של האפליקציה. אנא ודא שהגרסה העדכנית ביותר של האפליקציה מותקנת."</string>
+
+    <!-- Shortcut Action Title: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
+    <string name="action_type_to_hex_string">"בייטים למחרוזת Hex"</string>
+
+    <!-- Shortcut Action Title: Allows converting a byte array into a string using the Scripting feature -->
+    <string name="action_type_to_string">"בייטים למחרוזת"</string>
+
+    <!-- Shortcut Action Description: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
+    <string name="action_type_to_hex_string_description">"ממיר Uint8Array למחרוזת של ספרות הקסדצימליות"</string>
+
+    <!-- Shortcut Action Description: Allows converting a byte array into a string using the Scripting feature -->
+    <string name="action_type_to_string_description">"ממיר Uint8Array למחרוזת"</string>
+
+    <!-- Description for Base64decode function in scripting -->
+    <string name="action_type_base64decode_description">"ממירה מחרוזת מקודדת Base64 ל-Unit8Array (מערך בתים)"</string>
+
+    <!-- Description for Base64encode function in scripting -->
+    <string name="action_type_base64encode_description">"ממירה מחרוזת או Uint8Array (מערך בתים) למחרוזת מקודדת Base64"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response header -->
+    <string name="dialog_code_snippet_response_header">"קבל כותרת תגובה לפי שם"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response cookie -->
+    <string name="dialog_code_snippet_response_cookie">"קבל עוגיית תגובה לפי שם"</string>
+
+    <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts">"עדיין לא הוספת קיצורי דרך להפעלה."</string>
+
+    <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts_instructions">"הוסף לרשימה זו את כל קיצורי הדרך שברצונך להפעיל כחלק מקיצור הדרך הרב הזה.
+
+לחץ על הלחצן + כדי להתחיל."</string>
+
+    <!-- Shortcut Action Title: Open a URL (e.g. in a browser) -->
+    <string name="action_type_open_url_title">"פתח את כתובת האתר"</string>
+
+    <!-- Shortcut Action Title: Open another app (via its package name) -->
+    <string name="action_type_open_app_title">"אפליקציה פתוחה"</string>
+
+    <!-- Shortcut Action Title: Get the SSID of the current Wi-Fi -->
+    <string name="action_type_get_wifi_ssid">"קבל SSID של Wi-Fi"</string>
+
+    <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
+    <string name="error_no_app_found_for_url">"לא נמצאה אפליקציה שיכולה לפתוח את כתובת האתר %s."</string>
+
+    <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
+    <string name="error_no_app_found">"לא נמצאה אפליקציה עם שם החבילה %s."</string>
+
+    <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->
+    <string name="error_invalid_base64">"Base64 לא חוקי: %s"</string>
+
+    <!-- Error message: Shown to the user when the app tries to determine the SSID (name) of the current Wi-Fi but failed, e.g. because of a missing permission -->
+    <string name="error_failed_to_get_wifi_ssid">"קביעת ה-SSID של ה-Wi-Fi הנוכחי נכשלה."</string>
+
+    <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
+    <string name="placeholder_request_body_content">"הזן את גוף בקשת ה-HTTP הגולמי כאן. אתה יכול להוסיף מצייני מיקום משתנים באמצעות הלחצן \"{}\"."</string>
+
+    <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
+    <string name="action_type_trigger_shortcut_description">"תזמן קיצור דרך נוסף שיפעל לאחר סיום הקיצור הנוכחי"</string>
+
+    <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="message_remove_deleted_trigger_shortcut">"להסיר את קיצור הדרך שנמחק מרשימת הקיצורים שהופעלו?"</string>
+
+    <!-- Label above input field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="label_browser_package_name">"דפדפן"</string>
+
+    <!-- Option in "Change Icon" dialog, allows user to fetch the favicon of the shortcut's URL to use as a shortcut icon -->
+    <string name="choose_page_favicon">"אחזר עמוד Favicon"</string>
+
+    <!-- Title of window for managing and selecting custom icons -->
+    <string name="title_custom_icons">"סמלים מותאמים אישית"</string>
+
+    <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
+    <string name="error_browser_not_found">"לא נמצא דפדפן עם שם החבילה %s"</string>
+
+    <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
+    <string name="confirm_delete_custom_icon_message">"למחוק את הסמל הזה?"</string>
+
+    <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
+    <string name="confirm_delete_custom_icon_still_in_use_message">"סמל זה עדיין נמצא בשימוש בקיצור דרך אחד לפחות. מחיקתו עלולה לגרום לבעיות.
+
+למחוק בכל זאת?"</string>
+
+    <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
+    <string name="button_delete_all_unused_icons">"מחק סמלים שאינם בשימוש"</string>
+
+    <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
+    <string name="confirm_delete_all_unused_custom_icons_message">"למחוק את כל הסמלים שאינם בשימוש?"</string>
+
+    <!-- Error message, shown in snackbar when the user tried to fetch a page's favicon but it failed -->
+    <string name="error_failed_to_fetch_favicon">"אחזור הסמל נכשל. ייתכן שלאתר זה אין אתר מתאים."</string>
+
+    <!-- Shortcut Action Title: Allows removing leading and trailing whitespace characters from a string -->
+    <string name="action_type_trim_string">"מחרוזת חיתוך"</string>
+
+    <!-- Shortcut Action Description: Allows removing leading and trailing whitespace characters from a string -->
+    <string name="action_type_trim_string_description">"הסר תווים מובילים ונגררים של רווח לבן"</string>
+
+    <!-- label, displayed next to variable in variables list when a variable is not used anywhere -->
+    <string name="label_variable_unused">"לא בשימוש"</string>
+
+    <!-- Label of dropdown menu, for selecting which type of data to receive from the share dialog to use as the value of a variable -->
+    <string name="label_share_support">"נתונים לקבל משיתוף"</string>
+
+    <!-- Label of an option in the share dialog, for receiving only the text -->
+    <string name="label_share_support_option_text">"רק טקסט"</string>
+
+    <!-- Label of an option in the share dialog, for receiving only the title (subject) -->
+    <string name="label_share_support_option_title">"כותרת בלבד"</string>
+
+    <!-- Label of an option in the share dialog, for receiving the title (subject) and the text -->
+    <string name="label_share_support_option_title_and_text">"כותרת וטקסט"</string>
+
+    <!-- Title of dialog to add a new files parameter to a shortcut -->
+    <string name="title_post_param_add_files">"פרמטר הוסף קבצים"</string>
+
+    <!-- Title of section in settings that allows user to change the title of the app's main screen -->
+    <string name="settings_app_title_title">"כותרת האפליקציה"</string>
+
+    <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
+    <string name="settings_app_title_summary">"שנה את הכותרת של המסך הראשי של האפליקציה"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when using a client certificate for authentication -->
+    <string name="subtitle_authentication_client_cert">"שימוש בתעודת לקוח"</string>
+
+    <!-- Shortcut Action Title: Change Shortcut Description -->
+    <string name="action_type_change_icon_description">"שנה את תיאור קיצור הדרך"</string>
+
+    <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_changing_description">"לא ניתן לשנות את התיאור של קיצור הדרך \"%1$s\" מכיוון שהוא לא קיים."</string>
+
+    <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="placeholder_browser_package_name">"השתמש בדפדפן ברירת המחדל"</string>
+
+    <!-- Page title, for editing a category -->
+    <string name="title_edit_category">"ערוך קטגוריה"</string>
+
+    <!-- Option to choose from when selecting the background of a category: Default (white, or black in night mode) -->
+    <string name="category_background_type_default">"בְּרִירַת מֶחדָל"</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a category's changes were saved -->
+    <string name="message_category_edited">"הקטגוריה עודכנה."</string>
+
+    <!-- Label above input field in category editor, for category name -->
+    <string name="label_category_name">"שם קטגוריה"</string>
+
+    <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
+    <string name="label_category_layout_type">"סוג פריסה"</string>
+
+    <!-- Label above dropdown input field for selecting the background for a category -->
+    <string name="label_category_background">"רקע כללי"</string>
+
+    <!-- Option in category editor to choose the shortcut click behavior, to set it to the global default -->
+    <string name="settings_click_behavior_global_default">"השתמש בברירת מחדל גלובלית"</string>
+
+    <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
+    <string name="description_customizable_widget">"בחר את צבע התווית של קיצור הדרך שלך, או אם להסתיר את התווית לחלוטין."</string>
+
+    <!-- Option when picking the layout for a category: Show shortcuts in a dense grid -->
+    <string name="layout_type_dense_grid">"רשת צפופה"</string>
+
+    <!-- Option when picking the layout for a category: Show shortcuts in a medium grid -->
+    <string name="layout_type_medium_grid">"רשת בינונית"</string>
+
+    <!-- Option when picking the layout for a category: Show shortcuts in a wide grid -->
+    <string name="layout_type_wide_grid">"רשת רחבה"</string>
+
+    <!-- Option to choose from when selecting the background of a category: custom color -->
+    <string name="category_background_type_color">"צֶבַע"</string>
+
+    <!-- Title of dialog to edit an image parameter on a shortcut -->
+    <string name="title_post_param_edit_image">"ערוך פרמטר תמונה"</string>
+
+    <!-- Title of dialog to add a new image parameter to a shortcut -->
+    <string name="title_post_param_add_image">"הוסף פרמטר תמונה"</string>
+
+    <!-- Dropdown option for request body: image (i.e., user gets to take a picture with the camera which is used as the request body) -->
+    <string name="request_body_option_image">"תמונה (מצלמה)"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when request body is set to 'Image' -->
+    <string name="subtitle_request_body_image">"ערכת גוף בקשת תמונה"</string>
+
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for image parameter -->
+    <string name="option_parameter_type_image">"תמונה (מצלמה)"</string>
+
+    <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
+    <string name="subtitle_parameter_value_image">"תמונה"</string>
+
+    <!-- Title of an action in the code snippet picker: Parse a JSON string -->
+    <string name="action_type_parse_json">"ניתוח JSON"</string>
+
+    <!-- Title of an action in the code snippet picker: Parse an XML string -->
+    <string name="action_type_parse_xml">"ניתוח XML"</string>
+
+    <!-- Title of dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it -->
+    <string name="title_unsaved_changes_detected">"נמצא קיצור דרך שלא נשמר"</string>
+
+    <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
+    <string name="message_unsaved_changes_detected">"נמצאו שינויים שלא נשמרו על קיצור הדרך \"%s\". האם תרצה לשחזר את השינויים ולהמשיך לערוך?"</string>
+
+    <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. -->
+    <string name="message_unsaved_changes_detected_no_name">"נמצאו שינויים שלא נשמרו על קיצור דרך. האם תרצה לשחזר את השינויים ולהמשיך לערוך?"</string>
+
+    <!-- Button label, shown on dialog that asks user if they want to recover a shortcut that has unsaved changes -->
+    <string name="button_recover">"לְהַחלִים"</string>
+
+    <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
+    <string name="settings_allow_overlay_xiaomi">"אפשר הצגת חלונות קופצים ברקע"</string>
+
+    <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
+    <string name="settings_allow_overlay_xiaomi_summary">"הפעל אם קיצורי הדרך אינם פועלים כאשר מופעלים ממסך הבית"</string>
+
+    <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
+    <string name="running_tasker_plugin">"Tasker מפעיל קיצור דרך"</string>
+
+    <!-- Shortcut Action Title: generate a random UUID (Universal Unique Identifier, version 4) -->
+    <string name="action_type_generate_uuid">"צור UUID אקראי"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options for interacting with the network or querying its state -->
+    <string name="dialog_code_snippet_network">"רֶשֶׁת"</string>
+
+    <!-- Shortcut Action Title: Scan Barcode (e.g. QR Code) -->
+    <string name="action_type_scan_barcode_title">"סרוק ברקוד"</string>
+
+    <!-- Shortcut Action Description: Scan Barcode (e.g. QR Code) -->
+    <string name="action_type_scan_barcode_description">"מחייב להתקין את האפליקציה 'QR Droid', 'Barcode Scanner' או 'Binary Eye'"</string>
+
+    <!-- Error message: Shown when the user tries to use the 'scanBarcode' function but doesn't have the required app installed -->
+    <string name="error_barcode_scanner_not_installed">"יש להתקין את האפליקציה 'QR Droid', 'Barcode Scanner' או 'Binary Eye' כדי לסרוק ברקודים."</string>
+
+    <!-- Shortcut Action Title: Get the device's current (physical) location -->
+    <string name="action_type_get_location_title">"קבל מיקום נוכחי"</string>
+
+    <!-- Message: Brief explanation of what a toast message is and what its limitations are -->
+    <string name="message_response_handling_toast_limitations">"טוסטים מתאימים ביותר להודעות קצרות מאוד, מכיוון שהם מוגבלים ל-2 שורות טקסט בלבד."</string>
+
+    <!-- Error message: Shown to the user when the app tries to determine the device's current location but failed, e.g. because of a missing permission -->
+    <string name="error_failed_to_get_location">"לא ניתן היה לקבוע את המיקום הפיזי של המכשיר."</string>
+
+    <!-- Shortcut Action Description: Get the device's current (physical) location -->
+    <string name="action_type_get_location_description">"שואל את המיקום הפיזי של המכשיר ומחזיר אותו כאובייקט"</string>
+
+    <!-- Button text: translate app (prompt to help & become a translator) -->
+    <string name="settings_help_translate">"הפוך למתרגם"</string>
+
+    <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
+    <string name="settings_help_translate_summary">"עזור לי לשפר את האפליקציה הזו על ידי תרגום אותה לשפה שלך!"</string>
+
+    <!-- Button in Variables menu, allowing the user to (alphabetically) sort all variables -->
+    <string name="button_sort_variables">"סוג"</string>
+
+    <!-- Message: Shown in a snackbar after all variables have been sorted (alphabetically) -->
+    <string name="message_variables_sorted">"משתנים ממוינים."</string>
+
+    <!-- Description for type of variable: Constant, i.e., a variable that always has the same value -->
+    <string name="variable_type_constant_description">"מאחסן ערך קבוע. ניתן לשנות את הערך באופן פרוגרמטי באמצעות התכונה 'Scripting'"</string>
+
+    <!-- Description for type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
+    <string name="variable_type_text_description">"מציג דו-שיח עם שדה קלט טקסט"</string>
+
+    <!-- Description for type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
+    <string name="variable_type_number_description">"מציג דו-שיח עם שדה קלט מספר"</string>
+
+    <!-- Description for type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
+    <string name="variable_type_slider_description">"מציג דו-שיח עם מחוון מספרים עם ערך מינימום ומקסימום מוגדרים"</string>
+
+    <!-- Description type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
+    <string name="variable_type_password_description">"מציג דו-שיח עם שדה הזנת סיסמה"</string>
+
+    <!-- Description for type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
+    <string name="variable_type_select_description">"מציג תיבת דו-שיח לבחירה כדי לבחור ערך אחד או יותר"</string>
+
+    <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
+    <string name="variable_type_toggle_description">"עובר לערך שונה בכל פעם בשימוש"</string>
+
+    <!-- Description for type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
+    <string name="variable_type_date_description">"מציג תיבת דו-שיח עם בוחר תאריכים"</string>
+
+    <!-- Description for type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
+    <string name="variable_type_time_description">"מציג דו-שיח עם בוחר זמן"</string>
+
+    <!-- Description for type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
+    <string name="variable_type_color_description">"מציג דו-שיח עם בוחר צבעים"</string>
+
+    <!-- Shortcut Action Title: Send a UDP packet to another device on the network -->
+    <string name="action_type_send_udp_packet">"שלח חבילת UDP"</string>
+
+    <!-- Dialog button: Confirm exporting the selected shortcuts -->
+    <string name="dialog_button_export">"יְצוּא"</string>
+
+    <!-- Dialog title: shown in dialog when selecting which shortcuts to export -->
+    <string name="dialog_title_select_shortcuts_for_export">"בחר קיצורי דרך"</string>
+
+    <!-- Label above input box, for prefix text displayed in front of the number in a number slider (input dialog) -->
+    <string name="label_variable_slider_prefix">"תחילית טקסט"</string>
+
+    <!-- Label above input box, for suffix text displayed after the number in a number slider (input dialog) -->
+    <string name="label_variable_slider_suffix">"טקסט סיומת"</string>
+
+    <!-- label, shown in variable editor, to allow the user to enter a dialog text that will be shown when the variable is evaluated -->
+    <string name="label_variable_text">"טקסט דו-שיח (אופציונלי)"</string>
+
+    <!-- Shortcut Action Title: Action that allows to retrieve the latest item from the device's clipboard -->
+    <string name="action_get_clipboard_content_title">"קבל תוכן ללוח"</string>
+
+    <!-- Button label on menu, for searching. Currently only used in Code Snippet picker but might be used to search in other places -->
+    <string name="menu_action_search">"לחפש"</string>
+
+    <!-- Generic message for empty state when a search yields no results, displayed in the middle of the screen -->
+    <string name="instructions_search_no_results">"אין תוצאות"</string>
+
+    <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid">"UUID"</string>
+
+    <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid_description">"יוצר UUID אקראי חדש בכל ביצוע"</string>
+
+    <!-- Type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
+    <string name="variable_type_clipboard">"תוכן הלוח"</string>
+
+    <!-- Description for type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
+    <string name="variable_type_clipboard_description">"מניח את הערך שהועתק לאחרונה ללוח"</string>
+
+    <!-- Status message shown while some data or files are being processed, e.g. for sharing -->
+    <string name="generic_processing_in_progress">"מעבד…"</string>
+
+    <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
+    <string name="settings_donate">"לִתְרוֹם"</string>
+
+    <!-- Button subtitle, for option to open the app's Donate page in a browser, for users who wish to support the app -->
+    <string name="settings_donate_summary">"הראה את הערכתך בכך שתקנה לי משקה"</string>
+
+    <!-- Title of section in settings that allows user to add a quick settings tile. -->
+    <string name="settings_add_quick_settings_tile_title">"אריח הגדרות מהירות"</string>
+
+    <!-- Summary/subtitle of section in settings that allows user to add a quick settings tile. -->
+    <string name="settings_add_quick_settings_tile_summary">"הוסף אריח כדי להפעיל במהירות קיצורי דרך מלוח ההתראות"</string>
+
+    <!-- Message: shown in snackbar, indicates to the user that the app's quick settings tile was successfully added to the device's notification shade -->
+    <string name="message_quick_settings_tile_added">"נוסף אריח הגדרות מהירות."</string>
+
+    <!-- Title: Shown on the Documentation screen, where users can read through the app's documentation -->
+    <string name="title_documentation">"תיעוד"</string>
+
+    <!-- Button text: Shown on Documentation screen, allows to view the current page in the external browser -->
+    <string name="button_open_documentation_in_browser">"פתוח בדפדפן"</string>
+
+    <!-- Menu button shown on response window, allows the user to copy the response into the clipboard -->
+    <string name="action_copy_response">"עותק"</string>
+
+    <!-- Label for dropdown in shortcut editor, for picking the main action that should be displayed on the dialog that displays the HTTP response -->
+    <string name="label_dialog_action_dropdown">"פעולת דיאלוג"</string>
+
+    <!-- Option in dropdown menu for selecting the main action available on a dialog that displays the HTTP response, allows to show no action -->
+    <string name="label_dialog_action_none">"אף אחד"</string>
+
+    <!-- Label on checkbox that allows to enable/disable the use of a certain action to be displayed in the HTTP response window (e.g. "Share" button) -->
+    <string name="label_response_actions_show_button">"הצג כפתור \"%s\"."</string>
+
+    <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
+    <string name="action_type_send_tcp_packet">"שלח חבילת TCP"</string>
+
+    <!-- Shortcut Action Title: Send an MQTT message to a broker -->
+    <string name="action_type_send_mqtt_message">"שלח הודעת MQTT"</string>
+
+    <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
+    <string name="action_type_execute_shortcut_title">"בצע קיצור דרך"</string>
+
+    <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
+    <string name="action_type_execute_shortcut_description">"בצע קיצור דרך נוסף מיד והחזר את התוצאה שלו"</string>
+
+    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
+    <string name="error_play_services_not_available_for_location">"שירותי Play נדרשים כדי לקבל את מיקום המכשיר, אך הם אינם מותקנים או אינם זמינים."</string>
+
+    <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
+    <string name="error_unsupported_file_url">"כתובות URL עם סכימת file:// אינן נתמכות"</string>
+
+    <!-- Error message: Shown when the user tries to parse XML using the parseXML JS function, but the XML is invalid. %s is a placeholder for a more detailed description of the error -->
+    <string name="error_invalid_xml">"XML לא חוקי: %s"</string>
+
+    <!-- Error message: Shown when the user tries to send an MQTT message via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_send_mqtt">"שליחת הודעת MQTT נכשלה: %s"</string>
+
+    <!-- Error message: Shown when the user tries to send a UDP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_send_udp">"שליחת חבילת UDP נכשלה: %s"</string>
+
+    <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_send_tcp">"שליחת חבילת TCP נכשלה: %s"</string>
+
+    <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
+    <string name="error_opening_files_using_open_url_not_supported">"פתיחת קבצים באמצעות openUrl() אינה נתמכת"</string>
+
+    <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
+    <string name="label_proxy_type">"סוג פרוקסי"</string>
+
+    <!-- Label, for option to set the proxy username for a shortcut -->
+    <string name="label_proxy_username">"שם משתמש פרוקסי"</string>
+
+    <!-- Label, for option to set the proxy password for a shortcut -->
+    <string name="label_proxy_password">"סיסמת פרוקסי"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
+    <string name="action_type_prompt_date_title">"בקשה לתאריך"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
+    <string name="action_type_prompt_time_title">"הנחיה לזמן"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a color -->
+    <string name="action_type_prompt_color_title">"בקש צבע"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a password -->
+    <string name="action_type_prompt_password_title">"בקש סיסמה"</string>
 </resources>

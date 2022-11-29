@@ -341,6 +341,9 @@
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
     <string name="dialog_delete">"Törlés"</string>
 
+    <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
+    <string name="section_basic_request">"Alapvető kérési beállítások"</string>
+
     <!-- Section title, shown in shortcut editor, for section containing advanced settings -->
     <string name="section_advanced_settings">"További beállítások"</string>
 
@@ -457,6 +460,12 @@ Az összes benne található parancsikon törlődik."</string>
     <!-- Type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
     <string name="variable_type_password">"Jelszó bevitele"</string>
 
+    <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
+    <string name="variable_type_select">"Többszörös választás kiválasztása"</string>
+
+    <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
+    <string name="variable_type_toggle">"Toggle"</string>
+
     <!-- Type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
     <string name="variable_type_date">"Dátum bevitele"</string>
 
@@ -501,6 +510,9 @@ Az összes benne található parancsikon törlődik."</string>
     <!-- Button, to add another value to the list of values in a variable of Toggle type -->
     <string name="button_add_toggle_option">"Érték hozzáadása"</string>
 
+    <!-- Section title, for section that lists all values of a variable of Toggle type -->
+    <string name="section_toggle_options">"Értékek kapcsolása"</string>
+
     <!-- Title, for dialog that allows user to add an option to a Selection variable -->
     <string name="title_add_select_option">"Választási lehetőség hozzáadása"</string>
 
@@ -524,6 +536,16 @@ Az összes benne található parancsikon törlődik."</string>
 
     <!-- Page/dialog title, for help article about variables -->
     <string name="help_title_variables">"Változók"</string>
+
+    <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
+    <string name="help_text_variable_button">"Ez a gomb lehetővé teszi, hogy változók, azaz dinamikus értékek helyőrzőit is felvegye a parancsikonba.
+
+Még nincsenek változók beállítva. Ezt az alábbi CREATE gombra kattintva teheti meg."</string>
+
+    <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
+    <string name="help_text_variable_button_for_variables">"Ez a gomb lehetővé teszi, hogy más változók értékeinek helyőrzőit is beillessze ebbe a változóba.
+
+Egyelőre azonban még nincs beállítva semmilyen változó."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
     <string name="help_text_code_snippet_get_variable_no_variable">"Még nem rendelkezik változóval. Az induláshoz kattints az alábbi LÉTREHOZÁS gombra."</string>
@@ -620,6 +642,9 @@ További információt a változó dokumentációjában találsz."</string>
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"Parancsikon létrehozása"</string>
 
+    <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
+    <string name="button_create_new">"Rendszeres HTTP rövidítés"</string>
+
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">"cURL parancs importálása"</string>
 
@@ -649,6 +674,9 @@ További információt a változó dokumentációjában találsz."</string>
 
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">"Megjelenítés alkalmazás parancsikonként az indítón"</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
+    <string name="label_quick_tile_shortcut">"Gyorsbeállítások csempén keresztül történő indítás engedélyezése"</string>
 
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">"Hiba történt a megosztás során."</string>
@@ -689,11 +717,20 @@ További információt a változó dokumentációjában találsz."</string>
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
     <string name="plugin_blurb_execute_task">"Parancsikon futtatása \"%1$s\""</string>
 
+    <!-- Label of dropdown to select the request body type in shortcut editor -->
+    <string name="label_request_body_type">"Kérelem testtípusa"</string>
+
     <!-- Dropdown option for request body: form-data (i.e. list of parameters) -->
     <string name="request_body_option_form_data">"Paraméterek (űrlapadatok)"</string>
 
+    <!-- Dropdown option for request body: x-www-form-urlencoded (i.e. list of parameters) -->
+    <string name="request_body_option_x_www_form_urlencoded">"Paraméterek (x-www-form-urlencoded)"</string>
+
     <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
     <string name="request_body_option_custom_text">"Egyéni szöveg"</string>
+
+    <!-- Label above input box for Request Content-Type -->
+    <string name="label_content_type">"Content-Type"</string>
 
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
     <string name="button_copy_curl_export">"Másolás"</string>
@@ -737,6 +774,9 @@ További információt a változó dokumentációjában találsz."</string>
     <!-- Shortcut Action Title: Change Shortcut Icon -->
     <string name="action_type_change_icon_title">"Parancsikon ikon módosítás"</string>
 
+    <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
+    <string name="action_type_trigger_shortcut_title">"Enqueue parancsikon"</string>
+
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">"Végrehajtás megszakítása"</string>
 
@@ -755,11 +795,17 @@ További információt a változó dokumentációjában találsz."</string>
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid header -->
     <string name="error_invalid_header">"Érvénytelen Header (%s)."</string>
 
+    <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
+    <string name="title_select_placement_method">"Elhelyezési módszer"</string>
+
     <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->
     <string name="description_select_placement_method">"Válaszd ki a parancsikon elhelyezésének módszerét. Ha problémák merülnek fel az \"Alapértelmezett\" módszerrel, akkor kipróbálhatod a \"Legacy\" módszert. Felhívjuk a figyelmedet, hogy egyes szolgáltatások (például a parancsikon neve megváltoztatása) nem érhetők el a Legacy módszerrel."</string>
 
     <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
     <string name="label_placement_method_default">"Alapértelmezett"</string>
+
+    <!-- Label: Alternative option in dialog for selecting how to place the shortcut on the homescreen: Legacy (method) -->
+    <string name="label_placement_method_legacy">"Hagyaték"</string>
 
     <!-- Dialog message to prompt user to confirm execution of shortcut -->
     <string name="dialog_message_confirm_shortcut_execution">"Futtatod a parancsikont?"</string>
@@ -830,6 +876,12 @@ További információt a változó dokumentációjában találsz."</string>
         <item quantity="other">"%d paraméter beállítva"</item>
     </plurals>
 
+    <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
+    <string name="subtitle_request_body_none">"Nincs kérés teste beállítva"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when a custom request body is set. %s is a placeholder for the data type, e.g. application/json -->
+    <string name="subtitle_request_body_custom">"Egyedi kérés teste (%s)"</string>
+
     <!-- Section subtitle, shown for "Custom Request Body" option when it is not available because the selected HTTP method (%1$s) does not support a request body -->
     <string name="subtitle_request_body_not_available">"Nem vonatkozik a következőre %1$s
 "</string>
@@ -871,8 +923,29 @@ További információt a változó dokumentációjában találsz."</string>
     <!-- Title: Shown on menu dialog (for pre-request and post-request actions), allows to add snippets of JS code -->
     <string name="title_add_code_snippet">"Kódrészlet hozzáadása"</string>
 
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
+    <string name="dialog_code_snippet_handle_response">"Válasz kezelése"</string>
+
     <!-- Dialog option: shown in code snippet picker, shows options to get or set variables -->
     <string name="dialog_code_snippet_variables">"Változók"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
+    <string name="dialog_code_snippet_response_body">"Válasz testének lekérdezése karakterláncként"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response headers -->
+    <string name="dialog_code_snippet_response_headers">"Válaszfejlécek lekérése"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response status code -->
+    <string name="dialog_code_snippet_response_status_code">"Válaszállapot kód lekérdezése"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response cookies -->
+    <string name="dialog_code_snippet_response_cookies">"Válasz sütik beszerzése"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get the network error message (if any) -->
+    <string name="dialog_code_snippet_response_network_error">"Hálózati hiba lekérdezése"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get the value of a variable -->
+    <string name="dialog_code_snippet_get_variable">"Változó értékének lekérése"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
     <string name="dialog_code_snippet_set_variable">"Változó beállítása"</string>
@@ -912,6 +985,9 @@ További információt a változó dokumentációjában találsz."</string>
 
     <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
     <string name="error_can_only_import_from_http_url">"Importálás csak érvényes http(s) URL-ből"</string>
+
+    <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
+    <string name="action_quick_settings_tile_trigger">"Trigger parancsikon"</string>
 
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
     <string name="instructions_quick_settings_tile">"Még nincs olyan parancsikon, amelyet a Gyorsbeállítások csempén keresztül lehet elindítani.
@@ -955,6 +1031,9 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->
     <string name="language_default">"Rendszer alapértelmezett"</string>
 
+    <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
+    <string name="error_text_too_long_for_variable">"A szöveg túllépi a %d karakterhatárt. Nem lehet változó helyőrzőt beszúrni."</string>
+
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">"Válassz ki vagy hozz létre parancsikont a kezdőképernyőn való elhelyezéshez."</string>
 
@@ -995,14 +1074,41 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">"URL megnyitása böngészőben"</string>
 
+    <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
+    <string name="button_create_scripting_shortcut">"Szkriptelés parancsikon"</string>
+
+    <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
+    <string name="button_description_create_scripting_shortcut">"JavaScript kód írása fejlett munkafolyamatokhoz"</string>
+
+    <!-- Option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
+    <string name="button_create_trigger_shortcut">"Multi-Shortcut"</string>
+
+    <!-- Description for option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
+    <string name="button_description_create_trigger_shortcut">"Egyszerre több parancsikont indíthat el"</string>
+
     <!-- Dropdown option for request body: file (i.e., user gets to pick a file which is used as the request body) -->
     <string name="request_body_option_file">"Fájl (tallózó)"</string>
 
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
     <string name="label_scripting_scripting_shortcuts_subtitle">"JavaScript kód futtatása"</string>
 
+    <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
+    <string name="action_tts">"Beszéljen (szövegről beszédre)"</string>
+
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Browser Shortcut", i.e., one that only opens the browser without making an HTTP request of its own -->
     <string name="subtitle_editor_toolbar_browser_shortcut">"Parancsikon böngésző"</string>
+
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Scripting Shortcut", i.e., one that only allows JavaScript for execution and doesn't actually make an HTTP request -->
+    <string name="subtitle_editor_toolbar_scripting_shortcut">"Szkriptelés parancsikon"</string>
+
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
+    <string name="subtitle_editor_toolbar_trigger_shortcut">"Multi-Shortcut"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
+    <string name="subtitle_request_body_file">"Fájl kérés teste"</string>
+
+    <!-- Error: Shown when the text-to-speech action fails to speak a piece of text -->
+    <string name="error_tts_failed">"Nem sikerült szöveget beszélni"</string>
 
     <!-- Label: Option shown in Code Snippet Picker when inserting an action that targets a shortcut, allows to target the current shortcut -->
     <string name="label_insert_action_code_for_current_shortcut">"Jelenlegi parancsikon"</string>
@@ -1018,6 +1124,9 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs when execution fails -->
     <string name="placeholder_javascript_code_failure">"JavaScript kód hozzáadása sikertelen futtatás esetén."</string>
+
+    <!-- Section title in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger -->
+    <string name="label_trigger_shortcuts">"Rövidítések"</string>
 
     <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
     <string name="label_trigger_shortcuts_subtitle_none">"Még nincs kiválasztva parancsikon"</string>
@@ -1036,6 +1145,9 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <string name="title_remove_trigger_shortcut">"Parancsikon eltávolítása"</string>
 
+    <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="message_remove_trigger_shortcut">"A \"%s\" parancsikon eltávolítása a kiváltott parancsikonok listájáról?"</string>
+
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
     <string name="action_type_prompt_title">"Szöveg kérése"</string>
 
@@ -1044,6 +1156,9 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
 
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
     <string name="action_type_wait">"Várakozás"</string>
+
+    <!-- Shortcut Action Title: Get the IP Address of the current WiFi -->
+    <string name="action_type_get_wifi_ip_address">"IP-cím lekérése Wi-Fi-n"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
     <string name="dialog_code_snippet_shortcut_info">"Parancsikon információ"</string>
@@ -1054,6 +1169,12 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <!-- Dialog option: shown in code snippet picker, shows options to modify shortcuts -->
     <string name="dialog_code_snippet_modify_shortcuts">"Parancsikonok módosítása"</string>
 
+    <!-- Dialog option: shown in code snippet picker, shows options to control the flow of the script (abort, if-else, ...) -->
+    <string name="dialog_code_snippet_control_flow">"Vezérlési áramlás"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to don't belong in any of the other categories -->
+    <string name="dialog_code_snippet_misc">"Egyéb"</string>
+
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_id">"Parancsikon ID"</string>
 
@@ -1063,11 +1184,44 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_description">"Parancsikon leírása"</string>
 
+    <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a json object -->
+    <string name="dialog_code_snippet_response_body_json">"Választest lekérése JSON-ként"</string>
+
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid bearer auth token configured -->
     <string name="error_invalid_bearer_auth">"Érvénytelen Bearer hitelesítő token (%s)."</string>
 
+    <!-- Shortcut Action Title: Trigger a task in Tasker -->
+    <string name="action_type_trigger_tasker_title">"Trigger Tasker feladat"</string>
+
+    <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
+    <string name="action_type_send_intent_title">"Szándék küldése"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
+    <string name="error_action_type_send_intent_failed">"Nem sikerült elküldeni a szándékot: %s"</string>
+
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"Hibaelhárítás"</string>
+
+    <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
+    <string name="label_response_on_success">"A sikerről"</string>
+
+    <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
+    <string name="label_response_on_failure">"A kudarcról"</string>
+
+    <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
+    <string name="label_include_meta_information">"Meta információk megjelenítése (pl. válaszcímek)"</string>
+
+    <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
+    <string name="label_response_handling_type">"Megjelenítés típusa"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
+    <string name="option_response_handling_type_toast">"Pirítós popup"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
+    <string name="option_response_handling_type_dialog">"Párbeszéd ablak"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
+    <string name="option_response_handling_type_window">"Teljes képernyős ablak"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show the (full) response -->
     <string name="option_response_handling_success_output_response">"Válsz mutatása"</string>
@@ -1100,6 +1254,730 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <!-- Fuzzy -->
     <string name="action_export_as_curl">"cURL"</string>
 
+    <!-- Name of button in settings screen that allows to clear all HTTP cookies -->
+    <string name="settings_clear_cookies">"Sütik törlése"</string>
+
+    <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether cookies should be stored for the HTTP request -->
+    <string name="label_accept_cookies">"Cookie-k tárolása"</string>
+
+    <!-- Message, shown in dialog, to ask the user to confirm the deletion of all cookies -->
+    <string name="confirm_clear_cookies_message">"Törölje az összes tárolt sütit?"</string>
+
+    <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
+    <string name="message_cookies_cleared">"Sütik törölve."</string>
+
+    <!-- Generic button: Help (to open documentation) -->
+    <string name="dialog_help">"Segítség"</string>
+
+    <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
+    <string name="action_type_selection_title">"Show Selection (Többszörös választás)"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to process text (e.g. encoding, hashing, ...) -->
+    <string name="dialog_code_snippet_text_processing">"Szövegfeldolgozás"</string>
+
+    <!-- Error message: Shown when user tries to use an unsupported hash function -->
+    <string name="error_unsupported_hash_algorithm">"Nem támogatott hash algoritmus \"%1$s\". Használja a %2$s-t."</string>
+
+    <!-- Button in settings page to start editing shortcuts from a connected computer -->
+    <string name="settings_remote_edit">"Szerkesztés számítógépen"</string>
+
+    <!-- Instructions on how to edit shortcuts remotely from a computer -->
+    <string name="instructions_remote_edit">"Ez a funkció lehetővé teszi a parancsikonok szerkesztését a számítógépen, a böngésző kényelméből. Kérjük, mielőtt elkezdené, olvassa el az alkalmazás adatvédelmi irányelveit, majd kövesse az alábbi lépéseket:"</string>
+
+    <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
+    <string name="instructions_remote_edit_step_1">"Írja be a jelszót a fenti mezőbe."</string>
+
+    <!-- Instruction step for editing shortcuts remotely from a computer: click the push button -->
+    <string name="instructions_remote_edit_step_2">"Kattintson a &lt;pre&gt;\"Push to Server\"&lt;/pre&gt; gombra."</string>
+
+    <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
+    <string name="instructions_remote_edit_step_3">"Nyissa meg a %s-t egy böngészőben a számítógépén, adja meg a készülék azonosítóját és jelszavát, és kezdje el a szerkesztést."</string>
+
+    <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
+    <string name="instructions_remote_edit_step_4">"Miután befejezte a szerkesztést és elmentette a módosításokat, kattintson az alábbi &lt;pre&gt;\"Változások lehívása\"&lt;/pre&gt; gombra, hogy a módosításokat visszatöltse az alkalmazásba."</string>
+
+    <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
+    <string name="button_remote_edit_upload">"Push to Server"</string>
+
+    <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
+    <string name="button_remote_edit_download">"Húzás Változások"</string>
+
+    <!-- Label: Shown above a textfield with the device's ID, used to log in to edit server when editing shortcuts on a computer -->
+    <string name="label_remote_edit_device_id">"Eszköz azonosítója"</string>
+
+    <!-- Label: Shown above a textfield for entering a password, used to log in to edit server when editing shortcuts on a computer -->
+    <string name="label_remote_edit_password">"Jelszó"</string>
+
+    <!-- Status message shown while shortcuts & variables are being pushed to the remote server, shown on progress dialog -->
+    <string name="remote_edit_upload_in_progress">"Kiszolgálóra tolva..."</string>
+
+    <!-- Status message shown while changes to shortcuts & variables are being pulled down from the remote server, shown on progress dialog -->
+    <string name="remote_edit_download_in_progress">"Változások kihúzása..."</string>
+
+    <!-- Message: Success message shown in snackbar when pushing shortcuts and variables to the editing server was successful -->
+    <string name="message_remote_edit_upload_successful">"Sikeresen átküldtük a kiszolgálóra."</string>
+
+    <!-- Message: Success message shown in snackbar when pulling changes to shortcuts and variables from the editing server was successful -->
+    <string name="message_remote_edit_download_successful">"Sikeresen húzott változtatásokat."</string>
+
+    <!-- Error message: shown in dialog when pushing shortcuts to the editing server failed -->
+    <string name="error_remote_edit_upload">"Nem sikerült a kiszolgálóra tolni. Kérjük, próbálja meg később újra."</string>
+
+    <!-- Error message: shown in dialog when pulling changes to shortcuts from the editing server failed -->
+    <string name="error_remote_edit_download">"Nem sikerült lehívni a változásokat a kiszolgálóról. Kérjük, ellenőrizze a hálózati kapcsolatot, és győződjön meg róla, hogy nem változtatta meg a jelszót."</string>
+
+    <!-- Option for dropdown menu in remote editor, allows to change the remote editing server -->
+    <string name="button_change_remote_server">"Kiszolgáló címének módosítása"</string>
+
+    <!-- Dialog title: allows to change the remote editing server -->
+    <string name="title_change_remote_server">"Kiszolgáló címének módosítása"</string>
+
+    <!-- Dialog button (generic): Allows to reset some setting to its original value -->
+    <string name="dialog_reset">"Reset"</string>
+
+    <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
+    <string name="error_variable_not_found_read">"Változó hiba: nem létező változó értékét próbálta lekérni: %s"</string>
+
+    <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
+    <string name="error_variable_not_found_write">"Változó hiba: nem létező változó értékét próbálta beállítani: %s"</string>
+
+    <!-- Title of code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="title_global_scripting">"Globális szkriptelés"</string>
+
+    <!-- Button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting">"Globális szkriptelés"</string>
+
+    <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting_summary">"JavaScript kód futtatása minden parancsikon végrehajtása előtt"</string>
+
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
+    <string name="placeholder_javascript_global_scripting">"Itt adhat hozzá JavaScript-kódot, amely minden parancsikon futtatásának kezdetén fut, például néhány változó előkészítéséhez vagy néhány függvény definiálásához, amelyek a parancsikon Szkriptelés szakaszában használhatók."</string>
+
+    <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
+    <string name="action_save_global_scripting">"Változások mentése"</string>
+
+    <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
+    <string name="error_shortcut_not_found_for_deep_link">"A \"%s\" parancsikon nem található"</string>
+
+    <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
+    <string name="instructions_deep_linking">"A mélylinkelési funkció használatához győződjön meg róla, hogy az űrlap érvényes URL-címét használja:
+
+%s"</string>
+
+    <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
+    <string name="placeholder_deleted_shortcut">"Törölt parancsikon"</string>
+
+    <!-- Menu button, allows saving a response as a file -->
+    <string name="button_save_response_as_file">"Fájlként mentés"</string>
+
+    <!-- Label: Wifi network selection config in shortcut settings -->
+    <string name="label_ssid">"Szükséges Wi-Fi SSID"</string>
+
+    <!-- Dialog title: Permission request for wifi/ssid check -->
+    <string name="title_permission_dialog">"Szükséges engedélyek"</string>
+
+    <!-- Message: Rational given for location permission in wifi/ssid check -->
+    <string name="message_permission_rational">"Az aktuális Wi-Fi hálózat nevének (SSID) ellenőrzéséhez helymeghatározási engedélyek szükségesek. Ezt a követelményt az Android operációs rendszer írja elő. Az Ön helymeghatározási adataihoz nem férünk hozzá közvetlenül."</string>
+
+    <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
+    <string name="message_wrong_wifi_network">"Nincs kapcsolat a \"%1$s\" parancsikonhoz konfigurált Wi-Fi hálózathoz. Válasszon most egy másik Wi-Fi hálózatot?"</string>
+
+    <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
+    <string name="action_label_select">"Válassza ki a  címet."</string>
+
+    <!-- Error message, shown when user declines location permission for wifi check -->
+    <string name="error_missing_location_permission">"Nem sikerült meghatározni az aktuális Wi-Fi SSID azonosítóját. Helymeghatározási engedély szükséges."</string>
+
+    <!-- Message: Success message shown when a response was saved to a file -->
+    <string name="message_response_saved_to_file">"A válasz elmentve a fájlba."</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files -->
+    <string name="dialog_code_snippet_files">"Kiválasztott fájlok"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
+    <string name="dialog_code_snippet_get_file_name">"A kiválasztott fájl nevének lekérdezése"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
+    <string name="dialog_code_snippet_get_file_type">"A kiválasztott fájl típusának lekérdezése"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
+    <string name="dialog_code_snippet_get_file_size">"A kiválasztott fájl méretének lekérdezése (bájtokban)"</string>
+
+    <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, ...) -->
+    <string name="title_about">"A  oldalról"</string>
+
+    <!-- Title of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation">"Dokumentáció"</string>
+
+    <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation_summary">"GYIK, hivatkozások, példák, ..."</string>
+
+    <!-- Instructions shown below the "Allow Share..." checkbox in the variable editor -->
+    <string name="message_allow_share_instructions">"Ennek engedélyezése lehetővé teszi, hogy más alkalmazásokból származó szöveget osszon meg, és a megosztott szöveget használja a változó ideiglenes értékeként."</string>
+
+    <!-- Dialog title: Shown in progress dialog while a file is being saved -->
+    <string name="saving_in_progress">"Megtakarítás..."</string>
+
+    <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
+    <string name="title_edit_custom_icon">"Szerkesztés ikon"</string>
+
+    <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
+    <string name="error_invalid_remote_edit_host_url">"Érvénytelen URL. http(s)-nek kell lennie."</string>
+
+    <!-- Dialog option, for exporting a single shortcut as a file -->
+    <string name="action_export_as_file">"Fájl"</string>
+
+    <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
+    <string name="title_import_export">"Import / export"</string>
+
+    <!-- Section title on settings screen for options related to Scripting (i.e., custom workflow code in JavaScript) -->
+    <string name="settings_title_scripting">"Szkriptelés"</string>
+
+    <!-- Button in settings page to start import of shortcuts from a file -->
+    <string name="settings_import_from_file">"Importálás fájlból"</string>
+
+    <!-- Button in settings page to start import of shortcuts from a url -->
+    <string name="settings_import_from_url">"Importálás URL-címről"</string>
+
+    <!-- Section title on import/export screen for options related to importing -->
+    <string name="settings_title_import">"Import"</string>
+
+    <!-- Section title on import/export screen for options related to exporting -->
+    <string name="settings_title_export">"Exportálás"</string>
+
+    <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
+    <string name="settings_title_remote_edit">"Távoli szerkesztés"</string>
+
+    <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
+    <string name="settings_use_legacy_export_format">"Legacy fájlformátum használata"</string>
+
+    <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
+    <string name="settings_use_legacy_export_format_summary">"Lehetővé teszi a parancsikonok és változók exportálását a régi fájlformátummal (azaz egyetlen JSON fájl). Ez megakadályozza az egyéni parancsikonok exportálását."</string>
+
+    <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
+    <string name="label_client_cert">"Ügyféltanúsítvány hitelesítés"</string>
+
+    <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
+    <string name="label_subtitle_no_client_cert">"Kattintson a tanúsítvány kiválasztásához."</string>
+
+    <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
+    <string name="label_subtitle_client_cert_in_use">"\"%s\" tanúsítvány használata. Kattintson az eltávolításhoz."</string>
+
+    <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
+    <string name="error_failed_to_use_client_cert">"Az ügyféltanúsítvány betöltése vagy használata sikertelen. Lehet, hogy ezt az eszköz nem támogatja, vagy a parancsikon beállításaiban újra kell konfigurálni."</string>
+
+    <!-- Error message: Shown when user tries to use an unsupported hmac function -->
+    <string name="error_unsupported_hmac_algorithm">"Nem támogatott HMAC algoritmus \"%1$s\" vagy érvénytelen kulcs. Használjon %2$s."</string>
+
+    <!-- Button, shown on About page, to allow opening the app's F-Droid page -->
+    <string name="settings_f_droid">"Nézet az F-Droidban"</string>
+
+    <!-- Button subtitle for "View in F-Droid" button -->
+    <string name="settings_f_droid_summary">"Frissítések ellenőrzése"</string>
+
+    <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
+    <string name="label_subtitle_client_cert_file_in_use">"Tanúsítványfájl használata. Kattintson az eltávolításhoz."</string>
+
+    <!-- Title for dialog, when selecting a client certificate -->
+    <string name="title_client_cert">"Ügyféltanúsítvány"</string>
+
+    <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os">"Az OS által kezelt"</string>
+
+    <!-- Subtitle for Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os_subtitle">"Ajánlott, biztonságosabb"</string>
+
+    <!-- Label, for option in dialog to pick a client certificate from a .p12 file -->
+    <string name="label_client_cert_from_file">"Importálás .p12 fájlból"</string>
+
+    <!-- Subtitle for Label, for option in dialog to pick a client certificate from a .p12 file -->
+    <string name="label_client_cert_from_file_subtitle">"A fájl és a jelszó másolata az alkalmazáson belül kerül tárolásra, külön védelem nélkül. Használata saját felelősségre történik."</string>
+
+    <!-- Title of dialog, for entering the password for a client cert file -->
+    <string name="title_client_cert_file_password">"Jelszó"</string>
+
+    <!-- Shortcut dropdown option: display information about the shortcut -->
+    <string name="action_shortcut_information">"Infó megjelenítése"</string>
+
+    <!-- Label shown above a text field showing a shortcut's ID -->
+    <string name="label_shortcut_id">"Rövid azonosító"</string>
+
+    <!-- Label shown above a text field showing a shortcut's deep link URL -->
+    <string name="label_deep_link_url">"Mélyre mutató URL"</string>
+
+    <!-- Message: instructions shown below a shortcut's deep-linking URL -->
+    <string name="message_deep_link_instructions">"Ezt a parancsikont egy másik alkalmazásból, például egy QR-olvasó vagy NFC-olvasó segítségével indíthatja el, ha meghívja ezt az URL-címet. Változó értékek átadásához csatoljon lekérdezési paramétereket az URL-hez."</string>
+
+    <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
+    <string name="action_play_sound">"Hang lejátszása"</string>
+
+    <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting. -->
+    <string name="message_response_handling_scripting_hint">"Ha a válaszok feldolgozásához és megjelenítéséhez további speciális lehetőségekre van szüksége, nézze meg a \"%s\" részt, amely lehetővé teszi az egyéni logika meghatározását JavaScript-kód segítségével."</string>
+
+    <!-- Menu button shown on response window, allows the user to execute the current shortcut again -->
+    <string name="action_rerun_shortcut">"Újrafuttatás"</string>
+
+    <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
+    <string name="label_multiline">"Többvonalas"</string>
+
+    <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
+    <string name="message_json_encode_instructions">"Engedélyezze ezt, ha ezt a változót egy JSON karakterláncban használja, például egy kérés testében. A speciális karakterek kikerülnek."</string>
+
+    <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
+    <string name="message_url_encode_instructions">"Engedélyezze ezt, ha ezt a változót egy URL-címen belül használja, például egy lekérdezési karakterlánc részeként. A speciális karakterek kikerülnek."</string>
+
+    <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay">"Más alkalmazások feletti megjelenítés engedélyezése"</string>
+
+    <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay_summary">"Engedélyezés, ha a parancsikonok nem működnek a Gyorsbeállítások csempéről vagy 3rd party alkalmazásból történő indításkor."</string>
+
+    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
+    <string name="action_enable_moving">"A kategórián belüli mozgatás engedélyezése"</string>
+
+    <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
+    <string name="message_moving_enabled">"A parancsikonok újrarendezése húzással."</string>
+
+    <!-- Category dropdown option: Place category on home screen -->
+    <string name="action_place_category">"Helyezze a kezdőképernyőre"</string>
+
+    <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
+    <string name="action_type_wake_on_lan">"Wake-on-LAN"</string>
+
+    <!-- Error message: Shown when a JS error occurs. %d is a placeholder for the line number, %s is a placeholder for the more detailed error message. -->
+    <string name="error_js_pattern_with_line_number">"JavaScript hiba (a %1$d sorban):
+%2$s"</string>
+
+    <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
+    <string name="label_select_variable_separator">"Elválasztó"</string>
+
+    <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
+    <string name="label_select_variable_multi_select">"Több opció kiválasztásának lehetővé tétele"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
+    <string name="error_action_type_send_wol_failed">"Nem sikerült Wake-on-LAN csomagot küldeni: %s"</string>
+
+    <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails because on an invalid MAC address -->
+    <string name="error_action_type_send_wol_invalid_mac_address">"Érvénytelen MAC-cím: %s"</string>
+
+    <!-- Section title in shortcut editor, groups together settings related to triggering, scheduling and executing a shortcut -->
+    <string name="label_execution_settings">"Trigger és végrehajtási beállítások"</string>
+
+    <!-- Section subtitle, shown underneath "Trigger & Execution Settings" -->
+    <string name="label_execution_settings_subtitle">"Határozza meg, hogy mikor és hogyan kell végrehajtani a parancsikont."</string>
+
+    <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
+    <string name="import_failure_reason_data_version_mismatch">"A kiválasztott fájlt az alkalmazás egy újabb verziója exportálta. Kérjük, győződjön meg róla, hogy az alkalmazás legújabb verziója van telepítve."</string>
+
+    <!-- Shortcut Action Title: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
+    <string name="action_type_to_hex_string">"Bájt to Hex karakterlánc to Hex karakterlánc"</string>
+
+    <!-- Shortcut Action Title: Allows converting a byte array into a string using the Scripting feature -->
+    <string name="action_type_to_string">"Bájt to Szál karakterlánc to"</string>
+
+    <!-- Shortcut Action Description: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
+    <string name="action_type_to_hex_string_description">"Egy Uint8Array-t hexadecimális számjegyekből álló karakterlánccá konvertál"</string>
+
+    <!-- Shortcut Action Description: Allows converting a byte array into a string using the Scripting feature -->
+    <string name="action_type_to_string_description">"Egy Uint8Array-t stringgé konvertál"</string>
+
+    <!-- Description for Base64decode function in scripting -->
+    <string name="action_type_base64decode_description">"Base64 kódolt karakterláncot alakít át Unit8Array (bájt tömb) -re."</string>
+
+    <!-- Description for Base64encode function in scripting -->
+    <string name="action_type_base64encode_description">"Egy karakterláncot vagy Uint8Array-t (bájt tömb) Base64 kódolt karakterlánccá alakít át"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response header -->
+    <string name="dialog_code_snippet_response_header">"Válaszfejléc lekérdezése név szerint"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response cookie -->
+    <string name="dialog_code_snippet_response_cookie">"Válaszsüti lekérdezése név szerint"</string>
+
+    <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts">"Még nem adtál hozzá egyetlen gyorsbillentyűt sem az indításhoz."</string>
+
+    <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts_instructions">"Adja hozzá az összes olyan parancsikont ehhez a listához, amelyet a többszörös parancsikon részeként szeretne elindítani.
+
+Kattintson a + gombra a kezdéshez."</string>
+
+    <!-- Shortcut Action Title: Open a URL (e.g. in a browser) -->
+    <string name="action_type_open_url_title">"URL megnyitása"</string>
+
+    <!-- Shortcut Action Title: Open another app (via its package name) -->
+    <string name="action_type_open_app_title">"Alkalmazás megnyitása"</string>
+
+    <!-- Shortcut Action Title: Get the SSID of the current Wi-Fi -->
+    <string name="action_type_get_wifi_ssid">"A Wi-Fi SSID azonosítójának lekérdezése"</string>
+
+    <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
+    <string name="error_no_app_found_for_url">"Nem találtunk olyan alkalmazást, amely meg tudná nyitni a %s URL-címet."</string>
+
+    <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
+    <string name="error_no_app_found">"Nem találtak alkalmazást a csomag nevével %s."</string>
+
+    <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->
+    <string name="error_invalid_base64">"Érvénytelen Base64: %s"</string>
+
+    <!-- Error message: Shown to the user when the app tries to determine the SSID (name) of the current Wi-Fi but failed, e.g. because of a missing permission -->
+    <string name="error_failed_to_get_wifi_ssid">"Nem sikerült meghatározni az aktuális Wi-Fi SSID azonosítóját."</string>
+
+    <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
+    <string name="placeholder_request_body_content">"Itt adja meg a nyers HTTP-kérelem testét. A \"{}\" gombbal változó helyőrzőket adhat hozzá."</string>
+
+    <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
+    <string name="action_type_trigger_shortcut_description">"Egy másik parancsikon futtatásának ütemezése az aktuális parancsikon befejezése után"</string>
+
+    <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="message_remove_deleted_trigger_shortcut">"Törölt parancsikon eltávolítása a kiváltott parancsikonok listájából?"</string>
+
+    <!-- Label above input field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="label_browser_package_name">"Böngésző"</string>
+
+    <!-- Option in "Change Icon" dialog, allows user to fetch the favicon of the shortcut's URL to use as a shortcut icon -->
+    <string name="choose_page_favicon">"Oldal Favicon lekérése"</string>
+
+    <!-- Title of window for managing and selecting custom icons -->
+    <string name="title_custom_icons">"Egyedi ikonok"</string>
+
+    <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
+    <string name="error_browser_not_found">"A %s csomagnevű böngésző nem található"</string>
+
+    <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
+    <string name="confirm_delete_custom_icon_message">"Törölje ezt az ikont?"</string>
+
+    <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
+    <string name="confirm_delete_custom_icon_still_in_use_message">"Ez az ikon még mindig legalább 1 parancsikonban használatos. Törlése problémákat okozhat.
+
+Egyébként is törölje?"</string>
+
+    <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
+    <string name="button_delete_all_unused_icons">"Nem használt ikonok törlése"</string>
+
+    <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
+    <string name="confirm_delete_all_unused_custom_icons_message">"Törölje az összes nem használt ikont?"</string>
+
+    <!-- Error message, shown in snackbar when the user tried to fetch a page's favicon but it failed -->
+    <string name="error_failed_to_fetch_favicon">"Nem sikerült lekérni az ikont. Lehet, hogy ez a weboldal nem rendelkezik megfelelővel."</string>
+
+    <!-- Shortcut Action Title: Allows removing leading and trailing whitespace characters from a string -->
+    <string name="action_type_trim_string">"Trim String"</string>
+
+    <!-- Shortcut Action Description: Allows removing leading and trailing whitespace characters from a string -->
+    <string name="action_type_trim_string_description">"Vezető és követő szóközök eltávolítása"</string>
+
+    <!-- label, displayed next to variable in variables list when a variable is not used anywhere -->
+    <string name="label_variable_unused">"nem használt"</string>
+
+    <!-- Label of dropdown menu, for selecting which type of data to receive from the share dialog to use as the value of a variable -->
+    <string name="label_share_support">"Megosztásból származó adatok fogadása"</string>
+
+    <!-- Label of an option in the share dialog, for receiving only the text -->
+    <string name="label_share_support_option_text">"Csak szöveg"</string>
+
+    <!-- Label of an option in the share dialog, for receiving only the title (subject) -->
+    <string name="label_share_support_option_title">"Csak a cím"</string>
+
+    <!-- Label of an option in the share dialog, for receiving the title (subject) and the text -->
+    <string name="label_share_support_option_title_and_text">"Cím és szöveg"</string>
+
+    <!-- Title of dialog to add a new files parameter to a shortcut -->
+    <string name="title_post_param_add_files">"Fájlok hozzáadása paraméter"</string>
+
+    <!-- Title of section in settings that allows user to change the title of the app's main screen -->
+    <string name="settings_app_title_title">"Alkalmazás címe"</string>
+
+    <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
+    <string name="settings_app_title_summary">"Az alkalmazás főképernyőjének címének módosítása"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when using a client certificate for authentication -->
+    <string name="subtitle_authentication_client_cert">"Ügyféltanúsítvány használata"</string>
+
+    <!-- Shortcut Action Title: Change Shortcut Description -->
+    <string name="action_type_change_icon_description">"Shortcut módosítása Leírás"</string>
+
+    <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_changing_description">"A \"%1$s\" parancsikon leírását nem lehetett megváltoztatni, mert nem létezik."</string>
+
+    <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="placeholder_browser_package_name">"Alapértelmezett böngésző használata"</string>
+
+    <!-- Page title, for editing a category -->
+    <string name="title_edit_category">"Kategória szerkesztése"</string>
+
+    <!-- Option to choose from when selecting the background of a category: Default (white, or black in night mode) -->
+    <string name="category_background_type_default">"Alapértelmezett"</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a category's changes were saved -->
+    <string name="message_category_edited">"Kategória frissítve."</string>
+
+    <!-- Label above input field in category editor, for category name -->
+    <string name="label_category_name">"Kategória neve"</string>
+
+    <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
+    <string name="label_category_layout_type">"Elrendezés típusa"</string>
+
+    <!-- Label above dropdown input field for selecting the background for a category -->
+    <string name="label_category_background">"Háttér"</string>
+
+    <!-- Option in category editor to choose the shortcut click behavior, to set it to the global default -->
+    <string name="settings_click_behavior_global_default">"Globális alapértelmezés használata"</string>
+
+    <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
+    <string name="description_customizable_widget">"Válassza ki a parancsikon címkéjének színét, illetve azt, hogy a címkét teljesen elrejtse-e."</string>
+
+    <!-- Option when picking the layout for a category: Show shortcuts in a dense grid -->
+    <string name="layout_type_dense_grid">"Sűrű rács"</string>
+
+    <!-- Option when picking the layout for a category: Show shortcuts in a medium grid -->
+    <string name="layout_type_medium_grid">"Közepes rács"</string>
+
+    <!-- Option when picking the layout for a category: Show shortcuts in a wide grid -->
+    <string name="layout_type_wide_grid">"Széles rács"</string>
+
+    <!-- Option to choose from when selecting the background of a category: custom color -->
+    <string name="category_background_type_color">"Színes"</string>
+
+    <!-- Title of dialog to edit an image parameter on a shortcut -->
+    <string name="title_post_param_edit_image">"Képparaméter szerkesztése"</string>
+
+    <!-- Title of dialog to add a new image parameter to a shortcut -->
+    <string name="title_post_param_add_image">"Kép paraméter hozzáadása"</string>
+
+    <!-- Dropdown option for request body: image (i.e., user gets to take a picture with the camera which is used as the request body) -->
+    <string name="request_body_option_image">"Kép (kamera)"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when request body is set to 'Image' -->
+    <string name="subtitle_request_body_image">"Képkérelem teste"</string>
+
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for image parameter -->
+    <string name="option_parameter_type_image">"Kép (kamera)"</string>
+
+    <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
+    <string name="subtitle_parameter_value_image">"Kép"</string>
+
+    <!-- Title of an action in the code snippet picker: Parse a JSON string -->
+    <string name="action_type_parse_json">"JSON elemzése"</string>
+
+    <!-- Title of an action in the code snippet picker: Parse an XML string -->
+    <string name="action_type_parse_xml">"XML elemzése"</string>
+
+    <!-- Title of dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it -->
+    <string name="title_unsaved_changes_detected">"Nem mentett parancsikon található"</string>
+
+    <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
+    <string name="message_unsaved_changes_detected">"A \"%s\" parancsikonon nem mentett módosításokat találtunk. Szeretné visszaállítani a módosításokat és folytatni a szerkesztést?"</string>
+
+    <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. -->
+    <string name="message_unsaved_changes_detected_no_name">"Nem mentett módosításokat találtak egy parancsikonon. Szeretné visszaállítani a módosításokat és folytatni a szerkesztést?"</string>
+
+    <!-- Button label, shown on dialog that asks user if they want to recover a shortcut that has unsaved changes -->
+    <string name="button_recover">"Visszaállítani"</string>
+
+    <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
+    <string name="settings_allow_overlay_xiaomi">"Háttérben lévő felugró ablakok megjelenítésének engedélyezése"</string>
+
+    <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
+    <string name="settings_allow_overlay_xiaomi_summary">"Engedélyezés, ha a parancsikonok nem működnek a kezdőképernyőről történő indításkor"</string>
+
+    <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
+    <string name="running_tasker_plugin">"A Tasker egy parancsikont indít"</string>
+
+    <!-- Shortcut Action Title: generate a random UUID (Universal Unique Identifier, version 4) -->
+    <string name="action_type_generate_uuid">"Véletlen UUID generálása"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options for interacting with the network or querying its state -->
+    <string name="dialog_code_snippet_network">"Hálózat"</string>
+
+    <!-- Shortcut Action Title: Scan Barcode (e.g. QR Code) -->
+    <string name="action_type_scan_barcode_title">"Vonalkód beolvasása"</string>
+
+    <!-- Shortcut Action Description: Scan Barcode (e.g. QR Code) -->
+    <string name="action_type_scan_barcode_description">"A 'QR Droid', 'Barcode Scanner' vagy 'Binary Eye' alkalmazás telepítése szükséges."</string>
+
+    <!-- Error message: Shown when the user tries to use the 'scanBarcode' function but doesn't have the required app installed -->
+    <string name="error_barcode_scanner_not_installed">"A vonalkódok beolvasásához telepíteni kell a 'QR Droid', 'Barcode Scanner' vagy 'Binary Eye' alkalmazást."</string>
+
+    <!-- Shortcut Action Title: Get the device's current (physical) location -->
+    <string name="action_type_get_location_title">"Jelenlegi hely lekérdezése"</string>
+
+    <!-- Message: Brief explanation of what a toast message is and what its limitations are -->
+    <string name="message_response_handling_toast_limitations">"A pohárköszöntők leginkább a nagyon rövid üzenetekhez alkalmasak, mivel csak 2 sornyi szövegre korlátozódnak."</string>
+
+    <!-- Error message: Shown to the user when the app tries to determine the device's current location but failed, e.g. because of a missing permission -->
+    <string name="error_failed_to_get_location">"A készülék fizikai helyét nem lehetett meghatározni."</string>
+
+    <!-- Shortcut Action Description: Get the device's current (physical) location -->
+    <string name="action_type_get_location_description">"Az eszköz fizikai helyének lekérdezése és objektumként való visszaadása."</string>
+
     <!-- Button text: translate app (prompt to help & become a translator) -->
     <string name="settings_help_translate">"Legyél fordító"</string>
+
+    <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
+    <string name="settings_help_translate_summary">"Segíts nekem, hogy jobbá tegyem ezt az alkalmazást, fordítsd le a te nyelvedre!"</string>
+
+    <!-- Button in Variables menu, allowing the user to (alphabetically) sort all variables -->
+    <string name="button_sort_variables">"Rendezés"</string>
+
+    <!-- Message: Shown in a snackbar after all variables have been sorted (alphabetically) -->
+    <string name="message_variables_sorted">"Változók rendezve."</string>
+
+    <!-- Description for type of variable: Constant, i.e., a variable that always has the same value -->
+    <string name="variable_type_constant_description">"Egy konstans értéket tárol. Az érték programozottan megváltoztatható a \"Scripting\" funkcióval."</string>
+
+    <!-- Description for type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
+    <string name="variable_type_text_description">"Megjelenít egy párbeszédpanelt egy szövegbeviteli mezővel"</string>
+
+    <!-- Description for type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
+    <string name="variable_type_number_description">"Megjelenít egy párbeszédpanelt egy szám beviteli mezővel"</string>
+
+    <!-- Description for type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
+    <string name="variable_type_slider_description">"Megjelenít egy párbeszédpanelt egy számcsúszkával, amelynek minimális és maximális értéke be van állítva."</string>
+
+    <!-- Description type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
+    <string name="variable_type_password_description">"Megjelenít egy párbeszédpanelt egy jelszó beviteli mezővel"</string>
+
+    <!-- Description for type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
+    <string name="variable_type_select_description">"Megjelenít egy kiválasztási párbeszédpanelt egy vagy több érték kiválasztásához"</string>
+
+    <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
+    <string name="variable_type_toggle_description">"Használatakor minden alkalommal más értékre vált át"</string>
+
+    <!-- Description for type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
+    <string name="variable_type_date_description">"Megjelenít egy párbeszédpanelt dátumválasztóval"</string>
+
+    <!-- Description for type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
+    <string name="variable_type_time_description">"Megjelenít egy párbeszédpanelt egy időválasztóval"</string>
+
+    <!-- Description for type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
+    <string name="variable_type_color_description">"Megjelenít egy párbeszédpanelt színválasztóval"</string>
+
+    <!-- Shortcut Action Title: Send a UDP packet to another device on the network -->
+    <string name="action_type_send_udp_packet">"UDP csomag küldése"</string>
+
+    <!-- Dialog button: Confirm exporting the selected shortcuts -->
+    <string name="dialog_button_export">"Exportálás"</string>
+
+    <!-- Dialog title: shown in dialog when selecting which shortcuts to export -->
+    <string name="dialog_title_select_shortcuts_for_export">"Válassza ki a parancsikonokat"</string>
+
+    <!-- Label above input box, for prefix text displayed in front of the number in a number slider (input dialog) -->
+    <string name="label_variable_slider_prefix">"Prefix szöveg"</string>
+
+    <!-- Label above input box, for suffix text displayed after the number in a number slider (input dialog) -->
+    <string name="label_variable_slider_suffix">"Suffix szöveg"</string>
+
+    <!-- label, shown in variable editor, to allow the user to enter a dialog text that will be shown when the variable is evaluated -->
+    <string name="label_variable_text">"Párbeszéd szövege (opcionális)"</string>
+
+    <!-- Shortcut Action Title: Action that allows to retrieve the latest item from the device's clipboard -->
+    <string name="action_get_clipboard_content_title">"Vágólap tartalmának beszerzése"</string>
+
+    <!-- Button label on menu, for searching. Currently only used in Code Snippet picker but might be used to search in other places -->
+    <string name="menu_action_search">"Keresés"</string>
+
+    <!-- Generic message for empty state when a search yields no results, displayed in the middle of the screen -->
+    <string name="instructions_search_no_results">"Nincs eredmény"</string>
+
+    <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid">"UUID"</string>
+
+    <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid_description">"Minden egyes végrehajtáskor új véletlen UUID-t generál."</string>
+
+    <!-- Type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
+    <string name="variable_type_clipboard">"Vágólap tartalom"</string>
+
+    <!-- Description for type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
+    <string name="variable_type_clipboard_description">"Feltételezi a vágólapra utoljára másolt értéket."</string>
+
+    <!-- Status message shown while some data or files are being processed, e.g. for sharing -->
+    <string name="generic_processing_in_progress">"Feldolgozás..."</string>
+
+    <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
+    <string name="settings_donate">"Adományozni"</string>
+
+    <!-- Button subtitle, for option to open the app's Donate page in a browser, for users who wish to support the app -->
+    <string name="settings_donate_summary">"Mutasd ki a megbecsülésed azzal, hogy meghívsz egy italra"</string>
+
+    <!-- Title of section in settings that allows user to add a quick settings tile. -->
+    <string name="settings_add_quick_settings_tile_title">"Gyorsbeállítások csempe"</string>
+
+    <!-- Summary/subtitle of section in settings that allows user to add a quick settings tile. -->
+    <string name="settings_add_quick_settings_tile_summary">"Csempe hozzáadása a parancsikonok gyors indításához az értesítési árnyékból"</string>
+
+    <!-- Message: shown in snackbar, indicates to the user that the app's quick settings tile was successfully added to the device's notification shade -->
+    <string name="message_quick_settings_tile_added">"Gyorsbeállítások csempe hozzáadva."</string>
+
+    <!-- Title: Shown on the Documentation screen, where users can read through the app's documentation -->
+    <string name="title_documentation">"Dokumentáció"</string>
+
+    <!-- Button text: Shown on Documentation screen, allows to view the current page in the external browser -->
+    <string name="button_open_documentation_in_browser">"Megnyitás a böngészőben"</string>
+
+    <!-- Menu button shown on response window, allows the user to copy the response into the clipboard -->
+    <string name="action_copy_response">"Másolás"</string>
+
+    <!-- Label for dropdown in shortcut editor, for picking the main action that should be displayed on the dialog that displays the HTTP response -->
+    <string name="label_dialog_action_dropdown">"Párbeszéd Művelet"</string>
+
+    <!-- Option in dropdown menu for selecting the main action available on a dialog that displays the HTTP response, allows to show no action -->
+    <string name="label_dialog_action_none">"Nincs"</string>
+
+    <!-- Label on checkbox that allows to enable/disable the use of a certain action to be displayed in the HTTP response window (e.g. "Share" button) -->
+    <string name="label_response_actions_show_button">"\"%s\" gomb megjelenítése"</string>
+
+    <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
+    <string name="action_type_send_tcp_packet">"TCP csomag küldése"</string>
+
+    <!-- Shortcut Action Title: Send an MQTT message to a broker -->
+    <string name="action_type_send_mqtt_message">"MQTT üzenet küldése"</string>
+
+    <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
+    <string name="action_type_execute_shortcut_title">"Shortcut végrehajtása"</string>
+
+    <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
+    <string name="action_type_execute_shortcut_description">"Egy másik parancsikon azonnali végrehajtása és eredményének visszaadása"</string>
+
+    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
+    <string name="error_play_services_not_available_for_location">"Az eszköz helyének lekérdezéséhez a Play Services szolgáltatásokra van szükség, de azok nincsenek telepítve vagy nem elérhetők."</string>
+
+    <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
+    <string name="error_unsupported_file_url">"A file:// sémájú URL-ek nem támogatottak"</string>
+
+    <!-- Error message: Shown when the user tries to parse XML using the parseXML JS function, but the XML is invalid. %s is a placeholder for a more detailed description of the error -->
+    <string name="error_invalid_xml">"Érvénytelen XML: %s"</string>
+
+    <!-- Error message: Shown when the user tries to send an MQTT message via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_send_mqtt">"Nem sikerült MQTT üzenetet küldeni: %s"</string>
+
+    <!-- Error message: Shown when the user tries to send a UDP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_send_udp">"UDP csomag küldése sikertelen: %s"</string>
+
+    <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_send_tcp">"Sikertelen TCP csomag küldése: %s"</string>
+
+    <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
+    <string name="error_opening_files_using_open_url_not_supported">"A fájlok megnyitása az openUrl() használatával nem támogatott"</string>
+
+    <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
+    <string name="label_proxy_type">"Proxy típus"</string>
+
+    <!-- Label, for option to set the proxy username for a shortcut -->
+    <string name="label_proxy_username">"Proxy felhasználónév"</string>
+
+    <!-- Label, for option to set the proxy password for a shortcut -->
+    <string name="label_proxy_password">"Proxy jelszó"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
+    <string name="action_type_prompt_date_title">"Dátum kérése"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
+    <string name="action_type_prompt_time_title">"Prompt for Time"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a color -->
+    <string name="action_type_prompt_color_title">"Prompt for Color"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a password -->
+    <string name="action_type_prompt_password_title">"Jelszó kérése"</string>
 </resources>

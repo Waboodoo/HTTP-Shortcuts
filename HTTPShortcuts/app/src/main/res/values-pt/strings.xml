@@ -5,282 +5,252 @@
     <string name="app_name">"HTTP Shortcuts"</string>
 
     <!-- The name of the default category -->
-    <string name="shortcuts">"Shortcuts"</string>
+    <string name="shortcuts">"Atalhos"</string>
 
     <!-- The name used as a fallback for shortcuts without a name -->
-    <string name="shortcut_safe_name">"Shortcut"</string>
+    <string name="shortcut_safe_name">"Atalho"</string>
 
     <!-- Title in editor when editing a shortcut -->
-    <string name="edit_shortcut">"Shortcut bearbeiten"</string>
+    <string name="edit_shortcut">"Editar atalho"</string>
 
     <!-- Title in editor when creating a new shortcut -->
-    <string name="create_shortcut">"Shortcut erstellen"</string>
+    <string name="create_shortcut">"Criar atalho"</string>
 
     <!-- Content description of icon image, accessibility information -->
-    <string name="icon_description">"Symbol"</string>
+    <string name="icon_description">"Icon"</string>
 
     <!-- Label above input field in editor, for shortcut name -->
-    <string name="label_name">"Shortcut-Name"</string>
+    <string name="label_name">"Nome do Atalho"</string>
 
     <!-- Label above input field in editor, for shortcut description -->
-    <string name="label_description">"Beschreibung"</string>
+    <string name="label_description">"Descrição"</string>
 
     <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">"URL"</string>
 
     <!-- Button to save changes made to shortcut/variable -->
-    <string name="save_button">"Speichern"</string>
+    <string name="save_button">"Gravar"</string>
 
     <!-- Button to test changes made to shortcut -->
-    <string name="test_button">"Testen"</string>
+    <string name="test_button">"Testar"</string>
 
     <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, …) -->
-    <string name="label_method">"Methode"</string>
+    <string name="label_method">"Método"</string>
 
     <!-- Label above input field in editor, for shortcut authentication username -->
-    <string name="label_username">"Benutzername"</string>
+    <string name="label_username">"Username"</string>
 
     <!-- Label above input field in editor, for shortcut authentication password -->
-    <string name="label_password">"Passwort"</string>
+    <string name="label_password">"Password"</string>
 
     <!-- Label above input field in editor, for shortcut authentication token -->
     <string name="label_auth_token">"Token"</string>
 
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
-    <string name="action_place">"Auf Homescreen platzieren"</string>
+    <string name="action_place">"Sitio na home page"</string>
 
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
-    <string name="action_run">"Ausführen"</string>
+    <string name="action_run">"Executar"</string>
 
     <!-- Shortcut dropdown option: Edit the shortcut -->
-    <string name="action_edit">"Bearbeiten"</string>
+    <string name="action_edit">"Editar"</string>
 
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
-    <string name="action_duplicate">"Duplizieren"</string>
+    <string name="action_duplicate">"Duplicar"</string>
 
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
-    <string name="action_delete">"Löschen"</string>
+    <string name="action_delete">"Apagar"</string>
 
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
-    <string name="action_move">"Verschieben"</string>
+    <string name="action_move">"Mover"</string>
 
     <!-- Shortcut dropdown option: Move the shortcut to a different category -->
-    <string name="action_move_to_category">"In Kategorie verschieben…"</string>
+    <string name="action_move_to_category">"Mover para categoria"</string>
 
     <!-- Empty state, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts">"noch keine Shortcuts vorhanden"</string>
+    <string name="empty_state_shortcuts">"sem atalhos ainda"</string>
 
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts_instructions">"Ein Shortcut ermöglicht es dir, einen einzelnen HTTP-Request zu senden, und nach Bedarf die Response zu verarbeiten und anzuzeigen.
+    <string name="empty_state_shortcuts_instructions">"Um atalho permite-lhe enviar um único pedido HTTP, opcionalmente processando e exibindo a resposta.
 
-Drücke den + Knopf um loszulegen."</string>
+Clique no botão + para começar, ou consulte a Documentação na secção Sobre."</string>
 
     <!-- Empty state, shown in list when there are no variables yet -->
-    <string name="empty_state_variables">"noch keine Variablen vorhanden"</string>
+    <string name="empty_state_variables">"Ainda não tem quaisquer variáveis."</string>
 
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">"Variablen ermöglichen es, dynamisch Werte in deine Shortcuts einzufügen, z.B. in die URL, die Header oder den Request-Body. Halte nach dem \"{}\"-Knopf Ausschau um zu sehen wo du Variablen verwenden kannst.
+    <string name="empty_state_variables_instructions">"As variáveis permitem-lhe inserir dinamicamente valores nos seus atalhos, por exemplo, no URL, cabeçalhos ou corpo do pedido. Procure o botão \"{}\" ao editar um atalho para encontrar todos os locais onde um espaço reservado a uma variável pode ser inserido.
 
-Drücke den + Knopf um eine Variable zu erstellen."</string>
+Clique no botão + para adicionar uma variável."</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
-    <string name="confirm_delete_shortcut_message">"Diesen Shortcut wirklich löschen?"</string>
+    <string name="confirm_delete_shortcut_message">"Apagar este atalho"</string>
 
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
-    <string name="confirm_discard_changes_message">"Du hast ungespeicherte Änderungen. Änderungen verwerfen?"</string>
+    <string name="confirm_discard_changes_message">"Tem alterações não guardadas. Desperdiçar alterações?"</string>
 
     <!-- Dialog option: Discard (unsaved changes) -->
-    <string name="dialog_discard">"Verwerfen"</string>
+    <string name="dialog_discard">"Descartar"</string>
 
     <!-- Title of fullscreen window when shortcut is executed/run -->
-    <string name="title_activity_execute">"Shortcut ausführen"</string>
+    <string name="title_activity_execute">"Executar Atalho"</string>
 
     <!-- Confirmation message shown in Toast when a shortcut was executed. %s is a placeholder for the shortcut's name -->
-    <string name="executed">"%s ausgeführt."</string>
+    <string name="executed">"%s executadas."</string>
 
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
-    <string name="shortcut_not_found">"Shortcut nicht gefunden. Der Shortcut muss ev. neu platziert werden."</string>
+    <string name="shortcut_not_found">"Atalho não encontrado. Poderá ter de o readicionar no ecrã inicial."</string>
 
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
-    <string name="validation_name_not_empty">"Bitte gib einen Namen ein."</string>
+    <string name="validation_name_not_empty">"Por favor insira um nome"</string>
 
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
-    <string name="validation_url_invalid">"Bitte gib eine HTTP(S)-URL ein."</string>
+    <string name="validation_url_invalid">"Por favor, introduza uma url HTTP(S)."</string>
 
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
-    <string name="error_http">"%1$s ist mit Status-Code %2$d (%3$s) fehlgeschlagen."</string>
+    <string name="error_http">"%1$s falhou com o código de status %2$d (%3$s)."</string>
 
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
-    <string name="error_other">"%1$s fehlgeschlagen: %2$s"</string>
+    <string name="error_other">"%1$s falhados: %2$s"</string>
 
     <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
-    <string name="error_response_too_large">"Response zu groß um angezeigt zu werden (maximal %s)"</string>
+    <string name="error_response_too_large">"Resposta demasiado grande para mostrar (o limite é %s)"</string>
 
     <!-- Error shown when a selected image cannot be used as an icon -->
-    <string name="error_set_image">"Bild konnte nicht geladen werden."</string>
+    <string name="error_set_image">"Falha na utilização da imagem como ícone."</string>
 
     <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
-    <string name="template_shortcut_name_copy">"%1$s (Kopie)"</string>
+    <string name="template_shortcut_name_copy">"%1$s (cópia)"</string>
 
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
-    <string name="change_icon">"Symbol ändern"</string>
+    <string name="change_icon">"Mudar Ícone"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_image">"Eigenes Bild"</string>
+    <string name="choose_image">"Imagem personalizada"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
-    <string name="choose_icon">"Vordefinierte Symbole"</string>
+    <string name="choose_icon">"Ícone embutido"</string>
 
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
-    <string name="title_choose_icon">"Vordefiniertes Symbol wählen"</string>
+    <string name="title_choose_icon">"Escolher Ícone Incorporado"</string>
 
     <!-- Title of dialog to edit a parameter on a shortcut -->
-    <string name="title_post_param_edit">"Parameter bearbeiten"</string>
+    <string name="title_post_param_edit">"Parâmetro de edição"</string>
 
     <!-- Title of dialog to edit a file parameter on a shortcut -->
-    <string name="title_post_param_edit_file">"Datei-Parameter bearbeiten"</string>
+    <string name="title_post_param_edit_file">"Editar Parâmetro de ficheiro"</string>
 
     <!-- Title of dialog to add a new parameter to a shortcut -->
-    <string name="title_post_param_add">"Parameter hinzufügen"</string>
+    <string name="title_post_param_add">"Adicionar Parâmetro"</string>
 
     <!-- Title of dialog to add a new file parameter to a shortcut -->
-    <string name="title_post_param_add_file">"Datei-Parameter hinzufügen"</string>
+    <string name="title_post_param_add_file">"Adicionar parâmetro de ficheiro"</string>
 
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
-    <string name="label_post_param_key">"Parametername"</string>
+    <string name="label_post_param_key">"Nome do parâmetro"</string>
 
     <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
-    <string name="label_post_param_file_name">"Dateiname (optional)"</string>
+    <string name="label_post_param_file_name">"Nome do ficheiro (opcional)"</string>
 
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
-    <string name="label_post_param_value">"Wert"</string>
+    <string name="label_post_param_value">"Valor"</string>
 
     <!-- Generic dialog button: OK -->
     <string name="dialog_ok">"OK"</string>
 
     <!-- Generic button: Cancel -->
-    <string name="dialog_cancel">"Abbrechen"</string>
+    <string name="dialog_cancel">"Cancelar"</string>
 
     <!-- Generic button: remove -->
-    <string name="dialog_remove">"Entfernen"</string>
+    <string name="dialog_remove">"Remover"</string>
 
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
-    <string name="section_request_headers">"Request-Header"</string>
+    <string name="section_request_headers">"Pedir cabeçalhos"</string>
 
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
-    <string name="section_request_body">"Request-Body"</string>
+    <string name="section_request_body">"Pedir corpo / Parâmetros"</string>
 
     <!-- Title of dialog to edit a custom header of a shortcut -->
-    <string name="title_custom_header_edit">"Header bearbeiten"</string>
+    <string name="title_custom_header_edit">"Editar cabeçalho"</string>
 
     <!-- Title of dialog to add a custom header to a shortcut -->
-    <string name="title_custom_header_add">"Header hinzufügen"</string>
+    <string name="title_custom_header_add">"Adicionar cabeçalho"</string>
 
     <!-- Label of input field to provide name of custom header -->
-    <string name="label_custom_header_key">"Header"</string>
+    <string name="label_custom_header_key">"Cabeçalho"</string>
 
     <!-- Label of input field to provide value of custom header -->
-    <string name="label_custom_header_value">"Wert"</string>
+    <string name="label_custom_header_value">"Valor"</string>
 
     <!-- Label of input field to provide request body of a shortcut -->
-    <string name="label_custom_body">"Request-Body (optional):"</string>
+    <string name="label_custom_body">"Pedir corpo"</string>
 
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
-    <string name="title_settings">"Einstellungen"</string>
+    <string name="title_settings">"Definições"</string>
 
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
-    <string name="menu_action_unlock_app">"Einstellungen entsperren"</string>
+    <string name="menu_action_unlock_app">"Desbloquear configurações"</string>
 
     <!-- Title of theme settings -->
-    <string name="settings_theme">"Farbschema"</string>
+    <string name="settings_theme">"Tema"</string>
 
     <!-- Title of section in "Settings" screen: Basic settings -->
-    <string name="settings_title_basic">"Allgemeine Einstellungen"</string>
+    <string name="settings_title_basic">"Configurações básicas"</string>
 
     <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
-    <string name="settings_click_behavior">"Aktion beim Anklicken von Shortcuts"</string>
+    <string name="settings_click_behavior">"Atalho Clique Acção"</string>
 
     <!-- Name of setting that allows the user to change the app's language -->
-    <string name="settings_language">"Sprache"</string>
+    <string name="settings_language">"Idioma"</string>
 
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: execute the shortcut (i.e., send request) -->
-    <string name="settings_click_behavior_run">"Shortcut ausführen"</string>
+    <string name="settings_click_behavior_run">"Executar o atalho"</string>
 
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: edit the shortcut -->
-    <string name="settings_click_behavior_edit">"Shortcut bearbeiten"</string>
+    <string name="settings_click_behavior_edit">"Editar o Atalho"</string>
 
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
-    <string name="settings_click_behavior_menu">"Kontextmenü anzeigen"</string>
+    <string name="settings_click_behavior_menu">"Mostrar o Menu de Opções"</string>
 
     <!-- Section title on settings screen for privacy related settings -->
-    <string name="settings_title_privacy">"Datenschutz"</string>
+    <string name="settings_title_privacy">"Privacidade"</string>
 
     <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
-    <string name="settings_crash_reporting">"Absturzberichte"</string>
+    <string name="settings_crash_reporting">"Relatório de colisão"</string>
 
     <!-- Option for crash reporting opt in -->
-    <string name="settings_crash_reporting_allow">"Absturzberichte senden um App zu verbessern"</string>
+    <string name="settings_crash_reporting_allow">"Enviar relatórios de crash para ajudar a melhorar a aplicação"</string>
 
     <!-- Option for crash reporting opt out -->
-    <string name="settings_crash_reporting_disallow">"Keine Absturzberichte senden"</string>
+    <string name="settings_crash_reporting_disallow">"Não envie qualquer relatório de acidente"</string>
 
     <!-- Button in settings page to start export of shortcuts -->
-    <string name="settings_export">"Shortcuts &amp; Variablen exportieren"</string>
-
-    <!-- Success message, shown in snackbar when export of shortcuts is successful -->
-    <plurals name="shortcut_export_success">
-        <item quantity="one">"%d Shortcut exportiert."</item>
-        <item quantity="other">"%d Shortcuts exportiert."</item>
-    </plurals>
+    <string name="settings_export">"Atalhos e Variáveis de Exportação"</string>
 
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
-    <string name="export_in_progress">"Exportiere…"</string>
+    <string name="export_in_progress">"A exportação..."</string>
 
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">"Importieren fehlgeschlagen:
+    <string name="import_failed_with_reason">"A importação de atalhos falhou:
 %s"</string>
 
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="export_failed_with_reason">"Export fehlgeschlagen: %s"</string>
+    <string name="export_failed_with_reason">"Exportar atalhos falhou: %s"</string>
 
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
-    <string name="import_failure_reason_invalid_json">"Ungültiges JSON"</string>
-
-    <!-- Success message, shown in snackbar when import of shortcuts is successful -->
-    <plurals name="shortcut_import_success">
-        <item quantity="one">"%d Shortcut importiert."</item>
-        <item quantity="other">"%d Shortcuts importiert."</item>
-    </plurals>
+    <string name="import_failure_reason_invalid_json">"JSON inválido"</string>
 
     <!-- Message shown in progress dialog while shortcuts are being imported -->
-    <string name="import_in_progress">"Importiere…"</string>
+    <string name="import_in_progress">"A importação..."</string>
 
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
-    <string name="label_timeout">"Timeout"</string>
+    <string name="label_timeout">"Desconto de tempo"</string>
 
     <!-- Label, for option to set the proxy hostname for a shortcut -->
-    <string name="label_proxy_host">"Proxy-Hostname / -IP-Adresse"</string>
+    <string name="label_proxy_host">"Nome do hospedeiro proxy / Endereço IP"</string>
 
     <!-- Label, for option to set the proxy port for a shortcut -->
-    <string name="label_proxy_port">"Proxy-Port"</string>
-
-    <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
-    <plurals name="seconds">
-        <item quantity="one">"%d Sekunde"</item>
-        <item quantity="other">"%d Sekunden"</item>
-    </plurals>
-
-    <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %s is a placeholder for the actual number. -->
-    <plurals name="milliseconds">
-        <item quantity="one">"%d Millisekunde"</item>
-        <item quantity="other">"%d Millisekunden"</item>
-    </plurals>
-
-    <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
-    <plurals name="minutes">
-        <item quantity="one">"%d Minute"</item>
-        <item quantity="other">"%d Minuten"</item>
-    </plurals>
+    <string name="label_proxy_port">"Porto Proxy"</string>
 
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
     <string name="pattern_minutes_seconds">"%1$s, %2$s"</string>
@@ -289,1690 +259,1663 @@ Drücke den + Knopf um eine Variable zu erstellen."</string>
     <string name="settings_changelog">"Changelog"</string>
 
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
-    <string name="settings_changelog_summary">"Version %1$s"</string>
+    <string name="settings_changelog_summary">"Versão %1$s"</string>
 
     <!-- Button title, for option to contact the app developer (via email) -->
-    <string name="settings_mail">"Entwickler kontaktieren"</string>
+    <string name="settings_mail">"Contacto do Desenvolvedor"</string>
 
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
-    <string name="settings_mail_summary">"Fragen, Wünsche, sonstige Kommentare, …"</string>
+    <string name="settings_mail_summary">"Questões, pedidos de características, feedback, ..."</string>
 
     <!-- Button title, for option to open the app's Github page in a browser -->
-    <string name="settings_github">"Auf Github ansehen"</string>
+    <string name="settings_github">"Vista sobre Github"</string>
 
     <!-- Button subtitle for "View on Github" button -->
-    <string name="settings_github_summary">"Jap, diese App ist Open Source."</string>
+    <string name="settings_github_summary">"É verdade, esta aplicação é de código aberto"</string>
 
     <!-- Dialog title, for changelog, shown when a new version of the app is released -->
-    <string name="changelog_title_whats_new">"Was ist neu?"</string>
+    <string name="changelog_title_whats_new">"O que há de novo?"</string>
 
     <!-- Dialog title, for changelog, showing what's new in a release -->
     <string name="changelog_title">"Changelog"</string>
 
     <!-- Checkbox label, shown on Changelog dialog, allowing user to enable that the dialog shows when the app is started -->
-    <string name="changelog_checkbox_show_at_startup">"Beim Start anzeigen"</string>
+    <string name="changelog_checkbox_show_at_startup">"Mostrar no arranque"</string>
 
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
-    <string name="execution_delayed">"%1$s wird ausgeführt sobald eine Verbindung zum Internet besteht."</string>
+    <string name="execution_delayed">"%1$s serão executados assim que uma ligação à Internet estiver disponível."</string>
 
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
-    <string name="label_wait_for_connection">"Auf Verbindung warten wenn offline"</string>
+    <string name="label_wait_for_connection">"Aguardar a ligação quando estiver offline"</string>
 
     <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
-    <string name="label_delay_execution">"Verzögerung"</string>
+    <string name="label_delay_execution">"Atraso de Execução"</string>
 
     <!-- Button, shown on Settings page, to allow opening the app's Play Store page -->
-    <string name="settings_play_store">"Im Play Store anzeigen"</string>
+    <string name="settings_play_store">"Ver em Play Store"</string>
 
     <!-- Button subtitle for "View in Play Store" button -->
-    <string name="settings_play_store_summary">"Vielen Dank für Reviews und Bewertungen"</string>
+    <string name="settings_play_store_summary">"Obrigado pela sua avaliação e comentários"</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_duplicated">"%1$s dupliziert."</string>
+    <string name="shortcut_duplicated">"\"%1$s\" duplicado."</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_moved">"%1$s verschoben."</string>
+    <string name="shortcut_moved">"\"%1$s\" movidos."</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_deleted">"%1$s gelöscht."</string>
+    <string name="shortcut_deleted">"\"%1$s\" suprimido."</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_placed">"%1$s auf Homescreen platziert."</string>
+    <string name="shortcut_placed">"\"%1$s\" colocados no ecrã inicial."</string>
 
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
-    <string name="dialog_delete">"Löschen"</string>
+    <string name="dialog_delete">"Eliminar"</string>
 
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
-    <string name="section_basic_request">"Allgemeine Einstellungen"</string>
+    <string name="section_basic_request">"Configurações básicas de pedido"</string>
 
     <!-- Section title, shown in shortcut editor, for section containing advanced settings -->
-    <string name="section_advanced_settings">"Erweiterte Einstellungen"</string>
+    <string name="section_advanced_settings">"Configurações avançadas"</string>
 
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
-    <string name="section_authentication">"Authentifizierung"</string>
+    <string name="section_authentication">"Autenticação"</string>
 
     <!-- Label, for dropdown picker, allowing to select the authentication method (i.e., how to authenticate) of a shortcut -->
-    <string name="label_authentication_method">"Authentifizierungsart"</string>
+    <string name="label_authentication_method">"Método de autenticação"</string>
 
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
-    <string name="dialog_checkbox_do_not_show_again">"Nicht erneut anzeigen"</string>
+    <string name="dialog_checkbox_do_not_show_again">"Não voltar a aparecer"</string>
 
     <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="label_accept_all_certificates">"Jegliche Zertifikate akzeptieren"</string>
+    <string name="label_accept_all_certificates">"Aceitar qualquer certificado (eu sei o que estou a fazer)"</string>
 
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
-    <string name="label_require_execution_confirmation">"Bestätigung anfordern vor Ausführung"</string>
+    <string name="label_require_execution_confirmation">"Exigir confirmação antes da execução"</string>
 
     <!-- Page title, for page listing all the libraries and 3rd party assets used in the app -->
-    <string name="title_licenses">"Anerkennungen"</string>
+    <string name="title_licenses">"Agradecimentos"</string>
 
     <!-- Button, for opening page listing all the libraries and 3rd party assets used in the app -->
-    <string name="settings_licenses">"Anerkennungen"</string>
+    <string name="settings_licenses">"Agradecimentos"</string>
 
     <!-- Button subtitle, for "Acknowledgements" button -->
-    <string name="settings_licenses_summary">"Verwendete Bibliotheken &amp; Ressourcen"</string>
+    <string name="settings_licenses_summary">"Bibliotecas e recursos utilizados"</string>
 
     <!-- Page title, for page showing all configured categories -->
-    <string name="title_categories">"Kategorien"</string>
+    <string name="title_categories">"Categorias"</string>
 
     <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
-    <string name="action_hide_category">"Verbergen"</string>
+    <string name="action_hide_category">"Esconder"</string>
 
     <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
-    <string name="action_show_category">"Zeigen"</string>
+    <string name="action_show_category">"Mostrar"</string>
 
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
-    <string name="layout_type_linear_list">"Liste"</string>
+    <string name="layout_type_linear_list">"Lista"</string>
 
     <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
-    <string name="category_background_type_wallpaper">"Hintergrundbild"</string>
+    <string name="category_background_type_wallpaper">"Wallpaper"</string>
 
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
-    <string name="placeholder_category_name">"Kategorienamen eingeben…"</string>
+    <string name="placeholder_category_name">"Introduza o nome da categoria..."</string>
 
     <!-- Placeholder in input field, asking user to enter a value. Used in varies places -->
-    <string name="placeholder_value">"Wert"</string>
+    <string name="placeholder_value">"Valor"</string>
 
     <!-- Dialog title, shown in editor when creating a new category -->
-    <string name="title_create_category">"Kategorie erstellen"</string>
+    <string name="title_create_category">"Criar Categoria"</string>
 
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">"Diese Kategorie wirklich löschen?
+    <string name="confirm_delete_category_message">"Eliminar esta categoria?
 
-Alle darin enthaltenen Shortcuts werden gelöscht."</string>
+Todos os atalhos contidos no interior serão eliminados."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
-    <string name="message_category_hidden">"Kategorie verborgen."</string>
+    <string name="message_category_hidden">"Categoria oculta."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
-    <string name="message_category_visible">"Kategorie wieder sichtbar."</string>
+    <string name="message_category_visible">"A categoria já não está escondida."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
-    <string name="message_category_created">"Kategorie erstellt."</string>
+    <string name="message_category_created">"Categoria criada."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
-    <string name="message_category_deleted">"Kategorie gelöscht."</string>
-
-    <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
-    <plurals name="shortcut_count">
-        <item quantity="one">"%d Shortcut"</item>
-        <item quantity="other">"%d Shortcuts"</item>
-    </plurals>
+    <string name="message_category_deleted">"Categoria eliminada."</string>
 
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
-    <string name="label_category_hidden">"%s (verborgen)"</string>
+    <string name="label_category_hidden">"%s (oculto)"</string>
 
     <!-- Dialog title/button, for feature to move a shortcut to a different category -->
-    <string name="title_move_to_category">"In Kategorie verschieben"</string>
+    <string name="title_move_to_category">"Passar à categoria"</string>
 
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
-    <string name="plugin_name">"HTTP-Shortcut ausführen"</string>
+    <string name="plugin_name">"Executar atalho HTTP"</string>
 
     <!-- Button/page title, for viewing list of variables -->
-    <string name="title_variables">"Variablen"</string>
+    <string name="title_variables">"Variáveis"</string>
 
     <!-- Button, to edit a variable -->
-    <string name="edit_variable">"Variable bearbeiten"</string>
+    <string name="edit_variable">"Edit Variable"</string>
 
     <!-- Button, to create a new variable -->
-    <string name="create_variable">"Variable erstellen"</string>
+    <string name="create_variable">"Criar Variável"</string>
 
     <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown then the variable is evaluated -->
-    <string name="label_variable_title">"Dialog-Titel (optional)"</string>
+    <string name="label_variable_title">"Título do Diálogo (opcional)"</string>
 
     <!-- label, shown in variable editor for Date Input variable, to allow the user to specify a date format -->
-    <string name="label_variable_date_format">"Datumsformat"</string>
+    <string name="label_variable_date_format">"Formato da data"</string>
 
     <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
-    <string name="label_variable_time_format">"Zeitformat"</string>
+    <string name="label_variable_time_format">"Formato horário"</string>
 
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant">"Statische Variable"</string>
+    <string name="variable_type_constant">"Variável estática"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
-    <string name="variable_type_text">"Texteingabe"</string>
+    <string name="variable_type_text">"Entrada de Texto"</string>
 
     <!-- Type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
-    <string name="variable_type_number">"Zahleingabe"</string>
+    <string name="variable_type_number">"Número de entrada"</string>
 
     <!-- Type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
-    <string name="variable_type_slider">"Schieberegler"</string>
+    <string name="variable_type_slider">"Deslizador de números"</string>
 
     <!-- Type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
-    <string name="variable_type_password">"Passworteingabe"</string>
+    <string name="variable_type_password">"Introdução de senha"</string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
-    <string name="variable_type_select">"Multiple-Choice Auswahl"</string>
+    <string name="variable_type_select">"Selecção de Escolha Múltipla"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle">"Toggle"</string>
 
     <!-- Type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
-    <string name="variable_type_date">"Datumseingabe"</string>
+    <string name="variable_type_date">"Data Entrada"</string>
 
     <!-- Type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
-    <string name="variable_type_time">"Zeiteingabe"</string>
+    <string name="variable_type_time">"Entrada de tempo"</string>
 
     <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
-    <string name="variable_type_color">"Farbeingabe"</string>
+    <string name="variable_type_color">"Entrada de cor"</string>
 
     <!-- Error message, information user that the variable name they entered is not valid -->
-    <string name="warning_invalid_variable_key">"Variablenamen darf nur Zahlen und Buchstaben enthalten."</string>
+    <string name="warning_invalid_variable_key">"Os nomes das variáveis só podem conter sublinhados, dígitos e letras do alfabeto inglês."</string>
 
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
-    <string name="confirm_delete_variable_message">"Diese Variable wirklich löschen?"</string>
+    <string name="confirm_delete_variable_message">"Eliminar esta variável?"</string>
 
     <!-- Message, shown in snackbar, confirming to user that a variable was deleted. %1$s is a placeholder for the variable name -->
-    <string name="variable_deleted">"%1$s gelöscht."</string>
+    <string name="variable_deleted">"\"%1$s\" suprimido."</string>
 
     <!-- Checkbox label, for option to enable URL encoding of a variable -->
-    <string name="label_url_encode">"Kodieren für URLs"</string>
+    <string name="label_url_encode">"Codificação URL"</string>
 
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
-    <string name="label_json_encode">"Kodieren für JSON"</string>
+    <string name="label_json_encode">"Codificação JSON"</string>
 
     <!-- Section title, for section containing basic settings for a shortcut -->
-    <string name="section_basic_variable_settings">"Allgemeine Einstellungen"</string>
+    <string name="section_basic_variable_settings">"Configurações básicas"</string>
 
     <!-- Error message, informing user that the entered variable key is empty -->
-    <string name="validation_key_non_empty">"Name darf nicht leer sein."</string>
+    <string name="validation_key_non_empty">"O nome da variável não deve estar vazio."</string>
 
     <!-- Error message, informing user that the entered variable key already exists -->
-    <string name="validation_key_already_exists">"Es existiert bereits eine Variable mit diesem Namen."</string>
+    <string name="validation_key_already_exists">"Outra variável com este nome já existe."</string>
 
     <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
-    <string name="title_add_toggle_option">"Wert hinzufügen"</string>
+    <string name="title_add_toggle_option">"Acrescentar Valor"</string>
 
     <!-- Button, to edit an existing value in the list of values in a variable of Toggle type -->
-    <string name="title_edit_toggle_option">"Wert bearbeiten"</string>
+    <string name="title_edit_toggle_option">"Editar Valor"</string>
 
     <!-- Button, to add another value to the list of values in a variable of Toggle type -->
-    <string name="button_add_toggle_option">"Wert hinzufügen"</string>
+    <string name="button_add_toggle_option">"Acrescentar valor"</string>
 
     <!-- Section title, for section that lists all values of a variable of Toggle type -->
-    <string name="section_toggle_options">"Toggle-Werte"</string>
+    <string name="section_toggle_options">"Alternar valores"</string>
 
     <!-- Title, for dialog that allows user to add an option to a Selection variable -->
-    <string name="title_add_select_option">"Option hinzufügen"</string>
+    <string name="title_add_select_option">"Adicionar Opção"</string>
 
     <!-- Title, for dialog that allows user to edit an existing option of a Selection variable -->
-    <string name="title_edit_select_option">"Option bearbeiten"</string>
+    <string name="title_edit_select_option">"Opção de edição"</string>
 
     <!-- Button, to allow a user to add an option to a Selection variable -->
-    <string name="button_add_select_option">"Option hinzufügen"</string>
+    <string name="button_add_select_option">"Adicionar opção"</string>
 
     <!-- Section title, for section that lists all selectable options of a Selection variable -->
-    <string name="section_select_options">"Auswahloptionen"</string>
+    <string name="section_select_options">"Opções Seleccionáveis"</string>
 
     <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Label" -->
-    <string name="label_select_label">"Label"</string>
+    <string name="label_select_label">"Etiqueta"</string>
 
     <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Value" -->
-    <string name="label_select_value">"Wert"</string>
+    <string name="label_select_value">"Valor"</string>
 
     <!-- Button, for opening help article page -->
-    <string name="button_show_help">"Hilfe"</string>
+    <string name="button_show_help">"Mostrar Ajuda"</string>
 
     <!-- Page/dialog title, for help article about variables -->
-    <string name="help_title_variables">"Variablen"</string>
+    <string name="help_title_variables">"Variáveis"</string>
 
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button">"Dieser Knopf ermöglicht es dir, Variablenplatzhalter einzufügen. Mit diesen kannst du dynamische Werte einbinden.
+    <string name="help_text_variable_button">"Este botão permite-lhe incluir marcadores de lugar para variáveis, ou seja, valores dinâmicos, no seu atalho.
 
-Du hast jedoch noch keine Variablen konfiguriert. Drücke den ERSTELLEN-Knopf unten um loszulegen."</string>
+Ainda não tem nenhuma variável configurada. Pode fazê-lo clicando no botão CRIAR abaixo."</string>
 
     <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button_for_variables">"Dieser Knopf ermöglicht es dir, Variablenplatzhalter einzufügen welche auf andere Variablen verweisen.
+    <string name="help_text_variable_button_for_variables">"Este botão permite a inclusão de marcadores de lugar para os valores de outras variáveis neste.
 
-Du hast jedoch noch keine Variablen konfiguriert."</string>
+No entanto, ainda não tem nenhuma variável configurada."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_get_variable_no_variable">"Du hast noch keine Variablen erstellt. Drücke den ERSTELLEN-Knopf um loszulegen."</string>
+    <string name="help_text_code_snippet_get_variable_no_variable">"Ainda não tem quaisquer variáveis. Clique no botão CRIAR abaixo para começar."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">"Du hast noch keine statischen Variablen erstellt dessen Wert verändert werden könnte. Drücke den ERSTELLEN-Knopf um loszulegen."</string>
+    <string name="help_text_code_snippet_set_variable_no_variable">"Ainda não tem nenhuma variável estática que possa ser definida por esta acção. Clique no botão CRIAR abaixo para começar."</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
-    <string name="button_create_first_variable">"Erstellen"</string>
+    <string name="button_create_first_variable">"Criar"</string>
 
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
-    <string name="dialog_title_variable_selection">"Variablen"</string>
+    <string name="dialog_title_variable_selection">"Variáveis"</string>
 
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
-    <string name="label_edit_variables">"Variablen bearbeiten"</string>
+    <string name="label_edit_variables">"Editar variáveis"</string>
 
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
-    <string name="error_not_enough_toggle_values">"Bitte mindestens zwei Toggle-Werte hinzufügen."</string>
+    <string name="error_not_enough_toggle_values">"Por favor, acrescente pelo menos dois valores."</string>
 
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
-    <string name="error_not_enough_select_values">"Bitte mindestens eine Auswahloption hinzufügen."</string>
+    <string name="error_not_enough_select_values">"Por favor, adicione pelo menos uma opção seleccionável."</string>
 
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
-    <string name="error_invalid_date_format">"Das Datumsformat ist ungültig."</string>
+    <string name="error_invalid_date_format">"O formato da data não é válido."</string>
 
     <!-- Error message, shown in variable editor when an invalid time format is entered -->
-    <string name="error_invalid_time_format">"Das Zeitformat ist ungültig."</string>
+    <string name="error_invalid_time_format">"O formato da hora não é válido."</string>
 
     <!-- Dialog button, allowing the user to share a text snippet with other apps -->
-    <string name="share_button">"Teilen"</string>
+    <string name="share_button">"Partilhar"</string>
 
     <!-- Title on Share dialog -->
-    <string name="share_title">"Teilen…"</string>
+    <string name="share_title">"Partilhar..."</string>
 
     <!-- Section title, for section in variable editor containing options specific to the variable type -->
-    <string name="section_input_options">"Eingabeoptionen"</string>
+    <string name="section_input_options">"Opções de entrada"</string>
 
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
-    <string name="label_remember_value">"Wert merken"</string>
+    <string name="label_remember_value">"Recordar valor"</string>
 
     <!-- Action, allows the user to cancel a pending shortcut execution -->
-    <string name="action_cancel_pending">"Ausstehende Ausführung abbrechen"</string>
+    <string name="action_cancel_pending">"Cancelar Execução Pendente"</string>
 
     <!-- Message, shown in snackbar to confirm when the user cancelled a pending shortcut execution (%1$s is a placeholder for the shortcut name) -->
-    <string name="pending_shortcut_execution_cancelled">"%1$s abgebrochen."</string>
+    <string name="pending_shortcut_execution_cancelled">"%1$s cancelados."</string>
 
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
-    <string name="action_send_to">"Senden an…"</string>
+    <string name="action_send_to">"Enviar para..."</string>
 
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">"Keine verwendbaren Shortcuts gefunden.
+    <string name="error_not_suitable_shortcuts">"Não foram encontrados atalhos adequados.
 
-Um dieses Feature zu verwenden muss mindestens ein Shortcut vorhanden sein der eine Variable verwendet welche 'Teilen …' erlaubt, oder ein Shortcut welcher einen Datei-Parameter oder Datei-Request-Body verwendet.
+Para utilizar esta funcionalidade é necessário ter pelo menos um atalho que utilize uma variável que permita receber o texto partilhado como seu valor, ou um atalho que tenha um parâmetro de ficheiro ou que utilize um ficheiro como seu corpo de pedido.
 
-Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informationen."</string>
+Clique no botão de ajuda na secção variável para mais informações."</string>
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
-    <string name="label_allow_share_into">"'Teilen …' erlauben"</string>
+    <string name="label_allow_share_into">"Permitir o recebimento de valor do diálogo de acções"</string>
 
     <!-- App color theme option Blue -->
-    <string name="theme_blue">"Blau"</string>
+    <string name="theme_blue">"Azul"</string>
 
     <!-- App color theme option Green -->
-    <string name="theme_green">"Grün"</string>
+    <string name="theme_green">"Verde"</string>
 
     <!-- App color theme option Red -->
-    <string name="theme_red">"Rot"</string>
+    <string name="theme_red">"Vermelho"</string>
 
     <!-- App color theme option Grey -->
-    <string name="theme_grey">"Grau"</string>
+    <string name="theme_grey">"Cinzento"</string>
 
     <!-- App color theme option Orange -->
-    <string name="theme_orange">"Orange"</string>
+    <string name="theme_orange">"Laranja"</string>
 
     <!-- App color theme option Purple -->
-    <string name="theme_purple">"Violett"</string>
+    <string name="theme_purple">"Púrpura"</string>
 
     <!-- App color theme option Indigo -->
     <string name="theme_indigo">"Indigo"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
-    <string name="title_export">"Exportieren…"</string>
+    <string name="title_export">"Exportar para..."</string>
 
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
-    <string name="button_export_to_general">"Dokumente (in Datei speichern)"</string>
+    <string name="button_export_to_general">"Documentos (Arquivo da loja)"</string>
 
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
-    <string name="button_export_send_to">"Andere App (Teilen)"</string>
+    <string name="button_export_send_to">"Outra aplicação (Partilhar)"</string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
-    <string name="title_create_new_shortcut_options_dialog">"Neuen Shortcut erstellen"</string>
+    <string name="title_create_new_shortcut_options_dialog">"Seleccionar o tipo de atalho"</string>
 
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
-    <string name="button_create_new">"Normaler HTTP Shortcut"</string>
+    <string name="button_create_new">"Atalho HTTP regular"</string>
 
     <!-- Option 2 in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
-    <string name="button_curl_import">"Aus cURL-Befehl erstellen"</string>
+    <string name="button_curl_import">"Importação do Comando cURL"</string>
 
     <!-- Option 3 in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
-    <string name="button_create_browser_shortcut">"Browsershortcut"</string>
+    <string name="button_create_browser_shortcut">"Atalho de Navegador"</string>
 
     <!-- Window title for cURL import -->
-    <string name="title_curl_import">"cURL-Import"</string>
+    <string name="title_curl_import">"cURL Importação"</string>
 
     <!-- Instruction text for shortcut import from cURL format -->
-    <string name="instructions_curl_import">"Gib einen cURL-Befehl ein oder füge ihn ein um daraus einen neuen Shortcut zu erstellen."</string>
+    <string name="instructions_curl_import">"Digite ou cole um comando cURL abaixo para criar um novo atalho a partir dele."</string>
 
     <!-- Text on button to start shortcut import from a cURL command -->
-    <string name="curl_import_button">"Importieren"</string>
+    <string name="curl_import_button">"Importação"</string>
 
     <!-- Dropdown option for "Authentication" of a shortcut: no authentication -->
-    <string name="authentication_none">"Keine Authentifizierung"</string>
+    <string name="authentication_none">"Sem Autenticação"</string>
 
     <!-- Dropdown option for "Authentication" of a shortcut: "Basic Authentication", aka. BasicAuth (username & password) -->
-    <string name="authentication_basic">"Basic Authentication"</string>
+    <string name="authentication_basic">"Autenticação básica"</string>
 
     <!-- Dropdown option for "Authentication" of a shortcut: "Digest Authentication", aka. DigestAuth (username & password) -->
-    <string name="authentication_digest">"Digest Authentication"</string>
+    <string name="authentication_digest">"Autenticação Digest"</string>
 
     <!-- Dropdown option for "Authentication" of a shortcut: "Bearer Authentication", aka. BearerAuth (token) -->
-    <string name="authentication_bearer">"Bearer Authentication"</string>
+    <string name="authentication_bearer">"Autenticação ao portador"</string>
 
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
-    <string name="label_launcher_shortcut">"Als App-Shortcut auf Launcher anzeigen"</string>
+    <string name="label_launcher_shortcut">"Mostrar como atalho de aplicação no lançador"</string>
 
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
-    <string name="label_quick_tile_shortcut">"Auslösen via Quick Settings Tile erlauben"</string>
+    <string name="label_quick_tile_shortcut">"Permitir o accionamento via Quick Settings Tile"</string>
 
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
-    <string name="error_share_failed">"Beim Teilen ist ein Fehler aufgetreten."</string>
+    <string name="error_share_failed">"Ocorreu um erro durante a partilha."</string>
 
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
-    <string name="error_not_supported">"Diese Funktion wird von deinem Gerät nicht unterstützt."</string>
+    <string name="error_not_supported">"Esta característica não é suportada no seu dispositivo."</string>
 
     <!-- Generic error shown when something went wrong and there is no better error message available -->
-    <string name="error_generic">"Ein unbekannter Fehler ist aufgetreten…"</string>
+    <string name="error_generic">"Algo correu mal..."</string>
 
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
-    <string name="settings_privacy_policy">"Datenschutz-Bestimmungen"</string>
+    <string name="settings_privacy_policy">"Política de Privacidade"</string>
 
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
-    <string name="settings_privacy_policy_summary">"Ne, ich klaue deine Daten nicht."</string>
+    <string name="settings_privacy_policy_summary">"Não, não roubar os seus dados"</string>
 
     <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
-    <string name="settings_lock_app_title">"Einstellungen sperren"</string>
+    <string name="settings_lock_app_title">"Definições de bloqueios"</string>
 
     <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
-    <string name="settings_lock_app_summary">"Änderungen an Shortcuts und Einstellungen verhindern"</string>
+    <string name="settings_lock_app_summary">"Impedir alterações nos atalhos e definições"</string>
 
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
-    <string name="label_variable_slider_min">"Minimum"</string>
+    <string name="label_variable_slider_min">"Mínimo"</string>
 
     <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
-    <string name="label_variable_slider_max">"Maximum"</string>
+    <string name="label_variable_slider_max">"Máximo"</string>
 
     <!-- Label above input box, for step size (numeric) value of a horizontal slider -->
-    <string name="label_variable_slider_step">"Schrittgröße"</string>
+    <string name="label_variable_slider_step">"Tamanho do passo"</string>
 
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
-    <string name="error_slider_max_not_greater_than_min">"Der Maximalwert muss größer sein als der Minimalwert."</string>
+    <string name="error_slider_max_not_greater_than_min">"O máximo deve ser maior do que o mínimo."</string>
 
     <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
-    <string name="error_slider_step_size_must_be_positive">"Die Schrittgröße muss größer als 0 sein."</string>
+    <string name="error_slider_step_size_must_be_positive">"A dimensão do passo deve ser um número positivo."</string>
 
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
-    <string name="plugin_blurb_execute_task">"Shortcut \"%1$s\" ausführen"</string>
+    <string name="plugin_blurb_execute_task">"Executar atalho \"%1$s"</string>
 
     <!-- Label of dropdown to select the request body type in shortcut editor -->
-    <string name="label_request_body_type">"Request-Body-Typ"</string>
+    <string name="label_request_body_type">"Pedir tipo de corpo"</string>
 
     <!-- Dropdown option for request body: form-data (i.e. list of parameters) -->
-    <string name="request_body_option_form_data">"Parameterliste (form-data)"</string>
+    <string name="request_body_option_form_data">"Parâmetros (dados do formulário)"</string>
 
     <!-- Dropdown option for request body: x-www-form-urlencoded (i.e. list of parameters) -->
-    <string name="request_body_option_x_www_form_urlencoded">"Parameterliste (x-www-form-urlencoded)"</string>
+    <string name="request_body_option_x_www_form_urlencoded">"Parâmetros (x-www-form-urlencoded)"</string>
 
     <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
-    <string name="request_body_option_custom_text">"Benutzerdefinierter Text"</string>
+    <string name="request_body_option_custom_text">"Texto personalizado"</string>
 
     <!-- Label above input box for Request Content-Type -->
     <string name="label_content_type">"Content-Type"</string>
 
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
-    <string name="button_copy_curl_export">"Kopieren"</string>
+    <string name="button_copy_curl_export">"Cópia"</string>
 
     <!-- Section title in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
-    <string name="label_response_handling">"Response-Einstellungen"</string>
+    <string name="label_response_handling">"Manuseamento da resposta"</string>
 
     <!-- Section subtitle in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
-    <string name="label_response_handling_subtitle">"Wie soll die Response angezeigt werden?"</string>
+    <string name="label_response_handling_subtitle">"Definir a forma de lidar com a resposta"</string>
 
     <!-- Section title in shortcut editor: "Scripting", allows to write scripts for advanced workflows -->
-    <string name="label_scripting">"Scripting"</string>
+    <string name="label_scripting">"Roteiro"</string>
 
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
-    <string name="label_scripting_subtitle">"JavaScript-Code ausführen vor oder nach Request"</string>
+    <string name="label_scripting_subtitle">"Executar código JavaScript antes ou depois da execução"</string>
 
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
-    <string name="label_scripting_browser_shortcuts_subtitle">"JavaScript-Code ausführen vor Request"</string>
+    <string name="label_scripting_browser_shortcuts_subtitle">"Executar código JavaScript antes da execução"</string>
 
     <!-- Section title in shortcut editor, groups together technical settings -->
-    <string name="label_advanced_technical_settings">"Fortgeschrittene Einstellungen"</string>
+    <string name="label_advanced_technical_settings">"Configurações técnicas avançadas"</string>
 
     <!-- Section subtitle in shortcut editor, shown below "Advanced Technical Settings" -->
-    <string name="label_advanced_technical_settings_subtitle">"Für Leute die wissen was sie tun"</string>
+    <string name="label_advanced_technical_settings_subtitle">"Para pessoas que sabem o que estão a fazer"</string>
 
     <!-- Shortcut Action Title: Show Toast (small popup message) -->
-    <string name="action_type_toast_title">"Toast anzeigen"</string>
+    <string name="action_type_toast_title">"Mostrar Brinde"</string>
 
     <!-- Shortcut Action Title: Show Dialog -->
-    <string name="action_type_dialog_title">"Dialog anzeigen"</string>
+    <string name="action_type_dialog_title">"Mostrar Diálogo"</string>
 
     <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->
-    <string name="action_copy_to_clipboard_title">"In Zwischenablage kopieren"</string>
+    <string name="action_copy_to_clipboard_title">"Cópia para prancheta"</string>
 
     <!-- Shortcut Action Title: Vibrate -->
-    <string name="action_type_vibrate_title">"Vibrieren"</string>
+    <string name="action_type_vibrate_title">"Vibrar"</string>
 
     <!-- Shortcut Action Title: Change Shortcut Name -->
-    <string name="action_type_rename_shortcut_title">"Shortcut umbenennen"</string>
+    <string name="action_type_rename_shortcut_title">"Renomear Atalho"</string>
 
     <!-- Shortcut Action Title: Change Shortcut Icon -->
-    <string name="action_type_change_icon_title">"Shortcut-Symbol ändern"</string>
+    <string name="action_type_change_icon_title">"Alterar Ícone de atalho"</string>
 
     <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
-    <string name="action_type_trigger_shortcut_title">"Shortcut auslösen"</string>
+    <string name="action_type_trigger_shortcut_title">"Atalho de Enqueue"</string>
 
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
-    <string name="action_type_abort_execution">"Ausführung abbrechen"</string>
+    <string name="action_type_abort_execution">"Abortar a execução"</string>
 
     <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
-    <string name="action_type_trigger_shortcut_error_recursion_depth_reached">"Maximale Rekursionstiefe erreicht. Shortcut wird nicht ausgelöst."</string>
+    <string name="action_type_trigger_shortcut_error_recursion_depth_reached">"Profundidade máxima de recorrência alcançada. O atalho não será accionado."</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
-    <string name="error_invalid_url">"Ungültige URL (%s)."</string>
+    <string name="error_invalid_url">"URL inválido (%s)."</string>
 
     <!-- error message: Shown in toast when the user tries to execute a shortcut with invalid proxy settings -->
-    <string name="error_invalid_proxy">"Ungültige Proxy (%s)"</string>
+    <string name="error_invalid_proxy">"Proxy inválido (%s)"</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid content type -->
-    <string name="error_invalid_content_type">"Ungültiger Content-Type (%s)."</string>
+    <string name="error_invalid_content_type">"Tipo de conteúdo inválido (%s)."</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid header -->
-    <string name="error_invalid_header">"Ungültiger Header (%s)."</string>
+    <string name="error_invalid_header">"Cabeçalho Inválido (%s)."</string>
 
     <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
-    <string name="title_select_placement_method">"Platzierungsmethode"</string>
+    <string name="title_select_placement_method">"Método de colocação"</string>
 
     <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->
-    <string name="description_select_placement_method">"Wähle die Methode zur Platzierung des Shortcuts aus. Falls du Probleme mit der \"Standard\"-Methode feststellst kannst du stattdessen die \"Legacy\"-Methode verwenden. Bitte beachte dass einige Funktionen (z.B. Ändern des Shortcut-Namens) nicht verfügbar sind mit der \"Legacy\"-Methode."</string>
+    <string name="description_select_placement_method">"Seleccione o método a utilizar para colocar o atalho. Se encontrar problemas com o método \"Default\", pode tentar o método \"Legacy\". Note que algumas características (por exemplo, mudar o nome do atalho) não estão disponíveis com o método \"Legado\"."</string>
 
     <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
-    <string name="label_placement_method_default">"Standard"</string>
+    <string name="label_placement_method_default">"Predefinição"</string>
 
     <!-- Label: Alternative option in dialog for selecting how to place the shortcut on the homescreen: Legacy (method) -->
-    <string name="label_placement_method_legacy">"Legacy"</string>
+    <string name="label_placement_method_legacy">"Legado"</string>
 
     <!-- Dialog message to prompt user to confirm execution of shortcut -->
-    <string name="dialog_message_confirm_shortcut_execution">"Shortcut ausführen?"</string>
+    <string name="dialog_message_confirm_shortcut_execution">"Executar este atalho?"</string>
 
     <!-- Dialog title: Unlock the app (after it was locked. user is required to enter a password) -->
-    <string name="dialog_title_unlock_app">"App entsperren"</string>
+    <string name="dialog_title_unlock_app">"Desbloquear aplicação"</string>
 
     <!-- Dialog button: Unlock the app (after entering a password) -->
-    <string name="button_unlock_app">"Entsperren"</string>
+    <string name="button_unlock_app">"Desbloquear"</string>
 
     <!-- Dialog text: Asks user to enter a password to unlock the app's settings -->
-    <string name="dialog_text_unlock_app">"Gib dein Passwort ein um die App zu entsperren."</string>
+    <string name="dialog_text_unlock_app">"Introduza a sua palavra-passe para desbloquear as definições da aplicação."</string>
 
     <!-- Dialog text: Asks user to enter the password to unlock the app's settings again, after an incorrect try -->
-    <string name="dialog_text_unlock_app_retry">"Falsches Passwort. Bitte erneut versuchen."</string>
+    <string name="dialog_text_unlock_app_retry">"Palavra-passe errada. Por favor, tente novamente."</string>
 
     <!-- Dialog title: Asks user to enter a password to lock the app's settings -->
-    <string name="dialog_title_lock_app">"App sperren"</string>
+    <string name="dialog_title_lock_app">"Aplicação de bloqueio"</string>
 
     <!-- Dialog text: Asks user to enter a password to lock the app's settings -->
-    <string name="dialog_text_lock_app">"Gib ein Passwort ein um die App-Einstellungen zu sperren und das Verändern von Shortcuts zu verhindern."</string>
+    <string name="dialog_text_lock_app">"Introduza uma palavra-passe para bloquear as definições da aplicação e impedir a modificação dos seus atalhos."</string>
 
     <!-- Dialog button: Lock the app (by entering a password) -->
-    <string name="button_lock_app">"Sperren"</string>
+    <string name="button_lock_app">"Fechadura"</string>
 
     <!-- Snackbar message: App was locked (settings can no longer be changed) -->
-    <string name="message_app_locked">"App gesperrt."</string>
+    <string name="message_app_locked">"Aplicação bloqueada."</string>
 
     <!-- Snackbar message: App was unlocked (settings can be changed again) -->
-    <string name="message_app_unlocked">"App entsperrt."</string>
+    <string name="message_app_unlocked">"Desbloqueado."</string>
 
     <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
-    <string name="warning_data_saver_battery_saver_enabled">"Data Saver und/oder Battery Saver Modi sind aktiv. Das Ausführen von Shortcuts ist eventuell beeinträchtigt. Solltest du Probleme feststellen versuche bitte zuerst diese Modi auszuschalten."</string>
+    <string name="warning_data_saver_battery_saver_enabled">"Os modos Data Saver e/ou Battery Saver estão activados no seu dispositivo. Se encontrar problemas com atalhos que não funcionam, tente desactivá-los."</string>
 
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
-    <string name="message_variable_duplicated">"\"%1$s\" dupliziert."</string>
+    <string name="message_variable_duplicated">"\"%1$s\" duplicado."</string>
 
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
-    <string name="subtitle_basic_request_settings_prompt">"Shortcut-URL und HTTP-Methode einstellen"</string>
+    <string name="subtitle_basic_request_settings_prompt">"Definir o URL do atalho e o método HTTP"</string>
 
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
-    <string name="subtitle_basic_request_settings_url_only_prompt">"Shortcut-URL einstellen"</string>
+    <string name="subtitle_basic_request_settings_url_only_prompt">"Definir o URL do atalho"</string>
 
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
     <string name="subtitle_basic_request_settings_pattern">"%1$s %2$s"</string>
 
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
-    <string name="subtitle_request_headers_none">"Keine Headers gesetzt"</string>
-
-    <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
-    <plurals name="subtitle_request_headers_pattern">
-        <item quantity="one">"%d Header gesetzt"</item>
-        <item quantity="other">"%d Header gesetzt"</item>
-    </plurals>
+    <string name="subtitle_request_headers_none">"Nenhum conjunto de cabeçalhos"</string>
 
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
-    <string name="subtitle_authentication_none">"Keine Authentifizierung"</string>
+    <string name="subtitle_authentication_none">"Sem autenticação"</string>
 
     <!-- Section subtitle, shown in shortcut editor when no Basic Authentication is enabled -->
-    <string name="subtitle_authentication_basic">"Basic Auth mit Benutzername und Passwort"</string>
+    <string name="subtitle_authentication_basic">"Autenticação básica com nome de utilizador e palavra-passe"</string>
 
     <!-- Section subtitle, shown in shortcut editor when Digest Authentication is enabled -->
-    <string name="subtitle_authentication_digest">"Digest Auth mit Benutzername und Passwort"</string>
+    <string name="subtitle_authentication_digest">"Digite a autenticação com nome de utilizador e palavra-passe"</string>
 
     <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
-    <string name="subtitle_authentication_bearer">"Bearer Authentication mit Token"</string>
+    <string name="subtitle_authentication_bearer">"Autenticação ao portador com ficha"</string>
 
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
-    <string name="subtitle_request_body_params_none">"Keine Parameter gesetzt"</string>
-
-    <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
-    <plurals name="subtitle_request_body_params_pattern">
-        <item quantity="one">"%d Parameter gesetzt"</item>
-        <item quantity="other">"%s Parameter gesetzt"</item>
-    </plurals>
+    <string name="subtitle_request_body_params_none">"Sem parâmetros definidos"</string>
 
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
-    <string name="subtitle_request_body_none">"Kein Request-Body gesetzt"</string>
+    <string name="subtitle_request_body_none">"Nenhum conjunto de organismos de pedido"</string>
 
     <!-- Section subtitle, shown in shortcut editor when a custom request body is set. %s is a placeholder for the data type, e.g. application/json -->
-    <string name="subtitle_request_body_custom">"Request-Body gesetzt (%s)"</string>
+    <string name="subtitle_request_body_custom">"Conjunto de pedido personalizado (%s)"</string>
 
     <!-- Section subtitle, shown for "Custom Request Body" option when it is not available because the selected HTTP method (%1$s) does not support a request body -->
-    <string name="subtitle_request_body_not_available">"Nicht anwendbar bei %1$s"</string>
+    <string name="subtitle_request_body_not_available">"Não aplicável para %1$s"</string>
 
     <!-- Empty state, shown in list when there are no custom request headers yet -->
-    <string name="empty_state_request_headers">"Keine Headers gesetzt"</string>
+    <string name="empty_state_request_headers">"nenhum conjunto de cabeçalhos"</string>
 
     <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
-    <string name="empty_state_request_headers_instructions">"Drücke den + Knopf um Header hinzuzufügen."</string>
+    <string name="empty_state_request_headers_instructions">"Clique no botão + para adicionar um cabeçalho de pedido."</string>
 
     <!-- Empty state, shown in list when there are no request parameters yet -->
-    <string name="empty_state_request_parameters">"Keine Parameter gesetzt"</string>
+    <string name="empty_state_request_parameters">"sem parâmetros definidos"</string>
 
     <!-- Empty state instructions, shown in list when there are no parameters yet -->
-    <string name="empty_state_request_parameters_instructions">"Drücke den + Knopf um Header hinzuzufügen."</string>
+    <string name="empty_state_request_parameters_instructions">"Clique no botão + para adicionar um parâmetro."</string>
 
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor. -->
-    <string name="label_follow_redirects">"Weiterleitungen folgen"</string>
+    <string name="label_follow_redirects">"Seguir redireccionamentos"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
-    <string name="label_pre_request_script">"Vor Request ausführen"</string>
+    <string name="label_pre_request_script">"Executar antes da execução"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
-    <string name="label_post_request_success_script">"Im Erfolgsfall ausführen"</string>
+    <string name="label_post_request_success_script">"Correr sobre o sucesso"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut fails -->
-    <string name="label_post_request_failure_script">"Im Fehlerfall ausführen"</string>
+    <string name="label_post_request_failure_script">"Funciona em caso de falha"</string>
 
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
-    <string name="dialog_title_error">"Fehler"</string>
+    <string name="dialog_title_error">"Erro"</string>
 
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">"JavaScript-Fehler: %s"</string>
+    <string name="error_js_pattern">"Erro de JavaScript:
+%s"</string>
 
     <!-- Button: Shown below JavaScript editor (for pre-request and post-request actions), allows to add snippets of JS code -->
-    <string name="button_add_code_snippet">"Code einfügen"</string>
+    <string name="button_add_code_snippet">"Acrescentar Código Snippet"</string>
 
     <!-- Title: Shown on menu dialog (for pre-request and post-request actions), allows to add snippets of JS code -->
-    <string name="title_add_code_snippet">"Code einfügen"</string>
+    <string name="title_add_code_snippet">"Acrescentar Código Snippet"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
-    <string name="dialog_code_snippet_handle_response">"Response auslesen"</string>
+    <string name="dialog_code_snippet_handle_response">"Resposta do punho"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to get or set variables -->
-    <string name="dialog_code_snippet_variables">"Variablen"</string>
+    <string name="dialog_code_snippet_variables">"Variáveis"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
-    <string name="dialog_code_snippet_response_body">"Reponse-Body auslesen"</string>
+    <string name="dialog_code_snippet_response_body">"Obter Corpo de Resposta como Corda"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response headers -->
-    <string name="dialog_code_snippet_response_headers">"Response-Header auslesen"</string>
+    <string name="dialog_code_snippet_response_headers">"Obter cabeçalhos de resposta"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response status code -->
-    <string name="dialog_code_snippet_response_status_code">"Status-Code auslesen"</string>
+    <string name="dialog_code_snippet_response_status_code">"Obter o Código de Estado de Resposta"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response cookies -->
-    <string name="dialog_code_snippet_response_cookies">"Cookies auslesen"</string>
+    <string name="dialog_code_snippet_response_cookies">"Obter Cookies de Resposta"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the network error message (if any) -->
-    <string name="dialog_code_snippet_response_network_error">"Netzwerkfehler auslesen"</string>
+    <string name="dialog_code_snippet_response_network_error">"Obter erro de rede"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the value of a variable -->
-    <string name="dialog_code_snippet_get_variable">"Variable auslesen"</string>
+    <string name="dialog_code_snippet_get_variable">"Obter Valor Variável"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
-    <string name="dialog_code_snippet_set_variable">"Variable setzen"</string>
+    <string name="dialog_code_snippet_set_variable">"Definir valor variável"</string>
 
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_triggering">"Shortcut \"%1$s\" konnte nicht ausgeführt werden, da er nicht existiert."</string>
+    <string name="error_shortcut_not_found_for_triggering">"Não foi possível accionar o atalho \"%1$s\" porque ele não existe."</string>
 
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_renaming">"Shortcut \"%1$s\" konnte nicht umbenannt werden, da er nicht existiert."</string>
+    <string name="error_shortcut_not_found_for_renaming">"Não foi possível renomear o atalho \"%1$s\" porque ele não existe."</string>
 
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_changing_icon">"Das Symbol des Shortcuts \"%1$s\" konnte nicht geändert werden, da er nicht existiert."</string>
+    <string name="error_shortcut_not_found_for_changing_icon">"Não foi possível alterar o ícone do atalho \"%1$s\" porque ele não existe."</string>
 
     <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
-    <string name="settings_dark_theme_options_on">"Immer dunkel"</string>
+    <string name="settings_dark_theme_options_on">"Sempre Escuro"</string>
 
     <!-- Settings option for dark mode: when selected the app will never use Dark Mode -->
-    <string name="settings_dark_theme_options_off">"Immer hell"</string>
+    <string name="settings_dark_theme_options_off">"Sempre Leve"</string>
 
     <!-- Settings option for dark mode: when selected the app will use Dark Mode according to the system settings (i.e., automatically switch) -->
-    <string name="settings_dark_theme_options_auto">"System-Einstellungen verwenden"</string>
+    <string name="settings_dark_theme_options_auto">"Seguir as definições do sistema"</string>
 
     <!-- Title of dark mode theme settings (which allows user to pick how/when the app should use dark mode) -->
-    <string name="settings_dark_theme">"Dark-Mode"</string>
+    <string name="settings_dark_theme">"Modo Escuro"</string>
 
     <!-- Message: Shown as a placeholder when the HTTP response has no content that could be displayed -->
-    <string name="message_blank_response">"Leere Response"</string>
+    <string name="message_blank_response">"resposta vazia"</string>
 
     <!-- Message shown in snackbar when the title on the main title bar was changed. -->
-    <string name="message_title_changed">"Titel geändert."</string>
+    <string name="message_title_changed">"Título alterado."</string>
 
     <!-- Dialog title: Shown in dialog title when changing the title of the main screen of the app -->
-    <string name="title_set_title">"Titel ändern"</string>
+    <string name="title_set_title">"Alterar título"</string>
 
     <!-- Dialog title: Shown in dialog title when entering the URL to import shortcuts from -->
-    <string name="dialog_title_import_from_url">"Importieren von URL"</string>
+    <string name="dialog_title_import_from_url">"Importar do URL"</string>
 
     <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
-    <string name="error_can_only_import_from_http_url">"Kann nur von gültiger http(s) URL importieren"</string>
+    <string name="error_can_only_import_from_http_url">"Só pode importar do(s) URL http(s) válido(s)"</string>
 
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
-    <string name="action_quick_settings_tile_trigger">"Shortcut auslösen"</string>
+    <string name="action_quick_settings_tile_trigger">"Atalho de gatilho"</string>
 
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile">"Du hast noch keine Shortcuts eingerichtet welche via diesem Quick Settings Tile ausgelöst werden können.
+    <string name="instructions_quick_settings_tile">"Ainda não tem atalhos que possam ser accionados através do azulejo Quick Settings.
 
-Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die Checkbox \"%1$s\" in \"%2$s\" aktivierst."</string>
+Pode activar esta funcionalidade editando um atalho e seleccionando a caixa de verificação \"%1$s\" encontrada em \"%2$s\"."</string>
 
     <!-- Label: Status code, shows the HTTP status code of the response -->
-    <string name="label_status_code">"Status-Code"</string>
+    <string name="label_status_code">"Código de estado"</string>
 
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
     <string name="label_response_url">"URL"</string>
 
     <!-- Label: Response time, shows how long the HTTP request took -->
-    <string name="label_response_timing">"Dauer"</string>
+    <string name="label_response_timing">"Tempo de resposta"</string>
 
     <!-- Label: Shown above section that lists general information about the HTTP response, e.g. status code -->
-    <string name="label_general_response_info">"Allgemein"</string>
+    <string name="label_general_response_info">"Geral"</string>
 
     <!-- Label: Shown above section that lists HTTP response headers -->
-    <string name="label_response_headers">"Headers"</string>
+    <string name="label_response_headers">"Cabeçalhos"</string>
 
     <!-- Dialog title: Shown in dialog when adding a new request parameter and user has to pick its type -->
-    <string name="dialog_title_parameter_type">"Parametertyp"</string>
+    <string name="dialog_title_parameter_type">"Tipo de parâmetro"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
-    <string name="option_parameter_type_string">"Text"</string>
+    <string name="option_parameter_type_string">"Texto"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
-    <string name="option_parameter_type_file">"Einzelne Datei"</string>
+    <string name="option_parameter_type_file">"Ficheiro único"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for files parameter -->
-    <string name="option_parameter_type_files">"Mehrere Dateien"</string>
+    <string name="option_parameter_type_files">"Ficheiros múltiplos"</string>
 
     <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
-    <string name="subtitle_parameter_value_file">"Datei"</string>
+    <string name="subtitle_parameter_value_file">"Ficheiro"</string>
 
     <!-- Subtitle: Shown in request parameter editor underneath every files parameter to indicate their type -->
-    <string name="subtitle_parameter_value_files">"Dateien"</string>
+    <string name="subtitle_parameter_value_files">"Ficheiros"</string>
 
     <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->
-    <string name="language_default">"System-Standard"</string>
+    <string name="language_default">"Default do sistema"</string>
 
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
-    <string name="error_text_too_long_for_variable">"Text länger als %d Zeichen. Variable kann nicht eingefügt werden."</string>
+    <string name="error_text_too_long_for_variable">"O texto excede o limite de caracteres de %d. Não é possível inserir o espaço reservado às variáveis."</string>
 
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
-    <string name="instructions_select_shortcut_for_home_screen">"Wähle oder erstelle einen Shortcut um in auf dem Homescreen zu platzieren."</string>
+    <string name="instructions_select_shortcut_for_home_screen">"Seleccionar ou criar um atalho para o colocar no ecrã inicial."</string>
 
     <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
-    <string name="label_widget">"Konfigurierbares Widget"</string>
+    <string name="label_widget">"Widget personalizável"</string>
 
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
-    <string name="label_show_widget_label">"Name anzeigen"</string>
+    <string name="label_show_widget_label">"Mostrar Etiqueta"</string>
 
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
-    <string name="action_create_widget">"Widget erstellen"</string>
+    <string name="action_create_widget">"Criar Widget"</string>
 
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
-    <string name="title_configure_widget">"Widget konfigurieren"</string>
+    <string name="title_configure_widget">"Configurar o Widget"</string>
 
     <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
-    <string name="label_widget_label_color">"Namenfarbe"</string>
+    <string name="label_widget_label_color">"Cor do rótulo"</string>
 
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
-    <string name="error_invalid_character">"Ungültiges Zeichen: %s"</string>
-
-    <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
-    <plurals name="warning_variable_still_in_use_in_shortcuts">
-        <item quantity="one">"Diese Variable wird noch von einem Shortcut verwendet: %1$s"</item>
-        <item quantity="other">"Diese Variable wird noch von %2$d Shortcuts verwendet: %1$s"</item>
-    </plurals>
+    <string name="error_invalid_character">"Carácter inválido: %s"</string>
 
     <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
-    <string name="title_select_variable_type">"Variablentyp wählen"</string>
+    <string name="title_select_variable_type">"Seleccionar Tipo de Variável"</string>
 
     <!-- Error message: Shown when a request that uses Digest Authentication fails. %s is a placeholder for the detailed error message. -->
-    <string name="error_digest_auth_failed">"Digest Authentication fehlgeschlagen: %s"</string>
+    <string name="error_digest_auth_failed">"A autenticação Digest falhou: %s"</string>
 
     <!-- label, to allow the user to enter the name for a variable -->
-    <string name="label_variable_name">"Name"</string>
+    <string name="label_variable_name">"Nome"</string>
 
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
-    <string name="button_description_create_browser_shortcut">"URL im Browser öffnen"</string>
+    <string name="button_description_create_browser_shortcut">"Abrir o URL no browser"</string>
 
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
-    <string name="button_create_scripting_shortcut">"Scripting-Shortcut"</string>
+    <string name="button_create_scripting_shortcut">"Atalho de scripting"</string>
 
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
-    <string name="button_description_create_scripting_shortcut">"Erstelle fortgeschrittene Workflows mit JavaScript"</string>
+    <string name="button_description_create_scripting_shortcut">"Escrever código JavaScript para fluxos de trabalho avançados"</string>
 
     <!-- Option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
     <string name="button_create_trigger_shortcut">"Multi-Shortcut"</string>
 
     <!-- Description for option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
-    <string name="button_description_create_trigger_shortcut">"Löse mehrere Shortcuts gleichzeitig aus"</string>
+    <string name="button_description_create_trigger_shortcut">"Accionar múltiplos atalhos de uma só vez"</string>
 
     <!-- Dropdown option for request body: file (i.e., user gets to pick a file which is used as the request body) -->
-    <string name="request_body_option_file">"Datei (Picker)"</string>
+    <string name="request_body_option_file">"Ficheiro (Picker)"</string>
 
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
-    <string name="label_scripting_scripting_shortcuts_subtitle">"JavaScript-Code ausführen"</string>
+    <string name="label_scripting_scripting_shortcuts_subtitle">"Executar código JavaScript"</string>
 
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
-    <string name="action_tts">"Sprechen (Text-to-Speech)"</string>
+    <string name="action_tts">"Discurso (Text-to-Speech)"</string>
 
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Browser Shortcut", i.e., one that only opens the browser without making an HTTP request of its own -->
-    <string name="subtitle_editor_toolbar_browser_shortcut">"Browser-Shortcut"</string>
+    <string name="subtitle_editor_toolbar_browser_shortcut">"Atalho de Navegador"</string>
 
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Scripting Shortcut", i.e., one that only allows JavaScript for execution and doesn't actually make an HTTP request -->
-    <string name="subtitle_editor_toolbar_scripting_shortcut">"Scripting-Shortcut"</string>
+    <string name="subtitle_editor_toolbar_scripting_shortcut">"Atalho de scripting"</string>
 
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">"Multi-Shortcut"</string>
 
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
-    <string name="subtitle_request_body_file">"Request-Body aus Datei"</string>
+    <string name="subtitle_request_body_file">"Conjunto de pedido de ficheiro"</string>
 
     <!-- Error: Shown when the text-to-speech action fails to speak a piece of text -->
-    <string name="error_tts_failed">"Text-to-speech fehlgeschlagen"</string>
+    <string name="error_tts_failed">"Falha no texto"</string>
 
     <!-- Label: Option shown in Code Snippet Picker when inserting an action that targets a shortcut, allows to target the current shortcut -->
-    <string name="label_insert_action_code_for_current_shortcut">"Aktueller Shortcut"</string>
+    <string name="label_insert_action_code_for_current_shortcut">"Atalho actual"</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code -->
-    <string name="placeholder_javascript_code_generic">"Füge JavaScript-Code hier ein"</string>
+    <string name="placeholder_javascript_code_generic">"Adicionar código JavaScript aqui"</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the shortcut -->
-    <string name="placeholder_javascript_code_before">"Füge JavaScript-Code hier ein welcher vor dem Shortcut ausgeführt wird, z.B. um Variablen vorzubereiten."</string>
+    <string name="placeholder_javascript_code_before">"Adicione aqui o código JavaScript para correr antes do atalho ser executado, por exemplo, para preparar algumas variáveis."</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs after the shortcut on success -->
-    <string name="placeholder_javascript_code_success">"Füge JavaScript-Code hier ein welcher nach dem Shortcut ausgeführt wird, z.B. um die Response zu verarbeiten."</string>
+    <string name="placeholder_javascript_code_success">"Adicione aqui o código JavaScript para correr depois do atalho ser executado, por exemplo, para processar a resposta."</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs when execution fails -->
-    <string name="placeholder_javascript_code_failure">"Füge JavaScript-Code hier ein welcher ausgeführt wird wenn der Request fehlschlägt."</string>
+    <string name="placeholder_javascript_code_failure">"Adicione aqui o código JavaScript para executar no caso de o pedido falhar."</string>
 
     <!-- Section title in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger -->
-    <string name="label_trigger_shortcuts">"Shortcuts"</string>
+    <string name="label_trigger_shortcuts">"Atalhos"</string>
 
     <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
-    <string name="label_trigger_shortcuts_subtitle_none">"Keine Shortcuts ausgewählt"</string>
-    <plurals name="label_trigger_shortcuts_subtitle">
-        <item quantity="one">"%d Shortcut ausgewählt"</item>
-        <item quantity="other">"%d Shortcuts ausgewählt"</item>
-    </plurals>
+    <string name="label_trigger_shortcuts_subtitle_none">"Ainda não foram seleccionados atalhos"</string>
 
     <!-- Dialog title: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="title_add_trigger_shortcut">"Shortcuts hinzufügen"</string>
+    <string name="title_add_trigger_shortcut">"Acrescentar atalhos"</string>
 
     <!-- Dialog error message: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed but the user doesn't have any shortcuts yet -->
-    <string name="error_add_trigger_shortcut_no_shortcuts">"Es sind keine Shortcuts vorhanden die hinzugefügt werden können. Du musst erst Shortcuts erstellen bevor du sie hier hinzufügen kannst."</string>
+    <string name="error_add_trigger_shortcut_no_shortcuts">"Não há atalhos que possam ser acrescentados. É necessário criar alguns atalhos adicionais primeiro antes de os poder seleccionar aqui."</string>
 
     <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="title_remove_trigger_shortcut">"Shortcut entfernen"</string>
+    <string name="title_remove_trigger_shortcut">"Retirar o Atalho"</string>
 
     <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="message_remove_trigger_shortcut">"Shortcut \"%s\" aus Liste der auszulösenden Shortcuts entfernen?"</string>
+    <string name="message_remove_trigger_shortcut">"Retirar \"%s\" de atalhos da lista de atalhos activados?"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
-    <string name="action_type_prompt_title">"Aufforderung zur Texteingabe"</string>
+    <string name="action_type_prompt_title">"Prontidão para o texto"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to confirm something -->
-    <string name="action_type_confirm_title">"Bestätigung anfordern"</string>
+    <string name="action_type_confirm_title">"Pedido de Confirmação"</string>
 
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
-    <string name="action_type_wait">"Warten"</string>
+    <string name="action_type_wait">"Espere"</string>
 
     <!-- Shortcut Action Title: Get the IP Address of the current WiFi -->
-    <string name="action_type_get_wifi_ip_address">"WLAN-IP-Adresse abrufen"</string>
+    <string name="action_type_get_wifi_ip_address">"Obter endereço IP em Wi-Fi"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
-    <string name="dialog_code_snippet_shortcut_info">"Shortcut-Info"</string>
+    <string name="dialog_code_snippet_shortcut_info">"Informação de atalho"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to interact with the user (show dialog, prompt for input, ...) -->
-    <string name="dialog_code_snippet_user_interaction">"Benutzerinteraktion"</string>
+    <string name="dialog_code_snippet_user_interaction">"Interacção do utilizador"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to modify shortcuts -->
-    <string name="dialog_code_snippet_modify_shortcuts">"Shortcuts modifizieren"</string>
+    <string name="dialog_code_snippet_modify_shortcuts">"Modificar atalhos"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to control the flow of the script (abort, if-else, ...) -->
-    <string name="dialog_code_snippet_control_flow">"Programmfluss"</string>
+    <string name="dialog_code_snippet_control_flow">"Fluxo de Controlo"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to don't belong in any of the other categories -->
-    <string name="dialog_code_snippet_misc">"Diverses"</string>
+    <string name="dialog_code_snippet_misc">"Miscelânea"</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
-    <string name="dialog_code_snippet_get_shortcut_id">"Shortcut-ID abrufen"</string>
+    <string name="dialog_code_snippet_get_shortcut_id">"Obter identificação por atalho"</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the name of the current shortcut -->
-    <string name="dialog_code_snippet_get_shortcut_name">"Shortcut-Name abrufen"</string>
+    <string name="dialog_code_snippet_get_shortcut_name">"Obter Nome Atalho"</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
-    <string name="dialog_code_snippet_get_shortcut_description">"Shortcut-Beschreibung abrufen"</string>
+    <string name="dialog_code_snippet_get_shortcut_description">"Obter Atalho Descrição"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a json object -->
-    <string name="dialog_code_snippet_response_body_json">"Response-Body als JSON auslesen"</string>
+    <string name="dialog_code_snippet_response_body_json">"Obter Organismo de Resposta como JSON"</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid bearer auth token configured -->
-    <string name="error_invalid_bearer_auth">"Ungültiges Bearer-Auth-Token (%s)"</string>
+    <string name="error_invalid_bearer_auth">"Ficha do Portador Inválido Auth (%s)."</string>
 
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
-    <string name="action_type_trigger_tasker_title">"Task in Tasker auslösen"</string>
+    <string name="action_type_trigger_tasker_title">"Tarefa Tasker do gatilho"</string>
 
     <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
-    <string name="action_type_send_intent_title">"Intent senden"</string>
+    <string name="action_type_send_intent_title">"Enviar Intenção"</string>
 
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
-    <string name="error_action_type_send_intent_failed">"Senden von Intent fehlgeschlagen: %s"</string>
+    <string name="error_action_type_send_intent_failed">"Falha no envio de intenções: %s"</string>
 
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
-    <string name="settings_troubleshooting">"Problembehebung"</string>
+    <string name="settings_troubleshooting">"Resolução de problemas"</string>
 
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
-    <string name="label_response_on_success">"Bei Erfolg"</string>
+    <string name="label_response_on_success">"Sobre o Sucesso"</string>
 
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
-    <string name="label_response_on_failure">"Bei Fehler"</string>
+    <string name="label_response_on_failure">"Sobre o fracasso"</string>
 
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
-    <string name="label_include_meta_information">"Meta-Informationen anzeigen (z.B. Response-Header)"</string>
+    <string name="label_include_meta_information">"Mostrar Meta-Informação (por exemplo, Cabeçalhos de Resposta)"</string>
 
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
-    <string name="label_response_handling_type">"Anzeige-Typ"</string>
+    <string name="label_response_handling_type">"Tipo de exibição"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
-    <string name="option_response_handling_type_toast">"Toast-Popup"</string>
+    <string name="option_response_handling_type_toast">"Torradas Popup"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
-    <string name="option_response_handling_type_dialog">"Dialogfenster"</string>
+    <string name="option_response_handling_type_dialog">"Janela de Diálogo"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
-    <string name="option_response_handling_type_window">"Vollbild-Fenster"</string>
+    <string name="option_response_handling_type_window">"Janela de ecrã inteiro"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show the (full) response -->
-    <string name="option_response_handling_success_output_response">"Response anzeigen"</string>
+    <string name="option_response_handling_success_output_response">"Mostrar a resposta"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show a pre-defined message -->
-    <string name="option_response_handling_success_output_message">"Nachricht anzeigen"</string>
+    <string name="option_response_handling_success_output_message">"Mostrar uma mensagem"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show nothing -->
-    <string name="option_response_handling_success_output_none">"Nichts anzeigen"</string>
+    <string name="option_response_handling_success_output_none">"Não mostrar nada (correr silenciosamente)"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show the full/detailed error message -->
-    <string name="option_response_handling_failure_output_detailed">"Detaillierte Fehlermeldung anzeigen"</string>
+    <string name="option_response_handling_failure_output_detailed">"Mostrar uma mensagem de erro detalhada"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show a simplified error message -->
-    <string name="option_response_handling_failure_output_simple">"Vereinfachte Fehlermeldung anzeigen"</string>
+    <string name="option_response_handling_failure_output_simple">"Mostrar uma mensagem de erro simples"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show nothing -->
-    <string name="option_response_handling_failure_output_none">"Nichts anzeigen"</string>
+    <string name="option_response_handling_failure_output_none">"Não mostrar nada (correr silenciosamente)"</string>
 
     <!-- Label for text area in shortcut editor that allows to enter a custom message which should be displayed when the request succeeds -->
-    <string name="label_response_handling_success_message">"Nachricht"</string>
+    <string name="label_response_handling_success_message">"Mensagem"</string>
 
     <!-- Shortcut dropdown option: export the shortcut -->
-    <string name="action_export">"Exportieren"</string>
+    <string name="action_export">"Exportação"</string>
 
     <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL) -->
-    <string name="title_export_shortcut_as">"Exportieren als…"</string>
+    <string name="title_export_shortcut_as">"Exportar como..."</string>
 
     <!-- Dialog option, for exporting a single shortcut as cURL -->
-    <string name="action_export_as_curl">"cURL-Befehl"</string>
+    <string name="action_export_as_curl">"Comando cURL"</string>
 
     <!-- Name of button in settings screen that allows to clear all HTTP cookies -->
-    <string name="settings_clear_cookies">"Cookies löschen"</string>
+    <string name="settings_clear_cookies">"Eliminar Cookies"</string>
 
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether cookies should be stored for the HTTP request -->
-    <string name="label_accept_cookies">"Cookies speichern"</string>
+    <string name="label_accept_cookies">"Armazenar cookies"</string>
 
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of all cookies -->
-    <string name="confirm_clear_cookies_message">"Alle gespeicherten Cookies löschen?"</string>
+    <string name="confirm_clear_cookies_message">"Eliminar todos os cookies armazenados?"</string>
 
     <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
-    <string name="message_cookies_cleared">"Cookies gelöscht."</string>
+    <string name="message_cookies_cleared">"Biscoitos eliminados."</string>
 
     <!-- Generic button: Help (to open documentation) -->
-    <string name="dialog_help">"Hilfe"</string>
+    <string name="dialog_help">"Ajuda"</string>
 
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
-    <string name="action_type_selection_title">"Auswahl anzeigen (Multiple-Choice)"</string>
+    <string name="action_type_selection_title">"Mostrar selecção (Escolha múltipla)"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to process text (e.g. encoding, hashing, ...) -->
-    <string name="dialog_code_snippet_text_processing">"Textverarbeitung"</string>
+    <string name="dialog_code_snippet_text_processing">"Processamento de texto"</string>
 
     <!-- Error message: Shown when user tries to use an unsupported hash function -->
-    <string name="error_unsupported_hash_algorithm">"Hash-Algorithmus \"%1$s\" nicht unterstützt. Verwende %2$s."</string>
+    <string name="error_unsupported_hash_algorithm">"Algoritmo de haxixe não suportado \"%1$s\". Usar %2$s."</string>
 
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
-    <string name="settings_remote_edit">"Am Computer bearbeiten"</string>
+    <string name="settings_remote_edit">"Editar no computador"</string>
 
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
-    <string name="instructions_remote_edit">"Dieses Feature ermöglicht es dir deine Shortcuts von einem Computer aus im Browser zu bearbeiten. Bitte mache dich zuerst mit den Datenschutz-Bestimmungen der App vertraut, danach folge diesen Schritten:"</string>
+    <string name="instructions_remote_edit">"Esta funcionalidade permite-lhe editar os seus atalhos num computador, a partir do conforto de um navegador. Por favor leia a Política de Privacidade da aplicação antes de começar, depois siga estes passos:"</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
-    <string name="instructions_remote_edit_step_1">"Gib ein Passwort in das Textfeld oben ein."</string>
+    <string name="instructions_remote_edit_step_1">"Introduzir uma palavra-passe no campo acima."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: click the push button -->
-    <string name="instructions_remote_edit_step_2">"Drücke den &lt;pre&gt;\"Hochladen\"&lt;/pre&gt;-Knopf."</string>
+    <string name="instructions_remote_edit_step_2">"Clique no botão &lt;pre&gt;\"Push to Server\"&lt;/pre&gt;."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
-    <string name="instructions_remote_edit_step_3">"Öffne %s in einem Browser auf deinem Computer, gib die Geräte-ID und dein Passwort ein und du kannst mit Änderungen loslegen."</string>
+    <string name="instructions_remote_edit_step_3">"Abra %s num browser no seu computador, introduza o seu ID de dispositivo e palavra-passe e comece a editar."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Wenn du fertig bist und deine Änderungen gespeichert hast, drücke den &lt;pre&gt;\"Änderungen herunterladen\"&lt;/pre&gt;-Knopf unten."</string>
+    <string name="instructions_remote_edit_step_4">"Uma vez terminada a edição e guardadas as suas alterações clique no botão &lt;pre&gt;\"Pull Changes\"&lt;/pre&gt; abaixo para descarregar as suas alterações de volta para a aplicação."</string>
 
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
-    <string name="button_remote_edit_upload">"Hochladen"</string>
+    <string name="button_remote_edit_upload">"Push to Server"</string>
 
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
-    <string name="button_remote_edit_download">"Änderungen herunterladen"</string>
+    <string name="button_remote_edit_download">"Mudanças de Puxar"</string>
 
     <!-- Label: Shown above a textfield with the device's ID, used to log in to edit server when editing shortcuts on a computer -->
-    <string name="label_remote_edit_device_id">"Geräte-ID"</string>
+    <string name="label_remote_edit_device_id">"Identificação do dispositivo"</string>
 
     <!-- Label: Shown above a textfield for entering a password, used to log in to edit server when editing shortcuts on a computer -->
-    <string name="label_remote_edit_password">"Passwort"</string>
+    <string name="label_remote_edit_password">"Senha"</string>
 
     <!-- Status message shown while shortcuts & variables are being pushed to the remote server, shown on progress dialog -->
-    <string name="remote_edit_upload_in_progress">"Shortcuts werden hochgeladen…"</string>
+    <string name="remote_edit_upload_in_progress">"Empurrar para o Servidor..."</string>
 
     <!-- Status message shown while changes to shortcuts & variables are being pulled down from the remote server, shown on progress dialog -->
-    <string name="remote_edit_download_in_progress">"Änderungen werden heruntergeladen…"</string>
+    <string name="remote_edit_download_in_progress">"Puxar mudanças..."</string>
 
     <!-- Message: Success message shown in snackbar when pushing shortcuts and variables to the editing server was successful -->
-    <string name="message_remote_edit_upload_successful">"Erfolgreich hochgeladen."</string>
+    <string name="message_remote_edit_upload_successful">"Empurrado com sucesso para o servidor."</string>
 
     <!-- Message: Success message shown in snackbar when pulling changes to shortcuts and variables from the editing server was successful -->
-    <string name="message_remote_edit_download_successful">"Erfolgreich heruntergeladen."</string>
+    <string name="message_remote_edit_download_successful">"Mudanças bem sucedidas."</string>
 
     <!-- Error message: shown in dialog when pushing shortcuts to the editing server failed -->
-    <string name="error_remote_edit_upload">"Hochladen fehlgeschlagen. Bitte versuche es später erneut."</string>
+    <string name="error_remote_edit_upload">"Falha no empurrar para o servidor. Por favor, tente novamente mais tarde."</string>
 
     <!-- Error message: shown in dialog when pulling changes to shortcuts from the editing server failed -->
-    <string name="error_remote_edit_download">"Herunterladen der Änderungen fehlgeschlagen. Bitte überprüfe deine Netzwerk-Verbindung und dein Passwort."</string>
+    <string name="error_remote_edit_download">"Falha em retirar alterações do servidor. Verifique a sua ligação de rede e certifique-se de que não alterou a palavra-passe."</string>
 
     <!-- Option for dropdown menu in remote editor, allows to change the remote editing server -->
-    <string name="button_change_remote_server">"Server-Adresse ändern"</string>
+    <string name="button_change_remote_server">"Alterar o endereço do servidor"</string>
 
     <!-- Dialog title: allows to change the remote editing server -->
-    <string name="title_change_remote_server">"Server-Adresse ändern"</string>
+    <string name="title_change_remote_server">"Mudar o endereço do servidor"</string>
 
     <!-- Dialog button (generic): Allows to reset some setting to its original value -->
-    <string name="dialog_reset">"Zurücksetzen"</string>
+    <string name="dialog_reset">"Reinicialização"</string>
 
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
-    <string name="error_variable_not_found_read">"Variablen-Fehler: %s existiert nicht"</string>
+    <string name="error_variable_not_found_read">"Erro variável: tentou obter valor de variável que não existe: %s"</string>
 
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
-    <string name="error_variable_not_found_write">"Variablen-Fehler: %s existiert nicht"</string>
+    <string name="error_variable_not_found_write">"Erro variável: tentou definir valor de variável que não existe: %s"</string>
 
     <!-- Title of code editor for defining global scripting code (JS code that runs before every shortcut) -->
-    <string name="title_global_scripting">"Globales Scripting"</string>
+    <string name="title_global_scripting">"Scripting Global"</string>
 
     <!-- Button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
-    <string name="settings_global_scripting">"Globales Scripting"</string>
+    <string name="settings_global_scripting">"Scripting Global"</string>
 
     <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
-    <string name="settings_global_scripting_summary">"JavaScript-Code ausführen vor jedem Request"</string>
+    <string name="settings_global_scripting_summary">"Executar código JavaScript antes de cada execução de atalho"</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
-    <string name="placeholder_javascript_global_scripting">"Füge hier JavaScript-Code ein, welcher beim Ausführen jedes Shortcuts als erstes ausgeführt werden soll, z.B. um Variablen vorzubereiten oder Funktionen zu definieren welche von allen Shortcuts verwendet werden können."</string>
+    <string name="placeholder_javascript_global_scripting">"Adicionar aqui código JavaScript para correr no início de cada execução de atalho, por exemplo, para preparar algumas variáveis ou definir algumas funções que podem ser utilizadas na secção de Scripting de um atalho."</string>
 
     <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
-    <string name="action_save_global_scripting">"Änderungen speichern"</string>
+    <string name="action_save_global_scripting">"Salvar Alterações"</string>
 
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
-    <string name="error_shortcut_not_found_for_deep_link">"Shortcut \"%s\" nicht gefunden"</string>
+    <string name="error_shortcut_not_found_for_deep_link">"Atalho \"%s\" não encontrado"</string>
 
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
-    <string name="instructions_deep_linking">"Um das Deep-Linking-Feature zu verwenden muss deine URL wie folgt aussehen:
+    <string name="instructions_deep_linking">"Para utilizar a funcionalidade de ligação profunda, certifique-se de utilizar um URL válido do formulário:
 
 %s"</string>
 
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
-    <string name="placeholder_deleted_shortcut">"Gelöschter Shortcut"</string>
+    <string name="placeholder_deleted_shortcut">"Atalho eliminado"</string>
 
     <!-- Menu button, allows saving a response as a file -->
-    <string name="button_save_response_as_file">"Als Datei speichern"</string>
+    <string name="button_save_response_as_file">"Guardar como ficheiro"</string>
 
     <!-- Label: Wifi network selection config in shortcut settings -->
-    <string name="label_ssid">"Erforderliche WLAN-SSID"</string>
+    <string name="label_ssid">"SSID Wi-Fi necessário"</string>
 
     <!-- Dialog title: Permission request for wifi/ssid check -->
-    <string name="title_permission_dialog">"Berechtigung notwendig"</string>
+    <string name="title_permission_dialog">"Permissões necessárias"</string>
 
     <!-- Message: Rational given for location permission in wifi/ssid check -->
-    <string name="message_permission_rational">"Standort-Berechtigungen sind erforderlich um den Namen (SSID) des aktuellen WLANs zu bestimmen. Diese Bedingung ist vom Android Betriebsystem vorgegeben. Deine Standort-Daten werden nicht direkt abgefragt."</string>
+    <string name="message_permission_rational">"São necessárias permissões de localização para verificar o nome (SSID) da rede Wi-Fi actual. Este é um requisito imposto pelo sistema operativo Android. Os seus dados de localização não são acedidos directamente."</string>
 
     <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
-    <string name="message_wrong_wifi_network">"Es besteht keine Verbindung zum erforderlichen WLAN-Netzwerk \"%1$s\". Anderes Netzwerk wählen?"</string>
+    <string name="message_wrong_wifi_network">"Não ligado à rede Wi-Fi configurada para este atalho \"%1$s\". Seleccione outra rede Wi-Fi agora?"</string>
 
     <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
-    <string name="action_label_select">"Wählen"</string>
+    <string name="action_label_select">"Seleccione"</string>
 
     <!-- Error message, shown when user declines location permission for wifi check -->
-    <string name="error_missing_location_permission">"Standort-Berechtigungen nicht gewährt. Der Shortcut wird nicht ausgeführt."</string>
+    <string name="error_missing_location_permission">"Falha na determinação do actual SSID da rede Wi-Fi. É necessária uma autorização de localização."</string>
 
     <!-- Message: Success message shown when a response was saved to a file -->
-    <string name="message_response_saved_to_file">"Datei gespeichert."</string>
+    <string name="message_response_saved_to_file">"Resposta guardada em ficheiro."</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files -->
-    <string name="dialog_code_snippet_files">"Ausgewählte Dateien"</string>
+    <string name="dialog_code_snippet_files">"Ficheiros seleccionados"</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
-    <string name="dialog_code_snippet_get_file_name">"Name von ausgewählter Datei auslesen"</string>
+    <string name="dialog_code_snippet_get_file_name">"Obter nome do ficheiro seleccionado"</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
-    <string name="dialog_code_snippet_get_file_type">"Typ von ausgewählter Datei auslesen"</string>
+    <string name="dialog_code_snippet_get_file_type">"Obter tipo de ficheiro seleccionado"</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
-    <string name="dialog_code_snippet_get_file_size">"Größe (in Bytes) von ausgewählter Datei auslesen"</string>
+    <string name="dialog_code_snippet_get_file_size">"Obter Tamanho do Ficheiro Seleccionado (em Bytes)"</string>
 
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, ...) -->
-    <string name="title_about">"Über diese App"</string>
+    <string name="title_about">"Sobre"</string>
 
     <!-- Title of option in settings screen: links the user to an external documentation page -->
-    <string name="settings_documentation">"Dokumentation"</string>
+    <string name="settings_documentation">"Documentação"</string>
 
     <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
-    <string name="settings_documentation_summary">"FAQ, Tipps, Beispiele, …"</string>
+    <string name="settings_documentation_summary">"FAQ, referências, exemplos, ..."</string>
 
     <!-- Instructions shown below the "Allow Share..." checkbox in the variable editor -->
-    <string name="message_allow_share_instructions">"Ermöglicht es, Text aus anderen Apps zu teilen und als temporären Wert für diese Variable zu verwenden."</string>
+    <string name="message_allow_share_instructions">"A activação disto permite-lhe partilhar texto de outras aplicações e utilizar esse texto partilhado como o valor temporário para esta variável."</string>
 
     <!-- Dialog title: Shown in progress dialog while a file is being saved -->
-    <string name="saving_in_progress">"Speichern…"</string>
+    <string name="saving_in_progress">"Salvar..."</string>
 
     <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
-    <string name="title_edit_custom_icon">"Symbol bearbeiten"</string>
+    <string name="title_edit_custom_icon">"Editar Ícone"</string>
 
     <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
-    <string name="error_invalid_remote_edit_host_url">"Ungültige URL. Die URL muss mit http(s) beginnen."</string>
+    <string name="error_invalid_remote_edit_host_url">"URL inválido. Deve ser http(s)."</string>
 
     <!-- Dialog option, for exporting a single shortcut as a file -->
-    <string name="action_export_as_file">"Datei"</string>
+    <string name="action_export_as_file">"Ficheiro"</string>
 
     <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
-    <string name="title_import_export">"Import / Export"</string>
+    <string name="title_import_export">"Importação / Exportação"</string>
 
     <!-- Section title on settings screen for options related to Scripting (i.e., custom workflow code in JavaScript) -->
-    <string name="settings_title_scripting">"Scripting"</string>
+    <string name="settings_title_scripting">"Roteiro"</string>
 
     <!-- Button in settings page to start import of shortcuts from a file -->
-    <string name="settings_import_from_file">"Aus Datei importieren"</string>
+    <string name="settings_import_from_file">"Importação de ficheiros"</string>
 
     <!-- Button in settings page to start import of shortcuts from a url -->
-    <string name="settings_import_from_url">"Von URL importieren"</string>
+    <string name="settings_import_from_url">"Importar do URL"</string>
 
     <!-- Section title on import/export screen for options related to importing -->
-    <string name="settings_title_import">"Importieren"</string>
+    <string name="settings_title_import">"Importação"</string>
 
     <!-- Section title on import/export screen for options related to exporting -->
-    <string name="settings_title_export">"Exportieren"</string>
+    <string name="settings_title_export">"Exportação"</string>
 
     <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
-    <string name="settings_title_remote_edit">"Fernbearbeitung"</string>
+    <string name="settings_title_remote_edit">"Edição remota"</string>
 
     <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format">"Legacy-Format verwenden"</string>
+    <string name="settings_use_legacy_export_format">"Usar o formato de ficheiro legado"</string>
 
     <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format_summary">"Aktivieren um das alte Dateiformat (JSON-Datei) für den Export zu verwenden. Das alte Format unterstützt keinen Export von benutzerdefinierten Symbolen."</string>
+    <string name="settings_use_legacy_export_format_summary">"Permitir exportar atalhos &amp; variáveis usando o formato de ficheiro antigo (ou seja, um único ficheiro JSON). Isto impedirá a exportação de ícones de atalhos personalizados."</string>
 
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
-    <string name="label_client_cert">"Authentifizierung mit Client-Zertifikat"</string>
+    <string name="label_client_cert">"Autenticação de Certificado de Cliente"</string>
 
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
-    <string name="label_subtitle_no_client_cert">"Klicke um Zertifikat zu wählen."</string>
+    <string name="label_subtitle_no_client_cert">"Clique para seleccionar um certificado."</string>
 
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
-    <string name="label_subtitle_client_cert_in_use">"Zertifikat \"%s\" wird verwendet. Klicke um zu entfernen."</string>
+    <string name="label_subtitle_client_cert_in_use">"Usando certificados \"%s\". Clique para remover."</string>
 
     <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
-    <string name="error_failed_to_use_client_cert">"Beim Laden oder Anwenden des Client-Zertifikats ist ein Fehler aufgetreten. Möglicherweise wird dies von deinem Gerät nicht unterstützt, oder der Shortcut muss neu konfiguriert werden."</string>
+    <string name="error_failed_to_use_client_cert">"Falha no carregamento ou na utilização do certificado do cliente. Pode ser que isto não seja suportado pelo seu dispositivo ou que necessite de ser reconfigurado nas definições do atalho."</string>
 
     <!-- Error message: Shown when user tries to use an unsupported hmac function -->
-    <string name="error_unsupported_hmac_algorithm">"Ungültiger HMAC-Algorithmus \"%1$s\" oder ungültiger Schlüssel. Unterstützte Algorithmen: %2$s"</string>
+    <string name="error_unsupported_hmac_algorithm">"Algoritmo HMAC não suportado \"%1$s\" ou chave inválida. Usar %2$s."</string>
 
     <!-- Button, shown on About page, to allow opening the app's F-Droid page -->
-    <string name="settings_f_droid">"In F-Droid anzeigen"</string>
+    <string name="settings_f_droid">"Ver em F-Droid"</string>
 
     <!-- Button subtitle for "View in F-Droid" button -->
-    <string name="settings_f_droid_summary">"Nach Updates prüfen"</string>
+    <string name="settings_f_droid_summary">"Verificar por actualizações"</string>
 
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
-    <string name="label_subtitle_client_cert_file_in_use">"Zertifikat-Datei wird verwendet. Klicken zum Entfernen."</string>
+    <string name="label_subtitle_client_cert_file_in_use">"Usando ficheiro de certificado. Clique para remover."</string>
 
     <!-- Title for dialog, when selecting a client certificate -->
-    <string name="title_client_cert">"Client-Zertifikat"</string>
+    <string name="title_client_cert">"Certificado de cliente"</string>
 
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
-    <string name="label_client_cert_from_os">"Vom Betriebsystem verwaltet (Android Keystore)"</string>
+    <string name="label_client_cert_from_os">"Gerido por OS"</string>
 
     <!-- Subtitle for Label, for option in dialog to pick a client certificate managed by the operating system -->
-    <string name="label_client_cert_from_os_subtitle">"Empfohlen, sicherer"</string>
+    <string name="label_client_cert_from_os_subtitle">"Recomendado, mais seguro"</string>
 
     <!-- Label, for option in dialog to pick a client certificate from a .p12 file -->
-    <string name="label_client_cert_from_file">"Aus .p12-Datei importieren"</string>
+    <string name="label_client_cert_from_file">"Importação de ficheiro .p12"</string>
 
     <!-- Subtitle for Label, for option in dialog to pick a client certificate from a .p12 file -->
-    <string name="label_client_cert_from_file_subtitle">"Eine Kopie der Datei und des Passwords wird innerhalb der App gespeichert. Verwendung auf eigenes Risiko."</string>
+    <string name="label_client_cert_from_file_subtitle">"Uma cópia do ficheiro e palavra-passe será guardada dentro da aplicação sem protecção especial. Utilização por sua conta e risco."</string>
 
     <!-- Title of dialog, for entering the password for a client cert file -->
-    <string name="title_client_cert_file_password">"Passwort"</string>
+    <string name="title_client_cert_file_password">"Senha"</string>
 
     <!-- Shortcut dropdown option: display information about the shortcut -->
-    <string name="action_shortcut_information">"Information anzeigen"</string>
+    <string name="action_shortcut_information">"Mostrar Info"</string>
 
     <!-- Label shown above a text field showing a shortcut's ID -->
-    <string name="label_shortcut_id">"Shortcut-ID"</string>
+    <string name="label_shortcut_id">"Atalho de identificação"</string>
 
     <!-- Label shown above a text field showing a shortcut's deep link URL -->
-    <string name="label_deep_link_url">"Deep-Link URL"</string>
+    <string name="label_deep_link_url">"URL de ligação profunda"</string>
 
     <!-- Message: instructions shown below a shortcut's deep-linking URL -->
-    <string name="message_deep_link_instructions">"Du kannst diese URL von einer anderen App aus aufrufen um diesen Shortcut auszulösen, z.B. durch einen QR-Code oder NFC-Tag. Füge Query-Parameter an um Variablen-Werte zu übergeben."</string>
+    <string name="message_deep_link_instructions">"Pode activar este atalho invocando este URL a partir de outra aplicação, por exemplo, através de um scanner QR ou leitor NFC. Anexe parâmetros de consulta ao URL para passar valores de variáveis."</string>
 
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
-    <string name="action_play_sound">"Ton abspielen"</string>
+    <string name="action_play_sound">"Reproduzir som"</string>
 
     <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting. -->
-    <string name="message_response_handling_scripting_hint">"Für weitere Optionen zum Verarbeiten und Anzeigen der Response, sieh dir die '%s'-Sektion an. Dort kannst du fortgeschrittene Abläufe mittels JavaScript-Code definieren."</string>
+    <string name="message_response_handling_scripting_hint">"Se precisar de opções mais avançadas para processar e exibir a resposta, consulte a secção '%s', que lhe permite definir lógica personalizada usando código JavaScript."</string>
 
     <!-- Menu button shown on response window, allows the user to execute the current shortcut again -->
-    <string name="action_rerun_shortcut">"Erneut ausführen"</string>
+    <string name="action_rerun_shortcut">"Rerun"</string>
 
     <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
-    <string name="label_multiline">"Mehrzeilig"</string>
+    <string name="label_multiline">"Multiline"</string>
 
     <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
-    <string name="message_json_encode_instructions">"Aktiviere diese Option wenn du die Variable innerhalb eines JSON-Strings verwenden möchtest, z.B. als Teil des Request-Bodys. Sonderzeichen werden maskiert."</string>
+    <string name="message_json_encode_instructions">"Habilite isto se estiver a utilizar esta variável dentro de uma string JSON, por exemplo, num corpo de pedido. Serão evitados caracteres especiais."</string>
 
     <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
-    <string name="message_url_encode_instructions">"Aktiviere diese Option wenn du die Variable innerhalb der URL verwenden möchtest, z.B. als Teil eines Query-Strings. Sonderzeichen werden maskiert."</string>
+    <string name="message_url_encode_instructions">"Active isto se estiver a utilizar esta variável dentro de um URL, por exemplo, como parte de uma cadeia de consulta. Serão evitados caracteres especiais."</string>
 
     <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_allow_overlay">"Über anderen Apps einblenden"</string>
+    <string name="settings_allow_overlay">"Permitir a exibição sobre outras aplicações"</string>
 
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_allow_overlay_summary">"Hilft falls Shortcuts nicht via Quick Settings Tile oder von anderen Apps aus gestartet werden können"</string>
+    <string name="settings_allow_overlay_summary">"Activar se os atalhos não estiverem a funcionar quando accionados a partir do Quick Settings Tile ou da aplicação de terceiros"</string>
 
     <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
-    <string name="action_enable_moving">"Verschieben innerhalb Kategorie"</string>
+    <string name="action_enable_moving">"Habilitar Mudança dentro da Categoria"</string>
 
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
-    <string name="message_moving_enabled">"Ordne Shortcuts neu an durch ziehen."</string>
+    <string name="message_moving_enabled">"Volte a encomendar atalhos arrastando-os."</string>
 
     <!-- Category dropdown option: Place category on home screen -->
-    <string name="action_place_category">"Auf Homescreen platzieren"</string>
+    <string name="action_place_category">"Lugar no ecrã inicial"</string>
 
     <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
     <string name="action_type_wake_on_lan">"Wake-on-LAN"</string>
 
     <!-- Error message: Shown when a JS error occurs. %d is a placeholder for the line number, %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">"JavaScript-Fehler (auf Zeile %1$d):
+    <string name="error_js_pattern_with_line_number">"Erro de JavaScript (na linha %1$d):
 %2$s"</string>
 
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
-    <string name="label_select_variable_separator">"Trennzeichen"</string>
+    <string name="label_select_variable_separator">"Separador"</string>
 
     <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
-    <string name="label_select_variable_multi_select">"Mehrere Optionen auswählbar"</string>
+    <string name="label_select_variable_multi_select">"Permitir a selecção de múltiplas opções"</string>
 
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
-    <string name="error_action_type_send_wol_failed">"Wake-on-LAN fehlgeschlagen: %s"</string>
+    <string name="error_action_type_send_wol_failed">"Falha no envio do pacote Wake-on-LAN: %s"</string>
 
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails because on an invalid MAC address -->
-    <string name="error_action_type_send_wol_invalid_mac_address">"Ungültige MAC-Adresse: %s"</string>
+    <string name="error_action_type_send_wol_invalid_mac_address">"Endereço MAC inválido: %s"</string>
 
     <!-- Section title in shortcut editor, groups together settings related to triggering, scheduling and executing a shortcut -->
-    <string name="label_execution_settings">"Auslöse- &amp; Ausführeinstellungen"</string>
+    <string name="label_execution_settings">"Parâmetros de disparo e execução"</string>
 
     <!-- Section subtitle, shown underneath "Trigger & Execution Settings" -->
-    <string name="label_execution_settings_subtitle">"Wann und wie soll der Shortcut ausgeführt werden?"</string>
+    <string name="label_execution_settings_subtitle">"Definir quando e como o atalho deve ser executado"</string>
 
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
-    <string name="import_failure_reason_data_version_mismatch">"Die gewählte Datei wurde von einer neueren Version der App exportiert und kann somit nicht importiert werden. Bitte installiere die neuste Version der App."</string>
+    <string name="import_failure_reason_data_version_mismatch">"O ficheiro seleccionado foi exportado por uma versão mais recente da aplicação. Por favor, certifique-se de que tem instalada a última versão da aplicação."</string>
 
     <!-- Shortcut Action Title: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
-    <string name="action_type_to_hex_string">"Bytes zu Hex-String"</string>
+    <string name="action_type_to_hex_string">"Bytes para Hex String"</string>
 
     <!-- Shortcut Action Title: Allows converting a byte array into a string using the Scripting feature -->
-    <string name="action_type_to_string">"Bytes zu String"</string>
+    <string name="action_type_to_string">"Bytes para String"</string>
 
     <!-- Shortcut Action Description: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
-    <string name="action_type_to_hex_string_description">"Wandelt ein Uint8Array in einen String aus hexadezimalen Ziffern um"</string>
+    <string name="action_type_to_hex_string_description">"Converte um Uint8Array num fio de dígitos hexadecimais"</string>
 
     <!-- Shortcut Action Description: Allows converting a byte array into a string using the Scripting feature -->
-    <string name="action_type_to_string_description">"Wandelt ein Uint8Array in einen String um"</string>
+    <string name="action_type_to_string_description">"Converte um Uint8Array numa corda"</string>
 
     <!-- Description for Base64decode function in scripting -->
-    <string name="action_type_base64decode_description">"Wandelt einen Base64-codierten String in ein Uint8Array (Byte-Array) um"</string>
+    <string name="action_type_base64decode_description">"Converte uma cadeia codificada Base64 numa Unit8Array (matriz de bytes)"</string>
 
     <!-- Description for Base64encode function in scripting -->
-    <string name="action_type_base64encode_description">"Wandelt einen String oder ein Uint8Array (Byte-Array) in einen Base64-codierten String um"</string>
+    <string name="action_type_base64encode_description">"Converte uma corda ou Uint8Array (matriz de bytes) numa corda codificada Base64"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response header -->
-    <string name="dialog_code_snippet_response_header">"Response-Header nach Namen auslesen"</string>
+    <string name="dialog_code_snippet_response_header">"Obter cabeçalho de resposta por nome"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response cookie -->
-    <string name="dialog_code_snippet_response_cookie">"Cookie nach Namen auslesen"</string>
+    <string name="dialog_code_snippet_response_cookie">"Obter Cookie de Resposta por Nome"</string>
 
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts">"noch keine Shortcuts ausgewählt"</string>
+    <string name="empty_state_trigger_shortcuts">"Ainda não acrescentou nenhum atalho para activar."</string>
 
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts_instructions">"Füge hier diejenigen Shortcuts ein, welche du als Teil des Multi-Shortcuts aufrufen möchtest.
+    <string name="empty_state_trigger_shortcuts_instructions">"Adicione todos os atalhos a esta lista que pretende accionar como parte deste multi-corte.
 
-Drücke den + Knopf um loszulegen."</string>
+Clique no botão + para começar."</string>
 
     <!-- Shortcut Action Title: Open a URL (e.g. in a browser) -->
-    <string name="action_type_open_url_title">"URL öffnen"</string>
+    <string name="action_type_open_url_title">"Abrir URL"</string>
 
     <!-- Shortcut Action Title: Open another app (via its package name) -->
-    <string name="action_type_open_app_title">"App öffnen"</string>
+    <string name="action_type_open_app_title">"Aplicação aberta"</string>
 
     <!-- Shortcut Action Title: Get the SSID of the current Wi-Fi -->
-    <string name="action_type_get_wifi_ssid">"WLAN-SSID abrufen"</string>
+    <string name="action_type_get_wifi_ssid">"Obter SSID de Wi-Fi"</string>
 
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
-    <string name="error_no_app_found_for_url">"Es wurde keine App gefunden welche die URL %s öffnen kann."</string>
+    <string name="error_no_app_found_for_url">"Não foi encontrada nenhuma aplicação que possa abrir o URL %s."</string>
 
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
-    <string name="error_no_app_found">"Es wurde keine App mit dem Package-Name %s gefunden."</string>
+    <string name="error_no_app_found">"Não foi encontrada nenhuma aplicação com nome de pacote %s."</string>
 
     <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->
-    <string name="error_invalid_base64">"Ungültiges Base64: %s"</string>
+    <string name="error_invalid_base64">"Base Inválida64: %s"</string>
 
     <!-- Error message: Shown to the user when the app tries to determine the SSID (name) of the current Wi-Fi but failed, e.g. because of a missing permission -->
-    <string name="error_failed_to_get_wifi_ssid">"Abrufen der WLAN-SSID fehlgeschlagen."</string>
+    <string name="error_failed_to_get_wifi_ssid">"Falha na determinação do SSID do actual Wi-Fi."</string>
 
     <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
-    <string name="placeholder_request_body_content">"Gib hier den HTTP Request-Body ein. Mit dem \"{}\"-Knopf kannst Variablen-Platzhalter einfügen."</string>
+    <string name="placeholder_request_body_content">"Introduza aqui o corpo de pedido HTTP em bruto. Pode adicionar marcadores de lugar variáveis através do botão \"{}\"."</string>
 
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
-    <string name="action_type_trigger_shortcut_description">"Führe einen anderen Shortcut nach dem aktuellen aus"</string>
+    <string name="action_type_trigger_shortcut_description">"Agendar outro atalho para correr depois de terminar o actual"</string>
 
     <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="message_remove_deleted_trigger_shortcut">"Gelöschten Shortcut aus Liste der auszulösenden Shortcuts entfernen?"</string>
+    <string name="message_remove_deleted_trigger_shortcut">"Remover o atalho eliminado da lista de atalhos activados?"</string>
 
     <!-- Label above input field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">"Browser"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to fetch the favicon of the shortcut's URL to use as a shortcut icon -->
-    <string name="choose_page_favicon">"Favicon der Seite herunterladen"</string>
+    <string name="choose_page_favicon">"Buscar página Favicon"</string>
 
     <!-- Title of window for managing and selecting custom icons -->
-    <string name="title_custom_icons">"Benutzerdefinierte Symbole"</string>
+    <string name="title_custom_icons">"Ícones personalizados"</string>
 
     <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
-    <string name="error_browser_not_found">"Browser mit Package-Name %s nicht gefunden"</string>
+    <string name="error_browser_not_found">"Navegador com nome de pacote %s não encontrado"</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
-    <string name="confirm_delete_custom_icon_message">"Dieses Symbol löschen?"</string>
+    <string name="confirm_delete_custom_icon_message">"Eliminar este ícone?"</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
-    <string name="confirm_delete_custom_icon_still_in_use_message">"Dieses Symbol wird noch von mindestens 1 Shortcut verwendet. Es zu löschen kann Probleme verursachen.
+    <string name="confirm_delete_custom_icon_still_in_use_message">"Este ícone ainda está a ser utilizado em pelo menos 1 atalho. A sua eliminação pode causar problemas.
 
-Trotzdem löschen?"</string>
+Eliminar de qualquer maneira?"</string>
 
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
-    <string name="button_delete_all_unused_icons">"Unbenutzte Symbole löschen"</string>
+    <string name="button_delete_all_unused_icons">"Eliminar ícones não utilizados"</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
-    <string name="confirm_delete_all_unused_custom_icons_message">"Alle unbenutzten Symbole löschen?"</string>
+    <string name="confirm_delete_all_unused_custom_icons_message">"Eliminar todos os ícones não utilizados?"</string>
 
     <!-- Error message, shown in snackbar when the user tried to fetch a page's favicon but it failed -->
-    <string name="error_failed_to_fetch_favicon">"Herunterladen des Favicon fehlgeschlagen. Die Website hat möglicherweise kein passendes Favicon."</string>
+    <string name="error_failed_to_fetch_favicon">"Falha em ir buscar o ícone. Este website pode não ter um adequado."</string>
 
     <!-- Shortcut Action Title: Allows removing leading and trailing whitespace characters from a string -->
-    <string name="action_type_trim_string">"String trimmen"</string>
+    <string name="action_type_trim_string">"Cordão Trim String"</string>
 
     <!-- Shortcut Action Description: Allows removing leading and trailing whitespace characters from a string -->
-    <string name="action_type_trim_string_description">"Leerzeichen am Anfang und Ende des Strings entfernen"</string>
+    <string name="action_type_trim_string_description">"Remoção de caracteres brancos de liderança e de rasto"</string>
 
     <!-- label, displayed next to variable in variables list when a variable is not used anywhere -->
-    <string name="label_variable_unused">"unbenutzt"</string>
+    <string name="label_variable_unused">"não utilizado"</string>
 
     <!-- Label of dropdown menu, for selecting which type of data to receive from the share dialog to use as the value of a variable -->
-    <string name="label_share_support">"Art der geteilten Daten"</string>
+    <string name="label_share_support">"Dados a Receber da Partilha"</string>
 
     <!-- Label of an option in the share dialog, for receiving only the text -->
-    <string name="label_share_support_option_text">"Nur Text"</string>
+    <string name="label_share_support_option_text">"Apenas texto"</string>
 
     <!-- Label of an option in the share dialog, for receiving only the title (subject) -->
-    <string name="label_share_support_option_title">"Nur Titel"</string>
+    <string name="label_share_support_option_title">"Apenas título"</string>
 
     <!-- Label of an option in the share dialog, for receiving the title (subject) and the text -->
-    <string name="label_share_support_option_title_and_text">"Titel und Text"</string>
+    <string name="label_share_support_option_title_and_text">"Título e texto"</string>
 
     <!-- Title of dialog to add a new files parameter to a shortcut -->
-    <string name="title_post_param_add_files">"Datei-Parameter hinzufügen"</string>
+    <string name="title_post_param_add_files">"Adicionar Parâmetro de Ficheiros"</string>
 
     <!-- Title of section in settings that allows user to change the title of the app's main screen -->
-    <string name="settings_app_title_title">"App-Titel"</string>
+    <string name="settings_app_title_title">"Título do aplicativo"</string>
 
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
-    <string name="settings_app_title_summary">"Ändere den Titel der Startseite"</string>
+    <string name="settings_app_title_summary">"Alterar o título do ecrã principal do aplicativo"</string>
 
     <!-- Section subtitle, shown in shortcut editor when using a client certificate for authentication -->
-    <string name="subtitle_authentication_client_cert">"Authentifizierung mit Client-Zertifikat"</string>
+    <string name="subtitle_authentication_client_cert">"Utilização de certificado de cliente"</string>
 
     <!-- Shortcut Action Title: Change Shortcut Description -->
-    <string name="action_type_change_icon_description">"Shortcut-Beschreibung ändern"</string>
+    <string name="action_type_change_icon_description">"Alterar Atalho Descrição"</string>
 
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_changing_description">"Die Beschreibung des Shortcuts \"%1$s\" konnte nicht geändert werden, da er nicht existiert."</string>
+    <string name="error_shortcut_not_found_for_changing_description">"Não foi possível alterar a descrição do atalho \"%1$s\" porque ele não existe."</string>
 
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
-    <string name="placeholder_browser_package_name">"Standardbrowser verwenden"</string>
+    <string name="placeholder_browser_package_name">"Use o navegador padrão"</string>
 
     <!-- Page title, for editing a category -->
-    <string name="title_edit_category">"Kategorie bearbeiten"</string>
+    <string name="title_edit_category">"Categoria de edição"</string>
 
     <!-- Option to choose from when selecting the background of a category: Default (white, or black in night mode) -->
-    <string name="category_background_type_default">"Standard"</string>
+    <string name="category_background_type_default">"Predefinição"</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category's changes were saved -->
-    <string name="message_category_edited">"Kategorie gespeichert."</string>
+    <string name="message_category_edited">"Categoria actualizada."</string>
 
     <!-- Label above input field in category editor, for category name -->
-    <string name="label_category_name">"Kategorienname"</string>
+    <string name="label_category_name">"Nome da categoria"</string>
 
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
-    <string name="label_category_layout_type">"Layouttyp"</string>
+    <string name="label_category_layout_type">"Tipo de layout"</string>
 
     <!-- Label above dropdown input field for selecting the background for a category -->
-    <string name="label_category_background">"Hintergrund"</string>
+    <string name="label_category_background">"Antecedentes"</string>
 
     <!-- Option in category editor to choose the shortcut click behavior, to set it to the global default -->
-    <string name="settings_click_behavior_global_default">"Globale Einstellung verwenden"</string>
+    <string name="settings_click_behavior_global_default">"Usar o Padrão Global"</string>
 
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
-    <string name="description_customizable_widget">"Wähle die Farbe des Shortcut-Namens, und ob dieser angezeigt werden soll."</string>
+    <string name="description_customizable_widget">"Escolha a cor da etiqueta do seu atalho, ou se deve esconder completamente a etiqueta."</string>
 
     <!-- Option when picking the layout for a category: Show shortcuts in a dense grid -->
-    <string name="layout_type_dense_grid">"Enges Raster"</string>
+    <string name="layout_type_dense_grid">"Grelha Densa"</string>
 
     <!-- Option when picking the layout for a category: Show shortcuts in a medium grid -->
-    <string name="layout_type_medium_grid">"Mittleres Raster"</string>
+    <string name="layout_type_medium_grid">"Grelha média"</string>
 
     <!-- Option when picking the layout for a category: Show shortcuts in a wide grid -->
-    <string name="layout_type_wide_grid">"Weites Raster"</string>
+    <string name="layout_type_wide_grid">"Grelha larga"</string>
 
     <!-- Option to choose from when selecting the background of a category: custom color -->
-    <string name="category_background_type_color">"Farbe"</string>
+    <string name="category_background_type_color">"Cor"</string>
 
     <!-- Title of dialog to edit an image parameter on a shortcut -->
-    <string name="title_post_param_edit_image">"Bild-Parameter bearbeiten"</string>
+    <string name="title_post_param_edit_image">"Editar parâmetro de imagem"</string>
 
     <!-- Title of dialog to add a new image parameter to a shortcut -->
-    <string name="title_post_param_add_image">"Bild-Parameter hinzufügen"</string>
+    <string name="title_post_param_add_image">"Adicionar parâmetro de imagem"</string>
 
     <!-- Dropdown option for request body: image (i.e., user gets to take a picture with the camera which is used as the request body) -->
-    <string name="request_body_option_image">"Bild (Kamera)"</string>
+    <string name="request_body_option_image">"Imagem (Câmara)"</string>
 
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'Image' -->
-    <string name="subtitle_request_body_image">"Request-Body aus Bild"</string>
+    <string name="subtitle_request_body_image">"Conjunto de corpo de pedido de imagem"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for image parameter -->
-    <string name="option_parameter_type_image">"Bild (Kamera)"</string>
+    <string name="option_parameter_type_image">"Imagem (Câmara)"</string>
 
     <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
-    <string name="subtitle_parameter_value_image">"Bild"</string>
+    <string name="subtitle_parameter_value_image">"Imagem"</string>
 
     <!-- Title of an action in the code snippet picker: Parse a JSON string -->
-    <string name="action_type_parse_json">"JSON parsen"</string>
+    <string name="action_type_parse_json">"Parse JSON"</string>
 
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
-    <string name="action_type_parse_xml">"XML parsen"</string>
+    <string name="action_type_parse_xml">"Parse XML"</string>
 
     <!-- Title of dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it -->
-    <string name="title_unsaved_changes_detected">"Ungesicherte Änderungen"</string>
+    <string name="title_unsaved_changes_detected">"Atalho não guardado encontrado"</string>
 
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
-    <string name="message_unsaved_changes_detected">"Es wurden ungesicherte Änderungen des Shortcuts \"%s\" gefunden. Möchtest du diese wiederherstellen und die Bearbeitung fortsetzen?"</string>
+    <string name="message_unsaved_changes_detected">"Foram encontradas alterações não guardadas no atalho \"%s\". Gostaria de recuperar as alterações e continuar a editar?"</string>
 
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. -->
-    <string name="message_unsaved_changes_detected_no_name">"Es wurden ungesicherte Änderungen eines Shortcuts gefunden. Möchtest du diese wiederherstellen und die Bearbeitung fortsetzen?"</string>
+    <string name="message_unsaved_changes_detected_no_name">"Foram encontradas alterações não salvas num atalho. Gostaria de recuperar as alterações e continuar a editar?"</string>
 
     <!-- Button label, shown on dialog that asks user if they want to recover a shortcut that has unsaved changes -->
-    <string name="button_recover">"Wiederherstellen"</string>
+    <string name="button_recover">"Recuperar"</string>
 
     <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
-    <string name="settings_allow_overlay_xiaomi">"Pop-Up Fenster erlauben wenn App im Hintergrund"</string>
+    <string name="settings_allow_overlay_xiaomi">"Permitir a exibição de janelas pop-up enquanto em segundo plano"</string>
 
     <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
-    <string name="settings_allow_overlay_xiaomi_summary">"Hilft falls Shortcuts nicht vom Homescreen aus gestartet werden können"</string>
+    <string name="settings_allow_overlay_xiaomi_summary">"Activar se os atalhos não estiverem a funcionar quando accionados a partir do ecrã inicial"</string>
 
     <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
-    <string name="running_tasker_plugin">"Tasker führt einen Shortcut aus"</string>
+    <string name="running_tasker_plugin">"Tasker está a desencadear um atalho"</string>
 
     <!-- Shortcut Action Title: generate a random UUID (Universal Unique Identifier, version 4) -->
-    <string name="action_type_generate_uuid">"Zufällige UUID generieren"</string>
+    <string name="action_type_generate_uuid">"Gerar UUID aleatório"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options for interacting with the network or querying its state -->
-    <string name="dialog_code_snippet_network">"Netzwerk"</string>
+    <string name="dialog_code_snippet_network">"Rede"</string>
 
     <!-- Shortcut Action Title: Scan Barcode (e.g. QR Code) -->
-    <string name="action_type_scan_barcode_title">"Barcode scannen"</string>
+    <string name="action_type_scan_barcode_title">"Código de barras de digitalização"</string>
 
     <!-- Shortcut Action Description: Scan Barcode (e.g. QR Code) -->
-    <string name="action_type_scan_barcode_description">"Benötigt die 'QR Droid'- oder 'Binary Eye'-App"</string>
+    <string name="action_type_scan_barcode_description">"Requer a instalação do aplicativo 'QR Droid', 'Barcode Scanner' ou 'Binary Eye'."</string>
 
     <!-- Error message: Shown when the user tries to use the 'scanBarcode' function but doesn't have the required app installed -->
-    <string name="error_barcode_scanner_not_installed">"Die 'QR Droid'- oder 'Binary Eye'-App muss installiert sein um Barcodes scannen zu können."</string>
+    <string name="error_barcode_scanner_not_installed">"O aplicativo 'QR Droid', 'Barcode Scanner' ou 'Binary Eye' precisa de ser instalado para digitalizar os códigos de barras."</string>
 
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
-    <string name="action_type_get_location_title">"Aktuellen Standort abfragen"</string>
+    <string name="action_type_get_location_title">"Obter Localização Actual"</string>
 
     <!-- Message: Brief explanation of what a toast message is and what its limitations are -->
-    <string name="message_response_handling_toast_limitations">"Toasts eignen sich am besten für kurze Nachrichten, da sie auf 2 Textzeilen limitiert sind."</string>
+    <string name="message_response_handling_toast_limitations">"Os brindes são mais adequados para mensagens muito curtas, uma vez que estão limitados a apenas 2 linhas de texto."</string>
 
     <!-- Error message: Shown to the user when the app tries to determine the device's current location but failed, e.g. because of a missing permission -->
-    <string name="error_failed_to_get_location">"Der Standort konnte nicht ermittelt werden."</string>
+    <string name="error_failed_to_get_location">"A localização física do dispositivo não pôde ser determinada."</string>
 
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
-    <string name="action_type_get_location_description">"Fragt den physikalischen Standort des Gerätes und gibt ihn als Objekt zurück"</string>
+    <string name="action_type_get_location_description">"Consulta a localização física do dispositivo e devolve-o como um objecto"</string>
 
     <!-- Button text: translate app (prompt to help & become a translator) -->
-    <string name="settings_help_translate">"Übersetzer werden"</string>
+    <string name="settings_help_translate">"Torne-se um tradutor"</string>
 
     <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
-    <string name="settings_help_translate_summary">"Hilf mir die App zu verbessern!"</string>
+    <string name="settings_help_translate_summary">"Ajude-me a melhorar esta aplicação, traduzindo-a para a sua língua!"</string>
 
     <!-- Button in Variables menu, allowing the user to (alphabetically) sort all variables -->
-    <string name="button_sort_variables">"Sortieren"</string>
+    <string name="button_sort_variables">"Ordenar"</string>
 
     <!-- Message: Shown in a snackbar after all variables have been sorted (alphabetically) -->
-    <string name="message_variables_sorted">"Variablen sortiert."</string>
+    <string name="message_variables_sorted">"Variáveis ordenadas."</string>
 
     <!-- Description for type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant_description">"Speichert einen konstanten Wert. Dieser kann mit dem 'Scripting'-Feature dynamisch verändert werden."</string>
+    <string name="variable_type_constant_description">"Armazena um valor constante. O valor pode ser alterado programmaticamente através da função 'Scripting'."</string>
 
     <!-- Description for type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
-    <string name="variable_type_text_description">"Zeigt ein Dialogfenster mit einem Text-Eingabefeld an"</string>
+    <string name="variable_type_text_description">"Mostra um diálogo com um campo de entrada de texto"</string>
 
     <!-- Description for type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
-    <string name="variable_type_number_description">"Zeigt ein Dialogfenster mit einem Zahlen-Eingabefeld an"</string>
+    <string name="variable_type_number_description">"Mostra um diálogo com um campo de introdução de números"</string>
 
     <!-- Description for type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
-    <string name="variable_type_slider_description">"Zeigt ein Dialogfenster mit einem Zahlen-Schieber mit definiertem Minimum und Maximum an"</string>
+    <string name="variable_type_slider_description">"Mostra um diálogo com um selector de números com um valor mínimo e máximo definido"</string>
 
     <!-- Description type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
-    <string name="variable_type_password_description">"Zeigt ein Dialogfenster mit einem Passwort-Eingabefeld an"</string>
+    <string name="variable_type_password_description">"Mostra um diálogo com um campo de introdução de senha"</string>
 
     <!-- Description for type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
-    <string name="variable_type_select_description">"Zeigt ein Dialogfenster zur Auswahl eines oder mehrerer Werte an"</string>
+    <string name="variable_type_select_description">"Mostra um diálogo de selecção para escolher um ou vários valores"</string>
 
     <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
-    <string name="variable_type_toggle_description">"Wechselt automatisch auf einen anderen Wert bei jeder Verwendung"</string>
+    <string name="variable_type_toggle_description">"Muda para um valor diferente cada vez que é utilizado"</string>
 
     <!-- Description for type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
-    <string name="variable_type_date_description">"Zeigt ein Dialogfenster zur Eingabe eines Datums"</string>
+    <string name="variable_type_date_description">"Mostra um diálogo com um apanhador de datas"</string>
 
     <!-- Description for type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
-    <string name="variable_type_time_description">"Zeigt ein Dialogfenster zur Eingabe einer Uhrzeit"</string>
+    <string name="variable_type_time_description">"Mostra um diálogo com um apanhador de tempo"</string>
 
     <!-- Description for type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
-    <string name="variable_type_color_description">"Zeigt ein Dialogfenster zur Eingabe einer Farbe"</string>
+    <string name="variable_type_color_description">"Mostra um diálogo com um colhedor de cores"</string>
 
     <!-- Shortcut Action Title: Send a UDP packet to another device on the network -->
-    <string name="action_type_send_udp_packet">"UDP-Paket senden"</string>
+    <string name="action_type_send_udp_packet">"Enviar Pacote UDP"</string>
 
     <!-- Dialog button: Confirm exporting the selected shortcuts -->
-    <string name="dialog_button_export">"Exportieren"</string>
+    <string name="dialog_button_export">"Exportação"</string>
 
     <!-- Dialog title: shown in dialog when selecting which shortcuts to export -->
-    <string name="dialog_title_select_shortcuts_for_export">"Shortcuts auswählen"</string>
+    <string name="dialog_title_select_shortcuts_for_export">"Seleccione Atalhos"</string>
 
     <!-- Label above input box, for prefix text displayed in front of the number in a number slider (input dialog) -->
-    <string name="label_variable_slider_prefix">"Präfix"</string>
+    <string name="label_variable_slider_prefix">"Prefixo Texto"</string>
 
     <!-- Label above input box, for suffix text displayed after the number in a number slider (input dialog) -->
-    <string name="label_variable_slider_suffix">"Suffix"</string>
+    <string name="label_variable_slider_suffix">"Texto do Sufixo"</string>
 
     <!-- label, shown in variable editor, to allow the user to enter a dialog text that will be shown when the variable is evaluated -->
-    <string name="label_variable_text">"Dialog-Text (optional)"</string>
+    <string name="label_variable_text">"Texto de Diálogo (opcional)"</string>
 
     <!-- Shortcut Action Title: Action that allows to retrieve the latest item from the device's clipboard -->
-    <string name="action_get_clipboard_content_title">"Zwischenablage auslesen"</string>
+    <string name="action_get_clipboard_content_title">"Obter Conteúdo do Clipboard"</string>
 
     <!-- Button label on menu, for searching. Currently only used in Code Snippet picker but might be used to search in other places -->
-    <string name="menu_action_search">"Suchen"</string>
+    <string name="menu_action_search">"Pesquisa"</string>
 
     <!-- Generic message for empty state when a search yields no results, displayed in the middle of the screen -->
-    <string name="instructions_search_no_results">"Keine Ergebnisse"</string>
+    <string name="instructions_search_no_results">"Sem resultados"</string>
 
     <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
     <string name="variable_type_uuid">"UUID"</string>
 
     <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
-    <string name="variable_type_uuid_description">"Generiert eine neue zufällige UUID bei jeder Verwendung"</string>
+    <string name="variable_type_uuid_description">"Gera uma nova UUID aleatória em cada execução"</string>
 
     <!-- Type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
-    <string name="variable_type_clipboard">"Zwischenablagen-Inhalt"</string>
+    <string name="variable_type_clipboard">"Conteúdo do Clipboard"</string>
 
     <!-- Description for type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
-    <string name="variable_type_clipboard_description">"Verwendet den zuletzt kopierten Text aus der Zwischenablage"</string>
+    <string name="variable_type_clipboard_description">"Assume o valor que foi copiado pela última vez para a prancheta"</string>
 
     <!-- Status message shown while some data or files are being processed, e.g. for sharing -->
-    <string name="generic_processing_in_progress">"In Bearbeitung…"</string>
+    <string name="generic_processing_in_progress">"Processamento..."</string>
 
     <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
-    <string name="settings_donate">"Spenden"</string>
+    <string name="settings_donate">"Faça o seu donativo"</string>
 
     <!-- Button subtitle, for option to open the app's Donate page in a browser, for users who wish to support the app -->
-    <string name="settings_donate_summary">"Wenn dir die App gefällt, spendiere mir doch ein Getränk"</string>
+    <string name="settings_donate_summary">"Mostre o seu apreço, pagando-me uma bebida"</string>
 
     <!-- Title of section in settings that allows user to add a quick settings tile. -->
-    <string name="settings_add_quick_settings_tile_title">"Quick Settings Tile"</string>
+    <string name="settings_add_quick_settings_tile_title">"Azulejo de configuração rápida"</string>
 
     <!-- Summary/subtitle of section in settings that allows user to add a quick settings tile. -->
-    <string name="settings_add_quick_settings_tile_summary">"Führe Shortcuts mit einem Klick in der Benachrichtigungsleiste aus"</string>
+    <string name="settings_add_quick_settings_tile_summary">"Adicionar um azulejo para accionar rapidamente atalhos da tonalidade de notificação"</string>
 
     <!-- Message: shown in snackbar, indicates to the user that the app's quick settings tile was successfully added to the device's notification shade -->
-    <string name="message_quick_settings_tile_added">"Quick Settings Tile hinzugefügt."</string>
+    <string name="message_quick_settings_tile_added">"Adicionado o azulejo Quick Settings."</string>
 
     <!-- Title: Shown on the Documentation screen, where users can read through the app's documentation -->
-    <string name="title_documentation">"Dokumentation"</string>
+    <string name="title_documentation">"Documentação"</string>
 
     <!-- Button text: Shown on Documentation screen, allows to view the current page in the external browser -->
-    <string name="button_open_documentation_in_browser">"Im Browser öffnen"</string>
+    <string name="button_open_documentation_in_browser">"Aberto no navegador"</string>
 
     <!-- Menu button shown on response window, allows the user to copy the response into the clipboard -->
-    <string name="action_copy_response">"Kopieren"</string>
+    <string name="action_copy_response">"Cópia"</string>
 
     <!-- Label for dropdown in shortcut editor, for picking the main action that should be displayed on the dialog that displays the HTTP response -->
-    <string name="label_dialog_action_dropdown">"Dialog-Aktion"</string>
+    <string name="label_dialog_action_dropdown">"Acção de Diálogo"</string>
 
     <!-- Option in dropdown menu for selecting the main action available on a dialog that displays the HTTP response, allows to show no action -->
-    <string name="label_dialog_action_none">"Keine"</string>
+    <string name="label_dialog_action_none">"Nenhum"</string>
 
     <!-- Label on checkbox that allows to enable/disable the use of a certain action to be displayed in the HTTP response window (e.g. "Share" button) -->
-    <string name="label_response_actions_show_button">"\"%s\"-Knopf anzeigen"</string>
+    <string name="label_response_actions_show_button">"Mostrar botão \"%s"</string>
 
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
-    <string name="action_type_send_tcp_packet">"TCP-Paket senden"</string>
+    <string name="action_type_send_tcp_packet">"Enviar Pacote TCP"</string>
 
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
-    <string name="action_type_send_mqtt_message">"MQTT-Nachricht senden"</string>
+    <string name="action_type_send_mqtt_message">"Enviar mensagem MQTT"</string>
 
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
-    <string name="action_type_execute_shortcut_title">"Shortcut sofort ausführen"</string>
+    <string name="action_type_execute_shortcut_title">"Executar Atalho"</string>
 
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
-    <string name="action_type_execute_shortcut_description">"Führe einen anderen Shortcut sofort aus und erhalte sein Result zurück."</string>
+    <string name="action_type_execute_shortcut_description">"Executar outro atalho imediatamente e devolver o seu resultado"</string>
 
     <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
-    <string name="error_play_services_not_available_for_location">"Um den Standort des Geräts zu bestimmen werden Play Services benötigt. Diese scheinen jedoch nicht installiert oder verfügbar zu sein."</string>
+    <string name="error_play_services_not_available_for_location">"Os Serviços Play são necessários para obter a localização do dispositivo, mas não estão instalados ou não estão disponíveis."</string>
 
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
-    <string name="error_unsupported_file_url">"URLs mit file:// Schema werden nicht unterstützt"</string>
+    <string name="error_unsupported_file_url">"URLs com ficheiro:// esquema não são suportados"</string>
 
     <!-- Error message: Shown when the user tries to parse XML using the parseXML JS function, but the XML is invalid. %s is a placeholder for a more detailed description of the error -->
-    <string name="error_invalid_xml">"Ungültiges XML: %s"</string>
+    <string name="error_invalid_xml">"XML inválido: %s"</string>
 
     <!-- Error message: Shown when the user tries to send an MQTT message via Scripting but it fails. %s is a placeholder for a more detailed error message -->
-    <string name="error_failed_to_send_mqtt">"Senden von MQTT-Nachricht fehlgeschlagen: %s"</string>
+    <string name="error_failed_to_send_mqtt">"Falha no envio da mensagem MQTT: %s"</string>
 
     <!-- Error message: Shown when the user tries to send a UDP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
-    <string name="error_failed_to_send_udp">"Senden von UDP-Paket fehlgeschlagen: %s"</string>
+    <string name="error_failed_to_send_udp">"Falha no envio do pacote UDP: %s"</string>
 
     <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
-    <string name="error_failed_to_send_tcp">"Senden von TCP-Paket fehlgeschlagen: %s"</string>
+    <string name="error_failed_to_send_tcp">"Falha no envio de pacotes TCP: %s"</string>
 
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
-    <string name="error_opening_files_using_open_url_not_supported">"Das Öffnen von Dateien ist mit openUrl() nicht möglich"</string>
+    <string name="error_opening_files_using_open_url_not_supported">"A abertura de ficheiros usando o openUrl() não é suportada"</string>
 
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
-    <string name="label_proxy_type">"Proxy-Typ"</string>
+    <string name="label_proxy_type">"Tipo de Proxy"</string>
 
     <!-- Label, for option to set the proxy username for a shortcut -->
-    <string name="label_proxy_username">"Proxy-Benutzername"</string>
+    <string name="label_proxy_username">"Proxy Nome de utilizador"</string>
 
     <!-- Label, for option to set the proxy password for a shortcut -->
-    <string name="label_proxy_password">"Proxy-Passwort"</string>
+    <string name="label_proxy_password">"Senha de Proxy"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
-    <string name="action_type_prompt_date_title">"Aufforderung zur Datumseingabe"</string>
+    <string name="action_type_prompt_date_title">"Pronta para data"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
-    <string name="action_type_prompt_time_title">"Aufforderung zur Zeiteingabe"</string>
+    <string name="action_type_prompt_time_title">"Prontidão para o tempo"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a color -->
-    <string name="action_type_prompt_color_title">"Aufforderung zur Farbauswahl"</string>
+    <string name="action_type_prompt_color_title">"Prontidão para a cor"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a password -->
-    <string name="action_type_prompt_password_title">"Aufforderung zur Passworteingabe"</string>
+    <string name="action_type_prompt_password_title">"Solicitação de senha"</string>
 </resources>

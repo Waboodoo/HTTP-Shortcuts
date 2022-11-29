@@ -846,6 +846,11 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
     <string name="subtitle_request_headers_none">"Tidak ada header diatur"</string>
 
+    <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
+    <plurals name="subtitle_request_headers_pattern">
+        <item quantity="other">"%d set tajuk"</item>
+    </plurals>
+
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
     <string name="subtitle_authentication_none">"Tidak ada otentikasi"</string>
 
@@ -860,6 +865,11 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
 
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">"Tidak ada parameter diatur"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
+    <plurals name="subtitle_request_body_params_pattern">
+        <item quantity="other">"%d set parameter"</item>
+    </plurals>
 
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
     <string name="subtitle_request_body_none">"Tidak ada tubuh permintaan diatur"</string>
@@ -974,6 +984,11 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <!-- Fuzzy -->
     <string name="action_quick_settings_tile_trigger">"Jalankan pintasan"</string>
 
+    <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
+    <string name="instructions_quick_settings_tile">"Anda belum memiliki pintasan apa pun yang dapat dipicu melalui ubin Setelan Cepat.
+
+Anda dapat mengaktifkan fitur ini dengan mengedit pintasan dan mencentang kotak \"%1$s\" yang ditemukan di \"%2$s\"."</string>
+
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">"Kode Status"</string>
 
@@ -1018,6 +1033,9 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">"Pilih atau buat pintasan untuk ditempatkan di layar utama."</string>
 
+    <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
+    <string name="label_widget">"Widget yang Dapat Disesuaikan"</string>
+
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">"Tampilkan Label"</string>
 
@@ -1033,6 +1051,11 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
     <string name="error_invalid_character">"Karakter tidak valid: %s"</string>
 
+    <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
+    <plurals name="warning_variable_still_in_use_in_shortcuts">
+        <item quantity="other">"Variabel ini masih digunakan di pintasan %2$d: %1$s"</item>
+    </plurals>
+
     <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
     <string name="title_select_variable_type">"Pilih Tipe Variabel"</string>
 
@@ -1047,6 +1070,12 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
 
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">"Pintasan Skripting"</string>
+
+    <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
+    <string name="button_description_create_scripting_shortcut">"Tulis kode JavaScript untuk alur kerja lanjutan"</string>
+
+    <!-- Option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
+    <string name="button_create_trigger_shortcut">"Multi-Pintasan"</string>
 
     <!-- Description for option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
     <!-- Fuzzy -->
@@ -1086,6 +1115,9 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the shortcut -->
     <string name="placeholder_javascript_code_before">"Tambah kode JavaScript di sini untuk dijalankan sebelum pintasan dieksekusi, mis., untuk mempersiapkan beberapa variabel."</string>
 
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs after the shortcut on success -->
+    <string name="placeholder_javascript_code_success">"Tambahkan kode JavaScript di sini untuk dijalankan setelah pintasan dijalankan, misalnya untuk memproses respons."</string>
+
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs when execution fails -->
     <string name="placeholder_javascript_code_failure">"Tambah kode JavaScript di sini untuk dijalankan ketika permintaan gagal."</string>
 
@@ -1095,13 +1127,22 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
 
     <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
     <string name="label_trigger_shortcuts_subtitle_none">"Belum ada pintasan dipilih"</string>
+    <plurals name="label_trigger_shortcuts_subtitle">
+        <item quantity="other">"%d pintasan dipilih"</item>
+    </plurals>
 
     <!-- Dialog title: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <!-- Fuzzy -->
     <string name="title_add_trigger_shortcut">"Tambah Pintasan"</string>
 
+    <!-- Dialog error message: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed but the user doesn't have any shortcuts yet -->
+    <string name="error_add_trigger_shortcut_no_shortcuts">"Tidak ada jalan pintas yang dapat ditambahkan. Anda perlu membuat beberapa pintasan tambahan terlebih dahulu sebelum dapat memilihnya di sini."</string>
+
     <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <string name="title_remove_trigger_shortcut">"Hapus Pintasan"</string>
+
+    <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="message_remove_trigger_shortcut">"Hapus pintasan \"%s\" dari daftar pintasan yang dipicu?"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
     <!-- Fuzzy -->
@@ -1146,6 +1187,9 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid bearer auth token configured -->
     <string name="error_invalid_bearer_auth">"Token Auth Bearer tidak valid (%s)."</string>
 
+    <!-- Shortcut Action Title: Trigger a task in Tasker -->
+    <string name="action_type_trigger_tasker_title">"Tugas Pemicu Tasker"</string>
+
     <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
     <!-- Fuzzy -->
     <string name="action_type_send_intent_title">"Kirimkan Niat"</string>
@@ -1169,6 +1213,9 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
     <string name="label_response_handling_type">"Tipe Tampilan"</string>
 
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
+    <string name="option_response_handling_type_toast">"Popup roti panggang"</string>
+
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">"Jendela Dialog"</string>
 
@@ -1181,11 +1228,17 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show a pre-defined message -->
     <string name="option_response_handling_success_output_message">"Tampilkan pesan"</string>
 
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show nothing -->
+    <string name="option_response_handling_success_output_none">"Tidak menunjukkan apa-apa (jalankan tanpa suara)"</string>
+
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show the full/detailed error message -->
     <string name="option_response_handling_failure_output_detailed">"Tampilkan pesan error mendetail"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show a simplified error message -->
     <string name="option_response_handling_failure_output_simple">"Tampilkan pesan error sederhana"</string>
+
+    <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show nothing -->
+    <string name="option_response_handling_failure_output_none">"Tidak menunjukkan apa-apa (jalankan tanpa suara)"</string>
 
     <!-- Label for text area in shortcut editor that allows to enter a custom message which should be displayed when the request succeeds -->
     <string name="label_response_handling_success_message">"Pesan"</string>
@@ -1219,6 +1272,9 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
 
     <!-- Dialog option: shown in code snippet picker, shows options to process text (e.g. encoding, hashing, ...) -->
     <string name="dialog_code_snippet_text_processing">"Pemrosesan Teks"</string>
+
+    <!-- Error message: Shown when user tries to use an unsupported hash function -->
+    <string name="error_unsupported_hash_algorithm">"Algoritme hash \"%1$s\" tidak didukung. Gunakan %2$s."</string>
 
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">"Ubah di Komputer"</string>
@@ -1292,11 +1348,19 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="settings_global_scripting_summary">"Jalankan kode JavaScript sebelum eksekusi setiap pintasan"</string>
 
+    <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
+    <string name="placeholder_javascript_global_scripting">"Tambahkan kode JavaScript di sini untuk dijalankan di awal setiap eksekusi pintasan, misalnya, untuk menyiapkan beberapa variabel atau menentukan beberapa fungsi yang dapat digunakan di bagian Pembuatan Skrip pintasan."</string>
+
     <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
     <string name="action_save_global_scripting">"Simpan Perubahan"</string>
 
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
     <string name="error_shortcut_not_found_for_deep_link">"Pintasan \"%s\" tidak ditemukan"</string>
+
+    <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
+    <string name="instructions_deep_linking">"Untuk menggunakan fitur tautan dalam, pastikan untuk menggunakan URL formulir yang valid:
+
+%s"</string>
 
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">"Pintasan Terhapus"</string>
@@ -1346,6 +1410,12 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation_summary">"FAQ, referensi, contoh,"</string>
 
+    <!-- Instructions shown below the "Allow Share..." checkbox in the variable editor -->
+    <string name="message_allow_share_instructions">"Mengaktifkan ini memungkinkan Anda berbagi teks dari aplikasi lain dan menggunakan teks bersama itu sebagai nilai sementara untuk variabel ini."</string>
+
+    <!-- Dialog title: Shown in progress dialog while a file is being saved -->
+    <string name="saving_in_progress">"Penghematan…"</string>
+
     <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
     <string name="title_edit_custom_icon">"Ubah Ikon"</string>
 
@@ -1394,14 +1464,80 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
     <string name="label_subtitle_client_cert_in_use">"Menggunakan sertifikat \"%s\". Klik untuk menghapus."</string>
 
+    <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
+    <string name="error_failed_to_use_client_cert">"Gagal memuat atau menggunakan sertifikat klien. Mungkin ini tidak didukung oleh perangkat Anda atau perlu dikonfigurasi ulang di pengaturan pintasan."</string>
+
+    <!-- Error message: Shown when user tries to use an unsupported hmac function -->
+    <string name="error_unsupported_hmac_algorithm">"Algoritme HMAC \"%1$s\" tidak didukung atau kunci tidak valid. Gunakan %2$s."</string>
+
     <!-- Button, shown on About page, to allow opening the app's F-Droid page -->
     <string name="settings_f_droid">"Lihat di F-Droid"</string>
 
     <!-- Button subtitle for "View in F-Droid" button -->
     <string name="settings_f_droid_summary">"Periksa untuk Pembaruan"</string>
 
+    <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
+    <string name="label_subtitle_client_cert_file_in_use">"Menggunakan file sertifikat. Klik untuk menghapus."</string>
+
+    <!-- Title for dialog, when selecting a client certificate -->
+    <string name="title_client_cert">"Sertifikat Klien"</string>
+
+    <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os">"Dikelola oleh OS"</string>
+
+    <!-- Subtitle for Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os_subtitle">"Direkomendasikan, lebih aman"</string>
+
+    <!-- Label, for option in dialog to pick a client certificate from a .p12 file -->
+    <string name="label_client_cert_from_file">"Impor dari File .p12"</string>
+
+    <!-- Subtitle for Label, for option in dialog to pick a client certificate from a .p12 file -->
+    <string name="label_client_cert_from_file_subtitle">"Salinan file dan kata sandi akan disimpan di dalam aplikasi tanpa perlindungan khusus. Gunakan dengan risiko Anda sendiri."</string>
+
+    <!-- Title of dialog, for entering the password for a client cert file -->
+    <string name="title_client_cert_file_password">"Kata sandi"</string>
+
+    <!-- Shortcut dropdown option: display information about the shortcut -->
+    <string name="action_shortcut_information">"Tampilkan Info"</string>
+
+    <!-- Label shown above a text field showing a shortcut's ID -->
+    <string name="label_shortcut_id">"ID pintasan"</string>
+
+    <!-- Label shown above a text field showing a shortcut's deep link URL -->
+    <string name="label_deep_link_url">"URL Tautan Dalam"</string>
+
+    <!-- Message: instructions shown below a shortcut's deep-linking URL -->
+    <string name="message_deep_link_instructions">"Anda dapat memicu pintasan ini dengan mengaktifkan URL ini dari aplikasi lain, misalnya melalui pemindai QR atau pembaca NFC. Tambahkan parameter kueri ke URL untuk meneruskan nilai variabel."</string>
+
+    <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
+    <string name="action_play_sound">"Memainkan suara"</string>
+
+    <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting. -->
+    <string name="message_response_handling_scripting_hint">"Jika Anda memerlukan opsi lebih lanjut untuk memproses dan menampilkan respons, lihat bagian '%s', yang memungkinkan Anda menentukan logika kustom menggunakan kode JavaScript."</string>
+
+    <!-- Menu button shown on response window, allows the user to execute the current shortcut again -->
+    <string name="action_rerun_shortcut">"Memutarkan lagi"</string>
+
+    <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
+    <string name="label_multiline">"Multiline"</string>
+
+    <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
+    <string name="message_json_encode_instructions">"Aktifkan ini jika Anda menggunakan variabel ini di dalam string JSON, misalnya, di badan permintaan. Karakter khusus akan diloloskan."</string>
+
+    <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
+    <string name="message_url_encode_instructions">"Aktifkan ini jika Anda menggunakan variabel ini di dalam URL, misalnya, sebagai bagian dari string kueri. Karakter khusus akan diloloskan."</string>
+
+    <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay">"Izinkan Menampilkan Di Atas Aplikasi Lain"</string>
+
+    <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay_summary">"Aktifkan jika pintasan tidak berfungsi saat dipicu dari Ubin Setelan Cepat atau aplikasi pihak ketiga"</string>
+
     <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
     <string name="action_enable_moving">"Aktifkan Perpindahan dalam Kategori"</string>
+
+    <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
+    <string name="message_moving_enabled">"Susun ulang pintasan dengan menyeretnya."</string>
 
     <!-- Category dropdown option: Place category on home screen -->
     <string name="action_place_category">"Tempatkan di Layar Utama"</string>
@@ -1442,4 +1578,410 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <!-- Shortcut Action Title: Allows converting a byte array into a string using the Scripting feature -->
     <!-- Fuzzy -->
     <string name="action_type_to_string">"Bytes ke Teks"</string>
+
+    <!-- Shortcut Action Description: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
+    <string name="action_type_to_hex_string_description">"Mengonversi Uint8Array menjadi string digit heksadesimal"</string>
+
+    <!-- Shortcut Action Description: Allows converting a byte array into a string using the Scripting feature -->
+    <string name="action_type_to_string_description">"Mengubah Uint8Array menjadi string"</string>
+
+    <!-- Description for Base64decode function in scripting -->
+    <string name="action_type_base64decode_description">"Mengonversi string yang disandikan Base64 menjadi Unit8Array (array byte)"</string>
+
+    <!-- Description for Base64encode function in scripting -->
+    <string name="action_type_base64encode_description">"Mengonversi string atau Uint8Array (array byte) menjadi string yang disandikan Base64"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response header -->
+    <string name="dialog_code_snippet_response_header">"Dapatkan Header Respons berdasarkan Nama"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response cookie -->
+    <string name="dialog_code_snippet_response_cookie">"Dapatkan Cookie Respons berdasarkan Nama"</string>
+
+    <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts">"Anda belum menambahkan pintasan apa pun untuk dipicu."</string>
+
+    <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts_instructions">"Tambahkan semua pintasan ke daftar ini yang ingin Anda picu sebagai bagian dari multipintasan ini.
+
+Klik tombol + untuk memulai."</string>
+
+    <!-- Shortcut Action Title: Open a URL (e.g. in a browser) -->
+    <string name="action_type_open_url_title">"Buka URL"</string>
+
+    <!-- Shortcut Action Title: Open another app (via its package name) -->
+    <string name="action_type_open_app_title">"Buka Aplikasi"</string>
+
+    <!-- Shortcut Action Title: Get the SSID of the current Wi-Fi -->
+    <string name="action_type_get_wifi_ssid">"Dapatkan SSID Wi-Fi"</string>
+
+    <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
+    <string name="error_no_app_found_for_url">"Tidak ditemukan apl yang dapat membuka URL %s."</string>
+
+    <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
+    <string name="error_no_app_found">"Tidak ditemukan aplikasi dengan nama paket %s."</string>
+
+    <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->
+    <string name="error_invalid_base64">"Base64 tidak valid: %s"</string>
+
+    <!-- Error message: Shown to the user when the app tries to determine the SSID (name) of the current Wi-Fi but failed, e.g. because of a missing permission -->
+    <string name="error_failed_to_get_wifi_ssid">"Gagal menentukan SSID Wi-Fi saat ini."</string>
+
+    <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
+    <string name="placeholder_request_body_content">"Masukkan badan permintaan HTTP mentah di sini. Anda bisa menambahkan placeholder variabel melalui tombol \"{}\"."</string>
+
+    <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
+    <string name="action_type_trigger_shortcut_description">"Jadwalkan pintasan lain untuk dijalankan setelah yang sekarang selesai"</string>
+
+    <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="message_remove_deleted_trigger_shortcut">"Hapus pintasan yang dihapus dari daftar pintasan yang dipicu?"</string>
+
+    <!-- Label above input field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="label_browser_package_name">"Peramban"</string>
+
+    <!-- Option in "Change Icon" dialog, allows user to fetch the favicon of the shortcut's URL to use as a shortcut icon -->
+    <string name="choose_page_favicon">"Ambil Halaman Favicon"</string>
+
+    <!-- Title of window for managing and selecting custom icons -->
+    <string name="title_custom_icons">"Ikon Kustom"</string>
+
+    <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
+    <string name="error_browser_not_found">"Peramban dengan nama paket %s tidak ditemukan"</string>
+
+    <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
+    <string name="confirm_delete_custom_icon_message">"Hapus ikon ini?"</string>
+
+    <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
+    <string name="confirm_delete_custom_icon_still_in_use_message">"Ikon ini masih digunakan di setidaknya 1 pintasan. Menghapusnya dapat menyebabkan masalah.
+
+Tetap hapus?"</string>
+
+    <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
+    <string name="button_delete_all_unused_icons">"Hapus ikon yang tidak digunakan"</string>
+
+    <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
+    <string name="confirm_delete_all_unused_custom_icons_message">"Hapus semua ikon yang tidak digunakan?"</string>
+
+    <!-- Error message, shown in snackbar when the user tried to fetch a page's favicon but it failed -->
+    <string name="error_failed_to_fetch_favicon">"Gagal mengambil ikon. Situs web ini mungkin tidak memiliki yang cocok."</string>
+
+    <!-- Shortcut Action Title: Allows removing leading and trailing whitespace characters from a string -->
+    <string name="action_type_trim_string">"Potong Tali"</string>
+
+    <!-- Shortcut Action Description: Allows removing leading and trailing whitespace characters from a string -->
+    <string name="action_type_trim_string_description">"Hapus karakter spasi putih di depan dan di belakang"</string>
+
+    <!-- label, displayed next to variable in variables list when a variable is not used anywhere -->
+    <string name="label_variable_unused">"tidak terpakai"</string>
+
+    <!-- Label of dropdown menu, for selecting which type of data to receive from the share dialog to use as the value of a variable -->
+    <string name="label_share_support">"Data untuk Diterima dari Berbagi"</string>
+
+    <!-- Label of an option in the share dialog, for receiving only the text -->
+    <string name="label_share_support_option_text">"Teks saja"</string>
+
+    <!-- Label of an option in the share dialog, for receiving only the title (subject) -->
+    <string name="label_share_support_option_title">"Judul saja"</string>
+
+    <!-- Label of an option in the share dialog, for receiving the title (subject) and the text -->
+    <string name="label_share_support_option_title_and_text">"Judul dan Teks"</string>
+
+    <!-- Title of dialog to add a new files parameter to a shortcut -->
+    <string name="title_post_param_add_files">"Tambahkan Parameter File"</string>
+
+    <!-- Title of section in settings that allows user to change the title of the app's main screen -->
+    <string name="settings_app_title_title">"Judul Aplikasi"</string>
+
+    <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
+    <string name="settings_app_title_summary">"Ubah judul layar utama aplikasi"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when using a client certificate for authentication -->
+    <string name="subtitle_authentication_client_cert">"Menggunakan sertifikat klien"</string>
+
+    <!-- Shortcut Action Title: Change Shortcut Description -->
+    <string name="action_type_change_icon_description">"Ubah Deskripsi Pintasan"</string>
+
+    <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_changing_description">"Tidak dapat mengubah deskripsi pintasan \"%1$s\" karena tidak ada."</string>
+
+    <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="placeholder_browser_package_name">"Gunakan peramban bawaan"</string>
+
+    <!-- Page title, for editing a category -->
+    <string name="title_edit_category">"Sunting Kategori"</string>
+
+    <!-- Option to choose from when selecting the background of a category: Default (white, or black in night mode) -->
+    <string name="category_background_type_default">"Bawaan"</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a category's changes were saved -->
+    <string name="message_category_edited">"Kategori diperbarui."</string>
+
+    <!-- Label above input field in category editor, for category name -->
+    <string name="label_category_name">"Nama Kategori"</string>
+
+    <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
+    <string name="label_category_layout_type">"Tipe Tata Letak"</string>
+
+    <!-- Label above dropdown input field for selecting the background for a category -->
+    <string name="label_category_background">"Latar belakang"</string>
+
+    <!-- Option in category editor to choose the shortcut click behavior, to set it to the global default -->
+    <string name="settings_click_behavior_global_default">"Gunakan Default Global"</string>
+
+    <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
+    <string name="description_customizable_widget">"Pilih warna label pintasan Anda, atau apakah akan menyembunyikan label sepenuhnya."</string>
+
+    <!-- Option when picking the layout for a category: Show shortcuts in a dense grid -->
+    <string name="layout_type_dense_grid">"Kisi Padat"</string>
+
+    <!-- Option when picking the layout for a category: Show shortcuts in a medium grid -->
+    <string name="layout_type_medium_grid">"Kotak Sedang"</string>
+
+    <!-- Option when picking the layout for a category: Show shortcuts in a wide grid -->
+    <string name="layout_type_wide_grid">"Kotak Lebar"</string>
+
+    <!-- Option to choose from when selecting the background of a category: custom color -->
+    <string name="category_background_type_color">"Warna"</string>
+
+    <!-- Title of dialog to edit an image parameter on a shortcut -->
+    <string name="title_post_param_edit_image">"Edit Parameter Gambar"</string>
+
+    <!-- Title of dialog to add a new image parameter to a shortcut -->
+    <string name="title_post_param_add_image">"Tambahkan Parameter Gambar"</string>
+
+    <!-- Dropdown option for request body: image (i.e., user gets to take a picture with the camera which is used as the request body) -->
+    <string name="request_body_option_image">"Gambar (Kamera)"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when request body is set to 'Image' -->
+    <string name="subtitle_request_body_image">"Kumpulan isi permintaan gambar"</string>
+
+    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for image parameter -->
+    <string name="option_parameter_type_image">"Gambar (Kamera)"</string>
+
+    <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
+    <string name="subtitle_parameter_value_image">"Gambar"</string>
+
+    <!-- Title of an action in the code snippet picker: Parse a JSON string -->
+    <string name="action_type_parse_json">"Parsing JSON"</string>
+
+    <!-- Title of an action in the code snippet picker: Parse an XML string -->
+    <string name="action_type_parse_xml">"Parsing XML"</string>
+
+    <!-- Title of dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it -->
+    <string name="title_unsaved_changes_detected">"Ditemukan Pintasan yang Belum Disimpan"</string>
+
+    <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
+    <string name="message_unsaved_changes_detected">"Perubahan yang belum disimpan pada pintasan \"%s\" ditemukan. Apakah Anda ingin memulihkan perubahan dan melanjutkan pengeditan?"</string>
+
+    <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. -->
+    <string name="message_unsaved_changes_detected_no_name">"Perubahan yang belum disimpan pada pintasan ditemukan. Apakah Anda ingin memulihkan perubahan dan melanjutkan pengeditan?"</string>
+
+    <!-- Button label, shown on dialog that asks user if they want to recover a shortcut that has unsaved changes -->
+    <string name="button_recover">"Pulih"</string>
+
+    <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
+    <string name="settings_allow_overlay_xiaomi">"Izinkan Menampilkan Jendela Pop-Up Saat di Latar Belakang"</string>
+
+    <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
+    <string name="settings_allow_overlay_xiaomi_summary">"Aktifkan jika pintasan tidak berfungsi saat dipicu dari Layar Beranda"</string>
+
+    <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
+    <string name="running_tasker_plugin">"Tasker memicu Pintasan"</string>
+
+    <!-- Shortcut Action Title: generate a random UUID (Universal Unique Identifier, version 4) -->
+    <string name="action_type_generate_uuid">"Hasilkan UUID Acak"</string>
+
+    <!-- Dialog option: shown in code snippet picker, shows options for interacting with the network or querying its state -->
+    <string name="dialog_code_snippet_network">"Jaringan"</string>
+
+    <!-- Shortcut Action Title: Scan Barcode (e.g. QR Code) -->
+    <string name="action_type_scan_barcode_title">"Pindai Kode Batang"</string>
+
+    <!-- Shortcut Action Description: Scan Barcode (e.g. QR Code) -->
+    <string name="action_type_scan_barcode_description">"Membutuhkan aplikasi 'QR Droid', 'Barcode Scanner' atau 'Binary Eye' untuk diinstal"</string>
+
+    <!-- Error message: Shown when the user tries to use the 'scanBarcode' function but doesn't have the required app installed -->
+    <string name="error_barcode_scanner_not_installed">"Aplikasi 'QR Droid', 'Barcode Scanner' atau 'Binary Eye' perlu dipasang untuk memindai kode batang."</string>
+
+    <!-- Shortcut Action Title: Get the device's current (physical) location -->
+    <string name="action_type_get_location_title">"Dapatkan Lokasi Saat Ini"</string>
+
+    <!-- Message: Brief explanation of what a toast message is and what its limitations are -->
+    <string name="message_response_handling_toast_limitations">"Bersulang paling cocok untuk pesan yang sangat singkat, karena dibatasi hanya untuk 2 baris teks."</string>
+
+    <!-- Error message: Shown to the user when the app tries to determine the device's current location but failed, e.g. because of a missing permission -->
+    <string name="error_failed_to_get_location">"Lokasi fisik perangkat tidak dapat ditentukan."</string>
+
+    <!-- Shortcut Action Description: Get the device's current (physical) location -->
+    <string name="action_type_get_location_description">"Meminta lokasi fisik perangkat dan mengembalikannya sebagai objek"</string>
+
+    <!-- Button text: translate app (prompt to help & become a translator) -->
+    <string name="settings_help_translate">"Menjadi Penerjemah"</string>
+
+    <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
+    <string name="settings_help_translate_summary">"Bantu saya membuat aplikasi ini lebih baik dengan menerjemahkannya ke dalam bahasa Anda!"</string>
+
+    <!-- Button in Variables menu, allowing the user to (alphabetically) sort all variables -->
+    <string name="button_sort_variables">"Menyortir"</string>
+
+    <!-- Message: Shown in a snackbar after all variables have been sorted (alphabetically) -->
+    <string name="message_variables_sorted">"Variabel diurutkan."</string>
+
+    <!-- Description for type of variable: Constant, i.e., a variable that always has the same value -->
+    <string name="variable_type_constant_description">"Menyimpan nilai konstan. Nilai dapat diubah secara terprogram melalui fitur 'Scripting'"</string>
+
+    <!-- Description for type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
+    <string name="variable_type_text_description">"Menampilkan dialog dengan kolom input teks"</string>
+
+    <!-- Description for type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
+    <string name="variable_type_number_description">"Menampilkan dialog dengan bidang input angka"</string>
+
+    <!-- Description for type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
+    <string name="variable_type_slider_description">"Menampilkan dialog dengan penggeser angka dengan nilai minimum dan maksimum yang ditetapkan"</string>
+
+    <!-- Description type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
+    <string name="variable_type_password_description">"Menampilkan dialog dengan kolom input kata sandi"</string>
+
+    <!-- Description for type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
+    <string name="variable_type_select_description">"Menampilkan dialog pemilihan untuk memilih satu atau beberapa nilai"</string>
+
+    <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
+    <string name="variable_type_toggle_description">"Beralih ke nilai yang berbeda setiap kali digunakan"</string>
+
+    <!-- Description for type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
+    <string name="variable_type_date_description">"Menampilkan dialog dengan pemilih tanggal"</string>
+
+    <!-- Description for type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
+    <string name="variable_type_time_description">"Menampilkan dialog dengan pemilih waktu"</string>
+
+    <!-- Description for type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
+    <string name="variable_type_color_description">"Menampilkan dialog dengan pemilih warna"</string>
+
+    <!-- Shortcut Action Title: Send a UDP packet to another device on the network -->
+    <string name="action_type_send_udp_packet">"Kirim Paket UDP"</string>
+
+    <!-- Dialog button: Confirm exporting the selected shortcuts -->
+    <string name="dialog_button_export">"Ekspor"</string>
+
+    <!-- Dialog title: shown in dialog when selecting which shortcuts to export -->
+    <string name="dialog_title_select_shortcuts_for_export">"Pilih Pintasan"</string>
+
+    <!-- Label above input box, for prefix text displayed in front of the number in a number slider (input dialog) -->
+    <string name="label_variable_slider_prefix">"Teks awalan"</string>
+
+    <!-- Label above input box, for suffix text displayed after the number in a number slider (input dialog) -->
+    <string name="label_variable_slider_suffix">"Teks Akhiran"</string>
+
+    <!-- label, shown in variable editor, to allow the user to enter a dialog text that will be shown when the variable is evaluated -->
+    <string name="label_variable_text">"Teks Dialog (opsional)"</string>
+
+    <!-- Shortcut Action Title: Action that allows to retrieve the latest item from the device's clipboard -->
+    <string name="action_get_clipboard_content_title">"Dapatkan Konten Papan Klip"</string>
+
+    <!-- Button label on menu, for searching. Currently only used in Code Snippet picker but might be used to search in other places -->
+    <string name="menu_action_search">"Mencari"</string>
+
+    <!-- Generic message for empty state when a search yields no results, displayed in the middle of the screen -->
+    <string name="instructions_search_no_results">"Tidak ada hasil"</string>
+
+    <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid">"UUID"</string>
+
+    <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid_description">"Menghasilkan UUID acak baru pada setiap eksekusi"</string>
+
+    <!-- Type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
+    <string name="variable_type_clipboard">"Konten papan klip"</string>
+
+    <!-- Description for type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
+    <string name="variable_type_clipboard_description">"Mengasumsikan nilai yang terakhir disalin ke clipboard"</string>
+
+    <!-- Status message shown while some data or files are being processed, e.g. for sharing -->
+    <string name="generic_processing_in_progress">"Pengolahan…"</string>
+
+    <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
+    <string name="settings_donate">"Menyumbangkan"</string>
+
+    <!-- Button subtitle, for option to open the app's Donate page in a browser, for users who wish to support the app -->
+    <string name="settings_donate_summary">"Tunjukkan penghargaan Anda dengan membelikan saya minuman"</string>
+
+    <!-- Title of section in settings that allows user to add a quick settings tile. -->
+    <string name="settings_add_quick_settings_tile_title">"Ubin Pengaturan Cepat"</string>
+
+    <!-- Summary/subtitle of section in settings that allows user to add a quick settings tile. -->
+    <string name="settings_add_quick_settings_tile_summary">"Tambahkan ubin untuk memicu pintasan dengan cepat dari bayangan pemberitahuan"</string>
+
+    <!-- Message: shown in snackbar, indicates to the user that the app's quick settings tile was successfully added to the device's notification shade -->
+    <string name="message_quick_settings_tile_added">"Ubin Pengaturan Cepat ditambahkan."</string>
+
+    <!-- Title: Shown on the Documentation screen, where users can read through the app's documentation -->
+    <string name="title_documentation">"Dokumentasi"</string>
+
+    <!-- Button text: Shown on Documentation screen, allows to view the current page in the external browser -->
+    <string name="button_open_documentation_in_browser">"Buka di browser"</string>
+
+    <!-- Menu button shown on response window, allows the user to copy the response into the clipboard -->
+    <string name="action_copy_response">"Salinan"</string>
+
+    <!-- Label for dropdown in shortcut editor, for picking the main action that should be displayed on the dialog that displays the HTTP response -->
+    <string name="label_dialog_action_dropdown">"Aksi Dialog"</string>
+
+    <!-- Option in dropdown menu for selecting the main action available on a dialog that displays the HTTP response, allows to show no action -->
+    <string name="label_dialog_action_none">"Tidak ada"</string>
+
+    <!-- Label on checkbox that allows to enable/disable the use of a certain action to be displayed in the HTTP response window (e.g. "Share" button) -->
+    <string name="label_response_actions_show_button">"Tampilkan tombol \"%s\"."</string>
+
+    <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
+    <string name="action_type_send_tcp_packet">"Kirim Paket TCP"</string>
+
+    <!-- Shortcut Action Title: Send an MQTT message to a broker -->
+    <string name="action_type_send_mqtt_message">"Kirim Pesan MQTT"</string>
+
+    <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
+    <string name="action_type_execute_shortcut_title">"Jalankan Pintasan"</string>
+
+    <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
+    <string name="action_type_execute_shortcut_description">"Jalankan pintasan lain segera dan kembalikan hasilnya"</string>
+
+    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
+    <string name="error_play_services_not_available_for_location">"Layanan Play diperlukan untuk mendapatkan lokasi perangkat, tetapi tidak diinstal atau tidak tersedia."</string>
+
+    <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
+    <string name="error_unsupported_file_url">"URL dengan skema file:// tidak didukung"</string>
+
+    <!-- Error message: Shown when the user tries to parse XML using the parseXML JS function, but the XML is invalid. %s is a placeholder for a more detailed description of the error -->
+    <string name="error_invalid_xml">"XML tidak valid: %s"</string>
+
+    <!-- Error message: Shown when the user tries to send an MQTT message via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_send_mqtt">"Gagal mengirim pesan MQTT: %s"</string>
+
+    <!-- Error message: Shown when the user tries to send a UDP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_send_udp">"Gagal mengirim paket UDP: %s"</string>
+
+    <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_send_tcp">"Gagal mengirim paket TCP: %s"</string>
+
+    <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
+    <string name="error_opening_files_using_open_url_not_supported">"Membuka file menggunakan openUrl() tidak didukung"</string>
+
+    <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
+    <string name="label_proxy_type">"Jenis Proksi"</string>
+
+    <!-- Label, for option to set the proxy username for a shortcut -->
+    <string name="label_proxy_username">"Nama Pengguna Proksi"</string>
+
+    <!-- Label, for option to set the proxy password for a shortcut -->
+    <string name="label_proxy_password">"Kata Sandi Proksi"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
+    <string name="action_type_prompt_date_title">"Konfirmasi Tanggal"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
+    <string name="action_type_prompt_time_title">"Meminta Waktu"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a color -->
+    <string name="action_type_prompt_color_title">"Permintaan untuk Warna"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a password -->
+    <string name="action_type_prompt_password_title">"Meminta Kata Sandi"</string>
 </resources>

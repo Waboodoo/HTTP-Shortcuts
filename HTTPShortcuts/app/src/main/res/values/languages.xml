@@ -2,6 +2,7 @@
 <resources>
     <string name="language_english" translatable="false">English</string>
     <string name="language_catalan" translatable="false">Català</string>
+    <string name="language_czech" translatable="false">Čeština</string>
     <string name="language_german" translatable="false">Deutsch</string>
     <string name="language_spanish" translatable="false">Español</string>
     <string name="language_mexican_spanish" translatable="false">Español (México)</string>
@@ -10,56 +11,76 @@
     <string name="language_italian" translatable="false">Italiano</string>
     <string name="language_hebrew" translatable="false">עִברִית</string>
     <string name="language_hungarian" translatable="false">Magyar</string>
+    <string name="language_dutch" translatable="false">Nederlands</string>
     <string name="language_norwegian_bokmal" translatable="false">Norsk</string>
     <string name="language_polish" translatable="false">Polski</string>
+    <string name="language_portuguese" translatable="false">Português</string>
     <string name="language_brazilian_portuguese" translatable="false">Português (Brasil)</string>
     <string name="language_russian" translatable="false">Русский язык</string>
+    <string name="language_vietnamese" translatable="false">Tiếng Việt Nam</string>
     <string name="language_turkish" translatable="false">Türkçe</string>
     <string name="language_chinese" translatable="false">简体中文</string>
     <string name="language_korean" translatable="false">‪‪한국어</string>
     <string name="language_japanese" translatable="false">日本</string>
+    <string name="language_arabic" translatable="false">العربية</string>
+    <string name="language_greek" translatable="false">Ελληνικά</string>
+    <string name="language_persian" translatable="false">فارسی</string>
 
     <string-array name="language_options" translatable="false">
         <item>@string/language_default</item>
         <item>@string/language_english</item>
         <item>@string/language_catalan</item>
+        <item>@string/language_czech</item>
         <item>@string/language_german</item>
         <item>@string/language_spanish</item>
         <item>@string/language_mexican_spanish</item>
         <item>@string/language_french</item>
         <item>@string/language_indonesian</item>
         <item>@string/language_italian</item>
+        <item>@string/language_hebrew</item>
         <item>@string/language_hungarian</item>
+        <item>@string/language_dutch</item>
         <item>@string/language_norwegian_bokmal</item>
         <item>@string/language_polish</item>
+        <item>@string/language_portuguese</item>
         <item>@string/language_brazilian_portuguese</item>
         <item>@string/language_russian</item>
+        <item>@string/language_vietnamese</item>
         <item>@string/language_turkish</item>
         <item>@string/language_chinese</item>
         <item>@string/language_japanese</item>
         <item>@string/language_korean</item>
-        <item>@string/language_hebrew</item>
+        <item>@string/language_arabic</item>
+        <item>@string/language_greek</item>
+        <item>@string/language_persian</item>
     </string-array>
 
     <string-array name="language_values" translatable="false">
         <item>default</item>
         <item>en</item>
         <item>ca</item>
+        <item>cs</item>
         <item>de</item>
         <item>es</item>
         <item>es-rMX</item>
         <item>fr</item>
         <item>in</item>
         <item>it</item>
+        <item>iw</item>
         <item>hu</item>
+        <item>nl</item>
         <item>nb</item>
         <item>pl</item>
+        <item>pt</item>
         <item>pt-rBR</item>
         <item>ru</item>
+        <item>vi</item>
         <item>tr</item>
         <item>zh-rCN</item>
         <item>ja</item>
         <item>ko</item>
-        <item>iw</item>
+        <item>ar</item>
+        <item>el</item>
+        <item>fa</item>
     </string-array>
 </resources>

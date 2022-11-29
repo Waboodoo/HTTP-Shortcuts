@@ -65,6 +65,7 @@ android {
             "de",
             "de-rCH",
             "es",
+            "es-rMX",
             "fr",
             "in",
             "it",
@@ -78,6 +79,13 @@ android {
             "ja",
             "ko",
             "iw",
+            "ar",
+            "cs",
+            "el",
+            "fa",
+            "nl",
+            "pt",
+            "vi",
         ))
     }
 
