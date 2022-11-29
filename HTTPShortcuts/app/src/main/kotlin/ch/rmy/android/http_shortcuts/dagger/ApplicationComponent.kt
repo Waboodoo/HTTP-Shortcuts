@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.Co
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcutsViewModel
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
 import ch.rmy.android.http_shortcuts.activities.execute.Execution
+import ch.rmy.android.http_shortcuts.activities.history.HistoryViewModel
 import ch.rmy.android.http_shortcuts.activities.icons.IconPickerViewModel
 import ch.rmy.android.http_shortcuts.activities.main.MainViewModel
 import ch.rmy.android.http_shortcuts.activities.main.ShortcutListViewModel
@@ -55,6 +56,7 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.types.toggle.To
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.toggle.ToggleTypeViewModel
 import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsViewModel
 import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
+import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
 import ch.rmy.android.http_shortcuts.http.HttpRequesterWorker
 import ch.rmy.android.http_shortcuts.plugin.PluginEditActivity
 import ch.rmy.android.http_shortcuts.plugin.TriggerShortcutActionRunner
@@ -325,4 +327,8 @@ interface ApplicationComponent {
     fun inject(promptColorAction: PromptColorAction)
 
     fun inject(promptPasswordAction: PromptPasswordAction)
+
+    fun inject(historyViewModel: HistoryViewModel)
+
+    fun inject(historyCleanUpWorker: HistoryCleanUpWorker)
 }

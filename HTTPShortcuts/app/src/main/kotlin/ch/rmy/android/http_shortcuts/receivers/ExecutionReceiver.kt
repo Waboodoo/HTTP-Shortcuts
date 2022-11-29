@@ -5,12 +5,13 @@ import android.content.Context
 import android.content.Intent
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 
 class ExecutionReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         ExecuteActivity.IntentBuilder()
-            .trigger("broadcast")
+            .trigger(ShortcutTriggerType.BROADCAST)
             .build(context)
             .apply {
                 action = intent.action

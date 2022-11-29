@@ -20,6 +20,8 @@ import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
+import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
 import ch.rmy.android.http_shortcuts.plugin.SessionMonitor
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionSchedulerWorker
 import ch.rmy.android.http_shortcuts.utils.CacheFilesCleanupWorker
@@ -45,6 +47,9 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     @Inject
     lateinit var executionSchedulerStarter: ExecutionSchedulerWorker.Starter
+
+    @Inject
+    lateinit var historyCleanUpStarter: HistoryCleanUpWorker.Starter
 
     @Inject
     lateinit var sessionMonitor: SessionMonitor
@@ -84,7 +89,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                 tryNumber = intent.extras?.getInt(EXTRA_TRY_NUMBER) ?: 0,
                 recursionDepth = intent.extras?.getInt(EXTRA_RECURSION_DEPTH) ?: 0,
                 fileUris = intent.getParcelableList(EXTRA_FILES) ?: emptyList(),
-                trigger = intent.extras?.getString(EXTRA_TRIGGER),
+                trigger = ShortcutTriggerType.parse(intent.extras?.getString(EXTRA_TRIGGER)),
             )
         )
 
@@ -94,6 +99,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     override fun finish() {
         cacheFilesCleanupStarter()
         executionSchedulerStarter()
+        historyCleanUpStarter()
         sessionMonitor.onSessionComplete()
         super.finish()
     }
@@ -158,8 +164,8 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             intent.putExtra(EXTRA_EXECUTION_SCHEDULE_ID, id)
         }
 
-        fun trigger(trigger: String) = also {
-            intent.putExtra(EXTRA_TRIGGER, trigger)
+        fun trigger(trigger: ShortcutTriggerType) = also {
+            intent.putExtra(EXTRA_TRIGGER, trigger.name)
         }
     }
 

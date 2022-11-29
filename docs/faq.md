@@ -69,7 +69,9 @@ You can use [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch
 
 <a name="debugging"></a>
 ## Something's not working with my requests. Can I get more detailed information for debugging?
-One way to get more information about the request and the response is by opening the *Reponse Handling* section when editing a shortcut and changing the *Display Type* to *Window* and then ticking the *Show Meta Information* checkbox. This will display the full response in a window, along with all response headers and some additional meta information.
+The easiest way to get more details about the shortcuts that you're executing in the app is by going to the *Event History* screen. You will find it in the app's main menu. The Event History shows all recently triggered shortcuts, the HTTP requests that were sent out and the HTTP responses that were received, as well as all the (network) errors that have occurred.
+
+Another way to get more information about the request and the response is by opening the *Response Handling* section when editing a shortcut and changing the *Display Type* to *Window* and then ticking the *Show Meta Information* checkbox. This will display the full response in a window, along with all response headers and some additional meta information.
 
 <a name="infinite-loops"></a>
 ## I accidentally created an infinite loop of shortcuts triggering other shortcuts, how do I stop it?

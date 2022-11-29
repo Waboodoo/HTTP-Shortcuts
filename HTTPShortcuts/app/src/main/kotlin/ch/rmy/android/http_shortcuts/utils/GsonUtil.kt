@@ -41,7 +41,7 @@ object GsonUtil {
         return gson.fromJson(jsonObject, type)
     }
 
-    fun toJson(item: Map<String, Any>): String = gson.toJson(item)
+    fun toJson(item: Any?): String = gson.toJson(item)
 
     val gson: Gson by lazy {
         GsonBuilder()

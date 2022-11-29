@@ -292,6 +292,12 @@ constructor(
         }
     }
 
+    suspend fun setExcludeFromHistory(excludeFromHistory: Boolean) {
+        commitTransactionForShortcut { shortcut ->
+            shortcut.excludeFromHistory = excludeFromHistory
+        }
+    }
+
     suspend fun setRequireConfirmation(requireConfirmation: Boolean) {
         commitTransactionForShortcut { shortcut ->
             shortcut.requireConfirmation = requireConfirmation

@@ -33,6 +33,7 @@ import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseImageBinding
 import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponsePlainBinding
 import ch.rmy.android.http_shortcuts.databinding.ActivityDisplayResponseSyntaxHighlightingBinding
@@ -300,7 +301,7 @@ class DisplayResponseActivity : BaseActivity() {
 
     private fun rerunShortcut() {
         ExecuteActivity.IntentBuilder(shortcutId)
-            .trigger("window-rerun")
+            .trigger(ShortcutTriggerType.WINDOW_RERUN)
             .startActivity(context)
         finishWithoutAnimation()
     }

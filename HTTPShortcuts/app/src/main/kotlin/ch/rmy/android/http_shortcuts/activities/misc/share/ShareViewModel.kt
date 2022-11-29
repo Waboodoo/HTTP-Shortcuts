@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
@@ -175,7 +176,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
             ExecuteActivity.IntentBuilder(shortcutId)
                 .variableValues(variableValues)
                 .files(fileUris)
-                .trigger("share")
+                .trigger(ShortcutTriggerType.SHARE)
         )
         finish(skipAnimation = true)
     }

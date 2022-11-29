@@ -16,6 +16,7 @@ data class ExecutionSettingsViewState(
     val launcherShortcut: Boolean = false,
     val quickSettingsTileShortcutOptionVisible: Boolean = false,
     val quickSettingsTileShortcut: Boolean = false,
+    val excludeFromHistory: Boolean = false,
 ) {
     val delaySubtitle: Localizable
         get() = DurationLocalizable(delay)

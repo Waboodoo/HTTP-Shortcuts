@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.databinding.DialogTextBinding
 import ch.rmy.android.http_shortcuts.extensions.getSafeName
@@ -95,7 +96,7 @@ constructor(
 
     private fun rerunShortcut(shortcutId: ShortcutId) {
         ExecuteActivity.IntentBuilder(shortcutId)
-            .trigger("dialog-rerun")
+            .trigger(ShortcutTriggerType.DIALOG_RERUN)
             .startActivity(context)
     }
 

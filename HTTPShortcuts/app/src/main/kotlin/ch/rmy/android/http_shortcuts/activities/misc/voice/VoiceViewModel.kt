@@ -12,6 +12,7 @@ import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import com.afollestad.materialdialogs.callbacks.onCancel
 import kotlinx.coroutines.launch
@@ -76,7 +77,7 @@ class VoiceViewModel(application: Application) : BaseViewModel<VoiceViewModel.In
     }
 
     private fun executeShortcut(shortcutId: ShortcutId) {
-        openActivity(ExecuteActivity.IntentBuilder(shortcutId).trigger("voice"))
+        openActivity(ExecuteActivity.IntentBuilder(shortcutId).trigger(ShortcutTriggerType.VOICE))
         finish(skipAnimation = true)
     }
 

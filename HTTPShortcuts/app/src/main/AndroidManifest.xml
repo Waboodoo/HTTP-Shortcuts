@@ -249,6 +249,16 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
+            android:name=".activities.history.HistoryActivity"
+            android:label="@string/title_event_history"
+            android:parentActivityName=".activities.main.MainActivity"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.main.MainActivity" />
+        </activity>
+
+        <activity
             android:name=".activities.settings.ContactActivity"
             android:label="@string/title_contact"
             android:windowSoftInputMode="adjustResize" />

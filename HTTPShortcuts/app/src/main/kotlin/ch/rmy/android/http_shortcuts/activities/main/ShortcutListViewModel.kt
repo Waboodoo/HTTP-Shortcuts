@@ -41,6 +41,7 @@ import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
@@ -311,7 +312,7 @@ class ShortcutListViewModel(
 
     private fun executeShortcut(shortcutId: ShortcutId) {
         logInfo("Preparing to execute shortcut")
-        openActivity(ExecuteActivity.IntentBuilder(shortcutId).trigger("main-screen"))
+        openActivity(ExecuteActivity.IntentBuilder(shortcutId).trigger(ShortcutTriggerType.MAIN_SCREEN))
     }
 
     private fun editShortcut(shortcutId: ShortcutId) {

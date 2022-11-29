@@ -35,8 +35,11 @@ import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.extensions.getSafeName
+import ch.rmy.android.http_shortcuts.extensions.shouldIncludeInHistory
 import ch.rmy.android.http_shortcuts.extensions.showAndAwaitDismissal
 import ch.rmy.android.http_shortcuts.extensions.type
+import ch.rmy.android.http_shortcuts.history.HistoryEvent
+import ch.rmy.android.http_shortcuts.history.HistoryEventLogger
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.HttpRequester
@@ -131,6 +134,9 @@ class Execution(
     @Inject
     lateinit var errorFormatter: ErrorFormatter
 
+    @Inject
+    lateinit var historyEventLogger: HistoryEventLogger
+
     init {
         context.getApplicationComponent().inject(this)
     }
@@ -154,6 +160,14 @@ class Execution(
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
+            if (shortcut.shouldIncludeInHistory()) {
+                historyEventLogger.logEvent(
+                    HistoryEvent.Error(
+                        shortcutName = shortcut.name,
+                        error = "Unknown / unexpected error, please contact developer",
+                    )
+                )
+            }
             withContext(Dispatchers.Main) {
                 context.showToast(R.string.error_generic)
             }
@@ -164,6 +178,15 @@ class Execution(
     private suspend fun displayError(error: Throwable) {
         generateOutputFromError(error)
             .let { message ->
+                if (shortcut.shouldIncludeInHistory()) {
+                    historyEventLogger.logEvent(
+                        HistoryEvent.Error(
+                            shortcutName = shortcut.name,
+                            error = message,
+                        )
+                    )
+                }
+
                 withContext(Dispatchers.Main) {
                     try {
                         DialogBuilder(activityProvider.getActivity())
@@ -191,6 +214,15 @@ class Execution(
         } catch (e: NoSuchElementException) {
             showShortcutNotFoundDialog()
             throw CancellationException("Cancelling because shortcut was not found")
+        }
+
+        if (shortcut.shouldIncludeInHistory()) {
+            historyEventLogger.logEvent(
+                HistoryEvent.ShortcutTriggered(
+                    shortcutName = shortcut.name,
+                    trigger = params.trigger,
+                )
+            )
         }
 
         if (requiresConfirmation()) {

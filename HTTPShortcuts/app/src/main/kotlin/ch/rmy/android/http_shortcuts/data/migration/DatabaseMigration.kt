@@ -395,6 +395,15 @@ class DatabaseMigration : RealmMigration {
                     shortcut.setString("proxy", "HTTP")
                 }
             }
+            55L -> { // 2.27.0
+                schema.create("HistoryEvent")
+                    .addField("id", String::class.java, FieldAttribute.PRIMARY_KEY, FieldAttribute.REQUIRED)
+                    .addField("time", Date::class.java, FieldAttribute.REQUIRED, FieldAttribute.INDEXED)
+                    .addField("type", String::class.java, FieldAttribute.REQUIRED)
+                    .addField("data", String::class.java, FieldAttribute.REQUIRED)
+                schema.get("Shortcut")!!
+                    .addField("excludeFromHistory", Boolean::class.javaPrimitiveType)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -420,6 +429,6 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 54L
+        const val VERSION = 55L
     }
 }
