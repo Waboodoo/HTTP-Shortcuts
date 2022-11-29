@@ -4,6 +4,7 @@ import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel.Companion
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel.Companion.SUCCESS_OUTPUT_NONE
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel.Companion.UI_TYPE_TOAST
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
 import javax.inject.Inject
 
@@ -11,6 +12,7 @@ class CheckHeadlessExecutionUseCase
 @Inject
 constructor(
     private val permissionManager: PermissionManager,
+    private val networkUtil: NetworkUtil,
 ) {
     operator fun invoke(shortcut: ShortcutModel): Boolean {
         val responseHandling = shortcut.responseHandling ?: return false
@@ -19,6 +21,7 @@ constructor(
         val usesCodeAfterExecution = shortcut.codeOnSuccess.isNotEmpty() || shortcut.codeOnFailure.isNotEmpty()
         return (usesNoOutput || (usesToastOutput && permissionManager.hasNotificationPermission())) &&
             !usesCodeAfterExecution &&
-            !shortcut.isWaitForNetwork
+            !shortcut.isWaitForNetwork &&
+            !networkUtil.isNetworkPerformanceRestricted()
     }
 }
