@@ -1,3 +1,21 @@
+## Version 2.26.0
+
+### Improvements
+- Added support for SOCKS proxies
+- Added `promptPassword()`, `promptColor()`, `promptDate()` and `promptTime()` functions to Scripting feature
+- Added lots of translations. Much of it was machine translated so it might not be accurate, feedback for improvements is welcome
+
+### Miscellaneous
+- Added better validation for shortcut import to better support externally edited or generated export files
+- The default color in the color picker is now white instead of black to make it possible to pick a new color without touching the brightness slider
+- The `hmac()` function now also accepts messages in byte array format instead of only strings
+
+### Bugfixes
+- Fixed a crash when clicking the "Share" button on the response dialog
+- Fixed an issue where HTTP requests would fail when battery saver or data saver was enabled
+- Fixed the handling of arguments passed to `sendMqttMessages()`
+- Parameter-based request body is now also included when a custom content-type header is provided
+
 ## Version 2.25.1
 
 ### Bugfixes
