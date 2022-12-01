@@ -484,6 +484,7 @@ class ShortcutEditorViewModel(
     }
 
     private fun onDiscardDialogConfirmed() {
+        isFinishing = true
         viewModelScope.launch {
             withProgressTracking {
                 temporaryShortcutRepository.deleteTemporaryShortcut()
@@ -566,7 +567,7 @@ class ShortcutEditorViewModel(
     }
 
     fun onIconClicked() {
-        if (isSaving) {
+        if (isSaving || isFinishing) {
             return
         }
         dialogState = getIconPickerDialog(
