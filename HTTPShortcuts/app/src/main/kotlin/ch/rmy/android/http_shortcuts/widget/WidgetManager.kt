@@ -47,6 +47,7 @@ constructor(
             views.setOnClickPendingIntent(
                 R.id.widget_base,
                 ExecuteActivity.IntentBuilder(shortcut.id)
+                    .trigger("widget")
                     .build(context)
                     .let { intent ->
                         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

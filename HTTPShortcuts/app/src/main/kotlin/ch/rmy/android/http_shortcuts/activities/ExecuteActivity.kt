@@ -84,6 +84,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                 tryNumber = intent.extras?.getInt(EXTRA_TRY_NUMBER) ?: 0,
                 recursionDepth = intent.extras?.getInt(EXTRA_RECURSION_DEPTH) ?: 0,
                 fileUris = intent.getParcelableList(EXTRA_FILES) ?: emptyList(),
+                trigger = intent.extras?.getString(EXTRA_TRIGGER),
             )
         )
 
@@ -156,6 +157,10 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         fun executionId(id: ExecutionId) = also {
             intent.putExtra(EXTRA_EXECUTION_SCHEDULE_ID, id)
         }
+
+        fun trigger(trigger: String) = also {
+            intent.putExtra(EXTRA_TRIGGER, trigger)
+        }
     }
 
     companion object {
@@ -168,6 +173,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         private const val EXTRA_RECURSION_DEPTH = "recursion_depth"
         private const val EXTRA_FILES = "files"
         private const val EXTRA_EXECUTION_SCHEDULE_ID = "schedule_id"
+        private const val EXTRA_TRIGGER = "trigger"
 
         private const val INVISIBLE_PROGRESS_THRESHOLD = 400L
 

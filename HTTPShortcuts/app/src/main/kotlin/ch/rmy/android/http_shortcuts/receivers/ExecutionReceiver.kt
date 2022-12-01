@@ -10,6 +10,7 @@ class ExecutionReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         ExecuteActivity.IntentBuilder()
+            .trigger("broadcast")
             .build(context)
             .apply {
                 action = intent.action

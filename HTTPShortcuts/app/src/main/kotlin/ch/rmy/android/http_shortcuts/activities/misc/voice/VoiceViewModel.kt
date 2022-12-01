@@ -76,7 +76,7 @@ class VoiceViewModel(application: Application) : BaseViewModel<VoiceViewModel.In
     }
 
     private fun executeShortcut(shortcutId: ShortcutId) {
-        openActivity(ExecuteActivity.IntentBuilder(shortcutId))
+        openActivity(ExecuteActivity.IntentBuilder(shortcutId).trigger("voice"))
         finish(skipAnimation = true)
     }
 

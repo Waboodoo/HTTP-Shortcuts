@@ -56,6 +56,7 @@ class ExecutionWorker(private val context: Context, workerParams: WorkerParamete
                 .tryNumber(pendingExecution.tryNumber)
                 .recursionDepth(pendingExecution.recursionDepth)
                 .executionId(pendingExecution.id)
+                .trigger("schedule")
                 .startActivity(context)
         }
     }

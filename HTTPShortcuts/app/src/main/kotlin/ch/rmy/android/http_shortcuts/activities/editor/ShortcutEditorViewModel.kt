@@ -386,7 +386,7 @@ class ShortcutEditorViewModel(
             }
             viewModelScope.launch {
                 waitForOperationsToFinish()
-                openActivity(ExecuteActivity.IntentBuilder(TEMPORARY_ID))
+                openActivity(ExecuteActivity.IntentBuilder(TEMPORARY_ID).trigger("test-button"))
             }
         }
     }

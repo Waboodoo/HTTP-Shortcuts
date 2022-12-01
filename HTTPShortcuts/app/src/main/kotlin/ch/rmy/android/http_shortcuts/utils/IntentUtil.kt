@@ -18,6 +18,7 @@ object IntentUtil {
     @Suppress("DEPRECATION")
     fun getLegacyShortcutPlacementIntent(context: Context, shortcut: LauncherShortcut, install: Boolean): Intent {
         val shortcutIntent = ExecuteActivity.IntentBuilder(shortcut.id)
+            .trigger("legacy-shortcut")
             .build(context)
         val addIntent = createIntent {
             putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)

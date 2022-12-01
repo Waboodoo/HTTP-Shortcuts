@@ -311,7 +311,7 @@ class ShortcutListViewModel(
 
     private fun executeShortcut(shortcutId: ShortcutId) {
         logInfo("Preparing to execute shortcut")
-        openActivity(ExecuteActivity.IntentBuilder(shortcutId))
+        openActivity(ExecuteActivity.IntentBuilder(shortcutId).trigger("main-screen"))
     }
 
     private fun editShortcut(shortcutId: ShortcutId) {

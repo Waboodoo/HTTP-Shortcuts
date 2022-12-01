@@ -12,5 +12,6 @@ data class ExecutionParams(
     val tryNumber: Int = 0,
     val recursionDepth: Int = 0,
     val fileUris: List<Uri> = emptyList(),
+    val trigger: String? = null,
     val isNested: Boolean = false,
 )

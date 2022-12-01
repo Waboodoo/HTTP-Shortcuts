@@ -28,6 +28,7 @@ class TriggerShortcutActionRunner : TaskerPluginRunnerActionNoOutput<Input>() {
         val variableValues = extractVariableMap(input)
         ExecuteActivity.IntentBuilder(shortcutId)
             .variableValues(variableValues)
+            .trigger("plugin")
             .startActivity(context)
 
         return try {

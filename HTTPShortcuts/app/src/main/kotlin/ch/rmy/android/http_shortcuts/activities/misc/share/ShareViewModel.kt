@@ -175,6 +175,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
             ExecuteActivity.IntentBuilder(shortcutId)
                 .variableValues(variableValues)
                 .files(fileUris)
+                .trigger("share")
         )
         finish(skipAnimation = true)
     }

@@ -107,6 +107,7 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
     private fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKey, String>) {
         openActivity(
             ExecuteActivity.IntentBuilder(shortcutId)
+                .trigger("deep-link")
                 .variableValues(variableValues)
         )
         finish(skipAnimation = true)

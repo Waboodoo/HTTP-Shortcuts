@@ -91,6 +91,7 @@ class QuickTileService : TileService() {
 
     private fun executeShortcut(shortcutId: ShortcutId) {
         ExecuteActivity.IntentBuilder(shortcutId)
+            .trigger("quick-settings-tile")
             .build(context)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             .let { intent ->

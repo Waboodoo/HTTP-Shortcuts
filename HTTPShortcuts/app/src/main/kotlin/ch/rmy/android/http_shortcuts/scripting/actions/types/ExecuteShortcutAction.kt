@@ -69,6 +69,7 @@ class ExecuteShortcutAction(
                         plus(overriddenVariableValues.mapValues { it.value?.toString().orEmpty() })
                     },
                 recursionDepth = executionContext.recursionDepth + 1,
+                trigger = "scripting",
                 isNested = true,
             )
         )

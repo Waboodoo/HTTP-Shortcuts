@@ -95,6 +95,7 @@ constructor(
 
     private fun rerunShortcut(shortcutId: ShortcutId) {
         ExecuteActivity.IntentBuilder(shortcutId)
+            .trigger("dialog-rerun")
             .startActivity(context)
     }
 

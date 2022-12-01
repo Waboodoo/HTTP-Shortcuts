@@ -300,6 +300,7 @@ class DisplayResponseActivity : BaseActivity() {
 
     private fun rerunShortcut() {
         ExecuteActivity.IntentBuilder(shortcutId)
+            .trigger("window-rerun")
             .startActivity(context)
         finishWithoutAnimation()
     }
