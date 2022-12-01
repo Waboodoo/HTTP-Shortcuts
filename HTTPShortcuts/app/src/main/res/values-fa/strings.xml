@@ -91,9 +91,6 @@
     <!-- Title of fullscreen window when shortcut is executed/run -->
     <string name="title_activity_execute">"میانبر را اجرا کنید"</string>
 
-    <!-- Confirmation message shown in Toast when a shortcut was executed. %s is a placeholder for the shortcut's name -->
-    <string name="executed">"قبلاً اجرا شده"</string>
-
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">"میانبر پیدا نشد.ممکن است مجبور شوید دوباره آن را به صفحه اصلی اضافه کنید."</string>
 

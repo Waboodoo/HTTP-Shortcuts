@@ -110,14 +110,14 @@
     <string name="error_other">"%1$s فشل: %2$s"</string>
 
     <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
-    <string name="error_response_too_large">"الاستجابة أكبر من أن يتم عرضها (الحد هو٪ s)"</string>
+    <string name="error_response_too_large">"الاستجابة أكبر من أن يتم عرضها (الحد هو%s)"</string>
 
     <!-- Error shown when a selected image cannot be used as an icon -->
     <!-- Fuzzy -->
     <string name="error_set_image">"الصورة غير مناسبة"</string>
 
     <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
-    <string name="template_shortcut_name_copy">"٪ 1 $ s (نسخة)"</string>
+    <string name="template_shortcut_name_copy">"%1$s (نسخة)"</string>
 
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
     <string name="change_icon">"تغير الأيقونة"</string>
@@ -230,10 +230,10 @@
 
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="import_failed_with_reason">"فشل استيراد الاختصارات:
-٪س"</string>
+%sس"</string>
 
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="export_failed_with_reason">"فشل تصدير الاختصارات:٪ s"</string>
+    <string name="export_failed_with_reason">"فشل تصدير الاختصارات:%s"</string>
 
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
     <string name="import_failure_reason_invalid_json">"JSON غير صالح"</string>
@@ -251,13 +251,13 @@
     <string name="label_proxy_port">"منفذ الوكيل"</string>
 
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
-    <string name="pattern_minutes_seconds">"٪ 1 $ s ،٪ 2 $ s"</string>
+    <string name="pattern_minutes_seconds">"%1$s, %2$s"</string>
 
     <!-- Title of option in settings to show change changelog of current and past versions -->
     <string name="settings_changelog">"التغيير"</string>
 
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
-    <string name="settings_changelog_summary">"الإصدار٪ 1 $ s"</string>
+    <string name="settings_changelog_summary">"الإصدار%1$s"</string>
 
     <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">"اتصل بالمطور"</string>
@@ -281,7 +281,7 @@
     <string name="changelog_checkbox_show_at_startup">"إظهار عند التشغيل"</string>
 
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
-    <string name="execution_delayed">"سيتم تنفيذ٪ 1 $ s بمجرد توفر اتصال بالإنترنت."</string>
+    <string name="execution_delayed">"سيتم تنفيذ%1$s بمجرد توفر اتصال بالإنترنت."</string>
 
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
     <string name="label_wait_for_connection">"انتظر الاتصال عندما تكون غير متصل بالإنترنت"</string>
@@ -296,16 +296,16 @@
     <string name="settings_play_store_summary">"شكرا لك على التقييمات والمراجعات الخاصة بك"</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_duplicated">"تم تكرار \"٪ 1 $ s\"."</string>
+    <string name="shortcut_duplicated">"تم تكرار \"%1$s\"."</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_moved">"تم نقل \"٪ 1 $ s\"."</string>
+    <string name="shortcut_moved">"تم نقل \"%1$s\"."</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_deleted">"تم حذف \"٪ 1 $ s\"."</string>
+    <string name="shortcut_deleted">"تم حذف \"%1$s\"."</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_placed">"تم وضع \"٪ 1 $ s\" على الشاشة الرئيسية."</string>
+    <string name="shortcut_placed">"تم وضع \"%1$s\" على الشاشة الرئيسية."</string>
 
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
     <string name="dialog_delete">"حذف"</string>
@@ -382,7 +382,7 @@
     <string name="message_category_deleted">"تم حذف الفئة."</string>
 
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
-    <string name="label_category_hidden">"٪ s (مخفي)"</string>
+    <string name="label_category_hidden">"%s (مخفي)"</string>
 
     <!-- Dialog title/button, for feature to move a shortcut to a different category -->
     <string name="title_move_to_category">"انتقل إلى الفئة"</string>
@@ -445,7 +445,7 @@
     <string name="confirm_delete_variable_message">"حذف هذا المتغير؟"</string>
 
     <!-- Message, shown in snackbar, confirming to user that a variable was deleted. %1$s is a placeholder for the variable name -->
-    <string name="variable_deleted">"تم حذف \"٪ 1 $ s\"."</string>
+    <string name="variable_deleted">"تم حذف \"%1$s\"."</string>
 
     <!-- Checkbox label, for option to enable URL encoding of a variable -->
     <string name="label_url_encode">"ترميز URL"</string>
@@ -551,7 +551,7 @@
     <string name="action_cancel_pending">"إلغاء التنفيذ المعلق"</string>
 
     <!-- Message, shown in snackbar to confirm when the user cancelled a pending shortcut execution (%1$s is a placeholder for the shortcut name) -->
-    <string name="pending_shortcut_execution_cancelled">"تم إلغاء٪ 1 $ s."</string>
+    <string name="pending_shortcut_execution_cancelled">"تم إلغاء%1$s."</string>
 
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">"ارسل إلى…"</string>
@@ -672,7 +672,7 @@
     <string name="error_slider_step_size_must_be_positive">"يجب أن يكون حجم الخطوة عددًا موجبًا."</string>
 
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
-    <string name="plugin_blurb_execute_task">"تنفيذ الاختصار \"٪ 1 $ s\""</string>
+    <string name="plugin_blurb_execute_task">"تنفيذ الاختصار \"%1$s\""</string>
 
     <!-- Label of dropdown to select the request body type in shortcut editor -->
     <string name="label_request_body_type">"طلب نوع الجسم"</string>
@@ -741,16 +741,16 @@
     <string name="action_type_trigger_shortcut_error_recursion_depth_reached">"تم الوصول إلى أقصى عمق تكراري. لن يتم تشغيل الاختصار."</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
-    <string name="error_invalid_url">"URL غير صالح (٪ s)."</string>
+    <string name="error_invalid_url">"URL غير صالح (%s)."</string>
 
     <!-- error message: Shown in toast when the user tries to execute a shortcut with invalid proxy settings -->
-    <string name="error_invalid_proxy">"وكيل غير صالح (٪ s)"</string>
+    <string name="error_invalid_proxy">"وكيل غير صالح (%s)"</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid content type -->
-    <string name="error_invalid_content_type">"نوع المحتوى غير صالح (٪ s)."</string>
+    <string name="error_invalid_content_type">"نوع المحتوى غير صالح (%s)."</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid header -->
-    <string name="error_invalid_header">"رأس غير صالح (٪ s)."</string>
+    <string name="error_invalid_header">"رأس غير صالح (%s)."</string>
 
     <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
     <string name="title_select_placement_method">"طريقة التنسيب"</string>
@@ -798,7 +798,7 @@
     <string name="warning_data_saver_battery_saver_enabled">"تم تمكين أوضاع توفير البيانات و / أو توفير البطارية على جهازك. إذا واجهت مشاكل مع الاختصارات التي لا تعمل ، فالرجاء محاولة تعطيلها."</string>
 
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
-    <string name="message_variable_duplicated">"تم تكرار \"٪ 1 $ s\"."</string>
+    <string name="message_variable_duplicated">"تم تكرار \"%1$s\"."</string>
 
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">"قم بتعيين عنوان URL للاختصار وطريقة HTTP"</string>
@@ -807,7 +807,7 @@
     <string name="subtitle_basic_request_settings_url_only_prompt">"قم بتعيين عنوان URL للاختصار"</string>
 
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
-    <string name="subtitle_basic_request_settings_pattern">"٪ 1 $ s٪ 2 $ s"</string>
+    <string name="subtitle_basic_request_settings_pattern">"%1$s %2$s"</string>
 
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
     <string name="subtitle_request_headers_none">"لم يتم تعيين رؤوس"</string>
@@ -831,10 +831,10 @@
     <string name="subtitle_request_body_none">"لم يتم تعيين نص الطلب"</string>
 
     <!-- Section subtitle, shown in shortcut editor when a custom request body is set. %s is a placeholder for the data type, e.g. application/json -->
-    <string name="subtitle_request_body_custom">"مجموعة نص الطلب المخصص (٪ s)"</string>
+    <string name="subtitle_request_body_custom">"مجموعة نص الطلب المخصص (%s)"</string>
 
     <!-- Section subtitle, shown for "Custom Request Body" option when it is not available because the selected HTTP method (%1$s) does not support a request body -->
-    <string name="subtitle_request_body_not_available">"لا ينطبق على٪ 1 $ s"</string>
+    <string name="subtitle_request_body_not_available">"لا ينطبق على%1$s"</string>
 
     <!-- Empty state, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers">"لم يتم تعيين رؤوس"</string>
@@ -865,7 +865,7 @@
 
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
     <string name="error_js_pattern">"خطأ JavaScript:
-٪س"</string>
+%sس"</string>
 
     <!-- Button: Shown below JavaScript editor (for pre-request and post-request actions), allows to add snippets of JS code -->
     <string name="button_add_code_snippet">"أضف مقتطف الشفرة"</string>
@@ -901,13 +901,13 @@
     <string name="dialog_code_snippet_set_variable">"قم بتعيين قيمة متغيرة"</string>
 
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_triggering">"تعذر تشغيل الاختصار \"٪ 1 $ s\" لأنه غير موجود."</string>
+    <string name="error_shortcut_not_found_for_triggering">"تعذر تشغيل الاختصار \"%1$s\" لأنه غير موجود."</string>
 
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_renaming">"تعذرت إعادة تسمية الاختصار \"٪ 1 $ s\" لأنه غير موجود."</string>
+    <string name="error_shortcut_not_found_for_renaming">"تعذرت إعادة تسمية الاختصار \"%1$s\" لأنه غير موجود."</string>
 
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_changing_icon">"تعذر تغيير رمز الاختصار \"٪ 1 $ s\" لأنه غير موجود."</string>
+    <string name="error_shortcut_not_found_for_changing_icon">"تعذر تغيير رمز الاختصار \"%1$s\" لأنه غير موجود."</string>
 
     <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
     <string name="settings_dark_theme_options_on">"دائما الظلام"</string>
@@ -942,7 +942,7 @@
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
     <string name="instructions_quick_settings_tile">"ليس لديك حتى الآن أي اختصارات يمكن تشغيلها عبر لوحة الإعدادات السريعة.
 
-يمكنك تمكين هذه الميزة عن طريق تحرير اختصار وتحديد مربع الاختيار \"٪ 1 $ s\" الموجود في \"٪ 2 $ s\"."</string>
+يمكنك تمكين هذه الميزة عن طريق تحرير اختصار وتحديد مربع الاختيار \"%1$s\" الموجود في \"%2$s\"."</string>
 
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">"كود الحالة"</string>
@@ -981,7 +981,7 @@
     <string name="language_default">"النظام الافتراضي"</string>
 
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
-    <string name="error_text_too_long_for_variable">"يتجاوز النص عدد الأحرف المسموح به وهو٪ d. لا يمكن إدراج متغير نائب."</string>
+    <string name="error_text_too_long_for_variable">"يتجاوز النص عدد الأحرف المسموح به وهو%d. لا يمكن إدراج متغير نائب."</string>
 
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">"حدد أو أنشئ اختصارًا لوضعه على الشاشة الرئيسية."</string>
@@ -1002,13 +1002,13 @@
     <string name="label_widget_label_color">"لون التسمية"</string>
 
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
-    <string name="error_invalid_character">"حرف غير صالح:٪ s"</string>
+    <string name="error_invalid_character">"حرف غير صالح:%s"</string>
 
     <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
     <string name="title_select_variable_type">"حدد نوع المتغير"</string>
 
     <!-- Error message: Shown when a request that uses Digest Authentication fails. %s is a placeholder for the detailed error message. -->
-    <string name="error_digest_auth_failed">"فشلت مصادقة التلخيص:٪ s"</string>
+    <string name="error_digest_auth_failed">"فشلت مصادقة التلخيص:%s"</string>
 
     <!-- label, to allow the user to enter the name for a variable -->
     <string name="label_variable_name">"اسم"</string>
@@ -1083,7 +1083,7 @@
     <string name="title_remove_trigger_shortcut">"إزالة الاختصار"</string>
 
     <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="message_remove_trigger_shortcut">"هل تريد إزالة الاختصار \"٪ s\" من قائمة الاختصارات المشغلة؟"</string>
+    <string name="message_remove_trigger_shortcut">"هل تريد إزالة الاختصار \"%s\" من قائمة الاختصارات المشغلة؟"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
     <string name="action_type_prompt_title">"موجه للنص"</string>
@@ -1125,7 +1125,7 @@
     <string name="dialog_code_snippet_response_body_json">"الحصول على نص استجابة بصيغة JSON"</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid bearer auth token configured -->
-    <string name="error_invalid_bearer_auth">"رمز مصادقة الحامل غير صالح (٪ s)."</string>
+    <string name="error_invalid_bearer_auth">"رمز مصادقة الحامل غير صالح (%s)."</string>
 
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">"تاسكر الزناد المهمة"</string>
@@ -1134,7 +1134,7 @@
     <string name="action_type_send_intent_title">"نية الإرسال"</string>
 
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
-    <string name="error_action_type_send_intent_failed">"فشل إرسال القصد:٪ s"</string>
+    <string name="error_action_type_send_intent_failed">"فشل إرسال القصد:%s"</string>
 
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">"استكشاف الأخطاء وإصلاحها"</string>
@@ -1212,7 +1212,7 @@
     <string name="dialog_code_snippet_text_processing">"معالجة النصوص"</string>
 
     <!-- Error message: Shown when user tries to use an unsupported hash function -->
-    <string name="error_unsupported_hash_algorithm">"خوارزمية تجزئة غير مدعومة \"٪ 1 $ s\". استخدم٪ 2 $ s."</string>
+    <string name="error_unsupported_hash_algorithm">"خوارزمية تجزئة غير مدعومة \"%1$s\". استخدم%2$s."</string>
 
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">"تحرير على الكمبيوتر"</string>
@@ -1227,7 +1227,7 @@
     <string name="instructions_remote_edit_step_2">"انقر فوق الزر &lt;pre&gt; \"Push to Server\" &lt;/pre&gt;."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
-    <string name="instructions_remote_edit_step_3">"افتح٪ s في مستعرض على جهاز الكمبيوتر الخاص بك ، وأدخل معرف جهازك وكلمة المرور وابدأ التحرير."</string>
+    <string name="instructions_remote_edit_step_3">"افتح%s في مستعرض على جهاز الكمبيوتر الخاص بك ، وأدخل معرف جهازك وكلمة المرور وابدأ التحرير."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
     <string name="instructions_remote_edit_step_4">"بمجرد الانتهاء من التحرير وحفظ التغييرات ، انقر فوق الزر &lt;pre&gt; \"سحب التغييرات\" &lt;/ pre&gt; أدناه لتنزيل التغييرات مرة أخرى في التطبيق."</string>
@@ -1272,10 +1272,10 @@
     <string name="dialog_reset">"إعادة ضبط"</string>
 
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
-    <string name="error_variable_not_found_read">"خطأ متغير: حاول الحصول على قيمة متغير غير موجود:٪ s"</string>
+    <string name="error_variable_not_found_read">"خطأ متغير: حاول الحصول على قيمة متغير غير موجود:%s"</string>
 
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
-    <string name="error_variable_not_found_write">"خطأ متغير: حاول تعيين قيمة متغير غير موجود:٪ s"</string>
+    <string name="error_variable_not_found_write">"خطأ متغير: حاول تعيين قيمة متغير غير موجود:%s"</string>
 
     <!-- Title of code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="title_global_scripting">"البرمجة العالمية"</string>
@@ -1293,12 +1293,12 @@
     <string name="action_save_global_scripting">"حفظ التغييرات"</string>
 
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
-    <string name="error_shortcut_not_found_for_deep_link">"الاختصار \"٪ s\" غير موجود"</string>
+    <string name="error_shortcut_not_found_for_deep_link">"الاختصار \"%s\" غير موجود"</string>
 
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
     <string name="instructions_deep_linking">"لاستخدام ميزة الارتباط العميق ، تأكد من استخدام عنوان URL صالح للنموذج:
 
-٪س"</string>
+%sس"</string>
 
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">"اختصار محذوف"</string>
@@ -1316,7 +1316,7 @@
     <string name="message_permission_rational">"أذونات الموقع مطلوبة للتحقق من اسم (SSID) لشبكة Wi-Fi الحالية. هذا مطلب يفرضه نظام التشغيل Android. لا يتم الوصول إلى بيانات موقعك مباشرة."</string>
 
     <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
-    <string name="message_wrong_wifi_network">"غير متصل بشبكة Wi-Fi المكونة لهذا الاختصار \"٪ 1 $ s\". حدد شبكة Wi-Fi أخرى الآن؟"</string>
+    <string name="message_wrong_wifi_network">"غير متصل بشبكة Wi-Fi المكونة لهذا الاختصار \"%1$s\". حدد شبكة Wi-Fi أخرى الآن؟"</string>
 
     <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
     <string name="action_label_select">"يختار"</string>
@@ -1397,13 +1397,13 @@
     <string name="label_subtitle_no_client_cert">"انقر لتحديد شهادة."</string>
 
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
-    <string name="label_subtitle_client_cert_in_use">"باستخدام الشهادة \"٪ s\". انقر للإزالة."</string>
+    <string name="label_subtitle_client_cert_in_use">"باستخدام الشهادة \"%s\". انقر للإزالة."</string>
 
     <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
     <string name="error_failed_to_use_client_cert">"فشل تحميل أو استخدام شهادة العميل. قد يكون ذلك بسبب عدم دعم جهازك أو أنه يحتاج إلى إعادة تكوينه في إعدادات الاختصار."</string>
 
     <!-- Error message: Shown when user tries to use an unsupported hmac function -->
-    <string name="error_unsupported_hmac_algorithm">"خوارزمية HMAC غير مدعومة \"٪ 1 $ s\" أو مفتاح غير صالح. استخدم٪ 2 $ s."</string>
+    <string name="error_unsupported_hmac_algorithm">"خوارزمية HMAC غير مدعومة \"%1$s\" أو مفتاح غير صالح. استخدم%2$s."</string>
 
     <!-- Button, shown on About page, to allow opening the app's F-Droid page -->
     <string name="settings_f_droid">"عرض في F-Droid"</string>
@@ -1448,7 +1448,7 @@
     <string name="action_play_sound">"تشغيل الصوت"</string>
 
     <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting. -->
-    <string name="message_response_handling_scripting_hint">"إذا كنت بحاجة إلى المزيد من الخيارات المتقدمة لمعالجة الاستجابة وعرضها ، فراجع قسم '٪ s' ، والذي يتيح لك تحديد منطق مخصص باستخدام كود JavaScript."</string>
+    <string name="message_response_handling_scripting_hint">"إذا كنت بحاجة إلى المزيد من الخيارات المتقدمة لمعالجة الاستجابة وعرضها ، فراجع قسم '%s' ، والذي يتيح لك تحديد منطق مخصص باستخدام كود JavaScript."</string>
 
     <!-- Menu button shown on response window, allows the user to execute the current shortcut again -->
     <string name="action_rerun_shortcut">"أعد تشغيل"</string>
@@ -1481,8 +1481,8 @@
     <string name="action_type_wake_on_lan">"استيقظوا على الشبكة المحلية"</string>
 
     <!-- Error message: Shown when a JS error occurs. %d is a placeholder for the line number, %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">"خطأ JavaScript (في السطر٪ 1 $ d):
-٪ 2 $ s"</string>
+    <string name="error_js_pattern_with_line_number">"خطأ JavaScript (في السطر%1$d):
+%2$s"</string>
 
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
     <string name="label_select_variable_separator">"فاصل"</string>
@@ -1491,10 +1491,10 @@
     <string name="label_select_variable_multi_select">"السماح بتحديد خيارات متعددة"</string>
 
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
-    <string name="error_action_type_send_wol_failed">"فشل إرسال حزمة Wake-on-LAN:٪ s"</string>
+    <string name="error_action_type_send_wol_failed">"فشل إرسال حزمة Wake-on-LAN:%s"</string>
 
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails because on an invalid MAC address -->
-    <string name="error_action_type_send_wol_invalid_mac_address">"عنوان MAC غير صالح:٪ s"</string>
+    <string name="error_action_type_send_wol_invalid_mac_address">"عنوان MAC غير صالح:%s"</string>
 
     <!-- Section title in shortcut editor, groups together settings related to triggering, scheduling and executing a shortcut -->
     <string name="label_execution_settings">"إعدادات الزناد والتنفيذ"</string>
@@ -1547,13 +1547,13 @@
     <string name="action_type_get_wifi_ssid">"احصل على SSID لشبكة Wi-Fi"</string>
 
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
-    <string name="error_no_app_found_for_url">"لم يتم العثور على تطبيق يمكنه فتح URL٪ s."</string>
+    <string name="error_no_app_found_for_url">"لم يتم العثور على تطبيق يمكنه فتح URL%s."</string>
 
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
-    <string name="error_no_app_found">"لم يتم العثور على تطبيق باسم الحزمة٪ s."</string>
+    <string name="error_no_app_found">"لم يتم العثور على تطبيق باسم الحزمة%s."</string>
 
     <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->
-    <string name="error_invalid_base64">"Base64 غير صالح:٪ s"</string>
+    <string name="error_invalid_base64">"Base64 غير صالح:%s"</string>
 
     <!-- Error message: Shown to the user when the app tries to determine the SSID (name) of the current Wi-Fi but failed, e.g. because of a missing permission -->
     <string name="error_failed_to_get_wifi_ssid">"فشل في تحديد SSID لشبكة Wi-Fi الحالية."</string>
@@ -1577,7 +1577,7 @@
     <string name="title_custom_icons">"الرموز المخصصة"</string>
 
     <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
-    <string name="error_browser_not_found">"لم يتم العثور على المستعرض الذي يحمل اسم الحزمة٪ s"</string>
+    <string name="error_browser_not_found">"لم يتم العثور على المستعرض الذي يحمل اسم الحزمة%s"</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
     <string name="confirm_delete_custom_icon_message">"هل تريد حذف هذا الرمز؟"</string>
@@ -1633,7 +1633,7 @@
     <string name="action_type_change_icon_description">"تغيير وصف الاختصار"</string>
 
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_changing_description">"تعذر تغيير وصف الاختصار \"٪ 1 $ s\" لأنه غير موجود."</string>
+    <string name="error_shortcut_not_found_for_changing_description">"تعذر تغيير وصف الاختصار \"%1$s\" لأنه غير موجود."</string>
 
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">"استخدم المتصفح الافتراضي"</string>
@@ -1702,7 +1702,7 @@
     <string name="title_unsaved_changes_detected">"تم العثور على اختصار غير محفوظ"</string>
 
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
-    <string name="message_unsaved_changes_detected">"تم العثور على تغييرات غير محفوظة في الاختصار \"٪ s\". هل ترغب في استعادة التغييرات ومتابعة التحرير؟"</string>
+    <string name="message_unsaved_changes_detected">"تم العثور على تغييرات غير محفوظة في الاختصار \"%s\". هل ترغب في استعادة التغييرات ومتابعة التحرير؟"</string>
 
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. -->
     <string name="message_unsaved_changes_detected_no_name">"تم العثور على تغييرات غير محفوظة في الاختصار. هل ترغب في استعادة التغييرات ومتابعة التحرير؟"</string>
@@ -1861,7 +1861,7 @@
     <string name="label_dialog_action_none">"لا أحد"</string>
 
     <!-- Label on checkbox that allows to enable/disable the use of a certain action to be displayed in the HTTP response window (e.g. "Share" button) -->
-    <string name="label_response_actions_show_button">"إظهار الزر \"٪ s\""</string>
+    <string name="label_response_actions_show_button">"إظهار الزر \"%s\""</string>
 
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">"إرسال حزمة TCP"</string>
@@ -1882,16 +1882,16 @@
     <string name="error_unsupported_file_url">"عناوين URL التي تحتوي على مخطط file: // غير مدعومة"</string>
 
     <!-- Error message: Shown when the user tries to parse XML using the parseXML JS function, but the XML is invalid. %s is a placeholder for a more detailed description of the error -->
-    <string name="error_invalid_xml">"XML غير صالح:٪ s"</string>
+    <string name="error_invalid_xml">"XML غير صالح:%s"</string>
 
     <!-- Error message: Shown when the user tries to send an MQTT message via Scripting but it fails. %s is a placeholder for a more detailed error message -->
-    <string name="error_failed_to_send_mqtt">"فشل إرسال رسالة MQTT:٪ s"</string>
+    <string name="error_failed_to_send_mqtt">"فشل إرسال رسالة MQTT:%s"</string>
 
     <!-- Error message: Shown when the user tries to send a UDP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
-    <string name="error_failed_to_send_udp">"فشل إرسال حزمة UDP:٪ s"</string>
+    <string name="error_failed_to_send_udp">"فشل إرسال حزمة UDP:%s"</string>
 
     <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
-    <string name="error_failed_to_send_tcp">"فشل إرسال حزمة TCP:٪ s"</string>
+    <string name="error_failed_to_send_tcp">"فشل إرسال حزمة TCP:%s"</string>
 
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">"فتح الملفات باستخدام openUrl () غير مدعوم"</string>
