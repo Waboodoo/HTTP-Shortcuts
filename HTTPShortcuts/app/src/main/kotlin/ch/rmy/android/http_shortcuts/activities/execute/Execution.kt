@@ -259,31 +259,33 @@ class Execution(
         }
 
         val response = try {
-            httpRequester
-                .executeShortcut(
-                    context,
-                    shortcut,
-                    sessionId = sessionId,
-                    variableValues = variableManager.getVariableValuesByIds(),
-                    fileUploadResult = fileUploadResult,
-                    useCookieJar = shortcut.acceptCookies,
-                )
-        } catch (e: UnknownHostException) {
-            if (shouldReschedule(e)) {
-                if (shortcut.responseHandling?.successOutput != ResponseHandlingModel.SUCCESS_OUTPUT_NONE && params.tryNumber == 0) {
-                    context.showToast(
-                        String.format(
-                            context.getString(R.string.execution_delayed),
-                            shortcutName,
-                        ),
-                        long = true,
+            try {
+                httpRequester
+                    .executeShortcut(
+                        context,
+                        shortcut,
+                        sessionId = sessionId,
+                        variableValues = variableManager.getVariableValuesByIds(),
+                        fileUploadResult = fileUploadResult,
+                        useCookieJar = shortcut.acceptCookies,
                     )
+            } catch (e: UnknownHostException) {
+                if (shouldReschedule(e)) {
+                    if (shortcut.responseHandling?.successOutput != ResponseHandlingModel.SUCCESS_OUTPUT_NONE && params.tryNumber == 0) {
+                        context.showToast(
+                            String.format(
+                                context.getString(R.string.execution_delayed),
+                                shortcutName,
+                            ),
+                            long = true,
+                        )
+                    }
+                    rescheduleExecution(variableManager)
+                    executionScheduler.schedule()
+                    return
                 }
-                rescheduleExecution(variableManager)
-                executionScheduler.schedule()
-                return
+                throw e
             }
-            throw e
         } catch (e: Exception) {
             if (e is ErrorResponse || e is IOException) {
                 scriptExecutor.execute(
