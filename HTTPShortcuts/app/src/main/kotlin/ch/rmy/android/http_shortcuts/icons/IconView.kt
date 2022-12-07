@@ -10,6 +10,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.widget.ImageViewCompat
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.extensions.zoomSwap
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.loadImage
@@ -26,7 +27,9 @@ class IconView : AppCompatImageView {
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     fun setIcon(icon: ShortcutIcon, animated: Boolean = false) {
-        applyIcon(icon, animated)
+        tryOrLog {
+            applyIcon(icon, animated)
+        }
     }
 
     private fun applyIcon(icon: ShortcutIcon, animated: Boolean = false) {
