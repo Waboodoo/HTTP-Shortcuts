@@ -1918,4 +1918,71 @@ Odstranit v každém případě?"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a password -->
     <string name="action_type_prompt_password_title">"Výzva k zadání hesla"</string>
+
+    <!-- Page title, for page showing all events that happened recently -->
+    <string name="title_event_history">"Historie událostí"</string>
+
+    <!-- Button in Event History screen, to clear all events and empty the history -->
+    <string name="button_clear_history">"Vymazat historii"</string>
+
+    <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
+    <string name="message_history_cleared">"Historie vyčištěna."</string>
+
+    <!-- Empty state, shown in event history when there are no events yet -->
+    <string name="empty_state_history">"Žádné nedávné události"</string>
+
+    <!-- Empty state instructions, shown in event history when there are no events -->
+    <string name="empty_state_history_instructions">"Zde se zobrazí podrobnosti o nedávno spuštěných zkratkách, které můžete použít při řešení problémů.
+Jednotlivé zkratky můžete ze zobrazování vyloučit pomocí možnosti, kterou najdete na obrazovce \"%s\"."</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
+    <string name="label_exclude_from_history">"Vyloučit z historie událostí"</string>
+
+    <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_shortcut_triggered">"\"%s\" spustí"</string>
+
+    <!-- Title of event history entry, which states that an HTTP request was sent. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_http_request_sent">"Požadavek HTTP odeslaný pro \"%s\""</string>
+
+    <!-- Title of event history entry, which states that an HTTP response was received. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the status code (e.g. "404 Not Found") -->
+    <string name="event_history_title_http_response_received">"Přijata odpověď HTTP pro \"%1$s\": %2$s"</string>
+
+    <!-- Title of event history entry, which states that a network error has occurred. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_network_error">"Chyba sítě pro \"%s\""</string>
+
+    <!-- Title of event history entry, which states that an execution error has occurred. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_execution_error">"Chyba při provádění pro \"%s\""</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, which indicates how a shortcut was triggered. %s is a placeholder for the trigger source, e.g. "homescreen" -->
+    <string name="label_prefix_event_history_trigger_origin">"Spuštěno prostřednictvím: %s"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_rerun_from_dialog">"Opětovné spuštění z dialogu"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_rerun_from_window">"Opětovné spuštění z okna"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_main_screen">"Hlavní obrazovka"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_share">"Sdílení do aplikace"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_quick_settings_tile">"Dlaždice rychlého nastavení"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_app_shortcut">"Zkratka aplikace"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_home_screen_shortcut">"Zástupce na domovské obrazovce"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_legacy_shortcut">"Dědičná zkratka"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_widget">"Widget"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_scripting">"Skriptování"</string>
 </resources>

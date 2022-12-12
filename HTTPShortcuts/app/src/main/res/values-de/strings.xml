@@ -929,7 +929,7 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="dialog_code_snippet_variables">"Variablen"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
-    <string name="dialog_code_snippet_response_body">"Reponse-Body auslesen"</string>
+    <string name="dialog_code_snippet_response_body">"Response-Body auslesen"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response headers -->
     <string name="dialog_code_snippet_response_headers">"Response-Header auslesen"</string>
@@ -1994,4 +1994,52 @@ Du kannst einzelne Shortcuts verbergen durch eine Einstellung in \"%s\"."</strin
 
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
     <string name="label_exclude_from_history">"Von Verlauf ausschließen"</string>
+
+    <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_shortcut_triggered">"\"%s\" ausgeführt"</string>
+
+    <!-- Title of event history entry, which states that an HTTP request was sent. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_http_request_sent">"HTTP-Request gesendet für \"%s\""</string>
+
+    <!-- Title of event history entry, which states that an HTTP response was received. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the status code (e.g. "404 Not Found") -->
+    <string name="event_history_title_http_response_received">"HTTP-Response erhalten für \"%1$s\": %2$s"</string>
+
+    <!-- Title of event history entry, which states that a network error has occurred. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_network_error">"Netzwerkfehler für \"%s\""</string>
+
+    <!-- Title of event history entry, which states that an execution error has occurred. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_execution_error">"Ausführungsfehler für \"%s\""</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, which indicates how a shortcut was triggered. %s is a placeholder for the trigger source, e.g. "homescreen" -->
+    <string name="label_prefix_event_history_trigger_origin">"Ausgelöst durch: %s"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_rerun_from_dialog">"Dialogfenster"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_rerun_from_window">"Vollbild-Fenster"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_main_screen">"App-Startseite"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_share">"Mit App teilen"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_quick_settings_tile">"Quick Settings"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_app_shortcut">"App-Shortcut"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_home_screen_shortcut">"Home-Screen-Shortcut"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_legacy_shortcut">"Legacy-Shortcut"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_widget">"Widget"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_scripting">"Scripting"</string>
 </resources>

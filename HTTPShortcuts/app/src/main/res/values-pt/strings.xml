@@ -1918,4 +1918,71 @@ Eliminar de qualquer maneira?"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a password -->
     <string name="action_type_prompt_password_title">"Solicitação de senha"</string>
+
+    <!-- Page title, for page showing all events that happened recently -->
+    <string name="title_event_history">"Histórico de eventos"</string>
+
+    <!-- Button in Event History screen, to clear all events and empty the history -->
+    <string name="button_clear_history">"História clara"</string>
+
+    <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
+    <string name="message_history_cleared">"História apagada."</string>
+
+    <!-- Empty state, shown in event history when there are no events yet -->
+    <string name="empty_state_history">"Nenhum evento recente"</string>
+
+    <!-- Empty state instructions, shown in event history when there are no events -->
+    <string name="empty_state_history_instructions">"Verá aqui detalhes sobre atalhos recentemente activados, que pode utilizar para a resolução de problemas.
+Pode excluir atalhos individuais de aparecerem aqui através de uma opção encontrada no ecrã \"%s\"."</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
+    <string name="label_exclude_from_history">"Excluir da história do evento"</string>
+
+    <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_shortcut_triggered">"\"%s\" desencadeado"</string>
+
+    <!-- Title of event history entry, which states that an HTTP request was sent. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_http_request_sent">"Pedido HTTP enviado para \"%s\"."</string>
+
+    <!-- Title of event history entry, which states that an HTTP response was received. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the status code (e.g. "404 Not Found") -->
+    <string name="event_history_title_http_response_received">"Resposta HTTP recebida por \"%1$s\": %2$s"</string>
+
+    <!-- Title of event history entry, which states that a network error has occurred. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_network_error">"Erro de rede para \"%s\"."</string>
+
+    <!-- Title of event history entry, which states that an execution error has occurred. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_execution_error">"Erro de execução para \"%s\"."</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, which indicates how a shortcut was triggered. %s is a placeholder for the trigger source, e.g. "homescreen" -->
+    <string name="label_prefix_event_history_trigger_origin">"Disparado via: %s"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_rerun_from_dialog">"Repetição do diálogo"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_rerun_from_window">"Repetição da janela"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_main_screen">"Ecrã principal"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_share">"Partilhar em app"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_quick_settings_tile">"Azulejo de configuração rápida"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_app_shortcut">"Atalho do aplicativo"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_home_screen_shortcut">"Atalho do ecrã inicial"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_legacy_shortcut">"Atalho de legado"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_widget">"Widget"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_scripting">"Roteiro"</string>
 </resources>
