@@ -1,12 +1,15 @@
 package ch.rmy.android.http_shortcuts.http
 
 import android.content.Context
+import android.os.Build
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.truncate
@@ -161,6 +164,9 @@ class HttpRequesterWorker(context: Context, params: WorkerParameters) : Coroutin
             with(WorkManager.getInstance(context)) {
                 enqueue(
                     OneTimeWorkRequestBuilder<HttpRequesterWorker>()
+                        .runIf(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                            setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+                        }
                         .setInputData(
                             Data.Builder()
                                 .putString(DATA_SERIALIZED_PARAMS, GsonUtil.gson.toJson(params))

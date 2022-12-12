@@ -1,11 +1,14 @@
 package ch.rmy.android.http_shortcuts.scheduling
 
 import android.content.Context
+import android.os.Build
 import androidx.work.CoroutineWorker
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.extensions.context
@@ -42,6 +45,9 @@ class ExecutionSchedulerWorker(context: Context, workerParams: WorkerParameters)
                 cancelAllWorkByTag(TAG)
                 enqueue(
                     OneTimeWorkRequestBuilder<ExecutionSchedulerWorker>()
+                        .runIf(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                            setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+                        }
                         .addTag(TAG)
                         .build()
                 )
