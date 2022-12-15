@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.framework.extensions.logInfo
-import ch.rmy.android.framework.utils.DateUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
@@ -11,6 +10,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 class EnqueueShortcutAction(
     private val shortcutNameOrId: ShortcutNameOrId?,
@@ -50,7 +50,7 @@ class EnqueueShortcutAction(
             shortcutId = shortcut.id,
             resolvedVariables = variableValues?.mapValues { it.value?.toString() ?: "" } ?: emptyMap(),
             tryNumber = 0,
-            waitUntil = DateUtil.calculateDate(delay),
+            delay = delay.milliseconds,
             requiresNetwork = shortcut.isWaitForNetwork,
             recursionDepth = if (delay >= 500) 0 else executionContext.recursionDepth + 1,
         )

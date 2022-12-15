@@ -10,7 +10,6 @@ import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.truncate
-import ch.rmy.android.framework.utils.DateUtil
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
@@ -68,6 +67,9 @@ import java.io.IOException
 import java.net.UnknownHostException
 import javax.inject.Inject
 import kotlin.math.pow
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 class Execution(
     private val context: Context,
@@ -237,7 +239,7 @@ class Execution(
             pendingExecutionsRepository.createPendingExecution(
                 shortcutId = shortcut.id,
                 resolvedVariables = variableManager.getVariableValuesByKeys(),
-                waitUntil = DateUtil.calculateDate(shortcut.delay),
+                delay = shortcut.delay.milliseconds,
                 tryNumber = 1,
                 recursionDepth = params.recursionDepth,
                 requiresNetwork = shortcut.isWaitForNetwork,
@@ -367,13 +369,12 @@ class Execution(
 
     private suspend fun rescheduleExecution(variableManager: VariableManager) {
         if (params.tryNumber < MAX_RETRY) {
-            val waitUntil = DateUtil.calculateDate(calculateDelay())
             pendingExecutionsRepository
                 .createPendingExecution(
                     shortcutId = shortcut.id,
                     resolvedVariables = variableManager.getVariableValuesByKeys(),
                     tryNumber = params.tryNumber + 1,
-                    waitUntil = waitUntil,
+                    delay = calculateDelay(),
                     recursionDepth = params.recursionDepth,
                     requiresNetwork = shortcut.isWaitForNetwork,
                 )
@@ -381,7 +382,7 @@ class Execution(
     }
 
     private fun calculateDelay() =
-        RETRY_BACKOFF.pow(params.tryNumber.toDouble()).toInt() * 1000
+        (RETRY_BACKOFF.pow(params.tryNumber.toDouble()).toInt()).seconds
 
     private fun shouldDelayExecution() =
         shortcut.delay > 0 && params.tryNumber == 0

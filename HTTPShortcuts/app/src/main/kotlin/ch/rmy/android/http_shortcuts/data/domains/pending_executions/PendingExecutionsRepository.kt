@@ -8,8 +8,10 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import kotlinx.coroutines.flow.Flow
+import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
+import kotlin.time.Duration
 
 class PendingExecutionsRepository
 @Inject
@@ -31,7 +33,7 @@ constructor(
         shortcutId: ShortcutId,
         resolvedVariables: Map<VariableKey, String> = emptyMap(),
         tryNumber: Int = 0,
-        waitUntil: Date? = null,
+        delay: Duration? = null,
         requiresNetwork: Boolean = false,
         recursionDepth: Int = 0,
     ) {
@@ -41,12 +43,23 @@ constructor(
                     shortcutId,
                     resolvedVariables,
                     tryNumber,
-                    waitUntil,
+                    calculateDate(delay),
                     requiresNetwork,
                     recursionDepth,
                 )
             )
         }
+    }
+
+    private fun calculateDate(delay: Duration?): Date? {
+        val milliseconds = delay?.inWholeMilliseconds
+            ?.takeUnless { it <= 0 }
+            ?: return null
+        return Calendar.getInstance()
+            .apply {
+                add(Calendar.MILLISECOND, milliseconds.toInt())
+            }
+            .time
     }
 
     suspend fun removePendingExecution(executionId: ExecutionId) {
