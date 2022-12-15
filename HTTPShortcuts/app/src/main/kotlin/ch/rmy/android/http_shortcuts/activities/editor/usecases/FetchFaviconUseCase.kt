@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.http.HttpClientFactory
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
+import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.favicongrabber.FaviconGrabber
@@ -30,7 +31,8 @@ constructor(
     private val client = httpClientFactory.getClient(context)
 
     suspend operator fun invoke(url: String, variables: List<VariableModel>): ShortcutIcon? {
-        val variableManager = variableResolver.resolve(variables, Variables.extractVariableIds(url))
+        val variableManager = VariableManager(variables)
+        variableResolver.resolve(variableManager, Variables.extractVariableIds(url))
         val finalUrl = Variables.rawPlaceholdersToResolvedValues(url, variableManager.getVariableValuesByIds())
 
         val iconSize = IconUtil.getIconSize(context)

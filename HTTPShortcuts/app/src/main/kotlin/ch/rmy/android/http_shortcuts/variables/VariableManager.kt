@@ -9,13 +9,23 @@ import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
-class VariableManager(variables: List<VariableModel>) : VariableLookup {
+class VariableManager(
+    variables: List<VariableModel>,
+    preResolvedValues: Map<VariableKey, String> = emptyMap(),
+) : VariableLookup {
 
     private val variablesById = variables.associateBy { it.id }
 
     private val variablesByKey = variables.associateBy { it.key }
 
     private val variableValuesById = mutableMapOf<String, String>()
+
+    init {
+        preResolvedValues.forEach { (variableKeyOrId, value) ->
+            val id = getVariableByKeyOrId(variableKeyOrId)?.id ?: return@forEach
+            variableValuesById[id] = value
+        }
+    }
 
     override fun getVariableById(id: String): VariableModel? =
         variablesById[id]

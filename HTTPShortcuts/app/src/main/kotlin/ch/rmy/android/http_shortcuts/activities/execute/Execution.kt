@@ -68,7 +68,6 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 import kotlin.math.pow
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 class Execution(
@@ -232,7 +231,7 @@ class Execution(
         }
         checkWifiSSID(shortcutName, shortcut.wifiSsid)
 
-        val variableManager = resolveVariables()
+        val variableManager = VariableManager(variableRepository.getVariables(), params.variableValues)
 
         if (shouldDelayExecution()) {
             logInfo("Delaying execution")
@@ -261,6 +260,8 @@ class Execution(
             scriptExecutor.execute(globalCode)
             scriptExecutor.execute(shortcut.codeOnPrepare)
         }
+
+        variableResolver.resolve(variableManager, shortcut)
 
         when (shortcut.type) {
             ShortcutExecutionType.BROWSER -> {
@@ -402,13 +403,6 @@ class Execution(
 
     private fun requiresConfirmation() =
         shortcut.requireConfirmation && params.tryNumber == 0
-
-    private suspend fun resolveVariables(): VariableManager =
-        variableResolver.resolve(
-            variables = variableRepository.getVariables(),
-            shortcut = shortcut,
-            preResolvedValues = params.variableValues,
-        )
 
     private suspend fun handleFiles(): FileUploadManager.Result? = coroutineScope {
         if (!shortcut.usesRequestParameters() && !shortcut.usesGenericFileBody() && !shortcut.usesImageFileBody()) {

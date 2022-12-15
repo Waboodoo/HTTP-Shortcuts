@@ -10,13 +10,9 @@ If you selected the *"Require confirmation before execution"* option for your sh
 
 If you configured your shortcut to only run when on a specific Wi-Fi, this step will check whether that condition is met. If it is not, the remaining steps will not be executed and instead you will be prompted to switch Wi-Fis.
 
-## 3. Resolve Variables
+## 3. Delay
 
-If you use any variables in your shortcut, they will be resolved in this step. E.g., if you used a variable of type *"Color Input*" you will be asked to pick a color, or if you have a variable of type *"Text Input"* you will be presented with a dialog window that asks you to enter a text value.
-
-If you select *"Cancel"* on any of the variable resolution dialogs then the remaining steps will not be executed.
-
-For more information see the [Variables](variables.md) documentation.
+If you set your shortcut up to have a delay it will be applied in this step. E.g., if you selected that your shortcut should be delayed by 5 seconds then the app will wait for 5 seconds before executing the next steps.
 
 ## 4. Resolve Files
 
@@ -24,12 +20,7 @@ If your shortcut needs one or more files, e.g. for its request body or for a for
 
 If you cancel any of the file pickers then the remaining steps will not be executed.
 
-## 5. Delay
-
-If you set your shortcut up to have a delay it will be applied in this step. E.g., if you selected that your shortcut should be delayed by 5 seconds then the app will wait for 5 seconds before executing the next steps.
-
-
-## 6. Run "Global" Script
+## 5. Run "Global" Script
 
 If you added any JavaScript code into the *"Global Scripting"* section in the app's settings then that code will execute in this step.
 
@@ -37,13 +28,23 @@ If the script fails (e.g., due to a syntax error) then an error message will be 
 
 For more details see the documentation on [Scripting](scripting.md).
 
-## 7. Run "Before" Script
+## 6. Run "Before" Script
 
 If you added any JavaScript code into the *"Run before Execution"* textarea in your shortcut's *"Scripting"* section (or your shortcut is a *Scripting* shortcut) then that code will be executed in this step.
 
 If the script fails (e.g., due to a syntax error) then an error message will be displayed and the remaining steps will not be executed.
 
 For more details see the documentation on [Scripting](scripting.md).
+
+## 7. Resolve Variables
+
+If you use any variables in your shortcut, they will be resolved in this step. E.g., if you used a variable of type *"Color Input*" you will be asked to pick a color, or if you have a variable of type *"Text Input"* you will be presented with a dialog window that asks you to enter a text value.
+
+If you select *"Cancel"* on any of the variable resolution dialogs then the remaining steps will not be executed.
+
+Note that it is possible for some variables to already be resolved before this step, e.g. if you ask for their value via Scripting in step 5 or 6 or if you explicitly passed a value for a variable when triggering the shortcut (which is possible when starting a shortcut via Intent, deep-link or Scripting).
+
+For more information see the [Variables](variables.md) documentation.
 
 ## 8. Send HTTP Request
 

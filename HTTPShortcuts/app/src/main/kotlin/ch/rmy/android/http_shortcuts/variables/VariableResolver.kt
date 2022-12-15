@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.variables
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
@@ -15,38 +14,11 @@ class VariableResolver
 constructor(
     private val context: Context,
 ) {
-
     suspend fun resolve(
-        variables: List<VariableModel>,
-        shortcut: ShortcutModel,
-        preResolvedValues: Map<VariableKey, String> = emptyMap(),
-    ): VariableManager {
-        val variableManager = VariableManager(variables)
-        val requiredVariableIds = extractVariableIds(shortcut, variableManager, includeScripting = false)
-            .toMutableSet()
-        return resolve(variableManager, requiredVariableIds, preResolvedValues)
-    }
-
-    suspend fun resolve(
-        variables: List<VariableModel>,
-        requiredVariableIds: Set<VariableId>,
-        preResolvedValues: Map<VariableKey, String> = emptyMap(),
-    ): VariableManager {
-        val variableManager = VariableManager(variables)
-        return resolve(variableManager, requiredVariableIds, preResolvedValues)
-    }
-
-    private suspend fun resolve(
         variableManager: VariableManager,
         requiredVariableIds: Set<VariableId>,
-        preResolvedValues: Map<VariableKey, String>,
     ): VariableManager {
-        val preResolvedVariables = mutableMapOf<VariableModel, String>()
-        preResolvedValues.forEach { (variableKey, value) ->
-            variableManager.getVariableByKeyOrId(variableKey)?.let { variable ->
-                preResolvedVariables[variable] = value
-            }
-        }
+        val preResolvedVariables = variableManager.getVariableValues()
 
         val variablesToResolve = requiredVariableIds
             .mapNotNull { variableId ->

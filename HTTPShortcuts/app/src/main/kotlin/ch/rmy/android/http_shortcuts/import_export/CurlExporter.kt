@@ -31,7 +31,7 @@ constructor(
 
     private suspend fun resolveVariables(shortcut: ShortcutModel): VariableManager {
         val variables = variableRepository.getVariables()
-        return variableResolver.resolve(variables, shortcut)
+        return variableResolver.resolve(VariableManager(variables), shortcut)
     }
 
     private fun generateCommand(shortcut: ShortcutModel, variableValues: Map<VariableKey, String>): CurlCommand =
