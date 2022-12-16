@@ -6,6 +6,7 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.history.usecases.CopyHistoryItemUseCase
 import ch.rmy.android.http_shortcuts.activities.history.usecases.MapEventsUseCase
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.history.HistoryRepository
@@ -24,6 +25,9 @@ class HistoryViewModel(application: Application) : BaseViewModel<Unit, HistoryVi
 
     @Inject
     lateinit var historyCleanUpStarter: HistoryCleanUpWorker.Starter
+
+    @Inject
+    lateinit var copyHistoryItemUseCase: CopyHistoryItemUseCase
 
     init {
         getApplicationComponent().inject(this)
@@ -63,6 +67,17 @@ class HistoryViewModel(application: Application) : BaseViewModel<Unit, HistoryVi
         launchWithProgressTracking {
             historyRepository.deleteHistory()
             showSnackbar(R.string.message_history_cleared)
+        }
+    }
+
+    fun onHistoryEventLongPressed(id: String) {
+        doWithViewState { viewState ->
+            val item = viewState.historyItems
+                .filterIsInstance<HistoryListItem.HistoryEvent>()
+                .find { it.id == id }
+                ?: return@doWithViewState
+            copyHistoryItemUseCase(item)
+            showSnackbar(R.string.message_history_event_details_copied)
         }
     }
 

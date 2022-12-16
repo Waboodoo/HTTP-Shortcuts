@@ -6,17 +6,29 @@ import androidx.annotation.ColorInt
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import ch.rmy.android.framework.extensions.color
+import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.setText
 import ch.rmy.android.framework.ui.BaseAdapter
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.databinding.ListEmptyItemBinding
 import ch.rmy.android.http_shortcuts.databinding.ListItemHistoryBinding
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 import java.text.SimpleDateFormat
 
 class HistoryAdapter : BaseAdapter<HistoryListItem>() {
 
     private val dateFormat = SimpleDateFormat.getTimeInstance()
+
+    sealed interface UserEvent {
+        data class HistoryEventLongPressed(val id: String) : UserEvent
+    }
+
+    private val userEventChannel = Channel<UserEvent>(capacity = Channel.UNLIMITED)
+
+    val userEvents: Flow<UserEvent> = userEventChannel.receiveAsFlow()
 
     override fun areItemsTheSame(oldItem: HistoryListItem, newItem: HistoryListItem): Boolean =
         when (oldItem) {
@@ -55,7 +67,18 @@ class HistoryAdapter : BaseAdapter<HistoryListItem>() {
         private val binding: ListItemHistoryBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
+        private lateinit var itemId: String
+
+        init {
+            binding.root.setOnLongClickListener {
+                consume {
+                    userEventChannel.trySend(UserEvent.HistoryEventLongPressed(itemId))
+                }
+            }
+        }
+
         fun setItem(item: HistoryListItem.HistoryEvent) {
+            itemId = item.id
             binding.title.setText(item.title)
             binding.title.setTextColor(item.displayType.getColor())
             binding.time.text = dateFormat.format(item.time)

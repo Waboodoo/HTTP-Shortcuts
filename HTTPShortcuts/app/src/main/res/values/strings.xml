@@ -1355,4 +1355,6 @@
     <string name="label_event_history_trigger_type_widget">Widget</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_scripting">Scripting</string>
+    <!-- Message shown in snackbar to let the user know that the details of a (selected) history event were copied to the clipboard -->
+    <string name="message_history_event_details_copied">Event details copied.</string>
 </resources>

@@ -11,6 +11,7 @@ import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.isVisible
+import ch.rmy.android.framework.extensions.whileLifecycleActive
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -28,6 +29,7 @@ class HistoryActivity : BaseActivity() {
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()
         initViews()
+        initUserInputBindings()
         initViewModelBindings()
     }
 
@@ -43,6 +45,16 @@ class HistoryActivity : BaseActivity() {
         binding.historyEventList.adapter = adapter
 
         enableAutoScrollToTop(manager)
+    }
+
+    private fun initUserInputBindings() {
+        whileLifecycleActive {
+            adapter.userEvents.collect { event ->
+                when (event) {
+                    is HistoryAdapter.UserEvent.HistoryEventLongPressed -> viewModel.onHistoryEventLongPressed(event.id)
+                }
+            }
+        }
     }
 
     private fun enableAutoScrollToTop(manager: LinearLayoutManager) {
