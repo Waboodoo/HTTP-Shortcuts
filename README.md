@@ -40,6 +40,7 @@ Find more information and documentation on the [official website](https://http-s
 - 3rd party integration support (e.g. Tasker or Macrodroid)
 - Themes (with Dark Mode support)
 - Easy remote editing on a computer via the web editor
+- Event history to see details about recently executed HTTP requests & responses
 - Run arbitrary [JavaScript](https://http-shortcuts.rmy.ch/scripting) before & after execution, which allows for lots of customization with features such as:
   - compute values such as timestamps, random numbers, UUIDs, hashes, HMACs, base64, etc.
   - parse JSON or XML and extract data from them
