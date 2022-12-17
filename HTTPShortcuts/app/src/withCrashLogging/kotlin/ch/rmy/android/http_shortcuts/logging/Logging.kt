@@ -28,6 +28,7 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
      * Suppressing them in a desperate attempt at avoiding going over error logging quota all the time.
      */
     private val BLACKLISTED_USER_IDS = listOf(
+        "853b9ed3-f3ed-4136-8af7-0ff02d333ae3",
         "c5080f5e-823b-4d47-868e-8711e2841961",
         "58087851-ef5b-4fa6-822b-9d4d4b5081af",
     )
