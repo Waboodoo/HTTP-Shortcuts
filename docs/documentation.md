@@ -35,4 +35,4 @@
 - [Import / Export](import-export.md)
     - [Remote Editing](import-export.md#remote-edit)
     - [Hosting Templates for Easy Importing](import-export.md#import-deep-linking)
-
+- [Advanced Features](advanced.md)

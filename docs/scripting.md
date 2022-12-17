@@ -589,6 +589,8 @@ const resultObject = executeShortcut('My other shortcut');
 const myResult = resultObject.result; // will now have the value "Hello World"
 ```
 
+This same mechanism also allows passing data back to Tasker in the case where the shortcut was triggered from Tasker.
+
 #### Forwarding Files
 When executing or enqueuing another shortcut, it is possible to forward one or more selected files to it. This can be useful if you have a shortcut that uses a file in a form parameter or its request body, and you want to use the same file also for another shortcut to include in another request. To do this, pass the [IDs of the files](#files) in via the special `$files` variable. You can pass either a single file ID or an array of file IDs, as shown in the following examples:
 

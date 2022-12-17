@@ -315,6 +315,7 @@ tasks.register("syncDocumentation") {
     description = "copies the documentation markdown files' contents into the app so they can be displayed"
 
     val files = listOf(
+        "advanced",
         "categories",
         "documentation",
         "execution-flow",

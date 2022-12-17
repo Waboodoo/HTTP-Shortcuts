@@ -8,6 +8,7 @@ object DocumentationUrlManager {
     private const val DOCUMENTATION_HOST = "http-shortcuts.rmy.ch"
 
     private val SUPPORTED_PATHS = setOf(
+        "advanced",
         "categories",
         "documentation",
         "execution-flow",

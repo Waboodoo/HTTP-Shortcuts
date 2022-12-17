@@ -8,6 +8,8 @@ There is no catch. I'm a developer who one day realized he needed an app like th
 
 This usually happens when Data Saver or Battery Saver is enabled, as those restrict how apps can use the network. Try disabling them or whitelisting the HTTP Shortcuts app.
 
+It might also be that you need to enable the "Allow drawing over other apps" option. You'll find it in the app's Settings page in the Troubleshooting section.
+
 ## I don't like the blue arrow icon that overlays all my shortcuts on the home screen. Can I remove it?
 
 Unfortunately, this icon overlay is added by the Android system itself, not the app. There is a potential workaround though. Try adding a shortcut via your home screen's widget menu (usually accessed by long pressing on the home screen), and when prompted by the app about which method to use for placement, select the *Legacy* option. Please note that this may not always work, and if it doesn't then there really is no way to remove the icon overlay. Also note that this will prevent you from dynamically changing the name or icon of the shortcut, i.e., you'll need to remove and re-add it to the home screen manually if you change its name or icon.
@@ -26,6 +28,8 @@ Most automation apps offer some way to trigger a shortcut directly. If that isn'
 Alternatively, you can invoke a shortcut via a deep-linking URL, which is particularly useful when you want to trigger a shortcut from a QR code or an NFC tag.
 
 \* You'll find the shortcut's ID as well as its deep-linking URL by long-pressing the shortcut and selecting *Show Info* from the menu.
+
+See also the [documentation on deep-linking](advanced.md#deep-link).
 
 ## Can I send multiple requests with one shortcut?
 
@@ -57,15 +61,17 @@ If you want to share text via an HTTP shortcut, you can do so like this:
 
 ## Can I share files into a shortcut's request body?
 
-If you want to share a file, you can so by opening the *Request Body / Parameters* section in the shortcut editor and there either set the *Request Body Type* to *File (Picker)* or set it to *Parameters (form-data)* and then add a parameter of type *Single File* or *Multiple Files*. After that save your changes. You should now be able to share files into the HTTP Shortcuts app and it will allow you to pick the shortcut as a target. This will execute the shortcut and it will use the content of the shared file as the request body or as a form parameter.
+Yes, you can. You'll find information about this on the [advanced features](advanced.md#share-files) page.
 
 ## Can I pass values from one shortcut to another?
 
 Yes, you can. To do so, you need to first create a [global variable](variables.md) (of static type) to hold the value. You can then use the [Scripting](scripting.md) feature to store a value into that variable from one of your shortcuts and then use or read out the value again in the other shortcut. To store a value into a variable, use the [setVariable](scripting.md#variables) function.
 
-## How do I pass variables from Tasker to HTTP Shortcuts?
+If you use [executeShortcut](scripting.md#execute-shortcut) to call another shortcut, you can also use the [setResult](scripting.md#set-result) function to pass data back to the calling shortcut.
 
-You can use [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) to trigger a shortcut. To pass a value from Tasker to HTTP Shortcuts you need to create a variable of type *Static Variable* in HTTP Shortcuts and a global variable with the same name in Tasker. Make sure to do so BEFORE you select the shortcut from Tasker. All global variables that have matching variables in HTTP Shortcuts are automatically passed over.
+## How do I pass data from Tasker to HTTP Shortcuts?
+
+See the guide on [integrating with Tasker](advanced.md#integrate-with-tasker).
 
 <a name="debugging"></a>
 ## Something's not working with my requests. Can I get more detailed information for debugging?
