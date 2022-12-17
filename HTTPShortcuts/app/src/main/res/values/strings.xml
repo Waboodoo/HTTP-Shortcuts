@@ -1365,4 +1365,8 @@
     <string name="label_plugin_result">Result</string>
     <!-- Description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
     <string name="label_plugin_result_detail">Custom data string as set by the `setResult()` function</string>
+    <!-- Generic dialog button: Configure (e.g. some settings) -->
+    <string name="dialog_configure">Configure</string>
+    <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_plugin_dialog_configure_app_overlay">In order to be able to trigger a shortcut from another app, you first need to allow the HTTP Shortcuts app to draw over other apps.\n\nTap the \"%s\" button below to configure this now.</string>
 </resources>

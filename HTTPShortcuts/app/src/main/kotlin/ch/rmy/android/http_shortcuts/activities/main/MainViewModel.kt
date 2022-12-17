@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.consume
@@ -10,6 +11,7 @@ import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
+import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -20,6 +22,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.activities.history.HistoryActivity
 import ch.rmy.android.http_shortcuts.activities.main.models.CategoryTabItem
 import ch.rmy.android.http_shortcuts.activities.main.models.RecoveryInfo
+import ch.rmy.android.http_shortcuts.activities.main.usecases.GetAppOverlayDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetNetworkRestrictionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetRecoveryDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutCreationDialogUseCase
@@ -47,6 +50,7 @@ import ch.rmy.android.http_shortcuts.extensions.toLauncherShortcut
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.usecases.GetChangeLogDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.GetToolbarTitleChangeDialogUseCase
+import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
@@ -111,6 +115,12 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     @Inject
     lateinit var pendingExecutionsRepository: PendingExecutionsRepository
+
+    @Inject
+    lateinit var appOverlayUtil: AppOverlayUtil
+
+    @Inject
+    lateinit var getAppOverlayDialog: GetAppOverlayDialogUseCase
 
     init {
         getApplicationComponent().inject(this)
@@ -177,19 +187,16 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
         updateLauncherShortcuts(categories)
 
-        if (selectionMode === SelectionMode.NORMAL) {
-            showStartupDialogsIfNeeded()
-        } else {
-            if (selectionMode == SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT && initData.widgetId != null) {
-                setResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(initData.widgetId!!))
-            }
-            if (
-                selectionMode == SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT ||
-                selectionMode == SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT
-
-            ) {
+        when (selectionMode) {
+            SelectionMode.NORMAL -> showNormalStartupDialogsIfNeeded()
+            SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT -> showToast(R.string.instructions_select_shortcut_for_home_screen, long = true)
+            SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT -> {
+                if (initData.widgetId != null) {
+                    setResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(initData.widgetId!!))
+                }
                 showToast(R.string.instructions_select_shortcut_for_home_screen, long = true)
             }
+            SelectionMode.PLUGIN -> showPluginStartupDialogsIfNeeded()
         }
     }
 
@@ -199,7 +206,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    private fun showStartupDialogsIfNeeded() {
+    private fun showNormalStartupDialogsIfNeeded() {
         viewModelScope.launch {
             val recoveryInfo = shouldShowRecoveryDialog()
             if (recoveryInfo != null) {
@@ -242,6 +249,18 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     private fun showNetworkRestrictionWarningDialogIfNeeded() {
         if (shouldShowNetworkRestrictionDialog()) {
             dialogState = getNetworkRestrictionDialog()
+        }
+    }
+
+    private fun showPluginStartupDialogsIfNeeded() {
+        if (!appOverlayUtil.canDrawOverlays()) {
+            dialogState = getAppOverlayDialog {
+                val intent = appOverlayUtil.getSettingsIntent() ?: return@getAppOverlayDialog
+                openActivity(object : IntentBuilder {
+                    override fun build(context: Context) =
+                        intent
+                })
+            }
         }
     }
 

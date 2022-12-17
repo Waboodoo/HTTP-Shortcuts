@@ -1,8 +1,10 @@
 package ch.rmy.android.http_shortcuts.activities.settings.settings
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
@@ -12,6 +14,7 @@ import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.usecases.GetToolbarTitleChangeDialogUseCase
+import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.Settings
 import kotlinx.coroutines.CancellationException
@@ -32,6 +35,9 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
 
     @Inject
     lateinit var cookieManager: CookieManager
+
+    @Inject
+    lateinit var appOverlayUtil: AppOverlayUtil
 
     init {
         getApplicationComponent().inject(this)
@@ -125,5 +131,13 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
 
     fun onAddQuickSettingsTileButtonClicked() {
         emitEvent(SettingsEvent.AddQuickSettingsTile)
+    }
+
+    fun onAppOverlayButtonClicked() {
+        val intent = appOverlayUtil.getSettingsIntent() ?: return
+        openActivity(object : IntentBuilder {
+            override fun build(context: Context) =
+                intent
+        })
     }
 }

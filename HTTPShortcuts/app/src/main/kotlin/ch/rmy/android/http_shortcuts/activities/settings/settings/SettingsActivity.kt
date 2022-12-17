@@ -10,9 +10,7 @@ import android.content.Intent
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import androidx.core.content.getSystemService
-import androidx.core.net.toUri
 import androidx.preference.Preference
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.collectEventsWhileActive
@@ -134,16 +132,7 @@ class SettingsActivity : BaseActivity() {
             }
 
             initPreference("allow_overlay", isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    try {
-                        startActivity(
-                            Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
-                                .setData("package:${requireContext().packageName}".toUri())
-                        )
-                    } catch (e: ActivityNotFoundException) {
-                        showSnackbar(R.string.error_not_supported)
-                    }
-                }
+                viewModel.onAppOverlayButtonClicked()
             }
 
             initPreference("allow_overlay_xiaomi", isVisible = isXiaomiDevice()) {
