@@ -1399,7 +1399,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="dialog_code_snippet_get_file_size">"Größe (in Bytes) von ausgewählter Datei auslesen"</string>
 
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, ...) -->
-    <string name="title_about">"Über diese App"</string>
+    <string name="title_about">"Information"</string>
 
     <!-- Title of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation">"Dokumentation"</string>
@@ -2042,4 +2042,27 @@ Du kannst einzelne Shortcuts verbergen durch eine Einstellung in \"%s\"."</strin
 
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_scripting">"Scripting"</string>
+
+    <!-- Message shown in snackbar to let the user know that the details of a (selected) history event were copied to the clipboard -->
+    <string name="message_history_event_details_copied">"Ereignisdetails kopiert."</string>
+
+    <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
+    <string name="action_type_set_result_title">"Resultat setzen"</string>
+
+    <!-- Shortcut Action Description: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
+    <string name="action_type_set_result_description">"Benutzerdefinierten Rückgabewert setzen, welcher an executeShortcut oder Tasker zurückgegeben wird"</string>
+
+    <!-- Label/description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
+    <string name="label_plugin_result">"Resultat"</string>
+
+    <!-- Description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
+    <string name="label_plugin_result_detail">"Benutzerdefinierter Rückgabewert definiert durch die `setResult()`-Funktion"</string>
+
+    <!-- Generic dialog button: Configure (e.g. some settings) -->
+    <string name="dialog_configure">"Konfigurieren"</string>
+
+    <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_plugin_dialog_configure_app_overlay">"Um einen Shortcut von einer anderen App aus auslösen zu können, musst du zuerst der HTTP Shortcuts App erlauben, über anderen Apps angezeigt werden zu können.
+
+Tippe dazu den \"%s\"-Knopf unten um dies einzurichten."</string>
 </resources>
