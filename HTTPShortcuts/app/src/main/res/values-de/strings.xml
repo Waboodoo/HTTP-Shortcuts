@@ -73,7 +73,7 @@
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts_instructions">"Ein Shortcut ermöglicht es dir, einen einzelnen HTTP-Request zu senden, und nach Bedarf die Response zu verarbeiten und anzuzeigen.
 
-Drücke den + Knopf um loszulegen."</string>
+Drücke den + Knopf um loszulegen, oder lies die Dokumentation, welche du auf der \"Information\"-Seite findest."</string>
 
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">"noch keine Variablen vorhanden"</string>

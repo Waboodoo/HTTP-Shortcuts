@@ -2,9 +2,11 @@
 
 ### Improvements
 - The new "Event History" feature allows you to see details about recently executed shortcuts, their HTTP requests and responses, which you can use for troubleshooting.
+- You can now use the `setResult()` function in Scripting to pass data back to `executeShortcut()` or to Tasker
 
 ### Miscellaneous
 - All variables are now resolved lazily, i.e., as late as possible and only when needed. The main difference this might make for you is that if you use `getVariable` or `setVariable` in a shortcut's "Run before Execution" Scripting, the order in which your variables are resolved might be different from before.
+- Additional documentation for some more advanced or hidden feature is now available
 
 ### Bugfixes
 - Being unable to resolve a host is now treated as a regular error, instead of an unexpected error
