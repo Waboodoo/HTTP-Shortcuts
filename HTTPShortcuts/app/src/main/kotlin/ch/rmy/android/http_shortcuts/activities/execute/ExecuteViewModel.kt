@@ -9,6 +9,7 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
+import ch.rmy.android.http_shortcuts.plugin.SessionMonitor
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
@@ -19,6 +20,9 @@ class ExecuteViewModel(
 
     @Inject
     lateinit var executionFactory: ExecutionFactory
+
+    @Inject
+    lateinit var sessionMonitor: SessionMonitor
 
     init {
         getApplicationComponent().inject(this)
@@ -42,6 +46,7 @@ class ExecuteViewModel(
             finish(skipAnimation = true)
             return
         }
+        sessionMonitor.onSessionStarted()
         lastExecutionTime = SystemClock.elapsedRealtime()
         lastExecutionData = data
 
@@ -64,8 +69,12 @@ class ExecuteViewModel(
 
     private fun execute() {
         viewModelScope.launch {
+            var result: String? = null
             try {
                 execution.execute().collect { status ->
+                    if (status is ExecutionStatus.WithResult) {
+                        result = status.result
+                    }
                     when (status) {
                         is ExecutionStatus.InProgress -> {
                             emitEvent(ExecuteEvent.ShowProgress)
@@ -78,6 +87,7 @@ class ExecuteViewModel(
                 }
             } finally {
                 finish(skipAnimation = true)
+                sessionMonitor.onSessionComplete(result)
             }
         }
     }

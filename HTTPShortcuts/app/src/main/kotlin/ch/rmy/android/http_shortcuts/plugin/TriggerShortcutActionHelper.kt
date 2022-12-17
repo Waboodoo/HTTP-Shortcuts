@@ -2,13 +2,15 @@ package ch.rmy.android.http_shortcuts.plugin
 
 import ch.rmy.android.http_shortcuts.R
 import com.joaomgcd.taskerpluginlibrary.config.TaskerPluginConfig
-import com.joaomgcd.taskerpluginlibrary.config.TaskerPluginConfigHelperNoOutput
+import com.joaomgcd.taskerpluginlibrary.config.TaskerPluginConfigHelper
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 
-class TriggerShortcutActionHelper(config: TaskerPluginConfig<Input>) : TaskerPluginConfigHelperNoOutput<Input, TriggerShortcutActionRunner>(config) {
+class TriggerShortcutActionHelper(config: TaskerPluginConfig<Input>) : TaskerPluginConfigHelper<Input, Output, TriggerShortcutActionRunner>(config) {
 
     override val inputClass: Class<Input>
         get() = Input::class.java
+    override val outputClass: Class<Output>
+        get() = Output::class.java
 
     override val runnerClass: Class<TriggerShortcutActionRunner>
         get() = TriggerShortcutActionRunner::class.java

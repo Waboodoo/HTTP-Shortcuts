@@ -51,12 +51,13 @@ constructor(
         shortcut: ShortcutModel,
         variableManager: VariableManager,
         fileUploadResult: FileUploadManager.Result?,
+        resultHandler: ResultHandler,
         recursionDepth: Int = 0,
     ) {
         runWithExceptionHandling {
             registerShortcut(shortcut)
             registerFiles(fileUploadResult)
-            registerActions(context, shortcut.id, variableManager, recursionDepth)
+            registerActions(context, shortcut.id, variableManager, resultHandler, recursionDepth)
         }
     }
 
@@ -170,7 +171,13 @@ constructor(
         )
     }
 
-    private fun registerActions(context: Context, shortcutId: ShortcutId, variableManager: VariableManager, recursionDepth: Int) {
+    private fun registerActions(
+        context: Context,
+        shortcutId: ShortcutId,
+        variableManager: VariableManager,
+        resultHandler: ResultHandler,
+        recursionDepth: Int,
+    ) {
         jsContext.property(
             "_runAction",
             object : JSFunction(jsContext, "run") {
@@ -213,6 +220,7 @@ constructor(
                                     jsContext = jsContext,
                                     shortcutId = shortcutId,
                                     variableManager = variableManager,
+                                    resultHandler = resultHandler,
                                     recursionDepth = recursionDepth,
                                 )
                             )

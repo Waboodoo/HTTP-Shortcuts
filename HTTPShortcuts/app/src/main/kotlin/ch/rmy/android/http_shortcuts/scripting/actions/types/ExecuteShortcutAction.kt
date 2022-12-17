@@ -96,6 +96,8 @@ class ExecuteShortcutAction(
             error = (finalStatus as? ExecutionStatus.CompletedWithError)
                 ?.error
                 ?.message,
+            result = (finalStatus as? ExecutionStatus.WithResult)
+                ?.result
         )
     }
 
@@ -109,11 +111,12 @@ class ExecuteShortcutAction(
             }
         }
 
-        internal fun createResult(jsContext: JSContext, status: String, response: JSObject? = null, error: String? = null) =
+        internal fun createResult(jsContext: JSContext, status: String, response: JSObject?, error: String?, result: String?) =
             JSObject(jsContext).apply {
                 property("status", status)
                 property("response", response)
                 property("networkError", error)
+                property("result", result)
             }
     }
 }

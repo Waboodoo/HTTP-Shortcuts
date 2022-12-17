@@ -8,5 +8,6 @@ class ExecutionContext(
     val jsContext: JSContext,
     val shortcutId: ShortcutId,
     val variableManager: VariableManager,
+    val resultHandler: ResultHandler,
     val recursionDepth: Int,
 )

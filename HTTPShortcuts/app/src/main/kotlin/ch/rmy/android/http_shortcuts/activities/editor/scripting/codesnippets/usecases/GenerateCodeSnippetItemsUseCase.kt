@@ -95,14 +95,14 @@ constructor(
             section(R.string.dialog_code_snippet_variables, R.drawable.ic_variables) {
                 item(
                     R.string.dialog_code_snippet_get_variable,
-                    docRef = "variables",
+                    docRef = "get-variable",
                     keywords = setOf("variable", "get", "read"),
                 ) {
                     sendEvent(Event.PickVariableForReading)
                 }
                 item(
                     R.string.dialog_code_snippet_set_variable,
-                    docRef = "variables",
+                    docRef = "set-variable",
                     keywords = setOf("variable", "write", "store", "update", "set"),
                 ) {
                     sendEvent(Event.PickVariableForWriting)
@@ -496,6 +496,14 @@ constructor(
                     pickShortcut(R.string.action_type_trigger_shortcut_title) { shortcutPlaceholder ->
                         insertText("enqueueShortcut($shortcutPlaceholder);\n")
                     }
+                }
+                item(
+                    R.string.action_type_set_result_title,
+                    R.string.action_type_set_result_description,
+                    docRef = "set-result",
+                    keywords = setOf("data", "return", "pass", "execute", "caller", "tasker"),
+                ) {
+                    insertText("setResult(\"", "\")")
                 }
                 item(
                     R.string.action_get_clipboard_content_title,

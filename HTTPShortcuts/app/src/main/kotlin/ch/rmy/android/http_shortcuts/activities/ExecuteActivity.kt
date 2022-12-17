@@ -22,7 +22,6 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
-import ch.rmy.android.http_shortcuts.plugin.SessionMonitor
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionSchedulerWorker
 import ch.rmy.android.http_shortcuts.utils.CacheFilesCleanupWorker
 import ch.rmy.android.http_shortcuts.utils.ProgressIndicator
@@ -51,9 +50,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     @Inject
     lateinit var historyCleanUpStarter: HistoryCleanUpWorker.Starter
 
-    @Inject
-    lateinit var sessionMonitor: SessionMonitor
-
     private val viewModel: ExecuteViewModel by bindViewModel()
 
     private val progressIndicator: ProgressIndicator by lazy {
@@ -78,7 +74,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     override fun onCreated(savedState: Bundle?) {
         getApplicationComponent().inject(this)
-        sessionMonitor.onSessionStarted()
         setTheme(themeHelper.transparentTheme)
 
         viewModel.initialize(
@@ -100,7 +95,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         cacheFilesCleanupStarter()
         executionSchedulerStarter()
         historyCleanUpStarter()
-        sessionMonitor.onSessionComplete()
         super.finish()
     }
 

@@ -12,14 +12,14 @@ class SessionMonitor
 constructor() {
 
     private var startedDeferred: CompletableDeferred<Unit>? = null
-    private var completedDeferred: CompletableDeferred<Unit>? = null
+    private var completedDeferred: CompletableDeferred<String?>? = null
 
-    suspend fun monitorSession(startTimeout: Duration, completionTimeout: Duration) {
+    suspend fun monitorSession(startTimeout: Duration, completionTimeout: Duration): String {
         withTimeout(startTimeout) {
             startedDeferred?.await()
         }
-        withTimeout(completionTimeout) {
-            completedDeferred?.await()
+        return withTimeout(completionTimeout) {
+            completedDeferred?.await().orEmpty()
         }
     }
 
@@ -33,8 +33,8 @@ constructor() {
         startedDeferred = null
     }
 
-    fun onSessionComplete() {
-        completedDeferred?.complete(Unit)
+    fun onSessionComplete(result: String?) {
+        completedDeferred?.complete(result)
         completedDeferred = null
     }
 }

@@ -46,6 +46,7 @@ import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.HttpRequesterWorker
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
+import ch.rmy.android.http_shortcuts.scripting.ResultHandler
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
@@ -251,11 +252,14 @@ class Execution(
 
         emit(ExecutionStatus.InProgress(variableManager.getVariableValuesByIds()))
 
+        val resultHandler = ResultHandler()
+
         if ((params.tryNumber == 0 || (params.tryNumber == 1 && shortcut.delay > 0)) && usesScripting()) {
             scriptExecutor.initialize(
                 shortcut = shortcut,
                 variableManager = variableManager,
                 fileUploadResult = fileUploadResult,
+                resultHandler = resultHandler,
                 recursionDepth = params.recursionDepth,
             )
             scriptExecutor.execute(globalCode)
@@ -266,14 +270,24 @@ class Execution(
 
         when (shortcut.type) {
             ShortcutExecutionType.BROWSER -> {
-                emit(ExecutionStatus.WrappingUp(variableManager.getVariableValuesByIds()))
+                emit(
+                    ExecutionStatus.WrappingUp(
+                        variableManager.getVariableValuesByIds(),
+                        result = resultHandler.getResult(),
+                    )
+                )
                 openShortcutInBrowser(variableManager)
                 return
             }
             ShortcutExecutionType.SCRIPTING,
             ShortcutExecutionType.TRIGGER,
             -> {
-                emit(ExecutionStatus.WrappingUp(variableManager.getVariableValuesByIds()))
+                emit(
+                    ExecutionStatus.WrappingUp(
+                        variableManager.getVariableValuesByIds(),
+                        result = resultHandler.getResult(),
+                    )
+                )
                 return
             }
             ShortcutExecutionType.APP -> {
@@ -346,6 +360,7 @@ class Execution(
                         error = e as? IOException,
                         response = (e as? ErrorResponse)?.shortcutResponse,
                         variableValues = variableManager.getVariableValuesByIds(),
+                        result = resultHandler.getResult(),
                     ),
                 )
                 return
@@ -358,10 +373,21 @@ class Execution(
             response = response,
         )
 
-        emit(ExecutionStatus.WrappingUp(variableManager.getVariableValuesByIds()))
+        emit(
+            ExecutionStatus.WrappingUp(
+                variableManager.getVariableValuesByIds(),
+                result = resultHandler.getResult(),
+            )
+        )
         handleDisplayingOfResult(response, variableManager)
         logInfo("Execution completed successfully (${params.shortcutId})")
-        emit(ExecutionStatus.CompletedSuccessfully(response, variableManager.getVariableValuesByIds()))
+        emit(
+            ExecutionStatus.CompletedSuccessfully(
+                response = response,
+                variableValues = variableManager.getVariableValuesByIds(),
+                result = resultHandler.getResult(),
+            )
+        )
     }
 
     private fun shouldReschedule(error: Throwable): Boolean =

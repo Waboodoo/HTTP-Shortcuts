@@ -78,6 +78,7 @@ In the app you can create [global variables](variables) to be used in your short
 
 This section explains how you can interact with these variables from a script.
 
+<a name="get-variable"></a>
 ### getVariable
 
 You can access the value of any of your variables via the `getVariable()` function. Simply pass the variable's name or ID as a parameter.
@@ -88,6 +89,7 @@ const myValue = getVariable('myVariable');
 
 Please note that the returned value will always be a string. If the variable does not exist an error is raised.
 
+<a name="set-variable"></a>
 ### setVariable
 
 You can store a value as a string into a variable via the `setVariable()` function. Simply pass the variable's name or ID as the first parameter and the value you want to store as the second parameter.
@@ -574,8 +576,20 @@ Please note the following technical limitations:
 - A shortcut that is executed this way shares the resolution of variable values with the original, i.e., calling shortcut. This means that if you have e.g. a multiple choice variable that is used in both of the shortcuts, you will be prompted to select a value only once (not twice) and the selected value will be used for both shortcut executions.
 - There is a maximum recursion depth of 3, meaning that you can not arbitrarily nest shortcut executions within shortcut executions. This is to prevent infinite recursion and stack overflows.
 
-#### Forwarding Files
+<a name="set-result"></a>
+#### Passing data back
+If you wish to pass data from the called shortcut to the calling shortcut, you can either do this by storing values into variables (using [setVariable()](#set-variable) in the called shortcut and then reading those values in the calling shortcut (using [getVariable()](#get-variable), or you can use the `setResult` function. The latter accepts a single string argument. This string can then be accessed by the calling shortcut on the object returned by the `executeShortcut` function via its `result` key.
 
+```js
+// What the called shortcut does:
+setResult('Hello World');
+
+// What the calling shortcut does:
+const resultObject = executeShortcut('My other shortcut');
+const myResult = resultObject.result; // will now have the value "Hello World"
+```
+
+#### Forwarding Files
 When executing or enqueuing another shortcut, it is possible to forward one or more selected files to it. This can be useful if you have a shortcut that uses a file in a form parameter or its request body, and you want to use the same file also for another shortcut to include in another request. To do this, pass the [IDs of the files](#files) in via the special `$files` variable. You can pass either a single file ID or an array of file IDs, as shown in the following examples:
 
 ```js

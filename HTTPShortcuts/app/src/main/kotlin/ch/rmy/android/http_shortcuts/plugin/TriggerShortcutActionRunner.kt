@@ -6,22 +6,21 @@ import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.plugin.VariableHelper.extractVariableMap
-import com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerActionNoOutput
+import com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerAction
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResult
-import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultError
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultSucess
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
-class TriggerShortcutActionRunner : TaskerPluginRunnerActionNoOutput<Input>() {
+class TriggerShortcutActionRunner : TaskerPluginRunnerAction<Input, Output>() {
 
     @Inject
     lateinit var sessionMonitor: SessionMonitor
 
-    override fun run(context: Context, input: TaskerInput<Input>): TaskerPluginResult<Unit> {
+    override fun run(context: Context, input: TaskerInput<Input>): TaskerPluginResult<Output> {
         context.getApplicationComponent().inject(this)
 
         sessionMonitor.onSessionScheduled()
@@ -33,15 +32,17 @@ class TriggerShortcutActionRunner : TaskerPluginRunnerActionNoOutput<Input>() {
             .startActivity(context)
 
         return try {
-            runBlocking {
+            val result = runBlocking {
                 sessionMonitor.monitorSession(START_TIMEOUT, COMPLETE_TIMEOUT)
             }
-            TaskerPluginResultSucess()
+            TaskerPluginResultSucess(Output(result))
         } catch (e: TimeoutCancellationException) {
-            TaskerPluginResultError(
-                0,
-                "Failed to trigger shortcut. Check HTTP Shortcuts' Troubleshooting section " +
-                    "in the Settings for options to mitigate this.",
+            // TODO: This should be an error, not a success, but the taskerpluginlibrary is too limited to allow for that
+            TaskerPluginResultSucess(
+                Output(
+                    "Failed to trigger shortcut. Check HTTP Shortcuts' Troubleshooting section " +
+                        "in the Settings for options to mitigate this."
+                )
             )
         }
     }
