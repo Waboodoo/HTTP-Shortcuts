@@ -4,6 +4,8 @@
 
 There is no catch. I'm a developer who one day realized he needed an app like this, built it, and then decided to share it. HTTP Shortcuts is essentially a one-man show, and I'm only working on it in my spare time. I'm doing it because I enjoy the project, which is why the app is completely free and will remain so. No ads, no tracking, no premium features, just a simple open-source app that aims to be useful.
 
+If you want to show your support though, check out [this page](https://http-shortcuts.rmy.ch/support-me).
+
 ## Running shortcuts works from within the app, but not from the home screen. How do I fix it?
 
 This usually happens when Data Saver or Battery Saver is enabled, as those restrict how apps can use the network. Try disabling them or whitelisting the HTTP Shortcuts app.
