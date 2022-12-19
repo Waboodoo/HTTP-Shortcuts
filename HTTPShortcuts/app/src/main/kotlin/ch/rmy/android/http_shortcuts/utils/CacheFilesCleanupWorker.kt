@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
+import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
@@ -40,6 +41,11 @@ class CacheFilesCleanupWorker(context: Context, params: WorkerParameters) : Coro
                     OneTimeWorkRequestBuilder<CacheFilesCleanupWorker>()
                         .addTag(TAG)
                         .setInitialDelay(CLEANUP_DELAY.inWholeMilliseconds, TimeUnit.MILLISECONDS)
+                        .setConstraints(
+                            Constraints.Builder()
+                                .setRequiresBatteryNotLow(true)
+                                .build()
+                        )
                         .build()
                 )
             }

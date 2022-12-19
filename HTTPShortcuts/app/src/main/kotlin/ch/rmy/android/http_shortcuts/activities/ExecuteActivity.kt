@@ -9,6 +9,7 @@ import ch.rmy.android.framework.extensions.doOnDestroy
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.getParcelableList
 import ch.rmy.android.framework.extensions.getSerializable
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -52,6 +53,8 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     private val viewModel: ExecuteViewModel by bindViewModel()
 
+    private var isLowMemory = false
+
     private val progressIndicator: ProgressIndicator by lazy {
         ProgressIndicator(this)
             .also { progressIndicator ->
@@ -92,10 +95,19 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     }
 
     override fun finish() {
-        cacheFilesCleanupStarter()
         executionSchedulerStarter()
-        historyCleanUpStarter()
+        if (!isLowMemory) {
+            tryOrLog {
+                cacheFilesCleanupStarter()
+                historyCleanUpStarter()
+            }
+        }
         super.finish()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        isLowMemory = true
     }
 
     private fun initViewModelBindings() {

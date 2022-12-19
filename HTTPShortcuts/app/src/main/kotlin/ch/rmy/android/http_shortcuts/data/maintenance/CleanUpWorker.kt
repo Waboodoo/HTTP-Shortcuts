@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.maintenance
 
 import android.content.Context
+import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
@@ -41,6 +42,12 @@ class CleanUpWorker(context: Context, params: WorkerParameters) : CoroutineWorke
                     OneTimeWorkRequestBuilder<CleanUpWorker>()
                         .addTag(TAG)
                         .setInitialDelay(5, TimeUnit.SECONDS)
+                        .setConstraints(
+                            Constraints.Builder()
+                                .setRequiresBatteryNotLow(true)
+                                .setRequiresStorageNotLow(true)
+                                .build()
+                        )
                         .build()
                 )
             }
