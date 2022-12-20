@@ -7,6 +7,7 @@ import ch.rmy.android.framework.utils.FileUtil
 import okhttp3.Response
 import java.io.File
 import java.io.InputStream
+import java.net.SocketTimeoutException
 import java.util.zip.GZIPInputStream
 
 class ResponseFileStorage(private val context: Context, private val sessionId: String) {
@@ -15,11 +16,17 @@ class ResponseFileStorage(private val context: Context, private val sessionId: S
         File(context.cacheDir, "response_$sessionId")
     }
 
-    fun store(response: Response): Uri {
+    fun store(response: Response, finishNormallyOnTimeout: Boolean): Uri {
         val fileUri = FileUtil.getUriFromFile(context, file)
-        getStream(response).use { inStream ->
-            context.contentResolver.openOutputStream(fileUri, "w")!!.use { outStream ->
-                inStream.copyTo(outStream)
+        try {
+            getStream(response).use { inStream ->
+                context.contentResolver.openOutputStream(fileUri, "w")!!.use { outStream ->
+                    inStream.copyTo(outStream)
+                }
+            }
+        } catch (e: SocketTimeoutException) {
+            if (!finishNormallyOnTimeout) {
+                throw e
             }
         }
         return fileUri

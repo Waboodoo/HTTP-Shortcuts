@@ -18,6 +18,8 @@ import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.extensions.shouldIncludeInHistory
 import ch.rmy.android.http_shortcuts.history.HistoryEvent
 import ch.rmy.android.http_shortcuts.history.HistoryEventLogger
+import ch.rmy.android.http_shortcuts.http.HttpHeaders.Companion.CONTENT_LENGTH
+import ch.rmy.android.http_shortcuts.http.HttpHeaders.Companion.CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE_WITH_CHARSET
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
@@ -201,7 +203,10 @@ constructor(
                     .use { okHttpResponse ->
                         logInfo("HTTP request completed")
                         val contentFile = if (shortcut.usesResponseBody) {
-                            responseFileStorage.store(okHttpResponse)
+                            responseFileStorage.store(
+                                okHttpResponse,
+                                finishNormallyOnTimeout = okHttpResponse.isStreaming() || okHttpResponse.isUnknownLength(),
+                            )
                         } else null
 
                         val isSuccess = okHttpResponse.code in 200..399
@@ -306,5 +311,14 @@ constructor(
                 RequestBodyType.X_WWW_FORM_URLENCODE -> FORM_URLENCODE_CONTENT_TYPE_WITH_CHARSET
                 else -> shortcut.contentType.takeUnlessEmpty()
             }
+
+        internal fun Response.isStreaming(): Boolean =
+            getHeaderValue(CONTENT_TYPE)?.takeWhile { it != ';' } == "text/event-stream"
+
+        internal fun Response.isUnknownLength(): Boolean =
+            getHeaderValue(CONTENT_LENGTH) == null
+
+        private fun Response.getHeaderValue(name: String): String? =
+            headers.lastOrNull { it.first.equals(name, ignoreCase = true) }?.second
     }
 }
