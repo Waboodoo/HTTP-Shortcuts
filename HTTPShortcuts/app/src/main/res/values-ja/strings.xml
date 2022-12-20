@@ -211,7 +211,7 @@
     <string name="settings_click_behavior_edit">"ショートカットを変更"</string>
 
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
-    <string name="settings_click_behavior_menu">"オプションメニュー表示"</string>
+    <string name="settings_click_behavior_menu">"オプションメニューを表示"</string>
 
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">"プライバシー"</string>
@@ -220,7 +220,7 @@
     <string name="settings_crash_reporting">"クラッシュレポート"</string>
 
     <!-- Option for crash reporting opt in -->
-    <string name="settings_crash_reporting_allow">"アプリの改善にクラッシュレポートを送信"</string>
+    <string name="settings_crash_reporting_allow">"レポートを送信する（アプリ改善に役立ちます）"</string>
 
     <!-- Option for crash reporting opt out -->
     <string name="settings_crash_reporting_disallow">"レポートを送信しない"</string>
@@ -308,7 +308,7 @@
     <string name="changelog_checkbox_show_at_startup">"スタート時に表示"</string>
 
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
-    <string name="execution_delayed">"インターネットへの接続が有効になると、%1$s が実行されます。"</string>
+    <string name="execution_delayed">"インターネットへの接続が有効になると、%1$s を実行します。"</string>
 
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
     <string name="label_wait_for_connection">"オフライン時に接続を待つ"</string>
@@ -400,7 +400,7 @@
     <string name="message_category_hidden">"カテゴリーを非表示"</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
-    <string name="message_category_visible">"カテゴリー名を再表示します"</string>
+    <string name="message_category_visible">"カテゴリー名を再表示"</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
     <string name="message_category_created">"カテゴリーを作成しました。"</string>
@@ -591,12 +591,12 @@
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
     <string name="error_not_suitable_shortcuts">"適切なショートカットが見つかりません。
 
-この機能を使用するには、少なくとも次のショートカットが１つ必要です：「共有…」を許可する変数を使用しているショートカット、またはファイルパラメーター付きの、もしくはリクエスト ボディにファイルを含んでいるショートカット。
+この機能を使用するには、少なくとも次のショートカットが必要です：「共有…」を許可されている変数を使用しているショートカット、またはファイルパラメーター付きのショートカット、もしくはリクエスト ボディにファイルを含んでいるショートカット。
 
 詳細については、変数セクションの［ヘルプ］ボタンをクリックしてください。"</string>
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
-    <string name="label_allow_share_into">"「共有する…」を有効にする"</string>
+    <string name="label_allow_share_into">"「共有する…」から値の受け取りを許可する"</string>
 
     <!-- App color theme option Blue -->
     <string name="theme_blue">"青色"</string>
@@ -629,7 +629,7 @@
     <string name="button_export_send_to">"その他のアプリ（共有）"</string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
-    <string name="title_create_new_shortcut_options_dialog">"ショートカット新規作成"</string>
+    <string name="title_create_new_shortcut_options_dialog">"ショートカットのタイプを選択"</string>
 
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <string name="button_create_new">"標準 HTTPショートカット"</string>
@@ -662,7 +662,7 @@
     <string name="authentication_bearer">"ベアラー(Bearer)認証"</string>
 
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
-    <string name="label_launcher_shortcut">"ランチャーにアプリのショートカットとして表示"</string>
+    <string name="label_launcher_shortcut">"ランチャーにこのアプリのショートカットを表示する"</string>
 
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">"「クイック設定タイル」経由でトリガーを許可する"</string>
@@ -674,7 +674,7 @@
     <string name="error_not_supported">"この機能は、ご使用のスマホではサポートされていません。"</string>
 
     <!-- Generic error shown when something went wrong and there is no better error message available -->
-    <string name="error_generic">"何か変でした…"</string>
+    <string name="error_generic">"何か失敗しました…"</string>
 
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
     <string name="settings_privacy_policy">"プライバシーポリシー"</string>
@@ -695,13 +695,13 @@
     <string name="label_variable_slider_max">"最大"</string>
 
     <!-- Label above input box, for step size (numeric) value of a horizontal slider -->
-    <string name="label_variable_slider_step">"ステップサイズ"</string>
+    <string name="label_variable_slider_step">"サイズ指定"</string>
 
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
     <string name="error_slider_max_not_greater_than_min">"最大値は最小値より大きくなければなりません。"</string>
 
     <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
-    <string name="error_slider_step_size_must_be_positive">"ステップサイズは正の数でなければなりません。"</string>
+    <string name="error_slider_step_size_must_be_positive">"サイズ指定は正の数でなければなりません。"</string>
 
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
     <string name="plugin_blurb_execute_task">"ショートカット「%1$s」を実行"</string>
@@ -743,7 +743,7 @@
     <string name="label_advanced_technical_settings">"高度な設定"</string>
 
     <!-- Section subtitle in shortcut editor, shown below "Advanced Technical Settings" -->
-    <string name="label_advanced_technical_settings_subtitle">"しっかり理解した上で操作する"</string>
+    <string name="label_advanced_technical_settings_subtitle">"しっかり理解した上で操作してください"</string>
 
     <!-- Shortcut Action Title: Show Toast (small popup message) -->
     <string name="action_type_toast_title">"ポップアップメッセージを表示"</string>
@@ -800,7 +800,7 @@
     <string name="dialog_message_confirm_shortcut_execution">"このショートカットを実行する？"</string>
 
     <!-- Dialog title: Unlock the app (after it was locked. user is required to enter a password) -->
-    <string name="dialog_title_unlock_app">"アプリロック解除"</string>
+    <string name="dialog_title_unlock_app">"アプリのロック解除"</string>
 
     <!-- Dialog button: Unlock the app (after entering a password) -->
     <string name="button_unlock_app">"ロック解除"</string>
@@ -812,22 +812,22 @@
     <string name="dialog_text_unlock_app_retry">"パスワードが不正です。もう一度お試しください。"</string>
 
     <!-- Dialog title: Asks user to enter a password to lock the app's settings -->
-    <string name="dialog_title_lock_app">"アプリロック"</string>
+    <string name="dialog_title_lock_app">"アプリをロック"</string>
 
     <!-- Dialog text: Asks user to enter a password to lock the app's settings -->
-    <string name="dialog_text_lock_app">"アプリをロック解除するパスワードを入力してください。これで作成済みのショートカット編集が出来ないようにロック保護します。"</string>
+    <string name="dialog_text_lock_app">"アプリをロック解除するパスワードを入力してください。これで作成済みのショートカットを編集できないようにロックして保護します。"</string>
 
     <!-- Dialog button: Lock the app (by entering a password) -->
     <string name="button_lock_app">"ロック"</string>
 
     <!-- Snackbar message: App was locked (settings can no longer be changed) -->
-    <string name="message_app_locked">"アプリをロック"</string>
+    <string name="message_app_locked">"アプリをロックしました"</string>
 
     <!-- Snackbar message: App was unlocked (settings can be changed again) -->
-    <string name="message_app_unlocked">"アプリロック解除"</string>
+    <string name="message_app_unlocked">"アプリをロック解除"</string>
 
     <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
-    <string name="warning_data_saver_battery_saver_enabled">"使用のスマホ上で「データ節約」モード、かつ／または、「バッテリー節約」モードが有効になっています。 このHTTP Shortcut アプリが機能しない問題が発生した場合は、それらのモードを無効にしてお試しください。"</string>
+    <string name="warning_data_saver_battery_saver_enabled">"使用のスマホ上で「データ節約」モード、かつ／または、「バッテリー節約」モードが有効になっています。 このHTTP Shortcut アプリの動作に問題が発生した場合は、それらのモードを無効にしてお試しください。"</string>
 
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
     <string name="message_variable_duplicated">"「%1$s」複製しました"</string>
@@ -957,7 +957,7 @@
     <string name="settings_dark_theme_options_off">"常にライトモード"</string>
 
     <!-- Settings option for dark mode: when selected the app will use Dark Mode according to the system settings (i.e., automatically switch) -->
-    <string name="settings_dark_theme_options_auto">"システム設定に準じる"</string>
+    <string name="settings_dark_theme_options_auto">"システム本体の設定に準じる"</string>
 
     <!-- Title of dark mode theme settings (which allows user to pick how/when the app should use dark mode) -->
     <string name="settings_dark_theme">"ダークモード"</string>
@@ -1126,7 +1126,7 @@
     <string name="title_add_trigger_shortcut">"ショートカットを追加"</string>
 
     <!-- Dialog error message: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed but the user doesn't have any shortcuts yet -->
-    <string name="error_add_trigger_shortcut_no_shortcuts">"追加できるショートカットはありません。 ここでショートカットを選択する前に、最初にいくつか追加のショートカットを作成してください。"</string>
+    <string name="error_add_trigger_shortcut_no_shortcuts">"追加できるショートカットはありません。 ここでショートカットを選択する前に、最初にいくつかショートカットを作成してください。"</string>
 
     <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <string name="title_remove_trigger_shortcut">"ショートカットを削除"</string>
@@ -1267,7 +1267,7 @@
     <string name="settings_remote_edit">"パソコンで編集"</string>
 
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
-    <string name="instructions_remote_edit">"この機能を使用すると、使いやすいコンピューター上のブラウザからショートカットを編集できます。 開始する前にアプリのプライバシーポリシーを読んでから、次の手順に従ってください。"</string>
+    <string name="instructions_remote_edit">"この機能を使用すると、使いやすいコンピューター上のブラウザからショートカットを編集できます。 開始する前にプライバシーポリシーを読んで同意してから、次の手順に従ってください。"</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
     <string name="instructions_remote_edit_step_1">"上記の項目にパスワードを入力"</string>
@@ -1279,7 +1279,7 @@
     <string name="instructions_remote_edit_step_3">"コンピューターのブラウザで %s を開き、デバイスIDとパスワードを入力して、編集を開始します。"</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"編集作業が完了して変更を保存したら、下記の「&lt;pre&gt;変更を取り込む&lt;/ pre&gt;」ボタンをクリックして、変更をダウンロードしてアプリに取り込みます。"</string>
+    <string name="instructions_remote_edit_step_4">"編集作業が完了して変更を保存したら、下記の「&lt;pre&gt;変更を取り込む&lt;/pre&gt;」ボタンをクリックして、変更をダウンロードしてアプリに取り込みます。"</string>
 
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">"サーバーへ送る"</string>
@@ -1362,7 +1362,7 @@
     <string name="title_permission_dialog">"アクセス許可が必要"</string>
 
     <!-- Message: Rational given for location permission in wifi/ssid check -->
-    <string name="message_permission_rational">"指定したWiFiネットワーク上でショートカットが実行されているかどうかを確認するには、位置情報へのアクセス権限が必要です。 これは、AndroidのOS仕様で必須要件です。ユーザーの位置情報データへ直接アクセスすることはしません。"</string>
+    <string name="message_permission_rational">"指定したWiFiネットワーク上でショートカットが実行されているかどうかを確認するには、位置情報へのアクセス権限が必要です。 これは、Androidの仕様で必須要件です。このアプリからユーザーの位置情報へ直接アクセスすることはしません。"</string>
 
     <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
     <string name="message_wrong_wifi_network">"このショートカット「%1$s」用に構成されたWiFiネットワークに接続していません。今すぐ別のWiFiネットワークを選択しますか？"</string>
@@ -1398,7 +1398,7 @@
     <string name="settings_documentation_summary">"よくある質問「FAQ」、参照情報、例など…"</string>
 
     <!-- Instructions shown below the "Allow Share..." checkbox in the variable editor -->
-    <string name="message_allow_share_instructions">"これを有効にすると、他のアプリからのテキストを共有し、その共有テキストをこの変数の値として一時的に使用できます。"</string>
+    <string name="message_allow_share_instructions">"これを有効にすると、他のアプリの「共有...」から値(テキスト)を受け取り、そのテキストをこの変数の値として一時的に使用できます。"</string>
 
     <!-- Dialog title: Shown in progress dialog while a file is being saved -->
     <string name="saving_in_progress">"保存中…"</string>
@@ -1467,7 +1467,7 @@
     <string name="title_client_cert">"クライアント証明書"</string>
 
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
-    <string name="label_client_cert_from_os">"OSで管理"</string>
+    <string name="label_client_cert_from_os">"システム本体で管理"</string>
 
     <!-- Subtitle for Label, for option in dialog to pick a client certificate managed by the operating system -->
     <string name="label_client_cert_from_os_subtitle">"推奨：さらに安全なセキュリティ"</string>
@@ -1476,7 +1476,7 @@
     <string name="label_client_cert_from_file">"「.p12」ファイルからインポート"</string>
 
     <!-- Subtitle for Label, for option in dialog to pick a client certificate from a .p12 file -->
-    <string name="label_client_cert_from_file_subtitle">"ファイルとパスワードは、暗号化など特別な保護はナシで、アプリ内に保存されます。 利用は自己責任でお願いします。"</string>
+    <string name="label_client_cert_from_file_subtitle">"ファイルとパスワードは、暗号化などセキュリティ保護ナシで、アプリ内に保存されます。 利用は自己責任で。"</string>
 
     <!-- Title of dialog, for entering the password for a client cert file -->
     <string name="title_client_cert_file_password">"パスワード"</string>
@@ -1497,7 +1497,7 @@
     <string name="action_play_sound">"サウンドを再生"</string>
 
     <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting. -->
-    <string name="message_response_handling_scripting_hint">"レスポンス処理やレスポンス表示など、より高度なオプションが必要な場合は、JavaScriptコードを使用するカスタムロジックを定義できる「%s」セクションを確認してください。"</string>
+    <string name="message_response_handling_scripting_hint">"レスポンス処理やレスポンス表示など、より高度なオプションが必要な場合は、JavaScriptコードを使用して作成するカスタムロジック定義「%s」セクションを確認してください。"</string>
 
     <!-- Menu button shown on response window, allows the user to execute the current shortcut again -->
     <string name="action_rerun_shortcut">"リターン"</string>
@@ -1506,10 +1506,10 @@
     <string name="label_multiline">"複数の行"</string>
 
     <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
-    <string name="message_json_encode_instructions">"リクエスト ボディなど、JSON文字列内でこの変数を使用している場合は、これを有効にしてください。特殊文字はエスケープされます。"</string>
+    <string name="message_json_encode_instructions">"リクエスト ボディなど、JSON文字列内でこの変数を使用している場合は、このオプションを有効にしてください。特殊文字はエスケープされます。"</string>
 
     <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
-    <string name="message_url_encode_instructions">"この変数をURL内で使用している場合、例えば、クエリー文字列の一部として使用している場合は、これを有効にしてください。特殊文字はエスケープされます。"</string>
+    <string name="message_url_encode_instructions">"この変数をURL内で使用している場合、例えば、クエリー文字列の一部として使用している場合は、このオプションを有効にしてください。特殊文字はエスケープされます。"</string>
 
     <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay">"他のアプリ上に重ねて表示を許可"</string>
@@ -1549,7 +1549,7 @@
     <string name="label_execution_settings">"トリガー＆実行の設定"</string>
 
     <!-- Section subtitle, shown underneath "Trigger & Execution Settings" -->
-    <string name="label_execution_settings_subtitle">"いつ、どのように、ショートカットを実行するか、定義します"</string>
+    <string name="label_execution_settings_subtitle">"いつ、どのように、ショートカットを実行するかを定義します"</string>
 
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
     <string name="import_failure_reason_data_version_mismatch">"選択したファイルは、アプリの新しいバージョンでエクスポートされました。 現在のスマホに最新バージョンのアプリがインストールされていることを確認してください。"</string>
@@ -1582,7 +1582,7 @@
     <string name="empty_state_trigger_shortcuts">"トリガーするショートカットが追加されていません。"</string>
 
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts_instructions">"このマルチショートカットとして(トリガー)実行する全てのショートカットをこのリストに追加してください。
+    <string name="empty_state_trigger_shortcuts_instructions">"このマルチショートカットとしてトリガー実行する全てのショートカットをこのリストに追加してください。
 
 ［＋］ボタンをクリックして既存のトリガーから選択して追加します"</string>
 
@@ -1643,7 +1643,7 @@
     <string name="confirm_delete_all_unused_custom_icons_message">"全ての未使用のアイコンを削除する？"</string>
 
     <!-- Error message, shown in snackbar when the user tried to fetch a page's favicon but it failed -->
-    <string name="error_failed_to_fetch_favicon">"アイコン取得に失敗。このWebサイトには適切なものが設定されていないかとしれません。"</string>
+    <string name="error_failed_to_fetch_favicon">"アイコン取得に失敗。このWebサイトには適切なアイコンが設定されていないかもしれません。"</string>
 
     <!-- Shortcut Action Title: Allows removing leading and trailing whitespace characters from a string -->
     <string name="action_type_trim_string">"文字列をトリミング"</string>
@@ -1793,7 +1793,7 @@
     <string name="error_failed_to_get_location">"デバイスの物理的な位置情報を検出できませんでした。"</string>
 
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
-    <string name="action_type_get_location_description">"デバイスの物理的な位置情報を問い合わせ、オブジェクトとして返します"</string>
+    <string name="action_type_get_location_description">"デバイスの物理的な位置情報を取得して、オブジェクトとして返します"</string>
 
     <!-- Button text: translate app (prompt to help & become a translator) -->
     <string name="settings_help_translate">"翻訳者になる"</string>
@@ -1874,7 +1874,6 @@
     <string name="variable_type_clipboard">"クリップボード内容"</string>
 
     <!-- Description for type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
-    <!-- Fuzzy -->
     <string name="variable_type_clipboard_description">"直近にコピーされたクリップボード値を確認"</string>
 
     <!-- Status message shown while some data or files are being processed, e.g. for sharing -->
@@ -1884,7 +1883,7 @@
     <string name="settings_donate">"寄付"</string>
 
     <!-- Button subtitle, for option to open the app's Donate page in a browser, for users who wish to support the app -->
-    <string name="settings_donate_summary">"感謝を表しに一杯おごってくれますか？"</string>
+    <string name="settings_donate_summary">"感謝を表して一杯おごってくれますか？"</string>
 
     <!-- Title of section in settings that allows user to add a quick settings tile. -->
     <string name="settings_add_quick_settings_tile_title">"クイック設定タイル"</string>
@@ -1926,11 +1925,11 @@
     <string name="action_type_execute_shortcut_description">"その他のショートカットをすぐに実行して結果を表示する"</string>
 
     <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
-    <string name="error_play_services_not_available_for_location">"Playストアサービスでは機器の位置情報が必要ですが、インストールされていないか無効になっています。
+    <string name="error_play_services_not_available_for_location">"Playストアサービスでは機器の位置情報が必要ですが、インストールされていないか、無効になっています。
 "</string>
 
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
-    <string name="error_unsupported_file_url">"file:// scheme 形式のURLはサポートされていません"</string>
+    <string name="error_unsupported_file_url">"file:// 形式のURLはサポートされていません"</string>
 
     <!-- Error message: Shown when the user tries to parse XML using the parseXML JS function, but the XML is invalid. %s is a placeholder for a more detailed description of the error -->
     <string name="error_invalid_xml">"無効なXML: %s"</string>
@@ -1976,4 +1975,85 @@
 
     <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
     <string name="message_history_cleared">"履歴を消去しました"</string>
+
+    <!-- Empty state, shown in event history when there are no events yet -->
+    <string name="empty_state_history">"最近のイベントなし"</string>
+
+    <!-- Empty state instructions, shown in event history when there are no events -->
+    <string name="empty_state_history_instructions">"最近トリガーされたショートカットの詳細がここに表示され、トラブルシューティングに使用できます。
+「%s」画面にあるオプションを使用すると、個々のショートカットがここに表示されないようにできます。"</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
+    <string name="label_exclude_from_history">"イベント履歴から除外"</string>
+
+    <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_shortcut_triggered">"「%s」がトリガー"</string>
+
+    <!-- Title of event history entry, which states that an HTTP request was sent. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_http_request_sent">"HTTP リクエスト送信「%s」"</string>
+
+    <!-- Title of event history entry, which states that an HTTP response was received. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the status code (e.g. "404 Not Found") -->
+    <string name="event_history_title_http_response_received">"HTTP レスポンス: %1$s : %2$s"</string>
+
+    <!-- Title of event history entry, which states that a network error has occurred. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_network_error">"ネットワークエラー: %s"</string>
+
+    <!-- Title of event history entry, which states that an execution error has occurred. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_execution_error">"実行エラー: %s"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, which indicates how a shortcut was triggered. %s is a placeholder for the trigger source, e.g. "homescreen" -->
+    <string name="label_prefix_event_history_trigger_origin">"トリガー元: %s"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_rerun_from_dialog">"ダイアログから再実行"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_rerun_from_window">"ウィンドウから再実行"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_main_screen">"メインスクリーン"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_share">"アプリへ共有"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_quick_settings_tile">"クイック設定タイル"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_app_shortcut">"アプリ ショートカット"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_home_screen_shortcut">"ホーム画面ショートカット"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_legacy_shortcut">"レガシー ショートカット"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_widget">"ウィジェット"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_scripting">"スクリプト"</string>
+
+    <!-- Message shown in snackbar to let the user know that the details of a (selected) history event were copied to the clipboard -->
+    <string name="message_history_event_details_copied">"イベントの詳細をコピー"</string>
+
+    <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
+    <string name="action_type_set_result_title">"結果を設定"</string>
+
+    <!-- Shortcut Action Description: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
+    <string name="action_type_set_result_description">"「executeShortcut」を呼び出したショートカットまたは 「Tasker」に返すカスタム文字列を設定します"</string>
+
+    <!-- Label/description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
+    <string name="label_plugin_result">"結果"</string>
+
+    <!-- Description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
+    <string name="label_plugin_result_detail">"「setResult()」関数で設定したカスタム データ文字列"</string>
+
+    <!-- Generic dialog button: Configure (e.g. some settings) -->
+    <string name="dialog_configure">"設定"</string>
+
+    <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_plugin_dialog_configure_app_overlay">"別のアプリからショートカットをトリガーできるようにするには、最初に「HTTP Shortcuts」アプリを他のアプリ上で表示できるように設定する必要があります。
+
+下記の「%s」ボタンをタップして、今すぐ設定してください。"</string>
 </resources>

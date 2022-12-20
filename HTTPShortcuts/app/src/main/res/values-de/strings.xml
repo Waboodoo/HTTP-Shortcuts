@@ -2065,4 +2065,10 @@ Du kannst einzelne Shortcuts verbergen durch eine Einstellung in \"%s\"."</strin
     <string name="message_plugin_dialog_configure_app_overlay">"Um einen Shortcut von einer anderen App aus auslösen zu können, musst du zuerst der HTTP Shortcuts App erlauben, über anderen Apps angezeigt werden zu können.
 
 Tippe dazu den \"%s\"-Knopf unten um dies einzurichten."</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="label_secondary_launcher_shortcut">"Auslösen durch sekundäre App erlauben"</string>
+
+    <!-- TODO -->
+    <string name="title_activity_secondary_launcher_trigger">"Shortcut auslösen"</string>
 </resources>

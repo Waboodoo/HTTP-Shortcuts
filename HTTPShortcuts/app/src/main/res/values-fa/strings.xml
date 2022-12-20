@@ -112,9 +112,6 @@
     <!-- Error shown when a selected image cannot be used as an icon -->
     <string name="error_set_image">"ناموفق در نمایش تصویر یا آیکون"</string>
 
-    <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
-    <string name="template_shortcut_name_copy">"(کپی)"</string>
-
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
     <string name="change_icon">"تغییر آیکون"</string>
 

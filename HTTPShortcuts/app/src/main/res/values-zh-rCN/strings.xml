@@ -2050,4 +2050,24 @@
 
     <!-- Message shown in snackbar to let the user know that the details of a (selected) history event were copied to the clipboard -->
     <string name="message_history_event_details_copied">"已复制事件详情。"</string>
+
+    <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
+    <string name="action_type_set_result_title">"设置结果"</string>
+
+    <!-- Shortcut Action Description: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
+    <string name="action_type_set_result_description">"设置一个要回到被称为 executeShortcut 的快捷方式或 Tasker 的自定义字符串"</string>
+
+    <!-- Label/description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
+    <string name="label_plugin_result">"结果"</string>
+
+    <!-- Description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
+    <string name="label_plugin_result_detail">"由 `setResult()` 函数设置的自定义数据"</string>
+
+    <!-- Generic dialog button: Configure (e.g. some settings) -->
+    <string name="dialog_configure">"配置"</string>
+
+    <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_plugin_dialog_configure_app_overlay">"为了能从另一个应用触发快捷方式，你首先需要允许 HTTP Shortcuts 出现在其他应用上方。
+
+轻按下方的 \"%s\" 按钮立即配置。"</string>
 </resources>

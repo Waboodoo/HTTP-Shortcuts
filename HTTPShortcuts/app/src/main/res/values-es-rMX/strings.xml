@@ -231,7 +231,7 @@ Haga clic en el botón + de la pantalla principal para comenzar o consulte la do
     <string name="import_failed_with_reason">"Fallo al importar los atajos:"</string>
 
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="export_failed_with_reason">"Fallo al exportar los atajos"</string>
+    <string name="export_failed_with_reason">"Fallo al exportar los atajos: %s"</string>
 
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
     <string name="import_failure_reason_invalid_json">"JSON Invalid"</string>
