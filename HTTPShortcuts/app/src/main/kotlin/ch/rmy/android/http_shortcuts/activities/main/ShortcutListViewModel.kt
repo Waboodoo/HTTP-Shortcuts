@@ -28,6 +28,8 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.GetMoveOptionsDial
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetMoveToCategoryDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutDeletionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutInfoDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.LauncherShortcutMapperUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
@@ -55,6 +57,7 @@ import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.usecases.GetExportDestinationOptionsDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import ch.rmy.android.http_shortcuts.utils.SecondaryLauncherManager
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.curlcommand.CurlCommand
 import kotlinx.coroutines.CancellationException
@@ -124,10 +127,16 @@ class ShortcutListViewModel(
     lateinit var getUsedVariableIds: GetUsedVariableIdsUseCase
 
     @Inject
-    lateinit var launcherShortcutMapper: LauncherShortcutMapper
+    lateinit var launcherShortcutMapper: LauncherShortcutMapperUseCase
+
+    @Inject
+    lateinit var secondaryLauncherMapper: SecondaryLauncherMapperUseCase
 
     @Inject
     lateinit var launcherShortcutManager: LauncherShortcutManager
+
+    @Inject
+    lateinit var secondaryLauncherManager: SecondaryLauncherManager
 
     init {
         getApplicationComponent().inject(this)
@@ -264,13 +273,14 @@ class ShortcutListViewModel(
             copy(isInMovingMode = false)
         }
         emitEvent(ShortcutListEvent.MovingModeChanged(false))
-        updateLauncherShortcuts()
+        updateLauncherSettings()
     }
 
-    private fun updateLauncherShortcuts() {
+    private fun updateLauncherSettings() {
         viewModelScope.launch {
             val categories = categoryRepository.getCategories()
             launcherShortcutManager.updateAppShortcuts(launcherShortcutMapper(categories))
+            secondaryLauncherManager.setSecondaryLauncherVisibility(secondaryLauncherMapper(categories))
         }
     }
 
@@ -411,7 +421,7 @@ class ShortcutListViewModel(
 
         launchWithProgressTracking {
             shortcutRepository.duplicateShortcut(shortcutId, newName, newPosition, categoryId)
-            updateLauncherShortcuts()
+            updateLauncherSettings()
             showSnackbar(StringResLocalizable(R.string.shortcut_duplicated, name))
         }
     }
@@ -592,7 +602,7 @@ class ShortcutListViewModel(
             shortcutRepository.moveShortcutToCategory(shortcutId, categoryId)
             showSnackbar(StringResLocalizable(R.string.shortcut_moved, shortcut.name))
             if (shortcut.launcherShortcut) {
-                updateLauncherShortcuts()
+                updateLauncherSettings()
             }
         }
     }
@@ -609,7 +619,7 @@ class ShortcutListViewModel(
             pendingExecutionsRepository.removePendingExecutionsForShortcut(shortcutId)
             widgetsRepository.deleteDeadWidgets()
             showSnackbar(StringResLocalizable(R.string.shortcut_deleted, shortcut.name))
-            updateLauncherShortcuts()
+            updateLauncherSettings()
             emitEvent(ShortcutListEvent.RemoveShortcutFromHomeScreen(shortcut.toLauncherShortcut()))
         }
     }

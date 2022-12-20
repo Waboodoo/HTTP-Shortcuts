@@ -310,6 +310,12 @@ constructor(
         }
     }
 
+    suspend fun setSecondaryLauncherShortcut(secondaryLauncherShortcut: Boolean) {
+        commitTransactionForShortcut { shortcut ->
+            shortcut.secondaryLauncherShortcut = secondaryLauncherShortcut
+        }
+    }
+
     suspend fun setQuickSettingsTileShortcut(quickSettingsTileShortcut: Boolean) {
         commitTransactionForShortcut { shortcut ->
             shortcut.quickSettingsTileShortcut = quickSettingsTileShortcut

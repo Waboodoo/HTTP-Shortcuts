@@ -34,6 +34,7 @@ class ExecutionSettingsActivity : BaseActivity() {
     private fun initUserInputBindings() {
         binding.inputRequireConfirmation.doOnCheckedChanged(viewModel::onRequireConfirmationChanged)
         binding.inputLauncherShortcut.doOnCheckedChanged(viewModel::onLauncherShortcutChanged)
+        binding.inputSecondaryLauncherShortcut.doOnCheckedChanged(viewModel::onSecondaryLauncherShortcutChanged)
         binding.inputQuickTileShortcut.doOnCheckedChanged(viewModel::onQuickSettingsTileShortcutChanged)
         binding.inputWaitForConnection.doOnCheckedChanged(viewModel::onWaitForConnectionChanged)
         binding.inputExcludeFromHistory.doOnCheckedChanged(viewModel::onExcludeFromHistoryChanged)
@@ -47,6 +48,7 @@ class ExecutionSettingsActivity : BaseActivity() {
             binding.inputRequireConfirmation.isChecked = viewState.requireConfirmation
             binding.inputLauncherShortcut.isVisible = viewState.launcherShortcutOptionVisible
             binding.inputLauncherShortcut.isChecked = viewState.launcherShortcut
+            binding.inputSecondaryLauncherShortcut.isChecked = viewState.secondaryLauncherShortcut
             binding.inputQuickTileShortcut.isVisible = viewState.quickSettingsTileShortcutOptionVisible
             binding.inputQuickTileShortcut.isChecked = viewState.quickSettingsTileShortcut
             binding.inputWaitForConnection.isVisible = viewState.waitForConnectionOptionVisible

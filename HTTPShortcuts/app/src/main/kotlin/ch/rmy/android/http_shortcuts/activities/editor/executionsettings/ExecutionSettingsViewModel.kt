@@ -31,6 +31,9 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
     @Inject
     lateinit var launcherShortcutManager: LauncherShortcutManager
 
+    @Inject
+    lateinit var quickSettingsTileManager: QuickSettingsTileManager
+
     init {
         getApplicationComponent().inject(this)
     }
@@ -49,7 +52,7 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
 
     override fun initViewState() = ExecutionSettingsViewState(
         launcherShortcutOptionVisible = launcherShortcutManager.supportsLauncherShortcuts(),
-        quickSettingsTileShortcutOptionVisible = QuickSettingsTileManager.supportsQuickSettingsTiles(),
+        quickSettingsTileShortcutOptionVisible = quickSettingsTileManager.supportsQuickSettingsTiles(),
     )
 
     override fun onInitialized() {
@@ -71,6 +74,7 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
                 waitForConnection = shortcut.isWaitForNetwork,
                 waitForConnectionOptionVisible = shortcut.type == ShortcutExecutionType.APP,
                 launcherShortcut = shortcut.launcherShortcut,
+                secondaryLauncherShortcut = shortcut.secondaryLauncherShortcut,
                 quickSettingsTileShortcut = shortcut.quickSettingsTileShortcut,
                 delay = shortcut.delay.milliseconds,
                 requireConfirmation = shortcut.requireConfirmation,
@@ -108,6 +112,15 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
         }
         launchWithProgressTracking {
             temporaryShortcutRepository.setLauncherShortcut(launcherShortcut)
+        }
+    }
+
+    fun onSecondaryLauncherShortcutChanged(secondaryLauncherShortcut: Boolean) {
+        updateViewState {
+            copy(secondaryLauncherShortcut = secondaryLauncherShortcut)
+        }
+        launchWithProgressTracking {
+            temporaryShortcutRepository.setSecondaryLauncherShortcut(secondaryLauncherShortcut)
         }
     }
 

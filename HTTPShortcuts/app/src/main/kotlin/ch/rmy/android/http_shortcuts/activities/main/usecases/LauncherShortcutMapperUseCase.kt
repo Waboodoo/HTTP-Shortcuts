@@ -1,11 +1,11 @@
-package ch.rmy.android.http_shortcuts.activities.main
+package ch.rmy.android.http_shortcuts.activities.main.usecases
 
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.data.models.CategoryModel
 import ch.rmy.android.http_shortcuts.extensions.toLauncherShortcut
 import javax.inject.Inject
 
-class LauncherShortcutMapper
+class LauncherShortcutMapperUseCase
 @Inject
 constructor() {
 

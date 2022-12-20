@@ -404,6 +404,10 @@ class DatabaseMigration : RealmMigration {
                 schema.get("Shortcut")!!
                     .addField("excludeFromHistory", Boolean::class.javaPrimitiveType)
             }
+            56L -> { // 2.27.0
+                schema.get("Shortcut")!!
+                    .addField("secondaryLauncherShortcut", Boolean::class.javaPrimitiveType)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -429,6 +433,6 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 55L
+        const val VERSION = 56L
     }
 }

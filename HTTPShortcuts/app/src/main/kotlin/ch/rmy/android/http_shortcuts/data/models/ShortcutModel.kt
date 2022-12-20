@@ -66,6 +66,8 @@ open class ShortcutModel(
 
     var launcherShortcut: Boolean = false
 
+    var secondaryLauncherShortcut: Boolean = false
+
     var quickSettingsTileShortcut: Boolean = false
 
     var delay: Int = 0
@@ -182,6 +184,7 @@ open class ShortcutModel(
             other.username != username ||
             other.authentication != authentication ||
             other.launcherShortcut != launcherShortcut ||
+            other.secondaryLauncherShortcut != secondaryLauncherShortcut ||
             other.quickSettingsTileShortcut != quickSettingsTileShortcut ||
             other.acceptAllCertificates != acceptAllCertificates ||
             other.delay != delay ||

@@ -30,6 +30,7 @@ import ch.rmy.android.http_shortcuts.activities.icons.IconPickerViewModel
 import ch.rmy.android.http_shortcuts.activities.main.MainViewModel
 import ch.rmy.android.http_shortcuts.activities.main.ShortcutListViewModel
 import ch.rmy.android.http_shortcuts.activities.misc.deeplink.DeepLinkViewModel
+import ch.rmy.android.http_shortcuts.activities.misc.second_launcher.SecondLauncherViewModel
 import ch.rmy.android.http_shortcuts.activities.misc.share.ShareViewModel
 import ch.rmy.android.http_shortcuts.activities.misc.voice.VoiceViewModel
 import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditViewModel
@@ -331,4 +332,6 @@ interface ApplicationComponent {
     fun inject(historyViewModel: HistoryViewModel)
 
     fun inject(historyCleanUpWorker: HistoryCleanUpWorker)
+
+    fun inject(secondLauncherViewModel: SecondLauncherViewModel)
 }

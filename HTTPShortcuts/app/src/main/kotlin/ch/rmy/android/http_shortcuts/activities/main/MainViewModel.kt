@@ -28,6 +28,8 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.GetRecoveryDialogU
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutCreationDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutPlacementDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetUnlockDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.LauncherShortcutMapperUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLogDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkRestrictionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowRecoveryDialogUseCase
@@ -54,6 +56,7 @@ import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import ch.rmy.android.http_shortcuts.utils.SecondaryLauncherManager
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
 import kotlinx.coroutines.launch
@@ -69,7 +72,10 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     lateinit var appRepository: AppRepository
 
     @Inject
-    lateinit var launcherShortcutMapper: LauncherShortcutMapper
+    lateinit var launcherShortcutMapper: LauncherShortcutMapperUseCase
+
+    @Inject
+    lateinit var secondaryLauncherMapper: SecondaryLauncherMapperUseCase
 
     @Inject
     lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
@@ -106,6 +112,9 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     @Inject
     lateinit var launcherShortcutManager: LauncherShortcutManager
+
+    @Inject
+    lateinit var secondaryLauncherManager: SecondaryLauncherManager
 
     @Inject
     lateinit var getRecoveryDialog: GetRecoveryDialogUseCase
@@ -185,7 +194,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         } else {
             scheduleExecutions()
         }
-        updateLauncherShortcuts(categories)
+        updateLauncherSettings(categories)
 
         when (selectionMode) {
             SelectionMode.NORMAL -> showNormalStartupDialogsIfNeeded()
@@ -264,8 +273,9 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    private fun updateLauncherShortcuts(categories: List<CategoryModel>) {
+    private fun updateLauncherSettings(categories: List<CategoryModel>) {
         launcherShortcutManager.updateAppShortcuts(launcherShortcutMapper(categories))
+        secondaryLauncherManager.setSecondaryLauncherVisibility(secondaryLauncherMapper(categories))
     }
 
     private fun placeShortcutOnHomeScreen(shortcut: LauncherShortcut) {
@@ -425,7 +435,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         viewModelScope.launch {
             val categories = categoryRepository.getCategories()
             this@MainViewModel.categories = categories
-            updateLauncherShortcuts(categories)
+            updateLauncherSettings(categories)
             selectShortcut(shortcutId)
         }
     }
@@ -541,7 +551,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         viewModelScope.launch {
             val categories = categoryRepository.getCategories()
             this@MainViewModel.categories = categories
-            updateLauncherShortcuts(categories)
+            updateLauncherSettings(categories)
         }
     }
 

@@ -14,6 +14,7 @@ data class ExecutionSettingsViewState(
     val requireConfirmation: Boolean = false,
     val launcherShortcutOptionVisible: Boolean = false,
     val launcherShortcut: Boolean = false,
+    val secondaryLauncherShortcut: Boolean = false,
     val quickSettingsTileShortcutOptionVisible: Boolean = false,
     val quickSettingsTileShortcut: Boolean = false,
     val excludeFromHistory: Boolean = false,
