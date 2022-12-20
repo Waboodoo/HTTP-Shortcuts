@@ -230,7 +230,6 @@
         <activity
             android:name=".activities.ExecuteActivity"
             android:configChanges="orientation|screenSize"
-            android:excludeFromRecents="true"
             android:exported="true"
             android:label="@string/title_activity_execute"
             android:launchMode="singleInstance"
@@ -276,7 +275,6 @@
         <activity
             android:name=".activities.misc.share.ShareActivity"
             android:configChanges="orientation|screenSize"
-            android:excludeFromRecents="true"
             android:exported="true"
             android:label="@string/action_send_to"
             android:launchMode="singleInstance"
@@ -379,7 +377,6 @@
         <activity-alias
             android:name=".ExecuteActivity"
             android:configChanges="orientation|screenSize"
-            android:excludeFromRecents="true"
             android:exported="true"
             android:label="@string/title_activity_execute"
             android:launchMode="singleInstance"
