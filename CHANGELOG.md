@@ -3,13 +3,17 @@
 ### Improvements
 - The new "Event History" feature allows you to see details about recently executed shortcuts, their HTTP requests and responses, which you can use for troubleshooting.
 - You can now use the `setResult()` function in Scripting to pass data back to `executeShortcut()` or to Tasker
+- It is now possible to enable a secondary launcher app, which can be used to trigger shortcuts. This allows for workarounds on devices that can't make use of home screen shortcuts or widget.
+- Switching to other apps and back while a shortcut is executing is now possible
 
 ### Miscellaneous
 - All variables are now resolved lazily, i.e., as late as possible and only when needed. The main difference this might make for you is that if you use `getVariable` or `setVariable` in a shortcut's "Run before Execution" Scripting, the order in which your variables are resolved might be different from before.
 - Additional documentation for some more advanced or hidden feature is now available
+- Clean-up work running in the background is now more considerate with memory and battery use
 
 ### Bugfixes
-- Being unable to resolve a host is now treated as a regular error, instead of an unexpected error
+- Being unable to resolve a host is now treated as a regular error again, instead of an unexpected error
+- For streaming URLs (e.g. EventStream URLs), reaching the read timeout is no longer considered an error
 
 ## Version 2.26.0
 
