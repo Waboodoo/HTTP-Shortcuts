@@ -225,7 +225,7 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.7.1")
 
     /* Tasker integration */
-    implementation("com.joaomgcd:taskerpluginlibrary:0.4.6")
+    implementation("com.joaomgcd:taskerpluginlibrary:0.4.7")
 
     /* Scripting */
     // This is not the latest version, but it's the latest one that has a published artifact, and the newer ones lead to

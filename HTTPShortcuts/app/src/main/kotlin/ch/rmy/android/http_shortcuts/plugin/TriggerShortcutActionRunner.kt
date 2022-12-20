@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.plugin.VariableHelper.extractVariableMap
 import com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerAction
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResult
+import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultErrorWithOutput
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultSucess
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.runBlocking
@@ -37,12 +38,10 @@ class TriggerShortcutActionRunner : TaskerPluginRunnerAction<Input, Output>() {
             }
             TaskerPluginResultSucess(Output(result))
         } catch (e: TimeoutCancellationException) {
-            // TODO: This should be an error, not a success, but the taskerpluginlibrary is too limited to allow for that
-            TaskerPluginResultSucess(
-                Output(
-                    "Failed to trigger shortcut. Check HTTP Shortcuts' Troubleshooting section " +
-                        "in the Settings for options to mitigate this."
-                )
+            TaskerPluginResultErrorWithOutput(
+                code = 0,
+                message = "Failed to trigger shortcut. Check HTTP Shortcuts' Troubleshooting section " +
+                    "in the Settings for options to mitigate this.",
             )
         }
     }
