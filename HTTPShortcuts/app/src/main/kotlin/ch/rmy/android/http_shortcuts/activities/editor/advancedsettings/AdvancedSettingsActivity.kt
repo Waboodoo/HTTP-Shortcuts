@@ -9,6 +9,7 @@ import ch.rmy.android.framework.extensions.collectViewStateWhileActive
 import ch.rmy.android.framework.extensions.doOnCheckedChanged
 import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.initialize
+import ch.rmy.android.framework.extensions.isVisible
 import ch.rmy.android.framework.extensions.setSubtitle
 import ch.rmy.android.framework.extensions.setTextSafely
 import ch.rmy.android.framework.ui.BaseIntentBuilder
@@ -89,6 +90,8 @@ class AdvancedSettingsActivity : BaseActivity() {
 
     private fun initViewModelBindings() {
         collectViewStateWhileActive(viewModel) { viewState ->
+            binding.loadingIndicator.isVisible = false
+            binding.layoutContainer.isVisible = true
             binding.inputFollowRedirects.isChecked = viewState.followRedirects
             binding.inputAcceptCertificates.isChecked = viewState.acceptAllCertificates
             binding.inputAcceptCookies.isChecked = viewState.acceptCookies
