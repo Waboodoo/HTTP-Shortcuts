@@ -6,6 +6,7 @@ import androidx.activity.result.launch
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.R
@@ -43,6 +44,7 @@ class ExternalRequestFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
+            logInfo("Handling external request: $request")
             when (val request = request) {
                 is ExternalRequest.PickFiles -> pickFiles.launch(request.multiple)
                 is ExternalRequest.OpenCamera -> openCamera.launch()
