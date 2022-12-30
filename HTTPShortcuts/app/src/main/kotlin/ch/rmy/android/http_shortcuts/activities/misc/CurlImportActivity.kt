@@ -2,9 +2,11 @@ package ch.rmy.android.http_shortcuts.activities.misc
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.inputmethod.EditorInfo
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.doOnTextChanged
@@ -36,6 +38,15 @@ class CurlImportActivity : BaseActivity() {
 
         binding.curlImportCommand.doOnTextChanged { text ->
             commandEmpty = text.isEmpty()
+        }
+
+        binding.curlImportCommand.imeOptions = EditorInfo.IME_ACTION_GO or if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING
+        } else 0
+        binding.curlImportCommand.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_GO && !commandEmpty) consume {
+                startImport()
+            } else false
         }
     }
 
