@@ -960,6 +960,8 @@
     <string name="dialog_code_snippet_get_file_type">Get Type of Selected File</string>
     <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
     <string name="dialog_code_snippet_get_file_size">Get Size of Selected File (in Bytes)</string>
+    <!-- Dialog option: shown in code snippet picker, option to get the meta data of a selected file -->
+    <string name="dialog_code_snippet_get_file_meta">Get Meta Data of Selected File</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_name">Get Shortcut Name</string>
     <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->

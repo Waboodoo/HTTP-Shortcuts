@@ -248,13 +248,15 @@ class Execution(
             return
         }
 
-        val fileUploadResult = handleFiles()
+        val usesScripting = usesScripting()
+
+        val fileUploadResult = handleFiles(loadMetaData = usesScripting)
 
         emit(ExecutionStatus.InProgress(variableManager.getVariableValuesByIds()))
 
         val resultHandler = ResultHandler()
 
-        if ((params.tryNumber == 0 || (params.tryNumber == 1 && shortcut.delay > 0)) && usesScripting()) {
+        if ((params.tryNumber == 0 || (params.tryNumber == 1 && shortcut.delay > 0)) && usesScripting) {
             scriptExecutor.initialize(
                 shortcut = shortcut,
                 variableManager = variableManager,
@@ -431,7 +433,7 @@ class Execution(
     private fun requiresConfirmation() =
         shortcut.requireConfirmation && params.tryNumber == 0
 
-    private suspend fun handleFiles(): FileUploadManager.Result? = coroutineScope {
+    private suspend fun handleFiles(loadMetaData: Boolean): FileUploadManager.Result? = coroutineScope {
         if (!shortcut.usesRequestParameters() && !shortcut.usesGenericFileBody() && !shortcut.usesImageFileBody()) {
             return@coroutineScope null
         }
@@ -453,6 +455,7 @@ class Execution(
                     ParameterType.IMAGE -> addFileRequest(image = true)
                 }
             }
+            .withMetaData(loadMetaData)
             .build()
 
         var fileRequest: FileUploadManager.FileRequest

@@ -115,7 +115,7 @@ shortcut.description;
 <a name="files"></a>
 ## Selected Files
 
-If your shortcut makes use of file parameters or uses the content of a file as the request body then you can access information about these files using the `selectedFiles` array. Each selected file has an entry, allowing you to read out its file name, size (in bytes) and media type.
+If your shortcut makes use of file parameters or uses the content of a file as the request body then you can access information about these files using the `selectedFiles` array. Each selected file has an entry, allowing you to read out its file name, size (in bytes), media type and potentially some additional meta information.
 
 ```js
 const numberOfFiles = selectedFiles.length;
@@ -123,6 +123,7 @@ const numberOfFiles = selectedFiles.length;
 selectedFiles[0].name;
 selectedFiles[0].size;
 selectedFiles[0].type;
+selectedFiles[0].meta;
 ```
 
 Each file also has a unique ID, which is currently only useful if you want to forward these files to another shortcut using the [`enqueueShortcut`](#trigger-shortcut) function.
@@ -132,6 +133,32 @@ selectedFiles[0].id;
 
 const allFileIds = selectedFiles.map(file => file.id);
 ```
+
+The `meta` field currently only provides information about images and is otherwise an empty object. It allows to read out an image's orientation and the timestamp of when it was created (in "YYYY-MM-DD HH:mm:ss" format):
+
+```js
+const myMeta = selectedFiles[0].meta;
+
+/*
+myMeta might look like this now:
+{
+    'created': '2022-12-31 23:59:59',
+    'orientation': 1,
+}
+*/
+```
+
+The `orientation` field is an integer with the following meaning:
+
+- 0 means no orientation information is available
+- 1 means a rotation of 0 degrees, i.e., no adjument is needed
+- 2 means a rotation of 0 degrees, and the image is mirrored
+- 3 means a rotation of 180 degrees
+- 4 means a rotation of 180 degrees, and the image is mirrored
+- 5 means a rotation of 90 degrees
+- 6 means a rotation of 90 degrees, and the image is mirrored
+- 7 means a rotation of 270 degrees
+- 8 means a rotation of 270 degrees, and the image is mirrored
 
 <a name="user-interaction"></a>
 ## User Interaction

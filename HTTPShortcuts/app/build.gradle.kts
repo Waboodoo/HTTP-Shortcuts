@@ -212,6 +212,9 @@ dependencies {
     /* Image display */
     implementation("com.squareup.picasso:picasso:2.8")
 
+    /* Image meta data extraction */
+    implementation("androidx.exifinterface:exifinterface:1.3.5")
+
     /* HTTP & Network */
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
     implementation("io.github.rburgst:okhttp-digest:2.6")

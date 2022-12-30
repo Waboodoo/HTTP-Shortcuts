@@ -4,16 +4,19 @@ import android.content.ContentResolver
 import android.content.res.AssetFileDescriptor
 import android.net.Uri
 import android.webkit.MimeTypeMap
+import androidx.exifinterface.media.ExifInterface
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import java.io.FileNotFoundException
+import java.io.IOException
 
 class FileUploadManager internal constructor(
     private val contentResolver: ContentResolver,
     private val sharedFileUris: List<Uri>,
     private val forwardedFileIds: List<String>,
     private val fileRequests: Iterator<FileRequest>,
+    private val withMetaData: Boolean,
 ) {
 
     private val registeredFiles = mutableListOf<List<File>>()
@@ -66,6 +69,7 @@ class FileUploadManager internal constructor(
                 fileName = getFileName(uri, type),
                 data = uri,
                 fileSize = getFileSize(uri),
+                metaData = if (withMetaData) getMetaData(uri, type) else null,
             )
         }
 
@@ -99,11 +103,36 @@ class FileUploadManager internal constructor(
     private fun getFileSize(file: Uri): Long? =
         try {
             contentResolver.openAssetFileDescriptor(file, "r")
-                ?.length
+                ?.use {
+                    it.length
+                }
                 ?.takeUnless { it == AssetFileDescriptor.UNKNOWN_LENGTH }
         } catch (e: FileNotFoundException) {
             null
         }
+
+    private fun getMetaData(file: Uri, type: String): Map<String, Any?>? {
+        if (!type.startsWith("image/", ignoreCase = true)) {
+            return null
+        }
+        return try {
+            contentResolver.openInputStream(file)!!
+                .use(::ExifInterface)
+                .let { exifInterface ->
+                    mapOf(
+                        "orientation" to exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, 0),
+                        "created" to exifInterface.getAttribute(ExifInterface.TAG_DATETIME)?.formatDateTime(),
+                    )
+                }
+        } catch (e: IOException) {
+            null
+        }
+    }
+
+    private fun String.formatDateTime(): String? =
+        takeIf { it.firstOrNull()?.isDigit() == true }
+            ?.replaceFirst(':', '-')
+            ?.replaceFirst(':', '-')
 
     private fun generateId(): String =
         newUUID()
@@ -117,6 +146,7 @@ class FileUploadManager internal constructor(
         val fileName: String,
         val data: Uri,
         val fileSize: Long?,
+        val metaData: Map<String, Any?>?,
     )
 
     data class Result(
@@ -140,6 +170,7 @@ class FileUploadManager internal constructor(
         private var sharedFiles: List<Uri>? = null
         private var forwardedFileIds: List<String>? = null
         private val fileRequests = mutableListOf<FileRequest>()
+        private var withMetaData = false
 
         fun withSharedFiles(fileUris: List<Uri>) = also {
             this.sharedFiles = fileUris
@@ -153,11 +184,16 @@ class FileUploadManager internal constructor(
             fileRequests.add(FileRequest(multiple, image))
         }
 
+        fun withMetaData(enabled: Boolean) = also {
+            withMetaData = enabled
+        }
+
         fun build() = FileUploadManager(
             contentResolver = contentResolver,
             sharedFileUris = sharedFiles ?: emptyList(),
             forwardedFileIds = forwardedFileIds ?: emptyList(),
             fileRequests = fileRequests.iterator(),
+            withMetaData = withMetaData,
         )
     }
 

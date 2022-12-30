@@ -19,15 +19,25 @@ const myCookieValue2 = response.getCookie('MyCookieName2');
 </code></pre><p>Please note that there is a size limit of 30000 characters. If the variable does not exist an error is raised.</p><p><a name="shortcut-info"></a></p><h2>Getting Information about the Current Shortcut</h2><p>You can easily retrieve information about the current shortcut from the <code>shortcut</code> object. Currently this only includes the shortcut's ID, name and description.</p><pre><code class="language-js">shortcut.id;
 shortcut.name;
 shortcut.description;
-</code></pre><p><a name="files"></a></p><h2>Selected Files</h2><p>If your shortcut makes use of file parameters or uses the content of a file as the request body then you can access information about these files using the <code>selectedFiles</code> array. Each selected file has an entry, allowing you to read out its file name, size (in bytes) and media type.</p><pre><code class="language-js">const numberOfFiles = selectedFiles.length;
+</code></pre><p><a name="files"></a></p><h2>Selected Files</h2><p>If your shortcut makes use of file parameters or uses the content of a file as the request body then you can access information about these files using the <code>selectedFiles</code> array. Each selected file has an entry, allowing you to read out its file name, size (in bytes), media type and potentially some additional meta information.</p><pre><code class="language-js">const numberOfFiles = selectedFiles.length;
 
 selectedFiles[0].name;
 selectedFiles[0].size;
 selectedFiles[0].type;
+selectedFiles[0].meta;
 </code></pre><p>Each file also has a unique ID, which is currently only useful if you want to forward these files to another shortcut using the <a href="#trigger-shortcut"><code>enqueueShortcut</code></a> function.</p><pre><code class="language-js">selectedFiles[0].id;
 
 const allFileIds = selectedFiles.map(file =&gt; file.id);
-</code></pre><p><a name="user-interaction"></a></p><h2>User Interaction</h2><p>This section describes how you can interact with the user (i.e., you), during the execution of a shortcut, e.g., to ask for additional input, to confirm an action or to display information.</p><p><a name="show-toast"></a></p><h3>showToast</h3><p>With this function you can display a toast message on the screen. Simply pass your message as the first parameter.</p><pre><code class="language-js">showToast('Hello World');
+</code></pre><p>The <code>meta</code> field currently only provides information about images and is otherwise an empty object. It allows to read out an image's orientation and the timestamp of when it was created (in &quot;YYYY-MM-DD HH:mm:ss&quot; format):</p><pre><code class="language-js">const myMeta = selectedFiles[0].meta;
+
+/*
+myMeta might look like this now:
+{
+    'created': '2022-12-31 23:59:59',
+    'orientation': 1,
+}
+*/
+</code></pre><p>The <code>orientation</code> field is an integer with the following meaning:</p><ul><li>0 means no orientation information is available</li><li>1 means a rotation of 0 degrees, i.e., no adjument is needed</li><li>2 means a rotation of 0 degrees, and the image is mirrored</li><li>3 means a rotation of 180 degrees</li><li>4 means a rotation of 180 degrees, and the image is mirrored</li><li>5 means a rotation of 90 degrees</li><li>6 means a rotation of 90 degrees, and the image is mirrored</li><li>7 means a rotation of 270 degrees</li><li>8 means a rotation of 270 degrees, and the image is mirrored</li></ul><p><a name="user-interaction"></a></p><h2>User Interaction</h2><p>This section describes how you can interact with the user (i.e., you), during the execution of a shortcut, e.g., to ask for additional input, to confirm an action or to display information.</p><p><a name="show-toast"></a></p><h3>showToast</h3><p>With this function you can display a toast message on the screen. Simply pass your message as the first parameter.</p><pre><code class="language-js">showToast('Hello World');
 </code></pre><p>Please note that no toast will be displayed if the string you pass is empty. Also note that a toast will show at most two lines of text, so it is best suited for short messages.</p><p><a name="show-dialog"></a></p><h3>showDialog</h3><p>With this function you can display a dialog window on the screen. Simply pass your message as the first parameter, and optionally a title for the dialog as the second paramter. The dialog will be displayed until its <em>&quot;OK&quot;</em> button is pressed.</p><pre><code class="language-js">showDialog('My Message', 'My Title');
 
 showDialog('You can also use &lt;b&gt;basic&lt;/b&gt; &lt;i&gt;HTML&lt;/i&gt; for formatting the message.');

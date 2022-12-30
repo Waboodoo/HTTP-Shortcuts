@@ -142,9 +142,10 @@ constructor(
                         "name" to file.fileName,
                         "size" to file.fileSize,
                         "type" to file.mimeType,
+                        "meta" to (file.metaData ?: emptyMap()),
                     )
                 }
-                ?: emptyList<Map<String, String>>(),
+                ?: emptyList<Map<String, Any?>>(),
             READ_ONLY,
         )
     }

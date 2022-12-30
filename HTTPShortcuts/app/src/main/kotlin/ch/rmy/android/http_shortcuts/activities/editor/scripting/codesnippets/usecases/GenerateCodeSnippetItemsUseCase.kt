@@ -154,6 +154,13 @@ constructor(
                     ) {
                         insertText("selectedFiles[0].type")
                     }
+                    item(
+                        R.string.dialog_code_snippet_get_file_meta,
+                        docRef = "files",
+                        keywords = setOf("files", "selected", "meta", "created", "time", "date", "orientation", "rotation", "information"),
+                    ) {
+                        insertText("selectedFiles[0].meta")
+                    }
                 }
             }
             section(R.string.dialog_code_snippet_user_interaction, R.drawable.ic_user_interaction) {
