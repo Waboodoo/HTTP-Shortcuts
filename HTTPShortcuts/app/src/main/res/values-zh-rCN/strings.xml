@@ -2070,4 +2070,10 @@
     <string name="message_plugin_dialog_configure_app_overlay">"为了能从另一个应用触发快捷方式，你首先需要允许 HTTP Shortcuts 出现在其他应用上方。
 
 轻按下方的 \"%s\" 按钮立即配置。"</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="label_secondary_launcher_shortcut">"允许通过第二启动器应用进行触发"</string>
+
+    <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
+    <string name="title_activity_secondary_launcher_trigger">"触发快捷方式"</string>
 </resources>

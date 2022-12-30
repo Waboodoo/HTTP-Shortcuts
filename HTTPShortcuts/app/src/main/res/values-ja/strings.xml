@@ -2056,4 +2056,10 @@
     <string name="message_plugin_dialog_configure_app_overlay">"別のアプリからショートカットをトリガーできるようにするには、最初に「HTTP Shortcuts」アプリを他のアプリ上で表示できるように設定する必要があります。
 
 下記の「%s」ボタンをタップして、今すぐ設定してください。"</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="label_secondary_launcher_shortcut">"セカンダリ―ランチャーアプリ経由のトリガーを許可"</string>
+
+    <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
+    <string name="title_activity_secondary_launcher_trigger">"トリガー ショートカット"</string>
 </resources>
