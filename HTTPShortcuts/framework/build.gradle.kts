@@ -78,7 +78,7 @@ dependencies {
     api("androidx.annotation:annotation:1.5.0")
     api("androidx.appcompat:appcompat:1.6.0-rc01")
     api("com.google.android.material:material:1.7.0")
-    api("androidx.fragment:fragment-ktx:1.5.4")
+    api("androidx.fragment:fragment-ktx:1.5.5")
     api("androidx.recyclerview:recyclerview:1.2.1")
     api("androidx.constraintlayout:constraintlayout:2.1.4")
     api("androidx.preference:preference-ktx:1.2.0")
