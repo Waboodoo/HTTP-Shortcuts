@@ -6,9 +6,11 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.text.InputType
 import android.text.method.LinkMovementMethod
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.ImageView
@@ -20,6 +22,7 @@ import androidx.core.content.getSystemService
 import androidx.core.view.isVisible
 import androidx.core.widget.ImageViewCompat
 import ch.rmy.android.framework.extensions.color
+import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
@@ -30,7 +33,10 @@ import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.WhichButton
+import com.afollestad.materialdialogs.actions.getActionButton
 import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
 
 class DialogBuilder(val context: Context) {
@@ -160,6 +166,21 @@ class DialogBuilder(val context: Context) {
             maxLength = maxLength,
             inputType = inputType,
         ) { _, text -> callback(text.toString()) }
+
+        dialog.getInputField()
+            .apply {
+                setOnKeyListener { _, keyCode, _ ->
+                    if (keyCode == KeyEvent.KEYCODE_ENTER && (inputType and InputType.TYPE_TEXT_FLAG_MULTI_LINE == 0)) consume {
+                        dialog.getActionButton(WhichButton.POSITIVE).performClick()
+                    } else false
+                }
+                imeOptions = EditorInfo.IME_ACTION_DONE
+                setOnEditorActionListener { _, actionId, _ ->
+                    if (actionId == EditorInfo.IME_ACTION_DONE) consume {
+                        dialog.getActionButton(WhichButton.POSITIVE).performClick()
+                    } else false
+                }
+            }
     }
 
     fun canceledOnTouchOutside(cancelable: Boolean) = also {
