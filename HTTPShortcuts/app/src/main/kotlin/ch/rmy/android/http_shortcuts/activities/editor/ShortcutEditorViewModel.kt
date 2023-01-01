@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.context
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -393,6 +394,7 @@ class ShortcutEditorViewModel(
     }
 
     fun onSaveButtonClicked() {
+        logInfo("Save button clicked")
         if (isSaving || isFinishing) {
             return
         }
@@ -428,6 +430,7 @@ class ShortcutEditorViewModel(
     }
 
     private fun save() {
+        logInfo("Beginning saving changes to shortcut")
         val isNewShortcut = shortcutId == null
         val shortcutId = shortcutId ?: newUUID()
 
@@ -446,6 +449,7 @@ class ShortcutEditorViewModel(
     }
 
     private fun onSaveSuccessful(shortcutId: ShortcutId) {
+        logInfo("Shortcut saved successfully")
         launcherShortcutManager.updatePinnedShortcut(shortcutId, shortcut.name, shortcut.icon)
         viewModelScope.launch {
             withProgressTracking {
@@ -485,11 +489,13 @@ class ShortcutEditorViewModel(
     }
 
     private fun onDiscardDialogConfirmed() {
+        logInfo("Beginning discarding changes to shortcut")
         isFinishing = true
         viewModelScope.launch {
             withProgressTracking {
                 temporaryShortcutRepository.deleteTemporaryShortcut()
             }
+            logInfo("Changes to shortcut discarded")
             viewModelScope.launch {
                 waitForOperationsToFinish()
                 cleanUpStarter()
