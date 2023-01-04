@@ -1,3 +1,15 @@
+## Version 2.28.0
+
+### Improvements
+- When dealing with image files, you now have access to some meta data such as orientation and time of creation via the Scripting feature
+
+### Miscellaneous
+- A number of minor tweaks to animations and behavior improvements for text fields
+
+### Bugfixes
+- The app no longer shows up in Recent Apps after a shortcut was executed
+- Fixed a bug where under certain circumstances shortcuts would always fail when variable values were too large
+
 ## Version 2.27.0
 
 ### Improvements
