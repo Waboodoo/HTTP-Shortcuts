@@ -299,15 +299,19 @@ class Execution(
 
         val sessionId = "${shortcut.id}_${newUUID()}"
 
-        if (params.recursionDepth == 0 && checkHeadlessExecution(shortcut)) {
+        if (params.recursionDepth == 0 && checkHeadlessExecution(shortcut, variableManager.getVariableValuesByIds())) {
             logInfo("Preparing to execute HTTP request in headless mode")
-            httpRequesterStarter.invoke(
-                shortcutId = shortcut.id,
-                sessionId = sessionId,
-                variableValues = variableManager.getVariableValuesByIds(),
-                fileUploadResult = fileUploadResult,
-            )
-            return
+            try {
+                httpRequesterStarter.invoke(
+                    shortcutId = shortcut.id,
+                    sessionId = sessionId,
+                    variableValues = variableManager.getVariableValuesByIds(),
+                    fileUploadResult = fileUploadResult,
+                )
+                return
+            } catch (e: Throwable) {
+                logException(e)
+            }
         }
 
         val response = try {

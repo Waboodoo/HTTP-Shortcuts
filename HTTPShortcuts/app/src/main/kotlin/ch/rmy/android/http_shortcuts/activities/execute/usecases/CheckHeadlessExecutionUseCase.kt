@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.execute.usecases
 
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel.Companion.FAILURE_OUTPUT_NONE
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel.Companion.SUCCESS_OUTPUT_NONE
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel.Companion.UI_TYPE_TOAST
@@ -14,7 +15,7 @@ constructor(
     private val permissionManager: PermissionManager,
     private val networkUtil: NetworkUtil,
 ) {
-    operator fun invoke(shortcut: ShortcutModel): Boolean {
+    operator fun invoke(shortcut: ShortcutModel, variableValuesByIds: Map<VariableId, String>): Boolean {
         val responseHandling = shortcut.responseHandling ?: return false
         val usesNoOutput = responseHandling.successOutput == SUCCESS_OUTPUT_NONE && responseHandling.failureOutput == FAILURE_OUTPUT_NONE
         val usesToastOutput = responseHandling.uiType == UI_TYPE_TOAST
@@ -22,6 +23,14 @@ constructor(
         return (usesNoOutput || (usesToastOutput && permissionManager.hasNotificationPermission())) &&
             !usesCodeAfterExecution &&
             !shortcut.isWaitForNetwork &&
-            !networkUtil.isNetworkPerformanceRestricted()
+            !networkUtil.isNetworkPerformanceRestricted() &&
+            computeVariablesSize(variableValuesByIds) < MAX_VARIABLES_SIZE
+    }
+
+    private fun computeVariablesSize(variableValuesByIds: Map<VariableId, String>): Int =
+        variableValuesByIds.entries.sumOf { (id, value) -> id.length + value.length }
+
+    companion object {
+        private const val MAX_VARIABLES_SIZE = 8000
     }
 }
