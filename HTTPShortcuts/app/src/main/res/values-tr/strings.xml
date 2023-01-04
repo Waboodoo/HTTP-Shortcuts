@@ -1928,4 +1928,19 @@ Yine de silinsin mi?"</string>
 
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">"MQTT Mesajı Gönder"</string>
+
+    <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
+    <string name="action_type_execute_shortcut_title">"Kısayolu Çalıştır"</string>
+
+    <!-- Page title, for page showing all events that happened recently -->
+    <string name="title_event_history">"Olay Geçmişi"</string>
+
+    <!-- Button in Event History screen, to clear all events and empty the history -->
+    <string name="button_clear_history">"Geçmişi Temizle"</string>
+
+    <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
+    <string name="message_history_cleared">"Geçmiş temizlendi."</string>
+
+    <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
+    <string name="title_activity_secondary_launcher_trigger">"Tetikleyici kısayolu"</string>
 </resources>
