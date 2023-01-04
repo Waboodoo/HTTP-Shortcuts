@@ -1,8 +1,10 @@
 package ch.rmy.android.http_shortcuts.activities
 
+import android.app.ActivityManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.core.content.getSystemService
 import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.doOnDestroy
@@ -28,7 +30,6 @@ import ch.rmy.android.http_shortcuts.utils.CacheFilesCleanupWorker
 import ch.rmy.android.http_shortcuts.utils.ProgressIndicator
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.util.HashMap
 import javax.inject.Inject
 
 class ExecuteActivity : BaseActivity(), Entrypoint {
@@ -95,6 +96,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     }
 
     override fun finish() {
+        excludeFromRecents()
         executionSchedulerStarter()
         if (!isLowMemory) {
             tryOrLog {
@@ -103,6 +105,15 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
             }
         }
         super.finish()
+    }
+
+    private fun excludeFromRecents() {
+        getSystemService<ActivityManager>()
+            ?.let { activityManager ->
+                activityManager.appTasks
+                    .firstOrNull()
+                    ?.setExcludeFromRecents(true)
+            }
     }
 
     override fun onLowMemory() {
