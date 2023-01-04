@@ -58,8 +58,13 @@ class FileUploadManager internal constructor(
         registerFiles(fileUris.map(::uriToFile))
     }
 
-    private fun getType(file: Uri): String =
-        contentResolver.getType(file) ?: FALLBACK_TYPE
+    private fun getType(file: Uri): String {
+        val cachedFileType = FileUtil.getCacheFileOriginalType(file)
+        if (cachedFileType != null && cachedFileType != FALLBACK_TYPE) {
+            return cachedFileType
+        }
+        return contentResolver.getType(file) ?: FALLBACK_TYPE
+    }
 
     private fun uriToFile(uri: Uri): File =
         getType(uri).let { type ->

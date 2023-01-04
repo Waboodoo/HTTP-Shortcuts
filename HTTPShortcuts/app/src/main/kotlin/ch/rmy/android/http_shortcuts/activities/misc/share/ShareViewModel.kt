@@ -267,6 +267,10 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
                                         ?.let { fileName ->
                                             FileUtil.putCacheFileOriginalName(file, fileName)
                                         }
+                                    context.contentResolver.getType(fileUri)
+                                        ?.let { fileType ->
+                                            FileUtil.putCacheFileOriginalType(file, fileType)
+                                        }
                                     stream.copyTo(context.contentResolver.openOutputStream(file)!!)
                                 }
                         }

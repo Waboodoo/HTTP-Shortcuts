@@ -17,6 +17,7 @@ import kotlin.time.Duration
 object FileUtil {
 
     private val cacheFileNames: MutableMap<Uri, String> = ConcurrentHashMap()
+    private val cacheFileTypes: MutableMap<Uri, String> = ConcurrentHashMap()
 
     fun createCacheFile(context: Context, file: String, deleteIfExists: Boolean = false): Uri =
         getUriFromFile(
@@ -82,5 +83,12 @@ object FileUtil {
 
     fun putCacheFileOriginalName(cacheFileUri: Uri, name: String) {
         cacheFileNames[cacheFileUri] = name
+    }
+
+    fun getCacheFileOriginalType(cacheFileUri: Uri): String? =
+        cacheFileTypes[cacheFileUri]
+
+    fun putCacheFileOriginalType(cacheFileUri: Uri, name: String) {
+        cacheFileTypes[cacheFileUri] = name
     }
 }
