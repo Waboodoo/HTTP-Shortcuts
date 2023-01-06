@@ -2,6 +2,9 @@ import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor
 import org.intellij.markdown.html.HtmlGenerator
 import org.intellij.markdown.parser.MarkdownParser
+import com.android.build.gradle.api.ApplicationVariant
+import com.android.build.gradle.api.BaseVariantOutput
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 
 plugins {
     id("de.jansauer.poeditor") version "1.1.0"
@@ -22,6 +25,20 @@ val poeditorAPIKey: String by rootProject.ext
 val poeditorProjectId: String by rootProject.ext
 val autoBuildDocs: Boolean by rootProject.ext
 val useBugsnag = bugsnagAPIKey.isNotEmpty()
+
+class OutputFileNameVariantAction : Action<ApplicationVariant> {
+    override fun execute(variant: ApplicationVariant) {
+        variant.outputs.all(VariantOutputAction())
+    }
+
+    class VariantOutputAction : Action<BaseVariantOutput> {
+        override fun execute(output: BaseVariantOutput) {
+            if (output is BaseVariantOutputImpl) {
+                output.outputFileName = output.outputFileName.replace("-releaseFull.apk", "-release.apk")
+            }
+        }
+    }
+}
 
 android {
     namespace = "ch.rmy.android.http_shortcuts"
@@ -181,6 +198,8 @@ android {
         project.tasks.preBuild.dependsOn("syncDocumentation")
         project.tasks.preBuild.dependsOn("syncChangeLog")
     }
+
+    applicationVariants.all(OutputFileNameVariantAction())
 }
 
 bugsnag {
