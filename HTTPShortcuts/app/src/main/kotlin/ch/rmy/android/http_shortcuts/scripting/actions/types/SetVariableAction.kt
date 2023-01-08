@@ -10,7 +10,11 @@ import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import javax.inject.Inject
 
-class SetVariableAction(val variableKeyOrId: VariableKeyOrId, val value: String) : BaseAction() {
+class SetVariableAction(
+    private val variableKeyOrId: VariableKeyOrId,
+    private val value: String,
+    private val storeOnly: Boolean,
+) : BaseAction() {
 
     @Inject
     lateinit var variableRepository: VariableRepository
@@ -20,8 +24,9 @@ class SetVariableAction(val variableKeyOrId: VariableKeyOrId, val value: String)
     }
 
     override suspend fun execute(executionContext: ExecutionContext) {
+        val value = value.truncate(MAX_VARIABLE_LENGTH)
         logInfo("Setting variable value (${value.length} characters)")
-        executionContext.variableManager.setVariableValueByKeyOrId(variableKeyOrId, value)
+        executionContext.variableManager.setVariableValueByKeyOrId(variableKeyOrId, value, storeOnly)
         val variable = try {
             variableRepository.getVariableByKeyOrId(variableKeyOrId)
         } catch (e: NoSuchElementException) {
@@ -32,7 +37,7 @@ class SetVariableAction(val variableKeyOrId: VariableKeyOrId, val value: String)
                 )
             }
         }
-        variableRepository.setVariableValue(variable.id, value.truncate(MAX_VARIABLE_LENGTH))
+        variableRepository.setVariableValue(variable.id, value)
     }
 
     companion object {

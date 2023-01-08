@@ -55,14 +55,17 @@ class VariableManager(
                 getVariableValueById(variableId)
             }
 
-    fun setVariableValue(variable: VariableModel, value: String) {
-        variableValuesById[variable.id] = encodeValue(variable, value)
+    fun setVariableValue(variable: VariableModel, value: String, storeOnly: Boolean = false) {
+        variable.value = value
+        if (!storeOnly) {
+            variableValuesById[variable.id] = encodeValue(variable, value)
+        }
     }
 
-    fun setVariableValueByKeyOrId(variableKeyOrId: VariableKeyOrId, value: String) {
+    fun setVariableValueByKeyOrId(variableKeyOrId: VariableKeyOrId, value: String, storeOnly: Boolean = false) {
         getVariableByKeyOrId(variableKeyOrId)
             ?.let { variable ->
-                setVariableValue(variable, value)
+                setVariableValue(variable, value, storeOnly)
             }
     }
 

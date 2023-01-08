@@ -10,11 +10,12 @@ class SetVariableActionType : BaseActionType() {
     override fun fromDTO(actionDTO: ActionDTO) = SetVariableAction(
         variableKeyOrId = actionDTO.getString(0) ?: "",
         value = actionDTO.getString(1) ?: "",
+        storeOnly = actionDTO.getBoolean(2) ?: false,
     )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = 2,
+        parameters = 3,
     )
 
     companion object {

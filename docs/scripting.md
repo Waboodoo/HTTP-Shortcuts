@@ -100,6 +100,12 @@ setVariable('myVariable', 'Hello World');
 
 Please note that there is a size limit of 30000 characters. If the variable does not exist an error is raised.
 
+As an optional third parameter you can pass a boolean. If it is `true`, the new value will be stored but not used immediately for the current execution. This is useful for variable types which support the 'Remember value' feature (such as Date Input, Time Input, Text Input, etc.) as it allows to change the stored previous value which is used as the default selected value.
+
+```js
+setVariable('myVariable', 'Hello World', true); // only changes the stored value, but variable will still resolve normally if used afterwards
+```
+
 <a name="shortcut-info"></a>
 ## Getting Information about the Current Shortcut
 
