@@ -3,16 +3,17 @@ package ch.rmy.android.http_shortcuts.variables.types
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.DialogInterface
+import ch.rmy.android.framework.extensions.applyIfNotNull
 import ch.rmy.android.framework.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.extensions.parseOrNull
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
-import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -35,7 +36,7 @@ class DateType : BaseVariableType() {
     override suspend fun resolveValue(context: Context, variable: VariableModel): String {
         val selectedDate = withContext(Dispatchers.Main) {
             suspendCancellableCoroutine<Date> { continuation ->
-                val calendar = getInitialDate(variable.value)
+                val calendar = getInitialDate(variable.value.takeIf { variable.rememberValue })
                 val datePicker = DatePickerDialog(
                     activityProvider.getActivity(),
                     null,
@@ -76,16 +77,11 @@ class DateType : BaseVariableType() {
             .format(selectedDate.time)
     }
 
-    private fun getInitialDate(previousValue: String?): Calendar {
-        val calendar = Calendar.getInstance()
-        if (previousValue != null) {
-            try {
-                calendar.time = DATE_FORMAT.parse(previousValue)!!
-            } catch (e: ParseException) {
+    private fun getInitialDate(previousValue: String?) =
+        Calendar.getInstance()
+            .applyIfNotNull(previousValue) {
+                time = DATE_FORMAT.parseOrNull(it) ?: return@applyIfNotNull
             }
-        }
-        return calendar
-    }
 
     companion object {
 

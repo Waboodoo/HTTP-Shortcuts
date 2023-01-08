@@ -7,12 +7,12 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.exceptions.UserException
+import ch.rmy.android.http_shortcuts.extensions.parseOrNull
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
-import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -85,9 +85,8 @@ class PromptDateAction(
     private fun getInitialDate(): Calendar {
         val calendar = Calendar.getInstance()
         if (!initialDate.isNullOrEmpty()) {
-            try {
-                calendar.time = DATE_FORMAT.parse(initialDate)!!
-            } catch (e: ParseException) {
+            DATE_FORMAT.parseOrNull(initialDate)?.let {
+                calendar.time = it
             }
         }
         return calendar

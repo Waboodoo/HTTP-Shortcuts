@@ -3,15 +3,16 @@ package ch.rmy.android.http_shortcuts.variables.types
 import android.app.TimePickerDialog
 import android.content.Context
 import android.text.format.DateFormat
+import ch.rmy.android.framework.extensions.applyIfNotNull
 import ch.rmy.android.framework.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.extensions.parseOrNull
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
-import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -34,7 +35,7 @@ class TimeType : BaseVariableType() {
     override suspend fun resolveValue(context: Context, variable: VariableModel): String {
         val selectedDate = withContext(Dispatchers.Main) {
             suspendCancellableCoroutine<Date> { continuation ->
-                val calendar = getInitialTime(variable.value)
+                val calendar = getInitialTime(variable.value.takeIf { variable.rememberValue })
                 val timePicker = TimePickerDialog(
                     activityProvider.getActivity(),
                     { _, hourOfDay, minute ->
@@ -70,13 +71,8 @@ class TimeType : BaseVariableType() {
 
     private fun getInitialTime(previousValue: String?) =
         Calendar.getInstance()
-            .also {
-                if (previousValue != null) {
-                    try {
-                        it.time = DATE_FORMAT.parse(previousValue)!!
-                    } catch (e: ParseException) {
-                    }
-                }
+            .applyIfNotNull(previousValue) {
+                time = DATE_FORMAT.parseOrNull(it) ?: return@applyIfNotNull
             }
 
     companion object {
