@@ -10,7 +10,6 @@ enum class ShortcutTriggerType {
     SHARE,
     VOICE,
     PLUGIN,
-    BROADCAST,
     SCHEDULE,
     QUICK_SETTINGS_TILE,
     APP_SHORTCUT,
