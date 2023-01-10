@@ -84,7 +84,7 @@ constructor() {
 
     private fun formatHeaders(headers: Map<String, List<String>>): String =
         headers.entries.flatMap { headerList ->
-            headerList.value.map { "${headerList.key}: $it" }
+            headerList.value.map { "${headerList.key}: ${heuristicallyRemoveSecrets(headerList.key, it)}" }
         }
             .joinToString(separator = "\n")
 
@@ -114,4 +114,31 @@ constructor() {
             is HistoryEvent.Error -> HistoryListItem.HistoryEvent.DisplayType.FAILURE
             else -> null
         }
+
+    private fun heuristicallyRemoveSecrets(key: String, value: String): String {
+        val k = key.lowercase()
+        if (SECRET_KEYWORDS.any { it in k }) {
+            return value.redactAfter((value.length / 2).coerceIn(3, 8))
+        }
+        return value
+    }
+
+    private fun String.redactAfter(offset: Int): String {
+        val prefix = take(offset)
+        return prefix + asterisks(length - prefix.length)
+    }
+
+    private fun asterisks(count: Int): String =
+        "*".repeat(count)
+
+    companion object {
+        internal val SECRET_KEYWORDS = setOf(
+            "token",
+            "login",
+            "auth",
+            "secret",
+            "password",
+            "passphrase",
+        )
+    }
 }
