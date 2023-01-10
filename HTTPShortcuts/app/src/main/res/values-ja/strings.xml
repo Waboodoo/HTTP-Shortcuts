@@ -2062,4 +2062,7 @@
 
     <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
     <string name="title_activity_secondary_launcher_trigger">"トリガー ショートカット"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the meta data of a selected file -->
+    <string name="dialog_code_snippet_get_file_meta">"選択したファイルのメタデータを取得"</string>
 </resources>

@@ -269,7 +269,7 @@ Haga clic en el botón + de la pantalla principal para comenzar o consulte la do
     <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="minutes">
         <item quantity="one">"%d minuto"</item>
-        <item quantity="other">"%minutos"</item>
+        <item quantity="other">"%d minutos"</item>
     </plurals>
 
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->

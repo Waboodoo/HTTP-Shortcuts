@@ -1356,7 +1356,7 @@
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
     <string name="instructions_deep_linking">"딥 링크 기능을 사용하려면 다음 형식의 유효한 URL을 사용해야 합니다.
 
-%에스"</string>
+%s"</string>
 
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">"삭제된 바로가기"</string>
