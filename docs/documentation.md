@@ -36,3 +36,5 @@
     - [Remote Editing](import-export.md#remote-edit)
     - [Hosting Templates for Easy Importing](import-export.md#import-deep-linking)
 - [Advanced Features](advanced.md)
+- [Privacy Policy](privacy-policy.md)
+
