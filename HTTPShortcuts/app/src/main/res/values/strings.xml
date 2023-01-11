@@ -85,7 +85,7 @@
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">You don\'t have any variables yet.</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">Variables allow you to dynamically insert values into your shortcuts, e.g., into the URL, headers or request body. Look for the \"{}\" button when editing a shortcut to find all the places where a variable placeholder can be inserted.\n\nClick the + button to add a variable.</string>
+    <string name="empty_state_variables_instructions">Variables allow you to dynamically insert values into your shortcuts, e.g., into the URL, headers or request body. Look for the \“{}\” button when editing a shortcut to find all the places where a variable placeholder can be inserted.\n\nClick the + button to add a variable.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">Delete this shortcut?</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
@@ -257,7 +257,7 @@
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
     <string name="label_subtitle_no_client_cert">Click to select a certificate.</string>
     <!-- Subtitle for button to select a client certificate, when a certificate been selected. %s is a placeholder for the certificate alias (i.e., its name) -->
-    <string name="label_subtitle_client_cert_in_use">Using certificate \"%s\". Click to remove.</string>
+    <string name="label_subtitle_client_cert_in_use">Using certificate \“%s\”. Click to remove.</string>
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
     <string name="label_subtitle_client_cert_file_in_use">Using certificate file. Click to remove.</string>
     <!-- Title for dialog, when selecting a client certificate -->
@@ -332,13 +332,13 @@
     <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation_summary">FAQ, references, examples, …</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_duplicated">\"%1$s\" duplicated.</string>
+    <string name="shortcut_duplicated">\“%1$s\” duplicated.</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_moved">\"%1$s\" moved.</string>
+    <string name="shortcut_moved">\“%1$s\” moved.</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_deleted">\"%1$s\" deleted.</string>
+    <string name="shortcut_deleted">\“%1$s\” deleted.</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_placed">\"%1$s\" placed on home screen.</string>
+    <string name="shortcut_placed">\“%1$s\” placed on home screen.</string>
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
     <string name="dialog_delete">Delete</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
@@ -437,7 +437,7 @@
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
     <string name="variable_type_constant">Static Variable</string>
     <!-- Description for type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant_description">Stores a constant value. The value can be changed programmatically via the \'Scripting\' feature</string>
+    <string name="variable_type_constant_description">Stores a constant value. The value can be changed programmatically via the \“Scripting\” feature</string>
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text">Text Input</string>
     <!-- Description for type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
@@ -487,7 +487,7 @@
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
     <string name="confirm_delete_variable_message">Delete this variable?</string>
     <!-- Message, shown in snackbar, confirming to user that a variable was deleted. %1$s is a placeholder for the variable name -->
-    <string name="variable_deleted">\"%1$s\" deleted.</string>
+    <string name="variable_deleted">\“%1$s\” deleted.</string>
     <!-- Checkbox label, for option to enable URL encoding of a variable -->
     <string name="label_url_encode">URL encode</string>
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
@@ -641,7 +641,7 @@
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">This feature is not supported on your device.</string>
     <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
-    <string name="error_browser_not_found">Browser with package name "%s" not found</string>
+    <string name="error_browser_not_found">Browser with package name “%s” not found</string>
     <!-- Generic error shown when something went wrong and there is no better error message available -->
     <string name="error_generic">Something went wrong…</string>
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
@@ -677,7 +677,7 @@
     <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
     <string name="title_edit_custom_icon">Edit Icon</string>
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
-    <string name="plugin_blurb_execute_task">Execute shortcut \"%1$s\"</string>
+    <string name="plugin_blurb_execute_task">Execute shortcut \“%1$s\”</string>
     <!-- Label of dropdown to select the request body type in shortcut editor -->
     <string name="label_request_body_type">Request Body Type</string>
     <!-- Dropdown option for request body: form-data (i.e. list of parameters) -->
@@ -753,7 +753,7 @@
     <!-- Shortcut Action Title: Scan Barcode (e.g. QR Code) -->
     <string name="action_type_scan_barcode_title">Scan Barcode</string>
     <!-- Shortcut Action Description: Scan Barcode (e.g. QR Code) -->
-    <string name="action_type_scan_barcode_description">Requires the \'QR Droid\', \'Barcode Scanner\' or \'Binary Eye\' app to be installed</string>
+    <string name="action_type_scan_barcode_description">Requires the \“QR Droid\”, \“Barcode Scanner\” or \“Binary Eye\” app to be installed</string>
     <!-- Shortcut Action Title: Change Shortcut Name -->
     <string name="action_type_rename_shortcut_title">Rename Shortcut</string>
     <!-- Shortcut Action Title: Change Shortcut Icon -->
@@ -825,7 +825,7 @@
     <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
     <string name="title_select_placement_method">Placement Method</string>
     <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->
-    <string name="description_select_placement_method">Select the method to use for placing the shortcut. If you encounter problems with the \"Default\" method you may try the \"Legacy\" method instead. Please note that some features (e.g. changing shortcut name) are not available with the Legacy method.</string>
+    <string name="description_select_placement_method">Select the method to use for placing the shortcut. If you encounter problems with the \“Default\” method you may try the \“Legacy\” method instead. Please note that some features (e.g. changing shortcut name) are not available with the Legacy method.</string>
     <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
     <string name="label_placement_method_default">Default</string>
     <!-- Label: Alternative option in dialog for selecting how to place the shortcut on the homescreen: Legacy (method) -->
@@ -853,7 +853,7 @@
     <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
     <string name="warning_data_saver_battery_saver_enabled">Data Saver and/or Battery Saver modes are enabled on your device. If you encounter problems with shortcuts not working, please try disabling these.</string>
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
-    <string name="message_variable_duplicated">\"%1$s\" duplicated.</string>
+    <string name="message_variable_duplicated">\“%1$s\” duplicated.</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Browser Shortcut", i.e., one that only opens the browser without making an HTTP request of its own -->
     <string name="subtitle_editor_toolbar_browser_shortcut">Browser Shortcut</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Scripting Shortcut", i.e., one that only allows JavaScript for execution and doesn't actually make an HTTP request -->
@@ -987,19 +987,19 @@
     <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
     <string name="dialog_code_snippet_set_variable">Set Variable Value</string>
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_triggering">Could not trigger shortcut \"%1$s\" because it does not exist.</string>
+    <string name="error_shortcut_not_found_for_triggering">Could not trigger shortcut \“%1$s\” because it does not exist.</string>
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_renaming">Could not rename shortcut \"%1$s\" because it does not exist.</string>
+    <string name="error_shortcut_not_found_for_renaming">Could not rename shortcut \“%1$s\” because it does not exist.</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_changing_icon">Could not change icon of shortcut \"%1$s\" because it does not exist.</string>
+    <string name="error_shortcut_not_found_for_changing_icon">Could not change icon of shortcut \“%1$s\” because it does not exist.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_changing_description">Could not change description of shortcut \"%1$s\" because it does not exist.</string>
+    <string name="error_shortcut_not_found_for_changing_description">Could not change description of shortcut \“%1$s\” because it does not exist.</string>
     <!-- Error message: Shown when user tries to use an unsupported hash function -->
-    <string name="error_unsupported_hash_algorithm">Unsupported hash algorithm \"%1$s\". Use %2$s.</string>
+    <string name="error_unsupported_hash_algorithm">Unsupported hash algorithm \“%1$s\”. Use %2$s.</string>
     <!-- Error message: Shown when user tries to use an unsupported hmac function -->
-    <string name="error_unsupported_hmac_algorithm">Unsupported HMAC algorithm \"%1$s\" or invalid key. Use %2$s.</string>
+    <string name="error_unsupported_hmac_algorithm">Unsupported HMAC algorithm \“%1$s\” or invalid key. Use %2$s.</string>
     <!-- Error message: Shown when the user tries to use the 'scanBarcode' function but doesn't have the required app installed -->
-    <string name="error_barcode_scanner_not_installed">The \'QR Droid\', \'Barcode Scanner\' or \'Binary Eye\' app needs to be installed to scan barcodes.</string>
+    <string name="error_barcode_scanner_not_installed">The \“QR Droid\”, \“Barcode Scanner\” or \“Binary Eye\” app needs to be installed to scan barcodes.</string>
     <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
     <string name="settings_dark_theme_options_on">Always Dark</string>
     <!-- Settings option for dark mode: when selected the app will never use Dark Mode -->
@@ -1021,7 +1021,7 @@
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <string name="action_quick_settings_tile_trigger">Trigger shortcut</string>
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile">You do not yet have any shortcuts that can be triggered via the Quick Settings tile.\n\nYou can enable this feature by editing a shortcut and selecting the checkbox \"%1$s\" found in \"%2$s\".</string>
+    <string name="instructions_quick_settings_tile">You do not yet have any shortcuts that can be triggered via the Quick Settings tile.\n\nYou can enable this feature by editing a shortcut and selecting the checkbox \“%1$s\” found in \“%2$s\”.</string>
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">Status Code</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
@@ -1090,7 +1090,7 @@
     <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <string name="title_remove_trigger_shortcut">Remove Shortcut</string>
     <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="message_remove_trigger_shortcut">Remove shortcut \"%s\" from the list of triggered shortcuts?</string>
+    <string name="message_remove_trigger_shortcut">Remove shortcut \“%s\” from the list of triggered shortcuts?</string>
     <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <string name="message_remove_deleted_trigger_shortcut">Remove deleted shortcut from the list of triggered shortcuts?</string>
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
@@ -1126,11 +1126,11 @@
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
     <string name="instructions_remote_edit_step_1">Enter a password into the field above.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: click the push button -->
-    <string name="instructions_remote_edit_step_2">"Click the <pre>\"Push to Server\"</pre> button".</string>
+    <string name="instructions_remote_edit_step_2">"Click the <pre>\”Push to Server\”</pre> button".</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">Open %s in a browser on your computer, enter your device ID and password and start editing.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Once you are done editing and have saved your changes click the <pre>\"Pull Changes\"</pre> button below to download your changes back into the app."</string>
+    <string name="instructions_remote_edit_step_4">"Once you are done editing and have saved your changes click the <pre>\”Pull Changes\”</pre> button below to download your changes back into the app."</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">Push to Server</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1168,7 +1168,7 @@
     <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
     <string name="action_save_global_scripting">Save Changes</string>
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
-    <string name="error_shortcut_not_found_for_deep_link">Shortcut \"%s\" not found</string>
+    <string name="error_shortcut_not_found_for_deep_link">Shortcut \“%s\” not found</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
     <string name="instructions_deep_linking">To use the deep-linking feature, make sure to use a valid URL of the form:\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
@@ -1180,7 +1180,7 @@
     <!-- Message: Rational given for location permission in Wi-Fi/SSID check  -->
     <string name="message_permission_rational">Location permissions are required to check the name (SSID) of the current Wi-Fi network. This is a requirement imposed by the Android OS. Your location data is not accessed directly.</string>
     <!-- Message: Shown to the user when connected to a different Wi-Fi network than the one given in the config -->
-    <string name="message_wrong_wifi_network">Not connected to the Wi-Fi network configured for this shortcut \"%1$s\". Select another Wi-Fi network now?</string>
+    <string name="message_wrong_wifi_network">Not connected to the Wi-Fi network configured for this shortcut \“%1$s\”. Select another Wi-Fi network now?</string>
     <!-- Action label: Shown on wifi check dialog to open the Wi-Fi picker -->
     <string name="action_label_select">Select</string>
     <!-- Error message, shown when user declines location permission for Wi-Fi check -->
@@ -1210,7 +1210,7 @@
     <!-- Message: instructions shown below a shortcut's deep-linking URL -->
     <string name="message_deep_link_instructions">You can trigger this shortcut by invoking this URL from another app, e.g., via a QR scanner or NFC reader. Append query parameters to the URL to pass variable values.</string>
     <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting.  -->
-    <string name="message_response_handling_scripting_hint">If you need more advanced options for processing and displaying the response, check out the \'%s\' section, which lets you define custom logic using JavaScript code.</string>
+    <string name="message_response_handling_scripting_hint">If you need more advanced options for processing and displaying the response, check out the \“%s\” section, which lets you define custom logic using JavaScript code.</string>
     <!-- Message: Brief explanation of what a toast message is and what its limitations are  -->
     <string name="message_response_handling_toast_limitations">Toasts are best suited for very short messages, as they are limited to only 2 lines of text.</string>
     <!-- Shortcut Action Title: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
@@ -1238,7 +1238,7 @@
     <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
     <string name="error_play_services_not_available_for_location">Play Services are required to get the device\'s location, but they are not installed or not available.</string>
     <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
-    <string name="placeholder_request_body_content">Enter the raw HTTP request body here. You can add variable placeholders via the \"{}\" button.</string>
+    <string name="placeholder_request_body_content">Enter the raw HTTP request body here. You can add variable placeholders via the \“{}\” button.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
     <string name="confirm_delete_custom_icon_message">Delete this icon?</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
@@ -1276,7 +1276,7 @@
     <!-- Title of dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it -->
     <string name="title_unsaved_changes_detected">Unsaved Shortcut Found</string>
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
-    <string name="message_unsaved_changes_detected">Unsaved changes on shortcut \"%s\" were found. Would you like to recover the changes and continue editing?</string>
+    <string name="message_unsaved_changes_detected">Unsaved changes on shortcut \“%s\” were found. Would you like to recover the changes and continue editing?</string>
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. -->
     <string name="message_unsaved_changes_detected_no_name">Unsaved changes on a shortcut were found. Would you like to recover the changes and continue editing?</string>
     <!-- Button label, shown on dialog that asks user if they want to recover a shortcut that has unsaved changes -->
@@ -1306,7 +1306,7 @@
     <!-- Option in dropdown menu for selecting the main action available on a dialog that displays the HTTP response, allows to show no action -->
     <string name="label_dialog_action_none">None</string>
     <!-- Label on checkbox that allows to enable/disable the use of a certain action to be displayed in the HTTP response window (e.g. "Share" button) -->
-    <string name="label_response_actions_show_button">Show \"%s\" button</string>
+    <string name="label_response_actions_show_button">Show \“%s\” button</string>
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
     <string name="error_unsupported_file_url">URLs with file:// scheme are not supported</string>
     <!-- Error message: Shown when the user tries to parse XML using the parseXML JS function, but the XML is invalid. %s is a placeholder for a more detailed description of the error -->
@@ -1328,19 +1328,19 @@
     <!-- Empty state, shown in event history when there are no recent events -->
     <string name="empty_state_history">No recent events</string>
     <!-- Empty state instructions, shown in event history when there are no events -->
-    <string name="empty_state_history_instructions">You will see details about recently triggered shortcuts here, which you can use for troubleshooting.\nYou can exclude individual shortcuts from appearing here via an option found on the \"%s\" screen.</string>
+    <string name="empty_state_history_instructions">You will see details about recently triggered shortcuts here, which you can use for troubleshooting.\nYou can exclude individual shortcuts from appearing here via an option found on the \“%s\” screen.</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
     <string name="label_exclude_from_history">Exclude from event history</string>
     <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
-    <string name="event_history_title_shortcut_triggered">\"%s\" triggered</string>
+    <string name="event_history_title_shortcut_triggered">\“%s\” triggered</string>
     <!-- Title of event history entry, which states that an HTTP request was sent. %s is a placeholder for the shortcut's name -->
-    <string name="event_history_title_http_request_sent">HTTP request sent for \"%s\"</string>
+    <string name="event_history_title_http_request_sent">HTTP request sent for \“%s\”</string>
     <!-- Title of event history entry, which states that an HTTP response was received. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the status code (e.g. "404 Not Found") -->
-    <string name="event_history_title_http_response_received">HTTP response received for \"%1$s\": %2$s</string>
+    <string name="event_history_title_http_response_received">HTTP response received for \“%1$s\”: %2$s</string>
     <!-- Title of event history entry, which states that a network error has occurred. %s is a placeholder for the shortcut's name -->
-    <string name="event_history_title_network_error">Network error for \"%s\"</string>
+    <string name="event_history_title_network_error">Network error for \“%s\”</string>
     <!-- Title of event history entry, which states that an execution error has occurred. %s is a placeholder for the shortcut's name -->
-    <string name="event_history_title_execution_error">Execution error for \"%s\"</string>
+    <string name="event_history_title_execution_error">Execution error for \“%s\”</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, which indicates how a shortcut was triggered. %s is a placeholder for the trigger source, e.g. "homescreen" -->
     <string name="label_prefix_event_history_trigger_origin">Triggered via: %s</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
@@ -1372,7 +1372,7 @@
     <!-- Generic dialog button: Configure (e.g. some settings) -->
     <string name="dialog_configure">Configure</string>
     <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_plugin_dialog_configure_app_overlay">In order to be able to trigger a shortcut from another app, you first need to allow the HTTP Shortcuts app to draw over other apps.\n\nTap the \"%s\" button below to configure this now.</string>
+    <string name="message_plugin_dialog_configure_app_overlay">In order to be able to trigger a shortcut from another app, you first need to allow the HTTP Shortcuts app to draw over other apps.\n\nTap the \“%s\” button below to configure this now.</string>
     <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
     <string name="title_activity_secondary_launcher_trigger">Trigger shortcut</string>
 </resources>
