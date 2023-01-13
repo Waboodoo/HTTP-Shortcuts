@@ -148,7 +148,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         finishWithoutAnimation()
     }
 
-    class IntentBuilder(shortcutId: ShortcutId? = null) : BaseIntentBuilder(ExecuteActivity::class) {
+    class IntentBuilder(shortcutId: ShortcutId) : BaseIntentBuilder(ExecuteActivity::class) {
 
         init {
             intent.action = ACTION_EXECUTE_SHORTCUT
