@@ -1,5 +1,5 @@
 import com.android.build.gradle.internal.tasks.factory.dependsOn
-import org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor
+import org.intellij.markdown.flavours.gfm.GFMFlavourDescriptor
 import org.intellij.markdown.html.HtmlGenerator
 import org.intellij.markdown.parser.MarkdownParser
 import com.android.build.gradle.api.ApplicationVariant
@@ -309,7 +309,7 @@ poeditor {
 fun generateHtmlFromMarkdown(inputFile: String, outputFile: String, templateFile: String, mutate: String.() -> String = { this }) {
     val changelogMarkdown = File("../$inputFile").readText()
     val template = File(templateFile).readText()
-    val flavour = CommonMarkFlavourDescriptor()
+    val flavour = GFMFlavourDescriptor()
     val parsedTree = MarkdownParser(flavour).buildMarkdownTreeFromString(changelogMarkdown)
     val html = HtmlGenerator(changelogMarkdown, parsedTree, flavour)
         .generateHtml()
