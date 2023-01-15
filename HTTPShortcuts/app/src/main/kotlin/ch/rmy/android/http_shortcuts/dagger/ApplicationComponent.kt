@@ -41,6 +41,7 @@ import ch.rmy.android.http_shortcuts.activities.settings.about.AboutViewModel
 import ch.rmy.android.http_shortcuts.activities.settings.globalcode.GlobalScriptingActivity
 import ch.rmy.android.http_shortcuts.activities.settings.globalcode.GlobalScriptingViewModel
 import ch.rmy.android.http_shortcuts.activities.settings.importexport.ImportExportViewModel
+import ch.rmy.android.http_shortcuts.activities.settings.settings.SettingsActivity
 import ch.rmy.android.http_shortcuts.activities.settings.settings.SettingsViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorViewModel
@@ -61,6 +62,7 @@ import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
 import ch.rmy.android.http_shortcuts.http.HttpRequesterWorker
 import ch.rmy.android.http_shortcuts.plugin.PluginEditActivity
 import ch.rmy.android.http_shortcuts.plugin.TriggerShortcutActionRunner
+import ch.rmy.android.http_shortcuts.scheduling.ExecutionBroadcastReceiver
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionSchedulerWorker
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionWorker
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeDescriptionAction
@@ -340,4 +342,8 @@ interface ApplicationComponent {
     fun inject(logEventAction: LogEventAction)
 
     fun inject(shareTextAction: ShareTextAction)
+
+    fun inject(executionBroadcastReceiver: ExecutionBroadcastReceiver)
+
+    fun inject(settingsActivity: SettingsActivity)
 }

@@ -1,11 +1,14 @@
 package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.viewModelScope
+import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.utils.localization.DurationLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import ch.rmy.android.http_shortcuts.activities.editor.executionsettings.usecases.GetAppOverlayDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.editor.executionsettings.usecases.GetDelayDialogUseCase
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
@@ -13,12 +16,15 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.tiles.QuickSettingsTileManager
+import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
 
 class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit, ExecutionSettingsViewState>(application), WithDialog {
 
@@ -33,6 +39,15 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
 
     @Inject
     lateinit var quickSettingsTileManager: QuickSettingsTileManager
+
+    @Inject
+    lateinit var getAppOverlayDialog: GetAppOverlayDialogUseCase
+
+    @Inject
+    lateinit var restrictionsUtil: RestrictionsUtil
+
+    @Inject
+    lateinit var appOverlayUtil: AppOverlayUtil
 
     init {
         getApplicationComponent().inject(this)
@@ -79,6 +94,7 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
                 delay = shortcut.delay.milliseconds,
                 requireConfirmation = shortcut.requireConfirmation,
                 excludeFromHistory = shortcut.excludeFromHistory,
+                repetitionInterval = shortcut.repetition?.interval,
             )
         }
     }
@@ -148,6 +164,30 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
         }
         launchWithProgressTracking {
             temporaryShortcutRepository.setRequireConfirmation(requireConfirmation)
+        }
+    }
+
+    fun onRepetitionIntervalChanged(repetitionInterval: Int?) {
+        doWithViewState { viewState ->
+            if (
+                viewState.repetitionInterval == null &&
+                repetitionInterval != null &&
+                (!appOverlayUtil.canDrawOverlays() || !restrictionsUtil.isIgnoringBatteryOptimizations())
+            ) {
+                dialogState = getAppOverlayDialog {
+                    val intent = appOverlayUtil.getSettingsIntent() ?: return@getAppOverlayDialog
+                    openActivity(object : IntentBuilder {
+                        override fun build(context: Context) =
+                            intent
+                    })
+                }
+            }
+            updateViewState {
+                copy(repetitionInterval = repetitionInterval)
+            }
+            launchWithProgressTracking {
+                temporaryShortcutRepository.setRepetitionInterval(repetitionInterval?.minutes)
+            }
         }
     }
 

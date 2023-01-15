@@ -80,7 +80,29 @@
                 android:id="@+id/input_delay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="@string/label_delay_execution" />
+
+            <include layout="@layout/divider_line" />
+
+            <ch.rmy.android.framework.ui.views.LabelledSpinner
+                android:id="@+id/input_repetition_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/label_run_repeatedly" />
+
+            <TextView
+                android:id="@+id/instructions_repetition"
+                style="@style/InfoLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/instructions_repetitions" />
 
             <include layout="@layout/divider_line" />
 

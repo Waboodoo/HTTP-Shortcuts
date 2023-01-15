@@ -11,6 +11,7 @@ enum class ShortcutTriggerType {
     VOICE,
     PLUGIN,
     SCHEDULE,
+    REPETITION,
     QUICK_SETTINGS_TILE,
     APP_SHORTCUT,
     HOME_SCREEN_SHORTCUT,

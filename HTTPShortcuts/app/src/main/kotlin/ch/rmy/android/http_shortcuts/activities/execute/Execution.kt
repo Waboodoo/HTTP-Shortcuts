@@ -28,12 +28,14 @@ import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExec
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
+import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.extensions.getSafeName
+import ch.rmy.android.http_shortcuts.extensions.isTemporaryShortcut
 import ch.rmy.android.http_shortcuts.extensions.resolve
 import ch.rmy.android.http_shortcuts.extensions.shouldIncludeInHistory
 import ch.rmy.android.http_shortcuts.extensions.showAndAwaitDismissal
@@ -70,6 +72,7 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 import kotlin.math.pow
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 class Execution(
@@ -219,6 +222,8 @@ class Execution(
             throw CancellationException("Cancelling because shortcut was not found")
         }
 
+        scheduleRepetitionIfNeeded()
+
         if (shortcut.shouldIncludeInHistory()) {
             historyEventLogger.logEvent(
                 HistoryEvent.ShortcutTriggered(
@@ -244,6 +249,7 @@ class Execution(
                 tryNumber = 1,
                 recursionDepth = params.recursionDepth,
                 requiresNetwork = shortcut.isWaitForNetwork,
+                type = PendingExecutionType.INITIAL_DELAY,
             )
             return
         }
@@ -411,6 +417,7 @@ class Execution(
                     delay = calculateDelay(),
                     recursionDepth = params.recursionDepth,
                     requiresNetwork = shortcut.isWaitForNetwork,
+                    type = PendingExecutionType.RETRY_LATER,
                 )
         }
     }
@@ -432,6 +439,20 @@ class Execution(
             globalCode = globalCodeDeferred.await()
             shortcut = shortcutDeferred.await()
         }
+    }
+
+    private suspend fun scheduleRepetitionIfNeeded() {
+        if (shortcut.isTemporaryShortcut) {
+            return
+        }
+        val repetition = shortcut.repetition ?: return
+        pendingExecutionsRepository
+            .createPendingExecution(
+                shortcutId = shortcut.id,
+                delay = repetition.interval.minutes,
+                requiresNetwork = false,
+                type = PendingExecutionType.REPEAT,
+            )
     }
 
     private fun requiresConfirmation() =

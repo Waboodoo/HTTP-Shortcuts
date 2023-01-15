@@ -41,6 +41,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
+import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
@@ -54,6 +55,7 @@ import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.import_export.CurlExporter
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
+import ch.rmy.android.http_shortcuts.scheduling.AlarmScheduler
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.usecases.GetExportDestinationOptionsDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
@@ -137,6 +139,9 @@ class ShortcutListViewModel(
 
     @Inject
     lateinit var secondaryLauncherManager: SecondaryLauncherManager
+
+    @Inject
+    lateinit var alarmScheduler: AlarmScheduler
 
     init {
         getApplicationComponent().inject(this)
@@ -379,10 +384,19 @@ class ShortcutListViewModel(
     private fun cancelPendingExecution(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
         viewModelScope.launch {
+            cancelAlarms(shortcutId)
             pendingExecutionsRepository.removePendingExecutionsForShortcut(shortcutId)
             executionScheduler.schedule()
             showSnackbar(StringResLocalizable(R.string.pending_shortcut_execution_cancelled, shortcut.name))
         }
+    }
+
+    private suspend fun cancelAlarms(shortcutId: ShortcutId) {
+        pendingExecutionsRepository.getPendingExecutionsForShortcut(shortcutId)
+            .filter { it.type == PendingExecutionType.REPEAT }
+            .forEach { pendingExecution ->
+                alarmScheduler.cancelAlarm(pendingExecution.id, pendingExecution.requestCode)
+            }
     }
 
     fun onEditOptionSelected(shortcutId: ShortcutId) {
@@ -617,6 +631,7 @@ class ShortcutListViewModel(
         launchWithProgressTracking {
             shortcutRepository.deleteShortcut(shortcutId)
             pendingExecutionsRepository.removePendingExecutionsForShortcut(shortcutId)
+            cancelAlarms(shortcutId)
             widgetsRepository.deleteDeadWidgets()
             showSnackbar(StringResLocalizable(R.string.shortcut_deleted, shortcut.name))
             updateLauncherSettings()

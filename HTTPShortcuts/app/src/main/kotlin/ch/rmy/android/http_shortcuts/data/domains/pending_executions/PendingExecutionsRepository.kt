@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.data.domains.getPendingExecution
 import ch.rmy.android.http_shortcuts.data.domains.getPendingExecutions
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import kotlinx.coroutines.flow.Flow
 import java.util.Calendar
@@ -29,6 +30,11 @@ constructor(
             getPendingExecutions()
         }
 
+    suspend fun getPendingExecutionsForShortcut(shortcutId: ShortcutId): List<PendingExecutionModel> =
+        query {
+            getPendingExecutions(shortcutId)
+        }
+
     suspend fun createPendingExecution(
         shortcutId: ShortcutId,
         resolvedVariables: Map<VariableKey, String> = emptyMap(),
@@ -36,8 +42,12 @@ constructor(
         delay: Duration? = null,
         requiresNetwork: Boolean = false,
         recursionDepth: Int = 0,
+        type: PendingExecutionType,
     ) {
         commitTransaction {
+            val maxRequestCode = getPendingExecutions()
+                .findAll()
+                .maxOfOrNull { it.requestCode }
             copy(
                 PendingExecutionModel.createNew(
                     shortcutId,
@@ -46,6 +56,8 @@ constructor(
                     calculateDate(delay),
                     requiresNetwork,
                     recursionDepth,
+                    type,
+                    requestCode = (maxRequestCode ?: 0) + 1,
                 )
             )
         }

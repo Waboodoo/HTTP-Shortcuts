@@ -4,10 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
-import android.net.ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED
 import android.net.wifi.WifiManager
-import android.os.Build
-import android.os.PowerManager
 import androidx.core.content.getSystemService
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
@@ -19,6 +16,7 @@ class NetworkUtil
 constructor(
     private val context: Context,
     private val activityProvider: ActivityProvider,
+    private val restrictionsUtil: RestrictionsUtil,
 ) {
 
     fun isNetworkConnected(): Boolean =
@@ -28,21 +26,7 @@ constructor(
             ?: false
 
     fun isNetworkPerformanceRestricted() =
-        isDataSaverModeEnabled() || isBatterySaverModeEnabled()
-
-    private fun isBatterySaverModeEnabled(): Boolean =
-        context.getSystemService<PowerManager>()
-            ?.isPowerSaveMode
-            ?: false
-
-    private fun isDataSaverModeEnabled(): Boolean =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            context.getSystemService<ConnectivityManager>()
-                ?.run { isActiveNetworkMetered && restrictBackgroundStatus == RESTRICT_BACKGROUND_STATUS_ENABLED }
-                ?: false
-        } else {
-            false
-        }
+        restrictionsUtil.isDataSaverModeEnabled() || restrictionsUtil.isBatterySaverModeEnabled()
 
     fun getCurrentSsid(): String? =
         context.applicationContext.getSystemService<WifiManager>()

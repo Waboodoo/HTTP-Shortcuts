@@ -41,7 +41,9 @@ In some cases using a Multi Shortcut might not be enough, e.g., when you want to
 
 ## Can I schedule requests to be sent periodically or at a specific time?
 
-Currently there is no such functionality in the app, or only in a very limited manner. There are already many existing automation apps that can be used for scheduling and combined with the HTTP Shortcuts app. I recommend to use one of those; Tasker, IFTTT, E-Robot, Macrodroid, to name a few.
+Currently the app only has basic functionality for running a shortcut repeatedly. When creating or editing the shortcut, go to the *Trigger & Execution Settings* section and look for the *Run repeatedly* dropdown at the bottom.
+
+If you need more advanced or more precise scheduling, you can try to achieve that by combining the app with an automation app, such as Tasker or Macrodroid.
 
 ## Can I trigger a shortcut with text shared from another app? Can I share text (e.g. a link) into a shortcut?
 

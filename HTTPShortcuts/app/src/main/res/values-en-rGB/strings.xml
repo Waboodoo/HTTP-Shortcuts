@@ -19,7 +19,7 @@
     <!-- Option to choose from when selecting the background of a category: custom color -->
     <string name="category_background_type_color">Colour</string>
     <!-- Description for type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant_description">Stores a constant value. The value can be changed programmatically via the \'Scripting\' feature</string>
+    <string name="variable_type_constant_description">Stores a constant value. The value can be changed programmatically via the \‘Scripting\’ feature</string>
     <!-- Description for type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
     <string name="variable_type_text_description">Shows a dialogue with a text input field</string>
     <!-- Description for type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
@@ -46,4 +46,10 @@
     <string name="action_type_prompt_color_title">Prompt for Colour</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_rerun_from_dialog">Rerun from dialogue</string>
+    <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">For a shortcut to be able to run repeatedly in a reliable way, you first need to allow the HTTP Shortcuts app to draw over other apps.\n\nTap the \“%s\” button below to configure this now.\n\nYou might also need to exclude the app from Battery Optimisations. You can find this in the app\'s settings.</string>
+    <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
+    <string name="instructions_repetitions">The timing of the repetition is not exact but can vary by a few minutes, as it is subject to Android\'s power optimisations. Please note that using this feature might significantly increase the app\'s use of battery.</string>
+    <!-- Title of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
+    <string name="settings_ignore_battery_optimizations">Exclude from Battery Optimisation</string>
 </resources>

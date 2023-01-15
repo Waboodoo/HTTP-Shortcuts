@@ -19,7 +19,6 @@ import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.databinding.ActivityContactBinding
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
@@ -46,7 +45,7 @@ class ContactActivity : BaseActivity() {
         }
 
     override fun inject(applicationComponent: ApplicationComponent) {
-        getApplicationComponent().inject(this)
+        applicationComponent.inject(this)
     }
 
     override fun onCreated(savedState: Bundle?) {
