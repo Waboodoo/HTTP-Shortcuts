@@ -18,7 +18,11 @@ data class ExecutionSettingsViewState(
     val quickSettingsTileShortcutOptionVisible: Boolean = false,
     val quickSettingsTileShortcut: Boolean = false,
     val excludeFromHistory: Boolean = false,
+    val repetitionInterval: Int? = null,
 ) {
     val delaySubtitle: Localizable
         get() = DurationLocalizable(delay)
+
+    val isRepetitionInstructionsVisible: Boolean
+        get() = repetitionInterval != null
 }

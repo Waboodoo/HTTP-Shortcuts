@@ -408,6 +408,19 @@ class DatabaseMigration : RealmMigration {
                 schema.get("Shortcut")!!
                     .addField("secondaryLauncherShortcut", Boolean::class.javaPrimitiveType)
             }
+            57L -> { // 2.30.0
+                val repetitionSchema = schema.create("Repetition")
+                    .apply {
+                        isEmbedded = true
+                        addField("interval", Int::class.javaPrimitiveType)
+                    }
+                schema.get("Shortcut")!!
+                    .addRealmObjectField("repetition", repetitionSchema)
+                realm.delete("PendingExecution")
+                schema.get("PendingExecution")!!
+                    .addField("scheduleType", String::class.java, FieldAttribute.REQUIRED)
+                    .addField("requestCode", Int::class.javaPrimitiveType)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -433,6 +446,6 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 56L
+        const val VERSION = 57L
     }
 }

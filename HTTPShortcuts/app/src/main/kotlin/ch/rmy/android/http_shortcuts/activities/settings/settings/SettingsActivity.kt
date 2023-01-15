@@ -27,12 +27,23 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.settings.BaseSettingsFragment
 import ch.rmy.android.http_shortcuts.activities.settings.globalcode.GlobalScriptingActivity
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
+import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
+import javax.inject.Inject
 
 class SettingsActivity : BaseActivity() {
 
+    @Inject
+    lateinit var restrictionsUtil: RestrictionsUtil
+
     internal val viewModel: SettingsViewModel by bindViewModel()
+
+    override fun inject(applicationComponent: ApplicationComponent) {
+        getApplicationComponent().inject(this)
+    }
 
     override fun onCreated(savedState: Bundle?) {
         viewModel.initialize()
@@ -82,8 +93,14 @@ class SettingsActivity : BaseActivity() {
 
     class SettingsFragment : BaseSettingsFragment() {
 
+        private val settingsActivity: SettingsActivity
+            get() = activity as SettingsActivity
+
+        private val restrictionsUtil: RestrictionsUtil
+            get() = settingsActivity.restrictionsUtil
+
         private val viewModel: SettingsViewModel
-            get() = (activity as SettingsActivity).viewModel
+            get() = settingsActivity.viewModel
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.preferences, rootKey)
@@ -135,21 +152,28 @@ class SettingsActivity : BaseActivity() {
                 viewModel.onAppOverlayButtonClicked()
             }
 
-            initPreference("allow_overlay_xiaomi", isVisible = isXiaomiDevice()) {
+            initPreference("allow_overlay_xiaomi", isVisible = restrictionsUtil.hasPermissionEditor()) {
                 try {
                     startActivity(
-                        Intent("miui.intent.action.APP_PERM_EDITOR")
-                            .setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity")
-                            .putExtra("extra_pkgname", requireContext().packageName)
+                        restrictionsUtil.getPermissionEditorIntent()
                     )
                 } catch (e: ActivityNotFoundException) {
                     showSnackbar(R.string.error_not_supported)
                 }
             }
-        }
 
-        private fun isXiaomiDevice() =
-            Build.MANUFACTURER?.equals("xiaomi", ignoreCase = true) == true
+            initPreference(
+                "ignore_battery_optimizations",
+                isVisible = restrictionsUtil.run { canRequestIgnoreBatteryOptimization() && !isIgnoringBatteryOptimizations() },
+            ) {
+                try {
+                    restrictionsUtil.getRequestIgnoreBatteryOptimizationIntent()
+                        ?.let(::startActivity)
+                } catch (e: ActivityNotFoundException) {
+                    showSnackbar(R.string.error_not_supported)
+                }
+            }
+        }
 
         private fun restartToApplyThemeChanges() {
             requireActivity().apply {

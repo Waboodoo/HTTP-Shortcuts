@@ -99,6 +99,12 @@
             app:summary="@string/settings_allow_overlay_xiaomi_summary"
             app:title="@string/settings_allow_overlay_xiaomi" />
 
+        <Preference
+            app:icon="@drawable/ic_battery"
+            app:key="ignore_battery_optimizations"
+            app:summary="@string/settings_ignore_battery_optimizations_summary"
+            app:title="@string/settings_ignore_battery_optimizations" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

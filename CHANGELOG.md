@@ -1,6 +1,7 @@
 ## Version 2.30.0
 
 ### Improvements
+- There is now basic functionality to run a shortcut repeatedly on a fixed interval.
 - You can now share text from Scripting via the newly added `shareText()` function.
 
 ### Bugfixes

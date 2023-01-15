@@ -115,6 +115,8 @@ open class ShortcutModel(
 
     var excludeFromHistory: Boolean = false
 
+    var repetition: RepetitionModel? = null
+
     var icon: ShortcutIcon
         get() = ShortcutIcon.fromName(iconName)
         set(value) {
@@ -222,6 +224,12 @@ open class ShortcutModel(
         if (other.responseHandling?.isSameAs(responseHandling!!) == false) {
             return false
         }
+        if ((other.repetition == null) != (repetition == null)) {
+            return false
+        }
+        if (other.repetition?.isSameAs(repetition!!) == false) {
+            return false
+        }
         return true
     }
 
@@ -275,6 +283,7 @@ open class ShortcutModel(
         headers.forEach(HeaderModel::validate)
         parameters.forEach(ParameterModel::validate)
         responseHandling?.validate()
+        repetition?.validate()
     }
 
     companion object {

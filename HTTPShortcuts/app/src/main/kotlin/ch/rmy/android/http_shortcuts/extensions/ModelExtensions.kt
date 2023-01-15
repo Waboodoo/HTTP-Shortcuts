@@ -19,5 +19,8 @@ fun ShortcutModel.toLauncherShortcut() =
 fun ShortcutModel.getSafeName(context: Context) =
     name.ifEmpty { context.getString(R.string.shortcut_safe_name) }
 
+val ShortcutModel.isTemporaryShortcut
+    get() = id == ShortcutModel.TEMPORARY_ID
+
 fun ShortcutModel.shouldIncludeInHistory() =
-    !excludeFromHistory && id != ShortcutModel.TEMPORARY_ID
+    !excludeFromHistory && !isTemporaryShortcut

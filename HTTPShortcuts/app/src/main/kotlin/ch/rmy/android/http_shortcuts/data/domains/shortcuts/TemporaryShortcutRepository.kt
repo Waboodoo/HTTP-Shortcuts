@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.HeaderModel
 import ch.rmy.android.http_shortcuts.data.models.ParameterModel
+import ch.rmy.android.http_shortcuts.data.models.RepetitionModel
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
@@ -69,6 +70,21 @@ constructor(
     suspend fun setDescription(description: String) {
         commitTransactionForShortcut { shortcut ->
             shortcut.description = description
+        }
+    }
+
+    suspend fun setRepetitionInterval(interval: Duration? = null) {
+        commitTransactionForShortcut { shortcut ->
+            if (interval == null) {
+                shortcut.repetition?.deleteFromRealm()
+                shortcut.repetition = null
+            } else {
+                if (shortcut.repetition == null) {
+                    shortcut.repetition = RepetitionModel(interval = interval.inWholeMinutes.toInt())
+                } else {
+                    shortcut.repetition?.interval = interval.inWholeMinutes.toInt()
+                }
+            }
         }
     }
 

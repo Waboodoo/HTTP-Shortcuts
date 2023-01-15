@@ -4,6 +4,7 @@ import ch.rmy.android.framework.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import io.realm.RealmList
 import io.realm.RealmModel
 import io.realm.annotations.Index
@@ -27,7 +28,22 @@ open class PendingExecutionModel(
     var waitForNetwork: Boolean = false,
     var recursionDepth: Int = 0,
     var resolvedVariables: RealmList<ResolvedVariableModel> = RealmList(),
+    type: PendingExecutionType = PendingExecutionType.UNKNOWN,
+    var requestCode: Int = 0,
 ) : RealmModel {
+
+    @Required
+    private var scheduleType: String = PendingExecutionType.UNKNOWN.name
+
+    var type: PendingExecutionType
+        get() = PendingExecutionType.parse(scheduleType)
+        set(value) {
+            scheduleType = value.name
+        }
+
+    init {
+        scheduleType = type.name
+    }
 
     companion object {
 
@@ -43,6 +59,8 @@ open class PendingExecutionModel(
             waitUntil: Date? = null,
             waitForNetwork: Boolean = false,
             recursionDepth: Int = 0,
+            type: PendingExecutionType,
+            requestCode: Int,
         ): PendingExecutionModel {
             val resolvedVariableList = RealmList<ResolvedVariableModel>()
             resolvedVariables.mapTo(resolvedVariableList) {
@@ -57,7 +75,9 @@ open class PendingExecutionModel(
                 waitUntil = waitUntil,
                 enqueuedAt = Date(),
                 waitForNetwork = waitForNetwork,
-                recursionDepth = recursionDepth
+                recursionDepth = recursionDepth,
+                type = type,
+                requestCode = requestCode,
             )
         }
     }

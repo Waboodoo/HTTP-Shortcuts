@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExec
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import javax.inject.Inject
@@ -53,6 +54,7 @@ class EnqueueShortcutAction(
             delay = delay.milliseconds,
             requiresNetwork = shortcut.isWaitForNetwork,
             recursionDepth = if (delay >= 500) 0 else executionContext.recursionDepth + 1,
+            type = PendingExecutionType.EXPLICITLY_SCHEDULED,
         )
     }
 

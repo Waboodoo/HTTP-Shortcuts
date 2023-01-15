@@ -23,6 +23,7 @@ import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionSchedulerWorker
@@ -72,6 +73,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
                     shortcutId = intent.extractShortcutId(),
                     resolvedVariables = intent.extractVariableValues(),
                     tryNumber = 0,
+                    type = PendingExecutionType.NEW_INTENT,
                 )
         }
     }
