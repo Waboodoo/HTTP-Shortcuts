@@ -7,7 +7,9 @@ enum class HistoryEventType(
     HTTP_REQUEST_SENT("http_request_sent"),
     HTTP_RESPONSE_RECEIVED("http_response_received"),
     NETWORK_ERROR("network_error"),
-    ERROR("error");
+    ERROR("error"),
+    CUSTOM_EVENT("custom_event")
+    ;
 
     override fun toString() =
         type

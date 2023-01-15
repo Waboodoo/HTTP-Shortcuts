@@ -32,4 +32,9 @@ sealed interface HistoryEvent {
         val shortcutName: String,
         val error: String,
     ) : HistoryEvent
+
+    data class CustomEvent(
+        val title: String,
+        val message: String?,
+    ) : HistoryEvent
 }

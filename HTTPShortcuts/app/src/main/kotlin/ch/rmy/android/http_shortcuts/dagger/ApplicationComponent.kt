@@ -73,6 +73,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.ExecuteShortcutActi
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetClipboardContentAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetLocationAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetVariableAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.LogEventAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenAppAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenURLAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PlaySoundAction
@@ -334,4 +335,6 @@ interface ApplicationComponent {
     fun inject(historyCleanUpWorker: HistoryCleanUpWorker)
 
     fun inject(secondLauncherViewModel: SecondLauncherViewModel)
+
+    fun inject(logEventAction: LogEventAction)
 }

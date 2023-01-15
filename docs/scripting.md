@@ -646,6 +646,19 @@ enqueueShortcut('My Other Shortcut', {
 
 This mechanism works both for the `enqueueShortcut` and the `executeShortcut` function.
 
+<a name="log-event"></a>
+### Log Event
+
+The `logEvent` function allows you to log custom events into the Event History (which you'll find in the app's main menu). This can be used for debugging and troubleshooting. Pass an event title as the first parameter and optionally a message with details as the second parameter.
+
+```js
+logEvent('Hello World');
+
+logEvent('My title', 'My message');
+
+logEvent('My complex event', {'foo': 'bar'});
+```
+
 <a name="uuid-v4"></a>
 ### Generate UUID
 

@@ -1375,4 +1375,6 @@
     <string name="message_plugin_dialog_configure_app_overlay">In order to be able to trigger a shortcut from another app, you first need to allow the HTTP Shortcuts app to draw over other apps.\n\nTap the \“%s\” button below to configure this now.</string>
     <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
     <string name="title_activity_secondary_launcher_trigger">Trigger shortcut</string>
+    <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
+    <string name="action_type_log_event">Log Event</string>
 </resources>

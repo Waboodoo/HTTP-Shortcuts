@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.history.usecases
 
 import android.content.Context
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -41,6 +42,7 @@ constructor() {
             HistoryEventType.HTTP_RESPONSE_RECEIVED -> getEventData<HistoryEvent.HttpResponseReceived>()
             HistoryEventType.NETWORK_ERROR -> getEventData<HistoryEvent.NetworkError>()
             HistoryEventType.ERROR -> getEventData<HistoryEvent.Error>()
+            HistoryEventType.CUSTOM_EVENT -> getEventData<HistoryEvent.CustomEvent>()
             null -> null
         }
 
@@ -65,6 +67,9 @@ constructor() {
             is HistoryEvent.Error -> Localizable.create {
                 it.getString(R.string.event_history_title_execution_error, shortcutName)
             }
+            is HistoryEvent.CustomEvent -> Localizable.create {
+                title
+            }
         }
 
     private fun HistoryEvent.getDetail(): Localizable? =
@@ -79,6 +84,7 @@ constructor() {
                 is HistoryEvent.HttpResponseReceived -> formatHeaders(headers).toLocalizable()
                 is HistoryEvent.NetworkError -> error.toLocalizable()
                 is HistoryEvent.Error -> error.toLocalizable()
+                is HistoryEvent.CustomEvent -> message?.takeUnlessEmpty()?.toLocalizable()
             }
         }
 

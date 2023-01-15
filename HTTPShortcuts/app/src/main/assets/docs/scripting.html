@@ -173,7 +173,12 @@ enqueueShortcut('My Other Shortcut', {
 enqueueShortcut('My Other Shortcut', {
     '$files': selectedFiles.map(file =&gt; file.id),
 });
-</code></pre><p>This mechanism works both for the <code>enqueueShortcut</code> and the <code>executeShortcut</code> function.</p><p><a name="uuid-v4"></a></p><h3>Generate UUID</h3><p>You can use the <code>uuidv4()</code> function to generate a random UUID (<strong>U</strong>niversal <strong>U</strong>nique <strong>Id</strong>entifier, version 4). The returned value is of type string.</p><pre><code class="language-js">const myUUID = uuidv4();
+</code></pre><p>This mechanism works both for the <code>enqueueShortcut</code> and the <code>executeShortcut</code> function.</p><p><a name="log-event"></a></p><h3>Log Event</h3><p>The <code>logEvent</code> function allows you to log custom events into the Event History (which you'll find in the app's main menu). This can be used for debugging and troubleshooting. Pass an event title as the first parameter and optionally a message with details as the second parameter.</p><pre><code class="language-js">logEvent('Hello World');
+
+logEvent('My title', 'My message');
+
+logEvent('My complex event', {'foo': 'bar'});
+</code></pre><p><a name="uuid-v4"></a></p><h3>Generate UUID</h3><p>You can use the <code>uuidv4()</code> function to generate a random UUID (<strong>U</strong>niversal <strong>U</strong>nique <strong>Id</strong>entifier, version 4). The returned value is of type string.</p><pre><code class="language-js">const myUUID = uuidv4();
 </code></pre><p><a name="get-clipboard-content"></a></p><h3>Get Clipboard Content</h3><p>The <code>getClipboardContent</code> function allows you to query the latest item in your device's clipboard, i.e., the last piece of text that you copied from somewhere. If there is nothing in the clipboard or if its content is not text (e.g., if you copied an image instead), this function will return null instead.</p><pre><code class="language-js">const clipboardValue = getClipboardContent();
 </code></pre><p><a name="copy-to-clipboard"></a></p><h3>Copy to the Clipboard</h3><p>With the <code>copyToClipboard</code> function you can copy a value to the device's clipboard. Simply pass the value you want to copy as the first parameter.</p><pre><code class="language-js">copyToClipboard('Hello World');
 </code></pre><p><a name="open-app"></a></p><h3>Open another App</h3><p>The <code>openApp</code> function allows you to open another app via its package name. If no app with the given package name is installed, an error is displayed.</p><pre><code class="language-js">openApp('com.github.android'); // Opens the Github app

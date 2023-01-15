@@ -28,5 +28,6 @@ constructor(
             is HistoryEvent.HttpResponseReceived -> HistoryEventType.HTTP_RESPONSE_RECEIVED
             is HistoryEvent.NetworkError -> HistoryEventType.NETWORK_ERROR
             is HistoryEvent.Error -> HistoryEventType.ERROR
+            is HistoryEvent.CustomEvent -> HistoryEventType.CUSTOM_EVENT
         }
 }

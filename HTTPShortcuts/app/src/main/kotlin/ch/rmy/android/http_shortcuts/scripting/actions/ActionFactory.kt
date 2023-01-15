@@ -17,6 +17,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.GetLocationActionTy
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetVariableActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.HashActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.HmacActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.LogEventType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenAppActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenURLActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ParseXMLActionType
@@ -82,6 +83,7 @@ constructor() {
                 GetVariableActionType(),
                 HashActionType(),
                 HmacActionType(),
+                LogEventType(),
                 OpenAppActionType(),
                 OpenURLActionType(),
                 ParseXMLActionType(),

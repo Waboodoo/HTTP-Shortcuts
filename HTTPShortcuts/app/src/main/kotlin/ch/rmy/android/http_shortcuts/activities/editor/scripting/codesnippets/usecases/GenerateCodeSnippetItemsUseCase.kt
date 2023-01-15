@@ -478,6 +478,13 @@ constructor(
             }
             section(R.string.dialog_code_snippet_misc, R.drawable.ic_misc) {
                 item(
+                    R.string.action_type_log_event,
+                    docRef = "log-event",
+                    keywords = setOf("track", "debug", "console"),
+                ) {
+                    insertText("logEvent(\"title\", \"message\");")
+                }
+                item(
                     R.string.action_type_generate_uuid,
                     docRef = "uuid-v4",
                     keywords = setOf("random", "id", "guid"),
