@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.execute.usecases
 
+import ch.rmy.android.http_shortcuts.activities.misc.share.ShareViewModel.Companion.hasFileParameter
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel.Companion.FAILURE_OUTPUT_NONE
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel.Companion.SUCCESS_OUTPUT_NONE
@@ -20,8 +21,10 @@ constructor(
         val usesNoOutput = responseHandling.successOutput == SUCCESS_OUTPUT_NONE && responseHandling.failureOutput == FAILURE_OUTPUT_NONE
         val usesToastOutput = responseHandling.uiType == UI_TYPE_TOAST
         val usesCodeAfterExecution = shortcut.codeOnSuccess.isNotEmpty() || shortcut.codeOnFailure.isNotEmpty()
+        val usesFiles = shortcut.usesGenericFileBody() || shortcut.usesImageFileBody() || shortcut.hasFileParameter()
         return (usesNoOutput || (usesToastOutput && permissionManager.hasNotificationPermission())) &&
             !usesCodeAfterExecution &&
+            !usesFiles &&
             !shortcut.isWaitForNetwork &&
             !networkUtil.isNetworkPerformanceRestricted() &&
             computeVariablesSize(variableValuesByIds) < MAX_VARIABLES_SIZE

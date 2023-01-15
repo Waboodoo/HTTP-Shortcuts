@@ -244,7 +244,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
             return variableIds.any { variableIdsInShortcut.contains(it) }
         }
 
-        internal fun ShortcutModel.hasFileParameter(isImage: Boolean?): Boolean =
+        internal fun ShortcutModel.hasFileParameter(isImage: Boolean? = null): Boolean =
             parameters.any {
                 when (it.parameterType) {
                     ParameterType.STRING -> false
