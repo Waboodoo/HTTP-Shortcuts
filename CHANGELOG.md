@@ -1,3 +1,17 @@
+## Version 2.29.0
+
+### Improvements
+- You can now log custom events into the Event History via the `logEvent()` function, allowing for better troubleshooting
+- The `setVariable()` function now allows you to change the stored value of a variable while still allowing the variable to be resolved normally afterwards. Simply pass `true` as the third parameter. This is useful if you want to change the preset / previously used value of a variable for which "Remember value" is enabled.
+
+### Miscellaneous
+- The Event History will now heuristically try to remove tokens and secrets from the HTTP headers it displays
+- The Privacy Policy can now be accessed more easily through the built-in documentation
+
+### Bugfixes
+- Tables in the built-in documentation are now properly displayed
+- Fixed a crash when trying to edit a shortcut with device language set to Spanish
+
 ## Version 2.28.0
 
 ### Improvements
