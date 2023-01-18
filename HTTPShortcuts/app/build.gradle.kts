@@ -75,35 +75,37 @@ android {
             abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64"))
         }
 
-        resourceConfigurations.addAll(setOf(
-            "en",
-            "en-rGB",
-            "ca",
-            "de",
-            "de-rCH",
-            "es",
-            "es-rMX",
-            "fr",
-            "in",
-            "it",
-            "hu",
-            "nb",
-            "pl",
-            "pt-rBR",
-            "ru",
-            "tr",
-            "zh-rCN",
-            "ja",
-            "ko",
-            "iw",
-            "ar",
-            "cs",
-            "el",
-            "fa",
-            "nl",
-            "pt",
-            "vi",
-        ))
+        resourceConfigurations.addAll(
+            setOf(
+                "en",
+                "en-rGB",
+                "ca",
+                "de",
+                "de-rCH",
+                "es",
+                "es-rMX",
+                "fr",
+                "in",
+                "it",
+                "hu",
+                "nb",
+                "pl",
+                "pt-rBR",
+                "ru",
+                "tr",
+                "zh-rCN",
+                "ja",
+                "ko",
+                "iw",
+                "ar",
+                "cs",
+                "el",
+                "fa",
+                "nl",
+                "pt",
+                "vi",
+            )
+        )
     }
 
     buildTypes {
@@ -128,6 +130,7 @@ android {
         create("releaseFull") {
             isMinifyEnabled = true
             isShrinkResources = true
+            ndk.debugSymbolLevel = "SYMBOL_TABLE"
 
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
@@ -296,13 +299,15 @@ poeditor {
     apiKey.set(poeditorAPIKey)
     projectId.set(poeditorProjectId)
 
-    terms(mapOf(
-        "lang" to "en",
-        "file" to "src/main/res/values/strings.xml",
-        "updating" to "terms_translations",
-        "overwrite" to true,
-        "sync_terms" to true,
-    ))
+    terms(
+        mapOf(
+            "lang" to "en",
+            "file" to "src/main/res/values/strings.xml",
+            "updating" to "terms_translations",
+            "overwrite" to true,
+            "sync_terms" to true,
+        )
+    )
     // translation definitions omitted as the plugin currently does not support filtering by "translated" status, making its pull feature unusable
 }
 
