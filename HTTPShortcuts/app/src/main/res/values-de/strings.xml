@@ -73,13 +73,13 @@
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts_instructions">"Ein Shortcut ermöglicht es dir, einen einzelnen HTTP-Request zu senden, und nach Bedarf die Response zu verarbeiten und anzuzeigen.
 
-Drücke den + Knopf um loszulegen, oder lies die Dokumentation, welche du auf der \"Information\"-Seite findest."</string>
+Drücke den + Knopf um loszulegen, oder lies die Dokumentation, welche du auf der ”Information”-Seite findest."</string>
 
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">"noch keine Variablen vorhanden"</string>
 
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">"Variablen ermöglichen es, dynamisch Werte in deine Shortcuts einzufügen, z.B. in die URL, die Header oder den Request-Body. Halte nach dem \"{}\"-Knopf Ausschau um zu sehen wo du Variablen verwenden kannst.
+    <string name="empty_state_variables_instructions">"Variablen ermöglichen es, dynamisch Werte in deine Shortcuts einzufügen, z.B. in die URL, die Header oder den Request-Body. Halte nach dem ”{}”-Knopf Ausschau um zu sehen wo du Variablen verwenden kannst.
 
 Drücke den + Knopf um eine Variable zu erstellen."</string>
 
@@ -602,7 +602,7 @@ Um dieses Feature zu verwenden muss mindestens ein Shortcut vorhanden sein der e
 Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informationen."</string>
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
-    <string name="label_allow_share_into">"'Teilen …' erlauben"</string>
+    <string name="label_allow_share_into">"”Teilen …” erlauben"</string>
 
     <!-- App color theme option Blue -->
     <string name="theme_blue">"Blau"</string>
@@ -710,7 +710,7 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="error_slider_step_size_must_be_positive">"Die Schrittgröße muss größer als 0 sein."</string>
 
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
-    <string name="plugin_blurb_execute_task">"Shortcut \"%1$s\" ausführen"</string>
+    <string name="plugin_blurb_execute_task">"Shortcut ”%1$s” ausführen"</string>
 
     <!-- Label of dropdown to select the request body type in shortcut editor -->
     <string name="label_request_body_type">"Request-Body-Typ"</string>
@@ -794,7 +794,7 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="title_select_placement_method">"Platzierungsmethode"</string>
 
     <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->
-    <string name="description_select_placement_method">"Wähle die Methode zur Platzierung des Shortcuts aus. Falls du Probleme mit der \"Standard\"-Methode feststellst kannst du stattdessen die \"Legacy\"-Methode verwenden. Bitte beachte dass einige Funktionen (z.B. Ändern des Shortcut-Namens) nicht verfügbar sind mit der \"Legacy\"-Methode."</string>
+    <string name="description_select_placement_method">"Wähle die Methode zur Platzierung des Shortcuts aus. Falls du Probleme mit der ”Standard”-Methode feststellst kannst du stattdessen die ”Legacy”-Methode verwenden. Bitte beachte dass einige Funktionen (z.B. Ändern des Shortcut-Namens) nicht verfügbar sind mit der ”Legacy”-Methode."</string>
 
     <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
     <string name="label_placement_method_default">"Standard"</string>
@@ -836,7 +836,7 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="warning_data_saver_battery_saver_enabled">"Data Saver und/oder Battery Saver Modi sind aktiv. Das Ausführen von Shortcuts ist eventuell beeinträchtigt. Solltest du Probleme feststellen versuche bitte zuerst diese Modi auszuschalten."</string>
 
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
-    <string name="message_variable_duplicated">"\"%1$s\" dupliziert."</string>
+    <string name="message_variable_duplicated">"”%1$s” dupliziert."</string>
 
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">"Shortcut-URL und HTTP-Methode einstellen"</string>
@@ -950,13 +950,13 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="dialog_code_snippet_set_variable">"Variable setzen"</string>
 
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_triggering">"Shortcut \"%1$s\" konnte nicht ausgeführt werden, da er nicht existiert."</string>
+    <string name="error_shortcut_not_found_for_triggering">"Shortcut ”%1$s” konnte nicht ausgeführt werden, da er nicht existiert."</string>
 
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_renaming">"Shortcut \"%1$s\" konnte nicht umbenannt werden, da er nicht existiert."</string>
+    <string name="error_shortcut_not_found_for_renaming">"Shortcut ”%1$s” konnte nicht umbenannt werden, da er nicht existiert."</string>
 
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_changing_icon">"Das Symbol des Shortcuts \"%1$s\" konnte nicht geändert werden, da er nicht existiert."</string>
+    <string name="error_shortcut_not_found_for_changing_icon">"Das Symbol des Shortcuts ”%1$s” konnte nicht geändert werden, da er nicht existiert."</string>
 
     <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
     <string name="settings_dark_theme_options_on">"Immer dunkel"</string>
@@ -991,7 +991,7 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
     <string name="instructions_quick_settings_tile">"Du hast noch keine Shortcuts eingerichtet welche via diesem Quick Settings Tile ausgelöst werden können.
 
-Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die Checkbox \"%1$s\" in \"%2$s\" aktivierst."</string>
+Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die Checkbox ”%1$s” in ”%2$s” aktivierst."</string>
 
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">"Status-Code"</string>
@@ -1142,7 +1142,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="title_remove_trigger_shortcut">"Shortcut entfernen"</string>
 
     <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="message_remove_trigger_shortcut">"Shortcut \"%s\" aus Liste der auszulösenden Shortcuts entfernen?"</string>
+    <string name="message_remove_trigger_shortcut">"Shortcut ”%s” aus Liste der auszulösenden Shortcuts entfernen?"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
     <string name="action_type_prompt_title">"Aufforderung zur Texteingabe"</string>
@@ -1271,7 +1271,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="dialog_code_snippet_text_processing">"Textverarbeitung"</string>
 
     <!-- Error message: Shown when user tries to use an unsupported hash function -->
-    <string name="error_unsupported_hash_algorithm">"Hash-Algorithmus \"%1$s\" nicht unterstützt. Verwende %2$s."</string>
+    <string name="error_unsupported_hash_algorithm">"Hash-Algorithmus ”%1$s” nicht unterstützt. Verwende %2$s."</string>
 
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">"Am Computer bearbeiten"</string>
@@ -1283,13 +1283,13 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="instructions_remote_edit_step_1">"Gib ein Passwort in das Textfeld oben ein."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: click the push button -->
-    <string name="instructions_remote_edit_step_2">"Drücke den &lt;pre&gt;\"Hochladen\"&lt;/pre&gt;-Knopf."</string>
+    <string name="instructions_remote_edit_step_2">"Drücke den &lt;pre&gt;”Hochladen”&lt;/pre&gt;-Knopf."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">"Öffne %s in einem Browser auf deinem Computer, gib die Geräte-ID und dein Passwort ein und du kannst mit Änderungen loslegen."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Wenn du fertig bist und deine Änderungen gespeichert hast, drücke den &lt;pre&gt;\"Änderungen herunterladen\"&lt;/pre&gt;-Knopf unten."</string>
+    <string name="instructions_remote_edit_step_4">"Wenn du fertig bist und deine Änderungen gespeichert hast, drücke den &lt;pre&gt;”Änderungen herunterladen”&lt;/pre&gt;-Knopf unten."</string>
 
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">"Hochladen"</string>
@@ -1352,7 +1352,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="action_save_global_scripting">"Änderungen speichern"</string>
 
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
-    <string name="error_shortcut_not_found_for_deep_link">"Shortcut \"%s\" nicht gefunden"</string>
+    <string name="error_shortcut_not_found_for_deep_link">"Shortcut ”%s” nicht gefunden"</string>
 
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
     <string name="instructions_deep_linking">"Um das Deep-Linking-Feature zu verwenden muss deine URL wie folgt aussehen:
@@ -1375,7 +1375,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="message_permission_rational">"Standort-Berechtigungen sind erforderlich um den Namen (SSID) des aktuellen WLANs zu bestimmen. Diese Bedingung ist vom Android Betriebsystem vorgegeben. Deine Standort-Daten werden nicht direkt abgefragt."</string>
 
     <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
-    <string name="message_wrong_wifi_network">"Es besteht keine Verbindung zum erforderlichen WLAN-Netzwerk \"%1$s\". Anderes Netzwerk wählen?"</string>
+    <string name="message_wrong_wifi_network">"Es besteht keine Verbindung zum erforderlichen WLAN-Netzwerk ”%1$s”. Anderes Netzwerk wählen?"</string>
 
     <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
     <string name="action_label_select">"Wählen"</string>
@@ -1456,13 +1456,13 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="label_subtitle_no_client_cert">"Klicke um Zertifikat zu wählen."</string>
 
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
-    <string name="label_subtitle_client_cert_in_use">"Zertifikat \"%s\" wird verwendet. Klicke um zu entfernen."</string>
+    <string name="label_subtitle_client_cert_in_use">"Zertifikat ”%s” wird verwendet. Klicke um zu entfernen."</string>
 
     <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
     <string name="error_failed_to_use_client_cert">"Beim Laden oder Anwenden des Client-Zertifikats ist ein Fehler aufgetreten. Möglicherweise wird dies von deinem Gerät nicht unterstützt, oder der Shortcut muss neu konfiguriert werden."</string>
 
     <!-- Error message: Shown when user tries to use an unsupported hmac function -->
-    <string name="error_unsupported_hmac_algorithm">"Ungültiger HMAC-Algorithmus \"%1$s\" oder ungültiger Schlüssel. Unterstützte Algorithmen: %2$s"</string>
+    <string name="error_unsupported_hmac_algorithm">"Ungültiger HMAC-Algorithmus ”%1$s” oder ungültiger Schlüssel. Unterstützte Algorithmen: %2$s"</string>
 
     <!-- Button, shown on About page, to allow opening the app's F-Droid page -->
     <string name="settings_f_droid">"In F-Droid anzeigen"</string>
@@ -1507,7 +1507,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="action_play_sound">"Ton abspielen"</string>
 
     <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting. -->
-    <string name="message_response_handling_scripting_hint">"Für weitere Optionen zum Verarbeiten und Anzeigen der Response, sieh dir die '%s'-Sektion an. Dort kannst du fortgeschrittene Abläufe mittels JavaScript-Code definieren."</string>
+    <string name="message_response_handling_scripting_hint">"Für weitere Optionen zum Verarbeiten und Anzeigen der Response, sieh dir die ”%s”-Sektion an. Dort kannst du fortgeschrittene Abläufe mittels JavaScript-Code definieren."</string>
 
     <!-- Menu button shown on response window, allows the user to execute the current shortcut again -->
     <string name="action_rerun_shortcut">"Erneut ausführen"</string>
@@ -1618,7 +1618,7 @@ Drücke den + Knopf um loszulegen."</string>
     <string name="error_failed_to_get_wifi_ssid">"Abrufen der WLAN-SSID fehlgeschlagen."</string>
 
     <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
-    <string name="placeholder_request_body_content">"Gib hier den HTTP Request-Body ein. Mit dem \"{}\"-Knopf kannst Variablen-Platzhalter einfügen."</string>
+    <string name="placeholder_request_body_content">"Gib hier den HTTP Request-Body ein. Mit dem ”{}”-Knopf kannst Variablen-Platzhalter einfügen."</string>
 
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_description">"Führe einen anderen Shortcut nach dem aktuellen aus"</string>
@@ -1692,7 +1692,7 @@ Trotzdem löschen?"</string>
     <string name="action_type_change_icon_description">"Shortcut-Beschreibung ändern"</string>
 
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_changing_description">"Die Beschreibung des Shortcuts \"%1$s\" konnte nicht geändert werden, da er nicht existiert."</string>
+    <string name="error_shortcut_not_found_for_changing_description">"Die Beschreibung des Shortcuts ”%1$s” konnte nicht geändert werden, da er nicht existiert."</string>
 
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">"Standardbrowser verwenden"</string>
@@ -1761,7 +1761,7 @@ Trotzdem löschen?"</string>
     <string name="title_unsaved_changes_detected">"Ungesicherte Änderungen"</string>
 
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
-    <string name="message_unsaved_changes_detected">"Es wurden ungesicherte Änderungen des Shortcuts \"%s\" gefunden. Möchtest du diese wiederherstellen und die Bearbeitung fortsetzen?"</string>
+    <string name="message_unsaved_changes_detected">"Es wurden ungesicherte Änderungen des Shortcuts ”%s” gefunden. Möchtest du diese wiederherstellen und die Bearbeitung fortsetzen?"</string>
 
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. -->
     <string name="message_unsaved_changes_detected_no_name">"Es wurden ungesicherte Änderungen eines Shortcuts gefunden. Möchtest du diese wiederherstellen und die Bearbeitung fortsetzen?"</string>
@@ -1788,10 +1788,10 @@ Trotzdem löschen?"</string>
     <string name="action_type_scan_barcode_title">"Barcode scannen"</string>
 
     <!-- Shortcut Action Description: Scan Barcode (e.g. QR Code) -->
-    <string name="action_type_scan_barcode_description">"Benötigt die 'QR Droid'- oder 'Binary Eye'-App"</string>
+    <string name="action_type_scan_barcode_description">"Benötigt die ”QR Droid”-, ”Barcode Scanner” oder ”Binary Eye”-App"</string>
 
     <!-- Error message: Shown when the user tries to use the 'scanBarcode' function but doesn't have the required app installed -->
-    <string name="error_barcode_scanner_not_installed">"Die 'QR Droid'- oder 'Binary Eye'-App muss installiert sein um Barcodes scannen zu können."</string>
+    <string name="error_barcode_scanner_not_installed">"Die ”QR Droid”-, ”Barcode Scanner” oder ”Binary Eye”-App muss installiert sein um Barcodes scannen zu können."</string>
 
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">"Aktuellen Standort abfragen"</string>
@@ -1920,7 +1920,7 @@ Trotzdem löschen?"</string>
     <string name="label_dialog_action_none">"Keine"</string>
 
     <!-- Label on checkbox that allows to enable/disable the use of a certain action to be displayed in the HTTP response window (e.g. "Share" button) -->
-    <string name="label_response_actions_show_button">"\"%s\"-Knopf anzeigen"</string>
+    <string name="label_response_actions_show_button">"”%s”-Knopf anzeigen"</string>
 
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">"TCP-Paket senden"</string>
@@ -1990,25 +1990,25 @@ Trotzdem löschen?"</string>
 
     <!-- Empty state instructions, shown in event history when there are no events -->
     <string name="empty_state_history_instructions">"Details über das Ausführen von Shortcuts werden hier aufgelistet, was bei der Problembehebung helfen kann.
-Du kannst einzelne Shortcuts verbergen durch eine Einstellung in \"%s\"."</string>
+Du kannst einzelne Shortcuts verbergen durch eine Einstellung in ”%s”."</string>
 
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
     <string name="label_exclude_from_history">"Von Verlauf ausschließen"</string>
 
     <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
-    <string name="event_history_title_shortcut_triggered">"\"%s\" ausgeführt"</string>
+    <string name="event_history_title_shortcut_triggered">"”%s” ausgeführt"</string>
 
     <!-- Title of event history entry, which states that an HTTP request was sent. %s is a placeholder for the shortcut's name -->
-    <string name="event_history_title_http_request_sent">"HTTP-Request gesendet für \"%s\""</string>
+    <string name="event_history_title_http_request_sent">"HTTP-Request gesendet für ”%s”"</string>
 
     <!-- Title of event history entry, which states that an HTTP response was received. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the status code (e.g. "404 Not Found") -->
-    <string name="event_history_title_http_response_received">"HTTP-Response erhalten für \"%1$s\": %2$s"</string>
+    <string name="event_history_title_http_response_received">"HTTP-Response erhalten für ”%1$s”: %2$s"</string>
 
     <!-- Title of event history entry, which states that a network error has occurred. %s is a placeholder for the shortcut's name -->
-    <string name="event_history_title_network_error">"Netzwerkfehler für \"%s\""</string>
+    <string name="event_history_title_network_error">"Netzwerkfehler für ”%s”"</string>
 
     <!-- Title of event history entry, which states that an execution error has occurred. %s is a placeholder for the shortcut's name -->
-    <string name="event_history_title_execution_error">"Ausführungsfehler für \"%s\""</string>
+    <string name="event_history_title_execution_error">"Ausführungsfehler für ”%s”"</string>
 
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, which indicates how a shortcut was triggered. %s is a placeholder for the trigger source, e.g. "homescreen" -->
     <string name="label_prefix_event_history_trigger_origin">"Ausgelöst durch: %s"</string>
@@ -2064,7 +2064,7 @@ Du kannst einzelne Shortcuts verbergen durch eine Einstellung in \"%s\"."</strin
     <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
     <string name="message_plugin_dialog_configure_app_overlay">"Um einen Shortcut von einer anderen App aus auslösen zu können, musst du zuerst der HTTP Shortcuts App erlauben, über anderen Apps angezeigt werden zu können.
 
-Tippe dazu den \"%s\"-Knopf unten um dies einzurichten."</string>
+Tippe dazu den ”%s”-Knopf unten um dies einzurichten."</string>
 
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="label_secondary_launcher_shortcut">"Auslösen durch sekundäre App erlauben"</string>
@@ -2074,4 +2074,7 @@ Tippe dazu den \"%s\"-Knopf unten um dies einzurichten."</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the meta data of a selected file -->
     <string name="dialog_code_snippet_get_file_meta">"Meta-Daten von ausgewählter Datei auslesen"</string>
+
+    <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
+    <string name="action_type_log_event">"Event aufzeichnen"</string>
 </resources>

@@ -2079,4 +2079,7 @@
 
     <!-- Dialog option: shown in code snippet picker, option to get the meta data of a selected file -->
     <string name="dialog_code_snippet_get_file_meta">"获取所选文件的元数据"</string>
+
+    <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
+    <string name="action_type_log_event">"记录事件"</string>
 </resources>
