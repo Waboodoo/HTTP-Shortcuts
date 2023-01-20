@@ -165,14 +165,16 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
     }
 
     private fun generateNewKey(oldKey: String): VariableKey {
-        val base = oldKey.take(KEY_MAX_LENGTH - 1)
-        for (i in 2..9) {
+        val base = oldKey.take(KEY_MAX_LENGTH - 2)
+        for (i in 2..99) {
             val newKey = "$base$i"
             if (!isVariableKeyInUse(newKey)) {
                 return newKey
             }
         }
-        throw RuntimeException("Failed to generate new key for variable duplication")
+        return List(KEY_MAX_LENGTH - 2) {
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".random()
+        }.joinToString(separator = "")
     }
 
     private fun isVariableKeyInUse(key: String): Boolean =
