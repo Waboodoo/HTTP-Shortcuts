@@ -24,7 +24,10 @@ object GsonUtil {
     fun prettyPrint(jsonString: String): String =
         try {
             val json = JsonParser.parseString(jsonString)
-            val gson = GsonBuilder().setPrettyPrinting().create()
+            val gson = GsonBuilder()
+                .setPrettyPrinting()
+                .disableHtmlEscaping()
+                .create()
             gson.toJson(json)
         } catch (e: JsonParseException) {
             jsonString
