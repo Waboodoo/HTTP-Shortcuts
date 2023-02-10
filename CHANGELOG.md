@@ -1,3 +1,13 @@
+## Version 2.30.0
+
+### Improvements
+- You can now share text from Scripting via the newly added `shareText()` function.
+
+### Bugfixes
+- When displaying a JSON formatted response, special characters are no longer HTML encoded
+- The `base64encode()` function no longer appends unnecessary trailing newline characters
+- When using the `sendIntent()` function, you can now set the "dataType" parameter without having to also set the "dataUri" parameter.
+
 ## Version 2.29.0
 
 ### Improvements
