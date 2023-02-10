@@ -87,19 +87,22 @@ class SendIntentAction(private val jsonData: String) : BaseAction() {
 
         fun constructIntent(parameters: JSONObject): Intent =
             Intent(parameters.optString(KEY_ACTION)).apply {
-                parameters.optString(KEY_DATA_URI)
+                val data = parameters.optString(KEY_DATA_URI)
                     .takeUnlessEmpty()
                     ?.toUri()
-                    ?.let { dataUri ->
-                        parameters.optString(KEY_DATA_TYPE)
-                            .takeUnlessEmpty()
-                            ?.let { dataType ->
-                                setDataAndType(dataUri, dataType)
-                            }
-                            ?: run {
-                                setData(dataUri)
-                            }
+                val type = parameters.optString(KEY_DATA_TYPE)
+                    .takeUnlessEmpty()
+                when {
+                    data != null && type != null -> {
+                        setDataAndType(data, type)
                     }
+                    data != null -> {
+                        setData(data)
+                    }
+                    type != null -> {
+                        setType(type)
+                    }
+                }
                 parameters.optString(KEY_CATEGORY)
                     .takeUnlessEmpty()
                     ?.let { category ->
