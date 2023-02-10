@@ -235,7 +235,7 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.8")
 
     /* Image meta data extraction */
-    implementation("androidx.exifinterface:exifinterface:1.3.5")
+    implementation("androidx.exifinterface:exifinterface:1.3.6")
 
     /* HTTP & Network */
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
@@ -247,7 +247,7 @@ dependencies {
     implementation("com.markodevcic:peko:2.2.0")
 
     /* Scheduling */
-    implementation("androidx.work:work-runtime-ktx:2.7.1")
+    implementation("androidx.work:work-runtime-ktx:2.8.0")
 
     /* Tasker integration */
     implementation("com.joaomgcd:taskerpluginlibrary:0.4.7")
@@ -277,7 +277,7 @@ dependencies {
     implementation(project(path = ":favicon_grabber"))
 
     /* JSON serialization & deserialization */
-    implementation("com.google.code.gson:gson:2.8.9")
+    implementation("com.google.code.gson:gson:2.10.1")
 
     /* Testing */
     testImplementation("org.hamcrest:hamcrest-library:$hamcrestVersion")
