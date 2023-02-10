@@ -17,4 +17,14 @@
 
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
     <string name="label_exclude_from_history" tools:ignore="Typos">"Von Verlauf ausschliessen"</string>
+
+    <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">"Um einen Shortcut automatisch wiederholt ausführen zu können, musst du zuerst der HTTP Shortcuts App erlauben, über anderen Apps angezeigt werden zu können.
+
+Tippe dazu den ”%s”-Knopf unten um dies einzurichten.
+
+Zusätzlich musst du eventuell auch noch die App von Akku-Optimierungen ausschliessen. Du findest diese Option in den Einstellungen."</string>
+
+    <!-- Title of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
+    <string name="settings_ignore_battery_optimizations">"Von Akku-Optimierung ausschliessen"</string>
 </resources>
