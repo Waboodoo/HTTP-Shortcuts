@@ -534,6 +534,13 @@ constructor(
                     insertText("copyToClipboard(\"", "\");\n")
                 }
                 item(
+                    R.string.action_share_text_title,
+                    docRef = "share-text",
+                    keywords = setOf("text", "export", "pass"),
+                ) {
+                    insertText("shareText(\"", "\");\n")
+                }
+                item(
                     R.string.action_type_open_url_title,
                     docRef = "open-url",
                     keywords = setOf("browser", "send", "start"),

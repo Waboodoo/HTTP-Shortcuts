@@ -87,6 +87,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.ScanBarcodeAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SelectionAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendIntentAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableAction
+import ch.rmy.android.http_shortcuts.scripting.actions.types.ShareTextAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.TextToSpeechAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ToastAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.TriggerTaskerTaskAction
@@ -337,4 +338,6 @@ interface ApplicationComponent {
     fun inject(secondLauncherViewModel: SecondLauncherViewModel)
 
     fun inject(logEventAction: LogEventAction)
+
+    fun inject(shareTextAction: ShareTextAction)
 }

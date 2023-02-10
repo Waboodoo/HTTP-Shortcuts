@@ -686,6 +686,17 @@ With the `copyToClipboard` function you can copy a value to the device's clipboa
 copyToClipboard('Hello World');
 ```
 
+<a name="share-text"></a>
+### Share Text with Another App
+
+You can use the `shareText` function to share a piece of text with another app. Simply pass the value you want to share as the first parameter. This will open the system's share picker where you can select which app to share into.
+
+```js
+shareText('Hello World');
+```
+
+Please note that the text that is shared can be at most 200000 characters long, otherwise it will be truncated.
+
 <a name="open-app"></a>
 ### Open another App
 

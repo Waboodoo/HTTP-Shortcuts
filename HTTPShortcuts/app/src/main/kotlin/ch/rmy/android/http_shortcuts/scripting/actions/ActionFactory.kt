@@ -36,6 +36,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.SendTCPPacketAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendUDPPacketActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetResultActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.ShareTextActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.TextToSpeechActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ToHexStringActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ToStringActionType
@@ -102,6 +103,7 @@ constructor() {
                 SendUDPPacketActionType(),
                 SetResultActionType(),
                 SetVariableActionType(),
+                ShareTextActionType(),
                 TextToSpeechActionType(),
                 ToastActionType(),
                 ToHexStringActionType(),
