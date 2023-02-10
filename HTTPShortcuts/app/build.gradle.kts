@@ -19,6 +19,7 @@ val hamcrestVersion: String by properties
 val junitVersion: String by properties
 val robolectricVersion: String by properties
 val mockitoVersion: String by properties
+val coroutinesVersion: String by properties
 
 val bugsnagAPIKey: String by rootProject.ext
 val poeditorAPIKey: String by rootProject.ext
@@ -287,6 +288,7 @@ dependencies {
     testImplementation("org.mockito:mockito-inline:$mockitoVersion")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
     testImplementation("androidx.test:core-ktx:1.5.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
 }
 
 configurations.all {

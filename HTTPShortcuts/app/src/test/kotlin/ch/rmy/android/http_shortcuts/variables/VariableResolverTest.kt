@@ -5,29 +5,36 @@ import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
 import ch.rmy.android.http_shortcuts.test.TestContext
 import com.nhaarman.mockitokotlin2.mock
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
+@ExperimentalCoroutinesApi
 @RunWith(RobolectricTestRunner::class)
 class VariableResolverTest {
 
     private val context = TestContext.create()
 
     @Test
-    fun `test variable resolution of static variables`() {
-        val variableManager = runBlocking {
-            VariableResolver(context)
-                .resolve(
-                    variables = listOf(
-                        VariableModel(id = "1234", key = "myVariable", value = "Hello World")
-                    ),
-                    shortcut = withContent("{{1234}}")
+    fun `test variable resolution of static variables`() = runTest {
+        val variableManager = VariableManager(
+            listOf(
+                VariableModel(id = "1234", key = "myVariable", value = "Hello World")
+            )
+        )
+        VariableResolver(context)
+            .resolve(
+                variableManager = variableManager,
+                requiredVariableIds = VariableResolver.extractVariableIds(
+                    withContent("{{1234}}"),
+                    variableManager,
+                    includeScripting = false,
                 )
-        }
+            )
 
         assertThat(
             variableManager.getVariableValueById("1234"),
@@ -48,17 +55,22 @@ class VariableResolverTest {
     }
 
     @Test
-    fun `test variable resolution of static variables referencing other static variables`() {
-        val variableManager = runBlocking {
-            VariableResolver(context)
-                .resolve(
-                    variables = listOf(
-                        VariableModel(id = "1234", key = "myVariable1", value = "Hello {{5678}}"),
-                        VariableModel(id = "5678", key = "myVariable2", value = "World")
-                    ),
-                    shortcut = withContent("{{1234}}")
+    fun `test variable resolution of static variables referencing other static variables`() = runTest {
+        val variableManager = VariableManager(
+            listOf(
+                VariableModel(id = "1234", key = "myVariable1", value = "Hello {{5678}}"),
+                VariableModel(id = "5678", key = "myVariable2", value = "World")
+            )
+        )
+        VariableResolver(context)
+            .resolve(
+                variableManager = variableManager,
+                requiredVariableIds = VariableResolver.extractVariableIds(
+                    withContent("{{1234}}"),
+                    variableManager,
+                    includeScripting = false,
                 )
-        }
+            )
 
         assertThat(
             variableManager.getVariableValueById("5678"),

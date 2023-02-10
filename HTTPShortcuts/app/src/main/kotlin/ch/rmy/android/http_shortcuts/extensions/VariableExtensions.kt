@@ -9,6 +9,5 @@ suspend fun VariableResolver.resolve(
     shortcut: ShortcutModel,
 ): VariableManager {
     val requiredVariableIds = VariableResolver.extractVariableIds(shortcut, variableManager, includeScripting = false)
-        .toMutableSet()
     return resolve(variableManager, requiredVariableIds)
 }
