@@ -166,7 +166,7 @@ class Execution(
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
-            if (shortcut.shouldIncludeInHistory()) {
+            if (::shortcut.isInitialized && shortcut.shouldIncludeInHistory()) {
                 historyEventLogger.logEvent(
                     HistoryEvent.Error(
                         shortcutName = shortcut.name,
