@@ -446,6 +446,7 @@ class Execution(
             return
         }
         val repetition = shortcut.repetition ?: return
+        pendingExecutionsRepository.removePendingExecutionsForShortcut(shortcut.id)
         pendingExecutionsRepository
             .createPendingExecution(
                 shortcutId = shortcut.id,

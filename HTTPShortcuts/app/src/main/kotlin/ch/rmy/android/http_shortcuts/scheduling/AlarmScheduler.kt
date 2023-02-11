@@ -18,9 +18,10 @@ constructor(
 
     fun createAlarm(id: ExecutionId, requestCode: Int, delay: Long) {
         val pendingIntent = getPendingIntent(id, requestCode)
+        alarmManager.cancel(pendingIntent)
         alarmManager.set(
             AlarmManager.ELAPSED_REALTIME_WAKEUP,
-            SystemClock.elapsedRealtime() + delay,
+            SystemClock.elapsedRealtime() + (delay * INACCURACY_COMPENSATION_FACTOR).toLong(),
             pendingIntent,
         )
     }
@@ -37,5 +38,9 @@ constructor(
 
     fun cancelAlarm(id: ExecutionId, requestCode: Int) {
         alarmManager.cancel(getPendingIntent(id, requestCode))
+    }
+
+    companion object {
+        private const val INACCURACY_COMPENSATION_FACTOR = 0.85
     }
 }
