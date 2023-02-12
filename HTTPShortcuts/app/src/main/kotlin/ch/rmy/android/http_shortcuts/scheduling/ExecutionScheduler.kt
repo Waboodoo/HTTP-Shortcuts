@@ -7,6 +7,8 @@ import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 class ExecutionScheduler
 @Inject
@@ -40,12 +42,12 @@ constructor(
         }
     }
 
-    private fun calculateDelay(waitUntil: Date?): Long? {
+    private fun calculateDelay(waitUntil: Date?): Duration? {
         if (waitUntil == null) {
             return null
         }
         val now = Calendar.getInstance().time
         val difference = waitUntil.time - now.time
-        return difference.takeIf { it > 0L }
+        return difference.takeIf { it > 0L }?.milliseconds
     }
 }

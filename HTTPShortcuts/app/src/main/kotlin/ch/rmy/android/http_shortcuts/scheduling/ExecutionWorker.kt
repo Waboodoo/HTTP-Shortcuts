@@ -24,6 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.time.Duration
 
 class ExecutionWorker(private val context: Context, workerParams: WorkerParameters) : CoroutineWorker(context, workerParams) {
 
@@ -60,7 +61,7 @@ class ExecutionWorker(private val context: Context, workerParams: WorkerParamete
     constructor(
         private val context: Context,
     ) {
-        operator fun invoke(pendingExecutionId: ExecutionId, delay: Long? = null, withNetworkConstraints: Boolean = false) {
+        operator fun invoke(pendingExecutionId: ExecutionId, delay: Duration? = null, withNetworkConstraints: Boolean = false) {
             with(WorkManager.getInstance(context)) {
                 cancelAllWorkByTag(TAG)
                 enqueue(
@@ -72,7 +73,7 @@ class ExecutionWorker(private val context: Context, workerParams: WorkerParamete
                                 .build()
                         )
                         .runIfNotNull(delay) {
-                            setInitialDelay(it, TimeUnit.MILLISECONDS)
+                            setInitialDelay(it.inWholeMilliseconds, TimeUnit.MILLISECONDS)
                         }
                         .runIf(withNetworkConstraints) {
                             setConstraints(
