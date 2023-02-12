@@ -862,6 +862,12 @@ Consulte la documentación en la sección de variables para más información."<
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
     <string name="subtitle_request_headers_none">"No hay cabeceras establecidas"</string>
 
+    <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
+    <plurals name="subtitle_request_headers_pattern">
+        <item quantity="one">"1 encabezado configurado"</item>
+        <item quantity="other">"%d encabezados configurados"</item>
+    </plurals>
+
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
     <string name="subtitle_authentication_none">"No hay autentificación"</string>
 
@@ -876,6 +882,12 @@ Consulte la documentación en la sección de variables para más información."<
 
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">"No hay parámetros establecidos"</string>
+
+    <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
+    <plurals name="subtitle_request_body_params_pattern">
+        <item quantity="one">"1 parámetro configurado"</item>
+        <item quantity="other">"%d parámetros configurados"</item>
+    </plurals>
 
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
     <string name="subtitle_request_body_none">"No se ha establecido el cuerpo de la solicitud"</string>
@@ -2033,4 +2045,34 @@ Puedes excluir atajos individuales de aparecer aquí a través de una opción qu
 
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_scripting">"Scripting"</string>
+
+    <!-- Generic dialog button: Configure (e.g. some settings) -->
+    <string name="dialog_configure">"Configurar"</string>
+
+    <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_plugin_dialog_configure_app_overlay">"Para poder activar un acceso directo desde otra aplicación, primero debe permitir que la aplicación de accesos directos HTTP dibuje sobre otras aplicaciones.
+
+Toque el botón \“%s\” a continuación para configurar esto ahora."</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="label_secondary_launcher_shortcut">"Permitir la activación a través de la aplicación de inicio secundaria"</string>
+
+    <!-- Shortcut Action Title: Action that allows to share text to another app -->
+    <string name="action_share_text_title">"Compartir texto"</string>
+
+    <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
+    <string name="label_run_repeatedly">"Ejecutar repetidamente"</string>
+
+    <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">"Para que un atajo pueda ejecutarse repetidamente de manera confiable, primero debe permitir que la aplicación Atajos HTTP se dibuje sobre otras aplicaciones.
+
+Toque el botón \“%s\” a continuación para configurar esto ahora.
+
+Es posible que también deba excluir la aplicación de Optimizaciones de batería. Puede encontrar esto en la configuración de la aplicación."</string>
+
+    <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
+    <string name="instructions_repetitions">"El momento de la repetición no es exacto, pero puede variar unos minutos, ya que está sujeto a las optimizaciones de energía de Android. Tenga en cuenta que el uso de esta función puede aumentar significativamente el uso de la batería de la aplicación."</string>
+
+    <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
+    <string name="label_no_repetition">"Sin repetición"</string>
 </resources>

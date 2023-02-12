@@ -2014,7 +2014,7 @@ Vous pouvez empêcher les raccourcis individuels d'apparaître ici grâce à une
     <string name="label_exclude_from_history">"Exclusion de l'historique des événements"</string>
 
     <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
-    <string name="event_history_title_shortcut_triggered">"déclenché par \"%s\"."</string>
+    <string name="event_history_title_shortcut_triggered">"\"%s\" déclenché."</string>
 
     <!-- Title of event history entry, which states that an HTTP request was sent. %s is a placeholder for the shortcut's name -->
     <string name="event_history_title_http_request_sent">"Demande HTTP envoyée pour \"%s\""</string>
@@ -2060,4 +2060,64 @@ Vous pouvez empêcher les raccourcis individuels d'apparaître ici grâce à une
 
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_scripting">"Scripting"</string>
+
+    <!-- Message shown in snackbar to let the user know that the details of a (selected) history event were copied to the clipboard -->
+    <string name="message_history_event_details_copied">"Les détails de l'événement ont été copiés."</string>
+
+    <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
+    <string name="action_type_set_result_title">"Résultat du jeu"</string>
+
+    <!-- Shortcut Action Description: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
+    <string name="action_type_set_result_description">"Définir une chaîne personnalisée qui sera renvoyée au raccourci qui a appelé executeShortcut, ou à Tasker."</string>
+
+    <!-- Label/description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
+    <string name="label_plugin_result">"Résultat"</string>
+
+    <!-- Description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
+    <string name="label_plugin_result_detail">"Chaîne de données personnalisée telle que définie par la fonction `setResult()`."</string>
+
+    <!-- Generic dialog button: Configure (e.g. some settings) -->
+    <string name="dialog_configure">"Configurer"</string>
+
+    <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_plugin_dialog_configure_app_overlay">"Pour pouvoir déclencher un raccourci à partir d'une autre application, vous devez d'abord autoriser l'application Raccourcis HTTP à dessiner sur d'autres applications.
+
+Appuyez sur le bouton \\"%s\\" ci-dessous pour configurer ceci maintenant."</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="label_secondary_launcher_shortcut">"Permettre le déclenchement via une application de lancement secondaire"</string>
+
+    <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
+    <string name="title_activity_secondary_launcher_trigger">"Raccourci de déclenchement"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the meta data of a selected file -->
+    <string name="dialog_code_snippet_get_file_meta">"Obtenir les métadonnées du fichier sélectionné"</string>
+
+    <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
+    <string name="action_type_log_event">"Enregistrer un événement"</string>
+
+    <!-- Shortcut Action Title: Action that allows to share text to another app -->
+    <string name="action_share_text_title">"Partager du texte"</string>
+
+    <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
+    <string name="label_run_repeatedly">"Exécuter à plusieurs reprises"</string>
+
+    <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">"Pour qu'un raccourci puisse être exécuté de manière répétée et fiable, vous devez d'abord permettre à l'application Raccourcis HTTP de prendre le dessus sur d'autres applications.
+
+Appuyez sur le bouton \\"%s\\" ci-dessous pour configurer cela maintenant.
+
+Vous devrez peut-être aussi exclure l'application des optimisations de la batterie. Vous pouvez trouver cela dans les paramètres de l'application."</string>
+
+    <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
+    <string name="instructions_repetitions">"Le moment de la répétition n'est pas exact mais peut varier de quelques minutes, car il est soumis aux optimisations de puissance d'Android. Veuillez noter que l'utilisation de cette fonction peut augmenter considérablement l'utilisation de la batterie par l'application."</string>
+
+    <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
+    <string name="label_no_repetition">"Pas de répétition"</string>
+
+    <!-- Title of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
+    <string name="settings_ignore_battery_optimizations">"Exclure de l'optimisation de la batterie"</string>
+
+    <!-- Subtitle of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
+    <string name="settings_ignore_battery_optimizations_summary">"Activez cette option si vous rencontrez des problèmes de programmation ou d'exécution répétée des raccourcis."</string>
 </resources>
