@@ -4,14 +4,14 @@ plugins {
     id("kotlin-kapt")
     id("org.jetbrains.kotlin.android")
     id("realm-android")
+    id("de.mobilej.unmock")
 }
 
 val kotlinVersion: String by properties
 val coroutinesVersion: String by properties
-val hamcrestVersion: String by properties
-val junitVersion: String by properties
-val robolectricVersion: String by properties
-val mockitoVersion: String by properties
+val kotlinTestJunit5Version: String by properties
+val mockkVersion: String by properties
+val androidCoreKtxTestVersion: String by properties
 
 android {
     namespace = "ch.rmy.android.framework"
@@ -69,6 +69,16 @@ android {
     kotlinOptions {
         languageVersion = "1.6"
     }
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
+}
+
+unMock {
+    keep("android.net.Uri")
 }
 
 dependencies {
@@ -88,11 +98,8 @@ dependencies {
     kapt("com.google.dagger:dagger-compiler:2.41")
 
     /* Testing */
-    testApi("org.hamcrest:hamcrest-library:$hamcrestVersion")
-    testApi("junit:junit:$junitVersion")
-    testApi("org.robolectric:robolectric:$robolectricVersion")
-    testApi("org.mockito:mockito-core:$mockitoVersion")
-    testApi("org.mockito:mockito-inline:$mockitoVersion")
-    testApi("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
-    testApi("androidx.test:core-ktx:1.5.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinTestJunit5Version")
+    testImplementation("io.mockk:mockk:$mockkVersion")
+    testImplementation("androidx.test:core-ktx:$androidCoreKtxTestVersion")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
 }

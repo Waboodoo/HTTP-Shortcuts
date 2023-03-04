@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
-import android.content.Context
 import android.graphics.Color
 import ch.rmy.android.framework.extensions.showOrElse
 import ch.rmy.android.framework.extensions.toLocalizable
@@ -32,7 +31,7 @@ class ColorType : BaseVariableType() {
         applicationComponent.inject(this)
     }
 
-    override suspend fun resolveValue(context: Context, variable: VariableModel): String {
+    override suspend fun resolveValue(variable: VariableModel): String {
         val value = withContext(Dispatchers.Main) {
             suspendCancellableCoroutine<String> { continuation ->
                 colorPickerFactory.createColorPicker(

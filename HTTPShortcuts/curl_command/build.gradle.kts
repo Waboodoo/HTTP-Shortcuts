@@ -3,16 +3,23 @@ plugins {
     id("org.jetbrains.kotlin.jvm")
 }
 
-val junitVersion: String by properties
 val kotlinVersion: String by properties
+val kotlinTestJunit5Version: String by properties
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
 
-    testImplementation("junit:junit:$junitVersion")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinTestJunit5Version")
+
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+tasks {
+    test {
+        useJUnitPlatform()
+    }
 }

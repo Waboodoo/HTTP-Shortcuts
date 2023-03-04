@@ -1,7 +1,8 @@
 package ch.rmy.curlcommand
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.assertThrows
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class CommandLineBuilderTest {
 
@@ -29,9 +30,11 @@ class CommandLineBuilderTest {
         assertEquals(expected, actual)
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun testIllegalOption() {
-        CommandLineBuilder("foo")
-            .option("invalidOption")
+        assertThrows<IllegalArgumentException> {
+            CommandLineBuilder("foo")
+                .option("invalidOption")
+        }
     }
 }

@@ -1,7 +1,7 @@
 package ch.rmy.curlcommand
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class CommandParserTest {
 

@@ -13,13 +13,13 @@ plugins {
     id("kotlin-kapt")
     id("com.bugsnag.android.gradle")
     id("realm-android")
+    id("de.mobilej.unmock")
 }
 
-val hamcrestVersion: String by properties
-val junitVersion: String by properties
-val robolectricVersion: String by properties
-val mockitoVersion: String by properties
 val coroutinesVersion: String by properties
+val kotlinTestJunit5Version: String by properties
+val mockkVersion: String by properties
+val androidCoreKtxTestVersion: String by properties
 
 val bugsnagAPIKey: String by rootProject.ext
 val poeditorAPIKey: String by rootProject.ext
@@ -204,6 +204,21 @@ android {
     }
 
     applicationVariants.all(OutputFileNameVariantAction())
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
+}
+
+unMock {
+    keep("android.net.Uri")
+    keep("android.os.Bundle")
+    keepStartingWith("org.")
+    keepStartingWith("libcore.")
+    keepStartingWith("android.content.Intent")
+    keepAndRename("java.nio.charset.Charsets").to("xjava.nio.charset.Charsets")
 }
 
 bugsnag {
@@ -281,13 +296,9 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
 
     /* Testing */
-    testImplementation("org.hamcrest:hamcrest-library:$hamcrestVersion")
-    testImplementation("junit:junit:$junitVersion")
-    testImplementation("org.robolectric:robolectric:$robolectricVersion")
-    testImplementation("org.mockito:mockito-core:$mockitoVersion")
-    testImplementation("org.mockito:mockito-inline:$mockitoVersion")
-    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
-    testImplementation("androidx.test:core-ktx:1.5.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinTestJunit5Version")
+    testImplementation("io.mockk:mockk:$mockkVersion")
+    testImplementation("androidx.test:core-ktx:$androidCoreKtxTestVersion")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
 }
 

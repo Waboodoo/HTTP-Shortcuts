@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
 import android.app.TimePickerDialog
-import android.content.Context
 import android.text.format.DateFormat
 import ch.rmy.android.framework.extensions.applyIfNotNull
 import ch.rmy.android.framework.extensions.showOrElse
@@ -32,12 +31,13 @@ class TimeType : BaseVariableType() {
         applicationComponent.inject(this)
     }
 
-    override suspend fun resolveValue(context: Context, variable: VariableModel): String {
+    override suspend fun resolveValue(variable: VariableModel): String {
         val selectedDate = withContext(Dispatchers.Main) {
             suspendCancellableCoroutine<Date> { continuation ->
                 val calendar = getInitialTime(variable.value.takeIf { variable.rememberValue })
+                val activity = activityProvider.getActivity()
                 val timePicker = TimePickerDialog(
-                    activityProvider.getActivity(),
+                    activity,
                     { _, hourOfDay, minute ->
                         val newDate = Calendar.getInstance()
                         newDate.set(Calendar.HOUR_OF_DAY, hourOfDay)
@@ -46,7 +46,7 @@ class TimeType : BaseVariableType() {
                     },
                     calendar.get(Calendar.HOUR_OF_DAY),
                     calendar.get(Calendar.MINUTE),
-                    DateFormat.is24HourFormat(context),
+                    DateFormat.is24HourFormat(activity),
                 )
                 if (variable.title.isNotEmpty()) {
                     timePicker.setTitle(variable.title)

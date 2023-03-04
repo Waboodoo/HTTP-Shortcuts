@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.widget.SeekBar
 import ch.rmy.android.framework.extensions.runIf
@@ -33,7 +32,7 @@ class SliderType : BaseVariableType() {
     }
 
     @SuppressLint("SetTextI18n")
-    override suspend fun resolveValue(context: Context, variable: VariableModel): String {
+    override suspend fun resolveValue(variable: VariableModel): String {
         val value = withContext(Dispatchers.Main) {
             val activity = activityProvider.getActivity()
             suspendCancellableCoroutine<String> { continuation ->

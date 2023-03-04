@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.DialogInterface
 import ch.rmy.android.framework.extensions.applyIfNotNull
 import ch.rmy.android.framework.extensions.showOrElse
@@ -33,12 +32,13 @@ class DateType : BaseVariableType() {
         applicationComponent.inject(this)
     }
 
-    override suspend fun resolveValue(context: Context, variable: VariableModel): String {
+    override suspend fun resolveValue(variable: VariableModel): String {
         val selectedDate = withContext(Dispatchers.Main) {
             suspendCancellableCoroutine<Date> { continuation ->
                 val calendar = getInitialDate(variable.value.takeIf { variable.rememberValue })
+                val activity = activityProvider.getActivity()
                 val datePicker = DatePickerDialog(
-                    activityProvider.getActivity(),
+                    activity,
                     null,
                     calendar.get(Calendar.YEAR),
                     calendar.get(Calendar.MONTH),
@@ -49,7 +49,7 @@ class DateType : BaseVariableType() {
                 }
                 datePicker.setButton(
                     DialogInterface.BUTTON_POSITIVE,
-                    context.getString(R.string.dialog_ok),
+                    activity.getString(R.string.dialog_ok),
                 ) { _, _ ->
                     val newDate = Calendar.getInstance()
                     val day = datePicker.datePicker.dayOfMonth

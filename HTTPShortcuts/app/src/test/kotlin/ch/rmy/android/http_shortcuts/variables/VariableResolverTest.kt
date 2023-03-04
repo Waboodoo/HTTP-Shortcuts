@@ -3,21 +3,31 @@ package ch.rmy.android.http_shortcuts.variables
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.data.models.VariableModel
-import ch.rmy.android.http_shortcuts.test.TestContext
-import com.nhaarman.mockitokotlin2.mock
+import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.equalTo
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @ExperimentalCoroutinesApi
-@RunWith(RobolectricTestRunner::class)
 class VariableResolverTest {
 
-    private val context = TestContext.create()
+    @BeforeTest
+    fun setUp() {
+        mockkObject(VariableTypeFactory)
+        every { VariableTypeFactory.getType(any()) } answers {
+            mockk {
+                coEvery { resolve(any(), any()) } answers {
+                    secondArg<VariableModel>().value.orEmpty()
+                }
+            }
+        }
+    }
 
     @Test
     fun `test variable resolution of static variables`() = runTest {
@@ -26,7 +36,7 @@ class VariableResolverTest {
                 VariableModel(id = "1234", key = "myVariable", value = "Hello World")
             )
         )
-        VariableResolver(context)
+        VariableResolver(mockk())
             .resolve(
                 variableManager = variableManager,
                 requiredVariableIds = VariableResolver.extractVariableIds(
@@ -36,21 +46,21 @@ class VariableResolverTest {
                 )
             )
 
-        assertThat(
+        assertEquals(
+            "Hello World",
             variableManager.getVariableValueById("1234"),
-            equalTo("Hello World")
         )
-        assertThat(
+        assertEquals(
+            "Hello World",
             variableManager.getVariableValueByKey("myVariable"),
-            equalTo("Hello World")
         )
-        assertThat(
+        assertEquals(
+            "Hello World",
             variableManager.getVariableValueByKeyOrId("1234"),
-            equalTo("Hello World")
         )
-        assertThat(
+        assertEquals(
+            "Hello World",
             variableManager.getVariableValueByKeyOrId("myVariable"),
-            equalTo("Hello World")
         )
     }
 
@@ -62,7 +72,7 @@ class VariableResolverTest {
                 VariableModel(id = "5678", key = "myVariable2", value = "World")
             )
         )
-        VariableResolver(context)
+        VariableResolver(mockk(relaxed = true))
             .resolve(
                 variableManager = variableManager,
                 requiredVariableIds = VariableResolver.extractVariableIds(
@@ -72,38 +82,38 @@ class VariableResolverTest {
                 )
             )
 
-        assertThat(
+        assertEquals(
+            "World",
             variableManager.getVariableValueById("5678"),
-            equalTo("World")
         )
-        assertThat(
+        assertEquals(
+            "World",
             variableManager.getVariableValueByKey("myVariable2"),
-            equalTo("World")
         )
-        assertThat(
+        assertEquals(
+            "World",
             variableManager.getVariableValueByKeyOrId("5678"),
-            equalTo("World")
         )
-        assertThat(
+        assertEquals(
+            "World",
             variableManager.getVariableValueByKeyOrId("myVariable2"),
-            equalTo("World")
         )
 
-        assertThat(
+        assertEquals(
+            "Hello World",
             variableManager.getVariableValueById("1234"),
-            equalTo("Hello World")
         )
-        assertThat(
+        assertEquals(
+            "Hello World",
             variableManager.getVariableValueByKey("myVariable1"),
-            equalTo("Hello World")
         )
-        assertThat(
+        assertEquals(
+            "Hello World",
             variableManager.getVariableValueByKeyOrId("1234"),
-            equalTo("Hello World")
         )
-        assertThat(
+        assertEquals(
+            "Hello World",
             variableManager.getVariableValueByKeyOrId("myVariable1"),
-            equalTo("Hello World")
         )
     }
 
@@ -118,23 +128,23 @@ class VariableResolverTest {
         val variableLookup = object : VariableLookup {
             override fun getVariableById(id: String): VariableModel? =
                 when (id) {
-                    "1234" -> mock()
+                    "1234" -> mockk()
                     else -> null
                 }
 
             override fun getVariableByKey(key: String): VariableModel? =
                 when (key) {
-                    "my_variable" -> mock {
-                        on(mock.id).thenReturn("5678")
+                    "my_variable" -> mockk {
+                        every { id } returns "5678"
                     }
                     else -> null
                 }
         }
         val variableIds = VariableResolver.extractVariableIds(shortcut, variableLookup)
 
-        assertThat(
+        assertEquals(
+            setOf("1234", "5678"),
             variableIds,
-            equalTo(setOf("1234", "5678"))
         )
     }
 

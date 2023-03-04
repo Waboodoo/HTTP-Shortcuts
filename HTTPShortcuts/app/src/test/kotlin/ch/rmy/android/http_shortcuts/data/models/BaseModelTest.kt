@@ -4,7 +4,8 @@ import ch.rmy.android.http_shortcuts.test.createBase
 import ch.rmy.android.http_shortcuts.test.createCategory
 import ch.rmy.android.http_shortcuts.test.createHeader
 import ch.rmy.android.http_shortcuts.test.createShortcut
-import org.junit.Test
+import org.junit.jupiter.api.assertThrows
+import kotlin.test.Test
 
 class BaseModelTest {
 
@@ -51,7 +52,7 @@ class BaseModelTest {
         base.validate()
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun `validate fails if there are duplicate category ids`() {
         val base = createBase(
             categories = listOf(
@@ -60,10 +61,12 @@ class BaseModelTest {
             ),
         )
 
-        base.validate()
+        assertThrows<IllegalArgumentException> {
+            base.validate()
+        }
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun `validate fails if there are duplicate shortcut ids`() {
         val base = createBase(
             categories = listOf(
@@ -80,10 +83,12 @@ class BaseModelTest {
             ),
         )
 
-        base.validate()
+        assertThrows<IllegalArgumentException> {
+            base.validate()
+        }
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun `validate fails if there are duplicate header ids`() {
         val base = createBase(
             categories = listOf(
@@ -108,7 +113,9 @@ class BaseModelTest {
             ),
         )
 
-        base.validate()
+        assertThrows<IllegalArgumentException> {
+            base.validate()
+        }
     }
 
     companion object {

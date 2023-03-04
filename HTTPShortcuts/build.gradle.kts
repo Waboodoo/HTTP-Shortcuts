@@ -9,6 +9,7 @@ buildscript {
         classpath("com.bugsnag:bugsnag-android-gradle-plugin:7.2.1")
         classpath("org.jetbrains:markdown:0.3.5")
         classpath(kotlin("gradle-plugin", "1.7.21"))
+        classpath("com.github.bjoernq:unmockplugin:0.7.9")
     }
 }
 

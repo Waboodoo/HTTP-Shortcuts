@@ -2,15 +2,11 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.content.Intent
 import androidx.core.net.toUri
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.equalTo
-import org.hamcrest.Matchers.not
 import org.json.JSONObject
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 
-@RunWith(RobolectricTestRunner::class)
 class SendIntentActionTest {
 
     @Test
@@ -59,21 +55,63 @@ class SendIntentActionTest {
         )
         val intent = SendIntentAction.constructIntent(parameters)
 
-        assertThat(intent.action, equalTo("test"))
-        assertThat(intent.categories, equalTo(setOf("foo", "foobar", "bla")))
-        assertThat(intent.data, equalTo("http://test-uri".toUri()))
-        assertThat(intent.type, equalTo("text/plain"))
-        assertThat(intent.`package`, equalTo("com.package.test"))
+        assertEquals(
+            "test",
+            intent.action,
+        )
+        assertEquals(
+            setOf("foo", "foobar", "bla"),
+            intent.categories,
+        )
+        assertEquals(
+            "http://test-uri".toUri(),
+            intent.data,
+        )
+        assertEquals(
+            "text/plain",
+            intent.type,
+        )
+        assertEquals(
+            "com.package.test",
+            intent.`package`,
+        )
 
-        assertThat(intent.flags and Intent.FLAG_ACTIVITY_NEW_TASK, not(equalTo(0)))
-        assertThat(intent.flags and Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS, not(equalTo(0)))
-        assertThat(intent.flags and Intent.FLAG_ACTIVITY_CLEAR_TASK, not(equalTo(0)))
-        assertThat(intent.flags and Intent.FLAG_ACTIVITY_NO_HISTORY, not(equalTo(0)))
+        assertNotEquals(
+            0,
+            intent.flags and Intent.FLAG_ACTIVITY_NEW_TASK,
+        )
+        assertNotEquals(
+            0,
+            intent.flags and Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS,
+        )
+        assertNotEquals(
+            0,
+            intent.flags and Intent.FLAG_ACTIVITY_CLEAR_TASK,
+        )
+        assertNotEquals(
+            0,
+            intent.flags and Intent.FLAG_ACTIVITY_NO_HISTORY,
+        )
 
-        assertThat(intent.extras!!.getString("stringExtra"), equalTo("my-string"))
-        assertThat(intent.extras!!.getBoolean("booleanExtra"), equalTo(true))
-        assertThat(intent.extras!!.getLong("longExtra"), equalTo(1337L))
-        assertThat(intent.extras!!.getDouble("doubleExtra"), equalTo(13.37))
-        assertThat(intent.extras!!.getFloat("floatExtra"), equalTo(13.37f))
+        assertEquals(
+            "my-string",
+            intent.extras!!.getString("stringExtra"),
+        )
+        assertEquals(
+            true,
+            intent.extras!!.getBoolean("booleanExtra"),
+        )
+        assertEquals(
+            1337L,
+            intent.extras!!.getLong("longExtra"),
+        )
+        assertEquals(
+            13.37,
+            intent.extras!!.getDouble("doubleExtra"),
+        )
+        assertEquals(
+            13.37f,
+            intent.extras!!.getFloat("floatExtra"),
+        )
     }
 }

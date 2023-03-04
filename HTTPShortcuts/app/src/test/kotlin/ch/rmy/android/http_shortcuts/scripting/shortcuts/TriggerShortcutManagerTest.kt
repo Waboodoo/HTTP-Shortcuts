@@ -1,12 +1,8 @@
 package ch.rmy.android.http_shortcuts.scripting.shortcuts
 
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.equalTo
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-@RunWith(RobolectricTestRunner::class)
 class TriggerShortcutManagerTest {
 
     @Test
@@ -17,9 +13,10 @@ class TriggerShortcutManagerTest {
         """.trimIndent()
 
         val actual = TriggerShortcutManager.getTriggeredShortcutIdsFromCode(target)
-        assertThat(actual.size, equalTo(2))
-        assertThat(actual[0], equalTo("1234"))
-        assertThat(actual[1], equalTo("5678"))
+        assertEquals(
+            listOf("1234", "5678"),
+            actual,
+        )
     }
 
     @Test
@@ -30,9 +27,10 @@ class TriggerShortcutManagerTest {
         """.trimIndent()
 
         val actual = TriggerShortcutManager.getTriggeredShortcutIdsFromCode(target)
-        assertThat(actual.size, equalTo(2))
-        assertThat(actual[0], equalTo("1234"))
-        assertThat(actual[1], equalTo("5678"))
+        assertEquals(
+            listOf("1234", "5678"),
+            actual,
+        )
     }
 
     @Test
@@ -46,6 +44,6 @@ class TriggerShortcutManagerTest {
             enqueueShortcut(/*[shortcut]*/"5678"/*[/shortcut]*/);
         """.trimIndent()
         val actual = TriggerShortcutManager.getCodeFromTriggeredShortcutIds(target)
-        assertThat(actual, equalTo(expected))
+        assertEquals(expected, actual)
     }
 }

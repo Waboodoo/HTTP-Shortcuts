@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.variables
 
-import android.content.Context
+import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
@@ -12,7 +12,7 @@ import javax.inject.Inject
 class VariableResolver
 @Inject
 constructor(
-    private val context: Context,
+    private val applicationComponent: ApplicationComponent,
 ) {
     suspend fun resolve(
         variableManager: VariableManager,
@@ -88,7 +88,7 @@ constructor(
             }
 
             val variableType = VariableTypeFactory.getType(variable.variableType)
-            resolvedVariables[variable] = variableType.resolve(context, variable)
+            resolvedVariables[variable] = variableType.resolve(applicationComponent, variable)
         }
 
         return resolvedVariables
