@@ -4,10 +4,12 @@ plugins {
 }
 
 val coroutinesVersion: String by properties
+val gsonVersion: String by properties
+val okHttpVersion: String by properties
 
 dependencies {
-    implementation("com.squareup.okhttp3:okhttp:4.9.3")
-    implementation("com.google.code.gson:gson:2.8.9")
+    implementation("com.squareup.okhttp3:okhttp:$okHttpVersion")
+    implementation("com.google.code.gson:gson:$gsonVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
 }
 

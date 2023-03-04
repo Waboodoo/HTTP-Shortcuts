@@ -17,6 +17,8 @@ plugins {
 }
 
 val coroutinesVersion: String by properties
+val gsonVersion: String by properties
+val okHttpVersion: String by properties
 val kotlinTestJunit5Version: String by properties
 val mockkVersion: String by properties
 val androidCoreKtxTestVersion: String by properties
@@ -254,7 +256,7 @@ dependencies {
     implementation("androidx.exifinterface:exifinterface:1.3.6")
 
     /* HTTP & Network */
-    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("com.squareup.okhttp3:okhttp:$okHttpVersion")
     implementation("io.github.rburgst:okhttp-digest:2.6")
     implementation("com.github.franmontiel:PersistentCookieJar:v1.0.1")
     implementation("org.conscrypt:conscrypt-android:2.5.2")
@@ -293,7 +295,7 @@ dependencies {
     implementation(project(path = ":favicon_grabber"))
 
     /* JSON serialization & deserialization */
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.google.code.gson:gson:$gsonVersion")
 
     /* Testing */
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinTestJunit5Version")
