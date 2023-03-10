@@ -103,6 +103,7 @@ fun EditText.doOnTextChanged(onTextChanged: (text: CharSequence) -> Unit) {
         if (getTag(R.string.edit_text_suppress_listeners) != true) {
             if (!onCooldown) {
                 onTextChanged(s ?: "")
+                value = null
                 onCooldown = true
             } else {
                 value = s
