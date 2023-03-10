@@ -43,13 +43,7 @@ class GetVariableAction(val variableKeyOrId: VariableKeyOrId) : BaseAction() {
             ?: throw VariableNotFoundException()
 
         withContext(Dispatchers.Main) {
-            variableResolver.resolveVariables(
-                variablesToResolve = listOf(variable),
-                preResolvedValues = variableManager.getVariableValues(),
-            )
-                .forEach { (variable, value) ->
-                    variableManager.setVariableValue(variable, value)
-                }
+            variableResolver.resolve(variableManager, requiredVariableIds = setOf(variable.id))
         }
     }
 

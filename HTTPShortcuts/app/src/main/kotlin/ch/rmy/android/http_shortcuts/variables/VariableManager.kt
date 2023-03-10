@@ -84,6 +84,9 @@ class VariableManager(
                 getVariableById(entry.key)!!
             }
 
+    fun isResolved(variableId: VariableId): Boolean =
+        variableId in variableValuesById.keys
+
     companion object {
         internal fun encodeValue(variable: VariableModel, value: String) =
             value

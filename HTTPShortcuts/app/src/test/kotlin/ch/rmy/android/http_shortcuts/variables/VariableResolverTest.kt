@@ -17,13 +17,18 @@ import kotlin.test.assertEquals
 @ExperimentalCoroutinesApi
 class VariableResolverTest {
 
+    private val resolutionOrder = mutableListOf<String>()
+
     @BeforeTest
     fun setUp() {
+        resolutionOrder.clear()
         mockkObject(VariableTypeFactory)
         every { VariableTypeFactory.getType(any()) } answers {
             mockk {
                 coEvery { resolve(any(), any()) } answers {
-                    secondArg<VariableModel>().value.orEmpty()
+                    val variable = secondArg<VariableModel>()
+                    resolutionOrder.add(variable.id)
+                    variable.value.orEmpty()
                 }
             }
         }
@@ -145,6 +150,81 @@ class VariableResolverTest {
         assertEquals(
             setOf("1234", "5678"),
             variableIds,
+        )
+    }
+
+    @Test
+    fun `test variable resolution order`() = runTest {
+        val variableManager = VariableManager(
+            listOf(
+                VariableModel(id = "123", key = "myVariable1", value = "Hello {{789}}"),
+                VariableModel(id = "456", key = "myVariable2", value = "!!!"),
+                VariableModel(id = "789", key = "myVariable2", value = "World"),
+            )
+        )
+        VariableResolver(mockk(relaxed = true))
+            .resolve(
+                variableManager = variableManager,
+                requiredVariableIds = setOf("123", "456"),
+            )
+
+        assertEquals(
+            listOf("123", "789", "456"),
+            resolutionOrder,
+        )
+        assertEquals(
+            mapOf(
+                "123" to "Hello World",
+                "456" to "!!!",
+                "789" to "World",
+            ),
+            variableManager.getVariableValues().mapKeys { it.key.id },
+        )
+    }
+
+    @Test
+    fun `test multi-level recursion variable`() = runTest {
+        val variableManager = VariableManager(
+            listOf(
+                VariableModel(id = "123", key = "myVariable1", value = "Hello {{456}}"),
+                VariableModel(id = "456", key = "myVariable2", value = "World{{789}}"),
+                VariableModel(id = "789", key = "myVariable2", value = "!!!"),
+            )
+        )
+        VariableResolver(mockk(relaxed = true))
+            .resolve(
+                variableManager = variableManager,
+                requiredVariableIds = setOf("123"),
+            )
+
+        assertEquals(
+            mapOf(
+                "123" to "Hello World!!!",
+                "456" to "World!!!",
+                "789" to "!!!",
+            ),
+            variableManager.getVariableValues().mapKeys { it.key.id },
+        )
+    }
+
+    @Test
+    fun `test self-referential variable`() = runTest {
+        val variableManager = VariableManager(
+            listOf(
+                VariableModel(id = "123", key = "myVariable1", value = "Hello {{123}}"),
+            )
+        )
+        VariableResolver(mockk(relaxed = true))
+            .resolve(
+                variableManager = variableManager,
+                requiredVariableIds = setOf("123"),
+            )
+
+        assertEquals(
+            mapOf(
+                "123" to "Hello Hello Hello {{123}}",
+            ),
+            variableManager.getVariableValues().mapKeys { it.key.id },
         )
     }
 

@@ -14,84 +14,48 @@ class VariableResolver
 constructor(
     private val applicationComponent: ApplicationComponent,
 ) {
+
     suspend fun resolve(
         variableManager: VariableManager,
         requiredVariableIds: Set<VariableId>,
     ): VariableManager {
-        val preResolvedVariables = variableManager.getVariableValues()
-
-        val variablesToResolve = requiredVariableIds
+        requiredVariableIds
+            .filter { variableId ->
+                !variableManager.isResolved(variableId)
+            }
             .mapNotNull { variableId ->
                 variableManager.getVariableById(variableId)
             }
-
-        val resolvedVariables = resolveVariables(variablesToResolve, preResolvedVariables)
-        val resolvedValues = resolveRecursiveVariables(variableManager, resolvedVariables)
-        resolvedValues.forEach { (variable, value) ->
-            variableManager.setVariableValue(variable, value)
-        }
-
+            .forEach {
+                resolveVariable(variableManager, it)
+            }
         return variableManager
     }
 
-    private suspend fun resolveRecursiveVariables(
-        variableLookup: VariableLookup,
-        preResolvedValues: Map<VariableModel, String>,
-        recursionDepth: Int = 0,
-    ): Map<VariableModel, String> {
-        val requiredVariableIds = mutableSetOf<String>()
-        preResolvedValues.values.forEach { value ->
-            requiredVariableIds.addAll(Variables.extractVariableIds(value))
+    private suspend fun resolveVariable(variableManager: VariableManager, variable: VariableModel, recursionDepth: Int = 0) {
+        if (recursionDepth >= MAX_RECURSION_DEPTH) {
+            return
         }
-        if (recursionDepth >= MAX_RECURSION_DEPTH || requiredVariableIds.isEmpty()) {
-            return preResolvedValues
+        if (variableManager.isResolved(variable.id)) {
+            return
         }
 
-        val variablesToResolve = requiredVariableIds
-            .mapNotNull { variableId ->
-                variableLookup.getVariableById(variableId)
-            }
-        return resolveVariables(variablesToResolve, preResolvedValues)
-            .toMutableMap()
-            .also { resolvedVariables ->
-                resolvedVariables.forEach { resolvedVariable ->
-                    resolvedVariables[resolvedVariable.key] =
-                        Variables.rawPlaceholdersToResolvedValues(
-                            resolvedVariable.value,
-                            resolvedVariables.mapKeys { (variable, _) -> variable.id },
-                        )
-                }
-            }
-            .let { resolvedVariables ->
-                resolveRecursiveVariables(variableLookup, resolvedVariables, recursionDepth + 1)
-            }
-    }
+        val variableType = VariableTypeFactory.getType(variable.variableType)
+        val rawValue = variableType.resolve(applicationComponent, variable)
 
-    suspend fun resolveVariables(
-        variablesToResolve: List<VariableModel>,
-        preResolvedValues: Map<VariableModel, String> = emptyMap(),
-    ): Map<VariableModel, String> {
-        val resolvedVariables = preResolvedValues.toMutableMap()
-
-        for (variable in variablesToResolve) {
-            if (resolvedVariables.keys.any { it.id == variable.id }) {
-                // Variable value is already resolved
-                continue
-            }
-            val preResolvedValue = preResolvedValues.entries
-                .firstOrNull { it.key.id == variable.id }
-                ?.value
-            if (preResolvedValue != null) {
-                // Variable value was pre-resolved
-                resolvedVariables[variable] = preResolvedValue
-                continue
+        Variables.extractVariableIds(rawValue)
+            .forEach { variableId ->
+                variableManager.getVariableById(variableId)
+                    ?.let { referencedVariable ->
+                        resolveVariable(variableManager, referencedVariable, recursionDepth = recursionDepth + 1)
+                    }
             }
 
-            val variableType = VariableTypeFactory.getType(variable.variableType)
-            resolvedVariables[variable] = variableType.resolve(applicationComponent, variable)
-        }
-
-        return resolvedVariables
+        val finalValue = Variables.rawPlaceholdersToResolvedValues(
+            rawValue,
+            variableManager.getVariableValuesByIds(),
+        )
+        variableManager.setVariableValue(variable, finalValue)
     }
 
     companion object {
