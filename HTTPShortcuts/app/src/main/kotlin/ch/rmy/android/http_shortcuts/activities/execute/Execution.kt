@@ -262,7 +262,7 @@ class Execution(
 
         val resultHandler = ResultHandler()
 
-        if ((params.tryNumber == 0 || (params.tryNumber == 1 && shortcut.delay > 0)) && usesScripting) {
+        if (usesScripting) {
             scriptExecutor.initialize(
                 shortcut = shortcut,
                 variableManager = variableManager,
@@ -270,6 +270,9 @@ class Execution(
                 resultHandler = resultHandler,
                 recursionDepth = params.recursionDepth,
             )
+        }
+
+        if ((params.tryNumber == 0 || (params.tryNumber == 1 && shortcut.delay > 0)) && usesScripting) {
             scriptExecutor.execute(globalCode)
             scriptExecutor.execute(shortcut.codeOnPrepare)
         }
