@@ -44,7 +44,7 @@ class CurlParser private constructor(arguments: List<String>) {
                         }
                         continue@loop
                     }
-                    "-d", "--data", "--data-binary", "--data-urlencode" -> {
+                    "-d", "--data", "--data-binary", "--data-urlencode", "--data-raw" -> {
                         builder.methodIfNotYetSet("POST")
                         var dataItems = iterator.next().split("&")
                         if (argument == "--data-urlencode") {

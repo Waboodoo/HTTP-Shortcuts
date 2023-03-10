@@ -107,6 +107,17 @@ class CurlParserTest {
     }
 
     @Test
+    fun testDataRaw() {
+        val target = """curl example.com -X POST --data-raw 'foo=bar&bla=123'"""
+        val command = CurlParser.parse(target)
+
+        assertEquals(
+            listOf("foo=bar", "bla=123"),
+            command.data,
+        )
+    }
+
+    @Test
     fun testHeaders() {
         val target = "curl foo -H 'My-Header: abcd efgh' --header Space:less"
         val command = CurlParser.parse(target)
