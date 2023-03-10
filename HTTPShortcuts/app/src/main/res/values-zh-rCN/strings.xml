@@ -165,7 +165,7 @@
     <string name="section_request_headers">"请求头"</string>
 
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
-    <string name="section_request_body">"响应体/响应参数"</string>
+    <string name="section_request_body">"请求体/请求参数"</string>
 
     <!-- Title of dialog to edit a custom header of a shortcut -->
     <string name="title_custom_header_edit">"编辑头部"</string>

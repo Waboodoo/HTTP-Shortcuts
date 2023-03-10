@@ -2068,4 +2068,39 @@
 
     <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
     <string name="action_type_log_event">"ログ イベント"</string>
+
+    <!-- Shortcut Action Title: Action that allows to share text to another app -->
+    <string name="action_share_text_title">"テキスト共有"</string>
+
+    <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
+    <string name="label_run_repeatedly">"繰り返し動作"</string>
+
+    <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">"信頼できる方法でショートカットを繰り返し実行するには、まず「HTTP Shortcut」アプリが他のアプリ上に表示できるように設定する必要があります。
+
+下の「%s」ボタンをタップして、今すぐ設定できます。
+
+このアプリを「バッテリーの最適化」から除外する必要があるかもしれません。スマホ本体のアプリ設定で確認してください。"</string>
+
+    <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
+    <string name="instructions_repetitions">"Android の「バッテリー最適化」の対象となるため、繰り返しのタイミングは正確ではなく数分の誤差があります。【注意】この機能を使用すると、アプリのバッテリー消費量が大幅に増加する可能性があります。"</string>
+
+    <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
+    <string name="label_no_repetition">"繰り返しなし"</string>
+
+    <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d minutes -->
+    <plurals name="label_repeat_every_x_minutes">
+        <item quantity="other">"%d 分ごと"</item>
+    </plurals>
+
+    <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d hours -->
+    <plurals name="label_repeat_every_x_hours">
+        <item quantity="other">"%d 時間ごと"</item>
+    </plurals>
+
+    <!-- Title of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
+    <string name="settings_ignore_battery_optimizations">"バッテリー最適化から除外"</string>
+
+    <!-- Subtitle of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
+    <string name="settings_ignore_battery_optimizations_summary">"スケジュール設定やショートカット実行で繰り返しの問題が発生している場合は、これを有効にしてください。"</string>
 </resources>
