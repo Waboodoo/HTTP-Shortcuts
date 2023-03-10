@@ -18,11 +18,19 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)
 class QuickTileService : TileService() {
+
+    private val job = SupervisorJob()
+    private val scope = CoroutineScope(Dispatchers.IO + job)
 
     @Inject
     lateinit var shortcutRepository: ShortcutRepository
@@ -33,21 +41,31 @@ class QuickTileService : TileService() {
     }
 
     override fun onClick() {
-        val shortcuts = getShortcuts()
+        if (!scope.isActive) {
+            logException(IllegalStateException("QuickTileService coroutine scope was inactive"))
+            val shortcuts = runBlocking {
+                getShortcuts()
+            }
+            handleShortcuts(shortcuts)
+            return
+        }
+        scope.launch {
+            handleShortcuts(getShortcuts())
+        }
+    }
 
+    private suspend fun getShortcuts() =
+        shortcutRepository.getShortcuts()
+            .sortedBy { it.name }
+            .filter { it.quickSettingsTileShortcut }
+
+    private fun handleShortcuts(shortcuts: List<ShortcutModel>) {
         when (shortcuts.size) {
             0 -> showInstructions()
             1 -> executeShortcut(shortcuts[0].id)
             else -> showPickerDialog(shortcuts)
         }
     }
-
-    private fun getShortcuts() =
-        runBlocking {
-            shortcutRepository.getShortcuts()
-        }
-            .sortedBy { it.name }
-            .filter { it.quickSettingsTileShortcut }
 
     private fun showInstructions() {
         applyTheme()
@@ -102,11 +120,18 @@ class QuickTileService : TileService() {
 
     override fun onStartListening() {
         super.onStartListening()
-        val shortcuts = getShortcuts()
-        qsTile?.label = when (shortcuts.size) {
-            1 -> shortcuts.first().name
-            else -> getString(R.string.action_quick_settings_tile_trigger)
+        scope.launch {
+            val shortcuts = getShortcuts()
+            qsTile?.label = when (shortcuts.size) {
+                1 -> shortcuts.first().name
+                else -> getString(R.string.action_quick_settings_tile_trigger)
+            }
+            qsTile?.updateTile()
         }
-        qsTile?.updateTile()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 }
