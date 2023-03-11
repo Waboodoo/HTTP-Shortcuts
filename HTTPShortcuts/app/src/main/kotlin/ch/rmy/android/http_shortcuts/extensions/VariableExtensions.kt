@@ -8,6 +8,6 @@ suspend fun VariableResolver.resolve(
     variableManager: VariableManager,
     shortcut: Shortcut,
 ): VariableManager {
-    val requiredVariableIds = VariableResolver.extractVariableIds(shortcut, variableManager, includeScripting = false)
+    val requiredVariableIds = VariableResolver.extractVariableIdsExcludingScripting(shortcut)
     return resolve(variableManager, requiredVariableIds)
 }

@@ -44,10 +44,8 @@ class VariableResolverTest {
         VariableResolver(mockk())
             .resolve(
                 variableManager = variableManager,
-                requiredVariableIds = VariableResolver.extractVariableIds(
+                requiredVariableIds = VariableResolver.extractVariableIdsExcludingScripting(
                     withContent("{{1234}}"),
-                    variableManager,
-                    includeScripting = false,
                 )
             )
 
@@ -80,10 +78,8 @@ class VariableResolverTest {
         VariableResolver(mockk(relaxed = true))
             .resolve(
                 variableManager = variableManager,
-                requiredVariableIds = VariableResolver.extractVariableIds(
+                requiredVariableIds = VariableResolver.extractVariableIdsExcludingScripting(
                     withContent("{{1234}}"),
-                    variableManager,
-                    includeScripting = false,
                 )
             )
 
@@ -145,7 +141,7 @@ class VariableResolverTest {
                     else -> null
                 }
         }
-        val variableIds = VariableResolver.extractVariableIds(shortcut, variableLookup)
+        val variableIds = VariableResolver.extractVariableIdsIncludingScripting(shortcut, variableLookup)
 
         assertEquals(
             setOf("1234", "5678"),

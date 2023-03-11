@@ -62,7 +62,13 @@ constructor(
 
         private const val MAX_RECURSION_DEPTH = 3
 
-        fun extractVariableIds(shortcut: Shortcut, variableLookup: VariableLookup, includeScripting: Boolean = true): Set<VariableId> =
+        fun extractVariableIdsIncludingScripting(shortcut: Shortcut, variableLookup: VariableLookup): Set<VariableId> =
+            extractVariableIds(shortcut, variableLookup = variableLookup, includeScripting = true)
+
+        fun extractVariableIdsExcludingScripting(shortcut: Shortcut): Set<VariableId> =
+            extractVariableIds(shortcut, variableLookup = null, includeScripting = false)
+
+        private fun extractVariableIds(shortcut: Shortcut, variableLookup: VariableLookup?, includeScripting: Boolean): Set<VariableId> =
             buildSet {
                 addAll(Variables.extractVariableIds(shortcut.url))
                 if (shortcut.authenticationType.usesUsernameAndPassword) {
@@ -95,7 +101,7 @@ constructor(
                 }
 
                 if (includeScripting) {
-                    addAll(extractVariableIdsFromJS(shortcut.codeOnPrepare, variableLookup))
+                    addAll(extractVariableIdsFromJS(shortcut.codeOnPrepare, variableLookup!!))
                     addAll(extractVariableIdsFromJS(shortcut.codeOnSuccess, variableLookup))
                     addAll(extractVariableIdsFromJS(shortcut.codeOnFailure, variableLookup))
 

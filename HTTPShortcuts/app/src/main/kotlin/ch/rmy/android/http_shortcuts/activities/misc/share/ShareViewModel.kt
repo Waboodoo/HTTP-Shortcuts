@@ -240,7 +240,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
     companion object {
 
         internal fun Shortcut.hasShareVariable(variableIds: Set<VariableId>, variableLookup: VariableLookup): Boolean {
-            val variableIdsInShortcut = VariableResolver.extractVariableIds(this, variableLookup)
+            val variableIdsInShortcut = VariableResolver.extractVariableIdsIncludingScripting(this, variableLookup)
             return variableIds.any { variableIdsInShortcut.contains(it) }
         }
 

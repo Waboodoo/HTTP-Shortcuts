@@ -16,7 +16,7 @@ constructor(
     private val permissionManager: PermissionManager,
     private val networkUtil: NetworkUtil,
 ) {
-    operator fun invoke(shortcut: Shortcut, variableValuesByIds: Map<VariableId, String>): Boolean {
+    operator fun invoke(shortcut: Shortcut, variableValuesByIds: Map<VariableId, String> = emptyMap()): Boolean {
         val responseHandling = shortcut.responseHandling ?: return false
         val usesNoOutput = responseHandling.successOutput == SUCCESS_OUTPUT_NONE && responseHandling.failureOutput == FAILURE_OUTPUT_NONE
         val usesToastOutput = responseHandling.uiType == UI_TYPE_TOAST

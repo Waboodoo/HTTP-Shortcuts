@@ -36,7 +36,7 @@ constructor(
         val variableManager = VariableManager(variables)
         return shortcuts
             .flatMap { shortcut ->
-                VariableResolver.extractVariableIds(shortcut, variableManager)
+                VariableResolver.extractVariableIdsIncludingScripting(shortcut, variableManager)
             }
             .plus(getVariablesInUseInVariables(variables))
             .toSet()

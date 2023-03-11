@@ -198,7 +198,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
         // TODO: Also check if the variable is used inside another variable
         return shortcutRepository.getShortcuts()
             .filter { shortcut ->
-                VariableResolver.extractVariableIds(shortcut, variableLookup)
+                VariableResolver.extractVariableIdsIncludingScripting(shortcut, variableLookup)
                     .contains(variableId)
             }
             .map { shortcut ->
