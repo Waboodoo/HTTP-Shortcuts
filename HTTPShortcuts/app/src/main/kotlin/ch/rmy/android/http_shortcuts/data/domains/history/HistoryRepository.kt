@@ -5,8 +5,8 @@ import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.domains.getHistoryEvents
 import ch.rmy.android.http_shortcuts.data.enums.HistoryEventType
-import ch.rmy.android.http_shortcuts.data.models.HistoryEventModel
-import ch.rmy.android.http_shortcuts.data.models.HistoryEventModel.Companion.FIELD_TIME
+import ch.rmy.android.http_shortcuts.data.models.HistoryEvent
+import ch.rmy.android.http_shortcuts.data.models.HistoryEvent.Companion.FIELD_TIME
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 import javax.inject.Inject
@@ -18,7 +18,7 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRepository(realmFactory) {
 
-    fun getObservableHistory(maxAge: Duration): Flow<List<HistoryEventModel>> =
+    fun getObservableHistory(maxAge: Duration): Flow<List<HistoryEvent>> =
         observeQuery {
             getHistoryEvents()
                 .greaterThan(FIELD_TIME, Date().apply { time -= maxAge.inWholeMilliseconds })
@@ -44,7 +44,7 @@ constructor(
     suspend fun storeHistoryEvent(type: HistoryEventType, data: Any?) {
         commitTransaction {
             copy(
-                HistoryEventModel(id = newUUID(), eventType = type, eventData = data)
+                HistoryEvent(id = newUUID(), eventType = type, eventData = data)
             )
         }
     }

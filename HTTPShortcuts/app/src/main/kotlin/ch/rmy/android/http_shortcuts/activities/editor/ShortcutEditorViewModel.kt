@@ -39,8 +39,8 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel.Companion.TEMPORARY_ID
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.icons.Icons
@@ -124,9 +124,9 @@ class ShortcutEditorViewModel(
 
     private var isFinishing = false
 
-    private var oldShortcut: ShortcutModel? = null
+    private var oldShortcut: Shortcut? = null
 
-    private lateinit var shortcut: ShortcutModel
+    private lateinit var shortcut: Shortcut
 
     private val categoryId
         get() = initData.categoryId
@@ -286,7 +286,7 @@ class ShortcutEditorViewModel(
                     StringResLocalizable(
                         R.string.subtitle_request_body_custom,
                         shortcut.contentType
-                            .ifEmpty { ShortcutModel.DEFAULT_CONTENT_TYPE },
+                            .ifEmpty { Shortcut.DEFAULT_CONTENT_TYPE },
                     )
                 }
             }

@@ -20,7 +20,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.variables.VariableManager
@@ -57,7 +57,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
     }
 
     private var variablesInitialized = false
-    private var variables: List<VariableModel> = emptyList()
+    private var variables: List<Variable> = emptyList()
         set(value) {
             field = value
             variablesInitialized = true
@@ -106,7 +106,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
         }
     }
 
-    private fun mapVariables(variables: List<VariableModel>): List<VariableListItem> =
+    private fun mapVariables(variables: List<Variable>): List<VariableListItem> =
         variables.map { variable ->
             VariableListItem.Variable(
                 id = variable.id,

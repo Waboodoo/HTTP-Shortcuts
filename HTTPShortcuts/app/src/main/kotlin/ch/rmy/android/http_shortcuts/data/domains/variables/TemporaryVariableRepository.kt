@@ -6,8 +6,8 @@ import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
-import ch.rmy.android.http_shortcuts.data.models.OptionModel
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Option
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import io.realm.RealmList
 import io.realm.kotlin.deleteFromRealm
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +19,7 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRepository(realmFactory) {
 
-    fun getObservableTemporaryVariable(): Flow<VariableModel> =
+    fun getObservableTemporaryVariable(): Flow<Variable> =
         observeItem {
             getTemporaryVariable()
         }
@@ -27,8 +27,8 @@ constructor(
     suspend fun createNewTemporaryVariable(type: VariableType) {
         commitTransaction {
             copyOrUpdate(
-                VariableModel(
-                    id = VariableModel.TEMPORARY_ID,
+                Variable(
+                    id = Variable.TEMPORARY_ID,
                     variableType = type,
                 )
             )
@@ -96,7 +96,7 @@ constructor(
         }
     }
 
-    private suspend fun commitTransactionForVariable(transaction: RealmTransactionContext.(VariableModel) -> Unit) {
+    private suspend fun commitTransactionForVariable(transaction: RealmTransactionContext.(Variable) -> Unit) {
         commitTransaction {
             transaction(
                 getTemporaryVariable()
@@ -119,7 +119,7 @@ constructor(
             }
             variable.options!!.add(
                 copy(
-                    OptionModel(
+                    Option(
                         label = label,
                         value = value,
                     )

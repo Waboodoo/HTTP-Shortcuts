@@ -21,7 +21,7 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholder
@@ -51,7 +51,7 @@ class TriggerShortcutsViewModel(application: Application) :
         get() = initData.currentShortcutId
 
     private var shortcutsInitialized = false
-    private lateinit var shortcuts: List<ShortcutModel>
+    private lateinit var shortcuts: List<Shortcut>
 
     private var shortcutIdsInUse = emptyList<ShortcutListItemId>()
         set(value) {
@@ -108,7 +108,7 @@ class TriggerShortcutsViewModel(application: Application) :
         }
     }
 
-    private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
+    private fun initViewStateFromShortcut(shortcut: Shortcut) {
         shortcutIdsInUse = getTriggeredShortcutIdsFromCode(shortcut.codeOnPrepare)
             .mapIndexed { index, shortcutId -> ShortcutListItemId(shortcutId, id = index.toString()) }
     }

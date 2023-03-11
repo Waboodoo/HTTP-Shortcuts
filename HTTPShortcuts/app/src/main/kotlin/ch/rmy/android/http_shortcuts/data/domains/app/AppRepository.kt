@@ -9,16 +9,16 @@ import ch.rmy.android.http_shortcuts.data.domains.getAppLock
 import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
-import ch.rmy.android.http_shortcuts.data.models.AppLockModel
-import ch.rmy.android.http_shortcuts.data.models.BaseModel
-import ch.rmy.android.http_shortcuts.data.models.CategoryModel
-import ch.rmy.android.http_shortcuts.data.models.HeaderModel
-import ch.rmy.android.http_shortcuts.data.models.OptionModel
-import ch.rmy.android.http_shortcuts.data.models.ParameterModel
-import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
-import ch.rmy.android.http_shortcuts.data.models.ResolvedVariableModel
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.AppLock
+import ch.rmy.android.http_shortcuts.data.models.Base
+import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.Header
+import ch.rmy.android.http_shortcuts.data.models.Option
+import ch.rmy.android.http_shortcuts.data.models.Parameter
+import ch.rmy.android.http_shortcuts.data.models.PendingExecution
+import ch.rmy.android.http_shortcuts.data.models.ResolvedVariable
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import io.realm.kotlin.where
 import kotlinx.coroutines.flow.Flow
@@ -31,7 +31,7 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRepository(realmFactory) {
 
-    suspend fun getBase(): BaseModel =
+    suspend fun getBase(): Base =
         queryItem {
             getBase()
         }
@@ -80,13 +80,13 @@ constructor(
         }
     }
 
-    suspend fun getLock(): AppLockModel? =
+    suspend fun getLock(): AppLock? =
         query {
             getAppLock()
         }
             .firstOrNull()
 
-    fun getObservableLock(): Flow<AppLockModel?> =
+    fun getObservableLock(): Flow<AppLock?> =
         observeQuery {
             getAppLock()
         }
@@ -96,7 +96,7 @@ constructor(
 
     suspend fun setLock(passwordHash: String) {
         commitTransaction {
-            copyOrUpdate(AppLockModel(passwordHash))
+            copyOrUpdate(AppLock(passwordHash))
         }
     }
 
@@ -108,7 +108,7 @@ constructor(
         }
     }
 
-    suspend fun importBase(base: BaseModel, importMode: Importer.ImportMode) {
+    suspend fun importBase(base: Base, importMode: Importer.ImportMode) {
         commitTransaction {
             val oldBase = getBase().findFirst()!!
             when (importMode) {
@@ -150,7 +150,7 @@ constructor(
         }
     }
 
-    private fun RealmTransactionContext.importCategory(base: BaseModel, category: CategoryModel) {
+    private fun RealmTransactionContext.importCategory(base: Base, category: Category) {
         val oldCategory = base.categories.find { it.id == category.id }
         if (oldCategory == null) {
             base.categories.add(copyOrUpdate(category))
@@ -165,7 +165,7 @@ constructor(
         }
     }
 
-    private fun RealmTransactionContext.importShortcut(category: CategoryModel, shortcut: ShortcutModel) {
+    private fun RealmTransactionContext.importShortcut(category: Category, shortcut: Shortcut) {
         val oldShortcut = category.shortcuts.find { it.id == shortcut.id }
         if (oldShortcut == null) {
             category.shortcuts.add(copyOrUpdate(shortcut))
@@ -191,7 +191,7 @@ constructor(
 
             // Delete orphaned categories
             val usedCategoryIds = categories.map { it.id }
-            realmInstance.where<CategoryModel>()
+            realmInstance.where<Category>()
                 .findAll()
                 .filter {
                     it.id !in usedCategoryIds
@@ -200,8 +200,8 @@ constructor(
 
             // Delete orphaned shortcuts
             val usedShortcutIds = shortcuts.map { it.id }
-            realmInstance.where<ShortcutModel>()
-                .notEqualTo(ShortcutModel.FIELD_ID, ShortcutModel.TEMPORARY_ID)
+            realmInstance.where<Shortcut>()
+                .notEqualTo(Shortcut.FIELD_ID, Shortcut.TEMPORARY_ID)
                 .findAll()
                 .filter {
                     it.id !in usedShortcutIds
@@ -212,7 +212,7 @@ constructor(
             val usedHeaderIds = shortcuts
                 .flatMap { it.headers }
                 .map { header -> header.id }
-            realmInstance.where<HeaderModel>()
+            realmInstance.where<Header>()
                 .findAll()
                 .filter {
                     it.id !in usedHeaderIds
@@ -223,7 +223,7 @@ constructor(
             val usedParameterIds = shortcuts
                 .flatMap { it.parameters }
                 .map { parameter -> parameter.id }
-            realmInstance.where<ParameterModel>()
+            realmInstance.where<Parameter>()
                 .findAll()
                 .filter {
                     it.id !in usedParameterIds
@@ -232,8 +232,8 @@ constructor(
 
             // Delete orphaned variables
             val usedVariableIds = variables.map { it.id }
-            realmInstance.where<VariableModel>()
-                .notEqualTo(VariableModel.FIELD_ID, VariableModel.TEMPORARY_ID)
+            realmInstance.where<Variable>()
+                .notEqualTo(Variable.FIELD_ID, Variable.TEMPORARY_ID)
                 .findAll()
                 .filter {
                     it.id !in usedVariableIds
@@ -242,7 +242,7 @@ constructor(
 
             // Delete orphaned options
             val usedOptionIds = variables.flatMap { it.options ?: emptyList() }.map { it.id }
-            realmInstance.where<OptionModel>()
+            realmInstance.where<Option>()
                 .findAll()
                 .filter {
                     it.id !in usedOptionIds
@@ -250,11 +250,11 @@ constructor(
                 .deleteAllFromRealm()
 
             // Delete orphaned resolved variables
-            val usedResolvedVariableIds = realmInstance.where<PendingExecutionModel>()
+            val usedResolvedVariableIds = realmInstance.where<PendingExecution>()
                 .findAll()
                 .flatMap { it.resolvedVariables }
                 .map { it.id }
-            realmInstance.where<ResolvedVariableModel>()
+            realmInstance.where<ResolvedVariable>()
                 .findAll()
                 .filter {
                     it.id !in usedResolvedVariableIds

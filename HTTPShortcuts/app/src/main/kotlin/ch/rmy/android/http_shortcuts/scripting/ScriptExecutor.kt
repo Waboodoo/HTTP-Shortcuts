@@ -6,7 +6,7 @@ import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.resume
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
@@ -48,7 +48,7 @@ constructor(
     private var lastException: Throwable? = null
 
     suspend fun initialize(
-        shortcut: ShortcutModel,
+        shortcut: Shortcut,
         variableManager: VariableManager,
         fileUploadResult: FileUploadManager.Result?,
         resultHandler: ResultHandler,
@@ -106,7 +106,7 @@ constructor(
         }
     }
 
-    private fun registerShortcut(shortcut: ShortcutModel) {
+    private fun registerShortcut(shortcut: Shortcut) {
         jsContext.property(
             "shortcut",
             mapOf(

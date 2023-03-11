@@ -15,7 +15,7 @@ import ch.rmy.android.http_shortcuts.activities.categories.usecases.GetDeletionD
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
-import ch.rmy.android.http_shortcuts.data.models.CategoryModel
+import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import kotlinx.coroutines.launch
@@ -39,7 +39,7 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
         getApplicationComponent().inject(this)
     }
 
-    private lateinit var categories: List<CategoryModel>
+    private lateinit var categories: List<Category>
     private var hasChanged = false
 
     override var dialogState: DialogState?
@@ -167,7 +167,7 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     companion object {
         private const val MAX_ICONS = 5
 
-        internal fun mapCategories(categories: List<CategoryModel>): List<CategoryListItem> =
+        internal fun mapCategories(categories: List<Category>): List<CategoryListItem> =
             categories.map { category ->
                 CategoryListItem(
                     id = category.id,

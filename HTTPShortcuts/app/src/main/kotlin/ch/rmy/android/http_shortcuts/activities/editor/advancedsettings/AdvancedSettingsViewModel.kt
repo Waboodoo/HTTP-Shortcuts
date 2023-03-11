@@ -13,7 +13,7 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import kotlinx.coroutines.CancellationException
@@ -71,7 +71,7 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
         }
     }
 
-    private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
+    private fun initViewStateFromShortcut(shortcut: Shortcut) {
         updateViewState {
             copy(
                 followRedirects = shortcut.followRedirects,

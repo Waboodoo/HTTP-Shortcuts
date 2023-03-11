@@ -10,7 +10,7 @@ import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
 import ch.rmy.android.http_shortcuts.data.domains.getVariableById
 import ch.rmy.android.http_shortcuts.data.domains.getVariableByKeyOrId
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import io.realm.kotlin.deleteFromRealm
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -21,17 +21,17 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRepository(realmFactory) {
 
-    suspend fun getVariableByKeyOrId(keyOrId: VariableKeyOrId): VariableModel =
+    suspend fun getVariableByKeyOrId(keyOrId: VariableKeyOrId): Variable =
         queryItem {
             getVariableByKeyOrId(keyOrId)
         }
 
-    fun getObservableVariables(): Flow<List<VariableModel>> =
+    fun getObservableVariables(): Flow<List<Variable>> =
         observeList {
             getBase().findFirst()!!.variables
         }
 
-    suspend fun getVariables(): List<VariableModel> =
+    suspend fun getVariables(): List<Variable> =
         queryItem {
             getBase()
         }
@@ -90,7 +90,7 @@ constructor(
         commitTransaction {
             val variable = getVariableById(variableId)
                 .findFirst()!!
-            copyVariable(variable, VariableModel.TEMPORARY_ID)
+            copyVariable(variable, Variable.TEMPORARY_ID)
         }
     }
 
@@ -107,7 +107,7 @@ constructor(
         }
     }
 
-    private fun RealmTransactionContext.copyVariable(sourceVariable: VariableModel, targetVariableId: VariableId): VariableModel =
+    private fun RealmTransactionContext.copyVariable(sourceVariable: Variable, targetVariableId: VariableId): Variable =
         sourceVariable.detachFromRealm()
             .apply {
                 id = targetVariableId

@@ -15,7 +15,7 @@ import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.databinding.DialogTextBinding
 import ch.rmy.android.http_shortcuts.extensions.getSafeName
 import ch.rmy.android.http_shortcuts.extensions.loadImage
@@ -40,7 +40,7 @@ constructor(
     private val clipboardUtil: ClipboardUtil,
 ) {
 
-    suspend operator fun invoke(shortcut: ShortcutModel, response: ShortcutResponse?, output: String?) = coroutineScope {
+    suspend operator fun invoke(shortcut: Shortcut, response: ShortcutResponse?, output: String?) = coroutineScope {
         val shortcutName = shortcut.getSafeName(context)
         withContext(Dispatchers.Main) {
             val activity = activityProvider.getActivity()

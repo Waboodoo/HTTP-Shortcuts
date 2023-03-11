@@ -14,7 +14,7 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import com.afollestad.materialdialogs.callbacks.onCancel
 import kotlinx.coroutines.launch
@@ -29,7 +29,7 @@ class SecondLauncherViewModel(application: Application) : BaseViewModel<Unit, Sh
         getApplicationComponent().inject(this)
     }
 
-    private lateinit var shortcuts: List<ShortcutModel>
+    private lateinit var shortcuts: List<Shortcut>
 
     override var dialogState: DialogState?
         get() = currentViewState?.dialogState

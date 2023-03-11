@@ -14,7 +14,7 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
-import ch.rmy.android.http_shortcuts.data.models.CategoryModel
+import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.utils.ColorPickerFactory
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
@@ -39,7 +39,7 @@ class CategoryEditorViewModel(application: Application) :
         getApplicationComponent().inject(this)
     }
 
-    private lateinit var category: CategoryModel
+    private lateinit var category: Category
 
     private val isNewCategory
         get() = initData.categoryId == null
@@ -66,7 +66,7 @@ class CategoryEditorViewModel(application: Application) :
                 }
             }
         } else {
-            category = CategoryModel()
+            category = Category()
             finalizeInitialization()
         }
     }

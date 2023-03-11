@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.response
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 
 data class ResponseViewState(
     val dialogState: DialogState? = null,
@@ -16,26 +16,26 @@ data class ResponseViewState(
     val responseDisplayActions: List<ResponseDisplayAction> = emptyList(),
 ) {
     private val hasOutput
-        get() = responseSuccessOutput != ResponseHandlingModel.SUCCESS_OUTPUT_NONE ||
-            responseFailureOutput != ResponseHandlingModel.FAILURE_OUTPUT_NONE
+        get() = responseSuccessOutput != ResponseHandling.SUCCESS_OUTPUT_NONE ||
+            responseFailureOutput != ResponseHandling.FAILURE_OUTPUT_NONE
 
     val responseUiTypeVisible
         get() = hasOutput
 
     val successMessageVisible
-        get() = responseSuccessOutput == ResponseHandlingModel.SUCCESS_OUTPUT_MESSAGE
+        get() = responseSuccessOutput == ResponseHandling.SUCCESS_OUTPUT_MESSAGE
 
     val includeMetaInformationVisible
-        get() = responseUiType == ResponseHandlingModel.UI_TYPE_WINDOW && hasOutput
+        get() = responseUiType == ResponseHandling.UI_TYPE_WINDOW && hasOutput
 
     val dialogActionVisible
-        get() = responseUiType == ResponseHandlingModel.UI_TYPE_DIALOG && hasOutput
+        get() = responseUiType == ResponseHandling.UI_TYPE_DIALOG && hasOutput
 
     val showToastInfo
-        get() = responseUiType == ResponseHandlingModel.UI_TYPE_TOAST
+        get() = responseUiType == ResponseHandling.UI_TYPE_TOAST
 
     val showActionButtonCheckboxes
-        get() = responseUiType == ResponseHandlingModel.UI_TYPE_WINDOW && hasOutput
+        get() = responseUiType == ResponseHandling.UI_TYPE_WINDOW && hasOutput
 
     val showShareActionEnabled: Boolean
         get() = ResponseDisplayAction.SHARE in responseDisplayActions

@@ -4,8 +4,8 @@ import io.realm.RealmModel
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 
-@RealmClass(name = "AppLock")
-open class AppLockModel(
+@RealmClass
+open class AppLock(
     var passwordHash: String = "",
 ) : RealmModel {
     @PrimaryKey

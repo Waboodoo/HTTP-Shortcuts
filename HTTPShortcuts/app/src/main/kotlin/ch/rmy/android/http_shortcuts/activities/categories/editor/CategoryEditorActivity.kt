@@ -26,7 +26,7 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
-import ch.rmy.android.http_shortcuts.data.models.CategoryModel
+import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.databinding.ActivityCategoryEditorBinding
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
 import kotlinx.coroutines.launch
@@ -63,7 +63,7 @@ class CategoryEditorActivity : BaseActivity() {
         binding = applyBinding(ActivityCategoryEditorBinding.inflate(layoutInflater))
         title = ""
 
-        binding.inputCategoryName.setMaxLength(CategoryModel.NAME_MAX_LENGTH)
+        binding.inputCategoryName.setMaxLength(Category.NAME_MAX_LENGTH)
 
         binding.inputLayoutType.setItemsFromPairs(
             CategoryLayoutType.LINEAR_LIST.type to getString(R.string.layout_type_linear_list),

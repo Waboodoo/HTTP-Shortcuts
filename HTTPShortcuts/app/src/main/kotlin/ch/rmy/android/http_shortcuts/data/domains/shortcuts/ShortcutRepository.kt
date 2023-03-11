@@ -12,7 +12,7 @@ import ch.rmy.android.http_shortcuts.data.domains.getCategoryById
 import ch.rmy.android.http_shortcuts.data.domains.getShortcutById
 import ch.rmy.android.http_shortcuts.data.domains.getShortcutByNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import io.realm.kotlin.deleteFromRealm
 import kotlinx.coroutines.flow.Flow
@@ -25,24 +25,24 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRepository(realmFactory) {
 
-    suspend fun getShortcutById(shortcutId: ShortcutId): ShortcutModel =
+    suspend fun getShortcutById(shortcutId: ShortcutId): Shortcut =
         query {
             getShortcutById(shortcutId)
         }
             .first()
 
-    suspend fun getShortcutsByIds(shortcutIds: Collection<ShortcutId>): List<ShortcutModel> =
+    suspend fun getShortcutsByIds(shortcutIds: Collection<ShortcutId>): List<Shortcut> =
         queryItem {
             getBase()
         }
             .shortcuts.filter { it.id in shortcutIds }
 
-    suspend fun getShortcutByNameOrId(shortcutNameOrId: ShortcutNameOrId): ShortcutModel =
+    suspend fun getShortcutByNameOrId(shortcutNameOrId: ShortcutNameOrId): Shortcut =
         queryItem {
             getShortcutByNameOrId(shortcutNameOrId)
         }
 
-    fun getObservableShortcuts(): Flow<List<ShortcutModel>> =
+    fun getObservableShortcuts(): Flow<List<Shortcut>> =
         observeList {
             getBase().findFirst()!!.categories
         }
@@ -52,7 +52,7 @@ constructor(
                 }
             }
 
-    suspend fun getShortcuts(): List<ShortcutModel> =
+    suspend fun getShortcuts(): List<Shortcut> =
         queryItem {
             getBase()
         }
@@ -111,7 +111,7 @@ constructor(
         commitTransaction {
             val shortcut = getShortcutById(shortcutId)
                 .findFirst()!!
-            copyShortcut(shortcut, ShortcutModel.TEMPORARY_ID)
+            copyShortcut(shortcut, Shortcut.TEMPORARY_ID)
         }
     }
 
@@ -131,7 +131,7 @@ constructor(
         }
     }
 
-    private fun RealmTransactionContext.copyShortcut(sourceShortcut: ShortcutModel, targetShortcutId: ShortcutId): ShortcutModel =
+    private fun RealmTransactionContext.copyShortcut(sourceShortcut: Shortcut, targetShortcutId: ShortcutId): Shortcut =
         sourceShortcut.detachFromRealm()
             .apply {
                 id = targetShortcutId

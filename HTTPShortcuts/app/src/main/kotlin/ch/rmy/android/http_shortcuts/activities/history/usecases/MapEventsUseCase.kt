@@ -9,11 +9,11 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.history.HistoryListItem
 import ch.rmy.android.http_shortcuts.data.enums.HistoryEventType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
-import ch.rmy.android.http_shortcuts.data.models.HistoryEventModel
-import ch.rmy.android.http_shortcuts.data.models.HistoryEventModel.Companion.getEventData
+import ch.rmy.android.http_shortcuts.data.models.HistoryEvent.Companion.getEventData
 import ch.rmy.android.http_shortcuts.history.HistoryEvent
 import ch.rmy.android.http_shortcuts.http.HttpStatus
 import javax.inject.Inject
+import ch.rmy.android.http_shortcuts.data.models.HistoryEvent as HistoryEventModel
 
 class MapEventsUseCase
 @Inject

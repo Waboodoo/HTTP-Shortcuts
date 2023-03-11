@@ -17,8 +17,8 @@ import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
 
-@RealmClass(name = "Shortcut")
-open class ShortcutModel(
+@RealmClass
+open class Shortcut(
     @PrimaryKey
     var id: ShortcutId = "",
     icon: ShortcutIcon = ShortcutIcon.NoIcon,
@@ -56,9 +56,9 @@ open class ShortcutModel(
     @Required
     private var retryPolicy: String = RETRY_POLICY_NONE
 
-    var headers: RealmList<HeaderModel> = RealmList()
+    var headers: RealmList<Header> = RealmList()
 
-    var parameters: RealmList<ParameterModel> = RealmList()
+    var parameters: RealmList<Parameter> = RealmList()
 
     var acceptAllCertificates: Boolean = false
 
@@ -78,7 +78,7 @@ open class ShortcutModel(
     @Required
     var contentType: String = ""
 
-    var responseHandling: ResponseHandlingModel? = null
+    var responseHandling: ResponseHandling? = null
 
     var requireConfirmation: Boolean = false
 
@@ -115,7 +115,7 @@ open class ShortcutModel(
 
     var excludeFromHistory: Boolean = false
 
-    var repetition: RepetitionModel? = null
+    var repetition: Repetition? = null
 
     var icon: ShortcutIcon
         get() = ShortcutIcon.fromName(iconName)
@@ -149,7 +149,7 @@ open class ShortcutModel(
 
     init {
         if (executionType == ShortcutExecutionType.APP.type) {
-            responseHandling = ResponseHandlingModel()
+            responseHandling = ResponseHandling()
         }
     }
 
@@ -172,7 +172,7 @@ open class ShortcutModel(
     fun usesImageFileBody() =
         allowsBody() && bodyType == RequestBodyType.IMAGE
 
-    fun isSameAs(other: ShortcutModel): Boolean {
+    fun isSameAs(other: Shortcut): Boolean {
         if (other.name != name ||
             other.bodyContent != bodyContent ||
             other.description != description ||
@@ -243,8 +243,8 @@ open class ShortcutModel(
         get() = type.usesResponse &&
             (
                 (
-                    responseHandling?.successOutput == ResponseHandlingModel.SUCCESS_OUTPUT_RESPONSE ||
-                        responseHandling?.failureOutput == ResponseHandlingModel.FAILURE_OUTPUT_DETAILED
+                    responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE ||
+                        responseHandling?.failureOutput == ResponseHandling.FAILURE_OUTPUT_DETAILED
                     ) ||
                     codeOnSuccess.isNotEmpty() || codeOnFailure.isNotEmpty()
                 )
@@ -280,8 +280,8 @@ open class ShortcutModel(
         require(delay >= 0) {
             "Invalid delay: $delay"
         }
-        headers.forEach(HeaderModel::validate)
-        parameters.forEach(ParameterModel::validate)
+        headers.forEach(Header::validate)
+        parameters.forEach(Parameter::validate)
         responseHandling?.validate()
         repetition?.validate()
     }

@@ -8,8 +8,8 @@ import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
 
-@RealmClass(name = "Parameter")
-open class ParameterModel(
+@RealmClass
+open class Parameter(
     @PrimaryKey
     @Required
     var id: String = newUUID(),
@@ -34,7 +34,7 @@ open class ParameterModel(
         type = parameterType.type
     }
 
-    fun isSameAs(other: ParameterModel) =
+    fun isSameAs(other: Parameter) =
         other.key == key &&
             other.value == value &&
             other.type == type &&

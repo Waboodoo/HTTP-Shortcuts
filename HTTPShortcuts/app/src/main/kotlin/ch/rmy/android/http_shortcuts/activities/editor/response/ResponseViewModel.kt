@@ -12,8 +12,8 @@ import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import kotlinx.coroutines.CancellationException
@@ -66,7 +66,7 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
         }
     }
 
-    private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
+    private fun initViewStateFromShortcut(shortcut: Shortcut) {
         val responseHandling = shortcut.responseHandling!!
         updateViewState {
             copy(
@@ -81,7 +81,7 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
         }
     }
 
-    private fun getSuccessMessageHint(shortcut: ShortcutModel): Localizable =
+    private fun getSuccessMessageHint(shortcut: Shortcut): Localizable =
         StringResLocalizable(
             R.string.executed,
             Localizable.create { context ->
@@ -141,7 +141,7 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
 
     fun onShowActionButtonChanged(action: ResponseDisplayAction, show: Boolean) {
         doWithViewState { viewState ->
-            if (viewState.responseUiType != ResponseHandlingModel.UI_TYPE_WINDOW) {
+            if (viewState.responseUiType != ResponseHandling.UI_TYPE_WINDOW) {
                 return@doWithViewState
             }
             val actions = listOf(
@@ -177,7 +177,7 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
 
     fun onDialogActionChanged(action: ResponseDisplayAction?) {
         doWithViewState { viewState ->
-            if (viewState.responseUiType != ResponseHandlingModel.UI_TYPE_DIALOG) {
+            if (viewState.responseUiType != ResponseHandling.UI_TYPE_DIALOG) {
                 return@doWithViewState
             }
             val actions = action?.let(::listOf) ?: emptyList()

@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.variables.types
 
 import ch.rmy.android.framework.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Variable
 
 class UUIDType : BaseVariableType() {
 
@@ -10,6 +10,6 @@ class UUIDType : BaseVariableType() {
         applicationComponent.inject(this)
     }
 
-    override suspend fun resolveValue(variable: VariableModel) =
+    override suspend fun resolveValue(variable: Variable) =
         UUIDUtils.newUUID()
 }

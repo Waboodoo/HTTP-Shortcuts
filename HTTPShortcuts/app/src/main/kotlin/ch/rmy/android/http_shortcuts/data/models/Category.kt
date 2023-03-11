@@ -12,8 +12,8 @@ import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
 
-@RealmClass(name = "Category")
-open class CategoryModel(
+@RealmClass
+open class Category(
     @Required
     var name: String = "",
     categoryLayoutType: CategoryLayoutType = CategoryLayoutType.LINEAR_LIST,
@@ -23,7 +23,7 @@ open class CategoryModel(
 
     @PrimaryKey
     var id: CategoryId = ""
-    var shortcuts: RealmList<ShortcutModel> = RealmList()
+    var shortcuts: RealmList<Shortcut> = RealmList()
 
     @Required
     private var layoutType: String = CategoryLayoutType.LINEAR_LIST.type
@@ -71,7 +71,7 @@ open class CategoryModel(
         require(name.length <= NAME_MAX_LENGTH) {
             "Category name too long: $name"
         }
-        shortcuts.forEach(ShortcutModel::validate)
+        shortcuts.forEach(Shortcut::validate)
     }
 
     companion object {

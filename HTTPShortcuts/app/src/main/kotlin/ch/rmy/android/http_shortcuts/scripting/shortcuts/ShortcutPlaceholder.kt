@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.scripting.shortcuts
 
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 data class ShortcutPlaceholder(
@@ -11,7 +11,7 @@ data class ShortcutPlaceholder(
 ) {
     companion object {
 
-        fun fromShortcut(shortcut: ShortcutModel) =
+        fun fromShortcut(shortcut: Shortcut) =
             ShortcutPlaceholder(
                 id = shortcut.id,
                 name = shortcut.name,

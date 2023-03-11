@@ -6,8 +6,8 @@ import io.realm.RealmList
 import io.realm.RealmModel
 import io.realm.annotations.RealmClass
 
-@RealmClass(name = "ResponseHandling", embedded = true)
-open class ResponseHandlingModel(
+@RealmClass(embedded = true)
+open class ResponseHandling(
     var uiType: String = UI_TYPE_WINDOW,
     var successOutput: String = SUCCESS_OUTPUT_RESPONSE,
     var failureOutput: String = FAILURE_OUTPUT_DETAILED,
@@ -46,7 +46,7 @@ open class ResponseHandlingModel(
         }
     }
 
-    fun isSameAs(other: ResponseHandlingModel?) =
+    fun isSameAs(other: ResponseHandling?) =
         other?.uiType == uiType &&
             other.successOutput == successOutput &&
             other.failureOutput == failureOutput &&

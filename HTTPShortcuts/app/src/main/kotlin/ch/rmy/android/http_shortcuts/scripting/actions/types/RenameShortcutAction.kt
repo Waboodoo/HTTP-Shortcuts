@@ -6,7 +6,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
@@ -40,7 +40,7 @@ class RenameShortcutAction(private val name: String, private val shortcutNameOrI
     private suspend fun renameShortcut(shortcutNameOrId: ShortcutNameOrId, variableManager: VariableManager) {
         val newName = Variables.rawPlaceholdersToResolvedValues(name, variableManager.getVariableValuesByIds())
             .trim()
-            .truncate(ShortcutModel.NAME_MAX_LENGTH)
+            .truncate(Shortcut.NAME_MAX_LENGTH)
         if (newName.isEmpty()) {
             return
         }

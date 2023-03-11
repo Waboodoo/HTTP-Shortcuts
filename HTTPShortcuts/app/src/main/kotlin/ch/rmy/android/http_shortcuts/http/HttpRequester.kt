@@ -14,7 +14,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.shouldIncludeInHistory
 import ch.rmy.android.http_shortcuts.history.HistoryEvent
 import ch.rmy.android.http_shortcuts.history.HistoryEventLogger
@@ -51,7 +51,7 @@ constructor(
 
     suspend fun executeShortcut(
         context: Context,
-        shortcut: ShortcutModel,
+        shortcut: Shortcut,
         sessionId: String,
         variableValues: Map<VariableId, String>,
         fileUploadResult: FileUploadManager.Result? = null,
@@ -95,7 +95,7 @@ constructor(
             }
         }
 
-    private fun getProxyParams(shortcut: ShortcutModel, variableValues: Map<VariableId, String>): ProxyParams? {
+    private fun getProxyParams(shortcut: Shortcut, variableValues: Map<VariableId, String>): ProxyParams? {
         val host = (shortcut.proxyHost ?: return null)
             .let {
                 Variables.rawPlaceholdersToResolvedValues(it, variableValues)
@@ -122,7 +122,7 @@ constructor(
 
     private suspend fun makeRequest(
         context: Context,
-        shortcut: ShortcutModel,
+        shortcut: Shortcut,
         variablesValues: Map<VariableId, String>,
         requestData: RequestData,
         responseFileStorage: ResponseFileStorage,
@@ -245,7 +245,7 @@ constructor(
 
     private fun attachParameters(
         requestBuilder: RequestBuilder,
-        shortcut: ShortcutModel,
+        shortcut: Shortcut,
         variables: Map<VariableKey, String>,
         fileUploadResult: FileUploadManager.Result?,
     ): RequestBuilder {
@@ -305,7 +305,7 @@ constructor(
                 timing = response.receivedResponseAtMillis - response.sentRequestAtMillis,
             )
 
-        internal fun determineContentType(shortcut: ShortcutModel): String? =
+        internal fun determineContentType(shortcut: Shortcut): String? =
             when (shortcut.bodyType) {
                 RequestBodyType.FORM_DATA -> FORM_MULTIPART_CONTENT_TYPE
                 RequestBodyType.X_WWW_FORM_URLENCODE -> FORM_URLENCODE_CONTENT_TYPE_WITH_CHARSET

@@ -11,7 +11,7 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
@@ -34,7 +34,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
         getApplicationComponent().inject(this)
     }
 
-    private lateinit var shortcut: ShortcutModel
+    private lateinit var shortcut: Shortcut
 
     override var dialogState: DialogState?
         get() = currentViewState?.dialogState
@@ -76,7 +76,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
         }
     }
 
-    private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
+    private fun initViewStateFromShortcut(shortcut: Shortcut) {
         this.shortcut = shortcut
         val type = shortcut.type
         updateViewState {

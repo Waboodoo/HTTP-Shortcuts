@@ -7,8 +7,8 @@ import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
 
-@RealmClass(name = "Option")
-open class OptionModel(
+@RealmClass
+open class Option(
     @PrimaryKey
     @Required
     var id: String = newUUID(),
@@ -23,7 +23,7 @@ open class OptionModel(
             .ifEmpty { value }
             .ifEmpty { "-" }
 
-    fun isSameAs(other: OptionModel) = other.label == label && other.value == value
+    fun isSameAs(other: Option) = other.label == label && other.value == value
 
     fun validate() {
         require(id.isUUID()) {

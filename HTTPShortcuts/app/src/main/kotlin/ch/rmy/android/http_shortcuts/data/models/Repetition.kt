@@ -3,11 +3,11 @@ package ch.rmy.android.http_shortcuts.data.models
 import io.realm.RealmModel
 import io.realm.annotations.RealmClass
 
-@RealmClass(name = "Repetition", embedded = true)
-open class RepetitionModel(
+@RealmClass(embedded = true)
+open class Repetition(
     var interval: Int = 0,
 ) : RealmModel {
-    fun isSameAs(other: RepetitionModel) =
+    fun isSameAs(other: Repetition) =
         interval == other.interval
 
     fun validate() {

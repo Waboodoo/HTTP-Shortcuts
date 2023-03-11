@@ -4,11 +4,11 @@ import io.realm.RealmModel
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 
-@RealmClass(name = "Widget")
-open class WidgetModel(
+@RealmClass
+open class Widget(
     @PrimaryKey
     var widgetId: Int = 0,
-    var shortcut: ShortcutModel? = null,
+    var shortcut: Shortcut? = null,
     var labelColor: String? = null,
     var showLabel: Boolean = true,
 ) : RealmModel {

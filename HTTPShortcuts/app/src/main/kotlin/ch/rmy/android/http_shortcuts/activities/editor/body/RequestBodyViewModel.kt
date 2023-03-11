@@ -16,8 +16,8 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
-import ch.rmy.android.http_shortcuts.data.models.ParameterModel
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Parameter
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.usecases.GetKeyValueDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
@@ -47,7 +47,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
         getApplicationComponent().inject(this)
     }
 
-    private var parameters: List<ParameterModel> = emptyList()
+    private var parameters: List<Parameter> = emptyList()
         set(value) {
             field = value
             updateViewState {
@@ -88,7 +88,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
         }
     }
 
-    private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
+    private fun initViewStateFromShortcut(shortcut: Shortcut) {
         atomicallyUpdateViewState {
             this.parameters = shortcut.parameters
             updateViewState {
@@ -145,7 +145,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
         parameters = parameters
             .map { parameter ->
                 if (parameter.id == parameterId) {
-                    ParameterModel(
+                    Parameter(
                         id = parameterId,
                         key = key,
                         value = value,
@@ -395,7 +395,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
     }
 
     companion object {
-        internal fun mapParameters(parameters: List<ParameterModel>): List<ParameterListItem> =
+        internal fun mapParameters(parameters: List<Parameter>): List<ParameterListItem> =
             parameters.map { parameter ->
                 ParameterListItem.Parameter(
                     id = parameter.id,

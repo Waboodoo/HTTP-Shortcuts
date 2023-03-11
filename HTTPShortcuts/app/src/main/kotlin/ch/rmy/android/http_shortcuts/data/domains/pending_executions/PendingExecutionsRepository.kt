@@ -7,7 +7,7 @@ import ch.rmy.android.http_shortcuts.data.domains.getPendingExecutions
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
-import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
+import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import kotlinx.coroutines.flow.Flow
 import java.util.Calendar
 import java.util.Date
@@ -20,17 +20,17 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRepository(realmFactory) {
 
-    suspend fun getPendingExecution(id: ExecutionId): PendingExecutionModel =
+    suspend fun getPendingExecution(id: ExecutionId): PendingExecution =
         queryItem {
             getPendingExecution(id)
         }
 
-    fun getObservablePendingExecutions(): Flow<List<PendingExecutionModel>> =
+    fun getObservablePendingExecutions(): Flow<List<PendingExecution>> =
         observeQuery {
             getPendingExecutions()
         }
 
-    suspend fun getPendingExecutionsForShortcut(shortcutId: ShortcutId): List<PendingExecutionModel> =
+    suspend fun getPendingExecutionsForShortcut(shortcutId: ShortcutId): List<PendingExecution> =
         query {
             getPendingExecutions(shortcutId)
         }
@@ -49,7 +49,7 @@ constructor(
                 .findAll()
                 .maxOfOrNull { it.requestCode }
             copy(
-                PendingExecutionModel.createNew(
+                PendingExecution.createNew(
                     shortcutId,
                     resolvedVariables,
                     tryNumber,
@@ -89,7 +89,7 @@ constructor(
                 .deleteAllFromRealm()
         }
 
-    suspend fun getNextPendingExecution(withNetworkConstraints: Boolean): PendingExecutionModel? =
+    suspend fun getNextPendingExecution(withNetworkConstraints: Boolean): PendingExecution? =
         query {
             getPendingExecutions(waitForNetwork = withNetworkConstraints)
         }

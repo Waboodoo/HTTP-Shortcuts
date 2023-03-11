@@ -5,7 +5,7 @@ import ch.rmy.android.framework.extensions.showOrElse
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.ColorPickerFactory
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.colorIntToHexString
@@ -31,7 +31,7 @@ class ColorType : BaseVariableType() {
         applicationComponent.inject(this)
     }
 
-    override suspend fun resolveValue(variable: VariableModel): String {
+    override suspend fun resolveValue(variable: Variable): String {
         val value = withContext(Dispatchers.Main) {
             suspendCancellableCoroutine<String> { continuation ->
                 colorPickerFactory.createColorPicker(
@@ -55,7 +55,7 @@ class ColorType : BaseVariableType() {
         return value
     }
 
-    private fun getInitialColor(variable: VariableModel): Int =
+    private fun getInitialColor(variable: Variable): Int =
         variable.takeIf { it.rememberValue }?.value?.hexStringToColorInt()
             ?: Color.WHITE
 }

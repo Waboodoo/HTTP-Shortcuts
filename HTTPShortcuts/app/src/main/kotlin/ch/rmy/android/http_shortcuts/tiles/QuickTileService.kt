@@ -15,7 +15,7 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 import kotlinx.coroutines.CoroutineScope
@@ -59,7 +59,7 @@ class QuickTileService : TileService() {
             .sortedBy { it.name }
             .filter { it.quickSettingsTileShortcut }
 
-    private fun handleShortcuts(shortcuts: List<ShortcutModel>) {
+    private fun handleShortcuts(shortcuts: List<Shortcut>) {
         when (shortcuts.size) {
             0 -> showInstructions()
             1 -> executeShortcut(shortcuts[0].id)
@@ -82,7 +82,7 @@ class QuickTileService : TileService() {
             .showInService()
     }
 
-    private fun showPickerDialog(shortcuts: List<ShortcutModel>) {
+    private fun showPickerDialog(shortcuts: List<Shortcut>) {
         applyTheme()
         DialogBuilder(context)
             .runFor(shortcuts) { shortcut ->

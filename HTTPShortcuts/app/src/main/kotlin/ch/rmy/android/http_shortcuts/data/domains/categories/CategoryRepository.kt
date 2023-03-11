@@ -9,7 +9,7 @@ import ch.rmy.android.http_shortcuts.data.domains.getCategoryById
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
-import ch.rmy.android.http_shortcuts.data.models.CategoryModel
+import ch.rmy.android.http_shortcuts.data.models.Category
 import io.realm.kotlin.deleteFromRealm
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -20,23 +20,23 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRepository(realmFactory) {
 
-    suspend fun getCategories(): List<CategoryModel> =
+    suspend fun getCategories(): List<Category> =
         queryItem {
             getBase()
         }
             .categories
 
-    fun getObservableCategories(): Flow<List<CategoryModel>> =
+    fun getObservableCategories(): Flow<List<Category>> =
         observeList {
             getBase().findFirst()!!.categories
         }
 
-    suspend fun getCategory(categoryId: CategoryId): CategoryModel =
+    suspend fun getCategory(categoryId: CategoryId): Category =
         queryItem {
             getCategoryById(categoryId)
         }
 
-    fun getObservableCategory(categoryId: CategoryId): Flow<CategoryModel> =
+    fun getObservableCategory(categoryId: CategoryId): Flow<Category> =
         observeItem {
             getCategoryById(categoryId)
         }
@@ -52,7 +52,7 @@ constructor(
                 .findFirst()
                 ?: return@commitTransaction
             val categories = base.categories
-            val category = CategoryModel(
+            val category = Category(
                 name = name,
                 categoryLayoutType = layoutType,
                 categoryBackgroundType = background,

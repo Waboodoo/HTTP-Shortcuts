@@ -8,7 +8,7 @@ import ch.rmy.android.framework.utils.SimpleOnSeekBarChangeListener
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.databinding.VariableDialogSliderBinding
 import ch.rmy.android.http_shortcuts.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
@@ -32,7 +32,7 @@ class SliderType : BaseVariableType() {
     }
 
     @SuppressLint("SetTextI18n")
-    override suspend fun resolveValue(variable: VariableModel): String {
+    override suspend fun resolveValue(variable: Variable): String {
         val value = withContext(Dispatchers.Main) {
             val activity = activityProvider.getActivity()
             suspendCancellableCoroutine<String> { continuation ->
@@ -95,19 +95,19 @@ class SliderType : BaseVariableType() {
         const val DEFAULT_MAX = 100.0
         const val DEFAULT_STEP = 1.0
 
-        fun findMax(variable: VariableModel): Double =
+        fun findMax(variable: Variable): Double =
             variable.dataForType[KEY_MAX]?.toDoubleOrNull() ?: DEFAULT_MAX
 
-        fun findMin(variable: VariableModel): Double =
+        fun findMin(variable: Variable): Double =
             variable.dataForType[KEY_MIN]?.toDoubleOrNull() ?: DEFAULT_MIN
 
-        fun findStep(variable: VariableModel): Double =
+        fun findStep(variable: Variable): Double =
             variable.dataForType[KEY_STEP]?.toDoubleOrNull() ?: DEFAULT_STEP
 
-        fun findPrefix(variable: VariableModel): String =
+        fun findPrefix(variable: Variable): String =
             variable.dataForType[KEY_PREFIX] ?: ""
 
-        fun findSuffix(variable: VariableModel): String =
+        fun findSuffix(variable: Variable): String =
             variable.dataForType[KEY_SUFFIX] ?: ""
 
         fun getData(maxValue: Double, minValue: Double, stepValue: Double, prefix: String, suffix: String) = mapOf(
@@ -118,7 +118,7 @@ class SliderType : BaseVariableType() {
             KEY_SUFFIX to suffix,
         )
 
-        internal fun findRange(variable: VariableModel): Range =
+        internal fun findRange(variable: Variable): Range =
             Range(
                 min = findMin(variable),
                 max = findMax(variable),

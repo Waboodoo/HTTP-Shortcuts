@@ -5,8 +5,8 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -32,7 +32,7 @@ constructor(
         return determineVariablesInUse(variables, shortcuts)
     }
 
-    private fun determineVariablesInUse(variables: List<VariableModel>, shortcuts: List<ShortcutModel>): Set<VariableId> {
+    private fun determineVariablesInUse(variables: List<Variable>, shortcuts: List<Shortcut>): Set<VariableId> {
         val variableManager = VariableManager(variables)
         return shortcuts
             .flatMap { shortcut ->
@@ -42,10 +42,10 @@ constructor(
             .toSet()
     }
 
-    private fun getVariablesInUseInVariables(variables: List<VariableModel>): List<VariableId> =
+    private fun getVariablesInUseInVariables(variables: List<Variable>): List<VariableId> =
         variables.flatMap(::getVariablesInUseInVariable)
 
-    private fun getVariablesInUseInVariable(variable: VariableModel): Set<VariableId> =
+    private fun getVariablesInUseInVariable(variable: Variable): Set<VariableId> =
         when (variable.variableType) {
             VariableType.CONSTANT -> variable.value?.let(Variables::extractVariableIds) ?: emptySet()
             VariableType.SELECT,

@@ -1,9 +1,9 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Variable
 
 class ConstantType : BaseVariableType() {
 
-    override suspend fun resolveValue(variable: VariableModel) =
+    override suspend fun resolveValue(variable: Variable) =
         variable.value.orEmpty()
 }

@@ -3,9 +3,9 @@ package ch.rmy.android.http_shortcuts.variables
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
 import javax.inject.Inject
 
@@ -32,7 +32,7 @@ constructor(
         return variableManager
     }
 
-    private suspend fun resolveVariable(variableManager: VariableManager, variable: VariableModel, recursionDepth: Int = 0) {
+    private suspend fun resolveVariable(variableManager: VariableManager, variable: Variable, recursionDepth: Int = 0) {
         if (recursionDepth >= MAX_RECURSION_DEPTH) {
             return
         }
@@ -62,7 +62,7 @@ constructor(
 
         private const val MAX_RECURSION_DEPTH = 3
 
-        fun extractVariableIds(shortcut: ShortcutModel, variableLookup: VariableLookup, includeScripting: Boolean = true): Set<VariableId> =
+        fun extractVariableIds(shortcut: Shortcut, variableLookup: VariableLookup, includeScripting: Boolean = true): Set<VariableId> =
             buildSet {
                 addAll(Variables.extractVariableIds(shortcut.url))
                 if (shortcut.authenticationType.usesUsernameAndPassword) {
@@ -104,7 +104,7 @@ constructor(
                     addAll(Variables.extractVariableIds(shortcut.codeOnFailure))
                 }
 
-                if (shortcut.responseHandling != null && shortcut.responseHandling!!.successOutput == ResponseHandlingModel.SUCCESS_OUTPUT_MESSAGE) {
+                if (shortcut.responseHandling != null && shortcut.responseHandling!!.successOutput == ResponseHandling.SUCCESS_OUTPUT_MESSAGE) {
                     addAll(Variables.extractVariableIds(shortcut.responseHandling!!.successMessage))
                 }
             }

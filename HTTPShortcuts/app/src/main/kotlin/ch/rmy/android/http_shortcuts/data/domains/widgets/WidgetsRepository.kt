@@ -7,7 +7,7 @@ import ch.rmy.android.http_shortcuts.data.domains.getShortcutById
 import ch.rmy.android.http_shortcuts.data.domains.getWidgetsByIds
 import ch.rmy.android.http_shortcuts.data.domains.getWidgetsForShortcut
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.models.WidgetModel
+import ch.rmy.android.http_shortcuts.data.models.Widget
 import io.realm.kotlin.deleteFromRealm
 import javax.inject.Inject
 
@@ -20,7 +20,7 @@ constructor(
     suspend fun createWidget(widgetId: Int, shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) {
         commitTransaction {
             copyOrUpdate(
-                WidgetModel(
+                Widget(
                     widgetId = widgetId,
                     shortcut = getShortcutById(shortcutId).findFirst(),
                     showLabel = showLabel,
@@ -30,12 +30,12 @@ constructor(
         }
     }
 
-    suspend fun getWidgetsByIds(widgetIds: List<Int>): List<WidgetModel> =
+    suspend fun getWidgetsByIds(widgetIds: List<Int>): List<Widget> =
         query {
             getWidgetsByIds(widgetIds)
         }
 
-    suspend fun getWidgetsByShortcutId(shortcutId: ShortcutId): List<WidgetModel> =
+    suspend fun getWidgetsByShortcutId(shortcutId: ShortcutId): List<Widget> =
         query {
             getWidgetsForShortcut(shortcutId)
         }

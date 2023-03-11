@@ -14,8 +14,8 @@ import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
 
-@RealmClass(name = "Variable")
-open class VariableModel(
+@RealmClass
+open class Variable(
     @PrimaryKey
     var id: VariableId = "",
 
@@ -23,7 +23,7 @@ open class VariableModel(
     var key: VariableKey = "",
 
     var value: String? = "",
-    var options: RealmList<OptionModel>? = RealmList(),
+    var options: RealmList<Option>? = RealmList(),
 
     var rememberValue: Boolean = false,
     var urlEncode: Boolean = false,
@@ -83,7 +83,7 @@ open class VariableModel(
             }
         }
 
-    fun isSameAs(other: VariableModel): Boolean {
+    fun isSameAs(other: Variable): Boolean {
         if (other.key != key ||
             other.type != type ||
             other.value != value ||
@@ -133,7 +133,7 @@ open class VariableModel(
         require(VariableType.values().any { it.type == type }) {
             "Invalid variable type: $type"
         }
-        options?.forEach(OptionModel::validate)
+        options?.forEach(Option::validate)
     }
 
     companion object {

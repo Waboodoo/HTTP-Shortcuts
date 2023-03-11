@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.net.Uri
 import androidx.core.net.toUri
-import ch.rmy.android.http_shortcuts.data.models.BaseModel
+import ch.rmy.android.http_shortcuts.data.models.Base
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.google.gson.Gson
@@ -33,7 +33,7 @@ object GsonUtil {
             jsonString
         }
 
-    fun importData(data: JsonElement): BaseModel = gson.fromJson(data, BaseModel::class.java)
+    fun importData(data: JsonElement): Base = gson.fromJson(data, Base::class.java)
 
     fun <T> fromJsonObject(jsonObject: String?): Map<String, T> {
         if (jsonObject == null) {

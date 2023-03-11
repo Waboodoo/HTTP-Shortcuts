@@ -16,7 +16,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.variables.Variables
 import kotlinx.coroutines.CancellationException
@@ -42,8 +42,8 @@ class VariableEditorViewModel(
     private val variableType: VariableType
         get() = initData.variableType
 
-    private var oldVariable: VariableModel? = null
-    private lateinit var variable: VariableModel
+    private var oldVariable: Variable? = null
+    private lateinit var variable: Variable
     private lateinit var variableKeysInUse: List<VariableKey>
 
     private var isSaving = false
@@ -280,7 +280,7 @@ class VariableEditorViewModel(
         }
     }
 
-    private fun VariableModel.getShareSupport(): VariableEditorViewState.ShareSupport {
+    private fun Variable.getShareSupport(): VariableEditorViewState.ShareSupport {
         if (isShareTitle) {
             if (isShareText) {
                 return VariableEditorViewState.ShareSupport.TITLE_AND_TEXT

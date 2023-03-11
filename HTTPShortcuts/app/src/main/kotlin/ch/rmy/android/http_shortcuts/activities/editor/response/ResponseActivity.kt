@@ -17,7 +17,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.databinding.ActivityResponseBinding
 import kotlinx.coroutines.launch
 
@@ -155,21 +155,21 @@ class ResponseActivity : BaseActivity() {
     companion object {
 
         private val UI_TYPES = listOf(
-            ResponseHandlingModel.UI_TYPE_TOAST to R.string.option_response_handling_type_toast,
-            ResponseHandlingModel.UI_TYPE_DIALOG to R.string.option_response_handling_type_dialog,
-            ResponseHandlingModel.UI_TYPE_WINDOW to R.string.option_response_handling_type_window,
+            ResponseHandling.UI_TYPE_TOAST to R.string.option_response_handling_type_toast,
+            ResponseHandling.UI_TYPE_DIALOG to R.string.option_response_handling_type_dialog,
+            ResponseHandling.UI_TYPE_WINDOW to R.string.option_response_handling_type_window,
         )
 
         private val SUCCESS_OUTPUT_TYPES = listOf(
-            ResponseHandlingModel.SUCCESS_OUTPUT_RESPONSE to R.string.option_response_handling_success_output_response,
-            ResponseHandlingModel.SUCCESS_OUTPUT_MESSAGE to R.string.option_response_handling_success_output_message,
-            ResponseHandlingModel.SUCCESS_OUTPUT_NONE to R.string.option_response_handling_success_output_none,
+            ResponseHandling.SUCCESS_OUTPUT_RESPONSE to R.string.option_response_handling_success_output_response,
+            ResponseHandling.SUCCESS_OUTPUT_MESSAGE to R.string.option_response_handling_success_output_message,
+            ResponseHandling.SUCCESS_OUTPUT_NONE to R.string.option_response_handling_success_output_none,
         )
 
         private val FAILURE_OUTPUT_TYPES = listOf(
-            ResponseHandlingModel.FAILURE_OUTPUT_DETAILED to R.string.option_response_handling_failure_output_detailed,
-            ResponseHandlingModel.FAILURE_OUTPUT_SIMPLE to R.string.option_response_handling_failure_output_simple,
-            ResponseHandlingModel.FAILURE_OUTPUT_NONE to R.string.option_response_handling_failure_output_none,
+            ResponseHandling.FAILURE_OUTPUT_DETAILED to R.string.option_response_handling_failure_output_detailed,
+            ResponseHandling.FAILURE_OUTPUT_SIMPLE to R.string.option_response_handling_failure_output_simple,
+            ResponseHandling.FAILURE_OUTPUT_NONE to R.string.option_response_handling_failure_output_none,
         )
 
         private const val DIALOG_ACTION_NONE = "none"

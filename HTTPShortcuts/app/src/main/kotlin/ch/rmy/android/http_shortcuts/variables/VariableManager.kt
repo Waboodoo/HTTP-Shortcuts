@@ -4,13 +4,13 @@ import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
 class VariableManager(
-    variables: List<VariableModel>,
+    variables: List<Variable>,
     preResolvedValues: Map<VariableKey, String> = emptyMap(),
 ) : VariableLookup {
 
@@ -27,13 +27,13 @@ class VariableManager(
         }
     }
 
-    override fun getVariableById(id: String): VariableModel? =
+    override fun getVariableById(id: String): Variable? =
         variablesById[id]
 
-    override fun getVariableByKey(key: String): VariableModel? =
+    override fun getVariableByKey(key: String): Variable? =
         variablesByKey[key]
 
-    fun getVariableByKeyOrId(keyOrId: VariableKeyOrId): VariableModel? =
+    fun getVariableByKeyOrId(keyOrId: VariableKeyOrId): Variable? =
         if (variablesById.containsKey(keyOrId)) {
             getVariableById(keyOrId)
         } else {
@@ -55,7 +55,7 @@ class VariableManager(
                 getVariableValueById(variableId)
             }
 
-    fun setVariableValue(variable: VariableModel, value: String, storeOnly: Boolean = false) {
+    fun setVariableValue(variable: Variable, value: String, storeOnly: Boolean = false) {
         variable.value = value
         if (!storeOnly) {
             variableValuesById[variable.id] = encodeValue(variable, value)
@@ -78,7 +78,7 @@ class VariableManager(
                 getVariableById(entry.key)!!.key
             }
 
-    fun getVariableValues(): Map<VariableModel, String> =
+    fun getVariableValues(): Map<Variable, String> =
         variableValuesById
             .mapKeys { entry ->
                 getVariableById(entry.key)!!
@@ -88,7 +88,7 @@ class VariableManager(
         variableId in variableValuesById.keys
 
     companion object {
-        internal fun encodeValue(variable: VariableModel, value: String) =
+        internal fun encodeValue(variable: Variable, value: String) =
             value
                 .runIf(variable.jsonEncode) {
                     JSONObject.quote(this).drop(1).dropLast(1)

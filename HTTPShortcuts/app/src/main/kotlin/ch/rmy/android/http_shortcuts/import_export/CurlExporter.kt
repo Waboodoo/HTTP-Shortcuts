@@ -8,7 +8,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.resolve
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.variables.VariableManager
@@ -24,18 +24,18 @@ constructor(
     private val variableResolver: VariableResolver,
 ) {
 
-    suspend fun generateCommand(shortcut: ShortcutModel): CurlCommand {
+    suspend fun generateCommand(shortcut: Shortcut): CurlCommand {
         val detachedShortcut = shortcut.detachFromRealm()
         val variableManager = resolveVariables(detachedShortcut)
         return generateCommand(detachedShortcut, variableManager.getVariableValuesByIds())
     }
 
-    private suspend fun resolveVariables(shortcut: ShortcutModel): VariableManager {
+    private suspend fun resolveVariables(shortcut: Shortcut): VariableManager {
         val variables = variableRepository.getVariables()
         return variableResolver.resolve(VariableManager(variables), shortcut)
     }
 
-    private fun generateCommand(shortcut: ShortcutModel, variableValues: Map<VariableKey, String>): CurlCommand =
+    private fun generateCommand(shortcut: Shortcut, variableValues: Map<VariableKey, String>): CurlCommand =
         CurlCommand.Builder()
             .url(rawPlaceholdersToResolvedValues(shortcut.url, variableValues))
             .runIf(shortcut.authenticationType.usesUsernameAndPassword) {
@@ -92,7 +92,7 @@ constructor(
                 }
             }
             .runIf(shortcut.usesCustomBody()) {
-                header(HttpHeaders.CONTENT_TYPE, shortcut.contentType.ifEmpty { ShortcutModel.DEFAULT_CONTENT_TYPE })
+                header(HttpHeaders.CONTENT_TYPE, shortcut.contentType.ifEmpty { Shortcut.DEFAULT_CONTENT_TYPE })
                     .data(rawPlaceholdersToResolvedValues(shortcut.bodyContent, variableValues))
             }
             .build()

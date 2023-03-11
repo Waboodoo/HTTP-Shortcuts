@@ -13,7 +13,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.executionsettings.usecase
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.tiles.QuickSettingsTileManager
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
@@ -83,7 +83,7 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
         }
     }
 
-    private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
+    private fun initViewStateFromShortcut(shortcut: Shortcut) {
         updateViewState {
             copy(
                 waitForConnection = shortcut.isWaitForNetwork,

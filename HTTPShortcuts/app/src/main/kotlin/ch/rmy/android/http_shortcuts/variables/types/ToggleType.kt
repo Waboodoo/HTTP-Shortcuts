@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.variables.types
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import javax.inject.Inject
 
 class ToggleType : BaseVariableType() {
@@ -15,7 +15,7 @@ class ToggleType : BaseVariableType() {
         applicationComponent.inject(this)
     }
 
-    override suspend fun resolveValue(variable: VariableModel): String {
+    override suspend fun resolveValue(variable: Variable): String {
         val options = variable.options?.takeUnlessEmpty() ?: return ""
 
         val previousIndex = variable.value?.toIntOrNull()?.coerceAtLeast(0) ?: 0

@@ -30,8 +30,8 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.extensions.getSafeName
@@ -148,7 +148,7 @@ class Execution(
     }
 
     private lateinit var globalCode: String
-    private lateinit var shortcut: ShortcutModel
+    private lateinit var shortcut: Shortcut
 
     private val shortcutName by lazy {
         shortcut.getSafeName(context)
@@ -336,7 +336,7 @@ class Execution(
                     )
             } catch (e: UnknownHostException) {
                 if (shouldReschedule(e)) {
-                    if (shortcut.responseHandling?.successOutput != ResponseHandlingModel.SUCCESS_OUTPUT_NONE && params.tryNumber == 0) {
+                    if (shortcut.responseHandling?.successOutput != ResponseHandling.SUCCESS_OUTPUT_NONE && params.tryNumber == 0) {
                         context.showToast(
                             String.format(
                                 context.getString(R.string.execution_delayed),
@@ -359,11 +359,11 @@ class Execution(
                 )
 
                 when (val failureOutput = shortcut.responseHandling?.failureOutput) {
-                    ResponseHandlingModel.FAILURE_OUTPUT_DETAILED,
-                    ResponseHandlingModel.FAILURE_OUTPUT_SIMPLE,
+                    ResponseHandling.FAILURE_OUTPUT_DETAILED,
+                    ResponseHandling.FAILURE_OUTPUT_SIMPLE,
                     -> {
                         displayResult(
-                            generateOutputFromError(e, simple = failureOutput == ResponseHandlingModel.FAILURE_OUTPUT_SIMPLE),
+                            generateOutputFromError(e, simple = failureOutput == ResponseHandling.FAILURE_OUTPUT_SIMPLE),
                             response = (e as? ErrorResponse)?.shortcutResponse,
                         )
                     }
@@ -516,7 +516,7 @@ class Execution(
 
     private suspend fun handleDisplayingOfResult(response: ShortcutResponse, variableManager: VariableManager) {
         when (shortcut.responseHandling?.successOutput) {
-            ResponseHandlingModel.SUCCESS_OUTPUT_MESSAGE -> {
+            ResponseHandling.SUCCESS_OUTPUT_MESSAGE -> {
                 displayResult(
                     output = shortcut.responseHandling
                         ?.successMessage
@@ -528,28 +528,28 @@ class Execution(
                     response = response,
                 )
             }
-            ResponseHandlingModel.SUCCESS_OUTPUT_RESPONSE -> displayResult(output = null, response)
+            ResponseHandling.SUCCESS_OUTPUT_RESPONSE -> displayResult(output = null, response)
         }
     }
 
     private suspend fun displayResult(output: String?, response: ShortcutResponse? = null) {
         withContext(Dispatchers.Main) {
             when (shortcut.responseHandling?.uiType) {
-                ResponseHandlingModel.UI_TYPE_TOAST -> {
+                ResponseHandling.UI_TYPE_TOAST -> {
                     context.showToast(
                         (output ?: response?.getContentAsString(context) ?: "")
                             .truncate(maxLength = TOAST_MAX_LENGTH)
                             .let(HTMLUtil::format)
                             .ifBlank { context.getString(R.string.message_blank_response) },
-                        long = shortcut.responseHandling?.successOutput == ResponseHandlingModel.SUCCESS_OUTPUT_RESPONSE
+                        long = shortcut.responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE
                     )
                 }
-                ResponseHandlingModel.UI_TYPE_DIALOG,
+                ResponseHandling.UI_TYPE_DIALOG,
                 null,
                 -> {
                     showResultDialog(shortcut, response, output)
                 }
-                ResponseHandlingModel.UI_TYPE_WINDOW -> {
+                ResponseHandling.UI_TYPE_WINDOW -> {
                     if (params.isNested) {
                         // When running in nested mode (i.e., the shortcut was invoked from another shortcut), we cannot open another activity
                         // because it would interrupt the execution. Therefore, we suppress it here.

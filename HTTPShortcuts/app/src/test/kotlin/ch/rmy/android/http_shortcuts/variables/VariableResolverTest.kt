@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
 import io.mockk.coEvery
 import io.mockk.every
@@ -26,7 +26,7 @@ class VariableResolverTest {
         every { VariableTypeFactory.getType(any()) } answers {
             mockk {
                 coEvery { resolve(any(), any()) } answers {
-                    val variable = secondArg<VariableModel>()
+                    val variable = secondArg<Variable>()
                     resolutionOrder.add(variable.id)
                     variable.value.orEmpty()
                 }
@@ -38,7 +38,7 @@ class VariableResolverTest {
     fun `test variable resolution of static variables`() = runTest {
         val variableManager = VariableManager(
             listOf(
-                VariableModel(id = "1234", key = "myVariable", value = "Hello World")
+                Variable(id = "1234", key = "myVariable", value = "Hello World")
             )
         )
         VariableResolver(mockk())
@@ -73,8 +73,8 @@ class VariableResolverTest {
     fun `test variable resolution of static variables referencing other static variables`() = runTest {
         val variableManager = VariableManager(
             listOf(
-                VariableModel(id = "1234", key = "myVariable1", value = "Hello {{5678}}"),
-                VariableModel(id = "5678", key = "myVariable2", value = "World")
+                Variable(id = "1234", key = "myVariable1", value = "Hello {{5678}}"),
+                Variable(id = "5678", key = "myVariable2", value = "World")
             )
         )
         VariableResolver(mockk(relaxed = true))
@@ -131,13 +131,13 @@ class VariableResolverTest {
             """.trimIndent()
         )
         val variableLookup = object : VariableLookup {
-            override fun getVariableById(id: String): VariableModel? =
+            override fun getVariableById(id: String): Variable? =
                 when (id) {
                     "1234" -> mockk()
                     else -> null
                 }
 
-            override fun getVariableByKey(key: String): VariableModel? =
+            override fun getVariableByKey(key: String): Variable? =
                 when (key) {
                     "my_variable" -> mockk {
                         every { id } returns "5678"
@@ -157,9 +157,9 @@ class VariableResolverTest {
     fun `test variable resolution order`() = runTest {
         val variableManager = VariableManager(
             listOf(
-                VariableModel(id = "123", key = "myVariable1", value = "Hello {{789}}"),
-                VariableModel(id = "456", key = "myVariable2", value = "!!!"),
-                VariableModel(id = "789", key = "myVariable2", value = "World"),
+                Variable(id = "123", key = "myVariable1", value = "Hello {{789}}"),
+                Variable(id = "456", key = "myVariable2", value = "!!!"),
+                Variable(id = "789", key = "myVariable2", value = "World"),
             )
         )
         VariableResolver(mockk(relaxed = true))
@@ -186,9 +186,9 @@ class VariableResolverTest {
     fun `test multi-level recursion variable`() = runTest {
         val variableManager = VariableManager(
             listOf(
-                VariableModel(id = "123", key = "myVariable1", value = "Hello {{456}}"),
-                VariableModel(id = "456", key = "myVariable2", value = "World{{789}}"),
-                VariableModel(id = "789", key = "myVariable2", value = "!!!"),
+                Variable(id = "123", key = "myVariable1", value = "Hello {{456}}"),
+                Variable(id = "456", key = "myVariable2", value = "World{{789}}"),
+                Variable(id = "789", key = "myVariable2", value = "!!!"),
             )
         )
         VariableResolver(mockk(relaxed = true))
@@ -211,7 +211,7 @@ class VariableResolverTest {
     fun `test self-referential variable`() = runTest {
         val variableManager = VariableManager(
             listOf(
-                VariableModel(id = "123", key = "myVariable1", value = "Hello {{123}}"),
+                Variable(id = "123", key = "myVariable1", value = "Hello {{123}}"),
             )
         )
         VariableResolver(mockk(relaxed = true))
@@ -231,14 +231,14 @@ class VariableResolverTest {
     companion object {
 
         private fun withContent(content: String) =
-            ShortcutModel().apply {
-                method = ShortcutModel.METHOD_POST
+            Shortcut().apply {
+                method = Shortcut.METHOD_POST
                 bodyType = RequestBodyType.CUSTOM_TEXT
                 bodyContent = content
             }
 
         private fun withJSContent(content: String) =
-            ShortcutModel().apply {
+            Shortcut().apply {
                 codeOnSuccess = content
             }
     }

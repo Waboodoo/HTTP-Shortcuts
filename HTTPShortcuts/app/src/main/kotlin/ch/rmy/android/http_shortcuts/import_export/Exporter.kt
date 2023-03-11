@@ -13,14 +13,14 @@ import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
-import ch.rmy.android.http_shortcuts.data.models.BaseModel
-import ch.rmy.android.http_shortcuts.data.models.CategoryModel
-import ch.rmy.android.http_shortcuts.data.models.HeaderModel
-import ch.rmy.android.http_shortcuts.data.models.OptionModel
-import ch.rmy.android.http_shortcuts.data.models.ParameterModel
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Base
+import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.Header
+import ch.rmy.android.http_shortcuts.data.models.Option
+import ch.rmy.android.http_shortcuts.data.models.Parameter
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.usecases.GetUsedCustomIconsUseCase
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import kotlinx.coroutines.CancellationException
@@ -81,14 +81,14 @@ constructor(
 
     private suspend fun export(
         writer: Appendable,
-        base: BaseModel,
+        base: Base,
         excludeDefaults: Boolean = false,
     ): ExportStatus {
         exportData(base, writer, excludeDefaults)
         return ExportStatus(exportedShortcuts = base.shortcuts.size)
     }
 
-    private suspend fun getBase(shortcutIds: Collection<ShortcutId>?, variableIds: Collection<VariableId>?): BaseModel =
+    private suspend fun getBase(shortcutIds: Collection<ShortcutId>?, variableIds: Collection<VariableId>?): Base =
         appRepository.getBase()
             .applyIfNotNull(shortcutIds) {
                 title = null
@@ -105,7 +105,7 @@ constructor(
                 variables.safeRemoveIf { !variableIds!!.contains(it.id) }
             }
 
-    private suspend fun exportData(base: BaseModel, writer: Appendable, excludeDefaults: Boolean = false) {
+    private suspend fun exportData(base: Base, writer: Appendable, excludeDefaults: Boolean = false) {
         withContext(Dispatchers.IO) {
             try {
                 val serializer = ModelSerializer()
@@ -134,7 +134,7 @@ constructor(
         }
     }
 
-    private suspend fun getFilesToExport(context: Context, base: BaseModel, shortcutIds: Collection<ShortcutId>?): List<File> =
+    private suspend fun getFilesToExport(context: Context, base: Base, shortcutIds: Collection<ShortcutId>?): List<File> =
         getShortcutIconFiles(context, shortcutIds)
             .plus(getClientCertFiles(context, base, shortcutIds))
             .filter { it.exists() }
@@ -146,7 +146,7 @@ constructor(
                 it.getFile(context)
             }
 
-    private fun getClientCertFiles(context: Context, base: BaseModel, shortcutIds: Collection<ShortcutId>?) =
+    private fun getClientCertFiles(context: Context, base: Base, shortcutIds: Collection<ShortcutId>?) =
         base.shortcuts.asSequence()
             .runIfNotNull(shortcutIds) { ids ->
                 filter { shortcut -> shortcut.id in ids }
@@ -160,14 +160,14 @@ constructor(
         const val JSON_FILE = "shortcuts.json"
 
         private val MODEL_CLASSES = setOf(
-            BaseModel::class,
-            HeaderModel::class,
-            ParameterModel::class,
-            ShortcutModel::class,
-            OptionModel::class,
-            VariableModel::class,
-            CategoryModel::class,
-            ResponseHandlingModel::class,
+            Base::class,
+            Header::class,
+            Parameter::class,
+            Shortcut::class,
+            Option::class,
+            Variable::class,
+            Category::class,
+            ResponseHandling::class,
         )
     }
 }

@@ -46,8 +46,8 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRep
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.CategoryModel
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.toLauncherShortcut
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.usecases.GetChangeLogDialogUseCase
@@ -135,7 +135,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         getApplicationComponent().inject(this)
     }
 
-    private lateinit var categories: List<CategoryModel>
+    private lateinit var categories: List<Category>
 
     private val selectionMode
         get() = initData.selectionMode
@@ -273,7 +273,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    private fun updateLauncherSettings(categories: List<CategoryModel>) {
+    private fun updateLauncherSettings(categories: List<Category>) {
         launcherShortcutManager.updateAppShortcuts(launcherShortcutMapper(categories))
         secondaryLauncherManager.setSecondaryLauncherVisibility(secondaryLauncherMapper(categories))
     }
@@ -517,7 +517,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    private fun getShortcutById(shortcutId: ShortcutId): ShortcutModel? {
+    private fun getShortcutById(shortcutId: ShortcutId): Shortcut? {
         for (category in categories) {
             for (shortcut in category.shortcuts) {
                 if (shortcut.id == shortcutId) {

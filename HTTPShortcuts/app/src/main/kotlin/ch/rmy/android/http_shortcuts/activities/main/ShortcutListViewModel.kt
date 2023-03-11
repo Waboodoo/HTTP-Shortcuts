@@ -45,10 +45,10 @@ import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
-import ch.rmy.android.http_shortcuts.data.models.CategoryModel
-import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.PendingExecution
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.extensions.toLauncherShortcut
 import ch.rmy.android.http_shortcuts.extensions.type
@@ -147,10 +147,10 @@ class ShortcutListViewModel(
         getApplicationComponent().inject(this)
     }
 
-    private lateinit var category: CategoryModel
-    private var categories: List<CategoryModel> = emptyList()
-    private var variables: List<VariableModel> = emptyList()
-    private var pendingShortcuts: List<PendingExecutionModel> = emptyList()
+    private lateinit var category: Category
+    private var categories: List<Category> = emptyList()
+    private var variables: List<Variable> = emptyList()
+    private var pendingShortcuts: List<PendingExecution> = emptyList()
 
     private var exportingShortcutId: ShortcutId? = null
     private var isAppLocked = false
@@ -365,7 +365,7 @@ class ShortcutListViewModel(
         }
     }
 
-    private fun getShortcutById(shortcutId: ShortcutId): ShortcutModel? =
+    private fun getShortcutById(shortcutId: ShortcutId): Shortcut? =
         category.shortcuts.firstOrNull { it.id == shortcutId }
 
     fun onPlaceOnHomeScreenOptionSelected(shortcutId: ShortcutId) {
@@ -425,7 +425,7 @@ class ShortcutListViewModel(
         val shortcut = getShortcutById(shortcutId) ?: return
         val name = shortcut.name
         val newName = context.getString(R.string.template_shortcut_name_copy, shortcut.name)
-            .truncate(ShortcutModel.NAME_MAX_LENGTH)
+            .truncate(Shortcut.NAME_MAX_LENGTH)
         val categoryId = category.id
 
         val newPosition = category.shortcuts
@@ -444,7 +444,7 @@ class ShortcutListViewModel(
         showDeletionDialog(getShortcutById(shortcutId) ?: return)
     }
 
-    private fun showDeletionDialog(shortcut: ShortcutModel) {
+    private fun showDeletionDialog(shortcut: Shortcut) {
         dialogState = getShortcutDeletionDialog(shortcut.id, shortcut.name.toLocalizable(), this)
     }
 
@@ -452,7 +452,7 @@ class ShortcutListViewModel(
         showShortcutInfoDialog(getShortcutById(shortcutId) ?: return)
     }
 
-    private fun showShortcutInfoDialog(shortcut: ShortcutModel) {
+    private fun showShortcutInfoDialog(shortcut: Shortcut) {
         dialogState = getShortcutInfoDialog(shortcut.id, shortcut.name)
     }
 

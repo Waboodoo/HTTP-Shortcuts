@@ -5,7 +5,7 @@ import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +26,7 @@ class SelectType : BaseVariableType() {
         applicationComponent.inject(this)
     }
 
-    override suspend fun resolveValue(variable: VariableModel): String {
+    override suspend fun resolveValue(variable: Variable): String {
         val value = withContext(Dispatchers.Main) {
             suspendCancellableCoroutine<String> { continuation ->
                 createDialogBuilder(activityProvider.getActivity(), variable, continuation)
@@ -72,10 +72,10 @@ class SelectType : BaseVariableType() {
         const val KEY_MULTI_SELECT = "multi_select"
         const val KEY_SEPARATOR = "separator"
 
-        fun isMultiSelect(variable: VariableModel) =
+        fun isMultiSelect(variable: Variable) =
             variable.dataForType[KEY_MULTI_SELECT]?.toBoolean() ?: false
 
-        fun getSeparator(variable: VariableModel) =
+        fun getSeparator(variable: Variable) =
             variable.dataForType[KEY_SEPARATOR] ?: ","
     }
 }

@@ -5,8 +5,8 @@ import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.migration.DatabaseMigration
-import ch.rmy.android.http_shortcuts.data.models.BaseModel
-import ch.rmy.android.http_shortcuts.data.models.CategoryModel
+import ch.rmy.android.http_shortcuts.data.models.Base
+import ch.rmy.android.http_shortcuts.data.models.Category
 import com.getkeepsafe.relinker.MissingLibraryException
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -53,10 +53,10 @@ class RealmFactory private constructor() : ch.rmy.android.framework.data.RealmFa
 
         private fun setupBase(context: Context, realm: Realm) {
             val defaultCategoryName = context.getString(R.string.shortcuts)
-            val defaultCategory = CategoryModel(defaultCategoryName)
+            val defaultCategory = Category(defaultCategoryName)
             defaultCategory.id = newUUID()
 
-            val newBase = BaseModel().apply {
+            val newBase = Base().apply {
                 categories.add(defaultCategory)
                 version = DatabaseMigration.VERSION
             }

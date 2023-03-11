@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableTypeToVariableEditorEvent
 import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryVariableRepository
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,7 +15,7 @@ abstract class BaseVariableTypeViewModel<InitData : Any, ViewState : Any>(applic
     @Inject
     lateinit var temporaryVariableRepository: TemporaryVariableRepository
 
-    protected lateinit var variable: VariableModel
+    protected lateinit var variable: Variable
 
     override fun onInitializationStarted(data: InitData) {
         viewModelScope.launch {

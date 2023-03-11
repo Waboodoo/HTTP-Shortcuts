@@ -13,11 +13,11 @@ import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.HeaderModel
-import ch.rmy.android.http_shortcuts.data.models.ParameterModel
-import ch.rmy.android.http_shortcuts.data.models.RepetitionModel
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Header
+import ch.rmy.android.http_shortcuts.data.models.Parameter
+import ch.rmy.android.http_shortcuts.data.models.Repetition
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.curlcommand.CurlCommand
@@ -33,7 +33,7 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRepository(realmFactory) {
 
-    fun getObservableTemporaryShortcut(): Flow<ShortcutModel> =
+    fun getObservableTemporaryShortcut(): Flow<Shortcut> =
         observeItem {
             getTemporaryShortcut()
         }
@@ -41,8 +41,8 @@ constructor(
     suspend fun createNewTemporaryShortcut(initialIcon: ShortcutIcon, executionType: ShortcutExecutionType) {
         commitTransaction {
             copyOrUpdate(
-                ShortcutModel(
-                    id = ShortcutModel.TEMPORARY_ID,
+                Shortcut(
+                    id = Shortcut.TEMPORARY_ID,
                     icon = initialIcon,
                     executionType = executionType.type,
                 )
@@ -50,7 +50,7 @@ constructor(
         }
     }
 
-    suspend fun getTemporaryShortcut(): ShortcutModel =
+    suspend fun getTemporaryShortcut(): Shortcut =
         queryItem {
             getTemporaryShortcut()
         }
@@ -80,7 +80,7 @@ constructor(
                 shortcut.repetition = null
             } else {
                 if (shortcut.repetition == null) {
-                    shortcut.repetition = RepetitionModel(interval = interval.inWholeMinutes.toInt())
+                    shortcut.repetition = Repetition(interval = interval.inWholeMinutes.toInt())
                 } else {
                     shortcut.repetition?.interval = interval.inWholeMinutes.toInt()
                 }
@@ -135,8 +135,8 @@ constructor(
             shortcut.headers.swap(headerId1, headerId2) { id }
         }
 
-    suspend fun addHeader(key: String, value: String): HeaderModel {
-        val header = HeaderModel(
+    suspend fun addHeader(key: String, value: String): Header {
+        val header = Header(
             key = key.trim(),
             value = value,
         )
@@ -185,8 +185,8 @@ constructor(
         }
     }
 
-    suspend fun addStringParameter(key: String, value: String): ParameterModel {
-        val parameter = ParameterModel(
+    suspend fun addStringParameter(key: String, value: String): Parameter {
+        val parameter = Parameter(
             parameterType = ParameterType.STRING,
             key = key.trim(),
             value = value,
@@ -199,8 +199,8 @@ constructor(
         return parameter
     }
 
-    suspend fun addFileParameter(key: String, fileName: String, multiple: Boolean, image: Boolean): ParameterModel {
-        val parameter = ParameterModel(
+    suspend fun addFileParameter(key: String, fileName: String, multiple: Boolean, image: Boolean): Parameter {
+        val parameter = Parameter(
             parameterType = when {
                 image -> ParameterType.IMAGE
                 multiple -> ParameterType.FILES
@@ -440,13 +440,13 @@ constructor(
                 }
             curlCommand.headers.forEach { (key, value) ->
                 if (!key.equals(HttpHeaders.CONTENT_TYPE, ignoreCase = true)) {
-                    shortcut.headers.add(copy(HeaderModel(key = key, value = value)))
+                    shortcut.headers.add(copy(Header(key = key, value = value)))
                 }
             }
         }
     }
 
-    private fun RealmTransactionContext.prepareParameters(curlCommand: CurlCommand, shortcut: ShortcutModel) {
+    private fun RealmTransactionContext.prepareParameters(curlCommand: CurlCommand, shortcut: Shortcut) {
         curlCommand.data.forEach { potentialParameter ->
             potentialParameter.split("=")
                 .takeIf { it.size == 2 }
@@ -454,12 +454,12 @@ constructor(
                     val key = parameterParts[0]
                     val value = parameterParts[1]
                     val parameter = if (value.startsWith("@") && curlCommand.isFormData) {
-                        ParameterModel(
+                        Parameter(
                             key = decode(key),
                             parameterType = ParameterType.FILE,
                         )
                     } else {
-                        ParameterModel(
+                        Parameter(
                             key = decode(key),
                             value = decode(value),
                         )
@@ -469,7 +469,7 @@ constructor(
         }
     }
 
-    private suspend fun commitTransactionForShortcut(transaction: RealmTransactionContext.(ShortcutModel) -> Unit) {
+    private suspend fun commitTransactionForShortcut(transaction: RealmTransactionContext.(Shortcut) -> Unit) {
         commitTransaction {
             transaction(
                 getTemporaryShortcut()
@@ -480,7 +480,7 @@ constructor(
     }
 
     private suspend fun commitTransactionForResponseHandling(
-        transaction: RealmTransactionContext.(ResponseHandlingModel) -> Unit,
+        transaction: RealmTransactionContext.(ResponseHandling) -> Unit,
     ) {
         commitTransactionForShortcut { shortcut ->
             shortcut.responseHandling

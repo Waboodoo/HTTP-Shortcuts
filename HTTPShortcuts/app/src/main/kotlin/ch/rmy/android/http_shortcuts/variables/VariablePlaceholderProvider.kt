@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.variables
 
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -11,7 +11,7 @@ class VariablePlaceholderProvider
 @Inject
 constructor() {
 
-    fun applyVariables(variables: List<VariableModel>) {
+    fun applyVariables(variables: List<Variable>) {
         placeholders = variables.map(::toPlaceholder)
     }
 
@@ -27,7 +27,7 @@ constructor() {
 
     companion object {
 
-        private fun toPlaceholder(variable: VariableModel) =
+        private fun toPlaceholder(variable: Variable) =
             VariablePlaceholder(
                 variableId = variable.id,
                 variableKey = variable.key,

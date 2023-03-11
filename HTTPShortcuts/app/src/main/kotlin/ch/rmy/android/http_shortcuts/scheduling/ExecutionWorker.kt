@@ -19,7 +19,7 @@ import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
-import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
+import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
@@ -93,7 +93,7 @@ class ExecutionWorker(private val context: Context, workerParams: WorkerParamete
 
         const val INPUT_EXECUTION_ID = "id"
 
-        fun runPendingExecution(context: Context, pendingExecution: PendingExecutionModel) {
+        fun runPendingExecution(context: Context, pendingExecution: PendingExecution) {
             ExecuteActivity.IntentBuilder(shortcutId = pendingExecution.shortcutId)
                 .variableValues(
                     pendingExecution.resolvedVariables

@@ -28,7 +28,7 @@ import ch.rmy.android.http_shortcuts.activities.icons.IconPickerActivity
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.databinding.ActivityShortcutEditorOverviewBinding
 import ch.rmy.curlcommand.CurlCommand
 
@@ -63,7 +63,7 @@ class ShortcutEditorActivity : BaseActivity() {
 
     private fun initViews() {
         binding = applyBinding(ActivityShortcutEditorOverviewBinding.inflate(layoutInflater))
-        binding.inputShortcutName.setMaxLength(ShortcutModel.NAME_MAX_LENGTH)
+        binding.inputShortcutName.setMaxLength(Shortcut.NAME_MAX_LENGTH)
         binding.mainView.isVisible = false
         title = ""
     }

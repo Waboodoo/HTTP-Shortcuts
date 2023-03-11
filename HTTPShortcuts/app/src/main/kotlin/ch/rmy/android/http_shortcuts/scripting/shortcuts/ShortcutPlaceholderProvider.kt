@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.scripting.shortcuts
 
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -10,7 +10,7 @@ class ShortcutPlaceholderProvider
 @Inject
 constructor() {
 
-    fun applyShortcuts(shortcuts: Collection<ShortcutModel>) {
+    fun applyShortcuts(shortcuts: Collection<Shortcut>) {
         placeholders = shortcuts.map(ShortcutPlaceholder::fromShortcut)
     }
 

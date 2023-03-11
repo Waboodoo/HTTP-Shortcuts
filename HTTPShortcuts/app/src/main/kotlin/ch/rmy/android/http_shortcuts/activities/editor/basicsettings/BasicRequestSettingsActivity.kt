@@ -14,7 +14,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.models.InstalledBrowser
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.databinding.ActivityBasicRequestSettingsBinding
 import kotlinx.coroutines.launch
 
@@ -108,14 +108,14 @@ class BasicRequestSettingsActivity : BaseActivity() {
     companion object {
 
         private val METHODS = listOf(
-            ShortcutModel.METHOD_GET,
-            ShortcutModel.METHOD_POST,
-            ShortcutModel.METHOD_PUT,
-            ShortcutModel.METHOD_DELETE,
-            ShortcutModel.METHOD_PATCH,
-            ShortcutModel.METHOD_HEAD,
-            ShortcutModel.METHOD_OPTIONS,
-            ShortcutModel.METHOD_TRACE,
+            Shortcut.METHOD_GET,
+            Shortcut.METHOD_POST,
+            Shortcut.METHOD_PUT,
+            Shortcut.METHOD_DELETE,
+            Shortcut.METHOD_PATCH,
+            Shortcut.METHOD_HEAD,
+            Shortcut.METHOD_OPTIONS,
+            Shortcut.METHOD_TRACE,
         )
 
         private const val DEFAULT_BROWSER_OPTION = "default"

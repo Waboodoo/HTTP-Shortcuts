@@ -10,8 +10,8 @@ import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
 import java.util.Date
 
-@RealmClass(name = "HistoryEvent")
-open class HistoryEventModel(
+@RealmClass
+open class HistoryEvent(
     id: String = "",
     time: Date = Date(),
     eventType: HistoryEventType? = null,
@@ -52,7 +52,7 @@ open class HistoryEventModel(
     companion object {
         const val FIELD_TIME = "time"
 
-        inline fun <reified T> HistoryEventModel.getEventData(): T =
+        inline fun <reified T> HistoryEvent.getEventData(): T =
             getEventData(T::class.java)
     }
 }

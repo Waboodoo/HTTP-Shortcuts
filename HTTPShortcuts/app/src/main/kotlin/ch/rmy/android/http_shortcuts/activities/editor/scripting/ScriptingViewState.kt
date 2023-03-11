@@ -2,11 +2,11 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting
 
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 
 data class ScriptingViewState(
     val dialogState: DialogState? = null,
-    val shortcuts: List<ShortcutModel>? = null,
+    val shortcuts: List<Shortcut>? = null,
     val codeOnPrepare: String = "",
     val codeOnSuccess: String = "",
     val codeOnFailure: String = "",

@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.variables.types
 
 import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -16,7 +16,7 @@ class ClipboardType : BaseVariableType() {
         applicationComponent.inject(this)
     }
 
-    override suspend fun resolveValue(variable: VariableModel) =
+    override suspend fun resolveValue(variable: Variable) =
         withContext(Dispatchers.Main) {
             clipboardUtil.getFromClipboard()
                 ?.toString()

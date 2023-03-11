@@ -6,7 +6,7 @@ import ch.rmy.android.framework.extensions.applyIfNotNull
 import ch.rmy.android.framework.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.parseOrNull
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +31,7 @@ class TimeType : BaseVariableType() {
         applicationComponent.inject(this)
     }
 
-    override suspend fun resolveValue(variable: VariableModel): String {
+    override suspend fun resolveValue(variable: Variable): String {
         val selectedDate = withContext(Dispatchers.Main) {
             suspendCancellableCoroutine<Date> { continuation ->
                 val calendar = getInitialTime(variable.value.takeIf { variable.rememberValue })
@@ -82,7 +82,7 @@ class TimeType : BaseVariableType() {
 
         private val DATE_FORMAT = SimpleDateFormat("HH-mm", Locale.US)
 
-        fun getTimeFormat(variable: VariableModel) =
+        fun getTimeFormat(variable: Variable) =
             variable.dataForType[DateType.KEY_FORMAT] ?: DEFAULT_FORMAT
     }
 }

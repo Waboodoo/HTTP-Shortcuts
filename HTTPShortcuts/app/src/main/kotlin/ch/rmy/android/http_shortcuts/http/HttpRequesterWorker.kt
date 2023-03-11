@@ -18,8 +18,8 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandlingModel
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.extensions.context
 import ch.rmy.android.http_shortcuts.extensions.getSafeName
@@ -67,15 +67,15 @@ class HttpRequesterWorker(context: Context, params: WorkerParameters) : Coroutin
                 )
         } catch (e: Exception) {
             when (val failureOutput = shortcut.responseHandling?.failureOutput) {
-                ResponseHandlingModel.FAILURE_OUTPUT_DETAILED,
-                ResponseHandlingModel.FAILURE_OUTPUT_SIMPLE,
+                ResponseHandling.FAILURE_OUTPUT_DETAILED,
+                ResponseHandling.FAILURE_OUTPUT_SIMPLE,
                 -> {
                     displayResult(
                         shortcut,
                         generateOutputFromError(
                             e,
                             shortcut.getSafeName(context),
-                            simple = failureOutput == ResponseHandlingModel.FAILURE_OUTPUT_SIMPLE,
+                            simple = failureOutput == ResponseHandling.FAILURE_OUTPUT_SIMPLE,
                         ),
                         response = (e as? ErrorResponse)?.shortcutResponse,
                     )
@@ -101,9 +101,9 @@ class HttpRequesterWorker(context: Context, params: WorkerParameters) : Coroutin
                 GsonUtil.gson.fromJson(it, Params::class.java)
             }
 
-    private suspend fun handleDisplayingOfResult(shortcut: ShortcutModel, response: ShortcutResponse, variableValues: Map<VariableId, String>) {
+    private suspend fun handleDisplayingOfResult(shortcut: Shortcut, response: ShortcutResponse, variableValues: Map<VariableId, String>) {
         when (shortcut.responseHandling!!.successOutput) {
-            ResponseHandlingModel.SUCCESS_OUTPUT_MESSAGE -> {
+            ResponseHandling.SUCCESS_OUTPUT_MESSAGE -> {
                 displayResult(
                     shortcut,
                     output = shortcut.responseHandling
@@ -116,16 +116,16 @@ class HttpRequesterWorker(context: Context, params: WorkerParameters) : Coroutin
                     response = response,
                 )
             }
-            ResponseHandlingModel.SUCCESS_OUTPUT_RESPONSE -> displayResult(shortcut, output = null, response)
-            ResponseHandlingModel.SUCCESS_OUTPUT_NONE -> Unit
+            ResponseHandling.SUCCESS_OUTPUT_RESPONSE -> displayResult(shortcut, output = null, response)
+            ResponseHandling.SUCCESS_OUTPUT_NONE -> Unit
         }
     }
 
     private fun injectVariables(string: String, variableValues: Map<VariableId, String>): String =
         Variables.rawPlaceholdersToResolvedValues(string, variableValues)
 
-    private suspend fun displayResult(shortcut: ShortcutModel, output: String?, response: ShortcutResponse? = null) {
-        if (shortcut.responseHandling?.uiType != ResponseHandlingModel.UI_TYPE_TOAST) {
+    private suspend fun displayResult(shortcut: Shortcut, output: String?, response: ShortcutResponse? = null) {
+        if (shortcut.responseHandling?.uiType != ResponseHandling.UI_TYPE_TOAST) {
             return
         }
         withContext(Dispatchers.Main) {
@@ -134,7 +134,7 @@ class HttpRequesterWorker(context: Context, params: WorkerParameters) : Coroutin
                     .truncate(maxLength = TOAST_MAX_LENGTH)
                     .let(HTMLUtil::format)
                     .ifBlank { context.getString(R.string.message_blank_response) },
-                long = shortcut.responseHandling?.successOutput == ResponseHandlingModel.SUCCESS_OUTPUT_RESPONSE
+                long = shortcut.responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE
             )
         }
     }

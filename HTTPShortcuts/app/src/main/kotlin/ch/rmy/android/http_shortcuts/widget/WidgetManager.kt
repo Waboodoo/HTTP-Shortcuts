@@ -14,7 +14,7 @@ import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
-import ch.rmy.android.http_shortcuts.data.models.WidgetModel
+import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import javax.inject.Inject
 
@@ -42,7 +42,7 @@ constructor(
             }
     }
 
-    private fun updateWidget(context: Context, widget: WidgetModel) {
+    private fun updateWidget(context: Context, widget: Widget) {
         val shortcut = widget.shortcut ?: return
         RemoteViews(context.packageName, R.layout.widget).also { views ->
             views.setOnClickPendingIntent(

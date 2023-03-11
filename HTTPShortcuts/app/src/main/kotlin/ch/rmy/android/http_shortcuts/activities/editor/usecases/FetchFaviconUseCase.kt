@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.usecases
 import android.content.Context
 import android.graphics.BitmapFactory
 import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.http_shortcuts.data.models.VariableModel
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
@@ -30,7 +30,7 @@ constructor(
 
     private val client = httpClientFactory.getClient(context)
 
-    suspend operator fun invoke(url: String, variables: List<VariableModel>): ShortcutIcon? {
+    suspend operator fun invoke(url: String, variables: List<Variable>): ShortcutIcon? {
         val variableManager = VariableManager(variables)
         variableResolver.resolve(variableManager, Variables.extractVariableIds(url))
         val finalUrl = Variables.rawPlaceholdersToResolvedValues(url, variableManager.getVariableValuesByIds())

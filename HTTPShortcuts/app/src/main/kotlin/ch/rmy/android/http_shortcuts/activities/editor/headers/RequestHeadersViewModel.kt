@@ -13,8 +13,8 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.models.HeaderModel
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Header
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.usecases.GetKeyValueDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import kotlinx.coroutines.CancellationException
@@ -36,7 +36,7 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
         getApplicationComponent().inject(this)
     }
 
-    private var headers: List<HeaderModel> = emptyList()
+    private var headers: List<Header> = emptyList()
         set(value) {
             field = value
             updateViewState {
@@ -77,7 +77,7 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
         }
     }
 
-    private fun initViewStateFromShortcut(shortcut: ShortcutModel) {
+    private fun initViewStateFromShortcut(shortcut: Shortcut) {
         headers = shortcut.headers
     }
 
@@ -146,7 +146,7 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
         headers = headers
             .map { header ->
                 if (header.id == headerId) {
-                    HeaderModel(headerId, key, value)
+                    Header(headerId, key, value)
                 } else {
                     header
                 }
@@ -201,7 +201,7 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
     }
 
     companion object {
-        internal fun mapHeaders(headers: List<HeaderModel>): List<HeaderListItem> =
+        internal fun mapHeaders(headers: List<Header>): List<HeaderListItem> =
             headers.map { header ->
                 HeaderListItem.Header(
                     id = header.id,

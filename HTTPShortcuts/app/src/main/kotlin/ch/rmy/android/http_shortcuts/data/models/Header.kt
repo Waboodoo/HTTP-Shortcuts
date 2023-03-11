@@ -7,8 +7,8 @@ import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
 
-@RealmClass(name = "Header")
-open class HeaderModel(
+@RealmClass
+open class Header(
     @PrimaryKey
     @Required
     var id: String = newUUID(),
@@ -18,7 +18,7 @@ open class HeaderModel(
     var value: String = "",
 ) : RealmModel {
 
-    fun isSameAs(other: HeaderModel) = other.key == key && other.value == value
+    fun isSameAs(other: Header) = other.key == key && other.value == value
 
     fun validate() {
         require(id.isUUID()) {

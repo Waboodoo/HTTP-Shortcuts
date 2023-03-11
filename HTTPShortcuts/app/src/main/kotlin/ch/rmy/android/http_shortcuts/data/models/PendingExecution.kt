@@ -13,8 +13,8 @@ import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
 import java.util.Date
 
-@RealmClass(name = "PendingExecution")
-open class PendingExecutionModel(
+@RealmClass
+open class PendingExecution(
     @PrimaryKey
     var id: ExecutionId = "",
     var shortcutId: ShortcutId = "",
@@ -27,7 +27,7 @@ open class PendingExecutionModel(
     @Suppress("unused")
     var waitForNetwork: Boolean = false,
     var recursionDepth: Int = 0,
-    var resolvedVariables: RealmList<ResolvedVariableModel> = RealmList(),
+    var resolvedVariables: RealmList<ResolvedVariable> = RealmList(),
     type: PendingExecutionType = PendingExecutionType.UNKNOWN,
     var requestCode: Int = 0,
 ) : RealmModel {
@@ -61,13 +61,13 @@ open class PendingExecutionModel(
             recursionDepth: Int = 0,
             type: PendingExecutionType,
             requestCode: Int,
-        ): PendingExecutionModel {
-            val resolvedVariableList = RealmList<ResolvedVariableModel>()
+        ): PendingExecution {
+            val resolvedVariableList = RealmList<ResolvedVariable>()
             resolvedVariables.mapTo(resolvedVariableList) {
-                ResolvedVariableModel(it.key, it.value)
+                ResolvedVariable(it.key, it.value)
             }
 
-            return PendingExecutionModel(
+            return PendingExecution(
                 id = UUIDUtils.newUUID(),
                 resolvedVariables = resolvedVariableList,
                 shortcutId = shortcutId,

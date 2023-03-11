@@ -7,8 +7,8 @@ import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 import io.realm.annotations.Required
 
-@RealmClass(name = "ResolvedVariable")
-open class ResolvedVariableModel(
+@RealmClass
+open class ResolvedVariable(
     @Required
     var key: VariableKey = "",
     @Required

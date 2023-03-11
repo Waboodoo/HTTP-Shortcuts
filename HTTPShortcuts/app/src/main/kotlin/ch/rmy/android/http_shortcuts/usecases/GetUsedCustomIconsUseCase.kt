@@ -5,8 +5,8 @@ import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.models.BaseModel
-import ch.rmy.android.http_shortcuts.data.models.ShortcutModel
+import ch.rmy.android.http_shortcuts.data.models.Base
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import kotlinx.coroutines.Dispatchers
@@ -35,16 +35,16 @@ constructor(
             getCustomShortcutIcons(base, shortcutIds, temporaryShortcut)
         }
 
-    private suspend fun getTemporaryShortcut(): ShortcutModel? =
+    private suspend fun getTemporaryShortcut(): Shortcut? =
         try {
             temporaryShortcutRepository.getTemporaryShortcut()
         } catch (e: NoSuchElementException) {
             null
         }
 
-    private fun getCustomShortcutIcons(base: BaseModel, shortcutIds: Collection<ShortcutId>?, temporaryShortcut: ShortcutModel?) =
+    private fun getCustomShortcutIcons(base: Base, shortcutIds: Collection<ShortcutId>?, temporaryShortcut: Shortcut?) =
         base.shortcuts
-            .runIfNotNull(temporaryShortcut, List<ShortcutModel>::plus)
+            .runIfNotNull(temporaryShortcut, List<Shortcut>::plus)
             .asSequence()
             .runIfNotNull(shortcutIds) { ids ->
                 filter { shortcut -> shortcut.id in ids }
@@ -60,15 +60,15 @@ constructor(
             .distinct()
             .toList()
 
-    private fun getReferencedIconNames(base: BaseModel, temporaryShortcut: ShortcutModel?): Set<String> =
+    private fun getReferencedIconNames(base: Base, temporaryShortcut: Shortcut?): Set<String> =
         IconUtil.extractCustomIconNames(base.globalCode ?: "")
             .plus(
                 base.shortcuts
-                    .runIfNotNull(temporaryShortcut, List<ShortcutModel>::plus)
+                    .runIfNotNull(temporaryShortcut, List<Shortcut>::plus)
                     .flatMap(::getReferencedIconNames)
             )
 
-    private fun getReferencedIconNames(shortcut: ShortcutModel): Set<String> =
+    private fun getReferencedIconNames(shortcut: Shortcut): Set<String> =
         IconUtil.extractCustomIconNames(shortcut.codeOnSuccess)
             .plus(IconUtil.extractCustomIconNames(shortcut.codeOnFailure))
             .plus(IconUtil.extractCustomIconNames(shortcut.codeOnPrepare))
