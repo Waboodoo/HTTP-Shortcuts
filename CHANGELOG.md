@@ -1,3 +1,17 @@
+## Version 2.31.0
+
+### Improvements
+- You can now configure a shortcut to automatically store the HTTP response body into a file
+- When parsing CURL commands, the `--data-raw` flag is now supported
+
+### Miscellaneous
+- Minor change to the order in which variables are resolved when executing a shortcut: When a variable references another variable, the referenced variable is now resolved immediately afterwards instead of at the end
+- If a shortcut is simple enough (i.e., no Scripting, variables, use of files, ...), it will now launch faster and with less UI flashing when triggered from the quick settings tile
+
+### Bugfixes
+- Fixed an error message popping up occasionally when combining Scripting, repetition and the "Wait for internet" feature in a single shortcut
+- When selecting a content-type from the suggestions popup, it is now properly stored instead of sometimes being ignored
+
 ## Version 2.30.0
 
 ### Improvements
