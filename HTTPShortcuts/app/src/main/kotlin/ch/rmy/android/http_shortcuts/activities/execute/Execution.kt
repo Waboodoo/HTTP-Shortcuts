@@ -598,6 +598,7 @@ class Execution(
                             headerValue.split("filename=")
                                 .takeIf { it.size > 1 }
                                 ?.last()
+                                ?.trim('"')
                         }
                 }
                 ?: response.url.toUri().lastPathSegment
