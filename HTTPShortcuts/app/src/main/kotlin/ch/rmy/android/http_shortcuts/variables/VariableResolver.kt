@@ -113,6 +113,10 @@ constructor(
                 if (shortcut.responseHandling != null && shortcut.responseHandling!!.successOutput == ResponseHandling.SUCCESS_OUTPUT_MESSAGE) {
                     addAll(Variables.extractVariableIds(shortcut.responseHandling!!.successMessage))
                 }
+
+                shortcut.responseHandling?.storeFileName?.let {
+                    addAll(Variables.extractVariableIds(it))
+                }
             }
 
         private fun extractVariableIdsFromJS(

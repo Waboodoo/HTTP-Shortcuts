@@ -14,6 +14,8 @@ data class ResponseViewState(
     val includeMetaInformation: Boolean = false,
     val successMessage: String = "",
     val responseDisplayActions: List<ResponseDisplayAction> = emptyList(),
+    val storeResponseIntoFile: Boolean = false,
+    val storeFileName: String = "",
 ) {
     private val hasOutput
         get() = responseSuccessOutput != ResponseHandling.SUCCESS_OUTPUT_NONE ||

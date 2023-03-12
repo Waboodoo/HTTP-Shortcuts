@@ -1,6 +1,9 @@
 package ch.rmy.android.http_shortcuts.activities.execute
 
 import android.content.Context
+import android.net.Uri
+import androidx.core.net.toUri
+import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runFor
@@ -166,14 +169,7 @@ class Execution(
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
-            if (::shortcut.isInitialized && shortcut.shouldIncludeInHistory()) {
-                historyEventLogger.logEvent(
-                    HistoryEvent.Error(
-                        shortcutName = shortcut.name,
-                        error = "Unknown / unexpected error, please contact developer",
-                    )
-                )
-            }
+            logError("Unknown / unexpected error, please contact developer")
             withContext(Dispatchers.Main) {
                 context.showToast(R.string.error_generic)
             }
@@ -185,12 +181,7 @@ class Execution(
         generateOutputFromError(error)
             .let { message ->
                 if (shortcut.shouldIncludeInHistory()) {
-                    historyEventLogger.logEvent(
-                        HistoryEvent.Error(
-                            shortcutName = shortcut.name,
-                            error = message,
-                        )
-                    )
+                    logError(message)
                 }
 
                 withContext(Dispatchers.Main) {
@@ -388,6 +379,10 @@ class Execution(
             response = response,
         )
 
+        if (shortcut.responseHandling?.storeDirectory != null && response.contentFile != null) {
+            storeResponseBodyToFile(response, response.contentType, variableManager)
+        }
+
         emit(
             ExecutionStatus.WrappingUp(
                 variableManager.getVariableValuesByIds(),
@@ -579,6 +574,61 @@ class Execution(
                 else -> Unit
             }
         }
+    }
+
+    // TODO: The following needs polish and should be split up and moved into one or more dedicated files
+    private fun storeResponseBodyToFile(response: ShortcutResponse, contentType: String?, variableManager: VariableManager) {
+        try {
+            val responseHandling = shortcut.responseHandling!!
+            val directoryUri = Uri.parse(responseHandling.storeDirectory!!)
+            val directory = DocumentFile.fromTreeUri(context, directoryUri)
+            val mimeType = contentType
+                ?.takeUnlessEmpty()
+                ?.takeWhile { it != ';' }
+                ?.trim()
+                ?: "application/octet-stream"
+            val fileName = responseHandling.storeFileName
+                ?.takeUnlessEmpty()
+                ?.let {
+                    Variables.rawPlaceholdersToResolvedValues(it, variableManager.getVariableValuesByIds())
+                }
+                ?: run {
+                    response.headers.getLast("Content-Disposition")
+                        ?.let { headerValue ->
+                            headerValue.split("filename=")
+                                .takeIf { it.size > 1 }
+                                ?.last()
+                        }
+                }
+                ?: response.url.toUri().lastPathSegment
+                ?: "http-response" // TODO: Better fallback
+
+            directory?.findFile(fileName)?.delete()
+            val document = directory?.createFile(mimeType, fileName)
+                ?.uri
+                ?: run {
+                    // TODO: Better error handling
+                    logError("Error while storing response to file")
+                    return
+                }
+            context.contentResolver.openInputStream(response.contentFile!!)?.use { input ->
+                context.contentResolver.openOutputStream(document)?.use { output ->
+                    input.copyTo(output)
+                }
+            }
+        } catch (e: Exception) {
+            logError("Error while storing response to file: $e")
+            logException(e)
+        }
+    }
+
+    private fun logError(message: String) {
+        historyEventLogger.logEvent(
+            HistoryEvent.Error(
+                shortcutName = if (::shortcut.isInitialized) shortcut.name else "???",
+                error = message,
+            )
+        )
     }
 
     companion object {

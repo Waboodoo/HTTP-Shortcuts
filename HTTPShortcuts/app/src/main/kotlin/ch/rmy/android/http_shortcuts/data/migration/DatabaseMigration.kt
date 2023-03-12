@@ -421,6 +421,11 @@ class DatabaseMigration : RealmMigration {
                     .addField("scheduleType", String::class.java, FieldAttribute.REQUIRED)
                     .addField("requestCode", Int::class.javaPrimitiveType)
             }
+            58L -> { // 2.31.0
+                schema.get("ResponseHandling")!!
+                    .addField("storeDirectory", String::class.java)
+                    .addField("storeFileName", String::class.java)
+            }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
         updateVersionNumber(realm, newVersion)
@@ -446,6 +451,6 @@ class DatabaseMigration : RealmMigration {
 
     companion object {
 
-        const val VERSION = 57L
+        const val VERSION = 58L
     }
 }

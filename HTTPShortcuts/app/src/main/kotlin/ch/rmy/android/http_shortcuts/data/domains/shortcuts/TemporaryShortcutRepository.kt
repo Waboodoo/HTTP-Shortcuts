@@ -1,10 +1,12 @@
 package ch.rmy.android.http_shortcuts.data.domains.shortcuts
 
+import android.net.Uri
 import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.extensions.getCaseInsensitive
 import ch.rmy.android.framework.extensions.swap
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
@@ -269,6 +271,18 @@ constructor(
     suspend fun setResponseSuccessMessage(responseSuccessMessage: String) {
         commitTransactionForResponseHandling { responseHandling ->
             responseHandling.successMessage = responseSuccessMessage
+        }
+    }
+
+    suspend fun setStoreFileName(fileName: String) {
+        commitTransactionForResponseHandling { responseHandling ->
+            responseHandling.storeFileName = fileName.takeUnlessEmpty()
+        }
+    }
+
+    suspend fun setStoreDirectory(directoryUri: Uri?) {
+        commitTransactionForResponseHandling { responseHandling ->
+            responseHandling.storeDirectory = directoryUri?.toString()
         }
     }
 

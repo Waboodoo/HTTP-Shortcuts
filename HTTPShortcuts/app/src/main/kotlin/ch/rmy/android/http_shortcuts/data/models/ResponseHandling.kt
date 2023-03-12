@@ -34,6 +34,9 @@ open class ResponseHandling(
             actions = createRealmList(value.map { it.key })
         }
 
+    var storeDirectory: String? = null
+    var storeFileName: String? = null
+
     fun validate() {
         require(uiType in setOf(UI_TYPE_WINDOW, UI_TYPE_DIALOG, UI_TYPE_TOAST)) {
             "Invalid response handling type: $uiType"
@@ -52,7 +55,9 @@ open class ResponseHandling(
             other.failureOutput == failureOutput &&
             other.successMessage == successMessage &&
             other.includeMetaInfo == includeMetaInfo &&
-            other.actions == actions
+            other.actions == actions &&
+            other.storeDirectory == storeDirectory &&
+            other.storeFileName == storeFileName
 
     companion object {
 

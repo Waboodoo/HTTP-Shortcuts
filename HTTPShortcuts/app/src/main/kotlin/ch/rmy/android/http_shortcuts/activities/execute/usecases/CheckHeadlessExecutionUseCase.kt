@@ -22,9 +22,11 @@ constructor(
         val usesToastOutput = responseHandling.uiType == UI_TYPE_TOAST
         val usesCodeAfterExecution = shortcut.codeOnSuccess.isNotEmpty() || shortcut.codeOnFailure.isNotEmpty()
         val usesFiles = shortcut.usesGenericFileBody() || shortcut.usesImageFileBody() || shortcut.hasFileParameter()
+        val storesResponse = responseHandling.storeDirectory != null
         return (usesNoOutput || (usesToastOutput && permissionManager.hasNotificationPermission())) &&
             !usesCodeAfterExecution &&
             !usesFiles &&
+            !storesResponse &&
             !shortcut.isWaitForNetwork &&
             !networkUtil.isNetworkPerformanceRestricted() &&
             computeVariablesSize(variableValuesByIds) < MAX_VARIABLES_SIZE

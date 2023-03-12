@@ -4,5 +4,7 @@ import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 
 abstract class ResponseEvent : ViewModelEvent() {
-    data class InsertVariablePlaceholder(val variablePlaceholder: VariablePlaceholder) : ResponseEvent()
+    data class InsertVariablePlaceholderIntoSuccessMessage(val variablePlaceholder: VariablePlaceholder) : ResponseEvent()
+    data class InsertVariablePlaceholderIntoFileName(val variablePlaceholder: VariablePlaceholder) : ResponseEvent()
+    object PickDirectory : ResponseEvent()
 }

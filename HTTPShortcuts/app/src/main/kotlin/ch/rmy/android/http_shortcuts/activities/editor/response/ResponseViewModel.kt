@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor.response
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
@@ -77,6 +78,8 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
                 includeMetaInformation = responseHandling.includeMetaInfo,
                 successMessage = responseHandling.successMessage,
                 responseDisplayActions = responseHandling.displayActions,
+                storeResponseIntoFile = responseHandling.storeDirectory != null,
+                storeFileName = responseHandling.storeFileName.orEmpty(),
             )
         }
     }
@@ -165,7 +168,7 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
     fun onSuccessMessageVariableButtonClicked() {
         dialogState = getVariablePlaceholderPickerDialog.invoke(
             onVariableSelected = {
-                emitEvent(ResponseEvent.InsertVariablePlaceholder(it))
+                emitEvent(ResponseEvent.InsertVariablePlaceholderIntoSuccessMessage(it))
             },
             onEditVariableButtonClicked = {
                 openActivity(
@@ -194,6 +197,55 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
         viewModelScope.launch {
             waitForOperationsToFinish()
             finish()
+        }
+    }
+
+    fun onStoreIntoFileCheckboxChanged(enabled: Boolean) {
+        doWithViewState { viewState ->
+            if (enabled == viewState.storeResponseIntoFile) {
+                return@doWithViewState
+            }
+            if (enabled) {
+                emitEvent(ResponseEvent.PickDirectory)
+            } else {
+                updateViewState {
+                    copy(storeResponseIntoFile = false)
+                }
+                launchWithProgressTracking {
+                    temporaryShortcutRepository.setStoreDirectory(null)
+                }
+            }
+        }
+    }
+
+    fun onStoreFileNameVariableButtonClicked() {
+        dialogState = getVariablePlaceholderPickerDialog.invoke(
+            onVariableSelected = {
+                emitEvent(ResponseEvent.InsertVariablePlaceholderIntoFileName(it))
+            },
+            onEditVariableButtonClicked = {
+                openActivity(
+                    VariablesActivity.IntentBuilder()
+                )
+            },
+        )
+    }
+
+    fun onStoreFileNameChanged(storeFileName: String) {
+        updateViewState {
+            copy(storeFileName = storeFileName)
+        }
+        launchWithProgressTracking {
+            temporaryShortcutRepository.setStoreFileName(storeFileName)
+        }
+    }
+
+    fun onStoreFileDirectoryPicked(directoryUri: Uri?) {
+        updateViewState {
+            copy(storeResponseIntoFile = directoryUri != null)
+        }
+        launchWithProgressTracking {
+            temporaryShortcutRepository.setStoreDirectory(directoryUri)
         }
     }
 }

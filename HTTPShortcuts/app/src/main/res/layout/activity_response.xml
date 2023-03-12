@@ -115,6 +115,48 @@
 
             <include layout="@layout/divider_line" />
 
+            <CheckBox
+                android:id="@+id/input_store_file"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/label_store_response_into_file" />
+
+            <RelativeLayout
+                android:id="@+id/store_filename_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/label_store_filename"
+                    style="@style/Label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_store_response_file_name" />
+
+                <ch.rmy.android.http_shortcuts.variables.VariableEditText
+                    android:id="@+id/input_store_filename"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/label_store_filename"
+                    android:inputType="textNoSuggestions"
+                    android:lines="1"
+                    android:paddingEnd="@dimen/variable_button_spacing" />
+
+                <ch.rmy.android.http_shortcuts.variables.VariableButton
+                    android:id="@+id/variable_button_store_filename"
+                    style="@style/VariableButton"
+                    android:layout_below="@+id/label_store_filename"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+            <include layout="@layout/divider_line" />
+
             <TextView
                 android:id="@+id/instructions_scripting_hint"
                 style="@style/InfoLabel"

@@ -8,7 +8,7 @@ import ch.rmy.android.http_shortcuts.utils.SizeLimitedReader
 import java.util.Locale
 
 class ShortcutResponse internal constructor(
-    val url: String?,
+    val url: String,
     val headers: HttpHeaders,
     val statusCode: Int,
     val contentFile: Uri?,

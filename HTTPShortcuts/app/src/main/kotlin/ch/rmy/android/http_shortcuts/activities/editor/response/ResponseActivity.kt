@@ -10,6 +10,7 @@ import ch.rmy.android.framework.extensions.doOnCheckedChanged
 import ch.rmy.android.framework.extensions.doOnTextChanged
 import ch.rmy.android.framework.extensions.initialize
 import ch.rmy.android.framework.extensions.isVisible
+import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.framework.extensions.setHint
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
@@ -19,6 +20,7 @@ import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.databinding.ActivityResponseBinding
+import ch.rmy.android.http_shortcuts.utils.PickDirectoryContract
 import kotlinx.coroutines.launch
 
 class ResponseActivity : BaseActivity() {
@@ -26,6 +28,10 @@ class ResponseActivity : BaseActivity() {
     private val viewModel: ResponseViewModel by bindViewModel()
 
     private lateinit var binding: ActivityResponseBinding
+
+    private val pickDirectory = registerForActivityResult(PickDirectoryContract) { getDirectoryUri ->
+        viewModel.onStoreFileDirectoryPicked(getDirectoryUri(contentResolver))
+    }
 
     override fun inject(applicationComponent: ApplicationComponent) {
         applicationComponent.inject(this)
@@ -105,6 +111,16 @@ class ResponseActivity : BaseActivity() {
             viewModel.onShowActionButtonChanged(ResponseDisplayAction.RERUN, enabled)
         }
 
+        binding.inputStoreFile.doOnCheckedChanged { enabled ->
+            viewModel.onStoreIntoFileCheckboxChanged(enabled)
+        }
+        binding.variableButtonStoreFilename.setOnClickListener {
+            viewModel.onStoreFileNameVariableButtonClicked()
+        }
+        binding.inputStoreFilename.doOnTextChanged {
+            viewModel.onStoreFileNameChanged(binding.inputStoreFilename.rawString)
+        }
+
         binding.variableButtonSuccessMessage.setOnClickListener {
             viewModel.onSuccessMessageVariableButtonClicked()
         }
@@ -133,6 +149,9 @@ class ResponseActivity : BaseActivity() {
             binding.inputShowSaveButton.isChecked = viewState.showSaveActionEnabled
             binding.inputShowRerunButton.isChecked = viewState.showRerunActionEnabled
             binding.inputShowShareButton.isChecked = viewState.showShareActionEnabled
+            binding.inputStoreFile.isChecked = viewState.storeResponseIntoFile
+            binding.storeFilenameContainer.isVisible = viewState.storeResponseIntoFile
+            binding.inputStoreFilename.rawString = viewState.storeFileName
             binding.layoutContainer.isVisible = true
             setDialogState(viewState.dialogState, viewModel)
         }
@@ -141,7 +160,15 @@ class ResponseActivity : BaseActivity() {
 
     override fun handleEvent(event: ViewModelEvent) {
         when (event) {
-            is ResponseEvent.InsertVariablePlaceholder -> binding.inputSuccessMessage.insertVariablePlaceholder(event.variablePlaceholder)
+            is ResponseEvent.InsertVariablePlaceholderIntoSuccessMessage -> {
+                binding.inputSuccessMessage.insertVariablePlaceholder(event.variablePlaceholder)
+            }
+            is ResponseEvent.InsertVariablePlaceholderIntoFileName -> {
+                binding.inputStoreFilename.insertVariablePlaceholder(event.variablePlaceholder)
+            }
+            is ResponseEvent.PickDirectory -> {
+                pickDirectory.launch()
+            }
             else -> super.handleEvent(event)
         }
     }
