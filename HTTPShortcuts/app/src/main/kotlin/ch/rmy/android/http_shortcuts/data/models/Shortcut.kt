@@ -244,7 +244,8 @@ open class Shortcut(
             (
                 (
                     responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE ||
-                        responseHandling?.failureOutput == ResponseHandling.FAILURE_OUTPUT_DETAILED
+                        responseHandling?.failureOutput == ResponseHandling.FAILURE_OUTPUT_DETAILED ||
+                        responseHandling?.storeDirectory != null
                     ) ||
                     codeOnSuccess.isNotEmpty() || codeOnFailure.isNotEmpty()
                 )
