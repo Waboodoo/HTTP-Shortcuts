@@ -2120,4 +2120,10 @@ Zusätzlich musst du eventuell auch noch die App von Akku-Optimierungen ausschli
 
     <!-- Label: Shown above text input field that lets the user pick the file name that should be used for storing the HTTP response into a file -->
     <string name="label_store_response_file_name">"Dateiname"</string>
+
+    <!-- Label for checkbox which lets the user configure that when storing the HTTP response into a file, if the target file already exists whether the app is allowed to overwrite it -->
+    <string name="label_store_response_replace_file">"Überschreiben von Dateien erlauben"</string>
+
+    <!-- Title on dialog that lets the user choose an icon for a category -->
+    <string name="title_category_select_icon">"Symbol für Kategorie wählen"</string>
 </resources>
