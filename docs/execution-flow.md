@@ -62,6 +62,10 @@ If the script fails (e.g., due to a syntax error or runtime error) then an error
 
 For more details see the documentation on [Scripting](scripting.md).
 
+## 10. Store Response
+
+If you configured your shortcut to store the HTTP response into a file, that will happen in this step. A file is only created for a successful request.
+
 ## 10. Display Result
 
 Depending on what options you picked in the *"Response Handling"* section of your shortcut, the response or a pre-defined message will be displayed in this final step, either as a toast, in a dialog window or a fullscreen window.

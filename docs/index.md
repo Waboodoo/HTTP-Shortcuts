@@ -14,6 +14,7 @@ This app is open-source and can be found on [Github](https://github.com/Waboodoo
 - Custom request body (text based or from file)
 - File upload through form-data parameters
 - Display response as a toast, window or dialog, or run silently
+- Store response into a file
 - Big set of colorful built-in icons, support for custom icons
 - Dark Mode support
 - Value injection through [global variables](variables.md) with dynamically determined values (e.g., text, numbers, passwords, selections, colors, dates, …)
