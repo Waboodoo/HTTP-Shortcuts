@@ -286,6 +286,12 @@ constructor(
         }
     }
 
+    suspend fun setStoreReplaceIfExists(enabled: Boolean) {
+        commitTransactionForResponseHandling { responseHandling ->
+            responseHandling.replaceFileIfExists = enabled
+        }
+    }
+
     suspend fun setResponseIncludeMetaInfo(includeMetaInfo: Boolean) {
         commitTransactionForResponseHandling { responseHandling ->
             responseHandling.includeMetaInfo = includeMetaInfo

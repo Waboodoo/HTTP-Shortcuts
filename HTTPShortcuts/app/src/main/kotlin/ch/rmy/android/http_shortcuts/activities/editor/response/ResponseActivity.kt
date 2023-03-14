@@ -114,6 +114,9 @@ class ResponseActivity : BaseActivity() {
         binding.inputStoreFile.doOnCheckedChanged { enabled ->
             viewModel.onStoreIntoFileCheckboxChanged(enabled)
         }
+        binding.inputStoreFileOverwrite.doOnCheckedChanged { enabled ->
+            viewModel.onStoreFileOverwriteChanged(enabled)
+        }
         binding.variableButtonStoreFilename.setOnClickListener {
             viewModel.onStoreFileNameVariableButtonClicked()
         }
@@ -150,6 +153,8 @@ class ResponseActivity : BaseActivity() {
             binding.inputShowRerunButton.isChecked = viewState.showRerunActionEnabled
             binding.inputShowShareButton.isChecked = viewState.showShareActionEnabled
             binding.inputStoreFile.isChecked = viewState.storeResponseIntoFile
+            binding.inputStoreFileOverwrite.isChecked = viewState.replaceFileIfExists
+            binding.inputStoreFileOverwrite.isVisible = viewState.storeResponseIntoFile
             binding.storeFilenameContainer.isVisible = viewState.storeResponseIntoFile
             binding.inputStoreFilename.rawString = viewState.storeFileName
             binding.layoutContainer.isVisible = true

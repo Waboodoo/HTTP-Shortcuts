@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.execute
 
 import android.content.Context
-import android.net.Uri
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.logException
@@ -580,7 +579,7 @@ class Execution(
     private fun storeResponseBodyToFile(response: ShortcutResponse, contentType: String?, variableManager: VariableManager) {
         try {
             val responseHandling = shortcut.responseHandling!!
-            val directoryUri = Uri.parse(responseHandling.storeDirectory!!)
+            val directoryUri = responseHandling.storeDirectory!!.toUri()
             val directory = DocumentFile.fromTreeUri(context, directoryUri)
             val mimeType = contentType
                 ?.takeUnlessEmpty()
@@ -604,7 +603,9 @@ class Execution(
                 ?: response.url.toUri().lastPathSegment
                 ?: "http-response" // TODO: Better fallback
 
-            directory?.findFile(fileName)?.delete()
+            if (responseHandling.replaceFileIfExists) {
+                directory?.findFile(fileName)?.delete()
+            }
             val document = directory?.createFile(mimeType, fileName)
                 ?.uri
                 ?: run {

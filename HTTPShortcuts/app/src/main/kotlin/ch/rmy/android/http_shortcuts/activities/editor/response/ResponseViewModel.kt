@@ -80,6 +80,7 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
                 responseDisplayActions = responseHandling.displayActions,
                 storeResponseIntoFile = responseHandling.storeDirectory != null,
                 storeFileName = responseHandling.storeFileName.orEmpty(),
+                replaceFileIfExists = responseHandling.replaceFileIfExists,
             )
         }
     }
@@ -246,6 +247,15 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
         }
         launchWithProgressTracking {
             temporaryShortcutRepository.setStoreDirectory(directoryUri)
+        }
+    }
+
+    fun onStoreFileOverwriteChanged(enabled: Boolean) {
+        updateViewState {
+            copy(replaceFileIfExists = enabled)
+        }
+        launchWithProgressTracking {
+            temporaryShortcutRepository.setStoreReplaceIfExists(enabled)
         }
     }
 }

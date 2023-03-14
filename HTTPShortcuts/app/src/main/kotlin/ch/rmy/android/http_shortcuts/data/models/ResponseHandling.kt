@@ -36,6 +36,7 @@ open class ResponseHandling(
 
     var storeDirectory: String? = null
     var storeFileName: String? = null
+    var replaceFileIfExists: Boolean = false
 
     fun validate() {
         require(uiType in setOf(UI_TYPE_WINDOW, UI_TYPE_DIALOG, UI_TYPE_TOAST)) {
@@ -57,7 +58,8 @@ open class ResponseHandling(
             other.includeMetaInfo == includeMetaInfo &&
             other.actions == actions &&
             other.storeDirectory == storeDirectory &&
-            other.storeFileName == storeFileName
+            other.storeFileName == storeFileName &&
+            other.replaceFileIfExists == replaceFileIfExists
 
     companion object {
 
