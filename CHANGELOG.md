@@ -2,6 +2,7 @@
 
 ### Improvements
 - You can now configure a shortcut to automatically store the HTTP response body into a file
+- When creating a home screen shortcut to a category, you can now choose an icon for it
 - When parsing CURL commands, the `--data-raw` flag is now supported
 
 ### Miscellaneous
