@@ -16,8 +16,12 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import ch.rmy.android.http_shortcuts.usecases.GetBuiltInIconPickerDialogUseCase
+import ch.rmy.android.http_shortcuts.usecases.GetIconPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,12 +39,19 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     @Inject
     lateinit var getDeletionDialog: GetDeletionDialogUseCase
 
+    @Inject
+    lateinit var getIconPickerDialog: GetIconPickerDialogUseCase
+
+    @Inject
+    lateinit var getBuiltInIconPickerDialog: GetBuiltInIconPickerDialogUseCase
+
     init {
         getApplicationComponent().inject(this)
     }
 
     private lateinit var categories: List<Category>
     private var hasChanged = false
+    private var activeCategoryId: CategoryId? = null
 
     override var dialogState: DialogState?
         get() = currentViewState?.dialogState
@@ -146,8 +157,37 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     }
 
     fun onPlaceOnHomeScreenSelected(categoryId: CategoryId) {
+        dialogState = getIconPickerDialog(
+            title = StringResLocalizable(R.string.title_category_select_icon),
+            callbacks = object : GetIconPickerDialogUseCase.Callbacks {
+                override fun openBuiltInIconSelectionDialog() {
+                    dialogState = getBuiltInIconPickerDialog { icon ->
+                        onCategoryIconSelected(categoryId, icon)
+                    }
+                }
+
+                override fun openCustomIconPicker() {
+                    activeCategoryId = categoryId
+                    emitEvent(CategoriesEvent.OpenCustomIconPicker)
+                }
+            },
+        )
+    }
+
+    fun onCategoryIconSelected(icon: ShortcutIcon) {
+        onCategoryIconSelected(activeCategoryId ?: return, icon)
+        activeCategoryId = null
+    }
+
+    fun onCategoryIconSelected(categoryId: CategoryId, icon: ShortcutIcon) {
         val category = getCategory(categoryId) ?: return
-        launcherShortcutManager.pinCategory(category.id, category.name)
+        launchWithProgressTracking {
+            categoryRepository.setCategoryIcon(categoryId, icon)
+            viewModelScope.launch(Dispatchers.IO) {
+                launcherShortcutManager.updatePinnedCategoryShortcut(category.id, category.name, icon)
+                launcherShortcutManager.pinCategory(category.id, category.name, icon)
+            }
+        }
     }
 
     fun onEditCategoryOptionSelected(categoryId: CategoryId) {

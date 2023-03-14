@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.ColorPickerFactory
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import kotlinx.coroutines.CancellationException
@@ -170,7 +171,11 @@ class CategoryEditorViewModel(application: Application) :
                 background = viewState.categoryBackgroundType,
                 clickBehavior = viewState.categoryClickBehavior,
             )
-            launcherShortcutManager.updatePinnedCategoryShortcut(category.id, viewState.categoryName)
+            launcherShortcutManager.updatePinnedCategoryShortcut(
+                category.id,
+                viewState.categoryName,
+                category.icon ?: ShortcutIcon.BuiltInIcon(DEFAULT_ICON),
+            )
         }
     }
 
@@ -198,4 +203,8 @@ class CategoryEditorViewModel(application: Application) :
     }
 
     data class InitData(val categoryId: CategoryId?)
+
+    companion object {
+        private const val DEFAULT_ICON = "flat_grey_folder"
+    }
 }

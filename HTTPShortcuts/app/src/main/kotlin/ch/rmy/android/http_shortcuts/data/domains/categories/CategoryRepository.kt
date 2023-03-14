@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import io.realm.kotlin.deleteFromRealm
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -109,6 +110,14 @@ constructor(
             getBase().findFirst()
                 ?.categories
                 ?.swap(categoryId1, categoryId2) { id }
+        }
+    }
+
+    suspend fun setCategoryIcon(categoryId: CategoryId, icon: ShortcutIcon) {
+        commitTransaction {
+            getCategoryById(categoryId)
+                .findFirst()
+                ?.icon = icon
         }
     }
 }

@@ -1406,4 +1406,6 @@
     <string name="label_store_response_file_name">File Name</string>
     <!-- Label for checkbox which lets the user configure that when storing the HTTP response into a file, if the target file already exists whether the app is allowed to overwrite it -->
     <string name="label_store_response_replace_file">Replace file if it exists</string>
+    <!-- Title on dialog that lets the user choose an icon for a category -->
+    <string name="title_category_select_icon">Select Category Icon</string>
 </resources>

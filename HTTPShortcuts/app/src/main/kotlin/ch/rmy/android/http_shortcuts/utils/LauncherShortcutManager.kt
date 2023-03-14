@@ -23,6 +23,7 @@ class LauncherShortcutManager
 constructor(
     private val context: Context,
 ) {
+    private val shortcutManager = context.getSystemService<ShortcutManager>()!!
 
     fun supportsLauncherShortcuts() =
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1
@@ -36,7 +37,6 @@ constructor(
     @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun update(shortcuts: Collection<LauncherShortcut>) {
         try {
-            val shortcutManager = context.getSystemService<ShortcutManager>()!!
             val max = try {
                 shortcutManager.maxShortcutCountPerActivity
             } catch (e: Exception) {
@@ -98,7 +98,6 @@ constructor(
 
     fun supportsPinning(): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService<ShortcutManager>()!!
             if (shortcutManager.isRequestPinShortcutSupported) {
                 return true
             }
@@ -108,7 +107,6 @@ constructor(
 
     fun pinShortcut(shortcut: LauncherShortcut) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService<ShortcutManager>()!!
             val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
             shortcutManager.requestPinShortcut(shortcutInfo, null)
         }
@@ -116,7 +114,6 @@ constructor(
 
     fun createShortcutPinIntent(shortcut: LauncherShortcut): Intent {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService<ShortcutManager>()!!
             val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
             return shortcutManager.createShortcutResultIntent(shortcutInfo)
         }
@@ -125,24 +122,21 @@ constructor(
 
     fun updatePinnedShortcut(shortcutId: ShortcutId, shortcutName: String, shortcutIcon: ShortcutIcon) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService<ShortcutManager>()!!
             val shortcutInfo = createShortcutInfo(shortcutId, shortcutName, shortcutIcon, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
             shortcutManager.updateShortcuts(listOf(shortcutInfo))
         }
     }
 
-    fun pinCategory(categoryId: CategoryId, categoryName: String) {
+    fun pinCategory(categoryId: CategoryId, categoryName: String, shortcutIcon: ShortcutIcon) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService<ShortcutManager>()!!
-            val shortcutInfo = createCategoryShortcutInfo(categoryId, categoryName)
+            val shortcutInfo = createCategoryShortcutInfo(categoryId, categoryName, shortcutIcon)
             shortcutManager.requestPinShortcut(shortcutInfo, null)
         }
     }
 
-    fun updatePinnedCategoryShortcut(categoryId: CategoryId, categoryName: String) {
+    fun updatePinnedCategoryShortcut(categoryId: CategoryId, categoryName: String, icon: ShortcutIcon) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService<ShortcutManager>()!!
-            val shortcutInfo = createCategoryShortcutInfo(categoryId, categoryName)
+            val shortcutInfo = createCategoryShortcutInfo(categoryId, categoryName, icon)
             shortcutManager.updateShortcuts(listOf(shortcutInfo))
         }
     }
@@ -151,6 +145,7 @@ constructor(
     private fun createCategoryShortcutInfo(
         categoryId: CategoryId,
         categoryName: String,
+        icon: ShortcutIcon,
     ): ShortcutInfo =
         ShortcutInfo.Builder(context, ID_PREFIX_CATEGORY + categoryId)
             .setShortLabel(categoryName)
@@ -161,7 +156,7 @@ constructor(
                     .categoryId(categoryId)
                     .build(context)
             )
-            .setIcon(IconUtil.getIcon(context, ShortcutIcon.BuiltInIcon("flat_grey_folder"))) // TODO
+            .setIcon(IconUtil.getIcon(context, icon))
             .build()
 
     companion object {

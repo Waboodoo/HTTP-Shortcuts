@@ -20,6 +20,7 @@ import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.categories.editor.CategoryEditorActivity
+import ch.rmy.android.http_shortcuts.activities.icons.IconPickerActivity
 import ch.rmy.android.http_shortcuts.databinding.ActivityCategoriesBinding
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 
@@ -33,6 +34,11 @@ class CategoriesActivity : BaseActivity() {
     private val openCategoryEditorForEditing = registerForActivityResult(CategoryEditorActivity.OpenCategoryEditor) { success ->
         if (success) {
             viewModel.onCategoryEdited()
+        }
+    }
+    private val pickCustomIcon = registerForActivityResult(IconPickerActivity.PickIcon) { icon ->
+        icon?.let {
+            viewModel.onCategoryIconSelected(it)
         }
     }
 
@@ -111,6 +117,9 @@ class CategoriesActivity : BaseActivity() {
                 } else {
                     openCategoryEditorForCreation.launch()
                 }
+            }
+            is CategoriesEvent.OpenCustomIconPicker -> {
+                pickCustomIcon.launch()
             }
             else -> super.handleEvent(event)
         }

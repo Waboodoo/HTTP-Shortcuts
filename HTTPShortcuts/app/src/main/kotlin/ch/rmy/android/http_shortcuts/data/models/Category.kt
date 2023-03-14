@@ -2,10 +2,12 @@ package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.framework.extensions.isInt
 import ch.rmy.android.framework.extensions.isUUID
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import io.realm.RealmList
 import io.realm.RealmModel
 import io.realm.annotations.PrimaryKey
@@ -24,6 +26,13 @@ open class Category(
     @PrimaryKey
     var id: CategoryId = ""
     var shortcuts: RealmList<Shortcut> = RealmList()
+    private var iconName: String? = null
+
+    var icon: ShortcutIcon?
+        get() = iconName?.let(ShortcutIcon::fromName)
+        set(value) {
+            iconName = value?.toString()?.takeUnlessEmpty()
+        }
 
     @Required
     private var layoutType: String = CategoryLayoutType.LINEAR_LIST.type

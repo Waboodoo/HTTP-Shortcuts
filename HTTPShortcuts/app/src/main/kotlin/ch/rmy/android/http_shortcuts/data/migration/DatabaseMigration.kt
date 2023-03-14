@@ -429,6 +429,8 @@ class DatabaseMigration : RealmMigration {
             59L -> { // 2.31.0
                 schema.get("ResponseHandling")!!
                     .addField("replaceFileIfExists", Boolean::class.javaPrimitiveType)
+                schema.get("Category")!!
+                    .addField("iconName", String::class.java)
             }
             else -> throw IllegalArgumentException("Missing migration for version $newVersion")
         }
