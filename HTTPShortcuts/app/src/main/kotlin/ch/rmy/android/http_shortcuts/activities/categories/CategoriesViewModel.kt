@@ -18,6 +18,7 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.usecases.GetBuiltInIconPickerDialogUseCase
+import ch.rmy.android.http_shortcuts.usecases.GetIconColorPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.GetIconPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
@@ -44,6 +45,9 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
 
     @Inject
     lateinit var getBuiltInIconPickerDialog: GetBuiltInIconPickerDialogUseCase
+
+    @Inject
+    lateinit var getIconColorPickerDialog: GetIconColorPickerDialogUseCase
 
     init {
         getApplicationComponent().inject(this)
@@ -181,13 +185,21 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
 
     fun onCategoryIconSelected(categoryId: CategoryId, icon: ShortcutIcon) {
         val category = getCategory(categoryId) ?: return
-        launchWithProgressTracking {
-            categoryRepository.setCategoryIcon(categoryId, icon)
-            viewModelScope.launch(Dispatchers.IO) {
-                launcherShortcutManager.updatePinnedCategoryShortcut(category.id, category.name, icon)
-                launcherShortcutManager.pinCategory(category.id, category.name, icon)
-            }
-        }
+        dialogState = getIconColorPickerDialog(
+            icon,
+            onDismissed = {
+                dialogState?.let(::onDialogDismissed)
+            },
+            onColorSelected = { coloredIcon ->
+                launchWithProgressTracking {
+                    categoryRepository.setCategoryIcon(categoryId, coloredIcon)
+                    viewModelScope.launch(Dispatchers.IO) {
+                        launcherShortcutManager.updatePinnedCategoryShortcut(category.id, category.name, coloredIcon)
+                        launcherShortcutManager.pinCategory(category.id, category.name, coloredIcon)
+                    }
+                }
+            },
+        )
     }
 
     fun onEditCategoryOptionSelected(categoryId: CategoryId) {
