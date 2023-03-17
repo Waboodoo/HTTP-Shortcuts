@@ -2123,4 +2123,10 @@
 
     <!-- Label: Shown above text input field that lets the user pick the file name that should be used for storing the HTTP response into a file -->
     <string name="label_store_response_file_name">"文件名"</string>
+
+    <!-- Label for checkbox which lets the user configure that when storing the HTTP response into a file, if the target file already exists whether the app is allowed to overwrite it -->
+    <string name="label_store_response_replace_file">"如果存在则替换文件"</string>
+
+    <!-- Title on dialog that lets the user choose an icon for a category -->
+    <string name="title_category_select_icon">"选择类别图标"</string>
 </resources>

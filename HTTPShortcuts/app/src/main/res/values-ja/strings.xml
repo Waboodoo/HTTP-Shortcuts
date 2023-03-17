@@ -2103,4 +2103,16 @@
 
     <!-- Subtitle of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
     <string name="settings_ignore_battery_optimizations_summary">"スケジュール設定やショートカット実行で繰り返しの問題が発生している場合は、これを有効にしてください。"</string>
+
+    <!-- Label for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen -->
+    <string name="label_store_response_into_file">"レスポンスをファイルに保存"</string>
+
+    <!-- Label: Shown above text input field that lets the user pick the file name that should be used for storing the HTTP response into a file -->
+    <string name="label_store_response_file_name">"ファイル名"</string>
+
+    <!-- Label for checkbox which lets the user configure that when storing the HTTP response into a file, if the target file already exists whether the app is allowed to overwrite it -->
+    <string name="label_store_response_replace_file">"既存がある場合、ファイルを置き替える"</string>
+
+    <!-- Title on dialog that lets the user choose an icon for a category -->
+    <string name="title_category_select_icon">"カテゴリーアイコンを選択"</string>
 </resources>
