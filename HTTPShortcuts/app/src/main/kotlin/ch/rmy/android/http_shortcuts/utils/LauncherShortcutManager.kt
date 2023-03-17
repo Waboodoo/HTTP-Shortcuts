@@ -23,7 +23,8 @@ class LauncherShortcutManager
 constructor(
     private val context: Context,
 ) {
-    private val shortcutManager = context.getSystemService<ShortcutManager>()!!
+    private val shortcutManager
+        get() = context.getSystemService<ShortcutManager>()!!
 
     fun supportsLauncherShortcuts() =
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1
