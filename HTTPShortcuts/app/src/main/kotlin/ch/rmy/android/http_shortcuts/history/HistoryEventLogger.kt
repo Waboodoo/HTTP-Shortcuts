@@ -24,6 +24,7 @@ constructor(
     private fun HistoryEvent.getType(): HistoryEventType =
         when (this) {
             is HistoryEvent.ShortcutTriggered -> HistoryEventType.SHORTCUT_TRIGGERED
+            is HistoryEvent.ShortcutCancelled -> HistoryEventType.SHORTCUT_CANCELLED
             is HistoryEvent.HttpRequestSent -> HistoryEventType.HTTP_REQUEST_SENT
             is HistoryEvent.HttpResponseReceived -> HistoryEventType.HTTP_RESPONSE_RECEIVED
             is HistoryEvent.NetworkError -> HistoryEventType.NETWORK_ERROR

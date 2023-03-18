@@ -40,6 +40,7 @@ constructor() {
     private fun HistoryEventModel.getEvent(): HistoryEvent? =
         when (eventType) {
             HistoryEventType.SHORTCUT_TRIGGERED -> getEventData<HistoryEvent.ShortcutTriggered>()
+            HistoryEventType.SHORTCUT_CANCELLED -> getEventData<HistoryEvent.ShortcutCancelled>()
             HistoryEventType.HTTP_REQUEST_SENT -> getEventData<HistoryEvent.HttpRequestSent>()
             HistoryEventType.HTTP_RESPONSE_RECEIVED -> getEventData<HistoryEvent.HttpResponseReceived>()
             HistoryEventType.NETWORK_ERROR -> getEventData<HistoryEvent.NetworkError>()
@@ -52,6 +53,9 @@ constructor() {
         when (this) {
             is HistoryEvent.ShortcutTriggered -> Localizable.create {
                 it.getString(R.string.event_history_title_shortcut_triggered, shortcutName)
+            }
+            is HistoryEvent.ShortcutCancelled -> Localizable.create {
+                it.getString(R.string.event_history_title_shortcut_cancelled, shortcutName)
             }
             is HistoryEvent.HttpRequestSent -> Localizable.create {
                 it.getString(R.string.event_history_title_http_request_sent, shortcutName)
@@ -82,6 +86,7 @@ constructor() {
                         context.getString(R.string.label_prefix_event_history_trigger_origin, trigger.toHumanReadableString(context))
                     }
                 }
+                is HistoryEvent.ShortcutCancelled -> null
                 is HistoryEvent.HttpRequestSent -> "$method $url\n\n${formatHeaders(headers)}".toLocalizable()
                 is HistoryEvent.HttpResponseReceived -> formatHeaders(headers).toLocalizable()
                 is HistoryEvent.NetworkError -> error.toLocalizable()

@@ -9,6 +9,10 @@ sealed interface HistoryEvent {
         val trigger: ShortcutTriggerType?,
     ) : HistoryEvent
 
+    data class ShortcutCancelled(
+        val shortcutName: String,
+    ) : HistoryEvent
+
     data class HttpRequestSent(
         val shortcutName: String,
         val url: Uri,

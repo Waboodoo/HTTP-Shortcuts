@@ -1335,6 +1335,8 @@
     <string name="label_exclude_from_history">Exclude from event history</string>
     <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
     <string name="event_history_title_shortcut_triggered">\“%s\” triggered</string>
+    <!-- Title of event history entry, which states that a shortcut was cancelled. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_shortcut_cancelled">\“%s\” cancelled</string>
     <!-- Title of event history entry, which states that an HTTP request was sent. %s is a placeholder for the shortcut's name -->
     <string name="event_history_title_http_request_sent">HTTP request sent for \“%s\”</string>
     <!-- Title of event history entry, which states that an HTTP response was received. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the status code (e.g. "404 Not Found") -->

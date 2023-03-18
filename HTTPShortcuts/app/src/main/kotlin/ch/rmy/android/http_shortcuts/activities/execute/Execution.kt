@@ -166,6 +166,13 @@ class Execution(
         } catch (e: NoActivityAvailableException) {
             throw CancellationException("Host activity disappeared, cancelling", e)
         } catch (e: CancellationException) {
+            if (::shortcut.isInitialized && shortcut.shouldIncludeInHistory()) {
+                historyEventLogger.logEvent(
+                    HistoryEvent.ShortcutCancelled(
+                        shortcutName = shortcut.name,
+                    )
+                )
+            }
             throw e
         } catch (e: Exception) {
             logError("Unknown / unexpected error, please contact developer")
