@@ -5,6 +5,8 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import io.realm.kotlin.ext.copyFromRealm
+import io.realm.kotlin.ext.isManaged
 import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
@@ -14,13 +16,17 @@ class VariableManager(
     preResolvedValues: Map<VariableKey, String> = emptyMap(),
 ) : VariableLookup {
 
-    private val variablesById = variables.associateBy { it.id }
+    private val variablesById: Map<VariableId, Variable>
 
-    private val variablesByKey = variables.associateBy { it.key }
+    private val variablesByKey: Map<VariableKey, Variable>
 
     private val variableValuesById = mutableMapOf<String, String>()
 
     init {
+        val detachedVariables = variables.map { if (it.isManaged()) it.copyFromRealm() else it }
+        variablesById = detachedVariables.associateBy { it.id }
+        variablesByKey = detachedVariables.associateBy { it.key }
+
         preResolvedValues.forEach { (variableKeyOrId, value) ->
             val id = getVariableByKeyOrId(variableKeyOrId)?.id ?: return@forEach
             variableValuesById[id] = value
