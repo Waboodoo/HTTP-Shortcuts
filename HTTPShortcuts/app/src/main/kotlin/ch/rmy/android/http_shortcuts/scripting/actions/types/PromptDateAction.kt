@@ -7,14 +7,14 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.exceptions.UserException
-import ch.rmy.android.http_shortcuts.extensions.parseOrNull
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
-import java.util.Calendar
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -35,28 +35,28 @@ class PromptDateAction(
     override suspend fun execute(executionContext: ExecutionContext): String? =
         withContext(Dispatchers.Main) {
             suspendCancellableCoroutine<String> { continuation ->
-                val calendar = getInitialDate()
+                val date = getInitialDate()
                 val activity = activityProvider.getActivity()
                 val datePicker = DatePickerDialog(
                     activity,
                     null,
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH),
+                    date.year,
+                    date.monthValue,
+                    date.dayOfMonth,
                 )
                 datePicker.setButton(
                     DialogInterface.BUTTON_POSITIVE,
                     activity.getString(R.string.dialog_ok),
                 ) { _, _ ->
-                    val newDate = Calendar.getInstance()
-                    val day = datePicker.datePicker.dayOfMonth
-                    val month = datePicker.datePicker.month
-                    val year = datePicker.datePicker.year
-                    newDate.set(year, month, day)
-
+                    val newDate = LocalDate.of(
+                        datePicker.datePicker.year,
+                        datePicker.datePicker.month,
+                        datePicker.datePicker.dayOfMonth,
+                    )
                     try {
                         continuation.resume(
-                            SimpleDateFormat(format ?: DEFAULT_FORMAT, Locale.US).format(newDate.time.time)
+                            DateTimeFormatter.ofPattern(format ?: DEFAULT_FORMAT, Locale.US)
+                                .format(newDate)
                         )
                     } catch (e: IllegalArgumentException) {
                         continuation.resumeWithException(
@@ -82,20 +82,19 @@ class PromptDateAction(
             .takeUnlessEmpty()
             ?.removePrefix("-")
 
-    private fun getInitialDate(): Calendar {
-        val calendar = Calendar.getInstance()
-        if (!initialDate.isNullOrEmpty()) {
-            DATE_FORMAT.parseOrNull(initialDate)?.let {
-                calendar.time = it
+    private fun getInitialDate(): LocalDate =
+        initialDate
+            ?.takeUnlessEmpty()
+            ?.let { dateString ->
+                try {
+                    LocalDate.parse(dateString, DateTimeFormatter.ofPattern(DEFAULT_FORMAT, Locale.US))
+                } catch (e: DateTimeParseException) {
+                    null
+                }
             }
-        }
-        return calendar
-    }
+            ?: LocalDate.now()
 
     companion object {
         private const val DEFAULT_FORMAT = "yyyy-MM-dd"
-
-        internal val DATE_FORMAT
-            get() = SimpleDateFormat(DEFAULT_FORMAT, Locale.US)
     }
 }

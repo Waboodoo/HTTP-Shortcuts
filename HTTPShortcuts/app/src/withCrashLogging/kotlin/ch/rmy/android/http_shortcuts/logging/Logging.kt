@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.logging
 
 import android.content.Context
 import android.view.InflateException
+import ch.rmy.android.framework.extensions.minus
 import ch.rmy.android.framework.utils.InstallUtil
 import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.data.RealmFactory
@@ -12,7 +13,7 @@ import com.bugsnag.android.ErrorTypes
 import com.bugsnag.android.ThreadSendPolicy
 import kotlinx.coroutines.CancellationException
 import java.io.IOException
-import java.util.Date
+import java.time.Instant
 import kotlin.time.Duration.Companion.days
 import kotlin.time.times
 
@@ -64,7 +65,7 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
             }
 
     private val isAppOutdated
-        get() = Date().time - BuildConfig.BUILD_TIMESTAMP.toLong() > MAX_APP_AGE.inWholeMilliseconds
+        get() = Instant.now() - Instant.ofEpochMilli(BuildConfig.BUILD_TIMESTAMP.toLong()) > MAX_APP_AGE
 
     @Suppress("MayBeConstant")
     val supportsCrashReporting: Boolean = true

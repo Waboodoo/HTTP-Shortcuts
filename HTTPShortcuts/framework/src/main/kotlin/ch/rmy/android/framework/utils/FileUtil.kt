@@ -6,11 +6,12 @@ import android.net.Uri
 import android.provider.OpenableColumns
 import androidx.core.content.FileProvider
 import ch.rmy.android.framework.extensions.applyIf
+import ch.rmy.android.framework.extensions.minus
 import ch.rmy.android.framework.extensions.tryOrLog
 import java.io.BufferedWriter
 import java.io.File
 import java.io.OutputStreamWriter
-import java.util.Date
+import java.time.Instant
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.time.Duration
 
@@ -49,10 +50,10 @@ object FileUtil {
         )
 
     fun deleteOldCacheFiles(context: Context, maxCacheFileAge: Duration) {
-        val now = Date().time
+        val now = Instant.now()
         context.cacheDir
             .listFiles()
-            ?.filter { now - it.lastModified() > maxCacheFileAge.inWholeMilliseconds }
+            ?.filter { now - Instant.ofEpochMilli(it.lastModified()) > maxCacheFileAge }
             ?.forEach {
                 it.delete()
             }

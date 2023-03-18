@@ -8,14 +8,14 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.exceptions.UserException
-import ch.rmy.android.http_shortcuts.extensions.parseOrNull
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
-import java.util.Calendar
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -39,16 +39,16 @@ class PromptTimeAction(
     override suspend fun execute(executionContext: ExecutionContext): String? =
         withContext(Dispatchers.Main) {
             suspendCancellableCoroutine<String> { continuation ->
-                val calendar = getInitialTime()
+                val time = getInitialTime()
                 val timePicker = TimePickerDialog(
                     activityProvider.getActivity(),
                     { _, hourOfDay, minute ->
-                        val newDate = Calendar.getInstance()
-                        newDate.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                        newDate.set(Calendar.MINUTE, minute)
+                        val newTime = LocalTime.of(hourOfDay, minute)
+                        val pattern = format ?: DEFAULT_FORMAT
                         try {
                             continuation.resume(
-                                SimpleDateFormat(format ?: DEFAULT_FORMAT, Locale.US).format(newDate.time.time)
+                                DateTimeFormatter.ofPattern(pattern, Locale.US)
+                                    .format(newTime)
                             )
                         } catch (e: IllegalArgumentException) {
                             continuation.resumeWithException(
@@ -58,8 +58,8 @@ class PromptTimeAction(
                             )
                         }
                     },
-                    calendar.get(Calendar.HOUR_OF_DAY),
-                    calendar.get(Calendar.MINUTE),
+                    time.hour,
+                    time.minute,
                     DateFormat.is24HourFormat(context),
                 )
                 timePicker.setCancelable(true)
@@ -78,20 +78,19 @@ class PromptTimeAction(
             .takeUnlessEmpty()
             ?.removePrefix("-")
 
-    private fun getInitialTime(): Calendar {
-        val calendar = Calendar.getInstance()
-        if (!initialTime.isNullOrEmpty()) {
-            DATE_FORMAT.parseOrNull(initialTime)?.let {
-                calendar.time = it
+    private fun getInitialTime(): LocalTime =
+        initialTime
+            ?.takeUnlessEmpty()
+            ?.let { timeString ->
+                try {
+                    LocalTime.parse(timeString, DateTimeFormatter.ofPattern(DEFAULT_FORMAT, Locale.US))
+                } catch (e: DateTimeParseException) {
+                    null
+                }
             }
-        }
-        return calendar
-    }
+            ?: LocalTime.now()
 
     companion object {
         private const val DEFAULT_FORMAT = "HH:mm"
-
-        internal val DATE_FORMAT
-            get() = SimpleDateFormat(DEFAULT_FORMAT, Locale.US)
     }
 }

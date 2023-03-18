@@ -17,7 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.InputStream
-import java.util.Date
+import java.time.Instant
 import java.util.regex.Pattern
 import java.util.regex.Pattern.quote
 import kotlin.math.max
@@ -136,7 +136,7 @@ object IconUtil {
         string.matches(CUSTOM_ICON_NAME_REGEX.toRegex())
 
     fun generateCustomIconName(): String =
-        "${CUSTOM_ICON_NAME_PREFIX}x${Date().time}$CUSTOM_ICON_NAME_SUFFIX"
+        "${CUSTOM_ICON_NAME_PREFIX}x${Instant.now().toEpochMilli()}$CUSTOM_ICON_NAME_SUFFIX"
 
     fun extractCustomIconNames(string: String): Set<String> =
         buildSet {

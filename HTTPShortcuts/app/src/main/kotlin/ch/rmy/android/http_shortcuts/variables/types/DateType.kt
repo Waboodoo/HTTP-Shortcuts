@@ -2,20 +2,18 @@ package ch.rmy.android.http_shortcuts.variables.types
 
 import android.app.DatePickerDialog
 import android.content.DialogInterface
-import ch.rmy.android.framework.extensions.applyIfNotNull
 import ch.rmy.android.framework.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.extensions.parseOrNull
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -34,15 +32,15 @@ class DateType : BaseVariableType() {
 
     override suspend fun resolveValue(variable: Variable): String {
         val selectedDate = withContext(Dispatchers.Main) {
-            suspendCancellableCoroutine<Date> { continuation ->
-                val calendar = getInitialDate(variable.value.takeIf { variable.rememberValue })
+            suspendCancellableCoroutine<LocalDate> { continuation ->
+                val date = getInitialDate(variable.value.takeIf { variable.rememberValue })
                 val activity = activityProvider.getActivity()
                 val datePicker = DatePickerDialog(
                     activity,
                     null,
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH),
+                    date.year,
+                    date.monthValue,
+                    date.dayOfMonth,
                 )
                 if (variable.title.isNotEmpty()) {
                     datePicker.setTitle(variable.title)
@@ -51,12 +49,12 @@ class DateType : BaseVariableType() {
                     DialogInterface.BUTTON_POSITIVE,
                     activity.getString(R.string.dialog_ok),
                 ) { _, _ ->
-                    val newDate = Calendar.getInstance()
-                    val day = datePicker.datePicker.dayOfMonth
-                    val month = datePicker.datePicker.month
-                    val year = datePicker.datePicker.year
-                    newDate.set(year, month, day)
-                    continuation.resume(newDate.time)
+                    val newDate = LocalDate.of(
+                        datePicker.datePicker.year,
+                        datePicker.datePicker.month,
+                        datePicker.datePicker.dayOfMonth,
+                    )
+                    continuation.resume(newDate)
                 }
                 datePicker.setCancelable(true)
                 datePicker.setCanceledOnTouchOutside(true)
@@ -71,25 +69,29 @@ class DateType : BaseVariableType() {
         }
 
         if (variable.rememberValue) {
-            variablesRepository.setVariableValue(variable.id, DATE_FORMAT.format(selectedDate.time))
+            variablesRepository.setVariableValue(variable.id, DATE_FORMAT.format(selectedDate))
         }
-        return SimpleDateFormat(getDateFormat(variable), Locale.US)
-            .format(selectedDate.time)
+        return DateTimeFormatter.ofPattern(getDateFormat(variable), Locale.US)
+            .format(selectedDate)
     }
 
-    private fun getInitialDate(previousValue: String?) =
-        Calendar.getInstance()
-            .applyIfNotNull(previousValue) {
-                time = DATE_FORMAT.parseOrNull(it) ?: return@applyIfNotNull
+    private fun getInitialDate(previousValue: String?): LocalDate =
+        previousValue
+            ?.let {
+                try {
+                    LocalDate.parse(it, DateTimeFormatter.ofPattern(DEFAULT_FORMAT, Locale.US))
+                } catch (e: DateTimeParseException) {
+                    null
+                }
             }
+            ?: LocalDate.now()
 
     companion object {
 
         const val KEY_FORMAT = "format"
         private const val DEFAULT_FORMAT = "yyyy-MM-dd"
 
-        internal val DATE_FORMAT
-            get() = SimpleDateFormat(DEFAULT_FORMAT, Locale.US)
+        internal val DATE_FORMAT = DateTimeFormatter.ofPattern(DEFAULT_FORMAT, Locale.US)
 
         fun getDateFormat(variable: Variable) =
             variable.dataForType[KEY_FORMAT] ?: DEFAULT_FORMAT
