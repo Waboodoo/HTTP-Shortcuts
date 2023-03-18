@@ -2,23 +2,28 @@ package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
-import io.realm.RealmModel
-import io.realm.annotations.PrimaryKey
-import io.realm.annotations.RealmClass
-import io.realm.annotations.Required
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 
-@RealmClass
-open class Header(
+class Header() : RealmObject {
+
+    constructor(
+        id: String = newUUID(),
+        key: String = "",
+        value: String = "",
+    ) : this() {
+        this.id = id
+        this.key = key
+        this.value = value
+    }
+
     @PrimaryKey
-    @Required
-    var id: String = newUUID(),
-    @Required
-    var key: String = "",
-    @Required
-    var value: String = "",
-) : RealmModel {
+    var id: String = newUUID()
+    var key: String = ""
+    var value: String = ""
 
-    fun isSameAs(other: Header) = other.key == key && other.value == value
+    fun isSameAs(other: Header) =
+        other.key == key && other.value == value
 
     fun validate() {
         require(id.isUUID()) {

@@ -1,12 +1,17 @@
 package ch.rmy.android.http_shortcuts.data.models
 
-import io.realm.RealmModel
-import io.realm.annotations.RealmClass
+import io.realm.kotlin.types.EmbeddedRealmObject
 
-@RealmClass(embedded = true)
-open class Repetition(
-    var interval: Int = 0,
-) : RealmModel {
+class Repetition() : EmbeddedRealmObject {
+
+    constructor(
+        interval: Int = 0,
+    ) : this() {
+        this.interval = interval
+    }
+
+    var interval: Int = 0
+
     fun isSameAs(other: Repetition) =
         interval == other.interval
 

@@ -4,11 +4,11 @@ import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.domains.getHistoryEvents
+import ch.rmy.android.http_shortcuts.data.domains.getHistoryEventsNewerThan
+import ch.rmy.android.http_shortcuts.data.domains.getHistoryEventsOlderThan
 import ch.rmy.android.http_shortcuts.data.enums.HistoryEventType
 import ch.rmy.android.http_shortcuts.data.models.HistoryEvent
-import ch.rmy.android.http_shortcuts.data.models.HistoryEvent.Companion.FIELD_TIME
 import kotlinx.coroutines.flow.Flow
-import java.util.Date
 import javax.inject.Inject
 import kotlin.time.Duration
 
@@ -20,24 +20,18 @@ constructor(
 
     fun getObservableHistory(maxAge: Duration): Flow<List<HistoryEvent>> =
         observeQuery {
-            getHistoryEvents()
-                .greaterThan(FIELD_TIME, Date().apply { time -= maxAge.inWholeMilliseconds })
+            getHistoryEventsNewerThan(maxAge)
         }
 
     suspend fun deleteHistory() {
         commitTransaction {
-            getHistoryEvents()
-                .findAll()
-                .deleteAllFromRealm()
+            getHistoryEvents().deleteAll()
         }
     }
 
     suspend fun deleteOldEvents(maxAge: Duration) {
         commitTransaction {
-            getHistoryEvents()
-                .lessThan(FIELD_TIME, Date().apply { time -= maxAge.inWholeMilliseconds })
-                .findAll()
-                .deleteAllFromRealm()
+            getHistoryEventsOlderThan(maxAge).deleteAll()
         }
     }
 

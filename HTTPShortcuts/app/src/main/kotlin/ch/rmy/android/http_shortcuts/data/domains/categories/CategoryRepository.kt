@@ -11,7 +11,6 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import io.realm.kotlin.deleteFromRealm
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -70,11 +69,11 @@ constructor(
                 .findFirst()
                 ?: return@commitTransaction
             for (shortcut in category.shortcuts) {
-                shortcut.headers.deleteAllFromRealm()
-                shortcut.parameters.deleteAllFromRealm()
+                shortcut.headers.deleteAll()
+                shortcut.parameters.deleteAll()
             }
-            category.shortcuts.deleteAllFromRealm()
-            category.deleteFromRealm()
+            category.shortcuts.deleteAll()
+            category.delete()
         }
     }
 

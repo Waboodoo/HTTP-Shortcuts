@@ -1,35 +1,18 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
+import ch.rmy.android.http_shortcuts.data.migration.getString
 import com.google.gson.JsonObject
-import io.realm.DynamicRealm
-import io.realm.FieldAttribute
+import io.realm.kotlin.migration.AutomaticSchemaMigration
 import org.json.JSONArray
 
 class ReplaceActionsWithScriptsMigration : BaseMigration {
 
-    override val version: Int
-        get() = 27
-
-    override fun migrateRealm(realm: DynamicRealm) {
-        val schema = realm.schema
-
-        schema.get("Shortcut")!!
-            .addField("codeOnPrepare", String::class.java, FieldAttribute.REQUIRED)
-            .addField("codeOnSuccess", String::class.java, FieldAttribute.REQUIRED)
-            .addField("codeOnFailure", String::class.java, FieldAttribute.REQUIRED)
-
-        realm.where("Shortcut")
-            .findAll()
-            .forEach { shortcut ->
-                shortcut.setString("codeOnPrepare", jsonActionListToJsCode(shortcut.getString("serializedBeforeActions")))
-                shortcut.setString("codeOnSuccess", jsonActionListToJsCode(shortcut.getString("serializedSuccessActions")))
-                shortcut.setString("codeOnFailure", jsonActionListToJsCode(shortcut.getString("serializedFailureActions")))
-            }
-
-        schema.get("Shortcut")!!
-            .removeField("serializedBeforeActions")
-            .removeField("serializedSuccessActions")
-            .removeField("serializedFailureActions")
+    override fun migrateRealm(migrationContext: AutomaticSchemaMigration.MigrationContext) {
+        migrationContext.enumerate("Shortcut") { oldShortcut, newShortcut ->
+            newShortcut?.set("codeOnPrepare", jsonActionListToJsCode(oldShortcut.getString("serializedBeforeActions") ?: ""))
+            newShortcut?.set("codeOnSuccess", jsonActionListToJsCode(oldShortcut.getString("serializedSuccessActions") ?: ""))
+            newShortcut?.set("codeOnFailure", jsonActionListToJsCode(oldShortcut.getString("serializedFailureActions") ?: ""))
+        }
     }
 
     private fun jsonActionListToJsCode(jsonList: String?): String {

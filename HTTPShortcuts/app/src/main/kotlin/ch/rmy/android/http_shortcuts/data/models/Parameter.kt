@@ -3,25 +3,31 @@ package ch.rmy.android.http_shortcuts.data.models
 import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
-import io.realm.RealmModel
-import io.realm.annotations.PrimaryKey
-import io.realm.annotations.RealmClass
-import io.realm.annotations.Required
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 
-@RealmClass
-open class Parameter(
+class Parameter() : RealmObject {
+
+    constructor(
+        id: String = newUUID(),
+        key: String = "",
+        value: String = "",
+        parameterType: ParameterType = ParameterType.STRING,
+        fileName: String = "",
+    ) : this() {
+        this.id = id
+        this.key = key
+        this.value = value
+        this.fileName = fileName
+        type = parameterType.type
+    }
+
     @PrimaryKey
-    @Required
-    var id: String = newUUID(),
-    @Required
-    var key: String = "",
-    @Required
-    var value: String = "",
-    parameterType: ParameterType = ParameterType.STRING,
-    var fileName: String = "",
-) : RealmModel {
+    var id: String = newUUID()
+    var key: String = ""
+    var value: String = ""
+    var fileName: String = ""
 
-    @Required
     private var type: String = ParameterType.STRING.type
 
     var parameterType: ParameterType
@@ -29,10 +35,6 @@ open class Parameter(
         set(value) {
             type = value.type
         }
-
-    init {
-        type = parameterType.type
-    }
 
     fun isSameAs(other: Parameter) =
         other.key == key &&

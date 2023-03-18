@@ -3,8 +3,6 @@ package ch.rmy.android.http_shortcuts.utils
 import android.net.Uri
 import androidx.core.net.toUri
 import ch.rmy.android.http_shortcuts.data.models.Base
-import com.google.gson.ExclusionStrategy
-import com.google.gson.FieldAttributes
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
@@ -16,7 +14,9 @@ import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import com.google.gson.reflect.TypeToken
-import io.realm.RealmObject
+import io.realm.kotlin.ext.realmListOf
+import io.realm.kotlin.types.RealmList
+import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
 object GsonUtil {
@@ -33,7 +33,25 @@ object GsonUtil {
             jsonString
         }
 
-    fun importData(data: JsonElement): Base = gson.fromJson(data, Base::class.java)
+    fun importData(data: JsonElement): Base =
+        gson
+            .newBuilder()
+            .registerTypeAdapter(
+                RealmList::class.java,
+                object : JsonDeserializer<RealmList<*>> {
+                    override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): RealmList<*> {
+                        // Who needs type-safety anyway?
+                        val input = json.asJsonArray
+                        val output = Array<Any?>(input.size()) { null }
+                        for (i in 0 until input.size()) {
+                            output[i] = context.deserialize(input[i], (typeOfT as ParameterizedType).actualTypeArguments.first())
+                        }
+                        return realmListOf(*output)
+                    }
+                }
+            )
+            .create()
+            .fromJson(data, Base::class.java)
 
     fun <T> fromJsonObject(jsonObject: String?): Map<String, T> {
         if (jsonObject == null) {
@@ -44,11 +62,11 @@ object GsonUtil {
         return gson.fromJson(jsonObject, type)
     }
 
-    fun toJson(item: Any?): String = gson.toJson(item)
+    fun toJson(item: Any?): String =
+        gson.toJson(item)
 
     val gson: Gson by lazy {
         GsonBuilder()
-            .addSerializationExclusionStrategy(RealmExclusionStrategy())
             .registerTypeAdapter(Uri::class.java, UriSerializer)
             .create()
     }
@@ -59,12 +77,5 @@ object GsonUtil {
 
         override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Uri? =
             json?.asString?.toUri()
-    }
-
-    private class RealmExclusionStrategy : ExclusionStrategy {
-
-        override fun shouldSkipField(f: FieldAttributes) = f.declaringClass == RealmObject::class.java
-
-        override fun shouldSkipClass(clazz: Class<*>) = false
     }
 }

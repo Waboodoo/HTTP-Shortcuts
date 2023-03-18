@@ -8,24 +8,30 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import io.realm.RealmList
-import io.realm.RealmModel
-import io.realm.annotations.PrimaryKey
-import io.realm.annotations.RealmClass
-import io.realm.annotations.Required
+import io.realm.kotlin.ext.realmListOf
+import io.realm.kotlin.types.RealmList
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 
-@RealmClass
-open class Category(
-    @Required
-    var name: String = "",
-    categoryLayoutType: CategoryLayoutType = CategoryLayoutType.LINEAR_LIST,
-    categoryBackgroundType: CategoryBackgroundType = CategoryBackgroundType.Default,
-    clickBehavior: ShortcutClickBehavior? = null,
-) : RealmModel {
+class Category() : RealmObject {
+
+    constructor(
+        name: String = "",
+        categoryLayoutType: CategoryLayoutType = CategoryLayoutType.LINEAR_LIST,
+        categoryBackgroundType: CategoryBackgroundType = CategoryBackgroundType.Default,
+        clickBehavior: ShortcutClickBehavior? = null,
+    ) : this() {
+        this.name = name
+        this.categoryLayoutType = categoryLayoutType
+        this.categoryBackgroundType = categoryBackgroundType
+        this.clickBehavior = clickBehavior
+    }
 
     @PrimaryKey
     var id: CategoryId = ""
-    var shortcuts: RealmList<Shortcut> = RealmList()
+    var name: String = ""
+    var shortcuts: RealmList<Shortcut> = realmListOf()
+
     private var iconName: String? = null
 
     var icon: ShortcutIcon?
@@ -34,10 +40,8 @@ open class Category(
             iconName = value?.toString()?.takeUnlessEmpty()
         }
 
-    @Required
     private var layoutType: String = CategoryLayoutType.LINEAR_LIST.type
 
-    @Required
     private var background: String = CategoryBackgroundType.Default.serialize()
     var hidden: Boolean = false
 
@@ -60,12 +64,6 @@ open class Category(
         set(value) {
             shortcutClickBehavior = value?.type
         }
-
-    init {
-        layoutType = categoryLayoutType.type
-        background = categoryBackgroundType.serialize()
-        shortcutClickBehavior = clickBehavior?.type
-    }
 
     fun validate() {
         require(id.isUUID() || id.isInt()) {

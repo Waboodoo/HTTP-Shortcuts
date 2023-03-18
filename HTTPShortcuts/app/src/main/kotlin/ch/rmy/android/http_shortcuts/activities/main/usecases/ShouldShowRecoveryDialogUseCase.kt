@@ -4,6 +4,7 @@ import ch.rmy.android.http_shortcuts.activities.main.models.RecoveryInfo
 import ch.rmy.android.http_shortcuts.data.SessionInfoStore
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import javax.inject.Inject
 
@@ -34,7 +35,7 @@ constructor(
         !isSameAs(
             Shortcut(
                 icon = icon.takeIf { it is ShortcutIcon.BuiltInIcon } ?: ShortcutIcon.NoIcon,
-                executionType = executionType,
+                executionType = type,
             )
         )
 }

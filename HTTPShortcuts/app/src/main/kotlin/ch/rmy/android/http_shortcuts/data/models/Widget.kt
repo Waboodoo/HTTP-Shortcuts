@@ -1,17 +1,27 @@
 package ch.rmy.android.http_shortcuts.data.models
 
-import io.realm.RealmModel
-import io.realm.annotations.PrimaryKey
-import io.realm.annotations.RealmClass
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 
-@RealmClass
-open class Widget(
+class Widget() : RealmObject {
+
+    constructor(
+        widgetId: Int = 0,
+        shortcut: Shortcut? = null,
+        labelColor: String? = null,
+        showLabel: Boolean = true,
+    ) : this() {
+        this.widgetId = widgetId
+        this.shortcut = shortcut
+        this.labelColor = labelColor
+        this.showLabel = showLabel
+    }
+
     @PrimaryKey
-    var widgetId: Int = 0,
-    var shortcut: Shortcut? = null,
-    var labelColor: String? = null,
-    var showLabel: Boolean = true,
-) : RealmModel {
+    var widgetId: Int = 0
+    var shortcut: Shortcut? = null
+    var labelColor: String? = null
+    var showLabel: Boolean = true
 
     companion object {
         const val FIELD_WIDGET_ID = "widgetId"

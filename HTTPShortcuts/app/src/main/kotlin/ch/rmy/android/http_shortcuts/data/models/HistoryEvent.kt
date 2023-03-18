@@ -1,37 +1,39 @@
 package ch.rmy.android.http_shortcuts.data.models
 
+import ch.rmy.android.framework.extensions.toInstant
 import ch.rmy.android.http_shortcuts.data.enums.HistoryEventType
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
-import io.realm.RealmModel
-import io.realm.annotations.Ignore
-import io.realm.annotations.Index
-import io.realm.annotations.PrimaryKey
-import io.realm.annotations.RealmClass
-import io.realm.annotations.Required
-import java.util.Date
+import io.realm.kotlin.types.RealmInstant
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.Ignore
+import io.realm.kotlin.types.annotations.Index
+import io.realm.kotlin.types.annotations.PrimaryKey
+import java.time.Instant
 
-@RealmClass
-open class HistoryEvent(
-    id: String = "",
-    time: Date = Date(),
-    eventType: HistoryEventType? = null,
-    eventData: Any? = null,
-) : RealmModel {
+class HistoryEvent() : RealmObject {
+
+    constructor(
+        id: String = "",
+        eventType: HistoryEventType? = null,
+        eventData: Any? = null,
+    ) : this() {
+        this.id = id
+        this.type = eventType?.type ?: ""
+        this.data = GsonUtil.toJson(eventData)
+    }
 
     @PrimaryKey
-    @Required
-    var id: String
+    var id: String = ""
         private set
 
     @Index
-    @Required
-    var time: Date
-        private set
+    private var time: RealmInstant = RealmInstant.now()
 
-    @Required
+    val eventTime: Instant
+        get() = time.toInstant()
+
     private var type: String = ""
 
-    @Required
     private var data: String = ""
 
     @delegate:Ignore
@@ -41,13 +43,6 @@ open class HistoryEvent(
 
     fun <T> getEventData(dataClass: Class<T>): T =
         GsonUtil.gson.fromJson(data, dataClass)
-
-    init {
-        this.id = id
-        this.time = time
-        this.type = eventType?.type ?: ""
-        this.data = GsonUtil.toJson(eventData)
-    }
 
     companion object {
         const val FIELD_TIME = "time"

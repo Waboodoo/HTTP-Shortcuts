@@ -147,13 +147,13 @@ internal object ImportMigrator {
                 }
             }
             50L -> { // 2.15.0
-                CategoryBackgroundMigration.migrateImport(base)
+                CategoryBackgroundMigration().migrateImport(base)
             }
             51L -> { // 2.15.1
-                CategoryLayoutMigration.migrateImport(base)
+                CategoryLayoutMigration().migrateImport(base)
             }
             53L -> { // 2.23.0
-                ResponseActionMigration.migrateImport(base)
+                ResponseActionMigration().migrateImport(base)
             }
         }
     }

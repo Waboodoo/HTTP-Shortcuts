@@ -18,11 +18,13 @@ import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Parameter
+import ch.rmy.android.http_shortcuts.data.models.Repetition
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.usecases.GetUsedCustomIconsUseCase
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
+import io.realm.kotlin.ext.copyFromRealm
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
@@ -53,7 +55,6 @@ constructor(
             when (format) {
                 ExportFormat.ZIP -> {
                     ZipOutputStream(FileUtil.getOutputStream(context, uri)).use { out ->
-
                         out.putNextEntry(ZipEntry(JSON_FILE))
                         val writer = out.bufferedWriter()
                         val exportStatus = export(writer, base, excludeDefaults)
@@ -90,6 +91,7 @@ constructor(
 
     private suspend fun getBase(shortcutIds: Collection<ShortcutId>?, variableIds: Collection<VariableId>?): Base =
         appRepository.getBase()
+            .copyFromRealm()
             .applyIfNotNull(shortcutIds) {
                 title = null
                 categories.forEach { category ->
@@ -168,6 +170,7 @@ constructor(
             Variable::class,
             Category::class,
             ResponseHandling::class,
+            Repetition::class,
         )
     }
 }

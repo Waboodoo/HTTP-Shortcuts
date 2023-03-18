@@ -1,17 +1,16 @@
 package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.framework.extensions.hasDuplicatesBy
-import io.realm.RealmList
-import io.realm.RealmModel
-import io.realm.annotations.RealmClass
+import io.realm.kotlin.ext.realmListOf
+import io.realm.kotlin.types.RealmList
+import io.realm.kotlin.types.RealmObject
 
-@RealmClass
-open class Base : RealmModel {
+class Base : RealmObject {
 
     var version: Long = 4
-    var categories: RealmList<Category> = RealmList()
+    var categories: RealmList<Category> = realmListOf()
         private set
-    var variables: RealmList<Variable> = RealmList()
+    var variables: RealmList<Variable> = realmListOf()
         private set
     var title: String? = null
     var globalCode: String? = null

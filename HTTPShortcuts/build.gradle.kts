@@ -5,7 +5,6 @@ buildscript {
     }
     dependencies {
         classpath("com.android.tools.build:gradle:7.4.1")
-        classpath("io.realm:realm-gradle-plugin:10.13.0")
         classpath("com.bugsnag:bugsnag-android-gradle-plugin:7.2.1")
         classpath("org.jetbrains:markdown:0.3.5")
         classpath(kotlin("gradle-plugin", "1.7.21"))
@@ -16,6 +15,7 @@ buildscript {
 plugins {
     id("com.diffplug.spotless") version "6.4.2"
     id("org.jetbrains.kotlin.jvm") version "1.7.21" apply false
+    id("io.realm.kotlin") version "1.6.0" apply false
 }
 
 ext {

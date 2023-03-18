@@ -7,7 +7,7 @@ import ch.rmy.android.http_shortcuts.test.createShortcut
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 
-class BaseModelTest {
+class BaseTest {
 
     @Test
     fun `validate succeeds if there are no shortcuts`() {

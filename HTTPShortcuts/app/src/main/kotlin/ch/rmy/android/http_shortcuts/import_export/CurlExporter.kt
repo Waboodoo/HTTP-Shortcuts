@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.import_export
 
-import ch.rmy.android.framework.extensions.detachFromRealm
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
@@ -25,9 +24,8 @@ constructor(
 ) {
 
     suspend fun generateCommand(shortcut: Shortcut): CurlCommand {
-        val detachedShortcut = shortcut.detachFromRealm()
-        val variableManager = resolveVariables(detachedShortcut)
-        return generateCommand(detachedShortcut, variableManager.getVariableValuesByIds())
+        val variableManager = resolveVariables(shortcut)
+        return generateCommand(shortcut, variableManager.getVariableValuesByIds())
     }
 
     private suspend fun resolveVariables(shortcut: Shortcut): VariableManager {

@@ -1,8 +1,7 @@
 package ch.rmy.android.framework.data
 
-import io.realm.Realm
-
 interface RealmFactory {
+    fun getRealmContext(): RealmContext
 
-    fun createRealm(): Realm
+    suspend fun updateRealm(transaction: RealmTransactionContext.() -> Unit)
 }

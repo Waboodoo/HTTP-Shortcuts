@@ -1,13 +1,15 @@
 package ch.rmy.android.http_shortcuts.data.models
 
-import io.realm.RealmModel
-import io.realm.annotations.PrimaryKey
-import io.realm.annotations.RealmClass
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 
-@RealmClass
-open class AppLock(
-    var passwordHash: String = "",
-) : RealmModel {
+class AppLock() : RealmObject {
     @PrimaryKey
     var id: Long = 0
+
+    var passwordHash: String = ""
+
+    constructor(passwordHash: String) : this() {
+        this.passwordHash = passwordHash
+    }
 }

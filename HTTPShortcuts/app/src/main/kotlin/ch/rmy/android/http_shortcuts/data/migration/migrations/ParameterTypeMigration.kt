@@ -1,24 +1,15 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
 import com.google.gson.JsonObject
-import io.realm.DynamicRealm
+import io.realm.kotlin.migration.AutomaticSchemaMigration
 
 class ParameterTypeMigration : BaseMigration {
 
-    override val version: Int = 34
-
-    override fun migrateRealm(realm: DynamicRealm) {
-        val schema = realm.schema
-        schema.get("Parameter")!!
-            .addField("type", String::class.java)
-            .addField("fileName", String::class.java)
-        realm.where("Parameter").findAll().forEach { category ->
-            category.setString("type", "string")
-            category.setString("fileName", "string")
+    override fun migrateRealm(migrationContext: AutomaticSchemaMigration.MigrationContext) {
+        migrationContext.enumerate("Parameter") { _, newParameter ->
+            newParameter?.set("type", "string")
+            newParameter?.set("fileName", "")
         }
-        schema.get("Parameter")!!
-            .setRequired("type", true)
-            .setRequired("fileName", true)
     }
 
     override fun migrateImport(base: JsonObject) {

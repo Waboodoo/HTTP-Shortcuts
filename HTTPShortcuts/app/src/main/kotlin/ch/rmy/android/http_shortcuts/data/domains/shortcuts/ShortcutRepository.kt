@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.data.domains.shortcuts
 import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
-import ch.rmy.android.framework.extensions.detachFromRealm
 import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
@@ -14,7 +13,7 @@ import ch.rmy.android.http_shortcuts.data.domains.getShortcutByNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import io.realm.kotlin.deleteFromRealm
+import io.realm.kotlin.ext.copyFromRealm
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -132,7 +131,7 @@ constructor(
     }
 
     private fun RealmTransactionContext.copyShortcut(sourceShortcut: Shortcut, targetShortcutId: ShortcutId): Shortcut =
-        sourceShortcut.detachFromRealm()
+        sourceShortcut.copyFromRealm()
             .apply {
                 id = targetShortcutId
                 parameters.forEach { parameter ->
@@ -149,10 +148,10 @@ constructor(
             getShortcutById(shortcutId)
                 .findFirst()
                 ?.apply {
-                    headers.deleteAllFromRealm()
-                    parameters.deleteAllFromRealm()
-                    responseHandling?.deleteFromRealm()
-                    deleteFromRealm()
+                    headers.deleteAll()
+                    parameters.deleteAll()
+                    responseHandling?.delete()
+                    delete()
                 }
         }
     }

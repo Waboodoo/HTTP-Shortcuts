@@ -1,37 +1,46 @@
 package ch.rmy.android.http_shortcuts.data.models
 
-import ch.rmy.android.framework.extensions.createRealmList
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
-import io.realm.RealmList
-import io.realm.RealmModel
-import io.realm.annotations.RealmClass
+import io.realm.kotlin.ext.realmListOf
+import io.realm.kotlin.types.EmbeddedRealmObject
+import io.realm.kotlin.types.RealmList
 
-@RealmClass(embedded = true)
-open class ResponseHandling(
-    var uiType: String = UI_TYPE_WINDOW,
-    var successOutput: String = SUCCESS_OUTPUT_RESPONSE,
-    var failureOutput: String = FAILURE_OUTPUT_DETAILED,
-    var successMessage: String = "",
-    var includeMetaInfo: Boolean = false,
-    displayActions: List<ResponseDisplayAction> = listOf(
-        ResponseDisplayAction.RERUN,
-        ResponseDisplayAction.SHARE,
-        ResponseDisplayAction.SAVE,
-    ),
-) : RealmModel {
+class ResponseHandling() : EmbeddedRealmObject {
 
-    private var actions: RealmList<String>
-
-    init {
-        actions = RealmList<String>().apply {
+    constructor(
+        uiType: String = UI_TYPE_WINDOW,
+        successOutput: String = SUCCESS_OUTPUT_RESPONSE,
+        failureOutput: String = FAILURE_OUTPUT_DETAILED,
+        successMessage: String = "",
+        includeMetaInfo: Boolean = false,
+        displayActions: List<ResponseDisplayAction> = listOf(
+            ResponseDisplayAction.RERUN,
+            ResponseDisplayAction.SHARE,
+            ResponseDisplayAction.SAVE,
+        ),
+    ) : this() {
+        this.uiType = uiType
+        this.successOutput = successOutput
+        this.failureOutput = failureOutput
+        this.successMessage = successMessage
+        this.includeMetaInfo = includeMetaInfo
+        actions = realmListOf<String>().apply {
             addAll(displayActions.map { it.key })
         }
     }
 
+    private var actions: RealmList<String> = realmListOf()
+
+    var uiType: String = UI_TYPE_WINDOW
+    var successOutput: String = SUCCESS_OUTPUT_RESPONSE
+    var failureOutput: String = FAILURE_OUTPUT_DETAILED
+    var successMessage: String = ""
+    var includeMetaInfo: Boolean = false
+
     var displayActions: List<ResponseDisplayAction>
         get() = actions.mapNotNull(ResponseDisplayAction::parse)
         set(value) {
-            actions = createRealmList(value.map { it.key })
+            actions = value.mapTo(realmListOf()) { it.key }
         }
 
     var storeDirectory: String? = null
