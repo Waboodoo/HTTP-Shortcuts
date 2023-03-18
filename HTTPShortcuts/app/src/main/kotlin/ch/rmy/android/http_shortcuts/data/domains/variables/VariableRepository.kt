@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.data.domains.variables
 import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
-import ch.rmy.android.framework.extensions.detachFromRealm
 import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.domains.getBase
@@ -11,7 +10,7 @@ import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
 import ch.rmy.android.http_shortcuts.data.domains.getVariableById
 import ch.rmy.android.http_shortcuts.data.domains.getVariableByKeyOrId
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import io.realm.kotlin.deleteFromRealm
+import io.realm.kotlin.ext.copyFromRealm
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -59,7 +58,7 @@ constructor(
             val oldVariable = getVariableById(variableId)
                 .findFirst()
                 ?: return@commitTransaction
-            val newVariable = oldVariable.detachFromRealm()
+            val newVariable = oldVariable.copyFromRealm()
             newVariable.id = newUUID()
             newVariable.key = newKey
             newVariable.options?.forEach {
@@ -80,8 +79,8 @@ constructor(
             getVariableById(variableId)
                 .findFirst()
                 ?.apply {
-                    options?.deleteAllFromRealm()
-                    deleteFromRealm()
+                    options?.deleteAll()
+                    delete()
                 }
         }
     }
@@ -108,7 +107,7 @@ constructor(
     }
 
     private fun RealmTransactionContext.copyVariable(sourceVariable: Variable, targetVariableId: VariableId): Variable =
-        sourceVariable.detachFromRealm()
+        sourceVariable.copyFromRealm()
             .apply {
                 id = targetVariableId
                 options?.forEach { option ->

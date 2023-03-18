@@ -8,7 +8,6 @@ import ch.rmy.android.http_shortcuts.data.domains.getWidgetsByIds
 import ch.rmy.android.http_shortcuts.data.domains.getWidgetsForShortcut
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.Widget
-import io.realm.kotlin.deleteFromRealm
 import javax.inject.Inject
 
 class WidgetsRepository
@@ -43,18 +42,16 @@ constructor(
     suspend fun deleteDeadWidgets() {
         commitTransaction {
             getDeadWidgets()
-                .findAll()
+                .find()
                 .forEach { widget ->
-                    widget.deleteFromRealm()
+                    widget.delete()
                 }
         }
     }
 
     suspend fun deleteWidgets(widgetIds: List<Int>) {
         commitTransaction {
-            getWidgetsByIds(widgetIds)
-                .findAll()
-                .deleteAllFromRealm()
+            getWidgetsByIds(widgetIds).deleteAll()
         }
     }
 }

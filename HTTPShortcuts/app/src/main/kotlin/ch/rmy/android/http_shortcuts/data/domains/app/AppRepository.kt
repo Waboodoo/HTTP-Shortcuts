@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.data.domains.app
 import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
-import ch.rmy.android.framework.extensions.deleteAllFromRealm
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.data.domains.getAppLock
 import ch.rmy.android.http_shortcuts.data.domains.getBase
@@ -20,7 +19,6 @@ import ch.rmy.android.http_shortcuts.data.models.ResolvedVariable
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.import_export.Importer
-import io.realm.kotlin.where
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -102,9 +100,7 @@ constructor(
 
     suspend fun removeLock() {
         commitTransaction {
-            getAppLock()
-                .findAll()
-                .deleteAllFromRealm()
+            getAppLock().deleteAll()
         }
     }
 
@@ -191,75 +187,80 @@ constructor(
 
             // Delete orphaned categories
             val usedCategoryIds = categories.map { it.id }
-            realmInstance.where<Category>()
-                .findAll()
+            get<Category>()
+                .find()
                 .filter {
+                    // TODO: Use RealmQL for this
                     it.id !in usedCategoryIds
                 }
-                .deleteAllFromRealm()
+                .deleteAll()
 
             // Delete orphaned shortcuts
             val usedShortcutIds = shortcuts.map { it.id }
-            realmInstance.where<Shortcut>()
-                .notEqualTo(Shortcut.FIELD_ID, Shortcut.TEMPORARY_ID)
-                .findAll()
+            get<Shortcut>("${Shortcut.FIELD_ID} != $0", Shortcut.TEMPORARY_ID)
+                .find()
                 .filter {
+                    // TODO: Use RealmQL for this
                     it.id !in usedShortcutIds
                 }
-                .deleteAllFromRealm()
+                .deleteAll()
 
             // Delete orphaned headers
             val usedHeaderIds = shortcuts
                 .flatMap { it.headers }
                 .map { header -> header.id }
-            realmInstance.where<Header>()
-                .findAll()
+            get<Header>()
+                .find()
                 .filter {
+                    // TODO: Use RealmQL for this
                     it.id !in usedHeaderIds
                 }
-                .deleteAllFromRealm()
+                .deleteAll()
 
             // Delete orphaned parameters
             val usedParameterIds = shortcuts
                 .flatMap { it.parameters }
                 .map { parameter -> parameter.id }
-            realmInstance.where<Parameter>()
-                .findAll()
+            get<Parameter>()
+                .find()
                 .filter {
+                    // TODO: Use RealmQL for this
                     it.id !in usedParameterIds
                 }
-                .deleteAllFromRealm()
+                .deleteAll()
 
             // Delete orphaned variables
             val usedVariableIds = variables.map { it.id }
-            realmInstance.where<Variable>()
-                .notEqualTo(Variable.FIELD_ID, Variable.TEMPORARY_ID)
-                .findAll()
+            get<Variable>("${Variable.FIELD_ID} != $0", Variable.TEMPORARY_ID)
+                .find()
                 .filter {
+                    // TODO: Use RealmQL for this
                     it.id !in usedVariableIds
                 }
-                .deleteAllFromRealm()
+                .deleteAll()
 
             // Delete orphaned options
             val usedOptionIds = variables.flatMap { it.options ?: emptyList() }.map { it.id }
-            realmInstance.where<Option>()
-                .findAll()
+            get<Option>()
+                .find()
                 .filter {
+                    // TODO: Use RealmQL for this
                     it.id !in usedOptionIds
                 }
-                .deleteAllFromRealm()
+                .deleteAll()
 
             // Delete orphaned resolved variables
-            val usedResolvedVariableIds = realmInstance.where<PendingExecution>()
-                .findAll()
+            val usedResolvedVariableIds = get<PendingExecution>()
+                .find()
                 .flatMap { it.resolvedVariables }
                 .map { it.id }
-            realmInstance.where<ResolvedVariable>()
-                .findAll()
+            get<ResolvedVariable>()
+                .find()
                 .filter {
+                    // TODO: Use RealmQL for this
                     it.id !in usedResolvedVariableIds
                 }
-                .deleteAllFromRealm()
+                .deleteAll()
         }
     }
 }

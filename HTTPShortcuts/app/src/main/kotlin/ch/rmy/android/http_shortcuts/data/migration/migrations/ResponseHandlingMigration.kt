@@ -1,105 +1,79 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
 import ch.rmy.android.framework.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.data.migration.getString
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import io.realm.DynamicRealm
+import io.realm.kotlin.migration.AutomaticSchemaMigration
 
 class ResponseHandlingMigration : BaseMigration {
 
-    override val version: Int = 40
-
-    override fun migrateRealm(realm: DynamicRealm) {
-        val schema = realm.schema
-        val responseHandlingSchema = schema.createWithPrimaryKeyField(
-            "ResponseHandling",
-            "id",
-            String::class.java
-        )
-            .setRequired("id", true)
-            .addField("uiType", String::class.java)
-            .setRequired("uiType", true)
-            .addField("successOutput", String::class.java)
-            .setRequired("successOutput", true)
-            .addField("failureOutput", String::class.java)
-            .setRequired("failureOutput", true)
-            .addField("successMessage", String::class.java)
-            .setRequired("successMessage", true)
-            .addField("includeMetaInfo", Boolean::class.javaPrimitiveType!!)
-
-        val shortcutSchema = schema.get("Shortcut")!!
-            .addRealmObjectField("responseHandling", responseHandlingSchema)
-
-        realm.where("Shortcut").findAll().forEach { shortcut ->
-            if (shortcut.getString("executionType") == "app") {
-                realm.createObject("ResponseHandling", UUIDUtils.newUUID())
-                    .apply {
-                        when (shortcut.getString("feedback")) {
-                            "simple_response" -> {
-                                setString("uiType", "toast")
-                                setString("successOutput", "message")
-                                setString("failureOutput", "simple")
-                                setString("successMessage", "")
-                                setBoolean("includeMetaInfo", false)
-                            }
-                            "simple_response_errors" -> {
-                                setString("uiType", "toast")
-                                setString("successOutput", "none")
-                                setString("failureOutput", "simple")
-                                setString("successMessage", "")
-                                setBoolean("includeMetaInfo", false)
-                            }
-                            "full_response" -> {
-                                setString("uiType", "toast")
-                                setString("successOutput", "response")
-                                setString("failureOutput", "detailed")
-                                setString("successMessage", "")
-                                setBoolean("includeMetaInfo", false)
-                            }
-                            "errors_only" -> {
-                                setString("uiType", "toast")
-                                setString("successOutput", "none")
-                                setString("failureOutput", "detailed")
-                                setString("successMessage", "")
-                                setBoolean("includeMetaInfo", false)
-                            }
-                            "dialog" -> {
-                                setString("uiType", "dialog")
-                                setString("successOutput", "response")
-                                setString("failureOutput", "detailed")
-                                setString("successMessage", "")
-                                setBoolean("includeMetaInfo", false)
-                            }
-                            "activity" -> {
-                                setString("uiType", "window")
-                                setString("successOutput", "response")
-                                setString("failureOutput", "detailed")
-                                setString("successMessage", "")
-                                setBoolean("includeMetaInfo", false)
-                            }
-                            "debug" -> {
-                                setString("uiType", "window")
-                                setString("successOutput", "response")
-                                setString("failureOutput", "detailed")
-                                setString("successMessage", "")
-                                setBoolean("includeMetaInfo", true)
-                            }
-                            else -> {
-                                setString("uiType", "toast")
-                                setString("successOutput", "none")
-                                setString("failureOutput", "none")
-                                setString("successMessage", "")
-                                setBoolean("includeMetaInfo", false)
-                            }
-                        }
-                    }
-                    .let { responseHandling ->
-                        shortcut.setObject("responseHandling", responseHandling)
-                    }
+    override fun migrateRealm(migrationContext: AutomaticSchemaMigration.MigrationContext) {
+        migrationContext.enumerate("Shortcut") { oldShortcut, newShortcut ->
+            if (oldShortcut.getString("executionType") != "app") {
+                return@enumerate
             }
+            val responseHandling = when (oldShortcut.getString("feedback")) {
+                "simple_response" -> ResponseHandling(
+                    uiType = "toast",
+                    successOutput = "message",
+                    failureOutput = "simple",
+                    successMessage = "",
+                    includeMetaInfo = false,
+                )
+                "simple_response_errors" -> ResponseHandling(
+                    uiType = "toast",
+                    successOutput = "none",
+                    failureOutput = "simple",
+                    successMessage = "",
+                    includeMetaInfo = false,
+                )
+                "full_response" -> ResponseHandling(
+                    uiType = "toast",
+                    successOutput = "response",
+                    failureOutput = "detailed",
+                    successMessage = "",
+                    includeMetaInfo = false,
+                )
+                "errors_only" -> ResponseHandling(
+                    uiType = "toast",
+                    successOutput = "none",
+                    failureOutput = "detailed",
+                    successMessage = "",
+                    includeMetaInfo = false,
+                )
+                "dialog" -> ResponseHandling(
+                    uiType = "dialog",
+                    successOutput = "response",
+                    failureOutput = "detailed",
+                    successMessage = "",
+                    includeMetaInfo = false,
+                )
+                "activity" -> ResponseHandling(
+                    uiType = "window",
+                    successOutput = "response",
+                    failureOutput = "detailed",
+                    successMessage = "",
+                    includeMetaInfo = false,
+                )
+                "debug" -> ResponseHandling(
+                    uiType = "window",
+                    successOutput = "response",
+                    failureOutput = "detailed",
+                    successMessage = "",
+                    includeMetaInfo = true,
+                )
+                else -> ResponseHandling(
+                    uiType = "toast",
+                    successOutput = "none",
+                    failureOutput = "none",
+                    successMessage = "",
+                    includeMetaInfo = false,
+                )
+            }
+            newShortcut?.set("responseHandling", responseHandling)
         }
-
-        shortcutSchema.removeField("feedback")
     }
 
     override fun migrateImport(base: JsonObject) {

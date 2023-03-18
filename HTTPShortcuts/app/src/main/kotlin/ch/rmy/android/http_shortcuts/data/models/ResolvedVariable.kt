@@ -2,19 +2,21 @@ package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
-import io.realm.RealmModel
-import io.realm.annotations.PrimaryKey
-import io.realm.annotations.RealmClass
-import io.realm.annotations.Required
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 
-@RealmClass
-open class ResolvedVariable(
-    @Required
-    var key: VariableKey = "",
-    @Required
-    var value: String = "",
-) : RealmModel {
+class ResolvedVariable() : RealmObject {
+
+    constructor(
+        key: VariableKey = "",
+        value: String = "",
+    ) : this() {
+        this.key = key
+        this.value = value
+    }
+
     @PrimaryKey
-    @Required
     var id: String = newUUID()
+    var key: VariableKey = ""
+    var value: String = ""
 }

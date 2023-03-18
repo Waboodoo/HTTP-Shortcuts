@@ -23,7 +23,6 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.curlcommand.CurlCommand
-import io.realm.kotlin.deleteFromRealm
 import kotlinx.coroutines.flow.Flow
 import java.net.URLDecoder
 import javax.inject.Inject
@@ -46,7 +45,7 @@ constructor(
                 Shortcut(
                     id = Shortcut.TEMPORARY_ID,
                     icon = initialIcon,
-                    executionType = executionType.type,
+                    executionType = executionType,
                 )
             )
         }
@@ -78,7 +77,7 @@ constructor(
     suspend fun setRepetitionInterval(interval: Duration? = null) {
         commitTransactionForShortcut { shortcut ->
             if (interval == null) {
-                shortcut.repetition?.deleteFromRealm()
+                shortcut.repetition?.delete()
                 shortcut.repetition = null
             } else {
                 if (shortcut.repetition == null) {
@@ -164,7 +163,7 @@ constructor(
         commitTransactionForShortcut { shortcut ->
             shortcut.headers
                 .find { it.id == headerId }
-                ?.deleteFromRealm()
+                ?.delete()
         }
     }
 
@@ -175,7 +174,7 @@ constructor(
                 shortcut.parameters
                     .filterNot { it.isStringParameter }
                     .forEach { parameter ->
-                        parameter.deleteFromRealm()
+                        parameter.delete()
                     }
             }
         }
@@ -234,7 +233,7 @@ constructor(
         commitTransactionForShortcut { shortcut ->
             shortcut.parameters
                 .find { it.id == parameterId }
-                ?.deleteFromRealm()
+                ?.delete()
         }
     }
 
@@ -512,7 +511,7 @@ constructor(
 
     suspend fun deleteTemporaryShortcut() {
         commitTransactionForShortcut { shortcut ->
-            shortcut.deleteFromRealm()
+            shortcut.delete()
         }
     }
 

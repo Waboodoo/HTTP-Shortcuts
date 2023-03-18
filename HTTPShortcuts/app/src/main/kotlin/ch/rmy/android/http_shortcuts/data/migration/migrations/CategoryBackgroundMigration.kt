@@ -1,10 +1,20 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
+import ch.rmy.android.http_shortcuts.data.migration.getString
 import ch.rmy.android.http_shortcuts.extensions.getArrayOrEmpty
 import com.google.gson.JsonObject
-import io.realm.DynamicRealm
+import io.realm.kotlin.migration.AutomaticSchemaMigration
 
-object CategoryBackgroundMigration : BaseMigration {
+class CategoryBackgroundMigration : BaseMigration {
+
+    override fun migrateRealm(migrationContext: AutomaticSchemaMigration.MigrationContext) {
+        migrationContext.enumerate("Category") { oldCategory, newCategory ->
+            when (oldCategory.getString("background")) {
+                "white" -> newCategory?.set("background", "default")
+                "black" -> newCategory?.set("background", "color=#000000")
+            }
+        }
+    }
 
     override fun migrateImport(base: JsonObject) {
         base.getArrayOrEmpty("categories")
@@ -16,18 +26,4 @@ object CategoryBackgroundMigration : BaseMigration {
                 }
             }
     }
-
-    override fun migrateRealm(realm: DynamicRealm) {
-        realm.where("Category")
-            .findAll()
-            .forEach { category ->
-                when (category.getString("background")) {
-                    "white" -> category.setString("background", "default")
-                    "black" -> category.setString("background", "color=#000000")
-                }
-            }
-    }
-
-    override val version: Int
-        get() = 50
 }

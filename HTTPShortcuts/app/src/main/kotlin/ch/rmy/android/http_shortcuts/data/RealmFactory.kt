@@ -1,19 +1,40 @@
 package ch.rmy.android.http_shortcuts.data
 
 import android.content.Context
-import ch.rmy.android.framework.extensions.logInfo
+import ch.rmy.android.framework.data.RealmContext
+import ch.rmy.android.framework.data.RealmTransactionContext
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.migration.DatabaseMigration
+import ch.rmy.android.http_shortcuts.data.models.AppLock
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
-import com.getkeepsafe.relinker.MissingLibraryException
-import io.realm.Realm
-import io.realm.RealmConfiguration
+import ch.rmy.android.http_shortcuts.data.models.Header
+import ch.rmy.android.http_shortcuts.data.models.HistoryEvent
+import ch.rmy.android.http_shortcuts.data.models.Option
+import ch.rmy.android.http_shortcuts.data.models.Parameter
+import ch.rmy.android.http_shortcuts.data.models.PendingExecution
+import ch.rmy.android.http_shortcuts.data.models.Repetition
+import ch.rmy.android.http_shortcuts.data.models.ResolvedVariable
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.Widget
+import io.realm.kotlin.MutableRealm
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
 
 class RealmFactory private constructor() : ch.rmy.android.framework.data.RealmFactory {
 
-    override fun createRealm(): Realm = Realm.getInstance(configuration)
+    override fun getRealmContext(): RealmContext =
+        RealmContext(realmInstance)
+
+    override suspend fun updateRealm(transaction: RealmTransactionContext.() -> Unit) {
+        realmInstance.write {
+            RealmTransactionContext(this).transaction()
+        }
+    }
 
     class RealmNotFoundException(e: Throwable) : Exception(e)
 
@@ -21,7 +42,7 @@ class RealmFactory private constructor() : ch.rmy.android.framework.data.RealmFa
 
         private const val DB_NAME = "shortcuts_db_v2"
         private var instance: RealmFactory? = null
-        private lateinit var configuration: RealmConfiguration
+        private lateinit var realmInstance: Realm
 
         fun init(context: Context) {
             if (instance != null) {
@@ -29,11 +50,10 @@ class RealmFactory private constructor() : ch.rmy.android.framework.data.RealmFa
             }
 
             try {
-                Realm.init(context)
-                configuration = createConfiguration(context)
                 instance = RealmFactory()
-            } catch (e: MissingLibraryException) {
-                logInfo("Realm binary not found")
+                realmInstance = Realm.open(createConfiguration(context))
+            } catch (e: Exception) {
+                logException(e)
                 throw RealmNotFoundException(e)
             }
         }
@@ -41,17 +61,34 @@ class RealmFactory private constructor() : ch.rmy.android.framework.data.RealmFa
         fun getInstance(): RealmFactory = instance!!
 
         private fun createConfiguration(context: Context): RealmConfiguration =
-            RealmConfiguration.Builder()
+            RealmConfiguration.Builder(
+                setOf(
+                    AppLock::class,
+                    Base::class,
+                    Category::class,
+                    Header::class,
+                    HistoryEvent::class,
+                    Option::class,
+                    Parameter::class,
+                    PendingExecution::class,
+                    Repetition::class,
+                    ResolvedVariable::class,
+                    ResponseHandling::class,
+                    Shortcut::class,
+                    Variable::class,
+                    Widget::class,
+                )
+            )
                 .schemaVersion(DatabaseMigration.VERSION)
                 .migration(DatabaseMigration())
-                .initialData { realm ->
-                    setupBase(context, realm)
+                .initialData {
+                    setupBase(context)
                 }
                 .name(DB_NAME)
                 .compactOnLaunch()
                 .build()
 
-        private fun setupBase(context: Context, realm: Realm) {
+        private fun MutableRealm.setupBase(context: Context) {
             val defaultCategoryName = context.getString(R.string.shortcuts)
             val defaultCategory = Category(defaultCategoryName)
             defaultCategory.id = newUUID()
@@ -60,7 +97,7 @@ class RealmFactory private constructor() : ch.rmy.android.framework.data.RealmFa
                 categories.add(defaultCategory)
                 version = DatabaseMigration.VERSION
             }
-            realm.copyToRealm(newBase)
+            copyToRealm(newBase)
         }
     }
 }

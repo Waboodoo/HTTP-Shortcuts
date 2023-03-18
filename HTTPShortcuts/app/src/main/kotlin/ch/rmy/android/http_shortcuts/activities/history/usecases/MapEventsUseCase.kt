@@ -12,6 +12,8 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.HistoryEvent.Companion.getEventData
 import ch.rmy.android.http_shortcuts.history.HistoryEvent
 import ch.rmy.android.http_shortcuts.http.HttpStatus
+import java.time.LocalDateTime
+import java.time.ZoneId
 import javax.inject.Inject
 import ch.rmy.android.http_shortcuts.data.models.HistoryEvent as HistoryEventModel
 
@@ -27,7 +29,7 @@ constructor() {
             val event = eventModel.getEvent() ?: return@mapNotNull null
             HistoryListItem.HistoryEvent(
                 id = eventModel.id,
-                time = eventModel.time,
+                time = LocalDateTime.ofInstant(eventModel.eventTime, ZoneId.systemDefault()),
                 title = event.getTitle(),
                 detail = event.getDetail(),
                 displayType = event.getDisplayType(),

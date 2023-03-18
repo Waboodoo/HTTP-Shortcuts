@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.data.domains.pending_executions
 
 import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.data.RealmFactory
+import ch.rmy.android.framework.extensions.plus
 import ch.rmy.android.http_shortcuts.data.domains.getPendingExecution
 import ch.rmy.android.http_shortcuts.data.domains.getPendingExecutions
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -9,10 +10,10 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import kotlinx.coroutines.flow.Flow
-import java.util.Calendar
-import java.util.Date
+import java.time.Instant
 import javax.inject.Inject
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 class PendingExecutionsRepository
 @Inject
@@ -46,14 +47,14 @@ constructor(
     ) {
         commitTransaction {
             val maxRequestCode = getPendingExecutions()
-                .findAll()
+                .find()
                 .maxOfOrNull { it.requestCode }
             copy(
                 PendingExecution.createNew(
                     shortcutId,
                     resolvedVariables,
                     tryNumber,
-                    calculateDate(delay),
+                    calculateInstant(delay),
                     requiresNetwork,
                     recursionDepth,
                     type,
@@ -63,30 +64,22 @@ constructor(
         }
     }
 
-    private fun calculateDate(delay: Duration?): Date? {
-        val milliseconds = delay?.inWholeMilliseconds
-            ?.takeUnless { it <= 0 }
-            ?: return null
-        return Calendar.getInstance()
-            .apply {
-                add(Calendar.MILLISECOND, milliseconds.toInt())
-            }
-            .time
+    private fun calculateInstant(delay: Duration?): Instant? {
+        if (delay == null || delay <= 0.milliseconds) {
+            return null
+        }
+        return Instant.now() + delay
     }
 
     suspend fun removePendingExecution(executionId: ExecutionId) {
         commitTransaction {
-            getPendingExecution(executionId)
-                .findAll()
-                .deleteAllFromRealm()
+            getPendingExecution(executionId).deleteAll()
         }
     }
 
     suspend fun removePendingExecutionsForShortcut(shortcutId: ShortcutId) =
         commitTransaction {
-            getPendingExecutions(shortcutId)
-                .findAll()
-                .deleteAllFromRealm()
+            getPendingExecutions(shortcutId).deleteAll()
         }
 
     suspend fun getNextPendingExecution(withNetworkConstraints: Boolean): PendingExecution? =
@@ -97,9 +90,7 @@ constructor(
 
     suspend fun removeAllPendingExecutions() {
         commitTransaction {
-            getPendingExecutions()
-                .findAll()
-                .deleteAllFromRealm()
+            getPendingExecutions().deleteAll()
         }
     }
 }

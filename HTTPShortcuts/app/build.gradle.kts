@@ -12,7 +12,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("com.bugsnag.android.gradle")
-    id("realm-android")
+    id("io.realm.kotlin")
     id("de.mobilej.unmock")
 }
 
@@ -182,6 +182,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        isCoreLibraryDesugaringEnabled = true
     }
 
     sourceSets.getByName("main") {
@@ -232,6 +233,7 @@ bugsnag {
 }
 
 dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
     implementation(project(path = ":framework"))
 
     /* Dependency Injection */
@@ -302,12 +304,6 @@ dependencies {
     testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation("androidx.test:core-ktx:$androidCoreKtxTestVersion")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
-}
-
-configurations.all {
-    // Exclude RxJava2 (which would otherwise be included by Realm) as we don't need it
-    exclude(group = "io.reactivex.rxjava2", module = "rxandroid")
-    exclude(group = "io.reactivex.rxjava2", module = "rxjava")
 }
 
 poeditor {

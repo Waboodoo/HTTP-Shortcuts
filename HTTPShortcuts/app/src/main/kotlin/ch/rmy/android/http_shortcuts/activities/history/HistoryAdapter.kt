@@ -16,11 +16,12 @@ import ch.rmy.android.http_shortcuts.databinding.ListItemHistoryBinding
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
-import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class HistoryAdapter : BaseAdapter<HistoryListItem>() {
 
-    private val dateFormat = SimpleDateFormat.getTimeInstance()
+    private val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
 
     sealed interface UserEvent {
         data class HistoryEventLongPressed(val id: String) : UserEvent
@@ -81,7 +82,7 @@ class HistoryAdapter : BaseAdapter<HistoryListItem>() {
             itemId = item.id
             binding.title.setText(item.title)
             binding.title.setTextColor(item.displayType.getColor())
-            binding.time.text = dateFormat.format(item.time)
+            binding.time.text = timeFormatter.format(item.time)
             binding.details.isVisible = item.detail != null
             binding.details.setText(item.detail)
         }

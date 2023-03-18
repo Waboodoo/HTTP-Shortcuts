@@ -48,11 +48,10 @@ class HistoryViewModel(application: Application) : BaseViewModel<Unit, HistoryVi
     override fun onInitializationStarted(data: Unit) {
         viewModelScope.launch {
             historyRepository.getObservableHistory(MAX_AGE).collect { events ->
-                if (isInitialized) {
-                    updateViewState {
-                        copy(historyItems = mapEvents(events))
-                    }
-                } else {
+                updateViewState {
+                    copy(historyItems = mapEvents(events))
+                }
+                if (!isInitialized) {
                     finalizeInitialization()
                 }
             }

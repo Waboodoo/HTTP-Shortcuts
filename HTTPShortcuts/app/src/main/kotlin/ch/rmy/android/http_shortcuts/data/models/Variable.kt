@@ -7,43 +7,52 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.variables.Variables
-import io.realm.RealmList
-import io.realm.RealmModel
-import io.realm.annotations.Ignore
-import io.realm.annotations.PrimaryKey
-import io.realm.annotations.RealmClass
-import io.realm.annotations.Required
+import io.realm.kotlin.ext.realmListOf
+import io.realm.kotlin.types.RealmList
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.Ignore
+import io.realm.kotlin.types.annotations.PrimaryKey
 
-@RealmClass
-open class Variable(
+class Variable() : RealmObject {
+
+    constructor(
+        id: VariableId = "",
+        key: VariableKey = "",
+        value: String? = "",
+        options: RealmList<Option>? = realmListOf(),
+        rememberValue: Boolean = false,
+        urlEncode: Boolean = false,
+        jsonEncode: Boolean = false,
+        title: String = "",
+        message: String = "",
+        variableType: VariableType = VariableType.CONSTANT,
+    ) : this() {
+        this.id = id
+        this.key = key
+        this.value = value
+        this.options = options
+        this.rememberValue = rememberValue
+        this.urlEncode = urlEncode
+        this.jsonEncode = jsonEncode
+        this.title = title
+        this.message = message
+        type = variableType.type
+    }
+
     @PrimaryKey
-    var id: VariableId = "",
-
-    @Required
-    var key: VariableKey = "",
-
-    var value: String? = "",
-    var options: RealmList<Option>? = RealmList(),
-
-    var rememberValue: Boolean = false,
-    var urlEncode: Boolean = false,
-    var jsonEncode: Boolean = false,
-
-    @Required
-    var title: String = "",
-    @Required
-    var message: String = "",
-    variableType: VariableType = VariableType.CONSTANT,
-) : RealmModel {
+    var id: VariableId = ""
+    var key: VariableKey = ""
+    var value: String? = ""
+    var options: RealmList<Option>? = realmListOf()
+    var rememberValue: Boolean = false
+    var urlEncode: Boolean = false
+    var jsonEncode: Boolean = false
+    var title: String = ""
+    var message: String = ""
 
     private var flags: Int = 0
 
-    @Required
     private var type: String = VariableType.CONSTANT.type
-
-    init {
-        type = variableType.type
-    }
 
     private var data: String? = null
 
@@ -97,7 +106,7 @@ open class Variable(
         ) {
             return false
         }
-        if (other.options!!.indices.any { !options!![it]!!.isSameAs(other.options!![it]!!) }) {
+        if (other.options!!.indices.any { !options!![it].isSameAs(other.options!![it]) }) {
             return false
         }
         return true

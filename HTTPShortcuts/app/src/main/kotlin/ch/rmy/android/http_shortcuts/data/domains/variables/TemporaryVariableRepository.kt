@@ -8,8 +8,7 @@ import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import io.realm.RealmList
-import io.realm.kotlin.deleteFromRealm
+import io.realm.kotlin.ext.realmListOf
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -115,7 +114,7 @@ constructor(
     suspend fun addOption(label: String, value: String) {
         commitTransactionForVariable { variable ->
             if (variable.options == null) {
-                variable.options = RealmList()
+                variable.options = realmListOf()
             }
             variable.options!!.add(
                 copy(
@@ -142,7 +141,7 @@ constructor(
         commitTransactionForVariable { variable ->
             variable.options
                 ?.find { it.id == optionId }
-                ?.deleteFromRealm()
+                ?.delete()
         }
     }
 }

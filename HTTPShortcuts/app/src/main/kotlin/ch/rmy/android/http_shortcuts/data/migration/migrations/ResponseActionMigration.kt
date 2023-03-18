@@ -1,27 +1,25 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
+import ch.rmy.android.http_shortcuts.data.migration.getString
 import ch.rmy.android.http_shortcuts.extensions.getArrayOrEmpty
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import io.realm.DynamicRealm
-import io.realm.RealmList
+import io.realm.kotlin.dynamic.getValueList
+import io.realm.kotlin.migration.AutomaticSchemaMigration
 
-object ResponseActionMigration : BaseMigration {
-    override val version: Int = 53
+class ResponseActionMigration : BaseMigration {
 
-    override fun migrateRealm(realm: DynamicRealm) {
-        realm.schema.get("ResponseHandling")!!
-            .addRealmListField("actions", String::class.java)
-        realm.where("Shortcut")
-            .findAll()
-            .forEach { shortcut ->
-                shortcut.getObject("responseHandling")
-                    ?.let { responseHandling ->
-                        if (responseHandling.getString("uiType") == "window") {
-                            responseHandling.setList("actions", RealmList("rerun", "share", "save"))
-                        }
-                    }
+    override fun migrateRealm(migrationContext: AutomaticSchemaMigration.MigrationContext) {
+        migrationContext.enumerate("ResponseHandling") { oldResponseHandling, newResponseHandling ->
+            if (oldResponseHandling.getString("uiType") == "window") {
+                newResponseHandling?.getValueList<String>("actions")?.apply {
+                    clear()
+                    add("rerun")
+                    add("share")
+                    add("save")
+                }
             }
+        }
     }
 
     override fun migrateImport(base: JsonObject) {

@@ -1,10 +1,19 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
+import ch.rmy.android.http_shortcuts.data.migration.getString
 import ch.rmy.android.http_shortcuts.extensions.getArrayOrEmpty
 import com.google.gson.JsonObject
-import io.realm.DynamicRealm
+import io.realm.kotlin.migration.AutomaticSchemaMigration
 
-object CategoryLayoutMigration : BaseMigration {
+class CategoryLayoutMigration : BaseMigration {
+
+    override fun migrateRealm(migrationContext: AutomaticSchemaMigration.MigrationContext) {
+        migrationContext.enumerate("Category") { oldCategory, newCategory ->
+            if (oldCategory.getString("layoutType") == "grid") {
+                newCategory?.set("layoutType", "dense_grid")
+            }
+        }
+    }
 
     override fun migrateImport(base: JsonObject) {
         base.getArrayOrEmpty("categories")
@@ -15,17 +24,4 @@ object CategoryLayoutMigration : BaseMigration {
                 }
             }
     }
-
-    override fun migrateRealm(realm: DynamicRealm) {
-        realm.where("Category")
-            .findAll()
-            .forEach { category ->
-                when (category.getString("layoutType")) {
-                    "grid" -> category.setString("layoutType", "dense_grid")
-                }
-            }
-    }
-
-    override val version: Int
-        get() = 51
 }

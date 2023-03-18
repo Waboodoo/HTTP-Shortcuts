@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.domains
 
 import ch.rmy.android.framework.data.RealmContext
-import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -16,92 +15,70 @@ import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.Widget
-import io.realm.Case
-import io.realm.RealmQuery
-import io.realm.Sort
-import io.realm.kotlin.where
+import io.realm.kotlin.query.RealmQuery
+import io.realm.kotlin.query.Sort
+import io.realm.kotlin.types.RealmInstant
+import kotlin.time.Duration
 
 fun RealmContext.getBase(): RealmQuery<Base> =
-    realmInstance
-        .where()
+    get()
 
 fun RealmContext.getCategoryById(categoryId: CategoryId): RealmQuery<Category> =
-    realmInstance
-        .where<Category>()
-        .equalTo(Category.FIELD_ID, categoryId)
+    get("${Category.FIELD_ID} == $0", categoryId)
 
 fun RealmContext.getShortcutById(shortcutId: ShortcutId): RealmQuery<Shortcut> =
-    realmInstance
-        .where<Shortcut>()
-        .equalTo(Shortcut.FIELD_ID, shortcutId)
+    get("${Shortcut.FIELD_ID} == $0", shortcutId)
 
 fun RealmContext.getTemporaryShortcut(): RealmQuery<Shortcut> =
     getShortcutById(Shortcut.TEMPORARY_ID)
 
 fun RealmContext.getShortcutByNameOrId(shortcutNameOrId: ShortcutNameOrId): RealmQuery<Shortcut> =
-    realmInstance
-        .where<Shortcut>()
-        .equalTo(Shortcut.FIELD_ID, shortcutNameOrId)
-        .or()
-        .equalTo(Shortcut.FIELD_NAME, shortcutNameOrId, Case.INSENSITIVE)
+    get("${Shortcut.FIELD_ID} == $0 OR ${Shortcut.FIELD_NAME} ==[c] $1", shortcutNameOrId, shortcutNameOrId)
 
 fun RealmContext.getVariableById(variableId: VariableId): RealmQuery<Variable> =
-    realmInstance
-        .where<Variable>()
-        .equalTo(Variable.FIELD_ID, variableId)
+    get("${Variable.FIELD_ID} == $0", variableId)
 
 fun RealmContext.getVariableByKeyOrId(keyOrId: VariableKeyOrId): RealmQuery<Variable> =
-    realmInstance
-        .where<Variable>()
-        .beginGroup()
-        .equalTo(Variable.FIELD_KEY, keyOrId)
-        .and()
-        .notEqualTo(Variable.FIELD_ID, Variable.TEMPORARY_ID)
-        .endGroup()
-        .or()
-        .equalTo(Variable.FIELD_ID, keyOrId)
+    get("(${Variable.FIELD_KEY} == $0 AND ${Variable.FIELD_ID} != $1) OR ${Variable.FIELD_ID} == $0", keyOrId, Variable.TEMPORARY_ID)
 
 fun RealmContext.getTemporaryVariable(): RealmQuery<Variable> =
-    realmInstance
-        .where<Variable>()
-        .equalTo(Variable.FIELD_ID, Variable.TEMPORARY_ID)
+    get("${Variable.FIELD_ID} == $0", Variable.TEMPORARY_ID)
 
 fun RealmContext.getPendingExecutions(shortcutId: ShortcutId? = null, waitForNetwork: Boolean? = null): RealmQuery<PendingExecution> =
-    realmInstance
-        .where<PendingExecution>()
-        .runIfNotNull(shortcutId) {
-            equalTo(PendingExecution.FIELD_SHORTCUT_ID, it)
-        }
-        .runIfNotNull(waitForNetwork) {
-            equalTo(PendingExecution.FIELD_WAIT_FOR_NETWORK, it)
-        }
+    if (shortcutId != null && waitForNetwork != null) {
+        get("${PendingExecution.FIELD_SHORTCUT_ID} == $0 AND ${PendingExecution.FIELD_WAIT_FOR_NETWORK} == $1", shortcutId, waitForNetwork)
+    } else if (shortcutId != null) {
+        get("${PendingExecution.FIELD_SHORTCUT_ID} == $0", shortcutId)
+    } else if (waitForNetwork != null) {
+        get("${PendingExecution.FIELD_WAIT_FOR_NETWORK} == $0", waitForNetwork)
+    } else {
+        get<PendingExecution>()
+    }
         .sort(PendingExecution.FIELD_ENQUEUED_AT)
 
 fun RealmContext.getPendingExecution(id: ExecutionId): RealmQuery<PendingExecution> =
-    realmInstance
-        .where<PendingExecution>()
-        .equalTo(PendingExecution.FIELD_ID, id)
+    get("${PendingExecution.FIELD_ID} == $0", id)
 
 fun RealmContext.getAppLock(): RealmQuery<AppLock> =
-    realmInstance
-        .where()
+    get()
 
 fun RealmContext.getWidgetsByIds(widgetIds: List<Int>): RealmQuery<Widget> =
-    realmInstance
-        .where<Widget>()
-        .`in`(Widget.FIELD_WIDGET_ID, widgetIds.toTypedArray())
+    get("${Widget.FIELD_WIDGET_ID} IN $0", widgetIds)
 
 fun RealmContext.getDeadWidgets(): RealmQuery<Widget> =
-    realmInstance
-        .where<Widget>()
-        .isNull(Widget.FIELD_SHORTCUT)
+    get("${Widget.FIELD_SHORTCUT} == nil")
 
 fun RealmContext.getWidgetsForShortcut(shortcutId: ShortcutId): RealmQuery<Widget> =
-    realmInstance
-        .where<Widget>()
-        .equalTo("${Widget.FIELD_SHORTCUT}.${Shortcut.FIELD_ID}", shortcutId)
+    get("${Widget.FIELD_SHORTCUT}.${Shortcut.FIELD_ID} == $0", shortcutId)
 
 fun RealmContext.getHistoryEvents(): RealmQuery<HistoryEvent> =
-    realmInstance
-        .where<HistoryEvent>()
+    get<HistoryEvent>()
+        .sort(HistoryEvent.FIELD_TIME, Sort.DESCENDING)
+
+fun RealmContext.getHistoryEventsOlderThan(age: Duration): RealmQuery<HistoryEvent> =
+    get<HistoryEvent>("${HistoryEvent.FIELD_TIME} < $0", RealmInstant.from(RealmInstant.now().epochSeconds - age.inWholeSeconds, 0))
+        .sort(HistoryEvent.FIELD_TIME, Sort.DESCENDING)
+
+fun RealmContext.getHistoryEventsNewerThan(age: Duration): RealmQuery<HistoryEvent> =
+    get<HistoryEvent>("${HistoryEvent.FIELD_TIME} > $0", RealmInstant.from(RealmInstant.now().epochSeconds - age.inWholeSeconds, 0))
         .sort(HistoryEvent.FIELD_TIME, Sort.DESCENDING)

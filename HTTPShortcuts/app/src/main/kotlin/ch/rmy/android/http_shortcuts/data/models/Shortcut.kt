@@ -11,54 +11,55 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import io.realm.RealmList
-import io.realm.RealmModel
-import io.realm.annotations.PrimaryKey
-import io.realm.annotations.RealmClass
-import io.realm.annotations.Required
+import io.realm.kotlin.ext.realmListOf
+import io.realm.kotlin.types.RealmList
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 
-@RealmClass
-open class Shortcut(
+class Shortcut() : RealmObject {
+
+    constructor(
+        id: ShortcutId = "",
+        icon: ShortcutIcon = ShortcutIcon.NoIcon,
+        executionType: ShortcutExecutionType = ShortcutExecutionType.APP,
+    ) : this() {
+        this.id = id
+        this.icon = icon
+        this.executionType = executionType.type
+        if (executionType == ShortcutExecutionType.APP) {
+            responseHandling = ResponseHandling()
+        }
+    }
+
     @PrimaryKey
-    var id: ShortcutId = "",
-    icon: ShortcutIcon = ShortcutIcon.NoIcon,
-    var executionType: String? = ShortcutExecutionType.APP.type,
-) : RealmModel {
+    var id: ShortcutId = ""
+    var executionType: String? = ShortcutExecutionType.APP.type
 
-    @Required
     var name: String = ""
 
     private var iconName: String? = icon.toString().takeUnlessEmpty()
 
-    @Required
     var method = METHOD_GET
 
-    @Required
     var url: String = "https://"
 
-    @Required
     var username: String = ""
 
-    @Required
     var password: String = ""
 
-    @Required
     var authToken: String = ""
 
-    @Required
     var description: String = ""
 
-    @Required
     var bodyContent: String = ""
 
     var timeout: Int = 10000
 
-    @Required
     private var retryPolicy: String = RETRY_POLICY_NONE
 
-    var headers: RealmList<Header> = RealmList()
+    var headers: RealmList<Header> = realmListOf()
 
-    var parameters: RealmList<Parameter> = RealmList()
+    var parameters: RealmList<Parameter> = realmListOf()
 
     var acceptAllCertificates: Boolean = false
 
@@ -72,10 +73,8 @@ open class Shortcut(
 
     var delay: Int = 0
 
-    @Required
     private var requestBodyType: String = RequestBodyType.CUSTOM_TEXT.type
 
-    @Required
     var contentType: String = ""
 
     var responseHandling: ResponseHandling? = null
@@ -98,19 +97,14 @@ open class Shortcut(
 
     var wifiSsid: String = ""
 
-    @Required
     var clientCert: String = ""
 
-    @Required
     var codeOnPrepare: String = ""
 
-    @Required
     var codeOnSuccess: String = ""
 
-    @Required
     var codeOnFailure: String = ""
 
-    @Required
     var browserPackageName: String = ""
 
     var excludeFromHistory: Boolean = false
@@ -146,12 +140,6 @@ open class Shortcut(
         set(value) {
             proxy = value.type
         }
-
-    init {
-        if (executionType == ShortcutExecutionType.APP.type) {
-            responseHandling = ResponseHandling()
-        }
-    }
 
     fun allowsBody(): Boolean =
         METHOD_POST == method ||
@@ -212,10 +200,10 @@ open class Shortcut(
         ) {
             return false
         }
-        if (other.parameters.indices.any { !parameters[it]!!.isSameAs(other.parameters[it]!!) }) {
+        if (other.parameters.indices.any { !parameters[it].isSameAs(other.parameters[it]) }) {
             return false
         }
-        if (other.headers.indices.any { !headers[it]!!.isSameAs(other.headers[it]!!) }) {
+        if (other.headers.indices.any { !headers[it].isSameAs(other.headers[it]) }) {
             return false
         }
         if ((other.responseHandling == null) != (responseHandling == null)) {
@@ -244,8 +232,7 @@ open class Shortcut(
             (
                 (
                     responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE ||
-                        responseHandling?.failureOutput == ResponseHandling.FAILURE_OUTPUT_DETAILED ||
-                        responseHandling?.storeDirectory != null
+                        responseHandling?.failureOutput == ResponseHandling.FAILURE_OUTPUT_DETAILED
                     ) ||
                     codeOnSuccess.isNotEmpty() || codeOnFailure.isNotEmpty()
                 )

@@ -1,17 +1,29 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.http_shortcuts.data.migration.getString
 import ch.rmy.android.http_shortcuts.extensions.getArrayOrEmpty
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import io.realm.DynamicRealm
-import io.realm.DynamicRealmObject
+import io.realm.kotlin.dynamic.DynamicMutableRealmObject
+import io.realm.kotlin.dynamic.DynamicRealmObject
+import io.realm.kotlin.migration.AutomaticSchemaMigration
 
 class RemoveLegacyActionsMigration : BaseMigration {
-
-    override val version: Int = 33
-
     private val pattern = "_runAction\\(\"([a-z_]+)\", (\\{.+\\})\\); /\\* built-in \\*/".toPattern()
+
+    override fun migrateRealm(migrationContext: AutomaticSchemaMigration.MigrationContext) {
+        migrationContext.enumerate("Shortcut") { oldShortcut, newShortcut ->
+            migrateField(oldShortcut, newShortcut, "codeOnPrepare")
+            migrateField(oldShortcut, newShortcut, "codeOnSuccess")
+            migrateField(oldShortcut, newShortcut, "codeOnFailure")
+        }
+    }
+
+    private fun migrateField(oldShortcut: DynamicRealmObject, newShortcut: DynamicMutableRealmObject?, fieldName: String) {
+        val script = oldShortcut.getString(fieldName) ?: ""
+        newShortcut?.set(fieldName, migrateScript(script))
+    }
 
     override fun migrateImport(base: JsonObject) {
         base.getArrayOrEmpty("categories")
@@ -28,21 +40,6 @@ class RemoveLegacyActionsMigration : BaseMigration {
     private fun migrateField(obj: JsonObject, field: String) {
         val value = obj.get(field)?.takeUnless { it.isJsonNull } ?: return
         obj.addProperty(field, migrateScript(value.asString))
-    }
-
-    override fun migrateRealm(realm: DynamicRealm) {
-        realm.where("Shortcut")
-            .findAll()
-            .forEach { shortcut ->
-                migrateField(shortcut, "codeOnPrepare")
-                migrateField(shortcut, "codeOnSuccess")
-                migrateField(shortcut, "codeOnFailure")
-            }
-    }
-
-    private fun migrateField(shortcut: DynamicRealmObject, fieldName: String) {
-        val script = shortcut.getString(fieldName)
-        shortcut.setString(fieldName, migrateScript(script))
     }
 
     private fun migrateScript(script: String): String {

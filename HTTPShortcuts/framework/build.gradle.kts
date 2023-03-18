@@ -3,7 +3,6 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("org.jetbrains.kotlin.android")
-    id("realm-android")
     id("de.mobilej.unmock")
 }
 
@@ -64,6 +63,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
@@ -82,6 +82,7 @@ unMock {
 }
 
 dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
     api("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
     api("androidx.core:core-ktx:1.9.0@aar")
@@ -96,6 +97,9 @@ dependencies {
     /* Dependency Injection */
     api("com.google.dagger:dagger:2.41")
     kapt("com.google.dagger:dagger-compiler:2.41")
+
+    /* Database */
+    api("io.realm.kotlin:library-base:1.6.0")
 
     /* Testing */
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinTestJunit5Version")

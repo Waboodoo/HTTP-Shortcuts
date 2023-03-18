@@ -1,63 +1,60 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
+import ch.rmy.android.http_shortcuts.data.migration.getString
 import ch.rmy.android.http_shortcuts.extensions.getArrayOrEmpty
 import com.google.gson.JsonObject
-import io.realm.DynamicRealm
-import io.realm.DynamicRealmObject
+import io.realm.kotlin.dynamic.DynamicMutableRealmObject
+import io.realm.kotlin.dynamic.DynamicRealmObject
+import io.realm.kotlin.dynamic.getNullableValue
+import io.realm.kotlin.migration.AutomaticSchemaMigration
 
 @Suppress("ALL")
 class ReplaceVariableKeysWithIdsMigration : BaseMigration {
+    override fun migrateRealm(migrationContext: AutomaticSchemaMigration.MigrationContext) {
+        val oldRealm = migrationContext.oldRealm
+        val oldVersion = oldRealm.schemaVersion()
 
-    override val version = 25
-
-    override fun migrateRealm(realm: DynamicRealm) {
-        val variableMap = realm.where("Variable")
-            .findAll()
+        val variableMap = oldRealm.query("Variable")
+            .find()
             .associate { variable ->
-                variable.getString("key") to variable.getString("id")
+                variable.getString("key").orEmpty() to variable.getString("id").orEmpty()
             }
 
-        realm.where("Shortcut")
-            .findAll()
-            .forEach { shortcut ->
-                migrateField(shortcut, "url", variableMap)
-                migrateField(shortcut, "username", variableMap)
-                migrateField(shortcut, "password", variableMap)
-                migrateField(shortcut, "bodyContent", variableMap)
-                migrateField(shortcut, "serializedBeforeActions", variableMap)
-                migrateField(shortcut, "serializedSuccessActions", variableMap)
-                migrateField(shortcut, "serializedFailureActions", variableMap)
+        migrationContext.enumerate("Shortcut") { oldShortcut, newShortcut ->
+            migrateField(oldShortcut, newShortcut, "url", variableMap)
+            migrateField(oldShortcut, newShortcut, "username", variableMap)
+            migrateField(oldShortcut, newShortcut, "password", variableMap)
+            migrateField(oldShortcut, newShortcut, "bodyContent", variableMap)
+            if (oldVersion >= 17) {
+                migrateField(oldShortcut, newShortcut, "serializedBeforeActions", variableMap)
+                migrateField(oldShortcut, newShortcut, "serializedSuccessActions", variableMap)
+                migrateField(oldShortcut, newShortcut, "serializedFailureActions", variableMap)
             }
-        realm.where("Parameter")
-            .findAll()
-            .forEach { parameter ->
-                migrateField(parameter, "key", variableMap)
-                migrateField(parameter, "value", variableMap)
-            }
-        realm.where("Header")
-            .findAll()
-            .forEach { parameter ->
-                migrateField(parameter, "key", variableMap)
-                migrateField(parameter, "value", variableMap)
-            }
-        realm.where("Variable")
-            .findAll()
-            .forEach { variable ->
-                migrateField(variable, "value", variableMap)
-                migrateField(variable, "data", variableMap)
-            }
-        realm.where("Option")
-            .findAll()
-            .forEach { option ->
-                migrateField(option, "value", variableMap)
-            }
+        }
+
+        migrationContext.enumerate("Parameter") { oldParameter, newParameter ->
+            migrateField(oldParameter, newParameter, "key", variableMap)
+            migrateField(oldParameter, newParameter, "value", variableMap)
+        }
+
+        migrationContext.enumerate("Header") { oldHeader, newHeader ->
+            migrateField(oldHeader, newHeader, "key", variableMap)
+            migrateField(oldHeader, newHeader, "value", variableMap)
+        }
+
+        migrationContext.enumerate("Variable") { oldVariable, newVariable ->
+            migrateField(oldVariable, newVariable, "value", variableMap)
+            migrateField(oldVariable, newVariable, "data", variableMap)
+        }
+
+        migrationContext.enumerate("Option") { oldOption, newOption ->
+            migrateField(oldOption, newOption, "value", variableMap)
+        }
     }
 
-    private fun migrateField(obj: DynamicRealmObject, field: String, variableMap: Map<String, String>) {
-        if (obj.isNull(field)) {
-            return
-        }
-        obj.setString(field, replaceVariables(obj.getString(field), variableMap))
+    private fun migrateField(oldObject: DynamicRealmObject, newObject: DynamicMutableRealmObject?, field: String, variableMap: Map<String, String>) {
+        val oldValue = oldObject.getNullableValue<String>(field) ?: return
+        newObject?.set(field, replaceVariables(oldValue, variableMap))
     }
 
     override fun migrateImport(base: JsonObject) {
