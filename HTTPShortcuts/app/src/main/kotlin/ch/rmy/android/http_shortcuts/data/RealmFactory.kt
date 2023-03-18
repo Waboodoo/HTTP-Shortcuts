@@ -102,6 +102,7 @@ class RealmFactory private constructor() : ch.rmy.android.framework.data.RealmFa
             val newBase = Base().apply {
                 categories.add(defaultCategory)
                 version = DatabaseMigration.VERSION
+                compatibilityVersion = DatabaseMigration.COMPATIBILITY_VERSION
             }
             copyToRealm(newBase)
         }

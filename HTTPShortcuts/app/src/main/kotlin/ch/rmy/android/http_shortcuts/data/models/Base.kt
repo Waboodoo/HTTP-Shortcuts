@@ -8,6 +8,7 @@ import io.realm.kotlin.types.RealmObject
 class Base : RealmObject {
 
     var version: Long = 4
+    var compatibilityVersion: Long = 0
     var categories: RealmList<Category> = realmListOf()
         private set
     var variables: RealmList<Variable> = realmListOf()

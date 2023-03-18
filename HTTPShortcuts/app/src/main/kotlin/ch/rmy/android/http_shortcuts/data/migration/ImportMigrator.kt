@@ -17,9 +17,12 @@ internal object ImportMigrator {
 
     fun migrate(importData: JsonElement): JsonElement {
         val base = importData.asJsonObject
-        val fromVersion = base["version"]?.takeUnless { it.isJsonNull }?.asInt ?: 0
+        val fromVersion = base["version"]?.takeUnless { it.isJsonNull }?.asLong ?: 0L
         if (fromVersion > DatabaseMigration.VERSION) {
-            throw ImportVersionMismatchException()
+            val compatibilityVersion = base["compatibilityVersion"]?.takeUnless { it.isJsonNull }?.asLong?.takeUnless { it == 0L }
+            if (compatibilityVersion == null || compatibilityVersion > DatabaseMigration.VERSION) {
+                throw ImportVersionMismatchException()
+            }
         }
         require(base.has("categories")) { "Import data doesn't have any categories" }
 

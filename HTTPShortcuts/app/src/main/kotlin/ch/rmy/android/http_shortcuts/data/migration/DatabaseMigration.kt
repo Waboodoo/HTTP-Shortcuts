@@ -222,11 +222,14 @@ class DatabaseMigration : AutomaticSchemaMigration {
         newRealm.query("Base")
             .first()
             .find()
-            ?.set("version", VERSION)
+            ?.run {
+                set("version", VERSION)
+                set("compatibilityVersion", COMPATIBILITY_VERSION)
+            }
     }
 
     companion object {
-
-        const val VERSION = 60L
+        const val VERSION = 61L
+        const val COMPATIBILITY_VERSION = 60L
     }
 }
