@@ -24,6 +24,7 @@ import ch.rmy.android.http_shortcuts.data.models.Widget
 import io.realm.kotlin.MutableRealm
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
+import java.io.File
 
 class RealmFactory private constructor() : ch.rmy.android.framework.data.RealmFactory {
 
@@ -50,8 +51,13 @@ class RealmFactory private constructor() : ch.rmy.android.framework.data.RealmFa
             }
 
             try {
+                val configuration = createConfiguration(context)
+                val backupFile = File("${configuration.path}.backup-copy")
+                if (!backupFile.exists()) {
+                    File(configuration.path).copyTo(backupFile)
+                }
                 instance = RealmFactory()
-                realmInstance = Realm.open(createConfiguration(context))
+                realmInstance = Realm.open(configuration)
             } catch (e: Exception) {
                 logException(e)
                 throw RealmNotFoundException(e)
