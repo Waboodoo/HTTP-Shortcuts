@@ -161,6 +161,7 @@ android {
     }
 
     buildFeatures {
+        compose = true
         buildConfig = true
         viewBinding = true
         dataBinding = false
@@ -168,6 +169,10 @@ android {
         renderScript = false
         resValues = false
         shaders = false
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.0-alpha02"
     }
 
     packagingOptions {
@@ -247,6 +252,14 @@ dependencies {
     implementation("com.afollestad.material-dialogs:core:3.3.0")
     implementation("com.afollestad.material-dialogs:input:3.3.0")
     implementation("com.github.skydoves:colorpickerview:2.2.4")
+
+    /* Compose */
+    implementation(platform("androidx.compose:compose-bom:2023.01.00"))
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation("androidx.activity:activity-compose:1.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
 
     /* Image cropping */
     implementation("com.github.yalantis:ucrop:2.2.8")

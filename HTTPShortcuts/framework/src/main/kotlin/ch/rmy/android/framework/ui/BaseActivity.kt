@@ -96,7 +96,7 @@ abstract class BaseActivity : AppCompatActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun updateStatusBarColor() {
+    fun updateStatusBarColor() {
         window.apply {
             addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)

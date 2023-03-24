@@ -21,13 +21,10 @@ class MapEventsUseCase
 @Inject
 constructor() {
 
-    operator fun invoke(events: List<HistoryEventModel>): List<HistoryListItem> {
-        if (events.isEmpty()) {
-            return listOf(HistoryListItem.EmptyState)
-        }
-        return events.mapNotNull { eventModel ->
+    operator fun invoke(events: List<HistoryEventModel>): List<HistoryListItem> =
+        events.mapNotNull { eventModel ->
             val event = eventModel.getEvent() ?: return@mapNotNull null
-            HistoryListItem.HistoryEvent(
+            HistoryListItem(
                 id = eventModel.id,
                 time = LocalDateTime.ofInstant(eventModel.eventTime, ZoneId.systemDefault()),
                 title = event.getTitle(),
@@ -35,7 +32,6 @@ constructor() {
                 displayType = event.getDisplayType(),
             )
         }
-    }
 
     private fun HistoryEventModel.getEvent(): HistoryEvent? =
         when (eventType) {
@@ -116,15 +112,15 @@ constructor() {
             else -> name.lowercase().replace('_', ' ')
         }
 
-    private fun HistoryEvent.getDisplayType(): HistoryListItem.HistoryEvent.DisplayType? =
+    private fun HistoryEvent.getDisplayType(): HistoryListItem.DisplayType? =
         when (this) {
             is HistoryEvent.HttpResponseReceived -> if (isSuccess) {
-                HistoryListItem.HistoryEvent.DisplayType.SUCCESS
+                HistoryListItem.DisplayType.SUCCESS
             } else {
-                HistoryListItem.HistoryEvent.DisplayType.FAILURE
+                HistoryListItem.DisplayType.FAILURE
             }
-            is HistoryEvent.NetworkError -> HistoryListItem.HistoryEvent.DisplayType.FAILURE
-            is HistoryEvent.Error -> HistoryListItem.HistoryEvent.DisplayType.FAILURE
+            is HistoryEvent.NetworkError -> HistoryListItem.DisplayType.FAILURE
+            is HistoryEvent.Error -> HistoryListItem.DisplayType.FAILURE
             else -> null
         }
 

@@ -3,8 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.history
 import android.app.Application
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.WithDialog
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.history.usecases.CopyHistoryItemUseCase
 import ch.rmy.android.http_shortcuts.activities.history.usecases.MapEventsUseCase
@@ -15,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.hours
 
-class HistoryViewModel(application: Application) : BaseViewModel<Unit, HistoryViewState>(application), WithDialog {
+class HistoryViewModel(application: Application) : BaseViewModel<Unit, HistoryViewState>(application) {
 
     @Inject
     lateinit var historyRepository: HistoryRepository
@@ -32,14 +30,6 @@ class HistoryViewModel(application: Application) : BaseViewModel<Unit, HistoryVi
     init {
         getApplicationComponent().inject(this)
     }
-
-    override var dialogState: DialogState?
-        get() = currentViewState?.dialogState
-        set(value) {
-            updateViewState {
-                copy(dialogState = value)
-            }
-        }
 
     override fun initViewState() = HistoryViewState(
         historyItems = emptyList(),
@@ -72,12 +62,15 @@ class HistoryViewModel(application: Application) : BaseViewModel<Unit, HistoryVi
     fun onHistoryEventLongPressed(id: String) {
         doWithViewState { viewState ->
             val item = viewState.historyItems
-                .filterIsInstance<HistoryListItem.HistoryEvent>()
                 .find { it.id == id }
                 ?: return@doWithViewState
             copyHistoryItemUseCase(item)
             showSnackbar(R.string.message_history_event_details_copied)
         }
+    }
+
+    fun onBackPressed() {
+        finish()
     }
 
     companion object {

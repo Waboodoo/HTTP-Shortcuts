@@ -11,7 +11,7 @@ constructor(
     private val context: Context,
     private val clipboardUtil: ClipboardUtil,
 ) {
-    operator fun invoke(item: HistoryListItem.HistoryEvent) {
+    operator fun invoke(item: HistoryListItem) {
         listOfNotNull(item.title, item.detail)
             .joinToString("\n") {
                 it.localize(context)
