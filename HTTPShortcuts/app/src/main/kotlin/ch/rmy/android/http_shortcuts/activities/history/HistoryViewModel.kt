@@ -69,10 +69,6 @@ class HistoryViewModel(application: Application) : BaseViewModel<Unit, HistoryVi
         }
     }
 
-    fun onBackPressed() {
-        finish()
-    }
-
     companion object {
         private val MAX_AGE = 8.hours
     }

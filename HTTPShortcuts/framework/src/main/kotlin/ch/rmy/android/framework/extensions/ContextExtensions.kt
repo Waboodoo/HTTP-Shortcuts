@@ -1,7 +1,9 @@
 package ch.rmy.android.framework.extensions
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
@@ -46,3 +48,17 @@ fun Fragment.openURL(url: String) {
 
 fun Context.isDarkThemeEnabled() =
     resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+
+fun Context.getActivity(): Activity? {
+    if (this is Activity) {
+        return this
+    }
+    var context = this
+    while (context is ContextWrapper) {
+        context = context.baseContext
+        if (context is Activity) {
+            return context
+        }
+    }
+    return null
+}

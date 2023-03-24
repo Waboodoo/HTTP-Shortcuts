@@ -174,7 +174,7 @@
                 android:value=".activities.categories.CategoriesActivity" />
         </activity>
         <activity
-            android:name=".activities.misc.CurlImportActivity"
+            android:name=".activities.curl_import.CurlImportActivity"
             android:label="@string/title_curl_import"
             android:parentActivityName=".activities.main.MainActivity"
             android:windowSoftInputMode="adjustResize">
