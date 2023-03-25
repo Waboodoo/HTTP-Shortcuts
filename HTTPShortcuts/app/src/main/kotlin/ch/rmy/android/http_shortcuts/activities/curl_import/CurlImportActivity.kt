@@ -1,26 +1,20 @@
 package ch.rmy.android.http_shortcuts.activities.curl_import
 
 import android.content.Intent
-import android.os.Bundle
-import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.getSerializable
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.components.Screen
+import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
+import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.curlcommand.CurlCommand
 
-class CurlImportActivity : BaseActivity() {
+class CurlImportActivity : BaseComposeActivity() {
 
-    override fun onCreated(savedState: Bundle?) {
-        updateStatusBarColor()
-        val primaryColor = themeHelper.getPrimaryColor(this)
-        setContent {
-            Screen(primaryColor, ::handleEvent) {
-                CurlImportScreen()
-            }
-        }
+    @Composable
+    override fun ScreenScope.Content() {
+        CurlImportScreen()
     }
 
     object ImportFromCurl : BaseActivityResultContract<IntentBuilder, CurlCommand?>(CurlImportActivity::IntentBuilder) {

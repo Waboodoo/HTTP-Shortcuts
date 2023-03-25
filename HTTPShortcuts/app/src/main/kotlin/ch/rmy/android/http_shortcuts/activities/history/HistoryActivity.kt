@@ -1,21 +1,15 @@
 package ch.rmy.android.http_shortcuts.activities.history
 
-import android.os.Bundle
-import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
 import ch.rmy.android.framework.ui.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.components.Screen
+import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
+import ch.rmy.android.http_shortcuts.components.ScreenScope
 
-class HistoryActivity : BaseActivity() {
+class HistoryActivity : BaseComposeActivity() {
 
-    override fun onCreated(savedState: Bundle?) {
-        updateStatusBarColor()
-        val primaryColor = themeHelper.getPrimaryColor(this)
-        setContent {
-            Screen(primaryColor, ::handleEvent) {
-                HistoryScreen()
-            }
-        }
+    @Composable
+    override fun ScreenScope.Content() {
+        HistoryScreen()
     }
 
     class IntentBuilder : BaseIntentBuilder(HistoryActivity::class)
