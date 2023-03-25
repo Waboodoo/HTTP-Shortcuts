@@ -1,8 +1,11 @@
 package ch.rmy.android.http_shortcuts.components
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
@@ -64,9 +67,11 @@ fun <T : Any> ScreenScope.SimpleScaffold(
         },
     ) { contentPadding ->
         if (viewState != null) {
-            Box(
+            Column(
                 modifier = Modifier
-                    .padding(contentPadding),
+                    .padding(contentPadding)
+                    .imePadding()
+                    .verticalScroll(rememberScrollState()),
             ) {
                 content(viewState)
             }

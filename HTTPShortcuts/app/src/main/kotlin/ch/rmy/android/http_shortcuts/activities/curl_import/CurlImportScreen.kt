@@ -2,8 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.curl_import
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -12,6 +10,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.BackButton
 import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
+import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 
 @Composable
@@ -26,13 +25,11 @@ fun ScreenScope.CurlImportScreen() {
         backButton = BackButton.CROSS,
         actions = { viewState ->
             if (viewState.submitButtonVisible) {
-                IconButton(
-                    onClick = {
-                        viewModel.onSubmitButtonClicked()
-                    },
-                ) {
-                    Icon(Icons.Filled.Check, stringResource(R.string.curl_import_button))
-                }
+                ToolbarIcon(
+                    Icons.Filled.Check,
+                    contentDescription = stringResource(R.string.curl_import_button),
+                    onClick = viewModel::onSubmitButtonClicked,
+                )
             }
         },
     ) {

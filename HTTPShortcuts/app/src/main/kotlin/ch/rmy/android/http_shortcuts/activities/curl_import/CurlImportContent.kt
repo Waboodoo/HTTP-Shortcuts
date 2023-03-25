@@ -1,8 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.curl_import
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -26,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.components.TextContainer
 
 @Composable
 fun CurlImportContent(
@@ -46,11 +45,7 @@ fun CurlImportContent(
             fontSize = FontSize.MEDIUM,
         )
 
-        Box(
-            modifier = Modifier
-                .background(colorResource(R.color.textarea_background))
-                .fillMaxWidth()
-        ) {
+        TextContainer {
             BasicTextField(
                 modifier = Modifier
                     .fillMaxWidth()
