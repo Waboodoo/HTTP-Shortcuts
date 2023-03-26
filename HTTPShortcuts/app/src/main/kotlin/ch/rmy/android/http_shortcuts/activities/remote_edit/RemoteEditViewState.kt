@@ -1,13 +1,10 @@
 package ch.rmy.android.http_shortcuts.activities.remote_edit
 
-import ch.rmy.android.framework.utils.localization.Localizable
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
-
 data class RemoteEditViewState(
-    val dialogState: DialogState? = null,
+    val dialogState: RemoteEditDialogState? = null,
     val deviceId: String,
     val password: String,
-    val instructions: Localizable,
+    val hostAddress: String,
 ) {
     val canUpload
         get() = password.isNotEmpty()

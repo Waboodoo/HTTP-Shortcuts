@@ -1,8 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.remote_edit
 
 import android.app.Application
-import android.text.Html.escapeHtml
-import androidx.annotation.StringRes
 import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
@@ -10,19 +8,13 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.WithDialog
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
-import ch.rmy.android.framework.viewmodel.viewstate.ProgressDialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
-import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.Importer
-import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
-import ch.rmy.android.http_shortcuts.utils.StringUtils
 import ch.rmy.android.http_shortcuts.utils.Validation
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -30,12 +22,11 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
-class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, RemoteEditViewState>(application), WithDialog {
+class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, RemoteEditViewState>(application) {
 
     @Inject
     lateinit var settings: Settings
@@ -60,7 +51,7 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
         set(value) {
             settings.remoteEditServerUrl = value
             updateViewState {
-                copy(instructions = getInstructions())
+                copy(hostAddress = humanReadableEditorAddress)
             }
         }
 
@@ -88,66 +79,37 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
     private fun getRemoteBaseUrl() =
         serverUrl.toUri()
 
-    override var dialogState: DialogState?
-        get() = currentViewState?.dialogState
-        set(value) {
-            updateViewState {
-                copy(dialogState = value)
-            }
-        }
-
     override fun initViewState() = RemoteEditViewState(
-        instructions = getInstructions(),
+        hostAddress = humanReadableEditorAddress,
         deviceId = deviceId,
         password = password,
     )
-
-    private fun getInstructions() =
-        Localizable.create { context ->
-            StringUtils.getOrderedList(
-                listOf(
-                    context.getString(R.string.instructions_remote_edit_step_1),
-                    context.getString(R.string.instructions_remote_edit_step_2),
-                    context.getString(R.string.instructions_remote_edit_step_3, "<b>${escapeHtml(humanReadableEditorAddress)}</b>"),
-                    context.getString(R.string.instructions_remote_edit_step_4),
-                )
-                    .map(HTMLUtil::format)
-            )
-        }
 
     fun onChangeRemoteHostButtonClicked() {
         openChangeRemoteHostDialog()
     }
 
     private fun openChangeRemoteHostDialog() {
-        dialogState = createDialogState {
-            title(R.string.title_change_remote_server)
-                .textInput(
-                    prefill = serverUrl,
-                    allowEmpty = false,
-                    callback = ::setRemoteHost,
+        updateViewState {
+            copy(
+                dialogState = RemoteEditDialogState.EditServerUrl(
+                    currentServerAddress = serverUrl,
                 )
-                .neutral(R.string.dialog_reset) {
-                    onResetRemoteHostButtonClicked()
-                }
-                .build()
+            )
         }
     }
 
-    private fun onResetRemoteHostButtonClicked() {
-        setRemoteHost("")
-    }
-
-    private fun setRemoteHost(value: String) {
+    fun onServerUrlChange(value: String) {
         if (value.isNotEmpty() && !Validation.isValidHttpUrl(value.toUri())) {
-            showMessageDialog(R.string.error_invalid_remote_edit_host_url)
+            showErrorDialog(StringResLocalizable(R.string.error_invalid_remote_edit_host_url))
             return
         }
         serverUrl = value
+        hideDialog()
     }
 
     fun onPasswordChanged(password: String) {
-        this.password = password
+        this.password = password.take(100)
     }
 
     fun onUploadButtonClicked() {
@@ -169,7 +131,7 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
                 throw e
             } catch (e: Exception) {
                 logException(e)
-                showMessageDialog(R.string.error_remote_edit_upload)
+                showErrorDialog(StringResLocalizable(R.string.error_remote_edit_upload))
             } finally {
                 dialogJob.cancel()
                 hideProgressDialog()
@@ -198,10 +160,10 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
             } catch (e: CancellationException) {
                 throw e
             } catch (e: ImportException) {
-                showMessageDialog(context.getString(R.string.error_remote_edit_download) + " " + e.message)
+                showErrorDialog(Localizable.create { it.getString(R.string.error_remote_edit_download) + " " + e.message })
             } catch (e: Exception) {
                 logException(e)
-                showMessageDialog(R.string.error_remote_edit_download)
+                showErrorDialog(StringResLocalizable(R.string.error_remote_edit_download))
             } finally {
                 dialogJob.cancel()
                 hideProgressDialog()
@@ -224,33 +186,35 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
     private fun CoroutineScope.showProgressDialogAsync(message: Int): Deferred<Unit> =
         async {
             delay(INVISIBLE_PROGRESS_THRESHOLD)
-            ensureActive()
-            dialogState = ProgressDialogState(StringResLocalizable(message), ::onProgressDialogCanceled)
+            updateViewState {
+                copy(dialogState = RemoteEditDialogState.Progress(StringResLocalizable(message)))
+            }
         }
 
     private fun hideProgressDialog() {
-        if (dialogState?.id == ProgressDialogState.DIALOG_ID) {
-            dialogState = null
+        updateViewState {
+            if (dialogState is RemoteEditDialogState.Progress) {
+                copy(dialogState = null)
+            } else this
         }
     }
 
-    private fun onProgressDialogCanceled() {
+    fun onDialogDismissalRequested() {
         currentJob?.cancel()
+        hideDialog()
     }
 
-    private fun showMessageDialog(@StringRes message: Int) {
-        dialogState = createDialogState {
-            message(message)
-                .positive(R.string.dialog_ok)
-                .build()
+    private fun hideDialog() {
+        updateViewState {
+            copy(dialogState = null)
         }
     }
 
-    private fun showMessageDialog(message: String) {
-        dialogState = createDialogState {
-            message(message)
-                .positive(R.string.dialog_ok)
-                .build()
+    private fun showErrorDialog(message: Localizable) {
+        updateViewState {
+            copy(
+                dialogState = RemoteEditDialogState.Error(message),
+            )
         }
     }
 
