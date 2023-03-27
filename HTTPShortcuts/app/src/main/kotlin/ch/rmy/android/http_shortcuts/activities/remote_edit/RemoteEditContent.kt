@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
@@ -19,7 +18,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ParagraphStyle
@@ -37,10 +35,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.FontSize
-import ch.rmy.android.http_shortcuts.components.Label
 import ch.rmy.android.http_shortcuts.components.ProgressDialog
 import ch.rmy.android.http_shortcuts.components.Spacing
-import ch.rmy.android.http_shortcuts.components.TextContainer
 import ch.rmy.android.http_shortcuts.extensions.localize
 
 @Composable
@@ -72,42 +68,47 @@ fun RemoteEditContent(
     Dialog(viewState.dialogState, onProgressDialogDismiss, onServerUrlChange)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DeviceId(deviceId: String) {
-    Column {
-        Label(stringResource(R.string.label_remote_edit_device_id))
-        TextContainer {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                text = deviceId,
-                fontSize = FontSize.HUGE,
-                textAlign = TextAlign.Center,
-            )
-        }
-    }
+    TextField(
+        modifier = Modifier
+            .fillMaxWidth(),
+        label = {
+            Text(stringResource(R.string.label_remote_edit_device_id))
+        },
+        value = deviceId,
+        onValueChange = {},
+        textStyle = TextStyle(
+            fontSize = FontSize.HUGE,
+            textAlign = TextAlign.Center,
+            fontFamily = FontFamily.Monospace,
+        ),
+        singleLine = true,
+        readOnly = true,
+    )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Password(password: String, onPasswordChanged: (String) -> Unit) {
-    Column {
-        Label(stringResource(R.string.label_remote_edit_password))
-        TextContainer {
-            BasicTextField(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                value = password,
-                onValueChange = onPasswordChanged,
-                textStyle = TextStyle(
-                    fontSize = FontSize.HUGE,
-                    textAlign = TextAlign.Center,
-                    color = colorResource(R.color.text_color_primary_dark),
-                    fontFamily = FontFamily.Monospace,
-                ),
-                visualTransformation = PasswordVisualTransformation(),
-            )
-        }
-    }
+    TextField(
+        modifier = Modifier
+            .fillMaxWidth(),
+        label = {
+            Text(stringResource(R.string.label_remote_edit_password))
+        },
+        value = password,
+        onValueChange = onPasswordChanged,
+        textStyle = TextStyle(
+            fontSize = FontSize.HUGE,
+            textAlign = TextAlign.Center,
+            fontFamily = FontFamily.Monospace,
+        ),
+        singleLine = true,
+        visualTransformation = PasswordVisualTransformation(),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+    )
 }
 
 @Composable

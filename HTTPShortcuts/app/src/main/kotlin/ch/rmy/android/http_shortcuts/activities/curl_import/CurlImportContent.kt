@@ -5,10 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -24,8 +25,8 @@ import androidx.compose.ui.unit.dp
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.Spacing
-import ch.rmy.android.http_shortcuts.components.TextContainer
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CurlImportContent(
     inputText: String,
@@ -45,29 +46,26 @@ fun CurlImportContent(
             fontSize = FontSize.MEDIUM,
         )
 
-        TextContainer {
-            BasicTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .focusRequester(focusRequester)
-                    .onGloballyPositioned {
-                        focusRequester.requestFocus()
-                    }
-                    .padding(Spacing.SMALL)
-                    .heightIn(min = 200.dp),
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Go,
-                ),
-                keyboardActions = KeyboardActions {
-                    onSubmit()
-                },
-                textStyle = TextStyle(
-                    color = colorResource(R.color.text_color_primary_dark),
-                    fontFamily = FontFamily.Monospace,
-                ),
-                value = inputText,
-                onValueChange = onInputTextChanged
-            )
-        }
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .focusRequester(focusRequester)
+                .onGloballyPositioned {
+                    focusRequester.requestFocus()
+                }
+                .heightIn(min = 200.dp),
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Go,
+            ),
+            keyboardActions = KeyboardActions {
+                onSubmit()
+            },
+            textStyle = TextStyle(
+                color = colorResource(R.color.text_color_primary_dark),
+                fontFamily = FontFamily.Monospace,
+            ),
+            value = inputText,
+            onValueChange = onInputTextChanged
+        )
     }
 }
