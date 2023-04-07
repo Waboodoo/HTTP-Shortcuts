@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -19,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import ch.rmy.android.framework.extensions.getActivity
+import ch.rmy.android.framework.extensions.runIf
 
 enum class BackButton {
     ARROW,
@@ -30,18 +33,31 @@ enum class BackButton {
 fun <T : Any> ScreenScope.SimpleScaffold(
     viewState: T?,
     title: String,
+    subtitle: String? = null,
     backButton: BackButton = BackButton.ARROW,
     onBackPressed: (() -> Unit)? = null,
+    scrollable: Boolean = true,
     actions: @Composable RowScope.(viewState: T) -> Unit = {},
     content: @Composable (viewState: T) -> Unit,
 ) {
     val context = LocalContext.current
     Scaffold(
+        modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
                 colors = topAppBarColors,
                 title = {
-                    Text(title)
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                    ) {
+                        Text(title)
+                        if (subtitle != null) {
+                            Text(
+                                subtitle,
+                                fontSize = FontSize.SMALL,
+                            )
+                        }
+                    }
                 },
                 navigationIcon = {
                     IconButton(
@@ -71,12 +87,14 @@ fun <T : Any> ScreenScope.SimpleScaffold(
                 modifier = Modifier
                     .padding(contentPadding)
                     .imePadding()
-                    .verticalScroll(rememberScrollState()),
+                    .runIf(scrollable) {
+                        verticalScroll(rememberScrollState())
+                    },
             ) {
                 content(viewState)
             }
         } else {
-            LoadingIndicatorV(
+            LoadingIndicator(
                 modifier = Modifier.padding(contentPadding),
             )
         }

@@ -3,6 +3,7 @@ package ch.rmy.android.framework.viewmodel
 import android.app.Activity
 import android.app.Application
 import android.content.Intent
+import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.annotation.UiThread
 import androidx.lifecycle.AndroidViewModel
@@ -204,6 +205,10 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
 
     protected fun openURL(url: String) {
         emitEvent(ViewModelEvent.OpenURL(url))
+    }
+
+    protected fun openURL(url: Uri) {
+        emitEvent(ViewModelEvent.OpenURL(url.toString()))
     }
 
     protected fun openActivity(intentBuilder: IntentBuilder) {

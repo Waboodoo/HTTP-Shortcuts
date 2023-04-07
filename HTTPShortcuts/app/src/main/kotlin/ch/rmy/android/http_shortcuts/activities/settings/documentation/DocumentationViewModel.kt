@@ -6,23 +6,26 @@ import androidx.core.net.toUri
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 
-class DocumentationViewModel(application: Application) : BaseViewModel<DocumentationViewModel.InitData, Unit>(application) {
+class DocumentationViewModel(application: Application) : BaseViewModel<DocumentationViewModel.InitData, DocumentationViewState>(application) {
 
-    private var currentUrl: Uri = Uri.EMPTY
-
-    override fun initViewState() = Unit
-
-    override fun onInitialized() {
-        currentUrl = initData.url ?: ExternalURLs.DOCUMENTATION_PAGE.toUri()
-        emitEvent(DocumentationEvent.LoadUrl(currentUrl))
-    }
+    override fun initViewState() = DocumentationViewState(
+        initData.url ?: ExternalURLs.DOCUMENTATION_PAGE.toUri(),
+    )
 
     fun onOpenInBrowserButtonClicked() {
-        emitEvent(DocumentationEvent.OpenInBrowser(currentUrl))
+        doWithViewState { viewState ->
+            emitEvent(DocumentationEvent.OpenInBrowser(viewState.url))
+        }
     }
 
     fun onPageChanged(url: Uri) {
-        currentUrl = url
+        updateViewState {
+            copy(url = url)
+        }
+    }
+
+    fun onExternalUrl(url: Uri) {
+        openURL(url)
     }
 
     data class InitData(
