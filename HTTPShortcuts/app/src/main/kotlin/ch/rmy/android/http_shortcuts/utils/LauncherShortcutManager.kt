@@ -157,7 +157,9 @@ constructor(
                     .categoryId(categoryId)
                     .build(context)
             )
-            .setIcon(IconUtil.getIcon(context, icon))
+            .runIfNotNull(IconUtil.getIcon(context, icon)) {
+                setIcon(it)
+            }
             .build()
 
     companion object {
