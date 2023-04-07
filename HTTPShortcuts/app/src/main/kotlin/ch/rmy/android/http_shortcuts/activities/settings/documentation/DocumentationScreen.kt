@@ -42,7 +42,6 @@ fun ScreenScope.DocumentationScreen(url: Uri?) {
         viewState = state,
         title = stringResource(R.string.title_documentation),
         subtitle = subtitle,
-        scrollable = false,
         actions = {
             ToolbarIcon(
                 Icons.Filled.OpenInBrowser,

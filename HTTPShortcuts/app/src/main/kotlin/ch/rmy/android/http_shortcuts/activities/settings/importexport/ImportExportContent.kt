@@ -3,6 +3,8 @@ package ch.rmy.android.http_shortcuts.activities.settings.importexport
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CloudDownload
 import androidx.compose.material.icons.outlined.Devices
@@ -35,7 +37,9 @@ fun ImportExportContent(
     val openRemoteEdit = rememberLauncherForActivityResult(RemoteEditActivity.OpenRemoteEditor, onRemoteEditorClosed)
 
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState()),
     ) {
         SettingsGroup(
             title = { Text(stringResource(R.string.settings_title_import)) },

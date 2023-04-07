@@ -12,8 +12,8 @@ import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.InstallUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.activities.misc.AcknowledgmentActivity
 import ch.rmy.android.http_shortcuts.activities.settings.BaseSettingsFragment
+import ch.rmy.android.http_shortcuts.activities.settings.acknowledgment.AcknowledgmentActivity
 import ch.rmy.android.http_shortcuts.activities.settings.contact.ContactActivity
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent

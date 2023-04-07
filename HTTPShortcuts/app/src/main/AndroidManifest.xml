@@ -246,7 +246,7 @@
             android:name=".activities.response.DisplayResponseActivity"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".activities.misc.AcknowledgmentActivity"
+            android:name=".activities.settings.acknowledgment.AcknowledgmentActivity"
             android:label="@string/title_licenses"
             android:windowSoftInputMode="adjustResize" />
 

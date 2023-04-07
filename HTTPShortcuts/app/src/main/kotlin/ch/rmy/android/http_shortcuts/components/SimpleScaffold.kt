@@ -1,14 +1,13 @@
 package ch.rmy.android.http_shortcuts.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
@@ -20,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ch.rmy.android.framework.extensions.runIf
 
 enum class BackButton {
     ARROW,
@@ -34,9 +32,8 @@ fun <T : Any> ScreenScope.SimpleScaffold(
     title: String,
     subtitle: String? = null,
     backButton: BackButton = BackButton.ARROW,
-    scrollable: Boolean = true,
     actions: @Composable RowScope.(viewState: T) -> Unit = {},
-    content: @Composable ColumnScope.(viewState: T) -> Unit,
+    content: @Composable BoxScope.(viewState: T) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -77,13 +74,11 @@ fun <T : Any> ScreenScope.SimpleScaffold(
         },
     ) { contentPadding ->
         if (viewState != null) {
-            Column(
+            Box(
                 modifier = Modifier
                     .padding(contentPadding)
                     .imePadding()
-                    .runIf(scrollable) {
-                        verticalScroll(rememberScrollState())
-                    },
+                    .fillMaxSize(),
             ) {
                 content(viewState)
             }
