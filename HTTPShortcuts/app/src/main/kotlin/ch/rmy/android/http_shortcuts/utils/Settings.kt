@@ -58,8 +58,11 @@ constructor(
     val darkThemeSetting: String
         get() = getString(KEY_DARK_THEME) ?: DARK_THEME_AUTO
 
-    val useLegacyExportFormat: Boolean
+    var useLegacyExportFormat: Boolean
         get() = getBoolean(KEY_LEGACY_EXPORT_FORMAT)
+        set(value) {
+            putBoolean(KEY_LEGACY_EXPORT_FORMAT, value)
+        }
 
     var remoteEditServerUrl: String?
         get() = getString(KEY_REMOTE_EDIT_SERVER)?.takeUnlessEmpty()

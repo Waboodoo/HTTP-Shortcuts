@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
+import androidx.compose.runtime.Stable
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.replacePrefix
 import ch.rmy.android.framework.extensions.runFor
@@ -15,7 +16,9 @@ import ch.rmy.android.http_shortcuts.utils.ColorUtil.hexStringToColorInt
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import java.io.File
 
+@Stable
 sealed interface ShortcutIcon {
+    @Stable
     data class BuiltInIcon(val iconName: String) : ShortcutIcon {
         override fun getIconURI(context: Context, external: Boolean): Uri =
             if (external) {
@@ -121,6 +124,7 @@ sealed interface ShortcutIcon {
         }
     }
 
+    @Stable
     data class ExternalResourceIcon(val uri: Uri) : ShortcutIcon {
         override fun getIconURI(context: Context, external: Boolean) = uri
 
@@ -140,6 +144,7 @@ sealed interface ShortcutIcon {
             uri.hashCode()
     }
 
+    @Stable
     data class CustomIcon(val fileName: String) : ShortcutIcon {
         override fun getIconURI(context: Context, external: Boolean): Uri =
             getFile(context)?.let(Uri::fromFile)
@@ -161,6 +166,7 @@ sealed interface ShortcutIcon {
             fileName.hashCode()
     }
 
+    @Stable
     object NoIcon : ShortcutIcon {
         override fun toString() = ""
 

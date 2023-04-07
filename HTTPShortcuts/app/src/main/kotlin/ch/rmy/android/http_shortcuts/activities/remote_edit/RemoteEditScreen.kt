@@ -30,8 +30,12 @@ fun ScreenScope.RemoteEditScreen() {
             onPasswordChanged = viewModel::onPasswordChanged,
             onUploadButtonClicked = viewModel::onUploadButtonClicked,
             onDownloadButtonClicked = viewModel::onDownloadButtonClicked,
-            onProgressDialogDismiss = viewModel::onDialogDismissalRequested,
-            onServerUrlChange = viewModel::onServerUrlChange,
         )
     }
+
+    RemoteEditDialog(
+        state?.dialogState,
+        onDismissRequest = viewModel::onDialogDismissalRequested,
+        onServerUrlChange = viewModel::onServerUrlChange,
+    )
 }

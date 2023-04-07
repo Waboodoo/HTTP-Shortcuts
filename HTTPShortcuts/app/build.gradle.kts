@@ -245,7 +245,7 @@ dependencies {
     kapt("com.google.dagger:dagger-compiler:2.41")
 
     /* Support libraries */
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation("androidx.core:core-splashscreen:1.0.0")
 
     /* Dialogs / Activities */
@@ -254,12 +254,15 @@ dependencies {
     implementation("com.github.skydoves:colorpickerview:2.2.4")
 
     /* Compose */
-    implementation(platform("androidx.compose:compose-bom:2023.01.00"))
+    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
-    implementation("androidx.activity:activity-compose:1.6.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
+    implementation("androidx.activity:activity-compose:1.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
+    implementation("com.github.alorma:compose-settings-ui-m3:0.25.0")
 
     /* Image cropping */
     implementation("com.github.yalantis:ucrop:2.2.8")
@@ -280,7 +283,7 @@ dependencies {
     implementation("com.markodevcic:peko:2.2.0")
 
     /* Scheduling */
-    implementation("androidx.work:work-runtime-ktx:2.8.0")
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
 
     /* Tasker integration */
     implementation("com.joaomgcd:taskerpluginlibrary:0.4.7")

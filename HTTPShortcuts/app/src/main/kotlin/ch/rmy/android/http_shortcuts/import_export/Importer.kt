@@ -102,7 +102,6 @@ constructor(
             appRepository.importBase(newBase, importMode)
             ImportStatus(
                 importedShortcuts = newBase.shortcuts.size,
-                needsRussianWarning = newBase.shortcuts.any { it.url.contains(".beeline.ru") }
             )
         }
 
@@ -143,7 +142,7 @@ constructor(
         }
     }
 
-    data class ImportStatus(val importedShortcuts: Int, val needsRussianWarning: Boolean)
+    data class ImportStatus(val importedShortcuts: Int)
 
     enum class ImportMode {
         MERGE,

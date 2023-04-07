@@ -1,18 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.settings.importexport.usecases
 
-import android.app.Activity
-import android.app.Dialog
-import ch.rmy.android.framework.extensions.addOrRemove
-import ch.rmy.android.framework.extensions.runFor
-import ch.rmy.android.framework.viewmodel.WithDialog
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
-import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.activities.settings.importexport.ImportExportDialogState
+import ch.rmy.android.http_shortcuts.components.models.MenuEntry
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.utils.DialogBuilder
-import com.afollestad.materialdialogs.WhichButton
-import com.afollestad.materialdialogs.actions.getActionButton
-import com.afollestad.materialdialogs.callbacks.onShow
 import javax.inject.Inject
 
 class GetShortcutSelectionDialogUseCase
@@ -20,45 +10,15 @@ class GetShortcutSelectionDialogUseCase
 constructor(
     private val shortcutRepository: ShortcutRepository,
 ) {
-
-    suspend operator fun invoke(onConfirm: (Collection<ShortcutId>?) -> Unit): DialogState {
-        val shortcuts = shortcutRepository.getShortcuts()
-        return object : DialogState {
-            override val id = "select-shortcuts-for-export"
-
-            private val selectedShortcutIds = shortcuts.map { it.id }.toMutableSet()
-
-            private var onSelectionChanged: (() -> Unit)? = null
-
-            override fun createDialog(activity: Activity, viewModel: WithDialog?): Dialog =
-                DialogBuilder(activity)
-                    .title(R.string.dialog_title_select_shortcuts_for_export)
-                    .runFor(shortcuts) { shortcut ->
-                        checkBoxItem(
-                            name = shortcut.name,
-                            shortcutIcon = shortcut.icon,
-                            checked = { shortcut.id in selectedShortcutIds },
-                        ) { isChecked ->
-                            selectedShortcutIds.addOrRemove(shortcut.id, isChecked)
-                            onSelectionChanged?.invoke()
-                        }
-                    }
-                    .positive(R.string.dialog_button_export) {
-                        onConfirm(selectedShortcutIds.takeUnless { it.size == shortcuts.size })
-                    }
-                    .negative(R.string.dialog_cancel)
-                    .dismissListener {
-                        onSelectionChanged = null
-                        viewModel?.onDialogDismissed(this)
-                    }
-                    .build()
-                    .onShow { dialog ->
-                        val okButton = dialog.getActionButton(WhichButton.POSITIVE)
-                        onSelectionChanged = {
-                            okButton.isEnabled = selectedShortcutIds.isNotEmpty()
-                        }
-                        onSelectionChanged?.invoke()
-                    }
-        }
-    }
+    suspend operator fun invoke(): ImportExportDialogState =
+        ImportExportDialogState.ShortcutSelectionForExport(
+            shortcutRepository.getShortcuts()
+                .map { shortcut ->
+                    MenuEntry(
+                        key = shortcut.id,
+                        name = shortcut.name,
+                        icon = shortcut.icon,
+                    )
+                }
+        )
 }

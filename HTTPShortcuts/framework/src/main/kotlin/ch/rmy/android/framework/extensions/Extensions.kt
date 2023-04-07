@@ -81,6 +81,10 @@ fun <T, ID : Any> List<T>.swapped(id1: ID, id2: ID, getId: T.() -> ID?): List<T>
         }
 }
 
+fun <T> MutableCollection<T>.addOrRemove(item: T) {
+    addOrRemove(item, item !in this)
+}
+
 fun <T> MutableCollection<T>.addOrRemove(item: T, add: Boolean) {
     if (add) {
         add(item)

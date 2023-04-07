@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.activities.settings.importexport
 
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import androidx.compose.runtime.Stable
 
+@Stable
 data class ImportExportViewState(
-    val dialogState: DialogState? = null,
+    val dialogState: ImportExportDialogState? = null,
+    val useLegacyFormat: Boolean,
 )
