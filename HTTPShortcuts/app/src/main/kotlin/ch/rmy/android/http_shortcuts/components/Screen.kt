@@ -20,6 +20,7 @@ import ch.rmy.android.framework.viewmodel.ViewModelEvent
 fun Screen(
     primaryColor: Int,
     onEvent: (ViewModelEvent) -> Unit,
+    onBackPressed: () -> Unit,
     content: @Composable ScreenScope.() -> Unit,
 ) {
     val topAppBarColors = TopAppBarDefaults.smallTopAppBarColors(
@@ -29,8 +30,8 @@ fun Screen(
         actionIconContentColor = Color.White,
     )
 
-    val screenScope = remember(topAppBarColors, onEvent) {
-        ScreenScope(topAppBarColors, onEvent)
+    val screenScope = remember(topAppBarColors, onEvent, onBackPressed) {
+        ScreenScope(topAppBarColors, onEvent, onBackPressed)
     }
 
     AppTheme {
@@ -57,6 +58,7 @@ inline fun <D, VS, reified VM : BaseViewModel<D, VS>> ScreenScope.bindViewModel(
 class ScreenScope(
     val topAppBarColors: TopAppBarColors,
     onEvent: (ViewModelEvent) -> Unit,
+    val onBackPressed: () -> Unit,
 ) {
     private val eventHandlers = mutableListOf<(ViewModelEvent) -> Boolean>()
 

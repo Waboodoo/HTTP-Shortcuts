@@ -12,7 +12,7 @@ abstract class BaseComposeActivity : BaseActivity() {
         updateStatusBarColor()
         val primaryColor = themeHelper.getPrimaryColor(this)
         setContent {
-            Screen(primaryColor, ::handleEvent) {
+            Screen(primaryColor, ::handleEvent, ::onBackPressed) {
                 Content()
             }
         }

@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
@@ -19,8 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import ch.rmy.android.framework.extensions.getActivity
 import ch.rmy.android.framework.extensions.runIf
 
 enum class BackButton {
@@ -35,12 +34,10 @@ fun <T : Any> ScreenScope.SimpleScaffold(
     title: String,
     subtitle: String? = null,
     backButton: BackButton = BackButton.ARROW,
-    onBackPressed: (() -> Unit)? = null,
     scrollable: Boolean = true,
     actions: @Composable RowScope.(viewState: T) -> Unit = {},
-    content: @Composable (viewState: T) -> Unit,
+    content: @Composable ColumnScope.(viewState: T) -> Unit,
 ) {
-    val context = LocalContext.current
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -62,10 +59,7 @@ fun <T : Any> ScreenScope.SimpleScaffold(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            onBackPressed?.invoke()
-                                ?: run {
-                                    context.getActivity()?.finish()
-                                }
+                            onBackPressed()
                         },
                     ) {
                         when (backButton) {

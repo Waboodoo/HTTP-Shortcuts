@@ -261,7 +261,7 @@
         </activity>
 
         <activity
-            android:name=".activities.settings.ContactActivity"
+            android:name=".activities.settings.contact.ContactActivity"
             android:label="@string/title_contact"
             android:windowSoftInputMode="adjustResize" />
 

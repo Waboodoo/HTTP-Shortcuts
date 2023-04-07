@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.activities.settings
+package ch.rmy.android.http_shortcuts.activities.settings.contact
 
 data class MetaData(
     val androidSdkVersion: Int,

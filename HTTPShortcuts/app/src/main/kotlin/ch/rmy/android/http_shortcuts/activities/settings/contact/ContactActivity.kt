@@ -1,15 +1,12 @@
-package ch.rmy.android.http_shortcuts.activities.settings
+package ch.rmy.android.http_shortcuts.activities.settings.contact
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import androidx.compose.runtime.Composable
 import androidx.core.net.toUri
-import ch.rmy.android.framework.extensions.consume
-import ch.rmy.android.framework.extensions.doOnTextChanged
+import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
@@ -17,16 +14,18 @@ import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.BaseActivity
+import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
+import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
-import ch.rmy.android.http_shortcuts.databinding.ActivityContactBinding
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.VersionUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
 
-class ContactActivity : BaseActivity() {
+class ContactActivity : BaseComposeActivity() {
 
     @Inject
     lateinit var settings: Settings
@@ -34,43 +33,22 @@ class ContactActivity : BaseActivity() {
     @Inject
     lateinit var versionUtil: VersionUtil
 
-    private lateinit var binding: ActivityContactBinding
-
-    private var inputValid = false
-        set(value) {
-            if (field != value) {
-                field = value
-                invalidateOptionsMenu()
+    @Composable
+    override fun ScreenScope.Content() {
+        ContactScreen(
+            onSubmit = {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    createMailDraft()
+                    lifecycleScope.launch {
+                        finish()
+                    }
+                }
             }
-        }
+        )
+    }
 
     override fun inject(applicationComponent: ApplicationComponent) {
         applicationComponent.inject(this)
-    }
-
-    override fun onCreated(savedState: Bundle?) {
-        binding = applyBinding(ActivityContactBinding.inflate(layoutInflater))
-        setTitle(R.string.title_contact)
-
-        binding.contactInstructions.text = getString(R.string.contact_instructions, CAPTCHA_CODE)
-
-        binding.inputCaptcha.doOnTextChanged {
-            inputValid = binding.inputCaptcha.text.toString().equals(CAPTCHA_CODE, ignoreCase = true)
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.contact_activity_menu, menu)
-        menu.findItem(R.id.action_create_contact_mail).isVisible = inputValid
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_create_contact_mail -> consume {
-            createMailDraft()
-            finish()
-        }
-        else -> super.onOptionsItemSelected(item)
     }
 
     private fun createMailDraft() {
@@ -120,13 +98,12 @@ class ContactActivity : BaseActivity() {
             appVersionCode = versionUtil.getVersionCode(),
             device = "${Build.MANUFACTURER} ${Build.MODEL}",
             language = Locale.getDefault().language,
-            userId = Settings(context).userId,
+            userId = settings.userId,
         )
 
     class IntentBuilder : BaseIntentBuilder(ContactActivity::class)
 
     companion object {
-        private const val CAPTCHA_CODE = "HTTP Shortcuts"
         private const val META_DATA_FILE = "app-details.json"
     }
 }
