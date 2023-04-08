@@ -35,7 +35,7 @@ fun MenuDialogEntry(
             )
         }
         if (icon != null) {
-            Icon(
+            ShortcutIcon(
                 icon,
                 modifier = Modifier
                     .padding(end = Spacing.SMALL)

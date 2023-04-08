@@ -1,7 +1,11 @@
 package ch.rmy.android.http_shortcuts.activities.settings.about
 
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import androidx.compose.runtime.Stable
 
+@Stable
 data class AboutViewState(
-    val dialogState: DialogState? = null,
+    val versionNumber: String,
+    val fDroidVisible: Boolean,
+    val changeLogDialogPermanentlyHidden: Boolean,
+    val changeLogDialogVisible: Boolean = false,
 )

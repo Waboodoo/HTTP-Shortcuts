@@ -20,9 +20,9 @@ import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditActivity
+import ch.rmy.android.http_shortcuts.components.SettingsButton
 import com.alorma.compose.settings.storage.base.rememberBooleanSettingState
 import com.alorma.compose.settings.ui.SettingsGroup
-import com.alorma.compose.settings.ui.SettingsMenuLink
 import com.alorma.compose.settings.ui.SettingsSwitch
 
 @Composable
@@ -44,17 +44,17 @@ fun ImportExportContent(
         SettingsGroup(
             title = { Text(stringResource(R.string.settings_title_import)) },
         ) {
-            SettingsMenuLink(
-                icon = { Icon(imageVector = Icons.Outlined.Input, contentDescription = null) },
-                title = { Text(stringResource(R.string.settings_import_from_file)) },
+            SettingsButton(
+                icon = Icons.Outlined.Input,
+                title = stringResource(R.string.settings_import_from_file),
                 onClick = onImportFromFileClicked,
             )
 
             Divider()
 
-            SettingsMenuLink(
-                icon = { Icon(imageVector = Icons.Outlined.CloudDownload, contentDescription = null) },
-                title = { Text(stringResource(R.string.settings_import_from_url)) },
+            SettingsButton(
+                icon = Icons.Outlined.CloudDownload,
+                title = stringResource(R.string.settings_import_from_url),
                 onClick = onImportFromUrlClicked,
             )
 
@@ -64,9 +64,9 @@ fun ImportExportContent(
         SettingsGroup(
             title = { Text(stringResource(R.string.settings_title_export)) },
         ) {
-            SettingsMenuLink(
-                icon = { Icon(imageVector = Icons.Outlined.Output, contentDescription = null) },
-                title = { Text(stringResource(R.string.settings_export)) },
+            SettingsButton(
+                icon = Icons.Outlined.Output,
+                title = stringResource(R.string.settings_export),
                 onClick = onExportClicked,
             )
 
@@ -92,9 +92,9 @@ fun ImportExportContent(
         SettingsGroup(
             title = { Text(stringResource(R.string.settings_title_remote_edit)) },
         ) {
-            SettingsMenuLink(
-                icon = { Icon(imageVector = Icons.Outlined.Devices, contentDescription = null) },
-                title = { Text(stringResource(R.string.settings_remote_edit)) },
+            SettingsButton(
+                icon = Icons.Outlined.Devices,
+                title = stringResource(R.string.settings_remote_edit),
                 onClick = {
                     openRemoteEdit.launch()
                 },

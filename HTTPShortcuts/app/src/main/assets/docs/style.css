@@ -30,9 +30,6 @@ li {
 a {
     color: #487092;
 }
-.dark {
-    background-color: #000000;
-}
 .dark * {
     color: #FFFFFF;
 }

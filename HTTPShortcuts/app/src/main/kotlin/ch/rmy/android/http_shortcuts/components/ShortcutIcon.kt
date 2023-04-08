@@ -12,7 +12,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Icon(shortcutIcon: ShortcutIcon, modifier: Modifier = Modifier) {
+fun ShortcutIcon(shortcutIcon: ShortcutIcon, modifier: Modifier = Modifier) {
     AndroidView(
         modifier = Modifier
             .size(44.dp)

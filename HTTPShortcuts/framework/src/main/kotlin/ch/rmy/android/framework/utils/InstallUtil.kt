@@ -3,13 +3,17 @@ package ch.rmy.android.framework.utils
 import android.content.Context
 import android.os.Build
 import ch.rmy.android.framework.extensions.tryOrLog
+import javax.inject.Inject
 
-object InstallUtil {
+class InstallUtil
+@Inject
+constructor(
+    private val context: Context,
+) {
+    fun isAppInstalledFromPlayStore(): Boolean =
+        (getInstallerPackageName() ?: "") in PLAY_STORE_PACKAGES
 
-    fun isAppInstalledFromPlayStore(context: Context): Boolean =
-        (getInstallerPackageName(context) ?: "") in PLAY_STORE_PACKAGES
-
-    private fun getInstallerPackageName(context: Context): String? =
+    private fun getInstallerPackageName(): String? =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             tryOrLog {
                 context.packageManager.getInstallSourceInfo(context.packageName)
@@ -20,8 +24,10 @@ object InstallUtil {
             context.packageManager.getInstallerPackageName(context.packageName)
         }
 
-    private val PLAY_STORE_PACKAGES = setOf(
-        "com.android.vending",
-        "com.google.android.feedback",
-    )
+    companion object {
+        private val PLAY_STORE_PACKAGES = setOf(
+            "com.android.vending",
+            "com.google.android.feedback",
+        )
+    }
 }

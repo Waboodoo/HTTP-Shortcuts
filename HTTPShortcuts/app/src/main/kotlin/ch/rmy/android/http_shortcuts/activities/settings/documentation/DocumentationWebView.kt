@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.settings.documentation
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.webkit.WebResourceRequest
@@ -22,7 +23,6 @@ import kotlinx.coroutines.flow.asStateFlow
 class DocumentationWebView(context: Context) : WebView(context) {
 
     var onExternalUrl: (Uri) -> Unit = {}
-
     var showLoading: () -> Unit = {}
     var hideLoading: () -> Unit = {}
     var onPageChanged: (Uri) -> Unit = {}
@@ -58,11 +58,15 @@ class DocumentationWebView(context: Context) : WebView(context) {
             }
 
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                super.onPageStarted(view, url, favicon)
                 showLoading()
             }
 
+            override fun onPageCommitVisible(view: WebView?, url: String?) {
+                setBackgroundColor(Color.TRANSPARENT)
+            }
+
             override fun onPageFinished(view: WebView, url: String) {
+                setBackgroundColor(Color.TRANSPARENT)
                 _canGoBack.value = canGoBack()
                 onPageChanged(DocumentationUrlManager.toExternal(url.toUri()))
                 if (context.isDarkThemeEnabled()) {
