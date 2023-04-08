@@ -63,7 +63,7 @@ fun RealmContext.getAppLock(): RealmQuery<AppLock> =
     get()
 
 fun RealmContext.getWidgetsByIds(widgetIds: List<Int>): RealmQuery<Widget> =
-    get("${Widget.FIELD_WIDGET_ID} IN $0", widgetIds)
+    get("${Widget.FIELD_WIDGET_ID} IN {${widgetIds.joinToString()}}") // TODO: Figure out how to pass widgetIds as a parameter
 
 fun RealmContext.getDeadWidgets(): RealmQuery<Widget> =
     get("${Widget.FIELD_SHORTCUT} == nil")
