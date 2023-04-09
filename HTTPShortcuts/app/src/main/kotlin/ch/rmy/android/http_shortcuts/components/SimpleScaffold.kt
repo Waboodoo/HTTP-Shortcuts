@@ -32,6 +32,7 @@ fun <T : Any> ScreenScope.SimpleScaffold(
     title: String,
     subtitle: String? = null,
     backButton: BackButton = BackButton.ARROW,
+    floatingActionButton: @Composable () -> Unit = {},
     actions: @Composable RowScope.(viewState: T) -> Unit = {},
     content: @Composable BoxScope.(viewState: T) -> Unit,
 ) {
@@ -72,6 +73,7 @@ fun <T : Any> ScreenScope.SimpleScaffold(
                 },
             )
         },
+        floatingActionButton = floatingActionButton,
     ) { contentPadding ->
         if (viewState != null) {
             Box(

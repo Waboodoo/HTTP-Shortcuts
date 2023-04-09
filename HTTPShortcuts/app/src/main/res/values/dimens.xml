@@ -9,7 +9,6 @@
     <dimen name="grid_layout_shortcut_width_dense">90dp</dimen>
     <dimen name="grid_layout_shortcut_width_medium">120dp</dimen>
     <dimen name="grid_layout_shortcut_width_wide">180dp</dimen>
-    <dimen name="grid_layout_custom_icon_width">66dp</dimen>
     <dimen name="grid_layout_builtin_icon_width">56dp</dimen>
     <dimen name="html_image_placeholder_size">36dp</dimen>
 </resources>
