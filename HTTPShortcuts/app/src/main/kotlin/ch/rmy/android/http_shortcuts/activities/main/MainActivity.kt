@@ -30,8 +30,8 @@ import ch.rmy.android.http_shortcuts.activities.BaseFragment
 import ch.rmy.android.http_shortcuts.activities.categories.CategoriesActivity
 import ch.rmy.android.http_shortcuts.activities.curl_import.CurlImportActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
-import ch.rmy.android.http_shortcuts.activities.settings.importexport.ImportExportActivity
-import ch.rmy.android.http_shortcuts.activities.settings.settings.SettingsActivity
+import ch.rmy.android.http_shortcuts.activities.importexport.ImportExportActivity
+import ch.rmy.android.http_shortcuts.activities.settings.SettingsActivity
 import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId

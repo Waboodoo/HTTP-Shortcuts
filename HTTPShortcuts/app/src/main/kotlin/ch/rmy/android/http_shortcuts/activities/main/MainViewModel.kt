@@ -33,8 +33,8 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherM
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLogDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkRestrictionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowRecoveryDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.settings.about.AboutActivity
-import ch.rmy.android.http_shortcuts.activities.settings.importexport.ImportExportActivity
+import ch.rmy.android.http_shortcuts.activities.about.AboutActivity
+import ch.rmy.android.http_shortcuts.activities.importexport.ImportExportActivity
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository

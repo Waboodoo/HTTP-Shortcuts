@@ -7,8 +7,8 @@ import ch.rmy.android.framework.ui.BaseActivity
 import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.settings.documentation.DocumentationActivity
-import ch.rmy.android.http_shortcuts.activities.settings.documentation.DocumentationUrlManager
+import ch.rmy.android.http_shortcuts.activities.documentation.DocumentationActivity
+import ch.rmy.android.http_shortcuts.activities.documentation.DocumentationUrlManager
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.RealmFactory
