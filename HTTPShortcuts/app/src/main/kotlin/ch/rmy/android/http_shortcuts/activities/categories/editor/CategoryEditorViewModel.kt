@@ -2,11 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.categories.editor
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
-import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.WithDialog
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
-import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.categories.editor.models.CategoryBackground
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
@@ -15,17 +11,14 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.Category
-import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import ch.rmy.android.http_shortcuts.utils.ColorPickerFactory
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import ch.rmy.android.http_shortcuts.utils.PermissionManager
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CategoryEditorViewModel(application: Application) :
-    BaseViewModel<CategoryEditorViewModel.InitData, CategoryEditorViewState>(application),
-    WithDialog {
+class CategoryEditorViewModel(application: Application) : BaseViewModel<CategoryEditorViewModel.InitData, CategoryEditorViewState>(application) {
 
     @Inject
     lateinit var categoryRepository: CategoryRepository
@@ -34,7 +27,7 @@ class CategoryEditorViewModel(application: Application) :
     lateinit var launcherShortcutManager: LauncherShortcutManager
 
     @Inject
-    lateinit var colorPickerFactory: ColorPickerFactory
+    lateinit var permissionManager: PermissionManager
 
     init {
         getApplicationComponent().inject(this)
@@ -44,14 +37,6 @@ class CategoryEditorViewModel(application: Application) :
 
     private val isNewCategory
         get() = initData.categoryId == null
-
-    override var dialogState: DialogState?
-        get() = currentViewState?.dialogState
-        set(value) {
-            updateViewState {
-                copy(dialogState = value)
-            }
-        }
 
     override fun onInitializationStarted(data: InitData) {
         if (data.categoryId != null) {
@@ -78,7 +63,6 @@ class CategoryEditorViewModel(application: Application) :
     }
 
     override fun initViewState() = CategoryEditorViewState(
-        toolbarTitle = StringResLocalizable(if (isNewCategory) R.string.title_create_category else R.string.title_edit_category),
         categoryName = category.name,
         categoryLayoutType = category.categoryLayoutType,
         categoryBackgroundType = category.categoryBackgroundType,
@@ -104,7 +88,9 @@ class CategoryEditorViewModel(application: Application) :
     fun onBackgroundChanged(backgroundType: CategoryBackground) {
         doWithViewState { viewState ->
             if (backgroundType == CategoryBackground.WALLPAPER && viewState.categoryBackground != CategoryBackground.WALLPAPER) {
-                emitEvent(CategoryEditorEvent.RequestFilePermissionsIfNeeded)
+                viewModelScope.launch {
+                    permissionManager.requestFileStoragePermissionIfNeeded()
+                }
             }
             val newCategoryBackgroundType = when (backgroundType) {
                 CategoryBackground.DEFAULT -> CategoryBackgroundType.Default
@@ -125,21 +111,16 @@ class CategoryEditorViewModel(application: Application) :
 
     fun onColorButtonClicked() {
         doWithViewState { viewState ->
-            dialogState = createDialogState("category-color-picker") {
-                colorPickerFactory.createColorPicker(
-                    onColorPicked = ::onBackgroundColorSelected,
-                    onDismissed = {
-                        dialogState?.let(::onDialogDismissed)
-                    },
-                    initialColor = viewState.backgroundColor,
-                )
-            }
+            updateDialogState(CategoryEditorDialogState.ColorPicker(viewState.backgroundColor))
         }
     }
 
-    private fun onBackgroundColorSelected(color: Int) {
+    fun onBackgroundColorSelected(color: Int) {
         updateViewState {
-            copy(categoryBackgroundType = CategoryBackgroundType.Color(color))
+            copy(
+                categoryBackgroundType = CategoryBackgroundType.Color(color),
+                dialogState = null,
+            )
         }
     }
 
@@ -180,26 +161,21 @@ class CategoryEditorViewModel(application: Application) :
     }
 
     fun onBackPressed() {
-        doWithViewState { viewState ->
-            if (viewState.hasChanges) {
-                showDiscardDialog()
-            } else {
-                finish()
-            }
-        }
+        updateDialogState(CategoryEditorDialogState.DiscardWarning)
     }
 
-    private fun showDiscardDialog() {
-        dialogState = createDialogState {
-            message(R.string.confirm_discard_changes_message)
-                .positive(R.string.dialog_discard) { onDiscardDialogConfirmed() }
-                .negative(R.string.dialog_cancel)
-                .build()
-        }
-    }
-
-    private fun onDiscardDialogConfirmed() {
+    fun onDiscardConfirmed() {
         finish()
+    }
+
+    fun onDialogDismissalRequested() {
+        updateDialogState(null)
+    }
+
+    private fun updateDialogState(dialogState: CategoryEditorDialogState?) {
+        updateViewState {
+            copy(dialogState = dialogState)
+        }
     }
 
     data class InitData(val categoryId: CategoryId?)

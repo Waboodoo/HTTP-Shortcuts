@@ -1,8 +1,10 @@
 package ch.rmy.android.http_shortcuts.data.enums
 
 import androidx.annotation.ColorInt
+import androidx.compose.runtime.Stable
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.colorIntToHexString
 
+@Stable
 sealed interface CategoryBackgroundType {
 
     fun serialize(): String

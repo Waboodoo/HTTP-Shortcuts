@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.utils.ColorUtil.hexStringToColorInt
 import com.skydoves.colorpickerview.listeners.ColorListener
 import javax.inject.Inject
 
+@Deprecated("Will be removed once fully migrated to Compose")
 class ColorPickerFactory
 @Inject
 constructor(

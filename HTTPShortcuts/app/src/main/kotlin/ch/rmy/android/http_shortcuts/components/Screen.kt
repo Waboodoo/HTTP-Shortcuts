@@ -47,9 +47,7 @@ inline fun <D, VS, reified VM : BaseViewModel<D, VS>> ScreenScope.bindViewModel(
     val state by viewModel.viewState.collectAsStateWithLifecycle(initialValue = null)
     LaunchedEffect(Unit) {
         viewModel.initialize(initData)
-        viewModel.events.collect { event ->
-            onEvent(event)
-        }
+        viewModel.events.collect(::onEvent)
     }
     return Pair(viewModel, state)
 }
