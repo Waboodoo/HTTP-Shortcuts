@@ -1,5 +1,7 @@
 package ch.rmy.android.http_shortcuts.components
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -16,22 +18,34 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import ch.rmy.android.http_shortcuts.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextInputDialog(
     title: String,
+    message: String? = null,
     initialValue: String = "",
     allowEmpty: Boolean = true,
+    confirmButton: String = stringResource(R.string.dialog_ok),
+    keyboardType: KeyboardType = KeyboardType.Text,
+    transformValue: (String) -> String = { it },
     dismissButton: @Composable (() -> Unit)? = null,
     onDismissRequest: (newValue: String?) -> Unit,
 ) {
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+
     var value by remember {
         mutableStateOf(initialValue)
     }
@@ -51,27 +65,35 @@ fun TextInputDialog(
             Text(title)
         },
         text = {
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                value = value,
-                onValueChange = {
-                    value = it
-                },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Uri,
-                    imeAction = ImeAction.Go,
-                ),
-                keyboardActions = KeyboardActions {
-                    if (confirmButtonEnabled) {
-                        onDismissRequest(value)
-                    }
-                },
-                textStyle = TextStyle(
-                    fontSize = FontSize.SMALL,
-                    fontFamily = FontFamily.Monospace,
-                ),
-            )
+            Column(
+                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL)
+            ) {
+                if (message != null) {
+                    Text(message)
+                }
+                TextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(focusRequester),
+                    value = value,
+                    onValueChange = {
+                        value = transformValue(it)
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = keyboardType,
+                        imeAction = ImeAction.Go,
+                    ),
+                    keyboardActions = KeyboardActions {
+                        if (confirmButtonEnabled) {
+                            onDismissRequest(value)
+                        }
+                    },
+                    textStyle = TextStyle(
+                        fontSize = FontSize.SMALL,
+                        fontFamily = FontFamily.Monospace,
+                    ),
+                )
+            }
         },
         confirmButton = {
             TextButton(
@@ -80,9 +102,20 @@ fun TextInputDialog(
                     onDismissRequest(value)
                 },
             ) {
-                Text(stringResource(R.string.dialog_ok))
+                Text(confirmButton)
             }
         },
         dismissButton = dismissButton,
+    )
+}
+
+@Preview
+@Composable
+private fun TextInputDialog_Preview() {
+    TextInputDialog(
+        title = "My Dialog",
+        message = "My Message",
+        confirmButton = "Yeah!",
+        onDismissRequest = {},
     )
 }

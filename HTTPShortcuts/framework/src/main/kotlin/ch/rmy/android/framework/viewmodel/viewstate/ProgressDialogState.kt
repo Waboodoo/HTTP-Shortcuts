@@ -6,6 +6,7 @@ import android.app.ProgressDialog
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.viewmodel.WithDialog
 
+@Deprecated("Remove once fully migrated to Compose")
 class ProgressDialogState(
     private val message: Localizable,
     private val onCanceled: () -> Unit,

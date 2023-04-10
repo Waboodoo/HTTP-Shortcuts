@@ -52,4 +52,10 @@ constructor(
         Intent("miui.intent.action.APP_PERM_EDITOR")
             .setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity")
             .putExtra("extra_pkgname", packageName)
+
+    fun canAllowOverlay(): Boolean =
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+
+    fun canCreateQuickSettingsTiles(): Boolean =
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 }

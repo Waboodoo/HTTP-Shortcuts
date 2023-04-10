@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import android.app.Activity
 import android.app.Application
-import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.consume
@@ -18,8 +17,10 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.about.AboutActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.activities.history.HistoryActivity
+import ch.rmy.android.http_shortcuts.activities.importexport.ImportExportActivity
 import ch.rmy.android.http_shortcuts.activities.main.models.CategoryTabItem
 import ch.rmy.android.http_shortcuts.activities.main.models.RecoveryInfo
 import ch.rmy.android.http_shortcuts.activities.main.usecases.GetAppOverlayDialogUseCase
@@ -33,8 +34,6 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherM
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLogDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkRestrictionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowRecoveryDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.about.AboutActivity
-import ch.rmy.android.http_shortcuts.activities.importexport.ImportExportActivity
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
@@ -265,10 +264,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         if (!appOverlayUtil.canDrawOverlays()) {
             dialogState = getAppOverlayDialog {
                 val intent = appOverlayUtil.getSettingsIntent() ?: return@getAppOverlayDialog
-                openActivity(object : IntentBuilder {
-                    override fun build(context: Context) =
-                        intent
-                })
+                openActivity(intent)
             }
         }
     }

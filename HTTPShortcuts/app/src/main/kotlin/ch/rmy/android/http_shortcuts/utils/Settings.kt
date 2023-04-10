@@ -28,12 +28,18 @@ constructor(
         get() = getString(KEY_LANGUAGE)?.takeUnless { it == LANGUAGE_DEFAULT }
         set(value) = putString(KEY_LANGUAGE, value ?: LANGUAGE_DEFAULT)
 
-    val clickBehavior: ShortcutClickBehavior
+    var clickBehavior: ShortcutClickBehavior
         get() = ShortcutClickBehavior.parse(getString(KEY_CLICK_BEHAVIOR))
+        set(value) {
+            putString(KEY_CLICK_BEHAVIOR, value.type)
+        }
 
     @Suppress("unused")
-    val isCrashReportingAllowed: Boolean
+    var isCrashReportingAllowed: Boolean
         get() = (getString(KEY_CRASH_REPORTING) ?: "true") != "false"
+        set(value) {
+            putString(KEY_CRASH_REPORTING, value.toString())
+        }
 
     var importUrl: Uri?
         get() = getString(KEY_IMPORT_URL)?.takeUnlessEmpty()?.toUri()
@@ -55,8 +61,11 @@ constructor(
         get() = getString(KEY_THEME) ?: THEME_BLUE
         set(theme) = putString(KEY_THEME, theme)
 
-    val darkThemeSetting: String
+    var darkThemeSetting: String
         get() = getString(KEY_DARK_THEME) ?: DARK_THEME_AUTO
+        set(value) {
+            putString(KEY_DARK_THEME, value)
+        }
 
     var useLegacyExportFormat: Boolean
         get() = getBoolean(KEY_LEGACY_EXPORT_FORMAT)

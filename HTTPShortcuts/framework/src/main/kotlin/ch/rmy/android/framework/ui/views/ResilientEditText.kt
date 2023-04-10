@@ -11,6 +11,7 @@ import androidx.appcompat.R
 import androidx.appcompat.widget.AppCompatEditText
 import ch.rmy.android.framework.extensions.tryOrIgnore
 
+@Deprecated("Remove once fully migrated to Compose")
 class ResilientEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

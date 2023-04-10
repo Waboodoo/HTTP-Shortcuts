@@ -6,6 +6,7 @@ import ch.rmy.android.framework.ui.BaseFragment
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 
+@Deprecated("Remove once fully migrated to Compose")
 abstract class BaseFragment<Binding : ViewBinding> : BaseFragment<Binding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

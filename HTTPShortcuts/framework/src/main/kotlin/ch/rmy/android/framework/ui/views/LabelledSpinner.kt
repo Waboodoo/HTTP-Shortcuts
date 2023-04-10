@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 
+@Deprecated("Remove once fully migrated to Compose")
 class LabelledSpinner @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

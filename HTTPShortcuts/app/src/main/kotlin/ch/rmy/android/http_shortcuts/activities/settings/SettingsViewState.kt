@@ -1,7 +1,18 @@
 package ch.rmy.android.http_shortcuts.activities.settings
 
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import androidx.compose.runtime.Stable
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 
+@Stable
 data class SettingsViewState(
-    val dialogState: DialogState? = null,
+    val dialogState: SettingsDialogState? = null,
+    val privacySectionVisible: Boolean,
+    val quickSettingsTileButtonVisible: Boolean,
+    val batteryOptimizationButtonVisible: Boolean,
+    val allowOverlayButtonVisible: Boolean,
+    val allowXiaomiOverlayButtonVisible: Boolean,
+    val selectedLanguage: String?,
+    val selectedDarkModeOption: String,
+    val selectedClickActionOption: ShortcutClickBehavior,
+    val crashReportingAllowed: Boolean,
 )

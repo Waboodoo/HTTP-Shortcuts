@@ -2,6 +2,7 @@ package ch.rmy.android.framework.viewmodel
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.annotation.StringRes
@@ -213,6 +214,15 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
 
     protected fun openActivity(intentBuilder: IntentBuilder) {
         emitEvent(ViewModelEvent.OpenActivity(intentBuilder))
+    }
+
+    protected fun openActivity(intent: Intent) {
+        emitEvent(
+            ViewModelEvent.OpenActivity(object : IntentBuilder {
+                override fun build(context: Context): Intent =
+                    intent
+            })
+        )
     }
 
     protected fun sendBroadcast(intent: Intent) {

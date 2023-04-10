@@ -15,10 +15,19 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
+import kotlinx.coroutines.launch
 
 enum class BackButton {
     ARROW,
@@ -36,6 +45,24 @@ fun <T : Any> ScreenScope.SimpleScaffold(
     actions: @Composable RowScope.(viewState: T) -> Unit = {},
     content: @Composable BoxScope.(viewState: T) -> Unit,
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    EventHandler { event ->
+        when (event) {
+            is ViewModelEvent.ShowSnackbar -> consume {
+                scope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = event.message.localize(context).toString(),
+                        duration = if (event.long) SnackbarDuration.Long else SnackbarDuration.Short,
+                    )
+                }
+            }
+            else -> false
+        }
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -74,6 +101,7 @@ fun <T : Any> ScreenScope.SimpleScaffold(
             )
         },
         floatingActionButton = floatingActionButton,
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { contentPadding ->
         if (viewState != null) {
             Box(

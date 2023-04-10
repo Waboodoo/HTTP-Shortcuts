@@ -1,34 +1,37 @@
 package ch.rmy.android.http_shortcuts.activities.settings
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.viewModelScope
+import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.WithDialog
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.globalcode.GlobalScriptingActivity
+import ch.rmy.android.http_shortcuts.activities.settings.usecases.CreateQuickSettingsTileUseCase
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
-import ch.rmy.android.http_shortcuts.extensions.createDialogState
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.http.CookieManager
-import ch.rmy.android.http_shortcuts.usecases.GetToolbarTitleChangeDialogUseCase
+import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
+import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
+import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.mindrot.jbcrypt.BCrypt
 import javax.inject.Inject
 
-class SettingsViewModel(application: Application) : BaseViewModel<Unit, SettingsViewState>(application), WithDialog {
+class SettingsViewModel(application: Application) : BaseViewModel<Unit, SettingsViewState>(application) {
+
+    @Inject
+    lateinit var settings: Settings
 
     @Inject
     lateinit var appRepository: AppRepository
-
-    @Inject
-    lateinit var getToolbarTitleChangeDialog: GetToolbarTitleChangeDialogUseCase
 
     @Inject
     lateinit var localeHelper: LocaleHelper
@@ -39,41 +42,41 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
     @Inject
     lateinit var appOverlayUtil: AppOverlayUtil
 
+    @Inject
+    lateinit var restrictionsUtil: RestrictionsUtil
+
+    @Inject
+    lateinit var createQuickSettingsTile: CreateQuickSettingsTileUseCase
+
     init {
         getApplicationComponent().inject(this)
     }
 
-    override var dialogState: DialogState?
-        get() = currentViewState?.dialogState
-        set(value) {
-            updateViewState {
-                copy(dialogState = value)
-            }
-        }
+    override fun initViewState() = SettingsViewState(
+        privacySectionVisible = Logging.supportsCrashReporting,
+        quickSettingsTileButtonVisible = restrictionsUtil.canCreateQuickSettingsTiles(),
+        selectedLanguage = settings.language,
+        selectedDarkModeOption = settings.darkThemeSetting,
+        selectedClickActionOption = settings.clickBehavior,
+        crashReportingAllowed = settings.isCrashReportingAllowed,
+        batteryOptimizationButtonVisible = restrictionsUtil.run {
+            canRequestIgnoreBatteryOptimization() && !isIgnoringBatteryOptimizations()
+        },
+        allowOverlayButtonVisible = restrictionsUtil.canAllowOverlay(),
+        allowXiaomiOverlayButtonVisible = restrictionsUtil.hasPermissionEditor()
+    )
 
-    override fun initViewState() = SettingsViewState()
-
-    fun onLockAppButtonClicked() {
-        showAppLockDialog()
+    fun onLockButtonClicked() {
+        updateDialogState(SettingsDialogState.LockApp)
     }
 
-    private fun showAppLockDialog() {
-        dialogState = createDialogState {
-            title(R.string.dialog_title_lock_app)
-                .message(R.string.dialog_text_lock_app)
-                .positive(R.string.button_lock_app)
-                .textInput(allowEmpty = false, maxLength = 50) { input ->
-                    onAppLockDialogSubmitted(input)
-                }
-                .negative(R.string.dialog_cancel)
-                .build()
-        }
-    }
-
-    private fun onAppLockDialogSubmitted(password: String) {
+    fun onLockConfirmed(password: String) {
+        updateDialogState(null)
         launchWithProgressTracking {
             try {
-                appRepository.setLock(BCrypt.hashpw(password, BCrypt.gensalt()))
+                withContext(Dispatchers.IO) {
+                    appRepository.setLock(BCrypt.hashpw(password, BCrypt.gensalt()))
+                }
                 finishWithOkResult(
                     SettingsActivity.OpenSettings.createResult(appLocked = true),
                 )
@@ -87,57 +90,99 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
     }
 
     fun onClearCookiesButtonClicked() {
-        showClearCookiesDialog()
+        updateDialogState(SettingsDialogState.ClearCookies)
     }
 
-    private fun showClearCookiesDialog() {
-        dialogState = createDialogState {
-            message(R.string.confirm_clear_cookies_message)
-                .positive(R.string.dialog_delete) {
-                    onClearCookiesDialogConfirmed()
-                }
-                .negative(R.string.dialog_cancel)
-                .build()
+    fun onClearCookiesConfirmed() {
+        updateDialogState(null)
+        viewModelScope.launch(Dispatchers.IO) {
+            cookieManager.clearCookies()
         }
-    }
-
-    private fun onClearCookiesDialogConfirmed() {
-        cookieManager.clearCookies()
         showSnackbar(R.string.message_cookies_cleared)
     }
 
-    fun onChangeTitleButtonClicked() {
-        viewModelScope.launch {
-            showToolbarTitleChangeDialog(
-                appRepository.getToolbarTitle()
-            )
-        }
-    }
-
-    private fun showToolbarTitleChangeDialog(oldTitle: String) {
-        dialogState = getToolbarTitleChangeDialog(::onToolbarTitleChangeSubmitted, oldTitle)
-    }
-
-    private fun onToolbarTitleChangeSubmitted(newTitle: String) {
+    fun onTitleChangeConfirmed(newTitle: String) {
+        updateDialogState(null)
         viewModelScope.launch {
             appRepository.setToolbarTitle(newTitle)
             showSnackbar(R.string.message_title_changed)
         }
     }
 
-    fun onLanguageChanged(newLanguage: String) {
-        localeHelper.applyLocale(newLanguage.takeUnless { it == Settings.LANGUAGE_DEFAULT })
+    fun onQuickSettingsTileButtonClicked() {
+        viewModelScope.launch {
+            val success = createQuickSettingsTile()
+            if (success) {
+                showSnackbar(R.string.message_quick_settings_tile_added)
+            }
+        }
     }
 
-    fun onAddQuickSettingsTileButtonClicked() {
-        emitEvent(SettingsEvent.AddQuickSettingsTile)
+    fun onLanguageSelected(language: String?) {
+        settings.language = language
+        updateViewState {
+            copy(selectedLanguage = language)
+        }
+        localeHelper.applyLocale(language)
     }
 
-    fun onAppOverlayButtonClicked() {
-        val intent = appOverlayUtil.getSettingsIntent() ?: return
-        openActivity(object : IntentBuilder {
-            override fun build(context: Context) =
-                intent
-        })
+    fun onDarkModeOptionSelected(option: String) {
+        settings.darkThemeSetting = option
+        updateViewState {
+            copy(selectedDarkModeOption = option)
+        }
+        DarkThemeHelper.applyDarkThemeSettings(option)
+    }
+
+    fun onClickActionOptionSelected(option: ShortcutClickBehavior) {
+        settings.clickBehavior = option
+        updateViewState {
+            copy(selectedClickActionOption = option)
+        }
+    }
+
+    fun onChangeTitleButtonClicked() {
+        viewModelScope.launch {
+            val oldTitle = appRepository.getToolbarTitle()
+            updateViewState {
+                copy(dialogState = SettingsDialogState.ChangeTitle(oldTitle))
+            }
+        }
+    }
+
+    fun onGlobalScriptingButtonClicked() {
+        openActivity(GlobalScriptingActivity.IntentBuilder())
+    }
+
+    fun onCrashReportingChanged(allowed: Boolean) {
+        updateViewState {
+            copy(crashReportingAllowed = allowed)
+        }
+        settings.isCrashReportingAllowed = allowed
+        if (!allowed) {
+            Logging.disableCrashReporting(context)
+        }
+    }
+
+    fun onAllowOverlayButtonClicked() {
+        openActivity(appOverlayUtil.getSettingsIntent() ?: return)
+    }
+
+    fun onAllowXiaomiOverlayButtonClicked() {
+        openActivity(restrictionsUtil.getPermissionEditorIntent())
+    }
+
+    fun onBatteryOptimizationButtonClicked() {
+        openActivity(restrictionsUtil.getRequestIgnoreBatteryOptimizationIntent() ?: return)
+    }
+
+    fun onDialogDismissalRequested() {
+        updateDialogState(null)
+    }
+
+    private fun updateDialogState(dialogState: SettingsDialogState?) {
+        updateViewState {
+            copy(dialogState = dialogState)
+        }
     }
 }

@@ -10,7 +10,6 @@ import androidx.compose.material.icons.outlined.CloudDownload
 import androidx.compose.material.icons.outlined.Devices
 import androidx.compose.material.icons.outlined.Input
 import androidx.compose.material.icons.outlined.Output
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,15 +49,11 @@ fun ImportExportContent(
                 onClick = onImportFromFileClicked,
             )
 
-            Divider()
-
             SettingsButton(
                 icon = Icons.Outlined.CloudDownload,
                 title = stringResource(R.string.settings_import_from_url),
                 onClick = onImportFromUrlClicked,
             )
-
-            Divider()
         }
 
         SettingsGroup(
@@ -69,8 +64,6 @@ fun ImportExportContent(
                 title = stringResource(R.string.settings_export),
                 onClick = onExportClicked,
             )
-
-            Divider()
 
             SettingsSwitch(
                 icon = {
@@ -85,8 +78,6 @@ fun ImportExportContent(
                 state = rememberBooleanSettingState(useLegacyFormat),
                 onCheckedChange = onLegacyFormatUseChanged,
             )
-
-            Divider()
         }
 
         SettingsGroup(
@@ -99,8 +90,6 @@ fun ImportExportContent(
                     openRemoteEdit.launch()
                 },
             )
-
-            Divider()
         }
     }
 }

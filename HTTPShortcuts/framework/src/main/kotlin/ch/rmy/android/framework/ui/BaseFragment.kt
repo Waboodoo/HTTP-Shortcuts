@@ -14,6 +14,7 @@ import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 
+@Deprecated("Remove once fully migrated to Compose")
 abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
 
     protected val args

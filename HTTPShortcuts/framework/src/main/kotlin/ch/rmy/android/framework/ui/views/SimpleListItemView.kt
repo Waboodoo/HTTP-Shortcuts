@@ -10,6 +10,7 @@ import ch.rmy.android.framework.databinding.ViewSimpleListItemBinding
 import ch.rmy.android.framework.extensions.addRippleAnimation
 import ch.rmy.android.framework.extensions.layoutInflater
 
+@Deprecated("Remove once fully migrated to Compose")
 class SimpleListItemView
 @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     ConstraintLayout(context, attrs, defStyleAttr) {

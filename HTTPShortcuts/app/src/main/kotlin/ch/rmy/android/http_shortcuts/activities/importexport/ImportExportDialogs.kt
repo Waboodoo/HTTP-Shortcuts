@@ -8,6 +8,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.MenuDialogEntry
 import ch.rmy.android.http_shortcuts.components.MessageDialog
@@ -54,6 +55,7 @@ private fun ImportFromUrlDialog(initialValue: String, onImportFromUrl: (String) 
         title = stringResource(R.string.dialog_title_import_from_url),
         allowEmpty = false,
         initialValue = initialValue,
+        keyboardType = KeyboardType.Uri,
         onDismissRequest = { newValue ->
             if (newValue != null) {
                 onImportFromUrl(newValue)

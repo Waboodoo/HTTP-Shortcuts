@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import ch.rmy.android.framework.viewmodel.WithDialog
 
+@Deprecated("Remove once fully migrated to Compose")
 interface DialogState {
     fun createDialog(activity: Activity, viewModel: WithDialog? = null): Dialog
 

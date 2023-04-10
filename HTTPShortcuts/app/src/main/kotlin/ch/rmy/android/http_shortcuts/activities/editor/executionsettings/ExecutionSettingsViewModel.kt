@@ -1,9 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.viewModelScope
-import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.utils.localization.DurationLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
@@ -176,10 +174,7 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
             ) {
                 dialogState = getAppOverlayDialog {
                     val intent = appOverlayUtil.getSettingsIntent() ?: return@getAppOverlayDialog
-                    openActivity(object : IntentBuilder {
-                        override fun build(context: Context) =
-                            intent
-                    })
+                    openActivity(intent)
                 }
             }
             updateViewState {

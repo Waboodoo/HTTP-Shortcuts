@@ -2,9 +2,11 @@ package ch.rmy.android.http_shortcuts.dagger
 
 import ch.rmy.android.http_shortcuts.Application
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.activities.about.AboutViewModel
 import ch.rmy.android.http_shortcuts.activities.categories.CategoriesViewModel
 import ch.rmy.android.http_shortcuts.activities.categories.editor.CategoryEditorActivity
 import ch.rmy.android.http_shortcuts.activities.categories.editor.CategoryEditorViewModel
+import ch.rmy.android.http_shortcuts.activities.contact.ContactActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.AdvancedSettingsActivity
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.AdvancedSettingsViewModel
@@ -25,8 +27,11 @@ import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.Co
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcutsViewModel
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
 import ch.rmy.android.http_shortcuts.activities.execute.Execution
+import ch.rmy.android.http_shortcuts.activities.globalcode.GlobalScriptingActivity
+import ch.rmy.android.http_shortcuts.activities.globalcode.GlobalScriptingViewModel
 import ch.rmy.android.http_shortcuts.activities.history.HistoryViewModel
 import ch.rmy.android.http_shortcuts.activities.icons.IconPickerViewModel
+import ch.rmy.android.http_shortcuts.activities.importexport.ImportExportViewModel
 import ch.rmy.android.http_shortcuts.activities.main.MainViewModel
 import ch.rmy.android.http_shortcuts.activities.main.ShortcutListViewModel
 import ch.rmy.android.http_shortcuts.activities.misc.deeplink.DeepLinkViewModel
@@ -35,13 +40,6 @@ import ch.rmy.android.http_shortcuts.activities.misc.share.ShareViewModel
 import ch.rmy.android.http_shortcuts.activities.misc.voice.VoiceViewModel
 import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditViewModel
 import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
-import ch.rmy.android.http_shortcuts.activities.about.AboutActivity
-import ch.rmy.android.http_shortcuts.activities.about.AboutViewModel
-import ch.rmy.android.http_shortcuts.activities.contact.ContactActivity
-import ch.rmy.android.http_shortcuts.activities.globalcode.GlobalScriptingActivity
-import ch.rmy.android.http_shortcuts.activities.globalcode.GlobalScriptingViewModel
-import ch.rmy.android.http_shortcuts.activities.importexport.ImportExportViewModel
-import ch.rmy.android.http_shortcuts.activities.settings.SettingsActivity
 import ch.rmy.android.http_shortcuts.activities.settings.SettingsViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorViewModel
@@ -275,8 +273,6 @@ interface ApplicationComponent {
 
     fun inject(getVariableAction: GetVariableAction)
 
-    fun inject(aboutActivity: AboutActivity)
-
     fun inject(displayResponseActivity: DisplayResponseActivity)
 
     fun inject(widgetSettingsViewModel: WidgetSettingsViewModel)
@@ -344,6 +340,4 @@ interface ApplicationComponent {
     fun inject(shareTextAction: ShareTextAction)
 
     fun inject(executionBroadcastReceiver: ExecutionBroadcastReceiver)
-
-    fun inject(settingsActivity: SettingsActivity)
 }
