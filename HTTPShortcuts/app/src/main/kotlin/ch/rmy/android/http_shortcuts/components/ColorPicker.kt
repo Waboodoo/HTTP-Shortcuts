@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.components
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -48,11 +49,19 @@ fun ColorPicker(
         factory = {
             colorPickerView.attachBrightnessSlider(brightnessSliderBar)
             colorPickerView.setInitialColor(color)
+            var previousPureColor: Int = colorPickerView.pureColor
             colorPickerView.setColorListener(object : ColorListener {
                 override fun onColorSelected(color: Int, fromUser: Boolean) {
                     if (fromUser) {
+                        val selectedColor = if (color == Color.BLACK && colorPickerView.pureColor != previousPureColor) {
+                            colorPickerView.selectByHsvColor(colorPickerView.pureColor)
+                            colorPickerView.pureColor
+                        } else {
+                            color
+                        }
+                        previousPureColor = colorPickerView.pureColor
                         applyColor = false
-                        onColorChanged(color)
+                        onColorChanged(selectedColor)
                     }
                 }
             })
