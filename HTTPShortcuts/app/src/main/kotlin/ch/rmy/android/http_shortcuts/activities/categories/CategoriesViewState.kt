@@ -1,11 +1,10 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import androidx.compose.runtime.Stable
+import ch.rmy.android.http_shortcuts.activities.categories.models.CategoryListItem
 
+@Stable
 data class CategoriesViewState(
-    val dialogState: DialogState? = null,
+    val dialogState: CategoriesDialogState? = null,
     val categories: List<CategoryListItem>,
-) {
-    val isDraggingEnabled: Boolean
-        get() = categories.size > 1
-}
+)

@@ -15,7 +15,7 @@ import ch.rmy.android.http_shortcuts.components.bindViewModel
 
 @Composable
 fun ScreenScope.CurlImportScreen() {
-    val (viewModel, state) = bindViewModel<Unit, CurlImportViewState, CurlImportViewModel>(Unit)
+    val (viewModel, state) = bindViewModel<CurlImportViewState, CurlImportViewModel>()
 
     val inputText by viewModel.inputText.collectAsStateWithLifecycle()
 

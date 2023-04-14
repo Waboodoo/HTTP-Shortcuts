@@ -12,7 +12,7 @@ import ch.rmy.android.http_shortcuts.components.bindViewModel
 
 @Composable
 fun ScreenScope.RemoteEditScreen() {
-    val (viewModel, state) = bindViewModel<Unit, RemoteEditViewState, RemoteEditViewModel>(Unit)
+    val (viewModel, state) = bindViewModel<RemoteEditViewState, RemoteEditViewModel>()
 
     SimpleScaffold(
         viewState = state,

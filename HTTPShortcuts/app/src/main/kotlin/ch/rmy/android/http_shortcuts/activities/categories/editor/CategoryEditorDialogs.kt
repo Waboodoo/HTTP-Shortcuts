@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.categories.editor
 
 import androidx.compose.runtime.Composable
 import ch.rmy.android.http_shortcuts.components.ColorPickerDialog
-import ch.rmy.android.http_shortcuts.components.DismissWarningDialog
+import ch.rmy.android.http_shortcuts.components.DiscardWarningDialog
 
 @Composable
 fun CategoryEditorDialogs(
@@ -20,7 +20,7 @@ fun CategoryEditorDialogs(
             )
         }
         is CategoryEditorDialogState.DiscardWarning -> {
-            DismissWarningDialog(
+            DiscardWarningDialog(
                 onConfirmed = onDiscardConfirmed,
                 onDismissRequested = onDismissRequested,
             )

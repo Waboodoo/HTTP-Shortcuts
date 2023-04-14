@@ -52,6 +52,10 @@ inline fun <D, VS, reified VM : BaseViewModel<D, VS>> ScreenScope.bindViewModel(
     return Pair(viewModel, state)
 }
 
+@Composable
+inline fun <VS, reified VM : BaseViewModel<Unit, VS>> ScreenScope.bindViewModel(): Pair<VM, VS?> =
+    bindViewModel<Unit, VS, VM>(Unit)
+
 @OptIn(ExperimentalMaterial3Api::class)
 class ScreenScope(
     val topAppBarColors: TopAppBarColors,

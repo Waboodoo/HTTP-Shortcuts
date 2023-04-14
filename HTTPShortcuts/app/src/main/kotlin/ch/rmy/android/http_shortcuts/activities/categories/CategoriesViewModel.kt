@@ -7,47 +7,26 @@ import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.WithDialog
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.categories.usecases.GetContextMenuDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.categories.usecases.GetDeletionDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.categories.models.CategoryListItem
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import ch.rmy.android.http_shortcuts.usecases.GetBuiltInIconPickerDialogUseCase
-import ch.rmy.android.http_shortcuts.usecases.GetIconColorPickerDialogUseCase
-import ch.rmy.android.http_shortcuts.usecases.GetIconPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CategoriesViewModel(application: Application) : BaseViewModel<Unit, CategoriesViewState>(application), WithDialog {
+class CategoriesViewModel(application: Application) : BaseViewModel<Unit, CategoriesViewState>(application) {
 
     @Inject
     lateinit var categoryRepository: CategoryRepository
 
     @Inject
     lateinit var launcherShortcutManager: LauncherShortcutManager
-
-    @Inject
-    lateinit var getContextMenuDialog: GetContextMenuDialogUseCase
-
-    @Inject
-    lateinit var getDeletionDialog: GetDeletionDialogUseCase
-
-    @Inject
-    lateinit var getIconPickerDialog: GetIconPickerDialogUseCase
-
-    @Inject
-    lateinit var getBuiltInIconPickerDialog: GetBuiltInIconPickerDialogUseCase
-
-    @Inject
-    lateinit var getIconColorPickerDialog: GetIconColorPickerDialogUseCase
 
     init {
         getApplicationComponent().inject(this)
@@ -56,14 +35,6 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     private lateinit var categories: List<Category>
     private var hasChanged = false
     private var activeCategoryId: CategoryId? = null
-
-    override var dialogState: DialogState?
-        get() = currentViewState?.dialogState
-        set(value) {
-            updateViewState {
-                copy(dialogState = value)
-            }
-        }
 
     override fun initViewState() = CategoriesViewState(
         categories = mapCategories(categories),
@@ -103,14 +74,15 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
 
     private fun showContextMenu(categoryId: CategoryId) {
         val category = getCategory(categoryId) ?: return
-        dialogState = getContextMenuDialog(
-            categoryId = category.id,
-            title = category.name.toLocalizable(),
-            hideOptionVisible = !category.hidden && categories.count { !it.hidden } > 1,
-            showOptionVisible = category.hidden,
-            placeOnHomeScreenOptionVisible = !category.hidden && launcherShortcutManager.supportsPinning(),
-            deleteOptionVisible = category.hidden || categories.count { !it.hidden } > 1,
-            viewModel = this,
+        activeCategoryId = categoryId
+        updateDialogState(
+            CategoriesDialogState.ContextMenu(
+                title = category.name.toLocalizable(),
+                hideOptionVisible = !category.hidden && categories.count { !it.hidden } > 1,
+                showOptionVisible = category.hidden,
+                placeOnHomeScreenOptionVisible = !category.hidden && launcherShortcutManager.supportsPinning(),
+                deleteOptionVisible = category.hidden || categories.count { !it.hidden } > 1,
+            )
         )
     }
 
@@ -135,15 +107,23 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
         emitEvent(CategoriesEvent.OpenCategoryEditor(categoryId = null))
     }
 
-    fun onCategoryVisibilityChanged(categoryId: CategoryId, hidden: Boolean) {
+    fun onCategoryVisibilityChanged(visible: Boolean) {
+        val categoryId = activeCategoryId ?: return
+        updateDialogState(null)
         launchWithProgressTracking {
-            categoryRepository.toggleCategoryHidden(categoryId, hidden)
+            categoryRepository.toggleCategoryHidden(categoryId, !visible)
             hasChanged = true
-            showSnackbar(if (hidden) R.string.message_category_hidden else R.string.message_category_visible)
+            showSnackbar(if (visible) R.string.message_category_visible else R.string.message_category_hidden)
         }
     }
 
-    fun onCategoryDeletionConfirmed(categoryId: CategoryId) {
+    fun onCategoryDeletionConfirmed() {
+        val categoryId = activeCategoryId ?: return
+        updateDialogState(null)
+        deleteCategory(categoryId)
+    }
+
+    private fun deleteCategory(categoryId: CategoryId) {
         launchWithProgressTracking {
             categoryRepository.deleteCategory(categoryId)
             hasChanged = true
@@ -151,58 +131,41 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
         }
     }
 
-    fun onCategoryDeletionSelected(categoryId: CategoryId) {
+    fun onDeleteClicked() {
+        val categoryId = activeCategoryId ?: return
         val category = getCategory(categoryId) ?: return
+        updateDialogState(null)
         if (category.shortcuts.isEmpty()) {
-            onCategoryDeletionConfirmed(categoryId)
+            deleteCategory(categoryId)
         } else {
-            dialogState = getDeletionDialog(categoryId, this)
+            updateDialogState(CategoriesDialogState.Deletion)
         }
     }
 
-    fun onPlaceOnHomeScreenSelected(categoryId: CategoryId) {
-        dialogState = getIconPickerDialog(
-            title = StringResLocalizable(R.string.title_category_select_icon),
-            callbacks = object : GetIconPickerDialogUseCase.Callbacks {
-                override fun openBuiltInIconSelectionDialog() {
-                    dialogState = getBuiltInIconPickerDialog { icon ->
-                        onCategoryIconSelected(categoryId, icon)
-                    }
-                }
-
-                override fun openCustomIconPicker() {
-                    activeCategoryId = categoryId
-                    emitEvent(CategoriesEvent.OpenCustomIconPicker)
-                }
-            },
-        )
+    fun onPlaceOnHomeScreenClicked() {
+        updateDialogState(CategoriesDialogState.IconPicker)
     }
 
     fun onCategoryIconSelected(icon: ShortcutIcon) {
+        updateDialogState(null)
         onCategoryIconSelected(activeCategoryId ?: return, icon)
         activeCategoryId = null
     }
 
-    fun onCategoryIconSelected(categoryId: CategoryId, icon: ShortcutIcon) {
+    private fun onCategoryIconSelected(categoryId: CategoryId, icon: ShortcutIcon) {
         val category = getCategory(categoryId) ?: return
-        dialogState = getIconColorPickerDialog(
-            icon,
-            onDismissed = {
-                dialogState?.let(::onDialogDismissed)
-            },
-            onColorSelected = { coloredIcon ->
-                launchWithProgressTracking {
-                    categoryRepository.setCategoryIcon(categoryId, coloredIcon)
-                    viewModelScope.launch(Dispatchers.IO) {
-                        launcherShortcutManager.updatePinnedCategoryShortcut(category.id, category.name, coloredIcon)
-                        launcherShortcutManager.pinCategory(category.id, category.name, coloredIcon)
-                    }
-                }
-            },
-        )
+        launchWithProgressTracking {
+            categoryRepository.setCategoryIcon(categoryId, icon)
+            viewModelScope.launch(Dispatchers.IO) {
+                launcherShortcutManager.updatePinnedCategoryShortcut(category.id, category.name, icon)
+                launcherShortcutManager.pinCategory(category.id, category.name, icon)
+            }
+        }
     }
 
-    fun onEditCategoryOptionSelected(categoryId: CategoryId) {
+    fun onEditCategoryOptionSelected() {
+        val categoryId = activeCategoryId ?: return
+        updateDialogState(null)
         emitEvent(CategoriesEvent.OpenCategoryEditor(categoryId))
     }
 
@@ -214,6 +177,16 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     fun onCategoryEdited() {
         hasChanged = true
         showSnackbar(R.string.message_category_edited)
+    }
+
+    fun onDialogDismissed() {
+        updateDialogState(null)
+    }
+
+    private fun updateDialogState(dialogState: CategoriesDialogState?) {
+        updateViewState {
+            copy(dialogState = dialogState)
+        }
     }
 
     companion object {

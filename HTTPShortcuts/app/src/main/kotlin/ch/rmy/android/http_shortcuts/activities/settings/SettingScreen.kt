@@ -9,7 +9,7 @@ import ch.rmy.android.http_shortcuts.components.bindViewModel
 
 @Composable
 fun ScreenScope.SettingsScreen() {
-    val (viewModel, state) = bindViewModel<Unit, SettingsViewState, SettingsViewModel>(Unit)
+    val (viewModel, state) = bindViewModel<SettingsViewState, SettingsViewModel>()
 
     SimpleScaffold(
         viewState = state,

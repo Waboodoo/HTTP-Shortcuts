@@ -5,7 +5,7 @@ import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 
 @Composable
-fun DismissWarningDialog(
+fun DiscardWarningDialog(
     onConfirmed: () -> Unit,
     onDismissRequested: () -> Unit,
 ) {

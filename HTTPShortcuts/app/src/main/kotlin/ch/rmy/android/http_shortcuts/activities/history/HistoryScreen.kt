@@ -12,7 +12,7 @@ import ch.rmy.android.http_shortcuts.components.bindViewModel
 
 @Composable
 fun ScreenScope.HistoryScreen() {
-    val (viewModel, state) = bindViewModel<Unit, HistoryViewState, HistoryViewModel>(Unit)
+    val (viewModel, state) = bindViewModel<HistoryViewState, HistoryViewModel>()
 
     SimpleScaffold(
         viewState = state,

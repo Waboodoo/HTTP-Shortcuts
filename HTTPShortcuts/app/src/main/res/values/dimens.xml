@@ -4,7 +4,6 @@
     <dimen name="js_font_size">14sp</dimen>
     <dimen name="request_body_content_font_size">14sp</dimen>
     <dimen name="response_font_size">18sp</dimen>
-    <dimen name="small_icon_size">20dp</dimen>
     <dimen name="variable_button_spacing">44dp</dimen>
     <dimen name="grid_layout_shortcut_width_dense">90dp</dimen>
     <dimen name="grid_layout_shortcut_width_medium">120dp</dimen>

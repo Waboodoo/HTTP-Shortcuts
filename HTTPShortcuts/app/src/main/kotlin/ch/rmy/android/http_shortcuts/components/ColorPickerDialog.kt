@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
@@ -35,8 +36,9 @@ private val UNSUPPORTED_CHARACTERS_REGEX = "[^A-Fa-f0-9]".toRegex()
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColorPickerDialog(
-    initialColor: Int,
+    initialColor: Int = android.graphics.Color.BLACK,
     onColorSelected: (Int) -> Unit,
+    extraContent: @Composable ColumnScope.(Int) -> Unit = {},
     onDismissRequested: () -> Unit,
 ) {
     // TODO: Improve cursor position in text field
@@ -79,6 +81,8 @@ fun ColorPickerDialog(
                         color = it
                     },
                 )
+
+                extraContent(color)
 
                 TextField(
                     modifier = Modifier

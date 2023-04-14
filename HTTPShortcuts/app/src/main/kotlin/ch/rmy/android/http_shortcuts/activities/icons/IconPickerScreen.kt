@@ -4,14 +4,12 @@ import android.content.ActivityNotFoundException
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.components.FloatingAddButton
 import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
@@ -20,7 +18,7 @@ import ch.rmy.android.http_shortcuts.icons.CropIconContract
 
 @Composable
 fun ScreenScope.IconPickerScreen() {
-    val (viewModel, state) = bindViewModel<Unit, IconPickerViewState, IconPickerViewModel>(Unit)
+    val (viewModel, state) = bindViewModel<IconPickerViewState, IconPickerViewModel>()
 
     val pickImage = rememberLauncherForActivityResult(FilePickerUtil.PickFile) { fileUri ->
         fileUri?.let(viewModel::onImageSelected)
@@ -62,12 +60,7 @@ fun ScreenScope.IconPickerScreen() {
             }
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = viewModel::onAddIconButtonClicked) {
-                Icon(
-                    imageVector = Icons.Outlined.Add,
-                    contentDescription = null,
-                )
-            }
+            FloatingAddButton(onClick = viewModel::onAddIconButtonClicked)
         },
     ) { viewState ->
         IconPickerContent(

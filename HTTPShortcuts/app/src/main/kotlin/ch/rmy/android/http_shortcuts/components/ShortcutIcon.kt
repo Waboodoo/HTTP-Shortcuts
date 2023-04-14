@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.viewinterop.NoOpUpdate
@@ -12,10 +13,14 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ShortcutIcon(shortcutIcon: ShortcutIcon, modifier: Modifier = Modifier) {
+fun ShortcutIcon(
+    shortcutIcon: ShortcutIcon,
+    modifier: Modifier = Modifier,
+    size: Dp = 44.dp,
+) {
     AndroidView(
         modifier = Modifier
-            .size(44.dp)
+            .size(size)
             .then(modifier),
         factory = {
             IconView(it)
