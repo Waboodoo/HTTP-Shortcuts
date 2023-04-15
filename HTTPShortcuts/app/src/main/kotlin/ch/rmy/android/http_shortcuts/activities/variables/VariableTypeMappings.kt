@@ -1,11 +1,14 @@
 package ch.rmy.android.http_shortcuts.activities.variables
 
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Stable
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 
+@Stable
 object VariableTypeMappings {
 
+    @Stable
     fun getTypeName(type: VariableType): Int =
         getTypeMapping(type).name
 

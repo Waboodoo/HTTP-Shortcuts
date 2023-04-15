@@ -1,185 +1,24 @@
 package ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import androidx.activity.result.launch
-import androidx.appcompat.widget.SearchView
-import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
-import ch.rmy.android.framework.extensions.bindViewModel
-import ch.rmy.android.framework.extensions.collectEventsWhileActive
-import ch.rmy.android.framework.extensions.collectViewStateWhileActive
-import ch.rmy.android.framework.extensions.consume
+import androidx.compose.runtime.Composable
 import ch.rmy.android.framework.extensions.createIntent
-import ch.rmy.android.framework.extensions.launch
-import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.framework.extensions.showToast
-import ch.rmy.android.framework.extensions.whileLifecycleActive
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
-import ch.rmy.android.framework.viewmodel.ViewModelEvent
-import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.BaseActivity
-import ch.rmy.android.http_shortcuts.activities.icons.IconPickerActivity
+import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
+import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.databinding.ActivityCodeSnippetPickerBinding
-import ch.rmy.android.http_shortcuts.plugin.TaskerTaskPickerContract
-import ch.rmy.android.http_shortcuts.utils.RingtonePickerContract
-import kotlin.properties.Delegates
 
-class CodeSnippetPickerActivity : BaseActivity() {
+class CodeSnippetPickerActivity : BaseComposeActivity() {
 
-    private val pickCustomIcon = registerForActivityResult(IconPickerActivity.PickIcon) { icon ->
-        icon?.let(viewModel::onIconSelected)
-    }
-    private val pickRingtone = registerForActivityResult(RingtonePickerContract) { ringtone ->
-        ringtone?.let(viewModel::onRingtoneSelected)
-    }
-    private val pickTaskerTask = registerForActivityResult(TaskerTaskPickerContract) { taskName ->
-        taskName?.let(viewModel::onTaskerTaskSelected)
-    }
-
-    internal val viewModel: CodeSnippetPickerViewModel by bindViewModel()
-
-    private val adapter = CodeSnippetAdapter()
-
-    private lateinit var binding: ActivityCodeSnippetPickerBinding
-    private var searchMenu: MenuItem? = null
-    private var searchMenuStateUpdated by Delegates.observable(false) { _, _, _ ->
-        updateSearchMenuStateIfNeeded()
-    }
-    private var searchQuery: String? by Delegates.observable(null) { _, _, _ ->
-        updateSearchMenuStateIfNeeded()
-    }
-
-    override fun onCreated(savedState: Bundle?) {
-        viewModel.initialize(
-            CodeSnippetPickerViewModel.InitData(
-                currentShortcutId = intent.getStringExtra(EXTRA_SHORTCUT_ID),
-                includeResponseOptions = intent.getBooleanExtra(EXTRA_INCLUDE_RESPONSE_OPTIONS, false),
-                includeNetworkErrorOption = intent.getBooleanExtra(EXTRA_INCLUDE_NETWORK_ERROR_OPTION, false),
-                includeFileOptions = intent.getBooleanExtra(EXTRA_INCLUDE_FILE_OPTIONS, false),
-            )
+    @Composable
+    override fun ScreenScope.Content() {
+        CodeSnippetPickerScreen(
+            currentShortcutId = intent.getStringExtra(EXTRA_SHORTCUT_ID),
+            includeResponseOptions = intent.getBooleanExtra(EXTRA_INCLUDE_RESPONSE_OPTIONS, false),
+            includeNetworkErrorOption = intent.getBooleanExtra(EXTRA_INCLUDE_NETWORK_ERROR_OPTION, false),
+            includeFileOptions = intent.getBooleanExtra(EXTRA_INCLUDE_FILE_OPTIONS, false),
         )
-        initViews()
-        initUserInputBindings()
-        initViewModelBindings()
-    }
-
-    private fun initViews() {
-        binding = applyBinding(ActivityCodeSnippetPickerBinding.inflate(layoutInflater))
-        setTitle(R.string.title_add_code_snippet)
-
-        val manager = LinearLayoutManager(context)
-        binding.sectionList.layoutManager = manager
-        binding.sectionList.setHasFixedSize(true)
-        binding.sectionList.adapter = adapter
-        binding.sectionList.itemAnimator
-    }
-
-    private fun initUserInputBindings() {
-        whileLifecycleActive {
-            adapter.userEvents.collect { event ->
-                when (event) {
-                    is CodeSnippetAdapter.UserEvent.SectionClicked -> {
-                        viewModel.onSectionClicked(event.id)
-                    }
-                    is CodeSnippetAdapter.UserEvent.CodeSnippetClicked -> {
-                        viewModel.onCodeSnippetClicked(event.id)
-                    }
-                    is CodeSnippetAdapter.UserEvent.CodeSnippetAuxiliaryIconClicked -> {
-                        viewModel.onCodeSnippetDocRefButtonClicked(event.id)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun initViewModelBindings() {
-        collectViewStateWhileActive(viewModel) { viewState ->
-            adapter.items = viewState.items
-            searchQuery = viewState.searchQuery
-            binding.emptyState.isVisible = viewState.isEmptyStateVisible
-            setDialogState(viewState.dialogState, viewModel)
-        }
-        collectEventsWhileActive(viewModel, ::handleEvent)
-    }
-
-    override fun handleEvent(event: ViewModelEvent) {
-        when (event) {
-            is CodeSnippetPickerEvent.OpenCustomIconPicker -> {
-                pickCustomIcon.launch()
-            }
-            is CodeSnippetPickerEvent.OpenRingtonePicker -> {
-                openRingtonePicker()
-            }
-            is CodeSnippetPickerEvent.OpenTaskerTaskPicker -> {
-                openTaskerTaskPicker()
-            }
-            is CodeSnippetPickerEvent.UpdateSearch -> {
-                searchMenuStateUpdated = false
-            }
-            else -> super.handleEvent(event)
-        }
-    }
-
-    private fun openRingtonePicker() {
-        try {
-            pickRingtone.launch()
-        } catch (e: ActivityNotFoundException) {
-            logException(e)
-            context.showToast(R.string.error_generic)
-        }
-    }
-
-    private fun openTaskerTaskPicker() {
-        try {
-            pickTaskerTask.launch()
-        } catch (e: ActivityNotFoundException) {
-            logException(e)
-            context.showToast(R.string.error_generic)
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.code_snippet_picker_activity_menu, menu)
-        searchMenu = menu.findItem(R.id.action_search)
-            .apply {
-                updateSearchMenuStateIfNeeded()
-                (actionView as SearchView)
-                    .setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                        override fun onQueryTextSubmit(query: String) =
-                            consume { viewModel.onSearchSubmitted(query) }
-
-                        override fun onQueryTextChange(newText: String) =
-                            consume { viewModel.onSearchTyped(newText) }
-                    })
-            }
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    private fun updateSearchMenuStateIfNeeded() {
-        if (searchMenuStateUpdated) {
-            return
-        }
-        val menuItem = searchMenu ?: return
-        (menuItem.actionView as SearchView).apply {
-            setQuery(searchQuery, false)
-            isIconified = searchQuery.isNullOrEmpty()
-        }
-        searchMenuStateUpdated = true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_show_help -> consume(viewModel::onHelpButtonClicked)
-        else -> super.onOptionsItemSelected(item)
-    }
-
-    override fun onBackPressed() {
-        viewModel.onBackPressed()
     }
 
     object PickCodeSnippet : BaseActivityResultContract<IntentBuilder, PickCodeSnippet.Result?>(::IntentBuilder) {

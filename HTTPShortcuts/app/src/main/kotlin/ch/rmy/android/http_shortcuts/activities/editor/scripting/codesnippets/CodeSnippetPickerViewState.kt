@@ -1,12 +1,11 @@
 package ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets
 
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import androidx.compose.runtime.Stable
+import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.models.ItemWrapper
 
+@Stable
 data class CodeSnippetPickerViewState(
-    val dialogState: DialogState? = null,
+    val dialogState: CodeSnippetPickerDialogState? = null,
     val items: List<ItemWrapper> = emptyList(),
     val searchQuery: String = "",
-) {
-    val isEmptyStateVisible: Boolean
-        get() = searchQuery.isNotBlank() && items.isEmpty()
-}
+)

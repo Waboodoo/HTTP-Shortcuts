@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 
 @Composable
-fun EmptyState(title: String, description: String) {
+fun EmptyState(title: String? = null, description: String? = null) {
     Column(
         modifier = Modifier
             .padding(Spacing.MEDIUM)
@@ -23,21 +23,25 @@ fun EmptyState(title: String, description: String) {
             alignment = Alignment.CenterVertically,
         ),
     ) {
-        Text(
-            text = title,
-            textAlign = TextAlign.Center,
-            fontSize = FontSize.BIG,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier
-                .fillMaxWidth(),
-        )
-        Text(
-            text = description,
-            textAlign = TextAlign.Center,
-            fontSize = FontSize.MEDIUM,
-            lineHeight = FontSize.BIG,
-            modifier = Modifier
-                .fillMaxWidth(),
-        )
+        if (title != null) {
+            Text(
+                text = title,
+                textAlign = TextAlign.Center,
+                fontSize = FontSize.BIG,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier
+                    .fillMaxWidth(),
+            )
+        }
+        if (description != null) {
+            Text(
+                text = description,
+                textAlign = TextAlign.Center,
+                fontSize = FontSize.MEDIUM,
+                lineHeight = FontSize.BIG,
+                modifier = Modifier
+                    .fillMaxWidth(),
+            )
+        }
     }
 }

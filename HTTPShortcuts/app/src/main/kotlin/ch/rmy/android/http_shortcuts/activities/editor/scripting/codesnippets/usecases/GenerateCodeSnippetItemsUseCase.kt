@@ -8,9 +8,9 @@ import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetItem
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetPickerViewModel
-import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.SectionItem
+import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.models.CodeSnippetItem
+import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.models.SectionItem
 import ch.rmy.android.http_shortcuts.plugin.TaskerUtil
 import ch.rmy.android.http_shortcuts.utils.CameraUtil
 import ch.rmy.android.http_shortcuts.utils.PlayServicesUtil

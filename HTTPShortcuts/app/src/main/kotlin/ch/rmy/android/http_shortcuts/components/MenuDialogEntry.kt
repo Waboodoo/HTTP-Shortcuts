@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,6 +16,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 @Composable
 fun MenuDialogEntry(
     label: String,
+    description: String? = null,
     checked: Boolean? = null,
     icon: ShortcutIcon? = null,
     onClick: () -> Unit,
@@ -41,11 +43,21 @@ fun MenuDialogEntry(
                     .padding(end = Spacing.SMALL)
             )
         }
-        Text(
-            label,
-            fontSize = FontSize.BIG,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-        )
+        Column {
+            Text(
+                label,
+                fontSize = FontSize.BIG,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+            )
+            if (description != null) {
+                Text(
+                    description,
+                    fontSize = FontSize.SMALL,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        }
     }
 }

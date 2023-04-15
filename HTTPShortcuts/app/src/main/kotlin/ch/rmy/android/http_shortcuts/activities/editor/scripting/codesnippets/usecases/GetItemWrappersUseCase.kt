@@ -3,9 +3,9 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.u
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
-import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetItem
-import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.ItemWrapper
-import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.SectionItem
+import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.models.CodeSnippetItem
+import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.models.ItemWrapper
+import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.models.SectionItem
 import ch.rmy.android.http_shortcuts.utils.SearchUtil.normalizeToKeywords
 import javax.inject.Inject
 
@@ -13,14 +13,15 @@ class GetItemWrappersUseCase
 @Inject
 constructor() {
 
-    operator fun invoke(sectionItems: List<SectionItem>, expandedSections: Set<Int>, query: String?): List<ItemWrapper> =
+    operator fun invoke(sectionItems: List<SectionItem>, expandedSections: Set<String>, query: String?): List<ItemWrapper> =
         sectionItems
             .flatMapIndexed { sectionIndex, item ->
+                val id = sectionIndex.toString()
                 val queryTerms = query?.trim()?.takeUnlessEmpty()?.let { normalizeToKeywords(it, minLength = 1) }
-                val expanded = queryTerms != null || expandedSections.contains(sectionIndex)
+                val expanded = queryTerms != null || expandedSections.contains(id)
                 listOf<ItemWrapper>(
                     ItemWrapper.Section(
-                        id = sectionIndex,
+                        id = id,
                         sectionItem = item,
                         expanded = expanded,
                     )
@@ -30,7 +31,7 @@ constructor() {
                             item.codeSnippetItems
                                 .mapIndexed { codeSnippetIndex, codeSnippetItem ->
                                     ItemWrapper.CodeSnippet(
-                                        id = codeSnippetIndex + sectionIndex * 1000,
+                                        id = "$sectionIndex.$codeSnippetIndex",
                                         codeSnippetItem = codeSnippetItem,
                                     )
                                 }
