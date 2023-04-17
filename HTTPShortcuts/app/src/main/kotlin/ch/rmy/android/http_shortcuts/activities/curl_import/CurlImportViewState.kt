@@ -4,5 +4,5 @@ import androidx.compose.runtime.Stable
 
 @Stable
 data class CurlImportViewState(
-    val submitButtonVisible: Boolean,
+    val submitButtonEnabled: Boolean = false,
 )

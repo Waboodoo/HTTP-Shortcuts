@@ -7,6 +7,6 @@ data class IconPickerViewState(
     val dialogState: IconPickerDialogState? = null,
     val icons: List<IconPickerListItem>,
 ) {
-    val isDeleteButtonVisible: Boolean
+    val isDeleteButtonEnabled: Boolean
         get() = icons.any { it.isUnused }
 }

@@ -12,14 +12,12 @@ class CurlImportViewModel(application: Application) : BaseViewModel<Unit, CurlIm
     private val _inputText = MutableStateFlow("")
     val inputText = _inputText.asStateFlow()
 
-    override fun initViewState() = CurlImportViewState(
-        submitButtonVisible = false,
-    )
+    override fun initViewState() = CurlImportViewState()
 
     fun onInputTextChanged(inputText: String) {
         _inputText.value = inputText
         updateViewState {
-            copy(submitButtonVisible = inputText.isNotEmpty())
+            copy(submitButtonEnabled = inputText.isNotEmpty())
         }
     }
 

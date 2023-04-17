@@ -6,6 +6,6 @@ import androidx.compose.runtime.Stable
 data class HistoryViewState(
     val historyItems: List<HistoryListItem>,
 ) {
-    val isClearButtonVisible: Boolean
+    val isClearButtonEnabled: Boolean
         get() = historyItems.isNotEmpty()
 }

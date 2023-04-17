@@ -51,13 +51,12 @@ fun ScreenScope.IconPickerScreen() {
         viewState = state,
         title = stringResource(R.string.title_custom_icons),
         actions = { viewState ->
-            if (viewState.isDeleteButtonVisible) {
-                ToolbarIcon(
-                    Icons.Filled.Delete,
-                    contentDescription = stringResource(R.string.button_delete_all_unused_icons),
-                    onClick = viewModel::onDeleteButtonClicked,
-                )
-            }
+            ToolbarIcon(
+                Icons.Filled.Delete,
+                contentDescription = stringResource(R.string.button_delete_all_unused_icons),
+                enabled = viewState.isDeleteButtonEnabled,
+                onClick = viewModel::onDeleteButtonClicked,
+            )
         },
         floatingActionButton = {
             FloatingAddButton(onClick = viewModel::onAddIconButtonClicked)

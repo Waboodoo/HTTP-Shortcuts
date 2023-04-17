@@ -18,13 +18,12 @@ fun ScreenScope.HistoryScreen() {
         viewState = state,
         title = stringResource(R.string.title_event_history),
         actions = { viewState ->
-            if (viewState.isClearButtonVisible) {
-                ToolbarIcon(
-                    Icons.Filled.Delete,
-                    contentDescription = stringResource(R.string.button_clear_history),
-                    onClick = viewModel::onClearHistoryButtonClicked,
-                )
-            }
+            ToolbarIcon(
+                Icons.Filled.Delete,
+                contentDescription = stringResource(R.string.button_clear_history),
+                enabled = viewState.isClearButtonEnabled,
+                onClick = viewModel::onClearHistoryButtonClicked,
+            )
         }
     ) { viewState ->
         HistoryContent(

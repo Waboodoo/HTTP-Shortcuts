@@ -24,13 +24,12 @@ fun ScreenScope.CurlImportScreen() {
         title = stringResource(R.string.title_curl_import),
         backButton = BackButton.CROSS,
         actions = { viewState ->
-            if (viewState.submitButtonVisible) {
-                ToolbarIcon(
-                    Icons.Filled.Check,
-                    contentDescription = stringResource(R.string.curl_import_button),
-                    onClick = viewModel::onSubmitButtonClicked,
-                )
-            }
+            ToolbarIcon(
+                Icons.Filled.Check,
+                contentDescription = stringResource(R.string.curl_import_button),
+                enabled = viewState.submitButtonEnabled,
+                onClick = viewModel::onSubmitButtonClicked,
+            )
         },
     ) {
         CurlImportContent(

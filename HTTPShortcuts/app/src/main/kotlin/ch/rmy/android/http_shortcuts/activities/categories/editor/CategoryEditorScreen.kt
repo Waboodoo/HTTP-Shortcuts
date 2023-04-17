@@ -28,13 +28,12 @@ fun ScreenScope.CategoryEditorScreen(categoryId: CategoryId?) {
         title = stringResource(if (categoryId == null) R.string.title_create_category else R.string.title_edit_category),
         backButton = BackButton.CROSS,
         actions = { viewState ->
-            if (viewState.saveButtonVisible) {
-                ToolbarIcon(
-                    Icons.Filled.Check,
-                    contentDescription = stringResource(R.string.save_button),
-                    onClick = viewModel::onSaveButtonClicked,
-                )
-            }
+            ToolbarIcon(
+                Icons.Filled.Check,
+                contentDescription = stringResource(R.string.save_button),
+                enabled = viewState.saveButtonEnabled,
+                onClick = viewModel::onSaveButtonClicked,
+            )
         },
     ) { viewState ->
         CategoryEditorContent(

@@ -25,7 +25,7 @@ data class CategoryEditorViewState(
             categoryBackgroundType != originalCategoryBackgroundType ||
             categoryClickBehavior != originalCategoryClickBehavior
 
-    val saveButtonVisible: Boolean =
+    val saveButtonEnabled: Boolean =
         hasChanges && categoryName.isNotBlank()
 
     val colorButtonVisible: Boolean
