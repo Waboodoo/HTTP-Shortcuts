@@ -102,6 +102,10 @@ fun CodeSnippetPickerContent(
                         }
                     }
                 }
+
+                item(key = "divider", contentType = "divider") {
+                    Divider()
+                }
             }
         }
     }
@@ -144,6 +148,7 @@ private fun Section(
 ) {
     val rotationDegrees by animateFloatAsState(targetValue = if (expanded) 90f else 0f)
     Column(modifier) {
+        Divider()
         ListItem(
             modifier = Modifier.clickable(onClick = onClicked),
             leadingContent = {
@@ -165,7 +170,6 @@ private fun Section(
                 )
             }
         )
-        Divider()
     }
 }
 
