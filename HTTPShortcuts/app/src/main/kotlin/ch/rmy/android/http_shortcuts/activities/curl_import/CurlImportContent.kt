@@ -21,12 +21,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.Spacing
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CurlImportContent(
     inputText: String,
@@ -55,6 +55,8 @@ fun CurlImportContent(
                 }
                 .heightIn(min = 200.dp),
             keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.None,
+                autoCorrect = false,
                 imeAction = ImeAction.Go,
             ),
             keyboardActions = KeyboardActions {
