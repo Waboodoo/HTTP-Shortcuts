@@ -21,10 +21,11 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
+import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
+import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager.getCodeFromTriggeredShortcutIds
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager.getTriggeredShortcutIdsFromCode
 import com.afollestad.materialdialogs.WhichButton
@@ -146,7 +147,7 @@ class TriggerShortcutsViewModel(application: Application) :
     fun onAddButtonClicked() {
         val placeholders = shortcuts
             .filter { it.id != currentShortcutId }
-            .map(ShortcutPlaceholder::fromShortcut)
+            .map(Shortcut::toShortcutPlaceholder)
 
         if (placeholders.isEmpty()) {
             showNoShortcutsError()

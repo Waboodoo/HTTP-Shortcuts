@@ -27,7 +27,6 @@ import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.Co
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcutsViewModel
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
 import ch.rmy.android.http_shortcuts.activities.execute.Execution
-import ch.rmy.android.http_shortcuts.activities.globalcode.GlobalScriptingActivity
 import ch.rmy.android.http_shortcuts.activities.globalcode.GlobalScriptingViewModel
 import ch.rmy.android.http_shortcuts.activities.history.HistoryViewModel
 import ch.rmy.android.http_shortcuts.activities.icons.IconPickerViewModel
@@ -234,8 +233,6 @@ interface ApplicationComponent {
     fun inject(responseActivity: ResponseActivity)
 
     fun inject(scriptingActivity: ScriptingActivity)
-
-    fun inject(globalScriptingActivity: GlobalScriptingActivity)
 
     fun inject(constantTypeFragment: ConstantTypeFragment)
 

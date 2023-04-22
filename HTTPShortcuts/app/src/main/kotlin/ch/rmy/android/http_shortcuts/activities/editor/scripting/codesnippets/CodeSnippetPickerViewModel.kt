@@ -137,12 +137,15 @@ class CodeSnippetPickerViewModel(application: Application) :
     }
 
     fun onVariableSelected(variableId: VariableId) {
+        val variableKey = variablePlaceholderProvider.findPlaceholderById(variableId)
+            ?.variableKey
+            ?: return
         when (currentViewState?.dialogState) {
             is CodeSnippetPickerDialogState.SelectVariableForReading -> {
-                returnResult("getVariable(/*[variable]*/\"${variableId}\"/*[/variable]*/)", "")
+                returnResult("getVariable(\"${variableKey}\")", "")
             }
             is CodeSnippetPickerDialogState.SelectVariableForWriting -> {
-                returnResult("setVariable(/*[variable]*/\"${variableId}\"/*[/variable]*/, \"", "\");\n")
+                returnResult("setVariable(\"${variableKey}\", \"", "\");\n")
             }
             else -> return
         }
@@ -235,7 +238,10 @@ class CodeSnippetPickerViewModel(application: Application) :
     fun onShortcutSelected(shortcutId: ShortcutId) {
         val callback = onShortcutSelected ?: return
         onShortcutSelected = null
-        callback("/*[shortcut]*/\"${shortcutId}\"/*[/shortcut]*/")
+        val shortcutName = shortcutPlaceholderProvider.findPlaceholderById(shortcutId)
+            ?.name
+            ?: return
+        callback("\"${shortcutName}\"")
     }
 
     fun onCurrentShortcutSelected() {

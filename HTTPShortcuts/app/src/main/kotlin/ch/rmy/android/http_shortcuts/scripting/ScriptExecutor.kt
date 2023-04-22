@@ -35,6 +35,7 @@ constructor(
     private val context: Context,
     private val actionFactory: ActionFactory,
     private val responseObjectFactory: ResponseObjectFactory,
+    private val codeTransformer: CodeTransformer,
 ) {
 
     internal val jsContext by lazy(LazyThreadSafetyMode.NONE) {
@@ -101,7 +102,7 @@ constructor(
             ensureActive()
             runWithExceptionHandling {
                 registerResponse(response, error)
-                jsContext.evaluateScript(script)
+                jsContext.evaluateScript(codeTransformer.transformForExecuting(script))
             }
         }
     }

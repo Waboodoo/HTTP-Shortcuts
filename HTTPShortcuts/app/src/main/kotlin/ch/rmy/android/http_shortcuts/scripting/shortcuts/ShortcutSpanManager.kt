@@ -3,13 +3,12 @@ package ch.rmy.android.http_shortcuts.scripting.shortcuts
 import android.text.Spannable
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
 import androidx.annotation.ColorInt
-import java.util.regex.Pattern
 
 object ShortcutSpanManager {
 
     private const val JS_PLACEHOLDER_REGEX = """/\*\[shortcut]\*/"([^"]+)"/\*\[/shortcut]\*/"""
 
-    private val JS_PATTERN = Pattern.compile(JS_PLACEHOLDER_REGEX)
+    private val JS_PATTERN = JS_PLACEHOLDER_REGEX.toPattern()
 
     fun applyShortcutFormattingToJS(text: Spannable, shortcutPlaceholderProvider: ShortcutPlaceholderProvider, @ColorInt color: Int) {
         text.getSpans(0, text.length, JSShortcutSpan::class.java)

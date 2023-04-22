@@ -9,9 +9,9 @@ import ch.rmy.android.http_shortcuts.components.ShortcutPickerDialog
 import ch.rmy.android.http_shortcuts.components.VariablePickerDialog
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.extensions.localize
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholder
 
 @Composable
 fun CodeSnippetPickerDialogs(

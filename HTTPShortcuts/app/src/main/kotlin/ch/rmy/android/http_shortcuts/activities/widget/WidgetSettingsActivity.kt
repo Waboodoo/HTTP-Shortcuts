@@ -9,7 +9,7 @@ import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
 import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
+import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 class WidgetSettingsActivity : BaseComposeActivity() {
@@ -53,7 +53,7 @@ class WidgetSettingsActivity : BaseComposeActivity() {
 
     class IntentBuilder : BaseIntentBuilder(WidgetSettingsActivity::class) {
 
-        fun shortcut(shortcut: LauncherShortcut) = also {
+        fun shortcut(shortcut: ShortcutPlaceholder) = also {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcut.id)
             intent.putExtra(EXTRA_SHORTCUT_NAME, shortcut.name)
             intent.putExtra(EXTRA_SHORTCUT_ICON, shortcut.icon.toString())

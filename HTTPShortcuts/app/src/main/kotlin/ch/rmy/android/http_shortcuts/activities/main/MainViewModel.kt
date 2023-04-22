@@ -10,7 +10,6 @@ import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
-import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -42,12 +41,12 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
+import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.extensions.toLauncherShortcut
+import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.usecases.GetChangeLogDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.GetToolbarTitleChangeDialogUseCase
@@ -274,7 +273,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         secondaryLauncherManager.setSecondaryLauncherVisibility(secondaryLauncherMapper(categories))
     }
 
-    private fun placeShortcutOnHomeScreen(shortcut: LauncherShortcut) {
+    private fun placeShortcutOnHomeScreen(shortcut: ShortcutPlaceholder) {
         if (launcherShortcutManager.supportsPinning()) {
             launcherShortcutManager.pinShortcut(shortcut)
         } else {
@@ -283,7 +282,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    private fun removeShortcutFromHomeScreen(shortcut: LauncherShortcut) {
+    private fun removeShortcutFromHomeScreen(shortcut: ShortcutPlaceholder) {
         sendBroadcast(IntentUtil.getLegacyShortcutPlacementIntent(context, shortcut, install = false))
     }
 
@@ -447,7 +446,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     private fun openWidgetSettings(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
-        emitEvent(MainEvent.OpenWidgetSettings(shortcut.toLauncherShortcut()))
+        emitEvent(MainEvent.OpenWidgetSettings(shortcut.toShortcutPlaceholder()))
     }
 
     private fun returnForHomeScreenShortcutPlacement(shortcutId: ShortcutId) {
@@ -483,12 +482,12 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     private fun placeOnHomeScreenAndFinish(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
-        finishWithOkResult(launcherShortcutManager.createShortcutPinIntent(shortcut.toLauncherShortcut()))
+        finishWithOkResult(launcherShortcutManager.createShortcutPinIntent(shortcut.toShortcutPlaceholder()))
     }
 
     private fun placeOnHomeScreenWithLegacyAndFinish(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
-        finishWithOkResult(IntentUtil.getLegacyShortcutPlacementIntent(context, shortcut.toLauncherShortcut(), install = true))
+        finishWithOkResult(IntentUtil.getLegacyShortcutPlacementIntent(context, shortcut.toShortcutPlaceholder(), install = true))
     }
 
     private fun returnForPlugin(shortcutId: ShortcutId) {
@@ -551,11 +550,11 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    fun onPlaceShortcutOnHomeScreen(shortcut: LauncherShortcut) {
+    fun onPlaceShortcutOnHomeScreen(shortcut: ShortcutPlaceholder) {
         placeShortcutOnHomeScreen(shortcut)
     }
 
-    fun onRemoveShortcutFromHomeScreen(shortcut: LauncherShortcut) {
+    fun onRemoveShortcutFromHomeScreen(shortcut: ShortcutPlaceholder) {
         removeShortcutFromHomeScreen(shortcut)
     }
 

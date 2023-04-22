@@ -13,7 +13,7 @@ import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
+import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import javax.inject.Inject
@@ -29,14 +29,14 @@ constructor(
     fun supportsLauncherShortcuts() =
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1
 
-    fun updateAppShortcuts(shortcuts: Collection<LauncherShortcut>) {
+    fun updateAppShortcuts(shortcuts: Collection<ShortcutPlaceholder>) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             update(shortcuts)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
-    private fun update(shortcuts: Collection<LauncherShortcut>) {
+    private fun update(shortcuts: Collection<ShortcutPlaceholder>) {
         try {
             val max = try {
                 shortcutManager.maxShortcutCountPerActivity
@@ -56,7 +56,7 @@ constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
-    private fun createLauncherShortcuts(shortcuts: Collection<LauncherShortcut>): List<ShortcutInfo> =
+    private fun createLauncherShortcuts(shortcuts: Collection<ShortcutPlaceholder>): List<ShortcutInfo> =
         shortcuts
             .mapIndexed { index, launcherShortcut ->
                 createShortcutInfo(
@@ -69,7 +69,7 @@ constructor(
             }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
-    private fun createShortcutInfo(shortcut: LauncherShortcut, trigger: ShortcutTriggerType) =
+    private fun createShortcutInfo(shortcut: ShortcutPlaceholder, trigger: ShortcutTriggerType) =
         createShortcutInfo(shortcut.id, shortcut.name, shortcut.icon, trigger = trigger)
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
@@ -106,14 +106,14 @@ constructor(
         return false
     }
 
-    fun pinShortcut(shortcut: LauncherShortcut) {
+    fun pinShortcut(shortcut: ShortcutPlaceholder) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
             shortcutManager.requestPinShortcut(shortcutInfo, null)
         }
     }
 
-    fun createShortcutPinIntent(shortcut: LauncherShortcut): Intent {
+    fun createShortcutPinIntent(shortcut: ShortcutPlaceholder): Intent {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
             return shortcutManager.createShortcutResultIntent(shortcutInfo)

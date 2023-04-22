@@ -9,6 +9,8 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.SaverScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import ch.rmy.android.framework.utils.localization.Localizable
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -47,4 +49,12 @@ fun <T : WebView> rememberWebView(key: String, init: (Context, isRestore: Boolea
         init(context, false)
     }
     return webView
+}
+
+fun TextFieldValue.insertAtCursor(before: String, after: String): TextFieldValue {
+    val position = selection.end
+    return copy(
+        text = text.take(position) + before + after + text.drop(position),
+        selection = TextRange(position + before.length),
+    )
 }

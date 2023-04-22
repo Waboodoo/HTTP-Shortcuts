@@ -1,13 +1,13 @@
 package ch.rmy.android.http_shortcuts.activities.globalcode
 
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import androidx.compose.runtime.Stable
 
+@Stable
 data class GlobalScriptingViewState(
-    val dialogState: DialogState? = null,
+    val dialogState: GlobalScriptingDialogState? = null,
     val globalCode: String = "",
-    val saveButtonVisible: Boolean = false,
-    val variables: List<Variable>? = null,
-    val shortcuts: List<Shortcut>? = null,
-)
+    val hasChanges: Boolean = false,
+) {
+    val saveButtonEnabled
+        get() = hasChanges
+}

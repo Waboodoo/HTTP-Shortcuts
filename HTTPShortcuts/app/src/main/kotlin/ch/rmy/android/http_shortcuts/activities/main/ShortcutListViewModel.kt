@@ -50,7 +50,7 @@ import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
-import ch.rmy.android.http_shortcuts.extensions.toLauncherShortcut
+import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.import_export.CurlExporter
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
@@ -370,7 +370,7 @@ class ShortcutListViewModel(
 
     fun onPlaceOnHomeScreenOptionSelected(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
-        emitEvent(ShortcutListEvent.PlaceShortcutOnHomeScreen(shortcut.toLauncherShortcut()))
+        emitEvent(ShortcutListEvent.PlaceShortcutOnHomeScreen(shortcut.toShortcutPlaceholder()))
     }
 
     fun onExecuteOptionSelected(shortcutId: ShortcutId) {
@@ -635,7 +635,7 @@ class ShortcutListViewModel(
             widgetsRepository.deleteDeadWidgets()
             showSnackbar(StringResLocalizable(R.string.shortcut_deleted, shortcut.name))
             updateLauncherSettings()
-            emitEvent(ShortcutListEvent.RemoveShortcutFromHomeScreen(shortcut.toLauncherShortcut()))
+            emitEvent(ShortcutListEvent.RemoveShortcutFromHomeScreen(shortcut.toShortcutPlaceholder()))
         }
     }
 

@@ -2,8 +2,8 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets
 
 import androidx.compose.runtime.Stable
 import ch.rmy.android.framework.utils.localization.Localizable
+import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
-import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholder
 
 @Stable
 sealed class CodeSnippetPickerDialogState {

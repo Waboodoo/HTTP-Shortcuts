@@ -6,7 +6,7 @@ import android.graphics.Bitmap
 import android.provider.MediaStore
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
+import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
@@ -17,7 +17,7 @@ object IntentUtil {
     private const val EXTRA_SHORTCUT_DUPLICATE = "duplicate"
 
     @Suppress("DEPRECATION")
-    fun getLegacyShortcutPlacementIntent(context: Context, shortcut: LauncherShortcut, install: Boolean): Intent {
+    fun getLegacyShortcutPlacementIntent(context: Context, shortcut: ShortcutPlaceholder, install: Boolean): Intent {
         val shortcutIntent = ExecuteActivity.IntentBuilder(shortcut.id)
             .trigger(ShortcutTriggerType.LEGACY_SHORTCUT)
             .build(context)

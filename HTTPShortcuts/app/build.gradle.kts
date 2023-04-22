@@ -264,6 +264,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
     implementation("com.github.alorma:compose-settings-ui-m3:0.25.0")
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
+    implementation("com.github.qawaz:compose-code-editor:2.0.3")
 
     /* Image cropping */
     implementation("com.github.yalantis:ucrop:2.2.8")

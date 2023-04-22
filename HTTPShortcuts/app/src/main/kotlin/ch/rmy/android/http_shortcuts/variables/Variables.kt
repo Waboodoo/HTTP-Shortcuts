@@ -17,7 +17,7 @@ object Variables {
 
     const val KEY_MAX_LENGTH = 30
 
-    private const val VARIABLE_KEY_REGEX = "[A-Za-z0-9_]{1,$KEY_MAX_LENGTH}"
+    const val VARIABLE_KEY_REGEX = "[A-Za-z0-9_]{1,$KEY_MAX_LENGTH}"
     const val VARIABLE_ID_REGEX = "($UUID_REGEX|[0-9]+)"
 
     private const val RAW_PLACEHOLDER_PREFIX = "{{"
