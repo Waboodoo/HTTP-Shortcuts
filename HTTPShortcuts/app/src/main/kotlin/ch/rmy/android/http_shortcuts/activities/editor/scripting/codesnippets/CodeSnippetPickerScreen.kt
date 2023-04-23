@@ -26,14 +26,12 @@ fun ScreenScope.CodeSnippetPickerScreen(
     currentShortcutId: ShortcutId?,
     includeResponseOptions: Boolean,
     includeNetworkErrorOption: Boolean,
-    includeFileOptions: Boolean,
 ) {
     val (viewModel, state) = bindViewModel<CodeSnippetPickerViewModel.InitData, CodeSnippetPickerViewState, CodeSnippetPickerViewModel>(
         CodeSnippetPickerViewModel.InitData(
             currentShortcutId,
             includeResponseOptions,
             includeNetworkErrorOption,
-            includeFileOptions,
         )
     )
 

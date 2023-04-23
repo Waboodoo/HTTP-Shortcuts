@@ -303,21 +303,11 @@ constructor(
         }
     }
 
-    suspend fun setCodeOnPrepare(code: String) {
+    suspend fun setCode(onPrepare: String, onSuccess: String, onFailure: String) {
         commitTransactionForShortcut { shortcut ->
-            shortcut.codeOnPrepare = code.trim()
-        }
-    }
-
-    suspend fun setCodeOnSuccess(code: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.codeOnSuccess = code.trim()
-        }
-    }
-
-    suspend fun setCodeOnFailure(code: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.codeOnFailure = code.trim()
+            shortcut.codeOnPrepare = onPrepare
+            shortcut.codeOnSuccess = onSuccess
+            shortcut.codeOnFailure = onFailure
         }
     }
 

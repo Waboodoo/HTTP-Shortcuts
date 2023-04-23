@@ -67,8 +67,10 @@ class TriggerShortcutsViewModel(application: Application) :
                 )
             }
             launchWithProgressTracking {
-                temporaryShortcutRepository.setCodeOnPrepare(
-                    getCodeFromTriggeredShortcutIds(value.map { it.shortcutId })
+                temporaryShortcutRepository.setCode(
+                    onPrepare = getCodeFromTriggeredShortcutIds(value.map { it.shortcutId }),
+                    onSuccess = "",
+                    onFailure = "",
                 )
             }
         }

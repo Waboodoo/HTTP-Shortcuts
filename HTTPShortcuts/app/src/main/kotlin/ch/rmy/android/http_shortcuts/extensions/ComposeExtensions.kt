@@ -8,6 +8,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.SaverScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -58,3 +59,6 @@ fun TextFieldValue.insertAtCursor(before: String, after: String): TextFieldValue
         selection = TextRange(position + before.length),
     )
 }
+
+inline fun Modifier.runIf(predicate: Boolean, block: Modifier.() -> Modifier): Modifier =
+    if (predicate) block(this) else this

@@ -21,7 +21,6 @@ import ch.rmy.android.http_shortcuts.activities.editor.headers.RequestHeadersAct
 import ch.rmy.android.http_shortcuts.activities.editor.headers.RequestHeadersViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseViewModel
-import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetPickerViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcutsViewModel
@@ -231,8 +230,6 @@ interface ApplicationComponent {
     fun inject(requestHeadersActivity: RequestHeadersActivity)
 
     fun inject(responseActivity: ResponseActivity)
-
-    fun inject(scriptingActivity: ScriptingActivity)
 
     fun inject(constantTypeFragment: ConstantTypeFragment)
 

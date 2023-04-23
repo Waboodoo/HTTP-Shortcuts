@@ -79,10 +79,6 @@ class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, G
         }
     }
 
-    fun onCodeSnippetButtonClicked() {
-        emitEvent(GlobalScriptingEvent.ShowCodeSnippetPicker)
-    }
-
     fun onCodeSnippetPicked(textBeforeCursor: String, textAfterCursor: String) {
         emitEvent(
             GlobalScriptingEvent.InsertCodeSnippet(textBeforeCursor, textAfterCursor)

@@ -264,7 +264,6 @@ class CodeSnippetPickerViewModel(application: Application) :
         val currentShortcutId: ShortcutId?,
         val includeResponseOptions: Boolean,
         val includeNetworkErrorOption: Boolean,
-        val includeFileOptions: Boolean,
     )
 
     companion object {

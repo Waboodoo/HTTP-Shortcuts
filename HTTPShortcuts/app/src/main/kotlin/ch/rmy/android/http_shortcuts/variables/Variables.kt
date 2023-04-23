@@ -108,21 +108,6 @@ object Variables {
         return builder.toString()
     }
 
-    fun applyVariableFormattingToJS(text: Spannable, variablePlaceholderProvider: VariablePlaceholderProvider, @ColorInt color: Int) {
-        text.getSpans(0, text.length, JSVariableSpan::class.java)
-            .forEach { span ->
-                text.removeSpan(span)
-            }
-        val matcher = JS_PATTERN.matcher(text)
-        while (matcher.find()) {
-            val variableId = matcher.group(1)!!
-            val placeholder = variablePlaceholderProvider.findPlaceholderById(variableId)
-            val variableKey = placeholder?.variableKey ?: "???"
-            val span = JSVariableSpan(color, variableKey, matcher.group().length)
-            text.setSpan(span, matcher.start(), matcher.end(), SPAN_EXCLUSIVE_EXCLUSIVE)
-        }
-    }
-
     /**
      * Searches for variable placeholders in JS code and returns all variable IDs found in them.
      */

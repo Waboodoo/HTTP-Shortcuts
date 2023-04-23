@@ -10,7 +10,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetPickerActivity
 import ch.rmy.android.http_shortcuts.components.BackButton
@@ -33,19 +32,6 @@ fun ScreenScope.GlobalScriptingScreen() {
         viewModel.onBackPressed()
     }
 
-    EventHandler { event ->
-        when (event) {
-            is GlobalScriptingEvent.ShowCodeSnippetPicker -> consume {
-                pickCodeSnippet.launch {
-                    includeResponseOptions(false)
-                        .includeNetworkErrorOption(false)
-                        .includeFileOptions(true)
-                }
-            }
-            else -> false
-        }
-    }
-
     SimpleScaffold(
         viewState = state,
         title = stringResource(R.string.title_global_scripting),
@@ -64,7 +50,14 @@ fun ScreenScope.GlobalScriptingScreen() {
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = viewModel::onCodeSnippetButtonClicked) {
+            FloatingActionButton(
+                onClick = {
+                    pickCodeSnippet.launch {
+                        includeResponseOptions(false)
+                            .includeNetworkErrorOption(false)
+                    }
+                },
+            ) {
                 Icon(
                     imageVector = Icons.Outlined.PostAdd,
                     contentDescription = stringResource(R.string.button_add_code_snippet),

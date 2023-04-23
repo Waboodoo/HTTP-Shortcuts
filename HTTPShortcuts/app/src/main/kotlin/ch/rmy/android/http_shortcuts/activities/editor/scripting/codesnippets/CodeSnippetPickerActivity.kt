@@ -17,7 +17,6 @@ class CodeSnippetPickerActivity : BaseComposeActivity() {
             currentShortcutId = intent.getStringExtra(EXTRA_SHORTCUT_ID),
             includeResponseOptions = intent.getBooleanExtra(EXTRA_INCLUDE_RESPONSE_OPTIONS, false),
             includeNetworkErrorOption = intent.getBooleanExtra(EXTRA_INCLUDE_NETWORK_ERROR_OPTION, false),
-            includeFileOptions = intent.getBooleanExtra(EXTRA_INCLUDE_FILE_OPTIONS, false),
         )
     }
 
@@ -54,10 +53,6 @@ class CodeSnippetPickerActivity : BaseComposeActivity() {
         fun includeNetworkErrorOption(includeNetworkErrorOption: Boolean) = also {
             intent.putExtra(EXTRA_INCLUDE_NETWORK_ERROR_OPTION, includeNetworkErrorOption)
         }
-
-        fun includeFileOptions(includeFileOptions: Boolean) = also {
-            intent.putExtra(EXTRA_INCLUDE_FILE_OPTIONS, includeFileOptions)
-        }
     }
 
     companion object {
@@ -65,6 +60,5 @@ class CodeSnippetPickerActivity : BaseComposeActivity() {
         private const val EXTRA_SHORTCUT_ID = "shortcutId"
         private const val EXTRA_INCLUDE_RESPONSE_OPTIONS = "include_response_options"
         private const val EXTRA_INCLUDE_NETWORK_ERROR_OPTION = "include_network_error_option"
-        private const val EXTRA_INCLUDE_FILE_OPTIONS = "include_file_options"
     }
 }

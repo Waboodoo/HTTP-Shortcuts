@@ -25,6 +25,8 @@ fun CodeEditorField(
     placeholder: String,
     onValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
+    minLines: Int = 6,
+    label: String? = null,
 ) {
     val useDarkTheme = isSystemInDarkTheme()
     val syntaxHighlighter = remember(language, useDarkTheme) {
@@ -60,5 +62,11 @@ fun CodeEditorField(
         visualTransformation = {
             TransformedText(syntaxHighlighter.format(it.text), OffsetMapping.Identity)
         },
+        minLines = minLines,
+        label = if (label != null) {
+            {
+                Text(label)
+            }
+        } else null,
     )
 }

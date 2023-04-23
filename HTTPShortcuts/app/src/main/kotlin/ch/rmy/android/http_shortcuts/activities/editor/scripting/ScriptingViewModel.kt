@@ -2,53 +2,42 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
-import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.WithDialog
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
-import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
-import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.type
-import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
+import ch.rmy.android.http_shortcuts.scripting.CodeTransformer
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
-class ScriptingViewModel(application: Application) : BaseViewModel<Unit, ScriptingViewState>(application), WithDialog {
+class ScriptingViewModel(application: Application) : BaseViewModel<Unit, ScriptingViewState>(application) {
 
     @Inject
     lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
 
     @Inject
-    lateinit var shortcutRepository: ShortcutRepository
-
-    @Inject
-    lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
+    lateinit var codeTransformer: CodeTransformer
 
     init {
         getApplicationComponent().inject(this)
     }
-
-    private lateinit var shortcut: Shortcut
-
-    override var dialogState: DialogState?
-        get() = currentViewState?.dialogState
-        set(value) {
-            updateViewState {
-                copy(dialogState = value)
-            }
-        }
 
     override fun onInitializationStarted(data: Unit) {
         finalizeInitialization(silent = true)
     }
 
     override fun initViewState() = ScriptingViewState()
+
+    private var isFinishing: Boolean = false
+    private var persistJob: Job? = null
 
     override fun onInitialized() {
         viewModelScope.launch {
@@ -61,34 +50,23 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
                 onInitializationError(e)
             }
         }
-
-        viewModelScope.launch {
-            shortcutRepository.getObservableShortcuts()
-                .collect { shortcuts ->
-                    updateViewState {
-                        copy(shortcuts = shortcuts)
-                    }
-                }
-        }
-
-        viewModelScope.launch {
-            keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
-        }
     }
 
     private fun initViewStateFromShortcut(shortcut: Shortcut) {
-        this.shortcut = shortcut
-        val type = shortcut.type
-        updateViewState {
-            copy(
-                codeOnPrepare = shortcut.codeOnPrepare,
-                codeOnSuccess = shortcut.codeOnSuccess,
-                codeOnFailure = shortcut.codeOnFailure,
-                codePrepareMinLines = getMinLinesForCode(type),
-                codePrepareHint = StringResLocalizable(getHintText(type)),
-                codePrepareVisible = type != ShortcutExecutionType.SCRIPTING,
-                postRequestScriptingVisible = type.usesResponse,
-            )
+        viewModelScope.launch(Dispatchers.Default) {
+            val codeOnPrepare = codeTransformer.transformForEditing(shortcut.codeOnPrepare)
+            val codeOnSuccess = codeTransformer.transformForEditing(shortcut.codeOnSuccess)
+            val codeOnFailure = codeTransformer.transformForEditing(shortcut.codeOnFailure)
+            withContext(Dispatchers.Main) {
+                updateViewState {
+                    copy(
+                        codeOnPrepare = codeOnPrepare,
+                        codeOnSuccess = codeOnSuccess,
+                        codeOnFailure = codeOnFailure,
+                        shortcutExecutionType = shortcut.type,
+                    )
+                }
+            }
         }
     }
 
@@ -97,48 +75,13 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
         finish()
     }
 
-    fun onAddCodeSnippetPrepareButtonClicked() {
-        emitEvent(
-            ScriptingEvent.ShowCodeSnippetPicker(
-                target = TargetCodeFieldType.PREPARE,
-                includeResponseOptions = false,
-                includeFileOptions = shortcut.type != ShortcutExecutionType.SCRIPTING,
-                includeNetworkErrorOption = false,
-            )
-        )
-    }
-
-    fun onAddCodeSnippetSuccessButtonClicked() {
-        emitEvent(
-            ScriptingEvent.ShowCodeSnippetPicker(
-                target = TargetCodeFieldType.SUCCESS,
-                includeResponseOptions = true,
-                includeFileOptions = shortcut.type != ShortcutExecutionType.SCRIPTING,
-                includeNetworkErrorOption = false,
-            )
-        )
-    }
-
-    fun onAddCodeSnippetFailureButtonClicked() {
-        emitEvent(
-            ScriptingEvent.ShowCodeSnippetPicker(
-                target = TargetCodeFieldType.FAILURE,
-                includeResponseOptions = true,
-                includeFileOptions = shortcut.type != ShortcutExecutionType.SCRIPTING,
-                includeNetworkErrorOption = true,
-            )
-        )
-    }
-
     fun onCodePrepareChanged(code: String) {
         updateViewState {
             copy(
                 codeOnPrepare = code,
             )
         }
-        launchWithProgressTracking {
-            temporaryShortcutRepository.setCodeOnPrepare(code)
-        }
+        schedulePersisting()
     }
 
     fun onCodeSuccessChanged(code: String) {
@@ -147,9 +90,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
                 codeOnSuccess = code,
             )
         }
-        launchWithProgressTracking {
-            temporaryShortcutRepository.setCodeOnSuccess(code)
-        }
+        schedulePersisting()
     }
 
     fun onCodeFailureChanged(code: String) {
@@ -158,8 +99,23 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
                 codeOnFailure = code,
             )
         }
-        launchWithProgressTracking {
-            temporaryShortcutRepository.setCodeOnFailure(code)
+        schedulePersisting()
+    }
+
+    private fun schedulePersisting() {
+        if (isFinishing) {
+            return
+        }
+        persistJob?.cancel()
+        persistJob = viewModelScope.launch(Dispatchers.IO) {
+            delay(500.milliseconds)
+            currentViewState?.run {
+                temporaryShortcutRepository.setCode(
+                    codeTransformer.transformForStoring(codeOnPrepare),
+                    codeTransformer.transformForStoring(codeOnSuccess),
+                    codeTransformer.transformForStoring(codeOnFailure),
+                )
+            }
         }
     }
 
@@ -168,53 +124,22 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
     }
 
     fun onBackPressed() {
+        if (isFinishing) {
+            return
+        }
+        isFinishing = true
         viewModelScope.launch {
-            waitForOperationsToFinish()
+            persistJob?.join()
             finish()
         }
     }
 
-    fun onCodeSnippetForPreparePicked(textBeforeCursor: String, textAfterCursor: String) {
+    fun onCodeSnippetPicked(textBeforeCursor: String, textAfterCursor: String) {
         emitEvent(
             ScriptingEvent.InsertCodeSnippet(
-                target = TargetCodeFieldType.PREPARE,
                 textBeforeCursor = textBeforeCursor,
                 textAfterCursor = textAfterCursor,
             )
         )
-    }
-
-    fun onCodeSnippetForSuccessPicked(textBeforeCursor: String, textAfterCursor: String) {
-        emitEvent(
-            ScriptingEvent.InsertCodeSnippet(
-                target = TargetCodeFieldType.SUCCESS,
-                textBeforeCursor = textBeforeCursor,
-                textAfterCursor = textAfterCursor,
-            )
-        )
-    }
-
-    fun onCodeSnippetForFailurePicked(textBeforeCursor: String, textAfterCursor: String) {
-        emitEvent(
-            ScriptingEvent.InsertCodeSnippet(
-                target = TargetCodeFieldType.FAILURE,
-                textBeforeCursor = textBeforeCursor,
-                textAfterCursor = textAfterCursor,
-            )
-        )
-    }
-
-    companion object {
-        internal fun getMinLinesForCode(type: ShortcutExecutionType) = if (type == ShortcutExecutionType.SCRIPTING) {
-            14
-        } else {
-            6
-        }
-
-        internal fun getHintText(type: ShortcutExecutionType) = if (type == ShortcutExecutionType.SCRIPTING) {
-            R.string.placeholder_javascript_code_generic
-        } else {
-            R.string.placeholder_javascript_code_before
-        }
     }
 }

@@ -1,0 +1,158 @@
+package ch.rmy.android.http_shortcuts.activities.editor.scripting
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
+import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.editor.scripting.models.CodeFieldType
+import ch.rmy.android.http_shortcuts.components.CodeEditorField
+import ch.rmy.android.http_shortcuts.components.ScreenScope
+import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.extensions.insertAtCursor
+import ch.rmy.android.http_shortcuts.extensions.runIf
+import ch.rmy.android.http_shortcuts.utils.SyntaxHighlighter
+
+@Composable
+fun ScreenScope.ScriptingContent(
+    activeFieldType: CodeFieldType,
+    codeOnPrepare: String,
+    codeOnSuccess: String,
+    codeOnFailure: String,
+    shortcutExecutionType: ShortcutExecutionType,
+    onCodeOnPrepareChanged: (String) -> Unit,
+    onCodeOnSuccessChanged: (String) -> Unit,
+    onCodeOnFailureChanged: (String) -> Unit,
+    onActiveFieldChanged: (CodeFieldType) -> Unit,
+) {
+    Column(
+        modifier = Modifier.verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
+    ) {
+        CodeSection(
+            modifier = Modifier
+                .runIf(shortcutExecutionType != ShortcutExecutionType.APP) {
+                    fillMaxSize()
+                },
+            isFocused = activeFieldType == CodeFieldType.PREPARE,
+            code = codeOnPrepare,
+            placeholder = stringResource(
+                if (shortcutExecutionType == ShortcutExecutionType.SCRIPTING) {
+                    R.string.placeholder_javascript_code_generic
+                } else {
+                    R.string.placeholder_javascript_code_before
+                }
+            ),
+            label = if (shortcutExecutionType == ShortcutExecutionType.APP) {
+                stringResource(R.string.label_pre_request_script)
+            } else null,
+            minLines = if (shortcutExecutionType == ShortcutExecutionType.APP) 6 else 12,
+            onCodeChanged = onCodeOnPrepareChanged,
+            onFocused = {
+                onActiveFieldChanged(CodeFieldType.PREPARE)
+            },
+        )
+
+        if (shortcutExecutionType == ShortcutExecutionType.APP) {
+            CodeSection(
+                isFocused = activeFieldType == CodeFieldType.SUCCESS,
+                code = codeOnSuccess,
+                label = stringResource(R.string.label_post_request_success_script),
+                placeholder = stringResource(R.string.placeholder_javascript_code_success),
+                onCodeChanged = onCodeOnSuccessChanged,
+                onFocused = {
+                    onActiveFieldChanged(CodeFieldType.SUCCESS)
+                },
+            )
+
+            CodeSection(
+                isFocused = activeFieldType == CodeFieldType.FAILURE,
+                code = codeOnFailure,
+                label = stringResource(R.string.label_post_request_failure_script),
+                placeholder = stringResource(R.string.placeholder_javascript_code_failure),
+                onCodeChanged = onCodeOnFailureChanged,
+                onFocused = {
+                    onActiveFieldChanged(CodeFieldType.FAILURE)
+                },
+            )
+        }
+    }
+}
+
+@Composable
+private fun ScreenScope.CodeSection(
+    isFocused: Boolean,
+    code: String,
+    label: String?,
+    placeholder: String,
+    onFocused: () -> Unit,
+    onCodeChanged: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    minLines: Int = 6,
+) {
+    var textFieldValue by remember {
+        mutableStateOf(
+            TextFieldValue(
+                text = code,
+                selection = TextRange(code.length),
+            )
+        )
+    }
+
+    LaunchedEffect(code) {
+        if (code != textFieldValue.text) {
+            textFieldValue = textFieldValue.copy(
+                text = code,
+            )
+        }
+    }
+
+    if (isFocused) {
+        EventHandler { event ->
+            when (event) {
+                is ScriptingEvent.InsertCodeSnippet -> consume {
+                    textFieldValue = textFieldValue.insertAtCursor(event.textBeforeCursor, event.textAfterCursor)
+                    onCodeChanged(textFieldValue.text)
+                }
+                else -> false
+            }
+        }
+    }
+
+    CodeEditorField(
+        modifier = Modifier
+            .padding(Spacing.SMALL)
+            .fillMaxWidth()
+            .onFocusChanged {
+                if (it.isFocused) {
+                    onFocused()
+                }
+            }
+            .then(modifier),
+        language = SyntaxHighlighter.Languages.JS,
+        label = label,
+        value = textFieldValue,
+        minLines = minLines,
+        onValueChange = {
+            textFieldValue = it
+            onCodeChanged(it.text)
+        },
+        placeholder = placeholder,
+    )
+}

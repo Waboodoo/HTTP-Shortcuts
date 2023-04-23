@@ -131,36 +131,34 @@ constructor(
                     insertText("shortcut.description")
                 }
             }
-            if (initData.includeFileOptions) {
-                section(R.string.dialog_code_snippet_files, R.drawable.ic_files) {
-                    item(
-                        R.string.dialog_code_snippet_get_file_name,
-                        docRef = "files",
-                        keywords = setOf("files", "selected", "name"),
-                    ) {
-                        insertText("selectedFiles[0].name")
-                    }
-                    item(
-                        R.string.dialog_code_snippet_get_file_type,
-                        docRef = "files",
-                        keywords = setOf("files", "selected", "types"),
-                    ) {
-                        insertText("selectedFiles[0].size")
-                    }
-                    item(
-                        R.string.dialog_code_snippet_get_file_size,
-                        docRef = "files",
-                        keywords = setOf("files", "selected", "size"),
-                    ) {
-                        insertText("selectedFiles[0].type")
-                    }
-                    item(
-                        R.string.dialog_code_snippet_get_file_meta,
-                        docRef = "files",
-                        keywords = setOf("files", "selected", "meta", "created", "time", "date", "orientation", "rotation", "information"),
-                    ) {
-                        insertText("selectedFiles[0].meta")
-                    }
+            section(R.string.dialog_code_snippet_files, R.drawable.ic_files) {
+                item(
+                    R.string.dialog_code_snippet_get_file_name,
+                    docRef = "files",
+                    keywords = setOf("files", "selected", "name"),
+                ) {
+                    insertText("selectedFiles[0].name")
+                }
+                item(
+                    R.string.dialog_code_snippet_get_file_type,
+                    docRef = "files",
+                    keywords = setOf("files", "selected", "types"),
+                ) {
+                    insertText("selectedFiles[0].size")
+                }
+                item(
+                    R.string.dialog_code_snippet_get_file_size,
+                    docRef = "files",
+                    keywords = setOf("files", "selected", "size"),
+                ) {
+                    insertText("selectedFiles[0].type")
+                }
+                item(
+                    R.string.dialog_code_snippet_get_file_meta,
+                    docRef = "files",
+                    keywords = setOf("files", "selected", "meta", "created", "time", "date", "orientation", "rotation", "information"),
+                ) {
+                    insertText("selectedFiles[0].meta")
                 }
             }
             section(R.string.dialog_code_snippet_user_interaction, R.drawable.ic_user_interaction) {
