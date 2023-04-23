@@ -5,6 +5,7 @@ import android.net.Uri
 import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.extensions.readIntoString
 import ch.rmy.android.http_shortcuts.utils.SizeLimitedReader
+import java.nio.charset.Charset
 import java.util.Locale
 
 class ShortcutResponse internal constructor(
@@ -19,6 +20,19 @@ class ShortcutResponse internal constructor(
         get() = headers.getLast(HttpHeaders.CONTENT_TYPE)?.let { contentType ->
             contentType.split(';', limit = 2)[0].lowercase(locale = Locale.US)
         }
+
+    val charset: Charset by lazy {
+        headers.getLast(HttpHeaders.CONTENT_TYPE)
+            ?.split("charset=", limit = 2)?.getOrNull(1)
+            ?.let {
+                try {
+                    Charset.forName(it)
+                } catch (e: Exception) {
+                    null
+                }
+            }
+            ?: Charsets.UTF_8
+    }
 
     val cookiesAsMultiMap: Map<String, List<String>> by lazy {
         headers.toMultiMap()
@@ -54,7 +68,7 @@ class ShortcutResponse internal constructor(
                 ?: run {
                     try {
                         contentFile
-                            ?.readIntoString(context, CONTENT_SIZE_LIMIT)
+                            ?.readIntoString(context, CONTENT_SIZE_LIMIT, charset)
                     } catch (e: SizeLimitedReader.LimitReachedException) {
                         responseTooLarge = true
                         throw ResponseTooLargeException(e.limit)

@@ -565,6 +565,9 @@ class Execution(
                         .runIfNotNull(response?.contentFile) {
                             responseFileUri(it)
                         }
+                        .runIfNotNull(response?.charset) {
+                            charset(it)
+                        }
                         .runIfNotNull(response?.url) {
                             url(it)
                         }

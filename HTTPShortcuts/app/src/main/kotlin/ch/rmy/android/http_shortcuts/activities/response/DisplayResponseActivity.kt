@@ -58,6 +58,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.nio.charset.Charset
 import javax.inject.Inject
 
 class DisplayResponseActivity : BaseActivity() {
@@ -79,7 +80,7 @@ class DisplayResponseActivity : BaseActivity() {
         intent?.extras?.getString(EXTRA_TEXT)
             ?: try {
                 // TODO: Avoid loading the file on the UI thread
-                responseFileUri?.readIntoString(context, CONTENT_SIZE_LIMIT)
+                responseFileUri?.readIntoString(context, CONTENT_SIZE_LIMIT, charset)
             } catch (e: SizeLimitedReader.LimitReachedException) {
                 ResponseTooLargeException(e.limit).getLocalizedMessage(context)
             }
@@ -87,6 +88,17 @@ class DisplayResponseActivity : BaseActivity() {
     }
     private val responseFileUri: Uri? by lazy {
         intent?.getParcelable(EXTRA_RESPONSE_FILE_URI)
+    }
+    private val charset: Charset by lazy {
+        intent?.getStringExtra(EXTRA_CHARSET)
+            ?.let {
+                try {
+                    Charset.forName(it)
+                } catch (e: Exception) {
+                    null
+                }
+            }
+            ?: Charsets.UTF_8
     }
     private val type: String? by lazy {
         intent?.extras?.getString(EXTRA_TYPE)
@@ -432,6 +444,10 @@ class DisplayResponseActivity : BaseActivity() {
             intent.putExtra(EXTRA_RESPONSE_FILE_URI, uri)
         }
 
+        fun charset(charset: Charset) = also {
+            intent.putExtra(EXTRA_CHARSET, charset.name())
+        }
+
         fun url(url: String) = also {
             intent.putExtra(EXTRA_URL, url)
         }
@@ -471,6 +487,7 @@ class DisplayResponseActivity : BaseActivity() {
         private const val EXTRA_NAME = "name"
         private const val EXTRA_TYPE = "type"
         private const val EXTRA_TEXT = "text"
+        private const val EXTRA_CHARSET = "charset"
         private const val EXTRA_RESPONSE_FILE_URI = "response_file_uri"
         private const val EXTRA_URL = "url"
         private const val EXTRA_HEADERS = "headers"
