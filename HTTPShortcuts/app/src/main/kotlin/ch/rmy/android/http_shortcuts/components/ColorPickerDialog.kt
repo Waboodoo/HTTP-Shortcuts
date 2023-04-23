@@ -6,13 +6,13 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,8 +24,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.style.TextAlign
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.colorIntToHexString
@@ -33,7 +36,6 @@ import ch.rmy.android.http_shortcuts.utils.ColorUtil.hexStringToColorInt
 
 private val UNSUPPORTED_CHARACTERS_REGEX = "[^A-Fa-f0-9]".toRegex()
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColorPickerDialog(
     initialColor: Int = android.graphics.Color.BLACK,
@@ -41,8 +43,6 @@ fun ColorPickerDialog(
     extraContent: @Composable ColumnScope.(Int) -> Unit = {},
     onDismissRequested: () -> Unit,
 ) {
-    // TODO: Improve cursor position in text field
-
     var color by rememberSaveable {
         mutableStateOf(initialColor)
     }
@@ -50,7 +50,7 @@ fun ColorPickerDialog(
         mutableStateOf("")
     }
     LaunchedEffect(color) {
-        colorText = "#${color.colorIntToHexString()}"
+        colorText = color.colorIntToHexString()
     }
 
     val textStyle = TextStyle(
@@ -96,7 +96,7 @@ fun ColorPickerDialog(
                     value = colorText,
                     onValueChange = { text ->
                         val newColor = text.replace(UNSUPPORTED_CHARACTERS_REGEX, "").uppercase().take(6)
-                        colorText = "#$newColor"
+                        colorText = newColor
                         newColor
                             .takeIf { it.length == 6 }
                             ?.hexStringToColorInt()
@@ -106,6 +106,7 @@ fun ColorPickerDialog(
                     },
                     singleLine = true,
                     textStyle = textStyle,
+                    visualTransformation = ::colorTextTransformation,
                 )
             }
         },
@@ -127,3 +128,16 @@ fun ColorPickerDialog(
         },
     )
 }
+
+@Stable
+private fun colorTextTransformation(annotatedString: AnnotatedString): TransformedText =
+    TransformedText(
+        AnnotatedString("#" + annotatedString.text),
+        object : OffsetMapping {
+            override fun originalToTransformed(offset: Int): Int =
+                offset + 1
+
+            override fun transformedToOriginal(offset: Int): Int =
+                (offset - 1).coerceAtLeast(0)
+        }
+    )
