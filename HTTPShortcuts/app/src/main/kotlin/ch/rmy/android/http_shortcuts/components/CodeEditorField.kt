@@ -1,21 +1,22 @@
 package ch.rmy.android.http_shortcuts.components
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.SyntaxHighlighter
-import com.wakaztahir.codeeditor.highlight.theme.DefaultTheme
 
 @Composable
 fun CodeEditorField(
@@ -25,19 +26,25 @@ fun CodeEditorField(
     onValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val theme = remember {
-        // TODO: Change with dark mode
-        DefaultTheme()
+    val useDarkTheme = isSystemInDarkTheme()
+    val syntaxHighlighter = remember(language, useDarkTheme) {
+        SyntaxHighlighter(language, useDarkTheme)
     }
-    val syntaxHighlighter = remember(language, theme) {
-        SyntaxHighlighter(language, theme)
+
+    val textFieldColors = if (useDarkTheme) {
+        val backgroundColor = colorResource(R.color.textarea_background)
+        TextFieldDefaults.colors(
+            focusedContainerColor = backgroundColor,
+            unfocusedContainerColor = backgroundColor,
+            disabledContainerColor = backgroundColor,
+        )
+    } else {
+        TextFieldDefaults.colors()
     }
 
     TextField(
-        modifier = Modifier
-            .padding(Spacing.MEDIUM)
-            .fillMaxSize()
-            .then(modifier),
+        modifier = modifier,
+        colors = textFieldColors,
         value = value,
         onValueChange = onValueChange,
         textStyle = TextStyle(

@@ -84,11 +84,14 @@ fun ColorPickerDialog(
 
                 extraContent(color)
 
+                val containerColor = Color(color)
                 TextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color(color),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = containerColor,
+                        unfocusedContainerColor = containerColor,
+                        disabledContainerColor = containerColor,
                     ),
                     value = colorText,
                     onValueChange = { text ->

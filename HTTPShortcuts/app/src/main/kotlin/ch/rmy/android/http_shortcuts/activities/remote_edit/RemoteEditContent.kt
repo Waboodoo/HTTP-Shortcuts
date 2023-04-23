@@ -79,7 +79,6 @@ private fun DeviceId(deviceId: String) {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Password(password: String, onPasswordChanged: (String) -> Unit) {
     TextField(
