@@ -54,7 +54,7 @@ class RealmFactory private constructor() : ch.rmy.android.framework.data.RealmFa
                 val configuration = createConfiguration(context)
                 val backupFile = File("${configuration.path}.backup-copy")
                 if (!backupFile.exists()) {
-                    File(configuration.path).copyTo(backupFile)
+                    File(configuration.path).takeIf { it.exists() }?.copyTo(backupFile)
                 }
                 instance = RealmFactory()
                 realmInstance = Realm.open(configuration)

@@ -7,6 +7,7 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
+import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.domains.history.HistoryRepository
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -23,6 +24,7 @@ class HistoryCleanUpWorker(context: Context, params: WorkerParameters) : Corouti
 
     override suspend fun doWork(): Result =
         try {
+            RealmFactory.init(applicationContext)
             historyRepository.deleteOldEvents(MAX_AGE)
             Result.success()
         } catch (e: Exception) {
