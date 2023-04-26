@@ -811,7 +811,7 @@
     <!-- Shortcut Action Title: Get the SSID of the current Wi-Fi -->
     <string name="action_type_get_wifi_ssid">Get SSID of Wi-Fi</string>
     <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
-    <string name="action_type_trigger_shortcut_error_recursion_depth_reached">Maximum recursion depth reached. Shortcut will not be triggered.</string>
+    <string name="action_type_trigger_shortcut_error_recursion_depth_reached">The maximum recursion depth was reached. You might have too many shortcuts triggering other shortcuts, or even an infinite loop.</string>
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
     <string name="error_invalid_url">Invalid URL (%s).</string>
     <!-- error message: Shown in toast when the user tries to execute a shortcut with invalid proxy settings -->
