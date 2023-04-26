@@ -7,6 +7,7 @@ object ExternalURLs {
     const val VARIABLES_DOCUMENTATION = "https://http-shortcuts.rmy.ch/variables"
     const val SCRIPTING_DOCUMENTATION = "https://http-shortcuts.rmy.ch/scripting#scripting"
     const val IMPORT_EXPORT_DOCUMENTATION = "https://http-shortcuts.rmy.ch/import-export"
+    const val CERTIFICATE_PINNING_DOCUMENTATION = "https://http-shortcuts.rmy.ch/advanced#certificate-pinning"
 
     const val PRIVACY_POLICY = "https://http-shortcuts.rmy.ch/privacy-policy"
     const val DOCUMENTATION_PAGE = "https://http-shortcuts.rmy.ch/documentation"

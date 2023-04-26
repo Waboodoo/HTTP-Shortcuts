@@ -31,6 +31,7 @@ fun ScreenScope.SettingsScreen() {
             onChangeTitleButtonClicked = viewModel::onChangeTitleButtonClicked,
             onLockButtonClicked = viewModel::onLockButtonClicked,
             onQuickSettingsTileButtonClicked = viewModel::onQuickSettingsTileButtonClicked,
+            onCertificatePinningButtonClicked = viewModel::onCertificatePinningButtonClicked,
             onGlobalScriptingButtonClicked = viewModel::onGlobalScriptingButtonClicked,
             onCrashReportingChanged = viewModel::onCrashReportingChanged,
             onClearCookiesButtonClicked = viewModel::onClearCookiesButtonClicked,

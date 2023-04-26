@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.activities.about.AboutViewModel
 import ch.rmy.android.http_shortcuts.activities.categories.CategoriesViewModel
 import ch.rmy.android.http_shortcuts.activities.categories.editor.CategoryEditorActivity
 import ch.rmy.android.http_shortcuts.activities.categories.editor.CategoryEditorViewModel
+import ch.rmy.android.http_shortcuts.activities.certpinning.CertPinningViewModel
 import ch.rmy.android.http_shortcuts.activities.contact.ContactActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.AdvancedSettingsActivity
@@ -334,4 +335,6 @@ interface ApplicationComponent {
     fun inject(shareTextAction: ShareTextAction)
 
     fun inject(executionBroadcastReceiver: ExecutionBroadcastReceiver)
+
+    fun inject(certPinningViewModel: CertPinningViewModel)
 }

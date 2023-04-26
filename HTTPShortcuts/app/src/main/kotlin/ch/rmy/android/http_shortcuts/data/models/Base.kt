@@ -15,6 +15,7 @@ class Base : RealmObject {
         private set
     var title: String? = null
     var globalCode: String? = null
+    var certificatePins: RealmList<CertificatePin> = realmListOf()
 
     val shortcuts: List<Shortcut>
         get() = categories.flatMap { it.shortcuts }
@@ -22,11 +23,15 @@ class Base : RealmObject {
     fun validate() {
         categories.forEach(Category::validate)
         variables.forEach(Variable::validate)
+        certificatePins.forEach(CertificatePin::validate)
         require(!categories.hasDuplicatesBy { it.id }) {
             "Duplicate category IDs"
         }
         require(!variables.hasDuplicatesBy { it.id }) {
             "Duplicate variable IDs"
+        }
+        require(!certificatePins.hasDuplicatesBy { it.id }) {
+            "Duplicate certificate pin IDs"
         }
         require(!variables.flatMap { it.options ?: emptyList() }.hasDuplicatesBy { it.id }) {
             "Duplicate variable option IDs"

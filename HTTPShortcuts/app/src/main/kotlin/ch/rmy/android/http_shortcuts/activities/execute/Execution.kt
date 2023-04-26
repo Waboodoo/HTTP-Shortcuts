@@ -32,6 +32,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
@@ -151,6 +152,7 @@ class Execution(
 
     private lateinit var globalCode: String
     private lateinit var shortcut: Shortcut
+    private lateinit var certificatePins: List<CertificatePin>
 
     private val shortcutName by lazy {
         shortcut.getSafeName(context)
@@ -330,6 +332,7 @@ class Execution(
                         variableValues = variableManager.getVariableValuesByIds(),
                         fileUploadResult = fileUploadResult,
                         useCookieJar = shortcut.acceptCookies,
+                        certificatePins = certificatePins,
                     )
             } catch (e: UnknownHostException) {
                 if (shouldReschedule(e)) {
@@ -434,14 +437,16 @@ class Execution(
 
     private suspend fun loadData() {
         coroutineScope {
-            val globalCodeDeferred = async {
-                appRepository.getGlobalCode()
+            val baseDeferred = async {
+                appRepository.getBase()
             }
             val shortcutDeferred = async {
                 shortcutRepository.getShortcutById(params.shortcutId)
             }
-            globalCode = globalCodeDeferred.await()
+            val base = baseDeferred.await()
+            globalCode = base.globalCode.orEmpty()
             shortcut = shortcutDeferred.await()
+            certificatePins = base.certificatePins
         }
     }
 

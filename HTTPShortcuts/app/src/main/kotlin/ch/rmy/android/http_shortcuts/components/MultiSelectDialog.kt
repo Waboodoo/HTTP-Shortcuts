@@ -21,6 +21,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 fun <T : Any> MultiSelectDialog(
     title: String,
     entries: List<MenuEntry<T>>,
+    allChecked: Boolean = false,
     confirmButtonLabel: String = stringResource(R.string.dialog_ok),
     allowEmpty: Boolean = false,
     dismissButton: @Composable (() -> Unit)? = null,
@@ -28,6 +29,11 @@ fun <T : Any> MultiSelectDialog(
 ) {
     val selectedKeys = remember {
         mutableStateListOf<T>()
+            .apply {
+                if (allChecked) {
+                    this.addAll(entries.map { it.key })
+                }
+            }
     }
 
     AlertDialog(

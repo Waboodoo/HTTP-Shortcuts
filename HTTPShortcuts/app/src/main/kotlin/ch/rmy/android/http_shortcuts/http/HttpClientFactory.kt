@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.http
 
 import android.content.Context
+import android.util.Base64
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
@@ -9,6 +11,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.exceptions.ClientCertException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidProxyException
 import com.burgstaller.okhttp.digest.Credentials
+import okhttp3.CertificatePinner
 import okhttp3.ConnectionSpec
 import okhttp3.CookieJar
 import okhttp3.OkHttpClient
@@ -39,6 +42,7 @@ constructor() {
         timeout: Long = 10000,
         proxy: ProxyParams? = null,
         cookieJar: CookieJar? = null,
+        certificatePins: List<CertificatePin> = emptyList(),
     ): OkHttpClient =
         (
             if (acceptAllCertificates) {
@@ -56,6 +60,17 @@ constructor() {
             .connectTimeout(timeout, TimeUnit.MILLISECONDS)
             .readTimeout(timeout, TimeUnit.MILLISECONDS)
             .writeTimeout(timeout, TimeUnit.MILLISECONDS)
+            .runIf(certificatePins.isNotEmpty()) {
+                certificatePinner(
+                    CertificatePinner.Builder()
+                        .runFor(certificatePins) { pin ->
+                            val hash = Base64.encodeToString(pin.hash, Base64.NO_WRAP)
+                            val prefix = if (pin.isSha256) "sha256" else "sha1"
+                            add(pin.pattern, "$prefix/$hash")
+                        }
+                        .build()
+                )
+            }
             .runIfNotNull(cookieJar) {
                 cookieJar(it)
             }

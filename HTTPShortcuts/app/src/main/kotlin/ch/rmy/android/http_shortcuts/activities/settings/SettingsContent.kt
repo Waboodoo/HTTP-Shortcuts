@@ -14,6 +14,7 @@ import androidx.compose.material.icons.outlined.Javascript
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Layers
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Title
 import androidx.compose.material.icons.outlined.TouchApp
 import androidx.compose.material3.Text
@@ -46,6 +47,7 @@ fun SettingsContent(
     onChangeTitleButtonClicked: () -> Unit,
     onLockButtonClicked: () -> Unit,
     onQuickSettingsTileButtonClicked: () -> Unit,
+    onCertificatePinningButtonClicked: () -> Unit,
     onGlobalScriptingButtonClicked: () -> Unit,
     onCrashReportingChanged: (Boolean) -> Unit,
     onClearCookiesButtonClicked: () -> Unit,
@@ -121,18 +123,6 @@ fun SettingsContent(
             <item>@string/theme_orange</item>
              */
 
-            SettingsSelection(
-                icon = Icons.Outlined.TouchApp,
-                title = stringResource(R.string.settings_click_behavior),
-                selectedKey = selectedClickActionOption,
-                items = listOf(
-                    ShortcutClickBehavior.RUN to stringResource(R.string.settings_click_behavior_run),
-                    ShortcutClickBehavior.EDIT to stringResource(R.string.settings_click_behavior_edit),
-                    ShortcutClickBehavior.MENU to stringResource(R.string.settings_click_behavior_menu),
-                ),
-                onItemSelected = onClickActionOptionSelected,
-            )
-
             SettingsButton(
                 icon = Icons.Outlined.Title,
                 title = stringResource(R.string.settings_app_title_title),
@@ -158,8 +148,25 @@ fun SettingsContent(
         }
 
         SettingsGroup(
-            title = { Text(stringResource(R.string.settings_title_scripting)) },
+            title = { Text(stringResource(R.string.settings_title_global_shortcut_settings)) },
         ) {
+            SettingsSelection(
+                icon = Icons.Outlined.TouchApp,
+                title = stringResource(R.string.settings_click_behavior),
+                selectedKey = selectedClickActionOption,
+                items = listOf(
+                    ShortcutClickBehavior.RUN to stringResource(R.string.settings_click_behavior_run),
+                    ShortcutClickBehavior.EDIT to stringResource(R.string.settings_click_behavior_edit),
+                    ShortcutClickBehavior.MENU to stringResource(R.string.settings_click_behavior_menu),
+                ),
+                onItemSelected = onClickActionOptionSelected,
+            )
+
+            SettingsButton(
+                icon = Icons.Outlined.Shield,
+                title = stringResource(R.string.settings_certificate_pinning),
+                onClick = onCertificatePinningButtonClicked,
+            )
             SettingsButton(
                 icon = Icons.Outlined.Javascript,
                 title = stringResource(R.string.settings_global_scripting),

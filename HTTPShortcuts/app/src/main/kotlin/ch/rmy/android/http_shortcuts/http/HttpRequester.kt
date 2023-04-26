@@ -14,8 +14,10 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
+import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.shouldIncludeInHistory
+import ch.rmy.android.http_shortcuts.extensions.toCertificatePin
 import ch.rmy.android.http_shortcuts.history.HistoryEvent
 import ch.rmy.android.http_shortcuts.history.HistoryEventLogger
 import ch.rmy.android.http_shortcuts.http.HttpHeaders.Companion.CONTENT_LENGTH
@@ -35,6 +37,7 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import ch.rmy.android.http_shortcuts.data.models.CertificatePin as CertificatePinModel
 
 class HttpRequester
 @Inject
@@ -56,6 +59,7 @@ constructor(
         variableValues: Map<VariableId, String>,
         fileUploadResult: FileUploadManager.Result? = null,
         useCookieJar: Boolean = false,
+        certificatePins: List<CertificatePinModel>,
     ): ShortcutResponse =
         withContext(Dispatchers.IO) {
             val responseFileStorage = responseFileStorageFactory.create(sessionId)
@@ -71,7 +75,7 @@ constructor(
             val cookieJar = if (useCookieJar) cookieManager.getCookieJar() else null
 
             try {
-                makeRequest(context, shortcut, variableValues, requestData, responseFileStorage, fileUploadResult, cookieJar)
+                makeRequest(context, shortcut, variableValues, requestData, responseFileStorage, fileUploadResult, cookieJar, certificatePins)
             } catch (e: UnknownHostException) {
                 ensureActive()
                 if (ServiceDiscoveryHelper.isDiscoverable(requestData.uri)) {
@@ -88,7 +92,16 @@ constructor(
                     } catch (discoveryError: ServiceDiscoveryHelper.ServiceLookupTimeoutException) {
                         requestData
                     }
-                    makeRequest(context, shortcut, variableValues, newRequestData, responseFileStorage, fileUploadResult, cookieJar)
+                    makeRequest(
+                        context,
+                        shortcut,
+                        variableValues,
+                        newRequestData,
+                        responseFileStorage,
+                        fileUploadResult,
+                        cookieJar,
+                        certificatePins,
+                    )
                 } else {
                     throw e
                 }
@@ -128,6 +141,7 @@ constructor(
         responseFileStorage: ResponseFileStorage,
         fileUploadResult: FileUploadManager.Result? = null,
         cookieJar: CookieJar? = null,
+        certificatePins: List<CertificatePinModel>,
     ): ShortcutResponse =
         suspendCancellableCoroutine { continuation ->
             val useDigestAuth = shortcut.authenticationType == ShortcutAuthenticationType.DIGEST
@@ -141,6 +155,7 @@ constructor(
                 timeout = shortcut.timeout.toLong(),
                 proxy = requestData.proxy,
                 cookieJar = cookieJar,
+                certificatePins = certificatePins.map(CertificatePin::toCertificatePin),
             )
 
             val request = RequestBuilder(shortcut.method, requestData.url)

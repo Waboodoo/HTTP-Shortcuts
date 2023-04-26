@@ -75,6 +75,7 @@ private fun SelectShortcutsForExportDialog(
     MultiSelectDialog(
         title = stringResource(R.string.dialog_title_select_shortcuts_for_export),
         entries = entries,
+        allChecked = true,
         confirmButtonLabel = stringResource(R.string.dialog_button_export),
         dismissButton = {
             TextButton(

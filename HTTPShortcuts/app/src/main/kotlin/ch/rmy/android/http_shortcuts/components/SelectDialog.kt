@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun SelectDialog(
-    title: String,
+    title: String? = null,
     onDismissRequest: () -> Unit,
     content: @Composable () -> Unit,
 ) {
@@ -14,8 +14,10 @@ fun SelectDialog(
         onDismissRequest = {
             onDismissRequest()
         },
-        title = {
-            Text(title)
+        title = title?.let {
+            {
+                Text(title)
+            }
         },
         text = {
             content()

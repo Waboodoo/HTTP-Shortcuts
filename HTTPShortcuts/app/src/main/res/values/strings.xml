@@ -202,8 +202,8 @@
     <string name="title_import_export">Import / Export</string>
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">Privacy</string>
-    <!-- Section title on settings screen for options related to Scripting (i.e., custom workflow code in JavaScript) -->
-    <string name="settings_title_scripting">Scripting</string>
+    <!-- Section title on settings screen for options shared by all shortcuts -->
+    <string name="settings_title_global_shortcut_settings">Global Shortcut Settings</string>
     <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
     <string name="settings_crash_reporting">Crash Reporting</string>
     <!-- Option for crash reporting opt in -->
@@ -1163,6 +1163,8 @@
     <string name="title_global_scripting">Global Scripting</string>
     <!-- Button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="settings_global_scripting">Global Scripting</string>
+    <!-- Button in settings page to open editor for configuring certificate pinning -->
+    <string name="settings_certificate_pinning">Certificate Pinning</string>
     <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="settings_global_scripting_summary">Run JavaScript code before every shortcut execution</string>
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
@@ -1410,4 +1412,20 @@
     <string name="label_store_response_replace_file">Replace file if it exists</string>
     <!-- Title on dialog that lets the user choose an icon for a category -->
     <string name="title_category_select_icon">Select Category Icon</string>
+    <!-- Title of editor for configuring certificate pinning -->
+    <string name="title_certificate_pinning">Certificate Pinning</string>
+    <!-- Empty state instructions for certificate pinning screen -->
+    <string name="empty_state_certificate_pinning_instructions">If you need to be extra certain that your HTTP requests are sent over a secure connection, you can enable certificate pinning for specific hosts by adding the SHA-1 or SHA-256 fingerprint of their certificate here.</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
+    <string name="message_certificate_pinning_deleted">Certificate fingerprint deleted.</string>
+    <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
+    <string name="confirm_delete_certificate_pinning_message">Delete this fingerprint?</string>
+    <!-- Label for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="label_certificate_pinning_hostname_pattern">Hostname Pattern</string>
+    <!-- Hint text for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="hint_certificate_pinning_hostname_pattern">E.g. *.example.com </string>
+    <!-- Label for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
+    <string name="label_certificate_pinning_fingerprint">Certificate Fingerprint</string>
+    <!-- Hint text for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
+    <string name="hint_certificate_pinning_fingerprint">Enter the hex-encoded SHA-1 or SHA-256 fingerprint of your server certificate</string>
 </resources>

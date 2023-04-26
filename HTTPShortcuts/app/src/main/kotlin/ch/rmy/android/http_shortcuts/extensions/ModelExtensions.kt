@@ -1,10 +1,13 @@
 package ch.rmy.android.http_shortcuts.extensions
 
 import android.content.Context
+import ch.rmy.android.framework.extensions.fromHexString
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.http.CertificatePin
+import ch.rmy.android.http_shortcuts.data.models.CertificatePin as CertificatePinModel
 
 val Shortcut.type: ShortcutExecutionType
     get() = ShortcutExecutionType.get(executionType!!)
@@ -24,3 +27,9 @@ val Shortcut.isTemporaryShortcut
 
 fun Shortcut.shouldIncludeInHistory() =
     !excludeFromHistory && !isTemporaryShortcut
+
+fun CertificatePinModel.toCertificatePin(): CertificatePin =
+    CertificatePin(
+        pattern = pattern,
+        hash = hash.fromHexString(),
+    )

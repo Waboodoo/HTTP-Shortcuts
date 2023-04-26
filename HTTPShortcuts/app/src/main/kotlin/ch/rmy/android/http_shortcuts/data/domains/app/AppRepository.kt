@@ -6,11 +6,13 @@ import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.data.domains.getAppLock
 import ch.rmy.android.http_shortcuts.data.domains.getBase
+import ch.rmy.android.http_shortcuts.data.domains.getCertificatePinById
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
 import ch.rmy.android.http_shortcuts.data.models.AppLock
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Parameter
@@ -104,6 +106,36 @@ constructor(
         }
     }
 
+    fun getObservableCertificatePins(): Flow<List<CertificatePin>> =
+        observeList {
+            getBase().findFirst()!!.certificatePins
+        }
+
+    suspend fun createCertificatePin(pattern: String, hash: String) {
+        commitTransaction {
+            getBase().findFirst()
+                ?.certificatePins
+                ?.add(copy(CertificatePin(pattern, hash)))
+        }
+    }
+
+    suspend fun updateCertificatePin(id: String, pattern: String, hash: String) {
+        commitTransaction {
+            getCertificatePinById(id)
+                .findFirst()
+                ?.apply {
+                    this.pattern = pattern
+                    this.hash = hash
+                }
+        }
+    }
+
+    suspend fun deleteCertificatePinning(id: String) {
+        commitTransaction {
+            getCertificatePinById(id).deleteAll()
+        }
+    }
+
     suspend fun importBase(base: Base, importMode: Importer.ImportMode) {
         commitTransaction {
             val oldBase = getBase().findFirst()!!
@@ -119,6 +151,11 @@ constructor(
                     if (oldBase.categories.singleOrNull()?.shortcuts?.isEmpty() == true) {
                         oldBase.categories.clear()
                     }
+
+                    val persistedCertificatePins = copyOrUpdate(base.certificatePins)
+                    val persistedCertificatePinIds = persistedCertificatePins.map { it.id }
+                    oldBase.certificatePins.removeIf { it.id in persistedCertificatePinIds }
+                    oldBase.certificatePins.addAll(persistedCertificatePins)
 
                     base.categories.forEach { category ->
                         importCategory(oldBase, category)
@@ -141,6 +178,9 @@ constructor(
 
                     oldBase.variables.clear()
                     oldBase.variables.addAll(copyOrUpdate(base.variables))
+
+                    oldBase.certificatePins.clear()
+                    oldBase.certificatePins.addAll(copyOrUpdate(base.certificatePins))
                 }
             }
         }
@@ -261,6 +301,8 @@ constructor(
                     it.id !in usedResolvedVariableIds
                 }
                 .deleteAll()
+
+            // TODO: Delete orphaned certificate pins
         }
     }
 }

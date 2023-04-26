@@ -30,7 +30,8 @@ Find more information and documentation on the [official website](https://http-s
 - Upload files as form-data
 - Client Certificate Authentication
 - Support for TLSv1.3
-- Support for HTTP proxies
+- Support for HTTP & SOCKS proxies
+- Support for Certificate Pinning
 - Use a built-in icon or a custom image
 - Display response as a toast, window or dialog, or run silently
 - Display response as HTML-formatted text, as image or as web page

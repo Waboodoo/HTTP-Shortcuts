@@ -75,6 +75,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.certpinning.CertPinningActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".activities.editor.ShortcutEditorActivity"
             android:label="@string/edit_shortcut"
             android:parentActivityName=".activities.main.MainActivity"

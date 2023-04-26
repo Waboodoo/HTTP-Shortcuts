@@ -6,6 +6,7 @@ import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.certpinning.CertPinningActivity
 import ch.rmy.android.http_shortcuts.activities.globalcode.GlobalScriptingActivity
 import ch.rmy.android.http_shortcuts.activities.settings.usecases.CreateQuickSettingsTileUseCase
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
@@ -148,6 +149,10 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
                 copy(dialogState = SettingsDialogState.ChangeTitle(oldTitle))
             }
         }
+    }
+
+    fun onCertificatePinningButtonClicked() {
+        openActivity(CertPinningActivity.IntentBuilder())
     }
 
     fun onGlobalScriptingButtonClicked() {

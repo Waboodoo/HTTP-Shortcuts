@@ -74,3 +74,19 @@ You can use the [setResult()](scripting.md#set-result) function (part of the [Sc
 ### Trigger a Tasker task from a shortcut
 
 See the [triggerTaskerTask documentation](scripting.md#trigger-tasker-task) for details about triggering a Tasker task.
+
+<a name="certificate-pinning"></a>
+## Certificate Pinning
+
+When you use HTTPS, your requests will be sent over a secure connection. "Secure" here mainly means that the app will check that the server it connects to has a valid SSL certificate. In some cases, you might want this check to be more restrictive, i.e., it should not only check that the certificate is valid but that is is a specific certificate. Most likely you will not need this, but if you think you do, I suggest you read more about the topic online first.
+
+The HTTP Shortcuts supports basic certificate pinning. You'll find the option for it on the Settings screen. Each entry you add here consists of a hostname pattern and the certificate fingerprint. The hostname pattern defines for which domain name(s) the pinning should be used. The following formats are supported:
+
+- Exact matching host names. E.g. `example.com` would match only that domain itself, no subdomains
+- Wildcard for all subdomains (but not subdomains of those subdomains). Use the asterisks character for this. E.g. `*.example.com` would match `foo.exmaple.com` and `bar.example.com`, but not `example.com` or `foo.bar.example.com`
+- Wildcard for all subdomains and arbirtarily many subdomains of those. Use two asterisks characters for this. E.g. `**.example.com` would match `example.com`, `foo.example.com` as well as `foo.bar.example.com`
+
+The fingerprint has to be either the SHA-1 or SHA-256 fingerprint of your server's certificate, e.g. `7B:50:2C:3A:1F:48:C8:60:9A:E2:12:CD:FB:63:9D:EE:39:67:3F:5E`. One easy way to get this fingerprint (although, technically not secure, so you better know what you're doing) is to enter the wrong value first and find the correct value in the error message you get back after executing a shortcut that uses it.
+
+Once you have configured a certificate pinning this way, all HTTP shortcuts that connect to a domain that matches its pattern will verify that the server's certificate matches the specified fingerprint. If this check fails, and error is displayed instead. To ensure that your hostname pattern actually matches, you can just temporarily modify the fingerprint and verify that the request fails, then change it back and verify that it now succeeds.
+

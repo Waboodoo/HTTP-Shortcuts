@@ -18,6 +18,11 @@ fun <T : CharSequence> T.takeUnlessEmpty(): T? =
 fun ByteArray.toHexString() =
     joinToString("") { "%02x".format(it) }
 
+fun String.fromHexString(): ByteArray =
+    chunked(2)
+        .map { it.toInt(16).toByte() }
+        .toByteArray()
+
 fun String.toLocalizable() =
     StaticLocalizable(this)
 

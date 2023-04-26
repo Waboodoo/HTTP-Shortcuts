@@ -1,8 +1,10 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
+import android.util.Base64
 import androidx.annotation.StringRes
 import ch.rmy.android.framework.extensions.runIf
+import ch.rmy.android.framework.extensions.toHexString
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.R
@@ -13,6 +15,7 @@ import ch.rmy.android.http_shortcuts.http.HttpStatus
 import java.net.ConnectException
 import java.net.UnknownHostException
 import javax.inject.Inject
+import javax.net.ssl.SSLPeerUnverifiedException
 
 class ErrorFormatter
 @Inject
@@ -67,7 +70,23 @@ constructor(
             is ConnectException,
             is UnknownHostException,
             -> error.message!!
+            is SSLPeerUnverifiedException -> formatSSLPeerUnverifiedException(error)
             else -> getUnknownErrorMessage(error)
+        }
+
+    private fun formatSSLPeerUnverifiedException(error: SSLPeerUnverifiedException): String =
+        getSingleErrorMessage(error).replace("(sha1|256)/([^=]+=):?".toRegex()) { match ->
+            val (algorithm, base64hash) = match.destructured
+            try {
+                val formattedHash = Base64.decode(base64hash, Base64.DEFAULT)
+                    .toHexString()
+                    .uppercase()
+                    .chunked(2)
+                    .joinToString(":")
+                "${algorithm.uppercase()}/$formattedHash"
+            } catch (e: IllegalArgumentException) {
+                match.value
+            }
         }
 
     private fun getUnknownErrorMessage(error: Throwable): String =

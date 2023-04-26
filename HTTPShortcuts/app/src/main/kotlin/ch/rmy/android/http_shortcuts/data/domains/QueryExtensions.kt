@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.models.AppLock
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.HistoryEvent
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -82,3 +83,6 @@ fun RealmContext.getHistoryEventsOlderThan(age: Duration): RealmQuery<HistoryEve
 fun RealmContext.getHistoryEventsNewerThan(age: Duration): RealmQuery<HistoryEvent> =
     get<HistoryEvent>("${HistoryEvent.FIELD_TIME} > $0", RealmInstant.from(RealmInstant.now().epochSeconds - age.inWholeSeconds, 0))
         .sort(HistoryEvent.FIELD_TIME, Sort.DESCENDING)
+
+fun RealmContext.getCertificatePinById(pinId: String): RealmQuery<CertificatePin> =
+    get("${CertificatePin.FIELD_ID} == $0", pinId)

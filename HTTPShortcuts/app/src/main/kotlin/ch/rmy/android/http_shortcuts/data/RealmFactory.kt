@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.data.migration.DatabaseMigration
 import ch.rmy.android.http_shortcuts.data.models.AppLock
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.HistoryEvent
 import ch.rmy.android.http_shortcuts.data.models.Option
@@ -72,6 +73,7 @@ class RealmFactory private constructor() : ch.rmy.android.framework.data.RealmFa
                     AppLock::class,
                     Base::class,
                     Category::class,
+                    CertificatePin::class,
                     Header::class,
                     HistoryEvent::class,
                     Option::class,
