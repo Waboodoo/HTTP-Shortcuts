@@ -24,6 +24,7 @@ import ch.rmy.android.http_shortcuts.http.HttpHeaders.Companion.CONTENT_LENGTH
 import ch.rmy.android.http_shortcuts.http.HttpHeaders.Companion.CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE_WITH_CHARSET
+import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
 import ch.rmy.android.http_shortcuts.variables.Variables
 import kotlinx.coroutines.Dispatchers
@@ -47,6 +48,7 @@ constructor(
     private val responseFileStorageFactory: ResponseFileStorageFactory,
     private val cookieManager: CookieManager,
     private val historyEventLogger: HistoryEventLogger,
+    private val errorFormatter: ErrorFormatter,
 ) {
 
     private val contentResolver: ContentResolver
@@ -249,8 +251,7 @@ constructor(
                     historyEventLogger.logEvent(
                         HistoryEvent.NetworkError(
                             shortcutName = shortcut.name,
-                            error = e.message?.takeUnlessEmpty()
-                                ?: e.javaClass.simpleName.replace("exception", "", ignoreCase = true),
+                            error = errorFormatter.getErrorMessage(e),
                         )
                     )
                 }

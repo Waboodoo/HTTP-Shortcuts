@@ -64,7 +64,7 @@ constructor(
         return builder.toString()
     }
 
-    private fun getErrorMessage(error: Throwable): String =
+    fun getErrorMessage(error: Throwable): String =
         when (error) {
             is UserException -> error.getLocalizedMessage(context)
             is ConnectException,
