@@ -337,13 +337,15 @@ class Execution(
             } catch (e: UnknownHostException) {
                 if (shouldReschedule(e)) {
                     if (shortcut.responseHandling?.successOutput != ResponseHandling.SUCCESS_OUTPUT_NONE && params.tryNumber == 0) {
-                        context.showToast(
-                            String.format(
-                                context.getString(R.string.execution_delayed),
-                                shortcutName,
-                            ),
-                            long = true,
-                        )
+                        withContext(Dispatchers.Main) {
+                            context.showToast(
+                                String.format(
+                                    context.getString(R.string.execution_delayed),
+                                    shortcutName,
+                                ),
+                                long = true,
+                            )
+                        }
                     }
                     rescheduleExecution(variableManager)
                     executionScheduler.schedule()
