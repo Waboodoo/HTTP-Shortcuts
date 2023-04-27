@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.POST_NOTIFICATIONS
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
@@ -19,9 +18,6 @@ constructor(
 
     @Inject
     lateinit var activityProvider: ActivityProvider
-
-    suspend fun requestFileStoragePermissionIfNeeded() =
-        requestPermissionIfNeeded(READ_EXTERNAL_STORAGE)
 
     suspend fun requestLocationPermissionIfNeeded(): Boolean =
         requestPermissionIfNeeded(ACCESS_FINE_LOCATION)

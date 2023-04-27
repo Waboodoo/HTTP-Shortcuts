@@ -135,7 +135,6 @@ private fun CategoryBackgroundTypeSelection(
         items = listOf(
             CategoryBackground.DEFAULT to stringResource(R.string.category_background_type_default),
             CategoryBackground.COLOR to stringResource(R.string.category_background_type_color),
-            CategoryBackground.WALLPAPER to stringResource(R.string.category_background_type_wallpaper),
         ),
         onItemSelected = onBackgroundTypeSelected,
     )

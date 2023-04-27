@@ -231,7 +231,6 @@ class ShortcutListViewModel(
             val textColor = when (category.categoryBackgroundType) {
                 is CategoryBackgroundType.Default -> ShortcutListItem.TextColor.DARK
                 is CategoryBackgroundType.Color -> ShortcutListItem.TextColor.BRIGHT
-                is CategoryBackgroundType.Wallpaper -> ShortcutListItem.TextColor.BRIGHT
             }
             shortcuts.map { shortcut ->
                 ShortcutListItem.Shortcut(

@@ -41,6 +41,5 @@ data class CategoryEditorViewState(
         get() = when (categoryBackgroundType) {
             is CategoryBackgroundType.Default -> CategoryBackground.DEFAULT
             is CategoryBackgroundType.Color -> CategoryBackground.COLOR
-            is CategoryBackgroundType.Wallpaper -> CategoryBackground.WALLPAPER
         }
 }

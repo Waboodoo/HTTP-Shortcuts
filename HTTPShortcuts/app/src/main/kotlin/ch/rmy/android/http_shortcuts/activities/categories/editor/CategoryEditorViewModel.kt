@@ -13,7 +13,6 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
-import ch.rmy.android.http_shortcuts.utils.PermissionManager
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,9 +24,6 @@ class CategoryEditorViewModel(application: Application) : BaseViewModel<Category
 
     @Inject
     lateinit var launcherShortcutManager: LauncherShortcutManager
-
-    @Inject
-    lateinit var permissionManager: PermissionManager
 
     init {
         getApplicationComponent().inject(this)
@@ -87,15 +83,9 @@ class CategoryEditorViewModel(application: Application) : BaseViewModel<Category
 
     fun onBackgroundChanged(backgroundType: CategoryBackground) {
         doWithViewState { viewState ->
-            if (backgroundType == CategoryBackground.WALLPAPER && viewState.categoryBackground != CategoryBackground.WALLPAPER) {
-                viewModelScope.launch {
-                    permissionManager.requestFileStoragePermissionIfNeeded()
-                }
-            }
             val newCategoryBackgroundType = when (backgroundType) {
                 CategoryBackground.DEFAULT -> CategoryBackgroundType.Default
                 CategoryBackground.COLOR -> CategoryBackgroundType.Color(viewState.backgroundColor)
-                CategoryBackground.WALLPAPER -> CategoryBackgroundType.Wallpaper
             }
             updateViewState {
                 copy(categoryBackgroundType = newCategoryBackgroundType)

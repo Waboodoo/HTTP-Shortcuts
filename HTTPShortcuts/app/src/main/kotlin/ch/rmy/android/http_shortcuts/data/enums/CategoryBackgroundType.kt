@@ -20,15 +20,6 @@ sealed interface CategoryBackgroundType {
             get() = false
     }
 
-    object Wallpaper : CategoryBackgroundType {
-        const val VALUE = "wallpaper"
-
-        override fun serialize() = VALUE
-
-        override val useTextShadow: Boolean
-            get() = true
-    }
-
     data class Color(@ColorInt val color: Int) : CategoryBackgroundType {
         override fun serialize(): String = "$PREFIX${getHexString()}"
 
@@ -56,9 +47,6 @@ sealed interface CategoryBackgroundType {
     companion object {
         fun parse(type: String?): CategoryBackgroundType =
             when {
-                type == Wallpaper.VALUE -> {
-                    Wallpaper
-                }
                 type?.startsWith(Color.PREFIX) == true -> {
                     Color.deserialize(type) ?: Default
                 }

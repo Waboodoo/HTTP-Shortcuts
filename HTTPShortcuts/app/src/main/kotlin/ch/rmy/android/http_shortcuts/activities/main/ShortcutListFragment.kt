@@ -1,7 +1,5 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
-import android.app.WallpaperManager
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -59,14 +57,6 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
         get() = (requireActivity() as MainActivity).viewModel
 
     private lateinit var adapter: BaseShortcutAdapter
-
-    private val wallpaper: Drawable? by lazy(LazyThreadSafetyMode.NONE) {
-        try {
-            WallpaperManager.getInstance(context).drawable
-        } catch (e: SecurityException) {
-            null
-        }
-    }
 
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentListBinding.inflate(inflater, container, false)
@@ -155,16 +145,6 @@ class ShortcutListFragment : BaseFragment<FragmentListBinding>() {
                 is CategoryBackgroundType.Color -> {
                     setImageDrawable(null)
                     setBackgroundColor(background.color)
-                }
-                is CategoryBackgroundType.Wallpaper -> {
-                    wallpaper
-                        ?.also {
-                            setImageDrawable(it)
-                        }
-                        ?: run {
-                            setImageDrawable(null)
-                            setBackgroundColor(color(requireContext(), R.color.activity_background))
-                        }
                 }
             }
         }
