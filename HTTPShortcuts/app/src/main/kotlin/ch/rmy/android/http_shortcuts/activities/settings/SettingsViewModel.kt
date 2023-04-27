@@ -8,6 +8,7 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.certpinning.CertPinningActivity
 import ch.rmy.android.http_shortcuts.activities.globalcode.GlobalScriptingActivity
+import ch.rmy.android.http_shortcuts.activities.history.HistoryActivity
 import ch.rmy.android.http_shortcuts.activities.settings.usecases.CreateQuickSettingsTileUseCase
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
@@ -167,6 +168,10 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
         if (!allowed) {
             Logging.disableCrashReporting(context)
         }
+    }
+
+    fun onEventHistoryClicked() {
+        openActivity(HistoryActivity.IntentBuilder())
     }
 
     fun onAllowOverlayButtonClicked() {

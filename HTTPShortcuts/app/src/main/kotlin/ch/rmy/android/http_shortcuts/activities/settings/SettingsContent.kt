@@ -10,6 +10,7 @@ import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material.icons.outlined.ControlPoint
 import androidx.compose.material.icons.outlined.Cookie
 import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Javascript
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Layers
@@ -50,6 +51,7 @@ fun SettingsContent(
     onCertificatePinningButtonClicked: () -> Unit,
     onGlobalScriptingButtonClicked: () -> Unit,
     onCrashReportingChanged: (Boolean) -> Unit,
+    onEventHistoryClicked: () -> Unit,
     onClearCookiesButtonClicked: () -> Unit,
     onAllowOverlayButtonClicked: () -> Unit,
     onAllowXiaomiOverlayButtonClicked: () -> Unit,
@@ -195,6 +197,12 @@ fun SettingsContent(
         SettingsGroup(
             title = { Text(stringResource(R.string.settings_troubleshooting)) },
         ) {
+            SettingsButton(
+                icon = Icons.Outlined.History,
+                title = stringResource(R.string.title_event_history),
+                onClick = onEventHistoryClicked,
+            )
+
             SettingsButton(
                 icon = Icons.Outlined.Cookie,
                 title = stringResource(R.string.settings_clear_cookies),

@@ -34,6 +34,7 @@ fun ScreenScope.SettingsScreen() {
             onCertificatePinningButtonClicked = viewModel::onCertificatePinningButtonClicked,
             onGlobalScriptingButtonClicked = viewModel::onGlobalScriptingButtonClicked,
             onCrashReportingChanged = viewModel::onCrashReportingChanged,
+            onEventHistoryClicked = viewModel::onEventHistoryClicked,
             onClearCookiesButtonClicked = viewModel::onClearCookiesButtonClicked,
             onAllowOverlayButtonClicked = viewModel::onAllowOverlayButtonClicked,
             onAllowXiaomiOverlayButtonClicked = viewModel::onAllowXiaomiOverlayButtonClicked,
