@@ -68,7 +68,7 @@ constructor(
             val base = getBase()
                 .findFirst()
                 ?: return@commitTransaction
-            val oldPosition = base.variables.indexOf(oldVariable)
+            val oldPosition = base.variables.indexOfFirst { it.id == oldVariable.id }
             val newPersistedVariable = copyOrUpdate(newVariable)
             base.variables.add(oldPosition + 1, newPersistedVariable)
         }

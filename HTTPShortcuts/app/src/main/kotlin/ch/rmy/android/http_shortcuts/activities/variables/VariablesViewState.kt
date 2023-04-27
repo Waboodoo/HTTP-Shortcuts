@@ -1,14 +1,13 @@
 package ch.rmy.android.http_shortcuts.activities.variables
 
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import androidx.compose.runtime.Stable
+import ch.rmy.android.http_shortcuts.activities.variables.models.VariableListItem
 
+@Stable
 data class VariablesViewState(
-    val dialogState: DialogState? = null,
+    val dialogState: VariablesDialogState? = null,
     val variables: List<VariableListItem> = emptyList(),
 ) {
-    val isDraggingEnabled: Boolean
-        get() = variables.size > 1
-
     val isSortButtonEnabled
         get() = variables.size > 1
 }

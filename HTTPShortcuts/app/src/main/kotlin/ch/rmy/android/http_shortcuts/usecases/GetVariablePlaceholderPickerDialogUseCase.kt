@@ -4,7 +4,7 @@ import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings
+import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings.getTypeName
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
@@ -37,7 +37,7 @@ constructor(
         createDialogState(id = "insert-variable-placeholder") {
             title(R.string.dialog_title_variable_selection)
                 .runFor(variablePlaceholderProvider.placeholders) { placeholder ->
-                    item(name = placeholder.variableKey, descriptionRes = VariableTypeMappings.getTypeName(placeholder.variableType)) {
+                    item(name = placeholder.variableKey, descriptionRes = placeholder.variableType.getTypeName()) {
                         onVariableSelected(placeholder)
                     }
                 }

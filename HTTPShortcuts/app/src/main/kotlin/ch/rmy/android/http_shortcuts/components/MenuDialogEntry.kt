@@ -47,14 +47,14 @@ fun MenuDialogEntry(
             Text(
                 label,
                 fontSize = FontSize.BIG,
-                maxLines = 2,
+                maxLines = 5,
                 overflow = TextOverflow.Ellipsis,
             )
             if (description != null) {
                 Text(
                     description,
                     fontSize = FontSize.SMALL,
-                    maxLines = 2,
+                    maxLines = 5,
                     overflow = TextOverflow.Ellipsis,
                 )
             }

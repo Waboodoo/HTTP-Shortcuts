@@ -99,7 +99,11 @@ fun <T : Any> ScreenScope.SimpleScaffold(
                 },
             )
         },
-        floatingActionButton = floatingActionButton,
+        floatingActionButton = {
+            if (viewState != null) {
+                floatingActionButton()
+            }
+        },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { contentPadding ->
         if (viewState != null) {

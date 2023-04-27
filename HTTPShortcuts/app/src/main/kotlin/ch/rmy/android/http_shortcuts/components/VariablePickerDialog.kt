@@ -2,12 +2,11 @@ package ch.rmy.android.http_shortcuts.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Divider
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings
+import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings.getTypeName
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 
@@ -26,16 +25,13 @@ fun VariablePickerDialog(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            itemsIndexed(
+            items(
                 items = variables,
-                key = { _, it -> it.variableKey },
-            ) { index, variable ->
-                if (index != 0) {
-                    Divider()
-                }
+                key = { it.variableKey },
+            ) { variable ->
                 MenuDialogEntry(
                     label = variable.variableKey,
-                    description = stringResource(VariableTypeMappings.getTypeName(variable.variableType)),
+                    description = stringResource(variable.variableType.getTypeName()),
                     onClick = {
                         onVariableSelected(variable.variableId)
                     }

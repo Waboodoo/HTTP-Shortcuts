@@ -9,11 +9,16 @@ import ch.rmy.android.http_shortcuts.data.enums.VariableType
 object VariableTypeMappings {
 
     @Stable
-    fun getTypeName(type: VariableType): Int =
-        getTypeMapping(type).name
+    fun VariableType.getTypeName(): Int =
+        getTypeMapping().name
 
-    fun getTypeMapping(type: VariableType): VariableTypeMapping =
-        TYPES_MAP[type]!!
+    @Stable
+    fun VariableType.getTypeDescription(): Int =
+        getTypeMapping().description
+
+    @Stable
+    fun VariableType.getTypeMapping(): VariableTypeMapping =
+        TYPES_MAP[this]!!
 
     private val TYPES_MAP by lazy(LazyThreadSafetyMode.NONE) {
         TYPES.associateBy { it.type }

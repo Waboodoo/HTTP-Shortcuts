@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.categories
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -74,7 +73,6 @@ private fun ContextMenuDialog(
                 onClick = onEditClicked,
             )
             if (contextMenuState.showOptionVisible) {
-                Divider()
                 MenuDialogEntry(
                     label = stringResource(R.string.action_show_category),
                     onClick = {
@@ -83,7 +81,6 @@ private fun ContextMenuDialog(
                 )
             }
             if (contextMenuState.hideOptionVisible) {
-                Divider()
                 MenuDialogEntry(
                     label = stringResource(R.string.action_hide_category),
                     onClick = {
@@ -92,14 +89,12 @@ private fun ContextMenuDialog(
                 )
             }
             if (contextMenuState.placeOnHomeScreenOptionVisible) {
-                Divider()
                 MenuDialogEntry(
                     label = stringResource(R.string.action_place_category),
                     onClick = onPlaceOnHomeScreenClicked,
                 )
             }
             if (contextMenuState.deleteOptionVisible) {
-                Divider()
                 MenuDialogEntry(
                     label = stringResource(R.string.action_delete),
                     onClick = onDeleteClicked,

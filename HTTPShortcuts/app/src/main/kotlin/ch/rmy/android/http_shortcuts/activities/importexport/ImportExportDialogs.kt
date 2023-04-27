@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.importexport
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -111,7 +110,6 @@ private fun SelectExportDestinationDialog(
                 label = stringResource(R.string.button_export_to_general),
                 onClick = onExportToFileOptionSelected,
             )
-            Divider()
             MenuDialogEntry(
                 label = stringResource(R.string.button_export_send_to),
                 onClick = onExportViaSharingOptionSelected,

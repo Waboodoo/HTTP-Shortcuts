@@ -130,13 +130,11 @@ private fun OptionsDialog(
                 label = stringResource(R.string.choose_icon),
                 onClick = onBuiltInIconOptionSelected,
             )
-            Divider()
             MenuDialogEntry(
                 label = stringResource(R.string.choose_image),
                 onClick = onCustomIconOptionSelected,
             )
             if (onFaviconOptionSelected != null) {
-                Divider()
                 MenuDialogEntry(
                     label = stringResource(R.string.choose_page_favicon),
                     onClick = {

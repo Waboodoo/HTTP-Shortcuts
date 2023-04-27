@@ -9,7 +9,7 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings
+import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings.getTypeName
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
@@ -130,7 +130,7 @@ class VariableEditorViewModel(
 
     override fun initViewState() = VariableEditorViewState(
         title = StringResLocalizable(if (variableId == null) R.string.create_variable else R.string.edit_variable),
-        subtitle = StringResLocalizable(VariableTypeMappings.getTypeName(variableType)),
+        subtitle = StringResLocalizable(variableType.getTypeName()),
         dialogTitleVisible = variableType.supportsDialogTitle,
         dialogMessageVisible = variableType.supportsDialogMessage,
     )
