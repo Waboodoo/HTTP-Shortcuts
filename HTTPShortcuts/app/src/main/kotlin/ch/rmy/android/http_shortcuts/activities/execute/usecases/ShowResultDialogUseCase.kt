@@ -49,7 +49,7 @@ constructor(
                 .let { builder ->
                     if (output == null && FileTypeUtil.isImage(response?.contentType)) {
                         val imageView = ImageView(activity)
-                        imageView.loadImage(response!!.contentFile!!, preventMemoryCache = true)
+                        imageView.loadImage(response!!.contentFile!!.uri, preventMemoryCache = true)
                         builder.view(imageView)
                     } else {
                         val view = DialogTextBinding.inflate(LayoutInflater.from(activity))
@@ -76,7 +76,7 @@ constructor(
                         ResponseDisplayAction.SHARE -> {
                             runIf(text.isNotEmpty() && text.length < MAX_SHARE_LENGTH) {
                                 neutral(R.string.share_button) {
-                                    shareResponse(shortcutName, text, response?.contentType ?: "", response?.contentFile)
+                                    shareResponse(shortcutName, text, response?.contentType ?: "", response?.contentFile?.uri)
                                 }
                             }
                         }

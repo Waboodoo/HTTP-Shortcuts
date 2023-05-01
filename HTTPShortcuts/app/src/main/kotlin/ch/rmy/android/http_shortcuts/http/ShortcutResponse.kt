@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.http
 
 import android.content.Context
-import android.net.Uri
+import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.extensions.readIntoString
 import ch.rmy.android.http_shortcuts.utils.SizeLimitedReader
@@ -12,7 +12,7 @@ class ShortcutResponse internal constructor(
     val url: String,
     val headers: HttpHeaders,
     val statusCode: Int,
-    val contentFile: Uri?,
+    val contentFile: DocumentFile?,
     val timing: Long,
 ) {
 
@@ -56,6 +56,16 @@ class ShortcutResponse internal constructor(
         headers.toMultiMap()
     }
 
+    val contentDispositionFileName by lazy {
+        headers.getLast(HttpHeaders.CONTENT_DISPOSITION)
+            ?.let { headerValue ->
+                headerValue.split("filename=")
+                    .takeIf { it.size > 1 }
+                    ?.last()
+                    ?.trim('"')
+            }
+    }
+
     private var responseTooLarge = false
 
     private var cachedContentAsString: String? = null
@@ -68,6 +78,7 @@ class ShortcutResponse internal constructor(
                 ?: run {
                     try {
                         contentFile
+                            ?.uri
                             ?.readIntoString(context, CONTENT_SIZE_LIMIT, charset)
                     } catch (e: SizeLimitedReader.LimitReachedException) {
                         responseTooLarge = true

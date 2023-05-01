@@ -391,7 +391,7 @@ class Execution(
         )
 
         if (shortcut.responseHandling?.storeDirectory != null && response.contentFile != null) {
-            storeResponseBodyToFile(response, response.contentType, variableManager)
+            renameResponseFile(response, variableManager)
         }
 
         emit(
@@ -570,7 +570,7 @@ class Execution(
                             text(it)
                         }
                         .runIfNotNull(response?.contentFile) {
-                            responseFileUri(it)
+                            responseFileUri(it.uri)
                         }
                         .runIfNotNull(response?.charset) {
                             charset(it)
@@ -592,30 +592,18 @@ class Execution(
         }
     }
 
-    // TODO: The following needs polish and should be split up and moved into one or more dedicated files
-    private fun storeResponseBodyToFile(response: ShortcutResponse, contentType: String?, variableManager: VariableManager) {
+    private fun renameResponseFile(response: ShortcutResponse, variableManager: VariableManager) {
         try {
             val responseHandling = shortcut.responseHandling!!
             val directoryUri = responseHandling.storeDirectory!!.toUri()
             val directory = DocumentFile.fromTreeUri(context, directoryUri)
-            val mimeType = contentType
-                ?.takeUnlessEmpty()
-                ?.takeWhile { it != ';' }
-                ?.trim()
-                ?: "application/octet-stream"
             val fileName = responseHandling.storeFileName
                 ?.takeUnlessEmpty()
                 ?.let {
                     Variables.rawPlaceholdersToResolvedValues(it, variableManager.getVariableValuesByIds())
                 }
                 ?: run {
-                    response.headers.getLast("Content-Disposition")
-                        ?.let { headerValue ->
-                            headerValue.split("filename=")
-                                .takeIf { it.size > 1 }
-                                ?.last()
-                                ?.trim('"')
-                        }
+                    response.contentDispositionFileName
                 }
                 ?: response.url.toUri().lastPathSegment
                 ?: "http-response" // TODO: Better fallback
@@ -623,18 +611,8 @@ class Execution(
             if (responseHandling.replaceFileIfExists) {
                 directory?.findFile(fileName)?.delete()
             }
-            val document = directory?.createFile(mimeType, fileName)
-                ?.uri
-                ?: run {
-                    // TODO: Better error handling
-                    logError("Error while storing response to file")
-                    return
-                }
-            context.contentResolver.openInputStream(response.contentFile!!)?.use { input ->
-                context.contentResolver.openOutputStream(document)?.use { output ->
-                    input.copyTo(output)
-                }
-            }
+
+            response.contentFile?.renameTo(fileName)
         } catch (e: Exception) {
             logError("Error while storing response to file: $e")
             logException(e)

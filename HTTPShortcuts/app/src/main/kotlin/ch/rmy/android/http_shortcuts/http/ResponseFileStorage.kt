@@ -1,26 +1,38 @@
 package ch.rmy.android.http_shortcuts.http
 
 import android.content.Context
-import android.net.Uri
+import androidx.core.net.toUri
+import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.runIf
-import ch.rmy.android.framework.utils.FileUtil
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import okhttp3.Response
 import java.io.File
 import java.io.InputStream
 import java.net.SocketTimeoutException
 import java.util.zip.GZIPInputStream
 
-class ResponseFileStorage(private val context: Context, private val sessionId: String) {
+class ResponseFileStorage(
+    private val context: Context,
+    private val sessionId: String,
+    private val storeDirectory: String?,
+) {
 
-    private val file by lazy {
-        File(context.cacheDir, "response_$sessionId")
-    }
+    fun store(response: Response, finishNormallyOnTimeout: Boolean): DocumentFile {
+        val fileName = "response_$sessionId"
 
-    fun store(response: Response, finishNormallyOnTimeout: Boolean): Uri {
-        val fileUri = FileUtil.getUriFromFile(context, file)
+        val documentFile = storeDirectory
+            ?.let {
+                val directory = DocumentFile.fromTreeUri(context, storeDirectory.toUri())
+                directory?.createFile(response.getMimeType(), fileName)
+            }
+            ?: run {
+                val file = File(context.cacheDir, fileName)
+                DocumentFile.fromFile(file)
+            }
+
         try {
             getStream(response).use { inStream ->
-                context.contentResolver.openOutputStream(fileUri, "w")!!.use { outStream ->
+                context.contentResolver.openOutputStream(documentFile.uri, "w")!!.use { outStream ->
                     inStream.copyTo(outStream)
                 }
             }
@@ -29,21 +41,27 @@ class ResponseFileStorage(private val context: Context, private val sessionId: S
                 throw e
             }
         }
-        return fileUri
+        return documentFile
     }
 
     private fun getStream(response: Response): InputStream =
         response.body!!.byteStream()
-            .runIf(isGzipped(response)) {
+            .runIf(response.isGzipped()) {
                 GZIPInputStream(this)
             }
 
-    fun clear() {
-        file.delete()
-    }
-
     companion object {
-        internal fun isGzipped(response: Response): Boolean =
-            response.header(HttpHeaders.CONTENT_ENCODING) == "gzip"
+        internal fun Response.getMimeType(): String =
+            header(HttpHeaders.CONTENT_TYPE)
+                ?.let { contentType ->
+                    contentType.split(';', limit = 2)[0]
+                }
+                ?.takeUnlessEmpty()
+                ?.lowercase()
+                ?.trim()
+                ?: "application/octet-stream"
+
+        internal fun Response.isGzipped(): Boolean =
+            header(HttpHeaders.CONTENT_ENCODING) == "gzip"
     }
 }

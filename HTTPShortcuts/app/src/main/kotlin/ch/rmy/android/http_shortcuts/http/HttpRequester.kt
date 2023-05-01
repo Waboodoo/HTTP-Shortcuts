@@ -2,8 +2,8 @@ package ch.rmy.android.http_shortcuts.http
 
 import android.content.ContentResolver
 import android.content.Context
-import android.net.Uri
 import androidx.core.net.toUri
+import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
@@ -64,7 +64,7 @@ constructor(
         certificatePins: List<CertificatePinModel>,
     ): ShortcutResponse =
         withContext(Dispatchers.IO) {
-            val responseFileStorage = responseFileStorageFactory.create(sessionId)
+            val responseFileStorage = responseFileStorageFactory.create(sessionId, shortcut.responseHandling?.storeDirectory)
             val requestData = RequestData(
                 url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, variableValues).trim(),
                 username = Variables.rawPlaceholdersToResolvedValues(shortcut.username, variableValues),
@@ -194,8 +194,6 @@ constructor(
                 }
                 .build()
 
-            responseFileStorage.clear()
-
             if (shortcut.shouldIncludeInHistory()) {
                 historyEventLogger.logEvent(
                     HistoryEvent.HttpRequestSent(
@@ -312,7 +310,7 @@ constructor(
 
     companion object {
 
-        internal fun prepareResponse(url: String, response: Response, contentFile: Uri?) =
+        internal fun prepareResponse(url: String, response: Response, contentFile: DocumentFile?) =
             ShortcutResponse(
                 url = url,
                 headers = HttpHeaders.parse(response.headers),
