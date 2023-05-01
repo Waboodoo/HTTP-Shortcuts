@@ -105,12 +105,14 @@ class CodeTransformerTest {
             """
             const x = getVariable("my_variable2");
             setVariable("my_Variable", "foo");
+            setVariable("my_variable" + "", "foo");
             """.trimIndent()
         )
         assertEquals(
             """
             const x = getVariable("my_variable2");
             setVariable("my_Variable", "foo");
+            setVariable("my_variable" + "", "foo");
             """.trimIndent(),
             result,
         )
@@ -192,6 +194,7 @@ class CodeTransformerTest {
         val result = codeTransformer.transformForStoring(
             """
                 triggerShortcut("My shortcut");
+                triggerShortcut("My Shortcut" + "");
                 renameShortcut("My  \"Shortcut\"", "Test");
                 changeIcon('My \'shortcut\'', 'new_icon');
                 changeDescription('My \\"Shortcut\\"2', '...');
@@ -200,6 +203,7 @@ class CodeTransformerTest {
         assertEquals(
             """
                 triggerShortcut("My shortcut");
+                triggerShortcut("My Shortcut" + "");
                 renameShortcut("My  \"Shortcut\"", "Test");
                 changeIcon('My \'shortcut\'', 'new_icon');
                 changeDescription('My \\"Shortcut\\"2', '...');

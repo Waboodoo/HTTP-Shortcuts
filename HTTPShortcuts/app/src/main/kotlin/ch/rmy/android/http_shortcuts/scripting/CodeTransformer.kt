@@ -4,7 +4,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.variables.Variables
+import ch.rmy.android.http_shortcuts.variables.Variables.VARIABLE_KEY_REGEX
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
@@ -60,7 +60,7 @@ constructor(
 
     private fun String.replaceShortcutCallSites(shortcuts: List<Shortcut>): String =
         SHORTCUT_CALL_SITE_REGEX.replace(this) { result ->
-            val (functionName, quotedShortcutName) = result.destructured
+            val (functionName, quotedShortcutName, nextChar) = result.destructured
             val quotationMark = quotedShortcutName.substring(0, 1)
             val shortcutName = quotedShortcutName.substring(1, quotedShortcutName.length - 1)
                 .replace("\\$quotationMark", quotationMark)
@@ -68,7 +68,7 @@ constructor(
             val y = shortcuts.map { it.name }
             val shortcutId = shortcuts.find { it.name == shortcutName }?.id
             if (shortcutId != null || y.isEmpty()) {
-                """$functionName(/*[shortcut]*/"$shortcutId"/*[/shortcut]*/"""
+                """$functionName(/*[shortcut]*/"$shortcutId"/*[/shortcut]*/$nextChar"""
             } else {
                 result.value
             }
@@ -76,10 +76,11 @@ constructor(
 
     private fun String.replaceVariableCallSites(variables: List<Variable>): String =
         VARIABLE_CALL_SITE_REGEX.replace(this) { result ->
-            val (functionName, variableKey) = result.destructured
+            val (functionName, quotedVariableKey, nextChar) = result.destructured
+            val variableKey = quotedVariableKey.substring(1, quotedVariableKey.length - 1)
             val variableId = variables.find { it.key == variableKey }?.id
             if (variableId != null) {
-                """$functionName(/*[variable]*/"$variableId"/*[/variable]*/"""
+                """$functionName(/*[variable]*/"$variableId"/*[/variable]*/$nextChar"""
             } else {
                 result.value
             }
@@ -94,7 +95,8 @@ constructor(
     companion object {
         private val SHORTCUT_PLACEHOLDER_REGEX = """/\*\[shortcut]\*/"([^"]+)"/\*\[/shortcut]\*/""".toRegex()
         private val VARIABLE_PLACEHOLDER_REGEX = """/\*\[variable]\*/"([^"]+)"/\*\[/variable]\*/""".toRegex()
-        private val VARIABLE_CALL_SITE_REGEX = """(getVariable|setVariable)\(["'](${Variables.VARIABLE_KEY_REGEX})["']""".toRegex()
+        private val VARIABLE_CALL_SITE_REGEX =
+            """(getVariable|setVariable)\(("$VARIABLE_KEY_REGEX"|'$VARIABLE_KEY_REGEX')([,|)])""".toRegex()
         private val SHORTCUT_FUNCTIONS = arrayOf(
             "renameShortcut",
             "changeDescription",
@@ -103,6 +105,7 @@ constructor(
             "triggerShortcut",
             "executeShortcut",
         )
-        private val SHORTCUT_CALL_SITE_REGEX = """(${SHORTCUT_FUNCTIONS.joinToString(separator = "|")})\((".*?(?<!\\)"|'.*?(?<!\\)')""".toRegex()
+        private val SHORTCUT_CALL_SITE_REGEX =
+            """(${SHORTCUT_FUNCTIONS.joinToString(separator = "|")})\((".*?(?<!\\)"|'.*?(?<!\\)')([,|)])""".toRegex()
     }
 }
