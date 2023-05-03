@@ -49,7 +49,7 @@ constructor(
                 .let { builder ->
                     if (output == null && FileTypeUtil.isImage(response?.contentType)) {
                         val imageView = ImageView(activity)
-                        imageView.loadImage(response!!.contentFile!!.uri, preventMemoryCache = true)
+                        imageView.loadImage(response!!.getContentUri(activity)!!, preventMemoryCache = true)
                         builder.view(imageView)
                     } else {
                         val view = DialogTextBinding.inflate(LayoutInflater.from(activity))

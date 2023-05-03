@@ -3,6 +3,7 @@ package ch.rmy.android.framework.extensions
 import androidx.annotation.IntRange
 import ch.rmy.android.framework.utils.UUIDUtils
 import ch.rmy.android.framework.utils.localization.StaticLocalizable
+import java.nio.charset.Charset
 
 fun String.truncate(@IntRange(from = 1) maxLength: Int) =
     if (length > maxLength) substring(0, maxLength - 1) + "…" else this
@@ -31,3 +32,10 @@ fun String.isUUID() =
 
 fun String.isInt() =
     toIntOrNull() != null
+
+fun String.toCharset(): Charset? =
+    try {
+        Charset.forName(this)
+    } catch (e: Exception) {
+        null
+    }

@@ -38,7 +38,7 @@ import ch.rmy.android.http_shortcuts.activities.misc.second_launcher.SecondLaunc
 import ch.rmy.android.http_shortcuts.activities.misc.share.ShareViewModel
 import ch.rmy.android.http_shortcuts.activities.misc.voice.VoiceViewModel
 import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditViewModel
-import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
+import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseViewModel
 import ch.rmy.android.http_shortcuts.activities.settings.SettingsViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorViewModel
@@ -268,8 +268,6 @@ interface ApplicationComponent {
 
     fun inject(getVariableAction: GetVariableAction)
 
-    fun inject(displayResponseActivity: DisplayResponseActivity)
-
     fun inject(widgetSettingsViewModel: WidgetSettingsViewModel)
 
     fun inject(wifiSSIDAction: WifiSSIDAction)
@@ -337,4 +335,6 @@ interface ApplicationComponent {
     fun inject(executionBroadcastReceiver: ExecutionBroadcastReceiver)
 
     fun inject(certPinningViewModel: CertPinningViewModel)
+
+    fun inject(displayResponseViewModel: DisplayResponseViewModel)
 }

@@ -1,10 +1,14 @@
 package ch.rmy.android.http_shortcuts.http
 
 import android.content.Context
+import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
+import ch.rmy.android.framework.extensions.toCharset
+import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.extensions.readIntoString
 import ch.rmy.android.http_shortcuts.utils.SizeLimitedReader
+import java.io.File
 import java.nio.charset.Charset
 import java.util.Locale
 
@@ -24,13 +28,7 @@ class ShortcutResponse internal constructor(
     val charset: Charset by lazy {
         headers.getLast(HttpHeaders.CONTENT_TYPE)
             ?.split("charset=", limit = 2)?.getOrNull(1)
-            ?.let {
-                try {
-                    Charset.forName(it)
-                } catch (e: Exception) {
-                    null
-                }
-            }
+            ?.toCharset()
             ?: Charsets.UTF_8
     }
 
@@ -89,6 +87,16 @@ class ShortcutResponse internal constructor(
         }
             .also {
                 cachedContentAsString = it
+            }
+
+    fun getContentUri(context: Context): Uri? =
+        contentFile?.uri
+            ?.let { uri ->
+                if (uri.scheme?.equals("file", ignoreCase = true) == true) {
+                    FileUtil.getUriFromFile(context, File(uri.path!!))
+                } else {
+                    uri
+                }
             }
 
     companion object {
