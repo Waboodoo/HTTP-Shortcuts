@@ -5,7 +5,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.FloatingAddButton
@@ -20,9 +19,6 @@ fun ScreenScope.VariablesScreen() {
 
     BackHandler {
         viewModel.onBackPressed()
-    }
-    LaunchedEffect(Unit) {
-        viewModel.onStart()
     }
 
     SimpleScaffold(

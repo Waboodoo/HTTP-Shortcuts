@@ -77,6 +77,7 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
                 .collect { variables ->
                     this@VariablesViewModel.variables = variables
                     recomputeVariablesInViewState()
+                    recomputeUsedVariableIds()
                 }
         }
 
@@ -203,12 +204,6 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
         viewModelScope.launch {
             waitForOperationsToFinish()
             finish()
-        }
-    }
-
-    fun onStart() {
-        viewModelScope.launch {
-            recomputeUsedVariableIds()
         }
     }
 

@@ -42,18 +42,8 @@ import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseViewMode
 import ch.rmy.android.http_shortcuts.activities.settings.SettingsViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorViewModel
-import ch.rmy.android.http_shortcuts.activities.variables.editor.types.color.ColorTypeViewModel
-import ch.rmy.android.http_shortcuts.activities.variables.editor.types.constant.ConstantTypeFragment
-import ch.rmy.android.http_shortcuts.activities.variables.editor.types.constant.ConstantTypeViewModel
-import ch.rmy.android.http_shortcuts.activities.variables.editor.types.date.DateTypeViewModel
-import ch.rmy.android.http_shortcuts.activities.variables.editor.types.select.SelectTypeFragment
-import ch.rmy.android.http_shortcuts.activities.variables.editor.types.select.SelectTypeViewModel
-import ch.rmy.android.http_shortcuts.activities.variables.editor.types.slider.SliderTypeViewModel
-import ch.rmy.android.http_shortcuts.activities.variables.editor.types.text.TextTypeViewModel
-import ch.rmy.android.http_shortcuts.activities.variables.editor.types.time.TimeTypeViewModel
-import ch.rmy.android.http_shortcuts.activities.variables.editor.types.toggle.ToggleTypeFragment
-import ch.rmy.android.http_shortcuts.activities.variables.editor.types.toggle.ToggleTypeViewModel
 import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsViewModel
+import ch.rmy.android.http_shortcuts.components.VariablePlaceholderViewModel
 import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
 import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
 import ch.rmy.android.http_shortcuts.http.HttpRequesterWorker
@@ -174,12 +164,6 @@ interface ApplicationComponent {
 
     fun inject(settingsViewModel: SettingsViewModel)
 
-    fun inject(constantTypeViewModel: ConstantTypeViewModel)
-
-    fun inject(selectTypeViewModel: SelectTypeViewModel)
-
-    fun inject(toggleTypeViewModel: ToggleTypeViewModel)
-
     fun inject(variableEditorViewModel: VariableEditorViewModel)
 
     fun inject(variablesViewModel: VariablesViewModel)
@@ -232,23 +216,7 @@ interface ApplicationComponent {
 
     fun inject(responseActivity: ResponseActivity)
 
-    fun inject(constantTypeFragment: ConstantTypeFragment)
-
-    fun inject(selectTypeFragment: SelectTypeFragment)
-
-    fun inject(toggleTypeFragment: ToggleTypeFragment)
-
     fun inject(widgetProvider: WidgetProvider)
-
-    fun inject(colorTypeViewModel: ColorTypeViewModel)
-
-    fun inject(dateTypeViewModel: DateTypeViewModel)
-
-    fun inject(sliderTypeViewModel: SliderTypeViewModel)
-
-    fun inject(textTypeViewModel: TextTypeViewModel)
-
-    fun inject(timeTypeViewModel: TimeTypeViewModel)
 
     fun inject(vibrateAction: VibrateAction)
 
@@ -337,4 +305,6 @@ interface ApplicationComponent {
     fun inject(certPinningViewModel: CertPinningViewModel)
 
     fun inject(displayResponseViewModel: DisplayResponseViewModel)
+
+    fun inject(variablePlaceholderViewModel: VariablePlaceholderViewModel)
 }

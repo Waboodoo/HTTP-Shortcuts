@@ -552,8 +552,6 @@
     <string name="action_copy_response">Copy</string>
     <!-- Menu button, allows saving a response as a file -->
     <string name="button_save_response_as_file">Save as file</string>
-    <!-- Section title, for section in variable editor containing options specific to the variable type -->
-    <string name="section_input_options">Input Options</string>
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">Remember value</string>
     <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
@@ -1426,4 +1424,6 @@
     <string name="label_certificate_pinning_fingerprint">Certificate Fingerprint</string>
     <!-- Hint text for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
     <string name="hint_certificate_pinning_fingerprint">Enter the hex-encoded SHA-1 or SHA-256 fingerprint of your server certificate</string>
+    <!-- Placeholder text shown when a toggle or multi-select variable option is just an empty string -->
+    <string name="empty_option_placeholder">- empty -</string>
 </resources>

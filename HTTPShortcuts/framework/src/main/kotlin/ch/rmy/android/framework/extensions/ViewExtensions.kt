@@ -28,15 +28,18 @@ import ch.rmy.android.framework.utils.SimpleAnimationListener
 import ch.rmy.android.framework.utils.localization.Localizable
 import kotlin.math.min
 
+@Deprecated("Will be removed once fully migrated to Compose")
 var ViewBinding.isVisible: Boolean
     get() = root.isVisible
     set(value) {
         root.isVisible = value
     }
 
+@Deprecated("Will be removed once fully migrated to Compose")
 val View.layoutInflater: LayoutInflater
     get() = LayoutInflater.from(context)
 
+@Deprecated("Will be removed once fully migrated to Compose")
 fun EditText.focus() {
     requestFocus()
     try {
@@ -46,24 +49,12 @@ fun EditText.focus() {
     }
 }
 
+@Deprecated("Will be removed once fully migrated to Compose")
 fun EditText.setMaxLength(maxLength: Int) {
     filters = arrayOf(*filters, InputFilter.LengthFilter(maxLength))
 }
 
-fun EditText.insertAroundCursor(before: String, after: String = "") {
-    val cursor = selectionStart
-    val position = if (cursor != -1 && cursor < text.length) {
-        cursor
-    } else {
-        text.length
-    }
-
-    text.insert(position, before)
-    text.insert(position + before.length, after)
-    setSelection(position + before.length)
-    showSoftKeyboard()
-}
-
+@Deprecated("Will be removed once fully migrated to Compose")
 fun View.showSoftKeyboard() {
     requestFocus()
     post {
@@ -72,6 +63,7 @@ fun View.showSoftKeyboard() {
     }
 }
 
+@Deprecated("Will be removed once fully migrated to Compose")
 fun View.addRippleAnimation(borderless: Boolean = false) {
     val attrs = intArrayOf(if (borderless) R.attr.selectableItemBackgroundBorderless else R.attr.selectableItemBackground)
     context.obtainStyledAttributes(attrs).use { typedArray ->
@@ -80,17 +72,20 @@ fun View.addRippleAnimation(borderless: Boolean = false) {
     }
 }
 
+@Deprecated("Will be removed once fully migrated to Compose")
 val Toolbar.titleView: TextView?
     get() = children
         .filterIsInstance<TextView>()
         .firstOrNull()
 
+@Deprecated("Will be removed once fully migrated to Compose")
 fun CheckBox.doOnCheckedChanged(onCheckedChanged: (checked: Boolean) -> Unit) {
     setOnCheckedChangeListener { _, isChecked ->
         onCheckedChanged(isChecked)
     }
 }
 
+@Deprecated("Will be removed once fully migrated to Compose")
 fun EditText.doOnTextChanged(onTextChanged: (text: CharSequence) -> Unit) {
     var onCooldown = false
     var value: CharSequence? = null
@@ -114,6 +109,7 @@ fun EditText.doOnTextChanged(onTextChanged: (text: CharSequence) -> Unit) {
     }
 }
 
+@Deprecated("Will be removed once fully migrated to Compose")
 fun EditText.setTextSafely(text: CharSequence) {
     if ((isFocused && this.text.isNotEmpty()) || this.text.toString() == text.toString()) {
         return
@@ -137,29 +133,36 @@ fun EditText.setTextSafely(text: CharSequence) {
     }
 }
 
+@Deprecated("Will be removed once fully migrated to Compose")
 fun TextView.setText(localizable: Localizable?) {
     text = localizable?.localize(context)
 }
 
+@Deprecated("Will be removed once fully migrated to Compose")
 fun TextView.setHint(localizable: Localizable?) {
     hint = localizable?.localize(context)
 }
 
+@Deprecated("Will be removed once fully migrated to Compose")
 fun Toolbar.setTitle(localizable: Localizable?) {
     title = localizable?.localize(context)
 }
 
+@Deprecated("Will be removed once fully migrated to Compose")
 fun Toolbar.setSubtitle(localizable: Localizable?) {
     subtitle = localizable?.localize(context)
 }
 
+@Deprecated("Will be removed once fully migrated to Compose")
 fun PanelButton.setSubtitle(localizable: Localizable?) {
     subtitle = localizable?.localize(context) ?: ""
 }
 
+@Deprecated("Will be removed once fully migrated to Compose")
 val RecyclerView.ViewHolder.context: Context
     get() = itemView.context
 
+@Deprecated("Will be removed once fully migrated to Compose")
 fun View.zoomSwap(action: () -> Unit) {
     stopAndRemoveAnimations()
     val zoomOut = AnimationUtils.loadAnimation(context, R.anim.zoom_out)
@@ -173,12 +176,14 @@ fun View.zoomSwap(action: () -> Unit) {
     startAnimation(zoomOut)
 }
 
+@Deprecated("Will be removed once fully migrated to Compose")
 fun View.stopAndRemoveAnimations() {
     animation?.setAnimationListener(null)
     animation?.cancel()
     clearAnimation()
 }
 
+@Deprecated("Will be removed once fully migrated to Compose")
 fun View.zoomToggle(visible: Boolean) {
     val zoomToggleState = (getTag(R.string.animation_zoom_toggle) as? Boolean) ?: isVisible
     if (!visible && zoomToggleState) {
@@ -205,6 +210,7 @@ fun View.zoomToggle(visible: Boolean) {
     }
 }
 
+@Deprecated("Will be removed once fully migrated to Compose")
 fun LifecycleOwner.doOnDestroy(action: () -> Unit) {
     lifecycle.addObserver(object : DefaultLifecycleObserver {
         override fun onDestroy(owner: LifecycleOwner) {

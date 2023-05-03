@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -23,7 +22,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.components.FontSize
+import ch.rmy.android.http_shortcuts.components.HelpText
 import ch.rmy.android.http_shortcuts.components.Spacing
 
 @Composable
@@ -40,10 +39,7 @@ fun CurlImportContent(
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(Spacing.MEDIUM),
     ) {
-        Text(
-            text = stringResource(R.string.instructions_curl_import),
-            fontSize = FontSize.MEDIUM,
-        )
+        HelpText(stringResource(R.string.instructions_curl_import))
 
         TextField(
             modifier = Modifier

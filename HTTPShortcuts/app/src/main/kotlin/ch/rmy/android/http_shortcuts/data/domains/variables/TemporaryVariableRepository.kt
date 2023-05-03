@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.data.domains.variables
 import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
-import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.Option
@@ -105,43 +104,15 @@ constructor(
         }
     }
 
-    suspend fun moveOption(optionId1: String, optionId2: String) {
+    suspend fun setOptions(options: List<Option>) {
         commitTransactionForVariable { variable ->
-            variable.options?.swap(optionId1, optionId2) { id }
-        }
-    }
-
-    suspend fun addOption(label: String, value: String) {
-        commitTransactionForVariable { variable ->
-            if (variable.options == null) {
-                variable.options = realmListOf()
-            }
-            variable.options!!.add(
-                copy(
-                    Option(
-                        label = label,
-                        value = value,
-                    )
-                )
-            )
-        }
-    }
-
-    suspend fun updateOption(optionId: String, label: String, value: String) {
-        commitTransactionForVariable { variable ->
-            val option = variable.options
-                ?.find { it.id == optionId }
-                ?: return@commitTransactionForVariable
-            option.label = label
-            option.value = value
-        }
-    }
-
-    suspend fun removeOption(optionId: String) {
-        commitTransactionForVariable { variable ->
-            variable.options
-                ?.find { it.id == optionId }
-                ?.delete()
+            variable.options?.deleteAll()
+            variable.options = realmListOf<Option>()
+                .apply {
+                    options.forEach {
+                        add(copy(it))
+                    }
+                }
         }
     }
 }

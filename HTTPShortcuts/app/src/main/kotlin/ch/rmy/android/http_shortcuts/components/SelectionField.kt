@@ -8,7 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -22,13 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> SelectionField(
     title: String,
     selectedKey: T,
     items: List<Pair<T, String>>,
     onItemSelected: (T) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var expanded by remember { mutableStateOf(false) }
     var dropdownWidth by remember { mutableStateOf(0) }
@@ -36,6 +35,7 @@ fun <T> SelectionField(
     Box(
         Modifier
             .fillMaxWidth()
+            .then(modifier)
             .onGloballyPositioned { layoutCoordinates ->
                 dropdownWidth = layoutCoordinates.size.width
             }

@@ -4,8 +4,10 @@ import android.content.Context
 import ch.rmy.android.framework.extensions.fromHexString
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
+import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.http.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin as CertificatePinModel
 
@@ -27,6 +29,13 @@ val Shortcut.isTemporaryShortcut
 
 fun Shortcut.shouldIncludeInHistory() =
     !excludeFromHistory && !isTemporaryShortcut
+
+fun Variable.toVariablePlaceholder() =
+    VariablePlaceholder(
+        variableId = id,
+        variableKey = key,
+        variableType = variableType,
+    )
 
 fun CertificatePinModel.toCertificatePin(): CertificatePin =
     CertificatePin(

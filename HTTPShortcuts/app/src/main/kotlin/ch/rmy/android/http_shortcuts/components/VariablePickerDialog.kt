@@ -21,6 +21,8 @@ fun VariablePickerDialog(
         title = title,
         onDismissRequest = onDismissRequested,
     ) {
+        // TODO: Empty state
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
