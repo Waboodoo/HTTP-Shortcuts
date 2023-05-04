@@ -24,6 +24,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import ch.rmy.android.http_shortcuts.R
 
@@ -90,6 +92,11 @@ fun TextInputDialog(
                         fontSize = FontSize.SMALL,
                         fontFamily = FontFamily.Monospace,
                     ),
+                    visualTransformation = if (keyboardType == KeyboardType.Password) {
+                        remember { PasswordVisualTransformation() }
+                    } else {
+                        VisualTransformation.None
+                    },
                 )
             }
         },

@@ -10,7 +10,6 @@ import ch.rmy.android.http_shortcuts.activities.contact.ContactActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.AdvancedSettingsActivity
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.AdvancedSettingsViewModel
-import ch.rmy.android.http_shortcuts.activities.editor.authentication.AuthenticationActivity
 import ch.rmy.android.http_shortcuts.activities.editor.authentication.AuthenticationViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.BasicRequestSettingsViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.body.RequestBodyActivity
@@ -202,8 +201,6 @@ interface ApplicationComponent {
     fun inject(toggleType: ToggleType)
 
     fun inject(advancedSettingsActivity: AdvancedSettingsActivity)
-
-    fun inject(authenticationActivity: AuthenticationActivity)
 
     fun inject(requestBodyActivity: RequestBodyActivity)
 

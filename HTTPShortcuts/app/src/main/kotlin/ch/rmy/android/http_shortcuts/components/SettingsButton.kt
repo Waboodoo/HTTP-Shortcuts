@@ -12,12 +12,14 @@ fun SettingsButton(
     title: String,
     subtitle: String? = null,
     icon: ImageVector,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     SettingsMenuLink(
         icon = { Icon(icon, contentDescription = title) },
         title = { Text(title) },
         subtitle = subtitle?.let { { Text(it) } },
+        enabled = enabled,
         onClick = onClick,
     )
 }
@@ -26,13 +28,15 @@ fun SettingsButton(
 fun SettingsButton(
     title: String,
     subtitle: String? = null,
-    icon: Painter,
+    icon: Painter? = null,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     SettingsMenuLink(
-        icon = { Icon(icon, contentDescription = title) },
+        icon = icon?.let { { Icon(icon, contentDescription = title) } },
         title = { Text(title) },
         subtitle = subtitle?.let { { Text(it) } },
+        enabled = enabled,
         onClick = onClick,
     )
 }
