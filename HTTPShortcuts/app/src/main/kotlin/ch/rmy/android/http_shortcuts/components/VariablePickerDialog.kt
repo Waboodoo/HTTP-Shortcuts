@@ -21,7 +21,8 @@ fun VariablePickerDialog(
         title = title,
         onDismissRequest = onDismissRequested,
     ) {
-        // TODO: Empty state
+        // TODO: Empty state (see GetVariablePlaceholderPickerDialogUseCase)
+        // TODO: Edit button
 
         LazyColumn(
             modifier = Modifier

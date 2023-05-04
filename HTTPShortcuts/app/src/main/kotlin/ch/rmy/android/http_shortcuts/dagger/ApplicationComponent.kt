@@ -12,7 +12,6 @@ import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.Advanced
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.AdvancedSettingsViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.authentication.AuthenticationActivity
 import ch.rmy.android.http_shortcuts.activities.editor.authentication.AuthenticationViewModel
-import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.BasicRequestSettingsActivity
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.BasicRequestSettingsViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.body.RequestBodyActivity
 import ch.rmy.android.http_shortcuts.activities.editor.body.RequestBodyViewModel
@@ -205,8 +204,6 @@ interface ApplicationComponent {
     fun inject(advancedSettingsActivity: AdvancedSettingsActivity)
 
     fun inject(authenticationActivity: AuthenticationActivity)
-
-    fun inject(basicRequestSettingsActivity: BasicRequestSettingsActivity)
 
     fun inject(requestBodyActivity: RequestBodyActivity)
 

@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import javax.inject.Inject
 
+@Deprecated("Soon, this thing will be... eliminated")
 class GetVariablePlaceholderPickerDialogUseCase
 @Inject
 constructor(

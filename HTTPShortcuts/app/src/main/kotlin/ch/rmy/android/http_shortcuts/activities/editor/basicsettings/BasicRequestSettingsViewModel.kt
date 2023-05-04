@@ -3,22 +3,18 @@ package ch.rmy.android.http_shortcuts.activities.editor.basicsettings
 import android.app.Application
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.WithDialog
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.usecases.GetAvailableBrowserPackageNamesUseCase
-import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.type
-import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Unit, BasicRequestSettingsViewState>(application), WithDialog {
+class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Unit, BasicRequestSettingsViewState>(application) {
 
     @Inject
     lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
@@ -29,20 +25,9 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
     @Inject
     lateinit var getAvailableBrowserPackageNames: GetAvailableBrowserPackageNamesUseCase
 
-    @Inject
-    lateinit var getVariablePlaceholderPickerDialog: GetVariablePlaceholderPickerDialogUseCase
-
     init {
         getApplicationComponent().inject(this)
     }
-
-    override var dialogState: DialogState?
-        get() = currentViewState?.dialogState
-        set(value) {
-            updateViewState {
-                copy(dialogState = value)
-            }
-        }
 
     override fun onInitializationStarted(data: Unit) {
         finalizeInitialization(silent = true)
@@ -63,7 +48,7 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
         }
 
         viewModelScope.launch {
-            keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
+            keepVariablePlaceholderProviderUpdated()
         }
     }
 
@@ -121,18 +106,5 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
         launchWithProgressTracking {
             temporaryShortcutRepository.setBrowserPackageName(packageName)
         }
-    }
-
-    fun onUrlVariableButtonClicked() {
-        dialogState = getVariablePlaceholderPickerDialog.invoke(
-            onVariableSelected = {
-                emitEvent(BasicRequestSettingsEvent.InsertVariablePlaceholder(it))
-            },
-            onEditVariableButtonClicked = {
-                openActivity(
-                    VariablesActivity.IntentBuilder()
-                )
-            },
-        )
     }
 }
