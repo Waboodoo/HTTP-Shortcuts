@@ -18,6 +18,7 @@ import com.afollestad.materialdialogs.WhichButton
 import com.afollestad.materialdialogs.actions.getActionButton
 import javax.inject.Inject
 
+@Deprecated("This thing's days are numbered")
 class GetKeyValueDialogUseCase
 @Inject
 constructor(

@@ -141,6 +141,8 @@ fun VariablePlaceholderTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     textStyle: TextStyle = LocalTextStyle.current,
+    supportingText: @Composable (() -> Unit)? = null,
+    isError: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
 ) {
     val viewModel = viewModel<VariablePlaceholderViewModel>()
@@ -193,6 +195,8 @@ fun VariablePlaceholderTextField(
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         textStyle = textStyle,
+        isError = isError,
+        supportingText = supportingText,
         maxLines = maxLines,
         trailingIcon = {
             IconButton(

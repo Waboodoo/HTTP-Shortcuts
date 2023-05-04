@@ -4,7 +4,6 @@ import ch.rmy.android.http_shortcuts.Application
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.about.AboutViewModel
 import ch.rmy.android.http_shortcuts.activities.categories.CategoriesViewModel
-import ch.rmy.android.http_shortcuts.activities.categories.editor.CategoryEditorActivity
 import ch.rmy.android.http_shortcuts.activities.categories.editor.CategoryEditorViewModel
 import ch.rmy.android.http_shortcuts.activities.certpinning.CertPinningViewModel
 import ch.rmy.android.http_shortcuts.activities.contact.ContactActivity
@@ -18,7 +17,6 @@ import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.BasicReques
 import ch.rmy.android.http_shortcuts.activities.editor.body.RequestBodyActivity
 import ch.rmy.android.http_shortcuts.activities.editor.body.RequestBodyViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.executionsettings.ExecutionSettingsViewModel
-import ch.rmy.android.http_shortcuts.activities.editor.headers.RequestHeadersActivity
 import ch.rmy.android.http_shortcuts.activities.editor.headers.RequestHeadersViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseViewModel
@@ -212,8 +210,6 @@ interface ApplicationComponent {
 
     fun inject(requestBodyActivity: RequestBodyActivity)
 
-    fun inject(requestHeadersActivity: RequestHeadersActivity)
-
     fun inject(responseActivity: ResponseActivity)
 
     fun inject(widgetProvider: WidgetProvider)
@@ -243,8 +239,6 @@ interface ApplicationComponent {
     fun inject(numberType: NumberType)
 
     fun inject(passwordType: PasswordType)
-
-    fun inject(categoryEditorActivity: CategoryEditorActivity)
 
     fun inject(execution: Execution)
 
