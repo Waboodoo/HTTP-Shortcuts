@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.scripting.CodeTransformer
@@ -31,44 +32,44 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
     }
 
     override fun onInitializationStarted(data: Unit) {
-        finalizeInitialization(silent = true)
-    }
-
-    override fun initViewState() = ScriptingViewState()
-
-    private var isFinishing: Boolean = false
-    private var persistJob: Job? = null
-
-    override fun onInitialized() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             try {
                 val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
                 initViewStateFromShortcut(temporaryShortcut)
+                withContext(Dispatchers.Main) {
+                    finalizeInitialization()
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                onInitializationError(e)
-            }
-        }
-    }
-
-    private fun initViewStateFromShortcut(shortcut: Shortcut) {
-        viewModelScope.launch(Dispatchers.Default) {
-            val codeOnPrepare = codeTransformer.transformForEditing(shortcut.codeOnPrepare)
-            val codeOnSuccess = codeTransformer.transformForEditing(shortcut.codeOnSuccess)
-            val codeOnFailure = codeTransformer.transformForEditing(shortcut.codeOnFailure)
-            withContext(Dispatchers.Main) {
-                updateViewState {
-                    copy(
-                        codeOnPrepare = codeOnPrepare,
-                        codeOnSuccess = codeOnSuccess,
-                        codeOnFailure = codeOnFailure,
-                        shortcutExecutionType = shortcut.type,
-                    )
+                withContext(Dispatchers.Main) {
+                    onInitializationError(e)
                 }
             }
         }
     }
+
+    private lateinit var codeOnPrepare: String
+    private lateinit var codeOnSuccess: String
+    private lateinit var codeOnFailure: String
+    private lateinit var shortcutExecutionType: ShortcutExecutionType
+
+    private suspend fun initViewStateFromShortcut(shortcut: Shortcut) {
+        codeOnPrepare = codeTransformer.transformForEditing(shortcut.codeOnPrepare)
+        codeOnSuccess = codeTransformer.transformForEditing(shortcut.codeOnSuccess)
+        codeOnFailure = codeTransformer.transformForEditing(shortcut.codeOnFailure)
+        shortcutExecutionType = shortcut.type
+    }
+
+    override fun initViewState() = ScriptingViewState(
+        codeOnPrepare = codeOnPrepare,
+        codeOnSuccess = codeOnSuccess,
+        codeOnFailure = codeOnFailure,
+        shortcutExecutionType = shortcutExecutionType,
+    )
+
+    private var isFinishing: Boolean = false
+    private var persistJob: Job? = null
 
     private fun onInitializationError(error: Throwable) {
         handleUnexpectedError(error)

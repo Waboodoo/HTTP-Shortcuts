@@ -13,8 +13,6 @@ import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.WithDialog
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.AdvancedSettingsActivity
@@ -41,14 +39,10 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
-import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager
-import ch.rmy.android.http_shortcuts.usecases.GetBuiltInIconPickerDialogUseCase
-import ch.rmy.android.http_shortcuts.usecases.GetIconColorPickerDialogUseCase
-import ch.rmy.android.http_shortcuts.usecases.GetIconPickerDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableHttpUrl
@@ -63,7 +57,7 @@ import javax.inject.Inject
 
 class ShortcutEditorViewModel(
     application: Application,
-) : BaseViewModel<ShortcutEditorViewModel.InitData, ShortcutEditorViewState>(application), WithDialog {
+) : BaseViewModel<ShortcutEditorViewModel.InitData, ShortcutEditorViewState>(application) {
 
     @Inject
     lateinit var shortcutRepository: ShortcutRepository
@@ -81,12 +75,6 @@ class ShortcutEditorViewModel(
     lateinit var fetchFavicon: FetchFaviconUseCase
 
     @Inject
-    lateinit var getIconPickerDialog: GetIconPickerDialogUseCase
-
-    @Inject
-    lateinit var getBuiltInIconPickerDialog: GetBuiltInIconPickerDialogUseCase
-
-    @Inject
     lateinit var launcherShortcutManager: LauncherShortcutManager
 
     @Inject
@@ -97,9 +85,6 @@ class ShortcutEditorViewModel(
 
     @Inject
     lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
-
-    @Inject
-    lateinit var getIconColorPickerDialog: GetIconColorPickerDialogUseCase
 
     @Inject
     lateinit var cleanUpStarter: CleanUpWorker.Starter
@@ -137,14 +122,6 @@ class ShortcutEditorViewModel(
     private val executionType
         get() = initData.executionType
 
-    override var dialogState: DialogState?
-        get() = currentViewState?.dialogState
-        set(value) {
-            updateViewState {
-                copy(dialogState = value)
-            }
-        }
-
     override fun onInitializationStarted(data: InitData) {
         sessionInfoStore.editingShortcutId = data.shortcutId
         sessionInfoStore.editingShortcutCategoryId = data.categoryId
@@ -180,7 +157,6 @@ class ShortcutEditorViewModel(
     }
 
     override fun initViewState() = ShortcutEditorViewState(
-        toolbarTitle = StringResLocalizable(if (shortcutId != null) R.string.edit_shortcut else R.string.create_shortcut),
         shortcutExecutionType = executionType,
     )
 
@@ -206,7 +182,6 @@ class ShortcutEditorViewModel(
                             basicSettingsSubtitle = getBasicSettingsSubtitle(),
                             headersSubtitle = getHeadersSubtitle(),
                             requestBodySubtitle = getRequestBodySubtitle(),
-                            requestBodySettingsSubtitle = getRequestBodySubtitle(),
                             authenticationSettingsSubtitle = getAuthenticationSubtitle(),
                             scriptingSubtitle = getScriptingSubtitle(),
                             triggerShortcutsSubtitle = getTriggerShortcutsSubtitle(),
@@ -343,7 +318,10 @@ class ShortcutEditorViewModel(
             return
         }
         updateViewState {
-            copy(shortcutIcon = icon)
+            copy(
+                dialogState = null,
+                shortcutIcon = icon,
+            )
         }
         doWithViewState {
             launchWithProgressTracking {
@@ -480,15 +458,11 @@ class ShortcutEditorViewModel(
     }
 
     private fun showDiscardDialog() {
-        dialogState = createDialogState {
-            message(R.string.confirm_discard_changes_message)
-                .positive(R.string.dialog_discard) { onDiscardDialogConfirmed() }
-                .negative(R.string.dialog_cancel)
-                .build()
-        }
+        updateDialogState(ShortcutEditorDialogState.DiscardWarning)
     }
 
-    private fun onDiscardDialogConfirmed() {
+    fun onDiscardDialogConfirmed() {
+        updateDialogState(null)
         logInfo("Beginning discarding changes to shortcut")
         isFinishing = true
         viewModelScope.launch {
@@ -577,37 +551,15 @@ class ShortcutEditorViewModel(
         if (isSaving || isFinishing) {
             return
         }
-        dialogState = getIconPickerDialog(
-            includeFaviconOption = hasUrl(),
-            callbacks = object : GetIconPickerDialogUseCase.Callbacks {
-                override fun openBuiltInIconSelectionDialog() {
-                    dialogState = getBuiltInIconPickerDialog { icon ->
-                        onShortcutIconSelected(icon)
-                    }
-                }
-
-                override fun openCustomIconPicker() {
-                    emitEvent(ShortcutEditorEvent.OpenCustomIconPicker)
-                }
-
-                override fun fetchFavicon() {
-                    onFetchFaviconOptionSelected()
-                }
-            },
-        )
-    }
-
-    internal fun onShortcutIconSelected(icon: ShortcutIcon) {
-        dialogState = getIconColorPickerDialog(
-            icon,
-            onDismissed = {
-                dialogState?.let(::onDialogDismissed)
-            },
-            onColorSelected = ::onShortcutIconChanged,
+        updateDialogState(
+            ShortcutEditorDialogState.PickIcon(
+                includeFaviconOption = hasUrl(),
+            ),
         )
     }
 
     fun onFetchFaviconOptionSelected() {
+        updateDialogState(null)
         if (isSaving) {
             return
         }
@@ -638,6 +590,16 @@ class ShortcutEditorViewModel(
     override fun finish(result: Int?, intent: Intent?, skipAnimation: Boolean) {
         isFinishing = true
         super.finish(result, intent, skipAnimation)
+    }
+
+    fun onDismissDialog() {
+        updateDialogState(null)
+    }
+
+    private fun updateDialogState(dialogState: ShortcutEditorDialogState?) {
+        updateViewState {
+            copy(dialogState = dialogState)
+        }
     }
 
     data class InitData(

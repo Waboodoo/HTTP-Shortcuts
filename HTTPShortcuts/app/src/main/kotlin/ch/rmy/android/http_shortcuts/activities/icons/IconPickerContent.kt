@@ -11,8 +11,11 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.extensions.runIf
+import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.components.EmptyState
 import ch.rmy.android.http_shortcuts.components.ShortcutIcon
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon as ShortcutIconModel
@@ -23,6 +26,13 @@ fun IconPickerContent(
     onIconClicked: (ShortcutIconModel.CustomIcon) -> Unit,
     onIconLongPressed: (ShortcutIconModel.CustomIcon) -> Unit,
 ) {
+    if (viewState.icons.isEmpty()) {
+        EmptyState(
+            description = stringResource(R.string.empty_state_custom_icons),
+        )
+        return
+    }
+
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 44.dp),
         contentPadding = PaddingValues(Spacing.MEDIUM),
@@ -47,8 +57,6 @@ fun IconPickerContent(
             )
         }
     }
-
-    // TODO: Show an empty state when there are no icons
 }
 
 @OptIn(ExperimentalFoundationApi::class)

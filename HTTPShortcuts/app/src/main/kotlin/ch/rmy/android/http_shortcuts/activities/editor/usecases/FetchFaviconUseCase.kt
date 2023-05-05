@@ -36,20 +36,20 @@ constructor(
         val finalUrl = Variables.rawPlaceholdersToResolvedValues(url, variableManager.getVariableValuesByIds())
 
         val iconSize = IconUtil.getIconSize(context)
-        val candidates = withContext(Dispatchers.IO) {
-            FaviconGrabber(client, context.cacheDir, userAgent = UserAgentUtil.userAgent)
+        return withContext(Dispatchers.IO) {
+            val candidates = FaviconGrabber(client, context.cacheDir, userAgent = UserAgentUtil.userAgent)
                 .grab(finalUrl, preferredSize = iconSize)
                 .mapNotNull(::toCandidate)
                 .sortedByDescending { it.size }
-        }
 
-        return try {
-            candidates.firstNotNullOfOrNull { candidate ->
-                toShortcutIcon(context, candidate.file)
-            }
-        } finally {
-            candidates.forEach { candidate ->
-                candidate.file.delete()
+            try {
+                candidates.firstNotNullOfOrNull { candidate ->
+                    toShortcutIcon(context, candidate.file)
+                }
+            } finally {
+                candidates.forEach { candidate ->
+                    candidate.file.delete()
+                }
             }
         }
     }
