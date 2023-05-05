@@ -14,7 +14,7 @@ import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 fun ShortcutPickerDialog(
     title: String,
     shortcuts: List<ShortcutPlaceholder>,
-    includeCurrentShortcutOption: Boolean,
+    includeCurrentShortcutOption: Boolean = false,
     onShortcutSelected: (ShortcutId) -> Unit,
     onCurrentShortcutSelected: () -> Unit,
     onDismissRequested: () -> Unit,

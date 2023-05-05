@@ -5,15 +5,11 @@ import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.style.StyleSpan
 import androidx.lifecycle.viewModelScope
-import ch.rmy.android.framework.extensions.addOrRemove
-import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.extensions.toLocalizable
+import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.utils.localization.Localizable
-import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.WithDialog
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.models.ShortcutListItem
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.models.ShortcutListItemId
@@ -21,22 +17,17 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager.getCodeFromTriggeredShortcutIds
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager.getTriggeredShortcutIdsFromCode
-import com.afollestad.materialdialogs.WhichButton
-import com.afollestad.materialdialogs.actions.getActionButton
-import com.afollestad.materialdialogs.callbacks.onShow
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class TriggerShortcutsViewModel(application: Application) :
-    BaseViewModel<TriggerShortcutsViewModel.InitData, TriggerShortcutsViewState>(application), WithDialog {
+    BaseViewModel<TriggerShortcutsViewModel.InitData, TriggerShortcutsViewState>(application) {
 
     @Inject
     lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
@@ -62,8 +53,7 @@ class TriggerShortcutsViewModel(application: Application) :
             field = value
             updateViewState {
                 copy(
-                    shortcuts = value.map(::getShortcutListItem)
-                        .ifEmpty { listOf(ShortcutListItem.EmptyState) },
+                    shortcuts = value.map(::getShortcutListItem),
                 )
             }
             launchWithProgressTracking {
@@ -75,21 +65,7 @@ class TriggerShortcutsViewModel(application: Application) :
             }
         }
 
-    override var dialogState: DialogState?
-        get() = currentViewState?.dialogState
-        set(value) {
-            updateViewState {
-                copy(dialogState = value)
-            }
-        }
-
     override fun onInitializationStarted(data: InitData) {
-        finalizeInitialization(silent = true)
-    }
-
-    override fun initViewState() = TriggerShortcutsViewState()
-
-    override fun onInitialized() {
         viewModelScope.launch {
             shortcutRepository.getObservableShortcuts()
                 .collect { shortcuts ->
@@ -100,6 +76,7 @@ class TriggerShortcutsViewModel(application: Application) :
                             try {
                                 val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
                                 initViewStateFromShortcut(temporaryShortcut)
+                                finalizeInitialization()
                             } catch (e: CancellationException) {
                                 throw e
                             } catch (e: Exception) {
@@ -116,17 +93,21 @@ class TriggerShortcutsViewModel(application: Application) :
             .mapIndexed { index, shortcutId -> ShortcutListItemId(shortcutId, id = index.toString()) }
     }
 
+    override fun initViewState() = TriggerShortcutsViewState(
+        shortcuts = shortcutIdsInUse.map(::getShortcutListItem),
+    )
+
     private fun getShortcutListItem(id: ShortcutListItemId) =
         shortcuts
             .firstOrNull { shortcut -> shortcut.id == id.shortcutId }
             ?.let { shortcutPlaceholder ->
-                ShortcutListItem.Shortcut(
+                ShortcutListItem(
                     id = id,
                     name = shortcutPlaceholder.name.toLocalizable(),
                     icon = shortcutPlaceholder.icon,
                 )
             }
-            ?: ShortcutListItem.Shortcut(
+            ?: ShortcutListItem(
                 id = id,
                 name = Localizable.create { context ->
                     SpannableString(context.getString(R.string.placeholder_deleted_shortcut))
@@ -147,91 +128,46 @@ class TriggerShortcutsViewModel(application: Application) :
     }
 
     fun onAddButtonClicked() {
-        val placeholders = shortcuts
-            .filter { it.id != currentShortcutId }
-            .map(Shortcut::toShortcutPlaceholder)
-
-        if (placeholders.isEmpty()) {
-            showNoShortcutsError()
-        } else {
-            showShortcutPickerForAdding(placeholders)
-        }
+        updateDialogState(
+            TriggerShortcutsDialogState.AddShortcuts(
+                shortcuts = shortcuts
+                    .filter { it.id != currentShortcutId }
+                    .map(Shortcut::toShortcutPlaceholder),
+            )
+        )
     }
 
-    private fun showNoShortcutsError() {
-        dialogState = createDialogState {
-            title(R.string.title_add_trigger_shortcut)
-                .message(R.string.error_add_trigger_shortcut_no_shortcuts)
-                .positive(R.string.dialog_ok)
-                .build()
-        }
-    }
-
-    private fun showShortcutPickerForAdding(placeholders: List<ShortcutPlaceholder>) {
-        val selectedShortcutIds = mutableSetOf<ShortcutId>()
-        var onSelectionChanged: () -> Unit = {}
-        dialogState = createDialogState {
-            title(R.string.title_add_trigger_shortcut)
-                .runFor(placeholders) { shortcut ->
-                    checkBoxItem(
-                        name = shortcut.name,
-                        shortcutIcon = shortcut.icon,
-                        checked = { shortcut.id in selectedShortcutIds },
-                    ) { checked ->
-                        selectedShortcutIds.addOrRemove(shortcut.id, checked)
-                        onSelectionChanged()
-                    }
-                }
-                .positive(R.string.dialog_ok) {
-                    onAddShortcutDialogConfirmed(
-                        placeholders
-                            .map { it.id }
-                            .filter { it in selectedShortcutIds }
-                    )
-                }
-                .build()
-                .onShow { dialog ->
-                    val okButton = dialog.getActionButton(WhichButton.POSITIVE)
-                    onSelectionChanged = {
-                        okButton.isEnabled = selectedShortcutIds.isNotEmpty()
-                    }
-                        .apply { invoke() }
-                }
-        }
-    }
-
-    private fun onAddShortcutDialogConfirmed(shortcutIds: List<ShortcutId>) {
-        val offset = shortcutIdsInUse.size
+    fun onAddShortcutDialogConfirmed(shortcutIds: List<ShortcutId>) {
+        updateDialogState(null)
         shortcutIdsInUse = shortcutIdsInUse.plus(
-            shortcutIds.mapIndexed { index, shortcutId ->
-                ShortcutListItemId(shortcutId, (index + offset).toString())
+            shortcutIds.map { shortcutId ->
+                ShortcutListItemId(shortcutId, newUUID())
             }
         )
     }
 
-    private fun onRemoveShortcutDialogConfirmed(id: ShortcutListItemId) {
+    fun onRemoveShortcutDialogConfirmed() {
+        val id = (currentViewState?.dialogState as? TriggerShortcutsDialogState.DeleteShortcut)?.id ?: return
+        updateDialogState(null)
         shortcutIdsInUse = shortcutIdsInUse.filter { it != id }
     }
 
     fun onShortcutClicked(id: ShortcutListItemId) {
-        val message = shortcuts
-            .firstOrNull { it.id == id.shortcutId }
-            ?.let { shortcut ->
-                StringResLocalizable(R.string.message_remove_trigger_shortcut, shortcut.name)
-            }
-            ?: StringResLocalizable(R.string.message_remove_deleted_trigger_shortcut)
-        showRemoveShortcutDialog(id, message)
+        updateDialogState(
+            TriggerShortcutsDialogState.DeleteShortcut(
+                id = id,
+                name = shortcuts.firstOrNull { it.id == id.shortcutId }?.name,
+            )
+        )
     }
 
-    private fun showRemoveShortcutDialog(id: ShortcutListItemId, message: Localizable) {
-        dialogState = createDialogState {
-            title(R.string.title_remove_trigger_shortcut)
-                .message(message)
-                .positive(R.string.dialog_remove) {
-                    onRemoveShortcutDialogConfirmed(id)
-                }
-                .negative(R.string.dialog_cancel)
-                .build()
+    fun onDismissDialog() {
+        updateDialogState(null)
+    }
+
+    private fun updateDialogState(dialogState: TriggerShortcutsDialogState?) {
+        updateViewState {
+            copy(dialogState = dialogState)
         }
     }
 

@@ -15,7 +15,7 @@ import ch.rmy.android.http_shortcuts.extensions.localize
 fun RemoteEditDialog(dialogState: RemoteEditDialogState?, onDismissRequest: () -> Unit, onServerUrlChange: (String) -> Unit) {
     when (dialogState) {
         is RemoteEditDialogState.Error -> {
-            MessageDialog(dialogState.message.localize(), onDismissRequest)
+            MessageDialog(dialogState.message.localize(), onDismissRequest = onDismissRequest)
         }
         is RemoteEditDialogState.Progress -> {
             ProgressDialog(dialogState.text.localize(), onDismissRequest = onDismissRequest)

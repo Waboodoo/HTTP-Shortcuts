@@ -30,7 +30,7 @@ fun ImportExportDialog(
 ) {
     when (dialogState) {
         is ImportExportDialogState.Error -> {
-            MessageDialog(dialogState.message.localize(), onDismissRequest)
+            MessageDialog(dialogState.message.localize(), onDismissRequest = onDismissRequest)
         }
         is ImportExportDialogState.Progress -> {
             ProgressDialog(dialogState.text.localize(), onDismissRequest)

@@ -8,9 +8,12 @@ import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 
 @Composable
-fun MessageDialog(message: String, onDismissRequest: () -> Unit) {
+fun MessageDialog(message: String, title: String? = null, onDismissRequest: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
+        title = title?.let {
+            { Text(title) }
+        },
         text = {
             Text(message)
         },
