@@ -39,12 +39,11 @@ import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderText
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
-import com.alorma.compose.settings.storage.base.rememberBooleanSettingState
-import com.alorma.compose.settings.ui.SettingsCheckbox
 import com.alorma.compose.settings.ui.SettingsGroup
 import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.detectReorderAfterLongPress
@@ -57,11 +56,9 @@ fun SelectTypeEditor(
     onViewStateChanged: (SelectTypeViewState) -> Unit,
 ) {
     val currentViewState by rememberUpdatedState(viewState)
-    SettingsCheckbox(
-        title = {
-            Text(stringResource(R.string.label_select_variable_multi_select))
-        },
-        state = rememberBooleanSettingState(viewState.isMultiSelect),
+    Checkbox(
+        label = stringResource(R.string.label_select_variable_multi_select),
+        checked = viewState.isMultiSelect,
         onCheckedChange = {
             onViewStateChanged(viewState.copy(isMultiSelect = it))
         },

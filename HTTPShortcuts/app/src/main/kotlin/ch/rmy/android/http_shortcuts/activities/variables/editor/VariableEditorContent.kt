@@ -22,12 +22,11 @@ import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.editor.models.ShareSupport
+import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.localize
-import com.alorma.compose.settings.storage.base.rememberBooleanSettingState
-import com.alorma.compose.settings.ui.SettingsCheckbox
 import com.alorma.compose.settings.ui.SettingsGroup
 
 @Composable
@@ -92,14 +91,14 @@ fun ScreenScope.VariableEditorContent(
         ) {
             Checkbox(
                 label = stringResource(R.string.label_url_encode),
-                helpText = stringResource(R.string.message_url_encode_instructions),
+                subtitle = stringResource(R.string.message_url_encode_instructions),
                 checked = urlEncodeChecked,
                 onCheckedChange = onUrlEncodeChanged,
             )
 
             Checkbox(
                 label = stringResource(R.string.label_json_encode),
-                helpText = stringResource(R.string.message_json_encode_instructions),
+                subtitle = stringResource(R.string.message_json_encode_instructions),
                 checked = jsonEncodeChecked,
                 onCheckedChange = onJsonEncodeChanged,
             )
@@ -107,7 +106,7 @@ fun ScreenScope.VariableEditorContent(
             Column {
                 Checkbox(
                     label = stringResource(R.string.label_allow_share_into),
-                    helpText = stringResource(R.string.message_allow_share_instructions),
+                    subtitle = stringResource(R.string.message_allow_share_instructions),
                     checked = allowShareChecked,
                     onCheckedChange = onAllowShareChanged,
                 )
@@ -195,25 +194,6 @@ private fun DialogMessage(message: String, onMessageChanged: (String) -> Unit) {
             onMessageChanged(it.take(200))
         },
         maxLines = 3,
-    )
-}
-
-@Composable
-private fun Checkbox(
-    label: String,
-    helpText: String,
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
-) {
-    SettingsCheckbox(
-        title = {
-            Text(label)
-        },
-        subtitle = {
-            Text(helpText)
-        },
-        state = rememberBooleanSettingState(checked),
-        onCheckedChange = onCheckedChange,
     )
 }
 

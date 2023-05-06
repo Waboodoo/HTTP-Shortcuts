@@ -16,7 +16,6 @@ import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
-import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,9 +24,6 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
 
     @Inject
     lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    @Inject
-    lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
 
     @Inject
     lateinit var getVariablePlaceholderPickerDialog: GetVariablePlaceholderPickerDialogUseCase
@@ -60,10 +56,6 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
             } catch (e: Exception) {
                 onInitializationError(e)
             }
-        }
-
-        viewModelScope.launch {
-            keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
         }
     }
 

@@ -9,7 +9,6 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRep
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.type
-import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,9 +17,6 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
 
     @Inject
     lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    @Inject
-    lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
 
     @Inject
     lateinit var getAvailableBrowserPackageNames: GetAvailableBrowserPackageNamesUseCase
@@ -45,10 +41,6 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
             } catch (e: Exception) {
                 onInitializationError(e)
             }
-        }
-
-        viewModelScope.launch {
-            keepVariablePlaceholderProviderUpdated()
         }
     }
 

@@ -43,7 +43,6 @@ import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager
-import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableHttpUrl
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableUrl
@@ -82,9 +81,6 @@ class ShortcutEditorViewModel(
 
     @Inject
     lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
-
-    @Inject
-    lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
 
     @Inject
     lateinit var cleanUpStarter: CleanUpWorker.Starter
@@ -149,10 +145,6 @@ class ShortcutEditorViewModel(
                 finish()
                 handleUnexpectedError(e)
             }
-        }
-
-        viewModelScope.launch {
-            keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
         }
     }
 

@@ -352,7 +352,9 @@
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">Don\'t show again</string>
     <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="label_accept_all_certificates">Accept any certificate (I know what I\'m doing)</string>
+    <string name="label_accept_all_certificates">Accept any certificate</string>
+    <!-- checkbox subtitle in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
+    <string name="subtitle_accept_all_certificates">If you know what you\'re doing…</string>
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
     <string name="label_require_execution_confirmation">Require confirmation before execution</string>
     <!-- Page title, for page listing all the libraries and 3rd party assets used in the app -->
@@ -1428,4 +1430,8 @@
     <string name="empty_option_placeholder">- empty -</string>
     <!-- Empty state shown on the custom icons screen when the user has no icons set up -->
     <string name="empty_state_custom_icons">You don\'t have any custom icons.</string>
+    <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
+    <string name="label_require_specific_wifi_ssid">Require specific Wi-Fi</string>
+    <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
+    <string name="option_no_proxy">No proxy</string>
 </resources>

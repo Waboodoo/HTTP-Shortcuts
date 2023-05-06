@@ -9,7 +9,6 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,9 +17,6 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
 
     @Inject
     lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    @Inject
-    lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
 
     init {
         getApplicationComponent().inject(this)
@@ -58,10 +54,6 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
             } catch (e: Exception) {
                 onInitializationError(e)
             }
-        }
-
-        viewModelScope.launch {
-            keepVariablePlaceholderProviderUpdated.invoke()
         }
     }
 

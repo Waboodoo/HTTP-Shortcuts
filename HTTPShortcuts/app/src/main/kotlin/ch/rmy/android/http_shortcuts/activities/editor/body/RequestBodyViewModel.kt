@@ -21,7 +21,6 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.usecases.GetKeyValueDialogUseCase
 import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
-import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,9 +29,6 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
 
     @Inject
     lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    @Inject
-    lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
 
     @Inject
     lateinit var getFileParameterDialog: GetFileParameterDialogUseCase
@@ -81,10 +77,6 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
             } catch (e: Exception) {
                 onInitializationError(e)
             }
-        }
-
-        viewModelScope.launch {
-            keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
         }
     }
 

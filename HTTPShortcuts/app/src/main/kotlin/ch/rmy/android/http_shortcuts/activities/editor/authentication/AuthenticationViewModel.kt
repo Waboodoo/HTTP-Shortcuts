@@ -12,7 +12,6 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRep
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.ClientCertUtil
 import kotlinx.coroutines.CancellationException
@@ -23,9 +22,6 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
 
     @Inject
     lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    @Inject
-    lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
 
     @Inject
     lateinit var copyCertificateFile: CopyCertificateFileUseCase
@@ -53,10 +49,6 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
             } catch (e: Exception) {
                 onInitializationError(e)
             }
-        }
-
-        viewModelScope.launch {
-            keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
         }
     }
 

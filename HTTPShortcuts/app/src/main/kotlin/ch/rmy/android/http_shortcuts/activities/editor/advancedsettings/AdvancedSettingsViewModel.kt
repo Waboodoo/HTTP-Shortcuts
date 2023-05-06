@@ -2,91 +2,63 @@ package ch.rmy.android.http_shortcuts.activities.editor.advancedsettings
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
-import ch.rmy.android.framework.utils.localization.DurationLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.ViewModelEvent
-import ch.rmy.android.framework.viewmodel.WithDialog
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
-import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.usecases.GetTimeoutDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
-import ch.rmy.android.http_shortcuts.usecases.KeepVariablePlaceholderProviderUpdatedUseCase
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
-class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, AdvancedSettingsViewState>(application), WithDialog {
+class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, AdvancedSettingsViewState>(application) {
 
     @Inject
     lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    @Inject
-    lateinit var keepVariablePlaceholderProviderUpdated: KeepVariablePlaceholderProviderUpdatedUseCase
-
-    @Inject
-    lateinit var getTimeoutDialog: GetTimeoutDialogUseCase
-
-    @Inject
-    lateinit var getVariablePlaceholderPickerDialog: GetVariablePlaceholderPickerDialogUseCase
 
     init {
         getApplicationComponent().inject(this)
     }
 
-    override var dialogState: DialogState?
-        get() = currentViewState?.dialogState
-        set(value) {
-            updateViewState {
-                copy(dialogState = value)
-            }
-        }
+    private lateinit var initialViewState: AdvancedSettingsViewState
 
     override fun onInitializationStarted(data: Unit) {
-        finalizeInitialization(silent = true)
-    }
-
-    override fun initViewState() = AdvancedSettingsViewState()
-
-    override fun onInitialized() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             try {
                 val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
-                initViewStateFromShortcut(temporaryShortcut)
+                initialViewState = createInitialViewState(temporaryShortcut)
+                withContext(Dispatchers.Main) {
+                    finalizeInitialization()
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                onInitializationError(e)
+                withContext(Dispatchers.Main) {
+                    onInitializationError(e)
+                }
             }
         }
-
-        viewModelScope.launch {
-            keepVariablePlaceholderProviderUpdated(::emitCurrentViewState)
-        }
     }
 
-    private fun initViewStateFromShortcut(shortcut: Shortcut) {
-        updateViewState {
-            copy(
-                followRedirects = shortcut.followRedirects,
-                acceptAllCertificates = shortcut.acceptAllCertificates,
-                acceptCookies = shortcut.acceptCookies,
-                timeout = shortcut.timeout.milliseconds,
-                proxyType = shortcut.proxyType,
-                proxyHost = shortcut.proxyHost ?: "",
-                proxyPort = shortcut.proxyPort?.toString() ?: "",
-                proxyUsername = shortcut.proxyUsername ?: "",
-                proxyPassword = shortcut.proxyPassword ?: "",
-                wifiSsid = shortcut.wifiSsid,
-            )
-        }
-    }
+    override fun initViewState() = initialViewState
+
+    private fun createInitialViewState(shortcut: Shortcut) = AdvancedSettingsViewState(
+        followRedirects = shortcut.followRedirects,
+        acceptAllCertificates = shortcut.acceptAllCertificates,
+        acceptCookies = shortcut.acceptCookies,
+        timeout = shortcut.timeout.milliseconds,
+        proxyType = shortcut.proxyType.takeUnless { shortcut.proxyHost.isNullOrEmpty() },
+        proxyHost = shortcut.proxyHost ?: "",
+        proxyPort = shortcut.proxyPort?.toString() ?: "",
+        proxyUsername = shortcut.proxyUsername ?: "",
+        proxyPassword = shortcut.proxyPassword ?: "",
+        requireSpecificWifi = shortcut.wifiSsid.isNotEmpty(),
+        wifiSsid = shortcut.wifiSsid,
+    )
 
     private fun onInitializationError(error: Throwable) {
         handleUnexpectedError(error)
@@ -120,21 +92,41 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
         }
     }
 
-    private fun onTimeoutChanged(timeout: Duration) {
+    fun onRequireSpecificWifiChanged(requireWifi: Boolean) {
+        val ssid = currentViewState?.wifiSsid ?: return
         updateViewState {
-            copy(timeout = timeout)
+            copy(requireSpecificWifi = requireWifi)
+        }
+        launchWithProgressTracking {
+            temporaryShortcutRepository.setWifiSsid(if (requireWifi) ssid else "")
+        }
+    }
+
+    fun onTimeoutChanged(timeout: Duration) {
+        updateViewState {
+            copy(
+                timeout = timeout,
+                dialogState = null,
+            )
         }
         launchWithProgressTracking {
             temporaryShortcutRepository.setTimeout(timeout)
         }
     }
 
-    fun onProxyTypeChanged(proxyType: ProxyType) {
+    fun onProxyTypeChanged(proxyType: ProxyType?) {
+        val viewState = currentViewState ?: return
         updateViewState {
             copy(proxyType = proxyType)
         }
         launchWithProgressTracking {
-            temporaryShortcutRepository.setProxyType(proxyType)
+            if (proxyType != null) {
+                temporaryShortcutRepository.setProxyType(proxyType)
+                temporaryShortcutRepository.setProxyHost(viewState.proxyHost)
+            } else {
+                temporaryShortcutRepository.setProxyType(ProxyType.HTTP)
+                temporaryShortcutRepository.setProxyHost("")
+            }
         }
     }
 
@@ -147,12 +139,12 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
         }
     }
 
-    fun onProxyPortChanged(proxyPort: Int?) {
+    fun onProxyPortChanged(proxyPort: String) {
         updateViewState {
-            copy(proxyPort = proxyPort?.toString() ?: "")
+            copy(proxyPort = proxyPort)
         }
         launchWithProgressTracking {
-            temporaryShortcutRepository.setProxyPort(proxyPort)
+            temporaryShortcutRepository.setProxyPort(proxyPort.toIntOrNull())
         }
     }
 
@@ -184,19 +176,10 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
     }
 
     fun onTimeoutButtonClicked() {
-        showTimeoutDialog()
-    }
-
-    private fun showTimeoutDialog() {
-        doWithViewState { viewState ->
-            dialogState = getTimeoutDialog(
-                viewState.timeout,
-                getLabel = { duration ->
-                    DurationLocalizable(duration)
-                },
-                onTimeoutChanged = ::onTimeoutChanged,
-            )
-        }
+        val timeout = currentViewState?.timeout ?: return
+        updateDialogState(
+            AdvancedSettingsDialogState.TimeoutPicker(timeout)
+        )
     }
 
     fun onBackPressed() {
@@ -206,34 +189,13 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
         }
     }
 
-    fun onProxyHostVariableButtonClicked() {
-        showVariablePlaceholderDialog {
-            AdvancedSettingsEvent.InsertVariablePlaceholderIntoProxyHost(it)
-        }
+    fun onDialogDismissed() {
+        updateDialogState(null)
     }
 
-    fun onProxyUsernameVariableButtonClicked() {
-        showVariablePlaceholderDialog {
-            AdvancedSettingsEvent.InsertVariablePlaceholderIntoProxyUsername(it)
+    private fun updateDialogState(dialogState: AdvancedSettingsDialogState?) {
+        updateViewState {
+            copy(dialogState = dialogState)
         }
-    }
-
-    fun onProxyPasswordVariableButtonClicked() {
-        showVariablePlaceholderDialog {
-            AdvancedSettingsEvent.InsertVariablePlaceholderIntoProxyPassword(it)
-        }
-    }
-
-    private fun showVariablePlaceholderDialog(onVariableSelected: (VariablePlaceholder) -> ViewModelEvent) {
-        dialogState = getVariablePlaceholderPickerDialog.invoke(
-            onVariableSelected = {
-                emitEvent(onVariableSelected(it))
-            },
-            onEditVariableButtonClicked = {
-                openActivity(
-                    VariablesActivity.IntentBuilder()
-                )
-            },
-        )
     }
 }
