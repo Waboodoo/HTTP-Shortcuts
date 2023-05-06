@@ -13,7 +13,6 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
-import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import com.afollestad.materialdialogs.WhichButton
 import com.afollestad.materialdialogs.actions.getActionButton
 import javax.inject.Inject
@@ -21,9 +20,7 @@ import javax.inject.Inject
 @Deprecated("This thing's days are numbered")
 class GetKeyValueDialogUseCase
 @Inject
-constructor(
-    private val variableViewUtils: VariableViewUtils,
-) {
+constructor() {
 
     operator fun invoke(
         title: Localizable,
@@ -62,9 +59,6 @@ constructor(
                     val valueInput = dialog.findViewById<VariableEditText>(R.id.key_value_value)
                     val keyVariableButton = dialog.findViewById(R.id.variable_button_key) as VariableButton
                     val valueVariableButton = dialog.findViewById(R.id.variable_button_value) as VariableButton
-
-                    variableViewUtils.bindVariableViews(keyInput, keyVariableButton)
-                    variableViewUtils.bindVariableViews(valueInput, valueVariableButton)
 
                     valueInput.inputType = (if (isMultiLine) InputType.TYPE_TEXT_FLAG_MULTI_LINE else 0) or InputType.TYPE_CLASS_TEXT
                     if (isMultiLine) {

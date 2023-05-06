@@ -139,12 +139,14 @@ fun VariablePlaceholderTextField(
     modifier: Modifier = Modifier,
     allowOpeningVariableEditor: Boolean = true,
     label: (@Composable () -> Unit)? = null,
+    placeholder: @Composable (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     textStyle: TextStyle = LocalTextStyle.current,
     supportingText: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
+    singleLine: Boolean = false,
 ) {
     val viewModel = viewModel<VariablePlaceholderViewModel>()
     val placeholders by viewModel.variablePlaceholders.collectAsStateWithLifecycle()
@@ -199,6 +201,8 @@ fun VariablePlaceholderTextField(
         isError = isError,
         supportingText = supportingText,
         maxLines = maxLines,
+        singleLine = singleLine,
+        placeholder = placeholder,
         trailingIcon = {
             IconButton(
                 onClick = {

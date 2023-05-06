@@ -13,16 +13,13 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.variables.VariableButton
 import ch.rmy.android.http_shortcuts.variables.VariableEditText
-import ch.rmy.android.http_shortcuts.variables.VariableViewUtils
 import com.afollestad.materialdialogs.WhichButton
 import com.afollestad.materialdialogs.actions.getActionButton
 import javax.inject.Inject
 
 class GetFileParameterDialogUseCase
 @Inject
-constructor(
-    private val variableViewUtils: VariableViewUtils,
-) {
+constructor() {
 
     @CheckResult
     operator fun invoke(
@@ -56,8 +53,6 @@ constructor(
                     val keyInput = dialog.findViewById<VariableEditText>(R.id.key_value_key)
                     val fileNameInput = dialog.findViewById<EditText>(R.id.key_file_name)
                     val keyVariableButton = dialog.findViewById(R.id.variable_button_key) as VariableButton
-
-                    variableViewUtils.bindVariableViews(keyInput, keyVariableButton)
 
                     keyInput.rawString = keyName
                     fileNameInput.setText(fileName)

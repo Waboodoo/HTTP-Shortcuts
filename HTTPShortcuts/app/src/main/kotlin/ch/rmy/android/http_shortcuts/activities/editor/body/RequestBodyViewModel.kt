@@ -11,7 +11,6 @@ import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.body.models.ParameterListItem
 import ch.rmy.android.http_shortcuts.activities.editor.body.usecases.GetFileParameterDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
@@ -20,7 +19,6 @@ import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.usecases.GetKeyValueDialogUseCase
-import ch.rmy.android.http_shortcuts.usecases.GetVariablePlaceholderPickerDialogUseCase
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,9 +33,6 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
 
     @Inject
     lateinit var getKeyValueDialog: GetKeyValueDialogUseCase
-
-    @Inject
-    lateinit var getVariablePlaceholderPickerDialog: GetVariablePlaceholderPickerDialogUseCase
 
     init {
         getApplicationComponent().inject(this)
@@ -367,16 +362,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
     }
 
     fun onBodyContentVariableButtonClicked() {
-        dialogState = getVariablePlaceholderPickerDialog.invoke(
-            onVariableSelected = {
-                emitEvent(RequestBodyEvent.InsertVariablePlaceholder(it))
-            },
-            onEditVariableButtonClicked = {
-                openActivity(
-                    VariablesActivity.IntentBuilder()
-                )
-            },
-        )
+        // TODO
     }
 
     fun onBackPressed() {

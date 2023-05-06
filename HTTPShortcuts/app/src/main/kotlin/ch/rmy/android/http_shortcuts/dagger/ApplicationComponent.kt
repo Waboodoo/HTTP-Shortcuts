@@ -15,7 +15,6 @@ import ch.rmy.android.http_shortcuts.activities.editor.body.RequestBodyActivity
 import ch.rmy.android.http_shortcuts.activities.editor.body.RequestBodyViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.executionsettings.ExecutionSettingsViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.headers.RequestHeadersViewModel
-import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetPickerViewModel
@@ -200,8 +199,6 @@ interface ApplicationComponent {
     fun inject(toggleType: ToggleType)
 
     fun inject(requestBodyActivity: RequestBodyActivity)
-
-    fun inject(responseActivity: ResponseActivity)
 
     fun inject(widgetProvider: WidgetProvider)
 

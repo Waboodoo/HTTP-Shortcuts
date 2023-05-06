@@ -12,6 +12,7 @@ fun HelpText(
     Text(
         modifier = modifier,
         text = text,
-        fontSize = FontSize.SMALL,
+        fontSize = FontSize.TINY,
+        lineHeight = FontSize.SMALL,
     )
 }

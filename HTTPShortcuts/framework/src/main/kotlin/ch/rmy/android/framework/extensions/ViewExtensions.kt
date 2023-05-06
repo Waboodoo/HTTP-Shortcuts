@@ -9,7 +9,6 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -77,13 +76,6 @@ val Toolbar.titleView: TextView?
     get() = children
         .filterIsInstance<TextView>()
         .firstOrNull()
-
-@Deprecated("Will be removed once fully migrated to Compose")
-fun CheckBox.doOnCheckedChanged(onCheckedChanged: (checked: Boolean) -> Unit) {
-    setOnCheckedChangeListener { _, isChecked ->
-        onCheckedChanged(isChecked)
-    }
-}
 
 @Deprecated("Will be removed once fully migrated to Compose")
 fun EditText.doOnTextChanged(onTextChanged: (text: CharSequence) -> Unit) {
