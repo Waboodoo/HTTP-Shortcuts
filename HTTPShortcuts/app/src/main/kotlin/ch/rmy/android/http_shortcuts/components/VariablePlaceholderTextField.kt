@@ -137,6 +137,7 @@ fun VariablePlaceholderTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    allowOpeningVariableEditor: Boolean = true,
     label: (@Composable () -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -222,6 +223,7 @@ fun VariablePlaceholderTextField(
                 dialogVisible = false
                 focusRequester.requestFocus()
             },
+            showEditButton = allowOpeningVariableEditor,
             onDismissRequested = {
                 dialogVisible = false
             },

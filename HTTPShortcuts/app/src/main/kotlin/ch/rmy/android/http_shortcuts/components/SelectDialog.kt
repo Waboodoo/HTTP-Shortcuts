@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 @Composable
 fun SelectDialog(
     title: String? = null,
+    extraButton: (@Composable () -> Unit)? = null,
     onDismissRequest: () -> Unit,
     content: @Composable () -> Unit,
 ) {
@@ -23,5 +24,6 @@ fun SelectDialog(
             content()
         },
         confirmButton = {},
+        dismissButton = extraButton,
     )
 }

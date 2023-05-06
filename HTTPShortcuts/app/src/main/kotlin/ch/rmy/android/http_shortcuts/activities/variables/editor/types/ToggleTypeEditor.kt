@@ -246,6 +246,7 @@ private fun EditDialog(
                     modifier = Modifier
                         .fillMaxWidth(),
                     key = "toggle-option-text",
+                    allowOpeningVariableEditor = false,
                     value = value,
                     label = {
                         Text(stringResource(R.string.label_select_value))
