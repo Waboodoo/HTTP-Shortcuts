@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.activities.editor.advancedsettings
+package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,25 +19,36 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.utils.localization.DurationLocalizable
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.OrderedOptionsSlider
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.localize
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
-fun AdvancedSettingsDialogs(
-    dialogState: AdvancedSettingsDialogState?,
-    onTimeoutConfirmed: (Duration) -> Unit,
+fun ExecutionSettingsDialogs(
+    dialogState: ExecutionSettingsDialogState?,
+    onConfirmAppOverlay: () -> Unit,
+    onConfirmDelay: (Duration) -> Unit,
     onDismissed: () -> Unit,
 ) {
     when (dialogState) {
-        is AdvancedSettingsDialogState.TimeoutPicker -> {
-            TimeoutPickerDialog(
-                initialTimeout = dialogState.initialTimeout,
-                onConfirmed = onTimeoutConfirmed,
+        is ExecutionSettingsDialogState.AppOverlayPrompt -> {
+            ConfirmDialog(
+                message = stringResource(R.string.message_run_repeatedly_dialog_configure_app_overlay, stringResource(R.string.dialog_configure)),
+                confirmButton = stringResource(R.string.dialog_configure),
+                onConfirmRequest = onConfirmAppOverlay,
+                onDismissRequest = onDismissed,
+            )
+        }
+        is ExecutionSettingsDialogState.DelayPicker -> {
+            DelayPickerDialog(
+                initialDelay = dialogState.initialDelay,
+                onConfirmed = onConfirmDelay,
                 onDismissed = onDismissed,
             )
         }
@@ -46,13 +57,13 @@ fun AdvancedSettingsDialogs(
 }
 
 @Composable
-private fun TimeoutPickerDialog(
-    initialTimeout: Duration,
+private fun DelayPickerDialog(
+    initialDelay: Duration,
     onConfirmed: (Duration) -> Unit,
     onDismissed: () -> Unit,
 ) {
-    var value by rememberSaveable(key = "timeout-dialog-value") {
-        mutableStateOf(initialTimeout.inWholeMilliseconds)
+    var value by rememberSaveable(key = "delay-dialog-value") {
+        mutableStateOf(initialDelay.inWholeMilliseconds)
     }
     val timeout = remember(value) {
         value.milliseconds
@@ -61,7 +72,7 @@ private fun TimeoutPickerDialog(
     AlertDialog(
         onDismissRequest = onDismissed,
         title = {
-            Text(stringResource(R.string.label_timeout))
+            Text(stringResource(R.string.label_delay_execution))
         },
         text = {
             Column(
@@ -74,7 +85,7 @@ private fun TimeoutPickerDialog(
                 )
                 OrderedOptionsSlider(
                     modifier = Modifier.widthIn(min = 300.dp),
-                    options = TIMEOUT_OPTIONS,
+                    options = DELAY_OPTIONS,
                     value = timeout,
                     onValueChange = {
                         value = it.inWholeMilliseconds
@@ -94,7 +105,8 @@ private fun TimeoutPickerDialog(
     )
 }
 
-private val TIMEOUT_OPTIONS = arrayOf(
+private val DELAY_OPTIONS = arrayOf(
+    0.milliseconds,
     500.milliseconds,
     1.seconds,
     2.seconds,
@@ -114,4 +126,8 @@ private val TIMEOUT_OPTIONS = arrayOf(
     5.minutes,
     450.seconds,
     10.minutes,
+    15.minutes,
+    20.minutes,
+    30.minutes,
+    1.hours,
 )

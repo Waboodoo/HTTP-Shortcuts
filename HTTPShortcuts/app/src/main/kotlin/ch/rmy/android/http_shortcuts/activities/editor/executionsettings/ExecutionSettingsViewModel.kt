@@ -2,12 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
-import ch.rmy.android.framework.utils.localization.DurationLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.WithDialog
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
-import ch.rmy.android.http_shortcuts.activities.editor.executionsettings.usecases.GetAppOverlayDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.editor.executionsettings.usecases.GetDelayDialogUseCase
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
@@ -18,28 +13,24 @@ import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 
-class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit, ExecutionSettingsViewState>(application), WithDialog {
+class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit, ExecutionSettingsViewState>(application) {
 
     @Inject
     lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    @Inject
-    lateinit var getDelayDialog: GetDelayDialogUseCase
 
     @Inject
     lateinit var launcherShortcutManager: LauncherShortcutManager
 
     @Inject
     lateinit var quickSettingsTileManager: QuickSettingsTileManager
-
-    @Inject
-    lateinit var getAppOverlayDialog: GetAppOverlayDialogUseCase
 
     @Inject
     lateinit var restrictionsUtil: RestrictionsUtil
@@ -51,51 +42,41 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
         getApplicationComponent().inject(this)
     }
 
-    override var dialogState: DialogState?
-        get() = currentViewState?.dialogState
-        set(value) {
-            updateViewState {
-                copy(dialogState = value)
-            }
-        }
+    lateinit var initialViewState: ExecutionSettingsViewState
 
     override fun onInitializationStarted(data: Unit) {
-        finalizeInitialization(silent = true)
-    }
-
-    override fun initViewState() = ExecutionSettingsViewState(
-        launcherShortcutOptionVisible = launcherShortcutManager.supportsLauncherShortcuts(),
-        quickSettingsTileShortcutOptionVisible = quickSettingsTileManager.supportsQuickSettingsTiles(),
-    )
-
-    override fun onInitialized() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             try {
                 val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
-                initViewStateFromShortcut(temporaryShortcut)
+                initialViewState = createInitialViewStateFromShortcut(temporaryShortcut)
+                withContext(Dispatchers.Main) {
+                    finalizeInitialization()
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                onInitializationError(e)
+                withContext(Dispatchers.Main) {
+                    onInitializationError(e)
+                }
             }
         }
     }
 
-    private fun initViewStateFromShortcut(shortcut: Shortcut) {
-        updateViewState {
-            copy(
-                waitForConnection = shortcut.isWaitForNetwork,
-                waitForConnectionOptionVisible = shortcut.type == ShortcutExecutionType.APP,
-                launcherShortcut = shortcut.launcherShortcut,
-                secondaryLauncherShortcut = shortcut.secondaryLauncherShortcut,
-                quickSettingsTileShortcut = shortcut.quickSettingsTileShortcut,
-                delay = shortcut.delay.milliseconds,
-                requireConfirmation = shortcut.requireConfirmation,
-                excludeFromHistory = shortcut.excludeFromHistory,
-                repetitionInterval = shortcut.repetition?.interval,
-            )
-        }
-    }
+    override fun initViewState() = initialViewState
+
+    private fun createInitialViewStateFromShortcut(shortcut: Shortcut) = ExecutionSettingsViewState(
+        launcherShortcutOptionVisible = launcherShortcutManager.supportsLauncherShortcuts(),
+        quickSettingsTileShortcutOptionVisible = quickSettingsTileManager.supportsQuickSettingsTiles(),
+        waitForConnection = shortcut.isWaitForNetwork,
+        waitForConnectionOptionVisible = shortcut.type == ShortcutExecutionType.APP,
+        launcherShortcut = shortcut.launcherShortcut,
+        secondaryLauncherShortcut = shortcut.secondaryLauncherShortcut,
+        quickSettingsTileShortcut = shortcut.quickSettingsTileShortcut,
+        delay = shortcut.delay.milliseconds,
+        requireConfirmation = shortcut.requireConfirmation,
+        excludeFromHistory = shortcut.excludeFromHistory,
+        repetitionInterval = shortcut.repetition?.interval,
+    )
 
     private fun onInitializationError(error: Throwable) {
         handleUnexpectedError(error)
@@ -147,9 +128,12 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
         }
     }
 
-    private fun onDelayChanged(delay: Duration) {
+    fun onDelayChanged(delay: Duration) {
         updateViewState {
-            copy(delay = delay)
+            copy(
+                delay = delay,
+                dialogState = null,
+            )
         }
         launchWithProgressTracking {
             temporaryShortcutRepository.setDelay(delay)
@@ -172,10 +156,7 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
                 repetitionInterval != null &&
                 (!appOverlayUtil.canDrawOverlays() || !restrictionsUtil.isIgnoringBatteryOptimizations())
             ) {
-                dialogState = getAppOverlayDialog {
-                    val intent = appOverlayUtil.getSettingsIntent() ?: return@getAppOverlayDialog
-                    openActivity(intent)
-                }
+                updateDialogState(ExecutionSettingsDialogState.AppOverlayPrompt)
             }
             updateViewState {
                 copy(repetitionInterval = repetitionInterval)
@@ -186,24 +167,33 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
         }
     }
 
-    fun onDelayButtonClicked() {
-        showDelayDialog()
+    fun onAppOverlayDialogConfirmed() {
+        updateDialogState(null)
+        val intent = appOverlayUtil.getSettingsIntent() ?: return
+        openActivity(intent)
     }
 
-    private fun showDelayDialog() {
-        doWithViewState { viewState ->
-            dialogState = getDelayDialog(
-                delay = viewState.delay,
-                getLabel = ::DurationLocalizable,
-                onDelayChanged = ::onDelayChanged,
-            )
-        }
+    fun onDelayButtonClicked() {
+        val delay = currentViewState?.delay ?: return
+        updateDialogState(
+            ExecutionSettingsDialogState.DelayPicker(delay),
+        )
     }
 
     fun onBackPressed() {
         viewModelScope.launch {
             waitForOperationsToFinish()
             finish()
+        }
+    }
+
+    fun onDismissDialog() {
+        updateDialogState(null)
+    }
+
+    private fun updateDialogState(dialogState: ExecutionSettingsDialogState?) {
+        updateViewState {
+            copy(dialogState = dialogState)
         }
     }
 }

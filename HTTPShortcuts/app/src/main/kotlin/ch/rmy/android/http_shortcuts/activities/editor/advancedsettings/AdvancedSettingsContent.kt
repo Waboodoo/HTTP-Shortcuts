@@ -161,6 +161,8 @@ fun AdvancedSettingsContent(
             checked = acceptAllCertificates,
             onCheckedChange = onAcceptAllCertificates,
         )
+
+        Divider()
     }
 }
 
