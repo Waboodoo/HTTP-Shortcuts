@@ -69,7 +69,7 @@ fun ScreenScope.ShortcutEditorContent(
             verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
         ) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(Spacing.SMALL),
+                horizontalArrangement = Arrangement.spacedBy(Spacing.MEDIUM),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 ShortcutNameField(

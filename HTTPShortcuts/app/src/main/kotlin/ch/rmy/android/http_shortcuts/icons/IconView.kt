@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.loadImage
 import com.squareup.picasso.Picasso
 
+@Deprecated("Use Compose instead")
 class IconView : AppCompatImageView {
 
     private var icon: ShortcutIcon? = null

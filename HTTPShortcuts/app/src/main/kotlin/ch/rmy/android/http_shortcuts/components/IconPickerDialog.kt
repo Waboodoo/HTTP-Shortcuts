@@ -48,7 +48,11 @@ fun IconPickerDialog(
     onDismissRequested: () -> Unit,
 ) {
     val pickCustomIcon = rememberLauncherForActivityResult(IconPickerActivity.PickIcon) { icon ->
-        icon?.let(onIconSelected)
+        if (icon != null) {
+            onIconSelected(icon)
+        } else {
+            onDismissRequested()
+        }
     }
 
     var state by rememberSaveable(key = "icon-picker-state") {

@@ -12,6 +12,7 @@ import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
+@Deprecated("Use Compose instead")
 fun ImageView.loadImage(uri: Uri, preventMemoryCache: Boolean = false) {
     Picasso.get()
         .load(uri)

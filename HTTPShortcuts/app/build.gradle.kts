@@ -270,6 +270,7 @@ dependencies {
     implementation("com.github.yalantis:ucrop:2.2.8")
 
     /* Image display */
+    implementation("io.coil-kt:coil-compose:2.3.0")
     implementation("com.squareup.picasso:picasso:2.8")
 
     /* Image meta data extraction */
