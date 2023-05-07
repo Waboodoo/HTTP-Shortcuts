@@ -77,7 +77,6 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.VibrateAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WifiIPAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WifiSSIDAction
 import ch.rmy.android.http_shortcuts.tiles.QuickTileService
-import ch.rmy.android.http_shortcuts.variables.VariableEditText
 import ch.rmy.android.http_shortcuts.variables.types.ClipboardType
 import ch.rmy.android.http_shortcuts.variables.types.ColorType
 import ch.rmy.android.http_shortcuts.variables.types.DateType
@@ -204,8 +203,6 @@ interface ApplicationComponent {
     fun inject(getLocationAction: GetLocationAction)
 
     fun inject(contactActivity: ContactActivity)
-
-    fun inject(variableEditText: VariableEditText)
 
     fun inject(copyToClipboardAction: CopyToClipboardAction)
 

@@ -19,7 +19,6 @@ import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.openURL
-import ch.rmy.android.framework.extensions.setSubtitle
 import ch.rmy.android.framework.extensions.setTintCompat
 import ch.rmy.android.framework.extensions.showIfPossible
 import ch.rmy.android.framework.extensions.showSnackbar
@@ -153,10 +152,6 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected fun setTitle(title: Localizable?) {
         setTitle(title?.localize(context))
-    }
-
-    protected fun setSubtitle(subtitle: Localizable?) {
-        toolbar?.setSubtitle(subtitle)
     }
 
     protected fun setDialogState(dialogState: DialogState?, viewModel: WithDialog) {

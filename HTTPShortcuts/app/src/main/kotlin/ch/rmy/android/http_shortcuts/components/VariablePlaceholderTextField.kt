@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -36,6 +37,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
@@ -152,6 +154,7 @@ fun VariablePlaceholderTextField(
     textStyle: TextStyle = LocalTextStyle.current,
     supportingText: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
+    maxLength: Int = Int.MAX_VALUE,
     maxLines: Int = Int.MAX_VALUE,
     minLines: Int = 1,
     singleLine: Boolean = false,
@@ -201,6 +204,7 @@ fun VariablePlaceholderTextField(
                     }
                     ""
                 }
+                .take(maxLength)
             val textChanged = newText != textFieldValue.text
             textFieldValue = newValue.copy(text = newText, selection = selection)
             if (textChanged) {
@@ -231,11 +235,17 @@ fun VariablePlaceholderTextField(
     )
 
     if (dialogVisible) {
+        val context = LocalContext.current
         VariablePickerDialog(
             title = stringResource(R.string.dialog_title_variable_selection),
             variables = placeholders,
             onVariableSelected = {
-                textFieldValue = textFieldValue.insertAtCursor("{{$it}}", "")
+                val newTextFieldValue = textFieldValue.insertAtCursor("{{$it}}", "")
+                if (newTextFieldValue.text.length > maxLength) {
+                    context.showToast(context.getString(R.string.error_text_too_long_for_variable, maxLength), long = true)
+                    return@VariablePickerDialog
+                }
+                textFieldValue = newTextFieldValue
                 onValueChange(textFieldValue.text)
                 dialogVisible = false
                 focusRequester.requestFocus()

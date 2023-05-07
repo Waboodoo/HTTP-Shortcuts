@@ -13,6 +13,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -29,6 +30,7 @@ import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.ShortcutIcon
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.components.VariablePlaceholderText
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -110,10 +112,11 @@ fun ScreenScope.ShortcutEditorContent(
         Divider(modifier = Modifier.padding(bottom = Spacing.SMALL))
 
         if (shortcutExecutionType.usesUrl) {
-            SettingsButton(
-                title = stringResource(R.string.section_basic_request),
-                subtitle = basicSettingsSubtitle,
-                onClick = onBasicRequestButtonClicked,
+            ListItem(
+                headlineContent = { Text(stringResource(R.string.section_basic_request)) },
+                supportingContent = { VariablePlaceholderText(basicSettingsSubtitle) },
+                modifier = Modifier
+                    .clickable(onClick = onBasicRequestButtonClicked)
             )
         }
 

@@ -23,8 +23,9 @@ fun ConstantTypeEditor(
             Text(stringResource(R.string.placeholder_value))
         },
         value = viewState.value,
+        maxLength = 30_000,
         onValueChange = {
-            onViewStateChanged(viewState.copy(value = it.take(30_000)))
+            onViewStateChanged(viewState.copy(value = it))
         },
         maxLines = 12,
     )

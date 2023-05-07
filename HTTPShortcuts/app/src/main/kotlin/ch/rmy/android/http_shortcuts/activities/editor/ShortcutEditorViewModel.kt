@@ -47,7 +47,6 @@ import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableHttpUrl
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableUrl
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
-import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
 import kotlinx.coroutines.CancellationException
@@ -200,25 +199,23 @@ class ShortcutEditorViewModel(
         }
 
     private fun getBasicSettingsSubtitle(): Localizable =
-        enhancedWithVariables(
-            if (shortcut.type == ShortcutExecutionType.BROWSER) {
-                if (!hasUrl()) {
-                    StringResLocalizable(R.string.subtitle_basic_request_settings_url_only_prompt)
-                } else {
-                    shortcut.url.toLocalizable()
-                }
+        if (shortcut.type == ShortcutExecutionType.BROWSER) {
+            if (!hasUrl()) {
+                StringResLocalizable(R.string.subtitle_basic_request_settings_url_only_prompt)
             } else {
-                if (!hasUrl()) {
-                    StringResLocalizable(R.string.subtitle_basic_request_settings_prompt)
-                } else {
-                    StringResLocalizable(
-                        R.string.subtitle_basic_request_settings_pattern,
-                        shortcut.method,
-                        shortcut.url,
-                    )
-                }
+                shortcut.url.toLocalizable()
             }
-        )
+        } else {
+            if (!hasUrl()) {
+                StringResLocalizable(R.string.subtitle_basic_request_settings_prompt)
+            } else {
+                StringResLocalizable(
+                    R.string.subtitle_basic_request_settings_pattern,
+                    shortcut.method,
+                    shortcut.url,
+                )
+            }
+        }
 
     private fun hasUrl() =
         shortcut.url.let { it.isNotEmpty() && it != "http://" && it != "https://" }
@@ -295,15 +292,6 @@ class ShortcutEditorViewModel(
             QuantityStringLocalizable(R.plurals.label_trigger_shortcuts_subtitle, count)
         }
     }
-
-    private fun enhancedWithVariables(localizable: Localizable): Localizable =
-        Localizable.create { context ->
-            Variables.rawPlaceholdersToVariableSpans(
-                localizable.localize(context),
-                variablePlaceholderProvider,
-                variablePlaceholderColor,
-            )
-        }
 
     fun onShortcutIconChanged(icon: ShortcutIcon) {
         if (isSaving || isFinishing) {
