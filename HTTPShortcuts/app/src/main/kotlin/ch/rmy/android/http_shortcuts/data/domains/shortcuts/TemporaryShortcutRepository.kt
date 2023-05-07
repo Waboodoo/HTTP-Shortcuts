@@ -186,28 +186,11 @@ constructor(
         }
     }
 
-    suspend fun addStringParameter(key: String, value: String): Parameter {
+    suspend fun addParameter(type: ParameterType, key: String, value: String, fileName: String): Parameter {
         val parameter = Parameter(
-            parameterType = ParameterType.STRING,
+            parameterType = type,
             key = key.trim(),
             value = value,
-        )
-        commitTransactionForShortcut { shortcut ->
-            shortcut.parameters.add(
-                copy(parameter)
-            )
-        }
-        return parameter
-    }
-
-    suspend fun addFileParameter(key: String, fileName: String, multiple: Boolean, image: Boolean): Parameter {
-        val parameter = Parameter(
-            parameterType = when {
-                image -> ParameterType.IMAGE
-                multiple -> ParameterType.FILES
-                else -> ParameterType.FILE
-            },
-            key = key.trim(),
             fileName = fileName,
         )
         commitTransactionForShortcut { shortcut ->

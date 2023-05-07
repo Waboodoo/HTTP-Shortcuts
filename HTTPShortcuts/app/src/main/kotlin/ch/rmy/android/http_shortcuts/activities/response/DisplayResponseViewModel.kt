@@ -57,7 +57,7 @@ class DisplayResponseViewModel(application: Application) : BaseViewModel<Display
                     ?: try {
                         data.fileUri?.readIntoString(context, CONTENT_SIZE_LIMIT, data.charset)
                             ?.runIf(initData.mimeType == FileTypeUtil.TYPE_JSON) {
-                                GsonUtil.prettyPrint(this)
+                                GsonUtil.tryPrettyPrint(this)
                             }
                             ?: ""
                     } catch (e: SizeLimitedReader.LimitReachedException) {

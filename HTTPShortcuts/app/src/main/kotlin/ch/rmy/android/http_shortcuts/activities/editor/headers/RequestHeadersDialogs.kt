@@ -5,26 +5,22 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.window.PopupProperties
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.components.SuggestionDropdown
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
 
 @Composable
@@ -84,25 +80,12 @@ private fun EditHeaderDialog(
             Column(
                 verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
             ) {
-                var suggestions by remember {
-                    mutableStateOf(emptyList<String>())
-                }
-                var hasFocus by remember {
-                    mutableStateOf(false)
-                }
-                LaunchedEffect(key, hasFocus) {
-                    if (hasFocus && key.length >= 2) {
-                        suggestions = SUGGESTED_KEYS.filter {
-                            it.startsWith(key, ignoreCase = true) && !it.equals(key, ignoreCase = true)
-                        }
-                    } else if (suggestions.isNotEmpty()) {
-                        suggestions = emptyList()
-                    }
-                }
-
                 Box(
                     modifier = Modifier.fillMaxWidth()
                 ) {
+                    var hasFocus by remember {
+                        mutableStateOf(false)
+                    }
                     VariablePlaceholderTextField(
                         modifier = Modifier
                             .onFocusChanged {
@@ -129,28 +112,14 @@ private fun EditHeaderDialog(
                         },
                     )
 
-                    DropdownMenu(
-                        expanded = suggestions.isNotEmpty(),
-                        onDismissRequest = { suggestions = emptyList() },
-                        properties = PopupProperties(focusable = false),
-                    ) {
-                        suggestions.forEach { suggestion ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    key = suggestion
-                                    suggestions = emptyList()
-                                },
-                                text = {
-                                    Text(
-                                        text = suggestion,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .align(Alignment.Start)
-                                    )
-                                },
-                            )
+                    SuggestionDropdown(
+                        prompt = key,
+                        isActive = hasFocus,
+                        options = SUGGESTED_KEYS,
+                        onSuggestionSelected = {
+                            key = it
                         }
-                    }
+                    )
                 }
 
                 VariablePlaceholderTextField(

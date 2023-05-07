@@ -1434,4 +1434,8 @@
     <string name="label_require_specific_wifi_ssid">Require specific Wi-Fi</string>
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
     <string name="option_no_proxy">No proxy</string>
+    <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
+    <string name="button_format_json">Format</string>
+    <!-- Error, shown in snackbar, when the user tries to format a custom request body, but it is invalid JSON syntax -->
+    <string name="error_cannot_format_invalid_json">Invalid JSON syntax</string>
 </resources>

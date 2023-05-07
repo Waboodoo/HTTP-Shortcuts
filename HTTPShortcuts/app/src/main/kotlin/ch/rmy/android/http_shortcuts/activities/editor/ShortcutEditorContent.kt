@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
@@ -83,9 +85,12 @@ fun ScreenScope.ShortcutEditorContent(
                         shortcutIcon = shortcutIcon,
                         modifier = Modifier
                             .alpha(if (iconLoading) 0.7f else 1f)
-                            .clickable(enabled = !iconLoading) {
-                                onShortcutIconClicked()
-                            },
+                            .clickable(
+                                enabled = !iconLoading,
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = rememberRipple(bounded = false),
+                                onClick = onShortcutIconClicked,
+                            ),
                     )
                     if (iconLoading) {
                         CircularProgressIndicator(

@@ -14,24 +14,36 @@ import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import com.google.gson.reflect.TypeToken
+import com.google.gson.stream.MalformedJsonException
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.types.RealmList
+import java.io.EOFException
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
 object GsonUtil {
 
-    fun prettyPrint(jsonString: String): String =
+    fun tryPrettyPrint(jsonString: String): String =
         try {
-            val json = JsonParser.parseString(jsonString)
-            val gson = GsonBuilder()
-                .setPrettyPrinting()
-                .disableHtmlEscaping()
-                .create()
-            gson.toJson(json)
+            prettyPrintOrThrow(jsonString)
         } catch (e: JsonParseException) {
             jsonString
         }
+
+    fun prettyPrintOrThrow(jsonString: String): String {
+        val json = JsonParser.parseString(jsonString)
+        val gson = GsonBuilder()
+            .setPrettyPrinting()
+            .disableHtmlEscaping()
+            .create()
+        return gson.toJson(json)
+    }
+
+    fun extractErrorMessage(e: JsonParseException): String? =
+        (e.cause as? MalformedJsonException)?.message
+            ?.removePrefix("Use JsonReader.setLenient(true) to accept ")
+            ?.replaceFirstChar { it.uppercaseChar() }
+            ?: (e.cause as? EOFException)?.message
 
     fun importData(data: JsonElement): Base =
         gson

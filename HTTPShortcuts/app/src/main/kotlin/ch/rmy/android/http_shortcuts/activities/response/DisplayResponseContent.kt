@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.response
 
 import android.net.Uri
 import android.text.format.Formatter
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +11,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
@@ -28,8 +26,8 @@ import ch.rmy.android.http_shortcuts.activities.response.models.DetailInfo
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.Image
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.extensions.rememberSyntaxHighlighter
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
-import ch.rmy.android.http_shortcuts.utils.SyntaxHighlighter
 
 @Composable
 fun DisplayResponseContent(
@@ -192,10 +190,8 @@ private fun PlainText(text: String, italic: Boolean = false) {
 
 @Composable
 private fun SyntaxHighlightedText(text: String, language: String) {
-    val useDarkTheme = isSystemInDarkTheme()
-    val syntaxHighlighter = remember(language, useDarkTheme) {
-        SyntaxHighlighter(language, useDarkTheme)
-    }
+    val syntaxHighlighter = rememberSyntaxHighlighter(language)
+
     // TODO: Handle overflow
     Text(
         modifier = Modifier

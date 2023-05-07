@@ -6,7 +6,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
@@ -16,7 +15,7 @@ import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.utils.SyntaxHighlighter
+import ch.rmy.android.http_shortcuts.extensions.rememberSyntaxHighlighter
 
 @Composable
 fun CodeEditorField(
@@ -28,12 +27,8 @@ fun CodeEditorField(
     minLines: Int = 6,
     label: String? = null,
 ) {
-    val useDarkTheme = isSystemInDarkTheme()
-    val syntaxHighlighter = remember(language, useDarkTheme) {
-        SyntaxHighlighter(language, useDarkTheme)
-    }
-
-    val textFieldColors = if (useDarkTheme) {
+    val syntaxHighlighter = rememberSyntaxHighlighter(language)
+    val textFieldColors = if (isSystemInDarkTheme()) {
         val backgroundColor = colorResource(R.color.textarea_background)
         TextFieldDefaults.colors(
             focusedContainerColor = backgroundColor,

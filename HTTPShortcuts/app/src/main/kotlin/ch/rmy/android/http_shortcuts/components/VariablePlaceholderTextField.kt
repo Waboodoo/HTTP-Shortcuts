@@ -23,6 +23,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
@@ -73,7 +74,12 @@ val VARIABLE_PLACEHOLDER_REGEX = RAW_PLACEHOLDER_REGEX.toRegex()
 private val BROKEN_VARIABLE_PLACEHOLDER_REGEX = BROKEN_RAW_PLACEHOLDER_REGEX.toRegex()
 
 @Stable
-private fun transformVariablePlaceholders(text: String, placeholders: List<VariablePlaceholder>, style: SpanStyle): TransformedText {
+private fun transformVariablePlaceholders(
+    text: String,
+    placeholders: List<VariablePlaceholder>,
+    style: SpanStyle,
+    additionalTransformation: AnnotatedString.Builder.(String) -> Unit = {},
+): TransformedText {
     val rangeMappings = mutableListOf<Pair<IntRange, IntRange>>()
     var offsetSum = 0
     val transformedText = VARIABLE_PLACEHOLDER_REGEX.replace(text) { result ->
@@ -89,6 +95,7 @@ private fun transformVariablePlaceholders(text: String, placeholders: List<Varia
     return TransformedText(
         buildAnnotatedString {
             append(transformedText)
+            additionalTransformation(transformedText)
             rangeMappings.forEach { (_, range) ->
                 addStyle(style, range.first, range.last + 1)
             }
@@ -146,7 +153,9 @@ fun VariablePlaceholderTextField(
     supportingText: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
+    minLines: Int = 1,
     singleLine: Boolean = false,
+    transformation: AnnotatedString.Builder.(String) -> Unit = {},
 ) {
     val viewModel = viewModel<VariablePlaceholderViewModel>()
     val placeholders by viewModel.variablePlaceholders.collectAsStateWithLifecycle()
@@ -192,8 +201,11 @@ fun VariablePlaceholderTextField(
                     }
                     ""
                 }
+            val textChanged = newText != textFieldValue.text
             textFieldValue = newValue.copy(text = newText, selection = selection)
-            onValueChange(newText)
+            if (textChanged) {
+                onValueChange(newText)
+            }
         },
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
@@ -201,6 +213,7 @@ fun VariablePlaceholderTextField(
         isError = isError,
         supportingText = supportingText,
         maxLines = maxLines,
+        minLines = minLines,
         singleLine = singleLine,
         placeholder = placeholder,
         trailingIcon = {
@@ -213,7 +226,7 @@ fun VariablePlaceholderTextField(
             }
         },
         visualTransformation = {
-            transformVariablePlaceholders(it.text, placeholders, placeholderStyle)
+            transformVariablePlaceholders(it.text, placeholders, placeholderStyle, transformation)
         },
     )
 

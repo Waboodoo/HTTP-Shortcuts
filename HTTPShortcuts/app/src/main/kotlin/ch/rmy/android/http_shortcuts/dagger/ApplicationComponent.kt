@@ -11,7 +11,6 @@ import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.AdvancedSettingsViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.authentication.AuthenticationViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.BasicRequestSettingsViewModel
-import ch.rmy.android.http_shortcuts.activities.editor.body.RequestBodyActivity
 import ch.rmy.android.http_shortcuts.activities.editor.body.RequestBodyViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.executionsettings.ExecutionSettingsViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.headers.RequestHeadersViewModel
@@ -197,8 +196,6 @@ interface ApplicationComponent {
     fun inject(timeType: TimeType)
 
     fun inject(toggleType: ToggleType)
-
-    fun inject(requestBodyActivity: RequestBodyActivity)
 
     fun inject(widgetProvider: WidgetProvider)
 

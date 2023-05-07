@@ -19,9 +19,6 @@ constructor() {
     var placeholders: List<VariablePlaceholder> = emptyList()
         private set
 
-    val hasVariables
-        get() = placeholders.isNotEmpty()
-
     fun findPlaceholderById(variableId: VariableId): VariablePlaceholder? =
         placeholders
             .firstOrNull { it.variableId == variableId }

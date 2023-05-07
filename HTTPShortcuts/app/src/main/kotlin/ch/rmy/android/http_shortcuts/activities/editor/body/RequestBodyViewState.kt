@@ -1,29 +1,30 @@
 package ch.rmy.android.http_shortcuts.activities.editor.body
 
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import androidx.compose.runtime.Stable
 import ch.rmy.android.http_shortcuts.activities.editor.body.models.ParameterListItem
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
+import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 
+@Stable
 data class RequestBodyViewState(
-    val dialogState: DialogState? = null,
-    val requestBodyType: RequestBodyType = RequestBodyType.CUSTOM_TEXT,
-    val parameters: List<ParameterListItem> = emptyList(),
-    val contentType: String = "",
-    val bodyContent: String = "",
+    val dialogState: RequestBodyDialogState? = null,
+    val requestBodyType: RequestBodyType,
+    val parameters: List<ParameterListItem>,
+    val contentType: String,
+    val bodyContent: String,
+    val bodyContentError: String = "",
 ) {
-    val isDraggingEnabled: Boolean
-        get() = parameters.size > 1
-
-    val parameterListVisible: Boolean
+    val addParameterButtonVisible: Boolean
         get() = requestBodyType == RequestBodyType.FORM_DATA ||
             requestBodyType == RequestBodyType.X_WWW_FORM_URLENCODE
 
-    val addParameterButtonVisible: Boolean
-        get() = parameterListVisible
-
-    val contentTypeVisible: Boolean
-        get() = requestBodyType == RequestBodyType.CUSTOM_TEXT
-
-    val bodyContentVisible: Boolean
-        get() = contentTypeVisible
+    val syntaxHighlightingLanguage: String?
+        get() = when (contentType) {
+            FileTypeUtil.TYPE_JSON -> "json"
+            FileTypeUtil.TYPE_XML,
+            FileTypeUtil.TYPE_XML_ALT,
+            -> "xml"
+            FileTypeUtil.TYPE_HTML -> "html"
+            else -> null
+        }
 }

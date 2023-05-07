@@ -24,10 +24,16 @@ class SyntaxHighlighter(
     fun format(text: String): AnnotatedString =
         buildAnnotatedString {
             append(text)
+            applyFormatting(this, text)
+        }
+
+    fun applyFormatting(builder: AnnotatedString.Builder, text: String) {
+        with(builder) {
             parser.parse(language, text).forEach {
                 addStyle(theme.toSpanStyle(it), it.offset, it.offset + it.length)
             }
         }
+    }
 
     private object DarkTheme : CodeTheme() {
         override val colors = SyntaxColors(
