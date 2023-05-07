@@ -41,6 +41,7 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
@@ -55,8 +56,10 @@ import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.SecondaryLauncherManager
+import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.mindrot.jbcrypt.BCrypt
 import javax.inject.Inject
@@ -129,8 +132,19 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     @Inject
     lateinit var getAppOverlayDialog: GetAppOverlayDialogUseCase
 
+    @Inject
+    lateinit var variableRepository: VariableRepository
+
+    @Inject
+    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+
     init {
         getApplicationComponent().inject(this)
+
+        viewModelScope.launch(Dispatchers.Default) {
+            // Ensure that the VariablePlaceholderProvider is initialized
+            variablePlaceholderProvider.applyVariables(variableRepository.getVariables())
+        }
     }
 
     private lateinit var categories: List<Category>
