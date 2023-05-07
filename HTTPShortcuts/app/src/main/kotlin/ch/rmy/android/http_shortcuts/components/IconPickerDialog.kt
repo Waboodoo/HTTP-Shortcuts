@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.components
 import android.content.Context
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Divider
@@ -233,7 +235,11 @@ private fun IconItem(
         icon,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onIconClicked),
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = rememberRipple(bounded = false),
+                onClick = onIconClicked,
+            ),
     )
 }
 
