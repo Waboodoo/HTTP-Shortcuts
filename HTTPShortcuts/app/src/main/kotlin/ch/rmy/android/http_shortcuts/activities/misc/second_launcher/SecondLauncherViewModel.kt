@@ -9,7 +9,6 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.WithDialog
 import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.activities.misc.share.ShareViewState
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
@@ -20,7 +19,7 @@ import com.afollestad.materialdialogs.callbacks.onCancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SecondLauncherViewModel(application: Application) : BaseViewModel<Unit, ShareViewState>(application), WithDialog {
+class SecondLauncherViewModel(application: Application) : BaseViewModel<Unit, SecondLauncherViewState>(application), WithDialog {
 
     @Inject
     lateinit var shortcutRepository: ShortcutRepository
@@ -39,7 +38,7 @@ class SecondLauncherViewModel(application: Application) : BaseViewModel<Unit, Sh
             }
         }
 
-    override fun initViewState() = ShareViewState()
+    override fun initViewState() = SecondLauncherViewState()
 
     override fun onInitializationStarted(data: Unit) {
         viewModelScope.launch {

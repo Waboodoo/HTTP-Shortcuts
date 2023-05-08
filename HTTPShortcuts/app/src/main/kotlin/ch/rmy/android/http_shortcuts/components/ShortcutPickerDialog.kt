@@ -12,11 +12,11 @@ import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 
 @Composable
 fun ShortcutPickerDialog(
-    title: String,
+    title: String? = null,
     shortcuts: List<ShortcutPlaceholder>,
     includeCurrentShortcutOption: Boolean = false,
     onShortcutSelected: (ShortcutId) -> Unit,
-    onCurrentShortcutSelected: () -> Unit,
+    onCurrentShortcutSelected: () -> Unit = {},
     onDismissRequested: () -> Unit,
 ) {
     SelectDialog(

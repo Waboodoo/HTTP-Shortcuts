@@ -3,19 +3,13 @@ package ch.rmy.android.http_shortcuts.activities.misc.share
 import android.app.Application
 import android.content.Context
 import android.net.Uri
-import androidx.annotation.StringRes
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
-import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.WithDialog
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
-import ch.rmy.android.framework.viewmodel.viewstate.ProgressDialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
@@ -28,18 +22,19 @@ import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.extensions.createDialogState
+import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.variables.VariableLookup
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
-import com.afollestad.materialdialogs.callbacks.onCancel
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.InitData, ShareViewState>(application), WithDialog {
+class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.InitData, ShareViewState>(application) {
 
     @Inject
     lateinit var shortcutRepository: ShortcutRepository
@@ -60,15 +55,10 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
         get() = initData.title ?: ""
     private lateinit var fileUris: List<Uri>
 
-    private var currentJob: Job? = null
+    private lateinit var shortcutsForFileSharing: List<Shortcut>
+    private var variableValues: Map<VariableKey, String> = emptyMap()
 
-    override var dialogState: DialogState?
-        get() = currentViewState?.dialogState
-        set(value) {
-            updateViewState {
-                copy(dialogState = value)
-            }
-        }
+    private var currentJob: Job? = null
 
     override fun initViewState() = ShareViewState()
 
@@ -89,9 +79,11 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
 
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
-            showProgressDialog(R.string.generic_processing_in_progress)
+            updateDialogState(ShareDialogState.Progress)
             try {
-                fileUris = cacheSharedFiles(context, initData.fileUris)
+                fileUris = withContext(Dispatchers.IO) {
+                    cacheSharedFiles(context, initData.fileUris)
+                }
                 startShareFlow()
             } catch (e: CancellationException) {
                 throw e
@@ -99,8 +91,6 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
                 showToast(R.string.error_generic)
                 logException(e)
                 finish(skipAnimation = true)
-            } finally {
-                hideProgressDialog()
             }
         }
     }
@@ -119,7 +109,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
         val variableIds = variables.map { it.id }.toSet()
         val shortcuts = getTargetableShortcutsForTextSharing(variableIds, variableLookup)
 
-        val variableValues = variables.associate { variable ->
+        variableValues = variables.associate { variable ->
             variable.key to when {
                 variable.isShareText && variable.isShareTitle -> "$title - $text"
                 variable.isShareTitle -> title
@@ -127,13 +117,9 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
             }
         }
         when (shortcuts.size) {
-            0 -> showInstructions(R.string.error_not_suitable_shortcuts)
-            1 -> {
-                executeShortcut(shortcuts[0].id, variableValues = variableValues)
-            }
-            else -> {
-                showShortcutSelection(shortcuts, variableValues = variableValues)
-            }
+            0 -> updateDialogState(ShareDialogState.Instructions)
+            1 -> executeShortcut(shortcuts[0].id, variableValues = variableValues)
+            else -> showShortcutSelection(shortcuts)
         }
     }
 
@@ -159,14 +145,10 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
             ?.let(context.contentResolver::getType)
             ?.takeUnless { it == "application/octet-stream" }
             ?.let(FileTypeUtil::isImage)
-        val shortcutsForFileSharing = getTargetableShortcutsForFileSharing(isImage)
+        shortcutsForFileSharing = getTargetableShortcutsForFileSharing(isImage)
         when (shortcutsForFileSharing.size) {
-            0 -> {
-                showInstructions(R.string.error_not_suitable_shortcuts)
-            }
-            1 -> {
-                executeShortcut(shortcutsForFileSharing[0].id)
-            }
+            0 -> updateDialogState(ShareDialogState.Instructions)
+            1 -> executeShortcut(shortcutsForFileSharing[0].id)
             else -> showShortcutSelection(shortcutsForFileSharing)
         }
     }
@@ -181,54 +163,27 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
         finish(skipAnimation = true)
     }
 
-    private fun showInstructions(@StringRes text: Int) {
-        dialogState = createDialogState {
-            message(text)
-                .positive(R.string.dialog_ok) {
-                    onInstructionsCanceled()
-                }
-                .build()
-                .onCancel {
-                    onInstructionsCanceled()
-                }
-        }
+    private fun showShortcutSelection(shortcuts: List<Shortcut>) {
+        updateDialogState(
+            ShareDialogState.PickShortcut(
+                shortcuts.map { it.toShortcutPlaceholder() },
+            )
+        )
     }
 
-    private fun onInstructionsCanceled() {
-        finish(skipAnimation = true)
+    fun onShortcutSelected(shortcutId: ShortcutId) {
+        executeShortcut(shortcutId, variableValues)
     }
 
-    private fun showShortcutSelection(shortcuts: List<Shortcut>, variableValues: Map<VariableKey, String> = emptyMap()) {
-        dialogState = createDialogState {
-            runFor(shortcuts) { shortcut ->
-                item(name = shortcut.name, shortcutIcon = shortcut.icon) {
-                    executeShortcut(shortcut.id, variableValues)
-                }
-            }
-                .build()
-                .onCancel {
-                    onShortcutSelectionCanceled()
-                }
-        }
-    }
-
-    private fun onShortcutSelectionCanceled() {
-        finish(skipAnimation = true)
-    }
-
-    private fun showProgressDialog(message: Int) {
-        dialogState = ProgressDialogState(StringResLocalizable(message), ::onProgressDialogCanceled)
-    }
-
-    private fun hideProgressDialog() {
-        if (dialogState?.id == ProgressDialogState.DIALOG_ID) {
-            dialogState = null
-        }
-    }
-
-    private fun onProgressDialogCanceled() {
+    fun onDialogDismissed() {
         currentJob?.cancel()
         finish(skipAnimation = true)
+    }
+
+    private fun updateDialogState(dialogState: ShareDialogState? = null) {
+        updateViewState {
+            copy(dialogState = dialogState)
+        }
     }
 
     data class InitData(
