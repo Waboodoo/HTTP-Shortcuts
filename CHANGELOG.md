@@ -1,3 +1,7 @@
+## Version 3.0.0
+
+WIP
+
 ## Version 2.31.0
 
 ### Improvements
