@@ -383,9 +383,6 @@
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"Liste"</string>
 
-    <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
-    <string name="category_background_type_wallpaper">"Fond d'écran"</string>
-
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">"Entrez le nom de la catégorie …"</string>
 
@@ -582,9 +579,6 @@ Cependant, vous n'avez pas encore configuré de variables."</string>
 
     <!-- Title on Share dialog -->
     <string name="share_title">"Partager"</string>
-
-    <!-- Section title, for section in variable editor containing options specific to the variable type -->
-    <string name="section_input_options">"Options d'entrée"</string>
 
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">"Mémoriser la valeur"</string>
@@ -1441,9 +1435,6 @@ Vous pouvez activer cette fonctionnalité en modifiant un raccourci et en cochan
 
     <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
     <string name="title_import_export">"Importer / Exporter"</string>
-
-    <!-- Section title on settings screen for options related to Scripting (i.e., custom workflow code in JavaScript) -->
-    <string name="settings_title_scripting">"Scripting"</string>
 
     <!-- Button in settings page to start import of shortcuts from a file -->
     <string name="settings_import_from_file">"Importer à partir d'un Fichier"</string>

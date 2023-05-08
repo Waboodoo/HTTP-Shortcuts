@@ -380,9 +380,6 @@
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"列表"</string>
 
-    <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
-    <string name="category_background_type_wallpaper">"墙纸"</string>
-
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">"输入分类名称…"</string>
 
@@ -573,9 +570,6 @@
 
     <!-- Title on Share dialog -->
     <string name="share_title">"分享…"</string>
-
-    <!-- Section title, for section in variable editor containing options specific to the variable type -->
-    <string name="section_input_options">"输入选项"</string>
 
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">"保存值"</string>
@@ -1428,9 +1422,6 @@
     <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
     <string name="title_import_export">"导入/导出"</string>
 
-    <!-- Section title on settings screen for options related to Scripting (i.e., custom workflow code in JavaScript) -->
-    <string name="settings_title_scripting">"脚本编写"</string>
-
     <!-- Button in settings page to start import of shortcuts from a file -->
     <string name="settings_import_from_file">"从文件导入"</string>
 
@@ -2129,4 +2120,58 @@
 
     <!-- Title on dialog that lets the user choose an icon for a category -->
     <string name="title_category_select_icon">"选择类别图标"</string>
+
+    <!-- Title of event history entry, which states that a shortcut was cancelled. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_shortcut_cancelled">"\“%s\” 被取消"</string>
+
+    <!-- Section title on settings screen for options shared by all shortcuts -->
+    <string name="settings_title_global_shortcut_settings">"全局快捷方式设置"</string>
+
+    <!-- Button in settings page to open editor for configuring certificate pinning -->
+    <string name="settings_certificate_pinning">"证书固定"</string>
+
+    <!-- Title of editor for configuring certificate pinning -->
+    <string name="title_certificate_pinning">"证书固定"</string>
+
+    <!-- Empty state instructions for certificate pinning screen -->
+    <string name="empty_state_certificate_pinning_instructions">"如果你需要额外确认你的 HTTP 请求经由安全连接进行发送，你可以为特定主机开启证书固定，方法是在此处添加这些主机的 SHA-1 或 SHA-256 指纹。"</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
+    <string name="message_certificate_pinning_deleted">"删除了证书指纹。"</string>
+
+    <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
+    <string name="confirm_delete_certificate_pinning_message">"删除这个指纹吗？"</string>
+
+    <!-- Label for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="label_certificate_pinning_hostname_pattern">"主机名模式"</string>
+
+    <!-- Hint text for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="hint_certificate_pinning_hostname_pattern">"如，*.example.com"</string>
+
+    <!-- Label for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
+    <string name="label_certificate_pinning_fingerprint">"证书指纹"</string>
+
+    <!-- Hint text for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
+    <string name="hint_certificate_pinning_fingerprint">"输入你的服务器证书的16进制编码的 SHA-1 或 SHA-256 指纹"</string>
+
+    <!-- Placeholder text shown when a toggle or multi-select variable option is just an empty string -->
+    <string name="empty_option_placeholder">"- 空 -"</string>
+
+    <!-- Empty state shown on the custom icons screen when the user has no icons set up -->
+    <string name="empty_state_custom_icons">"你没有任何的定制图标。"</string>
+
+    <!-- checkbox subtitle in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
+    <string name="subtitle_accept_all_certificates">"如果你知道你在做什么..."</string>
+
+    <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
+    <string name="label_require_specific_wifi_ssid">"需要特定的 Wi-Fi 网络"</string>
+
+    <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
+    <string name="option_no_proxy">"无代理"</string>
+
+    <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
+    <string name="button_format_json">"格式"</string>
+
+    <!-- Error, shown in snackbar, when the user tries to format a custom request body, but it is invalid JSON syntax -->
+    <string name="error_cannot_format_invalid_json">"无效的 JSON 语法"</string>
 </resources>

@@ -384,9 +384,6 @@ Drücke den + Knopf um eine Variable zu erstellen."</string>
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"Liste"</string>
 
-    <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
-    <string name="category_background_type_wallpaper">"Hintergrundbild"</string>
-
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">"Kategorienamen eingeben…"</string>
 
@@ -578,9 +575,6 @@ Du hast jedoch noch keine Variablen konfiguriert."</string>
 
     <!-- Title on Share dialog -->
     <string name="share_title">"Teilen…"</string>
-
-    <!-- Section title, for section in variable editor containing options specific to the variable type -->
-    <string name="section_input_options">"Eingabeoptionen"</string>
 
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">"Wert merken"</string>
@@ -1425,9 +1419,6 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
     <string name="title_import_export">"Import / Export"</string>
 
-    <!-- Section title on settings screen for options related to Scripting (i.e., custom workflow code in JavaScript) -->
-    <string name="settings_title_scripting">"Scripting"</string>
-
     <!-- Button in settings page to start import of shortcuts from a file -->
     <string name="settings_import_from_file">"Aus Datei importieren"</string>
 
@@ -2126,4 +2117,58 @@ Zusätzlich musst du eventuell auch noch die App von Akku-Optimierungen ausschli
 
     <!-- Title on dialog that lets the user choose an icon for a category -->
     <string name="title_category_select_icon">"Symbol für Kategorie wählen"</string>
+
+    <!-- Title of event history entry, which states that a shortcut was cancelled. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_shortcut_cancelled">"\“%s\” abgebrochen"</string>
+
+    <!-- Section title on settings screen for options shared by all shortcuts -->
+    <string name="settings_title_global_shortcut_settings">"Globale Shortcut-Einstellungen"</string>
+
+    <!-- Button in settings page to open editor for configuring certificate pinning -->
+    <string name="settings_certificate_pinning">"Zertifikat-Pinnen"</string>
+
+    <!-- Title of editor for configuring certificate pinning -->
+    <string name="title_certificate_pinning">"Zertifikat-Pinnen"</string>
+
+    <!-- Empty state instructions for certificate pinning screen -->
+    <string name="empty_state_certificate_pinning_instructions">"Für zusätzliche Sicherheit deiner HTTP-Requests kannst du hier Zertifikate pinnen, indem du ihren SHA-1 oder SHA-256 Fingerabdruck eingibst."</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
+    <string name="message_certificate_pinning_deleted">"Zertifikat-Fingerabdruck gelöscht"</string>
+
+    <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
+    <string name="confirm_delete_certificate_pinning_message">"Diesen Fingerabdruck löschen?"</string>
+
+    <!-- Label for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="label_certificate_pinning_hostname_pattern">"Hostnamen-Muster"</string>
+
+    <!-- Hint text for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="hint_certificate_pinning_hostname_pattern">"Z.B. *.example.com"</string>
+
+    <!-- Label for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
+    <string name="label_certificate_pinning_fingerprint">"Zertifikat-Fingerabdruck"</string>
+
+    <!-- Hint text for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
+    <string name="hint_certificate_pinning_fingerprint">"Geb den hex-codierten SHA-1 oder SHA-256 Fingerabdruck deines Server-Zertifikats ein"</string>
+
+    <!-- Placeholder text shown when a toggle or multi-select variable option is just an empty string -->
+    <string name="empty_option_placeholder">"- leer -"</string>
+
+    <!-- Empty state shown on the custom icons screen when the user has no icons set up -->
+    <string name="empty_state_custom_icons">"Keine Symbole vorhanden"</string>
+
+    <!-- checkbox subtitle in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
+    <string name="subtitle_accept_all_certificates">"Ich hoffe du weißt was du tust…"</string>
+
+    <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
+    <string name="label_require_specific_wifi_ssid">"Nur auf bestimmtem WLAN ausführen"</string>
+
+    <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
+    <string name="option_no_proxy">"Keine Proxy"</string>
+
+    <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
+    <string name="button_format_json">"Formatieren"</string>
+
+    <!-- Error, shown in snackbar, when the user tries to format a custom request body, but it is invalid JSON syntax -->
+    <string name="error_cannot_format_invalid_json">"Ungültige JSON-Syntax"</string>
 </resources>

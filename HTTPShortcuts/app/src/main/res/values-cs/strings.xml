@@ -354,9 +354,6 @@ Klepnutím na tlačítko + přidáte proměnnou."</string>
     <!-- One of two options when picking the layout for a category: Show shortcuts in a list -->
     <string name="layout_type_linear_list">"Seznam"</string>
 
-    <!-- Option to choose from when selecting the background of a category: Use phone's wallpaper -->
-    <string name="category_background_type_wallpaper">"Tapety"</string>
-
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">"Zadejte název kategorie..."</string>
 
@@ -542,9 +539,6 @@ Zatím však nemáte žádné proměnné nakonfigurovány."</string>
 
     <!-- Title on Share dialog -->
     <string name="share_title">"Sdílet..."</string>
-
-    <!-- Section title, for section in variable editor containing options specific to the variable type -->
-    <string name="section_input_options">"Možnosti vstupu"</string>
 
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">"Pamatujte si hodnotu"</string>
@@ -1367,9 +1361,6 @@ Tuto funkci můžete povolit úpravou zástupce a zaškrtnutím políčka \"%1$s
 
     <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
     <string name="title_import_export">"Import / export"</string>
-
-    <!-- Section title on settings screen for options related to Scripting (i.e., custom workflow code in JavaScript) -->
-    <string name="settings_title_scripting">"Skriptování"</string>
 
     <!-- Button in settings page to start import of shortcuts from a file -->
     <string name="settings_import_from_file">"Import ze souboru"</string>
