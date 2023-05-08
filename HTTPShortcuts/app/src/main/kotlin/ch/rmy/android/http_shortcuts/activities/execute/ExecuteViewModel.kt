@@ -4,8 +4,6 @@ import android.app.Application
 import android.os.SystemClock
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.WithDialog
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
@@ -16,7 +14,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 class ExecuteViewModel(
     application: Application,
-) : BaseViewModel<ExecutionParams, ExecuteViewState>(application), WithDialog {
+) : BaseViewModel<ExecutionParams, Unit>(application) {
 
     @Inject
     lateinit var executionFactory: ExecutionFactory
@@ -30,15 +28,7 @@ class ExecuteViewModel(
 
     private lateinit var execution: Execution
 
-    override var dialogState: DialogState?
-        get() = currentViewState?.dialogState
-        set(value) {
-            updateViewState {
-                copy(dialogState = value)
-            }
-        }
-
-    override fun initViewState() = ExecuteViewState()
+    override fun initViewState() = Unit
 
     override fun onInitializationStarted(data: ExecutionParams) {
         if (isRepetition()) {

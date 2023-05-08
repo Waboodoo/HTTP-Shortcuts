@@ -29,7 +29,6 @@ import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionSchedulerWorker
 import ch.rmy.android.http_shortcuts.utils.CacheFilesCleanupWorker
 import ch.rmy.android.http_shortcuts.utils.ProgressIndicator
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -124,11 +123,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     }
 
     private fun initViewModelBindings() {
-        lifecycleScope.launch {
-            viewModel.viewState.collectLatest { viewState ->
-                setDialogState(viewState.dialogState, viewModel)
-            }
-        }
         lifecycleScope.launch {
             viewModel.events.collect(::handleEvent)
         }

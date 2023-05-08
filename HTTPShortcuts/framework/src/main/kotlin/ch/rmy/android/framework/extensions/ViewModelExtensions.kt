@@ -56,7 +56,3 @@ private class LazyWithTarget<in T, out V : Any>(private val initializer: (T, KPr
 
 val AndroidViewModel.context: Context
     get() = getApplication<Application>().applicationContext
-
-fun BaseViewModel<Unit, *>.initialize() {
-    initialize(Unit)
-}

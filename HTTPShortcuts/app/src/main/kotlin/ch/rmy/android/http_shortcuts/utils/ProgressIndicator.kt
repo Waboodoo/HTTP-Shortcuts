@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 
+@Deprecated("Use Compose instead")
 class ProgressIndicator(private val activity: BaseActivity) {
 
     private var layoutLoaded = false
