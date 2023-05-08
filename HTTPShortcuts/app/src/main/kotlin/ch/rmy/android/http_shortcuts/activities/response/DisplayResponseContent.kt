@@ -2,15 +2,22 @@ package ch.rmy.android.http_shortcuts.activities.response
 
 import android.net.Uri
 import android.text.format.Formatter
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
@@ -27,6 +34,7 @@ import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.Image
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.rememberSyntaxHighlighter
+import ch.rmy.android.http_shortcuts.extensions.runIf
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 
 @Composable
@@ -179,27 +187,41 @@ private fun ResponseDisplay(
 
 @Composable
 private fun PlainText(text: String, italic: Boolean = false) {
-    Text(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(Spacing.MEDIUM),
-        text = text,
-        fontStyle = if (italic) FontStyle.Italic else FontStyle.Normal,
-    )
+    SelectionContainer {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(Spacing.MEDIUM),
+            text = text,
+            fontStyle = if (italic) FontStyle.Italic else FontStyle.Normal,
+        )
+    }
 }
 
 @Composable
 private fun SyntaxHighlightedText(text: String, language: String) {
+    var wrapLines by rememberSaveable(key = "wrap-lines") {
+        mutableStateOf(true)
+    }
+    val scrollState = rememberScrollState()
+
     val syntaxHighlighter = rememberSyntaxHighlighter(language)
 
-    // TODO: Handle overflow
-    Text(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(Spacing.MEDIUM),
-        text = syntaxHighlighter.format(text),
-        style = TextStyle(
-            fontFamily = FontFamily.Monospace,
-        ),
-    )
+    SelectionContainer {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .runIf(!wrapLines) {
+                    horizontalScroll(scrollState)
+                }
+                .clickable {
+                    wrapLines = !wrapLines
+                }
+                .padding(Spacing.MEDIUM),
+            text = syntaxHighlighter.format(text),
+            style = TextStyle(
+                fontFamily = FontFamily.Monospace,
+            ),
+        )
+    }
 }
