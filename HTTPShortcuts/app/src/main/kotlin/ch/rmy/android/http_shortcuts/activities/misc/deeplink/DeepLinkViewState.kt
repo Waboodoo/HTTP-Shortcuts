@@ -1,7 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.misc.deeplink
 
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import androidx.compose.runtime.Stable
 
+@Stable
 data class DeepLinkViewState(
-    val dialogState: DialogState? = null,
+    val dialogState: DeepLinkDialogState? = null,
 )
