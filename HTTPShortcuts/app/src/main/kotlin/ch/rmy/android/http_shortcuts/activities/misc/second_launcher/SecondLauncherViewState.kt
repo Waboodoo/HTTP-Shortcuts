@@ -1,7 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.misc.second_launcher
 
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
+import androidx.compose.runtime.Stable
 
+@Stable
 data class SecondLauncherViewState(
-    val dialogState: DialogState? = null,
+    val dialogState: SecondLauncherDialogState? = null,
 )
