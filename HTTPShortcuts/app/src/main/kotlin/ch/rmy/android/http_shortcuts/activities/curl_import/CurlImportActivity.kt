@@ -7,13 +7,12 @@ import ch.rmy.android.framework.extensions.getSerializable
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.curlcommand.CurlCommand
 
 class CurlImportActivity : BaseComposeActivity() {
 
     @Composable
-    override fun ScreenScope.Content() {
+    override fun Content() {
         CurlImportScreen()
     }
 

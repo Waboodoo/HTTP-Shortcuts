@@ -8,7 +8,6 @@ import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings.getTypeName
 import ch.rmy.android.http_shortcuts.components.BackButton
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
@@ -16,7 +15,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 
 @Composable
-fun ScreenScope.VariableEditorScreen(
+fun VariableEditorScreen(
     variableId: VariableId?,
     variableType: VariableType,
 ) {

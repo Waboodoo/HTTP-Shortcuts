@@ -6,13 +6,12 @@ import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 class IconPickerActivity : BaseComposeActivity() {
 
     @Composable
-    override fun ScreenScope.Content() {
+    override fun Content() {
         IconPickerScreen()
     }
 

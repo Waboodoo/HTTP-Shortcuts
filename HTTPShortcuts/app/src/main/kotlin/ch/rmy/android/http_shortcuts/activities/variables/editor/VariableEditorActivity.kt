@@ -3,14 +3,13 @@ package ch.rmy.android.http_shortcuts.activities.variables.editor
 import androidx.compose.runtime.Composable
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 
 class VariableEditorActivity : BaseComposeActivity() {
 
     @Composable
-    override fun ScreenScope.Content() {
+    override fun Content() {
         VariableEditorScreen(
             variableId = intent.getStringExtra(EXTRA_VARIABLE_ID),
             variableType = VariableType.parse(intent.getStringExtra(EXTRA_VARIABLE_TYPE)),

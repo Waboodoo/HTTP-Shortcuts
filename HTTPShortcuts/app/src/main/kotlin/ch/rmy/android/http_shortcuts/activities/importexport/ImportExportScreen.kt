@@ -11,14 +11,14 @@ import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.components.ScreenScope
+import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 import ch.rmy.android.http_shortcuts.import_export.OpenFilePickerForExportContract
 
 @Composable
-fun ScreenScope.ImportExportScreen(initData: ImportExportViewModel.InitData) {
+fun ImportExportScreen(initData: ImportExportViewModel.InitData) {
     val context = LocalContext.current
 
     val (viewModel, state) = bindViewModel<ImportExportViewModel.InitData, ImportExportViewState, ImportExportViewModel>(initData)

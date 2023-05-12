@@ -7,7 +7,6 @@ import ch.rmy.android.framework.extensions.getSerializable
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
@@ -16,7 +15,7 @@ import ch.rmy.curlcommand.CurlCommand
 class ShortcutEditorActivity : BaseComposeActivity() {
 
     @Composable
-    override fun ScreenScope.Content() {
+    override fun Content() {
         ShortcutEditorScreen(
             categoryId = intent.getStringExtra(EXTRA_CATEGORY_ID),
             shortcutId = intent.getStringExtra(EXTRA_SHORTCUT_ID),

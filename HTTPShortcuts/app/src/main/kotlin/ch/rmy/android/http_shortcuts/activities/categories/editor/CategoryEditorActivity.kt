@@ -6,13 +6,12 @@ import androidx.compose.runtime.Composable
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 
 class CategoryEditorActivity : BaseComposeActivity() {
 
     @Composable
-    override fun ScreenScope.Content() {
+    override fun Content() {
         CategoryEditorScreen(
             categoryId = intent.getStringExtra(EXTRA_CATEGORY_ID),
         )

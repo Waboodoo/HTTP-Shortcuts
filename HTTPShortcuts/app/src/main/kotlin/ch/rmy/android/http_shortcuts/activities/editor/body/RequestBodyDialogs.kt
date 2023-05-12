@@ -18,8 +18,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.FontSize
-import ch.rmy.android.http_shortcuts.components.MenuDialogEntry
 import ch.rmy.android.http_shortcuts.components.SelectDialog
+import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
@@ -67,25 +67,25 @@ private fun ParameterTypePickerDialog(
         Column(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(R.string.option_parameter_type_string),
                 onClick = {
                     onParameterTypeSelected(ParameterType.STRING)
                 },
             )
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(R.string.option_parameter_type_image),
                 onClick = {
                     onParameterTypeSelected(ParameterType.IMAGE)
                 },
             )
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(R.string.option_parameter_type_file),
                 onClick = {
                     onParameterTypeSelected(ParameterType.FILE)
                 },
             )
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(R.string.option_parameter_type_files),
                 onClick = {
                     onParameterTypeSelected(ParameterType.FILES)

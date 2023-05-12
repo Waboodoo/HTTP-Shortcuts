@@ -5,12 +5,11 @@ import androidx.compose.runtime.Composable
 import ch.rmy.android.framework.extensions.getParcelable
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 
 class DocumentationActivity : BaseComposeActivity() {
 
     @Composable
-    override fun ScreenScope.Content() {
+    override fun Content() {
         DocumentationScreen(url = intent.getParcelable(EXTRA_URL))
     }
 

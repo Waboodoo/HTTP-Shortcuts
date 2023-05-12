@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.components.MenuDialogEntry
 import ch.rmy.android.http_shortcuts.components.SelectDialog
+import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.TextInputDialog
 
 @Composable
@@ -50,12 +50,12 @@ private fun SelectClientCertTypeDialog(
         Column(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(R.string.label_client_cert_from_os),
                 description = stringResource(R.string.label_client_cert_from_os_subtitle),
                 onClick = onFromSystemOptionSelected,
             )
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(R.string.label_client_cert_from_file),
                 description = stringResource(R.string.label_client_cert_from_file_subtitle),
                 onClick = onFromFileOptionSelected,

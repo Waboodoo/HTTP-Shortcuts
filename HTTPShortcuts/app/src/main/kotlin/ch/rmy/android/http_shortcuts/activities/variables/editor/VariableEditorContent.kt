@@ -23,14 +23,14 @@ import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.editor.models.ShareSupport
 import ch.rmy.android.http_shortcuts.components.Checkbox
-import ch.rmy.android.http_shortcuts.components.ScreenScope
+import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.localize
 import com.alorma.compose.settings.ui.SettingsGroup
 
 @Composable
-fun ScreenScope.VariableEditorContent(
+fun VariableEditorContent(
     variableKey: String,
     dialogTitle: String,
     dialogMessage: String,
@@ -122,7 +122,7 @@ fun ScreenScope.VariableEditorContent(
 }
 
 @Composable
-private fun ScreenScope.VariableKey(
+private fun VariableKey(
     key: String,
     error: String?,
     onKeyChanged: (String) -> Unit,

@@ -246,7 +246,7 @@ dependencies {
 
     /* Support libraries */
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    implementation("androidx.core:core-splashscreen:1.0.0")
+    implementation("androidx.core:core-splashscreen:1.0.1")
 
     /* Dialogs / Activities */
     implementation("com.afollestad.material-dialogs:core:3.3.0")
@@ -259,7 +259,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
-    implementation("androidx.activity:activity-compose:1.7.0")
+    implementation("androidx.activity:activity-compose:1.7.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
     implementation("com.github.alorma:compose-settings-ui-m3:0.26.0")
@@ -271,7 +271,7 @@ dependencies {
 
     /* Image display */
     implementation("io.coil-kt:coil-compose:2.3.0")
-    implementation("com.squareup.picasso:picasso:2.8")
+    implementation("com.squareup.picasso:picasso:2.8") // TODO: Remove in favor of Coil
 
     /* Image meta data extraction */
     implementation("androidx.exifinterface:exifinterface:1.3.6")

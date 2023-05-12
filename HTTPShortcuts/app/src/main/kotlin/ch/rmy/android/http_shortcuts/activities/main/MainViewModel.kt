@@ -10,24 +10,13 @@ import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
-import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.WithDialog
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.about.AboutActivity
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
-import ch.rmy.android.http_shortcuts.activities.history.HistoryActivity
 import ch.rmy.android.http_shortcuts.activities.importexport.ImportExportActivity
-import ch.rmy.android.http_shortcuts.activities.main.models.CategoryTabItem
-import ch.rmy.android.http_shortcuts.activities.main.models.RecoveryInfo
-import ch.rmy.android.http_shortcuts.activities.main.usecases.GetAppOverlayDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.main.usecases.GetNetworkRestrictionDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.main.usecases.GetRecoveryDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutCreationDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutPlacementDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.main.usecases.GetUnlockDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.models.CategoryItem
 import ch.rmy.android.http_shortcuts.activities.main.usecases.LauncherShortcutMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLogDialogUseCase
@@ -49,22 +38,25 @@ import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
-import ch.rmy.android.http_shortcuts.usecases.GetChangeLogDialogUseCase
-import ch.rmy.android.http_shortcuts.usecases.GetToolbarTitleChangeDialogUseCase
+import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.SecondaryLauncherManager
+import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.mindrot.jbcrypt.BCrypt
 import javax.inject.Inject
+import kotlin.random.Random
+import kotlin.time.Duration.Companion.seconds
 
-class MainViewModel(application: Application) : BaseViewModel<MainViewModel.InitData, MainViewState>(application), WithDialog {
+class MainViewModel(application: Application) : BaseViewModel<MainViewModel.InitData, MainViewState>(application) {
 
     @Inject
     lateinit var categoryRepository: CategoryRepository
@@ -88,24 +80,6 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     lateinit var shouldShowChangeLogDialog: ShouldShowChangeLogDialogUseCase
 
     @Inject
-    lateinit var getChangeLogDialog: GetChangeLogDialogUseCase
-
-    @Inject
-    lateinit var getToolbarTitleChangeDialog: GetToolbarTitleChangeDialogUseCase
-
-    @Inject
-    lateinit var getShortcutPlacementDialog: GetShortcutPlacementDialogUseCase
-
-    @Inject
-    lateinit var getUnlockDialog: GetUnlockDialogUseCase
-
-    @Inject
-    lateinit var getShortcutCreationDialog: GetShortcutCreationDialogUseCase
-
-    @Inject
-    lateinit var getNetworkRestrictionDialog: GetNetworkRestrictionDialogUseCase
-
-    @Inject
     lateinit var shouldShowNetworkRestrictionDialog: ShouldShowNetworkRestrictionDialogUseCase
 
     @Inject
@@ -118,9 +92,6 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     lateinit var secondaryLauncherManager: SecondaryLauncherManager
 
     @Inject
-    lateinit var getRecoveryDialog: GetRecoveryDialogUseCase
-
-    @Inject
     lateinit var widgetManager: WidgetManager
 
     @Inject
@@ -130,13 +101,13 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     lateinit var appOverlayUtil: AppOverlayUtil
 
     @Inject
-    lateinit var getAppOverlayDialog: GetAppOverlayDialogUseCase
-
-    @Inject
     lateinit var variableRepository: VariableRepository
 
     @Inject
     lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
+
+    @Inject
+    lateinit var settings: Settings
 
     init {
         getApplicationComponent().inject(this)
@@ -152,13 +123,10 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     private val selectionMode
         get() = initData.selectionMode
 
-    override var dialogState: DialogState?
+    private val dialogState: MainDialogState?
         get() = currentViewState?.dialogState
-        set(value) {
-            updateViewState {
-                copy(dialogState = value)
-            }
-        }
+
+    private var activeShortcutId: ShortcutId? = null
 
     override fun onInitializationStarted(data: InitData) {
         if (data.importUrl != null) {
@@ -176,9 +144,8 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     override fun initViewState() = MainViewState(
         selectionMode = selectionMode,
-        categoryTabItems = getCategoryTabItems(),
+        categoryItems = getCategoryTabItems(),
         activeCategoryId = initData.initialCategoryId ?: categories.first { !it.hidden }.id,
-        isInMovingMode = false,
         isLocked = false,
     )
 
@@ -188,10 +155,11 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
                 filterNot { it.hidden }
             }
             .map { category ->
-                CategoryTabItem(
+                CategoryItem(
                     categoryId = category.id,
                     name = category.name,
                     layoutType = category.categoryLayoutType,
+                    background = category.categoryBackgroundType,
                 )
             }
 
@@ -231,55 +199,75 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         viewModelScope.launch {
             val recoveryInfo = shouldShowRecoveryDialog()
             if (recoveryInfo != null) {
-                showRecoveryDialog(recoveryInfo)
+                updateDialogState(
+                    MainDialogState.RecoverShortcut(
+                        recoveryInfo = recoveryInfo,
+                    )
+                )
+            } else if (shouldShowChangeLogDialog()) {
+                updateDialogState(
+                    MainDialogState.ChangeLog,
+                )
             } else {
-                if (shouldShowChangeLogDialog()) {
-                    dialogState = getChangeLogDialog(whatsNew = true)
-                } else {
-                    showNetworkRestrictionWarningDialogIfNeeded()
-                }
+                showNetworkRestrictionWarningDialogIfNeeded()
             }
         }
     }
 
-    private fun showRecoveryDialog(recoveryInfo: RecoveryInfo) {
-        dialogState = getRecoveryDialog(
-            recoveryInfo,
-            onRecover = {
-                emitEvent(
-                    MainEvent.OpenShortcutEditor(
-                        ShortcutEditorActivity.IntentBuilder()
-                            .runIfNotNull(recoveryInfo.shortcutId) {
-                                shortcutId(it)
-                            }
-                            .runIfNotNull(recoveryInfo.categoryId) {
-                                categoryId(it)
-                            }
-                            .recoveryMode()
-                    )
-                )
-            },
-            onDiscard = {
-                launchWithProgressTracking {
-                    temporaryShortcutRepository.deleteTemporaryShortcut()
-                }
-            },
+    fun onChangelogPermanentlyHiddenChanged(hidden: Boolean) {
+        settings.isChangeLogPermanentlyHidden = hidden
+    }
+
+    fun onNetworkRestrictionsWarningHidden(hidden: Boolean) {
+        settings.isNetworkRestrictionWarningPermanentlyHidden = hidden
+    }
+
+    fun onRecoveryConfirmed() {
+        val recoveryInfo = (dialogState as? MainDialogState.RecoverShortcut)
+            ?.recoveryInfo
+            ?: return
+        updateDialogState(null)
+        emitEvent(
+            MainEvent.OpenShortcutEditor(
+                ShortcutEditorActivity.IntentBuilder()
+                    .runIfNotNull(recoveryInfo.shortcutId) {
+                        shortcutId(it)
+                    }
+                    .runIfNotNull(recoveryInfo.categoryId) {
+                        categoryId(it)
+                    }
+                    .recoveryMode()
+            )
         )
+    }
+
+    fun onRecoveryDiscarded() {
+        updateDialogState(null)
+        launchWithProgressTracking {
+            temporaryShortcutRepository.deleteTemporaryShortcut()
+        }
     }
 
     private fun showNetworkRestrictionWarningDialogIfNeeded() {
         if (shouldShowNetworkRestrictionDialog()) {
-            dialogState = getNetworkRestrictionDialog()
+            updateDialogState(
+                MainDialogState.NetworkRestrictionsWarning,
+            )
         }
     }
 
     private fun showPluginStartupDialogsIfNeeded() {
         if (!appOverlayUtil.canDrawOverlays()) {
-            dialogState = getAppOverlayDialog {
-                val intent = appOverlayUtil.getSettingsIntent() ?: return@getAppOverlayDialog
-                openActivity(intent)
-            }
+            updateDialogState(
+                MainDialogState.AppOverlayInfo,
+            )
         }
+    }
+
+    fun onAppOverlayConfigureButtonClicked() {
+        updateDialogState(null)
+        appOverlayUtil.getSettingsIntent()
+            ?.let(::openActivity)
     }
 
     private fun updateLauncherSettings(categories: List<Category>) {
@@ -328,10 +316,6 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         emitEvent(MainEvent.OpenImportExport)
     }
 
-    fun onHistoryButtonClicked() {
-        openActivity(HistoryActivity.IntentBuilder())
-    }
-
     fun onAboutButtonClicked() {
         openActivity(AboutActivity.IntentBuilder())
     }
@@ -348,14 +332,6 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         openActivity(VariablesActivity.IntentBuilder())
     }
 
-    fun onTabLongClicked() {
-        doWithViewState { viewState ->
-            if (selectionMode == SelectionMode.NORMAL && !viewState.isLocked) {
-                openCategoriesEditor()
-            }
-        }
-    }
-
     fun onToolbarTitleClicked() {
         doWithViewState { viewState ->
             if (selectionMode == SelectionMode.NORMAL && !viewState.isLocked) {
@@ -365,10 +341,13 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     private fun showToolbarTitleChangeDialog(oldTitle: String) {
-        dialogState = getToolbarTitleChangeDialog(::onToolbarTitleChangeSubmitted, oldTitle)
+        updateDialogState(
+            MainDialogState.ChangeTitle(oldTitle),
+        )
     }
 
     fun onCreationDialogOptionSelected(executionType: ShortcutExecutionType) {
+        updateDialogState(null)
         doWithViewState { viewState ->
             logInfo("Preparing to open editor for creating shortcut of type $executionType")
             emitEvent(
@@ -386,33 +365,29 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onCreateShortcutButtonClicked() {
-        dialogState = getShortcutCreationDialog(this)
+        updateDialogState(
+            MainDialogState.ShortcutCreation,
+        )
     }
 
-    private fun onToolbarTitleChangeSubmitted(newTitle: String) {
+    fun onToolbarTitleChangeSubmitted(newTitle: String) {
+        updateDialogState(null)
         launchWithProgressTracking {
             appRepository.setToolbarTitle(newTitle)
             showSnackbar(R.string.message_title_changed)
         }
     }
 
-    fun onSwitchedToCategory(position: Int) {
-        val activateCategoryId = categories
-            .runIf(selectionMode == SelectionMode.NORMAL) {
-                filterNot { it.hidden }
-            }
-            .getOrNull(position)?.id ?: return
+    fun onActiveCategoryChanged(categoryId: CategoryId) {
         updateViewState {
-            copy(activeCategoryId = activateCategoryId)
+            copy(activeCategoryId = categoryId)
         }
     }
 
     fun onUnlockButtonClicked() {
-        showUnlockDialog(StringResLocalizable(R.string.dialog_text_unlock_app))
-    }
-
-    private fun showUnlockDialog(message: Localizable) {
-        dialogState = getUnlockDialog(this, message)
+        updateDialogState(
+            MainDialogState.Unlock(),
+        )
     }
 
     fun onAppLocked() {
@@ -429,14 +404,18 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
                 passwordHash == null
             }
             if (isUnlocked) {
+                updateDialogState(null)
                 showSnackbar(R.string.message_app_unlocked)
             } else {
-                showUnlockDialog(StringResLocalizable(R.string.dialog_text_unlock_app_retry))
+                updateDialogState(MainDialogState.Progress)
+                delay(Random.nextInt(from = 1, until = 4).seconds)
+                updateDialogState(MainDialogState.Unlock(tryAgain = true))
             }
         }
     }
 
     fun onCurlImportOptionSelected() {
+        updateDialogState(null)
         emitEvent(MainEvent.OpenCurlImport)
     }
 
@@ -465,7 +444,10 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     private fun returnForHomeScreenShortcutPlacement(shortcutId: ShortcutId) {
         if (launcherShortcutManager.supportsPinning()) {
-            dialogState = getShortcutPlacementDialog(this, shortcutId)
+            activeShortcutId = shortcutId
+            updateDialogState(
+                MainDialogState.ShortcutPlacement,
+            )
         } else {
             placeShortcutOnHomeScreenAndFinish(shortcutId)
         }
@@ -486,7 +468,9 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    fun onShortcutPlacementConfirmed(shortcutId: ShortcutId, useLegacyMethod: Boolean) {
+    fun onShortcutPlacementConfirmed(useLegacyMethod: Boolean) {
+        updateDialogState(null)
+        val shortcutId = activeShortcutId ?: return
         if (useLegacyMethod) {
             placeOnHomeScreenWithLegacyAndFinish(shortcutId)
         } else {
@@ -541,21 +525,6 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         returnForHomeScreenWidgetPlacement(shortcutId, showLabel, labelColor)
     }
 
-    override fun onDialogDismissed(dialogState: DialogState) {
-        atomicallyUpdateViewState {
-            super.onDialogDismissed(dialogState)
-            if (dialogState.id == GetChangeLogDialogUseCase.DIALOG_ID) {
-                showNetworkRestrictionWarningDialogIfNeeded()
-            }
-        }
-    }
-
-    fun onMovingModeChanged(enabled: Boolean) {
-        updateViewState {
-            copy(isInMovingMode = enabled)
-        }
-    }
-
     fun onShortcutEdited() {
         viewModelScope.launch {
             val categories = categoryRepository.getCategories()
@@ -574,6 +543,39 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     fun onSelectShortcut(shortcutId: ShortcutId) {
         selectShortcut(shortcutId)
+    }
+
+    fun onDialogDismissed() {
+        if (dialogState is MainDialogState.ChangeLog && shouldShowNetworkRestrictionDialog()) {
+            updateDialogState(
+                MainDialogState.NetworkRestrictionsWarning,
+            )
+        } else {
+            updateDialogState(null)
+        }
+    }
+
+    private fun updateDialogState(dialogState: MainDialogState?) {
+        updateViewState {
+            copy(dialogState = dialogState)
+        }
+    }
+
+    fun onBackButtonPressed() {
+        finish()
+        ActivityCloser.onMainActivityClosed()
+    }
+
+    fun onRestartRequested() {
+        emitEvent(MainEvent.Restart)
+    }
+
+    fun onWidgetSettingsCancelled() {
+        finish()
+    }
+
+    fun onReopenSettingsRequested() {
+        emitEvent(MainEvent.ReopenSettings)
     }
 
     data class InitData(

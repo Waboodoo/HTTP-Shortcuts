@@ -10,14 +10,14 @@ import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.categories.editor.CategoryEditorActivity
+import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.FloatingAddButton
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 
 @Composable
-fun ScreenScope.CategoriesScreen() {
+fun CategoriesScreen() {
     val (viewModel, state) = bindViewModel<CategoriesViewState, CategoriesViewModel>()
 
     val openCategoryEditorForCreation = rememberLauncherForActivityResult(CategoryEditorActivity.OpenCategoryEditor) { success ->

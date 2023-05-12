@@ -29,25 +29,17 @@
 
     <item name="transparent" type="color">#00000000</item>
     <item name="divider" type="color">#44606060</item>
-    <item name="menu_dialog_separator" type="color">#44303030</item>
     <item name="variable" type="color">#FF3F51B5</item>
     <item name="shortcut" type="color">#FF51B53F</item>
-    <item name="activity_background" type="color">#FAFAFA</item>
     <item name="text_color_primary_bright" type="color">#FAFAFA</item>
     <item name="text_color_primary_dark" type="color">#000000</item>
-    <item name="text_color_secondary_bright" type="color">#C0C0C0</item>
-    <item name="text_color_secondary_dark" type="color">#666666</item>
-    <item name="text_color_shadow_bright" type="color">#33000000</item>
     <item name="text_color_shadow_dark" type="color">#33FFFFFF</item>
     <item name="dialog_icon" type="color">#666666</item>
-    <item name="expandable_section_icon" type="color">#000000</item>
 
     <item name="textarea_background" type="color">#FFDFDFDF</item>
     <item name="icon_background" type="color">#99000000</item>
     <item name="widget_preview_background" type="color">#99A0A0A0</item>
     <item name="loading_spinner_background" type="color">#FAFAFA</item>
-
-    <item name="empty_state_text_color" type="color">#999999</item>
 
     <item name="splash_background" type="color">@color/brand_icon</item>
 

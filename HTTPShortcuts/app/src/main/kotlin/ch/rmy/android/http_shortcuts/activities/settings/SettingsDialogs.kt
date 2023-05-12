@@ -5,6 +5,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.components.ChangeTitleDialog
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.TextInputDialog
 
@@ -19,47 +20,25 @@ fun SettingsDialogs(
     when (dialogState) {
         is SettingsDialogState.ChangeTitle -> {
             ChangeTitleDialog(
-                dialogState.oldTitle,
-                onTitleChangeConfirmed,
-                onDismissalRequested,
+                initialValue = dialogState.oldTitle,
+                onConfirm = onTitleChangeConfirmed,
+                onDismissalRequested = onDismissalRequested,
             )
         }
         is SettingsDialogState.LockApp -> {
             LockAppDialog(
-                onLockConfirmed,
-                onDismissalRequested,
+                onConfirm = onLockConfirmed,
+                onDismissalRequested = onDismissalRequested,
             )
         }
         is SettingsDialogState.ClearCookies -> {
             ClearCookiesDialog(
-                onClearCookiesConfirmed,
-                onDismissalRequested,
+                onConfirm = onClearCookiesConfirmed,
+                onDismissalRequested = onDismissalRequested,
             )
         }
         null -> Unit
     }
-}
-
-@Composable
-private fun ChangeTitleDialog(
-    initialValue: String,
-    onConfirm: (String) -> Unit,
-    onDismissalRequested: () -> Unit,
-) {
-    TextInputDialog(
-        title = stringResource(R.string.title_set_title),
-        initialValue = initialValue,
-        transformValue = {
-            it.take(50)
-        },
-        onDismissRequest = { text ->
-            if (text != null) {
-                onConfirm(text)
-            } else {
-                onDismissalRequested()
-            }
-        },
-    )
 }
 
 @Composable

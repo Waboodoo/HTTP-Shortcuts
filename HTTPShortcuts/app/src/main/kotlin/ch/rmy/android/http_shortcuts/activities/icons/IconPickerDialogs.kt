@@ -14,15 +14,15 @@ fun IconPickerDialogs(
     when (dialogState) {
         is IconPickerDialogState.DeleteIcon -> {
             DeleteIconDialog(
-                dialogState.stillInUseWarning,
-                onDeleteConfirmed,
-                onDialogDismissRequested,
+                stillInUseWarning = dialogState.stillInUseWarning,
+                onConfirm = onDeleteConfirmed,
+                onDismissRequested = onDialogDismissRequested,
             )
         }
         is IconPickerDialogState.BulkDelete -> {
             BulkDeleteDialog(
-                onDeleteConfirmed,
-                onDialogDismissRequested,
+                onConfirm = onDeleteConfirmed,
+                onDismissRequested = onDialogDismissRequested,
             )
         }
         null -> Unit
@@ -36,16 +36,16 @@ private fun DeleteIconDialog(
     onDismissRequested: () -> Unit,
 ) {
     ConfirmDialog(
-        stringResource(
+        message = stringResource(
             if (stillInUseWarning) {
                 R.string.confirm_delete_custom_icon_still_in_use_message
             } else {
                 R.string.confirm_delete_custom_icon_message
             }
         ),
-        stringResource(R.string.dialog_delete),
-        onConfirm,
-        onDismissRequested,
+        confirmButton = stringResource(R.string.dialog_delete),
+        onConfirmRequest = onConfirm,
+        onDismissRequest = onDismissRequested,
     )
 }
 
@@ -55,9 +55,9 @@ private fun BulkDeleteDialog(
     onDismissRequested: () -> Unit,
 ) {
     ConfirmDialog(
-        stringResource(R.string.confirm_delete_all_unused_custom_icons_message),
-        stringResource(R.string.dialog_delete),
-        onConfirm,
-        onDismissRequested,
+        message = stringResource(R.string.confirm_delete_all_unused_custom_icons_message),
+        confirmButton = stringResource(R.string.dialog_delete),
+        onConfirmRequest = onConfirm,
+        onDismissRequest = onDismissRequested,
     )
 }

@@ -8,14 +8,14 @@ import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.components.ScreenScope
+import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.localize
 import ch.rmy.android.http_shortcuts.utils.PickDirectoryContract
 
 @Composable
-fun ScreenScope.ResponseScreen() {
+fun ResponseScreen() {
     val (viewModel, state) = bindViewModel<ResponseViewState, ResponseViewModel>()
 
     val context = LocalContext.current

@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import ch.rmy.android.framework.extensions.getParcelable
 import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 
 class ShareActivity : BaseComposeActivity(), Entrypoint {
 
@@ -14,7 +13,7 @@ class ShareActivity : BaseComposeActivity(), Entrypoint {
         get() = false
 
     @Composable
-    override fun ScreenScope.Content() {
+    override fun Content() {
         ShareScreen(
             text = intent.getStringExtra(Intent.EXTRA_TEXT),
             title = intent.getStringExtra(Intent.EXTRA_SUBJECT),

@@ -17,14 +17,13 @@ import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetPickerActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.models.CodeFieldType
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 
 @Composable
-fun ScreenScope.ScriptingScreen(currentShortcutId: ShortcutId?) {
+fun ScriptingScreen(currentShortcutId: ShortcutId?) {
     val (viewModel, state) = bindViewModel<ScriptingViewState, ScriptingViewModel>()
 
     var activeField by rememberSaveable(key = "active_field") {

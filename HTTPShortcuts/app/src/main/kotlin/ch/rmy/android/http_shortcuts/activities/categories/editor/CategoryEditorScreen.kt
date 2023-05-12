@@ -7,14 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.BackButton
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 
 @Composable
-fun ScreenScope.CategoryEditorScreen(categoryId: CategoryId?) {
+fun CategoryEditorScreen(categoryId: CategoryId?) {
     val (viewModel, state) = bindViewModel<CategoryEditorViewModel.InitData, CategoryEditorViewState, CategoryEditorViewModel>(
         CategoryEditorViewModel.InitData(categoryId)
     )

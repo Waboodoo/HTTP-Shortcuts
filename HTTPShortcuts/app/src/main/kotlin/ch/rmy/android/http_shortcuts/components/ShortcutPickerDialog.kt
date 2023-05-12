@@ -29,7 +29,7 @@ fun ShortcutPickerDialog(
         ) {
             if (includeCurrentShortcutOption) {
                 item(key = "current") {
-                    MenuDialogEntry(
+                    SelectDialogEntry(
                         label = stringResource(R.string.label_insert_action_code_for_current_shortcut),
                         onClick = onCurrentShortcutSelected,
                     )
@@ -39,7 +39,7 @@ fun ShortcutPickerDialog(
                 items = shortcuts,
                 key = { it.id },
             ) { shortcut ->
-                MenuDialogEntry(
+                SelectDialogEntry(
                     label = shortcut.name,
                     icon = shortcut.icon,
                     onClick = {

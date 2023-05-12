@@ -11,7 +11,6 @@ import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
@@ -26,7 +25,7 @@ import kotlin.time.Duration.Companion.seconds
 class DisplayResponseActivity : BaseComposeActivity() {
 
     @Composable
-    override fun ScreenScope.Content() {
+    override fun Content() {
         DisplayResponseScreen(
             shortcutId = intent?.extras?.getString(EXTRA_SHORTCUT_ID) ?: "",
             shortcutName = intent?.extras?.getString(EXTRA_NAME) ?: "",

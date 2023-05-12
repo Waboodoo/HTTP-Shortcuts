@@ -28,7 +28,6 @@ import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.databinding.MenuDialogBinding
-import ch.rmy.android.http_shortcuts.databinding.MenuDialogSeparatorBinding
 import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -99,10 +98,6 @@ class DialogBuilder(val context: Context) {
                 action,
             )
         )
-    }
-
-    fun separator() = also {
-        items.add(MenuItem.Separator)
     }
 
     fun message(text: Localizable) =
@@ -183,10 +178,6 @@ class DialogBuilder(val context: Context) {
             }
     }
 
-    fun canceledOnTouchOutside(cancelable: Boolean) = also {
-        dialog.cancelOnTouchOutside(cancelable)
-    }
-
     fun build(): MaterialDialog =
         dialog.runIf(items.isNotEmpty()) {
             val listView = MenuDialogBinding.inflate(LayoutInflater.from(context)).root
@@ -202,8 +193,6 @@ class DialogBuilder(val context: Context) {
     fun show() = build().show()
 
     private sealed interface MenuItem {
-
-        object Separator : MenuItem
 
         class ClickableItem(
             val name: CharSequence,
@@ -231,10 +220,7 @@ class DialogBuilder(val context: Context) {
         private val layoutInflater: LayoutInflater = context.getSystemService()!!
 
         override fun getItemViewType(position: Int): Int =
-            when (getItem(position)!!) {
-                is MenuItem.ClickableItem -> TYPE_CLICKABLE_ITEM
-                else -> TYPE_SEPARATOR
-            }
+            TYPE_CLICKABLE_ITEM
 
         override fun getViewTypeCount(): Int = 2
 
@@ -242,7 +228,6 @@ class DialogBuilder(val context: Context) {
             when (val item = getItem(position)!!) {
                 is MenuItem.ClickableItem -> getClickableItemView(item, convertView, parent)
                 is MenuItem.CheckBoxItem -> getCheckBoxItemView(item, convertView, parent)
-                is MenuItem.Separator -> getSeparatorView(convertView, parent)
             }
 
         private fun getClickableItemView(item: MenuItem.ClickableItem, convertView: View?, parent: ViewGroup): View {
@@ -324,9 +309,6 @@ class DialogBuilder(val context: Context) {
             return view
         }
 
-        private fun getSeparatorView(convertView: View?, parent: ViewGroup): View =
-            convertView ?: MenuDialogSeparatorBinding.inflate(layoutInflater, parent, false).root
-
         override fun areAllItemsEnabled(): Boolean =
             false
 
@@ -340,6 +322,5 @@ class DialogBuilder(val context: Context) {
     companion object {
 
         private const val TYPE_CLICKABLE_ITEM = 0
-        private const val TYPE_SEPARATOR = 1
     }
 }

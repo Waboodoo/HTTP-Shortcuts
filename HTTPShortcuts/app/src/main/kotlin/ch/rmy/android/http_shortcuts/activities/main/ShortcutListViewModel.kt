@@ -8,28 +8,19 @@ import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
-import ch.rmy.android.framework.extensions.swapped
-import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.framework.ui.IntentBuilder
+import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.framework.viewmodel.WithDialog
-import ch.rmy.android.framework.viewmodel.viewstate.DialogState
-import ch.rmy.android.framework.viewmodel.viewstate.ProgressDialogState
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.activities.main.usecases.GetContextMenuDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.main.usecases.GetCurlExportDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.main.usecases.GetExportOptionsDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.main.usecases.GetMoveOptionsDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.main.usecases.GetMoveToCategoryDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutDeletionDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.main.usecases.GetShortcutInfoDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.models.ShortcutItem
 import ch.rmy.android.http_shortcuts.activities.main.usecases.LauncherShortcutMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherMapperUseCase
+import ch.rmy.android.http_shortcuts.activities.moving.MoveActivity
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
@@ -40,7 +31,6 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
-import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
@@ -49,7 +39,6 @@ import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.extensions.createDialogState
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.import_export.CurlExporter
@@ -57,11 +46,12 @@ import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.scheduling.AlarmScheduler
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
-import ch.rmy.android.http_shortcuts.usecases.GetExportDestinationOptionsDialogUseCase
+import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.SecondaryLauncherManager
 import ch.rmy.android.http_shortcuts.utils.Settings
-import ch.rmy.curlcommand.CurlCommand
+import ch.rmy.android.http_shortcuts.utils.ShareUtil
+import ch.rmy.curlcommand.CurlConstructor
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -69,7 +59,7 @@ import javax.inject.Inject
 
 class ShortcutListViewModel(
     application: Application,
-) : BaseViewModel<ShortcutListViewModel.InitData, ShortcutListViewState>(application), WithDialog {
+) : BaseViewModel<ShortcutListViewModel.InitData, ShortcutListViewState>(application) {
 
     @Inject
     lateinit var appRepository: AppRepository
@@ -99,30 +89,6 @@ class ShortcutListViewModel(
     lateinit var settings: Settings
 
     @Inject
-    lateinit var getCurlExportDialog: GetCurlExportDialogUseCase
-
-    @Inject
-    lateinit var getShortcutInfoDialog: GetShortcutInfoDialogUseCase
-
-    @Inject
-    lateinit var getShortcutDeletionDialog: GetShortcutDeletionDialogUseCase
-
-    @Inject
-    lateinit var getExportOptionsDialog: GetExportOptionsDialogUseCase
-
-    @Inject
-    lateinit var getExportDestinationOptionsDialog: GetExportDestinationOptionsDialogUseCase
-
-    @Inject
-    lateinit var getMoveOptionsDialog: GetMoveOptionsDialogUseCase
-
-    @Inject
-    lateinit var getContextMenuDialog: GetContextMenuDialogUseCase
-
-    @Inject
-    lateinit var getMoveToCategoryDialog: GetMoveToCategoryDialogUseCase
-
-    @Inject
     lateinit var exporter: Exporter
 
     @Inject
@@ -143,26 +109,28 @@ class ShortcutListViewModel(
     @Inject
     lateinit var alarmScheduler: AlarmScheduler
 
+    @Inject
+    lateinit var activityProvider: ActivityProvider
+
+    @Inject
+    lateinit var clipboardUtil: ClipboardUtil
+
     init {
         getApplicationComponent().inject(this)
     }
 
     private lateinit var category: Category
-    private var categories: List<Category> = emptyList()
     private var variables: List<Variable> = emptyList()
     private var pendingShortcuts: List<PendingExecution> = emptyList()
 
-    private var exportingShortcutId: ShortcutId? = null
     private var isAppLocked = false
 
-    private var currentJob: Job? = null
+    private var activeShortcutId: ShortcutId? = null
 
-    override var dialogState: DialogState?
-        get() = currentViewState?.dialogState
+    private var currentJob: Job? = null
         set(value) {
-            updateViewState {
-                copy(dialogState = value)
-            }
+            field?.cancel()
+            field = value
         }
 
     override fun onInitializationStarted(data: InitData) {
@@ -176,10 +144,6 @@ class ShortcutListViewModel(
                         finalizeInitialization()
                     }
                 }
-        }
-
-        viewModelScope.launch {
-            this@ShortcutListViewModel.categories = categoryRepository.getCategories()
         }
 
         viewModelScope.launch {
@@ -223,62 +187,16 @@ class ShortcutListViewModel(
         }
     }
 
-    private fun mapShortcuts(): List<ShortcutListItem> {
-        val shortcuts = category.shortcuts
-        return if (shortcuts.isEmpty()) {
-            listOf(ShortcutListItem.EmptyState)
-        } else {
-            val textColor = when (category.categoryBackgroundType) {
-                is CategoryBackgroundType.Default -> ShortcutListItem.TextColor.DARK
-                is CategoryBackgroundType.Color -> ShortcutListItem.TextColor.BRIGHT
-            }
-            shortcuts.map { shortcut ->
-                ShortcutListItem.Shortcut(
-                    id = shortcut.id,
-                    name = shortcut.name,
-                    description = shortcut.description,
-                    icon = shortcut.icon,
-                    isPending = pendingShortcuts.any { it.shortcutId == shortcut.id },
-                    textColor = textColor,
-                    useTextShadow = category.categoryBackgroundType.useTextShadow,
-                )
-            }
+    private fun mapShortcuts(): List<ShortcutItem> =
+        category.shortcuts.map { shortcut ->
+            ShortcutItem(
+                id = shortcut.id,
+                name = shortcut.name,
+                description = shortcut.description,
+                icon = shortcut.icon,
+                isPending = pendingShortcuts.any { it.shortcutId == shortcut.id },
+            )
         }
-    }
-
-    fun onPaused() {
-        if (isInitialized && currentViewState!!.isInMovingMode) {
-            disableMovingMode()
-        }
-    }
-
-    fun onBackPressed(): Boolean =
-        if (isInitialized && currentViewState!!.isInMovingMode) {
-            disableMovingMode()
-            true
-        } else {
-            false
-        }
-
-    fun onMoveModeOptionSelected() {
-        enableMovingMode()
-    }
-
-    private fun enableMovingMode() {
-        updateViewState {
-            copy(isInMovingMode = true)
-        }
-        emitEvent(ShortcutListEvent.MovingModeChanged(true))
-        showSnackbar(R.string.message_moving_enabled, long = true)
-    }
-
-    private fun disableMovingMode() {
-        updateViewState {
-            copy(isInMovingMode = false)
-        }
-        emitEvent(ShortcutListEvent.MovingModeChanged(false))
-        updateLauncherSettings()
-    }
 
     private fun updateLauncherSettings() {
         viewModelScope.launch {
@@ -288,22 +206,9 @@ class ShortcutListViewModel(
         }
     }
 
-    fun onShortcutMoved(shortcutId1: ShortcutId, shortcutId2: ShortcutId) {
-        updateViewState {
-            copy(shortcuts = shortcuts.swapped(shortcutId1, shortcutId2) { (this as? ShortcutListItem.Shortcut)?.id })
-        }
-        launchWithProgressTracking {
-            shortcutRepository.swapShortcutPositions(category.id, shortcutId1, shortcutId2)
-        }
-    }
-
     fun onShortcutClicked(shortcutId: ShortcutId) {
         doWithViewState { viewState ->
             logInfo("Shortcut clicked")
-            if (viewState.isInMovingMode) {
-                showSnackbar(R.string.message_moving_enabled)
-                return@doWithViewState
-            }
             if (initData.selectionMode != SelectionMode.NORMAL) {
                 selectShortcut(shortcutId)
                 return@doWithViewState
@@ -341,20 +246,14 @@ class ShortcutListViewModel(
 
     private fun showContextMenu(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
-        dialogState = getContextMenuDialog(
-            shortcutId,
-            title = shortcut.name,
-            isPending = pendingShortcuts.any { it.shortcutId == shortcut.id },
-            isMovable = canMoveWithinCategory() || canMoveAcrossCategories(),
-            viewModel = this,
+        activeShortcutId = shortcutId
+        updateDialogState(
+            ShortcutListDialogState.ContextMenu(
+                shortcutName = shortcut.name,
+                isPending = pendingShortcuts.any { it.shortcutId == shortcut.id },
+            )
         )
     }
-
-    private fun canMoveWithinCategory() =
-        category.shortcuts.size > 1
-
-    private fun canMoveAcrossCategories() =
-        categories.size > 1
 
     fun onShortcutLongClicked(shortcutId: ShortcutId) {
         doWithViewState { viewState ->
@@ -367,16 +266,22 @@ class ShortcutListViewModel(
     private fun getShortcutById(shortcutId: ShortcutId): Shortcut? =
         category.shortcuts.firstOrNull { it.id == shortcutId }
 
-    fun onPlaceOnHomeScreenOptionSelected(shortcutId: ShortcutId) {
+    fun onPlaceOnHomeScreenOptionSelected() {
+        updateDialogState(null)
+        val shortcutId = activeShortcutId ?: return
         val shortcut = getShortcutById(shortcutId) ?: return
         emitEvent(ShortcutListEvent.PlaceShortcutOnHomeScreen(shortcut.toShortcutPlaceholder()))
     }
 
-    fun onExecuteOptionSelected(shortcutId: ShortcutId) {
+    fun onExecuteOptionSelected() {
+        updateDialogState(null)
+        val shortcutId = activeShortcutId ?: return
         executeShortcut(shortcutId)
     }
 
-    fun onCancelPendingExecutionOptionSelected(shortcutId: ShortcutId) {
+    fun onCancelPendingExecutionOptionSelected() {
+        updateDialogState(null)
+        val shortcutId = activeShortcutId ?: return
         cancelPendingExecution(shortcutId)
     }
 
@@ -398,25 +303,22 @@ class ShortcutListViewModel(
             }
     }
 
-    fun onEditOptionSelected(shortcutId: ShortcutId) {
+    fun onEditOptionSelected() {
+        updateDialogState(null)
+        val shortcutId = activeShortcutId ?: return
         editShortcut(shortcutId)
     }
 
-    fun onMoveOptionSelected(shortcutId: ShortcutId) {
-        val canMoveWithinCategory = canMoveWithinCategory()
-        val canMoveAcrossCategories = canMoveAcrossCategories()
-        when {
-            canMoveWithinCategory && canMoveAcrossCategories -> showMoveOptionsDialog(shortcutId)
-            canMoveWithinCategory -> enableMovingMode()
-            canMoveAcrossCategories -> onMoveToCategoryOptionSelected(shortcutId)
-        }
+    fun onMoveOptionSelected() {
+        updateDialogState(null)
+        openActivity(
+            MoveActivity.IntentBuilder()
+        )
     }
 
-    private fun showMoveOptionsDialog(shortcutId: ShortcutId) {
-        dialogState = getMoveOptionsDialog(shortcutId, this)
-    }
-
-    fun onDuplicateOptionSelected(shortcutId: ShortcutId) {
+    fun onDuplicateOptionSelected() {
+        updateDialogState(null)
+        val shortcutId = activeShortcutId ?: return
         duplicateShortcut(shortcutId)
     }
 
@@ -439,42 +341,65 @@ class ShortcutListViewModel(
         }
     }
 
-    fun onDeleteOptionSelected(shortcutId: ShortcutId) {
+    fun onDeleteOptionSelected() {
+        updateDialogState(null)
+        val shortcutId = activeShortcutId ?: return
         showDeletionDialog(getShortcutById(shortcutId) ?: return)
     }
 
     private fun showDeletionDialog(shortcut: Shortcut) {
-        dialogState = getShortcutDeletionDialog(shortcut.id, shortcut.name.toLocalizable(), this)
+        activeShortcutId = shortcut.id
+        updateDialogState(
+            ShortcutListDialogState.Deletion(
+                shortcutName = shortcut.name,
+            )
+        )
     }
 
-    fun onShowInfoOptionSelected(shortcutId: ShortcutId) {
+    fun onShowInfoOptionSelected() {
+        updateDialogState(null)
+        val shortcutId = activeShortcutId ?: return
         showShortcutInfoDialog(getShortcutById(shortcutId) ?: return)
     }
 
     private fun showShortcutInfoDialog(shortcut: Shortcut) {
-        dialogState = getShortcutInfoDialog(shortcut.id, shortcut.name)
+        updateDialogState(
+            ShortcutListDialogState.ShortcutInfo(
+                shortcutId = shortcut.id,
+                shortcutName = shortcut.name,
+            )
+        )
     }
 
-    fun onExportOptionSelected(shortcutId: ShortcutId) {
+    fun onExportOptionSelected() {
+        val shortcutId = activeShortcutId ?: return
         val shortcut = getShortcutById(shortcutId) ?: return
 
         if (shortcut.type.usesUrl) {
             showExportOptionsDialog(shortcutId)
         } else {
-            showFileExportDialog(shortcutId)
+            showFileExportDialog()
         }
     }
 
     private fun showExportOptionsDialog(shortcutId: ShortcutId) {
-        dialogState = getExportOptionsDialog(shortcutId, this)
+        activeShortcutId = shortcutId
+        updateDialogState(
+            ShortcutListDialogState.ExportOptions,
+        )
     }
 
-    fun onExportAsCurlOptionSelected(shortcutId: ShortcutId) {
+    fun onExportAsCurlOptionSelected() {
+        updateDialogState(null)
+        val shortcutId = activeShortcutId ?: return
         val shortcut = getShortcutById(shortcutId) ?: return
         viewModelScope.launch {
             try {
                 val command = curlExporter.generateCommand(shortcut)
-                showCurlExportDialog(shortcut.name, command)
+                    .let(CurlConstructor::toCurlCommandString)
+                updateDialogState(
+                    ShortcutListDialogState.CurlExport(shortcut.name, command)
+                )
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -484,32 +409,43 @@ class ShortcutListViewModel(
         }
     }
 
-    private fun showCurlExportDialog(name: String, command: CurlCommand) {
-        dialogState = getCurlExportDialog(name, command)
+    fun onCurlExportCopyButtonClicked() {
+        val curlCommand = (currentViewState?.dialogState as? ShortcutListDialogState.CurlExport)?.command ?: return
+        updateDialogState(null)
+        clipboardUtil.copyToClipboard(curlCommand)
     }
 
-    fun onExportAsFileOptionSelected(shortcutId: ShortcutId) {
-        showFileExportDialog(shortcutId)
+    fun onCurlExportShareButtonClicked() {
+        val curlCommand = (currentViewState?.dialogState as? ShortcutListDialogState.CurlExport)?.command ?: return
+        updateDialogState(null)
+        ShareUtil.shareText(activityProvider.getActivity(), curlCommand)
     }
 
-    private fun showFileExportDialog(shortcutId: ShortcutId) {
-        exportingShortcutId = shortcutId
-        dialogState = getExportDestinationOptionsDialog(
-            onExportToFileOptionSelected = {
-                emitEvent(ShortcutListEvent.OpenFilePickerForExport(getExportFormat()))
-            },
-            onExportViaSharingOptionSelected = {
-                sendExport()
-            },
+    fun onExportAsFileOptionSelected() {
+        showFileExportDialog()
+    }
+
+    private fun showFileExportDialog() {
+        updateDialogState(
+            ShortcutListDialogState.ExportDestinationOptions,
         )
     }
 
-    fun onFilePickedForExport(file: Uri) {
-        val shortcut = exportingShortcutId?.let(::getShortcutById) ?: return
+    fun onExportToFileOptionSelected() {
+        updateDialogState(null)
+        emitEvent(ShortcutListEvent.OpenFilePickerForExport(getExportFormat()))
+    }
 
-        currentJob?.cancel()
+    fun onExportViaSharingOptionSelected() {
+        updateDialogState(null)
+        sendExport()
+    }
+
+    fun onFilePickedForExport(file: Uri) {
+        val shortcut = activeShortcutId?.let(::getShortcutById) ?: return
+
         currentJob = viewModelScope.launch {
-            showProgressDialog(R.string.export_in_progress)
+            updateDialogState(ShortcutListDialogState.ExportProgress)
             try {
                 val status = try {
                     val variableIds = getUsedVariableIds(shortcut.id)
@@ -521,7 +457,7 @@ class ShortcutListViewModel(
                         variableIds = variableIds,
                     )
                 } finally {
-                    hideProgressDialog()
+                    hideExportProgressDialog()
                 }
                 showSnackbar(
                     QuantityStringLocalizable(
@@ -534,21 +470,20 @@ class ShortcutListViewModel(
                 throw e
             } catch (e: Exception) {
                 logException(e)
-                dialogState = createDialogState {
-                    message(context.getString(R.string.export_failed_with_reason, e.message))
-                        .positive(R.string.dialog_ok)
-                        .build()
-                }
+                updateDialogState(
+                    ShortcutListDialogState.ExportError(
+                        e.message.orEmpty()
+                    )
+                )
             }
         }
     }
 
     private fun sendExport() {
-        val shortcut = exportingShortcutId?.let(::getShortcutById) ?: return
+        val shortcut = activeShortcutId?.let(::getShortcutById) ?: return
 
-        currentJob?.cancel()
         currentJob = viewModelScope.launch {
-            showProgressDialog(R.string.export_in_progress)
+            updateDialogState(ShortcutListDialogState.ExportProgress)
             try {
                 val format = getExportFormat()
                 val cacheFile = FileUtil.createCacheFile(context, format.getFileName(single = true))
@@ -575,57 +510,28 @@ class ShortcutListViewModel(
             } catch (e: Exception) {
                 handleUnexpectedError(e)
             } finally {
-                hideProgressDialog()
+                hideExportProgressDialog()
             }
         }
     }
 
-    private fun showProgressDialog(message: Int) {
-        dialogState = ProgressDialogState(StringResLocalizable(message), ::onProgressDialogCanceled)
-    }
-
-    private fun hideProgressDialog() {
-        if (dialogState?.id == ProgressDialogState.DIALOG_ID) {
-            dialogState = null
+    private fun hideExportProgressDialog() {
+        if (currentViewState?.dialogState is ShortcutListDialogState.ExportProgress) {
+            updateDialogState(null)
         }
-    }
-
-    private fun onProgressDialogCanceled() {
-        currentJob?.cancel()
     }
 
     private fun getExportFormat() =
         if (settings.useLegacyExportFormat) ExportFormat.LEGACY_JSON else ExportFormat.ZIP
-
-    fun onMoveToCategoryOptionSelected(shortcutId: ShortcutId) {
-        dialogState = getMoveToCategoryDialog(
-            shortcutId,
-            categoryOptions = categories
-                .filter { it.id != category.id }
-                .map { category ->
-                    GetMoveToCategoryDialogUseCase.CategoryOption(category.id, category.name)
-                },
-            viewModel = this,
-        )
-    }
-
-    fun onMoveTargetCategorySelected(shortcutId: ShortcutId, categoryId: CategoryId) {
-        val shortcut = getShortcutById(shortcutId) ?: return
-        launchWithProgressTracking {
-            shortcutRepository.moveShortcutToCategory(shortcutId, categoryId)
-            showSnackbar(StringResLocalizable(R.string.shortcut_moved, shortcut.name))
-            if (shortcut.launcherShortcut) {
-                updateLauncherSettings()
-            }
-        }
-    }
 
     fun onShortcutEdited() {
         logInfo("Shortcut editing completed")
         emitEvent(ShortcutListEvent.ShortcutEdited)
     }
 
-    fun onDeletionConfirmed(shortcutId: ShortcutId) {
+    fun onDeletionConfirmed() {
+        updateDialogState(null)
+        val shortcutId = activeShortcutId ?: return
         val shortcut = getShortcutById(shortcutId) ?: return
         launchWithProgressTracking {
             shortcutRepository.deleteShortcut(shortcutId)
@@ -635,6 +541,17 @@ class ShortcutListViewModel(
             showSnackbar(StringResLocalizable(R.string.shortcut_deleted, shortcut.name))
             updateLauncherSettings()
             emitEvent(ShortcutListEvent.RemoveShortcutFromHomeScreen(shortcut.toShortcutPlaceholder()))
+        }
+    }
+
+    fun onDialogDismissed() {
+        currentJob = null
+        updateDialogState(null)
+    }
+
+    private fun updateDialogState(dialogState: ShortcutListDialogState?) {
+        updateViewState {
+            copy(dialogState = dialogState)
         }
     }
 

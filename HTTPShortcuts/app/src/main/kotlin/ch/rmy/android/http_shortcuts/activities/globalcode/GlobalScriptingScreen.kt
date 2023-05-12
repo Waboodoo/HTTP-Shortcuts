@@ -13,13 +13,12 @@ import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetPickerActivity
 import ch.rmy.android.http_shortcuts.components.BackButton
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 
 @Composable
-fun ScreenScope.GlobalScriptingScreen() {
+fun GlobalScriptingScreen() {
     val (viewModel, state) = bindViewModel<GlobalScriptingViewState, GlobalScriptingViewModel>()
 
     val pickCodeSnippet = rememberLauncherForActivityResult(CodeSnippetPickerActivity.PickCodeSnippet) { result ->

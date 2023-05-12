@@ -13,8 +13,8 @@ import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.BackButton
+import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.ProgressDialog
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
@@ -24,7 +24,7 @@ import java.nio.charset.Charset
 import kotlin.time.Duration
 
 @Composable
-fun ScreenScope.DisplayResponseScreen(
+fun DisplayResponseScreen(
     shortcutId: ShortcutId,
     shortcutName: String,
     text: String?,

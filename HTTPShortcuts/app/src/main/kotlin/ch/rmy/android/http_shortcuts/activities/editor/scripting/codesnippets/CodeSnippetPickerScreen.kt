@@ -10,19 +10,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.consume
-import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.components.ScreenScope
+import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.logging.Logging.logException
 import ch.rmy.android.http_shortcuts.plugin.TaskerTaskPickerContract
 import ch.rmy.android.http_shortcuts.utils.RingtonePickerContract
 
 @Composable
-fun ScreenScope.CodeSnippetPickerScreen(
+fun CodeSnippetPickerScreen(
     currentShortcutId: ShortcutId?,
     includeResponseOptions: Boolean,
     includeNetworkErrorOption: Boolean,
@@ -53,7 +53,7 @@ fun ScreenScope.CodeSnippetPickerScreen(
                 try {
                     pickRingtone.launch()
                 } catch (e: ActivityNotFoundException) {
-                    logException(e)
+                    logException("CodeSnippetPicker", e)
                     context.showToast(R.string.error_generic)
                 }
             }
@@ -61,7 +61,7 @@ fun ScreenScope.CodeSnippetPickerScreen(
                 try {
                     pickTaskerTask.launch()
                 } catch (e: ActivityNotFoundException) {
-                    logException(e)
+                    logException("CodeSnippetPicker", e)
                     context.showToast(R.string.error_generic)
                 }
             }

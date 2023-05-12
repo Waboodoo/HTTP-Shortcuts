@@ -75,9 +75,6 @@ abstract class BaseActivity : BaseActivity() {
             }
     }
 
-    override fun computeStatusBarColor(): Int =
-        themeHelper.statusBarColor
-
     override fun handleEvent(event: ViewModelEvent) {
         when (event) {
             is ViewModelEvent.OpenURL -> {

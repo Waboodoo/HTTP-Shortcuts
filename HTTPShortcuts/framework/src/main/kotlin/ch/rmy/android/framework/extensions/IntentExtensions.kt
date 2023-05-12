@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Build
 import androidx.activity.result.ActivityResultLauncher
 import androidx.core.app.ActivityOptionsCompat
-import androidx.fragment.app.Fragment
 import ch.rmy.android.framework.ui.IntentBuilder
 import java.io.Serializable
 
@@ -15,10 +14,6 @@ inline fun createIntent(block: Intent.() -> Unit): Intent =
 
 fun Intent.startActivity(activity: Activity) {
     activity.startActivity(this)
-}
-
-fun Intent.startActivity(fragment: Fragment) {
-    fragment.startActivity(this)
 }
 
 fun Intent.startActivity(context: Context) {
@@ -30,10 +25,6 @@ fun Intent.startActivity(context: Context) {
 
 fun IntentBuilder.startActivity(activity: Activity) {
     build(activity).startActivity(activity)
-}
-
-fun IntentBuilder.startActivity(fragment: Fragment) {
-    build(fragment.requireContext()).startActivity(fragment)
 }
 
 fun IntentBuilder.startActivity(context: Context) {

@@ -52,7 +52,7 @@ fun <T : Any> MultiSelectDialog(
                     items = entries,
                     key = { it.key },
                 ) { entry ->
-                    MenuDialogEntry(
+                    SelectDialogEntry(
                         label = entry.name,
                         checked = entry.key in selectedKeys,
                         icon = entry.icon,

@@ -12,6 +12,10 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,14 +26,18 @@ private const val CHANGELOG_ASSET_URL = "file:///android_asset/changelog.html"
 
 @Composable
 fun ChangeLogDialog(
+    title: String = stringResource(R.string.changelog_title),
     permanentlyHidden: Boolean,
     onPermanentlyHiddenChanged: (Boolean) -> Unit,
     onDismissRequested: () -> Unit,
 ) {
+    var hiddenState by remember {
+        mutableStateOf(permanentlyHidden)
+    }
     AlertDialog(
         onDismissRequest = onDismissRequested,
         title = {
-            Text(stringResource(R.string.changelog_title))
+            Text(title)
         },
         text = {
             Column(
@@ -44,14 +52,15 @@ fun ChangeLogDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            onPermanentlyHiddenChanged(!permanentlyHidden)
+                            hiddenState = !hiddenState
+                            onPermanentlyHiddenChanged(hiddenState)
                         }
-                        .padding(Spacing.SMALL),
+                        .padding(Spacing.TINY),
                     horizontalArrangement = Arrangement.spacedBy(Spacing.SMALL, Alignment.CenterHorizontally),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Checkbox(
-                        checked = permanentlyHidden,
+                        checked = !hiddenState,
                         onCheckedChange = null,
                     )
                     Text(

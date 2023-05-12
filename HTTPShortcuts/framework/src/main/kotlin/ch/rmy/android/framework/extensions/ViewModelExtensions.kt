@@ -14,21 +14,11 @@ import kotlin.reflect.KProperty
 inline fun <reified V : ViewModel> FragmentActivity.bindViewModel(): ReadOnlyProperty<FragmentActivity, V> =
     bindViewModelOf(V::class.java)
 
-inline fun <reified V : ViewModel> Fragment.bindViewModel(noinline getKey: (() -> String)? = null): ReadOnlyProperty<Fragment, V> =
-    bindViewModelOf(V::class.java, getKey)
-
 fun <V : ViewModel> FragmentActivity.bindViewModelOf(clazz: Class<V>): ReadOnlyProperty<FragmentActivity, V> =
     bind(clazz, viewModelProviderFinder)
 
-fun <V : ViewModel> Fragment.bindViewModelOf(clazz: Class<V>, getKey: (() -> String)? = null): ReadOnlyProperty<Fragment, V> =
-    bind(clazz, viewModelProviderFinder, getKey)
-
 @Suppress("unused")
 private val FragmentActivity.viewModelProviderFinder: FragmentActivity.() -> ViewModelProvider
-    get() = { ViewModelProvider(this) }
-
-@Suppress("unused")
-private val Fragment.viewModelProviderFinder: Fragment.() -> ViewModelProvider
     get() = { ViewModelProvider(this) }
 
 private fun <T, V : ViewModel> bind(clazz: Class<V>, finder: T.() -> ViewModelProvider, getKey: (() -> String)? = null) =

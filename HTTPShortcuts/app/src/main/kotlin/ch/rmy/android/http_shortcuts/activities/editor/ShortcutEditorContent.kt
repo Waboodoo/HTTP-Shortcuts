@@ -26,7 +26,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.components.ScreenScope
+import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.ShortcutIcon
 import ch.rmy.android.http_shortcuts.components.Spacing
@@ -36,7 +36,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @Composable
-fun ScreenScope.ShortcutEditorContent(
+fun ShortcutEditorContent(
     shortcutName: String,
     shortcutIcon: ShortcutIcon,
     shortcutDescription: String,
@@ -182,7 +182,7 @@ fun ScreenScope.ShortcutEditorContent(
 }
 
 @Composable
-private fun ScreenScope.ShortcutNameField(
+private fun ShortcutNameField(
     modifier: Modifier,
     name: String,
     onNameChanged: (String) -> Unit,
@@ -227,6 +227,5 @@ private fun ShortcutDescriptionField(
         onValueChange = {
             onDescriptionChanged(it.take(200))
         },
-        singleLine = true,
     )
 }

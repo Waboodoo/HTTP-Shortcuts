@@ -68,13 +68,15 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
     }
 
     fun onRequestBodyTypeChanged(type: RequestBodyType) {
-        atomicallyUpdateViewState {
-            if (type == RequestBodyType.X_WWW_FORM_URLENCODE) {
-                updateParameters(parameters.filter { it.isStringParameter })
-            }
-            updateViewState {
-                copy(requestBodyType = type)
-            }
+        if (type == RequestBodyType.X_WWW_FORM_URLENCODE) {
+            val parameters = parameters.filter { it.isStringParameter }
+            this.parameters = parameters
+        }
+        updateViewState {
+            copy(
+                requestBodyType = type,
+                parameters = parameters,
+            )
         }
         launchWithProgressTracking {
             temporaryShortcutRepository.setRequestBodyType(type)

@@ -22,7 +22,7 @@ import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.models.CodeFieldType
 import ch.rmy.android.http_shortcuts.components.CodeEditorField
-import ch.rmy.android.http_shortcuts.components.ScreenScope
+import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.extensions.insertAtCursor
@@ -30,7 +30,7 @@ import ch.rmy.android.http_shortcuts.extensions.runIf
 import ch.rmy.android.http_shortcuts.utils.SyntaxHighlighter
 
 @Composable
-fun ScreenScope.ScriptingContent(
+fun ScriptingContent(
     activeFieldType: CodeFieldType,
     codeOnPrepare: String,
     codeOnSuccess: String,
@@ -96,7 +96,7 @@ fun ScreenScope.ScriptingContent(
 }
 
 @Composable
-private fun ScreenScope.CodeSection(
+private fun CodeSection(
     isFocused: Boolean,
     code: String,
     label: String?,

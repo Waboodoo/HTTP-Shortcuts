@@ -9,15 +9,15 @@ import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.FloatingAddButton
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 import ch.rmy.android.http_shortcuts.icons.CropIconContract
 
 @Composable
-fun ScreenScope.IconPickerScreen() {
+fun IconPickerScreen() {
     val (viewModel, state) = bindViewModel<IconPickerViewState, IconPickerViewModel>()
 
     val pickImage = rememberLauncherForActivityResult(FilePickerUtil.PickFile) { fileUri ->

@@ -5,12 +5,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.FloatingAddButton
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 
 @Composable
-fun ScreenScope.RequestHeadersScreen() {
+fun RequestHeadersScreen() {
     val (viewModel, state) = bindViewModel<RequestHeadersViewState, RequestHeadersViewModel>()
 
     BackHandler {

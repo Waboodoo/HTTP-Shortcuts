@@ -11,7 +11,6 @@ import androidx.core.widget.ImageViewCompat
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.tryOrLog
-import ch.rmy.android.framework.extensions.zoomSwap
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.loadImage
 import com.squareup.picasso.Picasso
@@ -27,27 +26,20 @@ class IconView : AppCompatImageView {
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    fun setIcon(icon: ShortcutIcon, animated: Boolean = false) {
+    fun setIcon(icon: ShortcutIcon) {
         tryOrLog {
-            applyIcon(icon, animated)
+            applyIcon(icon)
         }
     }
 
-    private fun applyIcon(icon: ShortcutIcon, animated: Boolean = false) {
+    private fun applyIcon(icon: ShortcutIcon) {
         if (icon == this.icon) {
             return
         }
         val uri = icon.getIconURI(context)
         val tint = (icon as? ShortcutIcon.BuiltInIcon)?.tint
-        if (this.icon == null || !animated) {
-            this.icon = icon
-            applyImageURI(uri, tint)
-        } else {
-            this.icon = icon
-            zoomSwap {
-                applyImageURI(uri, tint)
-            }
-        }
+        this.icon = icon
+        applyImageURI(uri, tint)
     }
 
     private fun applyImageURI(uri: Uri, tint: Int?) {

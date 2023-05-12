@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.annotation.UiThread
 import androidx.core.net.toUri
-import androidx.fragment.app.Fragment
 import ch.rmy.android.framework.R
 
 @UiThread
@@ -35,15 +34,6 @@ fun Context.openURL(url: Uri) {
 
 fun Context.openURL(url: String) {
     openURL(url.toUri())
-}
-
-fun Fragment.openURL(url: String) {
-    try {
-        Intent(Intent.ACTION_VIEW, url.toUri())
-            .startActivity(this)
-    } catch (e: ActivityNotFoundException) {
-        showSnackbar(R.string.error_not_supported)
-    }
 }
 
 fun Context.isDarkThemeEnabled() =

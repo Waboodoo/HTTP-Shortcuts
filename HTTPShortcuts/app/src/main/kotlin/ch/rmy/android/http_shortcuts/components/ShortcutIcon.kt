@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.http_shortcuts.R
@@ -38,7 +39,7 @@ fun ShortcutIcon(
 
     AsyncImage(
         model = model,
-        contentDescription = null,
+        contentDescription = stringResource(R.string.icon_description),
         colorFilter = tint?.let { ColorFilter.tint(tint) },
         modifier = Modifier
             .size(width = size, height = size)

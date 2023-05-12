@@ -7,7 +7,6 @@ import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -15,7 +14,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 class WidgetSettingsActivity : BaseComposeActivity() {
 
     @Composable
-    override fun ScreenScope.Content() {
+    override fun Content() {
         WidgetSettingsScreen(
             shortcutId = intent.getStringExtra(EXTRA_SHORTCUT_ID)!!,
             shortcutName = intent.getStringExtra(EXTRA_SHORTCUT_NAME)!!,

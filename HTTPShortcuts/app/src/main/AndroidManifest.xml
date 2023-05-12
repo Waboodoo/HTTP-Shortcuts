@@ -158,6 +158,9 @@
                 android:value=".activities.editor.ShortcutEditorActivity" />
         </activity>
         <activity
+            android:name=".activities.moving.MoveActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".activities.categories.CategoriesActivity"
             android:label="@string/title_categories"
             android:parentActivityName=".activities.main.MainActivity"

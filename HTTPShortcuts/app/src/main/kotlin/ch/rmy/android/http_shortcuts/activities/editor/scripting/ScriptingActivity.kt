@@ -3,13 +3,12 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting
 import androidx.compose.runtime.Composable
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 
 class ScriptingActivity : BaseComposeActivity() {
 
     @Composable
-    override fun ScreenScope.Content() {
+    override fun Content() {
         ScriptingScreen(intent.getStringExtra(EXTRA_SHORTCUT_ID))
     }
 

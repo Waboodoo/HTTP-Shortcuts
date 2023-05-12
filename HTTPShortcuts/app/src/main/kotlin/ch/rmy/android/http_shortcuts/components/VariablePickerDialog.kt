@@ -81,7 +81,7 @@ fun VariablePickerDialog(
                 items = variables,
                 key = { it.variableKey },
             ) { variable ->
-                MenuDialogEntry(
+                SelectDialogEntry(
                     label = variable.variableKey,
                     description = stringResource(variable.variableType.getTypeName()),
                     onClick = {

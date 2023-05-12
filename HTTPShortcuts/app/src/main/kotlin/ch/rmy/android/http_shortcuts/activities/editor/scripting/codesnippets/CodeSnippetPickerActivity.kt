@@ -6,13 +6,12 @@ import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 
 class CodeSnippetPickerActivity : BaseComposeActivity() {
 
     @Composable
-    override fun ScreenScope.Content() {
+    override fun Content() {
         CodeSnippetPickerScreen(
             currentShortcutId = intent.getStringExtra(EXTRA_SHORTCUT_ID),
             includeResponseOptions = intent.getBooleanExtra(EXTRA_INCLUDE_RESPONSE_OPTIONS, false),

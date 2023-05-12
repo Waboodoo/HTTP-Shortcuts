@@ -4,13 +4,12 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.localize
 
 @Composable
-fun ScreenScope.AdvancedSettingsScreen() {
+fun AdvancedSettingsScreen() {
     val (viewModel, state) = bindViewModel<AdvancedSettingsViewState, AdvancedSettingsViewModel>()
 
     BackHandler {

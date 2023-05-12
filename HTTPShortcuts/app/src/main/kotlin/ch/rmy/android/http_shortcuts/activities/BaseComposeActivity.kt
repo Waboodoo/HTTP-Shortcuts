@@ -3,21 +3,28 @@ package ch.rmy.android.http_shortcuts.activities
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import ch.rmy.android.http_shortcuts.components.Screen
-import ch.rmy.android.http_shortcuts.components.ScreenScope
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
+import ch.rmy.android.http_shortcuts.components.AppTheme
+import ch.rmy.android.http_shortcuts.components.Eventinator
+import ch.rmy.android.http_shortcuts.components.LocalEventinator
 
 abstract class BaseComposeActivity : BaseActivity() {
 
     override fun onCreated(savedState: Bundle?) {
-        updateStatusBarColor()
-        val primaryColor = themeHelper.getPrimaryColor(this)
         setContent {
-            Screen(primaryColor, ::handleEvent, ::onBackPressed) {
-                Content()
+            val eventinator = remember {
+                Eventinator(::handleEvent)
+            }
+
+            AppTheme {
+                CompositionLocalProvider(LocalEventinator provides eventinator) {
+                    Content()
+                }
             }
         }
     }
 
     @Composable
-    abstract fun ScreenScope.Content()
+    abstract fun Content()
 }

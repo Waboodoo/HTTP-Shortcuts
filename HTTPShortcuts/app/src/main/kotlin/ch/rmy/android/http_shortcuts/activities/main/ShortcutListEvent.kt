@@ -11,8 +11,6 @@ abstract class ShortcutListEvent : ViewModelEvent() {
 
     data class OpenFilePickerForExport(val exportFormat: ExportFormat) : ViewModelEvent()
 
-    data class MovingModeChanged(val enabled: Boolean) : ShortcutListEvent()
-
     object ShortcutEdited : ShortcutListEvent()
 
     data class PlaceShortcutOnHomeScreen(val shortcut: ShortcutPlaceholder) : ShortcutListEvent()

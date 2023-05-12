@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.data.domains.shortcuts
 import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
-import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.getBase
@@ -57,18 +56,26 @@ constructor(
         }
             .shortcuts
 
-    suspend fun moveShortcutToCategory(shortcutId: ShortcutId, targetCategoryId: CategoryId) {
+    suspend fun moveShortcuts(placement: Map<CategoryId, List<ShortcutId>>) {
         commitTransaction {
-            moveShortcut(shortcutId, targetCategoryId = targetCategoryId)
-        }
-    }
+            val base = getBase().findFirst() ?: return@commitTransaction
+            val shortcutMap = base.shortcuts.associateBy { it.id }
+            val categories = base.categories
 
-    suspend fun swapShortcutPositions(categoryId: CategoryId, shortcutId1: ShortcutId, shortcutId2: ShortcutId) {
-        commitTransaction {
-            getCategoryById(categoryId)
-                .findFirst()
-                ?.shortcuts
-                ?.swap(shortcutId1, shortcutId2) { id }
+            // Some sanity checking first
+            assert(categories.map { it.id }.toSet() == placement.keys) {
+                "Category IDs in placement did not match existing categories"
+            }
+            assert(placement.values.flatten().toSet() == base.shortcuts.map { it.id }.toSet()) {
+                "Shortcut IDs in placement did not match existing shortcuts"
+            }
+
+            categories.forEach { category ->
+                category.shortcuts.apply {
+                    clear()
+                    addAll(placement[category.id]!!.map { shortcutId -> shortcutMap[shortcutId]!! })
+                }
+            }
         }
     }
 

@@ -66,8 +66,6 @@
     <string name="action_enable_moving">Enable Moving within Category</string>
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
     <string name="message_moving_enabled">Re-order shortcuts by dragging them.</string>
-    <!-- Shortcut dropdown option: Move the shortcut to a different category -->
-    <string name="action_move_to_category">Move to Category…</string>
     <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL)-->
     <string name="title_export_shortcut_as">Export as…</string>
     <!-- Dialog option, for exporting a single shortcut as a cURL command -->
@@ -333,8 +331,6 @@
     <string name="settings_documentation_summary">FAQ, references, examples, …</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">\“%1$s\” duplicated.</string>
-    <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_moved">\“%1$s\” moved.</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_deleted">\“%1$s\” deleted.</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
@@ -408,8 +404,8 @@
     </plurals>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">%s (hidden)</string>
-    <!-- Dialog title/button, for feature to move a shortcut to a different category -->
-    <string name="title_move_to_category">Move to Category</string>
+    <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
+    <string name="title_move_shortcuts">Move Shortcuts</string>
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">Execute HTTP Shortcut</string>
     <!-- Button/page title, for viewing list of variables -->
@@ -1438,4 +1434,6 @@
     <string name="button_format_json">Format</string>
     <!-- Error, shown in snackbar, when the user tries to format a custom request body, but it is invalid JSON syntax -->
     <string name="error_cannot_format_invalid_json">Invalid JSON syntax</string>
+    <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
+    <string name="placeholder_empty_category_for_moving">no shortcuts in this category</string>
 </resources>

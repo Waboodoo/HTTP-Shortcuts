@@ -10,12 +10,18 @@ import ch.rmy.android.http_shortcuts.R
 @Composable
 fun ConfirmDialog(
     message: String,
+    title: String? = null,
     confirmButton: String = stringResource(R.string.dialog_ok),
     onConfirmRequest: () -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
+        title = title?.let {
+            {
+                Text(it)
+            }
+        },
         text = {
             Text(message)
         },

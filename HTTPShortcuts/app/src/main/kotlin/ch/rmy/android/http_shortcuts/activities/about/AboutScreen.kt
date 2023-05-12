@@ -4,12 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.ChangeLogDialog
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 
 @Composable
-fun ScreenScope.AboutScreen() {
+fun AboutScreen() {
     val (viewModel, state) = bindViewModel<AboutViewState, AboutViewModel>()
 
     SimpleScaffold(

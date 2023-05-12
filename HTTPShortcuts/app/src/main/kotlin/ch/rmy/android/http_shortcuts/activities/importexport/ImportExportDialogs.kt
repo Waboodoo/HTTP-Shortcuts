@@ -9,11 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.components.MenuDialogEntry
 import ch.rmy.android.http_shortcuts.components.MessageDialog
 import ch.rmy.android.http_shortcuts.components.MultiSelectDialog
 import ch.rmy.android.http_shortcuts.components.ProgressDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialog
+import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.TextInputDialog
 import ch.rmy.android.http_shortcuts.components.models.MenuEntry
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -106,11 +106,11 @@ private fun SelectExportDestinationDialog(
         Column(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(R.string.button_export_to_general),
                 onClick = onExportToFileOptionSelected,
             )
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(R.string.button_export_send_to),
                 onClick = onExportViaSharingOptionSelected,
             )

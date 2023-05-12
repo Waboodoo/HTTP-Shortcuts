@@ -1,93 +1,71 @@
 package ch.rmy.android.http_shortcuts.components
 
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.TopAppBarColors
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Screen(
-    primaryColor: Int,
-    onEvent: (ViewModelEvent) -> Unit,
-    onBackPressed: () -> Unit,
-    content: @Composable ScreenScope.() -> Unit,
-) {
-    val topAppBarColors = TopAppBarDefaults.smallTopAppBarColors(
-        containerColor = Color(primaryColor),
-        navigationIconContentColor = Color.White,
-        titleContentColor = Color.White,
-        actionIconContentColor = Color.White,
-    )
-
-    val screenScope = remember(topAppBarColors, onEvent, onBackPressed) {
-        ScreenScope(topAppBarColors, onEvent, onBackPressed)
-    }
-
-    AppTheme {
-        content(screenScope)
-    }
-}
-
-@Composable
-inline fun <D, VS, reified VM : BaseViewModel<D, VS>> ScreenScope.bindViewModel(
+inline fun <D, VS, reified VM : BaseViewModel<D, VS>> bindViewModel(
     initData: D,
+    key: String? = null,
 ): Pair<VM, VS?> {
-    val viewModel = viewModel<VM>()
-    val state by viewModel.viewState.collectAsStateWithLifecycle(initialValue = null)
+    val viewModel = viewModel<VM>(key = key)
+    val state by viewModel.viewState.collectAsStateWithLifecycle()
+    val eventHandler = LocalEventinator.current
     LaunchedEffect(Unit) {
         viewModel.initialize(initData)
-        viewModel.events.collect(::onEvent)
+        viewModel.events.collect(eventHandler::onEvent)
     }
     return Pair(viewModel, state)
 }
 
 @Composable
-inline fun <VS, reified VM : BaseViewModel<Unit, VS>> ScreenScope.bindViewModel(): Pair<VM, VS?> =
+inline fun <VS, reified VM : BaseViewModel<Unit, VS>> bindViewModel(): Pair<VM, VS?> =
     bindViewModel<Unit, VS, VM>(Unit)
 
-@OptIn(ExperimentalMaterial3Api::class)
-class ScreenScope(
-    val topAppBarColors: TopAppBarColors,
-    onEvent: (ViewModelEvent) -> Unit,
-    val onBackPressed: () -> Unit,
-) {
-    private val eventHandlers = mutableListOf<(ViewModelEvent) -> Boolean>()
-
-    init {
-        eventHandlers.add { event ->
-            consume {
-                onEvent(event)
-            }
-        }
-    }
-
-    @Composable
-    fun EventHandler(onEvent: (ViewModelEvent) -> Boolean) {
-        DisposableEffect(Unit) {
-            eventHandlers.add(0, onEvent)
+@Composable
+fun EventHandler(enabled: Boolean = true, onEvent: (ViewModelEvent) -> Boolean) {
+    val eventHandler = LocalEventinator.current
+    DisposableEffect(enabled) {
+        if (enabled) {
+            eventHandler.register(onEvent)
             onDispose {
-                eventHandlers.remove(onEvent)
+                eventHandler.deregister(onEvent)
             }
+        } else {
+            onDispose { }
         }
     }
+}
+
+class Eventinator(val baseHandler: (ViewModelEvent) -> Unit = {}) {
+    private val eventHandlers = mutableListOf<(ViewModelEvent) -> Boolean>()
 
     fun onEvent(event: ViewModelEvent) {
         for (handler in eventHandlers) {
             val handled = handler(event)
             if (handled) {
-                break
+                return
             }
         }
+        baseHandler(event)
     }
+
+    fun register(eventHandler: (ViewModelEvent) -> Boolean) {
+        eventHandlers.add(0, eventHandler)
+    }
+
+    fun deregister(eventHandler: (ViewModelEvent) -> Boolean) {
+        eventHandlers.remove(eventHandler)
+    }
+}
+
+val LocalEventinator = staticCompositionLocalOf {
+    Eventinator()
 }

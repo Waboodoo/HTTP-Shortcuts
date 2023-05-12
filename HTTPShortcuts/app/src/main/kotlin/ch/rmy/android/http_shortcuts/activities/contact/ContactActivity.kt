@@ -15,7 +15,6 @@ import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
@@ -34,7 +33,7 @@ class ContactActivity : BaseComposeActivity() {
     lateinit var versionUtil: VersionUtil
 
     @Composable
-    override fun ScreenScope.Content() {
+    override fun Content() {
         ContactScreen(
             onSubmit = {
                 lifecycleScope.launch(Dispatchers.IO) {

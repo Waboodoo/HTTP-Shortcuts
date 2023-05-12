@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,7 +26,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.getActivity
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
+import ch.rmy.android.http_shortcuts.extensions.runIf
 import kotlinx.coroutines.launch
 
 enum class BackButton {
@@ -35,14 +38,15 @@ enum class BackButton {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun <T : Any> ScreenScope.SimpleScaffold(
+fun <T : Any> SimpleScaffold(
     viewState: T?,
     title: String,
     subtitle: String? = null,
-    backButton: BackButton = BackButton.ARROW,
+    backButton: BackButton? = BackButton.ARROW,
     floatingActionButton: @Composable () -> Unit = {},
+    onTitleClicked: (() -> Unit)? = null,
     actions: @Composable RowScope.(viewState: T) -> Unit = {},
-    content: @Composable ScreenScope.(viewState: T) -> Unit,
+    content: @Composable (viewState: T) -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -66,10 +70,13 @@ fun <T : Any> ScreenScope.SimpleScaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                colors = topAppBarColors,
                 title = {
                     Column(
                         verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .runIf(onTitleClicked != null) {
+                                clickable(onClick = onTitleClicked!!)
+                            }
                     ) {
                         Text(title)
                         if (subtitle != null) {
@@ -81,9 +88,12 @@ fun <T : Any> ScreenScope.SimpleScaffold(
                     }
                 },
                 navigationIcon = {
+                    if (backButton == null) {
+                        return@TopAppBar
+                    }
                     IconButton(
                         onClick = {
-                            onBackPressed()
+                            context.getActivity()?.onBackPressed()
                         },
                     ) {
                         when (backButton) {

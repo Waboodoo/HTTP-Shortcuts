@@ -5,9 +5,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.core.content.getSystemService
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.bindViewModel
-import ch.rmy.android.framework.extensions.doOnDestroy
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.getParcelableList
 import ch.rmy.android.framework.extensions.getSerializable
@@ -59,7 +60,11 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     private val progressIndicator: ProgressIndicator by lazy {
         ProgressIndicator(this)
             .also { progressIndicator ->
-                doOnDestroy(progressIndicator::destroy)
+                lifecycle.addObserver(object : DefaultLifecycleObserver {
+                    override fun onDestroy(owner: LifecycleOwner) {
+                        progressIndicator.destroy()
+                    }
+                })
             }
     }
 

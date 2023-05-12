@@ -8,8 +8,8 @@ import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.IconPickerDialog
-import ch.rmy.android.http_shortcuts.components.MenuDialogEntry
 import ch.rmy.android.http_shortcuts.components.SelectDialog
+import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.extensions.localize
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
@@ -68,12 +68,12 @@ private fun ContextMenuDialog(
         Column(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(R.string.action_edit),
                 onClick = onEditClicked,
             )
             if (contextMenuState.showOptionVisible) {
-                MenuDialogEntry(
+                SelectDialogEntry(
                     label = stringResource(R.string.action_show_category),
                     onClick = {
                         onVisibilityChangeRequested(true)
@@ -81,7 +81,7 @@ private fun ContextMenuDialog(
                 )
             }
             if (contextMenuState.hideOptionVisible) {
-                MenuDialogEntry(
+                SelectDialogEntry(
                     label = stringResource(R.string.action_hide_category),
                     onClick = {
                         onVisibilityChangeRequested(false)
@@ -89,13 +89,13 @@ private fun ContextMenuDialog(
                 )
             }
             if (contextMenuState.placeOnHomeScreenOptionVisible) {
-                MenuDialogEntry(
+                SelectDialogEntry(
                     label = stringResource(R.string.action_place_category),
                     onClick = onPlaceOnHomeScreenClicked,
                 )
             }
             if (contextMenuState.deleteOptionVisible) {
-                MenuDialogEntry(
+                SelectDialogEntry(
                     label = stringResource(R.string.action_delete),
                     onClick = onDeleteClicked,
                 )

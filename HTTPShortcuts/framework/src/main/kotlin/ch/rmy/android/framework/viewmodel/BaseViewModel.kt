@@ -18,9 +18,10 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -36,14 +37,10 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
     val events: Flow<ViewModelEvent> = eventChannel.receiveAsFlow()
 
     private val mutableViewState = MutableStateFlow<ViewState?>(null)
+    val viewState: StateFlow<ViewState?> = mutableViewState.asStateFlow()
 
-    val viewState: Flow<ViewState> = mutableViewState.asStateFlow().filterNotNull()
-
-    val latestViewState: ViewState?
+    protected val currentViewState: ViewState?
         get() = mutableViewState.value
-
-    protected var currentViewState: ViewState? = null
-        private set
 
     private val inProgress = AtomicInteger()
     private var nothingInProgress: CompletableDeferred<Unit>? = null
@@ -51,8 +48,6 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
     protected fun emitEvent(event: ViewModelEvent) {
         eventChannel.trySend(event)
     }
-
-    private var suppressViewStatePublishing = false
 
     private val delayedViewStateUpdates = mutableListOf<ViewState.() -> ViewState>()
     private val delayedViewStateActions = mutableListOf<(ViewState) -> Unit>()
@@ -72,33 +67,7 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
             delayedViewStateUpdates.add(mutation)
             return
         }
-        currentViewState = mutation(currentViewState!!)
-        if (!suppressViewStatePublishing) {
-            mutableViewState.value = currentViewState!!
-        }
-    }
-
-    @UiThread
-    protected fun emitCurrentViewState() {
-        currentViewState
-            ?.takeUnless { suppressViewStatePublishing }
-            ?.let {
-                mutableViewState.value = it
-            }
-    }
-
-    @UiThread
-    protected fun atomicallyUpdateViewState(action: () -> Unit) {
-        if (suppressViewStatePublishing) {
-            action()
-            return
-        }
-        suppressViewStatePublishing = true
-        action()
-        suppressViewStatePublishing = false
-        if (currentViewState != null) {
-            mutableViewState.value = currentViewState!!
-        }
+        mutableViewState.update { it!!.mutation() }
     }
 
     private var isInitializationStarted = false
@@ -129,18 +98,15 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         if (isInitialized) {
             error("view model already initialized")
         }
-        val publishViewState = delayedViewStateUpdates.isNotEmpty() || !silent
-        currentViewState = initViewState()
+        val currentViewState = initViewState()
             .runFor(delayedViewStateUpdates) {
                 it()
             }
         delayedViewStateUpdates.clear()
-        if (publishViewState) {
-            mutableViewState.value = currentViewState!!
-        }
+        mutableViewState.value = currentViewState
         isInitialized = true
         onInitialized()
-        delayedViewStateActions.forEach { it(currentViewState!!) }
+        delayedViewStateActions.forEach { it(currentViewState) }
         delayedViewStateActions.clear()
     }
 

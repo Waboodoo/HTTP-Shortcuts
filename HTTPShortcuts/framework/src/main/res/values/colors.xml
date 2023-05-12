@@ -2,6 +2,4 @@
 <resources>
     <item name="text_color_primary_dark" type="color">#000000</item>
     <item name="text_color_secondary_dark" type="color">#666666</item>
-    <item name="expandable_section_icon" type="color">#000000</item>
-    <item name="activity_background" type="color">#FAFAFA</item>
 </resources>

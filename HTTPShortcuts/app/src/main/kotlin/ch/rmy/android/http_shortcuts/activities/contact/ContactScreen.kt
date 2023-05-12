@@ -10,7 +10,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -28,16 +27,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.FontSize
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 
 private const val CAPTCHA_CODE = "HTTP Shortcuts"
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScreenScope.ContactScreen(
+fun ContactScreen(
     onSubmit: () -> Unit,
 ) {
     var captchaInput by remember {

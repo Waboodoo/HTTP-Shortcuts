@@ -85,12 +85,10 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
     api("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
-    api("androidx.core:core-ktx:1.9.0@aar")
-    api("androidx.annotation:annotation:1.5.0")
+    api("androidx.core:core-ktx:1.10.0@aar")
+    api("androidx.annotation:annotation:1.6.0")
     api("androidx.appcompat:appcompat:1.6.0-rc01")
-    api("com.google.android.material:material:1.7.0")
-    api("androidx.fragment:fragment-ktx:1.5.5")
-    api("androidx.recyclerview:recyclerview:1.2.1")
+    api("com.google.android.material:material:1.7.0") // TODO: Remove?
     api("androidx.constraintlayout:constraintlayout:2.1.4")
     api("androidx.preference:preference-ktx:1.2.0")
 

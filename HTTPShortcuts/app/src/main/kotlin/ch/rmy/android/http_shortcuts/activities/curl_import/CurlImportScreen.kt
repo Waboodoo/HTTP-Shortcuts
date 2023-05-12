@@ -8,13 +8,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.BackButton
-import ch.rmy.android.http_shortcuts.components.ScreenScope
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 
 @Composable
-fun ScreenScope.CurlImportScreen() {
+fun CurlImportScreen() {
     val (viewModel, state) = bindViewModel<CurlImportViewState, CurlImportViewModel>()
 
     val inputText by viewModel.inputText.collectAsStateWithLifecycle()

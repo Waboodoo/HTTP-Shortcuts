@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.utils
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
+import android.view.ViewGroup
 import androidx.core.view.isVisible
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
@@ -10,12 +11,15 @@ import ch.rmy.android.http_shortcuts.activities.BaseActivity
 @Deprecated("Use Compose instead")
 class ProgressIndicator(private val activity: BaseActivity) {
 
+    private val baseView: ViewGroup?
+        get() = (activity.findViewById<ViewGroup>(android.R.id.content))?.getChildAt(0) as ViewGroup?
+
     private var layoutLoaded = false
     private val showProgressRunnable = Runnable {
         if (!layoutLoaded) {
             layoutLoaded = true
             activity.setContentView(R.layout.activity_execute_loading)
-            activity.baseView?.setBackgroundColor(Color.TRANSPARENT)
+            baseView?.setBackgroundColor(Color.TRANSPARENT)
         }
     }
 
@@ -29,7 +33,7 @@ class ProgressIndicator(private val activity: BaseActivity) {
     fun hideProgress() {
         handler.removeCallbacks(showProgressRunnable)
         if (layoutLoaded) {
-            activity.baseView?.isVisible = false
+            baseView?.isVisible = false
         }
     }
 

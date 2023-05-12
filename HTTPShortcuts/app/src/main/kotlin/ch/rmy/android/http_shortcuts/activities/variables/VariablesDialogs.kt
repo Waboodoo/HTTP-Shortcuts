@@ -13,8 +13,8 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings.getTypeDescription
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings.getTypeName
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
-import ch.rmy.android.http_shortcuts.components.MenuDialogEntry
 import ch.rmy.android.http_shortcuts.components.SelectDialog
+import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 
 @Composable
@@ -69,15 +69,15 @@ private fun ContextMenuDialog(
         Column(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(R.string.action_edit),
                 onClick = onEditClicked,
             )
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(R.string.action_duplicate),
                 onClick = onDuplicateClicked,
             )
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(R.string.action_delete),
                 onClick = onDeleteClicked,
             )
@@ -99,7 +99,7 @@ private fun CreationDialog(
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState()),
         ) {
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(VariableType.CONSTANT.getTypeName()),
                 description = stringResource(VariableType.CONSTANT.getTypeDescription()),
                 onClick = {
@@ -107,56 +107,56 @@ private fun CreationDialog(
                 },
             )
             Divider()
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(VariableType.SELECT.getTypeName()),
                 description = stringResource(VariableType.SELECT.getTypeDescription()),
                 onClick = {
                     onVariableTypeSelected(VariableType.SELECT)
                 },
             )
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(VariableType.TEXT.getTypeName()),
                 description = stringResource(VariableType.TEXT.getTypeDescription()),
                 onClick = {
                     onVariableTypeSelected(VariableType.TEXT)
                 },
             )
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(VariableType.NUMBER.getTypeName()),
                 description = stringResource(VariableType.NUMBER.getTypeDescription()),
                 onClick = {
                     onVariableTypeSelected(VariableType.NUMBER)
                 },
             )
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(VariableType.SLIDER.getTypeName()),
                 description = stringResource(VariableType.SLIDER.getTypeDescription()),
                 onClick = {
                     onVariableTypeSelected(VariableType.SLIDER)
                 },
             )
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(VariableType.PASSWORD.getTypeName()),
                 description = stringResource(VariableType.PASSWORD.getTypeDescription()),
                 onClick = {
                     onVariableTypeSelected(VariableType.PASSWORD)
                 },
             )
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(VariableType.DATE.getTypeName()),
                 description = stringResource(VariableType.DATE.getTypeDescription()),
                 onClick = {
                     onVariableTypeSelected(VariableType.DATE)
                 },
             )
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(VariableType.TIME.getTypeName()),
                 description = stringResource(VariableType.TIME.getTypeDescription()),
                 onClick = {
                     onVariableTypeSelected(VariableType.TIME)
                 },
             )
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(VariableType.COLOR.getTypeName()),
                 description = stringResource(VariableType.COLOR.getTypeDescription()),
                 onClick = {
@@ -164,21 +164,21 @@ private fun CreationDialog(
                 },
             )
             Divider()
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(VariableType.TOGGLE.getTypeName()),
                 description = stringResource(VariableType.TOGGLE.getTypeDescription()),
                 onClick = {
                     onVariableTypeSelected(VariableType.TOGGLE)
                 },
             )
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(VariableType.CLIPBOARD.getTypeName()),
                 description = stringResource(VariableType.CLIPBOARD.getTypeDescription()),
                 onClick = {
                     onVariableTypeSelected(VariableType.CLIPBOARD)
                 },
             )
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(VariableType.UUID.getTypeName()),
                 description = stringResource(VariableType.UUID.getTypeDescription()),
                 onClick = {

@@ -2,88 +2,15 @@
 
     <style name="DialogText" parent="@style/MD_Dialog_Message" />
 
-    <style name="ListName" parent="@android:style/TextAppearance.Medium">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="ListName_auxiliary" parent="@android:style/TextAppearance.Medium">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/text_color_secondary_dark</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
     <style name="GridName" parent="@android:style/TextAppearance.Medium">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">13sp</item>
-    </style>
-
-    <style name="ListName_secondary" parent="@android:style/TextAppearance.Medium">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="DialogItemDescription" parent="@android:style/TextAppearance.Small">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="SubHeader">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">48dp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:textColor">?colorPrimary</item>
-    </style>
-
-    <style name="Copyable">
-        <item name="android:textColor">@color/text_color_primary_dark</item>
-        <item name="android:background">@color/textarea_background</item>
-        <item name="android:paddingLeft">6dp</item>
-        <item name="android:paddingTop">6dp</item>
-        <item name="android:paddingRight">8dp</item>
-        <item name="android:paddingBottom">8dp</item>
-        <item name="android:layout_marginTop">4dp</item>
-        <item name="android:layout_marginBottom">4dp</item>
-        <item name="android:textIsSelectable">true</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="InfoLabel">
-        <item name="android:textSize">13sp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_marginRight">4dp</item>
-        <item name="android:layout_marginTop">0dp</item>
-        <item name="android:layout_marginBottom">16dp</item>
-        <item name="android:layout_marginLeft">4dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:alpha">0.9</item>
-    </style>
-
-    <style name="VariableButton">
-        <item name="android:layout_width">36dp</item>
-        <item name="android:layout_height">36dp</item>
-        <item name="android:tint">#000</item>
-        <item name="android:padding">6dp</item>
-        <item name="android:layout_marginBottom">4dp</item>
-        <item name="android:background">?selectableItemBackgroundBorderless</item>
-    </style>
-
-    <style name="ResponseInfo_Header">
-        <item name="android:layout_marginBottom">4dp</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="ResponseInfo_Values">
-        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="ColorPickerInput">

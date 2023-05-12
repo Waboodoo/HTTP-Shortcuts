@@ -13,13 +13,13 @@ import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.components.ScreenScope
+import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 
 @Composable
-fun ScreenScope.DocumentationScreen(url: Uri?) {
+fun DocumentationScreen(url: Uri?) {
     val (viewModel, state) = bindViewModel<DocumentationViewModel.InitData, DocumentationViewState, DocumentationViewModel>(
         DocumentationViewModel.InitData(url)
     )

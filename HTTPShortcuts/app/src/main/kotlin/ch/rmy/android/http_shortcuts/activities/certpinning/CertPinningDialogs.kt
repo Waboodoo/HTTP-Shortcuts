@@ -28,8 +28,8 @@ import androidx.compose.ui.text.input.TransformedText
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.FontSize
-import ch.rmy.android.http_shortcuts.components.MenuDialogEntry
 import ch.rmy.android.http_shortcuts.components.SelectDialog
+import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.Spacing
 
 @Composable
@@ -74,12 +74,12 @@ private fun ContextMenuDialog(
         Column(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(R.string.action_edit),
                 onClick = onEditOptionSelected,
             )
             Divider()
-            MenuDialogEntry(
+            SelectDialogEntry(
                 label = stringResource(R.string.action_delete),
                 onClick = onDeleteOptionSelected,
             )

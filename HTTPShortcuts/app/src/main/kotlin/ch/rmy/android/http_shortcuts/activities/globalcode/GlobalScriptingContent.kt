@@ -15,13 +15,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.CodeEditorField
-import ch.rmy.android.http_shortcuts.components.ScreenScope
+import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.insertAtCursor
 import ch.rmy.android.http_shortcuts.utils.SyntaxHighlighter
 
 @Composable
-fun ScreenScope.GlobalScriptingContent(
+fun GlobalScriptingContent(
     globalCode: String,
     onGlobalCodeChanged: (String) -> Unit,
 ) {

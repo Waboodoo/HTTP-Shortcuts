@@ -16,4 +16,8 @@ abstract class MainEvent : ViewModelEvent() {
     object OpenSettings : MainEvent()
 
     object OpenImportExport : MainEvent()
+
+    object Restart : MainEvent()
+
+    object ReopenSettings : MainEvent()
 }
