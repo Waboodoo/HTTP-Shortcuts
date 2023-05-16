@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
-import android.graphics.Color
 import androidx.core.content.res.use
 import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
@@ -11,7 +10,6 @@ class ThemeHelper(context: Context) {
 
     val theme: Int
     val transparentTheme: Int
-    val statusBarColor: Int
 
     private val isDarkThemeEnabled: Boolean = context.isDarkThemeEnabled()
 
@@ -34,19 +32,6 @@ class ThemeHelper(context: Context) {
             Settings.THEME_ORANGE -> R.style.LightThemeTransparentAlt5
             Settings.THEME_INDIGO -> R.style.LightThemeTransparentAlt6
             else -> R.style.LightThemeTransparentAlt0
-        }
-        statusBarColor = if (isDarkThemeEnabled) {
-            Color.BLACK
-        } else {
-            when (themeId) {
-                Settings.THEME_GREEN -> color(context, R.color.primary_dark_alt1)
-                Settings.THEME_RED -> color(context, R.color.primary_dark_alt2)
-                Settings.THEME_PURPLE -> color(context, R.color.primary_dark_alt3)
-                Settings.THEME_GREY -> color(context, R.color.primary_dark_alt4)
-                Settings.THEME_ORANGE -> color(context, R.color.primary_dark_alt5)
-                Settings.THEME_INDIGO -> color(context, R.color.primary_dark_alt6)
-                else -> color(context, R.color.primary_dark_alt0)
-            }
         }
     }
 

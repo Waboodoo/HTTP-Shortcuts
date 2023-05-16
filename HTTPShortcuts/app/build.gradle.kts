@@ -265,6 +265,7 @@ dependencies {
     implementation("com.github.alorma:compose-settings-ui-m3:0.26.0")
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
     implementation("com.github.qawaz:compose-code-editor:2.0.3")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
 
     /* Image cropping */
     implementation("com.github.yalantis:ucrop:2.2.8")
