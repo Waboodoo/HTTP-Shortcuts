@@ -80,29 +80,31 @@ private fun DetailInfoCards(detailInfo: DetailInfo) {
             modifier = Modifier
                 .fillMaxWidth(),
         ) {
-            Column(
-                modifier = Modifier.padding(Spacing.MEDIUM),
-            ) {
-                Text(
-                    stringResource(R.string.label_general_response_info),
-                    fontSize = FontSize.BIG,
-                )
-                detailInfo.status?.let {
-                    KeyValueText(stringResource(R.string.label_status_code), it)
-                }
-                detailInfo.url?.let {
-                    KeyValueText(stringResource(R.string.label_response_url), it)
-                }
-                detailInfo.timing?.let {
-                    val milliseconds = it.inWholeMilliseconds.toInt()
-                    KeyValueText(
-                        stringResource(R.string.label_response_timing),
-                        pluralStringResource(
-                            R.plurals.milliseconds,
-                            milliseconds,
-                            milliseconds,
-                        )
+            SelectionContainer {
+                Column(
+                    modifier = Modifier.padding(Spacing.MEDIUM),
+                ) {
+                    Text(
+                        stringResource(R.string.label_general_response_info),
+                        fontSize = FontSize.BIG,
                     )
+                    detailInfo.status?.let {
+                        KeyValueText(stringResource(R.string.label_status_code), it)
+                    }
+                    detailInfo.url?.let {
+                        KeyValueText(stringResource(R.string.label_response_url), it)
+                    }
+                    detailInfo.timing?.let {
+                        val milliseconds = it.inWholeMilliseconds.toInt()
+                        KeyValueText(
+                            stringResource(R.string.label_response_timing),
+                            pluralStringResource(
+                                R.plurals.milliseconds,
+                                milliseconds,
+                                milliseconds,
+                            )
+                        )
+                    }
                 }
             }
         }
@@ -111,15 +113,17 @@ private fun DetailInfoCards(detailInfo: DetailInfo) {
                 modifier = Modifier
                     .fillMaxWidth(),
             ) {
-                Column(
-                    modifier = Modifier.padding(Spacing.MEDIUM),
-                ) {
-                    Text(
-                        stringResource(R.string.label_response_headers),
-                        fontSize = FontSize.BIG,
-                    )
-                    detailInfo.headers.forEach { (name, value) ->
-                        KeyValueText(name, value)
+                SelectionContainer {
+                    Column(
+                        modifier = Modifier.padding(Spacing.MEDIUM),
+                    ) {
+                        Text(
+                            stringResource(R.string.label_response_headers),
+                            fontSize = FontSize.BIG,
+                        )
+                        detailInfo.headers.forEach { (name, value) ->
+                            KeyValueText(name, value)
+                        }
                     }
                 }
             }

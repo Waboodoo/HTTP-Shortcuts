@@ -125,6 +125,7 @@ fun ResponseContent(
                     Column {
                         Checkbox(
                             label = stringResource(R.string.label_include_meta_information),
+                            subtitle = stringResource(R.string.subtitle_include_meta_information),
                             checked = includeMetaInformation,
                             onCheckedChange = onIncludeMetaInformationChanged,
                         )
