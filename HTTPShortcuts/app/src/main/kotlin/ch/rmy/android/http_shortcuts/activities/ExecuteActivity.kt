@@ -4,10 +4,16 @@ import android.app.ActivityManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.compose.BackHandler
 import androidx.activity.viewModels
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.core.content.getSystemService
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.getParcelableList
@@ -15,11 +21,10 @@ import ch.rmy.android.framework.extensions.getSerializable
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.ui.Entrypoint
-import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.execute.ExecuteEvent
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
+import ch.rmy.android.http_shortcuts.components.ProgressDialog
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
@@ -30,11 +35,12 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionSchedulerWorker
 import ch.rmy.android.http_shortcuts.utils.CacheFilesCleanupWorker
-import ch.rmy.android.http_shortcuts.utils.ProgressIndicator
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
-class ExecuteActivity : BaseActivity(), Entrypoint {
+class ExecuteActivity : BaseComposeActivity(), Entrypoint {
 
     override val initializeWithTheme: Boolean
         get() = false
@@ -58,17 +64,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     private var isLowMemory = false
 
-    private val progressIndicator: ProgressIndicator by lazy {
-        ProgressIndicator(this)
-            .also { progressIndicator ->
-                lifecycle.addObserver(object : DefaultLifecycleObserver {
-                    override fun onDestroy(owner: LifecycleOwner) {
-                        progressIndicator.destroy()
-                    }
-                })
-            }
-    }
-
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
@@ -86,6 +81,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     override fun onCreated(savedState: Bundle?) {
         getApplicationComponent().inject(this)
         setTheme(R.style.LightThemeTransparent)
+        super.onCreated(savedState)
 
         viewModel.initialize(
             ExecutionParams(
@@ -100,6 +96,35 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         )
 
         initViewModelBindings()
+    }
+
+    @Composable
+    override fun Content() {
+        val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+
+        var showProgressSpinner by remember {
+            mutableStateOf(false)
+        }
+        LaunchedEffect(viewState?.progressSpinnerVisible == true) {
+            showProgressSpinner = if (viewState?.progressSpinnerVisible == true) {
+                delay(400.milliseconds)
+                true
+            } else {
+                false
+            }
+        }
+
+        BackHandler {
+            finishWithoutAnimation()
+        }
+
+        if (viewState?.progressSpinnerVisible == true) {
+            ProgressDialog(
+                onDismissRequest = {
+                    finishWithoutAnimation()
+                },
+            )
+        }
     }
 
     override fun finish() {
@@ -132,22 +157,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         lifecycleScope.launch {
             viewModel.events.collect(::handleEvent)
         }
-    }
-
-    override fun handleEvent(event: ViewModelEvent) {
-        when (event) {
-            is ExecuteEvent.ShowProgress -> {
-                progressIndicator.showProgressDelayed(INVISIBLE_PROGRESS_THRESHOLD)
-            }
-            is ExecuteEvent.HideProgress -> {
-                progressIndicator.hideProgress()
-            }
-            else -> super.handleEvent(event)
-        }
-    }
-
-    override fun onBackPressed() {
-        finishWithoutAnimation()
     }
 
     class IntentBuilder(shortcutId: ShortcutId) : BaseIntentBuilder(ExecuteActivity::class) {
@@ -199,8 +208,6 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
         private const val EXTRA_FILES = "files"
         private const val EXTRA_EXECUTION_SCHEDULE_ID = "schedule_id"
         private const val EXTRA_TRIGGER = "trigger"
-
-        private const val INVISIBLE_PROGRESS_THRESHOLD = 400L
 
         fun Intent.extractShortcutId(): ShortcutId =
             getStringExtra(EXTRA_SHORTCUT_ID)

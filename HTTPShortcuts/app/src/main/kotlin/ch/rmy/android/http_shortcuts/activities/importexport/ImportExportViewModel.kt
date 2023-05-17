@@ -13,7 +13,6 @@ import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
-import ch.rmy.android.framework.utils.localization.StaticLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R

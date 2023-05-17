@@ -14,7 +14,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 class ExecuteViewModel(
     application: Application,
-) : BaseViewModel<ExecutionParams, Unit>(application) {
+) : BaseViewModel<ExecutionParams, ExecuteViewState>(application) {
 
     @Inject
     lateinit var executionFactory: ExecutionFactory
@@ -28,7 +28,7 @@ class ExecuteViewModel(
 
     private lateinit var execution: Execution
 
-    override fun initViewState() = Unit
+    override fun initViewState() = ExecuteViewState()
 
     override fun onInitializationStarted(data: ExecutionParams) {
         if (isRepetition()) {
@@ -67,10 +67,14 @@ class ExecuteViewModel(
                     }
                     when (status) {
                         is ExecutionStatus.InProgress -> {
-                            emitEvent(ExecuteEvent.ShowProgress)
+                            updateViewState {
+                                copy(progressSpinnerVisible = true)
+                            }
                         }
                         is ExecutionStatus.WrappingUp -> {
-                            emitEvent(ExecuteEvent.HideProgress)
+                            updateViewState {
+                                copy(progressSpinnerVisible = false)
+                            }
                         }
                         else -> Unit
                     }

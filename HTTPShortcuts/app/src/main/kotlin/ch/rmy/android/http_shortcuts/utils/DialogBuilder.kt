@@ -328,7 +328,6 @@ class DialogBuilder(val context: Context) {
         )
     }
 
-
     companion object {
 
         private const val TYPE_CLICKABLE_ITEM = 0
