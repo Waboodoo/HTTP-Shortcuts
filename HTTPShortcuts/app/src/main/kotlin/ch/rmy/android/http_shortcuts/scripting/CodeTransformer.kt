@@ -65,9 +65,8 @@ constructor(
             val shortcutName = quotedShortcutName.substring(1, quotedShortcutName.length - 1)
                 .replace("\\$quotationMark", quotationMark)
                 .replace("\\\\", "\\")
-            val y = shortcuts.map { it.name }
             val shortcutId = shortcuts.find { it.name == shortcutName }?.id
-            if (shortcutId != null || y.isEmpty()) {
+            if (shortcutId != null) {
                 """$functionName(/*[shortcut]*/"$shortcutId"/*[/shortcut]*/$nextChar"""
             } else {
                 result.value
@@ -106,6 +105,6 @@ constructor(
             "executeShortcut",
         )
         private val SHORTCUT_CALL_SITE_REGEX =
-            """(${SHORTCUT_FUNCTIONS.joinToString(separator = "|")})\((".*?(?<!\\)"|'.*?(?<!\\)')([,|)])""".toRegex()
+            """(${SHORTCUT_FUNCTIONS.joinToString(separator = "|")})\((".+?(?<!\\)"|'.+?(?<!\\)')([,|)])""".toRegex()
     }
 }
