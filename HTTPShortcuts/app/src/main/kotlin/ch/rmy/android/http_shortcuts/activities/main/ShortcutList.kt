@@ -117,6 +117,7 @@ private fun ShortcutLinearList(
                 textColor = textColor,
                 textStyle = textStyle,
                 modifier = Modifier
+                    .animateItemPlacement()
                     .combinedClickable(
                         onLongClick = if (isLongClickingEnabled) {
                             {
@@ -212,6 +213,7 @@ private fun ShortcutGrid(
                 textColor = textColor,
                 textStyle = textStyle,
                 modifier = Modifier
+                    .animateItemPlacement()
                     .combinedClickable(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = rememberRipple(bounded = false),
