@@ -40,7 +40,9 @@ constructor(
             if (browserPackageName.isNotEmpty()) {
                 throw BrowserNotFoundException(browserPackageName)
             }
-            throw UnsupportedFeatureException()
+            throw UserException.create {
+                getString(R.string.error_no_app_found_for_url, url)
+            }
         }
     }
 }
