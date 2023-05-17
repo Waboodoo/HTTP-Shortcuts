@@ -181,9 +181,13 @@ class ShortcutEditorViewModel(
         initData.recoveryMode || oldShortcut?.isSameAs(shortcut) == false || initData.curlCommand != null
 
     private fun canExecute() =
-        !shortcut.type.usesUrl ||
-            (shortcut.type.requiresHttpUrl && isAcceptableHttpUrl(shortcut.url)) ||
-            (!shortcut.type.requiresHttpUrl && isAcceptableUrl(shortcut.url))
+        when (shortcut.type) {
+            ShortcutExecutionType.APP -> isAcceptableHttpUrl(shortcut.url)
+            ShortcutExecutionType.BROWSER -> isAcceptableUrl(shortcut.url)
+            ShortcutExecutionType.SCRIPTING,
+            ShortcutExecutionType.TRIGGER,
+            -> shortcut.codeOnPrepare.isNotEmpty()
+        }
 
     private fun getToolbarSubtitle() =
         when (shortcut.type) {
