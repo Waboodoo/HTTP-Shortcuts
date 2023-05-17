@@ -24,6 +24,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.EmptyState
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.extensions.formatMediumTime
 import ch.rmy.android.http_shortcuts.extensions.formatShortTime
 import ch.rmy.android.http_shortcuts.extensions.localize
 
@@ -100,7 +101,7 @@ private fun HistoryListItemView(
                         .weight(1f, fill = true)
                 )
 
-                Time(historyItem)
+                Time(historyItem, detailed = expanded)
             }
 
             if (expanded) {
@@ -132,9 +133,9 @@ private fun HistoryListItem.getTitleColor(): Color =
     }
 
 @Composable
-private fun Time(historyItem: HistoryListItem) {
+private fun Time(historyItem: HistoryListItem, detailed: Boolean) {
     Text(
-        text = historyItem.time.formatShortTime(),
+        text = historyItem.time.run { if (detailed) formatMediumTime() else formatShortTime() },
         fontSize = FontSize.TINY,
     )
 }
