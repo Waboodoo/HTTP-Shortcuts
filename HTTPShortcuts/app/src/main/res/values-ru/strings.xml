@@ -64,9 +64,6 @@
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"Переместить"</string>
 
-    <!-- Shortcut dropdown option: Move the shortcut to a different category -->
-    <string name="action_move_to_category">"Переместить в категорию…"</string>
-
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">"Ярлыков пока нет"</string>
 
@@ -188,9 +185,6 @@
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">"Разблокировать настройки"</string>
 
-    <!-- Title of theme settings -->
-    <string name="settings_theme">"Тема"</string>
-
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">"Базовые настройки"</string>
 
@@ -298,9 +292,6 @@
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"\"%1$s\" продублирован."</string>
 
-    <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_moved">"\"%1$s\" перемещен."</string>
-
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_deleted">"\"%1$s\" удален."</string>
 
@@ -380,9 +371,6 @@
 
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">"%s (скрыто)"</string>
-
-    <!-- Dialog title/button, for feature to move a shortcut to a different category -->
-    <string name="title_move_to_category">"Переместить в категорию"</string>
 
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">"Выполнить ярлык HTTP"</string>
@@ -497,9 +485,6 @@
     <!-- Button, for opening help article page -->
     <string name="button_show_help">"Показать справку"</string>
 
-    <!-- Page/dialog title, for help article about variables -->
-    <string name="help_title_variables">"Переменные"</string>
-
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button">"Эта кнопка позволяет вам включать в ярлык заполнители для переменных, то есть динамические значения.
 
@@ -565,27 +550,6 @@
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">"Разрешить \"Делиться…\""</string>
-
-    <!-- App color theme option Blue -->
-    <string name="theme_blue">"Синий"</string>
-
-    <!-- App color theme option Green -->
-    <string name="theme_green">"Зеленый"</string>
-
-    <!-- App color theme option Red -->
-    <string name="theme_red">"Красный"</string>
-
-    <!-- App color theme option Grey -->
-    <string name="theme_grey">"Серый"</string>
-
-    <!-- App color theme option Orange -->
-    <string name="theme_orange">"Оранжевый"</string>
-
-    <!-- App color theme option Purple -->
-    <string name="theme_purple">"Фиолетовый"</string>
-
-    <!-- App color theme option Indigo -->
-    <string name="theme_indigo">"Индиго"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">"Экспорт в…"</string>
@@ -1476,9 +1440,6 @@
 
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">"включить, если ярлыки не работают при запуске из панели быстрых настроек или стороннего приложения"</string>
-
-    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
-    <string name="action_enable_moving">"Включить перемещение по категории"</string>
 
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
     <string name="message_moving_enabled">"Измените порядок ярлыков, перетащив их."</string>

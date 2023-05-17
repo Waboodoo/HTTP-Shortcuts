@@ -64,9 +64,6 @@
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"Verschieben"</string>
 
-    <!-- Shortcut dropdown option: Move the shortcut to a different category -->
-    <string name="action_move_to_category">"In Kategorie verschieben…"</string>
-
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">"noch keine Shortcuts vorhanden"</string>
 
@@ -190,9 +187,6 @@ Drücke den + Knopf um eine Variable zu erstellen."</string>
 
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">"Einstellungen entsperren"</string>
-
-    <!-- Title of theme settings -->
-    <string name="settings_theme">"Farbschema"</string>
 
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">"Allgemeine Einstellungen"</string>
@@ -330,9 +324,6 @@ Drücke den + Knopf um eine Variable zu erstellen."</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"%1$s dupliziert."</string>
 
-    <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_moved">"%1$s verschoben."</string>
-
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_deleted">"%1$s gelöscht."</string>
 
@@ -418,9 +409,6 @@ Alle darin enthaltenen Shortcuts werden gelöscht."</string>
 
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">"%s (verborgen)"</string>
-
-    <!-- Dialog title/button, for feature to move a shortcut to a different category -->
-    <string name="title_move_to_category">"In Kategorie verschieben"</string>
 
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">"HTTP-Shortcut ausführen"</string>
@@ -530,9 +518,6 @@ Alle darin enthaltenen Shortcuts werden gelöscht."</string>
     <!-- Button, for opening help article page -->
     <string name="button_show_help">"Hilfe"</string>
 
-    <!-- Page/dialog title, for help article about variables -->
-    <string name="help_title_variables">"Variablen"</string>
-
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button">"Dieser Knopf ermöglicht es dir, Variablenplatzhalter einzufügen. Mit diesen kannst du dynamische Werte einbinden.
 
@@ -597,27 +582,6 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">"”Teilen …” erlauben"</string>
-
-    <!-- App color theme option Blue -->
-    <string name="theme_blue">"Blau"</string>
-
-    <!-- App color theme option Green -->
-    <string name="theme_green">"Grün"</string>
-
-    <!-- App color theme option Red -->
-    <string name="theme_red">"Rot"</string>
-
-    <!-- App color theme option Grey -->
-    <string name="theme_grey">"Grau"</string>
-
-    <!-- App color theme option Orange -->
-    <string name="theme_orange">"Orange"</string>
-
-    <!-- App color theme option Purple -->
-    <string name="theme_purple">"Violett"</string>
-
-    <!-- App color theme option Indigo -->
-    <string name="theme_indigo">"Indigo"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">"Exportieren…"</string>
@@ -1517,9 +1481,6 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
 
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">"Hilft falls Shortcuts nicht via Quick Settings Tile oder von anderen Apps aus gestartet werden können"</string>
-
-    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
-    <string name="action_enable_moving">"Verschieben innerhalb Kategorie"</string>
 
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
     <string name="message_moving_enabled">"Ordne Shortcuts neu an durch ziehen."</string>

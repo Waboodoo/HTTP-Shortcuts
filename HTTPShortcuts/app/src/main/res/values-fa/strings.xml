@@ -64,9 +64,6 @@
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"حرکت"</string>
 
-    <!-- Shortcut dropdown option: Move the shortcut to a different category -->
-    <string name="action_move_to_category">"انتقال به دسته ..."</string>
-
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">"هنوز میانبر وجود ندارد"</string>
 
@@ -180,9 +177,6 @@
 
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">"باز کردن قفل تنظیمات"</string>
-
-    <!-- Title of theme settings -->
-    <string name="settings_theme">"موضوع"</string>
 
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">"تنظیمات پایه"</string>
@@ -315,9 +309,6 @@
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"\"%1$s\" تکراری شد."</string>
 
-    <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_moved">"\"%1$s\" منتقل شد."</string>
-
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_deleted">"\"%1$s\" حذف شد."</string>
 
@@ -402,9 +393,6 @@
 
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">"%s (پنهان)"</string>
-
-    <!-- Dialog title/button, for feature to move a shortcut to a different category -->
-    <string name="title_move_to_category">"انتقال به دسته"</string>
 
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">"میانبر HTTP را اجرا کنید"</string>
@@ -514,9 +502,6 @@
     <!-- Button, for opening help article page -->
     <string name="button_show_help">"نمایش راهنما"</string>
 
-    <!-- Page/dialog title, for help article about variables -->
-    <string name="help_title_variables">"متغیرها"</string>
-
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button">"این دکمه به شما این امکان را می دهد که متغیرهای متغیر، یعنی مقادیر پویا را در میانبر خود قرار دهید.
 
@@ -581,27 +566,6 @@
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">"اجازه دریافت مقدار از گفتگوی اشتراک گذاری"</string>
-
-    <!-- App color theme option Blue -->
-    <string name="theme_blue">"آبی"</string>
-
-    <!-- App color theme option Green -->
-    <string name="theme_green">"سبز"</string>
-
-    <!-- App color theme option Red -->
-    <string name="theme_red">"قرمز"</string>
-
-    <!-- App color theme option Grey -->
-    <string name="theme_grey">"خاکستری"</string>
-
-    <!-- App color theme option Orange -->
-    <string name="theme_orange">"نارنجی"</string>
-
-    <!-- App color theme option Purple -->
-    <string name="theme_purple">"رنگ بنفش"</string>
-
-    <!-- App color theme option Indigo -->
-    <string name="theme_indigo">"نیل"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">"صادرات به…"</string>
@@ -1499,9 +1463,6 @@
 
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">"اگر میانبرها هنگام فعال شدن از کاشی تنظیمات سریع یا برنامه شخص ثالث کار نمی کنند، فعال کنید"</string>
-
-    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
-    <string name="action_enable_moving">"حرکت در رده را فعال کنید"</string>
 
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
     <string name="message_moving_enabled">"میانبرها را با کشیدن آنها دوباره مرتب کنید."</string>

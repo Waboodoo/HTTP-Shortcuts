@@ -64,9 +64,6 @@
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"Áthelyezés"</string>
 
-    <!-- Shortcut dropdown option: Move the shortcut to a different category -->
-    <string name="action_move_to_category">"Áthelyezés másik kategóriába"</string>
-
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">"Nincs ilyen parancsikon"</string>
 
@@ -187,9 +184,6 @@
 
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">"Feloldás beállítása"</string>
-
-    <!-- Title of theme settings -->
-    <string name="settings_theme">"Téma"</string>
 
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">"Egyszerű beállítás"</string>
@@ -329,9 +323,6 @@
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"\"%1$s\" duplikálva."</string>
 
-    <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_moved">"\"%1$s\" áthelyezve."</string>
-
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_deleted">"\"%1$s\" törölve."</string>
 
@@ -417,9 +408,6 @@ Az összes benne található parancsikon törlődik."</string>
 
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">"%s (elrejtve)"</string>
-
-    <!-- Dialog title/button, for feature to move a shortcut to a different category -->
-    <string name="title_move_to_category">"Áthelyezés másik kategóriába"</string>
 
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">"Futtasd a HTTP parancsikont"</string>
@@ -531,9 +519,6 @@ Az összes benne található parancsikon törlődik."</string>
     <!-- Button, for opening help article page -->
     <string name="button_show_help">"Segítség megjelenítése"</string>
 
-    <!-- Page/dialog title, for help article about variables -->
-    <string name="help_title_variables">"Változók"</string>
-
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button">"Ez a gomb lehetővé teszi, hogy változók, azaz dinamikus értékek helyőrzőit is felvegye a parancsikonba.
 
@@ -600,27 +585,6 @@ További információt a változó dokumentációjában találsz."</string>
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">"Engedélyezze a „Megosztás…”"</string>
-
-    <!-- App color theme option Blue -->
-    <string name="theme_blue">"Kék"</string>
-
-    <!-- App color theme option Green -->
-    <string name="theme_green">"Zöld"</string>
-
-    <!-- App color theme option Red -->
-    <string name="theme_red">"Piros"</string>
-
-    <!-- App color theme option Grey -->
-    <string name="theme_grey">"Szürke"</string>
-
-    <!-- App color theme option Orange -->
-    <string name="theme_orange">"Narancssárga"</string>
-
-    <!-- App color theme option Purple -->
-    <string name="theme_purple">"Lila"</string>
-
-    <!-- App color theme option Indigo -->
-    <string name="theme_indigo">"Indigo"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">"Exportálás"</string>
@@ -1522,9 +1486,6 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
 
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">"Engedélyezés, ha a parancsikonok nem működnek a Gyorsbeállítások csempéről vagy 3rd party alkalmazásból történő indításkor."</string>
-
-    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
-    <string name="action_enable_moving">"A kategórián belüli mozgatás engedélyezése"</string>
 
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
     <string name="message_moving_enabled">"A parancsikonok újrarendezése húzással."</string>

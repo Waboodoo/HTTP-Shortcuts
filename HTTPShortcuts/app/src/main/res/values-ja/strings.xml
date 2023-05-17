@@ -64,9 +64,6 @@
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"移動"</string>
 
-    <!-- Shortcut dropdown option: Move the shortcut to a different category -->
-    <string name="action_move_to_category">"カテゴリーに移動…"</string>
-
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">"ショートカットがありません"</string>
 
@@ -191,9 +188,6 @@
 
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">"設定を解除"</string>
-
-    <!-- Title of theme settings -->
-    <string name="settings_theme">"テーマ"</string>
 
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">"基本設定"</string>
@@ -325,9 +319,6 @@
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"「%1$s」を複製しました"</string>
 
-    <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_moved">"「%1$s」を移動しました"</string>
-
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_deleted">"「%1$s」を削除しました"</string>
 
@@ -412,9 +403,6 @@
 
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">"%s (非表示)"</string>
-
-    <!-- Dialog title/button, for feature to move a shortcut to a different category -->
-    <string name="title_move_to_category">"カテゴリーに移動"</string>
 
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">"HTTP Shortcut を実行"</string>
@@ -524,9 +512,6 @@
     <!-- Button, for opening help article page -->
     <string name="button_show_help">"ヘルプを表示"</string>
 
-    <!-- Page/dialog title, for help article about variables -->
-    <string name="help_title_variables">"変数"</string>
-
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button">"このボタンを使用すると、ショートカットに変数のプレースホルダを配置することができ、動的に変動する値を含めることができます。
 
@@ -591,27 +576,6 @@
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">"「共有する…」から値の受け取りを許可する"</string>
-
-    <!-- App color theme option Blue -->
-    <string name="theme_blue">"青色"</string>
-
-    <!-- App color theme option Green -->
-    <string name="theme_green">"緑色"</string>
-
-    <!-- App color theme option Red -->
-    <string name="theme_red">"赤色"</string>
-
-    <!-- App color theme option Grey -->
-    <string name="theme_grey">"グレー色"</string>
-
-    <!-- App color theme option Orange -->
-    <string name="theme_orange">"オレンジ色"</string>
-
-    <!-- App color theme option Purple -->
-    <string name="theme_purple">"紫色"</string>
-
-    <!-- App color theme option Indigo -->
-    <string name="theme_indigo">"藍色"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">"エクスポート中…"</string>
@@ -1508,9 +1472,6 @@
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">"クイック設定タイルから、または、サードパーティーのアプリからトリガーされた時に、ショートカットが動作しない場合に有効にしてください。"</string>
 
-    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
-    <string name="action_enable_moving">"カテゴリー内で移動を有効"</string>
-
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
     <string name="message_moving_enabled">"ドラッグ操作によるショートカットの再配置をします"</string>
 
@@ -2109,4 +2070,55 @@
 
     <!-- Title of event history entry, which states that a shortcut was cancelled. %s is a placeholder for the shortcut's name -->
     <string name="event_history_title_shortcut_cancelled">"「%s」をキャンセルしました"</string>
+
+    <!-- Section title on settings screen for options shared by all shortcuts -->
+    <string name="settings_title_global_shortcut_settings">"全体のショートカット設定"</string>
+
+    <!-- Button in settings page to open editor for configuring certificate pinning -->
+    <string name="settings_certificate_pinning">"証明書のピン留め"</string>
+
+    <!-- Title of editor for configuring certificate pinning -->
+    <string name="title_certificate_pinning">"証明書のピン留め"</string>
+
+    <!-- Empty state instructions for certificate pinning screen -->
+    <string name="empty_state_certificate_pinning_instructions">"HTTP リクエストが安全な接続を通して送信されていることを確認したい場合には、ここで SHA-1 または SHA-256 の指紋証明書を追加することで、特定のホスト用に証明書のピン留めを有効にすることができます。"</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
+    <string name="message_certificate_pinning_deleted">"指紋証明を削除しました"</string>
+
+    <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
+    <string name="confirm_delete_certificate_pinning_message">"この指紋を削除しますか？"</string>
+
+    <!-- Label for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="label_certificate_pinning_hostname_pattern">"ホスト名パターン"</string>
+
+    <!-- Hint text for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="hint_certificate_pinning_hostname_pattern">"例：「*.example.com」"</string>
+
+    <!-- Label for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
+    <string name="label_certificate_pinning_fingerprint">"指紋証明"</string>
+
+    <!-- Hint text for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
+    <string name="hint_certificate_pinning_fingerprint">"サーバー証明に、16 進数でエンコードされた SHA-1 または SHA-256 の指紋を入力してください"</string>
+
+    <!-- Placeholder text shown when a toggle or multi-select variable option is just an empty string -->
+    <string name="empty_option_placeholder">"- 空 -"</string>
+
+    <!-- Empty state shown on the custom icons screen when the user has no icons set up -->
+    <string name="empty_state_custom_icons">"カスタムアイコンはありません"</string>
+
+    <!-- checkbox subtitle in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
+    <string name="subtitle_accept_all_certificates">"自分が何をしているか理解しているなら..."</string>
+
+    <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
+    <string name="label_require_specific_wifi_ssid">"指定のWiFiが必要"</string>
+
+    <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
+    <string name="option_no_proxy">"プロキシなし"</string>
+
+    <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
+    <string name="button_format_json">"形式"</string>
+
+    <!-- Error, shown in snackbar, when the user tries to format a custom request body, but it is invalid JSON syntax -->
+    <string name="error_cannot_format_invalid_json">"無効なJSON形式"</string>
 </resources>

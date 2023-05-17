@@ -64,9 +64,6 @@
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"Pindah"</string>
 
-    <!-- Shortcut dropdown option: Move the shortcut to a different category -->
-    <string name="action_move_to_category">"Pindah ke Kategori…"</string>
-
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">"Anda belum memiliki pintasan."</string>
 
@@ -191,9 +188,6 @@ Klik tombol + untuk menambah variabel."</string>
 
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">"Buka pengaturan"</string>
-
-    <!-- Title of theme settings -->
-    <string name="settings_theme">"Tema"</string>
 
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">"Pengaturan Dasar"</string>
@@ -328,9 +322,6 @@ Klik tombol + untuk menambah variabel."</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"\"%1$s\" digandakan."</string>
 
-    <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_moved">"\"%1$s\" dipindah."</string>
-
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_deleted">"\"%1$s\" dihapus."</string>
 
@@ -415,9 +406,6 @@ Semua pintasan didalamnya akan terhapus."</string>
 
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">"%s (tersembunyi)"</string>
-
-    <!-- Dialog title/button, for feature to move a shortcut to a different category -->
-    <string name="title_move_to_category">"Pindah ke Kategori"</string>
 
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">"Eksekusi Pintasan HTTP"</string>
@@ -527,9 +515,6 @@ Semua pintasan didalamnya akan terhapus."</string>
     <!-- Button, for opening help article page -->
     <string name="button_show_help">"Tampilkan Bantuan"</string>
 
-    <!-- Page/dialog title, for help article about variables -->
-    <string name="help_title_variables">"Variabel"</string>
-
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button">"Tombol ini mengizinkan Anda untuk menyertakan tempat penampung untuk variabel, mis., nilai dinamis, ke dalam pintasan.
 
@@ -593,27 +578,6 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">"Izinkan 'Berbagi …'"</string>
-
-    <!-- App color theme option Blue -->
-    <string name="theme_blue">"Biru"</string>
-
-    <!-- App color theme option Green -->
-    <string name="theme_green">"Hijau"</string>
-
-    <!-- App color theme option Red -->
-    <string name="theme_red">"Merah"</string>
-
-    <!-- App color theme option Grey -->
-    <string name="theme_grey">"Abu-abu"</string>
-
-    <!-- App color theme option Orange -->
-    <string name="theme_orange">"Orange"</string>
-
-    <!-- App color theme option Purple -->
-    <string name="theme_purple">"Ungu"</string>
-
-    <!-- App color theme option Indigo -->
-    <string name="theme_indigo">"Nila"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">"Ekspor ke…"</string>
@@ -1523,9 +1487,6 @@ Anda dapat mengaktifkan fitur ini dengan mengedit pintasan dan mencentang kotak 
 
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">"Aktifkan jika pintasan tidak berfungsi saat dipicu dari Ubin Setelan Cepat atau aplikasi pihak ketiga"</string>
-
-    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
-    <string name="action_enable_moving">"Aktifkan Perpindahan dalam Kategori"</string>
 
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
     <string name="message_moving_enabled">"Susun ulang pintasan dengan menyeretnya."</string>

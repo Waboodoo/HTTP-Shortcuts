@@ -65,9 +65,6 @@ Lối tắt HTTP"</string>
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"Di chuyển"</string>
 
-    <!-- Shortcut dropdown option: Move the shortcut to a different category -->
-    <string name="action_move_to_category">"Di chuyển đến danh mục…"</string>
-
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">"Bạn chưa có phím tắt nào."</string>
 
@@ -191,9 +188,6 @@ Nhấp vào nút + để thêm một biến."</string>
 
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">"Mở khóa cài đặt"</string>
-
-    <!-- Title of theme settings -->
-    <string name="settings_theme">"chủ đề"</string>
 
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">"Cài đặt cơ bản"</string>
@@ -326,9 +320,6 @@ Nhấp vào nút + để thêm một biến."</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"\"%1$s\" trùng lặp."</string>
 
-    <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_moved">"\"%1$s\" đã di chuyển."</string>
-
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_deleted">"Đã xóa \"%1$s\"."</string>
 
@@ -413,9 +404,6 @@ Tất cả các phím tắt chứa bên trong sẽ bị xóa."</string>
 
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">"%s (ẩn)"</string>
-
-    <!-- Dialog title/button, for feature to move a shortcut to a different category -->
-    <string name="title_move_to_category">"Di chuyển đến danh mục"</string>
 
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">"Thực hiện phím tắt HTTP"</string>
@@ -525,9 +513,6 @@ Tất cả các phím tắt chứa bên trong sẽ bị xóa."</string>
     <!-- Button, for opening help article page -->
     <string name="button_show_help">"Hiển thị trợ giúp"</string>
 
-    <!-- Page/dialog title, for help article about variables -->
-    <string name="help_title_variables">"Biến"</string>
-
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button">"Nút này cho phép bạn bao gồm các trình giữ chỗ cho các biến, tức là các giá trị động, vào lối tắt của bạn.
 
@@ -592,27 +577,6 @@ Nhấp vào nút trợ giúp trong phần biến để biết thêm thông tin."
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">"Cho phép nhận giá trị từ hộp thoại chia sẻ"</string>
-
-    <!-- App color theme option Blue -->
-    <string name="theme_blue">"Màu xanh da trời"</string>
-
-    <!-- App color theme option Green -->
-    <string name="theme_green">"màu xanh lá"</string>
-
-    <!-- App color theme option Red -->
-    <string name="theme_red">"Màu đỏ"</string>
-
-    <!-- App color theme option Grey -->
-    <string name="theme_grey">"Xám"</string>
-
-    <!-- App color theme option Orange -->
-    <string name="theme_orange">"Quả cam"</string>
-
-    <!-- App color theme option Purple -->
-    <string name="theme_purple">"Màu đỏ tía"</string>
-
-    <!-- App color theme option Indigo -->
-    <string name="theme_indigo">"xanh đậm"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">"Xuất sang…"</string>
@@ -1509,9 +1473,6 @@ Bạn có thể bật tính năng này bằng cách chỉnh sửa phím tắt v�
 
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">"Bật nếu phím tắt không hoạt động khi được kích hoạt từ Ô cài đặt nhanh hoặc ứng dụng của bên thứ 3"</string>
-
-    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
-    <string name="action_enable_moving">"Bật Di chuyển trong Danh mục"</string>
 
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
     <string name="message_moving_enabled">"Sắp xếp lại các phím tắt bằng cách kéo chúng."</string>

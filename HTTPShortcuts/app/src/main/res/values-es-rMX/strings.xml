@@ -64,9 +64,6 @@
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"Mover"</string>
 
-    <!-- Shortcut dropdown option: Move the shortcut to a different category -->
-    <string name="action_move_to_category">"Mover de Categoría"</string>
-
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">"Aún no cuenta con ningún atajo creado"</string>
 
@@ -190,9 +187,6 @@ Haga clic en el botón + de la pantalla principal para comenzar o consulte la do
 
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">"Desbloquear configuraciónes"</string>
-
-    <!-- Title of theme settings -->
-    <string name="settings_theme">"Tema"</string>
 
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">"Configuración Basica"</string>
@@ -320,9 +314,6 @@ Haga clic en el botón + de la pantalla principal para comenzar o consulte la do
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"\"%1$s\" duplicado."</string>
 
-    <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_moved">"Se movió \"%1$s\"."</string>
-
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_deleted">"\"%1$s\" eliminado."</string>
 
@@ -408,9 +399,6 @@ Todos los atajos dentro de esta se eliminaran también."</string>
 
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">"%s (oculta)"</string>
-
-    <!-- Dialog title/button, for feature to move a shortcut to a different category -->
-    <string name="title_move_to_category">"Mover a la Categoría"</string>
 
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">"Ejecutar Atajo HTTP"</string>
@@ -511,9 +499,6 @@ Todos los atajos dentro de esta se eliminaran también."</string>
     <!-- Button, for opening help article page -->
     <string name="button_show_help">"Mostrar Ayuda"</string>
 
-    <!-- Page/dialog title, for help article about variables -->
-    <string name="help_title_variables">"Variables"</string>
-
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">"Crear"</string>
 
@@ -552,27 +537,6 @@ Todos los atajos dentro de esta se eliminaran también."</string>
 
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">"Enviar a..."</string>
-
-    <!-- App color theme option Blue -->
-    <string name="theme_blue">"Azúl"</string>
-
-    <!-- App color theme option Green -->
-    <string name="theme_green">"Verde"</string>
-
-    <!-- App color theme option Red -->
-    <string name="theme_red">"Rojo"</string>
-
-    <!-- App color theme option Grey -->
-    <string name="theme_grey">"Gris"</string>
-
-    <!-- App color theme option Orange -->
-    <string name="theme_orange">"Naranja"</string>
-
-    <!-- App color theme option Purple -->
-    <string name="theme_purple">"Morado"</string>
-
-    <!-- App color theme option Indigo -->
-    <string name="theme_indigo">"Indigo"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">"Exportar a..."</string>

@@ -64,9 +64,6 @@
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"Muovi"</string>
 
-    <!-- Shortcut dropdown option: Move the shortcut to a different category -->
-    <string name="action_move_to_category">"Muovi alla categoria…"</string>
-
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">"ancora nessuna scorciatoia"</string>
 
@@ -187,9 +184,6 @@
 
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">"Sblocca impostazioni"</string>
-
-    <!-- Title of theme settings -->
-    <string name="settings_theme">"Tema"</string>
 
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">"Impostazioni di base"</string>
@@ -330,9 +324,6 @@
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"\"%1$s\" duplicata."</string>
 
-    <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_moved">"\"%1$s\"\u0020\u0020spostata."</string>
-
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_deleted">"\"%1$s\" cancellato."</string>
 
@@ -418,9 +409,6 @@ Tutte le scorciatoie contenute all'interno verranno eliminate."</string>
 
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">"%s (nascosto)"</string>
-
-    <!-- Dialog title/button, for feature to move a shortcut to a different category -->
-    <string name="title_move_to_category">"Sposta in Categoria"</string>
 
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">"Esegui HTTP Shortcut"</string>
@@ -530,9 +518,6 @@ Tutte le scorciatoie contenute all'interno verranno eliminate."</string>
     <!-- Button, for opening help article page -->
     <string name="button_show_help">"Mostra aiuto"</string>
 
-    <!-- Page/dialog title, for help article about variables -->
-    <string name="help_title_variables">"Variabili"</string>
-
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button">"Questo bottone ti permette di includere segnaposti per le variabili, ad esempio, valori dinamici, dentro lo tua scorciatoia.
 
@@ -600,27 +585,6 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni."</st
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">"Consenti 'Condividi…'"</string>
-
-    <!-- App color theme option Blue -->
-    <string name="theme_blue">"Blu"</string>
-
-    <!-- App color theme option Green -->
-    <string name="theme_green">"Verde"</string>
-
-    <!-- App color theme option Red -->
-    <string name="theme_red">"Rosso"</string>
-
-    <!-- App color theme option Grey -->
-    <string name="theme_grey">"Grigio"</string>
-
-    <!-- App color theme option Orange -->
-    <string name="theme_orange">"Arancione"</string>
-
-    <!-- App color theme option Purple -->
-    <string name="theme_purple">"Viola"</string>
-
-    <!-- App color theme option Indigo -->
-    <string name="theme_indigo">"Indaco"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">"Esporta in…"</string>
@@ -1533,9 +1497,6 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
 
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">"Abilita se le scorciatoie non funzionano quando vengono attivate dal riquadro impostazioni rapide o da un'app di terze parti"</string>
-
-    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
-    <string name="action_enable_moving">"Abilita lo spostamento all'interno della categoria"</string>
 
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
     <string name="message_moving_enabled">"Riordina le scorciatoie trascinandole."</string>

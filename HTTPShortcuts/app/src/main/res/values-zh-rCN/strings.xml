@@ -64,9 +64,6 @@
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"移动"</string>
 
-    <!-- Shortcut dropdown option: Move the shortcut to a different category -->
-    <string name="action_move_to_category">"移至分类…"</string>
-
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">"无快捷方式"</string>
 
@@ -187,9 +184,6 @@
 
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">"解锁设置"</string>
-
-    <!-- Title of theme settings -->
-    <string name="settings_theme">"主题"</string>
 
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">"基本设置"</string>
@@ -325,9 +319,6 @@
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"%1$s 已生成副本"</string>
 
-    <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_moved">"%1$s 已移动"</string>
-
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_deleted">"%1$s 已删除"</string>
 
@@ -411,9 +402,6 @@
 
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">"%s(已隐藏)"</string>
-
-    <!-- Dialog title/button, for feature to move a shortcut to a different category -->
-    <string name="title_move_to_category">"移动到分类"</string>
 
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">"启动 HTTP 快捷方式"</string>
@@ -528,9 +516,6 @@
     <!-- Button, for opening help article page -->
     <string name="button_show_help">"帮助信息"</string>
 
-    <!-- Page/dialog title, for help article about variables -->
-    <string name="help_title_variables">"变量"</string>
-
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button">"这个按钮可以让你引入代表某一变量的占位符即动态值进入你的快捷方式，而你还没有设置任何变量。"</string>
 
@@ -589,27 +574,6 @@
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">"允许“共享”"</string>
-
-    <!-- App color theme option Blue -->
-    <string name="theme_blue">"蓝色"</string>
-
-    <!-- App color theme option Green -->
-    <string name="theme_green">"绿色"</string>
-
-    <!-- App color theme option Red -->
-    <string name="theme_red">"红色"</string>
-
-    <!-- App color theme option Grey -->
-    <string name="theme_grey">"灰色"</string>
-
-    <!-- App color theme option Orange -->
-    <string name="theme_orange">"橙色"</string>
-
-    <!-- App color theme option Purple -->
-    <string name="theme_purple">"紫色"</string>
-
-    <!-- App color theme option Indigo -->
-    <string name="theme_indigo">"靛蓝色"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">"导出…"</string>
@@ -1521,9 +1485,6 @@
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">"如果从快速设置磁贴或第三方应用程序触发时快捷方式不起作用，则启用"</string>
 
-    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
-    <string name="action_enable_moving">"允许在类别内移动"</string>
-
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
     <string name="message_moving_enabled">"通过拖动快捷方式重新排序。"</string>
 
@@ -2174,4 +2135,13 @@
 
     <!-- Error, shown in snackbar, when the user tries to format a custom request body, but it is invalid JSON syntax -->
     <string name="error_cannot_format_invalid_json">"无效的 JSON 语法"</string>
+
+    <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
+    <string name="title_move_shortcuts">"移动快捷方式"</string>
+
+    <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
+    <string name="placeholder_empty_category_for_moving">"此类别中没有快捷方式"</string>
+
+    <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
+    <string name="subtitle_include_meta_information">"响应头、状态码, …"</string>
 </resources>
