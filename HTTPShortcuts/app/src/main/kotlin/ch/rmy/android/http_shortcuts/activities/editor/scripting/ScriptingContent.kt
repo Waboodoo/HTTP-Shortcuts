@@ -42,7 +42,9 @@ fun ScriptingContent(
     onActiveFieldChanged: (CodeFieldType) -> Unit,
 ) {
     Column(
-        modifier = Modifier.verticalScroll(rememberScrollState()),
+        modifier = Modifier.runIf(shortcutExecutionType == ShortcutExecutionType.APP) {
+            verticalScroll(rememberScrollState())
+        },
         verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
     ) {
         CodeSection(
