@@ -37,6 +37,7 @@ import ch.rmy.android.http_shortcuts.activities.settings.SettingsViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorViewModel
 import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsViewModel
+import ch.rmy.android.http_shortcuts.components.ColorPickerViewModel
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderViewModel
 import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
 import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
@@ -286,4 +287,6 @@ interface ApplicationComponent {
     fun inject(variablePlaceholderViewModel: VariablePlaceholderViewModel)
 
     fun inject(moveViewModel: MoveViewModel)
+
+    fun inject(colorPickerViewModel: ColorPickerViewModel)
 }

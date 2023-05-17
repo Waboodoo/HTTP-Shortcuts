@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.components
 
+import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -30,21 +31,27 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.colorIntToHexString
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.hexStringToColorInt
+import ch.rmy.android.http_shortcuts.utils.Settings
+import javax.inject.Inject
 
 private val UNSUPPORTED_CHARACTERS_REGEX = "[^A-Fa-f0-9]".toRegex()
 
 @Composable
 fun ColorPickerDialog(
-    initialColor: Int = android.graphics.Color.BLACK,
+    initialColor: Int? = null,
     onColorSelected: (Int) -> Unit,
     extraContent: @Composable ColumnScope.(Int) -> Unit = {},
     onDismissRequested: () -> Unit,
 ) {
+    val viewModel = viewModel<ColorPickerViewModel>()
     var color by rememberSaveable {
-        mutableStateOf(initialColor)
+        mutableStateOf(initialColor ?: viewModel.previousIconColor ?: android.graphics.Color.BLACK)
     }
     var colorText by remember {
         mutableStateOf("")
@@ -113,6 +120,7 @@ fun ColorPickerDialog(
         confirmButton = {
             TextButton(
                 onClick = {
+                    viewModel.previousIconColor = color
                     onColorSelected(color)
                 },
             ) {
@@ -141,3 +149,19 @@ private fun colorTextTransformation(annotatedString: AnnotatedString): Transform
                 (offset - 1).coerceAtLeast(0)
         }
     )
+
+class ColorPickerViewModel(application: Application) : AndroidViewModel(application) {
+
+    @Inject
+    lateinit var settings: Settings
+
+    init {
+        getApplicationComponent().inject(this)
+    }
+
+    var previousIconColor: Int?
+        get() = settings.previousIconColor
+        set(value) {
+            settings.previousIconColor = value
+        }
+}
