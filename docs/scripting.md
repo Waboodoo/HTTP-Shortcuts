@@ -566,6 +566,8 @@ enqueueShortcut('My Other Shortcut', null, 2 * 60 * 1000); // runs in 2 minutes
 
 Note that the shortcut will only be executed once the current shortcut (and all shortcuts that have been enqueued before it) has finished executing. It will *not* be executed immediately. If you need the shortcut to run immediately, use `executeShortcut` instead.
 
+Also note that this might lead to infinite loops if the enqueued shortcut also enqueues shortcuts. To reduce the impact of this in case it happens accidentally, the app will delay every 10th execution by 5 seconds so that have enough time to stop the execution manually. If you're really sure that you *do* want an infinite loop, you can work around this protection by setting a delay of at least 500 milliseconds.
+
 <a name="execute-shortcut"></a>
 ### executeShortcut
 
@@ -607,7 +609,7 @@ if (result.status === 'success') {
 Please note the following technical limitations:
 - A shortcut that is executed this way cannot display its response in a fullscreen window. If you need to display its response, please change the response display type to use a toast or dialog window instead.
 - A shortcut that is executed this way shares the resolution of variable values with the original, i.e., calling shortcut. This means that if you have e.g. a multiple choice variable that is used in both of the shortcuts, you will be prompted to select a value only once (not twice) and the selected value will be used for both shortcut executions.
-- There is a maximum recursion depth of 3, meaning that you can not arbitrarily nest shortcut executions within shortcut executions. This is to prevent infinite recursion and stack overflows.
+- There is a maximum recursion depth of 3, meaning that you can not arbitrarily nest shortcut executions within shortcut executions. This is to prevent infinite recursion and stack overflows. If you want to chain more shortcuts together, consider using [enqueueShortcut()](#trigger-shortcut).
 
 <a name="set-result"></a>
 #### Passing data back

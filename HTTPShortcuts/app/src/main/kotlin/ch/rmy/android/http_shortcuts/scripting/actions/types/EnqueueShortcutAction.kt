@@ -46,20 +46,26 @@ class EnqueueShortcutAction(
                 getString(R.string.error_shortcut_not_found_for_triggering, shortcutNameOrId)
             }
         }
-        val delay = delay ?: 0
+        var delay = delay ?: 0
+        var recursionDepth = if (delay >= 500) 0 else executionContext.recursionDepth + 1
+        if (recursionDepth >= MAX_RECURSION_DEPTH) {
+            delay = 5000
+            recursionDepth = 0
+        }
+
         pendingExecutionsRepository.createPendingExecution(
             shortcutId = shortcut.id,
             resolvedVariables = variableValues?.mapValues { it.value?.toString() ?: "" } ?: emptyMap(),
             tryNumber = 0,
             delay = delay.milliseconds,
             requiresNetwork = shortcut.isWaitForNetwork,
-            recursionDepth = if (delay >= 500) 0 else executionContext.recursionDepth + 1,
+            recursionDepth = recursionDepth,
             type = PendingExecutionType.EXPLICITLY_SCHEDULED,
         )
     }
 
     companion object {
 
-        private const val MAX_RECURSION_DEPTH = 5
+        private const val MAX_RECURSION_DEPTH = 10
     }
 }
