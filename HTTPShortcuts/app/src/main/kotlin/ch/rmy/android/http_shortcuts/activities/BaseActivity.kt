@@ -15,13 +15,8 @@ import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
-import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 
 abstract class BaseActivity : BaseActivity() {
-
-    val themeHelper by lazy(LazyThreadSafetyMode.NONE) {
-        ThemeHelper(context)
-    }
 
     open val initializeWithTheme: Boolean
         get() = true
@@ -29,7 +24,7 @@ abstract class BaseActivity : BaseActivity() {
     final override fun onCreate(savedInstanceState: Bundle?) {
         inject(getApplicationComponent())
         if (initializeWithTheme) {
-            setTheme(themeHelper.theme)
+            setTheme(R.style.LightTheme)
         }
         super.onCreate(savedInstanceState)
         try {

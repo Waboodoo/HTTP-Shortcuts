@@ -112,19 +112,6 @@ fun SettingsContent(
                 onItemSelected = onDarkModeOptionSelected,
             )
 
-            // TODO: Theme?
-            // settings_theme
-            // Palette
-            /*
-            <item>@string/theme_blue</item>
-            <item>@string/theme_indigo</item>
-            <item>@string/theme_grey</item>
-            <item>@string/theme_green</item>
-            <item>@string/theme_purple</item>
-            <item>@string/theme_red</item>
-            <item>@string/theme_orange</item>
-             */
-
             SettingsButton(
                 icon = Icons.Outlined.Title,
                 title = stringResource(R.string.settings_app_title_title),

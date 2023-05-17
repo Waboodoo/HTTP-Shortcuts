@@ -1,29 +1,15 @@
 package ch.rmy.android.framework.extensions
 
-import android.app.Activity
 import android.content.Context
-import android.graphics.drawable.Drawable
 import androidx.annotation.CheckResult
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
-import androidx.annotation.DrawableRes
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.util.Predicate
 
 @ColorInt
 fun color(context: Context, @ColorRes colorRes: Int): Int =
     ContextCompat.getColor(context, colorRes)
-
-fun drawable(context: Context, @DrawableRes drawableRes: Int): Drawable? =
-    AppCompatResources.getDrawable(context, drawableRes)
-
-fun Activity.dimen(@DimenRes dimenRes: Int) =
-    dimen(this, dimenRes)
-
-fun dimen(context: Context, @DimenRes dimenRes: Int) =
-    context.resources.getDimensionPixelSize(dimenRes)
 
 inline fun consume(f: () -> Unit): Boolean {
     f()

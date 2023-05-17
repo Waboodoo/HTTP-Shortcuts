@@ -9,109 +9,13 @@
         <item name="postSplashScreenTheme">@style/BaseTheme</item>
     </style>
 
-    <style name="LightThemeAlt0" parent="BaseTheme">
-        <item name="colorPrimary">@color/primary_alt0</item>
-        <item name="colorPrimaryDark">@color/primary_dark_alt0</item>
-        <item name="colorAccent">@color/primary_alt0</item>
+    <style name="LightTheme" parent="BaseTheme">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/primary</item>
     </style>
 
-    <style name="LightThemeAlt1" parent="BaseTheme">
-        <item name="colorPrimary">@color/primary_alt1</item>
-        <item name="colorPrimaryDark">@color/primary_dark_alt1</item>
-        <item name="colorAccent">@color/primary_alt1</item>
-    </style>
-
-    <style name="LightThemeAlt2" parent="BaseTheme">
-        <item name="colorPrimary">@color/primary_alt2</item>
-        <item name="colorPrimaryDark">@color/primary_dark_alt2</item>
-        <item name="colorAccent">@color/primary_alt2</item>
-    </style>
-
-    <style name="LightThemeAlt3" parent="BaseTheme">
-        <item name="colorPrimary">@color/primary_alt3</item>
-        <item name="colorPrimaryDark">@color/primary_dark_alt3</item>
-        <item name="colorAccent">@color/primary_alt3</item>
-    </style>
-
-    <style name="LightThemeAlt4" parent="BaseTheme">
-        <item name="colorPrimary">@color/primary_alt4</item>
-        <item name="colorPrimaryDark">@color/primary_dark_alt4</item>
-        <item name="colorAccent">@color/primary_alt4</item>
-    </style>
-
-    <style name="LightThemeAlt5" parent="BaseTheme">
-        <item name="colorPrimary">@color/primary_alt5</item>
-        <item name="colorPrimaryDark">@color/primary_dark_alt5</item>
-        <item name="colorAccent">@color/primary_alt5</item>
-    </style>
-
-    <style name="LightThemeAlt6" parent="BaseTheme">
-        <item name="colorPrimary">@color/primary_alt6</item>
-        <item name="colorPrimaryDark">@color/primary_dark_alt6</item>
-        <item name="colorAccent">@color/primary_alt6</item>
-    </style>
-
-    <style name="LightThemeTransparentAlt0" parent="LightThemeAlt0">
-        <item name="android:windowAnimationStyle">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
-    </style>
-
-    <style name="LightThemeTransparentAlt1" parent="LightThemeAlt1">
-        <item name="android:windowAnimationStyle">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
-    </style>
-
-    <style name="LightThemeTransparentAlt2" parent="LightThemeAlt2">
-        <item name="android:windowAnimationStyle">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
-    </style>
-
-    <style name="LightThemeTransparentAlt3" parent="LightThemeAlt3">
-        <item name="android:windowAnimationStyle">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
-    </style>
-
-    <style name="LightThemeTransparentAlt4" parent="LightThemeAlt4">
-        <item name="android:windowAnimationStyle">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
-    </style>
-
-    <style name="LightThemeTransparentAlt5" parent="LightThemeAlt5">
-        <item name="android:windowAnimationStyle">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
-    </style>
-
-    <style name="LightThemeTransparentAlt6" parent="LightThemeAlt6">
+    <style name="LightThemeTransparent" parent="LightTheme">
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@color/transparent</item>
@@ -140,9 +44,9 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">false</item>
-        <item name="colorPrimary">@color/primary_alt0</item>
-        <item name="colorPrimaryDark">@color/primary_dark_alt0</item>
-        <item name="colorAccent">@color/primary_alt0</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/primary</item>
     </style>
 
 </resources>

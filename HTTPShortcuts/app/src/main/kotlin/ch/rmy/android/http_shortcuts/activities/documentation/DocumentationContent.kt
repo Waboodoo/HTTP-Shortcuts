@@ -30,11 +30,11 @@ fun DocumentationContent(
         mutableStateOf(true)
     }
     LaunchedEffect(isLoading) {
-        if (isLoading) {
-            isLoadingScreenVisible = true
+        isLoadingScreenVisible = if (isLoading) {
+            true
         } else {
             delay(50.milliseconds)
-            isLoadingScreenVisible = false
+            false
         }
     }
     Box(

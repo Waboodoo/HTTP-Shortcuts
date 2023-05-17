@@ -21,6 +21,6 @@ class ToggleType : BaseVariableType() {
         val previousIndex = variable.value?.toIntOrNull()?.coerceAtLeast(0) ?: 0
         val index = (previousIndex + 1) % options.size
         variablesRepository.setVariableValue(variable.id, index.toString())
-        return options[index]!!.value
+        return options[index].value
     }
 }

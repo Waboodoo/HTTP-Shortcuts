@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor
 
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.ColorTypeEditor
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.ColorTypeViewState
@@ -21,7 +20,7 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.types.ToggleTyp
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.VariableTypeViewState
 
 @Composable
-fun ColumnScope.VariableTypeSpecificContent(
+fun VariableTypeSpecificContent(
     viewState: VariableTypeViewState?,
     onViewStateChanged: (VariableTypeViewState) -> Unit,
 ) {

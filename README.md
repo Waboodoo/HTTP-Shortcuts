@@ -39,7 +39,7 @@ Find more information and documentation on the [official website](https://http-s
 - Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)
 - Import & Export in JSON or cURL format
 - 3rd party integration support (e.g. Tasker or Macrodroid)
-- Themes (with Dark Mode support)
+- Dark Mode support
 - Easy remote editing on a computer via the web editor
 - Event history to see details about recently executed HTTP requests & responses
 - Run arbitrary [JavaScript](https://http-shortcuts.rmy.ch/scripting) before & after execution, which allows for lots of customization with features such as:

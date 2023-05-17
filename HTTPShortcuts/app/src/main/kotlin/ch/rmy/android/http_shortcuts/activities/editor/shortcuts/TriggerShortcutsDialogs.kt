@@ -66,6 +66,7 @@ private fun RemoveShortcutDialog(
     onDismissed: () -> Unit,
 ) {
     ConfirmDialog(
+        title = stringResource(R.string.title_remove_trigger_shortcut),
         message = if (name != null) {
             stringResource(R.string.message_remove_trigger_shortcut, name)
         } else {

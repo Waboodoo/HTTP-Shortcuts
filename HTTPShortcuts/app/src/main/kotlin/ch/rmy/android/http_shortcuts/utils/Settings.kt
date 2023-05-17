@@ -34,7 +34,6 @@ constructor(
             putString(KEY_CLICK_BEHAVIOR, value.type)
         }
 
-    @Suppress("unused")
     var isCrashReportingAllowed: Boolean
         get() = (getString(KEY_CRASH_REPORTING) ?: "true") != "false"
         set(value) {

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.Application
 import android.content.Intent
 import androidx.lifecycle.viewModelScope
-import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.toLocalizable
@@ -86,10 +85,6 @@ class ShortcutEditorViewModel(
 
     init {
         getApplicationComponent().inject(this)
-    }
-
-    private val variablePlaceholderColor by lazy(LazyThreadSafetyMode.NONE) {
-        color(context, R.color.variable)
     }
 
     private var isSaving = false

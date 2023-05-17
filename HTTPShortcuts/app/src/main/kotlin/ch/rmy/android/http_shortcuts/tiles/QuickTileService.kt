@@ -19,7 +19,6 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
-import ch.rmy.android.http_shortcuts.utils.ThemeHelper
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -115,7 +114,7 @@ class QuickTileService : TileService() {
     }
 
     private fun applyTheme() {
-        setTheme(ThemeHelper(context).theme)
+        setTheme(R.style.LightTheme)
     }
 
     private fun executeShortcut(shortcut: Shortcut) {

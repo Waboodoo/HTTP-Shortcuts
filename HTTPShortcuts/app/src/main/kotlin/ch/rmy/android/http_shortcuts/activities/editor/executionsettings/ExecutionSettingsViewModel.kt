@@ -42,7 +42,7 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
         getApplicationComponent().inject(this)
     }
 
-    lateinit var initialViewState: ExecutionSettingsViewState
+    private lateinit var initialViewState: ExecutionSettingsViewState
 
     override fun onInitializationStarted(data: Unit) {
         viewModelScope.launch(Dispatchers.Default) {

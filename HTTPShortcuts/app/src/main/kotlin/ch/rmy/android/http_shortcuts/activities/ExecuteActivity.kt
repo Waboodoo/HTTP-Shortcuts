@@ -4,11 +4,11 @@ import android.app.ActivityManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.core.content.getSystemService
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import ch.rmy.android.framework.extensions.bindViewModel
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.getParcelableList
 import ch.rmy.android.framework.extensions.getSerializable
@@ -16,6 +16,7 @@ import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteEvent
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
@@ -53,7 +54,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
     @Inject
     lateinit var historyCleanUpStarter: HistoryCleanUpWorker.Starter
 
-    private val viewModel: ExecuteViewModel by bindViewModel()
+    private val viewModel: ExecuteViewModel by viewModels()
 
     private var isLowMemory = false
 
@@ -84,7 +85,7 @@ class ExecuteActivity : BaseActivity(), Entrypoint {
 
     override fun onCreated(savedState: Bundle?) {
         getApplicationComponent().inject(this)
-        setTheme(themeHelper.transparentTheme)
+        setTheme(R.style.LightThemeTransparent)
 
         viewModel.initialize(
             ExecutionParams(

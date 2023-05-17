@@ -8,7 +8,6 @@ import android.content.Context
 import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.core.content.getSystemService
-import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.http_shortcuts.R
 import javax.inject.Inject
 import kotlin.coroutines.resume

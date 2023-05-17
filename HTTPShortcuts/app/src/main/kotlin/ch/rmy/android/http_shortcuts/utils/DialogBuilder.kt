@@ -19,16 +19,16 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.core.content.getSystemService
+import androidx.core.content.res.use
 import androidx.core.view.isVisible
 import androidx.core.widget.ImageViewCompat
 import ch.rmy.android.framework.extensions.color
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.databinding.MenuDialogBinding
-import ch.rmy.android.http_shortcuts.extensions.applyTheme
 import ch.rmy.android.http_shortcuts.icons.IconView
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import com.afollestad.materialdialogs.MaterialDialog
@@ -42,9 +42,6 @@ class DialogBuilder(val context: Context) {
 
     private val dialog = MaterialDialog(context)
     private val items = mutableListOf<MenuItem>()
-
-    internal val themeHelper: ThemeHelper
-        get() = (context as BaseActivity).themeHelper
 
     fun title(@StringRes title: Int) = also {
         dialog.title(res = title)
@@ -288,7 +285,7 @@ class DialogBuilder(val context: Context) {
             descriptionView.isVisible = item.description != null
             descriptionView.text = item.description
             checkBox.isChecked = item.checked()
-            checkBox.applyTheme(themeHelper)
+            checkBox.applyTheme()
 
             when {
                 item.shortcutIcon != null -> {
@@ -318,6 +315,19 @@ class DialogBuilder(val context: Context) {
                 else -> false
             }
     }
+
+    private fun CheckBox.applyTheme() {
+        buttonTintList = ColorStateList.valueOf(
+            if (context.isDarkThemeEnabled()) {
+                color(context, R.color.primary_color)
+            } else {
+                context.obtainStyledAttributes(intArrayOf(R.attr.colorPrimary)).use { attributes ->
+                    attributes.getColor(0, color(context, R.color.primary))
+                }
+            }
+        )
+    }
+
 
     companion object {
 

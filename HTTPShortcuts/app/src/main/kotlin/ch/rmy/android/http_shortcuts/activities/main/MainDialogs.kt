@@ -304,6 +304,7 @@ private fun UnlockDialog(
     TextInputDialog(
         title = stringResource(R.string.dialog_title_unlock_app),
         message = stringResource(if (tryAgain) R.string.dialog_text_unlock_app_retry else R.string.dialog_text_unlock_app),
+        confirmButton = stringResource(R.string.button_unlock_app),
         allowEmpty = false,
         onDismissRequest = {
             if (it != null) {

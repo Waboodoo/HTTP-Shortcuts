@@ -64,8 +64,6 @@
     <string name="action_shortcut_information">Show Info</string>
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">Move</string>
-    <!-- Shortcut dropdown option: Enable moving shortcuts within a category by dragging -->
-    <string name="action_enable_moving">Enable Moving within Category</string>
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
     <string name="message_moving_enabled">Re-order shortcuts by dragging them.</string>
     <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL)-->
@@ -172,8 +170,6 @@
     <string name="title_about">Information</string>
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">Unlock settings</string>
-    <!-- Title of theme settings -->
-    <string name="settings_theme">Theme</string>
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">Basic Settings</string>
     <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
@@ -518,8 +514,6 @@
     <string name="label_select_value">Value</string>
     <!-- Button, for opening help article page -->
     <string name="button_show_help">Show Help</string>
-    <!-- Page/dialog title, for help article about variables -->
-    <string name="help_title_variables">Variables</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button">This button allows you to include placeholders for variables, i.e., dynamic values, into your shortcut.\n\nYou don\'t have any variables configured yet. You can do so by clicking the CREATE button below.</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
@@ -574,20 +568,6 @@
     <string name="message_json_encode_instructions">Enable this if you are using this variable inside a JSON string, e.g., in a request body. Special characters will be escaped.</string>
     <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
     <string name="message_url_encode_instructions">Enable this if you are using this variable inside a URL, e.g., as part of a query string. Special characters will be escaped.</string>
-    <!-- App color theme option Blue -->
-    <string name="theme_blue">Blue</string>
-    <!-- App color theme option Green -->
-    <string name="theme_green">Green</string>
-    <!-- App color theme option Red -->
-    <string name="theme_red">Red</string>
-    <!-- App color theme option Grey -->
-    <string name="theme_grey">Grey</string>
-    <!-- App color theme option Orange -->
-    <string name="theme_orange">Orange</string>
-    <!-- App color theme option Purple -->
-    <string name="theme_purple">Purple</string>
-    <!-- App color theme option Indigo -->
-    <string name="theme_indigo">Indigo</string>
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">Export to…</string>
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->

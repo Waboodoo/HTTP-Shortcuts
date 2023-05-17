@@ -25,7 +25,7 @@ class CertPinningViewModel(application: Application) : BaseViewModel<Unit, CertP
         finalizeInitialization(silent = true)
     }
 
-    lateinit var pins: List<CertificatePin>
+    private lateinit var pins: List<CertificatePin>
     private var activePinId: String? = null
 
     override fun onInitialized() {

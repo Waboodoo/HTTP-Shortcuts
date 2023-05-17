@@ -7,7 +7,6 @@ import android.text.Html.ImageGetter
 import android.util.Base64
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toDrawable
-import ch.rmy.android.framework.extensions.dimen
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.R
 import com.squareup.picasso.MemoryPolicy
@@ -25,7 +24,7 @@ class ImageGetter(
     private val coroutineScope: CoroutineScope,
 ) : ImageGetter {
     override fun getDrawable(source: String?): Drawable {
-        val placeholderSize = dimen(context, R.dimen.html_image_placeholder_size)
+        val placeholderSize = context.resources.getDimensionPixelSize(R.dimen.html_image_placeholder_size)
         val drawableWrapper = DrawableWrapper(ResourcesCompat.getDrawable(context.resources, R.drawable.image_placeholder, null)!!)
         drawableWrapper.setBounds(0, 0, placeholderSize, placeholderSize)
 

@@ -51,7 +51,6 @@ class PendingExecution() : RealmObject {
     val delayUntil: Instant?
         get() = waitUntil?.toInstant()
 
-    @Suppress("unused")
     var waitForNetwork: Boolean = false
     var recursionDepth: Int = 0
     var resolvedVariables: RealmList<ResolvedVariable> = realmListOf()

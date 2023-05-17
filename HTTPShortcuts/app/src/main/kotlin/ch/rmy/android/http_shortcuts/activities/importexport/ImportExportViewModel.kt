@@ -248,7 +248,7 @@ class ImportExportViewModel(application: Application) :
                 if (e !is ImportException) {
                     logException(e)
                 }
-                showError(StaticLocalizable(e.message ?: e::class.java.simpleName))
+                showError(StringResLocalizable(R.string.import_failed_with_reason, e.message ?: e::class.java.simpleName))
             } finally {
                 hideProgressDialog()
             }
