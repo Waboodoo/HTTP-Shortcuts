@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -78,7 +77,6 @@ private fun ContextMenuDialog(
                 label = stringResource(R.string.action_edit),
                 onClick = onEditOptionSelected,
             )
-            Divider()
             SelectDialogEntry(
                 label = stringResource(R.string.action_delete),
                 onClick = onDeleteOptionSelected,
@@ -94,6 +92,7 @@ private fun ConfirmDeletionDialog(
 ) {
     ConfirmDialog(
         message = stringResource(R.string.confirm_delete_certificate_pinning_message),
+        confirmButton = stringResource(R.string.dialog_delete),
         onConfirmRequest = onConfirmed,
         onDismissRequest = onDismissed,
     )
