@@ -9,9 +9,6 @@ class SecondLauncherActivity : BaseComposeActivity(), Entrypoint {
     override val initializeWithTheme: Boolean
         get() = false
 
-    override val supportsSnackbars: Boolean
-        get() = false
-
     @Composable
     override fun Content() {
         SecondLauncherScreen()

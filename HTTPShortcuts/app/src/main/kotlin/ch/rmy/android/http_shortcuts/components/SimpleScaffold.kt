@@ -21,12 +21,17 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.getActivity
+import ch.rmy.android.framework.utils.SnackbarManager
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.extensions.runIf
 import kotlinx.coroutines.launch
@@ -52,15 +57,41 @@ fun <T : Any> SimpleScaffold(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
+    val showSnackbar = remember(snackbarHostState, scope) {
+        { message: String, long: Boolean ->
+            scope.launch {
+                snackbarHostState.showSnackbar(
+                    message = message,
+                    duration = if (long) SnackbarDuration.Long else SnackbarDuration.Short,
+                )
+            }
+        }
+    }
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner, showSnackbar) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_RESUME -> {
+                    SnackbarManager.getEnqueuedSnackbars().forEach {
+                        showSnackbar(it.message, it.long)
+                    }
+                }
+                else -> Unit
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
     EventHandler { event ->
         when (event) {
-            is ViewModelEvent.ShowSnackbar -> consume {
-                scope.launch {
-                    snackbarHostState.showSnackbar(
-                        message = event.message.localize(context).toString(),
-                        duration = if (event.long) SnackbarDuration.Long else SnackbarDuration.Short,
-                    )
-                }
+            is ViewModelEvent.ShowSnackbar -> if (context.getActivity()?.isFinishing == true) {
+                false
+            } else consume {
+                showSnackbar(event.message.localize(context).toString(), event.long)
             }
             else -> false
         }

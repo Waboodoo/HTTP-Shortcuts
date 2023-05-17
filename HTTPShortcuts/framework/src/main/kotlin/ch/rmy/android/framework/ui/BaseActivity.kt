@@ -8,23 +8,12 @@ import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.openURL
-import ch.rmy.android.framework.extensions.showSnackbar
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.utils.SnackbarManager
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 
 abstract class BaseActivity : AppCompatActivity() {
-
-    protected open val supportsSnackbars = true
-
-    override fun onStart() {
-        super.onStart()
-        if (supportsSnackbars) {
-            // TODO
-            SnackbarManager.showEnqueuedSnackbars(this)
-        }
-    }
 
     val context: Context
         get() = this
@@ -62,7 +51,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 setResult(event.result, event.intent)
             }
             is ViewModelEvent.ShowSnackbar -> {
-                showSnackbar(event.message.localize(context), long = event.long)
+                SnackbarManager.enqueueSnackbar(event.message.localize(context).toString(), long = event.long)
             }
             is ViewModelEvent.ShowToast -> {
                 showToast(event.message.localize(context).toString(), long = event.long)

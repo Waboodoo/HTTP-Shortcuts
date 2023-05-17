@@ -45,9 +45,6 @@ class ExecuteActivity : BaseComposeActivity(), Entrypoint {
     override val initializeWithTheme: Boolean
         get() = false
 
-    override val supportsSnackbars: Boolean
-        get() = false
-
     @Inject
     lateinit var pendingExecutionsRepository: PendingExecutionsRepository
 
