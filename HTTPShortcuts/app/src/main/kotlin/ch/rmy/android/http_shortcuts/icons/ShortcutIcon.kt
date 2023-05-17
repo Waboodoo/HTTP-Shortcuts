@@ -34,7 +34,7 @@ sealed interface ShortcutIcon {
                     matchResult.groupValues[2]
                         .hexStringToColorInt()
                 }
-                ?: Icons.TintColors.values()
+                ?: Icons.TintColor.values()
                     .firstOrNull {
                         iconName.startsWith(it.prefix)
                     }
@@ -65,7 +65,7 @@ sealed interface ShortcutIcon {
                         }
                         ?: this
                 }
-                .runFor(Icons.TintColors.values().asIterable()) { tintColor ->
+                .runFor(Icons.TintColor.values().asIterable()) { tintColor ->
                     runIf(startsWith(tintColor.prefix)) {
                         replacePrefix(tintColor.prefix, Icons.DEFAULT_TINT_PREFIX)
                     }
@@ -92,7 +92,7 @@ sealed interface ShortcutIcon {
             fun fromDrawableResource(
                 context: Context,
                 @DrawableRes resource: Int,
-                tint: Icons.TintColors? = null,
+                tint: Icons.TintColor? = null,
             ): BuiltInIcon {
                 val iconName = context.resources.getResourceEntryName(resource)
                     .runIfNotNull(tint) {

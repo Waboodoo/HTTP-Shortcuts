@@ -865,7 +865,7 @@ object Icons {
     const val DEFAULT_TINT_PREFIX = "black_"
 
     @Suppress("unused")
-    enum class TintColors(val prefix: String, val color: Int) {
+    enum class TintColor(val prefix: String, val color: Int) {
         BLACK("black_", Color.BLACK),
         GREY("grey_", Color.GRAY),
         WHITE("white_", Color.WHITE),

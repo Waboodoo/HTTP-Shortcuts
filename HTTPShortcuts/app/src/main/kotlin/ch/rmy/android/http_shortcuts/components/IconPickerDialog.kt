@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -162,8 +163,9 @@ private fun BuiltInIconPicker(
     val coloredIcons = remember {
         getColoredIcons(context)
     }
-    val tintableIcons = remember {
-        getTintableIcons(context)
+    val isDarkMode = isSystemInDarkTheme()
+    val tintableIcons = remember(isDarkMode) {
+        getTintableIcons(context, if (isDarkMode) Icons.TintColor.WHITE else Icons.TintColor.BLACK)
     }
 
     AlertDialog(
@@ -249,7 +251,7 @@ private fun getColoredIcons(context: Context): List<ShortcutIcon.BuiltInIcon> =
             ShortcutIcon.BuiltInIcon.fromDrawableResource(context, it)
         }
 
-private fun getTintableIcons(context: Context): List<ShortcutIcon.BuiltInIcon> =
+private fun getTintableIcons(context: Context, tintColor: Icons.TintColor): List<ShortcutIcon.BuiltInIcon> =
     Icons.getTintableIcons().map { iconResource ->
-        ShortcutIcon.BuiltInIcon.fromDrawableResource(context, iconResource, Icons.TintColors.BLACK)
+        ShortcutIcon.BuiltInIcon.fromDrawableResource(context, iconResource, tintColor)
     }
