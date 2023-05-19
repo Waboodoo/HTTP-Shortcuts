@@ -130,25 +130,21 @@ private fun OptionsDialog(
         title = title,
         onDismissRequest = onDismissRequested,
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
+        SelectDialogEntry(
+            label = stringResource(R.string.choose_icon),
+            onClick = onBuiltInIconOptionSelected,
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.choose_image),
+            onClick = onCustomIconOptionSelected,
+        )
+        if (onFaviconOptionSelected != null) {
             SelectDialogEntry(
-                label = stringResource(R.string.choose_icon),
-                onClick = onBuiltInIconOptionSelected,
+                label = stringResource(R.string.choose_page_favicon),
+                onClick = {
+                    onFaviconOptionSelected()
+                },
             )
-            SelectDialogEntry(
-                label = stringResource(R.string.choose_image),
-                onClick = onCustomIconOptionSelected,
-            )
-            if (onFaviconOptionSelected != null) {
-                SelectDialogEntry(
-                    label = stringResource(R.string.choose_page_favicon),
-                    onClick = {
-                        onFaviconOptionSelected()
-                    },
-                )
-            }
         }
     }
 }

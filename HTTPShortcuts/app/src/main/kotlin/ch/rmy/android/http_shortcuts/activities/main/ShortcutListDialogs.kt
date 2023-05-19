@@ -236,18 +236,14 @@ private fun ExportOptionsDialog(
         title = stringResource(R.string.title_export_shortcut_as),
         onDismissRequest = onDismissed,
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            SelectDialogEntry(
-                label = stringResource(R.string.action_export_as_curl),
-                onClick = onExportAsCurlOptionSelected,
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.action_export_as_file),
-                onClick = onExportAsFileOptionSelected,
-            )
-        }
+        SelectDialogEntry(
+            label = stringResource(R.string.action_export_as_curl),
+            onClick = onExportAsCurlOptionSelected,
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.action_export_as_file),
+            onClick = onExportAsFileOptionSelected,
+        )
     }
 }
 
@@ -261,18 +257,14 @@ private fun ExportDestinationOptionsDialog(
         title = stringResource(R.string.title_export),
         onDismissRequest = onDismissed,
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            SelectDialogEntry(
-                label = stringResource(R.string.button_export_to_general),
-                onClick = onExportToFileOptionSelected,
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.button_export_send_to),
-                onClick = onExportViaSharingOptionSelected,
-            )
-        }
+        SelectDialogEntry(
+            label = stringResource(R.string.button_export_to_general),
+            onClick = onExportToFileOptionSelected,
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.button_export_send_to),
+            onClick = onExportViaSharingOptionSelected,
+        )
     }
 }
 
@@ -295,53 +287,49 @@ private fun ContextMenuDialog(
         title = shortcutName,
         onDismissRequest = onDismissed,
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
+        SelectDialogEntry(
+            label = stringResource(R.string.action_place),
+            onClick = onPlaceOnHomeScreenOptionSelected,
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.action_run),
+            onClick = onExecuteOptionSelected,
+        )
+        if (isPending) {
             SelectDialogEntry(
-                label = stringResource(R.string.action_place),
-                onClick = onPlaceOnHomeScreenOptionSelected,
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.action_run),
-                onClick = onExecuteOptionSelected,
-            )
-            if (isPending) {
-                SelectDialogEntry(
-                    label = stringResource(R.string.action_cancel_pending),
-                    onClick = onCancelPendingExecutionOptionSelected,
-                )
-            }
-            Divider(
-                modifier = Modifier.padding(vertical = Spacing.MEDIUM)
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.action_edit),
-                onClick = onEditOptionSelected,
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.action_move),
-                onClick = onMoveOptionSelected,
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.action_duplicate),
-                onClick = onDuplicateOptionSelected,
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.action_delete),
-                onClick = onDeleteOptionSelected,
-            )
-            Divider(
-                modifier = Modifier.padding(vertical = Spacing.MEDIUM)
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.action_shortcut_information),
-                onClick = onShowInfoOptionSelected,
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.action_export),
-                onClick = onExportOptionSelected,
+                label = stringResource(R.string.action_cancel_pending),
+                onClick = onCancelPendingExecutionOptionSelected,
             )
         }
+        Divider(
+            modifier = Modifier.padding(vertical = Spacing.MEDIUM)
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.action_edit),
+            onClick = onEditOptionSelected,
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.action_move),
+            onClick = onMoveOptionSelected,
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.action_duplicate),
+            onClick = onDuplicateOptionSelected,
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.action_delete),
+            onClick = onDeleteOptionSelected,
+        )
+        Divider(
+            modifier = Modifier.padding(vertical = Spacing.MEDIUM)
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.action_shortcut_information),
+            onClick = onShowInfoOptionSelected,
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.action_export),
+            onClick = onExportOptionSelected,
+        )
     }
 }

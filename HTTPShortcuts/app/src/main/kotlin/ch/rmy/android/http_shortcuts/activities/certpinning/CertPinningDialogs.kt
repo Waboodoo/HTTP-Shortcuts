@@ -70,18 +70,14 @@ private fun ContextMenuDialog(
     SelectDialog(
         onDismissRequest = onDismissed,
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            SelectDialogEntry(
-                label = stringResource(R.string.action_edit),
-                onClick = onEditOptionSelected,
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.action_delete),
-                onClick = onDeleteOptionSelected,
-            )
-        }
+        SelectDialogEntry(
+            label = stringResource(R.string.action_edit),
+            onClick = onEditOptionSelected,
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.action_delete),
+            onClick = onDeleteOptionSelected,
+        )
     }
 }
 

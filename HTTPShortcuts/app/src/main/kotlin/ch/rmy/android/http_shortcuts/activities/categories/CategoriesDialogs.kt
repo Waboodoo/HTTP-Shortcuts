@@ -1,9 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
@@ -65,41 +62,37 @@ private fun ContextMenuDialog(
         title = contextMenuState.title.localize(),
         onDismissRequest = onDismissRequested,
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
+        SelectDialogEntry(
+            label = stringResource(R.string.action_edit),
+            onClick = onEditClicked,
+        )
+        if (contextMenuState.showOptionVisible) {
             SelectDialogEntry(
-                label = stringResource(R.string.action_edit),
-                onClick = onEditClicked,
+                label = stringResource(R.string.action_show_category),
+                onClick = {
+                    onVisibilityChangeRequested(true)
+                },
             )
-            if (contextMenuState.showOptionVisible) {
-                SelectDialogEntry(
-                    label = stringResource(R.string.action_show_category),
-                    onClick = {
-                        onVisibilityChangeRequested(true)
-                    },
-                )
-            }
-            if (contextMenuState.hideOptionVisible) {
-                SelectDialogEntry(
-                    label = stringResource(R.string.action_hide_category),
-                    onClick = {
-                        onVisibilityChangeRequested(false)
-                    },
-                )
-            }
-            if (contextMenuState.placeOnHomeScreenOptionVisible) {
-                SelectDialogEntry(
-                    label = stringResource(R.string.action_place_category),
-                    onClick = onPlaceOnHomeScreenClicked,
-                )
-            }
-            if (contextMenuState.deleteOptionVisible) {
-                SelectDialogEntry(
-                    label = stringResource(R.string.action_delete),
-                    onClick = onDeleteClicked,
-                )
-            }
+        }
+        if (contextMenuState.hideOptionVisible) {
+            SelectDialogEntry(
+                label = stringResource(R.string.action_hide_category),
+                onClick = {
+                    onVisibilityChangeRequested(false)
+                },
+            )
+        }
+        if (contextMenuState.placeOnHomeScreenOptionVisible) {
+            SelectDialogEntry(
+                label = stringResource(R.string.action_place_category),
+                onClick = onPlaceOnHomeScreenClicked,
+            )
+        }
+        if (contextMenuState.deleteOptionVisible) {
+            SelectDialogEntry(
+                label = stringResource(R.string.action_delete),
+                onClick = onDeleteClicked,
+            )
         }
     }
 }

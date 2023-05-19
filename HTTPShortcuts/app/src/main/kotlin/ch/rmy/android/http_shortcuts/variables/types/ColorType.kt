@@ -25,13 +25,13 @@ class ColorType : BaseVariableType() {
     }
 
     override suspend fun resolveValue(variable: Variable, dialogHandle: DialogHandle): String {
-        val result = dialogHandle.showDialog(
+        val value = dialogHandle.showDialog(
             ExecuteDialogState.ColorPicker(
                 title = variable.title.toLocalizable(),
                 initialColor = getInitialColor(variable),
             ),
         )
-        val value = (result as Int).colorIntToHexString()
+            .colorIntToHexString()
         if (variable.rememberValue) {
             variablesRepository.setVariableValue(variable.id, value)
         }

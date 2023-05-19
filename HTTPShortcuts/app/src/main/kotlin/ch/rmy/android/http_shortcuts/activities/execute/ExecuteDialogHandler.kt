@@ -9,15 +9,15 @@ class ExecuteDialogHandler
 @Inject
 constructor() : DialogHandle {
     private var dialogResult: CompletableDeferred<Any>? = null
-    private val _dialogState = MutableStateFlow<ExecuteDialogState?>(null)
+    private val _dialogState = MutableStateFlow<ExecuteDialogState<*>?>(null)
     val dialogState = _dialogState.asStateFlow()
 
-    override suspend fun showDialog(dialogState: ExecuteDialogState): Any {
+    override suspend fun <T : Any> showDialog(dialogState: ExecuteDialogState<T>): T {
         dialogResult?.cancel()
         val dialogResult = CompletableDeferred<Any>()
         this.dialogResult = dialogResult
         _dialogState.value = dialogState
-        return dialogResult.await()
+        return dialogResult.await() as T
     }
 
     fun onDialogDismissed() {

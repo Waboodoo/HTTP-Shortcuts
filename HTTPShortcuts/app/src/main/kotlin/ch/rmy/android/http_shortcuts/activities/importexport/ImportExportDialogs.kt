@@ -1,11 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.importexport
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import ch.rmy.android.http_shortcuts.R
@@ -103,17 +100,13 @@ private fun SelectExportDestinationDialog(
         title = stringResource(R.string.title_export),
         onDismissRequest = onDismissRequest,
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            SelectDialogEntry(
-                label = stringResource(R.string.button_export_to_general),
-                onClick = onExportToFileOptionSelected,
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.button_export_send_to),
-                onClick = onExportViaSharingOptionSelected,
-            )
-        }
+        SelectDialogEntry(
+            label = stringResource(R.string.button_export_to_general),
+            onClick = onExportToFileOptionSelected,
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.button_export_send_to),
+            onClick = onExportViaSharingOptionSelected,
+        )
     }
 }

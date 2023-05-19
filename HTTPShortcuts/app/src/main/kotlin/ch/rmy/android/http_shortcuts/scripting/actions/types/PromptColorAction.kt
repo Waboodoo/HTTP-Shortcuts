@@ -17,12 +17,12 @@ class PromptColorAction(
 
     override suspend fun execute(executionContext: ExecutionContext): String? =
         try {
-            val result = executionContext.dialogHandle.showDialog(
+            executionContext.dialogHandle.showDialog(
                 ExecuteDialogState.ColorPicker(
                     initialColor = initialColor?.trimStart('#')?.hexStringToColorInt(),
                 )
             )
-            (result as Int).colorIntToHexString()
+                .colorIntToHexString()
         } catch (e: CancellationException) {
             null
         }

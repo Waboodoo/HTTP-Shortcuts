@@ -63,6 +63,7 @@ fun VariablePickerDialog(
 
     SelectDialog(
         title = title,
+        scrolling = false,
         onDismissRequest = onDismissRequested,
         extraButton = if (showEditButton) {
             {
@@ -72,7 +73,6 @@ fun VariablePickerDialog(
             }
         } else null
     ) {
-
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()

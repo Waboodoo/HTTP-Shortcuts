@@ -220,44 +220,40 @@ private fun ShortcutCreationDialog(
             }
         },
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            SelectDialogEntry(
-                label = stringResource(R.string.button_create_new),
-                onClick = {
-                    onShortcutTypeSelected(ShortcutExecutionType.APP)
-                },
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.button_curl_import),
-                onClick = onCurlImportSelected,
-            )
-            Divider(
-                modifier = Modifier.padding(vertical = Spacing.MEDIUM),
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.button_create_trigger_shortcut),
-                description = stringResource(R.string.button_description_create_trigger_shortcut),
-                onClick = {
-                    onShortcutTypeSelected(ShortcutExecutionType.TRIGGER)
-                },
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.button_create_browser_shortcut),
-                description = stringResource(R.string.button_description_create_browser_shortcut),
-                onClick = {
-                    onShortcutTypeSelected(ShortcutExecutionType.BROWSER)
-                },
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.button_create_scripting_shortcut),
-                description = stringResource(R.string.button_description_create_scripting_shortcut),
-                onClick = {
-                    onShortcutTypeSelected(ShortcutExecutionType.SCRIPTING)
-                },
-            )
-        }
+        SelectDialogEntry(
+            label = stringResource(R.string.button_create_new),
+            onClick = {
+                onShortcutTypeSelected(ShortcutExecutionType.APP)
+            },
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.button_curl_import),
+            onClick = onCurlImportSelected,
+        )
+        Divider(
+            modifier = Modifier.padding(vertical = Spacing.MEDIUM),
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.button_create_trigger_shortcut),
+            description = stringResource(R.string.button_description_create_trigger_shortcut),
+            onClick = {
+                onShortcutTypeSelected(ShortcutExecutionType.TRIGGER)
+            },
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.button_create_browser_shortcut),
+            description = stringResource(R.string.button_description_create_browser_shortcut),
+            onClick = {
+                onShortcutTypeSelected(ShortcutExecutionType.BROWSER)
+            },
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.button_create_scripting_shortcut),
+            description = stringResource(R.string.button_description_create_scripting_shortcut),
+            onClick = {
+                onShortcutTypeSelected(ShortcutExecutionType.SCRIPTING)
+            },
+        )
     }
 }
 

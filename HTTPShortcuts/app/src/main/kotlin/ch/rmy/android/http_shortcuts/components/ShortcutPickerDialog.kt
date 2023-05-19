@@ -21,6 +21,7 @@ fun ShortcutPickerDialog(
 ) {
     SelectDialog(
         title = title,
+        scrolling = false,
         onDismissRequest = onDismissRequested,
     ) {
         LazyColumn(

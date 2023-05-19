@@ -19,7 +19,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @Composable
 fun <T : Any> MultiSelectDialog(
-    title: String,
+    title: String? = null,
     entries: List<MenuEntry<T>>,
     allChecked: Boolean = false,
     confirmButtonLabel: String = stringResource(R.string.dialog_ok),
@@ -40,8 +40,10 @@ fun <T : Any> MultiSelectDialog(
         onDismissRequest = {
             onDismissRequest(null)
         },
-        title = {
-            Text(title)
+        title = title?.let {
+            {
+                Text(title)
+            }
         },
         text = {
             LazyColumn(

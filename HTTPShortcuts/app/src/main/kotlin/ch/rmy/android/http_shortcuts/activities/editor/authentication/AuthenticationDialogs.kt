@@ -1,9 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.editor.authentication
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import ch.rmy.android.http_shortcuts.R
@@ -47,20 +44,16 @@ private fun SelectClientCertTypeDialog(
         title = stringResource(R.string.title_client_cert),
         onDismissRequest = onDismissed,
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            SelectDialogEntry(
-                label = stringResource(R.string.label_client_cert_from_os),
-                description = stringResource(R.string.label_client_cert_from_os_subtitle),
-                onClick = onFromSystemOptionSelected,
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.label_client_cert_from_file),
-                description = stringResource(R.string.label_client_cert_from_file_subtitle),
-                onClick = onFromFileOptionSelected,
-            )
-        }
+        SelectDialogEntry(
+            label = stringResource(R.string.label_client_cert_from_os),
+            description = stringResource(R.string.label_client_cert_from_os_subtitle),
+            onClick = onFromSystemOptionSelected,
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.label_client_cert_from_file),
+            description = stringResource(R.string.label_client_cert_from_file_subtitle),
+            onClick = onFromFileOptionSelected,
+        )
     }
 }
 

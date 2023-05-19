@@ -1,19 +1,14 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
-import ch.rmy.android.framework.extensions.addOrRemove
-import ch.rmy.android.framework.extensions.runFor
-import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.coroutines.resume
 
 class SelectType : BaseVariableType() {
 
@@ -28,41 +23,32 @@ class SelectType : BaseVariableType() {
     }
 
     override suspend fun resolveValue(variable: Variable, dialogHandle: DialogHandle): String {
-        val value = withContext(Dispatchers.Main) {
-            suspendCancellableCoroutine<String> { continuation ->
-                createDialogBuilder(activityProvider.getActivity(), variable, continuation)
-                    .run {
-                        if (isMultiSelect(variable)) {
-                            val selectedOptions = mutableListOf<String>()
-                            runFor(variable.options!!) { option ->
-                                checkBoxItem(name = option.labelOrValue, checked = { option.id in selectedOptions }) { isChecked ->
-                                    selectedOptions.addOrRemove(option.id, isChecked)
-                                }
-                            }
-                                .positive(R.string.dialog_ok) {
-                                    continuation.resume(
-                                        selectedOptions
-                                            .mapNotNull { optionId ->
-                                                variable.options!!.find { it.id == optionId }
-                                            }
-                                            .joinToString(getSeparator(variable)) { option ->
-                                                option.value
-                                            }
-                                    )
-                                }
-                        } else {
-                            runFor(variable.options!!) { option ->
-                                item(name = option.labelOrValue) {
-                                    continuation.resume(option.value)
-                                }
-                            }
-                        }
-                    }
-                    .showOrElse {
-                        continuation.cancel()
-                    }
-            }
+        val value = if (isMultiSelect(variable)) {
+            dialogHandle.showDialog(
+                ExecuteDialogState.MultiSelection(
+                    title = variable.title.takeUnlessEmpty()?.toLocalizable(),
+                    values = variable.options!!.map { option ->
+                        option.id to option.labelOrValue
+                    },
+                )
+            )
+                .mapNotNull { optionId ->
+                    variable.options!!.find { it.id == optionId }
+                }
+                .joinToString(getSeparator(variable)) { option ->
+                    option.value
+                }
+        } else {
+            dialogHandle.showDialog(
+                ExecuteDialogState.Selection(
+                    title = variable.title.takeUnlessEmpty()?.toLocalizable(),
+                    values = variable.options!!.map { option ->
+                        option.value to option.labelOrValue
+                    },
+                )
+            )
         }
+
         if (variable.rememberValue) {
             variablesRepository.setVariableValue(variable.id, value)
         }

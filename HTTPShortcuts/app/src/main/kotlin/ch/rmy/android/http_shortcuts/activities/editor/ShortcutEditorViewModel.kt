@@ -587,7 +587,7 @@ class ShortcutEditorViewModel(
         }
     }
 
-    val executeDialogState: StateFlow<ExecuteDialogState?>
+    val executeDialogState: StateFlow<ExecuteDialogState<*>?>
         get() = dialogHandler.dialogState
 
     fun onExecuteDialogDismissed() {

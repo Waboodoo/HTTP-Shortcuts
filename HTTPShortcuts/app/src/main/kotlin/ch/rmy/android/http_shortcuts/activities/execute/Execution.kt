@@ -142,7 +142,7 @@ class Execution(
     @Inject
     lateinit var dialogHandler: ExecuteDialogHandler
 
-    val dialogState: StateFlow<ExecuteDialogState?>
+    val dialogState: StateFlow<ExecuteDialogState<*>?>
         get() = dialogHandler.dialogState
 
     fun onDialogDismissed() {

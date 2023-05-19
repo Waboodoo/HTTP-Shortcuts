@@ -31,7 +31,7 @@ import ch.rmy.android.http_shortcuts.R
 
 @Composable
 fun TextInputDialog(
-    title: String,
+    title: String?,
     message: String? = null,
     initialValue: String = "",
     allowEmpty: Boolean = true,
@@ -39,6 +39,7 @@ fun TextInputDialog(
     keyboardType: KeyboardType = KeyboardType.Text,
     transformValue: (String) -> String = { it },
     dismissButton: @Composable (() -> Unit)? = null,
+    singleLine: Boolean = false,
     onDismissRequest: (newValue: String?) -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -61,8 +62,10 @@ fun TextInputDialog(
         onDismissRequest = {
             onDismissRequest(null)
         },
-        title = {
-            Text(title)
+        title = title?.let {
+            {
+                Text(title)
+            }
         },
         text = {
             Column(
@@ -81,7 +84,7 @@ fun TextInputDialog(
                     },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = keyboardType,
-                        imeAction = ImeAction.Go,
+                        imeAction = if (singleLine) ImeAction.Go else ImeAction.Default,
                     ),
                     keyboardActions = KeyboardActions {
                         if (confirmButtonEnabled) {
@@ -97,6 +100,7 @@ fun TextInputDialog(
                     } else {
                         VisualTransformation.None
                     },
+                    singleLine = singleLine,
                 )
             }
         },

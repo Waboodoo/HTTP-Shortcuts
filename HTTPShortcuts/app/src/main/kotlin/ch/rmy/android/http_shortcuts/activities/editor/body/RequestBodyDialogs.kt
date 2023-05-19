@@ -64,34 +64,30 @@ private fun ParameterTypePickerDialog(
         title = stringResource(R.string.dialog_title_parameter_type),
         onDismissRequest = onDismissed,
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            SelectDialogEntry(
-                label = stringResource(R.string.option_parameter_type_string),
-                onClick = {
-                    onParameterTypeSelected(ParameterType.STRING)
-                },
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.option_parameter_type_image),
-                onClick = {
-                    onParameterTypeSelected(ParameterType.IMAGE)
-                },
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.option_parameter_type_file),
-                onClick = {
-                    onParameterTypeSelected(ParameterType.FILE)
-                },
-            )
-            SelectDialogEntry(
-                label = stringResource(R.string.option_parameter_type_files),
-                onClick = {
-                    onParameterTypeSelected(ParameterType.FILES)
-                },
-            )
-        }
+        SelectDialogEntry(
+            label = stringResource(R.string.option_parameter_type_string),
+            onClick = {
+                onParameterTypeSelected(ParameterType.STRING)
+            },
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.option_parameter_type_image),
+            onClick = {
+                onParameterTypeSelected(ParameterType.IMAGE)
+            },
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.option_parameter_type_file),
+            onClick = {
+                onParameterTypeSelected(ParameterType.FILE)
+            },
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.option_parameter_type_files),
+            onClick = {
+                onParameterTypeSelected(ParameterType.FILES)
+            },
+        )
     }
 }
 

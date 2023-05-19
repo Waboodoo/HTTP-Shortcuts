@@ -1,17 +1,14 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
-import android.text.InputType
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.coroutines.resume
 
 class TextType : BaseVariableType() {
 
@@ -26,19 +23,18 @@ class TextType : BaseVariableType() {
     }
 
     override suspend fun resolveValue(variable: Variable, dialogHandle: DialogHandle): String {
-        val value = withContext(Dispatchers.Main) {
-            suspendCancellableCoroutine<String> { continuation ->
-                createDialogBuilder(activityProvider.getActivity(), variable, continuation)
-                    .textInput(
-                        prefill = variable.value?.takeIf { variable.rememberValue } ?: "",
-                        inputType = InputType.TYPE_CLASS_TEXT or (if (variable.isMultiline) InputType.TYPE_TEXT_FLAG_MULTI_LINE else 0),
-                        callback = continuation::resume,
-                    )
-                    .showOrElse {
-                        continuation.cancel()
-                    }
-            }
-        }
+        val value = dialogHandle.showDialog(
+            ExecuteDialogState.TextInput(
+                title = variable.title.takeUnlessEmpty()?.toLocalizable(),
+                message = variable.message.takeUnlessEmpty()?.toLocalizable(),
+                initialValue = variable.value?.takeIf { variable.rememberValue } ?: "",
+                type = if (variable.isMultiline) {
+                    ExecuteDialogState.TextInput.Type.MULTILINE_TEXT
+                } else {
+                    ExecuteDialogState.TextInput.Type.TEXT
+                },
+            ),
+        )
         if (variable.rememberValue) {
             variablesRepository.setVariableValue(variable.id, value)
         }
