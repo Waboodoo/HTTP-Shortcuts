@@ -6,32 +6,88 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.getParcelable
+import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.framework.extensions.restartWithoutAnimation
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.ui.BaseIntentBuilder
-import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
 import ch.rmy.android.http_shortcuts.activities.settings.SettingsActivity
+import ch.rmy.android.http_shortcuts.data.RealmFactoryImpl
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 
-class MainActivity : BaseComposeActivity(), Entrypoint {
+class MainActivity : BaseComposeActivity() {
 
     @Composable
     override fun Content() {
+        if (!RealmFactoryImpl.isRealmAvailable) {
+            RealmUnavailableDialog {
+                finishWithoutAnimation()
+            }
+            return
+        }
+
         MainScreen(
             selectionMode = determineMode(intent.action),
             initialCategoryId = intent?.extras?.getString(EXTRA_CATEGORY_ID),
             widgetId = WidgetManager.getWidgetIdFromIntent(intent),
             importUrl = intent?.getParcelable(EXTRA_IMPORT_URL),
             cancelPendingExecutions = intent?.extras?.getBoolean(EXTRA_CANCEL_PENDING_EXECUTIONS) ?: false,
+        )
+    }
+
+    @Composable
+    private fun RealmUnavailableDialog(
+        onDismissed: () -> Unit,
+    ) {
+        val context = LocalContext.current
+        AlertDialog(
+            onDismissRequest = onDismissed,
+            title = { Text(stringResource(R.string.dialog_title_error)) },
+            text = {
+                val text = buildAnnotatedString {
+                    withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onSurface)) {
+                        append(stringResource(R.string.error_realm_unavailable))
+                    }
+                    append(" ")
+                    pushStringAnnotation(tag = "releases", annotation = RELEASES_URL)
+                    withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+                        append(RELEASES_URL)
+                    }
+                    pop()
+                }
+                ClickableText(
+                    text,
+                    onClick = { offset ->
+                        text.getStringAnnotations(tag = "releases", start = offset, end = offset).firstOrNull()?.let {
+                            context.openURL(it.item)
+                        }
+                    },
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = onDismissed) {
+                    Text(stringResource(R.string.dialog_ok))
+                }
+            },
         )
     }
 
@@ -107,6 +163,7 @@ class MainActivity : BaseComposeActivity(), Entrypoint {
 
     companion object {
 
+        private const val RELEASES_URL = "https://github.com/Waboodoo/HTTP-Shortcuts/releases"
         private const val ACTION_SELECT_SHORTCUT_FOR_PLUGIN = "ch.rmy.android.http_shortcuts.plugin"
 
         const val EXTRA_SELECTION_ID = "ch.rmy.android.http_shortcuts.shortcut_id"

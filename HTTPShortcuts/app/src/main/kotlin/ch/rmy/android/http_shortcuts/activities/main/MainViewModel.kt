@@ -111,11 +111,6 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     init {
         getApplicationComponent().inject(this)
-
-        viewModelScope.launch(Dispatchers.Default) {
-            // Ensure that the VariablePlaceholderProvider is initialized
-            variablePlaceholderProvider.applyVariables(variableRepository.getVariables())
-        }
     }
 
     private lateinit var categories: List<Category>
@@ -139,6 +134,11 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         viewModelScope.launch {
             this@MainViewModel.categories = categoryRepository.getCategories()
             finalizeInitialization()
+        }
+
+        viewModelScope.launch(Dispatchers.Default) {
+            // Ensure that the VariablePlaceholderProvider is initialized
+            variablePlaceholderProvider.applyVariables(variableRepository.getVariables())
         }
     }
 

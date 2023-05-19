@@ -10,7 +10,7 @@ import androidx.work.WorkerParameters
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
-import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.data.RealmFactoryImpl
 import ch.rmy.android.http_shortcuts.extensions.context
 import javax.inject.Inject
 
@@ -25,7 +25,7 @@ class ExecutionSchedulerWorker(context: Context, workerParams: WorkerParameters)
     }
 
     override suspend fun doWork(): Result {
-        RealmFactory.init(context)
+        RealmFactoryImpl.init(context)
         return try {
             executionScheduler.schedule()
             Result.success()

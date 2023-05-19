@@ -1,12 +1,11 @@
 package ch.rmy.android.http_shortcuts
 
 import android.content.Context
-import ch.rmy.android.framework.WithRealm
 import ch.rmy.android.framework.extensions.GlobalLogger
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponentProvider
 import ch.rmy.android.http_shortcuts.dagger.DaggerApplicationComponent
-import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.data.RealmFactoryImpl
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
@@ -15,7 +14,7 @@ import org.conscrypt.Conscrypt
 import java.security.Security
 import javax.inject.Inject
 
-class Application : android.app.Application(), ApplicationComponentProvider, WithRealm {
+class Application : android.app.Application(), ApplicationComponentProvider {
 
     private val context: Context
         get() = this
@@ -29,9 +28,6 @@ class Application : android.app.Application(), ApplicationComponentProvider, Wit
     @Inject
     lateinit var localeHelper: LocaleHelper
 
-    override var isRealmAvailable: Boolean = false
-        private set
-
     override fun onCreate() {
         super.onCreate()
         applicationComponent.inject(this)
@@ -42,12 +38,7 @@ class Application : android.app.Application(), ApplicationComponentProvider, Wit
         Logging.initCrashReporting(context)
         GlobalLogger.registerLogging(Logging)
 
-        try {
-            RealmFactory.init(applicationContext)
-            isRealmAvailable = true
-        } catch (e: RealmFactory.RealmNotFoundException) {
-            // Nothing to do here...
-        }
+        RealmFactoryImpl.init(applicationContext)
 
         DarkThemeHelper.applyDarkThemeSettings(Settings(context).darkThemeSetting)
     }

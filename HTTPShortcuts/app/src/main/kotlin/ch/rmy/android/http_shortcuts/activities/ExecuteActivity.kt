@@ -20,7 +20,6 @@ import ch.rmy.android.framework.extensions.getParcelableList
 import ch.rmy.android.framework.extensions.getSerializable
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.ui.BaseIntentBuilder
-import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
@@ -41,7 +40,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
-class ExecuteActivity : BaseComposeActivity(), Entrypoint {
+class ExecuteActivity : BaseComposeActivity() {
 
     override val initializeWithTheme: Boolean
         get() = false

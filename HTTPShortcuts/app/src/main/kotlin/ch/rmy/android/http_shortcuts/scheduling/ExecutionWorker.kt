@@ -14,7 +14,7 @@ import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
-import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.data.RealmFactoryImpl
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
@@ -38,7 +38,7 @@ class ExecutionWorker(private val context: Context, workerParams: WorkerParamete
     override suspend fun doWork(): Result {
         return try {
             val executionId = inputData.getString(INPUT_EXECUTION_ID) ?: return Result.failure()
-            RealmFactory.init(applicationContext)
+            RealmFactoryImpl.init(applicationContext)
             runPendingExecution(context, executionId)
             Result.success()
         } catch (e: NoSuchElementException) {

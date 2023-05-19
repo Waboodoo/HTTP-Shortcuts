@@ -4,14 +4,13 @@ import android.os.Bundle
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.ui.BaseActivity
-import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.documentation.DocumentationActivity
 import ch.rmy.android.http_shortcuts.activities.documentation.DocumentationUrlManager
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
-import ch.rmy.android.http_shortcuts.data.RealmFactory
+import ch.rmy.android.http_shortcuts.data.RealmFactoryImpl
 import ch.rmy.android.http_shortcuts.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.DialogBuilder
@@ -27,16 +26,8 @@ abstract class BaseActivity : BaseActivity() {
             setTheme(R.style.LightTheme)
         }
         super.onCreate(savedInstanceState)
-        try {
-            RealmFactory.init(applicationContext)
-            onCreated(savedInstanceState)
-        } catch (e: RealmFactory.RealmNotFoundException) {
-            if (this is Entrypoint) {
-                showRealmError()
-            } else {
-                throw e
-            }
-        }
+        RealmFactoryImpl.init(applicationContext)
+        onCreated(savedInstanceState)
     }
 
     protected open fun inject(applicationComponent: ApplicationComponent) {

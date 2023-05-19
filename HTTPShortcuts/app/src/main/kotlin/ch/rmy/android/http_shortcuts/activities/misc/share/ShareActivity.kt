@@ -4,10 +4,9 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.runtime.Composable
 import ch.rmy.android.framework.extensions.getParcelable
-import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
 
-class ShareActivity : BaseComposeActivity(), Entrypoint {
+class ShareActivity : BaseComposeActivity() {
 
     override val initializeWithTheme: Boolean
         get() = false

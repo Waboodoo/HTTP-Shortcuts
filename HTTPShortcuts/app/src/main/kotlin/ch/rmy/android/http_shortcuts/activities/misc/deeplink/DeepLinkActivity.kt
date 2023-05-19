@@ -1,10 +1,9 @@
 package ch.rmy.android.http_shortcuts.activities.misc.deeplink
 
 import androidx.compose.runtime.Composable
-import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
 
-class DeepLinkActivity : BaseComposeActivity(), Entrypoint {
+class DeepLinkActivity : BaseComposeActivity() {
 
     override val initializeWithTheme: Boolean
         get() = false

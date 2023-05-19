@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.plugin
 
 import android.os.Bundle
 import androidx.activity.result.launch
-import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
@@ -14,7 +13,7 @@ import com.joaomgcd.taskerpluginlibrary.input.TaskerInputInfos
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input>, Entrypoint {
+class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input> {
 
     @Inject
     lateinit var variableRepository: VariableRepository
