@@ -1,24 +1,39 @@
 package ch.rmy.android.http_shortcuts.activities.execute
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.ColorPickerDialog
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
+import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.MessageDialog
 import ch.rmy.android.http_shortcuts.components.MultiSelectDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
+import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.TextInputDialog
 import ch.rmy.android.http_shortcuts.components.models.MenuEntry
 import ch.rmy.android.http_shortcuts.extensions.localize
 import kotlinx.coroutines.delay
+import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
@@ -123,6 +138,86 @@ fun ExecuteDialogs(
                 },
             )
         }
+        is ExecuteDialogState.NumberSlider -> {
+            NumberSliderDialog(
+                title = dialogState.title?.localize(),
+                message = dialogState.message?.localize(),
+                initialValue = dialogState.initialValue,
+                min = dialogState.min,
+                max = dialogState.max,
+                stepSize = dialogState.stepSize,
+                prefix = dialogState.prefix,
+                suffix = dialogState.suffix,
+                onConfirmed = {
+                    onResult(it)
+                },
+                onDismissed = onDismissed,
+            )
+        }
         null -> Unit
     }
+}
+
+@Composable
+private fun NumberSliderDialog(
+    title: String?,
+    message: String?,
+    initialValue: Float?,
+    min: Float,
+    max: Float,
+    stepSize: Float,
+    prefix: String,
+    suffix: String,
+    onConfirmed: (Float) -> Unit,
+    onDismissed: () -> Unit,
+) {
+    var sliderValue by rememberSaveable(key = "number-picker-value") {
+        mutableStateOf(((initialValue ?: min) - min) / (max - min) * 10000f)
+    }
+    val roundedValue = remember(sliderValue, min, max, stepSize) {
+        ((sliderValue / 10000f) * (max - min) / stepSize).roundToInt() * stepSize + min
+    }
+
+    AlertDialog(
+        onDismissRequest = onDismissed,
+        title = title?.let {
+            {
+                Text(title)
+            }
+        },
+        text = {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
+            ) {
+                if (message != null) {
+                    Text(
+                        message,
+                    )
+                }
+                Text(
+                    prefix + roundedValue.toString().removeSuffix(".0") + suffix,
+                    textAlign = TextAlign.Center,
+                    fontSize = FontSize.HUGE,
+                )
+                Slider(
+                    modifier = Modifier.widthIn(min = 300.dp),
+                    valueRange = 0f..10000f,
+                    value = sliderValue,
+                    onValueChange = {
+                        sliderValue = it
+                    },
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onConfirmed(roundedValue)
+                },
+            ) {
+                Text(stringResource(R.string.dialog_ok))
+            }
+        },
+    )
 }

@@ -1,18 +1,12 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import ch.rmy.android.framework.extensions.runFor
-import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
+import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
-import ch.rmy.android.http_shortcuts.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
-import ch.rmy.android.http_shortcuts.utils.DialogBuilder
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.coroutines.resume
 
 class SelectionAction(
     private val dataObject: Map<String, Any?>?,
@@ -32,26 +26,15 @@ class SelectionAction(
             return null
         }
 
-        return withContext(Dispatchers.Main) {
-            suspendCancellableCoroutine<String> { continuation ->
-                DialogBuilder(activityProvider.getActivity())
-                    .runFor(options.entries) { entry ->
-                        item(name = entry.value) {
-                            continuation.resume("-${entry.key}")
-                        }
-                    }
-                    .dismissListener {
-                        if (continuation.isActive) {
-                            continuation.resume("")
-                        }
-                    }
-                    .showOrElse {
-                        continuation.cancel()
-                    }
-            }
+        return try {
+            executionContext.dialogHandle.showDialog(
+                ExecuteDialogState.Selection(
+                    values = options.entries.map { (key, value) -> key to value },
+                )
+            )
+        } catch (e: DialogCancellationException) {
+            null
         }
-            .takeUnlessEmpty()
-            ?.removePrefix("-")
     }
 
     private fun parseData(dataObject: Map<String, Any?>?, dataList: List<Any?>?): Map<String, String> =

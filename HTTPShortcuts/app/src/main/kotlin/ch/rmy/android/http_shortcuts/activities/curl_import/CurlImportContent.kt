@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -58,7 +57,6 @@ fun CurlImportContent(
                 onSubmit()
             },
             textStyle = TextStyle(
-                color = colorResource(R.color.text_color_primary_dark),
                 fontFamily = FontFamily.Monospace,
             ),
             value = inputText,

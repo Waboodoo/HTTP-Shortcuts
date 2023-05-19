@@ -7,11 +7,8 @@
     <item name="primary_color" type="color">#FF1F1F1F</item>
 
     <item name="variable" type="color">#acb4e2</item>
-    <item name="text_color_primary_dark" type="color">#FFFFFFFF</item>
-    <item name="dialog_icon" type="color">#EEEEEE</item>
 
     <item name="textarea_background" type="color">#FF1F1F1F</item>
-    <item name="icon_background" type="color">#99FFFFFF</item>
 
     <item name="splash_background" type="color">#1F1F1F</item>
 </resources>

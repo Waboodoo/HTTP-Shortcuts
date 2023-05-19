@@ -3,16 +3,21 @@ package ch.rmy.android.http_shortcuts.activities.variables.editor.types
 import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryVariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.variables.types.SliderType
+import ch.rmy.android.http_shortcuts.variables.types.SliderType.Companion.findMax
+import ch.rmy.android.http_shortcuts.variables.types.SliderType.Companion.findMin
+import ch.rmy.android.http_shortcuts.variables.types.SliderType.Companion.findPrefix
+import ch.rmy.android.http_shortcuts.variables.types.SliderType.Companion.findStep
+import ch.rmy.android.http_shortcuts.variables.types.SliderType.Companion.findSuffix
 
 class SliderTypeViewModel : BaseTypeViewModel() {
 
     override fun createViewState(variable: Variable) = SliderTypeViewState(
         rememberValue = variable.rememberValue,
-        minValueText = SliderType.findMin(variable).toString(),
-        maxValueText = SliderType.findMax(variable).toString(),
-        stepSizeText = SliderType.findStep(variable).toString(),
-        prefix = SliderType.findPrefix(variable),
-        suffix = SliderType.findSuffix(variable),
+        minValueText = variable.findMin().toString(),
+        maxValueText = variable.findMax().toString(),
+        stepSizeText = variable.findStep().toString(),
+        prefix = variable.findPrefix(),
+        suffix = variable.findSuffix(),
     )
 
     override suspend fun save(temporaryVariableRepository: TemporaryVariableRepository, viewState: VariableTypeViewState) {

@@ -13,13 +13,13 @@ data class SliderTypeViewState(
     val rememberValue: Boolean,
 ) : VariableTypeViewState {
     val minValue
-        get() = minValueText.toDoubleOrNull() ?: SliderType.DEFAULT_MIN
+        get() = minValueText.toFloatOrNull() ?: SliderType.DEFAULT_MIN
 
     val maxValue
-        get() = maxValueText.toDoubleOrNull() ?: SliderType.DEFAULT_MAX
+        get() = maxValueText.toFloatOrNull() ?: SliderType.DEFAULT_MAX
 
     val stepSize
-        get() = stepSizeText.toDoubleOrNull() ?: SliderType.DEFAULT_STEP
+        get() = stepSizeText.toFloatOrNull() ?: SliderType.DEFAULT_STEP
 
     val isMaxValueInvalid
         get() = maxValue <= minValue

@@ -50,4 +50,16 @@ sealed class ExecuteDialogState<T : Any> {
         val title: Localizable? = null,
         val values: List<Pair<String, String>>,
     ) : ExecuteDialogState<List<String>>()
+
+    @Stable
+    data class NumberSlider(
+        val message: Localizable?,
+        val title: Localizable?,
+        val initialValue: Float?,
+        val min: Float,
+        val max: Float,
+        val stepSize: Float,
+        val prefix: String,
+        val suffix: String,
+    ) : ExecuteDialogState<Float>()
 }

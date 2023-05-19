@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
@@ -129,7 +130,7 @@ private fun HistoryListItem.getTitleColor(): Color =
     when (displayType) {
         HistoryListItem.DisplayType.SUCCESS -> colorResource(R.color.history_text_color_success)
         HistoryListItem.DisplayType.FAILURE -> colorResource(R.color.history_text_color_failure)
-        else -> colorResource(R.color.text_color_primary_dark)
+        else -> MaterialTheme.colorScheme.onBackground
     }
 
 @Composable
