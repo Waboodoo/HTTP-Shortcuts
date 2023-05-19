@@ -17,6 +17,8 @@ import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogHandler
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.activities.main.models.ShortcutItem
 import ch.rmy.android.http_shortcuts.activities.main.usecases.LauncherShortcutMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherMapperUseCase
@@ -54,6 +56,7 @@ import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import ch.rmy.curlcommand.CurlConstructor
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -114,6 +117,9 @@ class ShortcutListViewModel(
 
     @Inject
     lateinit var clipboardUtil: ClipboardUtil
+
+    @Inject
+    lateinit var dialogHandler: ExecuteDialogHandler
 
     init {
         getApplicationComponent().inject(this)
@@ -395,7 +401,7 @@ class ShortcutListViewModel(
         val shortcut = getShortcutById(shortcutId) ?: return
         viewModelScope.launch {
             try {
-                val command = curlExporter.generateCommand(shortcut)
+                val command = curlExporter.generateCommand(shortcut, dialogHandler)
                     .let(CurlConstructor::toCurlCommandString)
                 updateDialogState(
                     ShortcutListDialogState.CurlExport(shortcut.name, command)
@@ -553,6 +559,17 @@ class ShortcutListViewModel(
         updateViewState {
             copy(dialogState = dialogState)
         }
+    }
+
+    val executeDialogState: StateFlow<ExecuteDialogState?>
+        get() = dialogHandler.dialogState
+
+    fun onExecuteDialogDismissed() {
+        dialogHandler.onDialogDismissed()
+    }
+
+    fun onExecuteDialogResult(result: Any) {
+        dialogHandler.onDialogResult(result)
     }
 
     data class InitData(

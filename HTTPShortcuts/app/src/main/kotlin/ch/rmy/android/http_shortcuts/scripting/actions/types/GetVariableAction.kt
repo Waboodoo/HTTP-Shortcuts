@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
@@ -25,7 +26,7 @@ class GetVariableAction(val variableKeyOrId: VariableKeyOrId) : BaseAction() {
             getVariableValue(variableKeyOrId, executionContext.variableManager)
         } catch (e: VariableNotFoundException) {
             try {
-                resolveVariable(variableKeyOrId, executionContext.variableManager)
+                resolveVariable(variableKeyOrId, executionContext.variableManager, executionContext.dialogHandle)
                 getVariableValue(variableKeyOrId, executionContext.variableManager)
             } catch (e2: VariableNotFoundException) {
                 throw ActionException {
@@ -38,12 +39,12 @@ class GetVariableAction(val variableKeyOrId: VariableKeyOrId) : BaseAction() {
         variableManager.getVariableValueByKeyOrId(variableKeyOrId)
             ?: throw VariableNotFoundException()
 
-    private suspend fun resolveVariable(variableKeyOrId: VariableKeyOrId, variableManager: VariableManager) {
+    private suspend fun resolveVariable(variableKeyOrId: VariableKeyOrId, variableManager: VariableManager, dialogHandle: DialogHandle) {
         val variable = variableManager.getVariableByKeyOrId(variableKeyOrId)
             ?: throw VariableNotFoundException()
 
         withContext(Dispatchers.Main) {
-            variableResolver.resolve(variableManager, requiredVariableIds = setOf(variable.id))
+            variableResolver.resolve(variableManager, requiredVariableIds = setOf(variable.id), dialogHandle)
         }
     }
 

@@ -6,6 +6,7 @@ import android.widget.SeekBar
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.utils.SimpleOnSeekBarChangeListener
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
@@ -32,7 +33,7 @@ class SliderType : BaseVariableType() {
     }
 
     @SuppressLint("SetTextI18n")
-    override suspend fun resolveValue(variable: Variable): String {
+    override suspend fun resolveValue(variable: Variable, dialogHandle: DialogHandle): String {
         val value = withContext(Dispatchers.Main) {
             val activity = activityProvider.getActivity()
             suspendCancellableCoroutine<String> { continuation ->

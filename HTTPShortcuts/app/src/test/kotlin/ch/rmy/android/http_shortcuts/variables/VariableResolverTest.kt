@@ -25,7 +25,7 @@ class VariableResolverTest {
         mockkObject(VariableTypeFactory)
         every { VariableTypeFactory.getType(any()) } answers {
             mockk {
-                coEvery { resolve(any(), any()) } answers {
+                coEvery { resolve(any(), any(), any()) } answers {
                     val variable = secondArg<Variable>()
                     resolutionOrder.add(variable.id)
                     variable.value.orEmpty()
@@ -46,7 +46,8 @@ class VariableResolverTest {
                 variableManager = variableManager,
                 requiredVariableIds = VariableResolver.extractVariableIdsExcludingScripting(
                     withContent("{{1234}}"),
-                )
+                ),
+                dialogHandle = mockk(),
             )
 
         assertEquals(
@@ -80,7 +81,8 @@ class VariableResolverTest {
                 variableManager = variableManager,
                 requiredVariableIds = VariableResolver.extractVariableIdsExcludingScripting(
                     withContent("{{1234}}"),
-                )
+                ),
+                dialogHandle = mockk(),
             )
 
         assertEquals(
@@ -162,6 +164,7 @@ class VariableResolverTest {
             .resolve(
                 variableManager = variableManager,
                 requiredVariableIds = setOf("123", "456"),
+                dialogHandle = mockk(),
             )
 
         assertEquals(
@@ -191,6 +194,7 @@ class VariableResolverTest {
             .resolve(
                 variableManager = variableManager,
                 requiredVariableIds = setOf("123"),
+                dialogHandle = mockk(),
             )
 
         assertEquals(
@@ -214,6 +218,7 @@ class VariableResolverTest {
             .resolve(
                 variableManager = variableManager,
                 requiredVariableIds = setOf("123"),
+                dialogHandle = mockk(),
             )
 
         assertEquals(

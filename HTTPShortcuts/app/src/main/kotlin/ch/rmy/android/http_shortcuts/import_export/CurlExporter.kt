@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.import_export
 
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
+import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
@@ -23,14 +24,14 @@ constructor(
     private val variableResolver: VariableResolver,
 ) {
 
-    suspend fun generateCommand(shortcut: Shortcut): CurlCommand {
-        val variableManager = resolveVariables(shortcut)
+    suspend fun generateCommand(shortcut: Shortcut, dialogHandle: DialogHandle): CurlCommand {
+        val variableManager = resolveVariables(shortcut, dialogHandle)
         return generateCommand(shortcut, variableManager.getVariableValuesByIds())
     }
 
-    private suspend fun resolveVariables(shortcut: Shortcut): VariableManager {
+    private suspend fun resolveVariables(shortcut: Shortcut, dialogHandle: DialogHandle): VariableManager {
         val variables = variableRepository.getVariables()
-        return variableResolver.resolve(VariableManager(variables), shortcut)
+        return variableResolver.resolve(VariableManager(variables), shortcut, dialogHandle)
     }
 
     private fun generateCommand(shortcut: Shortcut, variableValues: Map<VariableKey, String>): CurlCommand =

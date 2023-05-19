@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.variables.types
 import android.app.TimePickerDialog
 import android.text.format.DateFormat
 import ch.rmy.android.framework.extensions.showOrElse
+import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
@@ -29,7 +30,7 @@ class TimeType : BaseVariableType() {
         applicationComponent.inject(this)
     }
 
-    override suspend fun resolveValue(variable: Variable): String {
+    override suspend fun resolveValue(variable: Variable, dialogHandle: DialogHandle): String {
         val selectedTime = withContext(Dispatchers.Main) {
             suspendCancellableCoroutine<LocalTime> { continuation ->
                 val time = getInitialTime(variable.value.takeIf { variable.rememberValue })

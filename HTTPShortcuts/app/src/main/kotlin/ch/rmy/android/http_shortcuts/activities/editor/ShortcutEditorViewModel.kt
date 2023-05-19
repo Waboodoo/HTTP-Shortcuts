@@ -24,6 +24,8 @@ import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingActivity
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcutsActivity
 import ch.rmy.android.http_shortcuts.activities.editor.usecases.FetchFaviconUseCase
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogHandler
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.SessionInfoStore
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
@@ -49,6 +51,7 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -82,6 +85,9 @@ class ShortcutEditorViewModel(
 
     @Inject
     lateinit var cleanUpStarter: CleanUpWorker.Starter
+
+    @Inject
+    lateinit var dialogHandler: ExecuteDialogHandler
 
     init {
         getApplicationComponent().inject(this)
@@ -548,7 +554,7 @@ class ShortcutEditorViewModel(
             }
             try {
                 val variables = variableRepository.getVariables()
-                val icon = fetchFavicon(shortcut.url, variables)
+                val icon = fetchFavicon(shortcut.url, variables, dialogHandler)
                 if (icon != null) {
                     onShortcutIconChanged(icon)
                 } else {
@@ -579,6 +585,17 @@ class ShortcutEditorViewModel(
         updateViewState {
             copy(dialogState = dialogState)
         }
+    }
+
+    val executeDialogState: StateFlow<ExecuteDialogState?>
+        get() = dialogHandler.dialogState
+
+    fun onExecuteDialogDismissed() {
+        dialogHandler.onDialogDismissed()
+    }
+
+    fun onExecuteDialogResult(result: Any) {
+        dialogHandler.onDialogResult(result)
     }
 
     data class InitData(

@@ -5,8 +5,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
 import ch.rmy.android.http_shortcuts.components.BackButton
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
@@ -89,5 +92,12 @@ fun ShortcutEditorScreen(
         onIconSelected = viewModel::onShortcutIconChanged,
         onFaviconOptionSelected = viewModel::onFetchFaviconOptionSelected,
         onDismiss = viewModel::onDismissDialog,
+    )
+
+    val executeDialogState by viewModel.executeDialogState.collectAsStateWithLifecycle()
+    ExecuteDialogs(
+        executeDialogState,
+        onResult = viewModel::onExecuteDialogResult,
+        onDismissed = viewModel::onExecuteDialogDismissed,
     )
 }

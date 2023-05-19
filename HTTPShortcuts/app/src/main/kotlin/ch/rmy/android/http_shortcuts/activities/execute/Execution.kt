@@ -295,7 +295,7 @@ class Execution(
             scriptExecutor.execute(shortcut.codeOnPrepare)
         }
 
-        variableResolver.resolve(variableManager, shortcut)
+        variableResolver.resolve(variableManager, shortcut, dialogHandler)
 
         when (shortcut.type) {
             ShortcutExecutionType.BROWSER -> {

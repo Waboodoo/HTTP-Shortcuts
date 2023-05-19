@@ -17,4 +17,10 @@ sealed class ExecuteDialogState {
         val title: Localizable? = null,
         val confirmButton: Localizable? = null,
     ) : ExecuteDialogState()
+
+    @Stable
+    data class ColorPicker(
+        val title: Localizable? = null,
+        val initialColor: Int? = null,
+    ) : ExecuteDialogState()
 }

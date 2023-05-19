@@ -2,27 +2,10 @@
 
     <style name="DialogText" parent="@style/MD_Dialog_Message" />
 
-    <style name="GridName" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">13sp</item>
-    </style>
-
     <style name="DialogItemDescription" parent="@android:style/TextAppearance.Small">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="ColorPickerInput">
-        <item name="android:background">@android:color/transparent</item>
-        <item name="android:lines">1</item>
-        <item name="android:typeface">monospace</item>
-        <item name="android:gravity">center</item>
-        <item name="android:padding">8dp</item>
-        <item name="android:paddingStart">12dp</item>
-        <item name="android:paddingEnd">12dp</item>
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>

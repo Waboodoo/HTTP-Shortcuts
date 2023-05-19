@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.variables
 
+import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
@@ -18,6 +19,7 @@ constructor(
     suspend fun resolve(
         variableManager: VariableManager,
         requiredVariableIds: Set<VariableId>,
+        dialogHandle: DialogHandle,
     ): VariableManager {
         requiredVariableIds
             .filter { variableId ->
@@ -26,13 +28,18 @@ constructor(
             .mapNotNull { variableId ->
                 variableManager.getVariableById(variableId)
             }
-            .forEach {
-                resolveVariable(variableManager, it)
+            .forEach { variable ->
+                resolveVariable(variableManager, variable, dialogHandle)
             }
         return variableManager
     }
 
-    private suspend fun resolveVariable(variableManager: VariableManager, variable: Variable, recursionDepth: Int = 0) {
+    private suspend fun resolveVariable(
+        variableManager: VariableManager,
+        variable: Variable,
+        dialogHandle: DialogHandle,
+        recursionDepth: Int = 0,
+    ) {
         if (recursionDepth >= MAX_RECURSION_DEPTH) {
             return
         }
@@ -41,13 +48,13 @@ constructor(
         }
 
         val variableType = VariableTypeFactory.getType(variable.variableType)
-        val rawValue = variableType.resolve(applicationComponent, variable)
+        val rawValue = variableType.resolve(applicationComponent, variable, dialogHandle)
 
         Variables.extractVariableIds(rawValue)
             .forEach { variableId ->
                 variableManager.getVariableById(variableId)
                     ?.let { referencedVariable ->
-                        resolveVariable(variableManager, referencedVariable, recursionDepth = recursionDepth + 1)
+                        resolveVariable(variableManager, referencedVariable, dialogHandle, recursionDepth = recursionDepth + 1)
                     }
             }
 

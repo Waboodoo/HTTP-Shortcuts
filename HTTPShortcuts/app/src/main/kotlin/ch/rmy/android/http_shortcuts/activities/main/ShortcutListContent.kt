@@ -6,12 +6,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
 import ch.rmy.android.http_shortcuts.activities.main.models.CategoryItem
 import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.bindViewModel
@@ -120,6 +123,13 @@ fun ShortcutListContent(
         onCurlExportCopyButtonClicked = viewModel::onCurlExportCopyButtonClicked,
         onCurlExportShareButtonClicked = viewModel::onCurlExportShareButtonClicked,
         onDismissed = viewModel::onDialogDismissed,
+    )
+
+    val executeDialogState by viewModel.executeDialogState.collectAsStateWithLifecycle()
+    ExecuteDialogs(
+        executeDialogState,
+        onResult = viewModel::onExecuteDialogResult,
+        onDismissed = viewModel::onExecuteDialogDismissed,
     )
 }
 

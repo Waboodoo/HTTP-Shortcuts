@@ -45,6 +45,7 @@ private val UNSUPPORTED_CHARACTERS_REGEX = "[^A-Fa-f0-9]".toRegex()
 @Composable
 fun ColorPickerDialog(
     initialColor: Int? = null,
+    title: String? = null,
     onColorSelected: (Int) -> Unit,
     extraContent: @Composable ColumnScope.(Int) -> Unit = {},
     onDismissRequested: () -> Unit,
@@ -74,6 +75,11 @@ fun ColorPickerDialog(
 
     AlertDialog(
         onDismissRequest = onDismissRequested,
+        title = title?.let {
+            {
+                Text(it)
+            }
+        },
         text = {
             Column(
                 modifier = Modifier

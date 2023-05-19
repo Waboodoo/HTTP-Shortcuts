@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.variables.types
 import ch.rmy.android.framework.extensions.addOrRemove
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
@@ -26,7 +27,7 @@ class SelectType : BaseVariableType() {
         applicationComponent.inject(this)
     }
 
-    override suspend fun resolveValue(variable: Variable): String {
+    override suspend fun resolveValue(variable: Variable, dialogHandle: DialogHandle): String {
         val value = withContext(Dispatchers.Main) {
             suspendCancellableCoroutine<String> { continuation ->
                 createDialogBuilder(activityProvider.getActivity(), variable, continuation)
