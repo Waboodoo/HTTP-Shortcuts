@@ -38,6 +38,7 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
 
+@Deprecated("Use Compose instead")
 class DialogBuilder(val context: Context) {
 
     private val dialog = MaterialDialog(context)

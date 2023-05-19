@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.resume
+import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -53,12 +54,13 @@ constructor(
         variableManager: VariableManager,
         fileUploadResult: FileUploadManager.Result?,
         resultHandler: ResultHandler,
+        dialogHandle: DialogHandle,
         recursionDepth: Int = 0,
     ) {
         runWithExceptionHandling {
             registerShortcut(shortcut)
             registerFiles(fileUploadResult)
-            registerActions(context, shortcut.id, variableManager, resultHandler, recursionDepth)
+            registerActions(context, shortcut.id, variableManager, resultHandler, dialogHandle, recursionDepth)
         }
     }
 
@@ -178,6 +180,7 @@ constructor(
         shortcutId: ShortcutId,
         variableManager: VariableManager,
         resultHandler: ResultHandler,
+        dialogHandle: DialogHandle,
         recursionDepth: Int,
     ) {
         jsContext.property(
@@ -224,6 +227,7 @@ constructor(
                                     variableManager = variableManager,
                                     resultHandler = resultHandler,
                                     recursionDepth = recursionDepth,
+                                    dialogHandle = dialogHandle,
                                 )
                             )
                         }

@@ -11,8 +11,10 @@ import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
+import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
@@ -20,9 +22,7 @@ import ch.rmy.android.http_shortcuts.activities.execute.usecases.CheckHeadlessEx
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.CheckWifiSSIDUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.ExtractFileIdsFromVariableValuesUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.OpenInBrowserUseCase
-import ch.rmy.android.http_shortcuts.activities.execute.usecases.PromptForConfirmationUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.ShowResultDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.execute.usecases.ShowShortcutNotFoundDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
@@ -41,7 +41,6 @@ import ch.rmy.android.http_shortcuts.extensions.getSafeName
 import ch.rmy.android.http_shortcuts.extensions.isTemporaryShortcut
 import ch.rmy.android.http_shortcuts.extensions.resolve
 import ch.rmy.android.http_shortcuts.extensions.shouldIncludeInHistory
-import ch.rmy.android.http_shortcuts.extensions.showAndAwaitDismissal
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.history.HistoryEvent
 import ch.rmy.android.http_shortcuts.history.HistoryEventLogger
@@ -54,7 +53,6 @@ import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.scripting.ResultHandler
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
-import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
@@ -68,6 +66,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -114,9 +113,6 @@ class Execution(
     lateinit var openInBrowser: OpenInBrowserUseCase
 
     @Inject
-    lateinit var promptForConfirmation: PromptForConfirmationUseCase
-
-    @Inject
     lateinit var checkWifiSSID: CheckWifiSSIDUseCase
 
     @Inject
@@ -124,9 +120,6 @@ class Execution(
 
     @Inject
     lateinit var extractFileIdsFromVariableValues: ExtractFileIdsFromVariableValuesUseCase
-
-    @Inject
-    lateinit var showShortcutNotFoundDialog: ShowShortcutNotFoundDialogUseCase
 
     @Inject
     lateinit var scriptExecutor: ScriptExecutor
@@ -145,6 +138,20 @@ class Execution(
 
     @Inject
     lateinit var historyEventLogger: HistoryEventLogger
+
+    @Inject
+    lateinit var dialogHandler: ExecuteDialogHandler
+
+    val dialogState: StateFlow<ExecuteDialogState?>
+        get() = dialogHandler.dialogState
+
+    fun onDialogDismissed() {
+        dialogHandler.onDialogDismissed()
+    }
+
+    fun onDialogResult(result: Any) {
+        dialogHandler.onDialogResult(result)
+    }
 
     init {
         context.getApplicationComponent().inject(this)
@@ -194,11 +201,12 @@ class Execution(
 
                 withContext(Dispatchers.Main) {
                     try {
-                        DialogBuilder(activityProvider.getActivity())
-                            .title(R.string.dialog_title_error)
-                            .message(message)
-                            .positive(R.string.dialog_ok)
-                            .showAndAwaitDismissal()
+                        dialogHandler.showDialog(
+                            ExecuteDialogState.GenericMessage(
+                                title = StringResLocalizable(R.string.dialog_title_error),
+                                message = message.toLocalizable(),
+                            )
+                        )
                     } catch (e: NoActivityAvailableException) {
                         context.showToast(message, long = true)
                     }
@@ -217,7 +225,12 @@ class Execution(
         try {
             loadData()
         } catch (e: NoSuchElementException) {
-            showShortcutNotFoundDialog()
+            dialogHandler.showDialog(
+                ExecuteDialogState.GenericMessage(
+                    title = StringResLocalizable(R.string.dialog_title_error),
+                    message = StringResLocalizable(R.string.shortcut_not_found),
+                )
+            )
             throw CancellationException("Cancelling because shortcut was not found")
         }
 
@@ -233,9 +246,14 @@ class Execution(
         }
 
         if (requiresConfirmation()) {
-            promptForConfirmation(shortcutName)
+            dialogHandler.showDialog(
+                ExecuteDialogState.GenericConfirm(
+                    title = shortcutName.toLocalizable(),
+                    message = StringResLocalizable(R.string.dialog_message_confirm_shortcut_execution),
+                )
+            )
         }
-        checkWifiSSID(shortcutName, shortcut.wifiSsid)
+        checkWifiSSID(shortcutName, shortcut.wifiSsid, dialogHandler)
 
         val variableManager = VariableManager(variableRepository.getVariables(), params.variableValues)
 
@@ -267,6 +285,7 @@ class Execution(
                 variableManager = variableManager,
                 fileUploadResult = fileUploadResult,
                 resultHandler = resultHandler,
+                dialogHandle = dialogHandler,
                 recursionDepth = params.recursionDepth,
             )
         }

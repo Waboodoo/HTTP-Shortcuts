@@ -22,6 +22,7 @@ import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.ui.Entrypoint
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.components.ProgressDialog
@@ -122,6 +123,12 @@ class ExecuteActivity : BaseComposeActivity(), Entrypoint {
                 },
             )
         }
+
+        ExecuteDialogs(
+            viewState?.dialogState,
+            onResult = viewModel::onDialogResult,
+            onDismissed = viewModel::onDialogDismissed,
+        )
     }
 
     override fun finish() {

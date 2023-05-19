@@ -47,6 +47,16 @@ class ExecuteViewModel(
         }
     }
 
+    override fun onInitialized() {
+        viewModelScope.launch {
+            execution.dialogState.collect { dialogState ->
+                updateViewState {
+                    copy(dialogState = dialogState)
+                }
+            }
+        }
+    }
+
     private fun isRepetition(): Boolean {
         val time = lastExecutionTime ?: return false
         val data = lastExecutionData ?: return false
@@ -84,6 +94,14 @@ class ExecuteViewModel(
                 sessionMonitor.onSessionComplete(result)
             }
         }
+    }
+
+    fun onDialogDismissed() {
+        execution.onDialogDismissed()
+    }
+
+    fun onDialogResult(result: Any) {
+        execution.onDialogResult(result)
     }
 
     companion object {

@@ -8,7 +8,6 @@ import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.BrowserNotFoundException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
-import ch.rmy.android.http_shortcuts.exceptions.UnsupportedFeatureException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.Validation
