@@ -1,17 +1,13 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.framework.extensions.toLocalizable
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
-import ch.rmy.android.http_shortcuts.extensions.showOrElse
+import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
-import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 import ch.rmy.android.http_shortcuts.variables.Variables
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.coroutines.resume
 
 class PromptAction(private val message: String, private val prefill: String) : BaseAction() {
 
@@ -32,24 +28,16 @@ class PromptAction(private val message: String, private val prefill: String) : B
             return null
         }
 
-        return withContext(Dispatchers.Main) {
-            suspendCancellableCoroutine<String> { continuation ->
-                DialogBuilder(activityProvider.getActivity())
-                    .message(finalMessage)
-                    .textInput(prefill = prefill) { input ->
-                        continuation.resume("-$input")
-                    }
-                    .dismissListener {
-                        if (continuation.isActive) {
-                            continuation.resume("")
-                        }
-                    }
-                    .showOrElse {
-                        continuation.cancel()
-                    }
-            }
+        return try {
+            executionContext.dialogHandle.showDialog(
+                ExecuteDialogState.TextInput(
+                    message = finalMessage.toLocalizable(),
+                    type = ExecuteDialogState.TextInput.Type.TEXT,
+                    initialValue = prefill,
+                )
+            )
+        } catch (e: DialogCancellationException) {
+            null
         }
-            .takeUnlessEmpty()
-            ?.removePrefix("-")
     }
 }

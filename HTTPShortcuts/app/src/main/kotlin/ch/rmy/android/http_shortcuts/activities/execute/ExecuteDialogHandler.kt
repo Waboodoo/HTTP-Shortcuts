@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.execute
 
+import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,7 +23,7 @@ constructor() : DialogHandle {
 
     fun onDialogDismissed() {
         _dialogState.value = null
-        dialogResult?.cancel()
+        dialogResult?.cancel(DialogCancellationException())
         dialogResult = null
     }
 

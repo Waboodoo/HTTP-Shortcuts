@@ -3,10 +3,10 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
+import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
-import kotlinx.coroutines.CancellationException
 import javax.inject.Inject
 
 class ConfirmAction(private val message: String) : BaseAction() {
@@ -33,7 +33,7 @@ class ConfirmAction(private val message: String) : BaseAction() {
                 ExecuteDialogState.GenericConfirm(finalMessage.toLocalizable())
             )
             true
-        } catch (e: CancellationException) {
+        } catch (e: DialogCancellationException) {
             false
         }
     }

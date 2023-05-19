@@ -2,10 +2,10 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
+import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.colorIntToHexString
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.hexStringToColorInt
-import kotlinx.coroutines.CancellationException
 
 class PromptColorAction(
     private val initialColor: String?,
@@ -23,7 +23,7 @@ class PromptColorAction(
                 )
             )
                 .colorIntToHexString()
-        } catch (e: CancellationException) {
+        } catch (e: DialogCancellationException) {
             null
         }
 }
