@@ -32,10 +32,6 @@ class DialogBuilder(val context: Context) {
     private val dialog = MaterialDialog(context)
     private val items = mutableListOf<MenuItem>()
 
-    fun title(@StringRes title: Int) = also {
-        dialog.title(res = title)
-    }
-
     fun title(title: String?) = also {
         if (title?.isNotEmpty() == true) {
             dialog.title(text = title)

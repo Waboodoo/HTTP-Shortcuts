@@ -371,6 +371,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".activities.misc.quick_settings_tile.QuickSettingsTileActivity"
+            android:noHistory="true"
+            android:theme="@style/Theme.Transparent" />
+
         <service
             android:name=".tiles.QuickTileService"
             android:exported="true"

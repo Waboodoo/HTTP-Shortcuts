@@ -27,6 +27,7 @@ import ch.rmy.android.http_shortcuts.activities.importexport.ImportExportViewMod
 import ch.rmy.android.http_shortcuts.activities.main.MainViewModel
 import ch.rmy.android.http_shortcuts.activities.main.ShortcutListViewModel
 import ch.rmy.android.http_shortcuts.activities.misc.deeplink.DeepLinkViewModel
+import ch.rmy.android.http_shortcuts.activities.misc.quick_settings_tile.QuickSettingsTileViewModel
 import ch.rmy.android.http_shortcuts.activities.misc.second_launcher.SecondLauncherViewModel
 import ch.rmy.android.http_shortcuts.activities.misc.share.ShareViewModel
 import ch.rmy.android.http_shortcuts.activities.misc.voice.VoiceViewModel
@@ -289,4 +290,6 @@ interface ApplicationComponent {
     fun inject(moveViewModel: MoveViewModel)
 
     fun inject(colorPickerViewModel: ColorPickerViewModel)
+
+    fun inject(quickSettingsTileViewModel: QuickSettingsTileViewModel)
 }

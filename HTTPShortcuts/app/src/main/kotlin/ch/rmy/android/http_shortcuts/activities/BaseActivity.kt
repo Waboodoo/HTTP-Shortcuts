@@ -11,9 +11,7 @@ import ch.rmy.android.http_shortcuts.activities.documentation.DocumentationUrlMa
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.RealmFactoryImpl
-import ch.rmy.android.http_shortcuts.extensions.showOrElse
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
-import ch.rmy.android.http_shortcuts.utils.DialogBuilder
 
 abstract class BaseActivity : BaseActivity() {
 
@@ -22,9 +20,7 @@ abstract class BaseActivity : BaseActivity() {
 
     final override fun onCreate(savedInstanceState: Bundle?) {
         inject(getApplicationComponent())
-        if (initializeWithTheme) {
-            setTheme(R.style.LightTheme)
-        }
+        setTheme(if (initializeWithTheme) R.style.LightTheme else R.style.LightThemeTransparent)
         super.onCreate(savedInstanceState)
         RealmFactoryImpl.init(applicationContext)
         onCreated(savedInstanceState)
@@ -46,19 +42,6 @@ abstract class BaseActivity : BaseActivity() {
     override fun onStop() {
         super.onStop()
         ActivityProvider.deregisterActivity(this)
-    }
-
-    private fun showRealmError() {
-        DialogBuilder(this)
-            .title(R.string.dialog_title_error)
-            .message(R.string.error_realm_unavailable, isHtml = true)
-            .positive(R.string.dialog_ok)
-            .dismissListener {
-                finish()
-            }
-            .showOrElse {
-                finish()
-            }
     }
 
     override fun handleEvent(event: ViewModelEvent) {
