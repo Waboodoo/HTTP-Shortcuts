@@ -566,7 +566,7 @@ class Execution(
                     context.showToast(
                         (output ?: response?.getContentAsString(context) ?: "")
                             .truncate(maxLength = TOAST_MAX_LENGTH)
-                            .let(HTMLUtil::format)
+                            .let(HTMLUtil::toSpanned)
                             .ifBlank { context.getString(R.string.message_blank_response) },
                         long = shortcut.responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE
                     )
@@ -574,7 +574,7 @@ class Execution(
                 ResponseHandling.UI_TYPE_DIALOG,
                 null,
                 -> {
-                    showResultDialog(shortcut, response, output)
+                    showResultDialog(shortcut, response, output, dialogHandler)
                 }
                 ResponseHandling.UI_TYPE_WINDOW -> {
                     if (params.isNested) {

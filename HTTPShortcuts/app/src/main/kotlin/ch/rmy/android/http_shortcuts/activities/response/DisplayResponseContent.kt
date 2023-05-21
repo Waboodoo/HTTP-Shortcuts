@@ -31,11 +31,15 @@ import androidx.compose.ui.text.font.FontWeight
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.response.models.DetailInfo
 import ch.rmy.android.http_shortcuts.components.FontSize
-import ch.rmy.android.http_shortcuts.components.Image
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.rememberSyntaxHighlighter
 import ch.rmy.android.http_shortcuts.extensions.runIf
+import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
+import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
+import coil.compose.AsyncImage
+import coil.request.CachePolicy
+import coil.request.ImageRequest
 
 @Composable
 fun DisplayResponseContent(
@@ -153,16 +157,21 @@ private fun ResponseDisplay(
     url: Uri?,
     limitExceeded: Long?,
 ) {
+    val context = LocalContext.current
     if (FileTypeUtil.isImage(mimeType)) {
-        Image(
+        AsyncImage(
+            model = ImageRequest.Builder(context)
+                .addHeader(HttpHeaders.USER_AGENT, UserAgentUtil.userAgent)
+                .data(fileUri)
+                .diskCachePolicy(CachePolicy.DISABLED)
+                .memoryCachePolicy(CachePolicy.DISABLED)
+                .build(),
+            contentDescription = null,
             modifier = Modifier.fillMaxWidth(),
-            uri = fileUri!!,
-            preventMemoryCache = true,
         )
         return
     }
     if (limitExceeded != null) {
-        val context = LocalContext.current
         PlainText(stringResource(R.string.error_response_too_large, Formatter.formatShortFileSize(context, limitExceeded)), italic = true)
         return
     }

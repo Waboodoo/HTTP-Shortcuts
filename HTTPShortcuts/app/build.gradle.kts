@@ -248,14 +248,12 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation("androidx.core:core-splashscreen:1.0.1")
 
-    /* Dialogs / Activities */
-    implementation("com.afollestad.material-dialogs:core:3.3.0")
-    implementation("com.afollestad.material-dialogs:input:3.3.0")
+    /* Color picker */
     implementation("com.github.skydoves:colorpickerview:2.2.4")
 
     /* Compose */
-    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
-    implementation("androidx.compose.material3:material3:1.1.0-rc01")
+    implementation(platform("androidx.compose:compose-bom:2023.05.01"))
+    implementation("androidx.compose.material3:material3:1.2.0-alpha01")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
@@ -272,7 +270,6 @@ dependencies {
 
     /* Image display */
     implementation("io.coil-kt:coil-compose:2.3.0")
-    implementation("com.squareup.picasso:picasso:2.8") // TODO: Remove in favor of Coil
 
     /* Image meta data extraction */
     implementation("androidx.exifinterface:exifinterface:1.3.6")

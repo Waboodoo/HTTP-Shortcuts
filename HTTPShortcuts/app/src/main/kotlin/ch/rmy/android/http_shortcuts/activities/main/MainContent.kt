@@ -5,13 +5,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import ch.rmy.android.framework.extensions.indexOfFirstOrNull
 import ch.rmy.android.http_shortcuts.activities.main.models.CategoryItem
@@ -33,8 +32,8 @@ fun MainContent(
     onSelectShortcut: (ShortcutId) -> Unit,
 ) {
     val activeTabIndex = categoryItems.indexOfFirstOrNull { it.categoryId == activeCategoryId } ?: 0
-    val pagerState = remember {
-        PagerState(activeTabIndex)
+    val pagerState = rememberPagerState(initialPage = activeTabIndex) {
+        categoryItems.size
     }
 
     LaunchedEffect(activeCategoryId) {

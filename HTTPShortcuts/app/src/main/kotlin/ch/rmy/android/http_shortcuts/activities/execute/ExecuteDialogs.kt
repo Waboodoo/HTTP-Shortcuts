@@ -2,7 +2,11 @@ package ch.rmy.android.http_shortcuts.activities.execute
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
@@ -20,10 +24,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.ColorPickerDialog
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.FontSize
+import ch.rmy.android.http_shortcuts.components.HtmlRichText
 import ch.rmy.android.http_shortcuts.components.MessageDialog
 import ch.rmy.android.http_shortcuts.components.MultiSelectDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialog
@@ -31,7 +37,9 @@ import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.TextInputDialog
 import ch.rmy.android.http_shortcuts.components.models.MenuEntry
+import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.extensions.localize
+import coil.compose.AsyncImage
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.milliseconds
@@ -154,6 +162,24 @@ fun ExecuteDialogs(
                 onDismissed = onDismissed,
             )
         }
+        is ExecuteDialogState.RichTextDisplay -> {
+            RichTextDisplayDialog(
+                title = dialogState.title,
+                message = dialogState.message,
+                onDismissed = onDismissed,
+            )
+        }
+        is ExecuteDialogState.ShowResult -> {
+            ShowResultDialog(
+                title = dialogState.title,
+                content = dialogState.content,
+                action = dialogState.action,
+                onActionButtonClicked = {
+                    onResult(Unit)
+                },
+                onDismissed = onDismissed,
+            )
+        }
         null -> Unit
     }
 }
@@ -219,5 +245,91 @@ private fun NumberSliderDialog(
                 Text(stringResource(R.string.dialog_ok))
             }
         },
+    )
+}
+
+@Composable
+private fun RichTextDisplayDialog(
+    title: String?,
+    message: String,
+    onDismissed: () -> Unit,
+) {
+    AlertDialog(
+        modifier = Modifier.padding(Spacing.MEDIUM),
+        title = title?.let {
+            {
+                Text(title)
+            }
+        },
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+        onDismissRequest = onDismissed,
+        text = {
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+            ) {
+                SelectionContainer {
+                    HtmlRichText(text = message)
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = onDismissed,
+            ) {
+                Text(stringResource(R.string.dialog_ok))
+            }
+        },
+    )
+}
+
+@Composable
+private fun ShowResultDialog(
+    title: String,
+    content: ExecuteDialogState.ShowResult.Content,
+    action: ResponseDisplayAction?,
+    onActionButtonClicked: () -> Unit,
+    onDismissed: () -> Unit,
+) {
+    AlertDialog(
+        title = {
+            Text(title)
+        },
+        modifier = Modifier.padding(Spacing.MEDIUM),
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+        onDismissRequest = onDismissed,
+        text = {
+            when (content) {
+                is ExecuteDialogState.ShowResult.Content.Image -> {
+                    AsyncImage(model = content.imageUri, contentDescription = null)
+                }
+                is ExecuteDialogState.ShowResult.Content.Text -> {
+                    HtmlRichText(text = content.text)
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = onDismissed,
+            ) {
+                Text(stringResource(R.string.dialog_ok))
+            }
+        },
+        dismissButton = action?.let {
+            {
+                TextButton(
+                    onClick = onActionButtonClicked,
+                ) {
+                    Text(
+                        when (action) {
+                            ResponseDisplayAction.RERUN -> stringResource(R.string.action_rerun_shortcut)
+                            ResponseDisplayAction.SHARE -> stringResource(R.string.share_button)
+                            ResponseDisplayAction.COPY -> stringResource(R.string.action_copy_response)
+                            ResponseDisplayAction.SAVE -> ""
+                        }
+                    )
+                }
+            }
+        }
     )
 }

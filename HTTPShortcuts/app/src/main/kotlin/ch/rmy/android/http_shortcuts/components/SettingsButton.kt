@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -57,7 +58,15 @@ private fun SettingsButton(
     ListItem(
         leadingContent = iconContent,
         headlineContent = { Text(title) },
-        supportingContent = subtitle?.let { { Text(it) } },
+        supportingContent = subtitle?.let {
+            {
+                Text(
+                    text = it,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        },
         colors = if (enabled) ListItemDefaults.colors() else {
             val disabledColor = ListItemDefaults.contentColor.copy(alpha = 0.38f)
             ListItemDefaults.colors(

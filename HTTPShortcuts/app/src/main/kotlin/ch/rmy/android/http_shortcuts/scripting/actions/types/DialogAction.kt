@@ -1,19 +1,11 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.text.method.LinkMovementMethod
-import android.view.LayoutInflater
-import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
-import ch.rmy.android.http_shortcuts.databinding.DialogTextBinding
-import ch.rmy.android.http_shortcuts.extensions.reloadImageSpans
-import ch.rmy.android.http_shortcuts.extensions.showAndAwaitDismissal
+import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
-import ch.rmy.android.http_shortcuts.utils.DialogBuilder
-import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.variables.Variables
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DialogAction(private val message: String, private val title: String) : BaseAction() {
@@ -34,22 +26,15 @@ class DialogAction(private val message: String, private val title: String) : Bas
             return
         }
 
-        withContext(Dispatchers.Main) {
-            val activity = activityProvider.getActivity()
-            val view = DialogTextBinding.inflate(LayoutInflater.from(activity))
-            val textView = view.text
-            textView.text = HTMLUtil.formatWithImageSupport(
-                string = finalMessage,
-                context = activity,
-                onImageLoaded = textView::reloadImageSpans,
-                coroutineScope = this,
+        try {
+            executionContext.dialogHandle.showDialog(
+                ExecuteDialogState.RichTextDisplay(
+                    title = title,
+                    message = finalMessage,
+                )
             )
-            textView.movementMethod = LinkMovementMethod.getInstance()
-            DialogBuilder(activity)
-                .title(title)
-                .view(view.root)
-                .positive(R.string.dialog_ok)
-                .showAndAwaitDismissal()
+        } catch (e: DialogCancellationException) {
+            // proceed as normal
         }
     }
 }

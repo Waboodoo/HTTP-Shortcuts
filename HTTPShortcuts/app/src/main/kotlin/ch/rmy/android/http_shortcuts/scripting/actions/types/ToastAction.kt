@@ -28,7 +28,7 @@ class ToastAction(private val message: String) : BaseAction() {
             return
         }
         withContext(Dispatchers.Main) {
-            context.showToast(HTMLUtil.format(finalMessage), long = true)
+            context.showToast(HTMLUtil.toSpanned(finalMessage), long = true)
         }
     }
 }

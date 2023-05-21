@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.activities.execute
 
+import android.net.Uri
 import androidx.compose.runtime.Stable
 import ch.rmy.android.framework.utils.localization.Localizable
+import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 
 @Stable
 sealed class ExecuteDialogState<T : Any> {
@@ -62,4 +64,23 @@ sealed class ExecuteDialogState<T : Any> {
         val prefix: String,
         val suffix: String,
     ) : ExecuteDialogState<Float>()
+
+    @Stable
+    data class RichTextDisplay(
+        val message: String,
+        val title: String?,
+    ) : ExecuteDialogState<Unit>()
+
+    @Stable
+    data class ShowResult(
+        val title: String,
+        val action: ResponseDisplayAction?,
+        val content: Content,
+    ) : ExecuteDialogState<Unit>() {
+        @Stable
+        sealed class Content {
+            data class Text(val text: String) : Content()
+            data class Image(val imageUri: Uri) : Content()
+        }
+    }
 }

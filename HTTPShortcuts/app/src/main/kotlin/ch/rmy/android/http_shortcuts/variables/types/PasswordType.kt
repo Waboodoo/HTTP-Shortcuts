@@ -7,16 +7,12 @@ import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import javax.inject.Inject
 
 class PasswordType : BaseVariableType() {
 
     @Inject
     lateinit var variablesRepository: VariableRepository
-
-    @Inject
-    lateinit var activityProvider: ActivityProvider
 
     override fun inject(applicationComponent: ApplicationComponent) {
         applicationComponent.inject(this)

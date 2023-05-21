@@ -138,7 +138,7 @@ class HttpRequesterWorker(context: Context, params: WorkerParameters) : Coroutin
             context.showToast(
                 (output ?: response?.getContentAsString(context) ?: "")
                     .truncate(maxLength = TOAST_MAX_LENGTH)
-                    .let(HTMLUtil::format)
+                    .let(HTMLUtil::toSpanned)
                     .ifBlank { context.getString(R.string.message_blank_response) },
                 long = shortcut.responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE
             )
