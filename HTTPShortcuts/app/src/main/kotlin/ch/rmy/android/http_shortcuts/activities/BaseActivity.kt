@@ -20,7 +20,7 @@ abstract class BaseActivity : BaseActivity() {
 
     final override fun onCreate(savedInstanceState: Bundle?) {
         inject(getApplicationComponent())
-        setTheme(if (initializeWithTheme) R.style.LightTheme else R.style.LightThemeTransparent)
+        setTheme(if (initializeWithTheme) R.style.LightTheme else R.style.Theme_Transparent)
         super.onCreate(savedInstanceState)
         RealmFactoryImpl.init(applicationContext)
         onCreated(savedInstanceState)

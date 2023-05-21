@@ -88,7 +88,6 @@ dependencies {
     api("androidx.core:core-ktx:1.10.1@aar")
     api("androidx.annotation:annotation:1.6.0")
     api("androidx.appcompat:appcompat:1.6.1")
-    api("androidx.constraintlayout:constraintlayout:2.1.4")
     api("androidx.preference:preference-ktx:1.2.0")
 
     /* Dependency Injection */

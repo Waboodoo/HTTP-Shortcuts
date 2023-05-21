@@ -116,7 +116,7 @@ class ExecuteActivity : BaseComposeActivity() {
             finishWithoutAnimation()
         }
 
-        if (viewState?.progressSpinnerVisible == true) {
+        if (showProgressSpinner) {
             ProgressDialog(
                 onDismissRequest = {
                     finishWithoutAnimation()

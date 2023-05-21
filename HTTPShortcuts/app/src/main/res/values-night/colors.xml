@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <item name="primary" type="color">#FFFFFFFF</item>
     <item name="primary_dark" type="color">#FFFFFFFF</item>
-
     <item name="primary_color" type="color">#FF1F1F1F</item>
-
     <item name="variable" type="color">#acb4e2</item>
-
     <item name="textarea_background" type="color">#FF1F1F1F</item>
-
     <item name="splash_background" type="color">#1F1F1F</item>
 </resources>

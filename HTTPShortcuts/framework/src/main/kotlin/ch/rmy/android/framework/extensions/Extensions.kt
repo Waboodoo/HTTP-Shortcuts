@@ -1,15 +1,7 @@
 package ch.rmy.android.framework.extensions
 
-import android.content.Context
 import androidx.annotation.CheckResult
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat
 import androidx.core.util.Predicate
-
-@ColorInt
-fun color(context: Context, @ColorRes colorRes: Int): Int =
-    ContextCompat.getColor(context, colorRes)
 
 inline fun consume(f: () -> Unit): Boolean {
     f()

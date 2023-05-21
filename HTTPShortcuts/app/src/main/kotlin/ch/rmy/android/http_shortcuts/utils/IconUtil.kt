@@ -10,8 +10,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.getSystemService
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.scale
-import ch.rmy.android.framework.extensions.setTintCompat
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -95,7 +95,7 @@ object IconUtil {
         val canvas = Canvas(bitmap)
         drawable.setBounds(0, 0, iconSize, iconSize)
         if (tint != null) {
-            drawable.setTintCompat(tint)
+            DrawableCompat.setTint(drawable, tint)
         }
         drawable.draw(canvas)
         return bitmap

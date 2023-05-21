@@ -56,10 +56,6 @@ constructor(
         get() = getString(KEY_CHANGE_LOG_LAST_VERSION)
         set(version) = putString(KEY_CHANGE_LOG_LAST_VERSION, version)
 
-    var theme: String
-        get() = getString(KEY_THEME) ?: THEME_BLUE
-        set(theme) = putString(KEY_THEME, theme)
-
     var darkThemeSetting: String
         get() = getString(KEY_DARK_THEME) ?: DARK_THEME_AUTO
         set(value) {
@@ -92,14 +88,6 @@ constructor(
 
         const val LANGUAGE_DEFAULT = "default"
 
-        const val THEME_BLUE = "blue"
-        const val THEME_GREEN = "green"
-        const val THEME_ORANGE = "orange"
-        const val THEME_RED = "red"
-        const val THEME_GREY = "grey"
-        const val THEME_PURPLE = "purple"
-        const val THEME_INDIGO = "indigo"
-
         const val DARK_THEME_ON = "on"
         const val DARK_THEME_OFF = "off"
         const val DARK_THEME_AUTO = "auto"
@@ -115,7 +103,6 @@ constructor(
         private const val KEY_REMOTE_EDIT_SERVER = "remote_edit_server"
         private const val KEY_REMOTE_EDIT_DEVICE_ID = "remote_edit_device_id"
         private const val KEY_REMOTE_EDIT_PASSWORD = "remote_edit_password"
-        private const val KEY_THEME = "theme"
         private const val KEY_DARK_THEME = "dark_theme"
         private const val KEY_LEGACY_EXPORT_FORMAT = "use_legacy_export_format"
         private const val KEY_PREVIOUS_ICON_COLOR = "previous_icon_color"

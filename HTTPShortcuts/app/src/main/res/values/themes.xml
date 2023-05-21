@@ -15,27 +15,6 @@
         <item name="colorAccent">@color/primary</item>
     </style>
 
-    <style name="LightThemeTransparent" parent="LightTheme">
-        <item name="android:windowAnimationStyle">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
-    </style>
-
-    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
-        <item name="android:itemTextAppearance">@style/BlackMenuText</item>
-        <item name="selectableItemBackground">?android:selectableItemBackground</item>
-    </style>
-
-    <style name="BlackMenuText" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
-        <item name="android:textColor">@android:color/black</item>
-    </style>
-
     <style name="Theme.Transparent" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowIsTranslucent">true</item>

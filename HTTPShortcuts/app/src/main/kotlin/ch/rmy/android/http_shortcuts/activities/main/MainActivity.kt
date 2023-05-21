@@ -32,6 +32,7 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
+import ch.rmy.android.http_shortcuts.utils.ExternalURLs.RELEASES
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 
 class MainActivity : BaseComposeActivity() {
@@ -68,9 +69,9 @@ class MainActivity : BaseComposeActivity() {
                         append(stringResource(R.string.error_realm_unavailable))
                     }
                     append(" ")
-                    pushStringAnnotation(tag = "releases", annotation = RELEASES_URL)
+                    pushStringAnnotation(tag = "releases", annotation = RELEASES)
                     withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
-                        append(RELEASES_URL)
+                        append(RELEASES)
                     }
                     pop()
                 }
@@ -163,7 +164,6 @@ class MainActivity : BaseComposeActivity() {
 
     companion object {
 
-        private const val RELEASES_URL = "https://github.com/Waboodoo/HTTP-Shortcuts/releases"
         private const val ACTION_SELECT_SHORTCUT_FOR_PLUGIN = "ch.rmy.android.http_shortcuts.plugin"
 
         const val EXTRA_SELECTION_ID = "ch.rmy.android.http_shortcuts.shortcut_id"
