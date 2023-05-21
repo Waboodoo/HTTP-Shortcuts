@@ -8,9 +8,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TimePicker
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -41,9 +47,13 @@ import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.extensions.localize
 import coil.compose.AsyncImage
 import kotlinx.coroutines.delay
+import java.time.Instant
+import java.time.LocalTime
+import java.time.ZoneId
 import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.milliseconds
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExecuteDialogs(
     dialogState: ExecuteDialogState<*>?,
@@ -160,6 +170,48 @@ fun ExecuteDialogs(
                     onResult(it)
                 },
                 onDismissed = onDismissed,
+            )
+        }
+        is ExecuteDialogState.DatePicker -> {
+            val state = rememberDatePickerState(
+                initialSelectedDateMillis = dialogState.initialDate.atStartOfDay(UTC).toInstant().toEpochMilli(),
+            )
+            DatePickerDialog(
+                onDismissRequest = onDismissed,
+                confirmButton = {
+                    val value = state.selectedDateMillis?.let { Instant.ofEpochMilli(it).atZone(UTC).toLocalDate() }
+                    TextButton(
+                        enabled = value != null,
+                        onClick = {
+                            onResult(value!!)
+                        },
+                    ) {
+                        Text(stringResource(R.string.dialog_ok))
+                    }
+                },
+            ) {
+                DatePicker(state = state)
+            }
+        }
+        is ExecuteDialogState.TimePicker -> {
+            val state = rememberTimePickerState(
+                initialHour = dialogState.initialTime.hour,
+                initialMinute = dialogState.initialTime.minute,
+            )
+            AlertDialog(
+                onDismissRequest = onDismissed,
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            onResult(LocalTime.of(state.hour, state.minute))
+                        },
+                    ) {
+                        Text(stringResource(R.string.dialog_ok))
+                    }
+                },
+                text = {
+                    TimePicker(state = state)
+                }
             )
         }
         is ExecuteDialogState.RichTextDisplay -> {
@@ -333,3 +385,5 @@ private fun ShowResultDialog(
         }
     )
 }
+
+private val UTC = ZoneId.of("UTC")

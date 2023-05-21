@@ -4,6 +4,8 @@ import android.net.Uri
 import androidx.compose.runtime.Stable
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
+import java.time.LocalDate
+import java.time.LocalTime
 
 @Stable
 sealed class ExecuteDialogState<T : Any> {
@@ -64,6 +66,16 @@ sealed class ExecuteDialogState<T : Any> {
         val prefix: String,
         val suffix: String,
     ) : ExecuteDialogState<Float>()
+
+    @Stable
+    data class DatePicker(
+        val initialDate: LocalDate,
+    ) : ExecuteDialogState<LocalDate>()
+
+    @Stable
+    data class TimePicker(
+        val initialTime: LocalTime,
+    ) : ExecuteDialogState<LocalTime>()
 
     @Stable
     data class RichTextDisplay(

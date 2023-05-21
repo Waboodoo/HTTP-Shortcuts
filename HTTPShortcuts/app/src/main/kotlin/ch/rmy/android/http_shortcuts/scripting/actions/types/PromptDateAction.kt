@@ -1,24 +1,18 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.app.DatePickerDialog
-import android.content.DialogInterface
-import ch.rmy.android.framework.extensions.showOrElse
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
+import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.Locale
 import javax.inject.Inject
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 
 class PromptDateAction(
     private val format: String?,
@@ -33,54 +27,23 @@ class PromptDateAction(
     }
 
     override suspend fun execute(executionContext: ExecutionContext): String? =
-        withContext(Dispatchers.Main) {
-            suspendCancellableCoroutine<String> { continuation ->
-                val date = getInitialDate()
-                val activity = activityProvider.getActivity()
-                val datePicker = DatePickerDialog(
-                    activity,
-                    null,
-                    date.year,
-                    date.monthValue,
-                    date.dayOfMonth,
+        try {
+            val selectedDate = executionContext.dialogHandle.showDialog(
+                ExecuteDialogState.DatePicker(
+                    initialDate = getInitialDate(),
                 )
-                datePicker.setButton(
-                    DialogInterface.BUTTON_POSITIVE,
-                    activity.getString(R.string.dialog_ok),
-                ) { _, _ ->
-                    val newDate = LocalDate.of(
-                        datePicker.datePicker.year,
-                        datePicker.datePicker.month,
-                        datePicker.datePicker.dayOfMonth,
-                    )
-                    try {
-                        continuation.resume(
-                            DateTimeFormatter.ofPattern(format ?: DEFAULT_FORMAT, Locale.US)
-                                .format(newDate)
-                        )
-                    } catch (e: IllegalArgumentException) {
-                        continuation.resumeWithException(
-                            UserException.create {
-                                getString(R.string.error_invalid_date_format)
-                            }
-                        )
-                    }
-                }
-                datePicker.setCancelable(true)
-                datePicker.setCanceledOnTouchOutside(true)
-
-                datePicker.showOrElse {
-                    continuation.cancel()
-                }
-                datePicker.setOnDismissListener {
-                    if (continuation.isActive) {
-                        continuation.resume("")
-                    }
+            )
+            try {
+                DateTimeFormatter.ofPattern(format ?: DEFAULT_FORMAT, Locale.US)
+                    .format(selectedDate)
+            } catch (e: IllegalArgumentException) {
+                throw UserException.create {
+                    getString(R.string.error_invalid_date_format)
                 }
             }
+        } catch (e: DialogCancellationException) {
+            null
         }
-            .takeUnlessEmpty()
-            ?.removePrefix("-")
 
     private fun getInitialDate(): LocalDate =
         initialDate
