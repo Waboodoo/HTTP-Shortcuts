@@ -1,6 +1,31 @@
 ## Version 3.0.0
 
-WIP
+A lot of things were added, changed and reworked in this version. It is very likely that new bugs were introduced or that things no longer work the same way they did before. If you encounter any issue, please let me know, either by contacting me (see the "Contact Developer" option on the Information screen) or by opening a Github issue.
+
+### Improvements
+- The app's UI was migrated to Material Design 3
+- The Scripting editor as well as the cURL import screen now have syntax highlighting for easier editing
+- The input field for the request body text now supports syntax highlighting for JSON, XML and HTML. In addition, there is now a button that allows you to format your JSON.
+- You can now configure Certificate Pinning. You'll find the option for this on the Settings screen.
+- If a shortcut is configured to store the HTTP response into a file, it will now write that file directly instead of first storing the response into an internal file
+- The cancelling of a shortcut (e.g. via the back button) is now tracked in the Event History
+- When picking the color for an icon you now see a preview of the icon in that color
+- The Event History now also shows a timestamp's seconds when the event is expanded
+
+### Miscellaneous
+- Previously, when importing shortcuts, it was only possible to import shortcuts that were exported by the same or an older version of the app. It is now possible to also import shortcuts from a newer version, provided compatibility can be guaranteed.
+- The Event History was moved out of the main menu into the Troubleshooting section on the Settings screen
+- The feature for moving shortcuts was reworked. It is now easier to move shortcuts between categories.
+- The recursion limits for shortcuts triggering other shortcuts were loosened. Previously, the execution would be cancelled after 5 recursion steps, now instead it will just include an artificial delay after 10 steps. This gives you more control and flexibility and still allows you to manually cancel an accidental infinite loop.
+
+### Bugfixes
+- When displaying an HTTP response, the charset provided in the response headers is now taken into account instead of always defaulting to UTF-8
+- Text with variable placeholders in it can now be copied from one field to another without losing the placeholders
+- In the Scripting feature, putting block comments around a piece of code that contains variable placeholders no longer leads to syntax errors during execution
+
+### Removed
+- The app no longer supports different themes and instead just uses one default theme.
+- It is no longer possible to use the homescreen's wallpaper as the background for a category. This has the advantage that the app no longer requires the permission to access the file system.
 
 ## Version 2.31.0
 
