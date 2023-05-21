@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.curl_import
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,10 +18,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.HelpText
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.extensions.rememberSyntaxHighlighter
 
 @Composable
 fun CurlImportContent(
@@ -30,6 +31,7 @@ fun CurlImportContent(
     onInputTextChanged: (String) -> Unit,
     onSubmit: () -> Unit,
 ) {
+    val syntaxHighlighter = rememberSyntaxHighlighter("sh")
     val focusRequester = remember { FocusRequester() }
 
     Column(
@@ -47,7 +49,7 @@ fun CurlImportContent(
                 .onGloballyPositioned {
                     focusRequester.requestFocus()
                 }
-                .heightIn(min = 200.dp),
+                .weight(1f),
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.None,
                 autoCorrect = false,
@@ -60,7 +62,10 @@ fun CurlImportContent(
                 fontFamily = FontFamily.Monospace,
             ),
             value = inputText,
-            onValueChange = onInputTextChanged
+            onValueChange = onInputTextChanged,
+            visualTransformation = {
+                TransformedText(syntaxHighlighter.format(it.text), OffsetMapping.Identity)
+            },
         )
     }
 }
