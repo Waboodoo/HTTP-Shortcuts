@@ -1167,7 +1167,7 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <string name="label_response_on_failure">"A kudarcról"</string>
 
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
-    <string name="label_include_meta_information">"Meta információk megjelenítése (pl. válaszcímek)"</string>
+    <string name="label_include_meta_information">"Meta információk megjelenítése"</string>
 
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
     <string name="label_response_handling_type">"Megjelenítés típusa"</string>

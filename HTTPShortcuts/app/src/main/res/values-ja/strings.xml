@@ -1153,7 +1153,7 @@
     <string name="label_response_on_failure">"失敗の時"</string>
 
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
-    <string name="label_include_meta_information">"メタ情報を表示（例：レスポンス ヘッダー）"</string>
+    <string name="label_include_meta_information">"メタ情報を表示"</string>
 
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
     <string name="label_response_handling_type">"表示タイプ"</string>
@@ -2121,4 +2121,13 @@
 
     <!-- Error, shown in snackbar, when the user tries to format a custom request body, but it is invalid JSON syntax -->
     <string name="error_cannot_format_invalid_json">"無効なJSON形式"</string>
+
+    <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
+    <string name="title_move_shortcuts">"ショートカットを移動"</string>
+
+    <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
+    <string name="placeholder_empty_category_for_moving">"このカテゴリーにショートカットなし"</string>
+
+    <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
+    <string name="subtitle_include_meta_information">"レスポンスヘッダー、ステータスコード..."</string>
 </resources>

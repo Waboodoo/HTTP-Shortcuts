@@ -1164,7 +1164,7 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <string name="label_response_on_failure">"Başarısız ise"</string>
 
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
-    <string name="label_include_meta_information">"Meta Bilgilerini Göster (ör. Yanıt Üstbilgileri)"</string>
+    <string name="label_include_meta_information">"Meta Bilgilerini Göster"</string>
 
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
     <string name="label_response_handling_type">"Görüntüleme türü"</string>

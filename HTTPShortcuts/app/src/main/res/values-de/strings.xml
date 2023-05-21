@@ -1163,7 +1163,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="label_response_on_failure">"Bei Fehler"</string>
 
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
-    <string name="label_include_meta_information">"Meta-Informationen anzeigen (z.B. Response-Header)"</string>
+    <string name="label_include_meta_information">"Meta-Informationen anzeigen"</string>
 
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
     <string name="label_response_handling_type">"Anzeige-Typ"</string>
@@ -2132,4 +2132,13 @@ Zusätzlich musst du eventuell auch noch die App von Akku-Optimierungen ausschli
 
     <!-- Error, shown in snackbar, when the user tries to format a custom request body, but it is invalid JSON syntax -->
     <string name="error_cannot_format_invalid_json">"Ungültige JSON-Syntax"</string>
+
+    <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
+    <string name="title_move_shortcuts">"Shortcuts verschieben"</string>
+
+    <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
+    <string name="placeholder_empty_category_for_moving">"Keine Shortcuts in dieser Kategorie"</string>
+
+    <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
+    <string name="subtitle_include_meta_information">"Z.B. Headers, Status-Code, …"</string>
 </resources>

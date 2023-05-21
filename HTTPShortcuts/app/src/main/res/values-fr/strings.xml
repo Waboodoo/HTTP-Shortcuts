@@ -1180,7 +1180,7 @@ Vous pouvez activer cette fonctionnalité en modifiant un raccourci et en cochan
     <string name="label_response_on_failure">"En cas d'échec"</string>
 
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
-    <string name="label_include_meta_information">"Afficher les méta-informations (par exemple, les en-têtes de réponse)"</string>
+    <string name="label_include_meta_information">"Afficher les méta-informations"</string>
 
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
     <string name="label_response_handling_type">"Type d'affichage"</string>

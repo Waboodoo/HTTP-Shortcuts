@@ -1111,7 +1111,7 @@ U kunt deze functie inschakelen door een snelkoppeling te bewerken en het select
     <string name="label_response_on_failure">"Op falen"</string>
 
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
-    <string name="label_include_meta_information">"Meta-informatie tonen (bijv. Response Headers)"</string>
+    <string name="label_include_meta_information">"Meta-informatie tonen"</string>
 
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
     <string name="label_response_handling_type">"Display Type"</string>

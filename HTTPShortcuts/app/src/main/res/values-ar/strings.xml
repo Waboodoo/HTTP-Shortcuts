@@ -1104,7 +1104,7 @@
     <string name="label_response_on_failure">"عند الفشل"</string>
 
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
-    <string name="label_include_meta_information">"إظهار معلومات التعريف (مثل رؤوس الاستجابة)"</string>
+    <string name="label_include_meta_information">"إظهار معلومات التعريف"</string>
 
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
     <string name="label_response_handling_type">"نوع العرض"</string>

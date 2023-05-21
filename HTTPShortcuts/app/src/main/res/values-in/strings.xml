@@ -1166,7 +1166,7 @@ Anda dapat mengaktifkan fitur ini dengan mengedit pintasan dan mencentang kotak 
     <string name="label_response_on_failure">"Ketika Gagal"</string>
 
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
-    <string name="label_include_meta_information">"Tampilkan Informasi Meta (mis. Header Respon)"</string>
+    <string name="label_include_meta_information">"Tampilkan Informasi Meta"</string>
 
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
     <string name="label_response_handling_type">"Tipe Tampilan"</string>

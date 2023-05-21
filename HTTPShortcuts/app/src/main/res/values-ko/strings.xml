@@ -1162,7 +1162,7 @@
     <string name="label_response_on_failure">"실패 시"</string>
 
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
-    <string name="label_include_meta_information">"메타 정보 표시(예: 응답 헤더)"</string>
+    <string name="label_include_meta_information">"메타 정보 표시"</string>
 
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
     <string name="label_response_handling_type">"디스플레이 유형"</string>

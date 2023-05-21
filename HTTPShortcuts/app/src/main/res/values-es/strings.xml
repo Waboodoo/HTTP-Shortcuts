@@ -1166,7 +1166,7 @@ Puede activar esta función editando un acceso directo y seleccionando la casill
     <string name="label_response_on_failure">"Sobre el fracaso"</string>
 
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
-    <string name="label_include_meta_information">"Mostrar metainformación (por ejemplo, encabezados de respuesta)"</string>
+    <string name="label_include_meta_information">"Mostrar metainformación"</string>
 
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
     <string name="label_response_handling_type">"Tipo de pantalla"</string>

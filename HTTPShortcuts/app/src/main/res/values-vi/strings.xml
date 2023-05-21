@@ -1155,7 +1155,7 @@ Bạn có thể bật tính năng này bằng cách chỉnh sửa phím tắt v�
     <string name="label_response_on_failure">"khi thất bại"</string>
 
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
-    <string name="label_include_meta_information">"Hiển thị thông tin Meta (ví dụ: Tiêu đề phản hồi)"</string>
+    <string name="label_include_meta_information">"Hiển thị thông tin Meta"</string>
 
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
     <string name="label_response_handling_type">"Loại màn hình"</string>
