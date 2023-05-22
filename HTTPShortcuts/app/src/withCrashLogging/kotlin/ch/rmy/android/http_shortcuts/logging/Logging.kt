@@ -5,7 +5,6 @@ import android.view.InflateException
 import ch.rmy.android.framework.extensions.minus
 import ch.rmy.android.framework.utils.InstallUtil
 import ch.rmy.android.http_shortcuts.BuildConfig
-import ch.rmy.android.http_shortcuts.data.RealmFactory
 import ch.rmy.android.http_shortcuts.utils.Settings
 import com.bugsnag.android.Bugsnag
 import com.bugsnag.android.Configuration
@@ -50,7 +49,7 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
         Bugsnag.start(context, createBugsnagConfig())
         Bugsnag.setUser(userId, null, null)
         Bugsnag.addOnError { event ->
-            event.addMetadata("app", "installedFromStore", InstallUtil.isAppInstalledFromPlayStore(context))
+            event.addMetadata("app", "installedFromStore", InstallUtil(context).isAppInstalledFromPlayStore())
             event.originalError?.let { !shouldIgnore(it) } ?: true
         }
         initialized = true
@@ -95,7 +94,6 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
             e.cause is IOException ||
             e is CancellationException ||
             e is InflateException ||
-            e is RealmFactory.RealmNotFoundException ||
             e.stackTrace.any { it.className.contains("Miui") }
 
     override fun logInfo(origin: String, message: String) {
