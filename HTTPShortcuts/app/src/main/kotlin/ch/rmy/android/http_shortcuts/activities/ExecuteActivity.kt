@@ -103,8 +103,9 @@ class ExecuteActivity : BaseComposeActivity() {
         var showProgressSpinner by remember {
             mutableStateOf(false)
         }
-        LaunchedEffect(viewState?.progressSpinnerVisible == true) {
-            showProgressSpinner = if (viewState?.progressSpinnerVisible == true) {
+        val shouldShowProgressSpinner = viewState?.progressSpinnerVisible == true && viewState?.dialogState == null
+        LaunchedEffect(shouldShowProgressSpinner) {
+            showProgressSpinner = if (shouldShowProgressSpinner) {
                 delay(400.milliseconds)
                 true
             } else {
