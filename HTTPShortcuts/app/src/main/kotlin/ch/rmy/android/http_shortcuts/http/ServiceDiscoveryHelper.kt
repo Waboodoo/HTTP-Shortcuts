@@ -6,10 +6,9 @@ import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo
 import androidx.core.content.getSystemService
 import ch.rmy.android.framework.extensions.logInfo
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withTimeout
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.time.Duration.Companion.seconds
@@ -18,19 +17,22 @@ object ServiceDiscoveryHelper {
 
     private const val SERVICE_NAME_SUFFIX = ".local"
     private const val SERVICE_TYPE = "_http._tcp"
-    private val DISCOVER_TIMEOUT = 2.seconds
+    private val DISCOVER_TIMEOUT = 5.seconds
 
     fun isDiscoverable(uri: Uri) =
         uri.host?.endsWith(SERVICE_NAME_SUFFIX, ignoreCase = true) == true
 
-    suspend fun discoverService(context: Context, serviceName: String): ServiceInfo {
-        coroutineScope {
-            launch {
-                delay(DISCOVER_TIMEOUT)
-                throw ServiceLookupTimeoutException()
+    suspend fun discoverService(context: Context, serviceName: String): ServiceInfo =
+        try {
+            withTimeout(DISCOVER_TIMEOUT) {
+                runDiscovery(context, serviceName)
             }
+        } catch (e: TimeoutCancellationException) {
+            throw ServiceLookupTimeoutException()
         }
-        return suspendCancellableCoroutine { continuation ->
+
+    private suspend fun runDiscovery(context: Context, serviceName: String): ServiceInfo =
+        suspendCancellableCoroutine { continuation ->
             val nsdManager = requireNotNull(context.getSystemService<NsdManager>())
 
             val discoveryListener = object : NsdManager.DiscoveryListener {
@@ -88,7 +90,6 @@ object ServiceDiscoveryHelper {
                 nsdManager.stopServiceDiscovery(discoveryListener)
             }
         }
-    }
 
     internal fun isCorrectServiceType(serviceInfo: NsdServiceInfo) =
         normalizeServiceName(serviceInfo.serviceType) == SERVICE_TYPE
