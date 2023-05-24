@@ -1,16 +1,20 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import ch.rmy.android.framework.extensions.indexOfFirstOrNull
 import ch.rmy.android.http_shortcuts.activities.main.models.CategoryItem
@@ -47,20 +51,13 @@ fun MainContent(
         modifier = Modifier.fillMaxSize(),
     ) {
         if (categoryItems.size > 1) {
-            ScrollableTabRow(selectedTabIndex = activeTabIndex) {
-                categoryItems.forEachIndexed { index, category ->
-                    Tab(
-                        selected = index == activeTabIndex,
-                        onClick = {
-                            onActiveCategoryIdChanged(category.categoryId)
-                        },
-                        text = {
-                            Text(category.name)
-                        }
-                    )
-                }
-            }
+            TabBar(
+                categoryItems = categoryItems,
+                activeTabIndex = activeTabIndex,
+                onActiveCategoryIdChanged = onActiveCategoryIdChanged,
+            )
         }
+
         HorizontalPager(
             state = pagerState,
             userScrollEnabled = true,
@@ -82,5 +79,37 @@ fun MainContent(
                 onSelectShortcut = onSelectShortcut,
             )
         }
+    }
+}
+
+@Composable
+private fun TabBar(
+    categoryItems: List<CategoryItem>,
+    activeTabIndex: Int,
+    onActiveCategoryIdChanged: (CategoryId) -> Unit,
+) {
+    Box(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.BottomCenter,
+    ) {
+        ScrollableTabRow(
+            selectedTabIndex = activeTabIndex,
+            modifier = Modifier.fillMaxWidth(),
+            divider = {},
+        ) {
+            categoryItems.forEachIndexed { index, category ->
+                Tab(
+                    selected = index == activeTabIndex,
+                    onClick = {
+                        onActiveCategoryIdChanged(category.categoryId)
+                    },
+                    text = {
+                        Text(category.name)
+                    }
+                )
+            }
+        }
+
+        Divider()
     }
 }
