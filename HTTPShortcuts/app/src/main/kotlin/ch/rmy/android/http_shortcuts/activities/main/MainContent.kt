@@ -62,7 +62,6 @@ fun MainContent(
             }
         }
         HorizontalPager(
-            pageCount = categoryItems.size,
             state = pagerState,
             userScrollEnabled = true,
             beyondBoundsPageCount = 2,

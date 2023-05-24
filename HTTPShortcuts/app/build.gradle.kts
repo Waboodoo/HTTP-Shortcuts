@@ -253,11 +253,11 @@ dependencies {
 
     /* Compose */
     implementation(platform("androidx.compose:compose-bom:2023.05.01"))
-    implementation("androidx.compose.material3:material3:1.2.0-alpha01")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha02")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
-    implementation("androidx.activity:activity-compose:1.7.1")
+    implementation("androidx.activity:activity-compose:1.7.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
     implementation("com.github.alorma:compose-settings-ui-m3:0.26.0")
