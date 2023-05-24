@@ -53,7 +53,6 @@ import java.time.ZoneId
 import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.milliseconds
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExecuteDialogs(
     dialogState: ExecuteDialogState<*>?,
@@ -64,16 +63,26 @@ fun ExecuteDialogs(
         mutableStateOf(dialogState)
     }
     LaunchedEffect(dialogState) {
-        if (actualDialogState != null) {
+        if (actualDialogState != null && dialogState != null && actualDialogState!!::class == dialogState::class) {
             actualDialogState = null
-            // If there was already a dialog present, we hide it and delay the new dialog to ensure that the previous
+            // If there was already a dialog of the same type present, we hide it and delay the new dialog to ensure that the previous
             // dialog is fully removed from the composition and none of its state lingers.
             delay(100.milliseconds)
-        } else {
-            actualDialogState = dialogState
         }
+        actualDialogState = dialogState
     }
+    actualDialogState?.let {
+        ExecuteDialog(dialogState = it, onResult = onResult, onDismissed = onDismissed)
+    }
+}
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ExecuteDialog(
+    dialogState: ExecuteDialogState<*>,
+    onResult: (Any) -> Unit,
+    onDismissed: () -> Unit,
+) {
     when (dialogState) {
         is ExecuteDialogState.GenericMessage -> {
             MessageDialog(
@@ -177,6 +186,8 @@ fun ExecuteDialogs(
                 initialSelectedDateMillis = dialogState.initialDate.atStartOfDay(UTC).toInstant().toEpochMilli(),
             )
             DatePickerDialog(
+                modifier = Modifier.padding(Spacing.MEDIUM),
+                properties = DialogProperties(usePlatformDefaultWidth = false),
                 onDismissRequest = onDismissed,
                 confirmButton = {
                     val value = state.selectedDateMillis?.let { Instant.ofEpochMilli(it).atZone(UTC).toLocalDate() }
@@ -199,6 +210,8 @@ fun ExecuteDialogs(
                 initialMinute = dialogState.initialTime.minute,
             )
             AlertDialog(
+                modifier = Modifier.padding(Spacing.MEDIUM),
+                properties = DialogProperties(usePlatformDefaultWidth = false),
                 onDismissRequest = onDismissed,
                 confirmButton = {
                     TextButton(
@@ -232,7 +245,6 @@ fun ExecuteDialogs(
                 onDismissed = onDismissed,
             )
         }
-        null -> Unit
     }
 }
 
@@ -257,6 +269,8 @@ private fun NumberSliderDialog(
     }
 
     AlertDialog(
+        modifier = Modifier.padding(Spacing.MEDIUM),
+        properties = DialogProperties(usePlatformDefaultWidth = false),
         onDismissRequest = onDismissed,
         title = title?.let {
             {
@@ -308,12 +322,12 @@ private fun RichTextDisplayDialog(
 ) {
     AlertDialog(
         modifier = Modifier.padding(Spacing.MEDIUM),
+        properties = DialogProperties(usePlatformDefaultWidth = false),
         title = title?.let {
             {
                 Text(title)
             }
         },
-        properties = DialogProperties(usePlatformDefaultWidth = false),
         onDismissRequest = onDismissed,
         text = {
             Column(

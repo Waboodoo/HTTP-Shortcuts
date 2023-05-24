@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ch.rmy.android.http_shortcuts.R
@@ -74,6 +75,8 @@ fun ColorPickerDialog(
     )
 
     AlertDialog(
+        modifier = Modifier.padding(Spacing.MEDIUM),
+        properties = DialogProperties(usePlatformDefaultWidth = false),
         onDismissRequest = onDismissRequested,
         title = title?.let {
             {
