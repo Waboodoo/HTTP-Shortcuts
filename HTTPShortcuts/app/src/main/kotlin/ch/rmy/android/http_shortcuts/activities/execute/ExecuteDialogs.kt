@@ -116,6 +116,7 @@ private fun ExecuteDialog(
             TextInputDialog(
                 title = dialogState.title?.localize(),
                 message = dialogState.message?.localize(),
+                initialValue = dialogState.initialValue ?: "",
                 allowEmpty = dialogState.type != ExecuteDialogState.TextInput.Type.NUMBER,
                 singleLine = dialogState.type != ExecuteDialogState.TextInput.Type.MULTILINE_TEXT,
                 keyboardType = when (dialogState.type) {

@@ -51,6 +51,7 @@ private fun LockAppDialog(
         message = stringResource(R.string.dialog_text_lock_app),
         confirmButton = stringResource(R.string.button_lock_app),
         allowEmpty = false,
+        monospace = true,
         transformValue = {
             it.take(50)
         },

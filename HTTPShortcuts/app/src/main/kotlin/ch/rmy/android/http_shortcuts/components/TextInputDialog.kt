@@ -39,6 +39,7 @@ fun TextInputDialog(
     allowEmpty: Boolean = true,
     confirmButton: String = stringResource(R.string.dialog_ok),
     keyboardType: KeyboardType = KeyboardType.Text,
+    monospace: Boolean = keyboardType == KeyboardType.Password,
     transformValue: (String) -> String = { it },
     dismissButton: @Composable (() -> Unit)? = null,
     singleLine: Boolean = false,
@@ -97,7 +98,7 @@ fun TextInputDialog(
                     },
                     textStyle = TextStyle(
                         fontSize = FontSize.SMALL,
-                        fontFamily = FontFamily.Monospace,
+                        fontFamily = if (monospace) FontFamily.Monospace else null,
                     ),
                     visualTransformation = if (keyboardType == KeyboardType.Password) {
                         remember { PasswordVisualTransformation() }
