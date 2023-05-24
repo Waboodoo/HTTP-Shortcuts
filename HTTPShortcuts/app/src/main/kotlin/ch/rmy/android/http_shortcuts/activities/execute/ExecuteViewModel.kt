@@ -31,8 +31,7 @@ class ExecuteViewModel(
     override fun initViewState() = ExecuteViewState()
 
     override fun onInitializationStarted(data: ExecutionParams) {
-        if (isRepetition()) {
-            finalizeInitialization(silent = true)
+        if (isAccidentalRepetition()) {
             finish(skipAnimation = true)
             return
         }
@@ -57,14 +56,14 @@ class ExecuteViewModel(
         }
     }
 
-    private fun isRepetition(): Boolean {
+    private fun isAccidentalRepetition(): Boolean {
         val time = lastExecutionTime ?: return false
         val data = lastExecutionData ?: return false
         return data.executionId == null &&
             initData.executionId == null &&
             data.shortcutId == initData.shortcutId &&
             data.variableValues == initData.variableValues &&
-            SystemClock.elapsedRealtime() - time < REPETITION_DEBOUNCE_TIME.inWholeMilliseconds
+            SystemClock.elapsedRealtime() - time < ACCIDENTAL_REPETITION_DEBOUNCE_TIME.inWholeMilliseconds
     }
 
     private fun execute() {
@@ -105,7 +104,7 @@ class ExecuteViewModel(
     }
 
     companion object {
-        private val REPETITION_DEBOUNCE_TIME = 500.milliseconds
+        private val ACCIDENTAL_REPETITION_DEBOUNCE_TIME = 500.milliseconds
 
         private var lastExecutionTime: Long? = null
         private var lastExecutionData: ExecutionParams? = null
