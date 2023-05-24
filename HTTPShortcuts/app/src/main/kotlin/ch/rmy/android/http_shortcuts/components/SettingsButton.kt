@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
@@ -62,7 +63,7 @@ private fun SettingsButton(
             {
                 Text(
                     text = it,
-                    maxLines = 2,
+                    maxLines = 3,
                     overflow = TextOverflow.Ellipsis,
                 )
             }
@@ -82,5 +83,6 @@ private fun SettingsButton(
                 onClick()
             }
             .heightIn(min = 72.dp)
+            .padding(vertical = 4.dp)
     )
 }
