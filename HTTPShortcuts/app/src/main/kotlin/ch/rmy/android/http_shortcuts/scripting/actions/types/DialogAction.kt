@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
@@ -29,7 +30,7 @@ class DialogAction(private val message: String, private val title: String) : Bas
         try {
             executionContext.dialogHandle.showDialog(
                 ExecuteDialogState.RichTextDisplay(
-                    title = title,
+                    title = title.takeUnlessEmpty(),
                     message = finalMessage,
                 )
             )
