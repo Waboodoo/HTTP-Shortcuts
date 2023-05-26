@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.isWebUrl
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -202,6 +203,7 @@ class ImportExportViewModel(application: Application) :
     }
 
     fun onFilePickedForImport(file: Uri) {
+        logInfo("Starting import from file $file")
         startImport(file)
     }
 
@@ -210,6 +212,7 @@ class ImportExportViewModel(application: Application) :
         hideDialog()
         persistImportUrl(url)
         if (url.isWebUrl) {
+            logInfo("Starting info from external URL")
             startImport(url)
         } else {
             onImportFailedDueToInvalidUrl()
