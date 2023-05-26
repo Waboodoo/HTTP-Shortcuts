@@ -36,5 +36,13 @@
     - [Remote Editing](import-export.md#remote-edit)
     - [Hosting Templates for Easy Importing](import-export.md#import-deep-linking)
 - [Advanced Features](advanced.md)
+    - [Share text into a shortcut](advanced.md#share-text)
+    - [Share files into a shortcut](advanced.md#share-files)
+    - [Trigger shortcut via deep-link](advanced.md#deep-link)
+    - [Trigger shortcut via secondary launcher app](advanced.md#secondary-launcher)
+    - [Trigger shortcut via Quick Settings Tile](advanced.md#quick-settings-tile)
+    - [Trigger shortcut via app launcher](advanced.md#app-launcher)
+    - [Integrating with Tasker](advanced.md#integrate-with-tasker)
+    - [Certificate Pinning](advanced.md#certificate-pinning)
 - [Privacy Policy](privacy-policy.md)
 

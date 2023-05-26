@@ -613,7 +613,7 @@ Please note the following technical limitations:
 
 <a name="set-result"></a>
 #### Passing data back
-If you wish to pass data from the called shortcut to the calling shortcut, you can either do this by storing values into variables (using [setVariable()](#set-variable) in the called shortcut and then reading those values in the calling shortcut (using [getVariable()](#get-variable), or you can use the `setResult` function. The latter accepts a single string argument. This string can then be accessed by the calling shortcut on the object returned by the `executeShortcut` function via its `result` key.
+If you wish to pass data from the called shortcut to the calling shortcut, you can either do this by storing values into variables (using [setVariable()](#set-variable)) in the called shortcut and then reading those values in the calling shortcut (using [getVariable()](#get-variable)), or you can use the `setResult` function. The latter accepts a single string argument. This string can then be accessed by the calling shortcut on the object returned by the `executeShortcut` function via its `result` key.
 
 ```js
 // What the called shortcut does:

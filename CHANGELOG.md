@@ -22,6 +22,7 @@ A lot of things were added, changed and reworked in this version. It is very lik
 - When displaying an HTTP response, the charset provided in the response headers is now taken into account instead of always defaulting to UTF-8
 - Text with variable placeholders in it can now be copied from one field to another without losing the placeholders
 - In the Scripting feature, putting block comments around a piece of code that contains variable placeholders no longer leads to syntax errors during execution
+- The MDNS host resolution now no longer just waits without doing anything and might actually resolve the host
 
 ### Removed
 - The app no longer supports different themes and instead just uses one default theme.

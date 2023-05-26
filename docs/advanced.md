@@ -37,6 +37,7 @@ http-shortcuts://f943652a-5f4b-47d9-a4dd-6588292e63dd?myVariable=Hello%20World
 
 Make sure to properly URL-encode the value.
 
+<a name="secondary-launcher"></a>
 ## Trigger shortcut via secondary launcher app
 
 In some cases you might not be able to use home screen shortcuts. In this case, as a workaround, the app supports a secondary launcher app, through which shortcuts can be triggered.
@@ -47,6 +48,7 @@ If you enable this for multiple shortcuts you'll be prompted to select the short
 
 Unfortunately, due to technical limitations on Android, it is not possible to change the name or icon of this secondary launcher app.
 
+<a name="quick-settings-tile"></a>
 ## Trigger shortcut via Quick Settings Tile
 
 On most Android devices you can pull down the status bar to reveal the quick settings area, e.g. to quickly toggle Wi-Fi or enable "Do not disturb" mode. You can edit this area and choose the tiles that are relevant to you and rearrange them. When you do you'll notice that there's also an HTTP Shortcuts tile called "Trigger shortcut". This tile allows you to quickly trigger a shortcut from anywhere.
@@ -55,6 +57,7 @@ To enable a shortcut to be accessible via this quick settings tile, open the edi
 
 If you enable this for multiple shortcuts you'll be prompted to select the shortcut you want to trigger every time.
 
+<a name="app-launcher"></a>
 ## Trigger shortcut via app launcher
 
 Similar to the quick settings tile, another quick way to trigger a shortcut is via the app launcher, i.e., by long-pressing the HTTP Shortcut app's main app icon on the home screen. This will open a menu which shows all the shortcuts which have been enabled to support this.
