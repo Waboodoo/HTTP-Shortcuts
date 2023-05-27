@@ -4,8 +4,10 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
@@ -20,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.models.VariableListItem
 import ch.rmy.android.http_shortcuts.components.EmptyState
+import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.extensions.localize
 import org.burnoutcrew.reorderable.ReorderableItem
@@ -56,6 +59,7 @@ fun VariablesContent(
     ) {
         items(
             items = variables,
+            contentType = { "variable" },
             key = { it.id },
         ) { item ->
             ReorderableItem(reorderableState, key = item.id) { isDragging ->
@@ -70,6 +74,13 @@ fun VariablesContent(
                         },
                 )
             }
+        }
+
+        item(
+            key = "spacer",
+            contentType = "spacer",
+        ) {
+            Spacer(modifier = Modifier.height(Spacing.HUGE))
         }
     }
 }

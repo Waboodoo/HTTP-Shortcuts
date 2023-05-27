@@ -7,12 +7,15 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
@@ -110,6 +113,7 @@ private fun ShortcutLinearList(
     ) {
         items(
             items = shortcuts,
+            contentType = { "shortcut" },
             key = { it.id },
         ) { item ->
             ShortcutListItem(
@@ -129,6 +133,13 @@ private fun ShortcutLinearList(
                         },
                     ),
             )
+        }
+
+        item(
+            key = "spacer",
+            contentType = "spacer",
+        ) {
+            Spacer(modifier = Modifier.height(Spacing.HUGE))
         }
     }
 }
@@ -206,6 +217,7 @@ private fun ShortcutGrid(
     ) {
         items(
             items = shortcuts,
+            contentType = { "shortcut" },
             key = { it.id },
         ) { item ->
             ShortcutGridItem(
@@ -228,6 +240,16 @@ private fun ShortcutGrid(
                     )
                     .padding(Spacing.SMALL),
             )
+        }
+
+        item(
+            key = "spacer",
+            contentType = "spacer",
+            span = {
+                GridItemSpan(maxLineSpan)
+            },
+        ) {
+            Spacer(modifier = Modifier.height(Spacing.HUGE))
         }
     }
 }
