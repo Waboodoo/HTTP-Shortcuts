@@ -2,34 +2,32 @@ package ch.rmy.android.http_shortcuts.activities.variables.editor.types
 
 import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryVariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.variables.types.DateType
+import ch.rmy.android.http_shortcuts.variables.types.TimestampType
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class DateTypeViewModel : BaseTypeViewModel() {
+class TimestampTypeViewModel : BaseTypeViewModel() {
 
-    override fun createViewState(variable: Variable) = DateTypeViewState(
-        dateFormat = DateType.getDateFormat(variable),
-        rememberValue = variable.rememberValue,
+    override fun createViewState(variable: Variable) = TimestampTypeViewState(
+        timeFormat = TimestampType.getTimeFormat(variable),
     )
 
     override suspend fun save(temporaryVariableRepository: TemporaryVariableRepository, viewState: VariableTypeViewState) {
-        viewState as DateTypeViewState
+        viewState as TimestampTypeViewState
         temporaryVariableRepository.setDataForType(
-            mapOf(DateType.KEY_FORMAT to viewState.dateFormat)
+            mapOf(TimestampType.KEY_FORMAT to viewState.timeFormat)
         )
-        temporaryVariableRepository.setRememberValue(viewState.rememberValue)
     }
 
     override fun validate(viewState: VariableTypeViewState): VariableTypeViewState? {
-        viewState as DateTypeViewState
-        if (viewState.dateFormat.isEmpty()) {
+        viewState as TimestampTypeViewState
+        if (viewState.timeFormat.isEmpty()) {
             return viewState.copy(
                 invalidFormat = true,
             )
         }
         try {
-            SimpleDateFormat(viewState.dateFormat, Locale.US)
+            SimpleDateFormat(viewState.timeFormat, Locale.US)
         } catch (e: IllegalArgumentException) {
             return viewState.copy(
                 invalidFormat = true,

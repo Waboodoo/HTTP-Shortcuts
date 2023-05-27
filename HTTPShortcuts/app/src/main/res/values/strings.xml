@@ -460,6 +460,10 @@
     <string name="variable_type_uuid">UUID</string>
     <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
     <string name="variable_type_uuid_description">Generates a new random UUID on each execution</string>
+    <!-- Type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp">Timestamp</string>
+    <!-- Description for type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp_description">The current date/time using a specific format</string>
     <!-- Type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
     <string name="variable_type_clipboard">Clipboard Content</string>
     <!-- Description for type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->

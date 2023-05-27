@@ -38,6 +38,7 @@ object VariableTypeMappings {
             VariableTypeMapping(VariableType.TOGGLE, R.string.variable_type_toggle, R.string.variable_type_toggle_description),
             VariableTypeMapping(VariableType.CLIPBOARD, R.string.variable_type_clipboard, R.string.variable_type_clipboard_description),
             VariableTypeMapping(VariableType.UUID, R.string.variable_type_uuid, R.string.variable_type_uuid_description),
+            VariableTypeMapping(VariableType.TIMESTAMP, R.string.variable_type_timestamp, R.string.variable_type_timestamp_description)
         )
 
     class VariableTypeMapping(

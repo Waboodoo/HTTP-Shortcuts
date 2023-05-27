@@ -20,6 +20,7 @@ enum class VariableType(
     TOGGLE("toggle"),
     UUID("uuid"),
     CLIPBOARD("clipboard"),
+    TIMESTAMP("timestamp"),
     ;
 
     override fun toString() =

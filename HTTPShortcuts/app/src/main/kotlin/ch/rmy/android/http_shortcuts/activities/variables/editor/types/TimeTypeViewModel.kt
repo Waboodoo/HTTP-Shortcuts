@@ -23,6 +23,11 @@ class TimeTypeViewModel : BaseTypeViewModel() {
 
     override fun validate(viewState: VariableTypeViewState): VariableTypeViewState? {
         viewState as TimeTypeViewState
+        if (viewState.timeFormat.isEmpty()) {
+            return viewState.copy(
+                invalidFormat = true,
+            )
+        }
         try {
             SimpleDateFormat(viewState.timeFormat, Locale.US)
         } catch (e: IllegalArgumentException) {

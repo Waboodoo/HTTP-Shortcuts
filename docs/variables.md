@@ -21,41 +21,48 @@ When creating a variable, you have to select its type. The type dictates how the
 <a name="constant"></a>
 ### Static Variable
 
-A *static variable* (formerly called *constant*) stores a static value. A typical use case is to store a piece of information that is shared across multiple shortcuts, such as an authentication token or a domain name. This way it can easily be changed.
+A *Static Variable* (formerly called *constant*) stores a static value. A typical use case is to store a piece of information that is shared across multiple shortcuts, such as an authentication token or a domain name. This way it can easily be changed.
 
-It is also possible to change the value of a static variable programmatically before or after a shortcut runs, e.g., to store parts of an HTTP response into it. See the [Scripting](scripting.md#variables) documentation for more details.
+It is also possible to change the value of a static variable programmatically before or after a shortcut runs, e.g., store parts of an HTTP response into it. See the [Scripting](scripting.md#variables) documentation for more details.
 
 <a name="multiple-choice"></a>
-### Multiple-Choice
+### Multiple Choice Selection
 
-The *multiple choice* type consists of a list of options, each of which has a value and a label. It triggers a dialog from which one of the options can be selected.
+The *Multiple Choice Selection* type consists of a list of options, each of which has a value and a label. It triggers a dialog from which one of the options can be selected.
 
-It can also be configured to allow selecting multiple values.
+It can also be configured to allow selecting multiple values. The selected values will be concatenated using the specified separator. The order in which they were selected is preserved.
 
 <a name="text-number-password"></a>
-### Text, Number and Password
+### Text Input, Number and Password Input
 
-The *text*, *number* and *password* types trigger a prompt dialog where a value can be entered into a text field.
+The *Text Input*, *Number Input* and *Password Input* types trigger a prompt dialog where a value can be entered into a text field.
 
 <a name="number-slider"></a>
 ### Number Slider
 
-The *number slider* type is similar to the *number* type. It allows you to pick a number. However, the number is entered using a horizontal slider, for which you can define the minimum and maximum value, as well as the step size.
+The *Number Slider* type is similar to the *number* type. It allows you to pick a number. However, the number is entered using a horizontal slider, for which you can define the minimum and maximum value, as well as the step size.
 
 <a name="date-time"></a>
-### Date and Time
+### Date Input and Time Input
 
-The *date* and *time* types trigger a prompt dialog where a date or time can be selected. The output format can be specified according to Android's [SimpleDateFormat](https://developer.android.com/reference/java/text/SimpleDateFormat.html).
+The *Date Input* and *Time Input* types trigger a prompt dialog where a date or time can be selected. If you just want the current date or time without showing a picker dialog, use the *timestamp* type instead.
+
+The output format can be specified according to Android's [SimpleDateFormat](https://developer.android.com/reference/java/text/SimpleDateFormat.html).
+
+<a name="timestamp"></a>
+### Timestamp
+
+A variable of *timestamp* type will use the current date and/or time as its valid, using the specified format. The output format can be specified according to Android's [SimpleDateFormat](https://developer.android.com/reference/java/text/SimpleDateFormat.html).
 
 <a name="color"></a>
-### Color
+### Color Input
 
-The *color* type triggers a prompt dialog where a color can be selected. Its value is returned in RGB hex format (e.g., ff0000 for red).
+The *Color Input* type triggers a prompt dialog where a color can be selected. Its value is returned in RGB hex format (e.g., ff0000 for red).
 
 <a name="toggle"></a>
 ### Toggle
 
-The *toggle* type consists of a list of values. Every time it is used it resolves to the next value in the list. When the last value is reached it starts again from the first.
+The *Toggle* type consists of a list of values. Every time it is used it resolves to the next value in the list. When the last value is reached it starts again from the first.
 
 <a name="uuid"></a>
 ### UUID

@@ -98,6 +98,7 @@ private fun CreationDialog(
         Divider()
         VariableTypeEntry(VariableType.TOGGLE, onVariableTypeSelected)
         VariableTypeEntry(VariableType.CLIPBOARD, onVariableTypeSelected)
+        VariableTypeEntry(VariableType.TIMESTAMP, onVariableTypeSelected)
         VariableTypeEntry(VariableType.UUID, onVariableTypeSelected)
     }
 }

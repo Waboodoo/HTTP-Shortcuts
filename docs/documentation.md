@@ -19,6 +19,7 @@
     - [Color Input](variables.md#color)
     - [Toggle](variables.md#toggle)
     - [UUID](variables.md#uuid)
+    - [Timestamp](variables.md#timestamp)
     - [Clipboard Content](variables.md#clipboard-content)
     - [Sharing into Variables](variables.md#sharing)
 - [Scripting](scripting.md)

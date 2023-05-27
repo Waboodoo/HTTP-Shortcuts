@@ -17,5 +17,6 @@ object VariableTypeFactory {
         VariableType.TOGGLE -> ToggleType()
         VariableType.UUID -> UUIDType()
         VariableType.CLIPBOARD -> ClipboardType()
+        VariableType.TIMESTAMP -> TimestampType()
     }
 }

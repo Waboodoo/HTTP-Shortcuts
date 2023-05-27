@@ -15,6 +15,8 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.types.TextTypeE
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.TextTypeViewState
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.TimeTypeEditor
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.TimeTypeViewState
+import ch.rmy.android.http_shortcuts.activities.variables.editor.types.TimestampTypeEditor
+import ch.rmy.android.http_shortcuts.activities.variables.editor.types.TimestampTypeViewState
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.ToggleTypeEditor
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.ToggleTypeViewState
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.VariableTypeViewState
@@ -32,6 +34,7 @@ fun VariableTypeSpecificContent(
         is SliderTypeViewState -> SliderTypeEditor(viewState, onViewStateChanged)
         is TextTypeViewState -> TextTypeEditor(viewState, onViewStateChanged)
         is TimeTypeViewState -> TimeTypeEditor(viewState, onViewStateChanged)
+        is TimestampTypeViewState -> TimestampTypeEditor(viewState, onViewStateChanged)
         is ToggleTypeViewState -> ToggleTypeEditor(viewState, onViewStateChanged)
         null -> Unit
     }

@@ -27,7 +27,7 @@ fun TimeTypeEditor(
         onValueChange = {
             onViewStateChanged(
                 viewState.copy(
-                    timeFormat = it.take(50),
+                    timeFormat = it.take(100),
                     invalidFormat = false,
                 )
             )

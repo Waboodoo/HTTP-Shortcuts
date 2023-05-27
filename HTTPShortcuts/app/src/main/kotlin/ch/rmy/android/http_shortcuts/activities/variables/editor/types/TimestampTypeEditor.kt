@@ -8,26 +8,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.Spacing
 
 @Composable
-fun DateTypeEditor(
-    viewState: DateTypeViewState,
-    onViewStateChanged: (DateTypeViewState) -> Unit,
+fun TimestampTypeEditor(
+    viewState: TimestampTypeViewState,
+    onViewStateChanged: (TimestampTypeViewState) -> Unit,
 ) {
     TextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = Spacing.MEDIUM),
         label = {
-            Text(stringResource(R.string.label_variable_date_format))
+            Text(stringResource(R.string.label_variable_time_format))
         },
-        value = viewState.dateFormat,
+        value = viewState.timeFormat,
         onValueChange = {
             onViewStateChanged(
                 viewState.copy(
-                    dateFormat = it.take(100),
+                    timeFormat = it.take(100),
                     invalidFormat = false,
                 )
             )
@@ -35,17 +34,9 @@ fun DateTypeEditor(
         isError = viewState.invalidFormat,
         supportingText = if (viewState.invalidFormat) {
             {
-                Text(stringResource(R.string.error_invalid_date_format))
+                Text(stringResource(R.string.error_invalid_time_format))
             }
         } else null,
         singleLine = true,
-    )
-
-    Checkbox(
-        label = stringResource(R.string.label_remember_value),
-        checked = viewState.rememberValue,
-        onCheckedChange = {
-            onViewStateChanged(viewState.copy(rememberValue = it))
-        },
     )
 }

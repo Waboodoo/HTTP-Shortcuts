@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.types.SelectTyp
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.SliderTypeViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.TextTypeViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.TimeTypeViewModel
+import ch.rmy.android.http_shortcuts.activities.variables.editor.types.TimestampTypeViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.ToggleTypeViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.VariableTypeViewState
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
@@ -83,7 +84,10 @@ class VariableEditorViewModel(
             VariableType.SLIDER -> SliderTypeViewModel()
             VariableType.TIME -> TimeTypeViewModel()
             VariableType.TOGGLE -> ToggleTypeViewModel()
-            else -> null
+            VariableType.TIMESTAMP -> TimestampTypeViewModel()
+            VariableType.UUID,
+            VariableType.CLIPBOARD,
+            -> null
         }
         viewModelScope.launch {
             try {
