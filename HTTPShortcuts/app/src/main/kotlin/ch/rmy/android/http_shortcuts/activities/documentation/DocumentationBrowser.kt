@@ -7,7 +7,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.viewinterop.NoOpUpdate
@@ -15,7 +14,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ch.rmy.android.http_shortcuts.extensions.rememberWebView
 
 @SuppressLint("SetJavaScriptEnabled")
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun DocumentationBrowser(
     url: Uri,
