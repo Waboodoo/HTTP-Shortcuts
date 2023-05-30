@@ -25,12 +25,18 @@ constructor(
     suspend fun openCamera(): List<Uri> =
         when (val result = getResult(ExternalRequest.OpenCamera)) {
             is ExternalResult.Files -> result.fileUris
+            is ExternalResult.AppNotAvailable -> throw UserException.create {
+                getString(R.string.error_not_supported)
+            }
             else -> error("Unexpected result")
         }
 
     suspend fun openFilePicker(multiple: Boolean): List<Uri> =
         when (val result = getResult(ExternalRequest.PickFiles(multiple))) {
             is ExternalResult.Files -> result.fileUris
+            is ExternalResult.AppNotAvailable -> throw UserException.create {
+                getString(R.string.error_not_supported)
+            }
             else -> error("Unexpected result")
         }
 

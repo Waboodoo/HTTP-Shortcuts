@@ -43,18 +43,18 @@ class ExternalRequestFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            logInfo("Handling external request: $request")
-            when (val request = request) {
-                is ExternalRequest.PickFiles -> pickFiles.launch(request.multiple)
-                is ExternalRequest.OpenCamera -> openCamera.launch()
-                is ExternalRequest.ScanBarcode -> try {
-                    scanBarcode.launch()
-                } catch (e: ActivityNotFoundException) {
-                    returnResult(ExternalResult.AppNotAvailable)
+        try {
+            if (savedInstanceState == null) {
+                logInfo("Handling external request: $request")
+                when (val request = request) {
+                    is ExternalRequest.PickFiles -> pickFiles.launch(request.multiple)
+                    is ExternalRequest.OpenCamera -> openCamera.launch()
+                    is ExternalRequest.ScanBarcode -> scanBarcode.launch()
+                    null -> error("Request was not set")
                 }
-                null -> error("Request was not set")
             }
+        } catch (e: ActivityNotFoundException) {
+            returnResult(ExternalResult.AppNotAvailable)
         }
     }
 
