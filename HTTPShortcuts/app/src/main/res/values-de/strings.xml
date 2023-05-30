@@ -2141,4 +2141,13 @@ Zusätzlich musst du eventuell auch noch die App von Akku-Optimierungen ausschli
 
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <string name="subtitle_include_meta_information">"Z.B. Headers, Status-Code, …"</string>
+
+    <!-- Type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp">"Aktuelle Zeit"</string>
+
+    <!-- Description for type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp_description">"Das aktuelle Datum oder die aktuelle Uhrzeit im angegebenen Format"</string>
+
+    <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
+    <string name="label_file_upload_options_allow_image_editing">"Drehen und Zuschneiden von Bildern erlauben"</string>
 </resources>

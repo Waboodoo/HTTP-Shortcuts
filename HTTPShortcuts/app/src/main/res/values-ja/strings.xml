@@ -2130,4 +2130,10 @@
 
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <string name="subtitle_include_meta_information">"レスポンスヘッダー、ステータスコード..."</string>
+
+    <!-- Type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp">"タイムスタンプ"</string>
+
+    <!-- Description for type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp_description">"形式を指定して現在日時"</string>
 </resources>
