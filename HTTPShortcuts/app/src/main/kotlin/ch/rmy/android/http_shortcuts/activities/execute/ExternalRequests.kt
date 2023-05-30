@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.execute
 
+import android.graphics.Bitmap.CompressFormat
 import android.net.Uri
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.UserException
@@ -28,6 +29,12 @@ constructor(
             is ExternalResult.AppNotAvailable -> throw UserException.create {
                 getString(R.string.error_not_supported)
             }
+            else -> error("Unexpected result")
+        }
+
+    suspend fun cropImage(imageUri: Uri, compressFormat: CompressFormat): Uri =
+        when (val result = getResult(ExternalRequest.CropImage(imageUri, compressFormat))) {
+            is ExternalResult.File -> result.fileUri
             else -> error("Unexpected result")
         }
 

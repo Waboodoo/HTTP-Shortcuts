@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Parameter
@@ -169,6 +170,7 @@ constructor(
             Option::class,
             Variable::class,
             Category::class,
+            FileUploadOptions::class,
             ResponseHandling::class,
             Repetition::class,
         )

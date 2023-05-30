@@ -12,6 +12,7 @@ import ch.rmy.android.http_shortcuts.data.models.AppLock
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
+import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.HistoryEvent
 import ch.rmy.android.http_shortcuts.data.models.Option
@@ -76,6 +77,7 @@ class RealmFactoryImpl private constructor() : RealmFactory {
                     Base::class,
                     Category::class,
                     CertificatePin::class,
+                    FileUploadOptions::class,
                     Header::class,
                     HistoryEvent::class,
                     Option::class,

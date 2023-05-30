@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -17,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.SelectDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
@@ -28,7 +31,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 fun RequestBodyDialogs(
     dialogState: RequestBodyDialogState?,
     onParameterTypeSelected: (ParameterType) -> Unit,
-    onParameterEdited: (key: String, value: String, fileName: String) -> Unit,
+    onParameterEdited: (key: String, value: String, fileName: String, useImageEditor: Boolean) -> Unit,
     onParameterDeleted: () -> Unit,
     onDismissed: () -> Unit,
 ) {
@@ -46,6 +49,7 @@ fun RequestBodyDialogs(
                 initialKey = dialogState.key,
                 initialValue = dialogState.value,
                 initialFileName = dialogState.fileName,
+                initialUseImageEditor = dialogState.useImageEditor,
                 onConfirmed = onParameterEdited,
                 onDelete = onParameterDeleted,
                 onDismissed = onDismissed,
@@ -98,7 +102,8 @@ private fun EditParameterDialog(
     initialKey: String = "",
     initialValue: String = "",
     initialFileName: String,
-    onConfirmed: (key: String, value: String, fileName: String) -> Unit,
+    initialUseImageEditor: Boolean,
+    onConfirmed: (key: String, value: String, fileName: String, useImageEditor: Boolean) -> Unit,
     onDelete: () -> Unit = {},
     onDismissed: () -> Unit,
 ) {
@@ -110,6 +115,9 @@ private fun EditParameterDialog(
     }
     var fileName by rememberSaveable(key = "edit-parameter-filename") {
         mutableStateOf(initialFileName)
+    }
+    var useImageEditor by rememberSaveable(key = "edit-parameter-use-image-editor") {
+        mutableStateOf(initialUseImageEditor)
     }
 
     AlertDialog(
@@ -129,6 +137,7 @@ private fun EditParameterDialog(
         text = {
             Column(
                 verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
+                modifier = Modifier.verticalScroll(rememberScrollState()),
             ) {
                 Box(
                     modifier = Modifier.fillMaxWidth()
@@ -187,13 +196,23 @@ private fun EditParameterDialog(
                         singleLine = true,
                     )
                 }
+
+                if (type == ParameterType.FILE || type == ParameterType.FILES || type == ParameterType.IMAGE) {
+                    Checkbox(
+                        label = stringResource(R.string.label_file_upload_options_allow_image_editing),
+                        checked = useImageEditor,
+                        onCheckedChange = {
+                            useImageEditor = it
+                        },
+                    )
+                }
             }
         },
         confirmButton = {
             TextButton(
                 enabled = key.isNotEmpty(),
                 onClick = {
-                    onConfirmed(key, value, fileName)
+                    onConfirmed(key, value, fileName, useImageEditor)
                 },
             ) {
                 Text(stringResource(R.string.dialog_ok))

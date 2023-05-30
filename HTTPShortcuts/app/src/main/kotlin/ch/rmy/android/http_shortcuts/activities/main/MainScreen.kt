@@ -4,7 +4,6 @@ import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.material.icons.Icons
@@ -28,7 +27,6 @@ import ch.rmy.android.http_shortcuts.components.bindViewModel
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainScreen(
     selectionMode: SelectionMode,

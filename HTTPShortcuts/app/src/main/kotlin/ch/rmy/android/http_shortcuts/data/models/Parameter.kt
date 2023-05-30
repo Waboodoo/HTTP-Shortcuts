@@ -14,11 +14,13 @@ class Parameter() : RealmObject {
         value: String = "",
         parameterType: ParameterType = ParameterType.STRING,
         fileName: String = "",
+        fileUploadOptions: FileUploadOptions? = null,
     ) : this() {
         this.id = id
         this.key = key
         this.value = value
         this.fileName = fileName
+        this.fileUploadOptions = fileUploadOptions
         type = parameterType.type
     }
 
@@ -36,11 +38,14 @@ class Parameter() : RealmObject {
             type = value.type
         }
 
+    var fileUploadOptions: FileUploadOptions? = null
+
     fun isSameAs(other: Parameter) =
         other.key == key &&
             other.value == value &&
             other.type == type &&
-            other.fileName == fileName
+            other.fileName == fileName &&
+            other.fileUploadOptions?.isSameAs(fileUploadOptions) == true
 
     val isStringParameter: Boolean
         get() = type == ParameterType.STRING.type

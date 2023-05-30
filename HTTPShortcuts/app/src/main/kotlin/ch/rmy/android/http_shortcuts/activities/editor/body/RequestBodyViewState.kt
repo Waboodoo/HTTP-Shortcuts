@@ -13,6 +13,7 @@ data class RequestBodyViewState(
     val contentType: String,
     val bodyContent: String,
     val bodyContentError: String = "",
+    val useImageEditor: Boolean,
 ) {
     val addParameterButtonVisible: Boolean
         get() = requestBodyType == RequestBodyType.FORM_DATA ||

@@ -54,6 +54,7 @@ import kotlinx.coroutines.launch
 import org.mindrot.jbcrypt.BCrypt
 import javax.inject.Inject
 import kotlin.random.Random
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 class MainViewModel(application: Application) : BaseViewModel<MainViewModel.InitData, MainViewState>(application) {
@@ -197,6 +198,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     private fun showNormalStartupDialogsIfNeeded() {
         viewModelScope.launch {
+            delay(500.milliseconds)
             val recoveryInfo = shouldShowRecoveryDialog()
             if (recoveryInfo != null) {
                 updateDialogState(

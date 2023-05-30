@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.body.models.ParameterListItem
+import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.EmptyState
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.SelectionField
@@ -59,12 +60,14 @@ fun RequestBodyContent(
     bodyContent: String,
     bodyContentError: String,
     syntaxHighlightingLanguage: String?,
+    useImageEditor: Boolean,
     onRequestBodyTypeChanged: (RequestBodyType) -> Unit,
     onContentTypeChanged: (String) -> Unit,
     onBodyContentChanged: (String) -> Unit,
     onFormatButtonClicked: () -> Unit,
     onParameterClicked: (String) -> Unit,
     onParameterMoved: (String, String) -> Unit,
+    onUseImageEditorChanged: (Boolean) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -81,7 +84,7 @@ fun RequestBodyContent(
                 RequestBodyType.FORM_DATA to stringResource(R.string.request_body_option_form_data),
                 RequestBodyType.X_WWW_FORM_URLENCODE to stringResource(R.string.request_body_option_x_www_form_urlencoded),
                 RequestBodyType.FILE to stringResource(R.string.request_body_option_file),
-                RequestBodyType.IMAGE to stringResource(R.string.request_body_option_image),
+                RequestBodyType.CAMERA_IMAGE to stringResource(R.string.request_body_option_image),
             ),
             onItemSelected = onRequestBodyTypeChanged,
         )
@@ -108,8 +111,13 @@ fun RequestBodyContent(
                 )
             }
             RequestBodyType.FILE,
-            RequestBodyType.IMAGE,
-            -> Unit
+            RequestBodyType.CAMERA_IMAGE,
+            -> {
+                FileOptions(
+                    useImageEditor = useImageEditor,
+                    onUseImageEditorChanged = onUseImageEditorChanged,
+                )
+            }
         }
     }
 }
@@ -280,6 +288,18 @@ private fun ParameterItem(
         )
         Divider()
     }
+}
+
+@Composable
+private fun FileOptions(
+    useImageEditor: Boolean,
+    onUseImageEditorChanged: (Boolean) -> Unit,
+) {
+    Checkbox(
+        label = stringResource(R.string.label_file_upload_options_allow_image_editing),
+        checked = useImageEditor,
+        onCheckedChange = onUseImageEditorChanged,
+    )
 }
 
 private val CONTENT_TYPE_SUGGESTIONS = arrayOf(

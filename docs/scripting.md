@@ -123,11 +123,12 @@ shortcut.description;
 
 If your shortcut makes use of file parameters or uses the content of a file as the request body then you can access information about these files using the `selectedFiles` array. Each selected file has an entry, allowing you to read out its file name, size (in bytes), media type and potentially some additional meta information.
 
+
 ```js
 const numberOfFiles = selectedFiles.length;
 
 selectedFiles[0].name;
-selectedFiles[0].size;
+selectedFiles[0].size; // AFTER cropping/rotating
 selectedFiles[0].type;
 selectedFiles[0].meta;
 ```

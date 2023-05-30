@@ -79,6 +79,8 @@ class Shortcut() : RealmObject {
 
     var responseHandling: ResponseHandling? = null
 
+    var fileUploadOptions: FileUploadOptions? = null
+
     var requireConfirmation: Boolean = false
 
     var followRedirects: Boolean = true
@@ -158,7 +160,7 @@ class Shortcut() : RealmObject {
         allowsBody() && bodyType == RequestBodyType.FILE
 
     fun usesImageFileBody() =
-        allowsBody() && bodyType == RequestBodyType.IMAGE
+        allowsBody() && bodyType == RequestBodyType.CAMERA_IMAGE
 
     fun isSameAs(other: Shortcut): Boolean {
         if (other.name != name ||
@@ -210,6 +212,9 @@ class Shortcut() : RealmObject {
             return false
         }
         if (other.responseHandling?.isSameAs(responseHandling!!) == false) {
+            return false
+        }
+        if (other.fileUploadOptions?.isSameAs(fileUploadOptions) == false) {
             return false
         }
         if ((other.repetition == null) != (repetition == null)) {

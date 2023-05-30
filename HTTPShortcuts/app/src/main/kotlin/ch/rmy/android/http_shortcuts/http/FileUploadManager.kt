@@ -54,8 +54,20 @@ class FileUploadManager internal constructor(
     fun getNextFileRequest(): FileRequest? =
         fileRequests.takeIf { it.hasNext() }?.next()
 
-    fun fulfillFileRequest(fileUris: List<Uri>) {
-        registerFiles(fileUris.map(::uriToFile))
+    suspend fun fulfillFileRequest(fileUris: List<Uri>, transformation: suspend (Uri, mimeType: String) -> Uri?) {
+        registerFiles(
+            fileUris.map(::uriToFile)
+                .map { file ->
+                    transformation(file.data, file.mimeType)
+                        ?.let { newUri ->
+                            file.copy(
+                                data = newUri,
+                                fileSize = getFileSize(newUri),
+                            )
+                        }
+                        ?: file
+                }
+        )
     }
 
     private fun getType(file: Uri): String {
@@ -168,7 +180,7 @@ class FileUploadManager internal constructor(
             registeredFiles.getOrNull(index)?.firstOrNull()
     }
 
-    class FileRequest(val multiple: Boolean, val image: Boolean)
+    class FileRequest(val multiple: Boolean, val fromCamera: Boolean, val withImageEditor: Boolean)
 
     class Builder(private val contentResolver: ContentResolver) {
 
@@ -185,8 +197,8 @@ class FileUploadManager internal constructor(
             this.forwardedFileIds = forwardedFileIds
         }
 
-        fun addFileRequest(multiple: Boolean = false, image: Boolean = false) = also {
-            fileRequests.add(FileRequest(multiple, image))
+        fun addFileRequest(multiple: Boolean = false, fromCamera: Boolean = false, withImageEditor: Boolean = false) = also {
+            fileRequests.add(FileRequest(multiple, fromCamera, withImageEditor))
         }
 
         fun withMetaData(enabled: Boolean) = also {

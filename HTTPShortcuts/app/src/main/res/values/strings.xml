@@ -1422,4 +1422,6 @@
     <string name="error_cannot_format_invalid_json">Invalid JSON syntax</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
     <string name="placeholder_empty_category_for_moving">no shortcuts in this category</string>
+    <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
+    <string name="label_file_upload_options_allow_image_editing">"Allow cropping and rotating image"</string>
 </resources>

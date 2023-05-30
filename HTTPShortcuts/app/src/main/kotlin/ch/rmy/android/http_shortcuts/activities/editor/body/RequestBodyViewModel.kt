@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
+import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
 import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
@@ -60,6 +61,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
             bodyContent = shortcut.bodyContent,
             contentType = shortcut.contentType,
             parameters = mapParameters(shortcut.parameters),
+            useImageEditor = shortcut.fileUploadOptions?.useImageEditor == true,
         )
 
     private fun onInitializationError(error: Throwable) {
@@ -99,10 +101,11 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
         }
     }
 
-    fun onEditParameterDialogConfirmed(key: String, value: String = "", fileName: String = "") {
+    fun onEditParameterDialogConfirmed(key: String, value: String = "", fileName: String = "", useImageEditor: Boolean = false) {
         val dialogState = (currentViewState?.dialogState as? RequestBodyDialogState.ParameterEditor ?: return)
         val parameterId = dialogState.id
         updateDialogState(null)
+        val fileUploadOptions = FileUploadOptions(useImageEditor = useImageEditor)
 
         if (parameterId != null) {
             updateParameters(
@@ -115,6 +118,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
                                 value = value,
                                 parameterType = parameter.parameterType,
                                 fileName = parameter.fileName,
+                                fileUploadOptions = fileUploadOptions,
                             )
                         } else {
                             parameter
@@ -122,12 +126,12 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
                     }
             )
             launchWithProgressTracking {
-                temporaryShortcutRepository.updateParameter(parameterId, key, value, fileName)
+                temporaryShortcutRepository.updateParameter(parameterId, key, value, fileName, fileUploadOptions)
             }
         } else {
             val type = dialogState.type
             launchWithProgressTracking {
-                val newParameter = temporaryShortcutRepository.addParameter(type, key, value, fileName)
+                val newParameter = temporaryShortcutRepository.addParameter(type, key, value, fileName, fileUploadOptions)
                 updateParameters(parameters.plus(newParameter))
             }
         }
@@ -166,6 +170,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
                 value = "",
                 fileName = "",
                 type = type,
+                useImageEditor = false,
             )
         )
     }
@@ -182,6 +187,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
                         value = parameter.value,
                         fileName = parameter.fileName,
                         type = parameter.parameterType,
+                        useImageEditor = parameter.fileUploadOptions?.useImageEditor == true,
                     )
                 )
             }
@@ -248,6 +254,15 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
                     }
                 }
             }
+        }
+    }
+
+    fun onUseImageEditorChanged(useImageEditor: Boolean) {
+        updateViewState {
+            copy(useImageEditor = useImageEditor)
+        }
+        launchWithProgressTracking {
+            temporaryShortcutRepository.setUseImageEditor(useImageEditor)
         }
     }
 

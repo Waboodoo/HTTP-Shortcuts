@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.icons
 
 import android.app.Application
 import android.net.Uri
-import androidx.core.net.toFile
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -84,10 +83,10 @@ class IconPickerViewModel(application: Application) : BaseViewModel<Unit, IconPi
         emitEvent(IconPickerEvent.ShowImageCropper(image))
     }
 
-    fun onIconCreated(iconUri: Uri) {
+    fun onIconCreated(iconFile: File) {
         doWithViewState { viewState ->
             val iconName = IconUtil.generateCustomIconName()
-            iconUri.toFile().renameTo(File(context.filesDir, iconName))
+            iconFile.renameTo(File(context.filesDir, iconName))
             val icon = ShortcutIcon.CustomIcon(iconName)
 
             val isFirstIcon = viewState.icons.isEmpty()

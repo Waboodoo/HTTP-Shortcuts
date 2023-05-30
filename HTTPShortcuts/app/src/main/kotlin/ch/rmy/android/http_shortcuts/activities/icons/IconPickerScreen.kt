@@ -5,6 +5,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.utils.FilePickerUtil
@@ -14,7 +15,8 @@ import ch.rmy.android.http_shortcuts.components.FloatingAddButton
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
-import ch.rmy.android.http_shortcuts.icons.CropIconContract
+import ch.rmy.android.http_shortcuts.icons.CropImageContract
+import ch.rmy.android.http_shortcuts.utils.IconUtil
 
 @Composable
 fun IconPickerScreen() {
@@ -23,11 +25,18 @@ fun IconPickerScreen() {
     val pickImage = rememberLauncherForActivityResult(FilePickerUtil.PickFile) { fileUri ->
         fileUri?.let(viewModel::onImageSelected)
     }
-    val cropImageIntoCustomIcon = rememberLauncherForActivityResult(CropIconContract) { result ->
+    val context = LocalContext.current
+    val cropImageIntoCustomIcon = rememberLauncherForActivityResult(
+        CropImageContract(
+            title = stringResource(R.string.title_edit_custom_icon),
+            enforceSquare = true,
+            maxSize = IconUtil.getIconSize(context),
+        )
+    ) { result ->
         when (result) {
-            is CropIconContract.Result.Success -> viewModel.onIconCreated(result.iconUri)
-            is CropIconContract.Result.Failure -> viewModel.onIconCreationFailed()
-            is CropIconContract.Result.Canceled -> Unit
+            is CropImageContract.Result.Success -> viewModel.onIconCreated(result.imageFile)
+            is CropImageContract.Result.Failure -> viewModel.onIconCreationFailed()
+            is CropImageContract.Result.Canceled -> Unit
         }
     }
 
@@ -41,7 +50,7 @@ fun IconPickerScreen() {
                 }
             }
             is IconPickerEvent.ShowImageCropper -> consume {
-                cropImageIntoCustomIcon.launch(event.imageUri)
+                cropImageIntoCustomIcon.launch(CropImageContract.Input(event.imageUri))
             }
             else -> false
         }

@@ -4,6 +4,7 @@ import android.net.Uri
 
 sealed interface ExternalResult {
     data class Files(val fileUris: List<Uri>) : ExternalResult
+    data class File(val fileUri: Uri) : ExternalResult
     data class BarcodeScanned(val content: String) : ExternalResult
     object AppNotAvailable : ExternalResult
     object Cancelled : ExternalResult

@@ -41,12 +41,14 @@ fun RequestBodyScreen() {
             bodyContent = viewState.bodyContent,
             bodyContentError = viewState.bodyContentError,
             syntaxHighlightingLanguage = viewState.syntaxHighlightingLanguage,
+            useImageEditor = viewState.useImageEditor,
             onRequestBodyTypeChanged = viewModel::onRequestBodyTypeChanged,
             onContentTypeChanged = viewModel::onContentTypeChanged,
             onBodyContentChanged = viewModel::onBodyContentChanged,
             onFormatButtonClicked = viewModel::onFormatButtonClicked,
             onParameterClicked = viewModel::onParameterClicked,
             onParameterMoved = viewModel::onParameterMoved,
+            onUseImageEditorChanged = viewModel::onUseImageEditorChanged,
         )
     }
 

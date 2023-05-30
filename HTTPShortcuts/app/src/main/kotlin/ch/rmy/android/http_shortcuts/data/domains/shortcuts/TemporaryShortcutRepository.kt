@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.data.models.Repetition
@@ -186,12 +187,13 @@ constructor(
         }
     }
 
-    suspend fun addParameter(type: ParameterType, key: String, value: String, fileName: String): Parameter {
+    suspend fun addParameter(type: ParameterType, key: String, value: String, fileName: String, fileUploadOptions: FileUploadOptions): Parameter {
         val parameter = Parameter(
             parameterType = type,
             key = key.trim(),
             value = value,
             fileName = fileName,
+            fileUploadOptions = fileUploadOptions,
         )
         commitTransactionForShortcut { shortcut ->
             shortcut.parameters.add(
@@ -201,7 +203,7 @@ constructor(
         return parameter
     }
 
-    suspend fun updateParameter(parameterId: String, key: String, value: String = "", fileName: String = "") {
+    suspend fun updateParameter(parameterId: String, key: String, value: String = "", fileName: String = "", fileUploadOptions: FileUploadOptions) {
         commitTransactionForShortcut { shortcut ->
             val parameter = shortcut.parameters
                 .find { it.id == parameterId }
@@ -209,6 +211,7 @@ constructor(
             parameter.key = key.trim()
             parameter.value = value
             parameter.fileName = fileName
+            parameter.fileUploadOptions = fileUploadOptions
         }
     }
 
@@ -399,6 +402,12 @@ constructor(
     suspend fun setClientCertParams(clientCertParams: ClientCertParams?) {
         commitTransactionForShortcut { shortcut ->
             shortcut.clientCertParams = clientCertParams
+        }
+    }
+
+    suspend fun setUseImageEditor(useImageEditor: Boolean) {
+        commitTransactionForShortcut { shortcut ->
+            shortcut.fileUploadOptions = FileUploadOptions(useImageEditor)
         }
     }
 

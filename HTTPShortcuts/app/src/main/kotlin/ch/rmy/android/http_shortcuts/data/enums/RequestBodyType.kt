@@ -5,7 +5,7 @@ enum class RequestBodyType(val type: String) {
     FORM_DATA("form_data"),
     X_WWW_FORM_URLENCODE("x_www_form_urlencode"),
     FILE("file"),
-    IMAGE("image");
+    CAMERA_IMAGE("image");
 
     override fun toString() =
         type

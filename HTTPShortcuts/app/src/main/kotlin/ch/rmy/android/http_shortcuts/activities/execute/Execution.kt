@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.execute
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.logException
@@ -54,6 +56,7 @@ import ch.rmy.android.http_shortcuts.scripting.ResultHandler
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
+import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import ch.rmy.android.http_shortcuts.variables.VariableManager
@@ -501,14 +504,15 @@ class Execution(
                 addFileRequest()
             }
             .runIf(shortcut.usesImageFileBody()) {
-                addFileRequest(image = true)
+                addFileRequest(fromCamera = true, withImageEditor = shortcut.fileUploadOptions?.useImageEditor == true)
             }
             .runFor(shortcut.parameters) { parameter ->
+                val withImageEditor = parameter.fileUploadOptions?.useImageEditor == true
                 when (parameter.parameterType) {
                     ParameterType.STRING -> this
-                    ParameterType.FILE -> addFileRequest(multiple = false)
-                    ParameterType.FILES -> addFileRequest(multiple = true)
-                    ParameterType.IMAGE -> addFileRequest(image = true)
+                    ParameterType.FILE -> addFileRequest(multiple = false, withImageEditor = withImageEditor)
+                    ParameterType.FILES -> addFileRequest(multiple = true, withImageEditor = withImageEditor)
+                    ParameterType.IMAGE -> addFileRequest(fromCamera = true, withImageEditor = withImageEditor)
                 }
             }
             .withMetaData(loadMetaData)
@@ -518,14 +522,34 @@ class Execution(
         while (true) {
             fileRequest = fileUploadManager.getNextFileRequest() ?: break
             ensureActive()
-            if (fileRequest.image) {
-                fileUploadManager.fulfillFileRequest(externalRequests.openCamera())
+            if (fileRequest.fromCamera) {
+                externalRequests.openCamera()
             } else {
-                fileUploadManager.fulfillFileRequest(externalRequests.openFilePicker(fileRequest.multiple))
+                externalRequests.openFilePicker(fileRequest.multiple)
             }
+                .let { files ->
+                    ensureActive()
+                    fileUploadManager.fulfillFileRequest(files) { uri, mimeType ->
+                        processFileIfNeeded(fileRequest, uri, mimeType)
+                    }
+                }
         }
 
         fileUploadManager.getResult()
+    }
+
+    private suspend fun processFileIfNeeded(fileRequest: FileUploadManager.FileRequest, uri: Uri, mimeType: String): Uri? {
+        if (fileRequest.withImageEditor && FileTypeUtil.isImage(mimeType)) {
+            return externalRequests.cropImage(
+                uri,
+                compressFormat = when (mimeType) {
+                    "image/png" -> Bitmap.CompressFormat.PNG
+                    "image/jpg", "image/jpeg" -> Bitmap.CompressFormat.JPEG
+                    else -> return null
+                },
+            )
+        }
+        return null
     }
 
     private fun usesScripting() =

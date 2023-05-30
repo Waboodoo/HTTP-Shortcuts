@@ -15,5 +15,6 @@ sealed class RequestBodyDialogState {
         val value: String,
         val fileName: String,
         val type: ParameterType,
+        var useImageEditor: Boolean,
     ) : RequestBodyDialogState()
 }

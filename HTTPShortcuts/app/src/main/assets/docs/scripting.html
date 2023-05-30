@@ -23,7 +23,7 @@ shortcut.description;
 </code></pre><p><a name="files"></a></p><h2>Selected Files</h2><p>If your shortcut makes use of file parameters or uses the content of a file as the request body then you can access information about these files using the <code>selectedFiles</code> array. Each selected file has an entry, allowing you to read out its file name, size (in bytes), media type and potentially some additional meta information.</p><pre><code class="language-js">const numberOfFiles = selectedFiles.length;
 
 selectedFiles[0].name;
-selectedFiles[0].size;
+selectedFiles[0].size; // AFTER cropping/rotating
 selectedFiles[0].type;
 selectedFiles[0].meta;
 </code></pre><p>Each file also has a unique ID, which is currently only useful if you want to forward these files to another shortcut using the <a href="#trigger-shortcut"><code>enqueueShortcut</code></a> function.</p><pre><code class="language-js">selectedFiles[0].id;
