@@ -4,6 +4,8 @@ A lot of things were added, changed and reworked in this version. It is very lik
 
 ### Improvements
 - The app's UI was migrated to Material Design 3
+- New variable type `timestamp` was added, which reflects the current date and/or time
+- When using images for a shortcut's request body or form parameters, you now have the option to crop and rotate the image first
 - The Scripting editor as well as the cURL import screen now have syntax highlighting for easier editing
 - The input field for the request body text now supports syntax highlighting for JSON, XML and HTML. In addition, there is now a button that allows you to format your JSON.
 - You can now configure Certificate Pinning. You'll find the option for this on the Settings screen.
