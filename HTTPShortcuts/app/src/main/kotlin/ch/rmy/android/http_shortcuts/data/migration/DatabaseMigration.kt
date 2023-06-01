@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.migration
 
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.migration.migrations.CategoryBackgroundMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.CategoryLayoutMigration
@@ -20,12 +21,15 @@ class DatabaseMigration : AutomaticSchemaMigration {
         val oldVersion = oldRealm.schemaVersion()
         val newRealm = migrationContext.newRealm
 
+        logInfo("Beginning Realm migration from version $oldVersion")
+
         // 1.16.0
         if (oldVersion < 6) {
             migrationContext.enumerate("Shortcut") { oldShortcut, newShortcut ->
                 newShortcut?.let {
-                    if (!oldShortcut.getNullableValue<String>("username").isNullOrEmpty() || !oldShortcut.getNullableValue<String>("username")
-                        .isNullOrEmpty()
+                    if (
+                        !oldShortcut.getNullableValue<String>("username").isNullOrEmpty() ||
+                        !oldShortcut.getNullableValue<String>("password").isNullOrEmpty()
                     ) {
                         newShortcut.set("authentication", "basic")
                     }
