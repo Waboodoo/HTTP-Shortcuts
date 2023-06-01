@@ -31,6 +31,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.DialogProperties
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.R
 
 @Composable
@@ -47,11 +48,6 @@ fun TextInputDialog(
     singleLine: Boolean = false,
     onDismissRequest: (newValue: String?) -> Unit,
 ) {
-    val focusRequester = remember { FocusRequester() }
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
-
     var value by remember {
         mutableStateOf(
             TextFieldValue(initialValue, selection = TextRange(initialValue.length)),
@@ -83,6 +79,7 @@ fun TextInputDialog(
                 if (message != null) {
                     Text(message)
                 }
+                val focusRequester = remember { FocusRequester() }
                 TextField(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -111,6 +108,12 @@ fun TextInputDialog(
                     },
                     singleLine = singleLine,
                 )
+
+                LaunchedEffect(Unit) {
+                    tryOrLog {
+                        focusRequester.requestFocus()
+                    }
+                }
             }
         },
         confirmButton = {
