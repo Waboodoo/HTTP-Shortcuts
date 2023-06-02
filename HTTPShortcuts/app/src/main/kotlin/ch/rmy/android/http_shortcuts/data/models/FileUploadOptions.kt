@@ -13,6 +13,6 @@ class FileUploadOptions() : EmbeddedRealmObject {
     var useImageEditor: Boolean = false
         private set
 
-    fun isSameAs(other: FileUploadOptions?): Boolean =
-        other?.useImageEditor == useImageEditor
+    fun isSameAs(other: FileUploadOptions): Boolean =
+        other.useImageEditor == useImageEditor
 }

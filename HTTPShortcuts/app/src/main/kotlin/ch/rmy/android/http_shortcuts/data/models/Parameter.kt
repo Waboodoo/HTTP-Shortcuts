@@ -45,7 +45,8 @@ class Parameter() : RealmObject {
             other.value == value &&
             other.type == type &&
             other.fileName == fileName &&
-            other.fileUploadOptions?.isSameAs(fileUploadOptions) == true
+            (fileUploadOptions == null) == (other.fileUploadOptions == null) &&
+            fileUploadOptions?.isSameAs(other.fileUploadOptions!!) != false
 
     val isStringParameter: Boolean
         get() = type == ParameterType.STRING.type

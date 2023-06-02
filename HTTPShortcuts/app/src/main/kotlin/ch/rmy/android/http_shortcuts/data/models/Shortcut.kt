@@ -214,7 +214,10 @@ class Shortcut() : RealmObject {
         if (other.responseHandling?.isSameAs(responseHandling!!) == false) {
             return false
         }
-        if (other.fileUploadOptions?.isSameAs(fileUploadOptions) == false) {
+        if ((other.fileUploadOptions == null) != (fileUploadOptions == null)) {
+            return false
+        }
+        if (other.fileUploadOptions?.isSameAs(fileUploadOptions!!) == false) {
             return false
         }
         if ((other.repetition == null) != (repetition == null)) {

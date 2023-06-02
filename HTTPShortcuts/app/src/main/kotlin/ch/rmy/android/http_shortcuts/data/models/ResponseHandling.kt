@@ -59,8 +59,8 @@ class ResponseHandling() : EmbeddedRealmObject {
         }
     }
 
-    fun isSameAs(other: ResponseHandling?) =
-        other?.uiType == uiType &&
+    fun isSameAs(other: ResponseHandling) =
+        other.uiType == uiType &&
             other.successOutput == successOutput &&
             other.failureOutput == failureOutput &&
             other.successMessage == successMessage &&
