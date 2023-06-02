@@ -5,6 +5,7 @@ import ch.rmy.android.framework.data.RealmContext
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.utils.FileUtil.getUriFromFile
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.migration.DatabaseMigration
@@ -46,7 +47,7 @@ class RealmFactoryImpl private constructor() : RealmFactory {
         private var instance: RealmFactory? = null
         private lateinit var realmInstance: Realm
 
-        var isRealmAvailable: Boolean = true
+        var realmError: RealmError? = null
             private set
 
         fun init(context: Context) {
@@ -54,9 +55,10 @@ class RealmFactoryImpl private constructor() : RealmFactory {
                 return
             }
 
+            var backupFile: File? = null
             try {
                 val configuration = createConfiguration(context)
-                val backupFile = File("${configuration.path}.backup-copy")
+                backupFile = File("${configuration.path}.backup-copy")
                 if (!backupFile.exists()) {
                     File(configuration.path).takeIf { it.exists() }?.copyTo(backupFile)
                 }
@@ -64,7 +66,18 @@ class RealmFactoryImpl private constructor() : RealmFactory {
                 realmInstance = Realm.open(configuration)
             } catch (e: Exception) {
                 logException(e)
-                isRealmAvailable = false
+                realmError = if (
+                    e is IllegalStateException &&
+                    e.message?.startsWith("Could not open Realm with the given configuration") == true &&
+                    backupFile != null
+                ) {
+                    val backupCacheFile = File(context.cacheDir, "db_backup")
+                    backupCacheFile.delete()
+                    backupFile.copyTo(backupCacheFile)
+                    RealmError.ConfigurationError(getUriFromFile(context, backupCacheFile))
+                } else {
+                    RealmError.RealmNotFound
+                }
             }
         }
 

@@ -27,6 +27,7 @@ import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
 import ch.rmy.android.http_shortcuts.activities.settings.SettingsActivity
+import ch.rmy.android.http_shortcuts.data.RealmError
 import ch.rmy.android.http_shortcuts.data.RealmFactoryImpl
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -39,10 +40,18 @@ class MainActivity : BaseComposeActivity() {
 
     @Composable
     override fun Content() {
-        if (!RealmFactoryImpl.isRealmAvailable) {
-            RealmUnavailableDialog {
-                finishWithoutAnimation()
+        RealmFactoryImpl.realmError?.let { error ->
+            when (error) {
+                is RealmError.ConfigurationError -> RealmConfigurationErrorDialog(
+                    error.backupFile,
+                ) {
+                    finishWithoutAnimation()
+                }
+                is RealmError.RealmNotFound -> RealmUnavailableDialog {
+                    finishWithoutAnimation()
+                }
             }
+
             return
         }
 
@@ -52,6 +61,41 @@ class MainActivity : BaseComposeActivity() {
             widgetId = WidgetManager.getWidgetIdFromIntent(intent),
             importUrl = intent?.getParcelable(EXTRA_IMPORT_URL),
             cancelPendingExecutions = intent?.extras?.getBoolean(EXTRA_CANCEL_PENDING_EXECUTIONS) ?: false,
+        )
+    }
+
+    @Composable
+    private fun RealmConfigurationErrorDialog(
+        backupFile: Uri,
+        onDismissed: () -> Unit,
+    ) {
+        val context = LocalContext.current
+        AlertDialog(
+            onDismissRequest = onDismissed,
+            title = { Text(stringResource(R.string.dialog_title_error)) },
+            text = {
+                Text(
+                    "There was an unexpected issue while trying to load your data. Please contact the developer at android@rmy.ch.\n\n" +
+                        "You can export a dump of your local database using the button below."
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        Intent(Intent.ACTION_SEND)
+                            .setType("application/octet-stream")
+                            .putExtra(Intent.EXTRA_STREAM, backupFile)
+                            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            .let {
+                                Intent.createChooser(it, context.getString(R.string.title_export))
+                            }
+                            .startActivity(this)
+                        onDismissed()
+                    },
+                ) {
+                    Text(stringResource(R.string.dialog_button_export))
+                }
+            },
         )
     }
 
