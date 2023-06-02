@@ -7,6 +7,7 @@ import androidx.compose.runtime.Stable
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.utils.ClipboardUtil
@@ -49,6 +50,7 @@ class DisplayResponseViewModel(application: Application) : BaseViewModel<Display
     private var savingJob: Job? = null
 
     override fun onInitializationStarted(data: InitData) {
+        logInfo("Preparing to display response of type ${data.mimeType}")
         viewModelScope.launch(Dispatchers.IO) {
             responseText = if (isImage(data.mimeType)) {
                 ""
@@ -61,6 +63,7 @@ class DisplayResponseViewModel(application: Application) : BaseViewModel<Display
                             }
                             ?: ""
                     } catch (e: SizeLimitedReader.LimitReachedException) {
+                        logInfo("Response is too large")
                         responseTooLarge = true
                         ""
                     }
