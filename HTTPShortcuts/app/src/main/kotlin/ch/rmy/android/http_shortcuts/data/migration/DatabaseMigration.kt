@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWit
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseActionMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseHandlingMigration
+import ch.rmy.android.http_shortcuts.data.migration.migrations.UniqueIdsMigration
 import io.realm.kotlin.dynamic.getNullableValue
 import io.realm.kotlin.dynamic.getValue
 import io.realm.kotlin.migration.AutomaticSchemaMigration
@@ -222,6 +223,11 @@ class DatabaseMigration : AutomaticSchemaMigration {
                 }
         }
 
+        if (oldVersion < 64) {
+            // Some users somehow managed to have duplicate variable IDs. Let's try to correct that
+            UniqueIdsMigration().migrateRealm(migrationContext)
+        }
+
         // update version number
         newRealm.query("Base")
             .first()
@@ -233,7 +239,7 @@ class DatabaseMigration : AutomaticSchemaMigration {
     }
 
     companion object {
-        const val VERSION = 63L
+        const val VERSION = 64L
         const val COMPATIBILITY_VERSION = 60L
     }
 }
