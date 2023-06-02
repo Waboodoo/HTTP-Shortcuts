@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 
 class ExternalRequests
 @Inject
@@ -35,6 +36,7 @@ constructor(
     suspend fun cropImage(imageUri: Uri, compressFormat: CompressFormat): Uri =
         when (val result = getResult(ExternalRequest.CropImage(imageUri, compressFormat))) {
             is ExternalResult.File -> result.fileUri
+            is ExternalResult.Cancelled -> throw CancellationException()
             else -> error("Unexpected result")
         }
 

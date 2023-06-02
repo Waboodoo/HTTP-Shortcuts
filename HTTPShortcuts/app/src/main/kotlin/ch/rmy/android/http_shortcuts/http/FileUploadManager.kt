@@ -13,19 +13,19 @@ import java.io.IOException
 
 class FileUploadManager internal constructor(
     private val contentResolver: ContentResolver,
-    private val sharedFileUris: List<Uri>,
-    private val forwardedFileIds: List<String>,
     private val fileRequests: Iterator<FileRequest>,
     private val withMetaData: Boolean,
+    private val transformation: suspend (FileRequest, Uri, mimeType: String) -> Uri?,
 ) {
 
     private val registeredFiles = mutableListOf<List<File>>()
 
-    init {
+    suspend fun registerSharedFiles(sharedFileUris: List<Uri>) {
         val sharedFiles = sharedFileUris.iterator()
         while (sharedFiles.hasNext()) {
             val request = getNextFileRequest() ?: break
             registerFiles(
+                request,
                 if (request.multiple) {
                     sharedFiles.asSequence().toList().map(::uriToFile)
                 } else {
@@ -33,10 +33,14 @@ class FileUploadManager internal constructor(
                 }
             )
         }
+    }
+
+    suspend fun registerForwardedFiles(forwardedFileIds: List<String>) {
         val forwardedFiles = forwardedFileIds.iterator()
         while (forwardedFiles.hasNext()) {
             val request = getNextFileRequest() ?: break
             registerFiles(
+                request,
                 if (request.multiple) {
                     forwardedFiles.asSequence().toList().mapNotNull(::getFileById)
                 } else {
@@ -46,27 +50,28 @@ class FileUploadManager internal constructor(
         }
     }
 
-    private fun registerFiles(files: List<File>) {
-        registeredFiles.add(files)
-        files.associateByTo(fileLookup) { it.id }
+    private suspend fun registerFiles(fileRequest: FileRequest, files: List<File>) {
+        val transformedFiles = files.map { file ->
+            transformation(fileRequest, file.data, file.mimeType)
+                ?.let { newUri ->
+                    file.copy(
+                        data = newUri,
+                        fileSize = getFileSize(newUri),
+                    )
+                }
+                ?: file
+        }
+        registeredFiles.add(transformedFiles)
+        transformedFiles.associateByTo(fileLookup) { it.id }
     }
 
     fun getNextFileRequest(): FileRequest? =
         fileRequests.takeIf { it.hasNext() }?.next()
 
-    suspend fun fulfillFileRequest(fileUris: List<Uri>, transformation: suspend (Uri, mimeType: String) -> Uri?) {
+    suspend fun fulfillFileRequest(fileRequest: FileRequest, fileUris: List<Uri>) {
         registerFiles(
+            fileRequest,
             fileUris.map(::uriToFile)
-                .map { file ->
-                    transformation(file.data, file.mimeType)
-                        ?.let { newUri ->
-                            file.copy(
-                                data = newUri,
-                                fileSize = getFileSize(newUri),
-                            )
-                        }
-                        ?: file
-                }
         )
     }
 
@@ -184,18 +189,9 @@ class FileUploadManager internal constructor(
 
     class Builder(private val contentResolver: ContentResolver) {
 
-        private var sharedFiles: List<Uri>? = null
-        private var forwardedFileIds: List<String>? = null
         private val fileRequests = mutableListOf<FileRequest>()
         private var withMetaData = false
-
-        fun withSharedFiles(fileUris: List<Uri>) = also {
-            this.sharedFiles = fileUris
-        }
-
-        fun withForwardedFiles(forwardedFileIds: List<String>) = also {
-            this.forwardedFileIds = forwardedFileIds
-        }
+        private var transformation: suspend (FileRequest, Uri, mimeType: String) -> Uri? = { _, _, _ -> null }
 
         fun addFileRequest(multiple: Boolean = false, fromCamera: Boolean = false, withImageEditor: Boolean = false) = also {
             fileRequests.add(FileRequest(multiple, fromCamera, withImageEditor))
@@ -205,12 +201,15 @@ class FileUploadManager internal constructor(
             withMetaData = enabled
         }
 
+        fun withTransformation(transformation: suspend (FileRequest, Uri, mimeType: String) -> Uri?) = also {
+            this.transformation = transformation
+        }
+
         fun build() = FileUploadManager(
             contentResolver = contentResolver,
-            sharedFileUris = sharedFiles ?: emptyList(),
-            forwardedFileIds = forwardedFileIds ?: emptyList(),
             fileRequests = fileRequests.iterator(),
             withMetaData = withMetaData,
+            transformation = transformation,
         )
     }
 

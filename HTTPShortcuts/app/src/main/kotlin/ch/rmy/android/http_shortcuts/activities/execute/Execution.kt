@@ -498,10 +498,8 @@ class Execution(
         }
 
         val fileUploadManager = FileUploadManager.Builder(context.contentResolver)
-            .withSharedFiles(params.fileUris)
-            .withForwardedFiles(extractFileIdsFromVariableValues(params.variableValues))
             .runIf(shortcut.usesGenericFileBody()) {
-                addFileRequest()
+                addFileRequest(withImageEditor = shortcut.fileUploadOptions?.useImageEditor == true)
             }
             .runIf(shortcut.usesImageFileBody()) {
                 addFileRequest(fromCamera = true, withImageEditor = shortcut.fileUploadOptions?.useImageEditor == true)
@@ -516,7 +514,12 @@ class Execution(
                 }
             }
             .withMetaData(loadMetaData)
+            .withTransformation(::processFileIfNeeded)
             .build()
+            .apply {
+                registerSharedFiles(params.fileUris)
+                registerForwardedFiles(extractFileIdsFromVariableValues(params.variableValues))
+            }
 
         var fileRequest: FileUploadManager.FileRequest
         while (true) {
@@ -529,9 +532,7 @@ class Execution(
             }
                 .let { files ->
                     ensureActive()
-                    fileUploadManager.fulfillFileRequest(files) { uri, mimeType ->
-                        processFileIfNeeded(fileRequest, uri, mimeType)
-                    }
+                    fileUploadManager.fulfillFileRequest(fileRequest, files)
                 }
         }
 
