@@ -23,13 +23,15 @@ constructor() : DialogHandle {
 
     fun onDialogDismissed() {
         _dialogState.value = null
+        val dialogResult = dialogResult
+        this.dialogResult = null
         dialogResult?.cancel(DialogCancellationException())
-        dialogResult = null
     }
 
     fun onDialogResult(result: Any) {
         _dialogState.value = null
+        val dialogResult = dialogResult
+        this.dialogResult = null
         dialogResult?.complete(result)
-        dialogResult = null
     }
 }
