@@ -1,3 +1,11 @@
+## Version 3.0.1
+
+### Improvements
+- The width and spacing of the tabs for switching categories has now been reduced to make it easier again to switch between many categories quickly
+
+### Bugfixes
+- Calling `executeShortcut` no longer gets stuck on an endless loading spinner if the called shortcut makes use of dialog windows
+
 ## Version 3.0.0
 
 A lot of things were added, changed and reworked in this version. It is very likely that new bugs were introduced or that things no longer work the same way they did before. If you encounter any issue, please let me know, either by contacting me (see the "Contact Developer" option on the Information screen) or by opening a Github issue.
