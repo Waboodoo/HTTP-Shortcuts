@@ -6,3 +6,4 @@
 -keep interface com.yalantis.ucrop** { *; }
 -keep class com.joaomgcd.taskerpluginlibrary.** { *; }
 -keep class net.dinglisch.android.tasker.** { *; }
+-keep class androidx.compose.material3.TabRowKt { *; } # here because I had to resort to reflection to change a hard-coded value
