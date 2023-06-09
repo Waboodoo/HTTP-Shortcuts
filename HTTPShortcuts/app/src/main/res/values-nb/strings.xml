@@ -61,9 +61,6 @@
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">"Flytt"</string>
 
-    <!-- Shortcut dropdown option: Move the shortcut to a different category -->
-    <string name="action_move_to_category">"Flytt til en kategori…"</string>
-
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">"Vil du slette denne snarveien?"</string>
 
@@ -157,9 +154,6 @@
 
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">"Innstillinger"</string>
-
-    <!-- Title of theme settings -->
-    <string name="settings_theme">"Tema"</string>
 
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">"Enkle innstillinger"</string>
@@ -258,9 +252,6 @@
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"\"%1$s\" er duplisert."</string>
 
-    <!-- Message, shown in snackbar, confirming to user that a shortcut was moved. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_moved">"\"%1$s\" er flyttet."</string>
-
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_deleted">"\"%1$s\" er slettet."</string>
 
@@ -329,9 +320,6 @@ Alle snarveier i den vil bli slettet."</string>
         <item quantity="one">"%d snarvei"</item>
         <item quantity="other">"%d snarveier"</item>
     </plurals>
-
-    <!-- Dialog title/button, for feature to move a shortcut to a different category -->
-    <string name="title_move_to_category">"Flytt til kategori"</string>
 
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">"Iverksett 'HTTP-snarveier'"</string>
@@ -446,9 +434,6 @@ Alle snarveier i den vil bli slettet."</string>
     <!-- Button, for opening help article page -->
     <string name="button_show_help">"Vis hjelp"</string>
 
-    <!-- Page/dialog title, for help article about variables -->
-    <string name="help_title_variables">"Variabler"</string>
-
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button">"Denne knappen tillater deg å inkludere plassholdere for variabler, f.eks. dynamiske verdier, i din snarvei.
 
@@ -486,9 +471,6 @@ Du har ikke satt opp noen variabler ennå, riktignok."</string>
     <!-- Title on Share dialog -->
     <string name="share_title">"Del…"</string>
 
-    <!-- Section title, for section in variable editor containing options specific to the variable type -->
-    <string name="section_input_options">"Inndatainnstillinger"</string>
-
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">"Husk verdien"</string>
 
@@ -511,27 +493,6 @@ Se dokumentasjonen i variabelseksjonen for mere informasjon."</string>
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">"Tillat 'Del…"</string>
-
-    <!-- App color theme option Blue -->
-    <string name="theme_blue">"Blå"</string>
-
-    <!-- App color theme option Green -->
-    <string name="theme_green">"Grønn"</string>
-
-    <!-- App color theme option Red -->
-    <string name="theme_red">"Rød"</string>
-
-    <!-- App color theme option Grey -->
-    <string name="theme_grey">"Grå"</string>
-
-    <!-- App color theme option Orange -->
-    <string name="theme_orange">"Oransje"</string>
-
-    <!-- App color theme option Purple -->
-    <string name="theme_purple">"Lilla"</string>
-
-    <!-- App color theme option Indigo -->
-    <string name="theme_indigo">"Indigo"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">"Eksporter til…"</string>
