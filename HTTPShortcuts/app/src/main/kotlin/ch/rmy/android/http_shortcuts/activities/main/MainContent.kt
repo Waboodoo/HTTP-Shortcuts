@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.extensions.indexOfFirstOrNull
 import ch.rmy.android.http_shortcuts.activities.main.models.CategoryItem
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
@@ -95,6 +96,7 @@ private fun TabBar(
         ScrollableTabRow(
             selectedTabIndex = activeTabIndex,
             modifier = Modifier.fillMaxWidth(),
+            edgePadding = 16.dp,
             divider = {},
         ) {
             categoryItems.forEachIndexed { index, category ->

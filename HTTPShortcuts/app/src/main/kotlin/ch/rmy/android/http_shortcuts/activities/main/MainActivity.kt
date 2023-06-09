@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.AlertDialog
@@ -19,6 +20,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.getParcelable
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.framework.extensions.restartWithoutAnimation
 import ch.rmy.android.framework.extensions.startActivity
@@ -37,6 +39,27 @@ import ch.rmy.android.http_shortcuts.utils.ExternalURLs.RELEASES
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 
 class MainActivity : BaseComposeActivity() {
+
+    override fun onCreated(savedState: Bundle?) {
+        fixTabMinWidth()
+        super.onCreated(savedState)
+    }
+
+    private fun fixTabMinWidth() {
+        // I'm sorry for this evil, but the M3 library left me no other choice
+        try {
+            Class
+                .forName("androidx.compose.material3.TabRowKt")
+                .getDeclaredField("ScrollableTabRowMinimumTabWidth")
+                .apply {
+                    isAccessible = true
+                }
+                .set(this, 0f)
+        } catch (e: Exception) {
+            // If it fails, it fails
+            logException(e)
+        }
+    }
 
     @Composable
     override fun Content() {
