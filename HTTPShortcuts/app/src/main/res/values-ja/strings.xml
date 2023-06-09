@@ -2136,4 +2136,7 @@
 
     <!-- Description for type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
     <string name="variable_type_timestamp_description">"形式を指定して現在日時"</string>
+
+    <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
+    <string name="label_file_upload_options_allow_image_editing">"画像の切り取りや回転を許可"</string>
 </resources>
