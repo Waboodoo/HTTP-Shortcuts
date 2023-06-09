@@ -9,6 +9,6 @@ class ExecutionFactory
 constructor(
     private val context: Context,
 ) {
-    fun createExecution(params: ExecutionParams): Execution =
-        Execution(context, params)
+    fun createExecution(params: ExecutionParams, dialogHandle: DialogHandle): Execution =
+        Execution(context, params, dialogHandle)
 }

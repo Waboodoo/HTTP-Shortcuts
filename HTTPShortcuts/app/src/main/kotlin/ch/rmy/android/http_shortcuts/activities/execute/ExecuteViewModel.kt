@@ -22,6 +22,9 @@ class ExecuteViewModel(
     @Inject
     lateinit var sessionMonitor: SessionMonitor
 
+    @Inject
+    lateinit var dialogHandler: ExecuteDialogHandler
+
     init {
         getApplicationComponent().inject(this)
     }
@@ -40,7 +43,7 @@ class ExecuteViewModel(
         lastExecutionData = data
 
         viewModelScope.launch {
-            execution = executionFactory.createExecution(data)
+            execution = executionFactory.createExecution(data, dialogHandler)
             finalizeInitialization(silent = true)
             execute()
         }
@@ -48,7 +51,7 @@ class ExecuteViewModel(
 
     override fun onInitialized() {
         viewModelScope.launch {
-            execution.dialogState.collect { dialogState ->
+            dialogHandler.dialogState.collect { dialogState ->
                 updateViewState {
                     copy(dialogState = dialogState)
                 }
@@ -96,11 +99,11 @@ class ExecuteViewModel(
     }
 
     fun onDialogDismissed() {
-        execution.onDialogDismissed()
+        dialogHandler.onDialogDismissed()
     }
 
     fun onDialogResult(result: Any) {
-        execution.onDialogResult(result)
+        dialogHandler.onDialogResult(result)
     }
 
     companion object {

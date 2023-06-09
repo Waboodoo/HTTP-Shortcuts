@@ -8,6 +8,8 @@ import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.activities.execute.ExecutionFactory
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.CheckHeadlessExecutionUseCase
@@ -17,6 +19,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -85,7 +88,13 @@ class QuickTileService : TileService() {
                     ExecutionParams(
                         shortcutId = shortcut.id,
                         trigger = ShortcutTriggerType.QUICK_SETTINGS_TILE,
-                    )
+                    ),
+                    dialogHandle = object : DialogHandle {
+                        override suspend fun <T : Any> showDialog(dialogState: ExecuteDialogState<T>): T {
+                            logException(IllegalStateException("Headless quick service tile execution tried showing a dialog"))
+                            throw CancellationException()
+                        }
+                    },
                 )
                     .execute()
                     .collect()

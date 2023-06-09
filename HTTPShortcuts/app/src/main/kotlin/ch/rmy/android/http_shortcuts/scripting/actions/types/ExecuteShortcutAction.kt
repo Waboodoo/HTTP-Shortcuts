@@ -72,7 +72,8 @@ class ExecuteShortcutAction(
                 recursionDepth = executionContext.recursionDepth + 1,
                 trigger = ShortcutTriggerType.SCRIPTING,
                 isNested = true,
-            )
+            ),
+            dialogHandle = executionContext.dialogHandle,
         )
 
         val finalStatus = withContext(Dispatchers.Main) {

@@ -69,7 +69,6 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -83,6 +82,7 @@ import kotlin.time.Duration.Companion.seconds
 class Execution(
     private val context: Context,
     private val params: ExecutionParams,
+    private val dialogHandle: DialogHandle,
 ) {
 
     @Inject
@@ -142,20 +142,6 @@ class Execution(
     @Inject
     lateinit var historyEventLogger: HistoryEventLogger
 
-    @Inject
-    lateinit var dialogHandler: ExecuteDialogHandler
-
-    val dialogState: StateFlow<ExecuteDialogState<*>?>
-        get() = dialogHandler.dialogState
-
-    fun onDialogDismissed() {
-        dialogHandler.onDialogDismissed()
-    }
-
-    fun onDialogResult(result: Any) {
-        dialogHandler.onDialogResult(result)
-    }
-
     init {
         context.getApplicationComponent().inject(this)
     }
@@ -204,7 +190,7 @@ class Execution(
 
                 withContext(Dispatchers.Main) {
                     try {
-                        dialogHandler.showDialog(
+                        dialogHandle.showDialog(
                             ExecuteDialogState.GenericMessage(
                                 title = StringResLocalizable(R.string.dialog_title_error),
                                 message = message.toLocalizable(),
@@ -228,7 +214,7 @@ class Execution(
         try {
             loadData()
         } catch (e: NoSuchElementException) {
-            dialogHandler.showDialog(
+            dialogHandle.showDialog(
                 ExecuteDialogState.GenericMessage(
                     title = StringResLocalizable(R.string.dialog_title_error),
                     message = StringResLocalizable(R.string.shortcut_not_found),
@@ -249,14 +235,14 @@ class Execution(
         }
 
         if (requiresConfirmation()) {
-            dialogHandler.showDialog(
+            dialogHandle.showDialog(
                 ExecuteDialogState.GenericConfirm(
                     title = shortcutName.toLocalizable(),
                     message = StringResLocalizable(R.string.dialog_message_confirm_shortcut_execution),
                 )
             )
         }
-        checkWifiSSID(shortcutName, shortcut.wifiSsid, dialogHandler)
+        checkWifiSSID(shortcutName, shortcut.wifiSsid, dialogHandle)
 
         val variableManager = VariableManager(variableRepository.getVariables(), params.variableValues)
 
@@ -288,7 +274,7 @@ class Execution(
                 variableManager = variableManager,
                 fileUploadResult = fileUploadResult,
                 resultHandler = resultHandler,
-                dialogHandle = dialogHandler,
+                dialogHandle = dialogHandle,
                 recursionDepth = params.recursionDepth,
             )
         }
@@ -298,7 +284,7 @@ class Execution(
             scriptExecutor.execute(shortcut.codeOnPrepare)
         }
 
-        variableResolver.resolve(variableManager, shortcut, dialogHandler)
+        variableResolver.resolve(variableManager, shortcut, dialogHandle)
 
         when (shortcut.type) {
             ShortcutExecutionType.BROWSER -> {
@@ -599,7 +585,7 @@ class Execution(
                 ResponseHandling.UI_TYPE_DIALOG,
                 null,
                 -> {
-                    showResultDialog(shortcut, response, output, dialogHandler)
+                    showResultDialog(shortcut, response, output, dialogHandle)
                 }
                 ResponseHandling.UI_TYPE_WINDOW -> {
                     if (params.isNested) {
