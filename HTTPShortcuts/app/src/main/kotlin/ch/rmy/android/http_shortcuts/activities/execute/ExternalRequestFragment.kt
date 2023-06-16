@@ -65,6 +65,7 @@ class ExternalRequestFragment : Fragment() {
                 }
             }
         } catch (e: ActivityNotFoundException) {
+            logInfo("Activity not found for external request: $e")
             returnResult(ExternalResult.AppNotAvailable)
         }
     }
@@ -97,6 +98,11 @@ class ExternalRequestFragment : Fragment() {
         requireActivity().supportFragmentManager.beginTransaction()
             .remove(this)
             .commitAllowingStateLoss()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        logInfo("ExternalRequestFragment destroyed")
     }
 
     companion object {

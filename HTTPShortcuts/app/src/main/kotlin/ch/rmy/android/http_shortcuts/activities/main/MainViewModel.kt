@@ -225,6 +225,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onRecoveryConfirmed() {
+        logInfo("Shortcut recovery confirmed")
         val recoveryInfo = (dialogState as? MainDialogState.RecoverShortcut)
             ?.recoveryInfo
             ?: return
@@ -244,6 +245,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onRecoveryDiscarded() {
+        logInfo("Shortcut recovery discarded")
         updateDialogState(null)
         launchWithProgressTracking {
             temporaryShortcutRepository.deleteTemporaryShortcut()
@@ -311,18 +313,22 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onSettingsButtonClicked() {
+        logInfo("Settings button clicked")
         emitEvent(MainEvent.OpenSettings)
     }
 
     fun onImportExportButtonClicked() {
+        logInfo("Import/export button clicked")
         emitEvent(MainEvent.OpenImportExport)
     }
 
     fun onAboutButtonClicked() {
+        logInfo("About button clicked")
         openActivity(AboutActivity.IntentBuilder())
     }
 
     fun onCategoriesButtonClicked() {
+        logInfo("Categories button clicked")
         openCategoriesEditor()
     }
 
@@ -331,10 +337,12 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onVariablesButtonClicked() {
+        logInfo("Variables button clicked")
         openActivity(VariablesActivity.IntentBuilder())
     }
 
     fun onToolbarTitleClicked() {
+        logInfo("Toolbar title clicked")
         doWithViewState { viewState ->
             if (selectionMode == SelectionMode.NORMAL && !viewState.isLocked) {
                 showToolbarTitleChangeDialog(viewState.toolbarTitle)
@@ -363,10 +371,12 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onCreationDialogHelpButtonClicked() {
+        logInfo("Shortcut creation help button clicked")
         openURL(ExternalURLs.SHORTCUTS_DOCUMENTATION)
     }
 
     fun onCreateShortcutButtonClicked() {
+        logInfo("Shortcut creation FAB clicked")
         updateDialogState(
             MainDialogState.ShortcutCreation,
         )
@@ -387,6 +397,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onUnlockButtonClicked() {
+        logInfo("Unlock button clicked")
         updateDialogState(
             MainDialogState.Unlock(),
         )
@@ -417,11 +428,13 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onCurlImportOptionSelected() {
+        logInfo("curl import button clicked")
         updateDialogState(null)
         emitEvent(MainEvent.OpenCurlImport)
     }
 
     fun onShortcutCreated(shortcutId: ShortcutId) {
+        logInfo("Shortcut created")
         viewModelScope.launch {
             val categories = categoryRepository.getCategories()
             this@MainViewModel.categories = categories
@@ -501,6 +514,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onCurlCommandSubmitted(curlCommand: CurlCommand) {
+        logInfo("curl command submitted")
         doWithViewState { viewState ->
             emitEvent(
                 MainEvent.OpenShortcutEditor(
@@ -524,10 +538,12 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onWidgetSettingsSubmitted(shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) {
+        logInfo("Widget settings submitted")
         returnForHomeScreenWidgetPlacement(shortcutId, showLabel, labelColor)
     }
 
     fun onShortcutEdited() {
+        logInfo("Shortcut edited")
         viewModelScope.launch {
             val categories = categoryRepository.getCategories()
             this@MainViewModel.categories = categories
@@ -544,6 +560,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     }
 
     fun onSelectShortcut(shortcutId: ShortcutId) {
+        logInfo("Shortcut selected")
         selectShortcut(shortcutId)
     }
 

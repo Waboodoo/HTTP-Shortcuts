@@ -345,6 +345,7 @@ class ShortcutEditorViewModel(
         if (isSaving || isFinishing) {
             return
         }
+        logInfo("Test button clicked")
         doWithViewState { viewState ->
             if (!viewState.isExecutable) {
                 return@doWithViewState
@@ -467,6 +468,7 @@ class ShortcutEditorViewModel(
         if (isSaving || isFinishing) {
             return
         }
+        logInfo("Basic request settings button clicked")
         openActivity(BasicRequestSettingsActivity.IntentBuilder())
     }
 
@@ -474,6 +476,7 @@ class ShortcutEditorViewModel(
         if (isSaving || isFinishing) {
             return
         }
+        logInfo("Headers settings button clicked")
         openActivity(RequestHeadersActivity.IntentBuilder())
     }
 
@@ -481,6 +484,7 @@ class ShortcutEditorViewModel(
         if (isSaving || isFinishing) {
             return
         }
+        logInfo("Request body settings button clicked")
         openActivity(RequestBodyActivity.IntentBuilder())
     }
 
@@ -488,6 +492,7 @@ class ShortcutEditorViewModel(
         if (isSaving || isFinishing) {
             return
         }
+        logInfo("Authentication settings button clicked")
         openActivity(AuthenticationActivity.IntentBuilder())
     }
 
@@ -495,6 +500,7 @@ class ShortcutEditorViewModel(
         if (isSaving || isFinishing) {
             return
         }
+        logInfo("Response handling button clicked")
         openActivity(ResponseActivity.IntentBuilder())
     }
 
@@ -502,6 +508,7 @@ class ShortcutEditorViewModel(
         if (isSaving || isFinishing) {
             return
         }
+        logInfo("Scripting button clicked")
         openActivity(
             ScriptingActivity.IntentBuilder()
                 .shortcutId(shortcutId)
@@ -512,6 +519,7 @@ class ShortcutEditorViewModel(
         if (isSaving || isFinishing) {
             return
         }
+        logInfo("Trigger shortcuts button clicked")
         openActivity(
             TriggerShortcutsActivity.IntentBuilder()
                 .shortcutId(shortcutId)
@@ -522,6 +530,7 @@ class ShortcutEditorViewModel(
         if (isSaving || isFinishing) {
             return
         }
+        logInfo("Execution settings button clicked")
         openActivity(ExecutionSettingsActivity.IntentBuilder())
     }
 
@@ -529,6 +538,7 @@ class ShortcutEditorViewModel(
         if (isSaving || isFinishing) {
             return
         }
+        logInfo("Advanced settings button clicked")
         openActivity(AdvancedSettingsActivity.IntentBuilder())
     }
 
@@ -536,6 +546,7 @@ class ShortcutEditorViewModel(
         if (isSaving || isFinishing) {
             return
         }
+        logInfo("Icon clicked")
         updateDialogState(
             ShortcutEditorDialogState.PickIcon(
                 includeFaviconOption = hasUrl(),
@@ -548,6 +559,7 @@ class ShortcutEditorViewModel(
         if (isSaving) {
             return
         }
+        logInfo("Fetching favicon")
         viewModelScope.launch {
             updateViewState {
                 copy(iconLoading = true)
