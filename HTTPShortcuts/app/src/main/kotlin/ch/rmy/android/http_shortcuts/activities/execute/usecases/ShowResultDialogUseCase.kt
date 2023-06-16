@@ -68,7 +68,7 @@ constructor(
                 rerunShortcut(shortcut.id)
             }
             ResponseDisplayAction.SHARE -> {
-                shareResponse(shortcutName, text, response?.contentType ?: "", response?.contentFile?.uri)
+                shareResponse(shortcutName, text, response?.contentType ?: "", response?.getContentUri(context))
             }
             ResponseDisplayAction.COPY -> {
                 copyResponse(text)
