@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.R
@@ -72,12 +73,23 @@ class QuickTileService : TileService() {
         shortcuts.singleOrNull()
             ?.let(::executeShortcut)
             ?: run {
-                QuickSettingsTileActivity.IntentBuilder()
-                    .build(context)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    .let { intent ->
-                        startActivityAndCollapse(intent)
-                    }
+                if (shortcuts.isNotEmpty() && shortcuts.all { it.canRunWithoutExecuteActivity() }) {
+                    setTheme(R.style.Theme_MaterialComponents_DayNight_NoActionBar)
+                    showDialog(
+                        AlertDialog.Builder(context)
+                            .setItems(shortcuts.map { it.name }.toTypedArray()) { _, index ->
+                                executeShortcut(shortcuts[index])
+                            }
+                            .create()
+                    )
+                } else {
+                    QuickSettingsTileActivity.IntentBuilder()
+                        .build(context)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .let { intent ->
+                            startActivityAndCollapse(intent)
+                        }
+                }
             }
     }
 
