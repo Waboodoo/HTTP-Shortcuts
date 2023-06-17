@@ -228,6 +228,27 @@ class DatabaseMigration : AutomaticSchemaMigration {
             UniqueIdsMigration().migrateRealm(migrationContext)
         }
 
+        if (oldVersion < 65) {
+            // Abuse the "uiType" field as a marker field to remove orphaned instances of ResponseHandling
+            val markerPrefix = "// "
+            newRealm.query("Shortcut").find().forEach { shortcut ->
+                shortcut.getObject("responseHandling")?.let {
+                    val uiType = it.getValue<String>("uiType")
+                    it.set("uiType", markerPrefix + uiType)
+                }
+            }
+
+            newRealm.query("ResponseHandling").find().toList().forEach {
+                val uiTypeOrIdPlusUiType = it.getValue<String>("uiType")
+                if (uiTypeOrIdPlusUiType.startsWith(markerPrefix)) {
+                    it.set("uiType", uiTypeOrIdPlusUiType.removePrefix(markerPrefix))
+                } else {
+                    logInfo("Deleting an unreachable ResponseHandling object")
+                    newRealm.delete(it)
+                }
+            }
+        }
+
         // update version number
         newRealm.query("Base")
             .first()
@@ -239,7 +260,7 @@ class DatabaseMigration : AutomaticSchemaMigration {
     }
 
     companion object {
-        const val VERSION = 64L
+        const val VERSION = 65L
         const val COMPATIBILITY_VERSION = 60L
     }
 }
