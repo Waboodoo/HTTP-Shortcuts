@@ -1,3 +1,9 @@
+## Version 3.0.2
+
+### Bugfixes
+- Various crashes fixed
+- The `timestamp` variable now uses the provided timestamp format correctly
+
 ## Version 3.0.1
 
 ### Improvements
