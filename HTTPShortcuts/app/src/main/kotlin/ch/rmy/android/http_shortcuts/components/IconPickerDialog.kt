@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.components
 
 import android.content.Context
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -34,9 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.icons.IconPickerActivity
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
@@ -46,18 +43,11 @@ private const val STATE_COLOR_PICKER = "color-picker"
 @Composable
 fun IconPickerDialog(
     title: String,
+    onCustomIconOptionSelected: () -> Unit,
     onIconSelected: (ShortcutIcon) -> Unit,
     onFaviconOptionSelected: (() -> Unit)? = null,
     onDismissRequested: () -> Unit,
 ) {
-    val pickCustomIcon = rememberLauncherForActivityResult(IconPickerActivity.PickIcon) { icon ->
-        if (icon != null) {
-            onIconSelected(icon)
-        } else {
-            onDismissRequested()
-        }
-    }
-
     var state by rememberSaveable(key = "icon-picker-state") {
         mutableStateOf("")
     }
@@ -108,9 +98,7 @@ fun IconPickerDialog(
                 onBuiltInIconOptionSelected = {
                     state = STATE_BUILT_IN
                 },
-                onCustomIconOptionSelected = {
-                    pickCustomIcon.launch()
-                },
+                onCustomIconOptionSelected = onCustomIconOptionSelected,
                 onFaviconOptionSelected = onFaviconOptionSelected,
                 onDismissRequested = onDismissRequested,
             )

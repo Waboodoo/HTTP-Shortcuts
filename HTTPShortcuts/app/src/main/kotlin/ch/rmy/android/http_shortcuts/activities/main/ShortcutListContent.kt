@@ -41,9 +41,6 @@ fun ShortcutListContent(
         ),
         key = category.categoryId,
     )
-    if (state == null) {
-        return
-    }
 
     val openShortcutEditor = rememberLauncherForActivityResult(ShortcutEditorActivity.OpenShortcutEditor) { shortcutId ->
         if (shortcutId != null) {
@@ -52,6 +49,10 @@ fun ShortcutListContent(
     }
     val openFilePickerForExport = rememberLauncherForActivityResult(OpenFilePickerForExportContract) { fileUri ->
         fileUri?.let(viewModel::onFilePickedForExport)
+    }
+
+    if (state == null) {
+        return
     }
 
     EventHandler(enabled = isActive) { event ->

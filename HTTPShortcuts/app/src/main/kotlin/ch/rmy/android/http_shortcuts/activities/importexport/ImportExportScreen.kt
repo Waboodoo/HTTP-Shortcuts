@@ -8,9 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditActivity
 import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
@@ -28,6 +30,10 @@ fun ImportExportScreen(initData: ImportExportViewModel.InitData) {
     }
     val openFilePickerForImport = rememberLauncherForActivityResult(FilePickerUtil.PickFile) { fileUri ->
         fileUri?.let(viewModel::onFilePickedForImport)
+    }
+
+    val openRemoteEdit = rememberLauncherForActivityResult(RemoteEditActivity.OpenRemoteEditor) {
+        viewModel.onRemoteEditorClosed(it)
     }
 
     EventHandler { event ->
@@ -67,12 +73,14 @@ fun ImportExportScreen(initData: ImportExportViewModel.InitData) {
         },
     ) { viewState ->
         ImportExportContent(
-            onRemoteEditorClosed = viewModel::onRemoteEditorClosed,
             useLegacyFormat = viewState.useLegacyFormat,
             onLegacyFormatUseChanged = viewModel::onLegacyFormatUseChanged,
             onImportFromFileClicked = viewModel::onImportFromFileButtonClicked,
             onImportFromUrlClicked = viewModel::onImportFromURLButtonClicked,
             onExportClicked = viewModel::onExportButtonClicked,
+            onRemoteEditButtonClicked = {
+                openRemoteEdit.launch()
+            },
         )
     }
 

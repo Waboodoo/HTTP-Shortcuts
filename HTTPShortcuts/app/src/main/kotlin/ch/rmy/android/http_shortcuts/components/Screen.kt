@@ -4,6 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -18,9 +21,19 @@ inline fun <D, VS, reified VM : BaseViewModel<D, VS>> bindViewModel(
     val viewModel = viewModel<VM>(key = key)
     val state by viewModel.viewState.collectAsStateWithLifecycle()
     val eventHandler = LocalEventinator.current
+    var viewReady by remember {
+        mutableStateOf(false)
+    }
     LaunchedEffect(Unit) {
         viewModel.initialize(initData)
-        viewModel.events.collect(eventHandler::onEvent)
+    }
+    LaunchedEffect(viewReady) {
+        if (viewReady) {
+            viewModel.events.collect(eventHandler::onEvent)
+        }
+    }
+    LaunchedEffect(state) {
+        viewReady = state != null
     }
     return Pair(viewModel, state)
 }

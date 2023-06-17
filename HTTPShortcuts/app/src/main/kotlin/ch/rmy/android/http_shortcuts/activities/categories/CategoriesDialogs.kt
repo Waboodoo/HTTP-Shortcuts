@@ -1,8 +1,11 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.icons.IconPickerActivity
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.IconPickerDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialog
@@ -21,6 +24,14 @@ fun CategoriesDialogs(
     onIconSelected: (ShortcutIcon) -> Unit,
     onDismissRequested: () -> Unit,
 ) {
+    val pickCustomIcon = rememberLauncherForActivityResult(IconPickerActivity.PickIcon) { icon ->
+        if (icon != null) {
+            onIconSelected(icon)
+        } else {
+            onDismissRequested()
+        }
+    }
+
     when (dialogState) {
         is CategoriesDialogState.ContextMenu -> {
             ContextMenuDialog(
@@ -41,6 +52,9 @@ fun CategoriesDialogs(
         is CategoriesDialogState.IconPicker -> {
             IconPickerDialog(
                 title = stringResource(R.string.title_category_select_icon),
+                onCustomIconOptionSelected = {
+                    pickCustomIcon.launch()
+                },
                 onIconSelected = onIconSelected,
                 onDismissRequested = onDismissRequested,
             )

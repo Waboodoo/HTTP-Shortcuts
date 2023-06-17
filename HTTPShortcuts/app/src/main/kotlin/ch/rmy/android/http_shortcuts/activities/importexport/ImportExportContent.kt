@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.activities.importexport
 
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
@@ -16,9 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
-import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditActivity
 import ch.rmy.android.http_shortcuts.components.SettingsButton
 import com.alorma.compose.settings.storage.base.rememberBooleanSettingState
 import com.alorma.compose.settings.ui.SettingsGroup
@@ -31,10 +28,8 @@ fun ImportExportContent(
     onImportFromFileClicked: () -> Unit,
     onImportFromUrlClicked: () -> Unit,
     onExportClicked: () -> Unit,
-    onRemoteEditorClosed: (changesImported: Boolean) -> Unit,
+    onRemoteEditButtonClicked: () -> Unit,
 ) {
-    val openRemoteEdit = rememberLauncherForActivityResult(RemoteEditActivity.OpenRemoteEditor, onRemoteEditorClosed)
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -86,9 +81,7 @@ fun ImportExportContent(
             SettingsButton(
                 icon = Icons.Outlined.Devices,
                 title = stringResource(R.string.settings_remote_edit),
-                onClick = {
-                    openRemoteEdit.launch()
-                },
+                onClick = onRemoteEditButtonClicked,
             )
         }
     }
