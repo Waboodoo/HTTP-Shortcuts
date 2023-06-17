@@ -82,7 +82,7 @@ unMock {
 }
 
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
     api("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
     api("androidx.core:core-ktx:1.10.1@aar")
