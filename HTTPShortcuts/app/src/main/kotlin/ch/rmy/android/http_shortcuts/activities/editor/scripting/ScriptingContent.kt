@@ -13,8 +13,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -28,6 +32,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.extensions.insertAtCursor
 import ch.rmy.android.http_shortcuts.extensions.runIf
 import ch.rmy.android.http_shortcuts.utils.SyntaxHighlighter
+import kotlinx.coroutines.delay
 
 @Composable
 fun ScriptingContent(
@@ -53,6 +58,7 @@ fun ScriptingContent(
                     fillMaxSize()
                 },
             isFocused = activeFieldType == CodeFieldType.PREPARE,
+            autoFocus = codeOnPrepare.isEmpty() && codeOnSuccess.isEmpty() && codeOnFailure.isEmpty(),
             code = codeOnPrepare,
             placeholder = stringResource(
                 if (shortcutExecutionType == ShortcutExecutionType.SCRIPTING) {
@@ -97,6 +103,7 @@ fun ScriptingContent(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun CodeSection(
     isFocused: Boolean,
@@ -106,8 +113,12 @@ private fun CodeSection(
     onFocused: () -> Unit,
     onCodeChanged: (String) -> Unit,
     modifier: Modifier = Modifier,
+    autoFocus: Boolean = false,
     minLines: Int = 6,
 ) {
+    val focusRequester = remember { FocusRequester() }
+    val keyboard = LocalSoftwareKeyboardController.current
+
     var textFieldValue by remember {
         mutableStateOf(
             TextFieldValue(
@@ -146,6 +157,7 @@ private fun CodeSection(
                     onFocused()
                 }
             }
+            .focusRequester(focusRequester)
             .then(modifier),
         language = SyntaxHighlighter.Languages.JS,
         label = label,
@@ -157,4 +169,12 @@ private fun CodeSection(
         },
         placeholder = placeholder,
     )
+
+    LaunchedEffect(Unit) {
+        if (autoFocus) {
+            delay(50)
+            focusRequester.requestFocus()
+            keyboard?.show()
+        }
+    }
 }
