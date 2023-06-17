@@ -15,7 +15,7 @@ buildscript {
 plugins {
     id("com.diffplug.spotless") version "6.4.2"
     id("org.jetbrains.kotlin.jvm") version "1.7.21" apply false
-    id("io.realm.kotlin") version "1.6.2" apply false
+    id("io.realm.kotlin") version "1.8.0" apply false
 }
 
 ext {

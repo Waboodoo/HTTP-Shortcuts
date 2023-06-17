@@ -95,7 +95,7 @@ dependencies {
     kapt("com.google.dagger:dagger-compiler:2.41")
 
     /* Database */
-    api("io.realm.kotlin:library-base:1.6.0")
+    api("io.realm.kotlin:library-base:1.8.0")
 
     /* Testing */
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinTestJunit5Version")
