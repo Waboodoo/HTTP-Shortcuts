@@ -84,7 +84,7 @@ fun ShortcutList(
         ShortcutGrid(
             shortcuts = shortcuts,
             minColumnWidth = when (layoutType) {
-                CategoryLayoutType.DENSE_GRID -> 90.dp
+                CategoryLayoutType.DENSE_GRID -> 78.dp
                 CategoryLayoutType.MEDIUM_GRID -> 120.dp
                 CategoryLayoutType.WIDE_GRID -> 180.dp
                 else -> error("This can not be reached, but the compiler is not smart enough to understand that")
@@ -212,7 +212,7 @@ private fun ShortcutGrid(
         modifier = Modifier
             .fillMaxSize()
             .padding(
-                horizontal = Spacing.TINY,
+                horizontal = 2.dp,
             ),
     ) {
         items(
@@ -228,7 +228,7 @@ private fun ShortcutGrid(
                     .animateItemPlacement()
                     .combinedClickable(
                         interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(bounded = false),
+                        indication = rememberRipple(bounded = false, radius = 48.dp),
                         onLongClick = if (isLongClickingEnabled) {
                             {
                                 onShortcutLongClicked(item.id)
