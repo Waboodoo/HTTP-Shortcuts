@@ -283,6 +283,7 @@
         <activity
             android:name=".activities.misc.share.ShareActivity"
             android:configChanges="orientation|screenSize"
+            android:excludeFromRecents="true"
             android:exported="true"
             android:label="@string/action_send_to"
             android:launchMode="singleInstance"
@@ -360,6 +361,7 @@
             android:name=".activities.misc.second_launcher.SecondLauncherActivity"
             android:configChanges="orientation|screenSize"
             android:enabled="false"
+            android:excludeFromRecents="true"
             android:exported="true"
             android:label="@string/title_activity_secondary_launcher_trigger"
             android:launchMode="singleInstance"
@@ -373,6 +375,7 @@
 
         <activity
             android:name=".activities.misc.quick_settings_tile.QuickSettingsTileActivity"
+            android:excludeFromRecents="true"
             android:noHistory="true"
             android:theme="@style/Theme.Transparent" />
 
