@@ -29,10 +29,12 @@ class RealmTransactionContext(private val realmInstance: MutableRealm) : RealmCo
     fun <T : RealmObject> copyOrUpdate(`object`: T): T =
         realmInstance.copyToRealm(`object`, UpdatePolicy.ALL)
 
-    fun <T : RealmObject> copyOrUpdate(objects: Iterable<T>): List<T> =
-        objects.map {
-            realmInstance.copyToRealm(it, UpdatePolicy.ALL)
-        }
+    fun <T : RealmObject> copyOrUpdate(objects: Iterable<T>?): List<T> =
+        objects
+            ?.map {
+                realmInstance.copyToRealm(it, UpdatePolicy.ALL)
+            }
+            ?: emptyList()
 
     fun <T : TypedRealmObject> T.delete() {
         realmInstance.delete(this)

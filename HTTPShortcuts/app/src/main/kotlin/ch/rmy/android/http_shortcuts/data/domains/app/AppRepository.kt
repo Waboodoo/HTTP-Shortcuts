@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.data.domains.app
 import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.data.domains.getAppLock
 import ch.rmy.android.http_shortcuts.data.domains.getBase
@@ -138,6 +139,7 @@ constructor(
 
     suspend fun importBase(base: Base, importMode: Importer.ImportMode) {
         commitTransaction {
+            logInfo("Importing base ($importMode)")
             val oldBase = getBase().findFirst()!!
             when (importMode) {
                 Importer.ImportMode.MERGE -> {
