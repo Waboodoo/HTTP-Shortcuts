@@ -79,7 +79,7 @@ fun VariablePickerDialog(
         ) {
             items(
                 items = variables,
-                key = { it.variableKey },
+                key = { it.variableId },
             ) { variable ->
                 SelectDialogEntry(
                     label = variable.variableKey,
