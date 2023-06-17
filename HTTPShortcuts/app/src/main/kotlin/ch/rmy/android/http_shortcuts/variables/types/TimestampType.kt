@@ -2,15 +2,16 @@ package ch.rmy.android.http_shortcuts.variables.types
 
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.util.Date
 import java.util.Locale
 
 class TimestampType : BaseVariableType() {
 
     override suspend fun resolveValue(variable: Variable, dialogHandle: DialogHandle): String =
-        DateTimeFormatter.ofPattern(getTimeFormat(variable), Locale.getDefault())
-            .format(LocalDateTime.now())
+        SimpleDateFormat(getTimeFormat(variable), Locale.getDefault())
+            .format(Date.from(Instant.now()))
 
     companion object {
 

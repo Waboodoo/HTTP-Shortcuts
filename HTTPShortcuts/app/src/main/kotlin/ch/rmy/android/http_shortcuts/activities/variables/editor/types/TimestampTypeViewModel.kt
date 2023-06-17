@@ -27,7 +27,7 @@ class TimestampTypeViewModel : BaseTypeViewModel() {
             )
         }
         try {
-            SimpleDateFormat(viewState.timeFormat, Locale.US)
+            SimpleDateFormat(viewState.timeFormat, Locale.getDefault())
         } catch (e: IllegalArgumentException) {
             return viewState.copy(
                 invalidFormat = true,
