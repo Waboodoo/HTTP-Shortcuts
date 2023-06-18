@@ -146,7 +146,7 @@ private fun NetworkRestrictionsWarningDialog(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Checkbox(
-                        checked = !permanentlyHidden,
+                        checked = permanentlyHidden,
                         onCheckedChange = null,
                     )
                     Text(
