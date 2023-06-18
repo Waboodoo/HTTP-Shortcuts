@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.HelpOutline
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.PostAdd
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -43,7 +44,15 @@ fun ScriptingScreen(currentShortcutId: ShortcutId?) {
     SimpleScaffold(
         viewState = state,
         title = stringResource(R.string.label_scripting),
-        actions = {
+        actions = { viewState ->
+            if (viewState.isTestButtonVisible) {
+                ToolbarIcon(
+                    Icons.Filled.PlayArrow,
+                    enabled = viewState.isTestButtonEnabled,
+                    contentDescription = stringResource(R.string.test_button),
+                    onClick = viewModel::onTestButtonClicked,
+                )
+            }
             ToolbarIcon(
                 Icons.Filled.HelpOutline,
                 contentDescription = stringResource(R.string.button_show_help),

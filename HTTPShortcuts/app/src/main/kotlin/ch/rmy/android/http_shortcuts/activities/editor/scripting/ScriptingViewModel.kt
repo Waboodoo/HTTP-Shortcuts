@@ -3,9 +3,11 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting
 import android.app.Application
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.scripting.CodeTransformer
@@ -142,5 +144,12 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
                 textAfterCursor = textAfterCursor,
             )
         )
+    }
+
+    fun onTestButtonClicked() {
+        viewModelScope.launch {
+            waitForOperationsToFinish()
+            openActivity(ExecuteActivity.IntentBuilder(Shortcut.TEMPORARY_ID).trigger(ShortcutTriggerType.TEST_IN_EDITOR))
+        }
     }
 }
