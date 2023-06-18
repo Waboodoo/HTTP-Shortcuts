@@ -42,7 +42,14 @@ class SendMQTTMessagesAction(
             } catch (e: MqttException) {
                 logException(e)
                 throw ActionException {
-                    getString(R.string.error_failed_to_send_mqtt, e.message ?: e.toString())
+                    val message = e.message
+                        ?.takeUnless { it == "MqttException" }
+                        ?: (e.toString().removePrefix("MqttException "))
+                    getString(R.string.error_failed_to_send_mqtt, message)
+                }
+            } catch (e: IllegalArgumentException) {
+                throw ActionException {
+                    getString(R.string.error_failed_to_send_mqtt, e.message)
                 }
             }
         }
