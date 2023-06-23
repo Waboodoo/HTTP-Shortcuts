@@ -752,7 +752,8 @@ Todos los atajos dentro de esta se eliminaran también."</string>
     <string name="dialog_title_error">"Error"</string>
 
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">"Error JavaScript"</string>
+    <string name="error_js_pattern">"Error JavaScript:
+%s"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
     <string name="dialog_code_snippet_handle_response">"Manejo de respuesta"</string>

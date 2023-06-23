@@ -866,7 +866,7 @@ Nhấp vào nút trợ giúp trong phần biến để biết thêm thông tin."
 
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
     <string name="error_js_pattern">"lỗi JavaScript:
-%S"</string>
+%s"</string>
 
     <!-- Button: Shown below JavaScript editor (for pre-request and post-request actions), allows to add snippets of JS code -->
     <string name="button_add_code_snippet">"Thêm đoạn mã"</string>

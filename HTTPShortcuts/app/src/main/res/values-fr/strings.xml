@@ -885,8 +885,7 @@ Voir la documentation dans la section variable pour plus d'informations."</strin
 
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
     <string name="error_js_pattern">"Erreur JavaScript:
-%s
-"</string>
+%s"</string>
 
     <!-- Button: Shown below JavaScript editor (for pre-request and post-request actions), allows to add snippets of JS code -->
     <string name="button_add_code_snippet">"Ajouter un extrait de code"</string>
