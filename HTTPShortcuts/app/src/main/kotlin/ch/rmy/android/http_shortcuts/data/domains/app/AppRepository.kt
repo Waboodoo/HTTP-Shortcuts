@@ -164,7 +164,8 @@ constructor(
                     }
 
                     val persistedVariables = copyOrUpdate(base.variables)
-                    oldBase.variables.removeAll(persistedVariables.toSet())
+                    val persistedVariablesIds = persistedVariables.map { it.id }
+                    oldBase.variables.removeIf { it.id in persistedVariablesIds }
                     oldBase.variables.addAll(persistedVariables)
                 }
                 Importer.ImportMode.REPLACE -> {
