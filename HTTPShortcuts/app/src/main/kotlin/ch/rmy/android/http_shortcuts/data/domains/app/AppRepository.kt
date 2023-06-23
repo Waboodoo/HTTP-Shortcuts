@@ -186,6 +186,7 @@ constructor(
                     oldBase.certificatePins.addAll(copyOrUpdate(base.certificatePins))
                 }
             }
+            oldBase.validate()
         }
     }
 

@@ -95,11 +95,10 @@ constructor(
             val migratedImportData = ImportMigrator.migrate(importData)
             val newBase = GsonUtil.importData(migratedImportData)
             try {
-                newBase.validate()
+                appRepository.importBase(newBase, importMode)
             } catch (e: IllegalArgumentException) {
                 throw ImportException(e.message!!)
             }
-            appRepository.importBase(newBase, importMode)
             ImportStatus(
                 importedShortcuts = newBase.shortcuts.size,
             )

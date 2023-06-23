@@ -223,11 +223,6 @@ class DatabaseMigration : AutomaticSchemaMigration {
                 }
         }
 
-        if (oldVersion < 64) {
-            // Some users somehow managed to have duplicate variable IDs. Let's try to correct that
-            UniqueIdsMigration().migrateRealm(migrationContext)
-        }
-
         if (oldVersion < 65) {
             // Abuse the "uiType" field as a marker field to remove orphaned instances of ResponseHandling
             val markerPrefix = "// "
@@ -249,6 +244,11 @@ class DatabaseMigration : AutomaticSchemaMigration {
             }
         }
 
+        if (oldVersion < 66) {
+            // Some users somehow managed to have duplicate variable IDs. Let's try to correct that
+            UniqueIdsMigration().migrateRealm(migrationContext)
+        }
+
         // update version number
         newRealm.query("Base")
             .first()
@@ -260,7 +260,7 @@ class DatabaseMigration : AutomaticSchemaMigration {
     }
 
     companion object {
-        const val VERSION = 65L
+        const val VERSION = 66L
         const val COMPATIBILITY_VERSION = 60L
     }
 }
