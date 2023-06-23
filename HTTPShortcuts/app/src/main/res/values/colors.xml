@@ -6,7 +6,7 @@
     <item name="primary_dark" type="color">#FF0277BD</item>
     <item name="primary_color" type="color">#FF0277BD</item>
     <item name="variable" type="color">#FF3F51B5</item>
-    <item name="textarea_background" type="color">#FFDFDFDF</item>
+    <item name="textarea_background" type="color">#FFEFEFEF</item>
     <item name="widget_preview_background" type="color">#99A0A0A0</item>
     <item name="splash_background" type="color">@color/brand_icon</item>
     <item name="history_text_color_success" type="color">#FF009933</item>

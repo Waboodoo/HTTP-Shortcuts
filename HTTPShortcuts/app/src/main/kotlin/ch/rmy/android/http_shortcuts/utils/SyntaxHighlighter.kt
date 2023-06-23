@@ -37,14 +37,14 @@ class SyntaxHighlighter(
 
     private object DarkTheme : CodeTheme() {
         override val colors = SyntaxColors(
-            type = Color(0xFF1cc4ae),
-            keyword = Color(0xFF1cc4ae),
+            type = Color(0xFF1FEED3),
+            keyword = Color(0xFF1BEBCF),
             literal = Color(0xFFbfb9b0),
-            comment = Color(0xFF877d6e),
+            comment = Color(0xFFFFC263),
             string = Color(0xFFc27905),
-            punctuation = Color(0xFF70685c),
+            punctuation = Color(0xFFB4A794),
             plain = Color(0xFFfff5e6),
-            tag = Color(0xFF7989f1),
+            tag = Color(0xFF6479FF),
             declaration = Color(0xFFbdb3b6),
             source = Color(0xFFc27905),
             attrName = Color(0xFF929ff7),
