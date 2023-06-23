@@ -109,7 +109,10 @@ fun <T : Any> SimpleScaffold(
                                 clickable(onClick = onTitleClicked!!)
                             }
                     ) {
-                        Text(title)
+                        Text(
+                            // due to some bug(?) in Compose (I guess?), I need to transform the title to trigger a recomposition
+                            title + "",
+                        )
                         if (subtitle != null) {
                             Text(
                                 subtitle,
