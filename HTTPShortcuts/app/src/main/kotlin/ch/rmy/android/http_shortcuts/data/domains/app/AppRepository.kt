@@ -163,7 +163,7 @@ constructor(
                         importCategory(oldBase, category)
                     }
 
-                    val persistedVariables = copyOrUpdate(base.variables)
+                    val persistedVariables = copyOrUpdate(base.variables.distinctBy { it.id })
                     val persistedVariablesIds = persistedVariables.map { it.id }
                     oldBase.variables.removeIf { it.id in persistedVariablesIds }
                     oldBase.variables.addAll(persistedVariables)
