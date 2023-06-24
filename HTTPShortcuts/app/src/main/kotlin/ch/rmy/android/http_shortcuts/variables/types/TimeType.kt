@@ -5,9 +5,13 @@ import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
@@ -29,8 +33,8 @@ class TimeType : BaseVariableType() {
         if (variable.rememberValue) {
             variablesRepository.setVariableValue(variable.id, TIME_FORMAT.format(selectedTime))
         }
-        return DateTimeFormatter.ofPattern(getTimeFormat(variable), Locale.US)
-            .format(selectedTime)
+        return SimpleDateFormat(getTimeFormat(variable), Locale.US)
+            .format(Date.from(LocalDate.now().atTime(selectedTime).atZone(ZoneOffset.systemDefault()).toInstant()))
     }
 
     private fun getInitialTime(previousValue: String?): LocalTime =

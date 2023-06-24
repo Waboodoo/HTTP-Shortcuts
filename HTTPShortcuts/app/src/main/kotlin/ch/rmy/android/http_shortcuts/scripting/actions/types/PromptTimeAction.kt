@@ -9,9 +9,13 @@ import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
+import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
@@ -39,8 +43,8 @@ class PromptTimeAction(
             )
             val pattern = format ?: DEFAULT_FORMAT
             try {
-                DateTimeFormatter.ofPattern(pattern, Locale.US)
-                    .format(selectedTime)
+                SimpleDateFormat(pattern, Locale.US)
+                    .format(Date.from(LocalDate.now().atTime(selectedTime).atZone(ZoneOffset.systemDefault()).toInstant()))
             } catch (e: IllegalArgumentException) {
                 throw UserException.create {
                     getString(R.string.error_invalid_time_format)

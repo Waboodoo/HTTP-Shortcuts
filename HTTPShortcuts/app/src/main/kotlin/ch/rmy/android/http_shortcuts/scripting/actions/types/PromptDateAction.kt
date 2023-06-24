@@ -8,9 +8,12 @@ import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
+import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
@@ -34,8 +37,8 @@ class PromptDateAction(
                 )
             )
             try {
-                DateTimeFormatter.ofPattern(format ?: DEFAULT_FORMAT, Locale.US)
-                    .format(selectedDate)
+                SimpleDateFormat(format ?: DEFAULT_FORMAT, Locale.getDefault())
+                    .format(Date.from(selectedDate.atStartOfDay(ZoneId.systemDefault()).toInstant()))
             } catch (e: IllegalArgumentException) {
                 throw UserException.create {
                     getString(R.string.error_invalid_date_format)
