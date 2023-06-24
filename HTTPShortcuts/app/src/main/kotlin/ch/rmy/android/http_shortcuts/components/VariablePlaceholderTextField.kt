@@ -43,6 +43,7 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 import ch.rmy.android.http_shortcuts.extensions.insertAtCursor
+import ch.rmy.android.http_shortcuts.logging.Logging.logInfo
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables.BROKEN_RAW_PLACEHOLDER_REGEX
 import ch.rmy.android.http_shortcuts.variables.Variables.RAW_PLACEHOLDER_REGEX
@@ -223,6 +224,7 @@ fun VariablePlaceholderTextField(
         trailingIcon = {
             IconButton(
                 onClick = {
+                    logInfo("VariablePlaceholderTextField", "Variable button clicked")
                     dialogVisible = true
                 },
             ) {

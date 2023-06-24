@@ -31,7 +31,11 @@ fun Any.logException(e: Throwable) {
 }
 
 fun Any.logInfo(message: String) {
-    GlobalLogger.logInfo(this.javaClass.name.ifEmpty { "anonymous" }, message)
+    logInfo(this.javaClass.name.ifEmpty { "anonymous" }, message)
+}
+
+fun logInfo(source: String, message: String) {
+    GlobalLogger.logInfo(source, message)
 }
 
 inline fun <T> Any.tryOrLog(block: () -> T): T? =
