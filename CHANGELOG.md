@@ -1,3 +1,14 @@
+## Version 3.1.0
+
+### Improvments
+- Scripting shortcuts can now be tested directly from the code editor screen
+- The contrast of the color scheme for syntax highlighting in the code editor was increased for better readability
+- In addition to the `abort` function, there is now also an `abortAll` function which can be used in combination with the `executeShortcut` function.
+
+### Bugfixes
+- Fixed the crashes and related issues introduced in 3.0.2, which would affect the Import feature and the use of variables
+- The `promptDate` & `promptTime` functions, as well as Date Input and Time Input variables now correctly handle custom date formats again
+
 ## Version 3.0.2
 
 ### Bugfixes
