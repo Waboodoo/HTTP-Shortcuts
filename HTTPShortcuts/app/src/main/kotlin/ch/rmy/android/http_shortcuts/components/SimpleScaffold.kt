@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -26,7 +27,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import ch.rmy.android.framework.extensions.consume
@@ -130,10 +133,16 @@ fun <T : Any> SimpleScaffold(
                             context.getActivity()?.onBackPressed()
                         },
                     ) {
-                        when (backButton) {
-                            BackButton.ARROW -> Icon(Icons.Filled.ArrowBack, null)
-                            BackButton.CROSS -> Icon(Icons.Filled.Close, null)
-                        }
+                        Icon(
+                            when (backButton) {
+                                BackButton.ARROW -> if (LocalLayoutDirection.current == LayoutDirection.Rtl) {
+                                    Icons.Filled.ArrowForward
+                                } else {
+                                    Icons.Filled.ArrowBack
+                                }
+                                BackButton.CROSS -> Icons.Filled.Close
+                            }, null
+                        )
                     }
                 },
                 actions = {
