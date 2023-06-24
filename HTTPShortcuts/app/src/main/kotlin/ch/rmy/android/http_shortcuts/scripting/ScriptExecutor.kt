@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
+import ch.rmy.android.http_shortcuts.exceptions.UserAbortException
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
@@ -157,18 +158,22 @@ constructor(
         jsContext.evaluateScript(
             """
             function abort() {
-                _abort();
+                __abort(false);
+                throw "Abort";
+            }
+            function abortAll() {
+                __abort(true);
                 throw "Abort";
             }
             """.trimIndent()
         )
         jsContext.property(
-            "_abort",
+            "__abort",
             object : JSFunction(jsContext, "run") {
                 @Suppress("unused")
                 @Keep
-                fun run() {
-                    lastException = CancellationException("User requested abort")
+                fun run(abortAll: Boolean) {
+                    lastException = UserAbortException(abortAll = abortAll)
                 }
             },
             READ_ONLY,

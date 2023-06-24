@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
+import ch.rmy.android.http_shortcuts.exceptions.UserAbortException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.scripting.ResponseObjectFactory
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
@@ -76,9 +77,23 @@ class ExecuteShortcutAction(
             dialogHandle = executionContext.dialogHandle,
         )
 
-        val finalStatus = withContext(Dispatchers.Main) {
-            execution.execute()
-        }.lastOrNull()
+        val finalStatus = try {
+            withContext(Dispatchers.Main) {
+                execution.execute()
+            }.lastOrNull()
+        } catch (e: UserAbortException) {
+            if (e.abortAll) {
+                throw e
+            } else {
+                return createResult(
+                    executionContext.jsContext,
+                    status = "aborted",
+                    response = null,
+                    error = null,
+                    result = null,
+                )
+            }
+        }
 
         (finalStatus as? ExecutionStatus.WithVariables)?.variableValues?.let {
             executionContext.variableManager.storeVariableValues(it)

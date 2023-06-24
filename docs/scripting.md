@@ -371,13 +371,15 @@ wait(3000); // delay execution by 3 seconds
 Please note that this is a blocking action, meaning that you will not be able to interact with the app during the waiting time.
 
 <a name="abort"></a>
-### abort
+### abort and abortAll
 
 With the `abort` function you can abort the execution of the shortcut.
 
 ```js
 abort();
 ```
+
+If the shortcut was called from another shortcut via the [executeShortcut](#execute-shortcut) function, only the current shortcut will be aborted. If you want to abort also the calling shortcut, you can use `abortAll()`.
 
 <a name="text-processing"></a>
 ## Text Processing
@@ -587,11 +589,12 @@ executeShortcut('My Other Shortcut', {
 });
 ```
 
-The function will return an object which contains a `status` field which you can query to see if the shortcut's execution was successful. It may contain the values "success", "failure", or "unknown".
+The function will return an object which contains a `status` field which you can query to see if the shortcut's execution was successful. It may contain the values "success", "failure", "unknown", or "aborted".
 
 - "success" means that the shortcut successfully executed an HTTP request. Its response is returned in the `response` field, using the same [format](#handle-response) as the `response` object that is available for all shortcut executions.
 - "failure" means that the shortcut's HTTP request failed, either due to a network error or the HTTP status was not 2xx or 3xx. In this case, you can get more information about the failure via the `response` field or the `networkError` field, one of which is always non-null in this case.
 - "unknown" means that the shortcut did not (directly) make an HTTP request and therefore has no response. This will happen if the shortcut is not an HTTP shortcut or if the HTTP request was delayed or rescheduled.
+- "aborted" means that the `abort()` function was called
 
 ```js
 const result = executeShortcut('My Other Shortcut');
