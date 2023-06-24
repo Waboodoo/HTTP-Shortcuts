@@ -21,6 +21,7 @@ import ch.rmy.android.http_shortcuts.activities.importexport.usecases.GetShortcu
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
@@ -38,6 +39,9 @@ class ImportExportViewModel(application: Application) :
 
     @Inject
     lateinit var settings: Settings
+
+    @Inject
+    lateinit var shortcutRepository: ShortcutRepository
 
     @Inject
     lateinit var getShortcutSelectionDialog: GetShortcutSelectionDialogUseCase
@@ -63,13 +67,31 @@ class ImportExportViewModel(application: Application) :
             field = value
         }
 
+    private var hasShortcuts = false
+
+    override fun onInitializationStarted(data: InitData) {
+        viewModelScope.launch {
+            hasShortcuts = shortcutRepository.getShortcuts().isNotEmpty()
+            finalizeInitialization()
+        }
+    }
+
     override fun initViewState() = ImportExportViewState(
         useLegacyFormat = settings.useLegacyExportFormat,
+        exportEnabled = hasShortcuts,
     )
 
     override fun onInitialized() {
         if (initData.importUrl != null) {
             openImportUrlDialog(initData.importUrl!!.toString())
+        }
+
+        viewModelScope.launch {
+            shortcutRepository.getObservableShortcuts().collect {
+                updateViewState {
+                    copy(exportEnabled = it.isNotEmpty())
+                }
+            }
         }
     }
 

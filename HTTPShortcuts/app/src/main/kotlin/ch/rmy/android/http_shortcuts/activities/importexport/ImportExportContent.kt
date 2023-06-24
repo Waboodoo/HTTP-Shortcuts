@@ -24,6 +24,7 @@ import com.alorma.compose.settings.ui.SettingsSwitch
 @Composable
 fun ImportExportContent(
     useLegacyFormat: Boolean,
+    exportEnabled: Boolean,
     onLegacyFormatUseChanged: (Boolean) -> Unit,
     onImportFromFileClicked: () -> Unit,
     onImportFromUrlClicked: () -> Unit,
@@ -57,6 +58,7 @@ fun ImportExportContent(
             SettingsButton(
                 icon = Icons.Outlined.Output,
                 title = stringResource(R.string.settings_export),
+                enabled = exportEnabled,
                 onClick = onExportClicked,
             )
 
@@ -70,6 +72,7 @@ fun ImportExportContent(
                 },
                 title = { Text(stringResource(R.string.settings_use_legacy_export_format)) },
                 subtitle = { Text(stringResource(R.string.settings_use_legacy_export_format_summary)) },
+                enabled = exportEnabled,
                 state = rememberBooleanSettingState(useLegacyFormat),
                 onCheckedChange = onLegacyFormatUseChanged,
             )

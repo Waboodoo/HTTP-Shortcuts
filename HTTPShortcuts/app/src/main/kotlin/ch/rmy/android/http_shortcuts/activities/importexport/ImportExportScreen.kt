@@ -74,6 +74,7 @@ fun ImportExportScreen(initData: ImportExportViewModel.InitData) {
     ) { viewState ->
         ImportExportContent(
             useLegacyFormat = viewState.useLegacyFormat,
+            exportEnabled = viewState.exportEnabled,
             onLegacyFormatUseChanged = viewModel::onLegacyFormatUseChanged,
             onImportFromFileClicked = viewModel::onImportFromFileButtonClicked,
             onImportFromUrlClicked = viewModel::onImportFromURLButtonClicked,
