@@ -141,7 +141,8 @@ fun <T : Any> SimpleScaffold(
                                     Icons.Filled.ArrowBack
                                 }
                                 BackButton.CROSS -> Icons.Filled.Close
-                            }, null
+                            },
+                            contentDescription = null,
                         )
                     }
                 },

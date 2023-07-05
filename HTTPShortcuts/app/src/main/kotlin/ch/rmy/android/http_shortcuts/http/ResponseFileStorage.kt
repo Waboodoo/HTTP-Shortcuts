@@ -3,13 +3,11 @@ package ch.rmy.android.http_shortcuts.http
 import android.content.Context
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
-import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import okhttp3.Response
 import java.io.File
 import java.io.InputStream
 import java.net.SocketTimeoutException
-import java.util.zip.GZIPInputStream
 
 class ResponseFileStorage(
     private val context: Context,
@@ -46,9 +44,6 @@ class ResponseFileStorage(
 
     private fun getStream(response: Response): InputStream =
         response.body!!.byteStream()
-            .runIf(response.isGzipped()) {
-                GZIPInputStream(this)
-            }
 
     companion object {
         internal fun Response.getMimeType(): String =
@@ -60,8 +55,5 @@ class ResponseFileStorage(
                 ?.lowercase()
                 ?.trim()
                 ?: "application/octet-stream"
-
-        internal fun Response.isGzipped(): Boolean =
-            header(HttpHeaders.CONTENT_ENCODING) == "gzip"
     }
 }

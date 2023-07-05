@@ -276,6 +276,7 @@ dependencies {
 
     /* HTTP & Network */
     implementation("com.squareup.okhttp3:okhttp:$okHttpVersion")
+    implementation("com.squareup.okhttp3:okhttp-brotli:$okHttpVersion")
     implementation("io.github.rburgst:okhttp-digest:2.6")
     implementation("com.github.franmontiel:PersistentCookieJar:v1.0.1")
     implementation("org.conscrypt:conscrypt-android:2.5.2")

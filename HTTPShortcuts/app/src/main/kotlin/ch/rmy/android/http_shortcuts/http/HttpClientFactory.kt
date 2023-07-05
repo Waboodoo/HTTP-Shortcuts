@@ -55,6 +55,7 @@ constructor() {
                 val authenticator = DigestAuthenticator(Credentials(username, password))
                 authenticator(authenticator)
             }
+            .addInterceptor(CompressionInterceptor)
             .followRedirects(followRedirects)
             .followSslRedirects(followRedirects)
             .connectTimeout(timeout, TimeUnit.MILLISECONDS)
