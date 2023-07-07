@@ -1,24 +1,14 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import ch.rmy.android.http_shortcuts.utils.ActivityProvider
-import javax.inject.Inject
 
 class SelectionAction(
     private val dataObject: Map<String, Any?>?,
     private val dataList: List<Any?>?,
 ) : BaseAction() {
-
-    @Inject
-    lateinit var activityProvider: ActivityProvider
-
-    override fun inject(applicationComponent: ApplicationComponent) {
-        applicationComponent.inject(this)
-    }
 
     override suspend fun execute(executionContext: ExecutionContext): String? {
         val options = parseData(dataObject, dataList)

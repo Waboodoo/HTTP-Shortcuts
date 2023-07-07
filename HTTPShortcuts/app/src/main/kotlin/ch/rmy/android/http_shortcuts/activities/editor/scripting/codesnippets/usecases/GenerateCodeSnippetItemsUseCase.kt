@@ -191,6 +191,13 @@ constructor(
                     insertText("prompt(\"Message", "\")")
                 }
                 item(
+                    R.string.action_type_prompt_number_title,
+                    docRef = "prompt-number",
+                    keywords = setOf("dialog", "display", "show", "prompt", "number", "integer", "float", "double", "digits", "input"),
+                ) {
+                    insertText("promptNumber(\"Message", "\")")
+                }
+                item(
                     R.string.action_type_prompt_password_title,
                     docRef = "prompt-password",
                     keywords = setOf("dialog", "display", "show", "prompt", "text", "input", "passphrase", "pin", "secret", "hidden"),

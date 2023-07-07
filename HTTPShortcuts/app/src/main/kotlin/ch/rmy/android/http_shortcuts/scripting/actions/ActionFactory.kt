@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.PlaySoundActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptColorActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptDateActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptNumberActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptPasswordActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptTimeActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutActionType
@@ -92,6 +93,7 @@ constructor() {
                 PromptActionType(),
                 PromptColorActionType(),
                 PromptDateActionType(),
+                PromptNumberActionType(),
                 PromptPasswordActionType(),
                 PromptTimeActionType(),
                 RenameShortcutActionType(),

@@ -27,21 +27,9 @@ class NumberType : BaseVariableType() {
                 type = ExecuteDialogState.TextInput.Type.NUMBER,
             ),
         )
-            .let(::sanitize)
         if (variable.rememberValue) {
             variablesRepository.setVariableValue(variable.id, value)
         }
         return value
     }
-
-    private fun sanitize(input: String) =
-        input.trimEnd('.')
-            .let {
-                when {
-                    it.startsWith("-.") -> "-0.${it.drop(2)}"
-                    it.startsWith(".") -> "0$it"
-                    it.isEmpty() || it == "-" -> "0"
-                    else -> it
-                }
-            }
 }

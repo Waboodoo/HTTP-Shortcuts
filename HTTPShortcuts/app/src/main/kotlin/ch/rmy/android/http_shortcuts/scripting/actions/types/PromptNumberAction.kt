@@ -6,9 +6,9 @@ import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.variables.Variables
 
-class ConfirmAction(private val message: String) : BaseAction() {
+class PromptNumberAction(private val message: String, private val prefill: String) : BaseAction() {
 
-    override suspend fun execute(executionContext: ExecutionContext): Boolean? {
+    override suspend fun execute(executionContext: ExecutionContext): Double? {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(
             message,
             executionContext.variableManager.getVariableValuesByIds(),
@@ -20,11 +20,16 @@ class ConfirmAction(private val message: String) : BaseAction() {
 
         return try {
             executionContext.dialogHandle.showDialog(
-                ExecuteDialogState.GenericConfirm(finalMessage.toLocalizable())
+                ExecuteDialogState.TextInput(
+                    message = finalMessage.toLocalizable(),
+                    type = ExecuteDialogState.TextInput.Type.NUMBER,
+                    initialValue = prefill,
+                )
             )
-            true
+                .toDoubleOrNull()
+                ?: Double.NaN
         } catch (e: DialogCancellationException) {
-            false
+            null
         }
     }
 }

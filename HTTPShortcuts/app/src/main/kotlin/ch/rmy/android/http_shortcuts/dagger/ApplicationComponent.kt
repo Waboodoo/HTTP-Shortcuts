@@ -50,9 +50,7 @@ import ch.rmy.android.http_shortcuts.scheduling.ExecutionSchedulerWorker
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionWorker
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeDescriptionAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeIconAction
-import ch.rmy.android.http_shortcuts.scripting.actions.types.ConfirmAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.CopyToClipboardAction
-import ch.rmy.android.http_shortcuts.scripting.actions.types.DialogAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.EnqueueShortcutAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ExecuteShortcutAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetClipboardContentAction
@@ -62,14 +60,9 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.LogEventAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenAppAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenURLAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PlaySoundAction
-import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptColorAction
-import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptDateAction
-import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptPasswordAction
-import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptTimeAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ScanBarcodeAction
-import ch.rmy.android.http_shortcuts.scripting.actions.types.SelectionAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendIntentAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableAction
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ShareTextAction
@@ -226,17 +219,9 @@ interface ApplicationComponent {
 
     fun inject(wifiIPAction: WifiIPAction)
 
-    fun inject(confirmAction: ConfirmAction)
-
-    fun inject(dialogAction: DialogAction)
-
-    fun inject(promptAction: PromptAction)
-
     fun inject(scanBarcodeAction: ScanBarcodeAction)
 
     fun inject(httpRequesterWorker: HttpRequesterWorker)
-
-    fun inject(selectionAction: SelectionAction)
 
     fun inject(executeShortcutAction: ExecuteShortcutAction)
 
@@ -258,13 +243,7 @@ interface ApplicationComponent {
 
     fun inject(textToSpeechAction: TextToSpeechAction)
 
-    fun inject(promptDateAction: PromptDateAction)
-
-    fun inject(promptTimeAction: PromptTimeAction)
-
     fun inject(promptColorAction: PromptColorAction)
-
-    fun inject(promptPasswordAction: PromptPasswordAction)
 
     fun inject(historyViewModel: HistoryViewModel)
 

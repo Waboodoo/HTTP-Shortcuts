@@ -31,6 +31,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.ColorPickerDialog
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
@@ -128,7 +129,12 @@ private fun ExecuteDialog(
                 },
                 onDismissRequest = { value ->
                     if (value != null) {
-                        onResult(value)
+                        onResult(
+                            value
+                                .runIf(dialogState.type == ExecuteDialogState.TextInput.Type.NUMBER) {
+                                    sanitizeNumber(this)
+                                }
+                        )
                     } else {
                         onDismissed()
                     }
@@ -402,3 +408,14 @@ private fun ShowResultDialog(
 }
 
 private val UTC = ZoneId.of("UTC")
+
+private fun sanitizeNumber(input: String) =
+    input.trimEnd('.')
+        .let {
+            when {
+                it.startsWith("-.") -> "-0.${it.drop(2)}"
+                it.startsWith(".") -> "0$it"
+                it.isEmpty() || it == "-" -> "0"
+                else -> it
+            }
+        }

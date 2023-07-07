@@ -710,6 +710,8 @@
     <string name="action_type_selection_title">Show Selection (Multiple-Choice)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
     <string name="action_type_prompt_title">Prompt for Text</string>
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
+    <string name="action_type_prompt_number_title">Prompt for Number</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
     <string name="action_type_prompt_date_title">Prompt for Date</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a time -->
