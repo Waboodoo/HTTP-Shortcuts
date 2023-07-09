@@ -215,6 +215,17 @@ if (confirm('Are you sure?')) {
 const myName = prompt('What is your name?');
 ```
 
+<a name="prompt-number"></a>
+### promptNumber
+
+You can use the `promptNumber`function to open an input dialog that asks for a number. The entered number will be the return value, or `null` if the dialog is cancelled. If the entered value is not a valid number `NaN` will be returned.
+
+As the first parameter pass the text to display on the dialog. This must not be empty. As an optional second parameter you may pass a default value which is used to prefill the input field.
+
+```js
+const myNumber = promptNumber('What is your favorite number?', 42);
+```
+
 <a name="prompt-password"></a>
 ### promptPassword
 
