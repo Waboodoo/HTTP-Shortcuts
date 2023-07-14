@@ -18,18 +18,17 @@ import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Title
 import androidx.compose.material.icons.outlined.TouchApp
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.SettingsButton
+import ch.rmy.android.http_shortcuts.components.SettingsGroup
 import ch.rmy.android.http_shortcuts.components.SettingsSelection
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.utils.Settings.Companion.DARK_THEME_AUTO
 import ch.rmy.android.http_shortcuts.utils.Settings.Companion.DARK_THEME_OFF
 import ch.rmy.android.http_shortcuts.utils.Settings.Companion.DARK_THEME_ON
-import com.alorma.compose.settings.ui.SettingsGroup
 
 @Composable
 fun SettingsContent(
@@ -63,7 +62,7 @@ fun SettingsContent(
             .verticalScroll(rememberScrollState()),
     ) {
         SettingsGroup(
-            title = { Text(stringResource(R.string.settings_title_basic)) },
+            title = stringResource(R.string.settings_title_basic),
         ) {
             SettingsSelection(
                 icon = Icons.Outlined.Language,
@@ -137,7 +136,7 @@ fun SettingsContent(
         }
 
         SettingsGroup(
-            title = { Text(stringResource(R.string.settings_title_global_shortcut_settings)) },
+            title = stringResource(R.string.settings_title_global_shortcut_settings),
         ) {
             SettingsSelection(
                 icon = Icons.Outlined.TouchApp,
@@ -166,7 +165,7 @@ fun SettingsContent(
 
         if (privacySectionVisible) {
             SettingsGroup(
-                title = { Text(stringResource(R.string.settings_title_privacy)) },
+                title = stringResource(R.string.settings_title_privacy),
             ) {
                 SettingsSelection(
                     icon = Icons.Outlined.BugReport,
@@ -182,7 +181,7 @@ fun SettingsContent(
         }
 
         SettingsGroup(
-            title = { Text(stringResource(R.string.settings_troubleshooting)) },
+            title = stringResource(R.string.settings_troubleshooting),
         ) {
             SettingsButton(
                 icon = Icons.Outlined.History,

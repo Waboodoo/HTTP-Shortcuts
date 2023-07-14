@@ -25,9 +25,9 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.models.ShareSup
 import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.SelectionField
+import ch.rmy.android.http_shortcuts.components.SettingsGroup
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.localize
-import com.alorma.compose.settings.ui.SettingsGroup
 
 @Composable
 fun VariableEditorContent(
@@ -57,7 +57,7 @@ fun VariableEditorContent(
         verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
     ) {
         SettingsGroup(
-            title = { Text(stringResource(R.string.section_basic_variable_settings)) },
+            title = stringResource(R.string.section_basic_variable_settings),
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -87,7 +87,7 @@ fun VariableEditorContent(
         typeSpecificContent()
 
         SettingsGroup(
-            title = { Text(stringResource(R.string.section_advanced_settings)) },
+            title = stringResource(R.string.section_advanced_settings),
         ) {
             Checkbox(
                 label = stringResource(R.string.label_url_encode),

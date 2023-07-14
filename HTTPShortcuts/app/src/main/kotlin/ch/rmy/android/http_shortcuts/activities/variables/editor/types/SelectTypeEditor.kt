@@ -41,10 +41,10 @@ import ch.rmy.android.framework.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.FontSize
+import ch.rmy.android.http_shortcuts.components.SettingsGroup
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderText
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
-import com.alorma.compose.settings.ui.SettingsGroup
 import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
@@ -103,7 +103,7 @@ fun SelectTypeEditor(
     }
 
     SettingsGroup(
-        title = { Text(stringResource(R.string.section_select_options)) },
+        title = stringResource(R.string.section_select_options),
     ) {
         OptionsList(
             options = viewState.options,

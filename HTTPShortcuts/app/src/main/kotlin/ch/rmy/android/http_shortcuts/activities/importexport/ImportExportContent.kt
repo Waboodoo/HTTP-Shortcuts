@@ -17,8 +17,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.SettingsButton
+import ch.rmy.android.http_shortcuts.components.SettingsGroup
 import com.alorma.compose.settings.storage.base.rememberBooleanSettingState
-import com.alorma.compose.settings.ui.SettingsGroup
 import com.alorma.compose.settings.ui.SettingsSwitch
 
 @Composable
@@ -37,7 +37,7 @@ fun ImportExportContent(
             .verticalScroll(rememberScrollState()),
     ) {
         SettingsGroup(
-            title = { Text(stringResource(R.string.settings_title_import)) },
+            title = stringResource(R.string.settings_title_import),
         ) {
             SettingsButton(
                 icon = Icons.Outlined.Input,
@@ -53,7 +53,7 @@ fun ImportExportContent(
         }
 
         SettingsGroup(
-            title = { Text(stringResource(R.string.settings_title_export)) },
+            title = stringResource(R.string.settings_title_export),
         ) {
             SettingsButton(
                 icon = Icons.Outlined.Output,
@@ -79,7 +79,7 @@ fun ImportExportContent(
         }
 
         SettingsGroup(
-            title = { Text(stringResource(R.string.settings_title_remote_edit)) },
+            title = stringResource(R.string.settings_title_remote_edit),
         ) {
             SettingsButton(
                 icon = Icons.Outlined.Devices,
