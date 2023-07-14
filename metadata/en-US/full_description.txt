@@ -6,16 +6,17 @@ Place shortcuts (widgets) on your home screen to submit HTTP requests to all you
 <li>Basic Authentication, Digest Authentication, Bearer Authentication & Client Certificate Authentication</li>
 <li>Custom request headers</li>
 <li>Custom request body (text only)</li>
-<li>Upload files as form-data</li>
+<li>Upload files as form-data or request body</li>
 <li>Support for HTTP proxies</li>
-<li>Built-in icons, support for Ipack icons and custom icons</li>
+<li>Support for self-signed certificates</li>
+<li>Built-in icons, support for custom icons</li>
 <li>Display response as a toast, window or dialog, or run silently</li>
 <li>Grouping into categories through tabs</li>
 <li>Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)</li>
 <li>Run arbitrary JavaScript before & after execution, including special actions (e.g., vibrate, show toast, parse and process response…)</li>
 <li>Import & Export in JSON or cURL format</li>
 <li>3rd party integration (e.g. Tasker)</li>
-<li>Themes (with Dark Mode support)</li>
+<li>Dark Mode support</li>
 </ul>
 
 Some ideas what to use HTTP shortcuts for:
