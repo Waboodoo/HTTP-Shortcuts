@@ -18,6 +18,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.LinkedList
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -51,27 +52,42 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
         }
     }
 
-    private lateinit var codeOnPrepare: String
-    private lateinit var codeOnSuccess: String
-    private lateinit var codeOnFailure: String
     private lateinit var shortcutExecutionType: ShortcutExecutionType
 
     private suspend fun initViewStateFromShortcut(shortcut: Shortcut) {
-        codeOnPrepare = codeTransformer.transformForEditing(shortcut.codeOnPrepare)
-        codeOnSuccess = codeTransformer.transformForEditing(shortcut.codeOnSuccess)
-        codeOnFailure = codeTransformer.transformForEditing(shortcut.codeOnFailure)
+        history.push(
+            HistoryState(
+                codeOnPrepare = codeTransformer.transformForEditing(shortcut.codeOnPrepare),
+                codeOnSuccess = codeTransformer.transformForEditing(shortcut.codeOnSuccess),
+                codeOnFailure = codeTransformer.transformForEditing(shortcut.codeOnFailure),
+            ),
+        )
         shortcutExecutionType = shortcut.type
     }
 
-    override fun initViewState() = ScriptingViewState(
-        codeOnPrepare = codeOnPrepare,
-        codeOnSuccess = codeOnSuccess,
-        codeOnFailure = codeOnFailure,
-        shortcutExecutionType = shortcutExecutionType,
-    )
+    override fun initViewState(): ScriptingViewState {
+        val historyState = history.peekLast()!!
+        return ScriptingViewState(
+            codeOnPrepare = historyState.codeOnPrepare,
+            codeOnSuccess = historyState.codeOnSuccess,
+            codeOnFailure = historyState.codeOnFailure,
+            shortcutExecutionType = shortcutExecutionType,
+        )
+    }
 
     private var isFinishing: Boolean = false
     private var persistJob: Job? = null
+        set(value) {
+            field?.cancel()
+            field = value
+        }
+
+    private val history = LinkedList<HistoryState>()
+    private var captureHistoryStateJob: Job? = null
+        set(value) {
+            field?.cancel()
+            field = value
+        }
 
     private fun onInitializationError(error: Throwable) {
         handleUnexpectedError(error)
@@ -85,6 +101,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
             )
         }
         schedulePersisting()
+        scheduleHistoryCapture()
     }
 
     fun onCodeSuccessChanged(code: String) {
@@ -94,6 +111,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
             )
         }
         schedulePersisting()
+        scheduleHistoryCapture()
     }
 
     fun onCodeFailureChanged(code: String) {
@@ -103,13 +121,13 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
             )
         }
         schedulePersisting()
+        scheduleHistoryCapture()
     }
 
     private fun schedulePersisting() {
         if (isFinishing) {
             return
         }
-        persistJob?.cancel()
         persistJob = viewModelScope.launch(Dispatchers.IO) {
             delay(500.milliseconds)
             currentViewState?.run {
@@ -118,6 +136,28 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
                     codeTransformer.transformForStoring(codeOnSuccess),
                     codeTransformer.transformForStoring(codeOnFailure),
                 )
+            }
+        }
+    }
+
+    private fun scheduleHistoryCapture() {
+        if (isFinishing) {
+            captureHistoryStateJob = null
+            return
+        }
+        captureHistoryStateJob = viewModelScope.launch {
+            delay(500.milliseconds)
+            val viewState = currentViewState ?: return@launch
+            val newState = HistoryState(viewState.codeOnPrepare, viewState.codeOnSuccess, viewState.codeOnFailure)
+            if (history.peekLast() == newState) {
+                return@launch
+            }
+            history.add(newState)
+            while (history.size > MAX_HISTORY_SIZE) {
+                history.removeFirst()
+            }
+            updateViewState {
+                copy(isUndoButtonEnabled = true)
             }
         }
     }
@@ -151,5 +191,36 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
             waitForOperationsToFinish()
             openActivity(ExecuteActivity.IntentBuilder(Shortcut.TEMPORARY_ID).trigger(ShortcutTriggerType.TEST_IN_EDITOR))
         }
+    }
+
+    fun onUndoButtonClicked() {
+        history.pollLast()
+            ?: return
+        val historyState = history.peekLast()
+            ?: return
+        updateViewState {
+            copy(
+                codeOnPrepare = historyState.codeOnPrepare,
+                codeOnFailure = historyState.codeOnFailure,
+                codeOnSuccess = historyState.codeOnSuccess,
+            )
+        }
+        schedulePersisting()
+
+        if (history.size <= 1) {
+            updateViewState {
+                copy(isUndoButtonEnabled = false)
+            }
+        }
+    }
+
+    data class HistoryState(
+        val codeOnPrepare: String,
+        var codeOnSuccess: String,
+        var codeOnFailure: String,
+    )
+
+    companion object {
+        private const val MAX_HISTORY_SIZE = 30
     }
 }

@@ -8,6 +8,7 @@ data class ScriptingViewState(
     val codeOnPrepare: String = "",
     val codeOnSuccess: String = "",
     val codeOnFailure: String = "",
+    val isUndoButtonEnabled: Boolean = false,
     val shortcutExecutionType: ShortcutExecutionType = ShortcutExecutionType.APP,
 ) {
     val isTestButtonVisible: Boolean

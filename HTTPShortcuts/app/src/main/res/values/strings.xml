@@ -1434,4 +1434,6 @@
     <string name="label_host_verification_certificate_fingerprint">Certificate Fingerprint</string>
     <!-- Hint text for text input field in host verification settings, for specifying the fingerprint of the certificate -->
     <string name="hint_host_verification_certificate_fingerprint">Enter the hex-encoded SHA-1 or SHA-256 fingerprint of your (self-signed) server certificate</string>
+    <!-- Button label, for button shown in Scripting editor nav bar to allow the user to undo a recent change -->
+    <string name="button_undo">Undo</string>
 </resources>

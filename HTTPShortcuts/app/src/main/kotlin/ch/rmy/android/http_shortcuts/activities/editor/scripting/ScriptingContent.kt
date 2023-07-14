@@ -164,8 +164,11 @@ private fun CodeSection(
         value = textFieldValue,
         minLines = minLines,
         onValueChange = {
+            val hasChanged = textFieldValue.text != it.text
             textFieldValue = it
-            onCodeChanged(it.text)
+            if (hasChanged) {
+                onCodeChanged(it.text)
+            }
         },
         placeholder = placeholder,
     )
