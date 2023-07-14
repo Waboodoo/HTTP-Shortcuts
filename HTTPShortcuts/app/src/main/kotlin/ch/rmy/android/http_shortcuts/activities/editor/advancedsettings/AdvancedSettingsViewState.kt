@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.advancedsettings
 import androidx.compose.runtime.Stable
 import ch.rmy.android.framework.utils.localization.DurationLocalizable
 import ch.rmy.android.framework.utils.localization.Localizable
+import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.models.HostVerificationType
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import kotlin.time.Duration
 
@@ -10,7 +11,9 @@ import kotlin.time.Duration
 data class AdvancedSettingsViewState(
     val dialogState: AdvancedSettingsDialogState? = null,
     val followRedirects: Boolean,
-    val acceptAllCertificates: Boolean,
+    val hostVerificationEnabled: Boolean,
+    val hostVerificationType: HostVerificationType,
+    val certificateFingerprint: String,
     val acceptCookies: Boolean,
     val timeout: Duration,
     val proxyType: ProxyType?,

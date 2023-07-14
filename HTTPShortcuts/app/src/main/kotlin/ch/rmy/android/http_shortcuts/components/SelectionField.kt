@@ -18,8 +18,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import ch.rmy.android.http_shortcuts.extensions.runIf
 
 @Composable
 fun <T> SelectionField(
@@ -28,8 +30,9 @@ fun <T> SelectionField(
     items: List<Pair<T, String>>,
     onItemSelected: (T) -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by remember(enabled) { mutableStateOf(false) }
     var dropdownWidth by remember { mutableStateOf(0) }
 
     Box(
@@ -43,23 +46,28 @@ fun <T> SelectionField(
         TextField(
             modifier = Modifier
                 .fillMaxWidth(),
+            enabled = enabled,
             label = {
                 Text(title)
             },
             value = items.find { it.first == selectedKey }?.second ?: "",
             onValueChange = {},
-            singleLine = true,
             interactionSource = clickOnlyInteractionSource {
-                expanded = !expanded
+                if (enabled) {
+                    expanded = !expanded
+                }
             },
             readOnly = true,
-        )
-
-        Icon(
-            Icons.Outlined.ArrowDropDown, null,
-            modifier = Modifier
-                .padding(Spacing.SMALL)
-                .align(Alignment.CenterEnd),
+            trailingIcon = {
+                Icon(
+                    Icons.Outlined.ArrowDropDown, null,
+                    modifier = Modifier
+                        .padding(Spacing.SMALL)
+                        .runIf(!enabled) {
+                            alpha(0.4f)
+                        },
+                )
+            }
         )
 
         DropdownMenu(

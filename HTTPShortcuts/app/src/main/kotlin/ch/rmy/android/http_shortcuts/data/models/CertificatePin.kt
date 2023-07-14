@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
+import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 
@@ -16,7 +17,7 @@ class CertificatePin() : RealmObject {
     var pattern: String = ""
 
     /**
-     * Base64-encoded hash, either SHA-1 or SHA-256.
+     * Hex-encoded hash, either SHA-1 or SHA-256.
      */
     var hash: String = ""
 
@@ -24,7 +25,7 @@ class CertificatePin() : RealmObject {
         require(pattern.isNotEmpty()) {
             "Certificate pin without host pattern found"
         }
-        require(hash.matches("([0-9A-Fa-f]{40}|[0-9A-Fa-f]{64})".toRegex())) {
+        require(hash.isValidCertificateFingerprint()) {
             "Invalid certificate fingerprint found: $hash"
         }
     }

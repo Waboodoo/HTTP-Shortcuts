@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import io.realm.kotlin.ext.realmListOf
@@ -62,6 +63,11 @@ class Shortcut() : RealmObject {
     var parameters: RealmList<Parameter> = realmListOf()
 
     var acceptAllCertificates: Boolean = false
+
+    /**
+     * Hex-encoded SHA-1 or SHA-256 fingerprint of expected (self-signed) server certificate, or empty string if not used
+     */
+    var certificateFingerprint: String = ""
 
     private var authentication: String? = ShortcutAuthenticationType.NONE.type
 
@@ -179,6 +185,7 @@ class Shortcut() : RealmObject {
             other.secondaryLauncherShortcut != secondaryLauncherShortcut ||
             other.quickSettingsTileShortcut != quickSettingsTileShortcut ||
             other.acceptAllCertificates != acceptAllCertificates ||
+            other.certificateFingerprint != certificateFingerprint ||
             other.delay != delay ||
             other.parameters.size != parameters.size ||
             other.headers.size != headers.size ||
@@ -275,6 +282,9 @@ class Shortcut() : RealmObject {
         }
         require(delay >= 0) {
             "Invalid delay: $delay"
+        }
+        require(certificateFingerprint.isEmpty() || certificateFingerprint.isValidCertificateFingerprint()) {
+            "Invalid self-signed certificate fingerprint found: $certificateFingerprint"
         }
         headers.forEach(Header::validate)
         parameters.forEach(Parameter::validate)

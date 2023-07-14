@@ -351,6 +351,12 @@ constructor(
         }
     }
 
+    suspend fun setCertificateFingerprint(certificateFingerprint: String) {
+        commitTransactionForShortcut { shortcut ->
+            shortcut.certificateFingerprint = certificateFingerprint
+        }
+    }
+
     suspend fun setAcceptCookies(acceptCookies: Boolean) {
         commitTransactionForShortcut { shortcut ->
             shortcut.acceptCookies = acceptCookies

@@ -3,10 +3,12 @@ package ch.rmy.android.http_shortcuts.activities.editor.advancedsettings
 import android.app.Application
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.models.HostVerificationType
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,7 +50,9 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
 
     private fun createInitialViewState(shortcut: Shortcut) = AdvancedSettingsViewState(
         followRedirects = shortcut.followRedirects,
-        acceptAllCertificates = shortcut.acceptAllCertificates,
+        certificateFingerprint = shortcut.certificateFingerprint,
+        hostVerificationEnabled = !shortcut.url.startsWith("http:", ignoreCase = true),
+        hostVerificationType = shortcut.getHostVerificationType(),
         acceptCookies = shortcut.acceptCookies,
         timeout = shortcut.timeout.milliseconds,
         proxyType = shortcut.proxyType.takeUnless { shortcut.proxyHost.isNullOrEmpty() },
@@ -59,6 +63,13 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
         requireSpecificWifi = shortcut.wifiSsid.isNotEmpty(),
         wifiSsid = shortcut.wifiSsid,
     )
+
+    private fun Shortcut.getHostVerificationType() =
+        when {
+            acceptAllCertificates -> HostVerificationType.TRUST_ALL
+            certificateFingerprint.isNotEmpty() -> HostVerificationType.SELF_SIGNED
+            else -> HostVerificationType.DEFAULT
+        }
 
     private fun onInitializationError(error: Throwable) {
         handleUnexpectedError(error)
@@ -74,12 +85,34 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
         }
     }
 
-    fun onAcceptAllCertificatesChanged(acceptAllCertificates: Boolean) {
+    fun onHostVerificationTypeChanged(hostVerificationType: HostVerificationType) {
         updateViewState {
-            copy(acceptAllCertificates = acceptAllCertificates)
+            copy(
+                hostVerificationType = hostVerificationType,
+                certificateFingerprint = when (hostVerificationType) {
+                    HostVerificationType.DEFAULT,
+                    HostVerificationType.TRUST_ALL,
+                    -> ""
+                    HostVerificationType.SELF_SIGNED -> certificateFingerprint
+                }
+            )
         }
         launchWithProgressTracking {
-            temporaryShortcutRepository.setAcceptAllCertificates(acceptAllCertificates)
+            if (hostVerificationType != HostVerificationType.SELF_SIGNED) {
+                temporaryShortcutRepository.setCertificateFingerprint("")
+            }
+            temporaryShortcutRepository.setAcceptAllCertificates(hostVerificationType == HostVerificationType.TRUST_ALL)
+        }
+    }
+
+    fun onCertificateFingerprintChanged(certificateFingerprint: String) {
+        updateViewState {
+            copy(certificateFingerprint = certificateFingerprint)
+        }
+        if (certificateFingerprint.isEmpty() || certificateFingerprint.isValidCertificateFingerprint()) {
+            launchWithProgressTracking {
+                temporaryShortcutRepository.setCertificateFingerprint(certificateFingerprint)
+            }
         }
     }
 

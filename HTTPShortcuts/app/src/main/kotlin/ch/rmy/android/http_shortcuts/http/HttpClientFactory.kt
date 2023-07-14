@@ -7,6 +7,7 @@ import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
+import ch.rmy.android.http_shortcuts.data.enums.HostVerificationConfig
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.exceptions.ClientCertException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidProxyException
@@ -21,12 +22,10 @@ import java.net.InetSocketAddress
 import java.net.PasswordAuthentication
 import java.net.Proxy
 import java.security.KeyStore
-import java.security.SecureRandom
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.net.ssl.KeyManagerFactory
 import javax.net.ssl.SSLContext
-import javax.net.ssl.X509TrustManager
 
 class HttpClientFactory
 @Inject
@@ -35,7 +34,6 @@ constructor() {
     fun getClient(
         context: Context,
         clientCertParams: ClientCertParams? = null,
-        acceptAllCertificates: Boolean = false,
         username: String? = null,
         password: String? = null,
         followRedirects: Boolean = true,
@@ -43,14 +41,9 @@ constructor() {
         proxy: ProxyParams? = null,
         cookieJar: CookieJar? = null,
         certificatePins: List<CertificatePin> = emptyList(),
+        hostVerificationConfig: HostVerificationConfig = HostVerificationConfig.Default,
     ): OkHttpClient =
-        (
-            if (acceptAllCertificates) {
-                createUnsafeOkHttpClientBuilder()
-            } else {
-                createDefaultOkHttpClientBuilder(context, clientCertParams)
-            }
-            )
+        createOkHttpClientBuilder(context, hostVerificationConfig, clientCertParams)
             .runIf(username != null && password != null) {
                 val authenticator = DigestAuthenticator(Credentials(username, password))
                 authenticator(authenticator)
@@ -100,10 +93,18 @@ constructor() {
             }
             .build()
 
-    private fun createDefaultOkHttpClientBuilder(context: Context, clientCertParams: ClientCertParams?) = OkHttpClient.Builder()
+    private fun createOkHttpClientBuilder(
+        context: Context,
+        hostVerificationConfig: HostVerificationConfig,
+        clientCertParams: ClientCertParams?,
+    ) = OkHttpClient.Builder()
         .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.CLEARTEXT))
         .run {
-            val trustManager = Conscrypt.getDefaultX509TrustManager()
+            val trustManager = when (hostVerificationConfig) {
+                HostVerificationConfig.Default -> Conscrypt.getDefaultX509TrustManager()
+                is HostVerificationConfig.SelfSigned -> UnsafeTrustManager(expectedFingerprint = hostVerificationConfig.expectedFingerprint)
+                HostVerificationConfig.TrustAll -> UnsafeTrustManager()
+            }
             val sslContext = SSLContext.getInstance("TLS", "Conscrypt")
 
             val keyManagers = when (clientCertParams) {
@@ -132,16 +133,4 @@ constructor() {
             sslContext.init(keyManagers, arrayOf(trustManager), null)
             sslSocketFactory(TLSEnabledSSLSocketFactory(sslContext.socketFactory), trustManager)
         }
-
-    private fun createUnsafeOkHttpClientBuilder(): OkHttpClient.Builder {
-        val trustAllCerts = arrayOf<X509TrustManager>(UnsafeTrustManager())
-
-        val sslContext = SSLContext.getInstance("SSL")
-        sslContext.init(null, trustAllCerts, SecureRandom())
-        val sslSocketFactory = sslContext.socketFactory
-
-        return OkHttpClient.Builder()
-            .sslSocketFactory(sslSocketFactory, trustAllCerts[0])
-            .hostnameVerifier { _, _ -> true }
-    }
 }

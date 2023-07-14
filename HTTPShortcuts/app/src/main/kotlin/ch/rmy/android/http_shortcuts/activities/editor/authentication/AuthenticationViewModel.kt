@@ -60,7 +60,7 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
                 password = shortcut.password,
                 token = shortcut.authToken,
                 clientCertParams = shortcut.clientCertParams,
-                isClientCertButtonEnabled = !shortcut.acceptAllCertificates,
+                isClientCertButtonEnabled = !shortcut.url.startsWith("http://", ignoreCase = true),
             )
         }
     }

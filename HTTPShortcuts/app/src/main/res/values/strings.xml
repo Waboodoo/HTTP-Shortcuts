@@ -345,10 +345,6 @@
     <string name="label_authentication_method">Authentication Method</string>
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">Don\'t show again</string>
-    <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="label_accept_all_certificates">Accept any certificate</string>
-    <!-- checkbox subtitle in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="subtitle_accept_all_certificates">If you know what you\'re doing…</string>
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
     <string name="label_require_execution_confirmation">Require confirmation before execution</string>
     <!-- Page title, for page listing all the libraries and 3rd party assets used in the app -->
@@ -1397,7 +1393,7 @@
     <!-- Title of editor for configuring certificate pinning -->
     <string name="title_certificate_pinning">Certificate Pinning</string>
     <!-- Empty state instructions for certificate pinning screen -->
-    <string name="empty_state_certificate_pinning_instructions">If you need to be extra certain that your HTTP requests are sent over a secure connection, you can enable certificate pinning for specific hosts by adding the SHA-1 or SHA-256 fingerprint of their certificate here.</string>
+    <string name="empty_state_certificate_pinning_instructions">If you need to be extra certain that your HTTP requests are sent over a secure connection, you can enable certificate pinning for specific hosts by adding the SHA-1 or SHA-256 fingerprint of their certificate here.\n\nFor self-signed certificates, check the shortcut\'s “%s” section instead.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
     <string name="message_certificate_pinning_deleted">Certificate fingerprint deleted.</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
@@ -1426,4 +1422,16 @@
     <string name="placeholder_empty_category_for_moving">no shortcuts in this category</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <string name="label_file_upload_options_allow_image_editing">"Allow cropping and rotating image"</string>
+    <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
+    <string name="label_host_verification">Host Verification</string>
+    <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
+    <string name="option_host_verification_default">Secure Default</string>
+    <!-- Option in host verification dropdown, for only checking the server's certificate fingerprint without validating the trust chain -->
+    <string name="option_host_verification_self_signed">Check Certificate Fingerprint only</string>
+    <!-- Option in host verification dropdown, for disabling any host verification, which is considered insecure and discouraged -->
+    <string name="option_host_verification_trust_all">No Verification (trust all, unsafe)</string>
+    <!-- Label for text input field in host verification settings, for specifying the fingerprint of the certificate -->
+    <string name="label_host_verification_certificate_fingerprint">Certificate Fingerprint</string>
+    <!-- Hint text for text input field in host verification settings, for specifying the fingerprint of the certificate -->
+    <string name="hint_host_verification_certificate_fingerprint">Enter the hex-encoded SHA-1 or SHA-256 fingerprint of your (self-signed) server certificate</string>
 </resources>

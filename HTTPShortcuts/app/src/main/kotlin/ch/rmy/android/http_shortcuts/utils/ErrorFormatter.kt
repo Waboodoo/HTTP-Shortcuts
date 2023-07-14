@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.Base64
 import androidx.annotation.StringRes
 import ch.rmy.android.framework.extensions.runIf
-import ch.rmy.android.framework.extensions.toHexString
+import ch.rmy.android.framework.extensions.toChunkedHexString
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.R
@@ -79,10 +79,7 @@ constructor(
             val (algorithm, base64hash) = match.destructured
             try {
                 val formattedHash = Base64.decode(base64hash, Base64.DEFAULT)
-                    .toHexString()
-                    .uppercase()
-                    .chunked(2)
-                    .joinToString(":")
+                    .toChunkedHexString()
                 "${algorithm.uppercase()}/$formattedHash"
             } catch (e: IllegalArgumentException) {
                 match.value
@@ -99,7 +96,15 @@ constructor(
                 }
             }
             .map(::getSingleErrorMessage)
-            .distinct()
+            .run {
+                val messages = mutableListOf<String>()
+                forEach { message ->
+                    if (messages.none { it in message || message in it }) {
+                        messages.add(message)
+                    }
+                }
+                messages
+            }
             .joinToString(separator = "\n")
 
     private fun getCauseChain(error: Throwable, recursionDepth: Int = 0): List<Throwable> =

@@ -17,6 +17,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.models.HostVerificationType
+import ch.rmy.android.http_shortcuts.components.CertificateFingerprintTextField
 import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.SettingsButton
@@ -36,7 +38,9 @@ fun AdvancedSettingsContent(
     proxyPort: String,
     proxyUsername: String,
     proxyPassword: String,
-    acceptAllCertificates: Boolean,
+    hostVerificationEnabled: Boolean,
+    hostVerificationType: HostVerificationType,
+    certificateFingerprint: String,
     onFollowRedirectsChanged: (Boolean) -> Unit,
     onStoreCookiesChanged: (Boolean) -> Unit,
     onRequireSpecificWifiChanged: (Boolean) -> Unit,
@@ -47,7 +51,8 @@ fun AdvancedSettingsContent(
     onProxyPortChanged: (String) -> Unit,
     onProxyUsernameChanged: (String) -> Unit,
     onProxyPasswordChanged: (String) -> Unit,
-    onAcceptAllCertificates: (Boolean) -> Unit,
+    onHostVerificationTypeChanged: (HostVerificationType) -> Unit,
+    onCertificateFingerprintChanged: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
@@ -155,15 +160,49 @@ fun AdvancedSettingsContent(
 
         Divider()
 
-        Checkbox(
-            label = stringResource(R.string.label_accept_all_certificates),
-            subtitle = stringResource(R.string.subtitle_accept_all_certificates),
-            checked = acceptAllCertificates,
-            onCheckedChange = onAcceptAllCertificates,
-        )
+        Column(
+            modifier = Modifier.padding(Spacing.MEDIUM),
+            verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
+        ) {
+            HostVerificationTypeSelection(
+                enabled = hostVerificationEnabled,
+                hostVerificationType = hostVerificationType,
+                onHostVerificationTypeChanged = onHostVerificationTypeChanged,
+            )
+
+            AnimatedVisibility(visible = hostVerificationType == HostVerificationType.SELF_SIGNED) {
+                CertificateFingerprintTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = hostVerificationEnabled,
+                    label = stringResource(R.string.label_host_verification_certificate_fingerprint),
+                    placeholder = stringResource(R.string.hint_host_verification_certificate_fingerprint),
+                    value = certificateFingerprint,
+                    onValueChanged = onCertificateFingerprintChanged,
+                )
+            }
+        }
 
         Divider()
     }
+}
+
+@Composable
+private fun HostVerificationTypeSelection(
+    enabled: Boolean,
+    hostVerificationType: HostVerificationType,
+    onHostVerificationTypeChanged: (HostVerificationType) -> Unit,
+) {
+    SelectionField(
+        title = stringResource(R.string.label_host_verification),
+        selectedKey = hostVerificationType,
+        enabled = enabled,
+        items = listOf(
+            HostVerificationType.DEFAULT to stringResource(R.string.option_host_verification_default),
+            HostVerificationType.SELF_SIGNED to stringResource(R.string.option_host_verification_self_signed),
+            HostVerificationType.TRUST_ALL to stringResource(R.string.option_host_verification_trust_all),
+        ),
+        onItemSelected = onHostVerificationTypeChanged,
+    )
 }
 
 @Composable

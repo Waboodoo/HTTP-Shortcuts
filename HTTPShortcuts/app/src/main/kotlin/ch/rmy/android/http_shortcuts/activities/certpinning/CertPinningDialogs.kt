@@ -19,17 +19,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.input.OffsetMapping
-import androidx.compose.ui.text.input.TransformedText
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.components.CertificateFingerprintTextField
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.SelectDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
 
 @Composable
 fun CertPinningDialogs(
@@ -110,12 +109,12 @@ private fun EditorDialog(
         mutableStateOf(initialPattern)
     }
     var hashValue by rememberSaveable(key = "hash") {
-        mutableStateOf(sanitizeHash(initialHash))
+        mutableStateOf(initialHash)
     }
 
     val confirmButtonEnabled by remember {
         derivedStateOf {
-            patternValue.isValidPattern() && hashValue.isValidHash()
+            patternValue.isValidPattern() && hashValue.isValidCertificateFingerprint()
         }
     }
     AlertDialog(
@@ -145,30 +144,14 @@ private fun EditorDialog(
                     ),
                 )
 
-                TextField(
+                CertificateFingerprintTextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    label = {
-                        Text(stringResource(R.string.label_certificate_pinning_fingerprint))
-                    },
-                    placeholder = {
-                        Text(stringResource(R.string.hint_certificate_pinning_fingerprint))
-                    },
+                    label = stringResource(R.string.label_certificate_pinning_fingerprint),
+                    placeholder = stringResource(R.string.hint_certificate_pinning_fingerprint),
                     value = hashValue,
-                    onValueChange = {
-                        hashValue = sanitizeHash(it)
-                    },
-                    singleLine = false,
-                    textStyle = TextStyle(
-                        fontSize = FontSize.SMALL,
-                        fontFamily = FontFamily.Monospace,
-                    ),
-                    minLines = 5,
-                    visualTransformation = {
-                        TransformedText(
-                            AnnotatedString(transformHash(it.text)),
-                            HashOffsetMapping,
-                        )
+                    onValueChanged = {
+                        hashValue = it
                     },
                 )
             }
@@ -192,34 +175,11 @@ private fun EditorDialog(
 }
 
 private val PATTERN_REGEX = """^(\*{1,2}\.)?([A-Za-z0-9_\-]+\.)*[A-Za-z0-9_\-]+$""".toRegex()
-private val UNSUPPORTED_HASH_SYMBOLS_REGEX = "[^A-F0-9]".toRegex()
 private val UNSUPPORTED_PATTERN_SYMBOLS_REGEX = "[\\s,;]".toRegex()
 
 private fun String.isValidPattern(): Boolean =
     matches(PATTERN_REGEX)
 
-private fun String.isValidHash(): Boolean =
-    length == 40 || length == 64
-
 private fun sanitizePattern(input: String): String =
     input.lowercase()
         .replace(UNSUPPORTED_PATTERN_SYMBOLS_REGEX, "")
-
-private fun sanitizeHash(input: String): String =
-    input.uppercase()
-        .replace(UNSUPPORTED_HASH_SYMBOLS_REGEX, "")
-        .take(64)
-
-private fun transformHash(input: String): String =
-    input.chunked(2).joinToString(separator = ":")
-
-private object HashOffsetMapping : OffsetMapping {
-    override fun originalToTransformed(offset: Int): Int =
-        when (offset) {
-            0 -> 0
-            else -> offset + (offset + 1) / 2 - 1
-        }
-
-    override fun transformedToOriginal(offset: Int): Int =
-        offset - offset / 3
-}

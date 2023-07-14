@@ -45,5 +45,6 @@
     - [Trigger shortcut via app launcher](advanced.md#app-launcher)
     - [Integrating with Tasker](advanced.md#integrate-with-tasker)
     - [Certificate Pinning](advanced.md#certificate-pinning)
+    - [Using Self-Signed Certificates](advanced.md#self-signed-certificates)
 - [Privacy Policy](privacy-policy.md)
 

@@ -4,13 +4,14 @@ import android.content.ContentResolver
 import android.content.Context
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
+import ch.rmy.android.framework.extensions.fromHexString
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.enums.HostVerificationConfig
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
@@ -149,8 +150,6 @@ constructor(
             val useDigestAuth = shortcut.authenticationType == ShortcutAuthenticationType.DIGEST
             val client = httpClientFactory.getClient(
                 context = context,
-                clientCertParams = shortcut.clientCertParams,
-                acceptAllCertificates = shortcut.acceptAllCertificates,
                 username = requestData.username.takeIf { useDigestAuth },
                 password = requestData.password.takeIf { useDigestAuth },
                 followRedirects = shortcut.followRedirects,
@@ -158,6 +157,7 @@ constructor(
                 proxy = requestData.proxy,
                 cookieJar = cookieJar,
                 certificatePins = certificatePins.map(CertificatePin::toCertificatePin),
+                hostVerificationConfig = getSSLConfig(shortcut),
             )
 
             val request = RequestBuilder(shortcut.method, requestData.url)
@@ -257,10 +257,24 @@ constructor(
             }
         }
 
+    private fun getSSLConfig(shortcut: Shortcut): HostVerificationConfig {
+        if (shortcut.acceptAllCertificates) {
+            return HostVerificationConfig.TrustAll
+        }
+        shortcut.certificateFingerprint
+            .takeUnlessEmpty()
+            ?.fromHexString()
+            ?.let { expectedFingerprint ->
+                return HostVerificationConfig.SelfSigned(expectedFingerprint)
+            }
+
+        return HostVerificationConfig.Default
+    }
+
     private fun attachParameters(
         requestBuilder: RequestBuilder,
         shortcut: Shortcut,
-        variables: Map<VariableKey, String>,
+        variables: Map<VariableId, String>,
         fileUploadResult: FileUploadManager.Result?,
     ): RequestBuilder {
         var fileIndex = -1
