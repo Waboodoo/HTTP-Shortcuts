@@ -2170,4 +2170,19 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
 
     <!-- Button label, for button shown in Scripting editor nav bar to allow the user to undo a recent change -->
     <string name="button_undo">"Rückgängig machen"</string>
+
+    <!-- Error message shown when biometric (e.g. fingerprint) execution confirmation fails. %s is a placeholder for a more detailed description of the error -->
+    <string name="error_biometric_confirmation_failed">"Biometrische Bestätigung fehlgeschlagen: %s"</string>
+
+    <!-- Subtitle shown on biometric confirmation dialog (e.g. asking for a fingerprint), for confirming the execution of a shortcut -->
+    <string name="subtitle_biometric_confirmation_prompt">"Shortcut-Ausführung bestätigen"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: no confirmation -->
+    <string name="option_confirmation_none">"Keine Bestätigung"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: simple confirmation, i.e., only asking the user to press a button -->
+    <string name="option_confirmation_simple">"Einfache Bestätigung"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: biometric confirmation, i.e., asking the user to authenticate by fingerprint or similar -->
+    <string name="option_confirmation_biometric">"Biometrische Bestätigung"</string>
 </resources>
