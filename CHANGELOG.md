@@ -1,3 +1,15 @@
+## Version 3.2.0
+
+### Improvements
+- A shortcut can now be configured to only check the fingerprint of a server certificate instead of validating the whole chain-of-trust, which allows the use of self-signed certificates
+- In the Scripting editor, there is now an undo button
+- There is now a `promptNumber` function available for Scripting, which allows to request the input of a number
+
+### Bugfixes
+- HTTP responses encoded with Brotli can now be uncompressed and displayed correctly
+- Horizontal scrolling in large HTML responses is smoother now
+- Long section titles on the Settings screen are no longer cropped
+
 ## Version 3.1.0
 
 ### Improvments
