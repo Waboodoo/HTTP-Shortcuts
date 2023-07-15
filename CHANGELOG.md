@@ -4,6 +4,7 @@
 - A shortcut can now be configured to only check the fingerprint of a server certificate instead of validating the whole chain-of-trust, which allows the use of self-signed certificates
 - In the Scripting editor, there is now an undo button
 - There is now a `promptNumber` function available for Scripting, which allows to request the input of a number
+- In addition to a simple confirmation prompt, shortcuts can now be configured to require biometric confirmation before execution
 
 ### Bugfixes
 - HTTP responses encoded with Brotli can now be uncompressed and displayed correctly
