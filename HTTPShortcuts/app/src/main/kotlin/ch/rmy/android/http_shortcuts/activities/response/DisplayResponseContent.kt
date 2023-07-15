@@ -4,7 +4,9 @@ import android.net.Uri
 import android.text.format.Formatter
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -50,34 +52,42 @@ fun DisplayResponseContent(
     url: Uri?,
     limitExceeded: Long?,
 ) {
-    Column(
-        modifier = Modifier.verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
-    ) {
+    Column {
         if (detailInfo != null) {
-            DetailInfoCards(detailInfo)
+            DetailInfoCards(
+                detailInfo,
+                modifier = Modifier.weight(1f, fill = false)
+            )
         }
 
-        ResponseDisplay(
-            text = text,
-            mimeType = mimeType,
-            fileUri = fileUri,
-            url = url,
-            limitExceeded = limitExceeded,
-        )
+        Box(
+            modifier = Modifier.weight(3f, fill = false)
+        ) {
+            ResponseDisplay(
+                text = text,
+                mimeType = mimeType,
+                fileUri = fileUri,
+                url = url,
+                limitExceeded = limitExceeded,
+            )
+        }
     }
 }
 
 @Composable
-private fun DetailInfoCards(detailInfo: DetailInfo) {
+private fun DetailInfoCards(
+    detailInfo: DetailInfo,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
             .padding(
-                top = Spacing.MEDIUM,
-                start = Spacing.MEDIUM,
-                end = Spacing.MEDIUM,
-            ),
+                horizontal = Spacing.MEDIUM,
+                vertical = Spacing.SMALL,
+            )
+            .then(modifier),
         verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
     ) {
         Card(
@@ -167,7 +177,8 @@ private fun ResponseDisplay(
                 .memoryCachePolicy(CachePolicy.DISABLED)
                 .build(),
             contentDescription = null,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
         )
         return
     }
@@ -200,14 +211,16 @@ private fun ResponseDisplay(
 
 @Composable
 private fun PlainText(text: String, italic: Boolean = false) {
-    SelectionContainer {
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(Spacing.MEDIUM),
-            text = text,
-            fontStyle = if (italic) FontStyle.Italic else FontStyle.Normal,
-        )
+    Box(modifier = Modifier.verticalScroll(rememberScrollState())) {
+        SelectionContainer {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(Spacing.MEDIUM),
+                text = text,
+                fontStyle = if (italic) FontStyle.Italic else FontStyle.Normal,
+            )
+        }
     }
 }
 
@@ -220,21 +233,27 @@ private fun SyntaxHighlightedText(text: String, language: String) {
 
     val syntaxHighlighter = rememberSyntaxHighlighter(language)
 
-    SelectionContainer {
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .runIf(!wrapLines) {
-                    horizontalScroll(scrollState)
-                }
-                .clickable {
-                    wrapLines = !wrapLines
-                }
-                .padding(Spacing.MEDIUM),
-            text = syntaxHighlighter.format(text),
-            style = TextStyle(
-                fontFamily = FontFamily.Monospace,
-            ),
-        )
+    Box(modifier = Modifier.verticalScroll(rememberScrollState())) {
+        SelectionContainer {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .runIf(!wrapLines) {
+                        horizontalScroll(scrollState)
+                    }
+                    .clickable(
+                        interactionSource = MutableInteractionSource(),
+                        indication = null,
+                        onClick = {
+                            wrapLines = !wrapLines
+                        },
+                    )
+                    .padding(Spacing.MEDIUM),
+                text = syntaxHighlighter.format(text),
+                style = TextStyle(
+                    fontFamily = FontFamily.Monospace,
+                ),
+            )
+        }
     }
 }
