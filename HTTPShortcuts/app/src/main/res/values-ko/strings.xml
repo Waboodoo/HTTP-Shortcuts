@@ -343,9 +343,6 @@
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">"다시 표시하지 않습니다"</string>
 
-    <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="label_accept_all_certificates">"모든 인증서 수락 (내가 하는 일을 알고 있음)"</string>
-
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
     <string name="label_require_execution_confirmation">"실행 전에 확인 필요"</string>
 

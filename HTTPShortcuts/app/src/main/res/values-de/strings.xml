@@ -348,9 +348,6 @@ Drücke den + Knopf um eine Variable zu erstellen."</string>
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">"Nicht erneut anzeigen"</string>
 
-    <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="label_accept_all_certificates">"Jegliche Zertifikate akzeptieren"</string>
-
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
     <string name="label_require_execution_confirmation">"Bestätigung anfordern vor Ausführung"</string>
 
@@ -2092,7 +2089,9 @@ Zusätzlich musst du eventuell auch noch die App von Akku-Optimierungen ausschli
     <string name="title_certificate_pinning">"Zertifikat-Pinnen"</string>
 
     <!-- Empty state instructions for certificate pinning screen -->
-    <string name="empty_state_certificate_pinning_instructions">"Für zusätzliche Sicherheit deiner HTTP-Requests kannst du hier Zertifikate pinnen, indem du ihren SHA-1 oder SHA-256 Fingerabdruck eingibst."</string>
+    <string name="empty_state_certificate_pinning_instructions">"Für zusätzliche Sicherheit deiner HTTP-Requests kannst du hier Zertifikate pinnen, indem du ihren SHA-1 oder SHA-256 Fingerabdruck eingibst.
+
+Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter “%s”."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
     <string name="message_certificate_pinning_deleted">"Zertifikat-Fingerabdruck gelöscht"</string>
@@ -2117,9 +2116,6 @@ Zusätzlich musst du eventuell auch noch die App von Akku-Optimierungen ausschli
 
     <!-- Empty state shown on the custom icons screen when the user has no icons set up -->
     <string name="empty_state_custom_icons">"Keine Symbole vorhanden"</string>
-
-    <!-- checkbox subtitle in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="subtitle_accept_all_certificates">"Ich hoffe du weißt was du tust…"</string>
 
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
     <string name="label_require_specific_wifi_ssid">"Nur auf bestimmtem WLAN ausführen"</string>
@@ -2150,4 +2146,28 @@ Zusätzlich musst du eventuell auch noch die App von Akku-Optimierungen ausschli
 
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <string name="label_file_upload_options_allow_image_editing">"Drehen und Zuschneiden von Bildern erlauben"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
+    <string name="action_type_prompt_number_title">"Aufforderung zur Zahleingabe"</string>
+
+    <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
+    <string name="label_host_verification">"Host-Verifikation"</string>
+
+    <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
+    <string name="option_host_verification_default">"Standard (sicher)"</string>
+
+    <!-- Option in host verification dropdown, for only checking the server's certificate fingerprint without validating the trust chain -->
+    <string name="option_host_verification_self_signed">"Nur Zertifikats-Fingerabdruck prüfen"</string>
+
+    <!-- Option in host verification dropdown, for disabling any host verification, which is considered insecure and discouraged -->
+    <string name="option_host_verification_trust_all">"Keine Verifikation (allen vertrauen, unsicher)"</string>
+
+    <!-- Label for text input field in host verification settings, for specifying the fingerprint of the certificate -->
+    <string name="label_host_verification_certificate_fingerprint">"Zertifikats-Fingerabdruck"</string>
+
+    <!-- Hint text for text input field in host verification settings, for specifying the fingerprint of the certificate -->
+    <string name="hint_host_verification_certificate_fingerprint">"Geb den hex-codierten SHA-1 oder SHA-256 Fingerabdruck deines (selbst-signierten) Server-Zertifikats ein"</string>
+
+    <!-- Button label, for button shown in Scripting editor nav bar to allow the user to undo a recent change -->
+    <string name="button_undo">"Rückgängig machen"</string>
 </resources>

@@ -318,9 +318,6 @@ Klepnutím na tlačítko + přidáte proměnnou."</string>
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">"Znovu se neukázat"</string>
 
-    <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="label_accept_all_certificates">"Přijmout jakýkoli certifikát (vím, co dělám)"</string>
-
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
     <string name="label_require_execution_confirmation">"Vyžadovat potvrzení před provedením"</string>
 

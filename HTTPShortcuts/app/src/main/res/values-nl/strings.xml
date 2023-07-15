@@ -323,9 +323,6 @@
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">"Niet opnieuw tonen"</string>
 
-    <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="label_accept_all_certificates">"Aanvaard alle certificaten (ik weet wat ik doe)"</string>
-
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
     <string name="label_require_execution_confirmation">"Bevestiging nodig voor uitvoeren"</string>
 
@@ -2053,9 +2050,6 @@ Mogelijk moet je de app ook uitsluiten van Batterijoptimalisaties. Dit kun je vi
 
     <!-- Empty state shown on the custom icons screen when the user has no icons set up -->
     <string name="empty_state_custom_icons">"Je hebt geen aangepaste iconen."</string>
-
-    <!-- checkbox subtitle in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="subtitle_accept_all_certificates">"Als je weet wat je doet..."</string>
 
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
     <string name="label_require_specific_wifi_ssid">"Vereist specifieke Wi-Fi"</string>

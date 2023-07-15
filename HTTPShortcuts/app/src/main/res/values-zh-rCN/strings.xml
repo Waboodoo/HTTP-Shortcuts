@@ -343,9 +343,6 @@
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">"不再显示"</string>
 
-    <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="label_accept_all_certificates">"接受所有证书"</string>
-
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
     <string name="label_require_execution_confirmation">"执行前需要确认"</string>
 
@@ -2121,9 +2118,6 @@
     <!-- Empty state shown on the custom icons screen when the user has no icons set up -->
     <string name="empty_state_custom_icons">"你没有任何的定制图标。"</string>
 
-    <!-- checkbox subtitle in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="subtitle_accept_all_certificates">"如果你知道你在做什么..."</string>
-
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
     <string name="label_require_specific_wifi_ssid">"需要特定的 Wi-Fi 网络"</string>
 
@@ -2153,4 +2147,28 @@
 
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <string name="label_file_upload_options_allow_image_editing">"允许裁剪和旋转图片"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
+    <string name="action_type_prompt_number_title">"提示号码"</string>
+
+    <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
+    <string name="label_host_verification">"主机验证"</string>
+
+    <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
+    <string name="option_host_verification_default">"安全默认"</string>
+
+    <!-- Option in host verification dropdown, for only checking the server's certificate fingerprint without validating the trust chain -->
+    <string name="option_host_verification_self_signed">"只检查证书指纹"</string>
+
+    <!-- Option in host verification dropdown, for disabling any host verification, which is considered insecure and discouraged -->
+    <string name="option_host_verification_trust_all">"不验证（信任所有证书，不安全）"</string>
+
+    <!-- Label for text input field in host verification settings, for specifying the fingerprint of the certificate -->
+    <string name="label_host_verification_certificate_fingerprint">"证书指纹"</string>
+
+    <!-- Hint text for text input field in host verification settings, for specifying the fingerprint of the certificate -->
+    <string name="hint_host_verification_certificate_fingerprint">"输入你（自签名）服务器证书的 16 进制编码的 SHA-1 或 SHA-256 指纹"</string>
+
+    <!-- Button label, for button shown in Scripting editor nav bar to allow the user to undo a recent change -->
+    <string name="button_undo">"撤销"</string>
 </resources>

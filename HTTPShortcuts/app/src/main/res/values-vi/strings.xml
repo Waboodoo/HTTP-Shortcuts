@@ -344,9 +344,6 @@ Nhấp vào nút + để thêm một biến."</string>
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">"Không hiển thị lại"</string>
 
-    <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="label_accept_all_certificates">"Chấp nhận bất kỳ chứng chỉ nào (tôi biết mình đang làm gì)"</string>
-
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
     <string name="label_require_execution_confirmation">"Yêu cầu xác nhận trước khi thực hiện"</string>
 

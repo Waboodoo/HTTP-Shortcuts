@@ -343,9 +343,6 @@
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">"今後、表示しない"</string>
 
-    <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="label_accept_all_certificates">"全ての証明を承認する(この意味を理解しています)"</string>
-
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
     <string name="label_require_execution_confirmation">"実行前に確認をする"</string>
 
@@ -2081,6 +2078,7 @@
     <string name="title_certificate_pinning">"証明書のピン留め"</string>
 
     <!-- Empty state instructions for certificate pinning screen -->
+    <!-- Fuzzy -->
     <string name="empty_state_certificate_pinning_instructions">"HTTP リクエストが安全な接続を通して送信されていることを確認したい場合には、ここで SHA-1 または SHA-256 の指紋証明書を追加することで、特定のホスト用に証明書のピン留めを有効にすることができます。"</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
@@ -2106,9 +2104,6 @@
 
     <!-- Empty state shown on the custom icons screen when the user has no icons set up -->
     <string name="empty_state_custom_icons">"カスタムアイコンはありません"</string>
-
-    <!-- checkbox subtitle in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="subtitle_accept_all_certificates">"自分が何をしているか理解しているなら..."</string>
 
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
     <string name="label_require_specific_wifi_ssid">"指定のWiFiが必要"</string>

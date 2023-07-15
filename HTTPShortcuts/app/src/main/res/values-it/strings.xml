@@ -65,16 +65,20 @@
     <string name="action_move">"Muovi"</string>
 
     <!-- Empty state, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts">"ancora nessuna scorciatoia"</string>
+    <string name="empty_state_shortcuts">"Ancora nessuna scorciatoia"</string>
 
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts_instructions">"Fai clic sul pulsante + per iniziare."</string>
+    <string name="empty_state_shortcuts_instructions">"Una scorciatoia ti permette di inviare una singola richiesta HTTP, eventualmente processando e mostrando la risposta.
+
+Fai clic sul pulsante + per iniziare, o controlla la Documentazione sulla sezione Informazioni."</string>
 
     <!-- Empty state, shown in list when there are no variables yet -->
-    <string name="empty_state_variables">"ancora nessuna variabile"</string>
+    <string name="empty_state_variables">"Ancora nessuna variabile"</string>
 
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">"Fai clic sul pulsante + per aggiungere una variabile."</string>
+    <string name="empty_state_variables_instructions">"Le variabili ti permettono di inserire valori dinamicamente nelle scorciatoie, ad es. nell'URL, negli header o nel corpo della richiesta. Cerca il pulsante \\"{}\\" mentre modifichi una scorciatoia per trovare tutti i posti dove le variabili possono essere inserite.
+
+Fai clic sul pulsante + per aggiungere una variabile."</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">"Vuoi cancellare questa scorciatoia?"</string>
@@ -92,7 +96,7 @@
     <string name="executed">"%s eseguita."</string>
 
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
-    <string name="shortcut_not_found">"Scorciatoia non trovata. Dovresti ri-aggiungerla alla schermata iniziale."</string>
+    <string name="shortcut_not_found">"Scorciatoia non trovata. Potresti doverla riaggiungere alla schermata iniziale."</string>
 
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">"Inserisci un nome."</string>
@@ -289,10 +293,10 @@
     <string name="settings_mail">"Contatta lo Sviluppatorre"</string>
 
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
-    <string name="settings_mail_summary">"Domande, richiesta di nuove funzionalità, feedback, …"</string>
+    <string name="settings_mail_summary">"Domande, richieste di nuove funzionalità, feedback, …"</string>
 
     <!-- Button title, for option to open the app's Github page in a browser -->
-    <string name="settings_github">"Guarda su Github"</string>
+    <string name="settings_github">"Visualizza su Github"</string>
 
     <!-- Button subtitle for "View on Github" button -->
     <string name="settings_github_summary">"Esatto, quesa app è open-source"</string>
@@ -325,7 +329,7 @@
     <string name="shortcut_duplicated">"\"%1$s\" duplicata."</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_deleted">"\"%1$s\" cancellato."</string>
+    <string name="shortcut_deleted">"\"%1$s\" cancellata."</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_placed">"\"%1$s\" inserito nella schermata iniziale."</string>
@@ -347,9 +351,6 @@
 
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
     <string name="dialog_checkbox_do_not_show_again">"Non mostrare più"</string>
-
-    <!-- checkbox label in editor, for accepting certificates. Includes a security warning as it is discouraged to use this option. -->
-    <string name="label_accept_all_certificates">"Accetta qualsiasi certificato (so cosa sto facendo)"</string>
 
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
     <string name="label_require_execution_confirmation">"Richiedi conferma prima dell'esecuzione"</string>
@@ -1314,7 +1315,7 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <string name="settings_global_scripting">"Scripting Globale"</string>
 
     <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
-    <string name="settings_global_scripting_summary">"Esegui codice JavaScript prima di eseguire ogni scorciatoia"</string>
+    <string name="settings_global_scripting_summary">"Codice JavaScript da eseguire prima di ogni scorciatoia"</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
     <string name="placeholder_javascript_global_scripting">"Aggiungi qui il codice JavaScript da eseguire all'inizio di ogni esecuzione di scorciatoia, p.e. per impostare alcune variabili o definire alcune funzioni che possono essere usate in una sezione Script di una scorciatoia."</string>
@@ -1372,7 +1373,7 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <string name="dialog_code_snippet_get_file_size">"Ottieni la dimensione del file selezionato (in byte)"</string>
 
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, ...) -->
-    <string name="title_about">"Riguardo"</string>
+    <string name="title_about">"Informazioni"</string>
 
     <!-- Title of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation">"Documentazione"</string>
@@ -1486,11 +1487,12 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <string name="label_multiline">"Multilinea"</string>
 
     <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
-    <string name="message_json_encode_instructions">"Abilitalo se stai utilizzando questa variabile all'interno di una stringa JSON, ad esempio nel corpo di una richiesta. I caratteri speciali verranno sfuggiti."</string>
+    <!-- Fuzzy -->
+    <string name="message_json_encode_instructions">"Abilita se stai utilizzando questa variabile all'interno di una stringa JSON, ad es. nel corpo di una richiesta. I caratteri speciali verranno convertiti in escape."</string>
 
     <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
     <!-- Fuzzy -->
-    <string name="message_url_encode_instructions">"Abilita questa opzione se stai utilizzando questa variabile all'interno di un URL, ad esempio come parte di una stringa di query. I caratteri speciali verranno marcati."</string>
+    <string name="message_url_encode_instructions">"Abilita se stai utilizzando questa variabile all'interno di un URL, ad es. come parte di una stringa di query. I caratteri speciali verranno convertiti in escape."</string>
 
     <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay">"Consenti visualizzazione sopra altre app"</string>
@@ -1738,10 +1740,10 @@ Eliminare comunque?"</string>
     <string name="button_recover">"Recupero"</string>
 
     <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
-    <string name="settings_allow_overlay_xiaomi">"Consentire la visualizzazione di finestre pop-up in background"</string>
+    <string name="settings_allow_overlay_xiaomi">"Consenti la visualizzazione di finestre pop-up in background"</string>
 
     <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
-    <string name="settings_allow_overlay_xiaomi_summary">"Attivare se le scorciatoie non funzionano quando vengono attivate dalla schermata iniziale."</string>
+    <string name="settings_allow_overlay_xiaomi_summary">"Attiva se le scorciatoie non funzionano quando vengono attivate dalla schermata iniziale"</string>
 
     <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
     <string name="running_tasker_plugin">"Tasker sta attivando una scorciatoia"</string>
@@ -1945,7 +1947,7 @@ Eliminare comunque?"</string>
     <string name="action_type_prompt_password_title">"Richiesta di password"</string>
 
     <!-- Page title, for page showing all events that happened recently -->
-    <string name="title_event_history">"Storia dell'evento"</string>
+    <string name="title_event_history">"Cronologia eventi"</string>
 
     <!-- Button in Event History screen, to clear all events and empty the history -->
     <string name="button_clear_history">"Storia chiara"</string>
@@ -2010,4 +2012,91 @@ Eliminare comunque?"</string>
 
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_scripting">"Scripting"</string>
+
+    <!-- Message shown in snackbar to let the user know that the details of a (selected) history event were copied to the clipboard -->
+    <string name="message_history_event_details_copied">"Dettagli dell'evento copiati."</string>
+
+    <!-- Shortcut Action Description: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
+    <!-- Fuzzy -->
+    <string name="action_type_set_result_description">"Imposta una stringa personalizzata da ritornare alla scorciatoia che ha chiamato executeShortcut, o al Tasker"</string>
+
+    <!-- Description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
+    <!-- Fuzzy -->
+    <string name="label_plugin_result_detail">"Stringa di dati personalizzata così come impostata dalla funzione `setResult()`"</string>
+
+    <!-- Generic dialog button: Configure (e.g. some settings) -->
+    <string name="dialog_configure">"Configura"</string>
+
+    <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_plugin_dialog_configure_app_overlay">"Per poter attivare una scorciatoia da un'altra app, devi prima permettere all'app HTTP Shortcuts di visualizzare sopra le altre app.
+
+Premi il bottone \“%s\” qui sotto per configurare."</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="label_secondary_launcher_shortcut">"Permetti attivazione tramite l'app launcher secondaria"</string>
+
+    <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
+    <string name="title_activity_secondary_launcher_trigger">"Attiva scorciatoia"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the meta data of a selected file -->
+    <string name="dialog_code_snippet_get_file_meta">"Ottieni i Meta Data del File selezionato"</string>
+
+    <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
+    <string name="action_type_log_event">"Notifica evento"</string>
+
+    <!-- Shortcut Action Title: Action that allows to share text to another app -->
+    <string name="action_share_text_title">"Condividi testo"</string>
+
+    <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
+    <string name="label_run_repeatedly">"Esegui più volte"</string>
+
+    <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">"Perché una scorciatoia possa eseguire più volte in modo affidabile, prima devi permettere all'app HTTP Shortcuts di visualizzare sopra le altre app.
+
+Premi il pulsante \“%s\” per configurare.
+
+Potresti inoltre dover escludere l'app dalle Ottimizzazioni della Batteria. Le puoi trovare nelle impostazioni dell'app."</string>
+
+    <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
+    <string name="instructions_repetitions">"Il timing delle ripetizioni non è preciso ma potrebbe variare di alcuni minuti, essendo soggetto alle ottimizzazioni energetiche di Android. Nota che l'utilizzo di questa funzionalità potrebbe aumentare significativamente l'uso della batteria."</string>
+
+    <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
+    <string name="label_no_repetition">"Non ripetere"</string>
+
+    <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d minutes -->
+    <plurals name="label_repeat_every_x_minutes">
+        <item quantity="one">"Ogni minuto"</item>
+        <item quantity="other">"Ogni %d minuti"</item>
+    </plurals>
+
+    <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d hours -->
+    <plurals name="label_repeat_every_x_hours">
+        <item quantity="one">"Ogni ora"</item>
+        <item quantity="other">"Ogni %d ore"</item>
+    </plurals>
+
+    <!-- Title of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
+    <string name="settings_ignore_battery_optimizations">"Escludere dall'ottimizzazione della batteria"</string>
+
+    <!-- Subtitle of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
+    <string name="settings_ignore_battery_optimizations_summary">"Abilita se stai subendo problemi con la programmazione o l'esecuzione ripetuta di una scorciatoia."</string>
+
+    <!-- Label for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen -->
+    <string name="label_store_response_into_file">"Salva risposta in un file"</string>
+
+    <!-- Label: Shown above text input field that lets the user pick the file name that should be used for storing the HTTP response into a file -->
+    <string name="label_store_response_file_name">"Nome file"</string>
+
+    <!-- Section title on settings screen for options shared by all shortcuts -->
+    <!-- Fuzzy -->
+    <string name="settings_title_global_shortcut_settings">"Impostazioni generali scorciatoie"</string>
+
+    <!-- Error, shown in snackbar, when the user tries to format a custom request body, but it is invalid JSON syntax -->
+    <string name="error_cannot_format_invalid_json">"Sintassi JSON non valida"</string>
+
+    <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
+    <string name="title_move_shortcuts">"Sposta scorciatoie"</string>
+
+    <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
+    <string name="placeholder_empty_category_for_moving">"nessuna scorciatoia in questa categoria"</string>
 </resources>
