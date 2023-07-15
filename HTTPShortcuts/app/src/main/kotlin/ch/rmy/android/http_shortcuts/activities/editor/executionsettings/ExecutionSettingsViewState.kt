@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 
 import androidx.compose.runtime.Stable
+import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import kotlin.time.Duration
 
 @Stable
@@ -9,7 +10,7 @@ data class ExecutionSettingsViewState(
     val delay: Duration,
     val waitForConnection: Boolean,
     val waitForConnectionOptionVisible: Boolean,
-    val requireConfirmation: Boolean,
+    val confirmationType: ConfirmationType?,
     val launcherShortcutOptionVisible: Boolean,
     val launcherShortcut: Boolean,
     val secondaryLauncherShortcut: Boolean,

@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.data.migration.migrations.ParameterTypeMigr
 import ch.rmy.android.http_shortcuts.data.migration.migrations.RemoveLegacyActionsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
+import ch.rmy.android.http_shortcuts.data.migration.migrations.RequireConfirmationMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseActionMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseHandlingMigration
 import ch.rmy.android.http_shortcuts.extensions.getArrayOrEmpty
@@ -157,6 +158,9 @@ internal object ImportMigrator {
             }
             53L -> { // 2.23.0
                 ResponseActionMigration().migrateImport(base)
+            }
+            68L -> { // 3.2.0
+                RequireConfirmationMigration().migrateImport(base)
             }
         }
     }

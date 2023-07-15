@@ -299,6 +299,9 @@ dependencies {
     debugImplementation("com.google.android.gms:play-services-location:21.0.1")
     "releaseFullImplementation"("com.google.android.gms:play-services-location:21.0.1")
 
+    /* Biometric confirmation */
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
+
     /* MQTT (for Scripting) */
     implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
 

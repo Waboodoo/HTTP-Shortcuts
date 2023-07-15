@@ -5,6 +5,7 @@ import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
+import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
@@ -87,7 +88,13 @@ class Shortcut() : RealmObject {
 
     var fileUploadOptions: FileUploadOptions? = null
 
-    var requireConfirmation: Boolean = false
+    private var confirmation: String? = null
+
+    var confirmationType: ConfirmationType?
+        get() = ConfirmationType.parse(confirmation)
+        set(value) {
+            confirmation = value?.type
+        }
 
     var followRedirects: Boolean = true
 
@@ -195,7 +202,7 @@ class Shortcut() : RealmObject {
             other.codeOnSuccess != codeOnSuccess ||
             other.codeOnFailure != codeOnFailure ||
             other.followRedirects != followRedirects ||
-            other.requireConfirmation != requireConfirmation ||
+            other.confirmation != confirmation ||
             other.acceptCookies != acceptCookies ||
             other.proxyType != proxyType ||
             other.proxyHost != proxyHost ||

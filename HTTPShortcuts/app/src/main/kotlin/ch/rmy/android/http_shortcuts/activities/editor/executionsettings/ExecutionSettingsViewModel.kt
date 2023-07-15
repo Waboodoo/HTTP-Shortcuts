@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
+import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.type
@@ -73,7 +74,7 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
         secondaryLauncherShortcut = shortcut.secondaryLauncherShortcut,
         quickSettingsTileShortcut = shortcut.quickSettingsTileShortcut,
         delay = shortcut.delay.milliseconds,
-        requireConfirmation = shortcut.requireConfirmation,
+        confirmationType = shortcut.confirmationType,
         excludeFromHistory = shortcut.excludeFromHistory,
         repetitionInterval = shortcut.repetition?.interval,
     )
@@ -140,12 +141,12 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
         }
     }
 
-    fun onRequireConfirmationChanged(requireConfirmation: Boolean) {
+    fun onConfirmationTypeChanged(confirmationType: ConfirmationType?) {
         updateViewState {
-            copy(requireConfirmation = requireConfirmation)
+            copy(confirmationType = confirmationType)
         }
         launchWithProgressTracking {
-            temporaryShortcutRepository.setRequireConfirmation(requireConfirmation)
+            temporaryShortcutRepository.setConfirmationType(confirmationType)
         }
     }
 

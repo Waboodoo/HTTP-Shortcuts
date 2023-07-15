@@ -9,6 +9,7 @@ import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
+import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
@@ -309,9 +310,9 @@ constructor(
         }
     }
 
-    suspend fun setRequireConfirmation(requireConfirmation: Boolean) {
+    suspend fun setConfirmationType(confirmationType: ConfirmationType?) {
         commitTransactionForShortcut { shortcut ->
-            shortcut.requireConfirmation = requireConfirmation
+            shortcut.confirmationType = confirmationType
         }
     }
 

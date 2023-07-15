@@ -24,6 +24,8 @@ import ch.rmy.android.http_shortcuts.activities.execute.usecases.CheckHeadlessEx
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.CheckWifiSSIDUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.ExtractFileIdsFromVariableValuesUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.OpenInBrowserUseCase
+import ch.rmy.android.http_shortcuts.activities.execute.usecases.RequestBiometricConfirmationUseCase
+import ch.rmy.android.http_shortcuts.activities.execute.usecases.RequestSimpleConfirmationUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.ShowResultDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
@@ -31,6 +33,7 @@ import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
@@ -114,6 +117,12 @@ class Execution(
 
     @Inject
     lateinit var openInBrowser: OpenInBrowserUseCase
+
+    @Inject
+    lateinit var requestSimpleConfirmation: RequestSimpleConfirmationUseCase
+
+    @Inject
+    lateinit var requestBiometricConfirmation: RequestBiometricConfirmationUseCase
 
     @Inject
     lateinit var checkWifiSSID: CheckWifiSSIDUseCase
@@ -234,13 +243,10 @@ class Execution(
             )
         }
 
-        if (requiresConfirmation()) {
-            dialogHandle.showDialog(
-                ExecuteDialogState.GenericConfirm(
-                    title = shortcutName.toLocalizable(),
-                    message = StringResLocalizable(R.string.dialog_message_confirm_shortcut_execution),
-                )
-            )
+        when (requiresConfirmation()) {
+            ConfirmationType.SIMPLE -> requestSimpleConfirmation(shortcutName, dialogHandle)
+            ConfirmationType.BIOMETRIC -> requestBiometricConfirmation(shortcutName)
+            null -> Unit
         }
         checkWifiSSID(shortcutName, shortcut.wifiSsid, dialogHandle)
 
@@ -476,7 +482,7 @@ class Execution(
     }
 
     private fun requiresConfirmation() =
-        shortcut.requireConfirmation && params.tryNumber == 0
+        shortcut.confirmationType?.takeIf { params.tryNumber == 0 }
 
     private suspend fun handleFiles(loadMetaData: Boolean): FileUploadManager.Result? = coroutineScope {
         if (!shortcut.usesRequestParameters() && !shortcut.usesGenericFileBody() && !shortcut.usesImageFileBody()) {

@@ -124,7 +124,7 @@ class QuickTileService : TileService() {
     }
 
     private fun Shortcut.canRunWithoutExecuteActivity(): Boolean {
-        if (requireConfirmation) {
+        if (confirmationType != null) {
             return false
         }
         if (codeOnPrepare.isNotEmpty()) {

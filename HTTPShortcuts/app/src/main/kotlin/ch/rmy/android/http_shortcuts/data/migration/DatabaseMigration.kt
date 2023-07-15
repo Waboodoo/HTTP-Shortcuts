@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.data.migration.migrations.ParameterTypeMigr
 import ch.rmy.android.http_shortcuts.data.migration.migrations.RemoveLegacyActionsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
+import ch.rmy.android.http_shortcuts.data.migration.migrations.RequireConfirmationMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseActionMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseHandlingMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.UniqueIdsMigration
@@ -249,6 +250,10 @@ class DatabaseMigration : AutomaticSchemaMigration {
             UniqueIdsMigration().migrateRealm(migrationContext)
         }
 
+        if (oldVersion < 68) {
+            RequireConfirmationMigration().migrateRealm(migrationContext)
+        }
+
         // update version number
         newRealm.query("Base")
             .first()
@@ -260,7 +265,7 @@ class DatabaseMigration : AutomaticSchemaMigration {
     }
 
     companion object {
-        const val VERSION = 67L
+        const val VERSION = 68L
         const val COMPATIBILITY_VERSION = 60L
     }
 }

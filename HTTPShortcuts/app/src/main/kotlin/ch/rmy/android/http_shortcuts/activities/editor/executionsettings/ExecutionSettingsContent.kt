@@ -18,6 +18,7 @@ import ch.rmy.android.http_shortcuts.components.HelpText
 import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.extensions.localize
 import kotlin.time.Duration
 
@@ -26,7 +27,7 @@ fun ExecutionSettingsContent(
     delay: Duration,
     waitForConnection: Boolean,
     waitForConnectionOptionVisible: Boolean,
-    requireConfirmation: Boolean,
+    confirmationType: ConfirmationType?,
     launcherShortcutOptionVisible: Boolean,
     launcherShortcut: Boolean,
     secondaryLauncherShortcut: Boolean,
@@ -38,7 +39,7 @@ fun ExecutionSettingsContent(
     onSecondaryLauncherShortcutChanged: (Boolean) -> Unit,
     onQuickSettingsTileShortcutChanged: (Boolean) -> Unit,
     onExcludeFromHistoryChanged: (Boolean) -> Unit,
-    onRequireConfirmationChanged: (Boolean) -> Unit,
+    onConfirmationTypeChanged: (ConfirmationType?) -> Unit,
     onWaitForConnectionChanged: (Boolean) -> Unit,
     onDelayButtonClicked: () -> Unit,
     onRepetitionIntervalChanged: (Int?) -> Unit,
@@ -76,10 +77,10 @@ fun ExecutionSettingsContent(
             onCheckedChange = onExcludeFromHistoryChanged,
         )
 
-        Checkbox(
-            label = stringResource(R.string.label_require_execution_confirmation),
-            checked = requireConfirmation,
-            onCheckedChange = onRequireConfirmationChanged,
+        ConfirmationTypeSelection(
+            modifier = Modifier.padding(Spacing.MEDIUM),
+            confirmationType = confirmationType,
+            onConfirmationTypeChanged = onConfirmationTypeChanged,
         )
 
         if (waitForConnectionOptionVisible) {
@@ -120,6 +121,25 @@ fun ExecutionSettingsContent(
 
         Divider()
     }
+}
+
+@Composable
+private fun ConfirmationTypeSelection(
+    confirmationType: ConfirmationType?,
+    onConfirmationTypeChanged: (ConfirmationType?) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    SelectionField(
+        modifier = modifier,
+        title = stringResource(R.string.label_require_execution_confirmation),
+        selectedKey = confirmationType,
+        items = listOf(
+            null to stringResource(R.string.option_confirmation_none),
+            ConfirmationType.SIMPLE to stringResource(R.string.option_confirmation_simple),
+            ConfirmationType.BIOMETRIC to stringResource(R.string.option_confirmation_biometric),
+        ),
+        onItemSelected = onConfirmationTypeChanged,
+    )
 }
 
 private val REPETITION_TYPES = listOf(null to StringResLocalizable(R.string.label_no_repetition))
