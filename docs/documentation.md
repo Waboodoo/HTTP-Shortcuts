@@ -46,5 +46,6 @@
     - [Integrating with Tasker](advanced.md#integrate-with-tasker)
     - [Certificate Pinning](advanced.md#certificate-pinning)
     - [Using Self-Signed Certificates](advanced.md#self-signed-certificates)
+- [Permissions](permissions.md)
 - [Privacy Policy](privacy-policy.md)
 

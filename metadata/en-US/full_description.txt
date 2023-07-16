@@ -27,4 +27,6 @@ Some ideas what to use HTTP shortcuts for:
 <li>Automate workflows</li>
 </ul>
 
-This app is open source, find it on Github: <a href="https://github.com/Waboodoo/HTTP-Shortcuts">https://github.com/Waboodoo/HTTP-Shortcuts</a>. It's also completely free and contains no ads, because who wants those anyway.
+Find it on Github: <a href="https://github.com/Waboodoo/HTTP-Shortcuts">https://github.com/Waboodoo/HTTP-Shortcuts</a>.
+Or visit the official website for documentation: <a href="https://http-shortcuts.rmy.ch">https://http-shortcuts.rmy.ch</a>
+

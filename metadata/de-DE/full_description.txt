@@ -1,14 +1,20 @@
-Platziere Shortcuts auf deinem Home Screen um HTTP-Requests an deine Lieblings-REST-APIs und Webservices zu verschicken.
+Platziere Shortcuts auf deinem Home Screen um HTTP-Requests an deine Lieblings-REST-APIs und Webservices zu verschicken. Ideal zum Basteln und Tüfteln mit Heimautomatisierung.
 
-- HTTP und HTTPS
-- GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS und TRACE
-- Basic & Digest Authentication
-- Unterstützung für selbst-signierte Zertifikate
-- Benutzerdefinierte Request-Header und -Body
-- Eingebaute oder eigene Icons für Shortcuts
-- Optional die Server Response als Toast, Dialog oder in neuem Fenster anzeigen
-- Einfügen dynamischer Werte durch Variablen
-- Import und Export als cURL-Befehl (experimentell)
-- Plugin für Tasker und andere Automatisierungs-Apps
+<ul>
+<li>HTTP und HTTPS</li>
+<li>GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS und TRACE</li>
+<li>Basic, Digest & Bearer Authentication</li>
+<li>Unterstützung für selbst-signierte Zertifikate</li>
+<li>Benutzerdefinierte Request-Header und -Body</li>
+<li>Eingebaute oder eigene Icons für Shortcuts</li>
+<li>Optional die Server Response als Toast, Dialog oder in neuem Fenster anzeigen</li>
+<li>Einfügen dynamischer Werte durch Variablen</li>
+<li>Fortgeschrittene Abläufe und Daten-Verarbeitung durch JavaScript möglich</li>
+<li>Import und Export als cURL-Befehl</li>
+<li>Plugin für Tasker und andere Automatisierungs-Apps</li>
+<li>Dark-Mode</li>
+</ul>
 
-Diese App ist open source auf Github: https://github.com/Waboodoo/HTTP-Shortcuts
+Finde die App auf Github: <a href="https://github.com/Waboodoo/HTTP-Shortcuts">https://github.com/Waboodoo/HTTP-Shortcuts</a>.
+Oder besuche die offizielle Website für Dokumentation: <a href="https://http-shortcuts.rmy.ch">https://http-shortcuts.rmy.ch</a>
+
