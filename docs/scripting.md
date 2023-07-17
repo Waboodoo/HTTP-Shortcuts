@@ -818,6 +818,8 @@ triggerTaskerTask('mytask', {
 });
 ```
 
+You may need to manually go to the app's permissions and grant the "net.dinglisch.android.tasker.PERMISSION_RUN_TASKS" permission for this to work.
+
 <a name="get-location"></a>
 ### Get Location
 If you want to query your device's physical location, you can do so via the `getLocation()` function. It can take up to 20 seconds for the location request to complete, and it might not always be possible to determine the location.

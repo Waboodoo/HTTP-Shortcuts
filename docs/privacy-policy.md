@@ -2,6 +2,7 @@
 
 With the exception of Crash Reporting and the Remote Edit ("Edit on Computer") feature (see below for these), all data entered into the app is only ever sent to the servers specified by the user through the use of shortcuts. No data about the user, their activity or device is collected or sent to the developer or any other third-party as part of this app.
 
+<a name="crash-reporting"></a>
 ## Crash Reporting
 The app uses the third-party service [Bugsnag](https://www.bugsnag.com/) to collect diagnostic data in the event of an app crash ("crash reports"). This serves the purpose of discovering and fixing bugs in the app. The collected data contains basic information about the device (e.g. manufacturer, language, OS version) and the crash itself (e.g. stacktrace, time of occurrence). No personal identifiable information such as usernames, email addresses, IP addresses or physical location is collected. The crash data is only used by the developer for debugging purposes. All collected data is automatically deleted after 7 days.
 
@@ -19,9 +20,5 @@ The use of this feature is non-essential and the app can otherwise be fully used
 
 ## Permissions
 
-### Location Access
-The app may request the permission to access your device's physical location. This is used for 2 specific features only, both of which are non-essential and completely optional to use:
-
-- Checking the SSID of the Wi-Fi the device is currently connected to
-- Using the [`getLocation()`](scripting#get-location) function for Scripting
+The app may request some sensitive permissions, in particular the permission for reading the device's precise location. All of the data and functionality accessed through these permissions is used solely for the declared purpose. For details, see the [Permissions](permissions.md) page.
 
