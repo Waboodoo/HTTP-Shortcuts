@@ -2171,4 +2171,19 @@
 
     <!-- Button label, for button shown in Scripting editor nav bar to allow the user to undo a recent change -->
     <string name="button_undo">"撤销"</string>
+
+    <!-- Error message shown when biometric (e.g. fingerprint) execution confirmation fails. %s is a placeholder for a more detailed description of the error -->
+    <string name="error_biometric_confirmation_failed">"生物特征确认失败：%s"</string>
+
+    <!-- Subtitle shown on biometric confirmation dialog (e.g. asking for a fingerprint), for confirming the execution of a shortcut -->
+    <string name="subtitle_biometric_confirmation_prompt">"确认执行快捷方式"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: no confirmation -->
+    <string name="option_confirmation_none">"不确认"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: simple confirmation, i.e., only asking the user to press a button -->
+    <string name="option_confirmation_simple">"简单确认"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: biometric confirmation, i.e., asking the user to authenticate by fingerprint or similar -->
+    <string name="option_confirmation_biometric">"生物特征确认"</string>
 </resources>
