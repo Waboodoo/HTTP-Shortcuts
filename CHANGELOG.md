@@ -6,6 +6,9 @@
 - There is now a `promptNumber` function available for Scripting, which allows to request the input of a number
 - In addition to a simple confirmation prompt, shortcuts can now be configured to require biometric confirmation before execution
 
+### Miscellaneous
+- Added documentation for the use of permissions
+
 ### Bugfixes
 - HTTP responses encoded with Brotli can now be uncompressed and displayed correctly
 - Horizontal scrolling in large HTML responses is smoother now
