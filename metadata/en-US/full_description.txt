@@ -13,7 +13,7 @@ Place shortcuts (widgets) on your home screen to submit HTTP requests to all you
 <li>Display response as a toast, window or dialog, or run silently</li>
 <li>Grouping into categories through tabs</li>
 <li>Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)</li>
-<li>Run arbitrary JavaScript before & after execution, including special actions (e.g., vibrate, show toast, parse and process response…)</li>
+<li>Run arbitrary JavaScript before & after execution, including special actions (e.g., vibrate, show toast, parse and process response, send wake-on-lan packets…)</li>
 <li>Import & Export in JSON or cURL format</li>
 <li>3rd party integration (e.g. Tasker)</li>
 <li>Dark Mode support</li>
