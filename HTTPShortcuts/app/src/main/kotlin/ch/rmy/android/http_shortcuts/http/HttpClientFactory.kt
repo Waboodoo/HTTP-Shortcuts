@@ -133,4 +133,14 @@ constructor() {
             sslContext.init(keyManagers, arrayOf(trustManager), null)
             sslSocketFactory(TLSEnabledSSLSocketFactory(sslContext.socketFactory), trustManager)
         }
+        .run {
+            when (hostVerificationConfig) {
+                HostVerificationConfig.Default -> this
+                is HostVerificationConfig.SelfSigned,
+                HostVerificationConfig.TrustAll,
+                -> {
+                    hostnameVerifier { _, _ -> true }
+                }
+            }
+        }
 }
