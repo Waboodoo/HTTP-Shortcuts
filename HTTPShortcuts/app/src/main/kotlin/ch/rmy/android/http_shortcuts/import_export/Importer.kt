@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.migration.ImportMigrator
 import ch.rmy.android.http_shortcuts.data.migration.ImportVersionMismatchException
+import ch.rmy.android.http_shortcuts.data.migration.InvalidFileException
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.NoCloseInputStream
@@ -124,6 +125,10 @@ constructor(
             }
             is ImportVersionMismatchException -> {
                 getString(R.string.import_failure_reason_data_version_mismatch)
+            }
+            is InvalidFileException -> {
+                // TODO: Localize this error message
+                "Failed to import. The file doesn't seem to be of the right format."
             }
             is URISyntaxException,
             is IllegalArgumentException,

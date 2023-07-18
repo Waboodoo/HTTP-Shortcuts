@@ -18,7 +18,9 @@ internal object ImportMigrator {
 
     fun migrate(importData: JsonElement): JsonElement {
         val base = importData.asJsonObject
-        val fromVersion = base["version"]?.takeUnless { it.isJsonNull }?.asLong ?: 0L
+        val fromVersion = base["version"]?.takeUnless { it.isJsonNull }
+            ?.asLong
+            ?: throw InvalidFileException()
         if (fromVersion > DatabaseMigration.VERSION) {
             val compatibilityVersion = base["compatibilityVersion"]?.takeUnless { it.isJsonNull }?.asLong?.takeUnless { it == 0L }
             if (compatibilityVersion == null || compatibilityVersion > DatabaseMigration.VERSION) {
