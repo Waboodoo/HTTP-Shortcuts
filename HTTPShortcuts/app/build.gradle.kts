@@ -395,7 +395,7 @@ tasks.register("syncDocumentation") {
                 outputFile = "docs/$fileName.html",
                 templateFile = "documentation_template.html",
             ) {
-                replace("src=\"../", "src=\"https://http-shortcuts.rmy.ch/")
+                replace("src=\"../assets/documentation/", "src=\"file:///android_asset/docs/assets/")
             }
         }
     }

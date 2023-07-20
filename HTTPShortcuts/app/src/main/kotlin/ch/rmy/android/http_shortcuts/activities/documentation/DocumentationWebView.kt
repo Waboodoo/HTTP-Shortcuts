@@ -88,6 +88,8 @@ class DocumentationWebView(context: Context) : WebView(context) {
             allowContentAccess = false
             allowFileAccess = false
             userAgentString = UserAgentUtil.userAgent
+            blockNetworkLoads = true
+            blockNetworkImage = true
         }
     }
 }

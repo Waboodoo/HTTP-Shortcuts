@@ -104,7 +104,11 @@ private class SinglePageWebView(context: Context, url: String, isRestore: Boolea
             }
         }
 
-        settings.javaScriptEnabled = true
+        with(settings) {
+            javaScriptEnabled = true
+            blockNetworkLoads = true
+            blockNetworkImage = true
+        }
 
         if (!isRestore) {
             loadUrl(url)
