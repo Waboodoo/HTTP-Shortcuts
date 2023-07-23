@@ -25,7 +25,7 @@ fun SelectDialogEntry(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(vertical = Spacing.SMALL),
+            .padding(vertical = Spacing.SMALL + Spacing.TINY),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (checked != null) {
