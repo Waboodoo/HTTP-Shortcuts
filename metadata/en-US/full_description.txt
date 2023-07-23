@@ -9,11 +9,28 @@ Place shortcuts (widgets) on your home screen to submit HTTP requests to all you
 <li>Upload files as form-data or request body</li>
 <li>Support for HTTP proxies</li>
 <li>Support for self-signed certificates</li>
-<li>Built-in icons, support for custom icons</li>
+<li>Built-in icons, support for custom icons or using a site's favicon</li>
 <li>Display response as a toast, window or dialog, or run silently</li>
 <li>Grouping into categories through tabs</li>
 <li>Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)</li>
-<li>Run arbitrary JavaScript before & after execution, including special actions (e.g., vibrate, show toast, parse and process response, send wake-on-lan packets…)</li>
+<li>Run arbitrary JavaScript before & after execution, including special actions, such as (but not limited to):
+<ul>
+    <li>show dialogs</li>
+    <li>show toasts</li>
+    <li>prompt for user input (e.g. asking for dates, passwords, text, ...)</li>
+    <li>parse JSON or XML responses</li>
+    <li>compute HMAC</li>
+    <li>store values into global variables for later use</li>
+    <li>vibrate</li>
+    <li>play notification sounds</li>
+    <li>send TCP or UDP packets</li>
+    <li>send MQTT messages to a broker</li>
+    <li>wake-on-lan</li>
+    <li>send Android intents</li>
+    <li>trigger Tasker tasks</li>
+    <li>read QR code (via 3rd party app)</li>
+    <li>read current physical location</li>
+</ul></li>
 <li>Import & Export in JSON or cURL format</li>
 <li>3rd party integration (e.g. Tasker)</li>
 <li>Dark Mode support</li>
