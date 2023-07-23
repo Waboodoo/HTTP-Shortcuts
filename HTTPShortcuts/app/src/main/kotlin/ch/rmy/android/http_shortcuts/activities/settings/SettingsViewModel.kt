@@ -111,6 +111,12 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
         }
     }
 
+    fun onUserAgentChangeConfirmed(newUserAgent: String) {
+        updateDialogState(null)
+        settings.userAgent = newUserAgent
+        showSnackbar(R.string.message_user_agent_changed)
+    }
+
     fun onQuickSettingsTileButtonClicked() {
         viewModelScope.launch {
             val success = createQuickSettingsTile()
@@ -146,10 +152,14 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
     fun onChangeTitleButtonClicked() {
         viewModelScope.launch {
             val oldTitle = appRepository.getToolbarTitle()
-            updateViewState {
-                copy(dialogState = SettingsDialogState.ChangeTitle(oldTitle))
-            }
+            updateDialogState(SettingsDialogState.ChangeTitle(oldTitle))
         }
+    }
+
+    fun onUserAgentButtonClicked() {
+        updateDialogState(
+            SettingsDialogState.ChangeUserAgent(settings.userAgent ?: "")
+        )
     }
 
     fun onCertificatePinningButtonClicked() {

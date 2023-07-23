@@ -8,7 +8,7 @@ import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
-import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
+import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -38,7 +38,11 @@ constructor(
 
         val iconSize = IconUtil.getIconSize(context)
         return withContext(Dispatchers.IO) {
-            val candidates = FaviconGrabber(client, context.cacheDir, userAgent = UserAgentUtil.userAgent)
+            val candidates = FaviconGrabber(
+                client = client,
+                targetDirectory = context.cacheDir,
+                userAgent = UserAgentProvider.getUserAgent(context),
+            )
                 .grab(finalUrl, preferredSize = iconSize)
                 .mapNotNull(::toCandidate)
                 .sortedByDescending { it.size }

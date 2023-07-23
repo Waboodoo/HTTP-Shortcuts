@@ -38,7 +38,7 @@ import ch.rmy.android.http_shortcuts.extensions.rememberSyntaxHighlighter
 import ch.rmy.android.http_shortcuts.extensions.runIf
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
-import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
+import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
@@ -171,7 +171,7 @@ private fun ResponseDisplay(
     if (FileTypeUtil.isImage(mimeType)) {
         AsyncImage(
             model = ImageRequest.Builder(context)
-                .addHeader(HttpHeaders.USER_AGENT, UserAgentUtil.userAgent)
+                .addHeader(HttpHeaders.USER_AGENT, UserAgentProvider.getUserAgent(context))
                 .data(fileUri)
                 .diskCachePolicy(CachePolicy.DISABLED)
                 .memoryCachePolicy(CachePolicy.DISABLED)

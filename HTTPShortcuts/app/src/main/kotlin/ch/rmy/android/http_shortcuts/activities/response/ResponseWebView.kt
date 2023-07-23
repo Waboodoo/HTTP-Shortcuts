@@ -26,7 +26,7 @@ import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.tryOrIgnore
 import ch.rmy.android.http_shortcuts.components.LoadingIndicator
 import ch.rmy.android.http_shortcuts.extensions.rememberWebView
-import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
+import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -115,7 +115,7 @@ class ResponseWebView @JvmOverloads constructor(
             allowFileAccess = false
             allowFileAccessFromFileURLs = false
             allowUniversalAccessFromFileURLs = false
-            userAgentString = UserAgentUtil.userAgent
+            userAgentString = UserAgentProvider.getUserAgent(context)
         }
     }
 

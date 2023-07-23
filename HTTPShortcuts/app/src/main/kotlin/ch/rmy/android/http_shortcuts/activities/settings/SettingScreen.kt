@@ -28,6 +28,7 @@ fun SettingsScreen() {
             onDarkModeOptionSelected = viewModel::onDarkModeOptionSelected,
             onClickActionOptionSelected = viewModel::onClickActionOptionSelected,
             onChangeTitleButtonClicked = viewModel::onChangeTitleButtonClicked,
+            onUserAgentButtonClicked = viewModel::onUserAgentButtonClicked,
             onLockButtonClicked = viewModel::onLockButtonClicked,
             onQuickSettingsTileButtonClicked = viewModel::onQuickSettingsTileButtonClicked,
             onCertificatePinningButtonClicked = viewModel::onCertificatePinningButtonClicked,
@@ -46,6 +47,7 @@ fun SettingsScreen() {
         onClearCookiesConfirmed = viewModel::onClearCookiesConfirmed,
         onLockConfirmed = viewModel::onLockConfirmed,
         onTitleChangeConfirmed = viewModel::onTitleChangeConfirmed,
+        onUserAgentChangeConfirmed = viewModel::onUserAgentChangeConfirmed,
         onDismissalRequested = viewModel::onDialogDismissalRequested,
     )
 }

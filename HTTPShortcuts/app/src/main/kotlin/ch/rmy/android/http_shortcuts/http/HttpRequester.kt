@@ -26,7 +26,7 @@ import ch.rmy.android.http_shortcuts.http.HttpHeaders.Companion.CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE_WITH_CHARSET
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
-import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
+import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
@@ -163,7 +163,7 @@ constructor(
 
             val request = RequestBuilder(shortcut.method, requestData.url)
                 .header(HttpHeaders.CONNECTION, "close")
-                .userAgent(UserAgentUtil.userAgent)
+                .userAgent(UserAgentProvider.getUserAgent(context))
                 .runIf(shortcut.usesCustomBody()) {
                     contentType(determineContentType(shortcut))
                         .body(requestData.body)

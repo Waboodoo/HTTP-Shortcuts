@@ -14,6 +14,7 @@ fun SettingsDialogs(
     dialogState: SettingsDialogState?,
     onLockConfirmed: (String) -> Unit,
     onTitleChangeConfirmed: (String) -> Unit,
+    onUserAgentChangeConfirmed: (String) -> Unit,
     onClearCookiesConfirmed: () -> Unit,
     onDismissalRequested: () -> Unit,
 ) {
@@ -22,6 +23,13 @@ fun SettingsDialogs(
             ChangeTitleDialog(
                 initialValue = dialogState.oldTitle,
                 onConfirm = onTitleChangeConfirmed,
+                onDismissalRequested = onDismissalRequested,
+            )
+        }
+        is SettingsDialogState.ChangeUserAgent -> {
+            ChangeUserAgentDialog(
+                initialValue = dialogState.oldUserAgent,
+                onConfirm = onUserAgentChangeConfirmed,
                 onDismissalRequested = onDismissalRequested,
             )
         }
@@ -39,6 +47,29 @@ fun SettingsDialogs(
         }
         null -> Unit
     }
+}
+
+@Composable
+private fun ChangeUserAgentDialog(
+    initialValue: String,
+    onConfirm: (String) -> Unit,
+    onDismissalRequested: () -> Unit,
+) {
+    TextInputDialog(
+        title = stringResource(R.string.title_set_user_agent),
+        message = stringResource(R.string.instructions_set_user_agent),
+        initialValue = initialValue,
+        transformValue = {
+            it.take(300)
+        },
+        onDismissRequest = { text ->
+            if (text != null) {
+                onConfirm(text)
+            } else {
+                onDismissalRequested()
+            }
+        },
+    )
 }
 
 @Composable

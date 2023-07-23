@@ -14,7 +14,7 @@ import android.webkit.WebViewClient
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.framework.extensions.tryOrIgnore
-import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
+import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -87,7 +87,7 @@ class DocumentationWebView(context: Context) : WebView(context) {
             javaScriptEnabled = true
             allowContentAccess = false
             allowFileAccess = false
-            userAgentString = UserAgentUtil.userAgent
+            userAgentString = UserAgentProvider.getUserAgent(context)
             blockNetworkLoads = true
             blockNetworkImage = true
         }

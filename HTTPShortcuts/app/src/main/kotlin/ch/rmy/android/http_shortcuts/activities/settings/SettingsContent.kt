@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material.icons.outlined.BatteryFull
 import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material.icons.outlined.ControlPoint
@@ -45,6 +46,7 @@ fun SettingsContent(
     onDarkModeOptionSelected: (String) -> Unit,
     onClickActionOptionSelected: (ShortcutClickBehavior) -> Unit,
     onChangeTitleButtonClicked: () -> Unit,
+    onUserAgentButtonClicked: () -> Unit,
     onLockButtonClicked: () -> Unit,
     onQuickSettingsTileButtonClicked: () -> Unit,
     onCertificatePinningButtonClicked: () -> Unit,
@@ -151,15 +153,22 @@ fun SettingsContent(
             )
 
             SettingsButton(
-                icon = Icons.Outlined.Shield,
-                title = stringResource(R.string.settings_certificate_pinning),
-                onClick = onCertificatePinningButtonClicked,
+                icon = Icons.Outlined.Badge,
+                title = stringResource(R.string.settings_user_agent),
+                onClick = onUserAgentButtonClicked,
             )
+
             SettingsButton(
                 icon = Icons.Outlined.Javascript,
                 title = stringResource(R.string.settings_global_scripting),
                 subtitle = stringResource(R.string.settings_global_scripting_summary),
                 onClick = onGlobalScriptingButtonClicked,
+            )
+
+            SettingsButton(
+                icon = Icons.Outlined.Shield,
+                title = stringResource(R.string.settings_certificate_pinning),
+                onClick = onCertificatePinningButtonClicked,
             )
         }
 

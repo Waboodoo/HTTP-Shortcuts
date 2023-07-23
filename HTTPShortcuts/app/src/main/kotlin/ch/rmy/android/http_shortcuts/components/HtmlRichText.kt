@@ -49,7 +49,7 @@ import androidx.compose.ui.unit.sp
 import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
-import ch.rmy.android.http_shortcuts.utils.UserAgentUtil
+import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -250,7 +250,7 @@ private suspend fun loadImage(context: Context, source: String): Image? {
     val imageResult = ImageLoader(context)
         .execute(
             ImageRequest.Builder(context)
-                .addHeader(HttpHeaders.USER_AGENT, UserAgentUtil.userAgent)
+                .addHeader(HttpHeaders.USER_AGENT, UserAgentProvider.getUserAgent(context))
                 .data(transformedSource)
                 .build()
         )
