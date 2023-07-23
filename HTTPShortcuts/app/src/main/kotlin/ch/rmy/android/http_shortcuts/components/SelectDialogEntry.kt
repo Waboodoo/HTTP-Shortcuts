@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,6 +19,7 @@ fun SelectDialogEntry(
     label: String,
     description: String? = null,
     checked: Boolean? = null,
+    useRadios: Boolean = false,
     icon: ShortcutIcon? = null,
     onClick: () -> Unit,
 ) {
@@ -29,12 +31,19 @@ fun SelectDialogEntry(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (checked != null) {
-            Checkbox(
-                checked = checked,
-                onCheckedChange = null,
-                modifier = Modifier
-                    .padding(end = Spacing.SMALL)
-            )
+            if (useRadios) {
+                RadioButton(
+                    selected = checked,
+                    onClick = null,
+                    modifier = Modifier.padding(end = Spacing.SMALL),
+                )
+            } else {
+                Checkbox(
+                    checked = checked,
+                    onCheckedChange = null,
+                    modifier = Modifier.padding(end = Spacing.SMALL),
+                )
+            }
         }
         if (icon != null) {
             ShortcutIcon(
