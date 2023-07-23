@@ -157,6 +157,7 @@ constructor(
                 proxy = requestData.proxy,
                 cookieJar = cookieJar,
                 certificatePins = certificatePins.map(CertificatePin::toCertificatePin),
+                clientCertParams = shortcut.clientCertParams,
                 hostVerificationConfig = getSSLConfig(shortcut),
             )
 
