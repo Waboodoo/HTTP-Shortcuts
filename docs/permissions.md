@@ -51,6 +51,9 @@ This is not needed for normal operation, but you might encounter problems with p
 ## net.dinglisch.android.tasker.PERMISSION_RUN_TASKS
 Used by the [`triggerTaskerTask()`](scripting.md#trigger-tasker-task) function to allow triggering Tasker tasks from Scripting.
 
+## use biometric hardware / use fingerprint hardware
+The app allows to configure a shortcut in a way that it requires biometric confirmation before running, for extra security. This requires a permission.
+
 ## prevent phone from sleeping
 Used to perform cleanup tasks, such as deleting obsolete cache files after a shortcut was run.
 
