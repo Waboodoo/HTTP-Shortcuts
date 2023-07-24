@@ -2185,4 +2185,16 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
 
     <!-- Option in dropdown to select the confirmation type for a shortcut: biometric confirmation, i.e., asking the user to authenticate by fingerprint or similar -->
     <string name="option_confirmation_biometric">"Biometrische Bestätigung"</string>
+
+    <!-- Title of section in settings that allows user to change the "User-Agent" header that is sent by default with all shortcuts -->
+    <string name="settings_user_agent">"User-Agent anpassen"</string>
+
+    <!-- Message shown in snackbar as confirmation when the user changes the "User-Agent" header's value in the settings -->
+    <string name="message_user_agent_changed">"User-Agent angepasst."</string>
+
+    <!-- Dialog title: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
+    <string name="title_set_user_agent">"User-Agent anpassen"</string>
+
+    <!-- Dialog message: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
+    <string name="instructions_set_user_agent">"Setze hier einen benutzerdefinierten User-Agent, welcher für alle HTTP-Requests verwendet wird, oder lass das Feld leer um den Standard-Wert zu verwenden."</string>
 </resources>

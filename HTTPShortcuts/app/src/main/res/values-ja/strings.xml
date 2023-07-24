@@ -2134,4 +2134,43 @@
 
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <string name="label_file_upload_options_allow_image_editing">"画像の切り取りや回転を許可"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
+    <string name="action_type_prompt_number_title">"数値の入力待ち"</string>
+
+    <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
+    <string name="label_host_verification">"ホスト検証"</string>
+
+    <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
+    <string name="option_host_verification_default">"既定のセキュア"</string>
+
+    <!-- Option in host verification dropdown, for only checking the server's certificate fingerprint without validating the trust chain -->
+    <string name="option_host_verification_self_signed">"指紋証明のみで確認"</string>
+
+    <!-- Option in host verification dropdown, for disabling any host verification, which is considered insecure and discouraged -->
+    <string name="option_host_verification_trust_all">"検証なし (全て信頼する、安全ではない)"</string>
+
+    <!-- Label for text input field in host verification settings, for specifying the fingerprint of the certificate -->
+    <string name="label_host_verification_certificate_fingerprint">"指紋証明書"</string>
+
+    <!-- Hint text for text input field in host verification settings, for specifying the fingerprint of the certificate -->
+    <string name="hint_host_verification_certificate_fingerprint">"サーバー証明書(自己署名)の指紋 16進数エンコードされた SHA-1 または SHA-256 を入力"</string>
+
+    <!-- Button label, for button shown in Scripting editor nav bar to allow the user to undo a recent change -->
+    <string name="button_undo">"元に戻す"</string>
+
+    <!-- Error message shown when biometric (e.g. fingerprint) execution confirmation fails. %s is a placeholder for a more detailed description of the error -->
+    <string name="error_biometric_confirmation_failed">"生体認証の確認失敗: %s"</string>
+
+    <!-- Subtitle shown on biometric confirmation dialog (e.g. asking for a fingerprint), for confirming the execution of a shortcut -->
+    <string name="subtitle_biometric_confirmation_prompt">"ショートカット実行確認"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: no confirmation -->
+    <string name="option_confirmation_none">"確認なし"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: simple confirmation, i.e., only asking the user to press a button -->
+    <string name="option_confirmation_simple">"簡易な確認"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: biometric confirmation, i.e., asking the user to authenticate by fingerprint or similar -->
+    <string name="option_confirmation_biometric">"生態認識で確認"</string>
 </resources>

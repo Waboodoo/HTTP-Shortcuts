@@ -2186,4 +2186,16 @@
 
     <!-- Option in dropdown to select the confirmation type for a shortcut: biometric confirmation, i.e., asking the user to authenticate by fingerprint or similar -->
     <string name="option_confirmation_biometric">"生物特征确认"</string>
+
+    <!-- Title of section in settings that allows user to change the "User-Agent" header that is sent by default with all shortcuts -->
+    <string name="settings_user_agent">"自定义 User-Agent"</string>
+
+    <!-- Message shown in snackbar as confirmation when the user changes the "User-Agent" header's value in the settings -->
+    <string name="message_user_agent_changed">"更改了 User-Agent。"</string>
+
+    <!-- Dialog title: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
+    <string name="title_set_user_agent">"更改 User-Agent"</string>
+
+    <!-- Dialog message: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
+    <string name="instructions_set_user_agent">"设置用于所有 HTTP 请求的自定义 User-Agent，或者留空使用默认值。"</string>
 </resources>
