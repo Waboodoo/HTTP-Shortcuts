@@ -1,3 +1,13 @@
+## Version 3.3.0
+
+### Improvements
+- You can now globally change the User-Agent used for all HTTP requests
+- Slightly increased the size of UI elements in selection dialogs to reduce the risk of misclicking
+- Images used by the documentation are now bundled into the app, such that the documentation can be fully viewed without requiring an internet connection
+
+### Bugfixes
+- Client certificates work again
+
 ## Version 3.2.0
 
 ### Improvements
