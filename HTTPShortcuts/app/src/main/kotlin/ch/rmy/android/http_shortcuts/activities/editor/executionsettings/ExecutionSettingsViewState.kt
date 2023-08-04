@@ -18,4 +18,5 @@ data class ExecutionSettingsViewState(
     val quickSettingsTileShortcut: Boolean,
     val excludeFromHistory: Boolean,
     val repetitionInterval: Int?,
+    val canUseBiometrics: Boolean,
 )

@@ -31,6 +31,7 @@ fun ExecutionSettingsScreen() {
             quickSettingsTileShortcut = viewState.quickSettingsTileShortcut,
             excludeFromHistory = viewState.excludeFromHistory,
             repetitionInterval = viewState.repetitionInterval,
+            canUseBiometrics = viewState.canUseBiometrics,
             onLauncherShortcutChanged = viewModel::onLauncherShortcutChanged,
             onSecondaryLauncherShortcutChanged = viewModel::onSecondaryLauncherShortcutChanged,
             onQuickSettingsTileShortcutChanged = viewModel::onQuickSettingsTileShortcutChanged,

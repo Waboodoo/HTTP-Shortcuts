@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherM
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLogDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkRestrictionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowRecoveryDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.UnlockAppUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
@@ -109,6 +110,9 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     @Inject
     lateinit var settings: Settings
+
+    @Inject
+    lateinit var unlockApp: UnlockAppUseCase
 
     init {
         getApplicationComponent().inject(this)
@@ -398,9 +402,21 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
 
     fun onUnlockButtonClicked() {
         logInfo("Unlock button clicked")
-        updateDialogState(
-            MainDialogState.Unlock(),
-        )
+        launchWithProgressTracking {
+            unlockApp(
+                showPasswordDialog = {
+                    updateDialogState(
+                        MainDialogState.Unlock(),
+                    )
+                },
+                onSuccess = {
+                    launchWithProgressTracking {
+                        appRepository.removeLock()
+                        showSnackbar(R.string.message_app_unlocked)
+                    }
+                },
+            )
+        }
     }
 
     fun onAppLocked() {

@@ -9,6 +9,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.utils.localization.DurationLocalizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
@@ -35,6 +36,7 @@ fun ExecutionSettingsContent(
     quickSettingsTileShortcut: Boolean,
     excludeFromHistory: Boolean,
     repetitionInterval: Int?,
+    canUseBiometrics: Boolean,
     onLauncherShortcutChanged: (Boolean) -> Unit,
     onSecondaryLauncherShortcutChanged: (Boolean) -> Unit,
     onQuickSettingsTileShortcutChanged: (Boolean) -> Unit,
@@ -79,6 +81,7 @@ fun ExecutionSettingsContent(
 
         ConfirmationTypeSelection(
             modifier = Modifier.padding(Spacing.MEDIUM),
+            canUseBiometrics = canUseBiometrics,
             confirmationType = confirmationType,
             onConfirmationTypeChanged = onConfirmationTypeChanged,
         )
@@ -125,6 +128,7 @@ fun ExecutionSettingsContent(
 
 @Composable
 private fun ConfirmationTypeSelection(
+    canUseBiometrics: Boolean,
     confirmationType: ConfirmationType?,
     onConfirmationTypeChanged: (ConfirmationType?) -> Unit,
     modifier: Modifier = Modifier,
@@ -136,8 +140,10 @@ private fun ConfirmationTypeSelection(
         items = listOf(
             null to stringResource(R.string.option_confirmation_none),
             ConfirmationType.SIMPLE to stringResource(R.string.option_confirmation_simple),
-            ConfirmationType.BIOMETRIC to stringResource(R.string.option_confirmation_biometric),
-        ),
+        )
+            .runIf(canUseBiometrics) {
+                plus(ConfirmationType.BIOMETRIC to stringResource(R.string.option_confirmation_biometric))
+            },
         onItemSelected = onConfirmationTypeChanged,
     )
 }

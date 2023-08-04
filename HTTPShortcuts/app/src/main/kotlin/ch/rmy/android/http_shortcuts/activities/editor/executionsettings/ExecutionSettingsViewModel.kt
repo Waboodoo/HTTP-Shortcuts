@@ -11,6 +11,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.tiles.QuickSettingsTileManager
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
+import ch.rmy.android.http_shortcuts.utils.BiometricUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
 import kotlinx.coroutines.CancellationException
@@ -38,6 +39,9 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
 
     @Inject
     lateinit var appOverlayUtil: AppOverlayUtil
+
+    @Inject
+    lateinit var biometricUtil: BiometricUtil
 
     init {
         getApplicationComponent().inject(this)
@@ -77,6 +81,7 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
         confirmationType = shortcut.confirmationType,
         excludeFromHistory = shortcut.excludeFromHistory,
         repetitionInterval = shortcut.repetition?.interval,
+        canUseBiometrics = biometricUtil.canUseBiometrics(),
     )
 
     private fun onInitializationError(error: Throwable) {

@@ -3,16 +3,21 @@ package ch.rmy.android.http_shortcuts.activities.settings
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.ChangeTitleDialog
+import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.TextInputDialog
 
 @Composable
 fun SettingsDialogs(
     dialogState: SettingsDialogState?,
-    onLockConfirmed: (String) -> Unit,
+    onLockConfirmed: (String, Boolean) -> Unit,
     onTitleChangeConfirmed: (String) -> Unit,
     onUserAgentChangeConfirmed: (String) -> Unit,
     onClearCookiesConfirmed: () -> Unit,
@@ -35,6 +40,7 @@ fun SettingsDialogs(
         }
         is SettingsDialogState.LockApp -> {
             LockAppDialog(
+                canUseBiometrics = dialogState.canUseBiometrics,
                 onConfirm = onLockConfirmed,
                 onDismissalRequested = onDismissalRequested,
             )
@@ -74,9 +80,14 @@ private fun ChangeUserAgentDialog(
 
 @Composable
 private fun LockAppDialog(
-    onConfirm: (String) -> Unit,
+    canUseBiometrics: Boolean,
+    onConfirm: (password: String, useBiometrics: Boolean) -> Unit,
     onDismissalRequested: () -> Unit,
 ) {
+    var useBiometrics by remember {
+        mutableStateOf(canUseBiometrics)
+    }
+
     TextInputDialog(
         title = stringResource(R.string.dialog_title_lock_app),
         message = stringResource(R.string.dialog_text_lock_app),
@@ -85,6 +96,17 @@ private fun LockAppDialog(
         monospace = true,
         transformValue = {
             it.take(50)
+        },
+        bottomContent = {
+            if (canUseBiometrics) {
+                Checkbox(
+                    label = stringResource(R.string.label_app_lock_use_biometrics),
+                    checked = useBiometrics,
+                    onCheckedChange = {
+                        useBiometrics = it
+                    },
+                )
+            }
         },
         dismissButton = {
             TextButton(
@@ -95,7 +117,7 @@ private fun LockAppDialog(
         },
         onDismissRequest = { text ->
             if (text != null) {
-                onConfirm(text)
+                onConfirm(text, useBiometrics)
             } else {
                 onDismissalRequested()
             }

@@ -8,8 +8,10 @@ class AppLock() : RealmObject {
     var id: Long = 0
 
     var passwordHash: String = ""
+    var useBiometrics: Boolean = false
 
-    constructor(passwordHash: String) : this() {
+    constructor(passwordHash: String, useBiometrics: Boolean) : this() {
         this.passwordHash = passwordHash
+        this.useBiometrics = useBiometrics
     }
 }

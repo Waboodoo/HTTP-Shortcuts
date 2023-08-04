@@ -1454,4 +1454,10 @@
     <string name="title_set_user_agent">Change User-Agent</string>
     <!-- Dialog message: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
     <string name="instructions_set_user_agent">Set a custom User-Agent which is used for all HTTP requests, or leave empty to use the default one.</string>
+    <!-- Subtitle shown on biometric app unlock dialog (e.g. asking for a fingerprint) -->
+    <string name="subtitle_biometric_app_unlock_prompt">Changes to shortcuts, variables or settings are not possible while the app is locked.</string>
+    <!-- Button label, shown on negative button below biometric prompt for unlocking the app. clicking it allows the user to instead try unlocking the app with their password -->
+    <string name="button_app_unlock_use_password">Use Password</string>
+    <!-- Checkbox label, shown on dialog that lets the user lock the app -->
+    <string name="label_app_lock_use_biometrics">Allow unlocking with biometrics</string>
 </resources>

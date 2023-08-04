@@ -46,6 +46,7 @@ fun TextInputDialog(
     transformValue: (String) -> String = { it },
     dismissButton: @Composable (() -> Unit)? = null,
     singleLine: Boolean = false,
+    bottomContent: (@Composable () -> Unit)? = null,
     onDismissRequest: (newValue: String?) -> Unit,
 ) {
     var value by remember {
@@ -108,6 +109,8 @@ fun TextInputDialog(
                     },
                     singleLine = singleLine,
                 )
+
+                bottomContent?.invoke()
 
                 LaunchedEffect(Unit) {
                     tryOrLog {

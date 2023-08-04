@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
+import ch.rmy.android.http_shortcuts.utils.BiometricUtil
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
@@ -50,6 +51,9 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
     @Inject
     lateinit var createQuickSettingsTile: CreateQuickSettingsTileUseCase
 
+    @Inject
+    lateinit var biometricUtil: BiometricUtil
+
     init {
         getApplicationComponent().inject(this)
     }
@@ -69,15 +73,15 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
     )
 
     fun onLockButtonClicked() {
-        updateDialogState(SettingsDialogState.LockApp)
+        updateDialogState(SettingsDialogState.LockApp(canUseBiometrics = biometricUtil.canUseBiometrics()))
     }
 
-    fun onLockConfirmed(password: String) {
+    fun onLockConfirmed(password: String, useBiometrics: Boolean) {
         updateDialogState(null)
         launchWithProgressTracking {
             try {
                 withContext(Dispatchers.IO) {
-                    appRepository.setLock(BCrypt.hashpw(password, BCrypt.gensalt()))
+                    appRepository.setLock(BCrypt.hashpw(password, BCrypt.gensalt()), useBiometrics)
                 }
                 finishWithOkResult(
                     SettingsActivity.OpenSettings.createResult(appLocked = true),

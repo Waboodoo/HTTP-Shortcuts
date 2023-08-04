@@ -95,9 +95,9 @@ constructor(
                 it.firstOrNull()
             }
 
-    suspend fun setLock(passwordHash: String) {
+    suspend fun setLock(passwordHash: String, useBiometrics: Boolean) {
         commitTransaction {
-            copyOrUpdate(AppLock(passwordHash))
+            copyOrUpdate(AppLock(passwordHash, useBiometrics))
         }
     }
 
