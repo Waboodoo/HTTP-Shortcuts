@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.about
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -16,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.SettingsButton
+import ch.rmy.android.http_shortcuts.components.Spacing
 
 @Composable
 fun AboutContent(
@@ -35,6 +37,7 @@ fun AboutContent(
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
+            .padding(bottom = Spacing.SMALL),
     ) {
         SettingsButton(
             icon = Icons.Outlined.Code,
