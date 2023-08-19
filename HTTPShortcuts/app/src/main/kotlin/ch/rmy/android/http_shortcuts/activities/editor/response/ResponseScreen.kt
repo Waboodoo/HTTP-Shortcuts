@@ -49,6 +49,7 @@ fun ResponseScreen() {
             successMessage = viewState.successMessage,
             responseDisplayActions = viewState.responseDisplayActions,
             storeResponseIntoFile = viewState.storeResponseIntoFile,
+            storeDirectory = viewState.storeDirectory,
             storeFileName = viewState.storeFileName,
             replaceFileIfExists = viewState.replaceFileIfExists,
             onResponseSuccessOutputChanged = viewModel::onResponseSuccessOutputChanged,

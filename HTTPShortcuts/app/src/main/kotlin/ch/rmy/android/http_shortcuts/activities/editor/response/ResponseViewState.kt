@@ -14,6 +14,7 @@ data class ResponseViewState(
     val successMessage: String,
     val responseDisplayActions: List<ResponseDisplayAction>,
     val storeResponseIntoFile: Boolean,
+    val storeDirectory: String?,
     val storeFileName: String,
     val replaceFileIfExists: Boolean,
 )

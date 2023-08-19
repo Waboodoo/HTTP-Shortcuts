@@ -1382,6 +1382,8 @@
     <string name="settings_ignore_battery_optimizations_summary">Enable this if you\'re experiencing problems with scheduling or repeated shortcut execution.</string>
     <!-- Label for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen -->
     <string name="label_store_response_into_file">Store response into file</string>
+    <!-- Subtitle for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen. The %s is a placeholder for the directory name. -->
+    <string name="subtitle_store_response_into_file_directory">Storing into “%s” directory</string>
     <!-- Label: Shown above text input field that lets the user pick the file name that should be used for storing the HTTP response into a file -->
     <string name="label_store_response_file_name">File Name</string>
     <!-- Label for checkbox which lets the user configure that when storing the HTTP response into a file, if the target file already exists whether the app is allowed to overwrite it -->

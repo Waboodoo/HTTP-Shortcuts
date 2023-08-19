@@ -2,7 +2,10 @@ package ch.rmy.android.http_shortcuts.activities.editor.response
 
 import android.app.Application
 import android.net.Uri
+import androidx.core.net.toUri
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.viewModelScope
+import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -60,6 +63,7 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
             successMessage = responseHandling.successMessage,
             responseDisplayActions = responseHandling.displayActions,
             storeResponseIntoFile = responseHandling.storeDirectory != null,
+            storeDirectory = responseHandling.storeDirectory?.toUri()?.getStoreDirectoryName(),
             storeFileName = responseHandling.storeFileName.orEmpty(),
             replaceFileIfExists = responseHandling.replaceFileIfExists,
         )
@@ -197,7 +201,10 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
 
     fun onStoreFileDirectoryPicked(directoryUri: Uri?) {
         updateViewState {
-            copy(storeResponseIntoFile = directoryUri != null)
+            copy(
+                storeResponseIntoFile = directoryUri != null,
+                storeDirectory = directoryUri?.getStoreDirectoryName(),
+            )
         }
         launchWithProgressTracking {
             temporaryShortcutRepository.setStoreDirectory(directoryUri)
@@ -212,4 +219,7 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
             temporaryShortcutRepository.setStoreReplaceIfExists(enabled)
         }
     }
+
+    private fun Uri.getStoreDirectoryName(): String? =
+        DocumentFile.fromTreeUri(context, this)?.name
 }
