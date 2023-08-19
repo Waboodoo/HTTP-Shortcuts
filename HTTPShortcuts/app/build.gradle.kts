@@ -181,6 +181,9 @@ android {
         }
         resources {
             excludes.add("META-INF/*")
+
+            // See https://github.com/Kotlin/kotlinx.coroutines#avoiding-including-the-debug-infrastructure-in-the-resulting-apk
+            excludes.add("DebugProbesKt.bin")
         }
     }
 
