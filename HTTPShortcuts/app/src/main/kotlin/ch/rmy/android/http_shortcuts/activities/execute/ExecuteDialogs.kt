@@ -374,12 +374,14 @@ private fun ShowResultDialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
         onDismissRequest = onDismissed,
         text = {
-            when (content) {
-                is ExecuteDialogState.ShowResult.Content.Image -> {
-                    AsyncImage(model = content.imageUri, contentDescription = null)
-                }
-                is ExecuteDialogState.ShowResult.Content.Text -> {
-                    HtmlRichText(text = content.text, monospace = monospace)
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                when (content) {
+                    is ExecuteDialogState.ShowResult.Content.Image -> {
+                        AsyncImage(model = content.imageUri, contentDescription = null)
+                    }
+                    is ExecuteDialogState.ShowResult.Content.Text -> {
+                        HtmlRichText(text = content.text, monospace = monospace)
+                    }
                 }
             }
         },
