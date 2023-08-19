@@ -1900,9 +1900,6 @@ Supprimer quand même ?"</string>
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">"Exécuter immédiatement un autre raccourci et renvoyer son résultat"</string>
 
-    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
-    <string name="error_play_services_not_available_for_location">"Les services Play sont nécessaires pour obtenir la localisation de l'appareil, mais ils ne sont pas installés ou ne sont pas disponibles."</string>
-
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
     <string name="error_unsupported_file_url">"Les URL avec le schéma file:// ne sont pas prises en charge."</string>
 

@@ -1873,10 +1873,6 @@
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">"その他のショートカットをすぐに実行して結果を表示する"</string>
 
-    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
-    <string name="error_play_services_not_available_for_location">"Playストアサービスでは機器の位置情報が必要ですが、インストールされていないか、無効になっています。
-"</string>
-
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
     <string name="error_unsupported_file_url">"file:// 形式のURLはサポートされていません"</string>
 
@@ -2078,8 +2074,10 @@
     <string name="title_certificate_pinning">"証明書のピン留め"</string>
 
     <!-- Empty state instructions for certificate pinning screen -->
-    <!-- Fuzzy -->
-    <string name="empty_state_certificate_pinning_instructions">"HTTP リクエストが安全な接続を通して送信されていることを確認したい場合には、ここで SHA-1 または SHA-256 の指紋証明書を追加することで、特定のホスト用に証明書のピン留めを有効にすることができます。"</string>
+    <string name="empty_state_certificate_pinning_instructions">"HTTP リクエストが安全な接続を通して確実に送信したい場合には、ここで SHA-1 または SHA-256 の指紋証明書を追加することで、特定のホストに向けて証明書にピン留めを有効にすることができます。
+
+自己署名証明書の場合は、代わりにショートカットの「%s」セクションを確認してください。
+"</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
     <string name="message_certificate_pinning_deleted">"指紋証明を削除しました"</string>
@@ -2173,4 +2171,25 @@
 
     <!-- Option in dropdown to select the confirmation type for a shortcut: biometric confirmation, i.e., asking the user to authenticate by fingerprint or similar -->
     <string name="option_confirmation_biometric">"生態認識で確認"</string>
+
+    <!-- Title of section in settings that allows user to change the "User-Agent" header that is sent by default with all shortcuts -->
+    <string name="settings_user_agent">"User-Agent をカスタマイズ"</string>
+
+    <!-- Message shown in snackbar as confirmation when the user changes the "User-Agent" header's value in the settings -->
+    <string name="message_user_agent_changed">"User-Agent を変更しました"</string>
+
+    <!-- Dialog title: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
+    <string name="title_set_user_agent">"User-Agent を変更する"</string>
+
+    <!-- Dialog message: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
+    <string name="instructions_set_user_agent">"カスタマイズ User-Agent を設定します。設定すると、全てのHTTPリクエストに使用されます。変更せずに空のままにすると、デフォルトのUser-Agent を使用します。"</string>
+
+    <!-- Subtitle shown on biometric app unlock dialog (e.g. asking for a fingerprint) -->
+    <string name="subtitle_biometric_app_unlock_prompt">"アプリがロック中には、ショートカット、変数、設定の変更はできません。"</string>
+
+    <!-- Button label, shown on negative button below biometric prompt for unlocking the app. clicking it allows the user to instead try unlocking the app with their password -->
+    <string name="button_app_unlock_use_password">"パスワードを使用"</string>
+
+    <!-- Checkbox label, shown on dialog that lets the user lock the app -->
+    <string name="label_app_lock_use_biometrics">"生体認証でロック解除を許可"</string>
 </resources>

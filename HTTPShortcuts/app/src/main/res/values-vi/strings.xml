@@ -1875,9 +1875,6 @@ Vẫn xóa?"</string>
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">"Thực hiện một phím tắt khác ngay lập tức và trả về kết quả của nó"</string>
 
-    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
-    <string name="error_play_services_not_available_for_location">"Cần có Dịch vụ của Play để nhận vị trí của thiết bị nhưng chúng chưa được cài đặt hoặc không khả dụng."</string>
-
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
     <string name="error_unsupported_file_url">"Các URL có lược đồ file:// không được hỗ trợ"</string>
 

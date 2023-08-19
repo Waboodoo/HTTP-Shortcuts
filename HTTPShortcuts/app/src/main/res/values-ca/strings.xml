@@ -1867,9 +1867,6 @@ Suprimir de totes maneres?"</string>
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">"Executeu una altra drecera immediatament i retorneu-ne el resultat"</string>
 
-    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
-    <string name="error_play_services_not_available_for_location">"Els serveis de Play són necessaris per obtenir la ubicació del dispositiu, però no estan instal·lats o no estan disponibles."</string>
-
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
     <string name="error_unsupported_file_url">"Els URL amb esquema file:// no són compatibles"</string>
 

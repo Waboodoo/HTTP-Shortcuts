@@ -1888,9 +1888,6 @@
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">"立即执行另一个快捷方式并返回其结果"</string>
 
-    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
-    <string name="error_play_services_not_available_for_location">"需要 Play Services 才能获得设备的位置，但 Play Services 未安装在您的设备上或不可用。"</string>
-
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
     <string name="error_unsupported_file_url">"不支持 file:// 协议的 URLs"</string>
 
@@ -2198,4 +2195,13 @@
 
     <!-- Dialog message: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
     <string name="instructions_set_user_agent">"设置用于所有 HTTP 请求的自定义 User-Agent，或者留空使用默认值。"</string>
+
+    <!-- Subtitle shown on biometric app unlock dialog (e.g. asking for a fingerprint) -->
+    <string name="subtitle_biometric_app_unlock_prompt">"应用锁定时无法更改快捷方式、变量或设置。"</string>
+
+    <!-- Button label, shown on negative button below biometric prompt for unlocking the app. clicking it allows the user to instead try unlocking the app with their password -->
+    <string name="button_app_unlock_use_password">"使用密码"</string>
+
+    <!-- Checkbox label, shown on dialog that lets the user lock the app -->
+    <string name="label_app_lock_use_biometrics">"允许使用生物特征解锁"</string>
 </resources>

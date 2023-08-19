@@ -1883,9 +1883,6 @@ Trotzdem löschen?"</string>
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">"Führe einen anderen Shortcut sofort aus und erhalte sein Result zurück."</string>
 
-    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
-    <string name="error_play_services_not_available_for_location">"Um den Standort des Geräts zu bestimmen werden Play Services benötigt. Diese scheinen jedoch nicht installiert oder verfügbar zu sein."</string>
-
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
     <string name="error_unsupported_file_url">"URLs mit file:// Schema werden nicht unterstützt"</string>
 
@@ -2197,4 +2194,13 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
 
     <!-- Dialog message: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
     <string name="instructions_set_user_agent">"Setze hier einen benutzerdefinierten User-Agent, welcher für alle HTTP-Requests verwendet wird, oder lass das Feld leer um den Standard-Wert zu verwenden."</string>
+
+    <!-- Subtitle shown on biometric app unlock dialog (e.g. asking for a fingerprint) -->
+    <string name="subtitle_biometric_app_unlock_prompt">"Änderungen an Shortcuts oder Einstellungen sind nicht möglich während die App gesperrt ist."</string>
+
+    <!-- Button label, shown on negative button below biometric prompt for unlocking the app. clicking it allows the user to instead try unlocking the app with their password -->
+    <string name="button_app_unlock_use_password">"Passwort verwenden"</string>
+
+    <!-- Checkbox label, shown on dialog that lets the user lock the app -->
+    <string name="label_app_lock_use_biometrics">"Biometrisches Entsperren erlauben"</string>
 </resources>

@@ -1882,9 +1882,6 @@
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">"다른 바로 가기를 즉시 실행하고 그 결과를 반환합니다."</string>
 
-    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
-    <string name="error_play_services_not_available_for_location">"기기의 위치를 가져오려면 Play 서비스가 필요하지만 설치되어 있지 않거나 사용할 수 없습니다."</string>
-
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
     <string name="error_unsupported_file_url">"file:// 스키마가 포함된 URL은 지원되지 않습니다."</string>
 

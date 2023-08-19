@@ -1865,9 +1865,6 @@
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">"بلافاصله میانبر دیگری را اجرا کنید و نتیجه آن را برگردانید"</string>
 
-    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
-    <string name="error_play_services_not_available_for_location">"خدمات Play برای دریافت موقعیت مکانی دستگاه مورد نیاز است، اما نصب نشده یا در دسترس نیست."</string>
-
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
     <string name="error_unsupported_file_url">"نشانی‌های اینترنتی با طرح file:// پشتیبانی نمی‌شوند"</string>
 

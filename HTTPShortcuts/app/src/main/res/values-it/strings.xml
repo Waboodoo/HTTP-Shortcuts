@@ -1904,9 +1904,6 @@ Eliminare comunque?"</string>
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">"Eseguire immediatamente un'altra scorciatoia e restituirne il risultato"</string>
 
-    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
-    <string name="error_play_services_not_available_for_location">"I Play Services sono necessari per ottenere la posizione del dispositivo, ma non sono installati o non sono disponibili."</string>
-
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
     <string name="error_unsupported_file_url">"Gli URL con schema file:// non sono supportati."</string>
 

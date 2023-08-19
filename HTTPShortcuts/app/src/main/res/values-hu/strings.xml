@@ -1888,9 +1888,6 @@ Egyébként is törölje?"</string>
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">"Egy másik parancsikon azonnali végrehajtása és eredményének visszaadása"</string>
 
-    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
-    <string name="error_play_services_not_available_for_location">"Az eszköz helyének lekérdezéséhez a Play Services szolgáltatásokra van szükség, de azok nincsenek telepítve vagy nem elérhetők."</string>
-
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
     <string name="error_unsupported_file_url">"A file:// sémájú URL-ek nem támogatottak"</string>
 

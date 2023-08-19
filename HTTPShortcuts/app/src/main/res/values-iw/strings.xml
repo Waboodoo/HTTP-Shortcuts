@@ -1893,9 +1893,6 @@
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">"בצע קיצור דרך נוסף מיד והחזר את התוצאה שלו"</string>
 
-    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
-    <string name="error_play_services_not_available_for_location">"שירותי Play נדרשים כדי לקבל את מיקום המכשיר, אך הם אינם מותקנים או אינם זמינים."</string>
-
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
     <string name="error_unsupported_file_url">"כתובות URL עם סכימת file:// אינן נתמכות"</string>
 

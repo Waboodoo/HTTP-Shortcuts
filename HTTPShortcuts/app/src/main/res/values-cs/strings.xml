@@ -1826,9 +1826,6 @@ Odstranit v každém případě?"</string>
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">"Okamžité spuštění dalšího zástupce a vrácení jeho výsledku"</string>
 
-    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
-    <string name="error_play_services_not_available_for_location">"K získání polohy zařízení jsou vyžadovány Služby Play, které však nejsou nainstalovány nebo nejsou k dispozici."</string>
-
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
     <string name="error_unsupported_file_url">"Adresy URL se schématem file:// nejsou podporovány"</string>
 
