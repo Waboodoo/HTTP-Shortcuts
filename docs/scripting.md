@@ -496,11 +496,13 @@ const myIP = getWifiIPAddress();
 <a name="get-wifi-ssid"></a>
 ### getWifiSSID
 
-With this function you can retrieve the SSID (i.e., the name) of the Wi-Fi network the device is currently connected to. It will return `null` if there is currently no Wi-Fi connection.
+With this function you can retrieve the SSID (i.e., the name) of the Wi-Fi network the device is currently connected to. It will return `null` if there is currently no Wi-Fi connection or if the SSID can not be determined.
 
 ```js
 const mySSID = getWifiSSID();
 ```
+
+For this function to work, location services need to be enabled and the app needs to be granted the permission to access the device's location. This is a technical limitation imposed by the Android OS. See also the [Permissions](permissions.md) page for details.
 
 <a name="wol"></a>
 ### Wake-on-LAN

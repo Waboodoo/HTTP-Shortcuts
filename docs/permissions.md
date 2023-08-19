@@ -25,10 +25,10 @@ See next section.
 ## access precise location only in the foreground
 This is used for 2 specific features only, both of which are non-essential and completely optional to use:
 
-- Checking the SSID of the Wi-Fi that the device is currently connected to. This allows a shortcut to only run on a specific network, and it allows the use of the [`getWifiSsid()`](scripting.md#get-wifi-ssid) function in Scripting.
+- Checking the SSID of the Wi-Fi that the device is currently connected to. This allows a shortcut to only run on a specific network, and it allows the use of the [`getWifiSsid()`](scripting.md#get-wifi-ssid) function in Scripting. Neither of these two features make direct use of the device's physical location information and only access the SSID.
 - Using the [`getLocation()`](scripting.md#get-location) function for Scripting, which allows to programmatically look up the device's current location.
 
-Unless configured so explicitly by the user through the use of Scripting, the Wi-Fi or location information never leaves the device.
+Unless configured so explicitly by the user through the use of [Scripting](scripting.md) or [Variables](variables.md), the Wi-Fi or location information never leaves the device and is only stored in memory, never persisted to disk.
 
 ## control vibration
 Used by the [`vibrate()`][scripting.md#vibrate) function, which allows the device to vibrate via Scripting.
