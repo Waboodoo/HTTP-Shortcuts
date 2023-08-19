@@ -163,7 +163,7 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
-        viewBinding = true
+        viewBinding = false
         dataBinding = false
         aidl = false
         renderScript = false
