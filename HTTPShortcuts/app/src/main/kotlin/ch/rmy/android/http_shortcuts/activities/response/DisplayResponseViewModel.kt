@@ -85,6 +85,7 @@ class DisplayResponseViewModel(application: Application) : BaseViewModel<Display
             )
                 .takeUnless { !it.hasGeneralInfo && it.headers.isEmpty() }
         } else null,
+        monospace = initData.monospace,
         text = responseText,
         fileUri = initData.fileUri,
         limitExceeded = if (responseTooLarge) CONTENT_SIZE_LIMIT else null,
@@ -188,6 +189,7 @@ class DisplayResponseViewModel(application: Application) : BaseViewModel<Display
         val headers: Map<String, List<String>>,
         val timing: Duration?,
         val showDetails: Boolean,
+        val monospace: Boolean,
         val actions: List<ResponseDisplayAction>,
     )
 

@@ -620,6 +620,9 @@ class Execution(
                                 .headers(response?.headers)
                                 .statusCode(response?.statusCode)
                         }
+                        .runIf(shortcut.responseHandling?.monospace == true) {
+                            monospace()
+                        }
                         .actions(shortcut.responseHandling?.displayActions ?: emptyList())
                         .startActivity(activityProvider.getActivity())
                 }

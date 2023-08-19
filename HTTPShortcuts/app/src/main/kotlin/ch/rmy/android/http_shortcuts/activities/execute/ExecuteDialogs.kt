@@ -246,6 +246,7 @@ private fun ExecuteDialog(
                 title = dialogState.title,
                 content = dialogState.content,
                 action = dialogState.action,
+                monospace = dialogState.monospace,
                 onActionButtonClicked = {
                     onResult(Unit)
                 },
@@ -361,6 +362,7 @@ private fun ShowResultDialog(
     title: String,
     content: ExecuteDialogState.ShowResult.Content,
     action: ResponseDisplayAction?,
+    monospace: Boolean,
     onActionButtonClicked: () -> Unit,
     onDismissed: () -> Unit,
 ) {
@@ -377,7 +379,7 @@ private fun ShowResultDialog(
                     AsyncImage(model = content.imageUri, contentDescription = null)
                 }
                 is ExecuteDialogState.ShowResult.Content.Text -> {
-                    HtmlRichText(text = content.text)
+                    HtmlRichText(text = content.text, monospace = monospace)
                 }
             }
         },

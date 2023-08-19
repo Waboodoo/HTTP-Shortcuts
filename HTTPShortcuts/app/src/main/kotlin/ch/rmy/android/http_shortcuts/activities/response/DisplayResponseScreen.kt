@@ -36,11 +36,12 @@ fun DisplayResponseScreen(
     headers: Map<String, List<String>>,
     timing: Duration?,
     showDetails: Boolean,
+    monospace: Boolean,
     actions: List<ResponseDisplayAction>,
 ) {
     val (viewModel, state) = bindViewModel<DisplayResponseViewModel.InitData, DisplayResponseViewState, DisplayResponseViewModel>(
         DisplayResponseViewModel.InitData(
-            shortcutId, shortcutName, text, mimeType, charset, url, fileUri, statusCode, headers, timing, showDetails, actions,
+            shortcutId, shortcutName, text, mimeType, charset, url, fileUri, statusCode, headers, timing, showDetails, monospace, actions,
         )
     )
 
@@ -113,6 +114,7 @@ fun DisplayResponseScreen(
             fileUri = viewState.fileUri,
             url = viewState.url,
             limitExceeded = viewState.limitExceeded,
+            monospace = viewState.monospace,
         )
     }
 

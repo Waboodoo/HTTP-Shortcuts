@@ -51,6 +51,7 @@ fun DisplayResponseContent(
     fileUri: Uri?,
     url: Uri?,
     limitExceeded: Long?,
+    monospace: Boolean,
 ) {
     Column {
         if (detailInfo != null) {
@@ -69,6 +70,7 @@ fun DisplayResponseContent(
                 fileUri = fileUri,
                 url = url,
                 limitExceeded = limitExceeded,
+                monospace = monospace,
             )
         }
     }
@@ -166,6 +168,7 @@ private fun ResponseDisplay(
     fileUri: Uri?,
     url: Uri?,
     limitExceeded: Long?,
+    monospace: Boolean,
 ) {
     val context = LocalContext.current
     if (FileTypeUtil.isImage(mimeType)) {
@@ -204,13 +207,13 @@ private fun ResponseDisplay(
             SyntaxHighlightedText(text, language = "yml")
         }
         else -> {
-            PlainText(text)
+            PlainText(text, monospace)
         }
     }
 }
 
 @Composable
-private fun PlainText(text: String, italic: Boolean = false) {
+private fun PlainText(text: String, monospace: Boolean = false, italic: Boolean = false) {
     Box(modifier = Modifier.verticalScroll(rememberScrollState())) {
         SelectionContainer {
             Text(
@@ -218,6 +221,7 @@ private fun PlainText(text: String, italic: Boolean = false) {
                     .fillMaxWidth()
                     .padding(Spacing.MEDIUM),
                 text = text,
+                fontFamily = if (monospace) FontFamily.Monospace else null,
                 fontStyle = if (italic) FontStyle.Italic else FontStyle.Normal,
             )
         }

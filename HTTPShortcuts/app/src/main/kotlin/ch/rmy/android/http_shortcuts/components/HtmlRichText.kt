@@ -40,6 +40,7 @@ import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.BaselineShift
@@ -59,6 +60,7 @@ import kotlinx.coroutines.withContext
 @Composable
 fun HtmlRichText(
     text: String,
+    monospace: Boolean = false,
 ) {
     val context = LocalContext.current
     val linkColor = MaterialTheme.colorScheme.primary
@@ -139,6 +141,7 @@ fun HtmlRichText(
             text = annotatedString,
             inlineContent = inlineContentMap,
             modifier = modifier,
+            fontFamily = if (monospace) FontFamily.Monospace else null,
             onTextLayout = {
                 layoutResult.value = it
             },

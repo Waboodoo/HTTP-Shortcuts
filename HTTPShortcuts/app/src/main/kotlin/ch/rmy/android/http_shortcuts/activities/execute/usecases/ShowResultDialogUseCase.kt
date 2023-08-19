@@ -56,7 +56,8 @@ constructor(
                             (output ?: response?.getContentAsString(context) ?: "")
                                 .ifBlank { context.getString(R.string.message_blank_response) }
                         )
-                    }
+                    },
+                    monospace = shortcut.responseHandling?.monospace == true,
                 )
             )
         } catch (e: DialogCancellationException) {

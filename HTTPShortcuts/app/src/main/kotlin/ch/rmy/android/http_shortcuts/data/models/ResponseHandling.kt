@@ -36,6 +36,7 @@ class ResponseHandling() : EmbeddedRealmObject {
     var failureOutput: String = FAILURE_OUTPUT_DETAILED
     var successMessage: String = ""
     var includeMetaInfo: Boolean = false
+    var monospace: Boolean = false
 
     var displayActions: List<ResponseDisplayAction>
         get() = actions.mapNotNull(ResponseDisplayAction::parse)
@@ -68,7 +69,8 @@ class ResponseHandling() : EmbeddedRealmObject {
             other.actions == actions &&
             other.storeDirectory == storeDirectory &&
             other.storeFileName == storeFileName &&
-            other.replaceFileIfExists == replaceFileIfExists
+            other.replaceFileIfExists == replaceFileIfExists &&
+            other.monospace == monospace
 
     companion object {
 

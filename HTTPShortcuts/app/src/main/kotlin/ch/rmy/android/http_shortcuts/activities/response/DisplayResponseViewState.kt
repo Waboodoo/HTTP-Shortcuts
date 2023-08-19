@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.activities.response.models.DetailInfo
 @Stable
 data class DisplayResponseViewState(
     val detailInfo: DetailInfo?,
+    val monospace: Boolean,
     val text: String,
     val fileUri: Uri?,
     val limitExceeded: Long?,

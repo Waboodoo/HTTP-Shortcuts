@@ -43,6 +43,7 @@ class DisplayResponseActivity : BaseComposeActivity() {
                 ?.takeUnless { it == 0L }
                 ?.milliseconds,
             showDetails = intent?.extras?.getBoolean(EXTRA_DETAILS, false) ?: false,
+            monospace = intent?.extras?.getBoolean(EXTRA_MONOSPACE, false) ?: false,
             actions = (intent?.extras?.getStringArrayList(EXTRA_ACTIONS) ?: emptyList())
                 .mapNotNull(ResponseDisplayAction::parse),
         )
@@ -112,6 +113,10 @@ class DisplayResponseActivity : BaseComposeActivity() {
             intent.putExtra(EXTRA_URL, url)
         }
 
+        fun monospace() = also {
+            intent.putExtra(EXTRA_MONOSPACE, true)
+        }
+
         fun showDetails(showDetails: Boolean) = also {
             intent.putExtra(EXTRA_DETAILS, showDetails)
         }
@@ -155,6 +160,7 @@ class DisplayResponseActivity : BaseComposeActivity() {
         private const val EXTRA_TIMING = "timing"
         private const val EXTRA_DETAILS = "details"
         private const val EXTRA_ACTIONS = "actions"
+        private const val EXTRA_MONOSPACE = "monospace"
 
         private const val MAX_TEXT_LENGTH = 700000
 

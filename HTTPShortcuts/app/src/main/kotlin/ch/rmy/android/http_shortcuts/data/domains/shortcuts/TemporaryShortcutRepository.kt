@@ -278,6 +278,12 @@ constructor(
         }
     }
 
+    suspend fun setUseMonospaceFont(enabled: Boolean) {
+        commitTransactionForResponseHandling { responseHandling ->
+            responseHandling.monospace = enabled
+        }
+    }
+
     suspend fun setResponseIncludeMetaInfo(includeMetaInfo: Boolean) {
         commitTransactionForResponseHandling { responseHandling ->
             responseHandling.includeMetaInfo = includeMetaInfo

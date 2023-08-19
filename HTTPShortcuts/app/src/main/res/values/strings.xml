@@ -40,6 +40,8 @@
     <string name="label_response_on_failure">On Failure</string>
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <string name="label_include_meta_information">Show Meta Information</string>
+    <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
+    <string name="label_monospace_response">Display text using a monospace font</string>
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <string name="subtitle_include_meta_information">Response Headers, Status Code, …</string>
     <!-- Shortcut dropdown option: Place shortcut on home screen -->

@@ -34,6 +34,7 @@ fun ResponseContent(
     storeDirectory: String?,
     storeFileName: String,
     replaceFileIfExists: Boolean,
+    useMonospaceFont: Boolean,
     onResponseSuccessOutputChanged: (String) -> Unit,
     onSuccessMessageChanged: (String) -> Unit,
     onResponseFailureOutputChanged: (String) -> Unit,
@@ -44,6 +45,7 @@ fun ResponseContent(
     onStoreResponseIntoFileChanged: (Boolean) -> Unit,
     onReplaceFileIfExistsChanged: (Boolean) -> Unit,
     onStoreFileNameChanged: (String) -> Unit,
+    onUseMonospaceFontChanged: (Boolean) -> Unit,
 ) {
     val hasOutput = responseSuccessOutput != ResponseHandling.SUCCESS_OUTPUT_NONE || responseFailureOutput != ResponseHandling.FAILURE_OUTPUT_NONE
 
@@ -119,6 +121,14 @@ fun ResponseContent(
                         selectedKey = responseDisplayActions.firstOrNull(),
                         items = DIALOG_ACTIONS.map { (value, label) -> value to stringResource(label) },
                         onItemSelected = onDialogActionChanged,
+                    )
+                }
+
+                AnimatedVisibility(visible = responseUiType in arrayOf(ResponseHandling.UI_TYPE_DIALOG, ResponseHandling.UI_TYPE_WINDOW)) {
+                    Checkbox(
+                        label = stringResource(R.string.label_monospace_response),
+                        checked = useMonospaceFont,
+                        onCheckedChange = onUseMonospaceFontChanged,
                     )
                 }
 

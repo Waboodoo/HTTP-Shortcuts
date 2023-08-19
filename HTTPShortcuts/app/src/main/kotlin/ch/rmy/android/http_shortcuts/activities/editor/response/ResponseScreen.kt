@@ -52,6 +52,7 @@ fun ResponseScreen() {
             storeDirectory = viewState.storeDirectory,
             storeFileName = viewState.storeFileName,
             replaceFileIfExists = viewState.replaceFileIfExists,
+            useMonospaceFont = viewState.useMonospaceFont,
             onResponseSuccessOutputChanged = viewModel::onResponseSuccessOutputChanged,
             onSuccessMessageChanged = viewModel::onSuccessMessageChanged,
             onResponseFailureOutputChanged = viewModel::onResponseFailureOutputChanged,
@@ -62,6 +63,7 @@ fun ResponseScreen() {
             onStoreResponseIntoFileChanged = viewModel::onStoreIntoFileCheckboxChanged,
             onReplaceFileIfExistsChanged = viewModel::onStoreFileOverwriteChanged,
             onStoreFileNameChanged = viewModel::onStoreFileNameChanged,
+            onUseMonospaceFontChanged = viewModel::onUseMonospaceFontChanged,
         )
     }
 }

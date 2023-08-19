@@ -66,6 +66,7 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
             storeDirectory = responseHandling.storeDirectory?.toUri()?.getStoreDirectoryName(),
             storeFileName = responseHandling.storeFileName.orEmpty(),
             replaceFileIfExists = responseHandling.replaceFileIfExists,
+            useMonospaceFont = responseHandling.monospace,
         )
     }
 
@@ -222,4 +223,13 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
 
     private fun Uri.getStoreDirectoryName(): String? =
         DocumentFile.fromTreeUri(context, this)?.name
+
+    fun onUseMonospaceFontChanged(monospace: Boolean) {
+        updateViewState {
+            copy(useMonospaceFont = monospace)
+        }
+        launchWithProgressTracking {
+            temporaryShortcutRepository.setUseMonospaceFont(monospace)
+        }
+    }
 }
