@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
 import com.google.android.gms.common.ConnectionResult
@@ -19,7 +20,8 @@ class PlayServicesUtilImpl(
     override fun isPlayServicesAvailable(): Boolean =
         GoogleApiAvailabilityLight.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS
 
-    override suspend fun getLocation(): PlayServicesUtil.Location? =
+    @SuppressLint("MissingPermission")
+    override suspend fun getLocation(): Location? =
         suspendCancellableCoroutine { continuation ->
             val cancellationTokenSource = CancellationTokenSource()
             LocationServices.getFusedLocationProviderClient(context)
@@ -30,7 +32,7 @@ class PlayServicesUtilImpl(
                     cancellationTokenSource.token,
                 )
                 .addOnSuccessListener { location: Location? ->
-                    continuation.resume(location?.toDataObject())
+                    continuation.resume(location)
                 }
                 .addOnFailureListener { error ->
                     continuation.resumeWithException(error)
@@ -43,12 +45,5 @@ class PlayServicesUtilImpl(
 
     companion object {
         private val MAX_LOOKUP_TIME = 20.seconds
-
-        internal fun Location.toDataObject() =
-            PlayServicesUtil.Location(
-                latitude = latitude,
-                longitude = longitude,
-                accuracy = if (hasAccuracy()) accuracy else null,
-            )
     }
 }

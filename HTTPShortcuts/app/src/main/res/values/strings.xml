@@ -1217,8 +1217,6 @@
     <string name="error_failed_to_get_wifi_ssid">Failed to determine the SSID of the current Wi-Fi.</string>
     <!-- Error message: Shown to the user when the app tries to determine the device's current location but failed, e.g. because of a missing permission -->
     <string name="error_failed_to_get_location">The device\'s physical location could not be determined.</string>
-    <!-- Error message: Shown to the user when Google Play Services are not available, making it impossible to retrieve the device's location for use in the getLocation() JS function -->
-    <string name="error_play_services_not_available_for_location">Play Services are required to get the device\'s location, but they are not installed or not available.</string>
     <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
     <string name="placeholder_request_body_content">Enter the raw HTTP request body here. You can add variable placeholders via the \“{}\” button.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->

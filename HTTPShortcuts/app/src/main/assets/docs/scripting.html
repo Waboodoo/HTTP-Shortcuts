@@ -220,7 +220,7 @@ if (myLocation.status == 'success') {
 } else {
     alert('I am so lost right now');
 }
-</code></pre><p>Please note that this function requires that Google Play Services are installed on the device and that you grant location permission to the app. This feature is not available in the F-Droid version of the app.</p><p><a name="examples"></a></p><h2>Examples</h2><p>This section lists some examples for typical use-cases of the code execution feature.</p><h3>Generate values for use in the request</h3><p>Sometimes you need to generate a value, for example the current date, or a random number, to be used in your request. You can do this by generating the value and then storing it into a variable that you then use in your request. Here's an example:</p><pre><code class="language-js">const randomNumber = Math.floor(Math.random() * 10);
+</code></pre><p>Please note that this function makes use of Google Play Services. If those are not available on the device, or if you've installed the app from F-Droid, then a fallback is used which may be less accurate, less reliable or take longer to find the location.</p><p><a name="examples"></a></p><h2>Examples</h2><p>This section lists some examples for typical use-cases of the code execution feature.</p><h3>Generate values for use in the request</h3><p>Sometimes you need to generate a value, for example the current date, or a random number, to be used in your request. You can do this by generating the value and then storing it into a variable that you then use in your request. Here's an example:</p><pre><code class="language-js">const randomNumber = Math.floor(Math.random() * 10);
 setVariable('myNumber', randomNumber);
 
 const currentDate = (new Date()).toDateString();

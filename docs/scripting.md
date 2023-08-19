@@ -845,7 +845,7 @@ if (myLocation.status == 'success') {
 }
 ```
 
-Please note that this function requires that Google Play Services are installed on the device and that you grant location permission to the app. This feature is not available in the F-Droid version of the app.
+Please note that this function makes use of Google Play Services. If those are not available on the device, or if you've installed the app from F-Droid, then a fallback is used which may be less accurate, less reliable or take longer to find the location.
 
 <a name="examples"></a>
 ## Examples

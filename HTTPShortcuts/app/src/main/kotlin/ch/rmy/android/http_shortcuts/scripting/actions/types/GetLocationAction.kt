@@ -5,8 +5,8 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.utils.LocationLookup
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
-import ch.rmy.android.http_shortcuts.utils.PlayServicesUtil
 import kotlinx.coroutines.CancellationException
 import org.json.JSONObject
 import javax.inject.Inject
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class GetLocationAction : BaseAction() {
 
     @Inject
-    lateinit var playServicesUtil: PlayServicesUtil
+    lateinit var locationLookup: LocationLookup
 
     @Inject
     lateinit var permissionManager: PermissionManager
@@ -24,17 +24,8 @@ class GetLocationAction : BaseAction() {
     }
 
     override suspend fun execute(executionContext: ExecutionContext): JSONObject {
-        checkForPlayServices()
         requestLocationPermissionIfNeeded()
         return fetchLocation()
-    }
-
-    private fun checkForPlayServices() {
-        if (!playServicesUtil.isPlayServicesAvailable()) {
-            throw ActionException {
-                getString(R.string.error_play_services_not_available_for_location)
-            }
-        }
     }
 
     private suspend fun requestLocationPermissionIfNeeded() {
@@ -48,7 +39,7 @@ class GetLocationAction : BaseAction() {
 
     private suspend fun fetchLocation(): JSONObject =
         try {
-            playServicesUtil.getLocation().toResult()
+            locationLookup.getLocation().toResult()
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
@@ -59,7 +50,7 @@ class GetLocationAction : BaseAction() {
         }
 
     companion object {
-        internal fun PlayServicesUtil.Location?.toResult(): JSONObject =
+        internal fun LocationLookup.LocationData?.toResult(): JSONObject =
             when {
                 this != null -> {
                     createJSONObject(

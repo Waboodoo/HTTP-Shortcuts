@@ -13,7 +13,6 @@ import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.mo
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.models.SectionItem
 import ch.rmy.android.http_shortcuts.plugin.TaskerUtil
 import ch.rmy.android.http_shortcuts.utils.CameraUtil
-import ch.rmy.android.http_shortcuts.utils.PlayServicesUtil
 import ch.rmy.android.http_shortcuts.utils.SearchUtil.normalizeToKeywords
 import ch.rmy.android.http_shortcuts.utils.VibrationUtil
 import javax.inject.Inject
@@ -25,7 +24,6 @@ constructor(
     private val vibrationUtil: VibrationUtil,
     private val cameraUtil: CameraUtil,
     private val taskerUtil: TaskerUtil,
-    private val playServicesUtil: PlayServicesUtil,
 ) {
 
     operator fun invoke(initData: CodeSnippetPickerViewModel.InitData, callback: (Event) -> Unit): List<SectionItem> =
@@ -575,15 +573,13 @@ constructor(
                         sendEvent(Event.PickTaskerTask)
                     }
                 }
-                if (playServicesUtil.isPlayServicesAvailable()) {
-                    item(
-                        R.string.action_type_get_location_title,
-                        description = R.string.action_type_get_location_description,
-                        docRef = "get-location",
-                        keywords = setOf("locate", "gps", "coordinates"),
-                    ) {
-                        insertText("getLocation()")
-                    }
+                item(
+                    R.string.action_type_get_location_title,
+                    description = R.string.action_type_get_location_description,
+                    docRef = "get-location",
+                    keywords = setOf("locate", "gps", "coordinates", "position"),
+                ) {
+                    insertText("getLocation()")
                 }
             }
         }
