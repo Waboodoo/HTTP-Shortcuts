@@ -43,7 +43,10 @@ constructor() {
         certificatePins: List<CertificatePin> = emptyList(),
         hostVerificationConfig: HostVerificationConfig = HostVerificationConfig.Default,
     ): OkHttpClient =
-        createOkHttpClientBuilder(context, hostVerificationConfig, clientCertParams)
+        OkHttpClient.Builder()
+            .fastFallback(true)
+            .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.CLEARTEXT))
+            .configureTLS(context, hostVerificationConfig, clientCertParams)
             .runIf(username != null && password != null) {
                 val authenticator = DigestAuthenticator(Credentials(username, password))
                 authenticator(authenticator)
@@ -93,13 +96,12 @@ constructor() {
             }
             .build()
 
-    private fun createOkHttpClientBuilder(
+    private fun OkHttpClient.Builder.configureTLS(
         context: Context,
         hostVerificationConfig: HostVerificationConfig,
         clientCertParams: ClientCertParams?,
-    ) = OkHttpClient.Builder()
-        .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.CLEARTEXT))
-        .run {
+    ): OkHttpClient.Builder =
+        run {
             val trustManager = when (hostVerificationConfig) {
                 HostVerificationConfig.Default -> Conscrypt.getDefaultX509TrustManager()
                 is HostVerificationConfig.SelfSigned -> UnsafeTrustManager(expectedFingerprint = hostVerificationConfig.expectedFingerprint)
@@ -133,14 +135,14 @@ constructor() {
             sslContext.init(keyManagers, arrayOf(trustManager), null)
             sslSocketFactory(TLSEnabledSSLSocketFactory(sslContext.socketFactory), trustManager)
         }
-        .run {
-            when (hostVerificationConfig) {
-                HostVerificationConfig.Default -> this
-                is HostVerificationConfig.SelfSigned,
-                HostVerificationConfig.TrustAll,
-                -> {
-                    hostnameVerifier { _, _ -> true }
+            .run {
+                when (hostVerificationConfig) {
+                    HostVerificationConfig.Default -> this
+                    is HostVerificationConfig.SelfSigned,
+                    HostVerificationConfig.TrustAll,
+                    -> {
+                        hostnameVerifier { _, _ -> true }
+                    }
                 }
             }
-        }
 }
