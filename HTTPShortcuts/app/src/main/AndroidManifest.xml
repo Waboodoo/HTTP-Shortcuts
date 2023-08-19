@@ -50,6 +50,10 @@
             android:name="com.bugsnag.android.API_KEY"
             android:value="${bugsnagAPIKey}" />
 
+        <meta-data
+            android:name="android.webkit.WebView.MetricsOptOut"
+            android:value="true" />
+
         <activity
             android:name=".activities.main.MainActivity"
             android:exported="true"
