@@ -14,7 +14,7 @@ val androidCoreKtxTestVersion: String by properties
 
 android {
     namespace = "ch.rmy.android.framework"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21
@@ -52,7 +52,7 @@ android {
 
     buildFeatures {
         buildConfig = true
-        viewBinding = true
+        viewBinding = false
         dataBinding = false
         aidl = false
         renderScript = false
@@ -68,6 +68,7 @@ android {
 
     kotlinOptions {
         languageVersion = "1.6"
+        jvmTarget = "1.8"
     }
 
     testOptions {
@@ -88,7 +89,7 @@ dependencies {
     api("androidx.core:core-ktx:1.10.1@aar")
     api("androidx.annotation:annotation:1.6.0")
     api("androidx.appcompat:appcompat:1.6.1")
-    api("androidx.preference:preference-ktx:1.2.0")
+    api("androidx.preference:preference-ktx:1.2.1")
 
     /* Dependency Injection */
     api("com.google.dagger:dagger:2.41")
