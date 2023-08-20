@@ -102,12 +102,11 @@ private fun ContextMenuDialog(
                 onClick = onPlaceOnHomeScreenClicked,
             )
         }
-        if (contextMenuState.deleteOptionVisible) {
-            SelectDialogEntry(
-                label = stringResource(R.string.action_delete),
-                onClick = onDeleteClicked,
-            )
-        }
+        SelectDialogEntry(
+            label = stringResource(R.string.action_delete),
+            onClick = onDeleteClicked,
+            enabled = contextMenuState.deleteOptionEnabled,
+        )
     }
 }
 

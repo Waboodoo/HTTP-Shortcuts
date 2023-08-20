@@ -11,7 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.style.TextOverflow
+import ch.rmy.android.http_shortcuts.extensions.runIf
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @Composable
@@ -19,6 +21,7 @@ fun SelectDialogEntry(
     label: String,
     description: String? = null,
     checked: Boolean? = null,
+    enabled: Boolean = true,
     useRadios: Boolean = false,
     icon: ShortcutIcon? = null,
     onClick: () -> Unit,
@@ -26,7 +29,9 @@ fun SelectDialogEntry(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .runIf(enabled) {
+                clickable(onClick = onClick)
+            }
             .padding(vertical = Spacing.SMALL + Spacing.TINY),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -34,12 +39,14 @@ fun SelectDialogEntry(
             if (useRadios) {
                 RadioButton(
                     selected = checked,
+                    enabled = enabled,
                     onClick = null,
                     modifier = Modifier.padding(end = Spacing.SMALL),
                 )
             } else {
                 Checkbox(
                     checked = checked,
+                    enabled = enabled,
                     onCheckedChange = null,
                     modifier = Modifier.padding(end = Spacing.SMALL),
                 )
@@ -50,9 +57,16 @@ fun SelectDialogEntry(
                 icon,
                 modifier = Modifier
                     .padding(end = Spacing.SMALL)
+                    .runIf(!enabled) {
+                        alpha(0.3f)
+                    }
             )
         }
-        Column {
+        Column(
+            modifier = Modifier.runIf(!enabled) {
+                alpha(0.3f)
+            }
+        ) {
             Text(
                 label,
                 fontSize = FontSize.BIG,

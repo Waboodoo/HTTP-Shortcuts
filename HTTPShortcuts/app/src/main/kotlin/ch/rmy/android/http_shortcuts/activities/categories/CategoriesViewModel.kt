@@ -81,7 +81,7 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
                 hideOptionVisible = !category.hidden && categories.count { !it.hidden } > 1,
                 showOptionVisible = category.hidden,
                 placeOnHomeScreenOptionVisible = !category.hidden && launcherShortcutManager.supportsPinning(),
-                deleteOptionVisible = category.hidden || categories.count { !it.hidden } > 1,
+                deleteOptionEnabled = category.hidden || categories.count { !it.hidden } > 1,
             )
         )
     }
