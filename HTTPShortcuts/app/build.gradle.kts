@@ -46,7 +46,7 @@ class OutputFileNameVariantAction : Action<ApplicationVariant> {
 android {
     namespace = "ch.rmy.android.http_shortcuts"
 
-    compileSdk = 33
+    compileSdk = 34
 
     kotlinOptions {
         languageVersion = "1.6"
@@ -255,8 +255,8 @@ dependencies {
     implementation("com.github.skydoves:colorpickerview:2.2.4")
 
     /* Compose */
-    implementation(platform("androidx.compose:compose-bom:2023.05.01"))
-    implementation("androidx.compose.material3:material3:1.2.0-alpha02")
+    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    implementation("androidx.compose.material3:material3:1.2.0-alpha05")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
