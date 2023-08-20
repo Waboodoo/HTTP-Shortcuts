@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -301,7 +301,7 @@ private fun ContextMenuDialog(
                 onClick = onCancelPendingExecutionOptionSelected,
             )
         }
-        Divider(
+        HorizontalDivider(
             modifier = Modifier.padding(vertical = Spacing.MEDIUM)
         )
         SelectDialogEntry(
@@ -320,7 +320,7 @@ private fun ContextMenuDialog(
             label = stringResource(R.string.action_delete),
             onClick = onDeleteOptionSelected,
         )
-        Divider(
+        HorizontalDivider(
             modifier = Modifier.padding(vertical = Spacing.MEDIUM)
         )
         SelectDialogEntry(

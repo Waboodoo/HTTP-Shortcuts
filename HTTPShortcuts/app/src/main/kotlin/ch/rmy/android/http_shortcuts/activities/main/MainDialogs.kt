@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -230,9 +230,7 @@ private fun ShortcutCreationDialog(
             label = stringResource(R.string.button_curl_import),
             onClick = onCurlImportSelected,
         )
-        Divider(
-            modifier = Modifier.padding(vertical = Spacing.MEDIUM),
-        )
+        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.MEDIUM))
         SelectDialogEntry(
             label = stringResource(R.string.button_create_trigger_shortcut),
             description = stringResource(R.string.button_description_create_trigger_shortcut),

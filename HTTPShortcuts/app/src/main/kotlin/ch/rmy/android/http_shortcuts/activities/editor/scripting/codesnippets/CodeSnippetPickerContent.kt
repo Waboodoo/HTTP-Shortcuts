@@ -18,7 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
@@ -104,7 +104,7 @@ fun CodeSnippetPickerContent(
                 }
 
                 item(key = "divider", contentType = "divider") {
-                    Divider()
+                    HorizontalDivider()
                 }
             }
         }
@@ -148,7 +148,7 @@ private fun Section(
 ) {
     val rotationDegrees by animateFloatAsState(targetValue = if (expanded) 90f else 0f)
     Column(modifier) {
-        Divider()
+        HorizontalDivider()
         ListItem(
             modifier = Modifier.clickable(onClick = onClicked),
             leadingContent = {

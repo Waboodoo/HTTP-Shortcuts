@@ -18,8 +18,8 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -179,9 +179,7 @@ private fun BuiltInIconPicker(
                 ) {
                     iconSection(coloredIcons, onIconSelected)
                     item(key = "divider", contentType = "divider", span = { GridItemSpan(maxLineSpan) }) {
-                        Divider(
-                            modifier = Modifier.padding(vertical = Spacing.SMALL),
-                        )
+                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.SMALL))
                     }
                     iconSection(tintableIcons, onIconSelected)
                 }

@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -71,7 +71,7 @@ fun ExecutionSettingsContent(
             )
         }
 
-        Divider()
+        HorizontalDivider()
 
         Checkbox(
             label = stringResource(R.string.label_exclude_from_history),
@@ -94,7 +94,7 @@ fun ExecutionSettingsContent(
             )
         }
 
-        Divider()
+        HorizontalDivider()
 
         SettingsButton(
             title = stringResource(R.string.label_delay_execution),
@@ -102,7 +102,7 @@ fun ExecutionSettingsContent(
             onClick = onDelayButtonClicked,
         )
 
-        Divider()
+        HorizontalDivider()
 
         Column(
             modifier = Modifier.padding(Spacing.MEDIUM),
@@ -122,7 +122,7 @@ fun ExecutionSettingsContent(
             }
         }
 
-        Divider()
+        HorizontalDivider()
     }
 }
 

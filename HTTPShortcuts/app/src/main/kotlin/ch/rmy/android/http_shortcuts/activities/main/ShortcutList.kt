@@ -23,8 +23,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.HourglassEmpty
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
@@ -190,9 +190,7 @@ private fun ShortcutListItem(
                 }
             } else null,
         )
-        Divider(
-            color = DividerDefaults.color.copy(alpha = 0.3f),
-        )
+        HorizontalDivider(color = DividerDefaults.color.copy(alpha = 0.3f))
     }
 }
 

@@ -12,7 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -109,7 +109,7 @@ fun ShortcutEditorContent(
             )
         }
 
-        Divider(modifier = Modifier.padding(bottom = Spacing.SMALL))
+        HorizontalDivider(modifier = Modifier.padding(bottom = Spacing.SMALL))
 
         if (shortcutExecutionType.usesUrl) {
             ListItem(

@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -69,7 +69,7 @@ fun AdvancedSettingsContent(
             onCheckedChange = onStoreCookiesChanged,
         )
 
-        Divider()
+        HorizontalDivider()
 
         Column {
             Checkbox(
@@ -100,7 +100,7 @@ fun AdvancedSettingsContent(
             }
         }
 
-        Divider()
+        HorizontalDivider()
 
         SettingsButton(
             title = stringResource(R.string.label_timeout),
@@ -108,7 +108,7 @@ fun AdvancedSettingsContent(
             onClick = onTimeoutButtonClicked,
         )
 
-        Divider()
+        HorizontalDivider()
 
         Column(
             modifier = Modifier.padding(Spacing.MEDIUM),
@@ -158,7 +158,7 @@ fun AdvancedSettingsContent(
             }
         }
 
-        Divider()
+        HorizontalDivider()
 
         Column(
             modifier = Modifier.padding(Spacing.MEDIUM),
@@ -182,7 +182,7 @@ fun AdvancedSettingsContent(
             }
         }
 
-        Divider()
+        HorizontalDivider()
     }
 }
 

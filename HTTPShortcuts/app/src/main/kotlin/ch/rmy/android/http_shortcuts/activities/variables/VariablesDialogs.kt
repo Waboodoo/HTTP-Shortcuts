@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.variables
 
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -86,7 +86,7 @@ private fun CreationDialog(
         onDismissRequest = onDismissed,
     ) {
         VariableTypeEntry(VariableType.CONSTANT, onVariableTypeSelected)
-        Divider()
+        HorizontalDivider()
         VariableTypeEntry(VariableType.SELECT, onVariableTypeSelected)
         VariableTypeEntry(VariableType.TEXT, onVariableTypeSelected)
         VariableTypeEntry(VariableType.NUMBER, onVariableTypeSelected)
@@ -95,7 +95,7 @@ private fun CreationDialog(
         VariableTypeEntry(VariableType.DATE, onVariableTypeSelected)
         VariableTypeEntry(VariableType.TIME, onVariableTypeSelected)
         VariableTypeEntry(VariableType.COLOR, onVariableTypeSelected)
-        Divider()
+        HorizontalDivider()
         VariableTypeEntry(VariableType.TOGGLE, onVariableTypeSelected)
         VariableTypeEntry(VariableType.CLIPBOARD, onVariableTypeSelected)
         VariableTypeEntry(VariableType.TIMESTAMP, onVariableTypeSelected)
