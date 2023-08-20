@@ -23,11 +23,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.components.Checkbox
+import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.ShortcutIcon
 import ch.rmy.android.http_shortcuts.components.Spacing
-import com.alorma.compose.settings.storage.base.rememberBooleanSettingState
-import com.alorma.compose.settings.ui.SettingsCheckbox
-import com.alorma.compose.settings.ui.SettingsMenuLink
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon as ShortcutIconModel
 
 @Composable
@@ -62,24 +61,18 @@ fun WidgetSettingsContent(
 
         Divider()
 
-        SettingsCheckbox(
-            state = rememberBooleanSettingState(showLabel),
-            title = {
-                Text(stringResource(R.string.label_show_widget_label))
-            },
+        Checkbox(
+            checked = showLabel,
+            label = stringResource(R.string.label_show_widget_label),
             onCheckedChange = onShowLabelChanged,
         )
 
         Divider()
 
-        SettingsMenuLink(
+        SettingsButton(
             enabled = showLabel,
-            title = {
-                Text(stringResource(R.string.label_widget_label_color))
-            },
-            subtitle = {
-                Text(labelColorText)
-            },
+            title = stringResource(R.string.label_widget_label_color),
+            subtitle = labelColorText,
             onClick = onLabelColorButtonClicked,
         )
 

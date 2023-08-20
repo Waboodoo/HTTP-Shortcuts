@@ -264,7 +264,6 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.7.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
-    implementation("com.github.alorma:compose-settings-ui-m3:0.26.0")
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
     implementation("com.github.qawaz:compose-code-editor:2.0.3")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
