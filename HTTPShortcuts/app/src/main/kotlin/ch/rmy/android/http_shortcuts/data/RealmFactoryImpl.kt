@@ -68,6 +68,11 @@ class RealmFactoryImpl private constructor() : RealmFactory {
                 logException(e)
                 realmError = if (
                     e is IllegalStateException &&
+                    e.message?.contains("RLM_ERR_INVALID_SCHEMA_VERSION") == true
+                ) {
+                    RealmError.Downgrade
+                } else if (
+                    e is IllegalStateException &&
                     e.message?.startsWith("Could not open Realm with the given configuration") == true &&
                     backupFile != null
                 ) {
