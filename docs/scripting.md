@@ -359,7 +359,7 @@ Note: a shortcut's description is only visible in categories that use a list lay
 <a name="change-icon"></a>
 ### changeIcon
 
-With this function you can change the icon of a shortcut. Simply pass the name or ID of a shortcut as the first parameter and the name of the icon as the second one. You can also pass an empty string as the first parameter to target the current shortcut. Use the *"Add Code Snippet"* in the app to select an icon.
+With this function you can change the icon of a shortcut. Simply pass the name or ID of a shortcut as the first parameter and the name of the icon as the second one. You can also pass an empty string as the first parameter to target the current shortcut. Use the *"Add Code Snippet"* button in the app to select an icon. Alternatively, you can check the [source code](https://github.com/Waboodoo/HTTP-Shortcuts/blob/develop/HTTPShortcuts/app/src/main/kotlin/ch/rmy/android/http_shortcuts/icons/Icons.kt) for all the available icons names (look for the prefix "R.drawable.", everything after it is a valid icon name).
 
 ```js
 changeIcon('My Shortcut', 'bitsies_lightbulb');
