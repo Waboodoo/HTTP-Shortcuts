@@ -549,6 +549,7 @@ class ShortcutEditorViewModel(
         logInfo("Icon clicked")
         updateDialogState(
             ShortcutEditorDialogState.PickIcon(
+                currentIcon = currentViewState?.shortcutIcon as? ShortcutIcon.BuiltInIcon,
                 includeFaviconOption = hasUrl(),
             ),
         )

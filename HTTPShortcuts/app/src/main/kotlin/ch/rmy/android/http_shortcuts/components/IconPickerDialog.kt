@@ -43,6 +43,7 @@ private const val STATE_COLOR_PICKER = "color-picker"
 @Composable
 fun IconPickerDialog(
     title: String,
+    currentIcon: ShortcutIcon.BuiltInIcon? = null,
     onCustomIconOptionSelected: () -> Unit,
     onIconSelected: (ShortcutIcon) -> Unit,
     onFaviconOptionSelected: (() -> Unit)? = null,
@@ -61,6 +62,7 @@ fun IconPickerDialog(
     when (state) {
         STATE_BUILT_IN -> {
             BuiltInIconPicker(
+                activeIcon = currentIcon,
                 onIconSelected = {
                     if (it.tint != null) {
                         persistedIcon = it.iconName
@@ -140,6 +142,7 @@ private fun OptionsDialog(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun BuiltInIconPicker(
+    activeIcon: ShortcutIcon.BuiltInIcon? = null,
     onIconSelected: (ShortcutIcon.BuiltInIcon) -> Unit,
     onDismissRequested: () -> Unit,
 ) {
@@ -177,10 +180,12 @@ private fun BuiltInIconPicker(
                     verticalArrangement = Arrangement.spacedBy(Spacing.MEDIUM),
                     horizontalArrangement = Arrangement.spacedBy(Spacing.MEDIUM),
                 ) {
-                    iconSection(coloredIcons, onIconSelected)
-                    item(key = "divider", contentType = "divider", span = { GridItemSpan(maxLineSpan) }) {
-                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.SMALL))
+                    if (activeIcon != null) {
+                        iconSection(listOf(activeIcon), onIconSelected, keySuffix = "-active")
+                        divider()
                     }
+                    iconSection(coloredIcons, onIconSelected)
+                    divider()
                     iconSection(tintableIcons, onIconSelected)
                 }
             }
@@ -188,14 +193,21 @@ private fun BuiltInIconPicker(
     }
 }
 
+private fun LazyGridScope.divider() {
+    item(key = "divider", contentType = "divider", span = { GridItemSpan(maxLineSpan) }) {
+        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.SMALL))
+    }
+}
+
 private fun LazyGridScope.iconSection(
     icons: List<ShortcutIcon.BuiltInIcon>,
     onIconSelected: (ShortcutIcon.BuiltInIcon) -> Unit,
+    keySuffix: String = "",
 ) {
     items(
         items = icons,
         key = {
-            it.iconName
+            it.iconName + keySuffix
         },
         contentType = {
             "icon"

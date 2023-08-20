@@ -51,6 +51,7 @@ fun CategoriesDialogs(
         }
         is CategoriesDialogState.IconPicker -> {
             IconPickerDialog(
+                currentIcon = dialogState.currentIcon,
                 title = stringResource(R.string.title_category_select_icon),
                 onCustomIconOptionSelected = {
                     pickCustomIcon.launch()

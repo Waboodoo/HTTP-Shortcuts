@@ -35,6 +35,7 @@ fun ShortcutEditorDialogs(
         }
         is ShortcutEditorDialogState.PickIcon -> {
             IconPickerDialog(
+                currentIcon = dialogState.currentIcon,
                 title = stringResource(R.string.change_icon),
                 onCustomIconOptionSelected = {
                     pickCustomIcon.launch()

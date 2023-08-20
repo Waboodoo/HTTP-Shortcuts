@@ -143,7 +143,9 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     }
 
     fun onPlaceOnHomeScreenClicked() {
-        updateDialogState(CategoriesDialogState.IconPicker)
+        val categoryId = activeCategoryId ?: return
+        val category = getCategory(categoryId) ?: return
+        updateDialogState(CategoriesDialogState.IconPicker(category.icon as? ShortcutIcon.BuiltInIcon))
     }
 
     fun onCategoryIconSelected(icon: ShortcutIcon) {

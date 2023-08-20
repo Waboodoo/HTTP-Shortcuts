@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.categories
 
 import androidx.compose.runtime.Stable
 import ch.rmy.android.framework.utils.localization.Localizable
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @Stable
 sealed class CategoriesDialogState {
@@ -15,5 +16,7 @@ sealed class CategoriesDialogState {
 
     object Deletion : CategoriesDialogState()
 
-    object IconPicker : CategoriesDialogState()
+    data class IconPicker(
+        val currentIcon: ShortcutIcon.BuiltInIcon?,
+    ) : CategoriesDialogState()
 }
