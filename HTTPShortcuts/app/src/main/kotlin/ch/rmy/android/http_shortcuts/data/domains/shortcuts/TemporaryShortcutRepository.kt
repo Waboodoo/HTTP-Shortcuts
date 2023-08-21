@@ -10,6 +10,7 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
+import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
@@ -419,8 +420,23 @@ constructor(
     }
 
     suspend fun setUseImageEditor(useImageEditor: Boolean) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.fileUploadOptions = FileUploadOptions(useImageEditor)
+        commitTransactionForFileUploadOptions { fileUploadOptions ->
+            fileUploadOptions.useImageEditor = useImageEditor
+        }
+    }
+
+    suspend fun setFileUploadType(fileUploadType: FileUploadType) {
+        commitTransactionForFileUploadOptions { fileUploadOptions ->
+            fileUploadOptions.type = fileUploadType
+        }
+    }
+
+    suspend fun setFileUploadUri(fileUploadUri: Uri?) {
+        commitTransactionForFileUploadOptions { fileUploadOptions ->
+            fileUploadOptions.file = fileUploadUri?.toString()
+            if (fileUploadUri != null) {
+                fileUploadOptions.type = FileUploadType.FILE
+            }
         }
     }
 
@@ -501,6 +517,17 @@ constructor(
                 ?.let { responseHandling ->
                     transaction(responseHandling)
                 }
+        }
+    }
+
+    private suspend fun commitTransactionForFileUploadOptions(
+        transaction: RealmTransactionContext.(FileUploadOptions) -> Unit,
+    ) {
+        commitTransactionForShortcut { shortcut ->
+            if (shortcut.fileUploadOptions == null) {
+                shortcut.fileUploadOptions = FileUploadOptions()
+            }
+            transaction(shortcut.fileUploadOptions!!)
         }
     }
 

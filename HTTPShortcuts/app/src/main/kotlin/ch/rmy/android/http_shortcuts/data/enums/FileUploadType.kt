@@ -1,10 +1,10 @@
 package ch.rmy.android.http_shortcuts.data.enums
 
-enum class RequestBodyType(val type: String) {
-    CUSTOM_TEXT("custom_text"),
-    FORM_DATA("form_data"),
-    X_WWW_FORM_URLENCODE("x_www_form_urlencode"),
-    FILE("file");
+enum class FileUploadType(val type: String) {
+    FILE_PICKER("file_picker"),
+    FILE_PICKER_MULTI("file_picker_multi"),
+    CAMERA("camera"),
+    FILE("stored_file");
 
     override fun toString() =
         type
@@ -12,6 +12,6 @@ enum class RequestBodyType(val type: String) {
     companion object {
         fun parse(type: String?) =
             values().firstOrNull { it.type == type }
-                ?: CUSTOM_TEXT
+                ?: FILE_PICKER
     }
 }

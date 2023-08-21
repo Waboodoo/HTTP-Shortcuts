@@ -33,6 +33,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
@@ -247,8 +248,13 @@ class ShortcutEditorViewModel(
                         QuantityStringLocalizable(R.plurals.subtitle_request_body_params_pattern, count)
                     }
                 }
-                RequestBodyType.FILE -> StringResLocalizable(R.string.subtitle_request_body_file)
-                RequestBodyType.CAMERA_IMAGE -> StringResLocalizable(R.string.subtitle_request_body_image)
+                RequestBodyType.FILE -> {
+                    if (shortcut.fileUploadOptions?.type == FileUploadType.CAMERA) {
+                        StringResLocalizable(R.string.subtitle_request_body_image)
+                    } else {
+                        StringResLocalizable(R.string.subtitle_request_body_file)
+                    }
+                }
                 RequestBodyType.CUSTOM_TEXT -> if (shortcut.bodyContent.isBlank()) {
                     StringResLocalizable(R.string.subtitle_request_body_none)
                 } else {

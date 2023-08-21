@@ -172,9 +172,6 @@ class Shortcut() : RealmObject {
     fun usesGenericFileBody() =
         allowsBody() && bodyType == RequestBodyType.FILE
 
-    fun usesImageFileBody() =
-        allowsBody() && bodyType == RequestBodyType.CAMERA_IMAGE
-
     fun isSameAs(other: Shortcut): Boolean {
         if (other.name != name ||
             other.bodyContent != bodyContent ||

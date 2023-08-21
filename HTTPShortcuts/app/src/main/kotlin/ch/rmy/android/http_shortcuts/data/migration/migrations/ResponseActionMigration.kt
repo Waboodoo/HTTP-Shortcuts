@@ -1,7 +1,8 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
+import ch.rmy.android.http_shortcuts.data.migration.getObject
+import ch.rmy.android.http_shortcuts.data.migration.getObjectArray
 import ch.rmy.android.http_shortcuts.data.migration.getString
-import ch.rmy.android.http_shortcuts.extensions.getArrayOrEmpty
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import io.realm.kotlin.dynamic.getValueList
@@ -23,11 +24,10 @@ class ResponseActionMigration : BaseMigration {
     }
 
     override fun migrateImport(base: JsonObject) {
-        for (category in base.getArrayOrEmpty("categories")) {
-            for (shortcut in category.asJsonObject.getArrayOrEmpty("shortcuts")) {
-                val shortcutObject = shortcut.asJsonObject
-                val responseHandlingObject = shortcutObject.get("responseHandling")?.takeIf { it.isJsonObject }?.asJsonObject ?: continue
-                if (responseHandlingObject.get("uiType")?.asString == "window") {
+        for (category in base.getObjectArray("categories")) {
+            for (shortcut in category.getObjectArray("shortcuts")) {
+                val responseHandlingObject = shortcut.getObject("responseHandling") ?: continue
+                if (responseHandlingObject.getString("uiType") == "window") {
                     val array = JsonArray().apply {
                         add("rerun")
                         add("share")

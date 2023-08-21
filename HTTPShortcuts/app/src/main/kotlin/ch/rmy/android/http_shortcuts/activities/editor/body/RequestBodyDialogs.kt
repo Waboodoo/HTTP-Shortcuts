@@ -3,7 +3,9 @@ package ch.rmy.android.http_shortcuts.activities.editor.body
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -19,12 +21,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.SelectDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
+import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 
 @Composable
@@ -33,6 +35,8 @@ fun RequestBodyDialogs(
     onParameterTypeSelected: (ParameterType) -> Unit,
     onParameterEdited: (key: String, value: String, fileName: String, useImageEditor: Boolean) -> Unit,
     onParameterDeleted: () -> Unit,
+    onFileUploadTypeChanged: (FileUploadType) -> Unit,
+    onSourceFileNameClicked: () -> Unit,
     onDismissed: () -> Unit,
 ) {
     when (dialogState) {
@@ -46,12 +50,16 @@ fun RequestBodyDialogs(
             EditParameterDialog(
                 isEdit = dialogState.id != null,
                 type = dialogState.type,
+                fileUploadType = dialogState.fileUploadType,
                 initialKey = dialogState.key,
                 initialValue = dialogState.value,
                 initialFileName = dialogState.fileName,
                 initialUseImageEditor = dialogState.useImageEditor,
+                sourceFileName = dialogState.sourceFileName,
                 onConfirmed = onParameterEdited,
                 onDelete = onParameterDeleted,
+                onFileUploadTypeChanged = onFileUploadTypeChanged,
+                onSourceFileNameClicked = onSourceFileNameClicked,
                 onDismissed = onDismissed,
             )
         }
@@ -75,21 +83,9 @@ private fun ParameterTypePickerDialog(
             },
         )
         SelectDialogEntry(
-            label = stringResource(R.string.option_parameter_type_image),
-            onClick = {
-                onParameterTypeSelected(ParameterType.IMAGE)
-            },
-        )
-        SelectDialogEntry(
             label = stringResource(R.string.option_parameter_type_file),
             onClick = {
                 onParameterTypeSelected(ParameterType.FILE)
-            },
-        )
-        SelectDialogEntry(
-            label = stringResource(R.string.option_parameter_type_files),
-            onClick = {
-                onParameterTypeSelected(ParameterType.FILES)
             },
         )
     }
@@ -99,11 +95,20 @@ private fun ParameterTypePickerDialog(
 private fun EditParameterDialog(
     isEdit: Boolean,
     type: ParameterType,
+    fileUploadType: FileUploadType,
     initialKey: String = "",
     initialValue: String = "",
     initialFileName: String,
     initialUseImageEditor: Boolean,
-    onConfirmed: (key: String, value: String, fileName: String, useImageEditor: Boolean) -> Unit,
+    sourceFileName: String?,
+    onConfirmed: (
+        key: String,
+        value: String,
+        fileName: String,
+        useImageEditor: Boolean,
+    ) -> Unit,
+    onFileUploadTypeChanged: (FileUploadType) -> Unit,
+    onSourceFileNameClicked: () -> Unit,
     onDelete: () -> Unit = {},
     onDismissed: () -> Unit,
 ) {
@@ -128,8 +133,6 @@ private fun EditParameterDialog(
                     when (type) {
                         ParameterType.STRING -> if (isEdit) R.string.title_post_param_edit else R.string.title_post_param_add
                         ParameterType.FILE -> if (isEdit) R.string.title_post_param_edit_file else R.string.title_post_param_add_file
-                        ParameterType.FILES -> if (isEdit) R.string.title_post_param_edit_file else R.string.title_post_param_add_files
-                        ParameterType.IMAGE -> if (isEdit) R.string.title_post_param_edit_image else R.string.title_post_param_add_image
                     }
                 ),
             )
@@ -179,11 +182,12 @@ private fun EditParameterDialog(
                     )
                 }
 
-                if (type == ParameterType.FILE || type == ParameterType.IMAGE) {
+                if (type == ParameterType.FILE) {
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth(),
                         value = fileName,
+                        enabled = fileUploadType != FileUploadType.FILE_PICKER_MULTI,
                         label = {
                             Text(stringResource(R.string.label_post_param_file_name))
                         },
@@ -197,11 +201,17 @@ private fun EditParameterDialog(
                     )
                 }
 
-                if (type == ParameterType.FILE || type == ParameterType.FILES || type == ParameterType.IMAGE) {
-                    Checkbox(
-                        label = stringResource(R.string.label_file_upload_options_allow_image_editing),
-                        checked = useImageEditor,
-                        onCheckedChange = {
+                if (type == ParameterType.FILE) {
+                    Spacer(modifier = Modifier.height(Spacing.SMALL))
+                    FileOptions(
+                        allowMultiple = true,
+                        useHorizontalPadding = false,
+                        fileUploadType = fileUploadType,
+                        fileName = sourceFileName,
+                        useImageEditor = useImageEditor,
+                        onFileUploadTypeChanged = onFileUploadTypeChanged,
+                        onFileNameClicked = onSourceFileNameClicked,
+                        onUseImageEditorChanged = {
                             useImageEditor = it
                         },
                     )

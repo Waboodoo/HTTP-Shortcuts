@@ -18,6 +18,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -137,7 +138,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
             .filter {
                 it.hasFileParameter(isImage) ||
                     it.usesGenericFileBody() ||
-                    (isImage != false && it.usesImageFileBody())
+                    (isImage != false && it.fileUploadOptions?.type == FileUploadType.CAMERA)
             }
 
     private fun handleFileSharing() {
@@ -203,10 +204,9 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
             parameters.any {
                 when (it.parameterType) {
                     ParameterType.STRING -> false
-                    ParameterType.FILE,
-                    ParameterType.FILES,
-                    -> true
-                    ParameterType.IMAGE -> isImage != false
+                    ParameterType.FILE -> {
+                        it.fileUploadOptions?.type != FileUploadType.CAMERA || isImage != false
+                    }
                 }
             }
 

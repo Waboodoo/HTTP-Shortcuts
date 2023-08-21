@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.data.migration
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.migration.migrations.CategoryBackgroundMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.CategoryLayoutMigration
+import ch.rmy.android.http_shortcuts.data.migration.migrations.FileUploadTypeMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ParameterTypeMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.RemoveLegacyActionsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
@@ -10,7 +11,6 @@ import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKe
 import ch.rmy.android.http_shortcuts.data.migration.migrations.RequireConfirmationMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseActionMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseHandlingMigration
-import ch.rmy.android.http_shortcuts.extensions.getArrayOrEmpty
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
@@ -39,57 +39,55 @@ internal object ImportMigrator {
     private fun migrate(base: JsonObject, newVersion: Long) {
         when (newVersion) {
             5L -> { // 1.16.0
-                for (category in base.getArrayOrEmpty("categories")) {
-                    category.asJsonObject.addProperty("layoutType", "linear_list")
+                for (category in base.getObjectArray("categories")) {
+                    category.addProperty("layoutType", "linear_list")
                 }
             }
             6L -> { // 1.16.0
-                for (category in base.getArrayOrEmpty("categories")) {
-                    for (shortcut in category.getArrayOrEmpty("shortcuts")) {
-                        val username = shortcut.asJsonObject["username"].asString
-                        val password = shortcut.asJsonObject["password"].asString
+                for (category in base.getObjectArray("categories")) {
+                    for (shortcut in category.getObjectArray("shortcuts")) {
+                        val username = shortcut.getString("username")
+                        val password = shortcut.getString("password")
                         if (!username.isNullOrEmpty() || !password.isNullOrEmpty()) {
-                            shortcut.asJsonObject.addProperty("authentication", "basic")
+                            shortcut.addProperty("authentication", "basic")
                         }
                     }
                 }
             }
             9L -> { // 1.16.2
-                for (category in base.getArrayOrEmpty("categories")) {
-                    for (shortcut in category.getArrayOrEmpty("shortcuts")) {
-                        for (header in shortcut.getArrayOrEmpty("headers")) {
-                            header.asJsonObject.addProperty("id", newUUID())
+                for (category in base.getObjectArray("categories")) {
+                    for (shortcut in category.getObjectArray("shortcuts")) {
+                        for (header in shortcut.getObjectArray("headers")) {
+                            header.addProperty("id", newUUID())
                         }
-                        for (parameter in shortcut.getArrayOrEmpty("parameters")) {
-                            parameter.asJsonObject.addProperty("id", newUUID())
+                        for (parameter in shortcut.getObjectArray("parameters")) {
+                            parameter.addProperty("id", newUUID())
                         }
                     }
                 }
-                for (variable in base.getArrayOrEmpty("variables")) {
-                    if (!variable.asJsonObject["options"].isJsonNull) {
-                        for (option in variable.getArrayOrEmpty("options")) {
-                            option.asJsonObject.addProperty("id", newUUID())
-                        }
+                for (variable in base.getObjectArray("variables")) {
+                    for (option in variable.getObjectArray("options")) {
+                        option.addProperty("id", newUUID())
                     }
                 }
             }
             10L -> { // 1.17.0
-                for (category in base.getArrayOrEmpty("categories")) {
-                    for (shortcut in category.getArrayOrEmpty("shortcuts")) {
-                        if (shortcut.asJsonObject["authentication"]?.isJsonNull != false) {
-                            shortcut.asJsonObject.addProperty("authentication", "none")
-                            shortcut.asJsonObject.addProperty("contentType", "text/plain")
+                for (category in base.getObjectArray("categories")) {
+                    for (shortcut in category.getObjectArray("shortcuts")) {
+                        if (shortcut["authentication"]?.isJsonNull != false) {
+                            shortcut.addProperty("authentication", "none")
+                            shortcut.addProperty("contentType", "text/plain")
                         }
                     }
                 }
             }
             16L -> { // 1.20.0
-                for (category in base.getArrayOrEmpty("categories")) {
-                    for (shortcut in category.getArrayOrEmpty("shortcuts")) {
-                        shortcut.asJsonObject.addProperty("contentType", "text/plain")
-                        shortcut.asJsonObject.addProperty(
+                for (category in base.getObjectArray("categories")) {
+                    for (shortcut in category.getObjectArray("shortcuts")) {
+                        shortcut.addProperty("contentType", "text/plain")
+                        shortcut.addProperty(
                             "requestBodyType",
-                            if (shortcut.getArrayOrEmpty("parameters").size() == 0) {
+                            if (shortcut.getArray("parameters").size() == 0) {
                                 "custom_text"
                             } else {
                                 "x_www_form_urlencode"
@@ -99,32 +97,32 @@ internal object ImportMigrator {
                 }
             }
             18L -> { // 1.21.0
-                for (category in base.getArrayOrEmpty("categories")) {
-                    for (shortcut in category.getArrayOrEmpty("shortcuts")) {
-                        shortcut.asJsonObject.addProperty("executionType", "app")
+                for (category in base.getObjectArray("categories")) {
+                    for (shortcut in category.getObjectArray("shortcuts")) {
+                        shortcut.addProperty("executionType", "app")
                     }
                 }
             }
             22L -> { // 1.24.0
-                for (category in base.getArrayOrEmpty("categories")) {
-                    val oldCategoryId = category.asJsonObject["id"].asLong
-                    category.asJsonObject.remove("id")
-                    category.asJsonObject.addProperty("id", oldCategoryId.toString())
-                    for (shortcut in category.getArrayOrEmpty("shortcuts")) {
-                        val oldShortcutId = shortcut.asJsonObject["id"].asLong
-                        shortcut.asJsonObject.remove("id")
-                        shortcut.asJsonObject.addProperty("id", oldShortcutId.toString())
+                for (category in base.getObjectArray("categories")) {
+                    val oldCategoryId = category["id"].asLong
+                    category.remove("id")
+                    category.addProperty("id", oldCategoryId.toString())
+                    for (shortcut in category.getObjectArray("shortcuts")) {
+                        val oldShortcutId = shortcut["id"].asLong
+                        shortcut.remove("id")
+                        shortcut.addProperty("id", oldShortcutId.toString())
                     }
                 }
-                for (variable in base.getArrayOrEmpty("variables")) {
-                    val oldVariableId = variable.asJsonObject["id"].asLong
-                    variable.asJsonObject.remove("id")
-                    variable.asJsonObject.addProperty("id", oldVariableId.toString())
+                for (variable in base.getObjectArray("variables")) {
+                    val oldVariableId = variable["id"].asLong
+                    variable.remove("id")
+                    variable.addProperty("id", oldVariableId.toString())
                 }
             }
             23L -> { // 1.24.0
-                for (category in base.getArrayOrEmpty("categories")) {
-                    category.asJsonObject.addProperty("background", "white")
+                for (category in base.getObjectArray("categories")) {
+                    category.addProperty("background", "white")
                 }
             }
             25L -> { // 1.24.0
@@ -143,11 +141,11 @@ internal object ImportMigrator {
                 ResponseHandlingMigration().migrateImport(base)
             }
             45L -> { // 2.4.0
-                for (category in base.getArrayOrEmpty("categories")) {
-                    for (shortcut in category.getArrayOrEmpty("shortcuts")) {
-                        val clientCertAlias = shortcut.asJsonObject.get("clientCertAlias")?.takeIf { it.isJsonPrimitive }?.asString
+                for (category in base.getObjectArray("categories")) {
+                    for (shortcut in category.getObjectArray("shortcuts")) {
+                        val clientCertAlias = shortcut.getString("clientCertAlias")
                         if (!clientCertAlias.isNullOrEmpty()) {
-                            shortcut.asJsonObject.addProperty("clientCert", "alias:$clientCertAlias")
+                            shortcut.addProperty("clientCert", "alias:$clientCertAlias")
                         }
                     }
                 }
@@ -163,6 +161,9 @@ internal object ImportMigrator {
             }
             68L -> { // 3.2.0
                 RequireConfirmationMigration().migrateImport(base)
+            }
+            71L -> { // 3.4.0
+                FileUploadTypeMigration().migrateImport(base)
             }
         }
     }

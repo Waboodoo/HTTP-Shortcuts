@@ -11,6 +11,7 @@ import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.HostVerificationConfig
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
@@ -168,7 +169,7 @@ constructor(
                     contentType(determineContentType(shortcut))
                         .body(requestData.body)
                 }
-                .runIf(shortcut.usesGenericFileBody() || shortcut.usesImageFileBody()) {
+                .runIf(shortcut.usesGenericFileBody()) {
                     val file = fileUploadResult?.getFile(0)
                     runIfNotNull(file) {
                         contentType(determineContentType(shortcut) ?: it.mimeType)
@@ -282,34 +283,31 @@ constructor(
         return requestBuilder.runFor(shortcut.parameters) { parameter ->
             val parameterName = Variables.rawPlaceholdersToResolvedValues(parameter.key, variables)
             when (parameter.parameterType) {
-                ParameterType.FILES -> {
-                    runIfNotNull(fileUploadResult) {
-                        fileIndex++
-                        val files = it.getFiles(fileIndex)
-                        runFor(files) { file ->
-                            fileParameter(
-                                name = "$parameterName[]",
-                                fileName = parameter.fileName.ifEmpty { file.fileName },
-                                type = file.mimeType,
-                                data = contentResolver.openInputStream(file.data)!!,
-                                length = file.fileSize,
-                            )
-                        }
-                    }
-                }
-                ParameterType.IMAGE,
                 ParameterType.FILE,
                 -> {
                     runIfNotNull(fileUploadResult) {
                         fileIndex++
-                        runIfNotNull(it.getFile(fileIndex)) { file ->
-                            fileParameter(
-                                name = parameterName,
-                                fileName = parameter.fileName.ifEmpty { file.fileName },
-                                type = file.mimeType,
-                                data = contentResolver.openInputStream(file.data)!!,
-                                length = file.fileSize,
-                            )
+                        if (parameter.fileUploadOptions?.type == FileUploadType.FILE_PICKER_MULTI) {
+                            val files = it.getFiles(fileIndex)
+                            runFor(files) { file ->
+                                fileParameter(
+                                    name = "$parameterName[]",
+                                    fileName = parameter.fileName.ifEmpty { file.fileName },
+                                    type = file.mimeType,
+                                    data = contentResolver.openInputStream(file.data)!!,
+                                    length = file.fileSize,
+                                )
+                            }
+                        } else {
+                            runIfNotNull(it.getFile(fileIndex)) { file ->
+                                fileParameter(
+                                    name = parameterName,
+                                    fileName = parameter.fileName.ifEmpty { file.fileName },
+                                    type = file.mimeType,
+                                    data = contentResolver.openInputStream(file.data)!!,
+                                    length = file.fileSize,
+                                )
+                            }
                         }
                     }
                 }
