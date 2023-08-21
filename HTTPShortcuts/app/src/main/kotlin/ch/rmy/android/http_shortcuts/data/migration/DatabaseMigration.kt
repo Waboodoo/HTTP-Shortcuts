@@ -4,6 +4,7 @@ import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.migration.migrations.CategoryBackgroundMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.CategoryLayoutMigration
+import ch.rmy.android.http_shortcuts.data.migration.migrations.FileUploadTypeMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ParameterTypeMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.RemoveLegacyActionsMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
@@ -254,6 +255,10 @@ class DatabaseMigration : AutomaticSchemaMigration {
             RequireConfirmationMigration().migrateRealm(migrationContext)
         }
 
+        if (oldVersion < 71) {
+            FileUploadTypeMigration().migrateRealm(migrationContext)
+        }
+
         // update version number
         newRealm.query("Base")
             .first()
@@ -265,7 +270,7 @@ class DatabaseMigration : AutomaticSchemaMigration {
     }
 
     companion object {
-        const val VERSION = 70L
-        const val COMPATIBILITY_VERSION = 60L
+        const val VERSION = 71L
+        const val COMPATIBILITY_VERSION = 71L
     }
 }

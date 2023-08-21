@@ -1,13 +1,18 @@
 package ch.rmy.android.http_shortcuts.activities.editor.body
 
 import android.app.Application
+import android.net.Uri
+import androidx.core.net.toUri
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.viewModelScope
+import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.body.models.ParameterListItem
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
+import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
@@ -58,10 +63,12 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
     private fun createInitialViewStateFromShortcut(shortcut: Shortcut): RequestBodyViewState =
         RequestBodyViewState(
             requestBodyType = shortcut.bodyType,
+            fileUploadType = shortcut.fileUploadOptions?.type ?: FileUploadType.FILE_PICKER,
             bodyContent = shortcut.bodyContent,
             contentType = shortcut.contentType,
             parameters = mapParameters(shortcut.parameters),
             useImageEditor = shortcut.fileUploadOptions?.useImageEditor == true,
+            fileName = shortcut.fileUploadOptions?.file?.toUri()?.getFileName(),
         )
 
     private fun onInitializationError(error: Throwable) {
@@ -105,7 +112,12 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
         val dialogState = (currentViewState?.dialogState as? RequestBodyDialogState.ParameterEditor ?: return)
         val parameterId = dialogState.id
         updateDialogState(null)
-        val fileUploadOptions = FileUploadOptions(useImageEditor = useImageEditor)
+        val fileUploadOptions = FileUploadOptions()
+            .apply {
+                this.useImageEditor = useImageEditor
+                this.type = dialogState.fileUploadType
+                this.file = dialogState.sourceFile?.toString()
+            }
 
         if (parameterId != null) {
             updateParameters(
@@ -170,7 +182,6 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
                 value = "",
                 fileName = "",
                 type = type,
-                useImageEditor = false,
             )
         )
     }
@@ -188,6 +199,9 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
                         fileName = parameter.fileName,
                         type = parameter.parameterType,
                         useImageEditor = parameter.fileUploadOptions?.useImageEditor == true,
+                        fileUploadType = parameter.fileUploadOptions?.type ?: FileUploadType.FILE_PICKER,
+                        sourceFile = parameter.fileUploadOptions?.file?.toUri(),
+                        sourceFileName = parameter.fileUploadOptions?.file?.toUri()?.getFileName(),
                     )
                 )
             }
@@ -266,6 +280,68 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
         }
     }
 
+    fun onFilePickedForBody(fileUri: Uri) {
+        updateViewState {
+            copy(
+                fileName = fileUri.getFileName(),
+                fileUploadType = FileUploadType.FILE,
+            )
+        }
+        launchWithProgressTracking {
+            temporaryShortcutRepository.setFileUploadUri(fileUri)
+        }
+    }
+
+    fun onFilePickedForParameter(fileUri: Uri) {
+        updateViewState {
+            copy(
+                dialogState = (dialogState as? RequestBodyDialogState.ParameterEditor)?.copy(
+                    sourceFile = fileUri,
+                    sourceFileName = fileUri.getFileName(),
+                    fileUploadType = FileUploadType.FILE,
+                )
+            )
+        }
+    }
+
+    fun onFileUploadTypeChanged(fileUploadType: FileUploadType) {
+        if (fileUploadType == FileUploadType.FILE) {
+            emitEvent(RequestBodyEvent.PickFileForBody)
+            return
+        }
+        updateViewState {
+            copy(fileUploadType = fileUploadType)
+        }
+        launchWithProgressTracking {
+            temporaryShortcutRepository.setFileUploadType(fileUploadType)
+        }
+    }
+
+    private fun Uri.getFileName(): String? =
+        DocumentFile.fromSingleUri(context, this)?.name
+
+    fun onBodyFileNameClicked() {
+        emitEvent(RequestBodyEvent.PickFileForBody)
+    }
+
+    fun onParameterFileUploadTypeChanged(fileUploadType: FileUploadType) {
+        if (fileUploadType == FileUploadType.FILE) {
+            emitEvent(RequestBodyEvent.PickFileForParameter)
+            return
+        }
+        updateViewState {
+            copy(
+                dialogState = (dialogState as? RequestBodyDialogState.ParameterEditor)?.copy(
+                    fileUploadType = fileUploadType,
+                )
+            )
+        }
+    }
+
+    fun onParameterFileNameClicked() {
+        emitEvent(RequestBodyEvent.PickFileForParameter)
+    }
+
     companion object {
         internal fun mapParameters(parameters: List<Parameter>): List<ParameterListItem> =
             parameters.map { parameter ->
@@ -274,6 +350,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
                     key = parameter.key,
                     value = parameter.value,
                     type = parameter.parameterType,
+                    fileUploadType = parameter.fileUploadOptions?.type,
                 )
             }
 

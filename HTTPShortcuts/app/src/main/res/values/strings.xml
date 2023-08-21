@@ -128,16 +128,10 @@
     <string name="title_post_param_edit">Edit Parameter</string>
     <!-- Title of dialog to edit a file parameter on a shortcut -->
     <string name="title_post_param_edit_file">Edit File Parameter</string>
-    <!-- Title of dialog to edit an image parameter on a shortcut -->
-    <string name="title_post_param_edit_image">Edit Image Parameter</string>
     <!-- Title of dialog to add a new parameter to a shortcut -->
     <string name="title_post_param_add">Add Parameter</string>
     <!-- Title of dialog to add a new file parameter to a shortcut -->
     <string name="title_post_param_add_file">Add File Parameter</string>
-    <!-- Title of dialog to add a new image parameter to a shortcut -->
-    <string name="title_post_param_add_image">Add Image Parameter</string>
-    <!-- Title of dialog to add a new files parameter to a shortcut -->
-    <string name="title_post_param_add_files">Add Files Parameter</string>
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
     <string name="label_post_param_key">Parameter Name</string>
     <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
@@ -665,9 +659,7 @@
     <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
     <string name="request_body_option_custom_text">Custom Text</string>
     <!-- Dropdown option for request body: file (i.e., user gets to pick a file which is used as the request body) -->
-    <string name="request_body_option_file">File (Picker)</string>
-    <!-- Dropdown option for request body: image (i.e., user gets to take a picture with the camera which is used as the request body) -->
-    <string name="request_body_option_image">Image (Camera)</string>
+    <string name="request_body_option_file">File</string>
     <!-- Label above input box for Request Content-Type -->
     <string name="label_content_type">Content-Type</string>
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
@@ -1019,15 +1011,11 @@
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
     <string name="option_parameter_type_string">Text</string>
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
-    <string name="option_parameter_type_file">Single File</string>
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for image parameter -->
-    <string name="option_parameter_type_image">Image (Camera)</string>
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for files parameter -->
-    <string name="option_parameter_type_files">Multiple Files</string>
+    <string name="option_parameter_type_file">File</string>
     <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
     <string name="subtitle_parameter_value_file">File</string>
     <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
-    <string name="subtitle_parameter_value_image">Image</string>
+    <string name="subtitle_parameter_value_image">Camera Image</string>
     <!-- Subtitle: Shown in request parameter editor underneath every files parameter to indicate their type -->
     <string name="subtitle_parameter_value_files">Files</string>
     <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->
@@ -1423,7 +1411,7 @@
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
     <string name="placeholder_empty_category_for_moving">no shortcuts in this category</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
-    <string name="label_file_upload_options_allow_image_editing">"Allow cropping and rotating image"</string>
+    <string name="label_file_upload_options_allow_image_editing">"Allow cropping and rotating images"</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <string name="label_host_verification">Host Verification</string>
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
@@ -1462,4 +1450,18 @@
     <string name="button_app_unlock_use_password">Use Password</string>
     <!-- Checkbox label, shown on dialog that lets the user lock the app -->
     <string name="label_app_lock_use_biometrics">Allow unlocking with biometrics</string>
+    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown let's the user choose the source of the file data -->
+    <string name="label_file_options_file_data_source">File Data Source</string>
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker -->
+    <string name="option_file_data_source_file_picker">Open File Picker</string>
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker for selecting multiple files -->
+    <string name="option_file_data_source_file_picker_multi">Open File Picker (Multi Selection)</string>
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open camera to take a picture -->
+    <string name="option_file_data_source_camera">Take Camera Picture</string>
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a specific static file stored on the device -->
+    <string name="option_file_data_source_specific_file">Use Specific File</string>
+    <!-- Button label, for choosing a file to use as a request body or parameter -->
+    <string name="label_file_data_source_choose_file">Choose File</string>
+    <!-- Subtitle, shown on button for selecting a file to use as a request body or parameter. %s is a placeholder for the selected file's name -->
+    <string name="subtitle_file_data_source_choose_file">File “%s”</string>
 </resources>

@@ -34,10 +34,12 @@ import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExec
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
+import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
+import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
@@ -485,24 +487,18 @@ class Execution(
         shortcut.confirmationType?.takeIf { params.tryNumber == 0 }
 
     private suspend fun handleFiles(loadMetaData: Boolean): FileUploadManager.Result? = coroutineScope {
-        if (!shortcut.usesRequestParameters() && !shortcut.usesGenericFileBody() && !shortcut.usesImageFileBody()) {
+        if (!shortcut.usesRequestParameters() && !shortcut.usesGenericFileBody()) {
             return@coroutineScope null
         }
 
         val fileUploadManager = FileUploadManager.Builder(context.contentResolver)
             .runIf(shortcut.usesGenericFileBody()) {
-                addFileRequest(withImageEditor = shortcut.fileUploadOptions?.useImageEditor == true)
-            }
-            .runIf(shortcut.usesImageFileBody()) {
-                addFileRequest(fromCamera = true, withImageEditor = shortcut.fileUploadOptions?.useImageEditor == true)
+                addFileRequest(shortcut.fileUploadOptions)
             }
             .runFor(shortcut.parameters) { parameter ->
-                val withImageEditor = parameter.fileUploadOptions?.useImageEditor == true
                 when (parameter.parameterType) {
                     ParameterType.STRING -> this
-                    ParameterType.FILE -> addFileRequest(multiple = false, withImageEditor = withImageEditor)
-                    ParameterType.FILES -> addFileRequest(multiple = true, withImageEditor = withImageEditor)
-                    ParameterType.IMAGE -> addFileRequest(fromCamera = true, withImageEditor = withImageEditor)
+                    ParameterType.FILE -> addFileRequest(parameter.fileUploadOptions)
                 }
             }
             .withMetaData(loadMetaData)
@@ -517,19 +513,31 @@ class Execution(
         while (true) {
             fileRequest = fileUploadManager.getNextFileRequest() ?: break
             ensureActive()
-            if (fileRequest.fromCamera) {
-                externalRequests.openCamera()
-            } else {
-                externalRequests.openFilePicker(fileRequest.multiple)
-            }
-                .let { files ->
-                    ensureActive()
-                    fileUploadManager.fulfillFileRequest(fileRequest, files)
+            val files = when {
+                fileRequest.fromFile != null -> {
+                    listOf(fileRequest.fromFile!!)
                 }
+                fileRequest.fromCamera -> {
+                    externalRequests.openCamera()
+                }
+                else -> {
+                    externalRequests.openFilePicker(fileRequest.multiple)
+                }
+            }
+            ensureActive()
+            fileUploadManager.fulfillFileRequest(fileRequest, files)
         }
 
         fileUploadManager.getResult()
     }
+
+    private fun FileUploadManager.Builder.addFileRequest(fileUploadOptions: FileUploadOptions?): FileUploadManager.Builder =
+        addFileRequest(
+            multiple = fileUploadOptions?.type == FileUploadType.FILE_PICKER_MULTI,
+            withImageEditor = fileUploadOptions?.useImageEditor == true,
+            fromFile = fileUploadOptions?.takeIf { it.type == FileUploadType.FILE }?.file?.toUri(),
+            fromCamera = fileUploadOptions?.type == FileUploadType.CAMERA,
+        )
 
     private suspend fun processFileIfNeeded(fileRequest: FileUploadManager.FileRequest, uri: Uri, mimeType: String): Uri? {
         if (fileRequest.withImageEditor && FileTypeUtil.isImage(mimeType)) {

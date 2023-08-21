@@ -1,9 +1,9 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
 import ch.rmy.android.framework.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.data.migration.getObjectArray
 import ch.rmy.android.http_shortcuts.data.migration.getString
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import io.realm.kotlin.migration.AutomaticSchemaMigration
 
@@ -77,15 +77,14 @@ class ResponseHandlingMigration : BaseMigration {
     }
 
     override fun migrateImport(base: JsonObject) {
-        for (category in base["categories"].asJsonArray) {
-            for (shortcut in category.asJsonObject["shortcuts"]?.asJsonArray ?: JsonArray()) {
-                val shortcutObject = shortcut.asJsonObject
-                val executionType = shortcutObject.get("executionType")?.asString
+        for (category in base.getObjectArray("categories")) {
+            for (shortcut in category.getObjectArray("shortcuts")) {
+                val executionType = shortcut.getString("executionType")
                 if (executionType == "app" || executionType == null) {
                     JsonObject()
                         .apply {
                             addProperty("id", UUIDUtils.newUUID())
-                            when (shortcutObject.get("feedback")?.asString) {
+                            when (shortcut.getString("feedback")) {
                                 "simple_response" -> {
                                     addProperty("uiType", "toast")
                                     addProperty("successOutput", "message")
@@ -145,7 +144,7 @@ class ResponseHandlingMigration : BaseMigration {
                             }
                         }
                         .let { responseHandling ->
-                            shortcutObject.add("responseHandling", responseHandling)
+                            shortcut.add("responseHandling", responseHandling)
                         }
                 }
             }

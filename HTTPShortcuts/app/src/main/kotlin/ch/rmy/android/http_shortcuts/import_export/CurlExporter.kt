@@ -57,7 +57,7 @@ constructor(
                     rawPlaceholdersToResolvedValues(header.value, variableValues)
                 )
             }
-            .runIf(shortcut.usesGenericFileBody() || shortcut.usesImageFileBody()) {
+            .runIf(shortcut.usesGenericFileBody()) {
                 usesBinaryData()
             }
             .runIf(shortcut.usesRequestParameters()) {
@@ -66,8 +66,6 @@ constructor(
                         .runFor(shortcut.parameters) { parameter ->
                             when (parameter.parameterType) {
                                 ParameterType.FILE,
-                                ParameterType.FILES,
-                                ParameterType.IMAGE,
                                 -> {
                                     addFileParameter(
                                         rawPlaceholdersToResolvedValues(parameter.key, variableValues),

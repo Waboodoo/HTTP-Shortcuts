@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
+import ch.rmy.android.http_shortcuts.data.migration.getObjectArray
 import ch.rmy.android.http_shortcuts.data.migration.getString
-import ch.rmy.android.http_shortcuts.extensions.getArrayOrEmpty
 import com.google.gson.JsonObject
 import io.realm.kotlin.migration.AutomaticSchemaMigration
 
@@ -17,10 +17,9 @@ class CategoryBackgroundMigration : BaseMigration {
     }
 
     override fun migrateImport(base: JsonObject) {
-        base.getArrayOrEmpty("categories")
-            .map { it.asJsonObject }
+        base.getObjectArray("categories")
             .forEach { category ->
-                when (category.get("background")?.takeUnless { it.isJsonNull }?.asString) {
+                when (category.getString("background")) {
                     "white" -> category.addProperty("background", "default")
                     "black" -> category.addProperty("background", "color=#000000")
                 }

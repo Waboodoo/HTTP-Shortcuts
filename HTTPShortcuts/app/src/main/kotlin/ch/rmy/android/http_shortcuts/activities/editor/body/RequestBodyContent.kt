@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.body.models.ParameterListItem
-import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.EmptyState
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.SelectionField
@@ -43,6 +42,7 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.SuggestionDropdown
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderText
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
+import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.extensions.rememberSyntaxHighlighter
@@ -55,6 +55,8 @@ import org.burnoutcrew.reorderable.reorderable
 @Composable
 fun RequestBodyContent(
     requestBodyType: RequestBodyType,
+    fileUploadType: FileUploadType,
+    fileName: String?,
     parameters: List<ParameterListItem>,
     contentType: String,
     bodyContent: String,
@@ -62,6 +64,8 @@ fun RequestBodyContent(
     syntaxHighlightingLanguage: String?,
     useImageEditor: Boolean,
     onRequestBodyTypeChanged: (RequestBodyType) -> Unit,
+    onFileUploadTypeChanged: (FileUploadType) -> Unit,
+    onFileNameClicked: () -> Unit,
     onContentTypeChanged: (String) -> Unit,
     onBodyContentChanged: (String) -> Unit,
     onFormatButtonClicked: () -> Unit,
@@ -84,7 +88,6 @@ fun RequestBodyContent(
                 RequestBodyType.FORM_DATA to stringResource(R.string.request_body_option_form_data),
                 RequestBodyType.X_WWW_FORM_URLENCODE to stringResource(R.string.request_body_option_x_www_form_urlencoded),
                 RequestBodyType.FILE to stringResource(R.string.request_body_option_file),
-                RequestBodyType.CAMERA_IMAGE to stringResource(R.string.request_body_option_image),
             ),
             onItemSelected = onRequestBodyTypeChanged,
         )
@@ -111,10 +114,14 @@ fun RequestBodyContent(
                 )
             }
             RequestBodyType.FILE,
-            RequestBodyType.CAMERA_IMAGE,
             -> {
                 FileOptions(
+                    allowMultiple = false,
+                    fileUploadType = fileUploadType,
+                    fileName = fileName,
                     useImageEditor = useImageEditor,
+                    onFileUploadTypeChanged = onFileUploadTypeChanged,
+                    onFileNameClicked = onFileNameClicked,
                     onUseImageEditorChanged = onUseImageEditorChanged,
                 )
             }
@@ -276,9 +283,13 @@ private fun ParameterItem(
             supportingContent = {
                 VariablePlaceholderText(
                     text = when (parameter.type) {
-                        ParameterType.FILE -> stringResource(R.string.subtitle_parameter_value_file)
-                        ParameterType.FILES -> stringResource(R.string.subtitle_parameter_value_files)
-                        ParameterType.IMAGE -> stringResource(R.string.subtitle_parameter_value_image)
+                        ParameterType.FILE -> {
+                            when (parameter.fileUploadType) {
+                                FileUploadType.FILE_PICKER_MULTI -> stringResource(R.string.subtitle_parameter_value_files)
+                                FileUploadType.CAMERA -> stringResource(R.string.subtitle_parameter_value_image)
+                                else -> stringResource(R.string.subtitle_parameter_value_file)
+                            }
+                        }
                         ParameterType.STRING -> parameter.value.ifEmpty { stringResource(R.string.empty_option_placeholder) }
                     },
                     maxLines = 2,
@@ -288,18 +299,6 @@ private fun ParameterItem(
         )
         HorizontalDivider()
     }
-}
-
-@Composable
-private fun FileOptions(
-    useImageEditor: Boolean,
-    onUseImageEditorChanged: (Boolean) -> Unit,
-) {
-    Checkbox(
-        label = stringResource(R.string.label_file_upload_options_allow_image_editing),
-        checked = useImageEditor,
-        onCheckedChange = onUseImageEditorChanged,
-    )
 }
 
 private val CONTENT_TYPE_SUGGESTIONS = arrayOf(

@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
+import ch.rmy.android.http_shortcuts.data.migration.getObjectArray
 import ch.rmy.android.http_shortcuts.data.migration.getString
 import com.google.gson.JsonObject
 import io.realm.kotlin.migration.AutomaticSchemaMigration
@@ -30,12 +31,11 @@ class ReplaceActionsWithScriptsMigration : BaseMigration {
     }
 
     override fun migrateImport(base: JsonObject) {
-        for (category in base["categories"].asJsonArray) {
-            for (shortcutObj in category.asJsonObject["shortcuts"].asJsonArray) {
-                val shortcut = shortcutObj.asJsonObject
-                shortcut.addProperty("codeOnPrepare", jsonActionListToJsCode(shortcut.get("serializedBeforeActions")?.asString))
-                shortcut.addProperty("codeOnSuccess", jsonActionListToJsCode(shortcut.get("serializedSuccessActions")?.asString))
-                shortcut.addProperty("codeOnFailure", jsonActionListToJsCode(shortcut.get("serializedFailureActions")?.asString))
+        for (category in base.getObjectArray("categories")) {
+            for (shortcut in category.getObjectArray("shortcuts")) {
+                shortcut.addProperty("codeOnPrepare", jsonActionListToJsCode(shortcut.getString("serializedBeforeActions")))
+                shortcut.addProperty("codeOnSuccess", jsonActionListToJsCode(shortcut.getString("serializedSuccessActions")))
+                shortcut.addProperty("codeOnFailure", jsonActionListToJsCode(shortcut.getString("serializedFailureActions")))
             }
         }
     }

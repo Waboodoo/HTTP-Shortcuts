@@ -185,7 +185,12 @@ class FileUploadManager internal constructor(
             registeredFiles.getOrNull(index)?.firstOrNull()
     }
 
-    class FileRequest(val multiple: Boolean, val fromCamera: Boolean, val withImageEditor: Boolean)
+    class FileRequest(
+        val multiple: Boolean,
+        val fromCamera: Boolean,
+        val fromFile: Uri?,
+        val withImageEditor: Boolean,
+    )
 
     class Builder(private val contentResolver: ContentResolver) {
 
@@ -193,8 +198,13 @@ class FileUploadManager internal constructor(
         private var withMetaData = false
         private var transformation: suspend (FileRequest, Uri, mimeType: String) -> Uri? = { _, _, _ -> null }
 
-        fun addFileRequest(multiple: Boolean = false, fromCamera: Boolean = false, withImageEditor: Boolean = false) = also {
-            fileRequests.add(FileRequest(multiple, fromCamera, withImageEditor))
+        fun addFileRequest(
+            multiple: Boolean = false,
+            fromCamera: Boolean = false,
+            fromFile: Uri? = null,
+            withImageEditor: Boolean = false,
+        ) = also {
+            fileRequests.add(FileRequest(multiple, fromCamera, fromFile, withImageEditor))
         }
 
         fun withMetaData(enabled: Boolean) = also {

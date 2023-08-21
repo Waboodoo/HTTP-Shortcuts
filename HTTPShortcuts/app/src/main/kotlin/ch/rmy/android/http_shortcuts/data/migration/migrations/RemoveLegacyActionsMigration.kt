@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.http_shortcuts.data.migration.getObjectArray
 import ch.rmy.android.http_shortcuts.data.migration.getString
-import ch.rmy.android.http_shortcuts.extensions.getArrayOrEmpty
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import io.realm.kotlin.dynamic.DynamicMutableRealmObject
@@ -26,10 +26,8 @@ class RemoveLegacyActionsMigration : BaseMigration {
     }
 
     override fun migrateImport(base: JsonObject) {
-        base.getArrayOrEmpty("categories")
-            .map { it.asJsonObject }
-            .flatMap { it.getArrayOrEmpty("shortcuts") }
-            .map { it.asJsonObject }
+        base.getObjectArray("categories")
+            .flatMap { it.getObjectArray("shortcuts") }
             .forEach { shortcut ->
                 migrateField(shortcut, "codeOnPrepare")
                 migrateField(shortcut, "codeOnSuccess")
@@ -38,8 +36,8 @@ class RemoveLegacyActionsMigration : BaseMigration {
     }
 
     private fun migrateField(obj: JsonObject, field: String) {
-        val value = obj.get(field)?.takeUnless { it.isJsonNull } ?: return
-        obj.addProperty(field, migrateScript(value.asString))
+        val value = obj.getString(field) ?: return
+        obj.addProperty(field, migrateScript(value))
     }
 
     private fun migrateScript(script: String): String {
@@ -65,12 +63,12 @@ class RemoveLegacyActionsMigration : BaseMigration {
     }
 
     private fun migrateExtractBody(payload: JsonObject, i: Int): String {
-        val variableId = payload.get("variableId").asString
-        return when (payload.get("extractionType").asString) {
+        val variableId = payload.getString("variableId")
+        return when (payload.getString("extractionType")) {
             "full_body" -> "setVariable(\"$variableId\", response.body);"
             "substring" -> {
-                val substringStart = payload.get("substringStart").asString
-                val substringEnd = payload.get("substringEnd").asString
+                val substringStart = payload.getString("substringStart")
+                val substringEnd = payload.getString("substringEnd")
 
                 """
                     let start$i = $substringStart;
@@ -85,7 +83,7 @@ class RemoveLegacyActionsMigration : BaseMigration {
                 """.trimIndent()
             }
             "parse_json" -> {
-                val jsonPath = payload.get("jsonPath").asString
+                val jsonPath = payload.getString("jsonPath") ?: ""
                 if (jsonPath.isEmpty()) {
                     "setVariable(\"$variableId\", response.body);"
                 } else {
@@ -103,25 +101,25 @@ class RemoveLegacyActionsMigration : BaseMigration {
     }
 
     private fun migrateExtractCookie(payload: JsonObject): String {
-        val cookieName = payload.get("cookieName").asString
-        val variableId = payload.get("variableId").asString
+        val cookieName = payload.getString("cookieName")
+        val variableId = payload.getString("variableId")
         return "setVariable(\"$variableId\", response.cookies[\"$cookieName\"]);"
     }
 
     private fun migrateExtractHeader(payload: JsonObject): String {
-        val headerKey = payload.get("headerKey").asString
-        val variableId = payload.get("variableId").asString
+        val headerKey = payload.getString("headerKey")
+        val variableId = payload.getString("variableId")
         return "setVariable(\"$variableId\", response.headers[\"$headerKey\"]);"
     }
 
     private fun migrateExtractStatusCode(payload: JsonObject): String {
-        val variableId = payload.get("variableId").asString
+        val variableId = payload.getString("variableId")
         return "setVariable(\"$variableId\", response.statusCode);"
     }
 
     private fun migrateSetVariable(payload: JsonObject): String {
-        val variableId = payload.get("variableId").asString
-        val value = payload.get("newValue").asString
+        val variableId = payload.getString("variableId")
+        val value = payload.getString("newValue")
         return "setVariable(\"$variableId\", \"$value\");"
     }
 }

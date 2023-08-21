@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
+import ch.rmy.android.http_shortcuts.data.migration.getObjectArray
 import ch.rmy.android.http_shortcuts.data.migration.getString
-import ch.rmy.android.http_shortcuts.extensions.getArrayOrEmpty
 import com.google.gson.JsonObject
 import io.realm.kotlin.dynamic.DynamicMutableRealmObject
 import io.realm.kotlin.dynamic.DynamicRealmObject
@@ -58,14 +58,11 @@ class ReplaceVariableKeysWithIdsMigration : BaseMigration {
     }
 
     override fun migrateImport(base: JsonObject) {
-        val variableMap = base.getArrayOrEmpty("variables")
-            .map { it.asJsonObject }
-            .associate { it.get("key").asString!! to it.get("id").asString!! }
+        val variableMap = base.getObjectArray("variables")
+            .associate { it.getString("key")!! to it.getString("id")!! }
 
-        base.getArrayOrEmpty("categories")
-            .map { it.asJsonObject }
-            .flatMap { it.getArrayOrEmpty("shortcuts").asJsonArray }
-            .map { it.asJsonObject }
+        base.getObjectArray("categories")
+            .flatMap { it.getObjectArray("shortcuts") }
             .forEach { shortcut ->
                 migrateField(shortcut, "url", variableMap)
                 migrateField(shortcut, "username", variableMap)
@@ -75,43 +72,33 @@ class ReplaceVariableKeysWithIdsMigration : BaseMigration {
                 migrateField(shortcut, "serializedSuccessActions", variableMap)
                 migrateField(shortcut, "serializedFailureActions", variableMap)
 
-                shortcut.get("parameters")
-                    ?.takeUnless { it.isJsonNull }
-                    ?.asJsonArray
-                    ?.map { it.asJsonObject }
-                    ?.forEach { parameter ->
+                shortcut.getObjectArray("parameters")
+                    .forEach { parameter ->
                         migrateField(parameter, "key", variableMap)
                         migrateField(parameter, "value", variableMap)
                     }
-                shortcut.get("headers")
-                    ?.takeUnless { it.isJsonNull }
-                    ?.asJsonArray
-                    ?.map { it.asJsonObject }
-                    ?.forEach { parameter ->
-                        migrateField(parameter, "key", variableMap)
-                        migrateField(parameter, "value", variableMap)
+                shortcut.getObjectArray("headers")
+                    .forEach { header ->
+                        migrateField(header, "key", variableMap)
+                        migrateField(header, "value", variableMap)
                     }
             }
 
-        base.getArrayOrEmpty("variables")
-            .map { it.asJsonObject }
+        base.getObjectArray("variables")
             .forEach { variable ->
                 migrateField(variable, "value", variableMap)
                 migrateField(variable, "data", variableMap)
 
-                variable.get("options")
-                    ?.takeUnless { it.isJsonNull }
-                    ?.asJsonArray
-                    ?.map { it.asJsonObject }
-                    ?.forEach { option ->
+                variable.getObjectArray("options")
+                    .forEach { option ->
                         migrateField(option, "value", variableMap)
                     }
             }
     }
 
     private fun migrateField(obj: JsonObject, field: String, variableMap: Map<String, String>) {
-        val value = obj.get(field)?.takeUnless { it.isJsonNull } ?: return
-        obj.addProperty(field, replaceVariables(value.asString, variableMap))
+        val value = obj.getString(field) ?: return
+        obj.addProperty(field, replaceVariables(value, variableMap))
     }
 
     private fun replaceVariables(string: String, variableMap: Map<String, String>): String =
