@@ -1,3 +1,18 @@
+## Version 3.4.0
+
+### Improvements
+- When using files for request body or form parameters, you can now set a static file to avoid having to use the file picker every time
+- When locking the app, it is now possible to unlock it with biometrics in addition to the PIN code
+- Responses can be displayed using a monospace font
+- The icon picker shows the previously selected icon at the top for easier re-use and re-coloring
+- The getLocation()` function can now also be used without Play Services (though the result may be less accurate and less reliable)
+
+### Miscellaneous
+- The screenshots in the bundled-in documentation were updated
+
+### Bugfixes
+- Long responses displayed in a dialog are now scrollable
+
 ## Version 3.3.0
 
 ### Improvements
