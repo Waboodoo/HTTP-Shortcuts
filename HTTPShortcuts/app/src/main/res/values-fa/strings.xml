@@ -956,9 +956,6 @@
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
     <string name="option_parameter_type_file">"تک فایل"</string>
 
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for files parameter -->
-    <string name="option_parameter_type_files">"چندین فایل"</string>
-
     <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
     <string name="subtitle_parameter_value_file">"فایل"</string>
 
@@ -1607,9 +1604,6 @@
     <!-- Label of an option in the share dialog, for receiving the title (subject) and the text -->
     <string name="label_share_support_option_title_and_text">"عنوان و متن"</string>
 
-    <!-- Title of dialog to add a new files parameter to a shortcut -->
-    <string name="title_post_param_add_files">"افزودن پارامتر فایل ها"</string>
-
     <!-- Title of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_title">"عنوان برنامه"</string>
 
@@ -1664,20 +1658,8 @@
     <!-- Option to choose from when selecting the background of a category: custom color -->
     <string name="category_background_type_color">"رنگ"</string>
 
-    <!-- Title of dialog to edit an image parameter on a shortcut -->
-    <string name="title_post_param_edit_image">"ویرایش پارامتر تصویر"</string>
-
-    <!-- Title of dialog to add a new image parameter to a shortcut -->
-    <string name="title_post_param_add_image">"افزودن پارامتر تصویر"</string>
-
-    <!-- Dropdown option for request body: image (i.e., user gets to take a picture with the camera which is used as the request body) -->
-    <string name="request_body_option_image">"تصویر (دوربین)"</string>
-
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'Image' -->
     <string name="subtitle_request_body_image">"مجموعه بدنه درخواست تصویر"</string>
-
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for image parameter -->
-    <string name="option_parameter_type_image">"تصویر (دوربین)"</string>
 
     <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
     <string name="subtitle_parameter_value_image">"تصویر"</string>

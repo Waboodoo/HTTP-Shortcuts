@@ -925,9 +925,6 @@ Tuto funkci můžete povolit úpravou zástupce a zaškrtnutím políčka \"%1$s
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
     <string name="option_parameter_type_file">"Jednotlivý soubor"</string>
 
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for files parameter -->
-    <string name="option_parameter_type_files">"Více souborů"</string>
-
     <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
     <string name="subtitle_parameter_value_file">"Soubor"</string>
 
@@ -1568,9 +1565,6 @@ Odstranit v každém případě?"</string>
     <!-- Label of an option in the share dialog, for receiving the title (subject) and the text -->
     <string name="label_share_support_option_title_and_text">"Název a text"</string>
 
-    <!-- Title of dialog to add a new files parameter to a shortcut -->
-    <string name="title_post_param_add_files">"Parametr Přidat soubory"</string>
-
     <!-- Title of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_title">"Název aplikace"</string>
 
@@ -1625,20 +1619,8 @@ Odstranit v každém případě?"</string>
     <!-- Option to choose from when selecting the background of a category: custom color -->
     <string name="category_background_type_color">"Barva"</string>
 
-    <!-- Title of dialog to edit an image parameter on a shortcut -->
-    <string name="title_post_param_edit_image">"Upravit parametr obrázku"</string>
-
-    <!-- Title of dialog to add a new image parameter to a shortcut -->
-    <string name="title_post_param_add_image">"Přidat parametr obrázku"</string>
-
-    <!-- Dropdown option for request body: image (i.e., user gets to take a picture with the camera which is used as the request body) -->
-    <string name="request_body_option_image">"Obrázek (kamera)"</string>
-
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'Image' -->
     <string name="subtitle_request_body_image">"Sada těla požadavku na obrázek"</string>
-
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for image parameter -->
-    <string name="option_parameter_type_image">"Obrázek (kamera)"</string>
 
     <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
     <string name="subtitle_parameter_value_image">"Obrázek"</string>

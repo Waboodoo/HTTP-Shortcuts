@@ -966,9 +966,6 @@ Podeu activar aquesta funció editant una drecera i seleccionant la casella de s
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
     <string name="option_parameter_type_file">"Fitxer únic"</string>
 
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for files parameter -->
-    <string name="option_parameter_type_files">"Múltiples arxius"</string>
-
     <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
     <string name="subtitle_parameter_value_file">"Dossier"</string>
 
@@ -1609,9 +1606,6 @@ Suprimir de totes maneres?"</string>
     <!-- Label of an option in the share dialog, for receiving the title (subject) and the text -->
     <string name="label_share_support_option_title_and_text">"Títol i text"</string>
 
-    <!-- Title of dialog to add a new files parameter to a shortcut -->
-    <string name="title_post_param_add_files">"Afegeix un paràmetre de fitxers"</string>
-
     <!-- Title of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_title">"Títol de l'aplicació"</string>
 
@@ -1666,20 +1660,8 @@ Suprimir de totes maneres?"</string>
     <!-- Option to choose from when selecting the background of a category: custom color -->
     <string name="category_background_type_color">"Color"</string>
 
-    <!-- Title of dialog to edit an image parameter on a shortcut -->
-    <string name="title_post_param_edit_image">"Edita el paràmetre de la imatge"</string>
-
-    <!-- Title of dialog to add a new image parameter to a shortcut -->
-    <string name="title_post_param_add_image">"Afegeix un paràmetre d'imatge"</string>
-
-    <!-- Dropdown option for request body: image (i.e., user gets to take a picture with the camera which is used as the request body) -->
-    <string name="request_body_option_image">"Imatge (Càmera)"</string>
-
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'Image' -->
     <string name="subtitle_request_body_image">"Conjunt de cos de sol·licitud d'imatge"</string>
-
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for image parameter -->
-    <string name="option_parameter_type_image">"Imatge (Càmera)"</string>
 
     <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
     <string name="subtitle_parameter_value_image">"Imatge"</string>

@@ -972,9 +972,6 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
     <string name="option_parameter_type_file">"Einzelne Datei"</string>
 
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for files parameter -->
-    <string name="option_parameter_type_files">"Mehrere Dateien"</string>
-
     <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
     <string name="subtitle_parameter_value_file">"Datei"</string>
 
@@ -1625,9 +1622,6 @@ Trotzdem löschen?"</string>
     <!-- Label of an option in the share dialog, for receiving the title (subject) and the text -->
     <string name="label_share_support_option_title_and_text">"Titel und Text"</string>
 
-    <!-- Title of dialog to add a new files parameter to a shortcut -->
-    <string name="title_post_param_add_files">"Datei-Parameter hinzufügen"</string>
-
     <!-- Title of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_title">"App-Titel"</string>
 
@@ -1682,20 +1676,8 @@ Trotzdem löschen?"</string>
     <!-- Option to choose from when selecting the background of a category: custom color -->
     <string name="category_background_type_color">"Farbe"</string>
 
-    <!-- Title of dialog to edit an image parameter on a shortcut -->
-    <string name="title_post_param_edit_image">"Bild-Parameter bearbeiten"</string>
-
-    <!-- Title of dialog to add a new image parameter to a shortcut -->
-    <string name="title_post_param_add_image">"Bild-Parameter hinzufügen"</string>
-
-    <!-- Dropdown option for request body: image (i.e., user gets to take a picture with the camera which is used as the request body) -->
-    <string name="request_body_option_image">"Bild (Kamera)"</string>
-
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'Image' -->
     <string name="subtitle_request_body_image">"Request-Body aus Bild"</string>
-
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for image parameter -->
-    <string name="option_parameter_type_image">"Bild (Kamera)"</string>
 
     <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
     <string name="subtitle_parameter_value_image">"Bild"</string>
@@ -2203,4 +2185,31 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
 
     <!-- Checkbox label, shown on dialog that lets the user lock the app -->
     <string name="label_app_lock_use_biometrics">"Biometrisches Entsperren erlauben"</string>
+
+    <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
+    <string name="label_monospace_response">"Monospace-Schriftart für Text verwenden"</string>
+
+    <!-- Subtitle for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen. The %s is a placeholder for the directory name. -->
+    <string name="subtitle_store_response_into_file_directory">"Speichern in “%s”"</string>
+
+    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown let's the user choose the source of the file data -->
+    <string name="label_file_options_file_data_source">"Daten-Quelle"</string>
+
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker -->
+    <string name="option_file_data_source_file_picker">"Dateiauswahl öffnen"</string>
+
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker for selecting multiple files -->
+    <string name="option_file_data_source_file_picker_multi">"Dateiauswahl öffnen (Mehrfach-Auswahl)"</string>
+
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open camera to take a picture -->
+    <string name="option_file_data_source_camera">"Kamera öffnen"</string>
+
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a specific static file stored on the device -->
+    <string name="option_file_data_source_specific_file">"Statische Datei verwenden"</string>
+
+    <!-- Button label, for choosing a file to use as a request body or parameter -->
+    <string name="label_file_data_source_choose_file">"Datei auswählen"</string>
+
+    <!-- Subtitle, shown on button for selecting a file to use as a request body or parameter. %s is a placeholder for the selected file's name -->
+    <string name="subtitle_file_data_source_choose_file">"Datei “%s”"</string>
 </resources>

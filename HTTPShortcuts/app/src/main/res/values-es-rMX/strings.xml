@@ -824,9 +824,6 @@ Todos los atajos dentro de esta se eliminaran también."</string>
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
     <string name="option_parameter_type_file">"Un solo Archivo"</string>
 
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for files parameter -->
-    <string name="option_parameter_type_files">"Múltiples archivos"</string>
-
     <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
     <string name="subtitle_parameter_value_file">"Archivo"</string>
 
@@ -1134,18 +1131,6 @@ Todos los atajos dentro de esta se eliminaran también."</string>
 
     <!-- Option to choose from when selecting the background of a category: custom color -->
     <string name="category_background_type_color">"Color"</string>
-
-    <!-- Title of dialog to edit an image parameter on a shortcut -->
-    <string name="title_post_param_edit_image">"Editar parámetros de la imágen"</string>
-
-    <!-- Title of dialog to add a new image parameter to a shortcut -->
-    <string name="title_post_param_add_image">"Agregar Parámetro a la imágen"</string>
-
-    <!-- Dropdown option for request body: image (i.e., user gets to take a picture with the camera which is used as the request body) -->
-    <string name="request_body_option_image">"Imágen (Cámara)"</string>
-
-    <!-- Dialog option: Shown in dialog when adding a new request parameter, option for image parameter -->
-    <string name="option_parameter_type_image">"Imágen (Cámara)"</string>
 
     <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
     <string name="subtitle_parameter_value_image">"Imagen"</string>
