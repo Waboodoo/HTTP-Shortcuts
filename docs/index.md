@@ -9,8 +9,8 @@ This app is open-source and can be found on [Github](https://github.com/Waboodoo
 - Supports HTTP and HTTPS (TLSv1.3), and methods GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE
 - Basic Authentication, Digest Authentication, Bearer Authentication and Client Certificate Authentication
 - Custom request headers
-- Custom request body (text based or from file)
-- File upload through form-data parameters
+- Custom request body (text based, from static file, file picker, static, or camera)
+- Upload files as form-data parameters
 - Display response as a toast, window or dialog, or run silently
 - Store response into a file
 - Support for self-signed certificates & Certificate Pinning

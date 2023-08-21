@@ -26,8 +26,8 @@ Find more information and documentation on the [official website](https://http-s
 - Supports HTTP and HTTPS, and methods GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE
 - Basic Authentication, Digest Authentication & Bearer Authentication
 - Custom request headers
-- Custom request body (text or from file)
-- Upload files as form-data
+- Custom request body (text based, from static file, file picker, static, or camera)
+- Upload files as form-data parameters
 - Client Certificate Authentication
 - Support for TLSv1.3
 - Support for HTTP & SOCKS proxies
