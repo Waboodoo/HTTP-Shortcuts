@@ -5,7 +5,7 @@
 - When locking the app, it is now possible to unlock it with biometrics in addition to the PIN code
 - Responses can be displayed using a monospace font
 - The icon picker shows the previously selected icon at the top for easier re-use and re-coloring
-- The getLocation()` function can now also be used without Play Services (though the result may be less accurate and less reliable)
+- The `getLocation()` function can now also be used without Play Services (though the result may be less accurate and less reliable)
 
 ### Miscellaneous
 - The screenshots in the bundled-in documentation were updated
