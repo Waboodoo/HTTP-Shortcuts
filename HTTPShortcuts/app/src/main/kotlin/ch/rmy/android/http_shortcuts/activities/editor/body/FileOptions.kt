@@ -53,10 +53,10 @@ fun FileOptions(
             }
             onDispose { }
         }
-        AnimatedVisibility(visible = fileUploadType == FileUploadType.FILE && name != null) {
+        AnimatedVisibility(visible = fileUploadType == FileUploadType.FILE) {
             SettingsButton(
                 title = stringResource(R.string.label_file_data_source_choose_file),
-                subtitle = stringResource(R.string.subtitle_file_data_source_choose_file, name ?: ""),
+                subtitle = name?.let { stringResource(R.string.subtitle_file_data_source_choose_file, it) },
                 onClick = onFileNameClicked,
             )
         }
