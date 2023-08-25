@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -115,6 +116,8 @@ fun <T : Any> SimpleScaffold(
                         Text(
                             // due to some bug(?) in Compose (I guess?), I need to transform the title to trigger a recomposition
                             title + "",
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
                         )
                         if (subtitle != null) {
                             Text(

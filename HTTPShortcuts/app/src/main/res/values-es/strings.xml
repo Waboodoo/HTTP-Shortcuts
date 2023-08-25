@@ -1853,9 +1853,6 @@ Haz clic en el botón + para empezar."</string>
     <!-- Option in dropdown menu for selecting the main action available on a dialog that displays the HTTP response, allows to show no action -->
     <string name="label_dialog_action_none">"Ninguno"</string>
 
-    <!-- Label on checkbox that allows to enable/disable the use of a certain action to be displayed in the HTTP response window (e.g. "Share" button) -->
-    <string name="label_response_actions_show_button">"Mostrar el botón \"%s\""</string>
-
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">"Enviar paquete TCP"</string>
 

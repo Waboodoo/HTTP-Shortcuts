@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 
 @Stable
 data class ResponseViewState(
+    val dialogState: ResponseDialogState? = null,
     val successMessageHint: Localizable,
     val responseUiType: String,
     val responseSuccessOutput: String,

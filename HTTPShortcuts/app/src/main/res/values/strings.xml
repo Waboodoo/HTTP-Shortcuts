@@ -1275,8 +1275,6 @@
     <string name="button_open_documentation_in_browser">Open in browser</string>
     <!-- Option in dropdown menu for selecting the main action available on a dialog that displays the HTTP response, allows to show no action -->
     <string name="label_dialog_action_none">None</string>
-    <!-- Label on checkbox that allows to enable/disable the use of a certain action to be displayed in the HTTP response window (e.g. "Share" button) -->
-    <string name="label_response_actions_show_button">Show \“%s\” button</string>
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
     <string name="error_unsupported_file_url">URLs with file:// scheme are not supported</string>
     <!-- Error message: Shown when the user tries to parse XML using the parseXML JS function, but the XML is invalid. %s is a placeholder for a more detailed description of the error -->
@@ -1464,4 +1462,13 @@
     <string name="label_file_data_source_choose_file">Choose File</string>
     <!-- Subtitle, shown on button for selecting a file to use as a request body or parameter. %s is a placeholder for the selected file's name -->
     <string name="subtitle_file_data_source_choose_file">File “%s”</string>
+    <!-- Label on button, shown in Response settings of shortcut editor, allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
+    <string name="button_select_response_toolbar_buttons">Show Toolbar Buttons</string>
+    <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
+    <string name="title_select_response_toolbar_buttons">Select Toolbar Buttons</string>
+    <!-- Subtitle on button, shown in Response settings of shortcut editor, shows how many buttons the user has selected to be shown in the response window toolbar -->
+    <plurals name="subtitle_response_toolbar_actions">
+        <item quantity="one">1 button selected</item>
+        <item quantity="other">%d buttons selected</item>
+    </plurals>
 </resources>

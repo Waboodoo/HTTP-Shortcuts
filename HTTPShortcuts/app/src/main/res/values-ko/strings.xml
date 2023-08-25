@@ -230,7 +230,8 @@
 
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="import_failed_with_reason">"바로가기 가져오기 실패:
-%s"</string>
+
+%s"</string>
 
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">"바로가기 내보내기 실패: %s"</string>
@@ -866,7 +867,8 @@
 
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
     <string name="error_js_pattern">"JavaScript 오류:
-%s"</string>
+
+%s"</string>
 
     <!-- Button: Shown below JavaScript editor (for pre-request and post-request actions), allows to add snippets of JS code -->
     <string name="button_add_code_snippet">"코드 스니펫 추가"</string>
@@ -1848,9 +1850,6 @@
 
     <!-- Option in dropdown menu for selecting the main action available on a dialog that displays the HTTP response, allows to show no action -->
     <string name="label_dialog_action_none">"없음"</string>
-
-    <!-- Label on checkbox that allows to enable/disable the use of a certain action to be displayed in the HTTP response window (e.g. "Share" button) -->
-    <string name="label_response_actions_show_button">"\"%s\" 버튼 표시"</string>
 
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">"TCP 패킷 보내기"</string>

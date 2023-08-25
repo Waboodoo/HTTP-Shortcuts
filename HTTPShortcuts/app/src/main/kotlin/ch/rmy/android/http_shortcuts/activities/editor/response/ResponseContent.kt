@@ -11,11 +11,13 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.HelpText
 import ch.rmy.android.http_shortcuts.components.SelectionField
+import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
@@ -41,7 +43,7 @@ fun ResponseContent(
     onResponseUiTypeChanged: (String) -> Unit,
     onDialogActionChanged: (ResponseDisplayAction?) -> Unit,
     onIncludeMetaInformationChanged: (Boolean) -> Unit,
-    onShowActionButtonChanged: (ResponseDisplayAction, Boolean) -> Unit,
+    onWindowActionsButtonClicked: () -> Unit,
     onStoreResponseIntoFileChanged: (Boolean) -> Unit,
     onReplaceFileIfExistsChanged: (Boolean) -> Unit,
     onStoreFileNameChanged: (String) -> Unit,
@@ -113,27 +115,37 @@ fun ResponseContent(
                 }
 
                 AnimatedVisibility(visible = responseUiType == ResponseHandling.UI_TYPE_DIALOG) {
-                    SelectionField(
-                        modifier = Modifier
-                            .padding(top = Spacing.SMALL)
-                            .padding(horizontal = Spacing.MEDIUM),
-                        title = stringResource(R.string.label_dialog_action_dropdown),
-                        selectedKey = responseDisplayActions.firstOrNull(),
-                        items = DIALOG_ACTIONS.map { (value, label) -> value to stringResource(label) },
-                        onItemSelected = onDialogActionChanged,
-                    )
-                }
+                    Column {
+                        SelectionField(
+                            modifier = Modifier
+                                .padding(top = Spacing.SMALL)
+                                .padding(horizontal = Spacing.MEDIUM),
+                            title = stringResource(R.string.label_dialog_action_dropdown),
+                            selectedKey = responseDisplayActions.firstOrNull(),
+                            items = DIALOG_ACTIONS.map { (value, label) -> value to stringResource(label) },
+                            onItemSelected = onDialogActionChanged,
+                        )
 
-                AnimatedVisibility(visible = responseUiType in arrayOf(ResponseHandling.UI_TYPE_DIALOG, ResponseHandling.UI_TYPE_WINDOW)) {
-                    Checkbox(
-                        label = stringResource(R.string.label_monospace_response),
-                        checked = useMonospaceFont,
-                        onCheckedChange = onUseMonospaceFontChanged,
-                    )
+                        Checkbox(
+                            label = stringResource(R.string.label_monospace_response),
+                            checked = useMonospaceFont,
+                            onCheckedChange = onUseMonospaceFontChanged,
+                        )
+                    }
                 }
 
                 AnimatedVisibility(visible = responseUiType == ResponseHandling.UI_TYPE_WINDOW) {
                     Column {
+                        SettingsButton(
+                            title = stringResource(R.string.button_select_response_toolbar_buttons),
+                            subtitle = pluralStringResource(
+                                R.plurals.subtitle_response_toolbar_actions,
+                                count = responseDisplayActions.size,
+                                responseDisplayActions.size,
+                            ),
+                            onClick = onWindowActionsButtonClicked,
+                        )
+
                         Checkbox(
                             label = stringResource(R.string.label_include_meta_information),
                             subtitle = stringResource(R.string.subtitle_include_meta_information),
@@ -142,38 +154,9 @@ fun ResponseContent(
                         )
 
                         Checkbox(
-                            label = stringResource(R.string.label_response_actions_show_button, stringResource(R.string.action_rerun_shortcut)),
-                            checked = ResponseDisplayAction.RERUN in responseDisplayActions,
-                            onCheckedChange = {
-                                onShowActionButtonChanged(ResponseDisplayAction.RERUN, it)
-                            },
-                        )
-
-                        Checkbox(
-                            label = stringResource(R.string.label_response_actions_show_button, stringResource(R.string.share_button)),
-                            checked = ResponseDisplayAction.SHARE in responseDisplayActions,
-                            onCheckedChange = {
-                                onShowActionButtonChanged(ResponseDisplayAction.SHARE, it)
-                            },
-                        )
-
-                        Checkbox(
-                            label = stringResource(R.string.label_response_actions_show_button, stringResource(R.string.action_copy_response)),
-                            checked = ResponseDisplayAction.COPY in responseDisplayActions,
-                            onCheckedChange = {
-                                onShowActionButtonChanged(ResponseDisplayAction.COPY, it)
-                            },
-                        )
-
-                        Checkbox(
-                            label = stringResource(
-                                R.string.label_response_actions_show_button,
-                                stringResource(R.string.button_save_response_as_file),
-                            ),
-                            checked = ResponseDisplayAction.SAVE in responseDisplayActions,
-                            onCheckedChange = {
-                                onShowActionButtonChanged(ResponseDisplayAction.SAVE, it)
-                            },
+                            label = stringResource(R.string.label_monospace_response),
+                            checked = useMonospaceFont,
+                            onCheckedChange = onUseMonospaceFontChanged,
                         )
                     }
                 }

@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.importexport
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import ch.rmy.android.http_shortcuts.R
@@ -71,7 +72,7 @@ private fun SelectShortcutsForExportDialog(
     MultiSelectDialog(
         title = stringResource(R.string.dialog_title_select_shortcuts_for_export),
         entries = entries,
-        allChecked = true,
+        initiallyChecked = remember { entries.map { it.key } },
         confirmButtonLabel = stringResource(R.string.dialog_button_export),
         dismissButton = {
             TextButton(

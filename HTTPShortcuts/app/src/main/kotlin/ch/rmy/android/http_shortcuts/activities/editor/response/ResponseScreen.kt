@@ -59,11 +59,17 @@ fun ResponseScreen() {
             onResponseUiTypeChanged = viewModel::onResponseUiTypeChanged,
             onDialogActionChanged = viewModel::onDialogActionChanged,
             onIncludeMetaInformationChanged = viewModel::onIncludeMetaInformationChanged,
-            onShowActionButtonChanged = viewModel::onShowActionButtonChanged,
+            onWindowActionsButtonClicked = viewModel::onWindowActionsButtonClicked,
             onStoreResponseIntoFileChanged = viewModel::onStoreIntoFileCheckboxChanged,
             onReplaceFileIfExistsChanged = viewModel::onStoreFileOverwriteChanged,
             onStoreFileNameChanged = viewModel::onStoreFileNameChanged,
             onUseMonospaceFontChanged = viewModel::onUseMonospaceFontChanged,
         )
     }
+
+    ResponseDialogs(
+        dialogState = state?.dialogState,
+        onActionsSelected = viewModel::onWindowActionsSelected,
+        onDismissed = viewModel::onDismissDialog,
+    )
 }

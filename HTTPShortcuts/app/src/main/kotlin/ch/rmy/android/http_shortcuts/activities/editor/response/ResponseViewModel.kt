@@ -128,26 +128,16 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
         }
     }
 
-    fun onShowActionButtonChanged(action: ResponseDisplayAction, show: Boolean) {
+    fun onWindowActionsButtonClicked() {
         doWithViewState { viewState ->
             if (viewState.responseUiType != ResponseHandling.UI_TYPE_WINDOW) {
                 return@doWithViewState
             }
-            val actions = listOf(
-                ResponseDisplayAction.RERUN,
-                ResponseDisplayAction.SHARE,
-                ResponseDisplayAction.COPY,
-                ResponseDisplayAction.SAVE,
+            updateDialogState(
+                ResponseDialogState.SelectActions(
+                    actions = viewState.responseDisplayActions,
+                ),
             )
-                .filter {
-                    (it != action && it in viewState.responseDisplayActions) || (it == action && show)
-                }
-            updateViewState {
-                copy(responseDisplayActions = actions)
-            }
-            launchWithProgressTracking {
-                temporaryShortcutRepository.setDisplayActions(actions)
-            }
         }
     }
 
@@ -156,7 +146,7 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
             if (viewState.responseUiType != ResponseHandling.UI_TYPE_DIALOG) {
                 return@doWithViewState
             }
-            val actions = action?.let(::listOf) ?: emptyList()
+            val actions = listOfNotNull(action)
             updateViewState {
                 copy(responseDisplayActions = actions)
             }
@@ -230,6 +220,37 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
         }
         launchWithProgressTracking {
             temporaryShortcutRepository.setUseMonospaceFont(monospace)
+        }
+    }
+
+    fun onWindowActionsSelected(responseDisplayActions: List<ResponseDisplayAction>) {
+        val actions = listOf(
+            ResponseDisplayAction.RERUN,
+            ResponseDisplayAction.SHARE,
+            ResponseDisplayAction.COPY,
+            ResponseDisplayAction.SAVE,
+        )
+            .filter {
+                it in responseDisplayActions
+            }
+        updateViewState {
+            copy(
+                dialogState = null,
+                responseDisplayActions = actions,
+            )
+        }
+        launchWithProgressTracking {
+            temporaryShortcutRepository.setDisplayActions(actions)
+        }
+    }
+
+    fun onDismissDialog() {
+        updateDialogState(null)
+    }
+
+    private fun updateDialogState(dialogState: ResponseDialogState?) {
+        updateViewState {
+            copy(dialogState = dialogState)
         }
     }
 }

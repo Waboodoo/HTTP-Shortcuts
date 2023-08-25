@@ -1176,7 +1176,4 @@ Todos los atajos dentro de esta se eliminaran también."</string>
 
     <!-- Menu button shown on response window, allows the user to copy the response into the clipboard -->
     <string name="action_copy_response">"Copiar"</string>
-
-    <!-- Label on checkbox that allows to enable/disable the use of a certain action to be displayed in the HTTP response window (e.g. "Share" button) -->
-    <string name="label_response_actions_show_button">"Mostrar botón de \"%s\""</string>
 </resources>
