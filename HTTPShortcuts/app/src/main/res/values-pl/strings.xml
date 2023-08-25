@@ -2028,4 +2028,234 @@ Możesz wykluczyć poszczególne skróty z wyświetlania tutaj za pomocą opcji 
 
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_scripting">"Skryptowanie"</string>
+
+    <!-- Message shown in snackbar to let the user know that the details of a (selected) history event were copied to the clipboard -->
+    <string name="message_history_event_details_copied">"Skopiowano szczegóły wydarzenia."</string>
+
+    <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
+    <string name="action_type_set_result_title">"Ustaw wynik"</string>
+
+    <!-- Shortcut Action Description: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
+    <string name="action_type_set_result_description">"Ustaw niestandardowy ciąg znaków, który ma być zwracany do skrótu o nazwie generateShortcut lub do Taskera"</string>
+
+    <!-- Label/description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
+    <string name="label_plugin_result">"Wynik"</string>
+
+    <!-- Description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
+    <string name="label_plugin_result_detail">"Niestandardowy ciąg danych ustawiony przez funkcję `setResult()`"</string>
+
+    <!-- Generic dialog button: Configure (e.g. some settings) -->
+    <string name="dialog_configure">"Skonfiguruj"</string>
+
+    <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_plugin_dialog_configure_app_overlay">"Aby móc uruchamiać skrót z innej aplikacji, musisz najpierw zezwolić aplikacji Skróty HTTP na rysowanie nad innymi aplikacjami.
+
+Kliknij przycisk „%s” poniżej, aby to teraz skonfigurować."</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="label_secondary_launcher_shortcut">"Zezwalaj na wyzwalanie za pomocą dodatkowej aplikacji uruchamiającej"</string>
+
+    <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
+    <string name="title_activity_secondary_launcher_trigger">"Uruchom skrót"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the meta data of a selected file -->
+    <string name="dialog_code_snippet_get_file_meta">"Uzyskaj metadane wybranego pliku"</string>
+
+    <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
+    <string name="action_type_log_event">"Zapisz wydarzenie"</string>
+
+    <!-- Shortcut Action Title: Action that allows to share text to another app -->
+    <string name="action_share_text_title">"Udostępnij tekst"</string>
+
+    <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
+    <string name="label_run_repeatedly">"Uruchom wielokrotnie"</string>
+
+    <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">"Aby skrót mógł być wielokrotnie i niezawodnie uruchamiany, musisz najpierw zezwolić aplikacji Skróty HTTP na rysowanie nad innymi aplikacjami.
+
+Kliknij przycisk „%s” poniżej, aby to teraz skonfigurować.
+
+Może być również konieczne wykluczenie aplikacji z optymalizacji baterii. Znajdziesz to w ustawieniach aplikacji."</string>
+
+    <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
+    <string name="instructions_repetitions">"Czas powtórzenia nie jest dokładny, ale może się różnić o kilka minut, ponieważ zależy od optymalizacji mocy Androida. Pamiętaj, że korzystanie z tej funkcji może znacznie zwiększyć zużycie baterii przez aplikację."</string>
+
+    <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
+    <string name="label_no_repetition">"Żadnych powtórzeń"</string>
+
+    <!-- Title of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
+    <string name="settings_ignore_battery_optimizations">"Wyklucz z optymalizacji baterii"</string>
+
+    <!-- Subtitle of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
+    <string name="settings_ignore_battery_optimizations_summary">"Włącz tę opcję, jeśli występują problemy z planowaniem lub powtarzającym się wykonywaniem skrótów."</string>
+
+    <!-- Label for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen -->
+    <string name="label_store_response_into_file">"Zapisz odpowiedź w pliku"</string>
+
+    <!-- Label: Shown above text input field that lets the user pick the file name that should be used for storing the HTTP response into a file -->
+    <string name="label_store_response_file_name">"Nazwa pliku"</string>
+
+    <!-- Label for checkbox which lets the user configure that when storing the HTTP response into a file, if the target file already exists whether the app is allowed to overwrite it -->
+    <string name="label_store_response_replace_file">"Zastąp plik, jeśli istnieje"</string>
+
+    <!-- Title on dialog that lets the user choose an icon for a category -->
+    <string name="title_category_select_icon">"Wybierz ikonę kategorii"</string>
+
+    <!-- Title of event history entry, which states that a shortcut was cancelled. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_shortcut_cancelled">"\„%s\” anulowane"</string>
+
+    <!-- Section title on settings screen for options shared by all shortcuts -->
+    <string name="settings_title_global_shortcut_settings">"Globalne ustawienia skrótów"</string>
+
+    <!-- Button in settings page to open editor for configuring certificate pinning -->
+    <string name="settings_certificate_pinning">"Przypinanie certyfikatu"</string>
+
+    <!-- Title of editor for configuring certificate pinning -->
+    <string name="title_certificate_pinning">"Przypinanie certyfikatu"</string>
+
+    <!-- Empty state instructions for certificate pinning screen -->
+    <string name="empty_state_certificate_pinning_instructions">"Jeśli chcesz mieć pewność, że żądania HTTP są wysyłane przez bezpieczne połączenie, możesz włączyć przypinanie certyfikatów dla określonych hostów, dodając tutaj odcisk palca SHA-1 lub SHA-256 ich certyfikatu.
+
+W przypadku certyfikatów z podpisem własnym sprawdź zamiast tego sekcję skrótu „%s”."</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
+    <string name="message_certificate_pinning_deleted">"Usunięto odcisk palca certyfikatu."</string>
+
+    <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
+    <string name="confirm_delete_certificate_pinning_message">"Usunąć ten odcisk palca?"</string>
+
+    <!-- Label for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="label_certificate_pinning_hostname_pattern">"Wzór nazwy hosta"</string>
+
+    <!-- Hint text for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="hint_certificate_pinning_hostname_pattern">"Np. *.example.com"</string>
+
+    <!-- Label for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
+    <string name="label_certificate_pinning_fingerprint">"Certyfikat odcisku palca"</string>
+
+    <!-- Hint text for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
+    <string name="hint_certificate_pinning_fingerprint">"Wprowadź zakodowany w formacie szesnastkowym odcisk palca SHA-1 lub SHA-256 certyfikatu serwera"</string>
+
+    <!-- Placeholder text shown when a toggle or multi-select variable option is just an empty string -->
+    <string name="empty_option_placeholder">"- pusty -"</string>
+
+    <!-- Empty state shown on the custom icons screen when the user has no icons set up -->
+    <string name="empty_state_custom_icons">"Nie masz żadnych niestandardowych ikon."</string>
+
+    <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
+    <string name="label_require_specific_wifi_ssid">"Wymagaj specjalnego Wi-Fi"</string>
+
+    <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
+    <string name="option_no_proxy">"Brak serwera proxy"</string>
+
+    <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
+    <string name="button_format_json">"Format"</string>
+
+    <!-- Error, shown in snackbar, when the user tries to format a custom request body, but it is invalid JSON syntax -->
+    <string name="error_cannot_format_invalid_json">"Nieprawidłowa składnia JSON"</string>
+
+    <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
+    <string name="title_move_shortcuts">"Przenieś skróty"</string>
+
+    <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
+    <string name="placeholder_empty_category_for_moving">"brak skrótów w tej kategorii"</string>
+
+    <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
+    <string name="subtitle_include_meta_information">"Nagłówki odpowiedzi, kod stanu,…"</string>
+
+    <!-- Type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp">"Znak czasu"</string>
+
+    <!-- Description for type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp_description">"Bieżąca data/godzina w określonym formacie"</string>
+
+    <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
+    <string name="label_file_upload_options_allow_image_editing">"Zezwalaj na przycinanie i obracanie obrazów"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
+    <string name="action_type_prompt_number_title">"Monit o numer"</string>
+
+    <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
+    <string name="label_host_verification">"Weryfikacja gospodarza"</string>
+
+    <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
+    <string name="option_host_verification_default">"Bezpieczne ustawienie domyślne"</string>
+
+    <!-- Option in host verification dropdown, for only checking the server's certificate fingerprint without validating the trust chain -->
+    <string name="option_host_verification_self_signed">"Sprawdź tylko odcisk palca certyfikatu"</string>
+
+    <!-- Option in host verification dropdown, for disabling any host verification, which is considered insecure and discouraged -->
+    <string name="option_host_verification_trust_all">"Brak weryfikacji (zaufaj wszystkim, niebezpieczne)"</string>
+
+    <!-- Label for text input field in host verification settings, for specifying the fingerprint of the certificate -->
+    <string name="label_host_verification_certificate_fingerprint">"Certyfikat odcisku palca"</string>
+
+    <!-- Hint text for text input field in host verification settings, for specifying the fingerprint of the certificate -->
+    <string name="hint_host_verification_certificate_fingerprint">"Wprowadź zakodowany w formacie szesnastkowym odcisk palca SHA-1 lub SHA-256 swojego (samopodpisanego) certyfikatu serwera"</string>
+
+    <!-- Button label, for button shown in Scripting editor nav bar to allow the user to undo a recent change -->
+    <string name="button_undo">"Cofnij"</string>
+
+    <!-- Error message shown when biometric (e.g. fingerprint) execution confirmation fails. %s is a placeholder for a more detailed description of the error -->
+    <string name="error_biometric_confirmation_failed">"Potwierdzenie biometryczne nie powiodło się: %s"</string>
+
+    <!-- Subtitle shown on biometric confirmation dialog (e.g. asking for a fingerprint), for confirming the execution of a shortcut -->
+    <string name="subtitle_biometric_confirmation_prompt">"Potwierdź wykonanie skrótu"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: no confirmation -->
+    <string name="option_confirmation_none">"Brak potwierdzenia"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: simple confirmation, i.e., only asking the user to press a button -->
+    <string name="option_confirmation_simple">"Proste potwierdzenie"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: biometric confirmation, i.e., asking the user to authenticate by fingerprint or similar -->
+    <string name="option_confirmation_biometric">"Potwierdzenie biometryczne"</string>
+
+    <!-- Title of section in settings that allows user to change the "User-Agent" header that is sent by default with all shortcuts -->
+    <string name="settings_user_agent">"Dostosuj agenta użytkownika"</string>
+
+    <!-- Message shown in snackbar as confirmation when the user changes the "User-Agent" header's value in the settings -->
+    <string name="message_user_agent_changed">"Zmieniono agenta użytkownika."</string>
+
+    <!-- Dialog title: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
+    <string name="title_set_user_agent">"Zmień agenta użytkownika"</string>
+
+    <!-- Dialog message: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
+    <string name="instructions_set_user_agent">"Ustaw niestandardowego klienta użytkownika, który będzie używany dla wszystkich żądań HTTP, lub pozostaw puste, aby użyć domyślnego."</string>
+
+    <!-- Subtitle shown on biometric app unlock dialog (e.g. asking for a fingerprint) -->
+    <string name="subtitle_biometric_app_unlock_prompt">"Zmiany skrótów, zmiennych i ustawień nie są możliwe, gdy aplikacja jest zablokowana."</string>
+
+    <!-- Button label, shown on negative button below biometric prompt for unlocking the app. clicking it allows the user to instead try unlocking the app with their password -->
+    <string name="button_app_unlock_use_password">"Użyj hasła"</string>
+
+    <!-- Checkbox label, shown on dialog that lets the user lock the app -->
+    <string name="label_app_lock_use_biometrics">"Zezwól na odblokowanie za pomocą danych biometrycznych"</string>
+
+    <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
+    <string name="label_monospace_response">"Wyświetlaj tekst przy użyciu czcionki o stałej szerokości"</string>
+
+    <!-- Subtitle for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen. The %s is a placeholder for the directory name. -->
+    <string name="subtitle_store_response_into_file_directory">"Zapisywanie w katalogu „%s”."</string>
+
+    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown let's the user choose the source of the file data -->
+    <string name="label_file_options_file_data_source">"Źródło danych pliku"</string>
+
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker -->
+    <string name="option_file_data_source_file_picker">"Otwórz selektor plików"</string>
+
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker for selecting multiple files -->
+    <string name="option_file_data_source_file_picker_multi">"Otwórz selektor plików (wybór wielu plików)"</string>
+
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open camera to take a picture -->
+    <string name="option_file_data_source_camera">"Zrób zdjęcie z aparatu"</string>
+
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a specific static file stored on the device -->
+    <string name="option_file_data_source_specific_file">"Użyj określonego pliku"</string>
+
+    <!-- Button label, for choosing a file to use as a request body or parameter -->
+    <string name="label_file_data_source_choose_file">"Wybierz plik"</string>
+
+    <!-- Subtitle, shown on button for selecting a file to use as a request body or parameter. %s is a placeholder for the selected file's name -->
+    <string name="subtitle_file_data_source_choose_file">"Akta\""</string>
 </resources>

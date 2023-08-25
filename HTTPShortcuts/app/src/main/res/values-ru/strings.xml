@@ -1778,7 +1778,7 @@ Wake-on-LAN"</string>
     <string name="variable_type_clipboard_description">"Принимает значение, которое было последним скопировано в буфер обмена"</string>
 
     <!-- Status message shown while some data or files are being processed, e.g. for sharing -->
-    <string name="generic_processing_in_progress">"Обработка..."</string>
+    <string name="generic_processing_in_progress">"Обработка…"</string>
 
     <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
     <string name="settings_donate">"Пожертвовать"</string>
@@ -2061,7 +2061,7 @@ Wake-on-LAN"</string>
     <string name="placeholder_empty_category_for_moving">"в этой категории нет коротких путей"</string>
 
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
-    <string name="subtitle_include_meta_information">"Заголовки ответа, код состояния, ..."</string>
+    <string name="subtitle_include_meta_information">"Заголовки ответа, код состояния, …"</string>
 
     <!-- Type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
     <string name="variable_type_timestamp">"Временная метка"</string>
@@ -2071,4 +2071,91 @@ Wake-on-LAN"</string>
 
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <string name="label_file_upload_options_allow_image_editing">"Позволяет обрезать и поворачивать изображение"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
+    <string name="action_type_prompt_number_title">"Запросить номер"</string>
+
+    <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
+    <string name="label_host_verification">"Проверка хоста"</string>
+
+    <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
+    <string name="option_host_verification_default">"Безопасный по умолчанию"</string>
+
+    <!-- Option in host verification dropdown, for only checking the server's certificate fingerprint without validating the trust chain -->
+    <string name="option_host_verification_self_signed">"Проверить только отпечаток сертификата"</string>
+
+    <!-- Option in host verification dropdown, for disabling any host verification, which is considered insecure and discouraged -->
+    <string name="option_host_verification_trust_all">"Без проверки (доверяйте всем, небезопасно)"</string>
+
+    <!-- Label for text input field in host verification settings, for specifying the fingerprint of the certificate -->
+    <string name="label_host_verification_certificate_fingerprint">"Сертификат отпечатка пальца"</string>
+
+    <!-- Hint text for text input field in host verification settings, for specifying the fingerprint of the certificate -->
+    <string name="hint_host_verification_certificate_fingerprint">"Введите шестнадцатеричный отпечаток SHA-1 или SHA-256 вашего (самозаверяющего) сертификата сервера."</string>
+
+    <!-- Button label, for button shown in Scripting editor nav bar to allow the user to undo a recent change -->
+    <string name="button_undo">"Отменить"</string>
+
+    <!-- Error message shown when biometric (e.g. fingerprint) execution confirmation fails. %s is a placeholder for a more detailed description of the error -->
+    <string name="error_biometric_confirmation_failed">"Биометрическое подтверждение не удалось: %s"</string>
+
+    <!-- Subtitle shown on biometric confirmation dialog (e.g. asking for a fingerprint), for confirming the execution of a shortcut -->
+    <string name="subtitle_biometric_confirmation_prompt">"Подтвердите выполнение ярлыка"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: no confirmation -->
+    <string name="option_confirmation_none">"Нет подтверждения"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: simple confirmation, i.e., only asking the user to press a button -->
+    <string name="option_confirmation_simple">"Простое подтверждение"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: biometric confirmation, i.e., asking the user to authenticate by fingerprint or similar -->
+    <string name="option_confirmation_biometric">"Биометрическое подтверждение"</string>
+
+    <!-- Title of section in settings that allows user to change the "User-Agent" header that is sent by default with all shortcuts -->
+    <string name="settings_user_agent">"Настройка пользовательского агента"</string>
+
+    <!-- Message shown in snackbar as confirmation when the user changes the "User-Agent" header's value in the settings -->
+    <string name="message_user_agent_changed">"Пользовательский агент изменен."</string>
+
+    <!-- Dialog title: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
+    <string name="title_set_user_agent">"Изменить пользовательский агент"</string>
+
+    <!-- Dialog message: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
+    <string name="instructions_set_user_agent">"Установите собственный пользовательский агент, который будет использоваться для всех HTTP-запросов, или оставьте пустым, чтобы использовать агент по умолчанию."</string>
+
+    <!-- Subtitle shown on biometric app unlock dialog (e.g. asking for a fingerprint) -->
+    <string name="subtitle_biometric_app_unlock_prompt">"Изменения ярлыков, переменных или настроек невозможны, пока приложение заблокировано."</string>
+
+    <!-- Button label, shown on negative button below biometric prompt for unlocking the app. clicking it allows the user to instead try unlocking the app with their password -->
+    <string name="button_app_unlock_use_password">"Использовать пароль"</string>
+
+    <!-- Checkbox label, shown on dialog that lets the user lock the app -->
+    <string name="label_app_lock_use_biometrics">"Разрешить разблокировку с помощью биометрии"</string>
+
+    <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
+    <string name="label_monospace_response">"Отображать текст моноширинным шрифтом."</string>
+
+    <!-- Subtitle for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen. The %s is a placeholder for the directory name. -->
+    <string name="subtitle_store_response_into_file_directory">"Сохранение в каталоге «%s»"</string>
+
+    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown let's the user choose the source of the file data -->
+    <string name="label_file_options_file_data_source">"Источник данных файла"</string>
+
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker -->
+    <string name="option_file_data_source_file_picker">"Открыть средство выбора файлов"</string>
+
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker for selecting multiple files -->
+    <string name="option_file_data_source_file_picker_multi">"Открыть средство выбора файлов (множественный выбор)"</string>
+
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open camera to take a picture -->
+    <string name="option_file_data_source_camera">"Сделать снимок камеры"</string>
+
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a specific static file stored on the device -->
+    <string name="option_file_data_source_specific_file">"Использовать конкретный файл"</string>
+
+    <!-- Button label, for choosing a file to use as a request body or parameter -->
+    <string name="label_file_data_source_choose_file">"Выберите файл"</string>
+
+    <!-- Subtitle, shown on button for selecting a file to use as a request body or parameter. %s is a placeholder for the selected file's name -->
+    <string name="subtitle_file_data_source_choose_file">"Файл «%s»"</string>
 </resources>
