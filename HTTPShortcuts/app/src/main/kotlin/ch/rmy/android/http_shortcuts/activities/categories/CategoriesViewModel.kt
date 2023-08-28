@@ -7,6 +7,7 @@ import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.categories.models.CategoryListItem
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
@@ -17,7 +18,9 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CategoriesViewModel(application: Application) : BaseViewModel<Unit, CategoriesViewState>(application) {
@@ -36,43 +39,38 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     private var hasChanged = false
     private var activeCategoryId: CategoryId? = null
 
-    override fun initViewState() = CategoriesViewState(
-        categories = mapCategories(categories),
-    )
-
-    override fun onInitializationStarted(data: Unit) {
+    override suspend fun initialize(data: Unit): CategoriesViewState {
+        val categoriesFlow = categoryRepository.getObservableCategories()
+        categories = categoriesFlow.first()
         viewModelScope.launch {
-            categoryRepository.getObservableCategories().collect { categories ->
+            categoriesFlow.collect { categories ->
                 this@CategoriesViewModel.categories = categories
-                if (isInitialized) {
-                    updateViewState {
-                        copy(categories = mapCategories(categories))
-                    }
-                } else {
-                    finalizeInitialization()
+                updateViewState {
+                    copy(categories = mapCategories(categories))
                 }
             }
         }
+        return CategoriesViewState(
+            categories = mapCategories(categories),
+        )
     }
 
-    fun onBackPressed() {
-        viewModelScope.launch {
-            waitForOperationsToFinish()
-            finish(hasChanged)
-        }
+    fun onBackPressed() = runAction {
+        waitForOperationsToFinish()
+        finish(hasChanged)
     }
 
-    private fun finish(hasChanges: Boolean) {
+    private suspend fun finish(hasChanges: Boolean) {
         finishWithOkResult(
             CategoriesActivity.OpenCategories.createResult(hasChanges),
         )
     }
 
-    fun onCategoryClicked(categoryId: CategoryId) {
+    fun onCategoryClicked(categoryId: CategoryId) = runAction {
         showContextMenu(categoryId)
     }
 
-    private fun showContextMenu(categoryId: CategoryId) {
+    private suspend fun showContextMenu(categoryId: CategoryId) {
         val category = getCategory(categoryId) ?: return
         activeCategoryId = categoryId
         updateDialogState(
@@ -89,51 +87,51 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
     private fun getCategory(categoryId: CategoryId) =
         categories.firstOrNull { it.id == categoryId }
 
-    fun onCategoryMoved(categoryId1: CategoryId, categoryId2: CategoryId) {
+    fun onCategoryMoved(categoryId1: CategoryId, categoryId2: CategoryId) = runAction {
         updateViewState {
             copy(categories = categories.swapped(categoryId1, categoryId2) { id })
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             categoryRepository.moveCategory(categoryId1, categoryId2)
             hasChanged = true
         }
     }
 
-    fun onHelpButtonClicked() {
+    fun onHelpButtonClicked() = runAction {
         openURL(ExternalURLs.CATEGORIES_DOCUMENTATION)
     }
 
-    fun onCreateCategoryButtonClicked() {
+    fun onCreateCategoryButtonClicked() = runAction {
         emitEvent(CategoriesEvent.OpenCategoryEditor(categoryId = null))
     }
 
-    fun onCategoryVisibilityChanged(visible: Boolean) {
-        val categoryId = activeCategoryId ?: return
+    fun onCategoryVisibilityChanged(visible: Boolean) = runAction {
+        val categoryId = activeCategoryId ?: skipAction()
         updateDialogState(null)
-        launchWithProgressTracking {
+        withProgressTracking {
             categoryRepository.toggleCategoryHidden(categoryId, !visible)
             hasChanged = true
             showSnackbar(if (visible) R.string.message_category_visible else R.string.message_category_hidden)
         }
     }
 
-    fun onCategoryDeletionConfirmed() {
-        val categoryId = activeCategoryId ?: return
+    fun onCategoryDeletionConfirmed() = runAction {
+        val categoryId = activeCategoryId ?: skipAction()
         updateDialogState(null)
         deleteCategory(categoryId)
     }
 
-    private fun deleteCategory(categoryId: CategoryId) {
-        launchWithProgressTracking {
+    private suspend fun ViewModelScope<*>.deleteCategory(categoryId: CategoryId) {
+        withProgressTracking {
             categoryRepository.deleteCategory(categoryId)
             hasChanged = true
             showSnackbar(R.string.message_category_deleted)
         }
     }
 
-    fun onDeleteClicked() {
-        val categoryId = activeCategoryId ?: return
-        val category = getCategory(categoryId) ?: return
+    fun onDeleteClicked() = runAction {
+        val categoryId = activeCategoryId ?: skipAction()
+        val category = getCategory(categoryId) ?: skipAction()
         updateDialogState(null)
         if (category.shortcuts.isEmpty()) {
             deleteCategory(categoryId)
@@ -142,50 +140,50 @@ class CategoriesViewModel(application: Application) : BaseViewModel<Unit, Catego
         }
     }
 
-    fun onPlaceOnHomeScreenClicked() {
-        val categoryId = activeCategoryId ?: return
-        val category = getCategory(categoryId) ?: return
+    fun onPlaceOnHomeScreenClicked() = runAction {
+        val categoryId = activeCategoryId ?: skipAction()
+        val category = getCategory(categoryId) ?: skipAction()
         updateDialogState(CategoriesDialogState.IconPicker(category.icon as? ShortcutIcon.BuiltInIcon))
     }
 
-    fun onCategoryIconSelected(icon: ShortcutIcon) {
+    fun onCategoryIconSelected(icon: ShortcutIcon) = runAction {
         updateDialogState(null)
-        onCategoryIconSelected(activeCategoryId ?: return, icon)
+        onCategoryIconSelected(activeCategoryId ?: skipAction(), icon)
         activeCategoryId = null
     }
 
-    private fun onCategoryIconSelected(categoryId: CategoryId, icon: ShortcutIcon) {
+    private suspend fun ViewModelScope<*>.onCategoryIconSelected(categoryId: CategoryId, icon: ShortcutIcon) {
         val category = getCategory(categoryId) ?: return
-        launchWithProgressTracking {
+        withProgressTracking {
             categoryRepository.setCategoryIcon(categoryId, icon)
-            viewModelScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.Default) {
                 launcherShortcutManager.updatePinnedCategoryShortcut(category.id, category.name, icon)
                 launcherShortcutManager.pinCategory(category.id, category.name, icon)
             }
         }
     }
 
-    fun onEditCategoryOptionSelected() {
-        val categoryId = activeCategoryId ?: return
+    fun onEditCategoryOptionSelected() = runAction {
+        val categoryId = activeCategoryId ?: skipAction()
         updateDialogState(null)
         emitEvent(CategoriesEvent.OpenCategoryEditor(categoryId))
     }
 
-    fun onCategoryCreated() {
+    fun onCategoryCreated() = runAction {
         hasChanged = true
         showSnackbar(R.string.message_category_created)
     }
 
-    fun onCategoryEdited() {
+    fun onCategoryEdited() = runAction {
         hasChanged = true
         showSnackbar(R.string.message_category_edited)
     }
 
-    fun onDialogDismissed() {
+    fun onDialogDismissed() = runAction {
         updateDialogState(null)
     }
 
-    private fun updateDialogState(dialogState: CategoriesDialogState?) {
+    private suspend fun updateDialogState(dialogState: CategoriesDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }

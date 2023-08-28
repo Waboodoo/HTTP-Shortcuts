@@ -4,5 +4,5 @@ import androidx.compose.runtime.Stable
 
 @Stable
 data class DeepLinkViewState(
-    val dialogState: DeepLinkDialogState? = null,
+    val dialogState: DeepLinkDialogState,
 )

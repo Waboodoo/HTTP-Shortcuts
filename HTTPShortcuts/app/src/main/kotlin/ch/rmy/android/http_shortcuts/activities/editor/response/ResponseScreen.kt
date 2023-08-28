@@ -32,7 +32,7 @@ fun ResponseScreen() {
         }
     }
 
-    BackHandler {
+    BackHandler(state != null) {
         viewModel.onBackPressed()
     }
 

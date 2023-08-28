@@ -13,7 +13,7 @@ constructor(
     private val historyRepository: HistoryRepository,
 ) {
 
-    private val scope = CoroutineScope(Dispatchers.IO)
+    private val scope = CoroutineScope(Dispatchers.Default)
 
     fun logEvent(event: HistoryEvent) {
         scope.launch {

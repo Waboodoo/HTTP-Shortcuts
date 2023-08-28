@@ -123,36 +123,56 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
     private val selectionMode
         get() = initData.selectionMode
 
-    private val dialogState: MainDialogState?
-        get() = currentViewState?.dialogState
-
     private var activeShortcutId: ShortcutId? = null
 
-    override fun onInitializationStarted(data: InitData) {
-        if (data.importUrl != null) {
-            openActivity(
-                ImportExportActivity.IntentBuilder()
-                    .importUrl(data.importUrl)
-            )
-        }
-
-        viewModelScope.launch {
-            this@MainViewModel.categories = categoryRepository.getCategories()
-            finalizeInitialization()
-        }
+    override suspend fun initialize(data: InitData): MainViewState {
+        this.categories = categoryRepository.getCategories()
 
         viewModelScope.launch(Dispatchers.Default) {
             // Ensure that the VariablePlaceholderProvider is initialized
             variablePlaceholderProvider.applyVariables(variableRepository.getVariables())
         }
-    }
 
-    override fun initViewState() = MainViewState(
-        selectionMode = selectionMode,
-        categoryItems = getCategoryTabItems(),
-        activeCategoryId = initData.initialCategoryId ?: categories.first { !it.hidden }.id,
-        isLocked = false,
-    )
+        observeToolbarTitle()
+        observeAppLock()
+
+        viewModelScope.launch {
+            if (initData.cancelPendingExecutions) {
+                pendingExecutionsRepository.removeAllPendingExecutions()
+            } else {
+                scheduleExecutions()
+            }
+            updateLauncherSettings(categories)
+        }
+
+        viewModelScope.launch {
+            if (data.importUrl != null) {
+                openActivity(
+                    ImportExportActivity.IntentBuilder()
+                        .importUrl(data.importUrl)
+                )
+            } else {
+                when (selectionMode) {
+                    SelectionMode.NORMAL -> showNormalStartupDialogsIfNeeded()
+                    SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT -> showToast(R.string.instructions_select_shortcut_for_home_screen, long = true)
+                    SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT -> {
+                        if (initData.widgetId != null) {
+                            setResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(initData.widgetId!!))
+                        }
+                        showToast(R.string.instructions_select_shortcut_for_home_screen, long = true)
+                    }
+                    SelectionMode.PLUGIN -> showPluginStartupDialogsIfNeeded()
+                }
+            }
+        }
+
+        return MainViewState(
+            selectionMode = selectionMode,
+            categoryItems = getCategoryTabItems(),
+            activeCategoryId = initData.initialCategoryId ?: categories.first { !it.hidden }.id,
+            isLocked = false,
+        )
+    }
 
     private fun getCategoryTabItems() =
         categories
@@ -168,36 +188,8 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
                 )
             }
 
-    override fun onInitialized() {
-        observeToolbarTitle()
-        observeAppLock()
-
-        if (initData.cancelPendingExecutions) {
-            viewModelScope.launch {
-                pendingExecutionsRepository.removeAllPendingExecutions()
-            }
-        } else {
-            scheduleExecutions()
-        }
-        updateLauncherSettings(categories)
-
-        when (selectionMode) {
-            SelectionMode.NORMAL -> showNormalStartupDialogsIfNeeded()
-            SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT -> showToast(R.string.instructions_select_shortcut_for_home_screen, long = true)
-            SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT -> {
-                if (initData.widgetId != null) {
-                    setResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(initData.widgetId!!))
-                }
-                showToast(R.string.instructions_select_shortcut_for_home_screen, long = true)
-            }
-            SelectionMode.PLUGIN -> showPluginStartupDialogsIfNeeded()
-        }
-    }
-
-    private fun scheduleExecutions() {
-        viewModelScope.launch {
-            executionScheduler.schedule()
-        }
+    private suspend fun scheduleExecutions() {
+        executionScheduler.schedule()
     }
 
     private fun showNormalStartupDialogsIfNeeded() {
@@ -228,11 +220,11 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         settings.isNetworkRestrictionWarningPermanentlyHidden = hidden
     }
 
-    fun onRecoveryConfirmed() {
+    fun onRecoveryConfirmed() = runAction {
         logInfo("Shortcut recovery confirmed")
-        val recoveryInfo = (dialogState as? MainDialogState.RecoverShortcut)
+        val recoveryInfo = (viewState.dialogState as? MainDialogState.RecoverShortcut)
             ?.recoveryInfo
-            ?: return
+            ?: skipAction()
         updateDialogState(null)
         emitEvent(
             MainEvent.OpenShortcutEditor(
@@ -248,15 +240,15 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         )
     }
 
-    fun onRecoveryDiscarded() {
+    fun onRecoveryDiscarded() = runAction {
         logInfo("Shortcut recovery discarded")
         updateDialogState(null)
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.deleteTemporaryShortcut()
         }
     }
 
-    private fun showNetworkRestrictionWarningDialogIfNeeded() {
+    private suspend fun showNetworkRestrictionWarningDialogIfNeeded() {
         if (shouldShowNetworkRestrictionDialog()) {
             updateDialogState(
                 MainDialogState.NetworkRestrictionsWarning,
@@ -264,7 +256,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    private fun showPluginStartupDialogsIfNeeded() {
+    private suspend fun showPluginStartupDialogsIfNeeded() {
         if (!appOverlayUtil.canDrawOverlays()) {
             updateDialogState(
                 MainDialogState.AppOverlayInfo,
@@ -272,10 +264,10 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    fun onAppOverlayConfigureButtonClicked() {
+    fun onAppOverlayConfigureButtonClicked() = runAction {
         updateDialogState(null)
         appOverlayUtil.getSettingsIntent()
-            ?.let(::openActivity)
+            ?.let { openActivity(it) }
     }
 
     private fun updateLauncherSettings(categories: List<Category>) {
@@ -283,7 +275,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         secondaryLauncherManager.setSecondaryLauncherVisibility(secondaryLauncherMapper(categories))
     }
 
-    private fun placeShortcutOnHomeScreen(shortcut: ShortcutPlaceholder) {
+    private suspend fun placeShortcutOnHomeScreen(shortcut: ShortcutPlaceholder) {
         if (launcherShortcutManager.supportsPinning()) {
             launcherShortcutManager.pinShortcut(shortcut)
         } else {
@@ -292,7 +284,7 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    private fun removeShortcutFromHomeScreen(shortcut: ShortcutPlaceholder) {
+    private suspend fun removeShortcutFromHomeScreen(shortcut: ShortcutPlaceholder) {
         sendBroadcast(IntentUtil.getLegacyShortcutPlacementIntent(context, shortcut, install = false))
     }
 
@@ -316,115 +308,115 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    fun onSettingsButtonClicked() {
+    fun onSettingsButtonClicked() = runAction {
         logInfo("Settings button clicked")
         emitEvent(MainEvent.OpenSettings)
     }
 
-    fun onImportExportButtonClicked() {
+    fun onImportExportButtonClicked() = runAction {
         logInfo("Import/export button clicked")
         emitEvent(MainEvent.OpenImportExport)
     }
 
-    fun onAboutButtonClicked() {
+    fun onAboutButtonClicked() = runAction {
         logInfo("About button clicked")
         openActivity(AboutActivity.IntentBuilder())
     }
 
-    fun onCategoriesButtonClicked() {
+    fun onCategoriesButtonClicked() = runAction {
         logInfo("Categories button clicked")
         openCategoriesEditor()
     }
 
-    private fun openCategoriesEditor() {
+    private fun openCategoriesEditor() = runAction {
         emitEvent(MainEvent.OpenCategories)
     }
 
-    fun onVariablesButtonClicked() {
+    fun onVariablesButtonClicked() = runAction {
         logInfo("Variables button clicked")
         openActivity(VariablesActivity.IntentBuilder())
     }
 
-    fun onToolbarTitleClicked() {
+    fun onToolbarTitleClicked() = runAction {
         logInfo("Toolbar title clicked")
-        doWithViewState { viewState ->
-            if (selectionMode == SelectionMode.NORMAL && !viewState.isLocked) {
-                showToolbarTitleChangeDialog(viewState.toolbarTitle)
-            }
+        if (selectionMode == SelectionMode.NORMAL && !viewState.isLocked) {
+            showToolbarTitleChangeDialog(viewState.toolbarTitle)
         }
     }
 
-    private fun showToolbarTitleChangeDialog(oldTitle: String) {
+    private suspend fun showToolbarTitleChangeDialog(oldTitle: String) {
         updateDialogState(
             MainDialogState.ChangeTitle(oldTitle),
         )
     }
 
-    fun onCreationDialogOptionSelected(executionType: ShortcutExecutionType) {
+    fun onCreationDialogOptionSelected(executionType: ShortcutExecutionType) = runAction {
         updateDialogState(null)
-        doWithViewState { viewState ->
-            logInfo("Preparing to open editor for creating shortcut of type $executionType")
-            emitEvent(
-                MainEvent.OpenShortcutEditor(
-                    ShortcutEditorActivity.IntentBuilder()
-                        .categoryId(viewState.activeCategoryId)
-                        .executionType(executionType)
-                )
+        logInfo("Preparing to open editor for creating shortcut of type $executionType")
+        emitEvent(
+            MainEvent.OpenShortcutEditor(
+                ShortcutEditorActivity.IntentBuilder()
+                    .categoryId(viewState.activeCategoryId)
+                    .executionType(executionType)
             )
-        }
+        )
     }
 
-    fun onCreationDialogHelpButtonClicked() {
+    fun onCreationDialogHelpButtonClicked() = runAction {
         logInfo("Shortcut creation help button clicked")
         openURL(ExternalURLs.SHORTCUTS_DOCUMENTATION)
     }
 
-    fun onCreateShortcutButtonClicked() {
+    fun onCreateShortcutButtonClicked() = runAction {
         logInfo("Shortcut creation FAB clicked")
         updateDialogState(
             MainDialogState.ShortcutCreation,
         )
     }
 
-    fun onToolbarTitleChangeSubmitted(newTitle: String) {
+    fun onToolbarTitleChangeSubmitted(newTitle: String) = runAction {
         updateDialogState(null)
-        launchWithProgressTracking {
+        withProgressTracking {
             appRepository.setToolbarTitle(newTitle)
-            showSnackbar(R.string.message_title_changed)
         }
+        showSnackbar(R.string.message_title_changed)
     }
 
-    fun onActiveCategoryChanged(categoryId: CategoryId) {
+    fun onActiveCategoryChanged(categoryId: CategoryId) = runAction {
         updateViewState {
             copy(activeCategoryId = categoryId)
         }
     }
 
-    fun onUnlockButtonClicked() {
+    fun onUnlockButtonClicked() = runAction {
         logInfo("Unlock button clicked")
-        launchWithProgressTracking {
+        withProgressTracking {
             unlockApp(
                 showPasswordDialog = {
-                    updateDialogState(
-                        MainDialogState.Unlock(),
-                    )
+                    runAction {
+                        updateDialogState(
+                            MainDialogState.Unlock(),
+                        )
+                    }
                 },
                 onSuccess = {
-                    launchWithProgressTracking {
-                        appRepository.removeLock()
-                        showSnackbar(R.string.message_app_unlocked)
+                    runAction {
+                        withProgressTracking {
+                            appRepository.removeLock()
+                            showSnackbar(R.string.message_app_unlocked)
+                        }
                     }
                 },
             )
         }
     }
 
-    fun onAppLocked() {
+    fun onAppLocked() = runAction {
         showSnackbar(R.string.message_app_locked)
     }
 
-    fun onUnlockDialogSubmitted(password: String) {
-        launchWithProgressTracking {
+    fun onUnlockDialogSubmitted(password: String) = runAction {
+        withProgressTracking {
             val lock = appRepository.getLock()
             val passwordHash = lock?.passwordHash
             val isUnlocked = if (passwordHash != null && BCrypt.checkpw(password, passwordHash)) consume {
@@ -443,23 +435,21 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    fun onCurlImportOptionSelected() {
+    fun onCurlImportOptionSelected() = runAction {
         logInfo("curl import button clicked")
         updateDialogState(null)
         emitEvent(MainEvent.OpenCurlImport)
     }
 
-    fun onShortcutCreated(shortcutId: ShortcutId) {
+    fun onShortcutCreated(shortcutId: ShortcutId) = runAction {
         logInfo("Shortcut created")
-        viewModelScope.launch {
-            val categories = categoryRepository.getCategories()
-            this@MainViewModel.categories = categories
-            updateLauncherSettings(categories)
-            selectShortcut(shortcutId)
-        }
+        val categories = categoryRepository.getCategories()
+        this@MainViewModel.categories = categories
+        updateLauncherSettings(categories)
+        selectShortcut(shortcutId)
     }
 
-    private fun selectShortcut(shortcutId: ShortcutId) {
+    private suspend fun selectShortcut(shortcutId: ShortcutId) {
         when (selectionMode) {
             SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT -> returnForHomeScreenShortcutPlacement(shortcutId)
             SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT -> openWidgetSettings(shortcutId)
@@ -468,40 +458,34 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    private fun openWidgetSettings(shortcutId: ShortcutId) {
+    private suspend fun openWidgetSettings(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
         emitEvent(MainEvent.OpenWidgetSettings(shortcut.toShortcutPlaceholder()))
     }
 
-    private fun returnForHomeScreenShortcutPlacement(shortcutId: ShortcutId) {
+    private suspend fun returnForHomeScreenShortcutPlacement(shortcutId: ShortcutId) {
         if (launcherShortcutManager.supportsPinning()) {
             activeShortcutId = shortcutId
             updateDialogState(
                 MainDialogState.ShortcutPlacement,
             )
         } else {
-            placeShortcutOnHomeScreenAndFinish(shortcutId)
+            placeOnHomeScreenWithLegacyAndFinish(shortcutId)
         }
     }
 
-    private fun placeShortcutOnHomeScreenAndFinish(shortcutId: ShortcutId) {
-        placeOnHomeScreenWithLegacyAndFinish(shortcutId)
-    }
-
-    private fun returnForHomeScreenWidgetPlacement(shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) {
+    private suspend fun returnForHomeScreenWidgetPlacement(shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) {
         val widgetId = initData.widgetId ?: return
-        viewModelScope.launch {
-            widgetManager.createWidget(widgetId, shortcutId, showLabel, labelColor)
-            widgetManager.updateWidgets(context, shortcutId)
-            finishWithOkResult(
-                WidgetManager.getIntent(widgetId)
-            )
-        }
+        widgetManager.createWidget(widgetId, shortcutId, showLabel, labelColor)
+        widgetManager.updateWidgets(context, shortcutId)
+        finishWithOkResult(
+            WidgetManager.getIntent(widgetId)
+        )
     }
 
-    fun onShortcutPlacementConfirmed(useLegacyMethod: Boolean) {
+    fun onShortcutPlacementConfirmed(useLegacyMethod: Boolean) = runAction {
         updateDialogState(null)
-        val shortcutId = activeShortcutId ?: return
+        val shortcutId = activeShortcutId ?: skipAction()
         if (useLegacyMethod) {
             placeOnHomeScreenWithLegacyAndFinish(shortcutId)
         } else {
@@ -509,17 +493,17 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    private fun placeOnHomeScreenAndFinish(shortcutId: ShortcutId) {
+    private suspend fun placeOnHomeScreenAndFinish(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
         finishWithOkResult(launcherShortcutManager.createShortcutPinIntent(shortcut.toShortcutPlaceholder()))
     }
 
-    private fun placeOnHomeScreenWithLegacyAndFinish(shortcutId: ShortcutId) {
+    private suspend fun placeOnHomeScreenWithLegacyAndFinish(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
         finishWithOkResult(IntentUtil.getLegacyShortcutPlacementIntent(context, shortcut.toShortcutPlaceholder(), install = true))
     }
 
-    private fun returnForPlugin(shortcutId: ShortcutId) {
+    private suspend fun returnForPlugin(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
         finishWithOkResult(
             createIntent {
@@ -529,17 +513,15 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         )
     }
 
-    fun onCurlCommandSubmitted(curlCommand: CurlCommand) {
+    fun onCurlCommandSubmitted(curlCommand: CurlCommand) = runAction {
         logInfo("curl command submitted")
-        doWithViewState { viewState ->
-            emitEvent(
-                MainEvent.OpenShortcutEditor(
-                    ShortcutEditorActivity.IntentBuilder()
-                        .categoryId(viewState.activeCategoryId)
-                        .curlCommand(curlCommand)
-                )
+        emitEvent(
+            MainEvent.OpenShortcutEditor(
+                ShortcutEditorActivity.IntentBuilder()
+                    .categoryId(viewState.activeCategoryId)
+                    .curlCommand(curlCommand)
             )
-        }
+        )
     }
 
     private fun getShortcutById(shortcutId: ShortcutId): Shortcut? {
@@ -553,35 +535,33 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         return null
     }
 
-    fun onWidgetSettingsSubmitted(shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) {
+    fun onWidgetSettingsSubmitted(shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) = runAction {
         logInfo("Widget settings submitted")
         returnForHomeScreenWidgetPlacement(shortcutId, showLabel, labelColor)
     }
 
-    fun onShortcutEdited() {
+    fun onShortcutEdited() = runAction {
         logInfo("Shortcut edited")
-        viewModelScope.launch {
-            val categories = categoryRepository.getCategories()
-            this@MainViewModel.categories = categories
-            updateLauncherSettings(categories)
-        }
+        val categories = categoryRepository.getCategories()
+        this@MainViewModel.categories = categories
+        updateLauncherSettings(categories)
     }
 
-    fun onPlaceShortcutOnHomeScreen(shortcut: ShortcutPlaceholder) {
+    fun onPlaceShortcutOnHomeScreen(shortcut: ShortcutPlaceholder) = runAction {
         placeShortcutOnHomeScreen(shortcut)
     }
 
-    fun onRemoveShortcutFromHomeScreen(shortcut: ShortcutPlaceholder) {
+    fun onRemoveShortcutFromHomeScreen(shortcut: ShortcutPlaceholder) = runAction {
         removeShortcutFromHomeScreen(shortcut)
     }
 
-    fun onSelectShortcut(shortcutId: ShortcutId) {
+    fun onSelectShortcut(shortcutId: ShortcutId) = runAction {
         logInfo("Shortcut selected")
         selectShortcut(shortcutId)
     }
 
-    fun onDialogDismissed() {
-        if (dialogState is MainDialogState.ChangeLog && shouldShowNetworkRestrictionDialog()) {
+    fun onDialogDismissed() = runAction {
+        if (viewState.dialogState is MainDialogState.ChangeLog && shouldShowNetworkRestrictionDialog()) {
             updateDialogState(
                 MainDialogState.NetworkRestrictionsWarning,
             )
@@ -590,26 +570,26 @@ class MainViewModel(application: Application) : BaseViewModel<MainViewModel.Init
         }
     }
 
-    private fun updateDialogState(dialogState: MainDialogState?) {
+    private suspend fun updateDialogState(dialogState: MainDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }
     }
 
-    fun onBackButtonPressed() {
+    fun onBackButtonPressed() = runAction {
         finish()
         ActivityCloser.onMainActivityClosed()
     }
 
-    fun onRestartRequested() {
+    fun onRestartRequested() = runAction {
         emitEvent(MainEvent.Restart)
     }
 
-    fun onWidgetSettingsCancelled() {
+    fun onWidgetSettingsCancelled() = runAction {
         finish()
     }
 
-    fun onReopenSettingsRequested() {
+    fun onReopenSettingsRequested() = runAction {
         emitEvent(MainEvent.ReopenSettings)
     }
 

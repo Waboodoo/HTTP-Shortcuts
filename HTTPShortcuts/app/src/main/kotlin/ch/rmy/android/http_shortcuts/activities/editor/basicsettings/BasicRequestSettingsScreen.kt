@@ -11,7 +11,7 @@ import ch.rmy.android.http_shortcuts.components.bindViewModel
 fun BasicRequestSettingsScreen() {
     val (viewModel, state) = bindViewModel<BasicRequestSettingsViewState, BasicRequestSettingsViewModel>()
 
-    BackHandler {
+    BackHandler(state != null) {
         viewModel.onBackPressed()
     }
 

@@ -45,7 +45,7 @@ fun CategoriesScreen() {
         }
     }
 
-    BackHandler {
+    BackHandler(state != null) {
         viewModel.onBackPressed()
     }
 

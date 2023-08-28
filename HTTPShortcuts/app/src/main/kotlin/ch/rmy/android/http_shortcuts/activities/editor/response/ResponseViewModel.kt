@@ -4,7 +4,6 @@ import android.app.Application
 import android.net.Uri
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
-import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
@@ -15,10 +14,6 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRep
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ResponseViewModel(application: Application) : BaseViewModel<Unit, ResponseViewState>(application) {
@@ -30,29 +25,8 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
         getApplicationComponent().inject(this)
     }
 
-    override fun onInitializationStarted(data: Unit) {
-        viewModelScope.launch(Dispatchers.Default) {
-            try {
-                val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
-                initialViewState = createInitialViewStateFromShortcut(temporaryShortcut)
-                withContext(Dispatchers.Main) {
-                    finalizeInitialization()
-                }
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    onInitializationError(e)
-                }
-            }
-        }
-    }
-
-    private lateinit var initialViewState: ResponseViewState
-
-    override fun initViewState() = initialViewState
-
-    private fun createInitialViewStateFromShortcut(shortcut: Shortcut): ResponseViewState {
+    override suspend fun initialize(data: Unit): ResponseViewState {
+        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
         val responseHandling = shortcut.responseHandling!!
         return ResponseViewState(
             successMessageHint = getSuccessMessageHint(shortcut),
@@ -78,135 +52,122 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
             },
         )
 
-    private fun onInitializationError(error: Throwable) {
-        handleUnexpectedError(error)
-        finish()
-    }
-
-    fun onResponseUiTypeChanged(responseUiType: String) {
+    fun onResponseUiTypeChanged(responseUiType: String) = runAction {
         updateViewState {
             copy(responseUiType = responseUiType)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setResponseUiType(responseUiType)
         }
     }
 
-    fun onResponseSuccessOutputChanged(responseSuccessOutput: String) {
+    fun onResponseSuccessOutputChanged(responseSuccessOutput: String) = runAction {
         updateViewState {
             copy(responseSuccessOutput = responseSuccessOutput)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setResponseSuccessOutput(responseSuccessOutput)
         }
     }
 
-    fun onResponseFailureOutputChanged(responseFailureOutput: String) {
+    fun onResponseFailureOutputChanged(responseFailureOutput: String) = runAction {
         updateViewState {
             copy(responseFailureOutput = responseFailureOutput)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setResponseFailureOutput(responseFailureOutput)
         }
     }
 
-    fun onSuccessMessageChanged(successMessage: String) {
+    fun onSuccessMessageChanged(successMessage: String) = runAction {
         updateViewState {
             copy(successMessage = successMessage)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setResponseSuccessMessage(successMessage)
         }
     }
 
-    fun onIncludeMetaInformationChanged(includeMetaInformation: Boolean) {
+    fun onIncludeMetaInformationChanged(includeMetaInformation: Boolean) = runAction {
         updateViewState {
             copy(includeMetaInformation = includeMetaInformation)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setResponseIncludeMetaInfo(includeMetaInformation)
         }
     }
 
-    fun onWindowActionsButtonClicked() {
-        doWithViewState { viewState ->
-            if (viewState.responseUiType != ResponseHandling.UI_TYPE_WINDOW) {
-                return@doWithViewState
-            }
-            updateDialogState(
-                ResponseDialogState.SelectActions(
-                    actions = viewState.responseDisplayActions,
-                ),
-            )
+    fun onWindowActionsButtonClicked() = runAction {
+        if (viewState.responseUiType != ResponseHandling.UI_TYPE_WINDOW) {
+            skipAction()
+        }
+        updateDialogState(
+            ResponseDialogState.SelectActions(
+                actions = viewState.responseDisplayActions,
+            ),
+        )
+    }
+
+    fun onDialogActionChanged(action: ResponseDisplayAction?) = runAction {
+        if (viewState.responseUiType != ResponseHandling.UI_TYPE_DIALOG) {
+            skipAction()
+        }
+        val actions = listOfNotNull(action)
+        updateViewState {
+            copy(responseDisplayActions = actions)
+        }
+        withProgressTracking {
+            temporaryShortcutRepository.setDisplayActions(actions)
         }
     }
 
-    fun onDialogActionChanged(action: ResponseDisplayAction?) {
-        doWithViewState { viewState ->
-            if (viewState.responseUiType != ResponseHandling.UI_TYPE_DIALOG) {
-                return@doWithViewState
-            }
-            val actions = listOfNotNull(action)
+    fun onBackPressed() = runAction {
+        waitForOperationsToFinish()
+        finish()
+    }
+
+    fun onStoreIntoFileCheckboxChanged(enabled: Boolean) = runAction {
+        if (enabled == viewState.storeResponseIntoFile) {
+            skipAction()
+        }
+        if (enabled) {
+            emitEvent(ResponseEvent.PickDirectory)
+        } else {
             updateViewState {
-                copy(responseDisplayActions = actions)
+                copy(storeResponseIntoFile = false)
             }
-            launchWithProgressTracking {
-                temporaryShortcutRepository.setDisplayActions(actions)
-            }
-        }
-    }
-
-    fun onBackPressed() {
-        viewModelScope.launch {
-            waitForOperationsToFinish()
-            finish()
-        }
-    }
-
-    fun onStoreIntoFileCheckboxChanged(enabled: Boolean) {
-        doWithViewState { viewState ->
-            if (enabled == viewState.storeResponseIntoFile) {
-                return@doWithViewState
-            }
-            if (enabled) {
-                emitEvent(ResponseEvent.PickDirectory)
-            } else {
-                updateViewState {
-                    copy(storeResponseIntoFile = false)
-                }
-                launchWithProgressTracking {
-                    temporaryShortcutRepository.setStoreDirectory(null)
-                }
+            withProgressTracking {
+                temporaryShortcutRepository.setStoreDirectory(null)
             }
         }
     }
 
-    fun onStoreFileNameChanged(storeFileName: String) {
+    fun onStoreFileNameChanged(storeFileName: String) = runAction {
         updateViewState {
             copy(storeFileName = storeFileName)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setStoreFileName(storeFileName)
         }
     }
 
-    fun onStoreFileDirectoryPicked(directoryUri: Uri?) {
+    fun onStoreFileDirectoryPicked(directoryUri: Uri?) = runAction {
         updateViewState {
             copy(
                 storeResponseIntoFile = directoryUri != null,
                 storeDirectory = directoryUri?.getStoreDirectoryName(),
             )
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setStoreDirectory(directoryUri)
         }
     }
 
-    fun onStoreFileOverwriteChanged(enabled: Boolean) {
+    fun onStoreFileOverwriteChanged(enabled: Boolean) = runAction {
         updateViewState {
             copy(replaceFileIfExists = enabled)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setStoreReplaceIfExists(enabled)
         }
     }
@@ -214,16 +175,16 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
     private fun Uri.getStoreDirectoryName(): String? =
         DocumentFile.fromTreeUri(context, this)?.name
 
-    fun onUseMonospaceFontChanged(monospace: Boolean) {
+    fun onUseMonospaceFontChanged(monospace: Boolean) = runAction {
         updateViewState {
             copy(useMonospaceFont = monospace)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setUseMonospaceFont(monospace)
         }
     }
 
-    fun onWindowActionsSelected(responseDisplayActions: List<ResponseDisplayAction>) {
+    fun onWindowActionsSelected(responseDisplayActions: List<ResponseDisplayAction>) = runAction {
         val actions = listOf(
             ResponseDisplayAction.RERUN,
             ResponseDisplayAction.SHARE,
@@ -239,16 +200,16 @@ class ResponseViewModel(application: Application) : BaseViewModel<Unit, Response
                 responseDisplayActions = actions,
             )
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setDisplayActions(actions)
         }
     }
 
-    fun onDismissDialog() {
+    fun onDismissDialog() = runAction {
         updateDialogState(null)
     }
 
-    private fun updateDialogState(dialogState: ResponseDialogState?) {
+    private suspend fun updateDialogState(dialogState: ResponseDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }

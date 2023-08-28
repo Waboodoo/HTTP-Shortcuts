@@ -12,7 +12,6 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.scripting.CodeTransformer
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -34,46 +33,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
         getApplicationComponent().inject(this)
     }
 
-    override fun onInitializationStarted(data: Unit) {
-        viewModelScope.launch(Dispatchers.Default) {
-            try {
-                val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
-                initViewStateFromShortcut(temporaryShortcut)
-                withContext(Dispatchers.Main) {
-                    finalizeInitialization()
-                }
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    onInitializationError(e)
-                }
-            }
-        }
-    }
-
     private lateinit var shortcutExecutionType: ShortcutExecutionType
-
-    private suspend fun initViewStateFromShortcut(shortcut: Shortcut) {
-        history.push(
-            HistoryState(
-                codeOnPrepare = codeTransformer.transformForEditing(shortcut.codeOnPrepare),
-                codeOnSuccess = codeTransformer.transformForEditing(shortcut.codeOnSuccess),
-                codeOnFailure = codeTransformer.transformForEditing(shortcut.codeOnFailure),
-            ),
-        )
-        shortcutExecutionType = shortcut.type
-    }
-
-    override fun initViewState(): ScriptingViewState {
-        val historyState = history.peekLast()!!
-        return ScriptingViewState(
-            codeOnPrepare = historyState.codeOnPrepare,
-            codeOnSuccess = historyState.codeOnSuccess,
-            codeOnFailure = historyState.codeOnFailure,
-            shortcutExecutionType = shortcutExecutionType,
-        )
-    }
 
     private var isFinishing: Boolean = false
     private var persistJob: Job? = null
@@ -89,12 +49,26 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
             field = value
         }
 
-    private fun onInitializationError(error: Throwable) {
-        handleUnexpectedError(error)
-        finish()
+    override suspend fun initialize(data: Unit): ScriptingViewState {
+        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        val historyState = withContext(Dispatchers.Default) {
+            HistoryState(
+                codeOnPrepare = codeTransformer.transformForEditing(shortcut.codeOnPrepare),
+                codeOnSuccess = codeTransformer.transformForEditing(shortcut.codeOnSuccess),
+                codeOnFailure = codeTransformer.transformForEditing(shortcut.codeOnFailure),
+            )
+        }
+        history.push(historyState)
+        shortcutExecutionType = shortcut.type
+        return ScriptingViewState(
+            codeOnPrepare = historyState.codeOnPrepare,
+            codeOnSuccess = historyState.codeOnSuccess,
+            codeOnFailure = historyState.codeOnFailure,
+            shortcutExecutionType = shortcutExecutionType,
+        )
     }
 
-    fun onCodePrepareChanged(code: String) {
+    fun onCodePrepareChanged(code: String) = runAction {
         updateViewState {
             copy(
                 codeOnPrepare = code,
@@ -104,7 +78,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
         scheduleHistoryCapture()
     }
 
-    fun onCodeSuccessChanged(code: String) {
+    fun onCodeSuccessChanged(code: String) = runAction {
         updateViewState {
             copy(
                 codeOnSuccess = code,
@@ -114,7 +88,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
         scheduleHistoryCapture()
     }
 
-    fun onCodeFailureChanged(code: String) {
+    fun onCodeFailureChanged(code: String) = runAction {
         updateViewState {
             copy(
                 codeOnFailure = code,
@@ -128,9 +102,9 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
         if (isFinishing) {
             return
         }
-        persistJob = viewModelScope.launch(Dispatchers.IO) {
+        persistJob = viewModelScope.launch(Dispatchers.Default) {
             delay(500.milliseconds)
-            currentViewState?.run {
+            with(getCurrentViewState()) {
                 temporaryShortcutRepository.setCode(
                     codeTransformer.transformForStoring(codeOnPrepare),
                     codeTransformer.transformForStoring(codeOnSuccess),
@@ -147,7 +121,7 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
         }
         captureHistoryStateJob = viewModelScope.launch {
             delay(500.milliseconds)
-            val viewState = currentViewState ?: return@launch
+            val viewState = getCurrentViewState()
             val newState = HistoryState(viewState.codeOnPrepare, viewState.codeOnSuccess, viewState.codeOnFailure)
             if (history.peekLast() == newState) {
                 return@launch
@@ -162,22 +136,20 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
         }
     }
 
-    fun onHelpButtonClicked() {
+    fun onHelpButtonClicked() = runAction {
         openURL(ExternalURLs.SCRIPTING_DOCUMENTATION)
     }
 
-    fun onBackPressed() {
+    fun onBackPressed() = runAction {
         if (isFinishing) {
-            return
+            skipAction()
         }
         isFinishing = true
-        viewModelScope.launch {
-            persistJob?.join()
-            finish()
-        }
+        persistJob?.join()
+        finish()
     }
 
-    fun onCodeSnippetPicked(textBeforeCursor: String, textAfterCursor: String) {
+    fun onCodeSnippetPicked(textBeforeCursor: String, textAfterCursor: String) = runAction {
         emitEvent(
             ScriptingEvent.InsertCodeSnippet(
                 textBeforeCursor = textBeforeCursor,
@@ -186,18 +158,16 @@ class ScriptingViewModel(application: Application) : BaseViewModel<Unit, Scripti
         )
     }
 
-    fun onTestButtonClicked() {
-        viewModelScope.launch {
-            waitForOperationsToFinish()
-            openActivity(ExecuteActivity.IntentBuilder(Shortcut.TEMPORARY_ID).trigger(ShortcutTriggerType.TEST_IN_EDITOR))
-        }
+    fun onTestButtonClicked() = runAction {
+        waitForOperationsToFinish()
+        openActivity(ExecuteActivity.IntentBuilder(Shortcut.TEMPORARY_ID).trigger(ShortcutTriggerType.TEST_IN_EDITOR))
     }
 
-    fun onUndoButtonClicked() {
+    fun onUndoButtonClicked() = runAction {
         history.pollLast()
-            ?: return
+            ?: skipAction()
         val historyState = history.peekLast()
-            ?: return
+            ?: skipAction()
         updateViewState {
             copy(
                 codeOnPrepare = historyState.codeOnPrepare,

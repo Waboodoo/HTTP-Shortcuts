@@ -3,19 +3,17 @@ package ch.rmy.android.http_shortcuts.activities.editor.authentication
 import android.app.Application
 import android.content.ActivityNotFoundException
 import android.net.Uri
-import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.authentication.usecases.CopyCertificateFileUseCase
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.ClientCertUtil
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, AuthenticationViewState>(application) {
@@ -33,109 +31,81 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
         getApplicationComponent().inject(this)
     }
 
-    override fun onInitializationStarted(data: Unit) {
-        finalizeInitialization(silent = true)
+    override suspend fun initialize(data: Unit): AuthenticationViewState {
+        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        return AuthenticationViewState(
+            authenticationType = shortcut.authenticationType,
+            username = shortcut.username,
+            password = shortcut.password,
+            token = shortcut.authToken,
+            clientCertParams = shortcut.clientCertParams,
+            isClientCertButtonEnabled = !shortcut.url.startsWith("http://", ignoreCase = true),
+        )
     }
 
-    override fun initViewState() = AuthenticationViewState()
-
-    override fun onInitialized() {
-        viewModelScope.launch {
-            try {
-                val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
-                initViewStateFromShortcut(temporaryShortcut)
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                onInitializationError(e)
-            }
-        }
-    }
-
-    private fun initViewStateFromShortcut(shortcut: Shortcut) {
-        updateViewState {
-            copy(
-                authenticationType = shortcut.authenticationType,
-                username = shortcut.username,
-                password = shortcut.password,
-                token = shortcut.authToken,
-                clientCertParams = shortcut.clientCertParams,
-                isClientCertButtonEnabled = !shortcut.url.startsWith("http://", ignoreCase = true),
-            )
-        }
-    }
-
-    private fun onInitializationError(error: Throwable) {
-        handleUnexpectedError(error)
-        finish()
-    }
-
-    fun onAuthenticationTypeChanged(authenticationType: ShortcutAuthenticationType) {
+    fun onAuthenticationTypeChanged(authenticationType: ShortcutAuthenticationType) = runAction {
         updateViewState {
             copy(
                 authenticationType = authenticationType,
             )
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setAuthenticationType(authenticationType)
         }
     }
 
-    fun onUsernameChanged(username: String) {
+    fun onUsernameChanged(username: String) = runAction {
         updateViewState {
             copy(username = username)
         }
-
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setUsername(username)
         }
     }
 
-    fun onPasswordChanged(password: String) {
+    fun onPasswordChanged(password: String) = runAction {
         updateViewState {
             copy(password = password)
         }
-
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setPassword(password)
         }
     }
 
-    fun onTokenChanged(token: String) {
+    fun onTokenChanged(token: String) = runAction {
         updateViewState {
             copy(token = token)
         }
-
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setToken(token)
         }
     }
 
-    fun onClientCertButtonClicked() {
-        doWithViewState { viewState ->
-            if (viewState.clientCertParams == null) {
-                updateDialogState(AuthenticationDialogState.SelectClientCertType)
-            } else {
-                onClientCertParamsChanged(null)
-            }
+    fun onClientCertButtonClicked() = runAction {
+        if (viewState.clientCertParams == null) {
+            updateDialogState(AuthenticationDialogState.SelectClientCertType)
+        } else {
+            onClientCertParamsChanged(null)
         }
     }
 
-    fun onPickCertificateFromSystemOptionSelected() {
+    fun onPickCertificateFromSystemOptionSelected() = runAction {
         updateDialogState(null)
         try {
             ClientCertUtil.promptForAlias(activityProvider.getActivity()) { alias ->
-                onClientCertParamsChanged(
-                    ClientCertParams.Alias(alias)
-                )
+                runAction {
+                    onClientCertParamsChanged(
+                        ClientCertParams.Alias(alias)
+                    )
+                }
             }
         } catch (e: ActivityNotFoundException) {
             showToast(R.string.error_not_supported)
         }
     }
 
-    fun onCertificateFileSelected(file: Uri) {
-        launchWithProgressTracking {
+    fun onCertificateFileSelected(file: Uri) = runAction {
+        withProgressTracking {
             try {
                 updateDialogState(
                     AuthenticationDialogState.PasswordPromptForCertFile(fileName = copyCertificateFile(file))
@@ -148,40 +118,38 @@ class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, Au
         }
     }
 
-    fun onCertPasswordConfirmed(password: String) {
-        val fileName = (currentViewState?.dialogState as? AuthenticationDialogState.PasswordPromptForCertFile)?.fileName
-            ?: return
+    fun onCertPasswordConfirmed(password: String) = runAction {
+        val fileName = (viewState.dialogState as? AuthenticationDialogState.PasswordPromptForCertFile)?.fileName
+            ?: skipAction()
         updateDialogState(null)
         onClientCertParamsChanged(
             ClientCertParams.File(fileName, password)
         )
     }
 
-    private fun onClientCertParamsChanged(clientCertParams: ClientCertParams?) {
+    private suspend fun ViewModelScope<AuthenticationViewState>.onClientCertParamsChanged(clientCertParams: ClientCertParams?) {
         updateViewState {
             copy(clientCertParams = clientCertParams)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setClientCertParams(clientCertParams)
         }
     }
 
-    fun onBackPressed() {
-        viewModelScope.launch {
-            waitForOperationsToFinish()
-            finish()
-        }
+    fun onBackPressed() = runAction {
+        waitForOperationsToFinish()
+        finish()
     }
 
-    fun onCertificateFilePickerFailed() {
+    fun onCertificateFilePickerFailed() = runAction {
         showSnackbar(R.string.error_not_supported)
     }
 
-    fun onDialogDismissed() {
+    fun onDialogDismissed() = runAction {
         updateDialogState(null)
     }
 
-    private fun updateDialogState(dialogState: AuthenticationDialogState?) {
+    private suspend fun updateDialogState(dialogState: AuthenticationDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }

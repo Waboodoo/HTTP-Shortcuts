@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.runtime.Stable
-import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
@@ -49,58 +48,53 @@ class DisplayResponseViewModel(application: Application) : BaseViewModel<Display
 
     private var savingJob: Job? = null
 
-    override fun onInitializationStarted(data: InitData) {
+    override suspend fun initialize(data: InitData): DisplayResponseViewState {
         logInfo("Preparing to display response of type ${data.mimeType}")
-        viewModelScope.launch(Dispatchers.IO) {
-            responseText = if (isImage(data.mimeType)) {
-                ""
-            } else {
-                data.text
-                    ?: try {
+        responseText = if (isImage(data.mimeType)) {
+            ""
+        } else {
+            data.text
+                ?: try {
+                    withContext(Dispatchers.IO) {
                         data.fileUri?.readIntoString(context, CONTENT_SIZE_LIMIT, data.charset)
                             ?.runIf(initData.mimeType == FileTypeUtil.TYPE_JSON) {
                                 GsonUtil.tryPrettyPrint(this)
                             }
                             ?: ""
-                    } catch (e: SizeLimitedReader.LimitReachedException) {
-                        logInfo("Response is too large")
-                        responseTooLarge = true
-                        ""
                     }
-            }
-
-            withContext(Dispatchers.Main) {
-                finalizeInitialization()
-            }
+                } catch (e: SizeLimitedReader.LimitReachedException) {
+                    logInfo("Response is too large")
+                    responseTooLarge = true
+                    ""
+                }
         }
+        return DisplayResponseViewState(
+            detailInfo = if (initData.showDetails) {
+                DetailInfo(
+                    url = initData.url?.toString(),
+                    status = initData.statusCode?.let { "$it (${HttpStatus.getMessage(it)})" },
+                    timing = initData.timing,
+                    headers = initData.headers.entries.flatMap { (key, values) -> values.map { key to it } },
+                )
+                    .takeUnless { !it.hasGeneralInfo && it.headers.isEmpty() }
+            } else null,
+            monospace = initData.monospace,
+            text = responseText,
+            fileUri = initData.fileUri,
+            limitExceeded = if (responseTooLarge) CONTENT_SIZE_LIMIT else null,
+            mimeType = initData.mimeType,
+            url = initData.url,
+            canShare = initData.fileUri != null,
+            canCopy = responseText.isNotEmpty() && responseText.length < MAX_COPY_LENGTH,
+            canSave = initData.fileUri != null,
+        )
     }
-
-    override fun initViewState() = DisplayResponseViewState(
-        detailInfo = if (initData.showDetails) {
-            DetailInfo(
-                url = initData.url?.toString(),
-                status = initData.statusCode?.let { "$it (${HttpStatus.getMessage(it)})" },
-                timing = initData.timing,
-                headers = initData.headers.entries.flatMap { (key, values) -> values.map { key to it } },
-            )
-                .takeUnless { !it.hasGeneralInfo && it.headers.isEmpty() }
-        } else null,
-        monospace = initData.monospace,
-        text = responseText,
-        fileUri = initData.fileUri,
-        limitExceeded = if (responseTooLarge) CONTENT_SIZE_LIMIT else null,
-        mimeType = initData.mimeType,
-        url = initData.url,
-        canShare = initData.fileUri != null,
-        canCopy = responseText.isNotEmpty() && responseText.length < MAX_COPY_LENGTH,
-        canSave = initData.fileUri != null,
-    )
 
     init {
         getApplicationComponent().inject(this)
     }
 
-    fun onRerunButtonClicked() {
+    fun onRerunButtonClicked() = runAction {
         openActivity(
             ExecuteActivity.IntentBuilder(initData.shortcutId)
                 .trigger(ShortcutTriggerType.WINDOW_RERUN)
@@ -108,7 +102,7 @@ class DisplayResponseViewModel(application: Application) : BaseViewModel<Display
         finish(skipAnimation = true)
     }
 
-    fun onShareButtonClicked() {
+    fun onShareButtonClicked() = runAction {
         if (shouldShareAsText()) {
             ShareUtil.shareText(activityProvider.getActivity(), responseText)
         } else {
@@ -133,16 +127,16 @@ class DisplayResponseViewModel(application: Application) : BaseViewModel<Display
         clipboardUtil.copyToClipboard(responseText)
     }
 
-    fun onSaveButtonClicked() {
+    fun onSaveButtonClicked() = runAction {
         emitEvent(DisplayResponseEvent.SuppressAutoFinish)
         emitEvent(DisplayResponseEvent.PickFileForSaving(initData.mimeType))
     }
 
-    fun onFilePickedForSaving(file: Uri) {
+    fun onFilePickedForSaving(file: Uri) = runAction {
         updateViewState {
             copy(isSaving = true)
         }
-        savingJob = viewModelScope.launch {
+        savingJob = launch {
             try {
                 withContext(Dispatchers.IO) {
                     context.contentResolver.openOutputStream(file)!!.use { output ->
@@ -165,14 +159,14 @@ class DisplayResponseViewModel(application: Application) : BaseViewModel<Display
         }
     }
 
-    fun onDialogDismissed() {
+    fun onDialogDismissed() = runAction {
         savingJob?.cancel()
         updateViewState {
             copy(isSaving = false)
         }
     }
 
-    fun onFilePickerFailed() {
+    fun onFilePickerFailed() = runAction {
         showSnackbar(R.string.error_not_supported)
     }
 

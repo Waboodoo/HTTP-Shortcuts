@@ -18,7 +18,7 @@ fun AuthenticationScreen() {
         fileUri?.let(viewModel::onCertificateFileSelected)
     }
 
-    BackHandler {
+    BackHandler(state != null) {
         viewModel.onBackPressed()
     }
 

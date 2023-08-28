@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.globalcode
 
 import android.app.Application
-import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
@@ -9,7 +8,6 @@ import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.scripting.CodeTransformer
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -27,50 +25,47 @@ class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, G
 
     private var previousGlobalCode = ""
 
-    override fun initViewState() = GlobalScriptingViewState()
-
-    override fun onInitializationStarted(data: Unit) {
-        viewModelScope.launch(Dispatchers.Default) {
-            val globalCode = codeTransformer.transformForEditing(appRepository.getGlobalCode())
-            previousGlobalCode = globalCode
-            updateViewState {
-                copy(globalCode = globalCode)
-            }
-            withContext(Dispatchers.Main) {
-                finalizeInitialization()
-            }
+    override suspend fun initialize(data: Unit): GlobalScriptingViewState {
+        val globalCode = withContext(Dispatchers.Default) {
+            codeTransformer.transformForEditing(appRepository.getGlobalCode())
         }
+        previousGlobalCode = globalCode
+        return GlobalScriptingViewState(
+            globalCode = globalCode,
+        )
     }
 
-    fun onHelpButtonClicked() {
+    fun onHelpButtonClicked() = runAction {
         openURL(ExternalURLs.SCRIPTING_DOCUMENTATION)
     }
 
-    fun onBackPressed() {
-        updateDialogState(GlobalScriptingDialogState.DiscardWarning)
+    fun onBackPressed() = runAction {
+        if (viewState.hasChanges) {
+            updateDialogState(GlobalScriptingDialogState.DiscardWarning)
+        } else {
+            finish()
+        }
     }
 
-    fun onDiscardDialogConfirmed() {
+    fun onDiscardDialogConfirmed() = runAction {
         updateDialogState(null)
         finish()
     }
 
-    fun onSaveButtonClicked() {
-        val viewState = currentViewState ?: return
-        viewModelScope.launch(Dispatchers.Default) {
-            appRepository.setGlobalCode(
+    fun onSaveButtonClicked() = runAction {
+        appRepository.setGlobalCode(
+            withContext(Dispatchers.Default) {
                 viewState.globalCode
                     .trim()
                     .takeUnlessEmpty()
                     ?.let {
                         codeTransformer.transformForStoring(it)
                     }
-            )
-            finish()
-        }
+            }
+        )
     }
 
-    fun onGlobalCodeChanged(globalCode: String) {
+    fun onGlobalCodeChanged(globalCode: String) = runAction {
         updateViewState {
             copy(
                 globalCode = globalCode,
@@ -79,17 +74,17 @@ class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, G
         }
     }
 
-    fun onCodeSnippetPicked(textBeforeCursor: String, textAfterCursor: String) {
+    fun onCodeSnippetPicked(textBeforeCursor: String, textAfterCursor: String) = runAction {
         emitEvent(
             GlobalScriptingEvent.InsertCodeSnippet(textBeforeCursor, textAfterCursor)
         )
     }
 
-    fun onDialogDismissed() {
+    fun onDialogDismissed() = runAction {
         updateDialogState(null)
     }
 
-    private fun updateDialogState(dialogState: GlobalScriptingDialogState?) {
+    private suspend fun updateDialogState(dialogState: GlobalScriptingDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }

@@ -1,16 +1,12 @@
 package ch.rmy.android.http_shortcuts.activities.editor.basicsettings
 
 import android.app.Application
-import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.usecases.GetAvailableBrowserPackageNamesUseCase
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.type
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Unit, BasicRequestSettingsViewState>(application) {
@@ -25,77 +21,50 @@ class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Un
         getApplicationComponent().inject(this)
     }
 
-    override fun onInitializationStarted(data: Unit) {
-        finalizeInitialization(silent = true)
+    override suspend fun initialize(data: Unit): BasicRequestSettingsViewState {
+        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        return BasicRequestSettingsViewState(
+            methodVisible = shortcut.type == ShortcutExecutionType.APP,
+            browserPackageNameVisible = shortcut.type == ShortcutExecutionType.BROWSER,
+            method = shortcut.method,
+            url = shortcut.url,
+            browserPackageName = shortcut.browserPackageName,
+            browserPackageNameOptions = if (shortcut.type == ShortcutExecutionType.BROWSER) {
+                getAvailableBrowserPackageNames(shortcut.browserPackageName)
+            } else {
+                emptyList()
+            },
+        )
     }
 
-    override fun initViewState() = BasicRequestSettingsViewState()
-
-    override fun onInitialized() {
-        viewModelScope.launch {
-            try {
-                val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
-                initViewStateFromShortcut(temporaryShortcut)
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                onInitializationError(e)
-            }
-        }
-    }
-
-    private fun initViewStateFromShortcut(shortcut: Shortcut) {
-        updateViewState {
-            copy(
-                methodVisible = shortcut.type == ShortcutExecutionType.APP,
-                browserPackageNameVisible = shortcut.type == ShortcutExecutionType.BROWSER,
-                method = shortcut.method,
-                url = shortcut.url,
-                browserPackageName = shortcut.browserPackageName,
-                browserPackageNameOptions = if (shortcut.type == ShortcutExecutionType.BROWSER) {
-                    getAvailableBrowserPackageNames(shortcut.browserPackageName)
-                } else {
-                    emptyList()
-                },
-            )
-        }
-    }
-
-    private fun onInitializationError(error: Throwable) {
-        handleUnexpectedError(error)
+    fun onBackPressed() = runAction {
+        waitForOperationsToFinish()
         finish()
     }
 
-    fun onBackPressed() {
-        viewModelScope.launch {
-            waitForOperationsToFinish()
-            finish()
-        }
-    }
-
-    fun onUrlChanged(url: String) {
+    fun onUrlChanged(url: String) = runAction {
         updateViewState {
             copy(url = url)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setUrl(url)
         }
     }
 
-    fun onMethodChanged(method: String) {
+    fun onMethodChanged(method: String) = runAction {
         updateViewState {
             copy(method = method)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setMethod(method)
         }
     }
 
-    fun onBrowserPackageNameChanged(packageName: String) {
+    fun onBrowserPackageNameChanged(packageName: String) = runAction {
         updateViewState {
             copy(browserPackageName = packageName)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setBrowserPackageName(packageName)
         }
     }

@@ -30,7 +30,6 @@ import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -59,44 +58,37 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
     private lateinit var shortcutsForFileSharing: List<Shortcut>
     private var variableValues: Map<VariableKey, String> = emptyMap()
 
-    private var currentJob: Job? = null
+    override suspend fun initialize(data: InitData): ShareViewState {
+        shortcuts = shortcutRepository.getShortcuts()
+        variables = variableRepository.getVariables()
 
-    override fun initViewState() = ShareViewState()
-
-    override fun onInitializationStarted(data: InitData) {
-        viewModelScope.launch {
-            shortcuts = shortcutRepository.getShortcuts()
-            variables = variableRepository.getVariables()
-            finalizeInitialization()
-        }
-    }
-
-    override fun onInitialized() {
         if (initData.fileUris.isEmpty()) {
             fileUris = emptyList()
-            startShareFlow()
-            return
-        }
-
-        currentJob?.cancel()
-        currentJob = viewModelScope.launch {
-            updateDialogState(ShareDialogState.Progress)
-            try {
-                fileUris = withContext(Dispatchers.IO) {
-                    cacheSharedFiles(context, initData.fileUris)
-                }
+            viewModelScope.launch {
                 startShareFlow()
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                showToast(R.string.error_generic)
-                logException(e)
-                finish(skipAnimation = true)
+            }
+        } else {
+            viewModelScope.launch {
+                try {
+                    fileUris = withContext(Dispatchers.IO) {
+                        cacheSharedFiles(context, initData.fileUris)
+                    }
+                    startShareFlow()
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    showToast(R.string.error_generic)
+                    logException(e)
+                    finish(skipAnimation = true)
+                }
             }
         }
+        return ShareViewState(
+            dialogState = ShareDialogState.Progress,
+        )
     }
 
-    private fun startShareFlow() {
+    private suspend fun startShareFlow() {
         if (text.isEmpty()) {
             handleFileSharing()
         } else {
@@ -104,7 +96,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
         }
     }
 
-    private fun handleTextSharing() {
+    private suspend fun handleTextSharing() {
         val variableLookup = VariableManager(variables)
         val variables = getTargetableVariablesForTextSharing()
         val variableIds = variables.map { it.id }.toSet()
@@ -141,7 +133,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
                     (isImage != false && it.fileUploadOptions?.type == FileUploadType.CAMERA)
             }
 
-    private fun handleFileSharing() {
+    private suspend fun handleFileSharing() {
         val isImage = fileUris.singleOrNull()
             ?.let(context.contentResolver::getType)
             ?.takeUnless { it == "application/octet-stream" }
@@ -154,7 +146,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
         }
     }
 
-    private fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKey, String> = emptyMap()) {
+    private suspend fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKey, String> = emptyMap()) {
         openActivity(
             ExecuteActivity.IntentBuilder(shortcutId)
                 .variableValues(variableValues)
@@ -164,7 +156,7 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
         finish(skipAnimation = true)
     }
 
-    private fun showShortcutSelection(shortcuts: List<Shortcut>) {
+    private suspend fun showShortcutSelection(shortcuts: List<Shortcut>) {
         updateDialogState(
             ShareDialogState.PickShortcut(
                 shortcuts.map { it.toShortcutPlaceholder() },
@@ -172,16 +164,15 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
         )
     }
 
-    fun onShortcutSelected(shortcutId: ShortcutId) {
+    fun onShortcutSelected(shortcutId: ShortcutId) = runAction {
         executeShortcut(shortcutId, variableValues)
     }
 
-    fun onDialogDismissed() {
-        currentJob?.cancel()
+    fun onDialogDismissed() = runAction {
         finish(skipAnimation = true)
     }
 
-    private fun updateDialogState(dialogState: ShareDialogState? = null) {
+    private suspend fun updateDialogState(dialogState: ShareDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }

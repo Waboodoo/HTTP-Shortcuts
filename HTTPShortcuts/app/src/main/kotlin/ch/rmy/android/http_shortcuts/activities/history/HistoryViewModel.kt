@@ -31,42 +31,35 @@ class HistoryViewModel(application: Application) : BaseViewModel<Unit, HistoryVi
         getApplicationComponent().inject(this)
     }
 
-    override fun initViewState() = HistoryViewState(
-        historyItems = emptyList(),
-    )
-
-    override fun onInitializationStarted(data: Unit) {
+    override suspend fun initialize(data: Unit): HistoryViewState {
         viewModelScope.launch {
             historyRepository.getObservableHistory(MAX_AGE).collect { events ->
                 updateViewState {
                     copy(historyItems = mapEvents(events))
                 }
-                if (!isInitialized) {
-                    finalizeInitialization()
-                }
             }
         }
+        viewModelScope.launch {
+            historyCleanUpStarter()
+        }
+        return HistoryViewState(
+            historyItems = emptyList(),
+        )
     }
 
-    override fun onInitialized() {
-        historyCleanUpStarter()
-    }
-
-    fun onClearHistoryButtonClicked() {
-        launchWithProgressTracking {
+    fun onClearHistoryButtonClicked() = runAction {
+        withProgressTracking {
             historyRepository.deleteHistory()
             showSnackbar(R.string.message_history_cleared)
         }
     }
 
-    fun onHistoryEventLongPressed(id: String) {
-        doWithViewState { viewState ->
-            val item = viewState.historyItems
-                .find { it.id == id }
-                ?: return@doWithViewState
-            copyHistoryItemUseCase(item)
-            showSnackbar(R.string.message_history_event_details_copied)
-        }
+    fun onHistoryEventLongPressed(id: String) = runAction {
+        val item = viewState.historyItems
+            .find { it.id == id }
+            ?: skipAction()
+        copyHistoryItemUseCase(item)
+        showSnackbar(R.string.message_history_event_details_copied)
     }
 
     companion object {

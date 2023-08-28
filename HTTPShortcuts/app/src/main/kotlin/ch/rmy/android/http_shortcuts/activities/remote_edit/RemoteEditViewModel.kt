@@ -50,8 +50,10 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
         get() = settings.remoteEditServerUrl ?: REMOTE_BASE_URL
         set(value) {
             settings.remoteEditServerUrl = value
-            updateViewState {
-                copy(hostAddress = humanReadableEditorAddress)
+            viewModelScope.launch {
+                updateViewState {
+                    copy(hostAddress = humanReadableEditorAddress)
+                }
             }
         }
 
@@ -71,25 +73,23 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
         get() = settings.remoteEditPassword ?: ""
         set(value) {
             settings.remoteEditPassword = value
-            updateViewState {
-                copy(password = value)
+            viewModelScope.launch {
+                updateViewState {
+                    copy(password = value)
+                }
             }
         }
 
     private fun getRemoteBaseUrl() =
         serverUrl.toUri()
 
-    override fun initViewState() = RemoteEditViewState(
+    override suspend fun initialize(data: Unit) = RemoteEditViewState(
         hostAddress = humanReadableEditorAddress,
         deviceId = deviceId,
         password = password,
     )
 
-    fun onChangeRemoteHostButtonClicked() {
-        openChangeRemoteHostDialog()
-    }
-
-    private fun openChangeRemoteHostDialog() {
+    fun onChangeRemoteHostButtonClicked() = runAction {
         updateViewState {
             copy(
                 dialogState = RemoteEditDialogState.EditServerUrl(
@@ -99,24 +99,22 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
         }
     }
 
-    fun onServerUrlChange(value: String) {
+    fun onServerUrlChange(value: String) = runAction {
         if (value.isNotEmpty() && !Validation.isValidHttpUrl(value.toUri())) {
             showErrorDialog(StringResLocalizable(R.string.error_invalid_remote_edit_host_url))
-            return
+            skipAction()
         }
         serverUrl = value
         hideDialog()
     }
 
-    fun onPasswordChanged(password: String) {
-        this.password = password.take(100)
+    fun onPasswordChanged(password: String) = runAction {
+        this@RemoteEditViewModel.password = password.take(100)
     }
 
-    fun onUploadButtonClicked() {
-        doWithViewState { viewState ->
-            if (viewState.canUpload) {
-                startUpload()
-            }
+    fun onUploadButtonClicked() = runAction {
+        if (viewState.canUpload) {
+            startUpload()
         }
     }
 
@@ -139,11 +137,9 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
         }
     }
 
-    fun onDownloadButtonClicked() {
-        doWithViewState { viewState ->
-            if (viewState.canDownload) {
-                startDownload()
-            }
+    fun onDownloadButtonClicked() = runAction {
+        if (viewState.canDownload) {
+            startDownload()
         }
     }
 
@@ -191,7 +187,7 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
             }
         }
 
-    private fun hideProgressDialog() {
+    private suspend fun hideProgressDialog() {
         updateViewState {
             if (dialogState is RemoteEditDialogState.Progress) {
                 copy(dialogState = null)
@@ -199,18 +195,18 @@ class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, Remote
         }
     }
 
-    fun onDialogDismissalRequested() {
+    fun onDialogDismissalRequested() = runAction {
         currentJob?.cancel()
         hideDialog()
     }
 
-    private fun hideDialog() {
+    private suspend fun hideDialog() {
         updateViewState {
             copy(dialogState = null)
         }
     }
 
-    private fun showErrorDialog(message: Localizable) {
+    private suspend fun showErrorDialog(message: Localizable) {
         updateViewState {
             copy(
                 dialogState = RemoteEditDialogState.Error(message),

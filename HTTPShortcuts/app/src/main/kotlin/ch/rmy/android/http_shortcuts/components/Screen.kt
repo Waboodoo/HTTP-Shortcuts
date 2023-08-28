@@ -19,13 +19,14 @@ inline fun <D, VS, reified VM : BaseViewModel<D, VS>> bindViewModel(
     key: String? = null,
 ): Pair<VM, VS?> {
     val viewModel = viewModel<VM>(key = key)
-    val state by viewModel.viewState.collectAsStateWithLifecycle()
+    val state by viewModel.viewStateFlow.collectAsStateWithLifecycle()
     val eventHandler = LocalEventinator.current
     var viewReady by remember {
         mutableStateOf(false)
     }
-    LaunchedEffect(Unit) {
-        viewModel.initialize(initData)
+    DisposableEffect(Unit) {
+        viewModel.init(initData)
+        onDispose { }
     }
     LaunchedEffect(viewReady) {
         if (viewReady) {

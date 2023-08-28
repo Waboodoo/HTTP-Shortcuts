@@ -4,5 +4,5 @@ import androidx.compose.runtime.Stable
 
 @Stable
 data class QuickSettingsTileViewState(
-    val dialogState: QuickSettingsTileDialogState? = null,
+    val dialogState: QuickSettingsTileDialogState,
 )

@@ -41,7 +41,7 @@ fun RequestBodyScreen() {
         }
     }
 
-    BackHandler {
+    BackHandler(state != null) {
         viewModel.onBackPressed()
     }
 

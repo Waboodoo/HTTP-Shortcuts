@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,20 +18,18 @@ class CertPinningViewModel(application: Application) : BaseViewModel<Unit, CertP
     @Inject
     lateinit var appRepository: AppRepository
 
+    private lateinit var pins: List<CertificatePin>
+    private var activePinId: String? = null
+
     init {
         getApplicationComponent().inject(this)
     }
 
-    override fun onInitializationStarted(data: Unit) {
-        finalizeInitialization(silent = true)
-    }
-
-    private lateinit var pins: List<CertificatePin>
-    private var activePinId: String? = null
-
-    override fun onInitialized() {
+    override suspend fun initialize(data: Unit): CertPinningViewState {
+        val pinsFlow = appRepository.getObservableCertificatePins()
+        pins = pinsFlow.first()
         viewModelScope.launch {
-            appRepository.getObservableCertificatePins().collect { pins ->
+            pinsFlow.collect { pins ->
                 this@CertPinningViewModel.pins = pins
                 updateViewState {
                     copy(
@@ -45,11 +44,11 @@ class CertPinningViewModel(application: Application) : BaseViewModel<Unit, CertP
                 }
             }
         }
+
+        return CertPinningViewState()
     }
 
-    override fun initViewState() = CertPinningViewState()
-
-    fun onCreatePinButtonClicked() {
+    fun onCreatePinButtonClicked() = runAction {
         activePinId = null
         updateDialogState(
             CertPinningDialogState.Editor(
@@ -59,14 +58,14 @@ class CertPinningViewModel(application: Application) : BaseViewModel<Unit, CertP
         )
     }
 
-    fun onPinClicked(id: String) {
+    fun onPinClicked(id: String) = runAction {
         activePinId = id
         updateDialogState(CertPinningDialogState.ContextMenu)
     }
 
-    fun onEditOptionSelected() {
-        val id = activePinId ?: return
-        val pin = pins.find { it.id == id } ?: return
+    fun onEditOptionSelected() = runAction {
+        val id = activePinId ?: skipAction()
+        val pin = pins.find { it.id == id } ?: skipAction()
         updateDialogState(
             CertPinningDialogState.Editor(
                 initialPattern = pin.pattern,
@@ -75,10 +74,10 @@ class CertPinningViewModel(application: Application) : BaseViewModel<Unit, CertP
         )
     }
 
-    fun onEditConfirmed(pattern: String, hash: String) {
+    fun onEditConfirmed(pattern: String, hash: String) = runAction {
         updateDialogState(null)
         val pinId = activePinId
-        launchWithProgressTracking {
+        withProgressTracking {
             if (pinId == null) {
                 appRepository.createCertificatePin(pattern, hash)
             } else {
@@ -87,30 +86,30 @@ class CertPinningViewModel(application: Application) : BaseViewModel<Unit, CertP
         }
     }
 
-    fun onDeleteOptionSelected() {
+    fun onDeleteOptionSelected() = runAction {
         updateDialogState(CertPinningDialogState.ConfirmDeletion)
     }
 
-    fun onDeletionConfirmed() {
-        val id = activePinId ?: return
+    fun onDeletionConfirmed() = runAction {
+        val id = activePinId ?: skipAction()
         updateDialogState(null)
-        launchWithProgressTracking {
+        withProgressTracking {
             appRepository.deleteCertificatePinning(id)
             showSnackbar(R.string.message_certificate_pinning_deleted)
         }
     }
 
-    fun onDialogDismissed() {
+    fun onDialogDismissed() = runAction {
         updateDialogState(null)
     }
 
-    private fun updateDialogState(dialogState: CertPinningDialogState?) {
+    private suspend fun updateDialogState(dialogState: CertPinningDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }
     }
 
-    fun onHelpButtonClicked() {
+    fun onHelpButtonClicked() = runAction {
         openURL(ExternalURLs.CERTIFICATE_PINNING_DOCUMENTATION)
     }
 }

@@ -45,7 +45,7 @@ fun MainScreen(
         )
     )
 
-    BackHandler {
+    BackHandler(state != null) {
         viewModel.onBackButtonPressed()
     }
 

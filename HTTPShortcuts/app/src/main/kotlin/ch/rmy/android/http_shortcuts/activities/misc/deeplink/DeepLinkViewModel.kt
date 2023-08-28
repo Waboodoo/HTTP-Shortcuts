@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.misc.deeplink
 import android.app.Application
 import android.net.Uri
 import androidx.core.net.toUri
-import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
@@ -13,7 +12,6 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewModel.InitData, DeepLinkViewState>(application) {
@@ -25,26 +23,18 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
         getApplicationComponent().inject(this)
     }
 
-    override fun initViewState() = DeepLinkViewState()
-
-    override fun onInitializationStarted(data: InitData) {
-        finalizeInitialization(silent = true)
-    }
-
-    override fun onInitialized() {
+    override suspend fun initialize(data: InitData): DeepLinkViewState {
         val deepLinkUrl = initData.url
-        if (deepLinkUrl == null) {
-            updateDialogState(DeepLinkDialogState.Instructions)
-            return
-        }
+            ?: return DeepLinkViewState(
+                dialogState = DeepLinkDialogState.Instructions,
+            )
 
         if (deepLinkUrl.isCancelExecutions()) {
             openActivity(
                 MainActivity.IntentBuilder()
                     .cancelPendingExecutions()
             )
-            finish(skipAnimation = true)
-            return
+            terminateInitialization()
         }
 
         val importUrl = deepLinkUrl.getImportUrl()
@@ -53,30 +43,27 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
                 MainActivity.IntentBuilder()
                     .importUrl(importUrl)
             )
-            finish(skipAnimation = true)
-            return
+            terminateInitialization()
         }
 
         val shortcutIdOrName = deepLinkUrl.getShortcutNameOrId()
-        viewModelScope.launch {
-            try {
-                val shortcut = shortcutRepository.getShortcutByNameOrId(shortcutIdOrName)
-                executeShortcut(shortcut.id, deepLinkUrl.getVariableValues())
-            } catch (e: NoSuchElementException) {
-                updateDialogState(
-                    DeepLinkDialogState.ShortcutNotFound(shortcutIdOrName)
-                )
-            }
+        try {
+            val shortcut = shortcutRepository.getShortcutByNameOrId(shortcutIdOrName)
+            executeShortcut(shortcut.id, deepLinkUrl.getVariableValues())
+            terminateInitialization()
+        } catch (e: NoSuchElementException) {
+            return DeepLinkViewState(
+                dialogState = DeepLinkDialogState.ShortcutNotFound(shortcutIdOrName),
+            )
         }
     }
 
-    private fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKey, String>) {
+    private suspend fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKey, String>) {
         openActivity(
             ExecuteActivity.IntentBuilder(shortcutId)
                 .trigger(ShortcutTriggerType.DEEP_LINK)
                 .variableValues(variableValues)
         )
-        finish(skipAnimation = true)
     }
 
     private fun Uri.isCancelExecutions() =
@@ -100,14 +87,8 @@ class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewMo
                 getQueryParameter(key) ?: ""
             }
 
-    fun onDialogDismissed() {
+    fun onDialogDismissed() = runAction {
         finish(skipAnimation = true)
-    }
-
-    private fun updateDialogState(dialogState: DeepLinkDialogState?) {
-        updateViewState {
-            copy(dialogState = dialogState)
-        }
     }
 
     data class InitData(

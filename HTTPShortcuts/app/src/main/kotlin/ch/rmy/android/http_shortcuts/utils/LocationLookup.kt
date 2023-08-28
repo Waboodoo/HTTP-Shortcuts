@@ -57,7 +57,7 @@ constructor(
                 ?.toDataObject()
         }
 
-        return withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.Default) {
             try {
                 locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
                     ?.takeUnless { it.isStale() }

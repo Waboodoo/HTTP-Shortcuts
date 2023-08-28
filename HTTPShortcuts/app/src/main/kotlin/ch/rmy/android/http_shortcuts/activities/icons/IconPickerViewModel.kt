@@ -5,13 +5,13 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.icons.usecases.GetIconListItemsUseCase
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -29,108 +29,86 @@ class IconPickerViewModel(application: Application) : BaseViewModel<Unit, IconPi
         getApplicationComponent().inject(this)
     }
 
-    private lateinit var icons: List<IconPickerListItem>
-
-    override fun onInitializationStarted(data: Unit) {
+    override suspend fun initialize(data: Unit): IconPickerViewState {
+        val icons = getIconListItems()
         viewModelScope.launch {
-            try {
-                icons = getIconListItems()
-                finalizeInitialization()
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                finish()
-                handleUnexpectedError(e)
-            }
-        }
-    }
-
-    override fun initViewState() = IconPickerViewState(
-        icons = icons,
-    )
-
-    override fun onInitialized() {
-        doWithViewState { viewState ->
-            if (viewState.icons.isEmpty()) {
+            if (icons.isEmpty()) {
                 showImagePicker()
             }
         }
+        return IconPickerViewState(
+            icons = icons,
+        )
     }
 
-    fun onIconClicked(icon: ShortcutIcon.CustomIcon) {
+    fun onIconClicked(icon: ShortcutIcon.CustomIcon) = runAction {
         selectIcon(icon)
     }
 
-    private fun selectIcon(icon: ShortcutIcon.CustomIcon) {
+    private suspend fun selectIcon(icon: ShortcutIcon.CustomIcon) {
         finishWithOkResult(
             IconPickerActivity.PickIcon.createResult(icon),
         )
     }
 
-    fun onAddIconButtonClicked() {
+    fun onAddIconButtonClicked() = runAction {
         showImagePicker()
     }
 
-    private fun showImagePicker() {
+    private suspend fun showImagePicker() {
         emitEvent(IconPickerEvent.ShowImagePicker)
     }
 
-    fun onIconCreationFailed() {
+    fun onIconCreationFailed() = runAction {
         showSnackbar(R.string.error_set_image, long = true)
     }
 
-    fun onImageSelected(image: Uri) {
+    fun onImageSelected(image: Uri) = runAction {
         emitEvent(IconPickerEvent.ShowImageCropper(image))
     }
 
-    fun onIconCreated(iconFile: File) {
-        doWithViewState { viewState ->
-            val iconName = IconUtil.generateCustomIconName()
-            iconFile.renameTo(File(context.filesDir, iconName))
-            val icon = ShortcutIcon.CustomIcon(iconName)
+    fun onIconCreated(iconFile: File) = runAction {
+        val iconName = IconUtil.generateCustomIconName()
+        iconFile.renameTo(File(context.filesDir, iconName))
+        val icon = ShortcutIcon.CustomIcon(iconName)
 
-            val isFirstIcon = viewState.icons.isEmpty()
-            updateViewState {
-                copy(
-                    icons = icons.plus(IconPickerListItem(icon, isUnused = true)),
-                )
-            }
-            if (isFirstIcon) {
-                selectIcon(icon)
-            }
+        val isFirstIcon = viewState.icons.isEmpty()
+        updateViewState {
+            copy(
+                icons = icons.plus(IconPickerListItem(icon, isUnused = true)),
+            )
+        }
+        if (isFirstIcon) {
+            selectIcon(icon)
         }
     }
 
-    fun onImagePickerFailed() {
+    fun onImagePickerFailed() = runAction {
         showSnackbar(R.string.error_not_supported)
     }
 
-    fun onIconLongClicked(icon: ShortcutIcon.CustomIcon) {
-        doWithViewState { viewState ->
-            val isUnused = viewState.icons.find { it.icon == icon }?.isUnused ?: return@doWithViewState
-            updateViewState {
-                copy(dialogState = IconPickerDialogState.DeleteIcon(icon, !isUnused))
-            }
+    fun onIconLongClicked(icon: ShortcutIcon.CustomIcon) = runAction {
+        val isUnused = viewState.icons.find { it.icon == icon }?.isUnused ?: skipAction()
+        updateViewState {
+            copy(dialogState = IconPickerDialogState.DeleteIcon(icon, !isUnused))
         }
     }
 
-    fun onDeleteButtonClicked() {
+    fun onDeleteButtonClicked() = runAction {
         updateViewState {
             copy(dialogState = IconPickerDialogState.BulkDelete)
         }
     }
 
-    fun onDeletionConfirmed() {
-        doWithViewState { viewState ->
-            when (viewState.dialogState) {
-                is IconPickerDialogState.BulkDelete -> onBulkDeletionConfirmed()
-                is IconPickerDialogState.DeleteIcon -> onDeletionConfirmed(viewState.dialogState.icon)
-                null -> Unit
-            }
+    fun onDeletionConfirmed() = runAction {
+        when (val dialogState = viewState.dialogState) {
+            is IconPickerDialogState.BulkDelete -> onBulkDeletionConfirmed()
+            is IconPickerDialogState.DeleteIcon -> onDeletionConfirmed(dialogState.icon)
+            null -> Unit
         }
     }
 
-    private fun onDeletionConfirmed(icon: ShortcutIcon.CustomIcon) {
+    private suspend fun onDeletionConfirmed(icon: ShortcutIcon.CustomIcon) {
         viewModelScope.launch(Dispatchers.IO) {
             icon.getFile(context)?.delete()
         }
@@ -142,24 +120,22 @@ class IconPickerViewModel(application: Application) : BaseViewModel<Unit, IconPi
         }
     }
 
-    private fun onBulkDeletionConfirmed() {
-        doWithViewState { viewState ->
-            val icons = viewState.icons.filter { it.isUnused }
-            viewModelScope.launch(Dispatchers.IO) {
-                icons.forEach {
-                    it.icon.getFile(context)?.delete()
-                }
+    private suspend fun ViewModelScope<IconPickerViewState>.onBulkDeletionConfirmed() {
+        val icons = viewState.icons.filter { it.isUnused }
+        viewModelScope.launch(Dispatchers.IO) {
+            icons.forEach {
+                it.icon.getFile(context)?.delete()
             }
-            updateViewState {
-                copy(
-                    icons = this.icons.filterNot { it.isUnused },
-                    dialogState = null,
-                )
-            }
+        }
+        updateViewState {
+            copy(
+                icons = this.icons.filterNot { it.isUnused },
+                dialogState = null,
+            )
         }
     }
 
-    fun onDialogDismissalRequested() {
+    fun onDialogDismissalRequested() = runAction {
         updateViewState {
             copy(
                 dialogState = null,
