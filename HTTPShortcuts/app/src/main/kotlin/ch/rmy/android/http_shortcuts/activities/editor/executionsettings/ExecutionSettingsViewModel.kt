@@ -1,23 +1,17 @@
 package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 
 import android.app.Application
-import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.tiles.QuickSettingsTileManager
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.BiometricUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
@@ -47,157 +41,128 @@ class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit,
         getApplicationComponent().inject(this)
     }
 
-    private lateinit var initialViewState: ExecutionSettingsViewState
-
-    override fun onInitializationStarted(data: Unit) {
-        viewModelScope.launch(Dispatchers.Default) {
-            try {
-                val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
-                initialViewState = createInitialViewStateFromShortcut(temporaryShortcut)
-                withContext(Dispatchers.Main) {
-                    finalizeInitialization()
-                }
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    onInitializationError(e)
-                }
-            }
-        }
+    override suspend fun initialize(data: Unit): ExecutionSettingsViewState {
+        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        return ExecutionSettingsViewState(
+            launcherShortcutOptionVisible = launcherShortcutManager.supportsLauncherShortcuts(),
+            quickSettingsTileShortcutOptionVisible = quickSettingsTileManager.supportsQuickSettingsTiles(),
+            waitForConnection = shortcut.isWaitForNetwork,
+            waitForConnectionOptionVisible = shortcut.type == ShortcutExecutionType.APP,
+            launcherShortcut = shortcut.launcherShortcut,
+            secondaryLauncherShortcut = shortcut.secondaryLauncherShortcut,
+            quickSettingsTileShortcut = shortcut.quickSettingsTileShortcut,
+            delay = shortcut.delay.milliseconds,
+            confirmationType = shortcut.confirmationType,
+            excludeFromHistory = shortcut.excludeFromHistory,
+            repetitionInterval = shortcut.repetition?.interval,
+            canUseBiometrics = biometricUtil.canUseBiometrics(),
+        )
     }
 
-    override fun initViewState() = initialViewState
-
-    private fun createInitialViewStateFromShortcut(shortcut: Shortcut) = ExecutionSettingsViewState(
-        launcherShortcutOptionVisible = launcherShortcutManager.supportsLauncherShortcuts(),
-        quickSettingsTileShortcutOptionVisible = quickSettingsTileManager.supportsQuickSettingsTiles(),
-        waitForConnection = shortcut.isWaitForNetwork,
-        waitForConnectionOptionVisible = shortcut.type == ShortcutExecutionType.APP,
-        launcherShortcut = shortcut.launcherShortcut,
-        secondaryLauncherShortcut = shortcut.secondaryLauncherShortcut,
-        quickSettingsTileShortcut = shortcut.quickSettingsTileShortcut,
-        delay = shortcut.delay.milliseconds,
-        confirmationType = shortcut.confirmationType,
-        excludeFromHistory = shortcut.excludeFromHistory,
-        repetitionInterval = shortcut.repetition?.interval,
-        canUseBiometrics = biometricUtil.canUseBiometrics(),
-    )
-
-    private fun onInitializationError(error: Throwable) {
-        handleUnexpectedError(error)
-        finish()
-    }
-
-    fun onWaitForConnectionChanged(waitForConnection: Boolean) {
+    fun onWaitForConnectionChanged(waitForConnection: Boolean) = runAction {
         updateViewState {
             copy(waitForConnection = waitForConnection)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setWaitForConnection(waitForConnection)
         }
     }
 
-    fun onExcludeFromHistoryChanged(excludeFromHistory: Boolean) {
+    fun onExcludeFromHistoryChanged(excludeFromHistory: Boolean) = runAction {
         updateViewState {
             copy(excludeFromHistory = excludeFromHistory)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setExcludeFromHistory(excludeFromHistory)
         }
     }
 
-    fun onLauncherShortcutChanged(launcherShortcut: Boolean) {
+    fun onLauncherShortcutChanged(launcherShortcut: Boolean) = runAction {
         updateViewState {
             copy(launcherShortcut = launcherShortcut)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setLauncherShortcut(launcherShortcut)
         }
     }
 
-    fun onSecondaryLauncherShortcutChanged(secondaryLauncherShortcut: Boolean) {
+    fun onSecondaryLauncherShortcutChanged(secondaryLauncherShortcut: Boolean) = runAction {
         updateViewState {
             copy(secondaryLauncherShortcut = secondaryLauncherShortcut)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setSecondaryLauncherShortcut(secondaryLauncherShortcut)
         }
     }
 
-    fun onQuickSettingsTileShortcutChanged(quickSettingsTileShortcut: Boolean) {
+    fun onQuickSettingsTileShortcutChanged(quickSettingsTileShortcut: Boolean) = runAction {
         updateViewState {
             copy(quickSettingsTileShortcut = quickSettingsTileShortcut)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setQuickSettingsTileShortcut(quickSettingsTileShortcut)
         }
     }
 
-    fun onDelayChanged(delay: Duration) {
+    fun onDelayChanged(delay: Duration) = runAction {
         updateViewState {
             copy(
                 delay = delay,
                 dialogState = null,
             )
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setDelay(delay)
         }
     }
 
-    fun onConfirmationTypeChanged(confirmationType: ConfirmationType?) {
+    fun onConfirmationTypeChanged(confirmationType: ConfirmationType?) = runAction {
         updateViewState {
             copy(confirmationType = confirmationType)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setConfirmationType(confirmationType)
         }
     }
 
-    fun onRepetitionIntervalChanged(repetitionInterval: Int?) {
-        doWithViewState { viewState ->
-            if (
-                viewState.repetitionInterval == null &&
-                repetitionInterval != null &&
-                (!appOverlayUtil.canDrawOverlays() || !restrictionsUtil.isIgnoringBatteryOptimizations())
-            ) {
-                updateDialogState(ExecutionSettingsDialogState.AppOverlayPrompt)
-            }
-            updateViewState {
-                copy(repetitionInterval = repetitionInterval)
-            }
-            launchWithProgressTracking {
-                temporaryShortcutRepository.setRepetitionInterval(repetitionInterval?.minutes)
-            }
+    fun onRepetitionIntervalChanged(repetitionInterval: Int?) = runAction {
+        if (
+            viewState.repetitionInterval == null &&
+            repetitionInterval != null &&
+            (!appOverlayUtil.canDrawOverlays() || !restrictionsUtil.isIgnoringBatteryOptimizations())
+        ) {
+            updateDialogState(ExecutionSettingsDialogState.AppOverlayPrompt)
+        }
+        updateViewState {
+            copy(repetitionInterval = repetitionInterval)
+        }
+        withProgressTracking {
+            temporaryShortcutRepository.setRepetitionInterval(repetitionInterval?.minutes)
         }
     }
 
-    fun onAppOverlayDialogConfirmed() {
+    fun onAppOverlayDialogConfirmed() = runAction {
         updateDialogState(null)
-        val intent = appOverlayUtil.getSettingsIntent() ?: return
+        val intent = appOverlayUtil.getSettingsIntent() ?: skipAction()
         openActivity(intent)
     }
 
-    fun onDelayButtonClicked() {
-        val delay = currentViewState?.delay ?: return
+    fun onDelayButtonClicked() = runAction {
         updateDialogState(
-            ExecutionSettingsDialogState.DelayPicker(delay),
+            ExecutionSettingsDialogState.DelayPicker(viewState.delay),
         )
     }
 
-    fun onBackPressed() {
-        viewModelScope.launch {
-            waitForOperationsToFinish()
-            finish()
-        }
+    fun onBackPressed() = runAction {
+        waitForOperationsToFinish()
+        finish()
     }
 
-    fun onDismissDialog() {
+    fun onDismissDialog() = runAction {
         updateDialogState(null)
     }
 
-    private fun updateDialogState(dialogState: ExecutionSettingsDialogState?) {
+    private suspend fun updateDialogState(dialogState: ExecutionSettingsDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }

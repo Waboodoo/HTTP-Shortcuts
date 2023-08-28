@@ -8,23 +8,21 @@ import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 
 class DocumentationViewModel(application: Application) : BaseViewModel<DocumentationViewModel.InitData, DocumentationViewState>(application) {
 
-    override fun initViewState() = DocumentationViewState(
+    override suspend fun initialize(data: InitData) = DocumentationViewState(
         initData.url ?: ExternalURLs.DOCUMENTATION_PAGE.toUri(),
     )
 
-    fun onOpenInBrowserButtonClicked() {
-        doWithViewState { viewState ->
-            emitEvent(DocumentationEvent.OpenInBrowser(viewState.url))
-        }
+    fun onOpenInBrowserButtonClicked() = runAction {
+        emitEvent(DocumentationEvent.OpenInBrowser(viewState.url))
     }
 
-    fun onPageChanged(url: Uri) {
+    fun onPageChanged(url: Uri) = runAction {
         updateViewState {
             copy(url = url)
         }
     }
 
-    fun onExternalUrl(url: Uri) {
+    fun onExternalUrl(url: Uri) = runAction {
         openURL(url)
     }
 

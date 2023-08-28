@@ -38,7 +38,7 @@ fun ScriptingScreen(currentShortcutId: ShortcutId?) {
         }
     }
 
-    BackHandler {
+    BackHandler(state != null) {
         viewModel.onBackPressed()
     }
 

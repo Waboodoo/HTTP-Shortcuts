@@ -89,7 +89,7 @@ fun HtmlRichText(
         if (maxWidth == 0f) {
             return@LaunchedEffect
         }
-        val (annotatedText, images) = withContext(Dispatchers.IO) {
+        val (annotatedText, images) = withContext(Dispatchers.Default) {
             toAnnotatedString(context, text, linkColor, maxWidth)
         }
         annotatedString = annotatedText

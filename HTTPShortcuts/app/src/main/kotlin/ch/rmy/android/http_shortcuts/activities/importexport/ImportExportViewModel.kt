@@ -16,6 +16,7 @@ import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.importexport.usecases.GetShortcutSelectionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
@@ -69,21 +70,13 @@ class ImportExportViewModel(application: Application) :
 
     private var hasShortcuts = false
 
-    override fun onInitializationStarted(data: InitData) {
-        viewModelScope.launch {
-            hasShortcuts = shortcutRepository.getShortcuts().isNotEmpty()
-            finalizeInitialization()
-        }
-    }
+    override suspend fun initialize(data: InitData): ImportExportViewState {
+        hasShortcuts = shortcutRepository.getShortcuts().isNotEmpty()
 
-    override fun initViewState() = ImportExportViewState(
-        useLegacyFormat = settings.useLegacyExportFormat,
-        exportEnabled = hasShortcuts,
-    )
-
-    override fun onInitialized() {
         if (initData.importUrl != null) {
-            openImportUrlDialog(initData.importUrl!!.toString())
+            viewModelScope.launch {
+                openImportUrlDialog(initData.importUrl!!.toString())
+            }
         }
 
         viewModelScope.launch {
@@ -93,49 +86,52 @@ class ImportExportViewModel(application: Application) :
                 }
             }
         }
+
+        return ImportExportViewState(
+            useLegacyFormat = settings.useLegacyExportFormat,
+            exportEnabled = hasShortcuts,
+        )
     }
 
-    fun onImportFromFileButtonClicked() {
+    fun onImportFromFileButtonClicked() = runAction {
         emitEvent(ImportExportEvent.OpenFilePickerForImport)
     }
 
-    fun onImportFromURLButtonClicked() {
+    fun onImportFromURLButtonClicked() = runAction {
         openImportUrlDialog(prefill = settings.importUrl?.toString() ?: "")
     }
 
-    private fun openImportUrlDialog(prefill: String) {
+    private suspend fun openImportUrlDialog(prefill: String) {
         setDialogState(ImportExportDialogState.ImportFromUrl(initialValue = prefill))
     }
 
-    fun onExportButtonClicked() {
-        viewModelScope.launch {
-            setDialogState(getShortcutSelectionDialog())
-        }
+    fun onExportButtonClicked() = runAction {
+        setDialogState(getShortcutSelectionDialog())
     }
 
-    fun onShortcutsForExportSelected(shortcutIds: Collection<ShortcutId>?) {
+    fun onShortcutsForExportSelected(shortcutIds: Collection<ShortcutId>?) = runAction {
         shortcutIdsForExport = shortcutIds
         setDialogState(
             ImportExportDialogState.SelectExportDestinationDialog,
         )
     }
 
-    fun onExportToFileOptionSelected() {
+    fun onExportToFileOptionSelected() = runAction {
         hideDialog()
         emitEvent(ImportExportEvent.OpenFilePickerForExport(getExportFormat()))
     }
 
-    fun onFilePickedForExport(file: Uri) {
+    fun onFilePickedForExport(file: Uri) = runAction {
         hideDialog()
-        currentJob = viewModelScope.launch {
+        currentJob = launch {
             startExportToUri(shortcutIdsForExport, file)
             shortcutIdsForExport = null
         }
     }
 
-    fun onExportViaSharingOptionSelected() {
+    fun onExportViaSharingOptionSelected() = runAction {
         hideDialog()
-        currentJob = viewModelScope.launch {
+        currentJob = launch {
             sendExport(shortcutIdsForExport)
             shortcutIdsForExport = null
         }
@@ -146,7 +142,7 @@ class ImportExportViewModel(application: Application) :
             getUsedVariableIds(shortcutIds)
         } else null
 
-    private suspend fun startExportToUri(shortcutIds: Collection<ShortcutId>?, file: Uri) {
+    private suspend fun ViewModelScope<*>.startExportToUri(shortcutIds: Collection<ShortcutId>?, file: Uri) {
         try {
             showProgressDialog(R.string.export_in_progress)
             val variableIds = getVariableIdsForExport(shortcutIds)
@@ -212,24 +208,24 @@ class ImportExportViewModel(application: Application) :
     private fun getExportFormat() =
         if (settings.useLegacyExportFormat) ExportFormat.LEGACY_JSON else ExportFormat.ZIP
 
-    fun onRemoteEditorClosed(changesImported: Boolean) {
+    fun onRemoteEditorClosed(changesImported: Boolean) = runAction {
         if (changesImported) {
             setCategoriesChangedFlag()
         }
     }
 
-    private fun setCategoriesChangedFlag() {
+    private suspend fun setCategoriesChangedFlag() {
         setResult(
             intent = ImportExportActivity.OpenImportExport.createResult(categoriesChanged = true)
         )
     }
 
-    fun onFilePickedForImport(file: Uri) {
+    fun onFilePickedForImport(file: Uri) = runAction {
         logInfo("Starting import from file $file")
         startImport(file)
     }
 
-    fun onImportFromUrlDialogSubmitted(urlValue: String) {
+    fun onImportFromUrlDialogSubmitted(urlValue: String) = runAction {
         val url = urlValue.toUri()
         hideDialog()
         persistImportUrl(url)
@@ -245,27 +241,29 @@ class ImportExportViewModel(application: Application) :
         settings.importUrl = url
     }
 
-    private fun onImportFailedDueToInvalidUrl() {
+    private suspend fun onImportFailedDueToInvalidUrl() {
         showError(StringResLocalizable(R.string.error_can_only_import_from_http_url))
     }
 
-    private fun startImport(uri: Uri) {
+    private fun ViewModelScope<*>.startImport(uri: Uri) {
         currentJob?.cancel()
-        currentJob = viewModelScope.launch {
+        currentJob = launch {
             try {
                 showProgressDialog(R.string.import_in_progress)
                 val status = importer.importFromUri(uri, importMode = Importer.ImportMode.MERGE)
-                showSnackbar(
-                    QuantityStringLocalizable(
-                        R.plurals.shortcut_import_success,
-                        status.importedShortcuts,
-                        status.importedShortcuts,
+                runAction {
+                    showSnackbar(
+                        QuantityStringLocalizable(
+                            R.plurals.shortcut_import_success,
+                            status.importedShortcuts,
+                            status.importedShortcuts,
+                        )
                     )
-                )
-                setResult(
-                    intent = ImportExportActivity.OpenImportExport.createResult(categoriesChanged = true)
-                )
-                setCategoriesChangedFlag()
+                    setResult(
+                        intent = ImportExportActivity.OpenImportExport.createResult(categoriesChanged = true)
+                    )
+                    setCategoriesChangedFlag()
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -279,7 +277,7 @@ class ImportExportViewModel(application: Application) :
         }
     }
 
-    fun onHelpButtonClicked() {
+    fun onHelpButtonClicked() = runAction {
         openURL(ExternalURLs.IMPORT_EXPORT_DOCUMENTATION)
     }
 
@@ -287,34 +285,32 @@ class ImportExportViewModel(application: Application) :
         settings.useLegacyExportFormat = useLegacyFormat
     }
 
-    fun onDialogDismissalRequested() {
+    fun onDialogDismissalRequested() = runAction {
         currentJob?.cancel()
         hideDialog()
     }
 
-    private fun setDialogState(dialogState: ImportExportDialogState?) {
+    private suspend fun setDialogState(dialogState: ImportExportDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }
     }
 
-    private fun showProgressDialog(message: Int) {
+    private suspend fun showProgressDialog(message: Int) {
         setDialogState(ImportExportDialogState.Progress(StringResLocalizable(message)))
     }
 
-    private fun hideProgressDialog() {
-        doWithViewState {
-            if (it.dialogState is ImportExportDialogState.Progress) {
-                hideDialog()
-            }
+    private suspend fun hideProgressDialog() {
+        if (getCurrentViewState().dialogState is ImportExportDialogState.Progress) {
+            hideDialog()
         }
     }
 
-    private fun showError(message: Localizable) {
+    private suspend fun showError(message: Localizable) {
         setDialogState(ImportExportDialogState.Error(message))
     }
 
-    private fun hideDialog() {
+    private suspend fun hideDialog() {
         setDialogState(null)
     }
 

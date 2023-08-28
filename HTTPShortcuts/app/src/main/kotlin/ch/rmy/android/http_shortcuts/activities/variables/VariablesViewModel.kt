@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -56,29 +57,31 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
             if (field != value) {
                 field = value
                 if (variablesInitialized) {
-                    recomputeVariablesInViewState()
+                    viewModelScope.launch {
+                        recomputeVariablesInViewState()
+                    }
                 }
             }
         }
 
-    override fun onInitializationStarted(data: Unit) {
-        finalizeInitialization(silent = true)
-    }
+    override suspend fun initialize(data: Unit): VariablesViewState {
+        val variablesFlow = variableRepository.getObservableVariables()
+        variables = variablesFlow.first()
 
-    override fun initViewState() = VariablesViewState()
-
-    override fun onInitialized() {
         viewModelScope.launch {
-            variableRepository.getObservableVariables()
+            variablesFlow
                 .collect { variables ->
                     this@VariablesViewModel.variables = variables
                     recomputeVariablesInViewState()
                     recomputeUsedVariableIds()
                 }
         }
+        return VariablesViewState(
+            variables = mapVariables(variables)
+        )
     }
 
-    private fun recomputeVariablesInViewState() {
+    private suspend fun recomputeVariablesInViewState() {
         updateViewState {
             copy(variables = mapVariables(this@VariablesViewModel.variables))
         }
@@ -94,25 +97,25 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
             )
         }
 
-    fun onVariableMoved(variableId1: VariableId, variableId2: VariableId) {
+    fun onVariableMoved(variableId1: VariableId, variableId2: VariableId) = runAction {
         updateViewState {
             copy(variables = variables.swapped(variableId1, variableId2) { id })
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             variableRepository.moveVariable(variableId1, variableId2)
         }
     }
 
-    fun onCreateButtonClicked() {
+    fun onCreateButtonClicked() = runAction {
         updateDialogState(VariablesDialogState.Creation)
     }
 
-    fun onHelpButtonClicked() {
+    fun onHelpButtonClicked() = runAction {
         openURL(ExternalURLs.VARIABLES_DOCUMENTATION)
     }
 
-    fun onVariableClicked(variableId: VariableId) {
-        val variable = getVariable(variableId) ?: return
+    fun onVariableClicked(variableId: VariableId) = runAction {
+        val variable = getVariable(variableId) ?: skipAction()
         activeVariableId = variableId
         updateDialogState(
             VariablesDialogState.ContextMenu(
@@ -124,47 +127,47 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
     private fun getVariable(variableId: VariableId) =
         variables.firstOrNull { it.id == variableId }
 
-    fun onCreationDialogVariableTypeSelected(variableType: VariableType) {
+    fun onCreationDialogVariableTypeSelected(variableType: VariableType) = runAction {
         updateDialogState(null)
         openActivity(
             VariableEditorActivity.IntentBuilder(variableType)
         )
     }
 
-    fun onEditOptionSelected() {
+    fun onEditOptionSelected() = runAction {
         updateDialogState(null)
-        val variableId = activeVariableId ?: return
-        val variable = getVariable(variableId) ?: return
+        val variableId = activeVariableId ?: skipAction()
+        val variable = getVariable(variableId) ?: skipAction()
         openActivity(
             VariableEditorActivity.IntentBuilder(variable.variableType)
                 .variableId(variableId)
         )
     }
 
-    fun onDuplicateOptionSelected() {
+    fun onDuplicateOptionSelected() = runAction {
         updateDialogState(null)
-        val variableId = activeVariableId ?: return
-        val variable = getVariable(variableId) ?: return
-        launchWithProgressTracking {
+        val variableId = activeVariableId ?: skipAction()
+        val variable = getVariable(variableId) ?: skipAction()
+        withProgressTracking {
             val newKey = generateVariableKey(variable.key, variables.map { it.key })
             variableRepository.duplicateVariable(variableId, newKey)
             showSnackbar(StringResLocalizable(R.string.message_variable_duplicated, variable.key))
         }
     }
 
-    fun onDeletionOptionSelected() {
+    fun onDeletionOptionSelected() = runAction {
         updateDialogState(null)
-        val variableId = activeVariableId ?: return
-        val variable = getVariable(variableId) ?: return
-        viewModelScope.launch {
-            val shortcutNames = getShortcutNamesWhereVariableIsInUse(variableId)
-            updateDialogState(
-                VariablesDialogState.Delete(
-                    variableKey = variable.key,
-                    shortcutNames = shortcutNames,
-                )
-            )
+        val variableId = activeVariableId ?: skipAction()
+        val variable = getVariable(variableId) ?: skipAction()
+        val shortcutNames = withContext(Dispatchers.Default) {
+            getShortcutNamesWhereVariableIsInUse(variableId)
         }
+        updateDialogState(
+            VariablesDialogState.Delete(
+                variableKey = variable.key,
+                shortcutNames = shortcutNames,
+            )
+        )
     }
 
     private suspend fun getShortcutNamesWhereVariableIsInUse(variableId: VariableId): List<String> {
@@ -181,22 +184,20 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
             .distinct()
     }
 
-    fun onDeletionConfirmed() {
+    fun onDeletionConfirmed() = runAction {
         updateDialogState(null)
-        val variableId = activeVariableId ?: return
-        val variable = getVariable(variableId) ?: return
-        launchWithProgressTracking {
+        val variableId = activeVariableId ?: skipAction()
+        val variable = getVariable(variableId) ?: skipAction()
+        withProgressTracking {
             variableRepository.deleteVariable(variableId)
             showSnackbar(StringResLocalizable(R.string.variable_deleted, variable.key))
             recomputeUsedVariableIds()
         }
     }
 
-    fun onBackPressed() {
-        viewModelScope.launch {
-            waitForOperationsToFinish()
-            finish()
-        }
+    fun onBackPressed() = runAction {
+        waitForOperationsToFinish()
+        finish()
     }
 
     private suspend fun recomputeUsedVariableIds() {
@@ -207,18 +208,18 @@ class VariablesViewModel(application: Application) : BaseViewModel<Unit, Variabl
         }
     }
 
-    fun onSortButtonClicked() {
-        launchWithProgressTracking {
+    fun onSortButtonClicked() = runAction {
+        withProgressTracking {
             variableRepository.sortVariablesAlphabetically()
             showSnackbar(R.string.message_variables_sorted)
         }
     }
 
-    fun onDialogDismissed() {
+    fun onDialogDismissed() = runAction {
         updateDialogState(null)
     }
 
-    private fun updateDialogState(dialogState: VariablesDialogState?) {
+    private suspend fun updateDialogState(dialogState: VariablesDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }

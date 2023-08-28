@@ -34,7 +34,7 @@ fun ShortcutEditorScreen(
         )
     )
 
-    BackHandler {
+    BackHandler(state != null) {
         viewModel.onBackPressed()
     }
 

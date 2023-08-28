@@ -57,23 +57,14 @@ class CodeSnippetPickerViewModel(application: Application) :
     private var sectionItems: List<SectionItem> = emptyList()
     private var expandedSections = mutableSetOf<String>()
 
-    override fun onInitializationStarted(data: InitData) {
-        viewModelScope.launch {
-            this@CodeSnippetPickerViewModel.sectionItems = withContext(Dispatchers.Default) {
-                generateCodeSnippetItems(initData, ::onCodeSnippetItemEvent)
+    override suspend fun initialize(data: InitData): CodeSnippetPickerViewState {
+        sectionItems = withContext(Dispatchers.Default) {
+            generateCodeSnippetItems(initData) { event ->
+                runAction {
+                    onCodeSnippetItemEvent(event)
+                }
             }
-            finalizeInitialization()
         }
-    }
-
-    override fun initViewState() = CodeSnippetPickerViewState(
-        items = computeItemWrappers(),
-    )
-
-    private fun computeItemWrappers(query: String? = null): List<ItemWrapper> =
-        getItemWrappers(sectionItems, expandedSections, query)
-
-    override fun onInitialized() {
         viewModelScope.launch {
             variableRepository.getObservableVariables()
                 .collect(variablePlaceholderProvider::applyVariables)
@@ -82,9 +73,15 @@ class CodeSnippetPickerViewModel(application: Application) :
             shortcutRepository.getObservableShortcuts()
                 .collect(shortcutPlaceholderProvider::applyShortcuts)
         }
+        return CodeSnippetPickerViewState(
+            items = computeItemWrappers(),
+        )
     }
 
-    private fun onCodeSnippetItemEvent(event: GenerateCodeSnippetItemsUseCase.Event) {
+    private fun computeItemWrappers(query: String? = null): List<ItemWrapper> =
+        getItemWrappers(sectionItems, expandedSections, query)
+
+    private suspend fun onCodeSnippetItemEvent(event: GenerateCodeSnippetItemsUseCase.Event) {
         when (event) {
             is GenerateCodeSnippetItemsUseCase.Event.InsertText -> {
                 returnResult(event.textBeforeCursor, event.textAfterCursor)
@@ -112,7 +109,7 @@ class CodeSnippetPickerViewModel(application: Application) :
         }
     }
 
-    private fun showShortcutPicker(title: Int, callback: (shortcutPlaceholder: String) -> Unit) {
+    private suspend fun showShortcutPicker(title: Int, callback: (shortcutPlaceholder: String) -> Unit) {
         val currentShortcutId = initData.currentShortcutId
         val placeholders = shortcutPlaceholderProvider.placeholders
         if (placeholders.none { it.id != currentShortcutId }) {
@@ -129,104 +126,98 @@ class CodeSnippetPickerViewModel(application: Application) :
         )
     }
 
-    fun onVariableEditorButtonClicked() {
+    fun onVariableEditorButtonClicked() = runAction {
         updateDialogState(null)
         openActivity(
             VariablesActivity.IntentBuilder()
         )
     }
 
-    fun onVariableSelected(variableId: VariableId) {
+    fun onVariableSelected(variableId: VariableId) = runAction {
         val variableKey = variablePlaceholderProvider.findPlaceholderById(variableId)
             ?.variableKey
-            ?: return
-        when (currentViewState?.dialogState) {
+            ?: skipAction()
+        when (viewState.dialogState) {
             is CodeSnippetPickerDialogState.SelectVariableForReading -> {
                 returnResult("getVariable(\"${variableKey}\")", "")
             }
             is CodeSnippetPickerDialogState.SelectVariableForWriting -> {
                 returnResult("setVariable(\"${variableKey}\", \"", "\");\n")
             }
-            else -> return
+            else -> skipAction()
         }
         updateDialogState(null)
     }
 
-    fun onIconSelected(icon: ShortcutIcon) {
-        val shortcutPlaceholder = iconPickerShortcutPlaceholder ?: return
+    fun onIconSelected(icon: ShortcutIcon) = runAction {
+        val shortcutPlaceholder = iconPickerShortcutPlaceholder ?: skipAction()
         returnResult("changeIcon($shortcutPlaceholder, \"$icon\");\n", "")
     }
 
-    fun onRingtoneSelected(ringtone: Uri) {
+    fun onRingtoneSelected(ringtone: Uri) = runAction {
         val soundDescriptor = ringtone.toString()
             .removePrefix(PlaySoundActionType.CONTENT_PREFIX)
         returnResult("playSound(\"${escape(soundDescriptor)}\");", "")
     }
 
-    fun onTaskerTaskSelected(taskName: String) {
+    fun onTaskerTaskSelected(taskName: String) = runAction {
         returnResult("triggerTaskerTask(\"${escape(taskName)}\");", "")
     }
 
-    private fun returnResult(textBeforeCursor: String, textAfterCursor: String) {
+    private suspend fun returnResult(textBeforeCursor: String, textAfterCursor: String) {
         finishWithOkResult(
             CodeSnippetPickerActivity.PickCodeSnippet.createResult(textBeforeCursor, textAfterCursor)
         )
     }
 
-    fun onHelpButtonClicked() {
+    fun onHelpButtonClicked() = runAction {
         openURL(ExternalURLs.SCRIPTING_DOCUMENTATION)
     }
 
-    fun onSectionClicked(id: String) {
-        doWithViewState { viewState ->
-            if (viewState.searchQuery.isNotBlank()) {
-                return@doWithViewState
-            }
-            if (expandedSections.contains(id)) {
-                expandedSections.remove(id)
-            } else {
-                expandedSections.add(id)
-            }
-            updateViewState {
-                copy(
-                    items = computeItemWrappers(),
-                )
-            }
+    fun onSectionClicked(id: String) = runAction {
+        if (viewState.searchQuery.isNotBlank()) {
+            skipAction()
+        }
+        if (expandedSections.contains(id)) {
+            expandedSections.remove(id)
+        } else {
+            expandedSections.add(id)
+        }
+        updateViewState {
+            copy(
+                items = computeItemWrappers(),
+            )
         }
     }
 
-    fun onCodeSnippetClicked(id: String) {
-        doWithViewState { viewState ->
-            (
-                viewState.items
-                    .firstOrNull { it is ItemWrapper.CodeSnippet && it.id == id }
-                    as? ItemWrapper.CodeSnippet
-                )
-                ?.codeSnippetItem
-                ?.action
-                ?.invoke()
-        }
+    fun onCodeSnippetClicked(id: String) = runAction {
+        (
+            viewState.items
+                .firstOrNull { it is ItemWrapper.CodeSnippet && it.id == id }
+                as? ItemWrapper.CodeSnippet
+            )
+            ?.codeSnippetItem
+            ?.action
+            ?.invoke()
     }
 
-    fun onCodeSnippetDocRefButtonClicked(id: String) {
-        doWithViewState { viewState ->
-            (
-                viewState.items
-                    .firstOrNull { it is ItemWrapper.CodeSnippet && it.id == id }
-                    as? ItemWrapper.CodeSnippet
-                )
-                ?.codeSnippetItem
-                ?.docRef
-                ?.let(::getScriptingDocumentation)
-                ?.let(::openURL)
-        }
+    fun onCodeSnippetDocRefButtonClicked(id: String) = runAction {
+        (
+            viewState.items
+                .firstOrNull { it is ItemWrapper.CodeSnippet && it.id == id }
+                as? ItemWrapper.CodeSnippet
+            )
+            ?.codeSnippetItem
+            ?.docRef
+            ?.let(::getScriptingDocumentation)
+            ?.let { openURL(it) }
     }
 
-    fun onSearchQueryChanged(query: String) {
+    fun onSearchQueryChanged(query: String) = runAction {
         updateSearchQuery(query)
     }
 
-    private fun updateSearchQuery(query: String) {
+    private suspend fun updateSearchQuery(query: String) {
         updateViewState {
             copy(
                 searchQuery = query,
@@ -235,26 +226,26 @@ class CodeSnippetPickerViewModel(application: Application) :
         }
     }
 
-    fun onShortcutSelected(shortcutId: ShortcutId) {
-        val callback = onShortcutSelected ?: return
+    fun onShortcutSelected(shortcutId: ShortcutId) = runAction {
+        val callback = onShortcutSelected ?: skipAction()
         onShortcutSelected = null
         val shortcutName = shortcutPlaceholderProvider.findPlaceholderById(shortcutId)
             ?.name
-            ?: return
+            ?: skipAction()
         callback("\"${shortcutName}\"")
     }
 
-    fun onCurrentShortcutSelected() {
-        val callback = onShortcutSelected ?: return
+    fun onCurrentShortcutSelected() = runAction {
+        val callback = onShortcutSelected ?: skipAction()
         onShortcutSelected = null
         callback("\"\"")
     }
 
-    fun onDialogDismissRequested() {
+    fun onDialogDismissRequested() = runAction {
         updateDialogState(null)
     }
 
-    private fun updateDialogState(dialogState: CodeSnippetPickerDialogState?) {
+    private suspend fun updateDialogState(dialogState: CodeSnippetPickerDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }

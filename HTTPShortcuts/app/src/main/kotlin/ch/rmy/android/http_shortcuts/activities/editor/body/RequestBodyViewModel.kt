@@ -4,7 +4,6 @@ import android.app.Application
 import android.net.Uri
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
-import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -17,12 +16,9 @@ import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
 import ch.rmy.android.http_shortcuts.data.models.Parameter
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import com.google.gson.JsonParseException
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -37,31 +33,10 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
 
     private var parameters: List<Parameter> = emptyList()
 
-    override fun onInitializationStarted(data: Unit) {
-        viewModelScope.launch(Dispatchers.Default) {
-            try {
-                val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
-                parameters = temporaryShortcut.parameters
-                initialViewState = createInitialViewStateFromShortcut(temporaryShortcut)
-                withContext(Dispatchers.Main) {
-                    finalizeInitialization()
-                }
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    onInitializationError(e)
-                }
-            }
-        }
-    }
-
-    private lateinit var initialViewState: RequestBodyViewState
-
-    override fun initViewState() = initialViewState
-
-    private fun createInitialViewStateFromShortcut(shortcut: Shortcut): RequestBodyViewState =
-        RequestBodyViewState(
+    override suspend fun initialize(data: Unit): RequestBodyViewState {
+        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        parameters = shortcut.parameters
+        return RequestBodyViewState(
             requestBodyType = shortcut.bodyType,
             fileUploadType = shortcut.fileUploadOptions?.type ?: FileUploadType.FILE_PICKER,
             bodyContent = shortcut.bodyContent,
@@ -70,16 +45,12 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
             useImageEditor = shortcut.fileUploadOptions?.useImageEditor == true,
             fileName = shortcut.fileUploadOptions?.file?.toUri()?.getFileName(),
         )
-
-    private fun onInitializationError(error: Throwable) {
-        handleUnexpectedError(error)
-        finish()
     }
 
-    fun onRequestBodyTypeChanged(type: RequestBodyType) {
+    fun onRequestBodyTypeChanged(type: RequestBodyType) = runAction {
         if (type == RequestBodyType.X_WWW_FORM_URLENCODE) {
             val parameters = parameters.filter { it.isStringParameter }
-            this.parameters = parameters
+            this@RequestBodyViewModel.parameters = parameters
         }
         updateViewState {
             copy(
@@ -87,12 +58,12 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
                 parameters = parameters,
             )
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setRequestBodyType(type)
         }
     }
 
-    private fun updateParameters(parameters: List<Parameter>) {
+    private suspend fun updateParameters(parameters: List<Parameter>) {
         this.parameters = parameters
         updateViewState {
             copy(
@@ -101,57 +72,58 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
         }
     }
 
-    fun onParameterMoved(parameterId1: String, parameterId2: String) {
+    fun onParameterMoved(parameterId1: String, parameterId2: String) = runAction {
         updateParameters(parameters.swapped(parameterId1, parameterId2) { id })
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.moveParameter(parameterId1, parameterId2)
         }
     }
 
-    fun onEditParameterDialogConfirmed(key: String, value: String = "", fileName: String = "", useImageEditor: Boolean = false) {
-        val dialogState = (currentViewState?.dialogState as? RequestBodyDialogState.ParameterEditor ?: return)
-        val parameterId = dialogState.id
-        updateDialogState(null)
-        val fileUploadOptions = FileUploadOptions()
-            .apply {
-                this.useImageEditor = useImageEditor
-                this.type = dialogState.fileUploadType
-                this.file = dialogState.sourceFile?.toString()
-            }
+    fun onEditParameterDialogConfirmed(key: String, value: String = "", fileName: String = "", useImageEditor: Boolean = false) =
+        runAction {
+            val dialogState = (viewState.dialogState as? RequestBodyDialogState.ParameterEditor ?: skipAction())
+            val parameterId = dialogState.id
+            updateDialogState(null)
+            val fileUploadOptions = FileUploadOptions()
+                .apply {
+                    this.useImageEditor = useImageEditor
+                    this.type = dialogState.fileUploadType
+                    this.file = dialogState.sourceFile?.toString()
+                }
 
-        if (parameterId != null) {
-            updateParameters(
-                parameters
-                    .map { parameter ->
-                        if (parameter.id == parameterId) {
-                            Parameter(
-                                id = parameterId,
-                                key = key,
-                                value = value,
-                                parameterType = parameter.parameterType,
-                                fileName = parameter.fileName,
-                                fileUploadOptions = fileUploadOptions,
-                            )
-                        } else {
-                            parameter
+            if (parameterId != null) {
+                updateParameters(
+                    parameters
+                        .map { parameter ->
+                            if (parameter.id == parameterId) {
+                                Parameter(
+                                    id = parameterId,
+                                    key = key,
+                                    value = value,
+                                    parameterType = parameter.parameterType,
+                                    fileName = parameter.fileName,
+                                    fileUploadOptions = fileUploadOptions,
+                                )
+                            } else {
+                                parameter
+                            }
                         }
-                    }
-            )
-            launchWithProgressTracking {
-                temporaryShortcutRepository.updateParameter(parameterId, key, value, fileName, fileUploadOptions)
-            }
-        } else {
-            val type = dialogState.type
-            launchWithProgressTracking {
-                val newParameter = temporaryShortcutRepository.addParameter(type, key, value, fileName, fileUploadOptions)
-                updateParameters(parameters.plus(newParameter))
+                )
+                withProgressTracking {
+                    temporaryShortcutRepository.updateParameter(parameterId, key, value, fileName, fileUploadOptions)
+                }
+            } else {
+                val type = dialogState.type
+                withProgressTracking {
+                    val newParameter = temporaryShortcutRepository.addParameter(type, key, value, fileName, fileUploadOptions)
+                    updateParameters(parameters.plus(newParameter))
+                }
             }
         }
-    }
 
-    fun onRemoveParameterButtonClicked() {
-        val parameterId = (currentViewState?.dialogState as? RequestBodyDialogState.ParameterEditor)?.id
-            ?: return
+    fun onRemoveParameterButtonClicked() = runAction {
+        val parameterId = (viewState.dialogState as? RequestBodyDialogState.ParameterEditor)?.id
+            ?: skipAction()
         updateDialogState(null)
         updateParameters(
             parameters
@@ -159,22 +131,20 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
                     parameter.id != parameterId
                 }
         )
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.removeParameter(parameterId)
         }
     }
 
-    fun onAddParameterButtonClicked() {
-        doWithViewState { viewState ->
-            if (viewState.requestBodyType == RequestBodyType.FORM_DATA) {
-                updateDialogState(RequestBodyDialogState.ParameterTypePicker)
-            } else {
-                onParameterTypeSelected(ParameterType.STRING)
-            }
+    fun onAddParameterButtonClicked() = runAction {
+        if (viewState.requestBodyType == RequestBodyType.FORM_DATA) {
+            updateDialogState(RequestBodyDialogState.ParameterTypePicker)
+        } else {
+            onParameterTypeSelected(ParameterType.STRING)
         }
     }
 
-    fun onParameterTypeSelected(type: ParameterType) {
+    fun onParameterTypeSelected(type: ParameterType) = runAction {
         updateDialogState(
             RequestBodyDialogState.ParameterEditor(
                 id = null,
@@ -186,7 +156,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
         )
     }
 
-    fun onParameterClicked(id: String) {
+    fun onParameterClicked(id: String) = runAction {
         parameters.firstOrNull { parameter ->
             parameter.id == id
         }
@@ -207,92 +177,86 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
             }
     }
 
-    fun onContentTypeChanged(contentType: String) {
+    fun onContentTypeChanged(contentType: String) = runAction {
         updateViewState {
             copy(contentType = contentType)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setContentType(contentType)
         }
     }
 
-    fun onBodyContentChanged(bodyContent: String) {
-        doWithViewState { viewState ->
-            if (viewState.contentType.isEmpty() && bodyContent.isJsonObjectStart()) {
-                onContentTypeChanged("application/json")
-            }
-            updateViewState {
-                copy(
-                    bodyContent = bodyContent,
-                    bodyContentError = "",
-                )
-            }
-            launchWithProgressTracking {
-                temporaryShortcutRepository.setBodyContent(bodyContent)
-            }
+    fun onBodyContentChanged(bodyContent: String) = runAction {
+        if (viewState.contentType.isEmpty() && bodyContent.isJsonObjectStart()) {
+            onContentTypeChanged("application/json")
+        }
+        updateViewState {
+            copy(
+                bodyContent = bodyContent,
+                bodyContentError = "",
+            )
+        }
+        withProgressTracking {
+            temporaryShortcutRepository.setBodyContent(bodyContent)
         }
     }
 
-    fun onBackPressed() {
-        viewModelScope.launch {
-            waitForOperationsToFinish()
-            finish()
-        }
+    fun onBackPressed() = runAction {
+        waitForOperationsToFinish()
+        finish()
     }
 
-    fun onDialogDismissed() {
+    fun onDialogDismissed() = runAction {
         updateDialogState(null)
     }
 
-    private fun updateDialogState(dialogState: RequestBodyDialogState?) {
+    private suspend fun updateDialogState(dialogState: RequestBodyDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }
     }
 
-    fun onFormatButtonClicked() {
-        val bodyContent = currentViewState?.bodyContent ?: return
-        viewModelScope.launch {
-            try {
-                val formatted = withContext(Dispatchers.Default) {
-                    GsonUtil.prettyPrintOrThrow(bodyContent)
-                }
+    fun onFormatButtonClicked() = runAction {
+        val bodyContent = viewState.bodyContent
+        try {
+            val formatted = withContext(Dispatchers.Default) {
+                GsonUtil.prettyPrintOrThrow(bodyContent)
+            }
+            updateViewState {
+                copy(bodyContent = formatted)
+            }
+        } catch (e: JsonParseException) {
+            showSnackbar(R.string.error_cannot_format_invalid_json)
+            GsonUtil.extractErrorMessage(e)?.let { message ->
                 updateViewState {
-                    copy(bodyContent = formatted)
-                }
-            } catch (e: JsonParseException) {
-                showSnackbar(R.string.error_cannot_format_invalid_json)
-                GsonUtil.extractErrorMessage(e)?.let { message ->
-                    updateViewState {
-                        copy(bodyContentError = message)
-                    }
+                    copy(bodyContentError = message)
                 }
             }
         }
     }
 
-    fun onUseImageEditorChanged(useImageEditor: Boolean) {
+    fun onUseImageEditorChanged(useImageEditor: Boolean) = runAction {
         updateViewState {
             copy(useImageEditor = useImageEditor)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setUseImageEditor(useImageEditor)
         }
     }
 
-    fun onFilePickedForBody(fileUri: Uri) {
+    fun onFilePickedForBody(fileUri: Uri) = runAction {
         updateViewState {
             copy(
                 fileName = fileUri.getFileName(),
                 fileUploadType = FileUploadType.FILE,
             )
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setFileUploadUri(fileUri)
         }
     }
 
-    fun onFilePickedForParameter(fileUri: Uri) {
+    fun onFilePickedForParameter(fileUri: Uri) = runAction {
         updateViewState {
             copy(
                 dialogState = (dialogState as? RequestBodyDialogState.ParameterEditor)?.copy(
@@ -304,15 +268,15 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
         }
     }
 
-    fun onFileUploadTypeChanged(fileUploadType: FileUploadType) {
+    fun onFileUploadTypeChanged(fileUploadType: FileUploadType) = runAction {
         if (fileUploadType == FileUploadType.FILE) {
             emitEvent(RequestBodyEvent.PickFileForBody)
-            return
+            skipAction()
         }
         updateViewState {
             copy(fileUploadType = fileUploadType)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setFileUploadType(fileUploadType)
         }
     }
@@ -320,14 +284,14 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
     private fun Uri.getFileName(): String? =
         DocumentFile.fromSingleUri(context, this)?.name
 
-    fun onBodyFileNameClicked() {
+    fun onBodyFileNameClicked() = runAction {
         emitEvent(RequestBodyEvent.PickFileForBody)
     }
 
-    fun onParameterFileUploadTypeChanged(fileUploadType: FileUploadType) {
+    fun onParameterFileUploadTypeChanged(fileUploadType: FileUploadType) = runAction {
         if (fileUploadType == FileUploadType.FILE) {
             emitEvent(RequestBodyEvent.PickFileForParameter)
-            return
+            skipAction()
         }
         updateViewState {
             copy(
@@ -338,7 +302,7 @@ class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, Reque
         }
     }
 
-    fun onParameterFileNameClicked() {
+    fun onParameterFileNameClicked() = runAction {
         emitEvent(RequestBodyEvent.PickFileForParameter)
     }
 

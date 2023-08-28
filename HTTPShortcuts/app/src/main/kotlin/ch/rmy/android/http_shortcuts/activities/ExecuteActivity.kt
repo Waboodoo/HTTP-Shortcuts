@@ -91,7 +91,7 @@ class ExecuteActivity : BaseComposeActivity() {
             return
         }
 
-        viewModel.initialize(
+        viewModel.init(
             ExecutionParams(
                 shortcutId = intent.extractShortcutId(),
                 variableValues = intent.extractVariableValues(),
@@ -108,7 +108,7 @@ class ExecuteActivity : BaseComposeActivity() {
 
     @Composable
     override fun Content() {
-        val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+        val viewState by viewModel.viewStateFlow.collectAsStateWithLifecycle()
 
         var showProgressSpinner by remember {
             mutableStateOf(false)

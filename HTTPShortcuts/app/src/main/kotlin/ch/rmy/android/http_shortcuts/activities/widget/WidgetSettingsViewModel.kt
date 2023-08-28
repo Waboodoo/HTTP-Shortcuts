@@ -27,26 +27,27 @@ class WidgetSettingsViewModel(application: Application) :
         val shortcutIcon: ShortcutIcon,
     )
 
-    override fun initViewState() = WidgetSettingsViewState(
-        showLabel = true,
-        labelColor = Color.WHITE,
-        shortcutIcon = shortcutIcon,
-        shortcutName = shortcutName,
-    )
+    override suspend fun initialize(data: InitData) =
+        WidgetSettingsViewState(
+            showLabel = true,
+            labelColor = Color.WHITE,
+            shortcutIcon = shortcutIcon,
+            shortcutName = shortcutName,
+        )
 
-    fun onLabelColorButtonClicked() {
+    fun onLabelColorButtonClicked() = runAction {
         updateViewState {
             copy(colorDialogVisible = true)
         }
     }
 
-    fun onShowLabelChanged(enabled: Boolean) {
+    fun onShowLabelChanged(enabled: Boolean) = runAction {
         updateViewState {
             copy(showLabel = enabled)
         }
     }
 
-    fun onLabelColorSelected(color: Int) {
+    fun onLabelColorSelected(color: Int) = runAction {
         updateViewState {
             copy(
                 colorDialogVisible = false,
@@ -55,19 +56,17 @@ class WidgetSettingsViewModel(application: Application) :
         }
     }
 
-    fun onCreateButtonClicked() {
-        doWithViewState { viewState ->
-            finishWithOkResult(
-                WidgetSettingsActivity.OpenWidgetSettings.createResult(
-                    shortcutId = shortcutId,
-                    labelColor = viewState.labelColorFormatted,
-                    showLabel = viewState.showLabel,
-                ),
-            )
-        }
+    fun onCreateButtonClicked() = runAction {
+        finishWithOkResult(
+            WidgetSettingsActivity.OpenWidgetSettings.createResult(
+                shortcutId = shortcutId,
+                labelColor = viewState.labelColorFormatted,
+                showLabel = viewState.showLabel,
+            ),
+        )
     }
 
-    fun onDialogDismissalRequested() {
+    fun onDialogDismissalRequested() = runAction {
         updateViewState {
             copy(colorDialogVisible = false)
         }

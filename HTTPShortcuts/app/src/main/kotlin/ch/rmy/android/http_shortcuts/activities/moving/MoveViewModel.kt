@@ -34,12 +34,9 @@ class MoveViewModel(application: Application) : BaseViewModel<Unit, Unit>(applic
         getApplicationComponent().inject(this)
     }
 
-    override fun onInitializationStarted(data: Unit) {
+    override suspend fun initialize(data: Unit) {
         viewModelScope.launch {
             categoryRepository.getObservableCategories().collect {
-                if (!isInitialized) {
-                    finalizeInitialization()
-                }
                 _categories.value = it.toCategoryItems()
             }
         }
@@ -54,17 +51,15 @@ class MoveViewModel(application: Application) : BaseViewModel<Unit, Unit>(applic
             )
         }
 
-    override fun initViewState() = Unit
-
-    fun onShortcutMoved(shortcutId: ShortcutId, targetShortcutId: ShortcutId?, targetCategoryId: CategoryId?) {
+    fun onShortcutMoved(shortcutId: ShortcutId, targetShortcutId: ShortcutId?, targetCategoryId: CategoryId?) = runAction {
         val categories = _categories.value
 
-        val category1 = categories.firstOrNull { category -> category.contains(shortcutId) } ?: return
-        val shortcut1 = category1.shortcuts.find { it.id == shortcutId } ?: return
+        val category1 = categories.firstOrNull { category -> category.contains(shortcutId) } ?: skipAction()
+        val shortcut1 = category1.shortcuts.find { it.id == shortcutId } ?: skipAction()
 
         if (targetShortcutId != null) {
-            val category2 = categories.firstOrNull { category -> category.contains(targetShortcutId) } ?: return
-            val shortcut2Index = category2.shortcuts.indexOfFirstOrNull { it.id == targetShortcutId } ?: return
+            val category2 = categories.firstOrNull { category -> category.contains(targetShortcutId) } ?: skipAction()
+            val shortcut2Index = category2.shortcuts.indexOfFirstOrNull { it.id == targetShortcutId } ?: skipAction()
 
             _categories.value = categories.map { category ->
                 if (category.id == category1.id && category.id == category2.id) {
@@ -87,13 +82,13 @@ class MoveViewModel(application: Application) : BaseViewModel<Unit, Unit>(applic
                 }
             }
         } else if (targetCategoryId != null) {
-            val category1index = categories.indexOfFirstOrNull { category -> category.contains(shortcutId) } ?: return
-            var category2index = categories.indexOfFirstOrNull { it.id == targetCategoryId } ?: return
+            val category1index = categories.indexOfFirstOrNull { category -> category.contains(shortcutId) } ?: skipAction()
+            var category2index = categories.indexOfFirstOrNull { it.id == targetCategoryId } ?: skipAction()
 
             if (category1index == category2index) {
                 category2index--
                 if (category2index < 0) {
-                    return
+                    skipAction()
                 }
             }
 
@@ -124,13 +119,11 @@ class MoveViewModel(application: Application) : BaseViewModel<Unit, Unit>(applic
         }
     }
 
-    fun onMoveEnded() {
-        viewModelScope.launch {
-            withProgressTracking {
-                shortcutRepository.moveShortcuts(
-                    _categories.value.associate { category -> category.id to category.shortcuts.map { it.id } }
-                )
-            }
+    fun onMoveEnded() = runAction {
+        withProgressTracking {
+            shortcutRepository.moveShortcuts(
+                _categories.value.associate { category -> category.id to category.shortcuts.map { it.id } }
+            )
         }
     }
 

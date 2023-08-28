@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.SystemClock
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
@@ -31,25 +32,17 @@ class ExecuteViewModel(
 
     private lateinit var execution: Execution
 
-    override fun initViewState() = ExecuteViewState()
-
-    override fun onInitializationStarted(data: ExecutionParams) {
+    override suspend fun initialize(data: ExecutionParams): ExecuteViewState {
         if (isAccidentalRepetition()) {
-            finish(skipAnimation = true)
-            return
+            terminateInitialization()
         }
+
         sessionMonitor.onSessionStarted()
         lastExecutionTime = SystemClock.elapsedRealtime()
         lastExecutionData = data
 
-        viewModelScope.launch {
-            execution = executionFactory.createExecution(data, dialogHandler)
-            finalizeInitialization(silent = true)
-            execute()
-        }
-    }
+        execution = executionFactory.createExecution(data, dialogHandler)
 
-    override fun onInitialized() {
         viewModelScope.launch {
             dialogHandler.dialogState.collect { dialogState ->
                 updateViewState {
@@ -57,6 +50,10 @@ class ExecuteViewModel(
                 }
             }
         }
+        runAction {
+            execute()
+        }
+        return ExecuteViewState()
     }
 
     private fun isAccidentalRepetition(): Boolean {
@@ -69,32 +66,30 @@ class ExecuteViewModel(
             SystemClock.elapsedRealtime() - time < ACCIDENTAL_REPETITION_DEBOUNCE_TIME.inWholeMilliseconds
     }
 
-    private fun execute() {
-        viewModelScope.launch {
-            var result: String? = null
-            try {
-                execution.execute().collect { status ->
-                    if (status is ExecutionStatus.WithResult) {
-                        result = status.result
-                    }
-                    when (status) {
-                        is ExecutionStatus.InProgress -> {
-                            updateViewState {
-                                copy(progressSpinnerVisible = true)
-                            }
-                        }
-                        is ExecutionStatus.WrappingUp -> {
-                            updateViewState {
-                                copy(progressSpinnerVisible = false)
-                            }
-                        }
-                        else -> Unit
-                    }
+    private suspend fun ViewModelScope<ExecuteViewState>.execute() {
+        var result: String? = null
+        try {
+            execution.execute().collect { status ->
+                if (status is ExecutionStatus.WithResult) {
+                    result = status.result
                 }
-            } finally {
-                finish(skipAnimation = true)
-                sessionMonitor.onSessionComplete(result)
+                when (status) {
+                    is ExecutionStatus.InProgress -> {
+                        updateViewState {
+                            copy(progressSpinnerVisible = true)
+                        }
+                    }
+                    is ExecutionStatus.WrappingUp -> {
+                        updateViewState {
+                            copy(progressSpinnerVisible = false)
+                        }
+                    }
+                    else -> Unit
+                }
             }
+        } finally {
+            finish(skipAnimation = true)
+            sessionMonitor.onSessionComplete(result)
         }
     }
 

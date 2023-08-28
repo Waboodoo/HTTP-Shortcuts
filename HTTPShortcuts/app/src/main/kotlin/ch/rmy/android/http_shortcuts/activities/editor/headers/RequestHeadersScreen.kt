@@ -12,7 +12,7 @@ import ch.rmy.android.http_shortcuts.components.bindViewModel
 fun RequestHeadersScreen() {
     val (viewModel, state) = bindViewModel<RequestHeadersViewState, RequestHeadersViewModel>()
 
-    BackHandler {
+    BackHandler(state != null) {
         viewModel.onBackPressed()
     }
 

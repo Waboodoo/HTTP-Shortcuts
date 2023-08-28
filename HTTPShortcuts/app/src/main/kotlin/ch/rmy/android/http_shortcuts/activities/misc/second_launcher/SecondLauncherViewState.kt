@@ -4,5 +4,5 @@ import androidx.compose.runtime.Stable
 
 @Stable
 data class SecondLauncherViewState(
-    val dialogState: SecondLauncherDialogState? = null,
+    val dialogState: SecondLauncherDialogState,
 )

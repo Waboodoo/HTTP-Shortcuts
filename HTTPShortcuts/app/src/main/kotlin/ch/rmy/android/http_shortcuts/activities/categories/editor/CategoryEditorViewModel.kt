@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.categories.editor
 
 import android.app.Application
-import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.categories.editor.models.CategoryBackground
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
@@ -13,11 +12,10 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CategoryEditorViewModel(application: Application) : BaseViewModel<CategoryEditorViewModel.InitData, CategoryEditorViewState>(application) {
+class CategoryEditorViewModel(application: Application) :
+    BaseViewModel<CategoryEditorViewModel.InitData, CategoryEditorViewState>(application) {
 
     @Inject
     lateinit var categoryRepository: CategoryRepository
@@ -34,78 +32,58 @@ class CategoryEditorViewModel(application: Application) : BaseViewModel<Category
     private val isNewCategory
         get() = initData.categoryId == null
 
-    override fun onInitializationStarted(data: InitData) {
-        if (data.categoryId != null) {
-            viewModelScope.launch {
-                try {
-                    val category = categoryRepository.getCategory(data.categoryId)
-                    this@CategoryEditorViewModel.category = category
-                    finalizeInitialization()
-                } catch (e: CancellationException) {
-                    throw e
-                } catch (e: Exception) {
-                    handleInitializationError(e)
-                }
-            }
+    override suspend fun initialize(data: InitData): CategoryEditorViewState {
+        category = if (data.categoryId != null) {
+            categoryRepository.getCategory(data.categoryId)
         } else {
-            category = Category()
-            finalizeInitialization()
+            Category()
         }
+
+        return CategoryEditorViewState(
+            categoryName = category.name,
+            categoryLayoutType = category.categoryLayoutType,
+            categoryBackgroundType = category.categoryBackgroundType,
+            categoryClickBehavior = category.clickBehavior,
+            originalCategoryName = category.name,
+            originalCategoryLayoutType = category.categoryLayoutType,
+            originalCategoryBackgroundType = category.categoryBackgroundType,
+            originalCategoryClickBehavior = category.clickBehavior,
+        )
     }
 
-    private fun handleInitializationError(error: Throwable) {
-        handleUnexpectedError(error)
-        finish()
-    }
-
-    override fun initViewState() = CategoryEditorViewState(
-        categoryName = category.name,
-        categoryLayoutType = category.categoryLayoutType,
-        categoryBackgroundType = category.categoryBackgroundType,
-        categoryClickBehavior = category.clickBehavior,
-        originalCategoryName = category.name,
-        originalCategoryLayoutType = category.categoryLayoutType,
-        originalCategoryBackgroundType = category.categoryBackgroundType,
-        originalCategoryClickBehavior = category.clickBehavior,
-    )
-
-    fun onCategoryNameChanged(name: String) {
+    fun onCategoryNameChanged(name: String) = runAction {
         updateViewState {
             copy(categoryName = name)
         }
     }
 
-    fun onLayoutTypeChanged(categoryLayoutType: CategoryLayoutType) {
+    fun onLayoutTypeChanged(categoryLayoutType: CategoryLayoutType) = runAction {
         updateViewState {
             copy(categoryLayoutType = categoryLayoutType)
         }
     }
 
-    fun onBackgroundChanged(backgroundType: CategoryBackground) {
-        doWithViewState { viewState ->
-            val newCategoryBackgroundType = when (backgroundType) {
-                CategoryBackground.DEFAULT -> CategoryBackgroundType.Default
-                CategoryBackground.COLOR -> CategoryBackgroundType.Color(viewState.backgroundColor)
-            }
-            updateViewState {
-                copy(categoryBackgroundType = newCategoryBackgroundType)
-            }
+    fun onBackgroundChanged(backgroundType: CategoryBackground) = runAction {
+        val newCategoryBackgroundType = when (backgroundType) {
+            CategoryBackground.DEFAULT -> CategoryBackgroundType.Default
+            CategoryBackground.COLOR -> CategoryBackgroundType.Color(viewState.backgroundColor)
+        }
+        updateViewState {
+            copy(categoryBackgroundType = newCategoryBackgroundType)
         }
     }
 
-    fun onClickBehaviorChanged(clickBehavior: ShortcutClickBehavior?) {
+    fun onClickBehaviorChanged(clickBehavior: ShortcutClickBehavior?) = runAction {
         updateViewState {
             copy(categoryClickBehavior = clickBehavior)
         }
     }
 
-    fun onColorButtonClicked() {
-        doWithViewState { viewState ->
-            updateDialogState(CategoryEditorDialogState.ColorPicker(viewState.backgroundColor))
-        }
+    fun onColorButtonClicked() = runAction {
+        updateDialogState(CategoryEditorDialogState.ColorPicker(viewState.backgroundColor))
     }
 
-    fun onBackgroundColorSelected(color: Int) {
+    fun onBackgroundColorSelected(color: Int) = runAction {
         updateViewState {
             copy(
                 categoryBackgroundType = CategoryBackgroundType.Color(color),
@@ -114,16 +92,12 @@ class CategoryEditorViewModel(application: Application) : BaseViewModel<Category
         }
     }
 
-    fun onSaveButtonClicked() {
-        doWithViewState { viewState ->
-            if (!viewState.hasChanges) {
-                return@doWithViewState
-            }
-            viewModelScope.launch {
-                saveChanges(viewState)
-                finishWithOkResult()
-            }
+    fun onSaveButtonClicked() = runAction {
+        if (!viewState.hasChanges) {
+            skipAction()
         }
+        saveChanges(viewState)
+        finishWithOkResult()
     }
 
     private suspend fun saveChanges(viewState: CategoryEditorViewState) {
@@ -150,19 +124,19 @@ class CategoryEditorViewModel(application: Application) : BaseViewModel<Category
         }
     }
 
-    fun onBackPressed() {
+    fun onBackPressed() = runAction {
         updateDialogState(CategoryEditorDialogState.DiscardWarning)
     }
 
-    fun onDiscardConfirmed() {
+    fun onDiscardConfirmed() = runAction {
         finish()
     }
 
-    fun onDialogDismissalRequested() {
+    fun onDialogDismissalRequested() = runAction {
         updateDialogState(null)
     }
 
-    private fun updateDialogState(dialogState: CategoryEditorDialogState?) {
+    private suspend fun updateDialogState(dialogState: CategoryEditorDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }

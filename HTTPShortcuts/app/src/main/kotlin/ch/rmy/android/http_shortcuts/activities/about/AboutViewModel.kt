@@ -26,63 +26,64 @@ class AboutViewModel(application: Application) : BaseViewModel<Unit, AboutViewSt
         getApplicationComponent().inject(this)
     }
 
-    override fun initViewState() = AboutViewState(
-        versionNumber = versionUtil.getVersionName(),
-        fDroidVisible = !installUtil.isAppInstalledFromPlayStore(),
-        changeLogDialogPermanentlyHidden = !settings.isChangeLogPermanentlyHidden,
-    )
+    override suspend fun initialize(data: Unit): AboutViewState =
+        AboutViewState(
+            versionNumber = versionUtil.getVersionName(),
+            fDroidVisible = !installUtil.isAppInstalledFromPlayStore(),
+            changeLogDialogPermanentlyHidden = !settings.isChangeLogPermanentlyHidden,
+        )
 
-    fun onChangeLogDialogPermanentlyHiddenChanged(hidden: Boolean) {
+    fun onChangeLogDialogPermanentlyHiddenChanged(hidden: Boolean) = runAction {
         updateViewState {
             copy(changeLogDialogPermanentlyHidden = hidden)
         }
         settings.isChangeLogPermanentlyHidden = hidden
     }
 
-    fun onChangeLogButtonClicked() {
+    fun onChangeLogButtonClicked() = runAction {
         updateViewState {
             copy(changeLogDialogVisible = true)
         }
         settings.changeLogLastVersion = versionUtil.getVersionName()
     }
 
-    fun onDocumentationButtonClicked() {
+    fun onDocumentationButtonClicked() = runAction {
         openURL(ExternalURLs.DOCUMENTATION_PAGE)
     }
 
-    fun onPrivacyPolicyButtonClicked() {
+    fun onPrivacyPolicyButtonClicked() = runAction {
         openURL(ExternalURLs.PRIVACY_POLICY)
     }
 
-    fun onContactButtonClicked() {
+    fun onContactButtonClicked() = runAction {
         openActivity(ContactActivity.IntentBuilder())
     }
 
-    fun onTranslateButtonClicked() {
+    fun onTranslateButtonClicked() = runAction {
         openURL(ExternalURLs.TRANSLATION)
     }
 
-    fun onPlayStoreButtonClicked() {
+    fun onPlayStoreButtonClicked() = runAction {
         openURL(ExternalURLs.PLAY_STORE)
     }
 
-    fun onFDroidButtonClicked() {
+    fun onFDroidButtonClicked() = runAction {
         openURL(ExternalURLs.F_DROID)
     }
 
-    fun onGithubButtonClicked() {
+    fun onGithubButtonClicked() = runAction {
         openURL(ExternalURLs.GITHUB)
     }
 
-    fun onDonateButtonClicked() {
+    fun onDonateButtonClicked() = runAction {
         openURL(ExternalURLs.DONATION_PAGE)
     }
 
-    fun onAcknowledgementButtonClicked() {
+    fun onAcknowledgementButtonClicked() = runAction {
         openActivity(AcknowledgmentActivity.IntentBuilder())
     }
 
-    fun onDialogDismissalRequested() {
+    fun onDialogDismissalRequested() = runAction {
         updateViewState {
             copy(changeLogDialogVisible = false)
         }

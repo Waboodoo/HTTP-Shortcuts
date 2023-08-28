@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.editor.advancedsettings
 
 import android.app.Application
-import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.models.HostVerificationType
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
@@ -9,10 +8,6 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRep
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
@@ -26,43 +21,24 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
         getApplicationComponent().inject(this)
     }
 
-    private lateinit var initialViewState: AdvancedSettingsViewState
-
-    override fun onInitializationStarted(data: Unit) {
-        viewModelScope.launch(Dispatchers.Default) {
-            try {
-                val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
-                initialViewState = createInitialViewState(temporaryShortcut)
-                withContext(Dispatchers.Main) {
-                    finalizeInitialization()
-                }
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    onInitializationError(e)
-                }
-            }
-        }
+    override suspend fun initialize(data: Unit): AdvancedSettingsViewState {
+        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        return AdvancedSettingsViewState(
+            followRedirects = shortcut.followRedirects,
+            certificateFingerprint = shortcut.certificateFingerprint,
+            hostVerificationEnabled = !shortcut.url.startsWith("http:", ignoreCase = true),
+            hostVerificationType = shortcut.getHostVerificationType(),
+            acceptCookies = shortcut.acceptCookies,
+            timeout = shortcut.timeout.milliseconds,
+            proxyType = shortcut.proxyType.takeUnless { shortcut.proxyHost.isNullOrEmpty() },
+            proxyHost = shortcut.proxyHost ?: "",
+            proxyPort = shortcut.proxyPort?.toString() ?: "",
+            proxyUsername = shortcut.proxyUsername ?: "",
+            proxyPassword = shortcut.proxyPassword ?: "",
+            requireSpecificWifi = shortcut.wifiSsid.isNotEmpty(),
+            wifiSsid = shortcut.wifiSsid,
+        )
     }
-
-    override fun initViewState() = initialViewState
-
-    private fun createInitialViewState(shortcut: Shortcut) = AdvancedSettingsViewState(
-        followRedirects = shortcut.followRedirects,
-        certificateFingerprint = shortcut.certificateFingerprint,
-        hostVerificationEnabled = !shortcut.url.startsWith("http:", ignoreCase = true),
-        hostVerificationType = shortcut.getHostVerificationType(),
-        acceptCookies = shortcut.acceptCookies,
-        timeout = shortcut.timeout.milliseconds,
-        proxyType = shortcut.proxyType.takeUnless { shortcut.proxyHost.isNullOrEmpty() },
-        proxyHost = shortcut.proxyHost ?: "",
-        proxyPort = shortcut.proxyPort?.toString() ?: "",
-        proxyUsername = shortcut.proxyUsername ?: "",
-        proxyPassword = shortcut.proxyPassword ?: "",
-        requireSpecificWifi = shortcut.wifiSsid.isNotEmpty(),
-        wifiSsid = shortcut.wifiSsid,
-    )
 
     private fun Shortcut.getHostVerificationType() =
         when {
@@ -71,21 +47,16 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
             else -> HostVerificationType.DEFAULT
         }
 
-    private fun onInitializationError(error: Throwable) {
-        handleUnexpectedError(error)
-        finish()
-    }
-
-    fun onFollowRedirectsChanged(followRedirects: Boolean) {
+    fun onFollowRedirectsChanged(followRedirects: Boolean) = runAction {
         updateViewState {
             copy(followRedirects = followRedirects)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setFollowRedirects(followRedirects)
         }
     }
 
-    fun onHostVerificationTypeChanged(hostVerificationType: HostVerificationType) {
+    fun onHostVerificationTypeChanged(hostVerificationType: HostVerificationType) = runAction {
         updateViewState {
             copy(
                 hostVerificationType = hostVerificationType,
@@ -97,7 +68,7 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
                 }
             )
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             if (hostVerificationType != HostVerificationType.SELF_SIGNED) {
                 temporaryShortcutRepository.setCertificateFingerprint("")
             }
@@ -105,54 +76,53 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
         }
     }
 
-    fun onCertificateFingerprintChanged(certificateFingerprint: String) {
+    fun onCertificateFingerprintChanged(certificateFingerprint: String) = runAction {
         updateViewState {
             copy(certificateFingerprint = certificateFingerprint)
         }
         if (certificateFingerprint.isEmpty() || certificateFingerprint.isValidCertificateFingerprint()) {
-            launchWithProgressTracking {
+            withProgressTracking {
                 temporaryShortcutRepository.setCertificateFingerprint(certificateFingerprint)
             }
         }
     }
 
-    fun onAcceptCookiesChanged(acceptCookies: Boolean) {
+    fun onAcceptCookiesChanged(acceptCookies: Boolean) = runAction {
         updateViewState {
             copy(acceptCookies = acceptCookies)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setAcceptCookies(acceptCookies)
         }
     }
 
-    fun onRequireSpecificWifiChanged(requireWifi: Boolean) {
-        val ssid = currentViewState?.wifiSsid ?: return
+    fun onRequireSpecificWifiChanged(requireWifi: Boolean) = runAction {
+        val ssid = viewState.wifiSsid
         updateViewState {
             copy(requireSpecificWifi = requireWifi)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setWifiSsid(if (requireWifi) ssid else "")
         }
     }
 
-    fun onTimeoutChanged(timeout: Duration) {
+    fun onTimeoutChanged(timeout: Duration) = runAction {
         updateViewState {
             copy(
                 timeout = timeout,
                 dialogState = null,
             )
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setTimeout(timeout)
         }
     }
 
-    fun onProxyTypeChanged(proxyType: ProxyType?) {
-        val viewState = currentViewState ?: return
+    fun onProxyTypeChanged(proxyType: ProxyType?) = runAction {
         updateViewState {
             copy(proxyType = proxyType)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             if (proxyType != null) {
                 temporaryShortcutRepository.setProxyType(proxyType)
                 temporaryShortcutRepository.setProxyHost(viewState.proxyHost)
@@ -163,70 +133,67 @@ class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, 
         }
     }
 
-    fun onProxyHostChanged(proxyHost: String) {
+    fun onProxyHostChanged(proxyHost: String) = runAction {
         updateViewState {
             copy(proxyHost = proxyHost)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setProxyHost(proxyHost)
         }
     }
 
-    fun onProxyPortChanged(proxyPort: String) {
+    fun onProxyPortChanged(proxyPort: String) = runAction {
         updateViewState {
             copy(proxyPort = proxyPort)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setProxyPort(proxyPort.toIntOrNull())
         }
     }
 
-    fun onProxyUsernameChanged(proxyUsername: String) {
+    fun onProxyUsernameChanged(proxyUsername: String) = runAction {
         updateViewState {
             copy(proxyUsername = proxyUsername)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setProxyUsername(proxyUsername)
         }
     }
 
-    fun onProxyPasswordChanged(proxyPassword: String) {
+    fun onProxyPasswordChanged(proxyPassword: String) = runAction {
         updateViewState {
             copy(proxyPassword = proxyPassword)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setProxyPassword(proxyPassword)
         }
     }
 
-    fun onWifiSsidChanged(ssid: String) {
+    fun onWifiSsidChanged(ssid: String) = runAction {
         updateViewState {
             copy(wifiSsid = ssid)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setWifiSsid(ssid)
         }
     }
 
-    fun onTimeoutButtonClicked() {
-        val timeout = currentViewState?.timeout ?: return
+    fun onTimeoutButtonClicked() = runAction {
         updateDialogState(
-            AdvancedSettingsDialogState.TimeoutPicker(timeout)
+            AdvancedSettingsDialogState.TimeoutPicker(viewState.timeout)
         )
     }
 
-    fun onBackPressed() {
-        viewModelScope.launch {
-            waitForOperationsToFinish()
-            finish()
-        }
+    fun onBackPressed() = runAction {
+        waitForOperationsToFinish()
+        finish()
     }
 
-    fun onDialogDismissed() {
+    fun onDialogDismissed() = runAction {
         updateDialogState(null)
     }
 
-    private fun updateDialogState(dialogState: AdvancedSettingsDialogState?) {
+    private suspend fun updateDialogState(dialogState: AdvancedSettingsDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }

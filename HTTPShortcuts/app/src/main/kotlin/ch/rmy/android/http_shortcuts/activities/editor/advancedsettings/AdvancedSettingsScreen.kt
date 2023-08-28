@@ -12,7 +12,7 @@ import ch.rmy.android.http_shortcuts.extensions.localize
 fun AdvancedSettingsScreen() {
     val (viewModel, state) = bindViewModel<AdvancedSettingsViewState, AdvancedSettingsViewModel>()
 
-    BackHandler {
+    BackHandler(state != null) {
         viewModel.onBackPressed()
     }
 

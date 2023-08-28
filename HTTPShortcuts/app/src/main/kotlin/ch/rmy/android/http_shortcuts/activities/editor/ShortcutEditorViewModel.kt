@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.editor
 
 import android.app.Activity
 import android.app.Application
-import android.content.Intent
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logInfo
@@ -12,6 +11,7 @@ import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.AdvancedSettingsActivity
@@ -53,6 +53,7 @@ import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -98,8 +99,10 @@ class ShortcutEditorViewModel(
         set(value) {
             if (field != value) {
                 field = value
-                updateViewState {
-                    copy(isInputDisabled = value)
+                viewModelScope.launch {
+                    updateViewState {
+                        copy(isInputDisabled = value)
+                    }
                 }
             }
         }
@@ -119,49 +122,34 @@ class ShortcutEditorViewModel(
     private val executionType
         get() = initData.executionType
 
-    override fun onInitializationStarted(data: InitData) {
+    override suspend fun initialize(data: InitData): ShortcutEditorViewState {
         sessionInfoStore.editingShortcutId = data.shortcutId
         sessionInfoStore.editingShortcutCategoryId = data.categoryId
-        viewModelScope.launch {
-            try {
-                when {
-                    data.recoveryMode -> Unit
-                    data.shortcutId == null -> {
-                        temporaryShortcutRepository.createNewTemporaryShortcut(
-                            initialIcon = Icons.getRandomInitialIcon(context),
-                            executionType = executionType,
-                        )
-                    }
-                    else -> {
-                        shortcutRepository.createTemporaryShortcutFromShortcut(data.shortcutId)
-                    }
-                }
-                data.curlCommand?.let {
-                    temporaryShortcutRepository.importFromCurl(it)
-                }
-                observeTemporaryShortcut()
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                finish()
-                handleUnexpectedError(e)
+
+        when {
+            data.recoveryMode -> Unit
+            data.shortcutId == null -> {
+                temporaryShortcutRepository.createNewTemporaryShortcut(
+                    initialIcon = Icons.getRandomInitialIcon(context),
+                    executionType = executionType,
+                )
+            }
+            else -> {
+                shortcutRepository.createTemporaryShortcutFromShortcut(data.shortcutId)
             }
         }
-    }
+        data.curlCommand?.let {
+            temporaryShortcutRepository.importFromCurl(it)
+        }
 
-    override fun initViewState() = ShortcutEditorViewState(
-        shortcutExecutionType = executionType,
-    )
+        val shortcutFlow = temporaryShortcutRepository.getObservableTemporaryShortcut()
+        this.shortcut = shortcutFlow.first()
+        oldShortcut = this.shortcut
 
-    private fun observeTemporaryShortcut() {
         viewModelScope.launch {
-            temporaryShortcutRepository.getObservableTemporaryShortcut()
+            shortcutFlow
                 .collect { shortcut ->
                     this@ShortcutEditorViewModel.shortcut = shortcut
-                    if (!isInitialized) {
-                        oldShortcut = shortcut
-                        finalizeInitialization(silent = true)
-                    }
                     updateViewState {
                         copy(
                             toolbarSubtitle = getToolbarSubtitle(),
@@ -182,6 +170,9 @@ class ShortcutEditorViewModel(
                     }
                 }
         }
+        return ShortcutEditorViewState(
+            shortcutExecutionType = executionType,
+        )
     }
 
     private fun hasChanges() =
@@ -304,83 +295,61 @@ class ShortcutEditorViewModel(
         }
     }
 
-    fun onShortcutIconChanged(icon: ShortcutIcon) {
-        if (isSaving || isFinishing) {
-            return
-        }
+    fun onShortcutIconChanged(icon: ShortcutIcon) = runAction {
+        skipIfBusy()
         updateViewState {
             copy(
                 dialogState = null,
                 shortcutIcon = icon,
             )
         }
-        doWithViewState {
-            launchWithProgressTracking {
-                temporaryShortcutRepository.setIcon(icon)
-            }
+        withProgressTracking {
+            temporaryShortcutRepository.setIcon(icon)
         }
     }
 
-    fun onShortcutNameChanged(name: String) {
-        if (!isInitialized || isSaving || isFinishing) {
-            return
-        }
+    fun onShortcutNameChanged(name: String) = runAction {
+        skipIfBusy()
         updateViewState {
             copy(shortcutName = name)
         }
-        viewModelScope.launch {
-            withProgressTracking {
-                temporaryShortcutRepository.setName(name)
-            }
+        withProgressTracking {
+            temporaryShortcutRepository.setName(name)
         }
     }
 
-    fun onShortcutDescriptionChanged(description: String) {
-        if (!isInitialized || isSaving || isFinishing) {
-            return
-        }
+    fun onShortcutDescriptionChanged(description: String) = runAction {
+        skipIfBusy()
         updateViewState {
             copy(shortcutDescription = description)
         }
-        launchWithProgressTracking {
+        withProgressTracking {
             temporaryShortcutRepository.setDescription(description)
         }
     }
 
-    fun onTestButtonClicked() {
-        if (isSaving || isFinishing) {
-            return
+    fun onTestButtonClicked() = runAction {
+        skipIfBusy()
+        if (!viewState.isExecutable) {
+            skipAction()
         }
         logInfo("Test button clicked")
-        doWithViewState { viewState ->
-            if (!viewState.isExecutable) {
-                return@doWithViewState
-            }
-            viewModelScope.launch {
-                waitForOperationsToFinish()
-                openActivity(ExecuteActivity.IntentBuilder(TEMPORARY_ID).trigger(ShortcutTriggerType.TEST_IN_EDITOR))
-            }
-        }
+        waitForOperationsToFinish()
+        openActivity(ExecuteActivity.IntentBuilder(TEMPORARY_ID).trigger(ShortcutTriggerType.TEST_IN_EDITOR))
     }
 
-    fun onSaveButtonClicked() {
+    fun onSaveButtonClicked() = runAction {
+        skipIfBusy()
         logInfo("Save button clicked")
-        if (isSaving || isFinishing) {
-            return
+        if (!viewState.hasChanges) {
+            skipAction()
         }
-        doWithViewState { viewState ->
-            if (!viewState.hasChanges || isSaving) {
-                return@doWithViewState
-            }
-            isSaving = true
-            viewModelScope.launch {
-                waitForOperationsToFinish()
-                trySave()
-            }
-        }
+        isSaving = true
+        waitForOperationsToFinish()
+        trySave()
     }
 
-    private fun trySave() {
+    private suspend fun ViewModelScope<*>.trySave() {
         if (shortcut.name.isBlank()) {
             showSnackbar(R.string.validation_name_not_empty, long = true)
             emitEvent(ShortcutEditorEvent.FocusNameInputField)
@@ -399,121 +368,95 @@ class ShortcutEditorViewModel(
         save()
     }
 
-    private fun save() {
+    private suspend fun ViewModelScope<*>.save() {
         logInfo("Beginning saving changes to shortcut")
         val isNewShortcut = shortcutId == null
         val shortcutId = shortcutId ?: newUUID()
 
-        viewModelScope.launch {
-            try {
-                withProgressTracking {
-                    shortcutRepository.copyTemporaryShortcutToShortcut(shortcutId, categoryId?.takeIf { isNewShortcut })
-                    temporaryShortcutRepository.deleteTemporaryShortcut()
-                }
-                onSaveSuccessful(shortcutId)
-            } catch (e: Exception) {
-                isSaving = false
-                throw e
-            }
-        }
-    }
-
-    private fun onSaveSuccessful(shortcutId: ShortcutId) {
-        logInfo("Shortcut saved successfully")
-        launcherShortcutManager.updatePinnedShortcut(shortcutId, shortcut.name, shortcut.icon)
-        viewModelScope.launch {
+        try {
             withProgressTracking {
-                widgetManager.updateWidgets(context, shortcutId)
+                shortcutRepository.copyTemporaryShortcutToShortcut(shortcutId, categoryId?.takeIf { isNewShortcut })
+                temporaryShortcutRepository.deleteTemporaryShortcut()
             }
-            viewModelScope.launch {
-                waitForOperationsToFinish()
-                cleanUpStarter()
-                finishWithOkResult(
-                    ShortcutEditorActivity.OpenShortcutEditor.createResult(shortcutId),
-                )
-            }
+            onSaveSuccessful(shortcutId)
+        } catch (e: Exception) {
+            isSaving = false
+            throw e
         }
     }
 
-    fun onBackPressed() {
-        if (isSaving || isFinishing) {
-            return
+    private suspend fun ViewModelScope<*>.onSaveSuccessful(shortcutId: ShortcutId) {
+        logInfo("Shortcut saved successfully")
+        isFinishing = true
+        launcherShortcutManager.updatePinnedShortcut(shortcutId, shortcut.name, shortcut.icon)
+        withProgressTracking {
+            widgetManager.updateWidgets(context, shortcutId)
         }
-        viewModelScope.launch {
-            waitForOperationsToFinish()
-            if (hasChanges()) {
-                showDiscardDialog()
-            } else {
-                onDiscardDialogConfirmed()
-            }
+        waitForOperationsToFinish()
+        cleanUpStarter()
+        finishWithOkResult(
+            ShortcutEditorActivity.OpenShortcutEditor.createResult(shortcutId),
+        )
+    }
+
+    fun onBackPressed() = runAction {
+        skipIfBusy()
+        waitForOperationsToFinish()
+        if (hasChanges()) {
+            showDiscardDialog()
+        } else {
+            onDiscardDialogConfirmed()
         }
     }
 
-    private fun showDiscardDialog() {
+    private suspend fun showDiscardDialog() {
         updateDialogState(ShortcutEditorDialogState.DiscardWarning)
     }
 
-    fun onDiscardDialogConfirmed() {
+    fun onDiscardDialogConfirmed() = runAction {
         updateDialogState(null)
         logInfo("Beginning discarding changes to shortcut")
         isFinishing = true
-        viewModelScope.launch {
-            withProgressTracking {
-                temporaryShortcutRepository.deleteTemporaryShortcut()
-            }
-            logInfo("Changes to shortcut discarded")
-            viewModelScope.launch {
-                waitForOperationsToFinish()
-                cleanUpStarter()
-                finish(result = Activity.RESULT_CANCELED)
-            }
+        withProgressTracking {
+            temporaryShortcutRepository.deleteTemporaryShortcut()
         }
+        logInfo("Changes to shortcut discarded")
+        waitForOperationsToFinish()
+        cleanUpStarter()
+        finish(result = Activity.RESULT_CANCELED)
     }
 
-    fun onBasicRequestSettingsButtonClicked() {
-        if (isSaving || isFinishing) {
-            return
-        }
+    fun onBasicRequestSettingsButtonClicked() = runAction {
+        skipIfBusy()
         logInfo("Basic request settings button clicked")
         openActivity(BasicRequestSettingsActivity.IntentBuilder())
     }
 
-    fun onHeadersButtonClicked() {
-        if (isSaving || isFinishing) {
-            return
-        }
+    fun onHeadersButtonClicked() = runAction {
+        skipIfBusy()
         logInfo("Headers settings button clicked")
         openActivity(RequestHeadersActivity.IntentBuilder())
     }
 
-    fun onRequestBodyButtonClicked() {
-        if (isSaving || isFinishing) {
-            return
-        }
+    fun onRequestBodyButtonClicked() = runAction {
+        skipIfBusy()
         logInfo("Request body settings button clicked")
         openActivity(RequestBodyActivity.IntentBuilder())
     }
 
-    fun onAuthenticationButtonClicked() {
-        if (isSaving || isFinishing) {
-            return
-        }
+    fun onAuthenticationButtonClicked() = runAction {
+        skipIfBusy()
         logInfo("Authentication settings button clicked")
         openActivity(AuthenticationActivity.IntentBuilder())
     }
 
-    fun onResponseHandlingButtonClicked() {
-        if (isSaving || isFinishing) {
-            return
-        }
+    fun onResponseHandlingButtonClicked() = runAction {
+        skipIfBusy()
         logInfo("Response handling button clicked")
         openActivity(ResponseActivity.IntentBuilder())
     }
 
-    fun onScriptingButtonClicked() {
-        if (isSaving || isFinishing) {
-            return
-        }
+    fun onScriptingButtonClicked() = runAction {
         logInfo("Scripting button clicked")
         openActivity(
             ScriptingActivity.IntentBuilder()
@@ -521,10 +464,8 @@ class ShortcutEditorViewModel(
         )
     }
 
-    fun onTriggerShortcutsButtonClicked() {
-        if (isSaving || isFinishing) {
-            return
-        }
+    fun onTriggerShortcutsButtonClicked() = runAction {
+        skipIfBusy()
         logInfo("Trigger shortcuts button clicked")
         openActivity(
             TriggerShortcutsActivity.IntentBuilder()
@@ -532,75 +473,62 @@ class ShortcutEditorViewModel(
         )
     }
 
-    fun onExecutionSettingsButtonClicked() {
-        if (isSaving || isFinishing) {
-            return
-        }
+    fun onExecutionSettingsButtonClicked() = runAction {
+        skipIfBusy()
         logInfo("Execution settings button clicked")
         openActivity(ExecutionSettingsActivity.IntentBuilder())
     }
 
-    fun onAdvancedSettingsButtonClicked() {
-        if (isSaving || isFinishing) {
-            return
-        }
+    fun onAdvancedSettingsButtonClicked() = runAction {
+        skipIfBusy()
         logInfo("Advanced settings button clicked")
         openActivity(AdvancedSettingsActivity.IntentBuilder())
     }
 
-    fun onIconClicked() {
-        if (isSaving || isFinishing) {
-            return
-        }
+    fun onIconClicked() = runAction {
+        skipIfBusy()
         logInfo("Icon clicked")
         updateDialogState(
             ShortcutEditorDialogState.PickIcon(
-                currentIcon = currentViewState?.shortcutIcon as? ShortcutIcon.BuiltInIcon,
+                currentIcon = viewState.shortcutIcon as? ShortcutIcon.BuiltInIcon,
                 includeFaviconOption = hasUrl(),
             ),
         )
     }
 
-    fun onFetchFaviconOptionSelected() {
-        updateDialogState(null)
-        if (isSaving) {
-            return
-        }
+    fun onFetchFaviconOptionSelected() = runAction {
+        skipIfBusy()
         logInfo("Fetching favicon")
-        viewModelScope.launch {
-            updateViewState {
-                copy(iconLoading = true)
+        updateViewState {
+            copy(
+                iconLoading = true,
+                dialogState = null,
+            )
+        }
+        try {
+            val variables = variableRepository.getVariables()
+            val icon = fetchFavicon(shortcut.url, variables, dialogHandler)
+            if (icon != null) {
+                onShortcutIconChanged(icon)
+            } else {
+                showSnackbar(R.string.error_failed_to_fetch_favicon)
             }
-            try {
-                val variables = variableRepository.getVariables()
-                val icon = fetchFavicon(shortcut.url, variables, dialogHandler)
-                if (icon != null) {
-                    onShortcutIconChanged(icon)
-                } else {
-                    showSnackbar(R.string.error_failed_to_fetch_favicon)
-                }
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                handleUnexpectedError(e)
-            } finally {
-                updateViewState {
-                    copy(iconLoading = false)
-                }
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            handleUnexpectedError(e)
+        } finally {
+            updateViewState {
+                copy(iconLoading = false)
             }
         }
     }
 
-    override fun finish(result: Int?, intent: Intent?, skipAnimation: Boolean) {
-        isFinishing = true
-        super.finish(result, intent, skipAnimation)
-    }
-
-    fun onDismissDialog() {
+    fun onDismissDialog() = runAction {
         updateDialogState(null)
     }
 
-    private fun updateDialogState(dialogState: ShortcutEditorDialogState?) {
+    private suspend fun updateDialogState(dialogState: ShortcutEditorDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }
@@ -615,6 +543,12 @@ class ShortcutEditorViewModel(
 
     fun onExecuteDialogResult(result: Any) {
         dialogHandler.onDialogResult(result)
+    }
+
+    private fun ViewModelScope<*>.skipIfBusy() {
+        if (isSaving || isFinishing) {
+            skipAction()
+        }
     }
 
     data class InitData(

@@ -11,7 +11,7 @@ import ch.rmy.android.http_shortcuts.components.bindViewModel
 fun ExecutionSettingsScreen() {
     val (viewModel, state) = bindViewModel<ExecutionSettingsViewState, ExecutionSettingsViewModel>()
 
-    BackHandler {
+    BackHandler(state != null) {
         viewModel.onBackPressed()
     }
 

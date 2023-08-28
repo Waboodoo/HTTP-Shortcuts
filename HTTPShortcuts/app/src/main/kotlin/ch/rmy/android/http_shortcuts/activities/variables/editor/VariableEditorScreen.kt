@@ -23,7 +23,7 @@ fun VariableEditorScreen(
         VariableEditorViewModel.InitData(variableId, variableType),
     )
 
-    BackHandler {
+    BackHandler(state != null) {
         viewModel.onBackPressed()
     }
 

@@ -16,7 +16,7 @@ import ch.rmy.android.http_shortcuts.components.bindViewModel
 fun VariablesScreen() {
     val (viewModel, state) = bindViewModel<VariablesViewState, VariablesViewModel>()
 
-    BackHandler {
+    BackHandler(state != null) {
         viewModel.onBackPressed()
     }
 

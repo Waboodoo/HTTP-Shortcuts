@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.settings
 
 import android.app.Application
-import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -24,7 +23,6 @@ import ch.rmy.android.http_shortcuts.utils.Settings
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.mindrot.jbcrypt.BCrypt
 import javax.inject.Inject
 
@@ -58,7 +56,7 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
         getApplicationComponent().inject(this)
     }
 
-    override fun initViewState() = SettingsViewState(
+    override suspend fun initialize(data: Unit) = SettingsViewState(
         privacySectionVisible = Logging.supportsCrashReporting,
         quickSettingsTileButtonVisible = restrictionsUtil.canCreateQuickSettingsTiles(),
         selectedLanguage = settings.language,
@@ -72,17 +70,15 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
         allowXiaomiOverlayButtonVisible = restrictionsUtil.hasPermissionEditor()
     )
 
-    fun onLockButtonClicked() {
+    fun onLockButtonClicked() = runAction {
         updateDialogState(SettingsDialogState.LockApp(canUseBiometrics = biometricUtil.canUseBiometrics()))
     }
 
-    fun onLockConfirmed(password: String, useBiometrics: Boolean) {
+    fun onLockConfirmed(password: String, useBiometrics: Boolean) = runAction {
         updateDialogState(null)
-        launchWithProgressTracking {
+        withProgressTracking {
             try {
-                withContext(Dispatchers.IO) {
-                    appRepository.setLock(BCrypt.hashpw(password, BCrypt.gensalt()), useBiometrics)
-                }
+                appRepository.setLock(BCrypt.hashpw(password, BCrypt.gensalt()), useBiometrics)
                 finishWithOkResult(
                     SettingsActivity.OpenSettings.createResult(appLocked = true),
                 )
@@ -95,42 +91,38 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
         }
     }
 
-    fun onClearCookiesButtonClicked() {
+    fun onClearCookiesButtonClicked() = runAction {
         updateDialogState(SettingsDialogState.ClearCookies)
     }
 
-    fun onClearCookiesConfirmed() {
+    fun onClearCookiesConfirmed() = runAction {
         updateDialogState(null)
-        viewModelScope.launch(Dispatchers.IO) {
+        launch(Dispatchers.IO) {
             cookieManager.clearCookies()
         }
         showSnackbar(R.string.message_cookies_cleared)
     }
 
-    fun onTitleChangeConfirmed(newTitle: String) {
+    fun onTitleChangeConfirmed(newTitle: String) = runAction {
         updateDialogState(null)
-        viewModelScope.launch {
-            appRepository.setToolbarTitle(newTitle)
-            showSnackbar(R.string.message_title_changed)
-        }
+        appRepository.setToolbarTitle(newTitle)
+        showSnackbar(R.string.message_title_changed)
     }
 
-    fun onUserAgentChangeConfirmed(newUserAgent: String) {
+    fun onUserAgentChangeConfirmed(newUserAgent: String) = runAction {
         updateDialogState(null)
         settings.userAgent = newUserAgent
         showSnackbar(R.string.message_user_agent_changed)
     }
 
-    fun onQuickSettingsTileButtonClicked() {
-        viewModelScope.launch {
-            val success = createQuickSettingsTile()
-            if (success) {
-                showSnackbar(R.string.message_quick_settings_tile_added)
-            }
+    fun onQuickSettingsTileButtonClicked() = runAction {
+        val success = createQuickSettingsTile()
+        if (success) {
+            showSnackbar(R.string.message_quick_settings_tile_added)
         }
     }
 
-    fun onLanguageSelected(language: String?) {
+    fun onLanguageSelected(language: String?) = runAction {
         settings.language = language
         updateViewState {
             copy(selectedLanguage = language)
@@ -138,7 +130,7 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
         localeHelper.applyLocale(language)
     }
 
-    fun onDarkModeOptionSelected(option: String) {
+    fun onDarkModeOptionSelected(option: String) = runAction {
         settings.darkThemeSetting = option
         updateViewState {
             copy(selectedDarkModeOption = option)
@@ -146,35 +138,33 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
         DarkThemeHelper.applyDarkThemeSettings(option)
     }
 
-    fun onClickActionOptionSelected(option: ShortcutClickBehavior) {
+    fun onClickActionOptionSelected(option: ShortcutClickBehavior) = runAction {
         settings.clickBehavior = option
         updateViewState {
             copy(selectedClickActionOption = option)
         }
     }
 
-    fun onChangeTitleButtonClicked() {
-        viewModelScope.launch {
-            val oldTitle = appRepository.getToolbarTitle()
-            updateDialogState(SettingsDialogState.ChangeTitle(oldTitle))
-        }
+    fun onChangeTitleButtonClicked() = runAction {
+        val oldTitle = appRepository.getToolbarTitle()
+        updateDialogState(SettingsDialogState.ChangeTitle(oldTitle))
     }
 
-    fun onUserAgentButtonClicked() {
+    fun onUserAgentButtonClicked() = runAction {
         updateDialogState(
             SettingsDialogState.ChangeUserAgent(settings.userAgent ?: "")
         )
     }
 
-    fun onCertificatePinningButtonClicked() {
+    fun onCertificatePinningButtonClicked() = runAction {
         openActivity(CertPinningActivity.IntentBuilder())
     }
 
-    fun onGlobalScriptingButtonClicked() {
+    fun onGlobalScriptingButtonClicked() = runAction {
         openActivity(GlobalScriptingActivity.IntentBuilder())
     }
 
-    fun onCrashReportingChanged(allowed: Boolean) {
+    fun onCrashReportingChanged(allowed: Boolean) = runAction {
         updateViewState {
             copy(crashReportingAllowed = allowed)
         }
@@ -184,27 +174,27 @@ class SettingsViewModel(application: Application) : BaseViewModel<Unit, Settings
         }
     }
 
-    fun onEventHistoryClicked() {
+    fun onEventHistoryClicked() = runAction {
         openActivity(HistoryActivity.IntentBuilder())
     }
 
-    fun onAllowOverlayButtonClicked() {
-        openActivity(appOverlayUtil.getSettingsIntent() ?: return)
+    fun onAllowOverlayButtonClicked() = runAction {
+        openActivity(appOverlayUtil.getSettingsIntent() ?: skipAction())
     }
 
-    fun onAllowXiaomiOverlayButtonClicked() {
+    fun onAllowXiaomiOverlayButtonClicked() = runAction {
         openActivity(restrictionsUtil.getPermissionEditorIntent())
     }
 
-    fun onBatteryOptimizationButtonClicked() {
-        openActivity(restrictionsUtil.getRequestIgnoreBatteryOptimizationIntent() ?: return)
+    fun onBatteryOptimizationButtonClicked() = runAction {
+        openActivity(restrictionsUtil.getRequestIgnoreBatteryOptimizationIntent() ?: skipAction())
     }
 
-    fun onDialogDismissalRequested() {
+    fun onDialogDismissalRequested() = runAction {
         updateDialogState(null)
     }
 
-    private fun updateDialogState(dialogState: SettingsDialogState?) {
+    private suspend fun updateDialogState(dialogState: SettingsDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }

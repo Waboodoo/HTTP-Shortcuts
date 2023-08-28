@@ -1,16 +1,13 @@
 package ch.rmy.android.http_shortcuts.activities.editor.headers
 
 import android.app.Application
-import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.activities.editor.headers.models.HeaderListItem
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.Header
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, RequestHeadersViewState>(application) {
@@ -23,106 +20,95 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
     }
 
     private var headers: List<Header> = emptyList()
-        set(value) {
-            field = value
-            updateViewState {
-                copy(
-                    headerItems = value.map { header ->
-                        HeaderListItem(
-                            id = header.id,
-                            key = header.key,
-                            value = header.value,
-                        )
-                    },
-                )
-            }
-        }
 
-    override fun onInitializationStarted(data: Unit) {
-        finalizeInitialization(silent = true)
-    }
-
-    override fun initViewState() = RequestHeadersViewState()
-
-    override fun onInitialized() {
-        viewModelScope.launch {
-            try {
-                val temporaryShortcut = temporaryShortcutRepository.getTemporaryShortcut()
-                initViewStateFromShortcut(temporaryShortcut)
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                onInitializationError(e)
-            }
+    private suspend fun updateHeaders(headers: List<Header>) {
+        this.headers = headers
+        updateViewState {
+            copy(
+                headerItems = headers.toHeaderItems(),
+            )
         }
     }
 
-    private fun initViewStateFromShortcut(shortcut: Shortcut) {
+    override suspend fun initialize(data: Unit): RequestHeadersViewState {
+        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
         headers = shortcut.headers
+        return RequestHeadersViewState(
+            headerItems = shortcut.headers.toHeaderItems(),
+        )
     }
 
-    private fun onInitializationError(error: Throwable) {
-        handleUnexpectedError(error)
-        finish()
-    }
+    private fun List<Header>.toHeaderItems() =
+        map { header ->
+            HeaderListItem(
+                id = header.id,
+                key = header.key,
+                value = header.value,
+            )
+        }
 
-    fun onHeaderMoved(headerId1: String, headerId2: String) {
-        headers = headers.swapped(headerId1, headerId2) { id }
-        launchWithProgressTracking {
+    fun onHeaderMoved(headerId1: String, headerId2: String) = runAction {
+        updateHeaders(headers.swapped(headerId1, headerId2) { id })
+        withProgressTracking {
             temporaryShortcutRepository.moveHeader(headerId1, headerId2)
         }
     }
 
-    fun onAddHeaderButtonClicked() {
+    fun onAddHeaderButtonClicked() = runAction {
         updateDialogState(RequestHeadersDialogState.AddHeader)
     }
 
-    fun onDialogConfirmed(key: String, value: String) {
-        when (val dialogState = currentViewState?.dialogState) {
+    fun onDialogConfirmed(key: String, value: String) = runAction {
+        when (val dialogState = viewState.dialogState) {
             is RequestHeadersDialogState.AddHeader -> onAddHeaderDialogConfirmed(key, value)
             is RequestHeadersDialogState.EditHeader -> onEditHeaderDialogConfirmed(dialogState.id, key, value)
             else -> Unit
         }
     }
 
-    private fun onAddHeaderDialogConfirmed(key: String, value: String) {
+    private suspend fun ViewModelScope<*>.onAddHeaderDialogConfirmed(key: String, value: String) {
         updateDialogState(null)
-        launchWithProgressTracking {
+        withProgressTracking {
             val newHeader = temporaryShortcutRepository.addHeader(key, value)
-            headers = headers.plus(newHeader)
+            updateHeaders(headers.plus(newHeader))
         }
     }
 
-    private fun onEditHeaderDialogConfirmed(headerId: String, key: String, value: String) {
+    private suspend fun ViewModelScope<*>.onEditHeaderDialogConfirmed(headerId: String, key: String, value: String) {
         updateDialogState(null)
-        headers = headers
-            .map { header ->
-                if (header.id == headerId) {
-                    Header(headerId, key, value)
-                } else {
-                    header
+        updateHeaders(
+            headers
+                .map { header ->
+                    if (header.id == headerId) {
+                        Header(headerId, key, value)
+                    } else {
+                        header
+                    }
                 }
-            }
-        launchWithProgressTracking {
+        )
+        withProgressTracking {
             temporaryShortcutRepository.updateHeader(headerId, key, value)
         }
     }
 
-    fun onRemoveHeaderButtonClicked() {
-        val headerId = (currentViewState?.dialogState as? RequestHeadersDialogState.EditHeader)?.id ?: return
+    fun onRemoveHeaderButtonClicked() = runAction {
+        val headerId = (viewState.dialogState as? RequestHeadersDialogState.EditHeader)?.id ?: skipAction()
         updateDialogState(null)
-        headers = headers.filter { header ->
-            header.id != headerId
-        }
-        launchWithProgressTracking {
+        updateHeaders(
+            headers.filter { header ->
+                header.id != headerId
+            }
+        )
+        withProgressTracking {
             temporaryShortcutRepository.removeHeader(headerId)
         }
     }
 
-    fun onHeaderClicked(id: String) {
-        headers.firstOrNull { header ->
-            header.id == id
-        }
+    fun onHeaderClicked(id: String) = runAction {
+        headers
+            .firstOrNull { header ->
+                header.id == id
+            }
             ?.let { header ->
                 updateDialogState(
                     RequestHeadersDialogState.EditHeader(
@@ -134,18 +120,16 @@ class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, Re
             }
     }
 
-    fun onBackPressed() {
-        viewModelScope.launch {
-            waitForOperationsToFinish()
-            finish()
-        }
+    fun onBackPressed() = runAction {
+        waitForOperationsToFinish()
+        finish()
     }
 
-    fun onDismissDialog() {
+    fun onDismissDialog() = runAction {
         updateDialogState(null)
     }
 
-    private fun updateDialogState(dialogState: RequestHeadersDialogState?) {
+    private suspend fun updateDialogState(dialogState: RequestHeadersDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }
