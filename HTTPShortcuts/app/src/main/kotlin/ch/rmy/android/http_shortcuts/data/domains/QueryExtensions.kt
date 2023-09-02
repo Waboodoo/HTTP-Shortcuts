@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.domains
 
 import ch.rmy.android.framework.data.RealmContext
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -45,8 +46,9 @@ fun RealmContext.getVariableByKeyOrId(keyOrId: VariableKeyOrId): RealmQuery<Vari
 fun RealmContext.getTemporaryVariable(): RealmQuery<Variable> =
     get("${Variable.FIELD_ID} == $0", Variable.TEMPORARY_ID)
 
-fun RealmContext.getPendingExecutions(shortcutId: ShortcutId? = null, waitForNetwork: Boolean? = null): RealmQuery<PendingExecution> =
-    if (shortcutId != null && waitForNetwork != null) {
+fun RealmContext.getPendingExecutions(shortcutId: ShortcutId? = null, waitForNetwork: Boolean? = null): RealmQuery<PendingExecution> {
+    logInfo("getPendingExecution for shortcutId=$shortcutId, waitForNetwork=$waitForNetwork")
+    return if (shortcutId != null && waitForNetwork != null) {
         get("${PendingExecution.FIELD_SHORTCUT_ID} == $0 AND ${PendingExecution.FIELD_WAIT_FOR_NETWORK} == $1", shortcutId, waitForNetwork)
     } else if (shortcutId != null) {
         get("${PendingExecution.FIELD_SHORTCUT_ID} == $0", shortcutId)
@@ -56,6 +58,7 @@ fun RealmContext.getPendingExecutions(shortcutId: ShortcutId? = null, waitForNet
         get<PendingExecution>()
     }
         .sort(PendingExecution.FIELD_ENQUEUED_AT)
+}
 
 fun RealmContext.getPendingExecution(id: ExecutionId): RealmQuery<PendingExecution> =
     get("${PendingExecution.FIELD_ID} == $0", id)
