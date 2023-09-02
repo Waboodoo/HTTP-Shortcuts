@@ -245,19 +245,18 @@ class ImportExportViewModel(application: Application) :
             try {
                 showProgressDialog(R.string.import_in_progress)
                 val status = importer.importFromUri(uri, importMode = Importer.ImportMode.MERGE)
-                runAction {
-                    showSnackbar(
-                        QuantityStringLocalizable(
-                            R.plurals.shortcut_import_success,
-                            status.importedShortcuts,
-                            status.importedShortcuts,
-                        )
+
+                showSnackbar(
+                    QuantityStringLocalizable(
+                        R.plurals.shortcut_import_success,
+                        status.importedShortcuts,
+                        status.importedShortcuts,
                     )
-                    setResult(
-                        intent = ImportExportActivity.OpenImportExport.createResult(categoriesChanged = true)
-                    )
-                    setCategoriesChangedFlag()
-                }
+                )
+                setResult(
+                    intent = ImportExportActivity.OpenImportExport.createResult(categoriesChanged = true)
+                )
+                setCategoriesChangedFlag()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {

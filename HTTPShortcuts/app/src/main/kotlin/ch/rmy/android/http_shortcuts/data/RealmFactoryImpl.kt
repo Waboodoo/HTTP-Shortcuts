@@ -4,6 +4,7 @@ import android.content.Context
 import ch.rmy.android.framework.data.RealmContext
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
+import ch.rmy.android.framework.data.RealmUnavailableException
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.FileUtil.getUriFromFile
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
@@ -33,10 +34,10 @@ import java.io.File
 class RealmFactoryImpl private constructor() : RealmFactory {
 
     override fun getRealmContext(): RealmContext =
-        RealmContext(realmInstance)
+        RealmContext(realmInstance ?: throw RealmUnavailableException())
 
     override suspend fun updateRealm(transaction: RealmTransactionContext.() -> Unit) {
-        realmInstance.write {
+        (realmInstance ?: throw RealmUnavailableException()).write {
             RealmTransactionContext(this).transaction()
         }
     }
@@ -45,7 +46,7 @@ class RealmFactoryImpl private constructor() : RealmFactory {
 
         private const val DB_NAME = "shortcuts_db_v2"
         private var instance: RealmFactory? = null
-        private lateinit var realmInstance: Realm
+        private var realmInstance: Realm? = null
 
         var realmError: RealmError? = null
             private set

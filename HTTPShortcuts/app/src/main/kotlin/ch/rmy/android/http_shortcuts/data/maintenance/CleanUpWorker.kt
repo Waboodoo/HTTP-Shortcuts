@@ -6,6 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import ch.rmy.android.framework.data.RealmUnavailableException
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
@@ -25,6 +26,8 @@ class CleanUpWorker(context: Context, params: WorkerParameters) : CoroutineWorke
         try {
             appRepository.deleteUnusedData()
             Result.success()
+        } catch (e: RealmUnavailableException) {
+            Result.failure()
         } catch (e: Exception) {
             logException(e)
             Result.failure()

@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.viewModelScope
+import ch.rmy.android.framework.data.RealmUnavailableException
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.FileUtil
@@ -59,8 +60,13 @@ class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.In
     private var variableValues: Map<VariableKey, String> = emptyMap()
 
     override suspend fun initialize(data: InitData): ShareViewState {
-        shortcuts = shortcutRepository.getShortcuts()
-        variables = variableRepository.getVariables()
+        try {
+            shortcuts = shortcutRepository.getShortcuts()
+            variables = variableRepository.getVariables()
+        } catch (e: RealmUnavailableException) {
+            showToast(R.string.error_generic, long = true)
+            terminateInitialization()
+        }
 
         if (initData.fileUris.isEmpty()) {
             fileUris = emptyList()

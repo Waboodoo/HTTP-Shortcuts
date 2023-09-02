@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.history
 
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.data.domains.history.HistoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.HistoryEventType
 import kotlinx.coroutines.CoroutineScope
@@ -17,7 +18,9 @@ constructor(
 
     fun logEvent(event: HistoryEvent) {
         scope.launch {
-            historyRepository.storeHistoryEvent(event.getType(), event)
+            tryOrLog {
+                historyRepository.storeHistoryEvent(event.getType(), event)
+            }
         }
     }
 

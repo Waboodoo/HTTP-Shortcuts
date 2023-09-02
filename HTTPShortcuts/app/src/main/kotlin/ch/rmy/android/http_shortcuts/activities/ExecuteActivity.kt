@@ -18,16 +18,13 @@ import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.getParcelableList
 import ch.rmy.android.framework.extensions.getSerializable
-import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.ui.BaseIntentBuilder
-import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.components.ProgressDialog
 import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
-import ch.rmy.android.http_shortcuts.data.RealmFactoryImpl
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -83,14 +80,6 @@ class ExecuteActivity : BaseComposeActivity() {
 
     override fun onCreated(savedState: Bundle?) {
         super.onCreated(savedState)
-
-        // TODO: Remove this check eventually
-        if (RealmFactoryImpl.realmError != null) {
-            showToast(R.string.error_generic)
-            finishWithoutAnimation()
-            return
-        }
-
         viewModel.init(
             ExecutionParams(
                 shortcutId = intent.extractShortcutId(),
