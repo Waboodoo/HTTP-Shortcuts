@@ -6,5 +6,4 @@ import androidx.compose.runtime.Stable
 data class ImportExportViewState(
     val dialogState: ImportExportDialogState? = null,
     val exportEnabled: Boolean,
-    val useLegacyFormat: Boolean,
 )

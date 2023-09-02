@@ -9,21 +9,16 @@ import androidx.compose.material.icons.outlined.CloudDownload
 import androidx.compose.material.icons.outlined.Devices
 import androidx.compose.material.icons.outlined.Input
 import androidx.compose.material.icons.outlined.Output
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.SettingsGroup
 
 @Composable
 fun ImportExportContent(
-    useLegacyFormat: Boolean,
     exportEnabled: Boolean,
-    onLegacyFormatUseChanged: (Boolean) -> Unit,
     onImportFromFileClicked: () -> Unit,
     onImportFromUrlClicked: () -> Unit,
     onExportClicked: () -> Unit,
@@ -58,21 +53,6 @@ fun ImportExportContent(
                 title = stringResource(R.string.settings_export),
                 enabled = exportEnabled,
                 onClick = onExportClicked,
-            )
-
-            Checkbox(
-                icon = {
-                    Icon(
-                        modifier = Modifier.alpha(0f),
-                        imageVector = Icons.Outlined.Output,
-                        contentDescription = null,
-                    )
-                },
-                label = stringResource(R.string.settings_use_legacy_export_format),
-                subtitle = stringResource(R.string.settings_use_legacy_export_format_summary),
-                enabled = exportEnabled,
-                checked = useLegacyFormat,
-                onCheckedChange = onLegacyFormatUseChanged,
             )
         }
 

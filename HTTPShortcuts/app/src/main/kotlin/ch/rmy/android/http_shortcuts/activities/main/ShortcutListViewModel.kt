@@ -421,7 +421,7 @@ class ShortcutListViewModel(
 
     fun onExportToFileOptionSelected() = runAction {
         updateDialogState(null)
-        emitEvent(ShortcutListEvent.OpenFilePickerForExport(getExportFormat()))
+        emitEvent(ShortcutListEvent.OpenFilePickerForExport)
     }
 
     fun onExportViaSharingOptionSelected() = runAction {
@@ -439,7 +439,6 @@ class ShortcutListViewModel(
                     val variableIds = getUsedVariableIds(shortcut.id)
                     exporter.exportToUri(
                         file,
-                        format = getExportFormat(),
                         excludeDefaults = true,
                         shortcutIds = setOf(shortcut.id),
                         variableIds = variableIds,
@@ -473,8 +472,7 @@ class ShortcutListViewModel(
         currentJob = viewModelScope.launch {
             updateDialogState(ShortcutListDialogState.ExportProgress)
             try {
-                val format = getExportFormat()
-                val cacheFile = FileUtil.createCacheFile(context, format.getFileName(single = true))
+                val cacheFile = FileUtil.createCacheFile(context, ExportFormat.ZIP.getFileName(single = true))
 
                 exporter.exportToUri(
                     cacheFile,
@@ -486,7 +484,7 @@ class ShortcutListViewModel(
                 openActivity(object : IntentBuilder {
                     override fun build(context: Context) =
                         Intent(Intent.ACTION_SEND)
-                            .setType(format.fileTypeForSharing)
+                            .setType(ExportFormat.ZIP.fileTypeForSharing)
                             .putExtra(Intent.EXTRA_STREAM, cacheFile)
                             .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                             .let {
@@ -508,9 +506,6 @@ class ShortcutListViewModel(
             updateDialogState(null)
         }
     }
-
-    private fun getExportFormat() =
-        if (settings.useLegacyExportFormat) ExportFormat.LEGACY_JSON else ExportFormat.ZIP
 
     fun onShortcutEdited() = runAction {
         logInfo("Shortcut editing completed")

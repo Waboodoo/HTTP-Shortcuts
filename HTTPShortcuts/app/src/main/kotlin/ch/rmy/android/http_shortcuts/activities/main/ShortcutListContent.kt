@@ -65,10 +65,7 @@ fun ShortcutListContent(
             }
             is ShortcutListEvent.OpenFilePickerForExport -> consume {
                 openFilePickerForExport.launch(
-                    OpenFilePickerForExportContract.Params(
-                        format = event.exportFormat,
-                        single = true,
-                    )
+                    OpenFilePickerForExportContract.Params(single = true)
                 )
             }
             is ShortcutListEvent.ShortcutEdited -> consume {

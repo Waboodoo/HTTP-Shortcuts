@@ -41,10 +41,7 @@ fun ImportExportScreen(initData: ImportExportViewModel.InitData) {
             is ImportExportEvent.OpenFilePickerForExport -> consume {
                 try {
                     openFilePickerForExport.launch(
-                        OpenFilePickerForExportContract.Params(
-                            format = event.exportFormat,
-                            single = false,
-                        )
+                        OpenFilePickerForExportContract.Params()
                     )
                 } catch (e: ActivityNotFoundException) {
                     context.showToast(R.string.error_not_supported)
@@ -73,9 +70,7 @@ fun ImportExportScreen(initData: ImportExportViewModel.InitData) {
         },
     ) { viewState ->
         ImportExportContent(
-            useLegacyFormat = viewState.useLegacyFormat,
             exportEnabled = viewState.exportEnabled,
-            onLegacyFormatUseChanged = viewModel::onLegacyFormatUseChanged,
             onImportFromFileClicked = viewModel::onImportFromFileButtonClicked,
             onImportFromUrlClicked = viewModel::onImportFromURLButtonClicked,
             onExportClicked = viewModel::onExportButtonClicked,

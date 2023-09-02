@@ -88,7 +88,6 @@ class ImportExportViewModel(application: Application) :
         }
 
         return ImportExportViewState(
-            useLegacyFormat = settings.useLegacyExportFormat,
             exportEnabled = hasShortcuts,
         )
     }
@@ -118,7 +117,7 @@ class ImportExportViewModel(application: Application) :
 
     fun onExportToFileOptionSelected() = runAction {
         hideDialog()
-        emitEvent(ImportExportEvent.OpenFilePickerForExport(getExportFormat()))
+        emitEvent(ImportExportEvent.OpenFilePickerForExport)
     }
 
     fun onFilePickedForExport(file: Uri) = runAction {
@@ -150,7 +149,6 @@ class ImportExportViewModel(application: Application) :
                 file,
                 shortcutIds = shortcutIds,
                 variableIds = variableIds,
-                format = getExportFormat(),
                 excludeDefaults = true,
             )
 
@@ -172,8 +170,7 @@ class ImportExportViewModel(application: Application) :
     }
 
     private suspend fun sendExport(shortcutIds: Collection<ShortcutId>?) {
-        val format = getExportFormat()
-        val cacheFile = FileUtil.createCacheFile(context, format.getFileName(single = false))
+        val cacheFile = FileUtil.createCacheFile(context, ExportFormat.ZIP.getFileName(single = false))
 
         try {
             showProgressDialog(R.string.export_in_progress)
@@ -189,7 +186,7 @@ class ImportExportViewModel(application: Application) :
             openActivity(object : IntentBuilder {
                 override fun build(context: Context) =
                     Intent(Intent.ACTION_SEND)
-                        .setType(format.fileTypeForSharing)
+                        .setType(ExportFormat.ZIP.fileTypeForSharing)
                         .putExtra(Intent.EXTRA_STREAM, cacheFile)
                         .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         .let {
@@ -204,9 +201,6 @@ class ImportExportViewModel(application: Application) :
             hideProgressDialog()
         }
     }
-
-    private fun getExportFormat() =
-        if (settings.useLegacyExportFormat) ExportFormat.LEGACY_JSON else ExportFormat.ZIP
 
     fun onRemoteEditorClosed(changesImported: Boolean) = runAction {
         if (changesImported) {
@@ -279,10 +273,6 @@ class ImportExportViewModel(application: Application) :
 
     fun onHelpButtonClicked() = runAction {
         openURL(ExternalURLs.IMPORT_EXPORT_DOCUMENTATION)
-    }
-
-    fun onLegacyFormatUseChanged(useLegacyFormat: Boolean) {
-        settings.useLegacyExportFormat = useLegacyFormat
     }
 
     fun onDialogDismissalRequested() = runAction {

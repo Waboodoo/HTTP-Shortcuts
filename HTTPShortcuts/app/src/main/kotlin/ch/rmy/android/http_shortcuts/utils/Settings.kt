@@ -62,12 +62,6 @@ constructor(
             putString(KEY_DARK_THEME, value)
         }
 
-    var useLegacyExportFormat: Boolean
-        get() = getBoolean(KEY_LEGACY_EXPORT_FORMAT)
-        set(value) {
-            putBoolean(KEY_LEGACY_EXPORT_FORMAT, value)
-        }
-
     var remoteEditServerUrl: String?
         get() = getString(KEY_REMOTE_EDIT_SERVER)?.takeUnlessEmpty()
         set(value) = putString(KEY_REMOTE_EDIT_SERVER, value ?: "")
@@ -108,7 +102,6 @@ constructor(
         private const val KEY_REMOTE_EDIT_DEVICE_ID = "remote_edit_device_id"
         private const val KEY_REMOTE_EDIT_PASSWORD = "remote_edit_password"
         private const val KEY_DARK_THEME = "dark_theme"
-        private const val KEY_LEGACY_EXPORT_FORMAT = "use_legacy_export_format"
         private const val KEY_PREVIOUS_ICON_COLOR = "previous_icon_color"
         private const val KEY_USER_AGENT = "user_agent"
     }
