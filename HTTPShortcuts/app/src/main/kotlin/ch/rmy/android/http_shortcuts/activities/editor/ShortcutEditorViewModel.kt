@@ -35,7 +35,7 @@ import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager
-import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableHttpUrl
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableUrl
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
@@ -57,10 +57,10 @@ constructor(
     private val variableRepository: VariableRepository,
     private val widgetManager: WidgetManager,
     private val fetchFavicon: FetchFaviconUseCase,
-    private val launcherShortcutManager: LauncherShortcutManager,
     private val sessionInfoStore: SessionInfoStore,
     private val cleanUpStarter: CleanUpWorker.Starter,
     private val dialogHandler: ExecuteDialogHandler,
+    private val launcherShortcutUpdater: LauncherShortcutUpdater,
 ) : BaseViewModel<ShortcutEditorViewModel.InitData, ShortcutEditorViewState>(application) {
 
     private var isSaving = false
@@ -359,7 +359,7 @@ constructor(
     private suspend fun ViewModelScope<*>.onSaveSuccessful(shortcutId: ShortcutId) {
         logInfo("Shortcut saved successfully")
         isFinishing = true
-        launcherShortcutManager.updatePinnedShortcut(shortcutId, shortcut.name, shortcut.icon)
+        launcherShortcutUpdater.updatePinnedShortcut(shortcutId)
         withProgressTracking {
             widgetManager.updateWidgets(context, shortcutId)
         }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <share-target android:targetClass="ch.rmy.android.http_shortcuts.activities.misc.share.ShareActivity">
+        <data android:mimeType="text/plain" />
+        <category android:name="ch.rmy.android.http_shortcuts.directshare.category.TEXT_SHARE_TARGET" />
+    </share-target>
+    <share-target android:targetClass="ch.rmy.android.http_shortcuts.activities.misc.share.ShareActivity">
+        <data android:mimeType="*/*" />
+        <category android:name="ch.rmy.android.http_shortcuts.directshare.category.FILE_SHARE_TARGET" />
+    </share-target>
+</shortcuts>

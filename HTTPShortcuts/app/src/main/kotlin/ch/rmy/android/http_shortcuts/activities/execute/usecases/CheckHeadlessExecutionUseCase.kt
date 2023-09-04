@@ -1,11 +1,11 @@
 package ch.rmy.android.http_shortcuts.activities.execute.usecases
 
-import ch.rmy.android.http_shortcuts.activities.misc.share.ShareViewModel.Companion.hasFileParameter
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling.Companion.FAILURE_OUTPUT_NONE
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling.Companion.SUCCESS_OUTPUT_NONE
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling.Companion.UI_TYPE_TOAST
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.extensions.hasFileParameter
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
 import javax.inject.Inject

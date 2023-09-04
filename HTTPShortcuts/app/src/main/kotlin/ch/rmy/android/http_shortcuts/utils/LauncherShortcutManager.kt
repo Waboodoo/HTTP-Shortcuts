@@ -6,14 +6,16 @@ import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.annotation.WorkerThread
 import androidx.core.content.getSystemService
+import androidx.core.content.pm.ShortcutManagerCompat.EXTRA_SHORTCUT_ID
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
+import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import javax.inject.Inject
@@ -29,14 +31,18 @@ constructor(
     fun supportsLauncherShortcuts() =
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1
 
-    fun updateAppShortcuts(shortcuts: Collection<ShortcutPlaceholder>) {
+    fun supportsDirectShare() =
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+
+    @WorkerThread
+    fun updateAppShortcuts(shortcuts: Collection<LauncherShortcut>) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             update(shortcuts)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
-    private fun update(shortcuts: Collection<ShortcutPlaceholder>) {
+    private fun update(shortcuts: Collection<LauncherShortcut>) {
         try {
             val max = try {
                 shortcutManager.maxShortcutCountPerActivity
@@ -56,43 +62,52 @@ constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
-    private fun createLauncherShortcuts(shortcuts: Collection<ShortcutPlaceholder>): List<ShortcutInfo> =
+    private fun createLauncherShortcuts(shortcuts: Collection<LauncherShortcut>): List<ShortcutInfo> =
         shortcuts
             .mapIndexed { index, launcherShortcut ->
                 createShortcutInfo(
-                    shortcutId = launcherShortcut.id,
-                    shortcutName = launcherShortcut.name,
-                    shortcutIcon = launcherShortcut.icon,
+                    launcherShortcut = launcherShortcut,
                     rank = index,
                     trigger = ShortcutTriggerType.APP_SHORTCUT,
                 )
             }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
-    private fun createShortcutInfo(shortcut: ShortcutPlaceholder, trigger: ShortcutTriggerType) =
-        createShortcutInfo(shortcut.id, shortcut.name, shortcut.icon, trigger = trigger)
-
-    @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun createShortcutInfo(
-        shortcutId: ShortcutId,
-        shortcutName: String,
-        shortcutIcon: ShortcutIcon,
+        launcherShortcut: LauncherShortcut,
         rank: Int = 0,
         trigger: ShortcutTriggerType,
     ): ShortcutInfo {
-        val icon = IconUtil.getIcon(context, shortcutIcon)
-        val label = shortcutName.ifEmpty { "-" }
-        return ShortcutInfo.Builder(context, ID_PREFIX_SHORTCUT + shortcutId)
+        val icon = IconUtil.getIcon(context, launcherShortcut.icon)
+        val label = launcherShortcut.name.ifEmpty { "-" }
+        return ShortcutInfo.Builder(context, ID_PREFIX_SHORTCUT + launcherShortcut.id)
             .setShortLabel(label)
             .setLongLabel(label)
             .setRank(rank)
             .setIntent(
-                ExecuteActivity.IntentBuilder(shortcutId)
+                ExecuteActivity.IntentBuilder(launcherShortcut.id)
                     .trigger(trigger)
                     .build(context)
             )
             .runIfNotNull(icon) {
                 setIcon(it)
+            }
+            .setCategories(
+                buildSet {
+                    if (launcherShortcut.isTextShareTarget) {
+                        add("ch.rmy.android.http_shortcuts.directshare.category.TEXT_SHARE_TARGET")
+                    }
+                    if (launcherShortcut.isFileShareTarget) {
+                        add("ch.rmy.android.http_shortcuts.directshare.category.FILE_SHARE_TARGET")
+                    }
+                }
+            )
+            .run {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    setLongLived(true)
+                } else {
+                    this
+                }
             }
             .build()
     }
@@ -106,14 +121,14 @@ constructor(
         return false
     }
 
-    fun pinShortcut(shortcut: ShortcutPlaceholder) {
+    fun pinShortcut(shortcut: LauncherShortcut) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
             shortcutManager.requestPinShortcut(shortcutInfo, null)
         }
     }
 
-    fun createShortcutPinIntent(shortcut: ShortcutPlaceholder): Intent {
+    fun createShortcutPinIntent(shortcut: LauncherShortcut): Intent {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
             return shortcutManager.createShortcutResultIntent(shortcutInfo)
@@ -121,9 +136,9 @@ constructor(
         throw RuntimeException()
     }
 
-    fun updatePinnedShortcut(shortcutId: ShortcutId, shortcutName: String, shortcutIcon: ShortcutIcon) {
+    fun updatePinnedShortcut(shortcut: LauncherShortcut) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutInfo = createShortcutInfo(shortcutId, shortcutName, shortcutIcon, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
+            val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
             shortcutManager.updateShortcuts(listOf(shortcutInfo))
         }
     }
@@ -162,8 +177,19 @@ constructor(
             }
             .build()
 
+    fun removeShortcut(shortcutId: ShortcutId) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val ids = listOf(ID_PREFIX_SHORTCUT + shortcutId)
+            shortcutManager.removeLongLivedShortcuts(ids)
+            shortcutManager.removeDynamicShortcuts(ids)
+        }
+    }
+
     companion object {
         private const val ID_PREFIX_SHORTCUT = "shortcut_"
         private const val ID_PREFIX_CATEGORY = "category_"
+
+        fun Intent.extractShortcutId(): ShortcutId? =
+            getStringExtra(EXTRA_SHORTCUT_ID)?.removePrefix(ID_PREFIX_SHORTCUT)
     }
 }

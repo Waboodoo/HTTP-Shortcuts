@@ -21,7 +21,6 @@ import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogHandler
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.activities.main.models.ShortcutItem
-import ch.rmy.android.http_shortcuts.activities.main.usecases.LauncherShortcutMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
@@ -50,16 +49,19 @@ import ch.rmy.android.http_shortcuts.scheduling.AlarmScheduler
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
 import ch.rmy.android.http_shortcuts.utils.SecondaryLauncherManager
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import ch.rmy.curlcommand.CurlConstructor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -78,14 +80,15 @@ constructor(
     private val settings: Settings,
     private val exporter: Exporter,
     private val getUsedVariableIds: GetUsedVariableIdsUseCase,
-    private val launcherShortcutMapper: LauncherShortcutMapperUseCase,
-    private val secondaryLauncherMapper: SecondaryLauncherMapperUseCase,
     private val launcherShortcutManager: LauncherShortcutManager,
+    private val launcherShortcutUpdater: LauncherShortcutUpdater,
+    private val secondaryLauncherMapper: SecondaryLauncherMapperUseCase,
     private val secondaryLauncherManager: SecondaryLauncherManager,
     private val alarmScheduler: AlarmScheduler,
     private val activityProvider: ActivityProvider,
     private val clipboardUtil: ClipboardUtil,
     private val dialogHandler: ExecuteDialogHandler,
+    private val shareUtil: ShareUtil,
 ) : BaseViewModel<ShortcutListViewModel.InitData, ShortcutListViewState>(application) {
 
     private lateinit var category: Category
@@ -158,9 +161,11 @@ constructor(
         }
 
     private suspend fun updateLauncherSettings() {
-        val categories = categoryRepository.getCategories()
-        launcherShortcutManager.updateAppShortcuts(launcherShortcutMapper(categories))
-        secondaryLauncherManager.setSecondaryLauncherVisibility(secondaryLauncherMapper(categories))
+        withContext(Dispatchers.Default) {
+            launcherShortcutUpdater.updateAppShortcuts()
+            val categories = categoryRepository.getCategories()
+            secondaryLauncherManager.setSecondaryLauncherVisibility(secondaryLauncherMapper(categories))
+        }
     }
 
     fun onShortcutClicked(shortcutId: ShortcutId) = runAction {
@@ -368,7 +373,7 @@ constructor(
     fun onCurlExportShareButtonClicked() = runAction {
         val curlCommand = (viewState.dialogState as? ShortcutListDialogState.CurlExport)?.command ?: skipAction()
         updateDialogState(null)
-        ShareUtil.shareText(activityProvider.getActivity(), curlCommand)
+        shareUtil.shareText(activityProvider.getActivity(), curlCommand)
     }
 
     fun onExportAsFileOptionSelected() = runAction {
@@ -478,8 +483,8 @@ constructor(
             pendingExecutionsRepository.removePendingExecutionsForShortcut(shortcutId)
             cancelAlarms(shortcutId)
             widgetsRepository.deleteDeadWidgets()
+            launcherShortcutManager.removeShortcut(shortcutId)
             showSnackbar(StringResLocalizable(R.string.shortcut_deleted, shortcut.name))
-            updateLauncherSettings()
             emitEvent(ShortcutListEvent.RemoveShortcutFromHomeScreen(shortcut.toShortcutPlaceholder()))
         }
     }

@@ -28,6 +28,7 @@ constructor(
     private val context: Context,
     private val activityProvider: ActivityProvider,
     private val clipboardUtil: ClipboardUtil,
+    private val shareUtil: ShareUtil,
 ) {
 
     suspend operator fun invoke(shortcut: Shortcut, response: ShortcutResponse?, output: String?, dialogHandle: DialogHandle) = coroutineScope {
@@ -86,7 +87,7 @@ constructor(
 
     private fun shareResponse(shortcutName: String, text: String, type: String, responseFileUri: Uri?) {
         if (shouldShareAsText(text, type)) {
-            ShareUtil.shareText(activityProvider.getActivity(), text)
+            shareUtil.shareText(activityProvider.getActivity(), text)
         } else {
             Intent(Intent.ACTION_SEND)
                 .setType(type)

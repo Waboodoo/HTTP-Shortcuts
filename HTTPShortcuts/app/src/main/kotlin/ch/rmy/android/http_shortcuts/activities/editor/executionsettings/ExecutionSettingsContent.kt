@@ -30,6 +30,7 @@ fun ExecutionSettingsContent(
     waitForConnectionOptionVisible: Boolean,
     confirmationType: ConfirmationType?,
     launcherShortcutOptionVisible: Boolean,
+    directShareOptionVisible: Boolean,
     launcherShortcut: Boolean,
     secondaryLauncherShortcut: Boolean,
     quickSettingsTileShortcutOptionVisible: Boolean,
@@ -51,7 +52,11 @@ fun ExecutionSettingsContent(
     ) {
         if (launcherShortcutOptionVisible) {
             Checkbox(
-                label = stringResource(R.string.label_launcher_shortcut),
+                label = if (directShareOptionVisible) {
+                    stringResource(R.string.label_launcher_shortcut_or_direct_share)
+                } else {
+                    stringResource(R.string.label_launcher_shortcut)
+                },
                 checked = launcherShortcut,
                 onCheckedChange = onLauncherShortcutChanged,
             )

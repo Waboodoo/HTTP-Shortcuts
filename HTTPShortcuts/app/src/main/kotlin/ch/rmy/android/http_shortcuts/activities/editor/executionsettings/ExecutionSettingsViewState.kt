@@ -12,6 +12,7 @@ data class ExecutionSettingsViewState(
     val waitForConnectionOptionVisible: Boolean,
     val confirmationType: ConfirmationType?,
     val launcherShortcutOptionVisible: Boolean,
+    val directShareOptionVisible: Boolean,
     val launcherShortcut: Boolean,
     val secondaryLauncherShortcut: Boolean,
     val quickSettingsTileShortcutOptionVisible: Boolean,

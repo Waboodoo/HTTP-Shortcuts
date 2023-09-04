@@ -6,8 +6,18 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.extensions.hasFileParameter
+import ch.rmy.android.http_shortcuts.variables.VariableLookup
+import ch.rmy.android.http_shortcuts.variables.VariableResolver
+import javax.inject.Inject
 
-object ShareUtil {
+class ShareUtil
+@Inject
+constructor() {
 
     fun shareText(activity: Activity, text: String) {
         try {
@@ -24,5 +34,21 @@ object ShareUtil {
         }
     }
 
-    private const val TYPE_TEXT = "text/plain"
+    fun getTextShareVariables(variables: List<Variable>) =
+        variables.filter { it.isShareText || it.isShareTitle }
+            .toSet()
+
+    fun isTextShareTarget(shortcut: Shortcut, variableIds: Set<VariableId>, variableLookup: VariableLookup): Boolean {
+        val variableIdsInShortcut = VariableResolver.extractVariableIdsIncludingScripting(shortcut, variableLookup)
+        return variableIds.any { variableIdsInShortcut.contains(it) }
+    }
+
+    fun isFileShareTarget(shortcut: Shortcut, forImage: Boolean? = null): Boolean =
+        shortcut.hasFileParameter(forImage) ||
+            shortcut.usesGenericFileBody() ||
+            (forImage != false && shortcut.fileUploadOptions?.type == FileUploadType.CAMERA)
+
+    companion object {
+        private const val TYPE_TEXT = "text/plain"
+    }
 }

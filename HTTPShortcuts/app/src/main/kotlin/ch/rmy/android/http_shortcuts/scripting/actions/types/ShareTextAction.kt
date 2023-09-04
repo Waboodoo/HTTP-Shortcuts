@@ -13,13 +13,14 @@ class ShareTextAction
 @Inject
 constructor(
     private val activityProvider: ActivityProvider,
+    private val shareUtil: ShareUtil,
 ) : Action<ShareTextAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext) {
         withContext(Dispatchers.Main) {
             text
                 .takeUnlessEmpty()
                 ?.let {
-                    ShareUtil.shareText(
+                    shareUtil.shareText(
                         activityProvider.getActivity(),
                         text.truncate(MAX_LENGTH),
                     )

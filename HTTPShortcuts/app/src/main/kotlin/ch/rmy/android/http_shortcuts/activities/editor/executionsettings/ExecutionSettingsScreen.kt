@@ -25,6 +25,7 @@ fun ExecutionSettingsScreen() {
             waitForConnectionOptionVisible = viewState.waitForConnectionOptionVisible,
             confirmationType = viewState.confirmationType,
             launcherShortcutOptionVisible = viewState.launcherShortcutOptionVisible,
+            directShareOptionVisible = viewState.directShareOptionVisible,
             launcherShortcut = viewState.launcherShortcut,
             secondaryLauncherShortcut = viewState.secondaryLauncherShortcut,
             quickSettingsTileShortcutOptionVisible = viewState.quickSettingsTileShortcutOptionVisible,
