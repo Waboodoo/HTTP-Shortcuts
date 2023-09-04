@@ -323,7 +323,7 @@ vibrate(2, true);
 <a name="scan-barcode"></a>
 ### scanBarcode
 
-The `scanBarcode` function lets you scan a barcode (e.g. a QR code). On success the function returns the raw data of the barcode as a string. If the scanner is cancelled, null is returned instead.
+The `scanBarcode` function lets you scan a barcode (e.g. a QR code). On success the function returns the raw data of the barcode as a string. If the scanner is cancelled, `null` is returned instead.
 
 ```js
 const code = scanBarcode();
