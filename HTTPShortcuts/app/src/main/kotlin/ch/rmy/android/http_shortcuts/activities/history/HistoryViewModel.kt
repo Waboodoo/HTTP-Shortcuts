@@ -6,30 +6,23 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.history.usecases.CopyHistoryItemUseCase
 import ch.rmy.android.http_shortcuts.activities.history.usecases.MapEventsUseCase
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.history.HistoryRepository
 import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.hours
 
-class HistoryViewModel(application: Application) : BaseViewModel<Unit, HistoryViewState>(application) {
-
-    @Inject
-    lateinit var historyRepository: HistoryRepository
-
-    @Inject
-    lateinit var mapEvents: MapEventsUseCase
-
-    @Inject
-    lateinit var historyCleanUpStarter: HistoryCleanUpWorker.Starter
-
-    @Inject
-    lateinit var copyHistoryItemUseCase: CopyHistoryItemUseCase
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class HistoryViewModel
+@Inject
+constructor(
+    application: Application,
+    private val historyRepository: HistoryRepository,
+    private val mapEvents: MapEventsUseCase,
+    private val historyCleanUpStarter: HistoryCleanUpWorker.Starter,
+    private val copyHistoryItemUseCase: CopyHistoryItemUseCase,
+) : BaseViewModel<Unit, HistoryViewState>(application) {
 
     override suspend fun initialize(data: Unit): HistoryViewState {
         viewModelScope.launch {

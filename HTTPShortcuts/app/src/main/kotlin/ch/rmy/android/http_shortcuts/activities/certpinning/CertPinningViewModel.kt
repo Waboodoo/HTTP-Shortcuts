@@ -5,25 +5,24 @@ import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.certpinning.models.Pin
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CertPinningViewModel(application: Application) : BaseViewModel<Unit, CertPinningViewState>(application) {
-
-    @Inject
-    lateinit var appRepository: AppRepository
+@HiltViewModel
+class CertPinningViewModel
+@Inject
+constructor(
+    application: Application,
+    private val appRepository: AppRepository,
+) : BaseViewModel<Unit, CertPinningViewState>(application) {
 
     private lateinit var pins: List<CertificatePin>
     private var activePinId: String? = null
-
-    init {
-        getApplicationComponent().inject(this)
-    }
 
     override suspend fun initialize(data: Unit): CertPinningViewState {
         val pinsFlow = appRepository.getObservableCertificatePins()

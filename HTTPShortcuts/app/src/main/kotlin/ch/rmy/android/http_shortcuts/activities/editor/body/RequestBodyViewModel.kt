@@ -9,7 +9,6 @@ import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.body.models.ParameterListItem
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
@@ -18,18 +17,18 @@ import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
 import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import com.google.gson.JsonParseException
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class RequestBodyViewModel(application: Application) : BaseViewModel<Unit, RequestBodyViewState>(application) {
-
-    @Inject
-    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class RequestBodyViewModel
+@Inject
+constructor(
+    application: Application,
+    private val temporaryShortcutRepository: TemporaryShortcutRepository,
+) : BaseViewModel<Unit, RequestBodyViewState>(application) {
 
     private var parameters: List<Parameter> = emptyList()
 

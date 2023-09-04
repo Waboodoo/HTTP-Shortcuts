@@ -8,9 +8,6 @@ import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.documentation.DocumentationActivity
 import ch.rmy.android.http_shortcuts.activities.documentation.DocumentationUrlManager
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
-import ch.rmy.android.http_shortcuts.data.RealmFactoryImpl
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 
 abstract class BaseActivity : BaseActivity() {
@@ -19,15 +16,9 @@ abstract class BaseActivity : BaseActivity() {
         get() = true
 
     final override fun onCreate(savedInstanceState: Bundle?) {
-        inject(getApplicationComponent())
         setTheme(if (initializeWithTheme) R.style.LightTheme else R.style.Theme_Transparent)
         super.onCreate(savedInstanceState)
-        RealmFactoryImpl.init(applicationContext)
         onCreated(savedInstanceState)
-    }
-
-    protected open fun inject(applicationComponent: ApplicationComponent) {
-        // intentionally left blank
     }
 
     protected open fun onCreated(savedState: Bundle?) {

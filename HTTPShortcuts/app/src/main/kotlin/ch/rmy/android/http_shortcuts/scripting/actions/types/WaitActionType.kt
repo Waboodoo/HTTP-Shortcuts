@@ -1,16 +1,25 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
-class WaitActionType : BaseActionType() {
-
+class WaitActionType
+@Inject
+constructor(
+    private val waitAction: WaitAction,
+) : ActionType {
     override val type = TYPE
 
-    override fun fromDTO(actionDTO: ActionDTO) = WaitAction(
-        duration = (actionDTO.getInt(0)?.takeIf { it > 0 } ?: 0).milliseconds,
-    )
+    override fun getActionRunnable(actionDTO: ActionData) =
+        ActionRunnable(
+            action = waitAction,
+            params = WaitAction.Params(
+                duration = (actionDTO.getInt(0)?.takeIf { it > 0 } ?: 0).milliseconds,
+            ),
+        )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,

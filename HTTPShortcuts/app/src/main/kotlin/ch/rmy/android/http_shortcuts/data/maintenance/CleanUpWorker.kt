@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.maintenance
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.OneTimeWorkRequestBuilder
@@ -8,19 +9,20 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import ch.rmy.android.framework.data.RealmUnavailableException
 import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class CleanUpWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
-
-    @Inject
-    lateinit var appRepository: AppRepository
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltWorker
+class CleanUpWorker
+@AssistedInject
+constructor(
+    @Assisted context: Context,
+    @Assisted params: WorkerParameters,
+    private val appRepository: AppRepository,
+) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result =
         try {

@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 
 import android.app.Application
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
@@ -12,34 +11,24 @@ import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.BiometricUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 
-class ExecutionSettingsViewModel(application: Application) : BaseViewModel<Unit, ExecutionSettingsViewState>(application) {
-
-    @Inject
-    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    @Inject
-    lateinit var launcherShortcutManager: LauncherShortcutManager
-
-    @Inject
-    lateinit var quickSettingsTileManager: QuickSettingsTileManager
-
-    @Inject
-    lateinit var restrictionsUtil: RestrictionsUtil
-
-    @Inject
-    lateinit var appOverlayUtil: AppOverlayUtil
-
-    @Inject
-    lateinit var biometricUtil: BiometricUtil
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class ExecutionSettingsViewModel
+@Inject
+constructor(
+    application: Application,
+    private val temporaryShortcutRepository: TemporaryShortcutRepository,
+    private val launcherShortcutManager: LauncherShortcutManager,
+    private val quickSettingsTileManager: QuickSettingsTileManager,
+    private val restrictionsUtil: RestrictionsUtil,
+    private val appOverlayUtil: AppOverlayUtil,
+    private val biometricUtil: BiometricUtil,
+) : BaseViewModel<Unit, ExecutionSettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit): ExecutionSettingsViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()

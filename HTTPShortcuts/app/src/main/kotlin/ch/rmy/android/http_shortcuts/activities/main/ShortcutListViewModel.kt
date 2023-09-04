@@ -25,7 +25,6 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.LauncherShortcutMa
 import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.moving.MoveActivity
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
@@ -55,6 +54,7 @@ import ch.rmy.android.http_shortcuts.utils.SecondaryLauncherManager
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import ch.rmy.curlcommand.CurlConstructor
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.StateFlow
@@ -62,70 +62,31 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ShortcutListViewModel(
+@HiltViewModel
+class ShortcutListViewModel
+@Inject
+constructor(
     application: Application,
+    private val appRepository: AppRepository,
+    private val shortcutRepository: ShortcutRepository,
+    private val categoryRepository: CategoryRepository,
+    private val variableRepository: VariableRepository,
+    private val pendingExecutionsRepository: PendingExecutionsRepository,
+    private val widgetsRepository: WidgetsRepository,
+    private val curlExporter: CurlExporter,
+    private val executionScheduler: ExecutionScheduler,
+    private val settings: Settings,
+    private val exporter: Exporter,
+    private val getUsedVariableIds: GetUsedVariableIdsUseCase,
+    private val launcherShortcutMapper: LauncherShortcutMapperUseCase,
+    private val secondaryLauncherMapper: SecondaryLauncherMapperUseCase,
+    private val launcherShortcutManager: LauncherShortcutManager,
+    private val secondaryLauncherManager: SecondaryLauncherManager,
+    private val alarmScheduler: AlarmScheduler,
+    private val activityProvider: ActivityProvider,
+    private val clipboardUtil: ClipboardUtil,
+    private val dialogHandler: ExecuteDialogHandler,
 ) : BaseViewModel<ShortcutListViewModel.InitData, ShortcutListViewState>(application) {
-
-    @Inject
-    lateinit var appRepository: AppRepository
-
-    @Inject
-    lateinit var shortcutRepository: ShortcutRepository
-
-    @Inject
-    lateinit var categoryRepository: CategoryRepository
-
-    @Inject
-    lateinit var variableRepository: VariableRepository
-
-    @Inject
-    lateinit var pendingExecutionsRepository: PendingExecutionsRepository
-
-    @Inject
-    lateinit var widgetsRepository: WidgetsRepository
-
-    @Inject
-    lateinit var curlExporter: CurlExporter
-
-    @Inject
-    lateinit var executionScheduler: ExecutionScheduler
-
-    @Inject
-    lateinit var settings: Settings
-
-    @Inject
-    lateinit var exporter: Exporter
-
-    @Inject
-    lateinit var getUsedVariableIds: GetUsedVariableIdsUseCase
-
-    @Inject
-    lateinit var launcherShortcutMapper: LauncherShortcutMapperUseCase
-
-    @Inject
-    lateinit var secondaryLauncherMapper: SecondaryLauncherMapperUseCase
-
-    @Inject
-    lateinit var launcherShortcutManager: LauncherShortcutManager
-
-    @Inject
-    lateinit var secondaryLauncherManager: SecondaryLauncherManager
-
-    @Inject
-    lateinit var alarmScheduler: AlarmScheduler
-
-    @Inject
-    lateinit var activityProvider: ActivityProvider
-
-    @Inject
-    lateinit var clipboardUtil: ClipboardUtil
-
-    @Inject
-    lateinit var dialogHandler: ExecuteDialogHandler
-
-    init {
-        getApplicationComponent().inject(this)
-    }
 
     private lateinit var category: Category
     private var variables: List<Variable> = emptyList()

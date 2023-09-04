@@ -8,7 +8,9 @@ import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
 import ch.rmy.curlcommand.CurlCommand
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CurlImportActivity : BaseComposeActivity() {
 
     @Composable

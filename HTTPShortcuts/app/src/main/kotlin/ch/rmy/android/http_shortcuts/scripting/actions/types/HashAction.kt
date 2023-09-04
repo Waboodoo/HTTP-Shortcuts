@@ -6,10 +6,12 @@ import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import javax.inject.Inject
 
-class HashAction(private val algorithm: String, private val text: String) : BaseAction() {
-
-    override suspend fun execute(executionContext: ExecutionContext): String {
+class HashAction
+@Inject
+constructor() : Action<HashAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext): String {
         val algorithmName = SUPPORTED_ALGORITHMS[normalizeAlgorithm(algorithm)]
             ?: throwUnsupportedError()
         return try {
@@ -21,7 +23,7 @@ class HashAction(private val algorithm: String, private val text: String) : Base
         }
     }
 
-    private fun throwUnsupportedError(): Nothing {
+    private fun Params.throwUnsupportedError(): Nothing {
         throw ActionException {
             getString(
                 R.string.error_unsupported_hash_algorithm,
@@ -30,6 +32,11 @@ class HashAction(private val algorithm: String, private val text: String) : Base
             )
         }
     }
+
+    data class Params(
+        val algorithm: String,
+        val text: String,
+    )
 
     companion object {
 

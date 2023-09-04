@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.OneTimeWorkRequestBuilder
@@ -9,6 +10,8 @@ import androidx.work.WorkerParameters
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.extensions.context
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
@@ -16,7 +19,13 @@ import javax.inject.Inject
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
-class CacheFilesCleanupWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
+@HiltWorker
+class CacheFilesCleanupWorker
+@AssistedInject
+constructor(
+    @Assisted context: Context,
+    @Assisted params: WorkerParameters,
+) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result =
         try {

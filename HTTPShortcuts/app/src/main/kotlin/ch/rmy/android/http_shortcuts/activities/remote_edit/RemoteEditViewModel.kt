@@ -9,13 +9,13 @@ import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.Validation
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -26,23 +26,16 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
-class RemoteEditViewModel(application: Application) : BaseViewModel<Unit, RemoteEditViewState>(application) {
-
-    @Inject
-    lateinit var settings: Settings
-
-    @Inject
-    lateinit var exporter: Exporter
-
-    @Inject
-    lateinit var importer: Importer
-
-    @Inject
-    lateinit var httpClientFactory: HttpClientFactory
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class RemoteEditViewModel
+@Inject
+constructor(
+    application: Application,
+    private val settings: Settings,
+    private val exporter: Exporter,
+    private val importer: Importer,
+    private val httpClientFactory: HttpClientFactory,
+) : BaseViewModel<Unit, RemoteEditViewState>(application) {
 
     private var currentJob: Job? = null
 

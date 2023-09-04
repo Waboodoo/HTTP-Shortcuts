@@ -1,16 +1,25 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import javax.inject.Inject
 
-class VibrateActionType : BaseActionType() {
-
+class VibrateActionType
+@Inject
+constructor(
+    private val vibrateAction: VibrateAction,
+) : ActionType {
     override val type = TYPE
 
-    override fun fromDTO(actionDTO: ActionDTO) = VibrateAction(
-        patternId = actionDTO.getInt(0) ?: 0,
-        waitForCompletion = actionDTO.getBoolean(1) ?: false,
-    )
+    override fun getActionRunnable(actionDTO: ActionData) =
+        ActionRunnable(
+            action = vibrateAction,
+            params = VibrateAction.Params(
+                patternId = actionDTO.getInt(0) ?: 0,
+                waitForCompletion = actionDTO.getBoolean(1) ?: false,
+            ),
+        )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,

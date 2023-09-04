@@ -24,7 +24,6 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkR
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowRecoveryDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.UnlockAppUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
@@ -49,6 +48,7 @@ import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -58,65 +58,30 @@ import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
-class MainViewModel(application: Application) : BaseViewModel<MainViewModel.InitData, MainViewState>(application) {
-
-    @Inject
-    lateinit var categoryRepository: CategoryRepository
-
-    @Inject
-    lateinit var appRepository: AppRepository
-
-    @Inject
-    lateinit var launcherShortcutMapper: LauncherShortcutMapperUseCase
-
-    @Inject
-    lateinit var secondaryLauncherMapper: SecondaryLauncherMapperUseCase
-
-    @Inject
-    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    @Inject
-    lateinit var shouldShowRecoveryDialog: ShouldShowRecoveryDialogUseCase
-
-    @Inject
-    lateinit var shouldShowChangeLogDialog: ShouldShowChangeLogDialogUseCase
-
-    @Inject
-    lateinit var shouldShowNetworkRestrictionDialog: ShouldShowNetworkRestrictionDialogUseCase
-
-    @Inject
-    lateinit var executionScheduler: ExecutionScheduler
-
-    @Inject
-    lateinit var launcherShortcutManager: LauncherShortcutManager
-
-    @Inject
-    lateinit var secondaryLauncherManager: SecondaryLauncherManager
-
-    @Inject
-    lateinit var widgetManager: WidgetManager
-
-    @Inject
-    lateinit var pendingExecutionsRepository: PendingExecutionsRepository
-
-    @Inject
-    lateinit var appOverlayUtil: AppOverlayUtil
-
-    @Inject
-    lateinit var variableRepository: VariableRepository
-
-    @Inject
-    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
-
-    @Inject
-    lateinit var settings: Settings
-
-    @Inject
-    lateinit var unlockApp: UnlockAppUseCase
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class MainViewModel
+@Inject
+constructor(
+    application: Application,
+    private val categoryRepository: CategoryRepository,
+    private val appRepository: AppRepository,
+    private val launcherShortcutMapper: LauncherShortcutMapperUseCase,
+    private val secondaryLauncherMapper: SecondaryLauncherMapperUseCase,
+    private val temporaryShortcutRepository: TemporaryShortcutRepository,
+    private val shouldShowRecoveryDialog: ShouldShowRecoveryDialogUseCase,
+    private val shouldShowChangeLogDialog: ShouldShowChangeLogDialogUseCase,
+    private val shouldShowNetworkRestrictionDialog: ShouldShowNetworkRestrictionDialogUseCase,
+    private val executionScheduler: ExecutionScheduler,
+    private val launcherShortcutManager: LauncherShortcutManager,
+    private val secondaryLauncherManager: SecondaryLauncherManager,
+    private val widgetManager: WidgetManager,
+    private val pendingExecutionsRepository: PendingExecutionsRepository,
+    private val appOverlayUtil: AppOverlayUtil,
+    private val variableRepository: VariableRepository,
+    private val variablePlaceholderProvider: VariablePlaceholderProvider,
+    private val settings: Settings,
+    private val unlockApp: UnlockAppUseCase,
+) : BaseViewModel<MainViewModel.InitData, MainViewState>(application) {
 
     private lateinit var categories: List<Category>
 

@@ -7,7 +7,6 @@ import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
@@ -17,22 +16,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class WifiSSIDAction : BaseAction() {
-
-    @Inject
-    lateinit var permissionManager: PermissionManager
-
-    @Inject
-    lateinit var activityProvider: ActivityProvider
-
-    @Inject
-    lateinit var networkUtil: NetworkUtil
-
-    override fun inject(applicationComponent: ApplicationComponent) {
-        applicationComponent.inject(this)
-    }
-
-    override suspend fun execute(executionContext: ExecutionContext): String? {
+class WifiSSIDAction
+@Inject
+constructor(
+    private val permissionManager: PermissionManager,
+    private val activityProvider: ActivityProvider,
+    private val networkUtil: NetworkUtil,
+) : Action<Unit> {
+    override suspend fun Unit.execute(executionContext: ExecutionContext): String? {
         ensureLocationPermissionIsEnabled(activityProvider.getActivity(), executionContext.dialogHandle)
         return networkUtil.getCurrentSsid()
     }

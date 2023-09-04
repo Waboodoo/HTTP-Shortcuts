@@ -5,8 +5,15 @@ import android.net.Uri
 import androidx.core.net.toUri
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class DocumentationViewModel(application: Application) : BaseViewModel<DocumentationViewModel.InitData, DocumentationViewState>(application) {
+@HiltViewModel
+class DocumentationViewModel
+@Inject
+constructor(
+    application: Application,
+) : BaseViewModel<DocumentationViewModel.InitData, DocumentationViewState>(application) {
 
     override suspend fun initialize(data: InitData) = DocumentationViewState(
         initData.url ?: ExternalURLs.DOCUMENTATION_PAGE.toUri(),

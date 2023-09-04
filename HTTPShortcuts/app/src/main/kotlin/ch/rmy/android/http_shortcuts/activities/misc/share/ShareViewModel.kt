@@ -13,7 +13,6 @@ import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
@@ -29,24 +28,21 @@ import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.variables.VariableLookup
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ShareViewModel(application: Application) : BaseViewModel<ShareViewModel.InitData, ShareViewState>(application) {
-
-    @Inject
-    lateinit var shortcutRepository: ShortcutRepository
-
-    @Inject
-    lateinit var variableRepository: VariableRepository
-
-    init {
-        getApplicationComponent().inject(this)
-    }
-
+@HiltViewModel
+class ShareViewModel
+@Inject
+constructor(
+    application: Application,
+    private val shortcutRepository: ShortcutRepository,
+    private val variableRepository: VariableRepository,
+) : BaseViewModel<ShareViewModel.InitData, ShareViewState>(application) {
     private lateinit var shortcuts: List<Shortcut>
     private lateinit var variables: List<Variable>
 

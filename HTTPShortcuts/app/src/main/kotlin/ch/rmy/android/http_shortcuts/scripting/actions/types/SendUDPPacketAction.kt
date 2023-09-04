@@ -10,14 +10,12 @@ import kotlinx.coroutines.withContext
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
+import javax.inject.Inject
 
-class SendUDPPacketAction(
-    private val data: ByteArray,
-    private val ipAddress: String,
-    private val port: Int,
-) : BaseAction() {
-
-    override suspend fun execute(executionContext: ExecutionContext) {
+class SendUDPPacketAction
+@Inject
+constructor() : Action<SendUDPPacketAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext) {
         withContext(Dispatchers.IO) {
             try {
                 sendPacket(
@@ -35,6 +33,12 @@ class SendUDPPacketAction(
             }
         }
     }
+
+    data class Params(
+        val data: ByteArray,
+        val ipAddress: String,
+        val port: Int,
+    )
 
     companion object {
         internal fun sendPacket(data: ByteArray, ipAddress: InetAddress, port: Int) {

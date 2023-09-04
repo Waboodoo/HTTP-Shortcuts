@@ -14,7 +14,6 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.response.models.DetailInfo
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
@@ -26,6 +25,7 @@ import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.isImage
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import ch.rmy.android.http_shortcuts.utils.SizeLimitedReader
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -35,13 +35,14 @@ import java.nio.charset.Charset
 import javax.inject.Inject
 import kotlin.time.Duration
 
-class DisplayResponseViewModel(application: Application) : BaseViewModel<DisplayResponseViewModel.InitData, DisplayResponseViewState>(application) {
-
-    @Inject
-    lateinit var clipboardUtil: ClipboardUtil
-
-    @Inject
-    lateinit var activityProvider: ActivityProvider
+@HiltViewModel
+class DisplayResponseViewModel
+@Inject
+constructor(
+    application: Application,
+    private val clipboardUtil: ClipboardUtil,
+    private val activityProvider: ActivityProvider,
+) : BaseViewModel<DisplayResponseViewModel.InitData, DisplayResponseViewState>(application) {
 
     private lateinit var responseText: String
     private var responseTooLarge: Boolean = false
@@ -88,10 +89,6 @@ class DisplayResponseViewModel(application: Application) : BaseViewModel<Display
             canCopy = responseText.isNotEmpty() && responseText.length < MAX_COPY_LENGTH,
             canSave = initData.fileUri != null,
         )
-    }
-
-    init {
-        getApplicationComponent().inject(this)
     }
 
     fun onRerunButtonClicked() = runAction {

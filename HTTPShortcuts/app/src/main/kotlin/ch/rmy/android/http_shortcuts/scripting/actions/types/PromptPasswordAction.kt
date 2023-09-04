@@ -4,10 +4,12 @@ import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import javax.inject.Inject
 
-class PromptPasswordAction(private val message: String, private val prefill: String) : BaseAction() {
-
-    override suspend fun execute(executionContext: ExecutionContext): String? =
+class PromptPasswordAction
+@Inject
+constructor() : Action<PromptPasswordAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext): String? =
         try {
             executionContext.dialogHandle.showDialog(
                 ExecuteDialogState.TextInput(
@@ -19,4 +21,9 @@ class PromptPasswordAction(private val message: String, private val prefill: Str
         } catch (e: DialogCancellationException) {
             null
         }
+
+    data class Params(
+        val message: String,
+        val prefill: String,
+    )
 }

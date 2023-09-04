@@ -6,23 +6,21 @@ import androidx.core.net.toUri
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class DeepLinkViewModel(application: Application) : BaseViewModel<DeepLinkViewModel.InitData, DeepLinkViewState>(application) {
-
-    @Inject
-    lateinit var shortcutRepository: ShortcutRepository
-
-    init {
-        getApplicationComponent().inject(this)
-    }
-
+@HiltViewModel
+class DeepLinkViewModel
+@Inject
+constructor(
+    application: Application,
+    private val shortcutRepository: ShortcutRepository,
+) : BaseViewModel<DeepLinkViewModel.InitData, DeepLinkViewState>(application) {
     override suspend fun initialize(data: InitData): DeepLinkViewState {
         val deepLinkUrl = initData.url
             ?: return DeepLinkViewState(

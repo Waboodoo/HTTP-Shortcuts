@@ -1,10 +1,9 @@
 package ch.rmy.android.http_shortcuts.scripting.actions
 
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
+import ch.rmy.android.http_shortcuts.scripting.actions.types.ActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.Base64DecodeActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.Base64EncodeActionType
-import ch.rmy.android.http_shortcuts.scripting.actions.types.BaseAction
-import ch.rmy.android.http_shortcuts.scripting.actions.types.BaseActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeDescriptionActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeIconActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ConfirmActionType
@@ -17,7 +16,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.GetLocationActionTy
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetVariableActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.HashActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.HmacActionType
-import ch.rmy.android.http_shortcuts.scripting.actions.types.LogEventType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.LogEventActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenAppActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenURLActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ParseXMLActionType
@@ -50,74 +49,116 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.WakeOnLanActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WifiIPActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WifiSSIDActionType
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class ActionFactory
 @Inject
-constructor() {
-
-    fun fromDTO(actionDTO: ActionDTO): BaseAction? =
-        getType(actionDTO.type)
-            ?.fromDTO(actionDTO)
-
-    private fun getType(actionType: String): BaseActionType? =
-        types.firstOrNull { it.type == actionType }
+constructor(
+    base64DecodeActionType: Base64DecodeActionType,
+    base64EncodeActionType: Base64EncodeActionType,
+    changeDescriptionActionType: ChangeDescriptionActionType,
+    changeIconActionType: ChangeIconActionType,
+    confirmActionType: ConfirmActionType,
+    copyToClipboardActionType: CopyToClipboardActionType,
+    dialogActionType: DialogActionType,
+    enqueueShortcutActionType: EnqueueShortcutActionType,
+    executeShortcutActionType: ExecuteShortcutActionType,
+    getClipboardContentActionType: GetClipboardContentActionType,
+    getLocationActionType: GetLocationActionType,
+    getVariableActionType: GetVariableActionType,
+    hashActionType: HashActionType,
+    hmacActionType: HmacActionType,
+    logEventActionType: LogEventActionType,
+    openAppActionType: OpenAppActionType,
+    openURLActionType: OpenURLActionType,
+    parseXMLActionType: ParseXMLActionType,
+    playSoundActionType: PlaySoundActionType,
+    promptActionType: PromptActionType,
+    promptColorActionType: PromptColorActionType,
+    promptDateActionType: PromptDateActionType,
+    promptNumberActionType: PromptNumberActionType,
+    promptPasswordActionType: PromptPasswordActionType,
+    promptTimeActionType: PromptTimeActionType,
+    renameShortcutActionType: RenameShortcutActionType,
+    scanBarcodeActionType: ScanBarcodeActionType,
+    selectionActionType: SelectionActionType,
+    sendIntentActionType: SendIntentActionType,
+    sendMQTTMessagesActionType: SendMQTTMessagesActionType,
+    sendTCPPacketActionType: SendTCPPacketActionType,
+    sendUDPPacketActionType: SendUDPPacketActionType,
+    setResultActionType: SetResultActionType,
+    setVariableActionType: SetVariableActionType,
+    shareTextActionType: ShareTextActionType,
+    textToSpeechActionType: TextToSpeechActionType,
+    toastActionType: ToastActionType,
+    toHexStringActionType: ToHexStringActionType,
+    toStringActionType: ToStringActionType,
+    triggerTaskerTaskActionType: TriggerTaskerTaskActionType,
+    uuidActionType: UUIDActionType,
+    vibrateActionType: VibrateActionType,
+    waitActionType: WaitActionType,
+    wakeOnLanActionType: WakeOnLanActionType,
+    wifiIPActionType: WifiIPActionType,
+    wifiSSIDActionType: WifiSSIDActionType,
+) {
+    fun getType(actionType: String): ActionType? =
+        types[actionType]
 
     fun getAliases(): Map<String, ActionAlias> =
         types
-            .map { it.type to it.getAlias() }
-            .filter { it.second != null }
-            .associate { it.first to it.second!! }
+            .mapValues { (_, type) -> type.getAlias() }
+            .filter { it.value != null }
+            .mapValues { it.value!! }
 
-    companion object {
-        internal val types: List<BaseActionType> by lazy {
-            listOf(
-                Base64DecodeActionType(),
-                Base64EncodeActionType(),
-                ChangeDescriptionActionType(),
-                ChangeIconActionType(),
-                ConfirmActionType(),
-                CopyToClipboardActionType(),
-                DialogActionType(),
-                EnqueueShortcutActionType(),
-                ExecuteShortcutActionType(),
-                GetClipboardContentActionType(),
-                GetLocationActionType(),
-                GetVariableActionType(),
-                HashActionType(),
-                HmacActionType(),
-                LogEventType(),
-                OpenAppActionType(),
-                OpenURLActionType(),
-                ParseXMLActionType(),
-                PlaySoundActionType(),
-                PromptActionType(),
-                PromptColorActionType(),
-                PromptDateActionType(),
-                PromptNumberActionType(),
-                PromptPasswordActionType(),
-                PromptTimeActionType(),
-                RenameShortcutActionType(),
-                ScanBarcodeActionType(),
-                SelectionActionType(),
-                SendIntentActionType(),
-                SendMQTTMessagesActionType(),
-                SendTCPPacketActionType(),
-                SendUDPPacketActionType(),
-                SetResultActionType(),
-                SetVariableActionType(),
-                ShareTextActionType(),
-                TextToSpeechActionType(),
-                ToastActionType(),
-                ToHexStringActionType(),
-                ToStringActionType(),
-                TriggerTaskerTaskActionType(),
-                UUIDActionType(),
-                VibrateActionType(),
-                WaitActionType(),
-                WakeOnLanActionType(),
-                WifiIPActionType(),
-                WifiSSIDActionType(),
-            )
-        }
-    }
+    private val types: Map<String, ActionType> =
+        listOf(
+            base64DecodeActionType,
+            base64EncodeActionType,
+            changeDescriptionActionType,
+            changeIconActionType,
+            confirmActionType,
+            copyToClipboardActionType,
+            dialogActionType,
+            enqueueShortcutActionType,
+            executeShortcutActionType,
+            getClipboardContentActionType,
+            getLocationActionType,
+            getVariableActionType,
+            hashActionType,
+            hmacActionType,
+            logEventActionType,
+            openAppActionType,
+            openURLActionType,
+            parseXMLActionType,
+            playSoundActionType,
+            promptActionType,
+            promptColorActionType,
+            promptDateActionType,
+            promptNumberActionType,
+            promptPasswordActionType,
+            promptTimeActionType,
+            renameShortcutActionType,
+            scanBarcodeActionType,
+            selectionActionType,
+            sendIntentActionType,
+            sendMQTTMessagesActionType,
+            sendTCPPacketActionType,
+            sendUDPPacketActionType,
+            setResultActionType,
+            setVariableActionType,
+            shareTextActionType,
+            textToSpeechActionType,
+            toastActionType,
+            toHexStringActionType,
+            toStringActionType,
+            triggerTaskerTaskActionType,
+            uuidActionType,
+            vibrateActionType,
+            waitActionType,
+            wakeOnLanActionType,
+            wifiIPActionType,
+            wifiSSIDActionType,
+        )
+            .associateBy(ActionType::type)
 }

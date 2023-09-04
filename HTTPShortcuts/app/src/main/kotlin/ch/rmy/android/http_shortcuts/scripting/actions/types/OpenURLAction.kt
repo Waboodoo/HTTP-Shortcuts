@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
@@ -13,16 +12,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class OpenURLAction(private val url: String) : BaseAction() {
-
-    @Inject
-    lateinit var activityProvider: ActivityProvider
-
-    override fun inject(applicationComponent: ApplicationComponent) {
-        applicationComponent.inject(this)
-    }
-
-    override suspend fun execute(executionContext: ExecutionContext) {
+class OpenURLAction
+@Inject
+constructor(
+    private val activityProvider: ActivityProvider,
+) : Action<OpenURLAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext) {
         withContext(Dispatchers.Main) {
             val uri = url.toUri()
             if (uri.scheme?.equals("file", ignoreCase = true) == true) {
@@ -40,4 +35,8 @@ class OpenURLAction(private val url: String) : BaseAction() {
             }
         }
     }
+
+    data class Params(
+        val url: String,
+    )
 }

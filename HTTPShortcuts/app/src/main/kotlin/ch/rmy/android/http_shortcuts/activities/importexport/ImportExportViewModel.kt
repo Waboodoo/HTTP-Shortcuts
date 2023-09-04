@@ -20,7 +20,6 @@ import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.importexport.usecases.GetShortcutSelectionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
@@ -30,37 +29,26 @@ import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.Settings
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ImportExportViewModel(application: Application) :
-    BaseViewModel<ImportExportViewModel.InitData, ImportExportViewState>(application) {
-
-    @Inject
-    lateinit var settings: Settings
-
-    @Inject
-    lateinit var shortcutRepository: ShortcutRepository
-
-    @Inject
-    lateinit var getShortcutSelectionDialog: GetShortcutSelectionDialogUseCase
-
-    @Inject
-    lateinit var exporter: Exporter
-
-    @Inject
-    lateinit var importer: Importer
-
-    @Inject
-    lateinit var getUsedVariableIds: GetUsedVariableIdsUseCase
+@HiltViewModel
+class ImportExportViewModel
+@Inject
+constructor(
+    application: Application,
+    private val settings: Settings,
+    private val shortcutRepository: ShortcutRepository,
+    private val getShortcutSelectionDialog: GetShortcutSelectionDialogUseCase,
+    private val exporter: Exporter,
+    private val importer: Importer,
+    private val getUsedVariableIds: GetUsedVariableIdsUseCase,
+) : BaseViewModel<ImportExportViewModel.InitData, ImportExportViewState>(application) {
 
     private var shortcutIdsForExport: Collection<ShortcutId>? = null
-
-    init {
-        getApplicationComponent().inject(this)
-    }
 
     private var currentJob: Job? = null
         set(value) {

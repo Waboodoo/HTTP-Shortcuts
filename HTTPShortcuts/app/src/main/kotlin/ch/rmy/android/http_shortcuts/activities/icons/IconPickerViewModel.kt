@@ -8,29 +8,27 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.icons.usecases.GetIconListItemsUseCase
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
-import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
 
-class IconPickerViewModel(application: Application) : BaseViewModel<Unit, IconPickerViewState>(application) {
-
-    @Inject
-    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    @Inject
-    lateinit var getIconListItems: GetIconListItemsUseCase
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class IconPickerViewModel
+@Inject
+constructor(
+    application: Application,
+    private val getIconListItems: GetIconListItemsUseCase,
+) : BaseViewModel<Unit, IconPickerViewState>(application) {
 
     override suspend fun initialize(data: Unit): IconPickerViewState {
-        val icons = getIconListItems()
+        val icons = withContext(Dispatchers.IO) {
+            getIconListItems()
+        }
         viewModelScope.launch {
             if (icons.isEmpty()) {
                 showImagePicker()

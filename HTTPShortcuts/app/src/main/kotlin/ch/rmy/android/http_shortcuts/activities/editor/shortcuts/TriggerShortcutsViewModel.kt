@@ -13,7 +13,6 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.models.ShortcutListItem
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.models.ShortcutListItemId
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
@@ -22,22 +21,19 @@ import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager.getCodeFromTriggeredShortcutIds
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager.getTriggeredShortcutIdsFromCode
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class TriggerShortcutsViewModel(application: Application) :
-    BaseViewModel<TriggerShortcutsViewModel.InitData, TriggerShortcutsViewState>(application) {
-
-    @Inject
-    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    @Inject
-    lateinit var shortcutRepository: ShortcutRepository
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class TriggerShortcutsViewModel
+@Inject
+constructor(
+    application: Application,
+    private val temporaryShortcutRepository: TemporaryShortcutRepository,
+    private val shortcutRepository: ShortcutRepository,
+) : BaseViewModel<TriggerShortcutsViewModel.InitData, TriggerShortcutsViewState>(application) {
 
     private val currentShortcutId
         get() = initData.currentShortcutId

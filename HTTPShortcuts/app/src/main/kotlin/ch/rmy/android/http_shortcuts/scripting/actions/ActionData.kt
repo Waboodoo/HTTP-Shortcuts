@@ -6,9 +6,8 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.liquidplayer.javascript.JSValue
 
-class ActionDTO(
-    val type: String,
-    val data: List<JSValue?> = emptyList(),
+class ActionData(
+    private val data: List<JSValue?> = emptyList(),
 ) {
 
     fun getString(index: Int): String? {

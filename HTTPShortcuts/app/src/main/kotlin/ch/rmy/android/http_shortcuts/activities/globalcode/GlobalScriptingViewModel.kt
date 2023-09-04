@@ -3,26 +3,22 @@ package ch.rmy.android.http_shortcuts.activities.globalcode
 import android.app.Application
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.scripting.CodeTransformer
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class GlobalScriptingViewModel(application: Application) : BaseViewModel<Unit, GlobalScriptingViewState>(application) {
-
-    @Inject
-    lateinit var appRepository: AppRepository
-
-    @Inject
-    lateinit var codeTransformer: CodeTransformer
-
-    init {
-        getApplicationComponent().inject(this)
-    }
-
+@HiltViewModel
+class GlobalScriptingViewModel
+@Inject
+constructor(
+    application: Application,
+    private val appRepository: AppRepository,
+    private val codeTransformer: CodeTransformer,
+) : BaseViewModel<Unit, GlobalScriptingViewState>(application) {
     private var previousGlobalCode = ""
 
     override suspend fun initialize(data: Unit): GlobalScriptingViewState {

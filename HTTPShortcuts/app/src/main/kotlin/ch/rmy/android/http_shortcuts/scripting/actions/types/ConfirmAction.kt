@@ -5,10 +5,12 @@ import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.variables.Variables
+import javax.inject.Inject
 
-class ConfirmAction(private val message: String) : BaseAction() {
-
-    override suspend fun execute(executionContext: ExecutionContext): Boolean? {
+class ConfirmAction
+@Inject
+constructor() : Action<ConfirmAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext): Boolean? {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(
             message,
             executionContext.variableManager.getVariableValuesByIds(),
@@ -27,4 +29,8 @@ class ConfirmAction(private val message: String) : BaseAction() {
             false
         }
     }
+
+    data class Params(
+        val message: String,
+    )
 }

@@ -8,7 +8,6 @@ import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.extensions.toListOfObjects
 import ch.rmy.android.http_shortcuts.extensions.toListOfStrings
@@ -19,16 +18,12 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import javax.inject.Inject
 
-class SendIntentAction(private val jsonData: String) : BaseAction() {
-
-    @Inject
-    lateinit var activityProvider: ActivityProvider
-
-    override fun inject(applicationComponent: ApplicationComponent) {
-        applicationComponent.inject(this)
-    }
-
-    override suspend fun execute(executionContext: ExecutionContext) {
+class SendIntentAction
+@Inject
+constructor(
+    private val activityProvider: ActivityProvider,
+) : Action<SendIntentAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext) {
         val parameters = JSONObject(jsonData)
         val intent = constructIntent(parameters)
         withContext(Dispatchers.Main) {
@@ -55,6 +50,10 @@ class SendIntentAction(private val jsonData: String) : BaseAction() {
             }
         }
     }
+
+    data class Params(
+        val jsonData: String,
+    )
 
     companion object {
 

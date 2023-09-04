@@ -11,7 +11,9 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.curlcommand.CurlCommand
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ShortcutEditorActivity : BaseComposeActivity() {
 
     @Composable

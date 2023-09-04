@@ -5,10 +5,12 @@ import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.variables.Variables
+import javax.inject.Inject
 
-class PromptAction(private val message: String, private val prefill: String) : BaseAction() {
-
-    override suspend fun execute(executionContext: ExecutionContext): String? {
+class PromptAction
+@Inject
+constructor() : Action<PromptAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext): String? {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(
             message,
             executionContext.variableManager.getVariableValuesByIds(),
@@ -30,4 +32,9 @@ class PromptAction(private val message: String, private val prefill: String) : B
             null
         }
     }
+
+    data class Params(
+        val message: String,
+        val prefill: String,
+    )
 }

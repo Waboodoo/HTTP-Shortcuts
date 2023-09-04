@@ -3,23 +3,20 @@ package ch.rmy.android.http_shortcuts.activities.editor.basicsettings
 import android.app.Application
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.usecases.GetAvailableBrowserPackageNamesUseCase
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.extensions.type
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class BasicRequestSettingsViewModel(application: Application) : BaseViewModel<Unit, BasicRequestSettingsViewState>(application) {
-
-    @Inject
-    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    @Inject
-    lateinit var getAvailableBrowserPackageNames: GetAvailableBrowserPackageNamesUseCase
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class BasicRequestSettingsViewModel
+@Inject
+constructor(
+    application: Application,
+    private val temporaryShortcutRepository: TemporaryShortcutRepository,
+    private val getAvailableBrowserPackageNames: GetAvailableBrowserPackageNamesUseCase,
+) : BaseViewModel<Unit, BasicRequestSettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit): BasicRequestSettingsViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()

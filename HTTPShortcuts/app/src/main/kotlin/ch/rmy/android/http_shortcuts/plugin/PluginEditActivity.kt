@@ -4,15 +4,16 @@ import android.os.Bundle
 import androidx.activity.result.launch
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import com.joaomgcd.taskerpluginlibrary.config.TaskerPluginConfig
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInputInfo
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInputInfos
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input> {
 
     @Inject
@@ -30,10 +31,6 @@ class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input> {
     }
 
     private var input: Input? = null
-
-    override fun inject(applicationComponent: ApplicationComponent) {
-        applicationComponent.inject(this)
-    }
 
     override fun onCreated(savedState: Bundle?) {
         selectShortcut.launch()

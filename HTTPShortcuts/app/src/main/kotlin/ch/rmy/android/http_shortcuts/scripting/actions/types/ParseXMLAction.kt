@@ -10,10 +10,12 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.xml.sax.Attributes
 import java.util.Stack
+import javax.inject.Inject
 
-class ParseXMLAction(private val xmlInput: String) : BaseAction() {
-
-    override suspend fun execute(executionContext: ExecutionContext): JSONObject {
+class ParseXMLAction
+@Inject
+constructor() : Action<ParseXMLAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext): JSONObject {
         var root: JSONObject? = null
         var activeElement: JSONObject? = null
         val elementStack = Stack<JSONObject>()
@@ -21,7 +23,6 @@ class ParseXMLAction(private val xmlInput: String) : BaseAction() {
             Xml.parse(
                 xmlInput,
                 object : SimpleXMLContentHandler {
-
                     override fun startElement(uri: String?, localName: String, qName: String?, attributes: Attributes) {
                         val element = createElement(localName, attributes)
                         activeElement
@@ -72,4 +73,8 @@ class ParseXMLAction(private val xmlInput: String) : BaseAction() {
         }
         return result
     }
+
+    data class Params(
+        val xmlInput: String,
+    )
 }

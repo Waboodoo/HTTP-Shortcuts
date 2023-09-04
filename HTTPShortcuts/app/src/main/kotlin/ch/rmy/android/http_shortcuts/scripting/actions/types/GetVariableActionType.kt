@@ -1,15 +1,24 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import javax.inject.Inject
 
-class GetVariableActionType : BaseActionType() {
-
+class GetVariableActionType
+@Inject
+constructor(
+    private val getVariableAction: GetVariableAction,
+) : ActionType {
     override val type = TYPE
 
-    override fun fromDTO(actionDTO: ActionDTO) = GetVariableAction(
-        variableKeyOrId = actionDTO.getString(0) ?: "",
-    )
+    override fun getActionRunnable(actionDTO: ActionData) =
+        ActionRunnable(
+            action = getVariableAction,
+            params = GetVariableAction.Params(
+                variableKeyOrId = actionDTO.getString(0) ?: "",
+            ),
+        )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,

@@ -7,7 +7,9 @@ import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CategoryEditorActivity : BaseComposeActivity() {
 
     @Composable

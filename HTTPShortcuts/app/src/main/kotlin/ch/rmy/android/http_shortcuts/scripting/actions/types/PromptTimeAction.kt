@@ -14,13 +14,12 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.Date
 import java.util.Locale
+import javax.inject.Inject
 
-class PromptTimeAction(
-    private val format: String?,
-    private val initialTime: String?,
-) : BaseAction() {
-
-    override suspend fun execute(executionContext: ExecutionContext): String? =
+class PromptTimeAction
+@Inject
+constructor() : Action<PromptTimeAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext): String? =
         try {
             val selectedTime = executionContext.dialogHandle.showDialog(
                 ExecuteDialogState.TimePicker(
@@ -40,7 +39,7 @@ class PromptTimeAction(
             null
         }
 
-    private fun getInitialTime(): LocalTime =
+    private fun Params.getInitialTime(): LocalTime =
         initialTime
             ?.takeUnlessEmpty()
             ?.let { timeString ->
@@ -51,6 +50,11 @@ class PromptTimeAction(
                 }
             }
             ?: LocalTime.now()
+
+    data class Params(
+        val format: String?,
+        val initialTime: String?,
+    )
 
     companion object {
         private const val DEFAULT_FORMAT = "HH:mm"

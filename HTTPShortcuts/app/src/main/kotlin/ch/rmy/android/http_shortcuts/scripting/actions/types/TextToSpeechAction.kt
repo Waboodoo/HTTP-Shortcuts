@@ -10,7 +10,6 @@ import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.framework.extensions.tryOrIgnore
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -21,16 +20,12 @@ import javax.inject.Inject
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class TextToSpeechAction(private val message: String, private val language: String) : BaseAction() {
-
-    @Inject
-    lateinit var context: Context
-
-    override fun inject(applicationComponent: ApplicationComponent) {
-        applicationComponent.inject(this)
-    }
-
-    override suspend fun execute(executionContext: ExecutionContext) {
+class TextToSpeechAction
+@Inject
+constructor(
+    private val context: Context,
+) : Action<TextToSpeechAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext) {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(message, executionContext.variableManager.getVariableValuesByIds())
             .truncate(MAX_TEXT_LENGTH)
         if (finalMessage.isEmpty()) {
@@ -83,6 +78,11 @@ class TextToSpeechAction(private val message: String, private val language: Stri
             tts?.shutdown()
         }
     }
+
+    data class Params(
+        val message: String,
+        val language: String,
+    )
 
     companion object {
 

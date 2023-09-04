@@ -3,23 +3,22 @@ package ch.rmy.android.http_shortcuts.activities.editor.advancedsettings
 import android.app.Application
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.models.HostVerificationType
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
-class AdvancedSettingsViewModel(application: Application) : BaseViewModel<Unit, AdvancedSettingsViewState>(application) {
-
-    @Inject
-    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class AdvancedSettingsViewModel
+@Inject
+constructor(
+    application: Application,
+    private val temporaryShortcutRepository: TemporaryShortcutRepository,
+) : BaseViewModel<Unit, AdvancedSettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit): AdvancedSettingsViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()

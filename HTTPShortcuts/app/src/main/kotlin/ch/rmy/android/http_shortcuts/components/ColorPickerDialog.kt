@@ -35,10 +35,10 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.colorIntToHexString
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.hexStringToColorInt
 import ch.rmy.android.http_shortcuts.utils.Settings
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 private val UNSUPPORTED_CHARACTERS_REGEX = "[^A-Fa-f0-9]".toRegex()
@@ -159,14 +159,13 @@ private fun colorTextTransformation(annotatedString: AnnotatedString): Transform
         }
     )
 
-class ColorPickerViewModel(application: Application) : AndroidViewModel(application) {
-
-    @Inject
-    lateinit var settings: Settings
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class ColorPickerViewModel
+@Inject
+constructor(
+    application: Application,
+    private val settings: Settings,
+) : AndroidViewModel(application) {
 
     var previousIconColor: Int?
         get() = settings.previousIconColor

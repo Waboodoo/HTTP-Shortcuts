@@ -2,16 +2,25 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import javax.inject.Inject
 
-class PromptDateActionType : BaseActionType() {
-
+class PromptDateActionType
+@Inject
+constructor(
+    private val promptDateAction: PromptDateAction,
+) : ActionType {
     override val type = TYPE
 
-    override fun fromDTO(actionDTO: ActionDTO) = PromptDateAction(
-        format = actionDTO.getString(0)?.takeUnlessEmpty(),
-        initialDate = actionDTO.getString(1),
-    )
+    override fun getActionRunnable(actionDTO: ActionData) =
+        ActionRunnable(
+            action = promptDateAction,
+            params = PromptDateAction.Params(
+                format = actionDTO.getString(0)?.takeUnlessEmpty(),
+                initialDate = actionDTO.getString(1),
+            ),
+        )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,

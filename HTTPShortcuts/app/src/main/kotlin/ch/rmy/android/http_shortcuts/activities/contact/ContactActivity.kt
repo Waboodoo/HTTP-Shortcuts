@@ -15,15 +15,16 @@ import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.VersionUtil
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ContactActivity : BaseComposeActivity() {
 
     @Inject
@@ -44,10 +45,6 @@ class ContactActivity : BaseComposeActivity() {
                 }
             }
         )
-    }
-
-    override fun inject(applicationComponent: ApplicationComponent) {
-        applicationComponent.inject(this)
     }
 
     private fun createMailDraft() {

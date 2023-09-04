@@ -5,7 +5,9 @@ import android.net.Uri
 import androidx.compose.runtime.Composable
 import ch.rmy.android.framework.extensions.getParcelable
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ShareActivity : BaseComposeActivity() {
 
     override val initializeWithTheme: Boolean

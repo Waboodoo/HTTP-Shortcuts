@@ -5,26 +5,21 @@ import ch.rmy.android.framework.utils.InstallUtil
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.acknowledgment.AcknowledgmentActivity
 import ch.rmy.android.http_shortcuts.activities.contact.ContactActivity
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.VersionUtil
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class AboutViewModel(application: Application) : BaseViewModel<Unit, AboutViewState>(application) {
-
-    @Inject
-    lateinit var settings: Settings
-
-    @Inject
-    lateinit var versionUtil: VersionUtil
-
-    @Inject
-    lateinit var installUtil: InstallUtil
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class AboutViewModel
+@Inject
+constructor(
+    application: Application,
+    private val settings: Settings,
+    private val versionUtil: VersionUtil,
+    private val installUtil: InstallUtil,
+) : BaseViewModel<Unit, AboutViewState>(application) {
 
     override suspend fun initialize(data: Unit): AboutViewState =
         AboutViewState(

@@ -1,11 +1,9 @@
 package ch.rmy.android.http_shortcuts.scripting
 
-import android.content.Context
 import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.resume
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
@@ -13,7 +11,7 @@ import ch.rmy.android.http_shortcuts.exceptions.UserAbortException
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionFactory
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import kotlinx.coroutines.CancellationException
@@ -34,7 +32,6 @@ import kotlin.coroutines.resumeWithException
 class ScriptExecutor
 @Inject
 constructor(
-    private val context: Context,
     private val actionFactory: ActionFactory,
     private val responseObjectFactory: ResponseObjectFactory,
     private val codeTransformer: CodeTransformer,
@@ -61,7 +58,7 @@ constructor(
         runWithExceptionHandling {
             registerShortcut(shortcut)
             registerFiles(fileUploadResult)
-            registerActions(context, shortcut.id, variableManager, resultHandler, dialogHandle, recursionDepth)
+            registerActions(shortcut.id, variableManager, resultHandler, dialogHandle, recursionDepth)
         }
     }
 
@@ -181,7 +178,6 @@ constructor(
     }
 
     private fun registerActions(
-        context: Context,
         shortcutId: ShortcutId,
         variableManager: VariableManager,
         resultHandler: ResultHandler,
@@ -193,8 +189,8 @@ constructor(
             object : JSFunction(jsContext, "run") {
                 @Suppress("unused")
                 @Keep
-                fun run(actionType: String, rawData: JSValue?): JSValue? {
-                    logInfo("Running action of type: $actionType")
+                fun run(actionTypeName: String, rawData: JSValue?): JSValue? {
+                    logInfo("Running action of type: $actionTypeName")
 
                     val data = when {
                         rawData?.isArray == true -> {
@@ -214,18 +210,13 @@ constructor(
                         }
                         else -> emptyList()
                     }
-                    val action = actionFactory.fromDTO(
-                        ActionDTO(
-                            type = actionType,
-                            data = data,
-                        )
-                    )
+                    val actionType = actionFactory.getType(actionTypeName)
                         ?: return null
+                    val runnable = actionType.getActionRunnable(ActionData(data))
 
                     return try {
                         val result = runBlocking {
-                            action.run(
-                                applicationComponent = context.getApplicationComponent(),
+                            runnable.run(
                                 ExecutionContext(
                                     jsContext = jsContext,
                                     shortcutId = shortcutId,

@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.http
 
 import android.content.Context
 import android.os.Build
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
@@ -14,7 +15,6 @@ import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
@@ -28,28 +28,24 @@ import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.variables.Variables
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import javax.inject.Inject
 
-class HttpRequesterWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
-
-    @Inject
-    lateinit var appRepository: AppRepository
-
-    @Inject
-    lateinit var shortcutRepository: ShortcutRepository
-
-    @Inject
-    lateinit var httpRequester: HttpRequester
-
-    @Inject
-    lateinit var errorFormatter: ErrorFormatter
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltWorker
+class HttpRequesterWorker
+@AssistedInject
+constructor(
+    @Assisted context: Context,
+    @Assisted params: WorkerParameters,
+    private val appRepository: AppRepository,
+    private val shortcutRepository: ShortcutRepository,
+    private val httpRequester: HttpRequester,
+    private val errorFormatter: ErrorFormatter,
+) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
         val params = getParams()

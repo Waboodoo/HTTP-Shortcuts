@@ -14,6 +14,7 @@ plugins {
     id("com.bugsnag.android.gradle")
     id("io.realm.kotlin")
     id("de.mobilej.unmock")
+    id("com.google.dagger.hilt.android")
 }
 
 val coroutinesVersion: String by properties
@@ -246,7 +247,10 @@ dependencies {
     implementation(project(path = ":framework"))
 
     /* Dependency Injection */
-    kapt("com.google.dagger:dagger-compiler:2.41")
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("androidx.hilt:hilt-work:1.0.0")
+    kapt("androidx.hilt:hilt-compiler:1.0.0")
 
     /* Support libraries */
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
@@ -328,6 +332,10 @@ dependencies {
     testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation("androidx.test:core-ktx:$androidCoreKtxTestVersion")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
+}
+
+kapt {
+    correctErrorTypes = true
 }
 
 poeditor {

@@ -10,30 +10,27 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.categories.models.CategoryListItem
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class CategoriesViewModel(application: Application) : BaseViewModel<Unit, CategoriesViewState>(application) {
-
-    @Inject
-    lateinit var categoryRepository: CategoryRepository
-
-    @Inject
-    lateinit var launcherShortcutManager: LauncherShortcutManager
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class CategoriesViewModel
+@Inject
+constructor(
+    application: Application,
+    private val categoryRepository: CategoryRepository,
+    private val launcherShortcutManager: LauncherShortcutManager,
+) : BaseViewModel<Unit, CategoriesViewState>(application) {
 
     private lateinit var categories: List<Category>
     private var hasChanged = false

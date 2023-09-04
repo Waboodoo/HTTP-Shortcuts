@@ -1,15 +1,24 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import javax.inject.Inject
 
-class Base64EncodeActionType : BaseActionType() {
-
+class Base64EncodeActionType
+@Inject
+constructor(
+    private val base64EncodeAction: Base64EncodeAction,
+) : ActionType {
     override val type = TYPE
 
-    override fun fromDTO(actionDTO: ActionDTO) = Base64EncodeAction(
-        text = actionDTO.getByteArray(0) ?: ByteArray(0),
-    )
+    override fun getActionRunnable(actionDTO: ActionData) =
+        ActionRunnable(
+            action = base64EncodeAction,
+            params = Base64EncodeAction.Params(
+                text = actionDTO.getByteArray(0) ?: ByteArray(0),
+            )
+        )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,

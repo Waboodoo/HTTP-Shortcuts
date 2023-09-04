@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.variables.types
 
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import java.text.SimpleDateFormat
@@ -14,16 +13,12 @@ import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
-class DateType : BaseVariableType() {
-
-    @Inject
-    lateinit var variablesRepository: VariableRepository
-
-    override fun inject(applicationComponent: ApplicationComponent) {
-        applicationComponent.inject(this)
-    }
-
-    override suspend fun resolveValue(variable: Variable, dialogHandle: DialogHandle): String {
+class DateType
+@Inject
+constructor(
+    private val variablesRepository: VariableRepository,
+) : VariableType {
+    override suspend fun resolve(variable: Variable, dialogHandle: DialogHandle): String {
         val selectedDate = dialogHandle.showDialog(
             ExecuteDialogState.DatePicker(
                 initialDate = getInitialDate(variable.value.takeIf { variable.rememberValue }),

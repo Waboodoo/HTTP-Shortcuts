@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
@@ -12,16 +11,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class GetVariableAction(val variableKeyOrId: VariableKeyOrId) : BaseAction() {
-
-    @Inject
-    lateinit var variableResolver: VariableResolver
-
-    override fun inject(applicationComponent: ApplicationComponent) {
-        applicationComponent.inject(this)
-    }
-
-    override suspend fun execute(executionContext: ExecutionContext): String =
+class GetVariableAction
+@Inject
+constructor(
+    private val variableResolver: VariableResolver,
+) : Action<GetVariableAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext): String =
         try {
             getVariableValue(variableKeyOrId, executionContext.variableManager)
         } catch (e: VariableNotFoundException) {
@@ -49,4 +44,8 @@ class GetVariableAction(val variableKeyOrId: VariableKeyOrId) : BaseAction() {
     }
 
     private class VariableNotFoundException : Throwable()
+
+    data class Params(
+        val variableKeyOrId: VariableKeyOrId,
+    )
 }

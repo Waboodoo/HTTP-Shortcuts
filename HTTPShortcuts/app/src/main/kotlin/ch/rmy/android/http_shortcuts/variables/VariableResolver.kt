@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
@@ -13,7 +12,7 @@ import javax.inject.Inject
 class VariableResolver
 @Inject
 constructor(
-    private val applicationComponent: ApplicationComponent,
+    private val variableTypeFactory: VariableTypeFactory,
 ) {
 
     suspend fun resolve(
@@ -47,8 +46,8 @@ constructor(
             return
         }
 
-        val variableType = VariableTypeFactory.getType(variable.variableType)
-        val rawValue = variableType.resolve(applicationComponent, variable, dialogHandle)
+        val variableType = variableTypeFactory.getType(variable.variableType)
+        val rawValue = variableType.resolve(variable, dialogHandle)
 
         Variables.extractVariableIds(rawValue)
             .forEach { variableId ->

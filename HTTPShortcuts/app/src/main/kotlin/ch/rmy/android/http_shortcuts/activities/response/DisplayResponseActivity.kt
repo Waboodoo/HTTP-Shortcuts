@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -22,6 +23,7 @@ import java.nio.charset.Charset
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
+@AndroidEntryPoint
 class DisplayResponseActivity : BaseComposeActivity() {
 
     @Composable

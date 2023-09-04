@@ -6,7 +6,6 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ExecutionFactory
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
@@ -16,7 +15,6 @@ import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.exceptions.UserAbortException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.scripting.ResponseObjectFactory
-import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.lastOrNull
@@ -25,28 +23,14 @@ import org.liquidplayer.javascript.JSContext
 import org.liquidplayer.javascript.JSObject
 import javax.inject.Inject
 
-class ExecuteShortcutAction(
-    private val shortcutNameOrId: ShortcutNameOrId?,
-    private val variableValues: Map<VariableKey, Any?>?,
-) : BaseAction() {
-
-    @Inject
-    lateinit var executionFactory: ExecutionFactory
-
-    @Inject
-    lateinit var shortcutRepository: ShortcutRepository
-
-    @Inject
-    lateinit var errorFormatter: ErrorFormatter
-
-    @Inject
-    lateinit var responseObjectFactory: ResponseObjectFactory
-
-    override fun inject(applicationComponent: ApplicationComponent) {
-        applicationComponent.inject(this)
-    }
-
-    override suspend fun execute(executionContext: ExecutionContext): JSObject {
+class ExecuteShortcutAction
+@Inject
+constructor(
+    private val executionFactory: ExecutionFactory,
+    private val shortcutRepository: ShortcutRepository,
+    private val responseObjectFactory: ResponseObjectFactory,
+) : Action<ExecuteShortcutAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext): JSObject {
         logInfo("Preparing to execute shortcut ($shortcutNameOrId)")
         if (executionContext.recursionDepth >= MAX_RECURSION_DEPTH) {
             logInfo("Not executing shortcut, reached maximum recursion depth")
@@ -116,6 +100,11 @@ class ExecuteShortcutAction(
                 ?.result
         )
     }
+
+    data class Params(
+        val shortcutNameOrId: ShortcutNameOrId?,
+        val variableValues: Map<VariableKey, Any?>?,
+    )
 
     companion object {
 

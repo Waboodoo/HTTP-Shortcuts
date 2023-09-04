@@ -11,15 +11,13 @@ import kotlinx.coroutines.withContext
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
+import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
-class WakeOnLanAction(
-    private val macAddress: String,
-    private val ipAddress: String,
-    private val port: Int,
-) : BaseAction() {
-
-    override suspend fun execute(executionContext: ExecutionContext) {
+class WakeOnLanAction
+@Inject
+constructor() : Action<WakeOnLanAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext) {
         val macAddress = parseMacAddress(macAddress)
         withContext(Dispatchers.IO) {
             try {
@@ -38,6 +36,12 @@ class WakeOnLanAction(
             }
         }
     }
+
+    data class Params(
+        val macAddress: String,
+        val ipAddress: String,
+        val port: Int,
+    )
 
     companion object {
 

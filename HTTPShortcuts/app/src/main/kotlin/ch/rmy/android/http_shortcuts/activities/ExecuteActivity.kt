@@ -24,7 +24,6 @@ import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.components.ProgressDialog
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -34,11 +33,13 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionSchedulerWorker
 import ch.rmy.android.http_shortcuts.utils.CacheFilesCleanupWorker
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
+@AndroidEntryPoint
 class ExecuteActivity : BaseComposeActivity() {
 
     override val initializeWithTheme: Boolean
@@ -72,10 +73,6 @@ class ExecuteActivity : BaseComposeActivity() {
                     type = PendingExecutionType.NEW_INTENT,
                 )
         }
-    }
-
-    override fun inject(applicationComponent: ApplicationComponent) {
-        applicationComponent.inject(this)
     }
 
     override fun onCreated(savedState: Bundle?) {

@@ -7,29 +7,24 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.authentication.usecases.CopyCertificateFileUseCase
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.ClientCertUtil
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import javax.inject.Inject
 
-class AuthenticationViewModel(application: Application) : BaseViewModel<Unit, AuthenticationViewState>(application) {
-
-    @Inject
-    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    @Inject
-    lateinit var copyCertificateFile: CopyCertificateFileUseCase
-
-    @Inject
-    lateinit var activityProvider: ActivityProvider
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class AuthenticationViewModel
+@Inject
+constructor(
+    application: Application,
+    private val temporaryShortcutRepository: TemporaryShortcutRepository,
+    private val copyCertificateFile: CopyCertificateFileUseCase,
+    private val activityProvider: ActivityProvider,
+) : BaseViewModel<Unit, AuthenticationViewState>(application) {
 
     override suspend fun initialize(data: Unit): AuthenticationViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()

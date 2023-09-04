@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.scheduling
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.Data
@@ -13,32 +14,33 @@ import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
-import ch.rmy.android.http_shortcuts.data.RealmFactoryImpl
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.time.Duration
 
-class ExecutionWorker(private val context: Context, workerParams: WorkerParameters) : CoroutineWorker(context, workerParams) {
-
-    @Inject
-    lateinit var pendingExecutionsRepository: PendingExecutionsRepository
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltWorker
+class ExecutionWorker
+@AssistedInject
+constructor(
+    @Assisted
+    private val context: Context,
+    @Assisted
+    params: WorkerParameters,
+    private val pendingExecutionsRepository: PendingExecutionsRepository,
+) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
         return try {
             val executionId = inputData.getString(INPUT_EXECUTION_ID) ?: return Result.failure()
-            RealmFactoryImpl.init(applicationContext)
             runPendingExecution(context, executionId)
             Result.success()
         } catch (e: NoSuchElementException) {

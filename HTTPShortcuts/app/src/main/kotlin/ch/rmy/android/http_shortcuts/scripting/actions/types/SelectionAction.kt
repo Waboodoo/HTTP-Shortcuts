@@ -4,13 +4,12 @@ import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import javax.inject.Inject
 
-class SelectionAction(
-    private val dataObject: Map<String, Any?>?,
-    private val dataList: List<Any?>?,
-) : BaseAction() {
-
-    override suspend fun execute(executionContext: ExecutionContext): String? {
+class SelectionAction
+@Inject
+constructor() : Action<SelectionAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext): String? {
         val options = parseData(dataObject, dataList)
         if (options.isEmpty()) {
             return null
@@ -31,4 +30,9 @@ class SelectionAction(
         dataObject?.mapValues { it.value?.toString() ?: "" }
             ?: dataList?.map { it?.toString() ?: "" }?.associateWith { it }
             ?: throw JavaScriptException("showSelection function expects object or array as argument")
+
+    data class Params(
+        val dataObject: Map<String, Any?>?,
+        val dataList: List<Any?>?,
+    )
 }

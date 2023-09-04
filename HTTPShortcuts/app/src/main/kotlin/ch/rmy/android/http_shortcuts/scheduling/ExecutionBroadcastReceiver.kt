@@ -3,12 +3,13 @@ package ch.rmy.android.http_shortcuts.scheduling
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ExecutionBroadcastReceiver : BroadcastReceiver() {
 
     @Inject
@@ -18,7 +19,6 @@ class ExecutionBroadcastReceiver : BroadcastReceiver() {
     lateinit var alarmScheduler: AlarmScheduler
 
     override fun onReceive(context: Context, intent: Intent) {
-        context.getApplicationComponent().inject(this)
         val pendingExecution = try {
             runBlocking {
                 pendingExecutionsRepository.getPendingExecution(intent.extractId())

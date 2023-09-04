@@ -9,21 +9,20 @@ import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class ResponseViewModel(application: Application) : BaseViewModel<Unit, ResponseViewState>(application) {
-
-    @Inject
-    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class ResponseViewModel
+@Inject
+constructor(
+    application: Application,
+    private val temporaryShortcutRepository: TemporaryShortcutRepository,
+) : BaseViewModel<Unit, ResponseViewState>(application) {
 
     override suspend fun initialize(data: Unit): ResponseViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()

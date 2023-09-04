@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.categories.editor
 import android.app.Application
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.categories.editor.models.CategoryBackground
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
@@ -12,20 +11,17 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class CategoryEditorViewModel(application: Application) :
-    BaseViewModel<CategoryEditorViewModel.InitData, CategoryEditorViewState>(application) {
-
-    @Inject
-    lateinit var categoryRepository: CategoryRepository
-
-    @Inject
-    lateinit var launcherShortcutManager: LauncherShortcutManager
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class CategoryEditorViewModel
+@Inject
+constructor(
+    application: Application,
+    private val categoryRepository: CategoryRepository,
+    private val launcherShortcutManager: LauncherShortcutManager,
+) : BaseViewModel<CategoryEditorViewModel.InitData, CategoryEditorViewState>(application) {
 
     private lateinit var category: Category
 

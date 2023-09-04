@@ -1,13 +1,22 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import javax.inject.Inject
 
-class GetClipboardContentActionType : BaseActionType() {
-
+class GetClipboardContentActionType
+@Inject
+constructor(
+    private val getClipboardContentAction: GetClipboardContentAction,
+) : ActionType {
     override val type = TYPE
 
-    override fun fromDTO(actionDTO: ActionDTO) = GetClipboardContentAction()
+    override fun getActionRunnable(actionDTO: ActionData) =
+        ActionRunnable(
+            action = getClipboardContentAction,
+            params = Unit,
+        )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,

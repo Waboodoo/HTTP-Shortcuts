@@ -37,7 +37,9 @@ import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs.RELEASES
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseComposeActivity() {
 
     override fun onCreated(savedState: Bundle?) {

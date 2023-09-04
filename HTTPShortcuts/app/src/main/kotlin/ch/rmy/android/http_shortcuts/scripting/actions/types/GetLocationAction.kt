@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.LocationLookup
@@ -11,19 +10,13 @@ import kotlinx.coroutines.CancellationException
 import org.json.JSONObject
 import javax.inject.Inject
 
-class GetLocationAction : BaseAction() {
-
-    @Inject
-    lateinit var locationLookup: LocationLookup
-
-    @Inject
-    lateinit var permissionManager: PermissionManager
-
-    override fun inject(applicationComponent: ApplicationComponent) {
-        applicationComponent.inject(this)
-    }
-
-    override suspend fun execute(executionContext: ExecutionContext): JSONObject {
+class GetLocationAction
+@Inject
+constructor(
+    private val locationLookup: LocationLookup,
+    private val permissionManager: PermissionManager,
+) : Action<Unit> {
+    override suspend fun Unit.execute(executionContext: ExecutionContext): JSONObject {
         requestLocationPermissionIfNeeded()
         return fetchLocation()
     }

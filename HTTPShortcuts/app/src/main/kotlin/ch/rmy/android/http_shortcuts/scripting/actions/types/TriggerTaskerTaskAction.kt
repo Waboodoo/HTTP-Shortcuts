@@ -1,25 +1,17 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.plugin.TaskerIntent
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import javax.inject.Inject
 
-class TriggerTaskerTaskAction(
-    private val taskName: String,
-    private val variableValuesJson: String,
-) : BaseAction() {
-
-    @Inject
-    lateinit var activityProvider: ActivityProvider
-
-    override fun inject(applicationComponent: ApplicationComponent) {
-        applicationComponent.inject(this)
-    }
-
-    override suspend fun execute(executionContext: ExecutionContext) {
+class TriggerTaskerTaskAction
+@Inject
+constructor(
+    private val activityProvider: ActivityProvider,
+) : Action<TriggerTaskerTaskAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext) {
         val intent = TaskerIntent(taskName)
         getVariableValues(variableValuesJson)
             .forEach { (variableName, value) ->
@@ -37,4 +29,9 @@ class TriggerTaskerTaskAction(
                 emptyMap()
             }
     }
+
+    data class Params(
+        val taskName: String,
+        val variableValuesJson: String,
+    )
 }

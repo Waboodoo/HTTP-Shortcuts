@@ -26,7 +26,6 @@ import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcut
 import ch.rmy.android.http_shortcuts.activities.editor.usecases.FetchFaviconUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogHandler
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.SessionInfoStore
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -48,52 +47,30 @@ import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableHttpUrl
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableUrl
-import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ShortcutEditorViewModel(
+@HiltViewModel
+class ShortcutEditorViewModel
+@Inject
+constructor(
     application: Application,
+    private val shortcutRepository: ShortcutRepository,
+    private val temporaryShortcutRepository: TemporaryShortcutRepository,
+    private val variableRepository: VariableRepository,
+    private val widgetManager: WidgetManager,
+    private val fetchFavicon: FetchFaviconUseCase,
+    private val launcherShortcutManager: LauncherShortcutManager,
+    private val sessionInfoStore: SessionInfoStore,
+    private val cleanUpStarter: CleanUpWorker.Starter,
+    private val dialogHandler: ExecuteDialogHandler,
 ) : BaseViewModel<ShortcutEditorViewModel.InitData, ShortcutEditorViewState>(application) {
-
-    @Inject
-    lateinit var shortcutRepository: ShortcutRepository
-
-    @Inject
-    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    @Inject
-    lateinit var variableRepository: VariableRepository
-
-    @Inject
-    lateinit var widgetManager: WidgetManager
-
-    @Inject
-    lateinit var fetchFavicon: FetchFaviconUseCase
-
-    @Inject
-    lateinit var launcherShortcutManager: LauncherShortcutManager
-
-    @Inject
-    lateinit var sessionInfoStore: SessionInfoStore
-
-    @Inject
-    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
-
-    @Inject
-    lateinit var cleanUpStarter: CleanUpWorker.Starter
-
-    @Inject
-    lateinit var dialogHandler: ExecuteDialogHandler
-
-    init {
-        getApplicationComponent().inject(this)
-    }
 
     private var isSaving = false
         set(value) {

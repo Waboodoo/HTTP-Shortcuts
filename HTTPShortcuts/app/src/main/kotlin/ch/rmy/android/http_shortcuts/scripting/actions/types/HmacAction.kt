@@ -6,14 +6,12 @@ import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import java.security.NoSuchAlgorithmException
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
+import javax.inject.Inject
 
-class HmacAction(
-    private val algorithm: String,
-    private val key: ByteArray,
-    private val message: ByteArray,
-) : BaseAction() {
-
-    override suspend fun execute(executionContext: ExecutionContext): ByteArray {
+class HmacAction
+@Inject
+constructor() : Action<HmacAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext): ByteArray {
         val algorithmName = SUPPORTED_ALGORITHMS[normalizeAlgorithm(algorithm)]
             ?: throwUnsupportedError()
         return try {
@@ -25,7 +23,7 @@ class HmacAction(
         }
     }
 
-    private fun throwUnsupportedError(): Nothing {
+    private fun Params.throwUnsupportedError(): Nothing {
         throw ActionException {
             getString(
                 R.string.error_unsupported_hmac_algorithm,
@@ -34,6 +32,12 @@ class HmacAction(
             )
         }
     }
+
+    data class Params(
+        val algorithm: String,
+        val key: ByteArray,
+        val message: ByteArray,
+    )
 
     companion object {
 

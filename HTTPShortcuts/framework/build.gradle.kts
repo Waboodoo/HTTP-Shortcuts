@@ -92,8 +92,8 @@ dependencies {
     api("androidx.preference:preference-ktx:1.2.1")
 
     /* Dependency Injection */
-    api("com.google.dagger:dagger:2.41")
-    kapt("com.google.dagger:dagger-compiler:2.41")
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
 
     /* Database */
     api("io.realm.kotlin:library-base:1.8.0")
@@ -103,4 +103,8 @@ dependencies {
     testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation("androidx.test:core-ktx:$androidCoreKtxTestVersion")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
+}
+
+kapt {
+    correctErrorTypes = true
 }

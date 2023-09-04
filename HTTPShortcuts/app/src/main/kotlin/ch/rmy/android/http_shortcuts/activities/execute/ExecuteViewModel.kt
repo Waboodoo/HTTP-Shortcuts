@@ -7,28 +7,21 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.plugin.SessionMonitor
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
-class ExecuteViewModel(
+@HiltViewModel
+class ExecuteViewModel
+@Inject
+constructor(
     application: Application,
+    private val executionFactory: ExecutionFactory,
+    private val sessionMonitor: SessionMonitor,
+    private val dialogHandler: ExecuteDialogHandler,
 ) : BaseViewModel<ExecutionParams, ExecuteViewState>(application) {
-
-    @Inject
-    lateinit var executionFactory: ExecutionFactory
-
-    @Inject
-    lateinit var sessionMonitor: SessionMonitor
-
-    @Inject
-    lateinit var dialogHandler: ExecuteDialogHandler
-
-    init {
-        getApplicationComponent().inject(this)
-    }
 
     private lateinit var execution: Execution
 

@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
@@ -12,6 +11,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.scripting.CodeTransformer
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -21,17 +21,14 @@ import java.util.LinkedList
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
-class ScriptingViewModel(application: Application) : BaseViewModel<Unit, ScriptingViewState>(application) {
-
-    @Inject
-    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    @Inject
-    lateinit var codeTransformer: CodeTransformer
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class ScriptingViewModel
+@Inject
+constructor(
+    application: Application,
+    private val temporaryShortcutRepository: TemporaryShortcutRepository,
+    private val codeTransformer: CodeTransformer,
+) : BaseViewModel<Unit, ScriptingViewState>(application) {
 
     private lateinit var shortcutExecutionType: ShortcutExecutionType
 

@@ -5,7 +5,9 @@ import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class VariableEditorActivity : BaseComposeActivity() {
 
     @Composable

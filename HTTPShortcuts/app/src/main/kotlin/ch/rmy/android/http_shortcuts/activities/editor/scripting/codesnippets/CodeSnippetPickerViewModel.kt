@@ -10,7 +10,6 @@ import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.mo
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.usecases.GenerateCodeSnippetItemsUseCase
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.usecases.GetItemWrappersUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
@@ -21,35 +20,25 @@ import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProv
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs.getScriptingDocumentation
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class CodeSnippetPickerViewModel(application: Application) :
+@HiltViewModel
+class CodeSnippetPickerViewModel
+@Inject
+constructor(
+    application: Application,
+    private val shortcutRepository: ShortcutRepository,
+    private val variableRepository: VariableRepository,
+    private val generateCodeSnippetItems: GenerateCodeSnippetItemsUseCase,
+    private val variablePlaceholderProvider: VariablePlaceholderProvider,
+    private val shortcutPlaceholderProvider: ShortcutPlaceholderProvider,
+    private val getItemWrappers: GetItemWrappersUseCase,
+) :
     BaseViewModel<CodeSnippetPickerViewModel.InitData, CodeSnippetPickerViewState>(application) {
-
-    @Inject
-    lateinit var shortcutRepository: ShortcutRepository
-
-    @Inject
-    lateinit var variableRepository: VariableRepository
-
-    @Inject
-    lateinit var generateCodeSnippetItems: GenerateCodeSnippetItemsUseCase
-
-    @Inject
-    lateinit var variablePlaceholderProvider: VariablePlaceholderProvider
-
-    @Inject
-    lateinit var shortcutPlaceholderProvider: ShortcutPlaceholderProvider
-
-    @Inject
-    lateinit var getItemWrappers: GetItemWrappersUseCase
-
-    init {
-        getApplicationComponent().inject(this)
-    }
 
     private var iconPickerShortcutPlaceholder: String? = null
     private var onShortcutSelected: ((String) -> Unit)? = null

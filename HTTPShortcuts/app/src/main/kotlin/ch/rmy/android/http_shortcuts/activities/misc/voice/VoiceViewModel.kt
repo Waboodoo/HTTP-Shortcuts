@@ -3,20 +3,19 @@ package ch.rmy.android.http_shortcuts.activities.misc.voice
 import android.app.Application
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class VoiceViewModel(application: Application) : BaseViewModel<VoiceViewModel.InitData, VoiceViewState>(application) {
-
-    @Inject
-    lateinit var shortcutRepository: ShortcutRepository
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class VoiceViewModel
+@Inject
+constructor(
+    application: Application,
+    private val shortcutRepository: ShortcutRepository,
+) : BaseViewModel<VoiceViewModel.InitData, VoiceViewState>(application) {
 
     override suspend fun initialize(data: InitData): VoiceViewState {
         if (data.shortcutName == null) {

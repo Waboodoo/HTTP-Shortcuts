@@ -6,7 +6,6 @@ import ch.rmy.android.framework.extensions.indexOfFirstOrNull
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.moving.models.CategoryItem
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -14,25 +13,23 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MoveViewModel(application: Application) : BaseViewModel<Unit, Unit>(application) {
-
-    @Inject
-    lateinit var categoryRepository: CategoryRepository
-
-    @Inject
-    lateinit var shortcutRepository: ShortcutRepository
+@HiltViewModel
+class MoveViewModel
+@Inject
+constructor(
+    application: Application,
+    private val categoryRepository: CategoryRepository,
+    private val shortcutRepository: ShortcutRepository,
+) : BaseViewModel<Unit, Unit>(application) {
 
     private val _categories = MutableStateFlow<List<CategoryItem>>(emptyList())
     val categories = _categories.asStateFlow()
-
-    init {
-        getApplicationComponent().inject(this)
-    }
 
     override suspend fun initialize(data: Unit) {
         viewModelScope.launch {

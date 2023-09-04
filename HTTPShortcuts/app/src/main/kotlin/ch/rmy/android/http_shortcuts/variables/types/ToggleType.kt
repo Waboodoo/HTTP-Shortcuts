@@ -2,21 +2,16 @@ package ch.rmy.android.http_shortcuts.variables.types
 
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import javax.inject.Inject
 
-class ToggleType : BaseVariableType() {
-
-    @Inject
-    lateinit var variablesRepository: VariableRepository
-
-    override fun inject(applicationComponent: ApplicationComponent) {
-        applicationComponent.inject(this)
-    }
-
-    override suspend fun resolveValue(variable: Variable, dialogHandle: DialogHandle): String {
+class ToggleType
+@Inject
+constructor(
+    private val variablesRepository: VariableRepository,
+) : VariableType {
+    override suspend fun resolve(variable: Variable, dialogHandle: DialogHandle): String {
         val options = variable.options?.takeUnlessEmpty() ?: return ""
 
         val previousIndex = variable.value?.toIntOrNull()?.coerceAtLeast(0) ?: 0

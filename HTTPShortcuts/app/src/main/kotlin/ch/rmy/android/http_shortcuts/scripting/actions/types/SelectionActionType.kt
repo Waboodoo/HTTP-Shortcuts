@@ -1,16 +1,25 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import javax.inject.Inject
 
-class SelectionActionType : BaseActionType() {
-
+class SelectionActionType
+@Inject
+constructor(
+    private val selectionAction: SelectionAction,
+) : ActionType {
     override val type = TYPE
 
-    override fun fromDTO(actionDTO: ActionDTO) = SelectionAction(
-        dataObject = actionDTO.getObject(0),
-        dataList = actionDTO.getList(0),
-    )
+    override fun getActionRunnable(actionDTO: ActionData) =
+        ActionRunnable(
+            action = selectionAction,
+            params = SelectionAction.Params(
+                dataObject = actionDTO.getObject(0),
+                dataList = actionDTO.getList(0),
+            ),
+        )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,

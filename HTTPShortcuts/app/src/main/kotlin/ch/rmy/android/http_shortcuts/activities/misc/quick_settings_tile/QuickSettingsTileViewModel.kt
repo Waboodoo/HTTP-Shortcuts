@@ -3,22 +3,21 @@ package ch.rmy.android.http_shortcuts.activities.misc.quick_settings_tile
 import android.app.Application
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class QuickSettingsTileViewModel(application: Application) : BaseViewModel<Unit, QuickSettingsTileViewState>(application) {
-
-    @Inject
-    lateinit var shortcutRepository: ShortcutRepository
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class QuickSettingsTileViewModel
+@Inject
+constructor(
+    application: Application,
+    private val shortcutRepository: ShortcutRepository,
+) : BaseViewModel<Unit, QuickSettingsTileViewState>(application) {
 
     private lateinit var shortcuts: List<Shortcut>
 

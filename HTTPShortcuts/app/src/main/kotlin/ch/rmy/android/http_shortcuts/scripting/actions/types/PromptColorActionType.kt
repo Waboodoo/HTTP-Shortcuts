@@ -2,15 +2,24 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionDTO
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
+import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import javax.inject.Inject
 
-class PromptColorActionType : BaseActionType() {
-
+class PromptColorActionType
+@Inject
+constructor(
+    private val promptColorAction: PromptColorAction,
+) : ActionType {
     override val type = TYPE
 
-    override fun fromDTO(actionDTO: ActionDTO) = PromptColorAction(
-        initialColor = actionDTO.getString(0)?.takeUnlessEmpty(),
-    )
+    override fun getActionRunnable(actionDTO: ActionData) =
+        ActionRunnable(
+            action = promptColorAction,
+            params = PromptColorAction.Params(
+                initialColor = actionDTO.getString(0)?.takeUnlessEmpty(),
+            ),
+        )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,

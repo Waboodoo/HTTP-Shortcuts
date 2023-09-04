@@ -5,19 +5,18 @@ import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.activities.editor.headers.models.HeaderListItem
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.Header
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class RequestHeadersViewModel(application: Application) : BaseViewModel<Unit, RequestHeadersViewState>(application) {
-
-    @Inject
-    lateinit var temporaryShortcutRepository: TemporaryShortcutRepository
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class RequestHeadersViewModel
+@Inject
+constructor(
+    application: Application,
+    private val temporaryShortcutRepository: TemporaryShortcutRepository,
+) : BaseViewModel<Unit, RequestHeadersViewState>(application) {
 
     private var headers: List<Header> = emptyList()
 

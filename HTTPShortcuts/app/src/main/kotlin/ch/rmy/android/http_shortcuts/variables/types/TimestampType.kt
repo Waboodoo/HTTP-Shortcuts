@@ -6,10 +6,12 @@ import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Date
 import java.util.Locale
+import javax.inject.Inject
 
-class TimestampType : BaseVariableType() {
-
-    override suspend fun resolveValue(variable: Variable, dialogHandle: DialogHandle): String =
+class TimestampType
+@Inject
+constructor() : VariableType {
+    override suspend fun resolve(variable: Variable, dialogHandle: DialogHandle): String =
         SimpleDateFormat(getTimeFormat(variable), Locale.getDefault())
             .format(Date.from(Instant.now()))
 

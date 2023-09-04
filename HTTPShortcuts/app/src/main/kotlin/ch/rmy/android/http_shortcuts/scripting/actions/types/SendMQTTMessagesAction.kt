@@ -11,15 +11,12 @@ import org.eclipse.paho.client.mqttv3.MqttClient
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
 import org.eclipse.paho.client.mqttv3.MqttException
 import org.eclipse.paho.client.mqttv3.MqttMessage
+import javax.inject.Inject
 
-class SendMQTTMessagesAction(
-    private val serverUri: String,
-    private val username: String?,
-    private val password: String?,
-    private val messages: List<Message>,
-) : BaseAction() {
-
-    override suspend fun execute(executionContext: ExecutionContext) {
+class SendMQTTMessagesAction
+@Inject
+constructor() : Action<SendMQTTMessagesAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext) {
         withContext(Dispatchers.IO) {
             try {
                 val client = MqttClient(serverUri, MqttClient.generateClientId(), null)
@@ -56,4 +53,11 @@ class SendMQTTMessagesAction(
     }
 
     data class Message(val topic: String, val payload: ByteArray)
+
+    data class Params(
+        val serverUri: String,
+        val username: String?,
+        val password: String?,
+        val messages: List<Message>,
+    )
 }

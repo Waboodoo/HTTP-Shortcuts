@@ -15,11 +15,11 @@ import ch.rmy.android.http_shortcuts.activities.execute.ExecutionFactory
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.CheckHeadlessExecutionUseCase
 import ch.rmy.android.http_shortcuts.activities.misc.quick_settings_tile.QuickSettingsTileActivity
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +31,7 @@ import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)
+@AndroidEntryPoint
 class QuickTileService : TileService() {
 
     private val job = SupervisorJob()
@@ -44,11 +45,6 @@ class QuickTileService : TileService() {
 
     @Inject
     lateinit var checkHeadlessExecution: CheckHeadlessExecutionUseCase
-
-    override fun onCreate() {
-        super.onCreate()
-        context.getApplicationComponent().inject(this)
-    }
 
     override fun onClick() {
         if (!scope.isActive) {

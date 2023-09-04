@@ -13,13 +13,12 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.Date
 import java.util.Locale
+import javax.inject.Inject
 
-class PromptDateAction(
-    private val format: String?,
-    private val initialDate: String?,
-) : BaseAction() {
-
-    override suspend fun execute(executionContext: ExecutionContext): String? =
+class PromptDateAction
+@Inject
+constructor() : Action<PromptDateAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext): String? =
         try {
             val selectedDate = executionContext.dialogHandle.showDialog(
                 ExecuteDialogState.DatePicker(
@@ -38,7 +37,7 @@ class PromptDateAction(
             null
         }
 
-    private fun getInitialDate(): LocalDate =
+    private fun Params.getInitialDate(): LocalDate =
         initialDate
             ?.takeUnlessEmpty()
             ?.let { dateString ->
@@ -49,6 +48,11 @@ class PromptDateAction(
                 }
             }
             ?: LocalDate.now()
+
+    data class Params(
+        val format: String?,
+        val initialDate: String?,
+    )
 
     companion object {
         private const val DEFAULT_FORMAT = "yyyy-MM-dd"

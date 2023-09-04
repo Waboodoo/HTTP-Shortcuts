@@ -9,14 +9,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.InetAddress
 import java.net.Socket
+import javax.inject.Inject
 
-class SendTCPPacketAction(
-    private val data: ByteArray,
-    private val ipAddress: String,
-    private val port: Int,
-) : BaseAction() {
-
-    override suspend fun execute(executionContext: ExecutionContext) {
+class SendTCPPacketAction
+@Inject
+constructor() : Action<SendTCPPacketAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext) {
         withContext(Dispatchers.IO) {
             try {
                 sendPacket(
@@ -34,6 +32,12 @@ class SendTCPPacketAction(
             }
         }
     }
+
+    data class Params(
+        val data: ByteArray,
+        val ipAddress: String,
+        val port: Int,
+    )
 
     companion object {
         internal fun sendPacket(data: ByteArray, ipAddress: InetAddress, port: Int) {

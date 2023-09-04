@@ -7,7 +7,9 @@ import ch.rmy.android.framework.ui.BaseActivityResultContract
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CodeSnippetPickerActivity : BaseComposeActivity() {
 
     @Composable

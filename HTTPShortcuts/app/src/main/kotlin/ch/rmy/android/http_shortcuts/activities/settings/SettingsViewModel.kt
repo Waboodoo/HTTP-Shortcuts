@@ -9,7 +9,6 @@ import ch.rmy.android.http_shortcuts.activities.certpinning.CertPinningActivity
 import ch.rmy.android.http_shortcuts.activities.globalcode.GlobalScriptingActivity
 import ch.rmy.android.http_shortcuts.activities.history.HistoryActivity
 import ch.rmy.android.http_shortcuts.activities.settings.usecases.CreateQuickSettingsTileUseCase
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.http.CookieManager
@@ -20,41 +19,27 @@ import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.mindrot.jbcrypt.BCrypt
 import javax.inject.Inject
 
-class SettingsViewModel(application: Application) : BaseViewModel<Unit, SettingsViewState>(application) {
-
-    @Inject
-    lateinit var settings: Settings
-
-    @Inject
-    lateinit var appRepository: AppRepository
-
-    @Inject
-    lateinit var localeHelper: LocaleHelper
-
-    @Inject
-    lateinit var cookieManager: CookieManager
-
-    @Inject
-    lateinit var appOverlayUtil: AppOverlayUtil
-
-    @Inject
-    lateinit var restrictionsUtil: RestrictionsUtil
-
-    @Inject
-    lateinit var createQuickSettingsTile: CreateQuickSettingsTileUseCase
-
-    @Inject
-    lateinit var biometricUtil: BiometricUtil
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class SettingsViewModel
+@Inject
+constructor(
+    application: Application,
+    private val settings: Settings,
+    private val appRepository: AppRepository,
+    private val localeHelper: LocaleHelper,
+    private val cookieManager: CookieManager,
+    private val appOverlayUtil: AppOverlayUtil,
+    private val restrictionsUtil: RestrictionsUtil,
+    private val createQuickSettingsTile: CreateQuickSettingsTileUseCase,
+    private val biometricUtil: BiometricUtil,
+) : BaseViewModel<Unit, SettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit) = SettingsViewState(
         privacySectionVisible = Logging.supportsCrashReporting,

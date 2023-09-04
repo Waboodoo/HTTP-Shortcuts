@@ -12,7 +12,6 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorA
 import ch.rmy.android.http_shortcuts.activities.variables.models.VariableListItem
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GenerateVariableKeyUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
@@ -21,29 +20,23 @@ import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class VariablesViewModel(application: Application) : BaseViewModel<Unit, VariablesViewState>(application) {
-
-    @Inject
-    lateinit var variableRepository: VariableRepository
-
-    @Inject
-    lateinit var shortcutRepository: ShortcutRepository
-
-    @Inject
-    lateinit var getUsedVariableIdsUseCase: GetUsedVariableIdsUseCase
-
-    @Inject
-    lateinit var generateVariableKey: GenerateVariableKeyUseCase
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class VariablesViewModel
+@Inject
+constructor(
+    application: Application,
+    private val variableRepository: VariableRepository,
+    private val shortcutRepository: ShortcutRepository,
+    private val getUsedVariableIdsUseCase: GetUsedVariableIdsUseCase,
+    private val generateVariableKey: GenerateVariableKeyUseCase,
+) : BaseViewModel<Unit, VariablesViewState>(application) {
 
     private var activeVariableId: VariableId? = null
     private var variablesInitialized = false

@@ -19,7 +19,6 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.types.TimeTypeV
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.TimestampTypeViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.ToggleTypeViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.VariableTypeViewState
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
@@ -27,24 +26,20 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.variables.Variables
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class VariableEditorViewModel(
+@HiltViewModel
+class VariableEditorViewModel
+@Inject
+constructor(
     application: Application,
+    private val variableRepository: VariableRepository,
+    private val temporaryVariableRepository: TemporaryVariableRepository,
 ) : BaseViewModel<VariableEditorViewModel.InitData, VariableEditorViewState>(application) {
-
-    @Inject
-    lateinit var variableRepository: VariableRepository
-
-    @Inject
-    lateinit var temporaryVariableRepository: TemporaryVariableRepository
-
-    init {
-        getApplicationComponent().inject(this)
-    }
 
     private val variableId: VariableId?
         get() = initData.variableId

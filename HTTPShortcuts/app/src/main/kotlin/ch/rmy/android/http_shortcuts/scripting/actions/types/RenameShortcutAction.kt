@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 import android.content.Context
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -15,29 +14,21 @@ import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import javax.inject.Inject
 
-class RenameShortcutAction(private val name: String, private val shortcutNameOrId: ShortcutNameOrId?) : BaseAction() {
-
-    @Inject
-    lateinit var context: Context
-
-    @Inject
-    lateinit var shortcutRepository: ShortcutRepository
-
-    @Inject
-    lateinit var widgetManager: WidgetManager
-
-    override fun inject(applicationComponent: ApplicationComponent) {
-        applicationComponent.inject(this)
-    }
-
-    override suspend fun execute(executionContext: ExecutionContext) {
+class RenameShortcutAction
+@Inject
+constructor(
+    private val context: Context,
+    private val shortcutRepository: ShortcutRepository,
+    private val widgetManager: WidgetManager,
+) : Action<RenameShortcutAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext) {
         renameShortcut(
             this.shortcutNameOrId ?: executionContext.shortcutId,
             executionContext.variableManager,
         )
     }
 
-    private suspend fun renameShortcut(shortcutNameOrId: ShortcutNameOrId, variableManager: VariableManager) {
+    private suspend fun Params.renameShortcut(shortcutNameOrId: ShortcutNameOrId, variableManager: VariableManager) {
         val newName = Variables.rawPlaceholdersToResolvedValues(name, variableManager.getVariableValuesByIds())
             .trim()
             .truncate(Shortcut.NAME_MAX_LENGTH)
@@ -64,4 +55,9 @@ class RenameShortcutAction(private val name: String, private val shortcutNameOrI
 
         widgetManager.updateWidgets(context, shortcut.id)
     }
+
+    data class Params(
+        val name: String,
+        val shortcutNameOrId: ShortcutNameOrId?,
+    )
 }

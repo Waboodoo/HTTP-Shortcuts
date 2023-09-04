@@ -3,16 +3,17 @@ package ch.rmy.android.http_shortcuts.activities.widget
 import android.app.Application
 import android.graphics.Color
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class WidgetSettingsViewModel(application: Application) :
-    BaseViewModel<WidgetSettingsViewModel.InitData, WidgetSettingsViewState>(application) {
-
-    init {
-        getApplicationComponent().inject(this)
-    }
+@HiltViewModel
+class WidgetSettingsViewModel
+@Inject
+constructor(
+    application: Application,
+) : BaseViewModel<WidgetSettingsViewModel.InitData, WidgetSettingsViewState>(application) {
 
     private val shortcutId: ShortcutId
         get() = initData.shortcutId

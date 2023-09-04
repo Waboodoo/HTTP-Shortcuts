@@ -28,7 +28,6 @@ import ch.rmy.android.http_shortcuts.activities.execute.usecases.RequestBiometri
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.RequestSimpleConfirmationUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.ShowResultDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
-import ch.rmy.android.http_shortcuts.dagger.getApplicationComponent
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
@@ -67,6 +66,10 @@ import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -78,7 +81,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.net.UnknownHostException
-import javax.inject.Inject
 import kotlin.math.pow
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
@@ -89,73 +91,28 @@ class Execution(
     private val params: ExecutionParams,
     private val dialogHandle: DialogHandle,
 ) {
-
-    @Inject
-    lateinit var shortcutRepository: ShortcutRepository
-
-    @Inject
-    lateinit var pendingExecutionsRepository: PendingExecutionsRepository
-
-    @Inject
-    lateinit var variableRepository: VariableRepository
-
-    @Inject
-    lateinit var appRepository: AppRepository
-
-    @Inject
-    lateinit var activityProvider: ActivityProvider
-
-    @Inject
-    lateinit var variableResolver: VariableResolver
-
-    @Inject
-    lateinit var httpRequester: HttpRequester
-
-    @Inject
-    lateinit var showResultDialog: ShowResultDialogUseCase
-
-    @Inject
-    lateinit var executionScheduler: ExecutionScheduler
-
-    @Inject
-    lateinit var openInBrowser: OpenInBrowserUseCase
-
-    @Inject
-    lateinit var requestSimpleConfirmation: RequestSimpleConfirmationUseCase
-
-    @Inject
-    lateinit var requestBiometricConfirmation: RequestBiometricConfirmationUseCase
-
-    @Inject
-    lateinit var checkWifiSSID: CheckWifiSSIDUseCase
-
-    @Inject
-    lateinit var networkUtil: NetworkUtil
-
-    @Inject
-    lateinit var extractFileIdsFromVariableValues: ExtractFileIdsFromVariableValuesUseCase
-
-    @Inject
-    lateinit var scriptExecutor: ScriptExecutor
-
-    @Inject
-    lateinit var externalRequests: ExternalRequests
-
-    @Inject
-    lateinit var httpRequesterStarter: HttpRequesterWorker.Starter
-
-    @Inject
-    lateinit var checkHeadlessExecution: CheckHeadlessExecutionUseCase
-
-    @Inject
-    lateinit var errorFormatter: ErrorFormatter
-
-    @Inject
-    lateinit var historyEventLogger: HistoryEventLogger
-
-    init {
-        context.getApplicationComponent().inject(this)
-    }
+    private val entryPoint = EntryPointAccessors.fromApplication<ExecutionEntryPoint>(context)
+    private val shortcutRepository: ShortcutRepository = entryPoint.shortcutRepository()
+    private val pendingExecutionsRepository: PendingExecutionsRepository = entryPoint.pendingExecutionsRepository()
+    private val variableRepository: VariableRepository = entryPoint.variableRepository()
+    private val appRepository: AppRepository = entryPoint.appRepository()
+    private val activityProvider: ActivityProvider = entryPoint.activityProvider()
+    private val variableResolver: VariableResolver = entryPoint.variableResolver()
+    private val httpRequester: HttpRequester = entryPoint.httpRequester()
+    private val showResultDialog: ShowResultDialogUseCase = entryPoint.showResultDialog()
+    private val executionScheduler: ExecutionScheduler = entryPoint.executionScheduler()
+    private val openInBrowser: OpenInBrowserUseCase = entryPoint.openInBrowser()
+    private val requestSimpleConfirmation: RequestSimpleConfirmationUseCase = entryPoint.requestSimpleConfirmation()
+    private val requestBiometricConfirmation: RequestBiometricConfirmationUseCase = entryPoint.requestBiometricConfirmation()
+    private val checkWifiSSID: CheckWifiSSIDUseCase = entryPoint.checkWifiSSID()
+    private val networkUtil: NetworkUtil = entryPoint.networkUtil()
+    private val extractFileIdsFromVariableValues: ExtractFileIdsFromVariableValuesUseCase = entryPoint.extractFileIdsFromVariableValues()
+    private val scriptExecutor: ScriptExecutor = entryPoint.scriptExecutor()
+    private val externalRequests: ExternalRequests = entryPoint.externalRequests()
+    private val httpRequesterStarter: HttpRequesterWorker.Starter = entryPoint.httpRequesterStarter()
+    private val checkHeadlessExecution: CheckHeadlessExecutionUseCase = entryPoint.checkHeadlessExecution()
+    private val errorFormatter: ErrorFormatter = entryPoint.errorFormatter()
+    private val historyEventLogger: HistoryEventLogger = entryPoint.historyEventLogger()
 
     private lateinit var globalCode: String
     private lateinit var shortcut: Shortcut
@@ -673,6 +630,32 @@ class Execution(
                 error = message,
             )
         )
+    }
+
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface ExecutionEntryPoint {
+        fun shortcutRepository(): ShortcutRepository
+        fun pendingExecutionsRepository(): PendingExecutionsRepository
+        fun variableRepository(): VariableRepository
+        fun appRepository(): AppRepository
+        fun activityProvider(): ActivityProvider
+        fun variableResolver(): VariableResolver
+        fun httpRequester(): HttpRequester
+        fun showResultDialog(): ShowResultDialogUseCase
+        fun executionScheduler(): ExecutionScheduler
+        fun openInBrowser(): OpenInBrowserUseCase
+        fun requestSimpleConfirmation(): RequestSimpleConfirmationUseCase
+        fun requestBiometricConfirmation(): RequestBiometricConfirmationUseCase
+        fun checkWifiSSID(): CheckWifiSSIDUseCase
+        fun networkUtil(): NetworkUtil
+        fun extractFileIdsFromVariableValues(): ExtractFileIdsFromVariableValuesUseCase
+        fun scriptExecutor(): ScriptExecutor
+        fun externalRequests(): ExternalRequests
+        fun httpRequesterStarter(): HttpRequesterWorker.Starter
+        fun checkHeadlessExecution(): CheckHeadlessExecutionUseCase
+        fun errorFormatter(): ErrorFormatter
+        fun historyEventLogger(): HistoryEventLogger
     }
 
     companion object {

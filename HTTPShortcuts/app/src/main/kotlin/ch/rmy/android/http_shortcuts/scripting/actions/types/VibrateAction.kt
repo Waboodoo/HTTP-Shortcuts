@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import ch.rmy.android.http_shortcuts.dagger.ApplicationComponent
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.VibrationUtil
 import kotlinx.coroutines.Dispatchers
@@ -14,16 +13,12 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
-class VibrateAction(private val patternId: Int, private val waitForCompletion: Boolean) : BaseAction() {
-
-    @Inject
-    lateinit var vibrationUtil: VibrationUtil
-
-    override fun inject(applicationComponent: ApplicationComponent) {
-        applicationComponent.inject(this)
-    }
-
-    override suspend fun execute(executionContext: ExecutionContext) {
+class VibrateAction
+@Inject
+constructor(
+    private val vibrationUtil: VibrationUtil,
+) : Action<VibrateAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext) {
         val vibrator = vibrationUtil.getVibrator()
             ?: return
 
@@ -45,6 +40,11 @@ class VibrateAction(private val patternId: Int, private val waitForCompletion: B
 
         fun execute(vibrator: Vibrator)
     }
+
+    data class Params(
+        val patternId: Int,
+        val waitForCompletion: Boolean,
+    )
 
     companion object {
 
