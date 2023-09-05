@@ -44,7 +44,10 @@ constructor(
     }
 
     private suspend fun executeShortcut(shortcutId: ShortcutId) {
-        openActivity(ExecuteActivity.IntentBuilder(shortcutId).trigger(ShortcutTriggerType.QUICK_SETTINGS_TILE))
+        sendIntent(
+            ExecuteActivity.IntentBuilder(shortcutId)
+                .trigger(ShortcutTriggerType.QUICK_SETTINGS_TILE)
+        )
     }
 
     fun onShortcutSelected(shortcutId: ShortcutId) = runAction {

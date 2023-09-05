@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
@@ -18,10 +19,13 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.extensions.localize
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
+import ch.rmy.android.http_shortcuts.navigation.ResultHandler
 import ch.rmy.curlcommand.CurlCommand
 
 @Composable
 fun ShortcutEditorScreen(
+    savedStateHandle: SavedStateHandle,
     categoryId: CategoryId?,
     shortcutId: ShortcutId?,
     curlCommand: CurlCommand?,
@@ -33,6 +37,14 @@ fun ShortcutEditorScreen(
             categoryId, shortcutId, curlCommand, executionType, recoveryMode,
         )
     )
+
+    ResultHandler(savedStateHandle) { result ->
+        when (result) {
+            is NavigationDestination.IconPicker.Result -> {
+                viewModel.onShortcutIconChanged(result.icon)
+            }
+        }
+    }
 
     BackHandler(state != null) {
         viewModel.onBackPressed()
@@ -90,6 +102,7 @@ fun ShortcutEditorScreen(
         dialogState = state?.dialogState,
         onDiscardConfirmed = viewModel::onDiscardDialogConfirmed,
         onIconSelected = viewModel::onShortcutIconChanged,
+        onCustomIconOptionSelected = viewModel::onCustomIconOptionSelected,
         onFaviconOptionSelected = viewModel::onFetchFaviconOptionSelected,
         onDismiss = viewModel::onDismissDialog,
     )

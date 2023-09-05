@@ -122,7 +122,7 @@ constructor(
 
     fun onBackPressed() = runAction {
         waitForOperationsToFinish()
-        finish()
+        closeScreen()
     }
 
     fun onStoreIntoFileCheckboxChanged(enabled: Boolean) = runAction {

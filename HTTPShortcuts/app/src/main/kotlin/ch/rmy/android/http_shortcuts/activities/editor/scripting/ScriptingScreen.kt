@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.editor.scripting
 
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.material.icons.filled.PlayArrow
@@ -15,25 +14,33 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
-import ch.rmy.android.framework.extensions.runIfNotNull
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetPickerActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.models.CodeFieldType
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
+import ch.rmy.android.http_shortcuts.navigation.ResultHandler
 
 @Composable
-fun ScriptingScreen(currentShortcutId: ShortcutId?) {
-    val (viewModel, state) = bindViewModel<ScriptingViewState, ScriptingViewModel>()
+fun ScriptingScreen(
+    savedStateHandle: SavedStateHandle,
+    currentShortcutId: ShortcutId?,
+) {
+    val (viewModel, state) = bindViewModel<ScriptingViewModel.InitData, ScriptingViewState, ScriptingViewModel>(
+        ScriptingViewModel.InitData(
+            currentShortcutId = currentShortcutId,
+        ),
+    )
 
     var activeField by rememberSaveable(key = "active_field") {
         mutableStateOf(CodeFieldType.PREPARE)
     }
 
-    val pickCodeSnippet = rememberLauncherForActivityResult(CodeSnippetPickerActivity.PickCodeSnippet) { result ->
-        if (result != null) {
+    ResultHandler(savedStateHandle) { result ->
+        if (result is NavigationDestination.CodeSnippetPicker.Result) {
             viewModel.onCodeSnippetPicked(result.textBeforeCursor, result.textAfterCursor)
         }
     }
@@ -69,25 +76,7 @@ fun ScriptingScreen(currentShortcutId: ShortcutId?) {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    pickCodeSnippet.launch {
-                        when (activeField) {
-                            CodeFieldType.PREPARE -> {
-                                includeResponseOptions(false)
-                                    .includeNetworkErrorOption(false)
-                            }
-                            CodeFieldType.SUCCESS -> {
-                                includeResponseOptions(true)
-                                    .includeNetworkErrorOption(false)
-                            }
-                            CodeFieldType.FAILURE -> {
-                                includeResponseOptions(true)
-                                    .includeNetworkErrorOption(true)
-                            }
-                        }
-                            .runIfNotNull(currentShortcutId) {
-                                currentShortcutId(it)
-                            }
-                    }
+                    viewModel.onCodeSnippetButtonClicked(activeField)
                 },
             ) {
                 Icon(

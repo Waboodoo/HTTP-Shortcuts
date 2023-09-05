@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.http_shortcuts.R
@@ -18,11 +19,14 @@ import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.logging.Logging.logException
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
+import ch.rmy.android.http_shortcuts.navigation.ResultHandler
 import ch.rmy.android.http_shortcuts.plugin.TaskerTaskPickerContract
 import ch.rmy.android.http_shortcuts.utils.RingtonePickerContract
 
 @Composable
 fun CodeSnippetPickerScreen(
+    savedStateHandle: SavedStateHandle,
     currentShortcutId: ShortcutId?,
     includeResponseOptions: Boolean,
     includeNetworkErrorOption: Boolean,
@@ -40,6 +44,14 @@ fun CodeSnippetPickerScreen(
     }
     val pickTaskerTask = rememberLauncherForActivityResult(TaskerTaskPickerContract) { taskName ->
         taskName?.let(viewModel::onTaskerTaskSelected)
+    }
+
+    ResultHandler(savedStateHandle) { result ->
+        when (result) {
+            is NavigationDestination.IconPicker.Result -> {
+                viewModel.onIconSelected(result.icon)
+            }
+        }
     }
 
     BackHandler(enabled = !state?.searchQuery.isNullOrEmpty()) {
@@ -95,6 +107,7 @@ fun CodeSnippetPickerScreen(
         onShortcutSelected = viewModel::onShortcutSelected,
         onCurrentShortcutSelected = viewModel::onCurrentShortcutSelected,
         onIconSelected = viewModel::onIconSelected,
+        onCustomIconOptionSelected = viewModel::onCustomIconOptionSelected,
         onVariableSelected = viewModel::onVariableSelected,
         onVariableEditorButtonClicked = viewModel::onVariableEditorButtonClicked,
         onDismissRequested = viewModel::onDialogDismissRequested,

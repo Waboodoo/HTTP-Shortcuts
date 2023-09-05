@@ -30,13 +30,14 @@ import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
+import ch.rmy.android.http_shortcuts.components.bindViewModel
 
 private const val CAPTCHA_CODE = "HTTP Shortcuts"
 
 @Composable
-fun ContactScreen(
-    onSubmit: () -> Unit,
-) {
+fun ContactScreen() {
+    val (viewModel, _) = bindViewModel<Unit, ContactViewModel>()
+
     var captchaInput by remember {
         mutableStateOf("")
     }
@@ -54,7 +55,7 @@ fun ContactScreen(
                 Icons.Filled.Check,
                 contentDescription = stringResource(R.string.dialog_ok),
                 enabled = isSubmitButtonEnabled,
-                onClick = onSubmit,
+                onClick = viewModel::onSubmit,
             )
         },
     ) {
@@ -83,7 +84,7 @@ fun ContactScreen(
                 ),
                 keyboardActions = KeyboardActions {
                     if (isSubmitButtonEnabled) {
-                        onSubmit()
+                        viewModel.onSubmit()
                     }
                 },
                 textStyle = TextStyle(

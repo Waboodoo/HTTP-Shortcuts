@@ -5,14 +5,13 @@ import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.certpinning.CertPinningActivity
-import ch.rmy.android.http_shortcuts.activities.globalcode.GlobalScriptingActivity
-import ch.rmy.android.http_shortcuts.activities.history.HistoryActivity
 import ch.rmy.android.http_shortcuts.activities.settings.usecases.CreateQuickSettingsTileUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.logging.Logging
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Settings.RESULT_APP_LOCKED
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.BiometricUtil
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
@@ -64,9 +63,7 @@ constructor(
         withProgressTracking {
             try {
                 appRepository.setLock(BCrypt.hashpw(password, BCrypt.gensalt()), useBiometrics)
-                finishWithOkResult(
-                    SettingsActivity.OpenSettings.createResult(appLocked = true),
-                )
+                closeScreen(result = RESULT_APP_LOCKED)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -142,11 +139,11 @@ constructor(
     }
 
     fun onCertificatePinningButtonClicked() = runAction {
-        openActivity(CertPinningActivity.IntentBuilder())
+        navigate(NavigationDestination.CertPinning)
     }
 
     fun onGlobalScriptingButtonClicked() = runAction {
-        openActivity(GlobalScriptingActivity.IntentBuilder())
+        navigate(NavigationDestination.GlobalScripting)
     }
 
     fun onCrashReportingChanged(allowed: Boolean) = runAction {
@@ -160,19 +157,19 @@ constructor(
     }
 
     fun onEventHistoryClicked() = runAction {
-        openActivity(HistoryActivity.IntentBuilder())
+        navigate(NavigationDestination.History)
     }
 
     fun onAllowOverlayButtonClicked() = runAction {
-        openActivity(appOverlayUtil.getSettingsIntent() ?: skipAction())
+        sendIntent(appOverlayUtil.getSettingsIntent() ?: skipAction())
     }
 
     fun onAllowXiaomiOverlayButtonClicked() = runAction {
-        openActivity(restrictionsUtil.getPermissionEditorIntent())
+        sendIntent(restrictionsUtil.getPermissionEditorIntent())
     }
 
     fun onBatteryOptimizationButtonClicked() = runAction {
-        openActivity(restrictionsUtil.getRequestIgnoreBatteryOptimizationIntent() ?: skipAction())
+        sendIntent(restrictionsUtil.getRequestIgnoreBatteryOptimizationIntent() ?: skipAction())
     }
 
     fun onDialogDismissalRequested() = runAction {

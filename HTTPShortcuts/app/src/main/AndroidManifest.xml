@@ -58,7 +58,8 @@
             android:name=".activities.main.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/LoaderTheme">
+            android:theme="@style/LoaderTheme"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -77,168 +78,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.certpinning.CertPinningActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".activities.editor.ShortcutEditorActivity"
-            android:label="@string/edit_shortcut"
-            android:parentActivityName=".activities.main.MainActivity"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.main.MainActivity" />
-        </activity>
-        <activity
-            android:name=".activities.editor.basicsettings.BasicRequestSettingsActivity"
-            android:label="@string/section_basic_request"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.editor.ShortcutEditorActivity" />
-        </activity>
-        <activity
-            android:name=".activities.editor.headers.RequestHeadersActivity"
-            android:label="@string/section_request_headers"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.editor.ShortcutEditorActivity" />
-        </activity>
-        <activity
-            android:name=".activities.editor.body.RequestBodyActivity"
-            android:label="@string/section_request_body"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.editor.ShortcutEditorActivity" />
-        </activity>
-        <activity
-            android:name=".activities.editor.authentication.AuthenticationActivity"
-            android:label="@string/section_authentication"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.editor.ShortcutEditorActivity" />
-        </activity>
-        <activity
-            android:name=".activities.editor.response.ResponseActivity"
-            android:label="@string/label_response_handling"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.editor.ShortcutEditorActivity" />
-        </activity>
-        <activity
-            android:name=".activities.editor.scripting.ScriptingActivity"
-            android:label="@string/label_scripting"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.editor.ShortcutEditorActivity" />
-        </activity>
-        <activity
-            android:name=".activities.editor.shortcuts.TriggerShortcutsActivity"
-            android:label="@string/label_trigger_shortcuts"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.editor.ShortcutEditorActivity" />
-        </activity>
-        <activity
-            android:name=".activities.editor.executionsettings.ExecutionSettingsActivity"
-            android:label="@string/label_execution_settings"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.editor.ShortcutEditorActivity" />
-        </activity>
-        <activity
-            android:name=".activities.editor.advancedsettings.AdvancedSettingsActivity"
-            android:label="@string/label_advanced_technical_settings"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.editor.ShortcutEditorActivity" />
-        </activity>
-        <activity
-            android:name=".activities.moving.MoveActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".activities.categories.CategoriesActivity"
-            android:label="@string/title_categories"
-            android:parentActivityName=".activities.main.MainActivity"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.main.MainActivity" />
-        </activity>
-        <activity
-            android:name=".activities.categories.editor.CategoryEditorActivity"
-            android:label="@string/title_edit_category"
-            android:parentActivityName=".activities.categories.CategoriesActivity"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.categories.CategoriesActivity" />
-        </activity>
-        <activity
-            android:name=".activities.curl_import.CurlImportActivity"
-            android:label="@string/title_curl_import"
-            android:parentActivityName=".activities.main.MainActivity"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.main.MainActivity" />
-        </activity>
-        <activity
-            android:name=".activities.icons.IconPickerActivity"
-            android:label="@string/title_custom_icons" />
-        <activity
-            android:name=".activities.variables.VariablesActivity"
-            android:label="@string/title_variables"
-            android:parentActivityName=".activities.main.MainActivity"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.main.MainActivity" />
-        </activity>
-        <activity
-            android:name=".activities.variables.editor.VariableEditorActivity"
-            android:label="@string/edit_variable"
-            android:parentActivityName=".activities.variables.VariablesActivity"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.variables.VariablesActivity" />
-        </activity>
-        <activity
-            android:name=".activities.settings.SettingsActivity"
-            android:label="@string/title_settings"
-            android:parentActivityName=".activities.main.MainActivity"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.main.MainActivity" />
-        </activity>
-        <activity
-            android:name=".activities.about.AboutActivity"
-            android:label="@string/title_about"
-            android:parentActivityName=".activities.main.MainActivity"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.main.MainActivity" />
-        </activity>
-        <activity
-            android:name=".activities.importexport.ImportExportActivity"
-            android:label="@string/title_import_export"
-            android:parentActivityName=".activities.main.MainActivity"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.main.MainActivity" />
-        </activity>
-        <activity
             android:name=".activities.ExecuteActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true"
@@ -253,35 +92,6 @@
         <activity
             android:name=".activities.response.DisplayResponseActivity"
             android:configChanges="orientation|screenSize" />
-        <activity
-            android:name=".activities.acknowledgment.AcknowledgmentActivity"
-            android:label="@string/title_licenses"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".activities.history.HistoryActivity"
-            android:label="@string/title_event_history"
-            android:parentActivityName=".activities.main.MainActivity"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.main.MainActivity" />
-        </activity>
-
-        <activity
-            android:name=".activities.contact.ContactActivity"
-            android:label="@string/title_contact"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".activities.globalcode.GlobalScriptingActivity"
-            android:label="@string/title_global_scripting"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".activities.editor.scripting.codesnippets.CodeSnippetPickerActivity"
-            android:label="@string/title_add_code_snippet"
-            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".activities.misc.share.ShareActivity"
@@ -303,21 +113,6 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".activities.remote_edit.RemoteEditActivity"
-            android:label="@string/settings_remote_edit"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".activities.widget.WidgetSettingsActivity"
-            android:label="@string/title_configure_widget"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".activities.documentation.DocumentationActivity"
-            android:label="@string/title_documentation"
-            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".activities.misc.deeplink.DeepLinkActivity"

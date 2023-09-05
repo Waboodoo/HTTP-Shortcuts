@@ -36,7 +36,7 @@ constructor(
 
     fun onBackPressed() = runAction {
         waitForOperationsToFinish()
-        finish()
+        closeScreen()
     }
 
     fun onUrlChanged(url: String) = runAction {

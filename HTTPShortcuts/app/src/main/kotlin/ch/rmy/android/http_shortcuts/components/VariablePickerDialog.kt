@@ -8,14 +8,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import ch.rmy.android.framework.extensions.startActivity
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings.getTypeName
-import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 
 @Composable
 fun VariablePickerDialog(
@@ -25,10 +24,10 @@ fun VariablePickerDialog(
     onVariableSelected: (VariableId) -> Unit,
     onDismissRequested: () -> Unit,
 ) {
-    val context = LocalContext.current
-    val openVariableEditor = {
-        VariablesActivity.IntentBuilder()
-            .startActivity(context)
+    val eventHandler = LocalEventinator.current
+    val onEditVariablesClicked = {
+        onDismissRequested()
+        eventHandler.onEvent(ViewModelEvent.Navigate(NavigationDestination.Variables))
     }
 
     if (variables.isEmpty()) {
@@ -52,7 +51,7 @@ fun VariablePickerDialog(
             },
             dismissButton = if (showEditButton) {
                 {
-                    TextButton(onClick = openVariableEditor) {
+                    TextButton(onClick = onEditVariablesClicked) {
                         Text(stringResource(R.string.button_create_first_variable))
                     }
                 }
@@ -67,7 +66,7 @@ fun VariablePickerDialog(
         onDismissRequest = onDismissRequested,
         extraButton = if (showEditButton) {
             {
-                TextButton(onClick = openVariableEditor) {
+                TextButton(onClick = onEditVariablesClicked) {
                     Text(stringResource(R.string.label_edit_variables))
                 }
             }

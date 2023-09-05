@@ -9,13 +9,9 @@ import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIf
-import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.about.AboutActivity
-import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
-import ch.rmy.android.http_shortcuts.activities.importexport.ImportExportActivity
 import ch.rmy.android.http_shortcuts.activities.main.models.CategoryItem
 import ch.rmy.android.http_shortcuts.activities.main.usecases.LauncherShortcutMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherMapperUseCase
@@ -23,7 +19,6 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLo
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkRestrictionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowRecoveryDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.UnlockAppUseCase
-import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
@@ -37,6 +32,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
@@ -112,17 +108,14 @@ constructor(
 
         viewModelScope.launch {
             if (data.importUrl != null) {
-                openActivity(
-                    ImportExportActivity.IntentBuilder()
-                        .importUrl(data.importUrl)
-                )
+                navigate(NavigationDestination.ImportExport.buildRequest(data.importUrl))
             } else {
                 when (selectionMode) {
                     SelectionMode.NORMAL -> showNormalStartupDialogsIfNeeded()
                     SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT -> showToast(R.string.instructions_select_shortcut_for_home_screen, long = true)
                     SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT -> {
                         if (initData.widgetId != null) {
-                            setResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(initData.widgetId!!))
+                            setActivityResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(initData.widgetId!!))
                         }
                         showToast(R.string.instructions_select_shortcut_for_home_screen, long = true)
                     }
@@ -191,16 +184,11 @@ constructor(
             ?.recoveryInfo
             ?: skipAction()
         updateDialogState(null)
-        emitEvent(
-            MainEvent.OpenShortcutEditor(
-                ShortcutEditorActivity.IntentBuilder()
-                    .runIfNotNull(recoveryInfo.shortcutId) {
-                        shortcutId(it)
-                    }
-                    .runIfNotNull(recoveryInfo.categoryId) {
-                        categoryId(it)
-                    }
-                    .recoveryMode()
+        navigate(
+            NavigationDestination.ShortcutEditor.buildRequest(
+                shortcutId = recoveryInfo.shortcutId,
+                categoryId = recoveryInfo.categoryId,
+                recoveryMode = true,
             )
         )
     }
@@ -232,7 +220,7 @@ constructor(
     fun onAppOverlayConfigureButtonClicked() = runAction {
         updateDialogState(null)
         appOverlayUtil.getSettingsIntent()
-            ?.let { openActivity(it) }
+            ?.let { sendIntent(it) }
     }
 
     private fun updateLauncherSettings(categories: List<Category>) {
@@ -275,17 +263,17 @@ constructor(
 
     fun onSettingsButtonClicked() = runAction {
         logInfo("Settings button clicked")
-        emitEvent(MainEvent.OpenSettings)
+        navigate(NavigationDestination.Settings)
     }
 
     fun onImportExportButtonClicked() = runAction {
         logInfo("Import/export button clicked")
-        emitEvent(MainEvent.OpenImportExport)
+        navigate(NavigationDestination.ImportExport.buildRequest())
     }
 
     fun onAboutButtonClicked() = runAction {
         logInfo("About button clicked")
-        openActivity(AboutActivity.IntentBuilder())
+        navigate(NavigationDestination.About)
     }
 
     fun onCategoriesButtonClicked() = runAction {
@@ -294,12 +282,12 @@ constructor(
     }
 
     private fun openCategoriesEditor() = runAction {
-        emitEvent(MainEvent.OpenCategories)
+        navigate(NavigationDestination.Categories)
     }
 
     fun onVariablesButtonClicked() = runAction {
         logInfo("Variables button clicked")
-        openActivity(VariablesActivity.IntentBuilder())
+        navigate(NavigationDestination.Variables)
     }
 
     fun onToolbarTitleClicked() = runAction {
@@ -316,19 +304,19 @@ constructor(
     }
 
     fun onCreationDialogOptionSelected(executionType: ShortcutExecutionType) = runAction {
-        updateDialogState(null)
         logInfo("Preparing to open editor for creating shortcut of type $executionType")
-        emitEvent(
-            MainEvent.OpenShortcutEditor(
-                ShortcutEditorActivity.IntentBuilder()
-                    .categoryId(viewState.activeCategoryId)
-                    .executionType(executionType)
+        updateDialogState(null)
+        navigate(
+            NavigationDestination.ShortcutEditor.buildRequest(
+                categoryId = viewState.activeCategoryId,
+                executionType = executionType,
             )
         )
     }
 
     fun onCreationDialogHelpButtonClicked() = runAction {
         logInfo("Shortcut creation help button clicked")
+        updateDialogState(null)
         openURL(ExternalURLs.SHORTCUTS_DOCUMENTATION)
     }
 
@@ -403,7 +391,7 @@ constructor(
     fun onCurlImportOptionSelected() = runAction {
         logInfo("curl import button clicked")
         updateDialogState(null)
-        emitEvent(MainEvent.OpenCurlImport)
+        navigate(NavigationDestination.CurlImport)
     }
 
     fun onShortcutCreated(shortcutId: ShortcutId) = runAction {
@@ -425,7 +413,13 @@ constructor(
 
     private suspend fun openWidgetSettings(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
-        emitEvent(MainEvent.OpenWidgetSettings(shortcut.toShortcutPlaceholder()))
+        navigate(
+            NavigationDestination.Widget.buildRequest(
+                shortcutId = shortcut.id,
+                shortcutName = shortcut.name,
+                shortcutIcon = shortcut.icon,
+            ),
+        )
     }
 
     private suspend fun returnForHomeScreenShortcutPlacement(shortcutId: ShortcutId) {
@@ -443,8 +437,9 @@ constructor(
         val widgetId = initData.widgetId ?: return
         widgetManager.createWidget(widgetId, shortcutId, showLabel, labelColor)
         widgetManager.updateWidgets(context, shortcutId)
-        finishWithOkResult(
-            WidgetManager.getIntent(widgetId)
+        finish(
+            intent = WidgetManager.getIntent(widgetId),
+            okResultCode = true,
         )
     }
 
@@ -460,31 +455,37 @@ constructor(
 
     private suspend fun placeOnHomeScreenAndFinish(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
-        finishWithOkResult(launcherShortcutManager.createShortcutPinIntent(shortcut.toShortcutPlaceholder()))
+        finish(
+            intent = launcherShortcutManager.createShortcutPinIntent(shortcut.toShortcutPlaceholder()),
+            okResultCode = true,
+        )
     }
 
     private suspend fun placeOnHomeScreenWithLegacyAndFinish(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
-        finishWithOkResult(IntentUtil.getLegacyShortcutPlacementIntent(context, shortcut.toShortcutPlaceholder(), install = true))
+        finish(
+            intent = IntentUtil.getLegacyShortcutPlacementIntent(context, shortcut.toShortcutPlaceholder(), install = true),
+            okResultCode = true,
+        )
     }
 
     private suspend fun returnForPlugin(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
-        finishWithOkResult(
-            createIntent {
+        finish(
+            intent = createIntent {
                 putExtra(MainActivity.EXTRA_SELECTION_ID, shortcut.id)
                 putExtra(MainActivity.EXTRA_SELECTION_NAME, shortcut.name)
             },
+            okResultCode = true,
         )
     }
 
     fun onCurlCommandSubmitted(curlCommand: CurlCommand) = runAction {
         logInfo("curl command submitted")
-        emitEvent(
-            MainEvent.OpenShortcutEditor(
-                ShortcutEditorActivity.IntentBuilder()
-                    .categoryId(viewState.activeCategoryId)
-                    .curlCommand(curlCommand)
+        navigate(
+            NavigationDestination.ShortcutEditor.buildRequest(
+                categoryId = viewState.activeCategoryId,
+                curlCommand = curlCommand,
             )
         )
     }
@@ -552,10 +553,6 @@ constructor(
 
     fun onWidgetSettingsCancelled() = runAction {
         finish()
-    }
-
-    fun onReopenSettingsRequested() = runAction {
-        emitEvent(MainEvent.ReopenSettings)
     }
 
     data class InitData(

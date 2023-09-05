@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.http.HttpClientFactory
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.Importer
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.RemoteEdit.RESULT_CHANGES_IMPORTED
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.Validation
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -72,6 +73,8 @@ constructor(
                 }
             }
         }
+
+    private var changesImported = false
 
     private fun getRemoteBaseUrl() =
         serverUrl.toUri()
@@ -142,9 +145,7 @@ constructor(
             val dialogJob = showProgressDialogAsync(R.string.remote_edit_download_in_progress)
             try {
                 getRemoteEditManager().download(deviceId, password)
-                setResult(
-                    intent = RemoteEditActivity.OpenRemoteEditor.createResult(changesImported = true),
-                )
+                changesImported = true
                 showSnackbar(R.string.message_remote_edit_download_successful)
             } catch (e: CancellationException) {
                 throw e
@@ -205,6 +206,10 @@ constructor(
                 dialogState = RemoteEditDialogState.Error(message),
             )
         }
+    }
+
+    fun onBackPressed() = runAction {
+        closeScreen(result = if (changesImported) RESULT_CHANGES_IMPORTED else null)
     }
 
     companion object {

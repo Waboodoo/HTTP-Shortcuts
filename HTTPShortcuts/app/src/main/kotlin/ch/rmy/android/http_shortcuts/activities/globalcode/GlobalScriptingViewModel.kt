@@ -4,6 +4,7 @@ import android.app.Application
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scripting.CodeTransformer
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,13 +40,13 @@ constructor(
         if (viewState.hasChanges) {
             updateDialogState(GlobalScriptingDialogState.DiscardWarning)
         } else {
-            finish()
+            closeScreen()
         }
     }
 
     fun onDiscardDialogConfirmed() = runAction {
         updateDialogState(null)
-        finish()
+        closeScreen()
     }
 
     fun onSaveButtonClicked() = runAction {
@@ -84,5 +85,11 @@ constructor(
         updateViewState {
             copy(dialogState = dialogState)
         }
+    }
+
+    fun onCodeSnippetButtonClicked() = runAction {
+        navigate(
+            NavigationDestination.CodeSnippetPicker.buildRequest(),
+        )
     }
 }

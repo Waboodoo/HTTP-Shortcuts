@@ -14,6 +14,8 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Categories.RESULT_CATEGORIES_CHANGED
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,13 +56,7 @@ constructor(
 
     fun onBackPressed() = runAction {
         waitForOperationsToFinish()
-        finish(hasChanged)
-    }
-
-    private suspend fun finish(hasChanges: Boolean) {
-        finishWithOkResult(
-            CategoriesActivity.OpenCategories.createResult(hasChanges),
-        )
+        closeScreen(result = if (hasChanged) RESULT_CATEGORIES_CHANGED else null)
     }
 
     fun onCategoryClicked(categoryId: CategoryId) = runAction {
@@ -99,7 +95,7 @@ constructor(
     }
 
     fun onCreateCategoryButtonClicked() = runAction {
-        emitEvent(CategoriesEvent.OpenCategoryEditor(categoryId = null))
+        navigate(NavigationDestination.CategoryEditor.buildRequest(categoryId = null))
     }
 
     fun onCategoryVisibilityChanged(visible: Boolean) = runAction {
@@ -163,7 +159,7 @@ constructor(
     fun onEditCategoryOptionSelected() = runAction {
         val categoryId = activeCategoryId ?: skipAction()
         updateDialogState(null)
-        emitEvent(CategoriesEvent.OpenCategoryEditor(categoryId))
+        navigate(NavigationDestination.CategoryEditor.buildRequest(categoryId))
     }
 
     fun onCategoryCreated() = runAction {
@@ -184,6 +180,11 @@ constructor(
         updateViewState {
             copy(dialogState = dialogState)
         }
+    }
+
+    fun onCustomIconOptionSelected() = runAction {
+        updateDialogState(null)
+        navigate(NavigationDestination.IconPicker)
     }
 
     companion object {

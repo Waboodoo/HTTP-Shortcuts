@@ -1,13 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities
 
 import android.os.Bundle
-import androidx.core.net.toUri
-import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.ui.BaseActivity
-import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.documentation.DocumentationActivity
-import ch.rmy.android.http_shortcuts.activities.documentation.DocumentationUrlManager
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 
 abstract class BaseActivity : BaseActivity() {
@@ -33,21 +28,5 @@ abstract class BaseActivity : BaseActivity() {
     override fun onStop() {
         super.onStop()
         ActivityProvider.deregisterActivity(this)
-    }
-
-    override fun handleEvent(event: ViewModelEvent) {
-        when (event) {
-            is ViewModelEvent.OpenURL -> {
-                val uri = event.url.toUri()
-                if (DocumentationUrlManager.canHandle(uri)) {
-                    DocumentationActivity.IntentBuilder()
-                        .url(uri)
-                        .startActivity(this)
-                } else {
-                    super.handleEvent(event)
-                }
-            }
-            else -> super.handleEvent(event)
-        }
     }
 }

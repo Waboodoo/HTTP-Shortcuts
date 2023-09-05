@@ -149,7 +149,7 @@ constructor(
     }
 
     private suspend fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKey, String> = emptyMap()) {
-        openActivity(
+        sendIntent(
             ExecuteActivity.IntentBuilder(shortcutId)
                 .variableValues(variableValues)
                 .files(fileUris)

@@ -27,6 +27,8 @@ import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.Importer
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.ImportExport.RESULT_CATEGORIES_CHANGED_FROM_IMPORT
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -57,6 +59,7 @@ constructor(
         }
 
     private var hasShortcuts = false
+    private var categoriesChanged = false
 
     override suspend fun initialize(data: InitData): ImportExportViewState {
         hasShortcuts = shortcutRepository.getShortcuts().isNotEmpty()
@@ -171,7 +174,7 @@ constructor(
                     excludeDefaults = true,
                 )
 
-            openActivity(object : IntentBuilder {
+            sendIntent(object : IntentBuilder {
                 override fun build(context: Context) =
                     Intent(Intent.ACTION_SEND)
                         .setType(ExportFormat.ZIP.fileTypeForSharing)
@@ -190,16 +193,8 @@ constructor(
         }
     }
 
-    fun onRemoteEditorClosed(changesImported: Boolean) = runAction {
-        if (changesImported) {
-            setCategoriesChangedFlag()
-        }
-    }
-
-    private suspend fun setCategoriesChangedFlag() {
-        setResult(
-            intent = ImportExportActivity.OpenImportExport.createResult(categoriesChanged = true)
-        )
+    fun onRemoteEditorChangesImported() = runAction {
+        categoriesChanged = true
     }
 
     fun onFilePickedForImport(file: Uri) = runAction {
@@ -241,10 +236,7 @@ constructor(
                         status.importedShortcuts,
                     )
                 )
-                setResult(
-                    intent = ImportExportActivity.OpenImportExport.createResult(categoriesChanged = true)
-                )
-                setCategoriesChangedFlag()
+                categoriesChanged = true
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -289,6 +281,14 @@ constructor(
 
     private suspend fun hideDialog() {
         setDialogState(null)
+    }
+
+    fun onBackPressed() = runAction {
+        closeScreen(result = if (categoriesChanged) RESULT_CATEGORIES_CHANGED_FROM_IMPORT else null)
+    }
+
+    fun onRemoteEditButtonClicked() = runAction {
+        navigate(NavigationDestination.RemoteEdit)
     }
 
     data class InitData(

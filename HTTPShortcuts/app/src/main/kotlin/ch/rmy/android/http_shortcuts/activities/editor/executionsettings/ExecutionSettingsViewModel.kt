@@ -133,7 +133,7 @@ constructor(
     fun onAppOverlayDialogConfirmed() = runAction {
         updateDialogState(null)
         val intent = appOverlayUtil.getSettingsIntent() ?: skipAction()
-        openActivity(intent)
+        sendIntent(intent)
     }
 
     fun onDelayButtonClicked() = runAction {
@@ -144,7 +144,7 @@ constructor(
 
     fun onBackPressed() = runAction {
         waitForOperationsToFinish()
-        finish()
+        closeScreen()
     }
 
     fun onDismissDialog() = runAction {

@@ -9,12 +9,12 @@ import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.mo
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.models.SectionItem
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.usecases.GenerateCodeSnippetItemsUseCase
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.usecases.GetItemWrappersUseCase
-import ch.rmy.android.http_shortcuts.activities.variables.VariablesActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PlaySoundActionType
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.ShortcutPlaceholderProvider
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
@@ -117,9 +117,7 @@ constructor(
 
     fun onVariableEditorButtonClicked() = runAction {
         updateDialogState(null)
-        openActivity(
-            VariablesActivity.IntentBuilder()
-        )
+        navigate(NavigationDestination.Variables)
     }
 
     fun onVariableSelected(variableId: VariableId) = runAction {
@@ -154,9 +152,7 @@ constructor(
     }
 
     private suspend fun returnResult(textBeforeCursor: String, textAfterCursor: String) {
-        finishWithOkResult(
-            CodeSnippetPickerActivity.PickCodeSnippet.createResult(textBeforeCursor, textAfterCursor)
-        )
+        closeScreen(result = NavigationDestination.CodeSnippetPicker.Result(textBeforeCursor, textAfterCursor))
     }
 
     fun onHelpButtonClicked() = runAction {
@@ -238,6 +234,11 @@ constructor(
         updateViewState {
             copy(dialogState = dialogState)
         }
+    }
+
+    fun onCustomIconOptionSelected() = runAction {
+        updateDialogState(null)
+        navigate(NavigationDestination.IconPicker)
     }
 
     data class InitData(

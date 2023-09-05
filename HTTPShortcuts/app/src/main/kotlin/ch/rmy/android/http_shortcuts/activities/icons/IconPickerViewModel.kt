@@ -9,6 +9,7 @@ import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.icons.usecases.GetIconListItemsUseCase
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -44,9 +45,7 @@ constructor(
     }
 
     private suspend fun selectIcon(icon: ShortcutIcon.CustomIcon) {
-        finishWithOkResult(
-            IconPickerActivity.PickIcon.createResult(icon),
-        )
+        closeScreen(result = NavigationDestination.IconPicker.Result(icon))
     }
 
     fun onAddIconButtonClicked() = runAction {
