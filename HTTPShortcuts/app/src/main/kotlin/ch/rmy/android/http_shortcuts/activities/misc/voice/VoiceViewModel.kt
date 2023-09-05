@@ -36,7 +36,10 @@ constructor(
         get() = initData.shortcutName!!
 
     private suspend fun executeShortcut(shortcutId: ShortcutId) {
-        openActivity(ExecuteActivity.IntentBuilder(shortcutId).trigger(ShortcutTriggerType.VOICE))
+        sendIntent(
+            ExecuteActivity.IntentBuilder(shortcutId)
+                .trigger(ShortcutTriggerType.VOICE)
+        )
     }
 
     fun onDialogDismissed() = runAction {

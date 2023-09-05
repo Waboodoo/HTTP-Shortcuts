@@ -10,10 +10,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -103,7 +104,6 @@ fun ScriptingContent(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun CodeSection(
     isFocused: Boolean,
@@ -119,11 +119,18 @@ private fun CodeSection(
     val focusRequester = remember { FocusRequester() }
     val keyboard = LocalSoftwareKeyboardController.current
 
+    var selectionStart by rememberSaveable {
+        mutableIntStateOf(code.length)
+    }
+    var selectionEnd by rememberSaveable {
+        mutableIntStateOf(code.length)
+    }
+
     var textFieldValue by remember {
         mutableStateOf(
             TextFieldValue(
                 text = code,
-                selection = TextRange(code.length),
+                selection = TextRange(selectionStart, selectionEnd),
             )
         )
     }
@@ -142,6 +149,7 @@ private fun CodeSection(
                 is ScriptingEvent.InsertCodeSnippet -> consume {
                     textFieldValue = textFieldValue.insertAtCursor(event.textBeforeCursor, event.textAfterCursor)
                     onCodeChanged(textFieldValue.text)
+                    focusRequester.requestFocus()
                 }
                 else -> false
             }
@@ -164,6 +172,8 @@ private fun CodeSection(
         value = textFieldValue,
         minLines = minLines,
         onValueChange = {
+            selectionStart = it.selection.start
+            selectionEnd = it.selection.end
             val hasChanged = textFieldValue.text != it.text
             textFieldValue = it
             if (hasChanged) {

@@ -32,8 +32,8 @@ import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.window.DialogProperties
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.colorIntToHexString
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.hexStringToColorInt
@@ -51,7 +51,7 @@ fun ColorPickerDialog(
     extraContent: @Composable ColumnScope.(Int) -> Unit = {},
     onDismissRequested: () -> Unit,
 ) {
-    val viewModel = viewModel<ColorPickerViewModel>()
+    val viewModel = hiltViewModel<ColorPickerViewModel>()
     var color by rememberSaveable {
         mutableStateOf(initialColor ?: viewModel.previousIconColor ?: android.graphics.Color.BLACK)
     }

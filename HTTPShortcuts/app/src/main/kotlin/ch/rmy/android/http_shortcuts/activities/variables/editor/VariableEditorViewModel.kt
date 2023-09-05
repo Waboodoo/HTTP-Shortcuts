@@ -153,7 +153,7 @@ constructor(
     private suspend fun save() {
         try {
             variableRepository.copyTemporaryVariableToVariable(variableId ?: newUUID())
-            finish()
+            closeScreen()
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
@@ -195,7 +195,7 @@ constructor(
         if (hasChanges()) {
             showDiscardDialog()
         } else {
-            finish()
+            closeScreen()
         }
     }
 
@@ -207,7 +207,7 @@ constructor(
     }
 
     fun onDiscardDialogConfirmed() = runAction {
-        finish()
+        closeScreen()
     }
 
     fun onVariableKeyChanged(key: String) = runAction {

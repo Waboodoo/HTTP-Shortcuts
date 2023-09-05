@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.activities.editor
 
-import android.app.Activity
 import android.app.Application
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
@@ -14,15 +13,6 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.AdvancedSettingsActivity
-import ch.rmy.android.http_shortcuts.activities.editor.authentication.AuthenticationActivity
-import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.BasicRequestSettingsActivity
-import ch.rmy.android.http_shortcuts.activities.editor.body.RequestBodyActivity
-import ch.rmy.android.http_shortcuts.activities.editor.executionsettings.ExecutionSettingsActivity
-import ch.rmy.android.http_shortcuts.activities.editor.headers.RequestHeadersActivity
-import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseActivity
-import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingActivity
-import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcutsActivity
 import ch.rmy.android.http_shortcuts.activities.editor.usecases.FetchFaviconUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogHandler
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
@@ -43,6 +33,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableHttpUrl
@@ -312,7 +303,10 @@ constructor(
         }
         logInfo("Test button clicked")
         waitForOperationsToFinish()
-        openActivity(ExecuteActivity.IntentBuilder(TEMPORARY_ID).trigger(ShortcutTriggerType.TEST_IN_EDITOR))
+        sendIntent(
+            ExecuteActivity.IntentBuilder(TEMPORARY_ID)
+                .trigger(ShortcutTriggerType.TEST_IN_EDITOR)
+        )
     }
 
     fun onSaveButtonClicked() = runAction {
@@ -371,9 +365,7 @@ constructor(
         }
         waitForOperationsToFinish()
         cleanUpStarter()
-        finishWithOkResult(
-            ShortcutEditorActivity.OpenShortcutEditor.createResult(shortcutId),
-        )
+        closeScreen(result = NavigationDestination.ShortcutEditor.ShortcutCreatedResult(shortcutId))
     }
 
     fun onBackPressed() = runAction {
@@ -400,66 +392,60 @@ constructor(
         logInfo("Changes to shortcut discarded")
         waitForOperationsToFinish()
         cleanUpStarter()
-        finish(result = Activity.RESULT_CANCELED)
+        closeScreen()
     }
 
     fun onBasicRequestSettingsButtonClicked() = runAction {
         skipIfBusy()
         logInfo("Basic request settings button clicked")
-        openActivity(BasicRequestSettingsActivity.IntentBuilder())
+        navigate(NavigationDestination.ShortcutEditorBasicRequestSettings)
     }
 
     fun onHeadersButtonClicked() = runAction {
         skipIfBusy()
         logInfo("Headers settings button clicked")
-        openActivity(RequestHeadersActivity.IntentBuilder())
+        navigate(NavigationDestination.ShortcutEditorRequestHeaders)
     }
 
     fun onRequestBodyButtonClicked() = runAction {
         skipIfBusy()
         logInfo("Request body settings button clicked")
-        openActivity(RequestBodyActivity.IntentBuilder())
+        navigate(NavigationDestination.ShortcutEditorRequestBody)
     }
 
     fun onAuthenticationButtonClicked() = runAction {
         skipIfBusy()
         logInfo("Authentication settings button clicked")
-        openActivity(AuthenticationActivity.IntentBuilder())
+        navigate(NavigationDestination.ShortcutEditorAuthentication)
     }
 
     fun onResponseHandlingButtonClicked() = runAction {
         skipIfBusy()
         logInfo("Response handling button clicked")
-        openActivity(ResponseActivity.IntentBuilder())
+        navigate(NavigationDestination.ShortcutEditorResponse)
     }
 
     fun onScriptingButtonClicked() = runAction {
         logInfo("Scripting button clicked")
-        openActivity(
-            ScriptingActivity.IntentBuilder()
-                .shortcutId(shortcutId)
-        )
+        navigate(NavigationDestination.ShortcutEditorScripting.buildRequest(shortcutId))
     }
 
     fun onTriggerShortcutsButtonClicked() = runAction {
         skipIfBusy()
         logInfo("Trigger shortcuts button clicked")
-        openActivity(
-            TriggerShortcutsActivity.IntentBuilder()
-                .shortcutId(shortcutId)
-        )
+        navigate(NavigationDestination.ShortcutEditorTriggerShortcuts.buildRequest(shortcutId))
     }
 
     fun onExecutionSettingsButtonClicked() = runAction {
         skipIfBusy()
         logInfo("Execution settings button clicked")
-        openActivity(ExecutionSettingsActivity.IntentBuilder())
+        navigate(NavigationDestination.ShortcutEditorExecutionSettings)
     }
 
     fun onAdvancedSettingsButtonClicked() = runAction {
         skipIfBusy()
         logInfo("Advanced settings button clicked")
-        openActivity(AdvancedSettingsActivity.IntentBuilder())
+        navigate(NavigationDestination.ShortcutEditorAdvancedSettings)
     }
 
     fun onIconClicked() = runAction {
@@ -526,6 +512,11 @@ constructor(
         if (isSaving || isFinishing) {
             skipAction()
         }
+    }
+
+    fun onCustomIconOptionSelected() = runAction {
+        updateDialogState(null)
+        navigate(NavigationDestination.IconPicker)
     }
 
     data class InitData(

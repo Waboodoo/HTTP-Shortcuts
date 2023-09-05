@@ -8,7 +8,6 @@ import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings.getTypeName
-import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorActivity
 import ch.rmy.android.http_shortcuts.activities.variables.models.VariableListItem
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GenerateVariableKeyUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
@@ -17,6 +16,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
@@ -122,19 +122,14 @@ constructor(
 
     fun onCreationDialogVariableTypeSelected(variableType: VariableType) = runAction {
         updateDialogState(null)
-        openActivity(
-            VariableEditorActivity.IntentBuilder(variableType)
-        )
+        navigate(NavigationDestination.VariableEditor.buildRequest(variableType))
     }
 
     fun onEditOptionSelected() = runAction {
         updateDialogState(null)
         val variableId = activeVariableId ?: skipAction()
         val variable = getVariable(variableId) ?: skipAction()
-        openActivity(
-            VariableEditorActivity.IntentBuilder(variable.variableType)
-                .variableId(variableId)
-        )
+        navigate(NavigationDestination.VariableEditor.buildRequest(variable.variableType, variableId))
     }
 
     fun onDuplicateOptionSelected() = runAction {
@@ -190,7 +185,7 @@ constructor(
 
     fun onBackPressed() = runAction {
         waitForOperationsToFinish()
-        finish()
+        closeScreen()
     }
 
     private suspend fun recomputeUsedVariableIds() {

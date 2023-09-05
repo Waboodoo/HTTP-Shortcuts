@@ -28,7 +28,7 @@ constructor(
             )
 
         if (deepLinkUrl.isCancelExecutions()) {
-            openActivity(
+            sendIntent(
                 MainActivity.IntentBuilder()
                     .cancelPendingExecutions()
             )
@@ -37,7 +37,7 @@ constructor(
 
         val importUrl = deepLinkUrl.getImportUrl()
         if (importUrl != null) {
-            openActivity(
+            sendIntent(
                 MainActivity.IntentBuilder()
                     .importUrl(importUrl)
             )
@@ -57,7 +57,7 @@ constructor(
     }
 
     private suspend fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKey, String>) {
-        openActivity(
+        sendIntent(
             ExecuteActivity.IntentBuilder(shortcutId)
                 .trigger(ShortcutTriggerType.DEEP_LINK)
                 .variableValues(variableValues)

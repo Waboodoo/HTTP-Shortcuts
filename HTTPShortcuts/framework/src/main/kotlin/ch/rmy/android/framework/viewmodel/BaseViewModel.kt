@@ -12,6 +12,7 @@ import ch.rmy.android.framework.R
 import ch.rmy.android.framework.extensions.awaitNonNull
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
+import ch.rmy.android.framework.navigation.NavigationRequest
 import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.utils.localization.Localizable
 import kotlinx.coroutines.CancellationException
@@ -72,11 +73,11 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
             try {
                 mutableViewState.value = initialize(data)
             } catch (e: ViewModelCancellationException) {
-                finish(skipAnimation = true)
+                closeScreen()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                finish()
+                closeScreen()
                 handleUnexpectedError(e)
             }
         }
@@ -146,19 +147,22 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         emitEvent(ViewModelEvent.ShowToast(stringRes, long = long))
     }
 
-    protected suspend fun finish(result: Int? = null, intent: Intent? = null, skipAnimation: Boolean = false) {
-        emitEvent(ViewModelEvent.Finish(result, intent, skipAnimation))
+    protected suspend fun closeScreen(result: Any? = null) {
+        emitEvent(ViewModelEvent.CloseScreen(result = result))
     }
 
-    protected suspend fun finishWithOkResult(intent: Intent? = null) {
-        finish(
-            result = Activity.RESULT_OK,
-            intent = intent,
+    protected suspend fun finish(intent: Intent? = null, skipAnimation: Boolean = false, okResultCode: Boolean = false) {
+        emitEvent(
+            ViewModelEvent.Finish(
+                resultCode = if (okResultCode) Activity.RESULT_OK else null,
+                skipAnimation = skipAnimation,
+                intent = intent,
+            )
         )
     }
 
-    protected suspend fun setResult(result: Int = Activity.RESULT_CANCELED, intent: Intent? = null) {
-        emitEvent(ViewModelEvent.SetResult(result, intent))
+    protected suspend fun setActivityResult(result: Int = Activity.RESULT_CANCELED, intent: Intent? = null) {
+        emitEvent(ViewModelEvent.SetActivityResult(result, intent))
     }
 
     protected suspend fun openURL(url: String) {
@@ -169,13 +173,17 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         emitEvent(ViewModelEvent.OpenURL(url.toString()))
     }
 
-    protected suspend fun openActivity(intentBuilder: IntentBuilder) {
-        emitEvent(ViewModelEvent.OpenActivity(intentBuilder))
+    protected suspend fun navigate(navigationRequest: NavigationRequest) {
+        emitEvent(ViewModelEvent.Navigate(navigationRequest))
     }
 
-    protected suspend fun openActivity(intent: Intent) {
+    protected suspend fun sendIntent(intentBuilder: IntentBuilder) {
+        emitEvent(ViewModelEvent.SendIntent(intentBuilder))
+    }
+
+    protected suspend fun sendIntent(intent: Intent) {
         emitEvent(
-            ViewModelEvent.OpenActivity(object : IntentBuilder {
+            ViewModelEvent.SendIntent(object : IntentBuilder {
                 override fun build(context: Context): Intent =
                     intent
             })

@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import android.net.Uri
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
@@ -10,25 +9,25 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import ch.rmy.android.framework.extensions.consume
-import ch.rmy.android.framework.extensions.launch
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.categories.CategoriesActivity
-import ch.rmy.android.http_shortcuts.activities.curl_import.CurlImportActivity
-import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
-import ch.rmy.android.http_shortcuts.activities.importexport.ImportExportActivity
-import ch.rmy.android.http_shortcuts.activities.settings.SettingsActivity
-import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsActivity
-import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.FloatingAddButton
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Categories.RESULT_CATEGORIES_CHANGED
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.ImportExport.RESULT_CATEGORIES_CHANGED_FROM_IMPORT
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Settings.RESULT_APP_LOCKED
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Widget.RESULT_WIDGET_SETTINGS_CANCELLED
+import ch.rmy.android.http_shortcuts.navigation.ResultHandler
+import ch.rmy.curlcommand.CurlCommand
 
 @Composable
 fun MainScreen(
+    savedStateHandle: SavedStateHandle,
     selectionMode: SelectionMode,
     initialCategoryId: CategoryId?,
     widgetId: Int?,
@@ -49,69 +48,35 @@ fun MainScreen(
         viewModel.onBackButtonPressed()
     }
 
-    val openSettings = rememberLauncherForActivityResult(SettingsActivity.OpenSettings) { result ->
-        if (result.themeChanged) {
-            viewModel.onReopenSettingsRequested()
-        } else if (result.appLocked) {
-            viewModel.onAppLocked()
-        }
-    }
-
-    val openCurlImport = rememberLauncherForActivityResult(CurlImportActivity.ImportFromCurl) { curlCommand ->
-        curlCommand?.let(viewModel::onCurlCommandSubmitted)
-    }
-
-    val openWidgetSettings = rememberLauncherForActivityResult(WidgetSettingsActivity.OpenWidgetSettings) { result ->
-        if (result != null) {
-            viewModel.onWidgetSettingsSubmitted(
-                shortcutId = result.shortcutId,
-                showLabel = result.showLabel,
-                labelColor = result.labelColor,
-            )
-        } else {
-            viewModel.onWidgetSettingsCancelled()
-        }
-    }
-
-    val openShortcutEditor = rememberLauncherForActivityResult(ShortcutEditorActivity.OpenShortcutEditor) { shortcutId ->
-        shortcutId?.let(viewModel::onShortcutCreated)
-    }
-
-    val openCategories = rememberLauncherForActivityResult(CategoriesActivity.OpenCategories) { categoriesChanged ->
-        if (categoriesChanged) {
-            viewModel.onRestartRequested()
-        }
-    }
-
-    val openImportExport = rememberLauncherForActivityResult(ImportExportActivity.OpenImportExport) { categoriesChanged ->
-        if (categoriesChanged) {
-            viewModel.onRestartRequested()
-        }
-    }
-
-    EventHandler { event ->
-        when (event) {
-            is MainEvent.OpenCurlImport -> consume {
-                openCurlImport.launch()
+    ResultHandler(savedStateHandle) { result ->
+        when (result) {
+            RESULT_CATEGORIES_CHANGED,
+            RESULT_CATEGORIES_CHANGED_FROM_IMPORT,
+            -> {
+                viewModel.onRestartRequested()
             }
-            is MainEvent.OpenWidgetSettings -> consume {
-                openWidgetSettings.launch {
-                    shortcut(event.shortcut)
-                }
+            RESULT_APP_LOCKED -> {
+                viewModel.onAppLocked()
             }
-            is MainEvent.OpenShortcutEditor -> consume {
-                openShortcutEditor.launch { event.intentBuilder }
+            is CurlCommand -> {
+                viewModel.onCurlCommandSubmitted(result)
             }
-            is MainEvent.OpenCategories -> consume {
-                openCategories.launch()
+            is NavigationDestination.ShortcutEditor.ShortcutCreatedResult -> {
+                viewModel.onShortcutCreated(result.shortcutId)
             }
-            is MainEvent.OpenSettings -> consume {
-                openSettings.launch()
+            is NavigationDestination.ShortcutEditor.ShortcutEditedResult -> {
+                viewModel.onShortcutEdited()
             }
-            is MainEvent.OpenImportExport -> consume {
-                openImportExport.launch()
+            is NavigationDestination.Widget.Result -> {
+                viewModel.onWidgetSettingsSubmitted(
+                    shortcutId = result.shortcutId,
+                    showLabel = result.showLabel,
+                    labelColor = result.labelColor,
+                )
             }
-            else -> false
+            RESULT_WIDGET_SETTINGS_CANCELLED -> {
+                viewModel.onWidgetSettingsCancelled()
+            }
         }
     }
 
@@ -154,7 +119,6 @@ fun MainScreen(
             activeCategoryId = viewState.activeCategoryId,
             selectionMode = viewState.selectionMode,
             onActiveCategoryIdChanged = viewModel::onActiveCategoryChanged,
-            onShortcutEdited = viewModel::onShortcutEdited,
             onPlaceShortcutOnHomeScreen = viewModel::onPlaceShortcutOnHomeScreen,
             onRemoveShortcutFromHomeScreen = viewModel::onRemoveShortcutFromHomeScreen,
             onSelectShortcut = viewModel::onSelectShortcut,

@@ -10,6 +10,8 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.CategoryEditor.RESULT_CATEGORY_CREATED
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.CategoryEditor.RESULT_CATEGORY_EDITED
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -93,7 +95,7 @@ constructor(
             skipAction()
         }
         saveChanges(viewState)
-        finishWithOkResult()
+        closeScreen(result = if (isNewCategory) RESULT_CATEGORY_CREATED else RESULT_CATEGORY_EDITED)
     }
 
     private suspend fun saveChanges(viewState: CategoryEditorViewState) {
@@ -125,7 +127,8 @@ constructor(
     }
 
     fun onDiscardConfirmed() = runAction {
-        finish()
+        updateDialogState(null)
+        closeScreen()
     }
 
     fun onDialogDismissalRequested() = runAction {

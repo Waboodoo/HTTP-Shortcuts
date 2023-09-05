@@ -33,6 +33,6 @@ constructor(
             ?.let(CurlParser::parse)
             ?: skipAction()
 
-        finishWithOkResult(CurlImportActivity.ImportFromCurl.createResult(command))
+        closeScreen(result = command)
     }
 }

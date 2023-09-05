@@ -133,7 +133,7 @@ constructor(
 
     fun onBackPressed() = runAction {
         waitForOperationsToFinish()
-        finish()
+        closeScreen()
     }
 
     fun onCertificateFilePickerFailed() = runAction {

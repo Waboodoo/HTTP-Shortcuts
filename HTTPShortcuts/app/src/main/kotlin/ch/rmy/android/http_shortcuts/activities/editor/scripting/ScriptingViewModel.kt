@@ -4,11 +4,14 @@ import android.app.Application
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.activities.editor.scripting.models.CodeFieldType
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.type
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scripting.CodeTransformer
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +31,7 @@ constructor(
     application: Application,
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
     private val codeTransformer: CodeTransformer,
-) : BaseViewModel<Unit, ScriptingViewState>(application) {
+) : BaseViewModel<ScriptingViewModel.InitData, ScriptingViewState>(application) {
 
     private lateinit var shortcutExecutionType: ShortcutExecutionType
 
@@ -46,7 +49,7 @@ constructor(
             field = value
         }
 
-    override suspend fun initialize(data: Unit): ScriptingViewState {
+    override suspend fun initialize(data: InitData): ScriptingViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
         val historyState = withContext(Dispatchers.Default) {
             HistoryState(
@@ -143,7 +146,7 @@ constructor(
         }
         isFinishing = true
         persistJob?.join()
-        finish()
+        closeScreen()
     }
 
     fun onCodeSnippetPicked(textBeforeCursor: String, textAfterCursor: String) = runAction {
@@ -157,7 +160,10 @@ constructor(
 
     fun onTestButtonClicked() = runAction {
         waitForOperationsToFinish()
-        openActivity(ExecuteActivity.IntentBuilder(Shortcut.TEMPORARY_ID).trigger(ShortcutTriggerType.TEST_IN_EDITOR))
+        sendIntent(
+            ExecuteActivity.IntentBuilder(Shortcut.TEMPORARY_ID)
+                .trigger(ShortcutTriggerType.TEST_IN_EDITOR)
+        )
     }
 
     fun onUndoButtonClicked() = runAction {
@@ -181,10 +187,33 @@ constructor(
         }
     }
 
+    fun onCodeSnippetButtonClicked(activeField: CodeFieldType) = runAction {
+        navigate(
+            when (activeField) {
+                CodeFieldType.PREPARE -> NavigationDestination.CodeSnippetPicker.buildRequest(
+                    shortcutId = initData.currentShortcutId,
+                )
+                CodeFieldType.SUCCESS -> NavigationDestination.CodeSnippetPicker.buildRequest(
+                    shortcutId = initData.currentShortcutId,
+                    includeResponseOptions = true,
+                )
+                CodeFieldType.FAILURE -> NavigationDestination.CodeSnippetPicker.buildRequest(
+                    shortcutId = initData.currentShortcutId,
+                    includeResponseOptions = true,
+                    includeNetworkErrorOption = true,
+                )
+            }
+        )
+    }
+
     data class HistoryState(
         val codeOnPrepare: String,
         var codeOnSuccess: String,
         var codeOnFailure: String,
+    )
+
+    data class InitData(
+        val currentShortcutId: ShortcutId?,
     )
 
     companion object {

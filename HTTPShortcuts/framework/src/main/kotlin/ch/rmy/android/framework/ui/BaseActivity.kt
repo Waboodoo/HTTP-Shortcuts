@@ -20,8 +20,8 @@ abstract class BaseActivity : AppCompatActivity() {
 
     open fun handleEvent(event: ViewModelEvent) {
         when (event) {
-            is ViewModelEvent.OpenActivity -> {
-                logInfo("handleEvent: Opening activity for ${event.intentBuilder}")
+            is ViewModelEvent.SendIntent -> {
+                logInfo("handleEvent: sending intent")
                 try {
                     event.intentBuilder.startActivity(this)
                 } catch (e: ActivityNotFoundException) {
@@ -35,10 +35,14 @@ abstract class BaseActivity : AppCompatActivity() {
                 logInfo("handleEvent: Opening URL ${event.url}")
                 openURL(event.url)
             }
+            is ViewModelEvent.CloseScreen -> {
+                logInfo("handleEvent: closing screen")
+                finishWithoutAnimation()
+            }
             is ViewModelEvent.Finish -> {
-                logInfo("handleEvent: Finishing (result=${event.result}, skipAnimation=${event.skipAnimation})")
-                if (event.result != null) {
-                    setResult(event.result, event.intent)
+                logInfo("handleEvent: Finishing (resultCode=${event.resultCode}, skipAnimation=${event.skipAnimation})")
+                if (event.resultCode != null) {
+                    setResult(event.resultCode, event.intent)
                 }
                 if (event.skipAnimation) {
                     finishWithoutAnimation()
@@ -46,7 +50,7 @@ abstract class BaseActivity : AppCompatActivity() {
                     finish()
                 }
             }
-            is ViewModelEvent.SetResult -> {
+            is ViewModelEvent.SetActivityResult -> {
                 logInfo("handleEvent: Setting result (result=${event.result})")
                 setResult(event.result, event.intent)
             }

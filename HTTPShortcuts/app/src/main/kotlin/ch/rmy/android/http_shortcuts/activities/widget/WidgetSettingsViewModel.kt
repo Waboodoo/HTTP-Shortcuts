@@ -5,6 +5,7 @@ import android.graphics.Color
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -58,8 +59,8 @@ constructor(
     }
 
     fun onCreateButtonClicked() = runAction {
-        finishWithOkResult(
-            WidgetSettingsActivity.OpenWidgetSettings.createResult(
+        closeScreen(
+            result = NavigationDestination.Widget.Result(
                 shortcutId = shortcutId,
                 labelColor = viewState.labelColorFormatted,
                 showLabel = viewState.showLabel,

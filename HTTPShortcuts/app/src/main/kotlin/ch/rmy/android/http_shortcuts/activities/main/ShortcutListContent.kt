@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.luminance
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.runIfNotNull
-import ch.rmy.android.http_shortcuts.activities.editor.ShortcutEditorActivity
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
 import ch.rmy.android.http_shortcuts.activities.main.models.CategoryItem
 import ch.rmy.android.http_shortcuts.components.EventHandler
@@ -29,7 +28,6 @@ fun ShortcutListContent(
     category: CategoryItem,
     selectionMode: SelectionMode,
     isActive: Boolean,
-    onShortcutEdited: () -> Unit,
     onPlaceShortcutOnHomeScreen: (ShortcutPlaceholder) -> Unit,
     onRemoveShortcutFromHomeScreen: (ShortcutPlaceholder) -> Unit,
     onSelectShortcut: (ShortcutId) -> Unit,
@@ -42,11 +40,6 @@ fun ShortcutListContent(
         key = category.categoryId,
     )
 
-    val openShortcutEditor = rememberLauncherForActivityResult(ShortcutEditorActivity.OpenShortcutEditor) { shortcutId ->
-        if (shortcutId != null) {
-            viewModel.onShortcutEdited()
-        }
-    }
     val openFilePickerForExport = rememberLauncherForActivityResult(OpenFilePickerForExportContract) { fileUri ->
         fileUri?.let(viewModel::onFilePickedForExport)
     }
@@ -57,19 +50,10 @@ fun ShortcutListContent(
 
     EventHandler(enabled = isActive) { event ->
         when (event) {
-            is ShortcutListEvent.OpenShortcutEditor -> consume {
-                openShortcutEditor.launch {
-                    shortcutId(event.shortcutId)
-                        .categoryId(event.categoryId)
-                }
-            }
             is ShortcutListEvent.OpenFilePickerForExport -> consume {
                 openFilePickerForExport.launch(
                     OpenFilePickerForExportContract.Params(single = true)
                 )
-            }
-            is ShortcutListEvent.ShortcutEdited -> consume {
-                onShortcutEdited()
             }
             is ShortcutListEvent.PlaceShortcutOnHomeScreen -> consume {
                 onPlaceShortcutOnHomeScreen(event.shortcut)

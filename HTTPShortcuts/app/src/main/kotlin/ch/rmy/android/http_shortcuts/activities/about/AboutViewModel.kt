@@ -3,8 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.about
 import android.app.Application
 import ch.rmy.android.framework.utils.InstallUtil
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.http_shortcuts.activities.acknowledgment.AcknowledgmentActivity
-import ch.rmy.android.http_shortcuts.activities.contact.ContactActivity
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.VersionUtil
@@ -51,7 +50,7 @@ constructor(
     }
 
     fun onContactButtonClicked() = runAction {
-        openActivity(ContactActivity.IntentBuilder())
+        navigate(NavigationDestination.Contact)
     }
 
     fun onTranslateButtonClicked() = runAction {
@@ -75,7 +74,7 @@ constructor(
     }
 
     fun onAcknowledgementButtonClicked() = runAction {
-        openActivity(AcknowledgmentActivity.IntentBuilder())
+        navigate(NavigationDestination.Acknowledgment)
     }
 
     fun onDialogDismissalRequested() = runAction {

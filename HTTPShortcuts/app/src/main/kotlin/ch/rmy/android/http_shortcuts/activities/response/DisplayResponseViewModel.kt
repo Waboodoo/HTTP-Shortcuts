@@ -92,7 +92,7 @@ constructor(
     }
 
     fun onRerunButtonClicked() = runAction {
-        openActivity(
+        sendIntent(
             ExecuteActivity.IntentBuilder(initData.shortcutId)
                 .trigger(ShortcutTriggerType.WINDOW_RERUN)
         )
@@ -103,7 +103,7 @@ constructor(
         if (shouldShareAsText()) {
             ShareUtil.shareText(activityProvider.getActivity(), responseText)
         } else {
-            openActivity(
+            sendIntent(
                 Intent(Intent.ACTION_SEND)
                     .runIfNotNull(initData.mimeType) {
                         setType(it)

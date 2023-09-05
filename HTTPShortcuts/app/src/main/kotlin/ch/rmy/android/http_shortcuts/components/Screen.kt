@@ -5,6 +5,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -15,7 +16,7 @@ inline fun <D, VS, reified VM : BaseViewModel<D, VS>> bindViewModel(
     initData: D,
     key: String? = null,
 ): Pair<VM, VS?> {
-    val viewModel = viewModel<VM>(key = key)
+    val viewModel = hiltViewModel<VM>(key = key)
     val state by viewModel.viewStateFlow.collectAsStateWithLifecycle()
     val eventHandler = LocalEventinator.current
     DisposableEffect(Unit) {

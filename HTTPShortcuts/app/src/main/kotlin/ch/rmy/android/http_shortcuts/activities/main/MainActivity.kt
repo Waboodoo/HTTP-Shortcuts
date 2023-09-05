@@ -19,7 +19,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
-import ch.rmy.android.framework.extensions.getParcelable
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.framework.extensions.restartWithoutAnimation
@@ -28,15 +27,14 @@ import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
-import ch.rmy.android.http_shortcuts.activities.settings.SettingsActivity
 import ch.rmy.android.http_shortcuts.data.RealmError
 import ch.rmy.android.http_shortcuts.data.RealmFactoryImpl
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
+import ch.rmy.android.http_shortcuts.navigation.NavigationRoot
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs.RELEASES
-import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -83,13 +81,7 @@ class MainActivity : BaseComposeActivity() {
             return
         }
 
-        MainScreen(
-            selectionMode = determineMode(intent.action),
-            initialCategoryId = intent?.extras?.getString(EXTRA_CATEGORY_ID),
-            widgetId = WidgetManager.getWidgetIdFromIntent(intent),
-            importUrl = intent?.getParcelable(EXTRA_IMPORT_URL),
-            cancelPendingExecutions = intent?.extras?.getBoolean(EXTRA_CANCEL_PENDING_EXECUTIONS) ?: false,
-        )
+        NavigationRoot()
     }
 
     @Composable
@@ -182,21 +174,8 @@ class MainActivity : BaseComposeActivity() {
         )
     }
 
-    private fun determineMode(action: String?) = when (action) {
-        Intent.ACTION_CREATE_SHORTCUT -> SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT
-        AppWidgetManager.ACTION_APPWIDGET_CONFIGURE -> SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT
-        ACTION_SELECT_SHORTCUT_FOR_PLUGIN -> SelectionMode.PLUGIN
-        else -> SelectionMode.NORMAL
-    }
-
     override fun handleEvent(event: ViewModelEvent) {
         when (event) {
-            MainEvent.ReopenSettings -> {
-                recreate()
-                SettingsActivity.IntentBuilder()
-                    .startActivity(this)
-                overridePendingTransition(0, 0)
-            }
             MainEvent.Restart -> {
                 restartWithoutAnimation()
             }
@@ -254,12 +233,19 @@ class MainActivity : BaseComposeActivity() {
 
     companion object {
 
-        private const val ACTION_SELECT_SHORTCUT_FOR_PLUGIN = "ch.rmy.android.http_shortcuts.plugin"
+        const val ACTION_SELECT_SHORTCUT_FOR_PLUGIN = "ch.rmy.android.http_shortcuts.plugin"
 
         const val EXTRA_SELECTION_ID = "ch.rmy.android.http_shortcuts.shortcut_id"
         const val EXTRA_SELECTION_NAME = "ch.rmy.android.http_shortcuts.shortcut_name"
-        private const val EXTRA_CATEGORY_ID = "ch.rmy.android.http_shortcuts.category_id"
-        private const val EXTRA_IMPORT_URL = "ch.rmy.android.http_shortcuts.import_url"
-        private const val EXTRA_CANCEL_PENDING_EXECUTIONS = "ch.rmy.android.http_shortcuts.cancel_executions"
+        const val EXTRA_CATEGORY_ID = "ch.rmy.android.http_shortcuts.category_id"
+        const val EXTRA_IMPORT_URL = "ch.rmy.android.http_shortcuts.import_url"
+        const val EXTRA_CANCEL_PENDING_EXECUTIONS = "ch.rmy.android.http_shortcuts.cancel_executions"
+
+        fun determineMode(action: String?) = when (action) {
+            Intent.ACTION_CREATE_SHORTCUT -> SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT
+            AppWidgetManager.ACTION_APPWIDGET_CONFIGURE -> SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT
+            ACTION_SELECT_SHORTCUT_FOR_PLUGIN -> SelectionMode.PLUGIN
+            else -> SelectionMode.NORMAL
+        }
     }
 }

@@ -23,7 +23,6 @@ import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.activities.main.models.ShortcutItem
 import ch.rmy.android.http_shortcuts.activities.main.usecases.LauncherShortcutMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherMapperUseCase
-import ch.rmy.android.http_shortcuts.activities.moving.MoveActivity
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
@@ -46,6 +45,7 @@ import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.import_export.CurlExporter
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scheduling.AlarmScheduler
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
@@ -186,13 +186,16 @@ constructor(
 
     private suspend fun executeShortcut(shortcutId: ShortcutId) {
         logInfo("Preparing to execute shortcut")
-        openActivity(ExecuteActivity.IntentBuilder(shortcutId).trigger(ShortcutTriggerType.MAIN_SCREEN))
+        sendIntent(
+            ExecuteActivity.IntentBuilder(shortcutId)
+                .trigger(ShortcutTriggerType.MAIN_SCREEN)
+        )
     }
 
     private suspend fun editShortcut(shortcutId: ShortcutId) {
         logInfo("Preparing to edit shortcut")
-        emitEvent(
-            ShortcutListEvent.OpenShortcutEditor(
+        navigate(
+            NavigationDestination.ShortcutEditor.buildRequest(
                 shortcutId = shortcutId,
                 categoryId = category.id,
             )
@@ -262,9 +265,7 @@ constructor(
 
     fun onMoveOptionSelected() = runAction {
         updateDialogState(null)
-        openActivity(
-            MoveActivity.IntentBuilder()
-        )
+        navigate(NavigationDestination.MoveShortcuts)
     }
 
     fun onDuplicateOptionSelected() = runAction {
@@ -442,7 +443,7 @@ constructor(
                     variableIds = getUsedVariableIds(shortcut.id),
                 )
 
-                openActivity(object : IntentBuilder {
+                sendIntent(object : IntentBuilder {
                     override fun build(context: Context) =
                         Intent(Intent.ACTION_SEND)
                             .setType(ExportFormat.ZIP.fileTypeForSharing)
@@ -466,11 +467,6 @@ constructor(
         if (getCurrentViewState().dialogState is ShortcutListDialogState.ExportProgress) {
             updateDialogState(null)
         }
-    }
-
-    fun onShortcutEdited() = runAction {
-        logInfo("Shortcut editing completed")
-        emitEvent(ShortcutListEvent.ShortcutEdited)
     }
 
     fun onDeletionConfirmed() = runAction {

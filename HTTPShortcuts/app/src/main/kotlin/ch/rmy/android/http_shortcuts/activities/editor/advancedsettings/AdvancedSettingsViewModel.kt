@@ -185,7 +185,7 @@ constructor(
 
     fun onBackPressed() = runAction {
         waitForOperationsToFinish()
-        finish()
+        closeScreen()
     }
 
     fun onDialogDismissed() = runAction {

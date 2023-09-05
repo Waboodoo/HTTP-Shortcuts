@@ -1,63 +1,54 @@
 package ch.rmy.android.http_shortcuts.activities.contact
 
+import android.app.Application
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import androidx.compose.runtime.Composable
 import androidx.core.net.toUri
-import androidx.lifecycle.lifecycleScope
+import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.runIfNotNull
-import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.extensions.tryOrLog
-import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.utils.FileUtil
+import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
+import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.VersionUtil
-import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 import javax.inject.Inject
 
-@AndroidEntryPoint
-class ContactActivity : BaseComposeActivity() {
-
-    @Inject
-    lateinit var settings: Settings
-
-    @Inject
-    lateinit var versionUtil: VersionUtil
-
-    @Composable
-    override fun Content() {
-        ContactScreen(
-            onSubmit = {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    createMailDraft()
-                    lifecycleScope.launch {
-                        finish()
-                    }
-                }
-            }
-        )
+@HiltViewModel
+class ContactViewModel
+@Inject
+constructor(
+    application: Application,
+    private val settings: Settings,
+    private val versionUtil: VersionUtil,
+    private val activityProvider: ActivityProvider,
+) : BaseViewModel<Unit, Unit>(application) {
+    override suspend fun initialize(data: Unit) = Unit
+    fun onSubmit() = runAction {
+        createMailDraft()
+        closeScreen()
     }
 
-    private fun createMailDraft() {
+    private suspend fun createMailDraft() {
         sendMail(
-            getString(R.string.developer_email_address),
-            getString(R.string.email_subject_contact),
-            getString(R.string.email_text_contact),
-            getString(R.string.settings_mail),
+            context.getString(R.string.developer_email_address),
+            context.getString(R.string.email_subject_contact),
+            context.getString(R.string.email_text_contact),
+            context.getString(R.string.settings_mail),
             attachment = createMetaDataFile(),
         )
     }
 
-    private fun sendMail(address: String, subject: String, text: String, title: String, attachment: Uri? = null) {
+    private suspend fun sendMail(address: String, subject: String, text: String, title: String, attachment: Uri? = null) {
         try {
             Intent(Intent.ACTION_SEND, "mailto:$address".toUri())
                 .setType("message/rfc822")
@@ -72,20 +63,22 @@ class ContactActivity : BaseComposeActivity() {
                 .let {
                     Intent.createChooser(it, title)
                 }
-                .startActivity(this)
+                .startActivity(activityProvider.getActivity())
         } catch (e: ActivityNotFoundException) {
             showToast(R.string.error_not_supported)
         }
     }
 
-    private fun createMetaDataFile(): Uri? =
+    private suspend fun createMetaDataFile(): Uri? =
         tryOrLog {
-            FileUtil.createCacheFile(context, META_DATA_FILE)
-                .also { uri ->
-                    FileUtil.getWriter(context, uri).use {
-                        GsonUtil.gson.toJson(collectMetaData(), it)
+            withContext(Dispatchers.IO) {
+                FileUtil.createCacheFile(context, META_DATA_FILE)
+                    .also { uri ->
+                        FileUtil.getWriter(context, uri).use {
+                            GsonUtil.gson.toJson(collectMetaData(), it)
+                        }
                     }
-                }
+            }
         }
 
     private fun collectMetaData() =
@@ -96,8 +89,6 @@ class ContactActivity : BaseComposeActivity() {
             language = Locale.getDefault().language,
             userId = settings.userId,
         )
-
-    class IntentBuilder : BaseIntentBuilder(ContactActivity::class)
 
     companion object {
         private const val META_DATA_FILE = "app-details.json"

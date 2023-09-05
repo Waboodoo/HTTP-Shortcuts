@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
@@ -162,7 +163,7 @@ fun VariablePlaceholderTextField(
     singleLine: Boolean = false,
     transformation: AnnotatedString.Builder.(String) -> Unit = {},
 ) {
-    val viewModel = viewModel<VariablePlaceholderViewModel>()
+    val viewModel = hiltViewModel<VariablePlaceholderViewModel>()
     val placeholders by viewModel.variablePlaceholders.collectAsStateWithLifecycle()
     val focusRequester = remember {
         FocusRequester()

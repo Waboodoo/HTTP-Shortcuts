@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.remote_edit
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
@@ -12,6 +13,10 @@ import ch.rmy.android.http_shortcuts.components.bindViewModel
 @Composable
 fun RemoteEditScreen() {
     val (viewModel, state) = bindViewModel<RemoteEditViewState, RemoteEditViewModel>()
+
+    BackHandler(state != null) {
+        viewModel.onBackPressed()
+    }
 
     SimpleScaffold(
         viewState = state,

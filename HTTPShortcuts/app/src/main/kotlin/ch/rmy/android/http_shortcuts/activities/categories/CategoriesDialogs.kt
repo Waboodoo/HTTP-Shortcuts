@@ -1,11 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.icons.IconPickerActivity
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.IconPickerDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialog
@@ -22,16 +19,9 @@ fun CategoriesDialogs(
     onDeleteClicked: () -> Unit,
     onDeletionConfirmed: () -> Unit,
     onIconSelected: (ShortcutIcon) -> Unit,
+    onCustomIconOptionSelected: () -> Unit,
     onDismissRequested: () -> Unit,
 ) {
-    val pickCustomIcon = rememberLauncherForActivityResult(IconPickerActivity.PickIcon) { icon ->
-        if (icon != null) {
-            onIconSelected(icon)
-        } else {
-            onDismissRequested()
-        }
-    }
-
     when (dialogState) {
         is CategoriesDialogState.ContextMenu -> {
             ContextMenuDialog(
@@ -53,9 +43,7 @@ fun CategoriesDialogs(
             IconPickerDialog(
                 currentIcon = dialogState.currentIcon,
                 title = stringResource(R.string.title_category_select_icon),
-                onCustomIconOptionSelected = {
-                    pickCustomIcon.launch()
-                },
+                onCustomIconOptionSelected = onCustomIconOptionSelected,
                 onIconSelected = onIconSelected,
                 onDismissRequested = onDismissRequested,
             )

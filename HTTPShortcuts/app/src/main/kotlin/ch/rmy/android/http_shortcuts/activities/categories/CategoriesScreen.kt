@@ -1,47 +1,32 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import ch.rmy.android.framework.extensions.consume
-import ch.rmy.android.framework.extensions.launch
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.categories.editor.CategoryEditorActivity
-import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.FloatingAddButton
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.CategoryEditor.RESULT_CATEGORY_CREATED
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.CategoryEditor.RESULT_CATEGORY_EDITED
+import ch.rmy.android.http_shortcuts.navigation.ResultHandler
 
 @Composable
-fun CategoriesScreen() {
+fun CategoriesScreen(savedStateHandle: SavedStateHandle) {
     val (viewModel, state) = bindViewModel<CategoriesViewState, CategoriesViewModel>()
 
-    val openCategoryEditorForCreation = rememberLauncherForActivityResult(CategoryEditorActivity.OpenCategoryEditor) { success ->
-        if (success) {
-            viewModel.onCategoryCreated()
-        }
-    }
-    val openCategoryEditorForEditing = rememberLauncherForActivityResult(CategoryEditorActivity.OpenCategoryEditor) { success ->
-        if (success) {
-            viewModel.onCategoryEdited()
-        }
-    }
-
-    EventHandler { event ->
-        when (event) {
-            is CategoriesEvent.OpenCategoryEditor -> consume {
-                if (event.categoryId != null) {
-                    openCategoryEditorForEditing.launch { categoryId(event.categoryId) }
-                } else {
-                    openCategoryEditorForCreation.launch()
-                }
+    ResultHandler(savedStateHandle) { result ->
+        when (result) {
+            RESULT_CATEGORY_CREATED -> viewModel.onCategoryCreated()
+            RESULT_CATEGORY_EDITED -> viewModel.onCategoryEdited()
+            is NavigationDestination.IconPicker.Result -> {
+                viewModel.onCategoryIconSelected(result.icon)
             }
-
-            else -> false
         }
     }
 
@@ -78,6 +63,7 @@ fun CategoriesScreen() {
         onDeleteClicked = viewModel::onDeleteClicked,
         onDeletionConfirmed = viewModel::onCategoryDeletionConfirmed,
         onIconSelected = viewModel::onCategoryIconSelected,
+        onCustomIconOptionSelected = viewModel::onCustomIconOptionSelected,
         onDismissRequested = viewModel::onDialogDismissed,
     )
 }
