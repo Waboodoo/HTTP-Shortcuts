@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.utils
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -57,8 +58,12 @@ constructor(
         }
 
     fun canUseBiometrics(): Boolean =
-        BiometricManager.from(activityProvider.getActivity())
-            .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK) == BiometricManager.BIOMETRIC_SUCCESS
+        try {
+            BiometricManager.from(activityProvider.getActivity())
+                .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK) == BiometricManager.BIOMETRIC_SUCCESS
+        } catch (e: NoActivityAvailableException) {
+            false
+        }
 
     class BiometricException(override val message: String) : Exception()
 
