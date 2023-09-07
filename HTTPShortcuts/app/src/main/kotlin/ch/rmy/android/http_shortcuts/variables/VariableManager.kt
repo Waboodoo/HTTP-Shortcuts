@@ -28,8 +28,8 @@ class VariableManager(
         variablesByKey = detachedVariables.associateBy { it.key }
 
         preResolvedValues.forEach { (variableKeyOrId, value) ->
-            val id = getVariableByKeyOrId(variableKeyOrId)?.id ?: return@forEach
-            variableValuesById[id] = value
+            val variable = getVariableByKeyOrId(variableKeyOrId) ?: return@forEach
+            variableValuesById[variable.id] = encodeValue(variable, value)
         }
     }
 
