@@ -7,6 +7,11 @@ import com.wakaztahir.codeeditor.highlight.prettify.PrettifyParser
 import com.wakaztahir.codeeditor.highlight.theme.CodeTheme
 import com.wakaztahir.codeeditor.highlight.theme.DefaultTheme
 import com.wakaztahir.codeeditor.highlight.theme.SyntaxColors
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 
 class SyntaxHighlighter(
     private val language: String,
@@ -18,8 +23,6 @@ class SyntaxHighlighter(
     } else {
         DefaultTheme()
     }
-
-    private val parser = PrettifyParser()
 
     fun format(text: String): AnnotatedString =
         buildAnnotatedString {
@@ -55,5 +58,15 @@ class SyntaxHighlighter(
 
     object Languages {
         const val JS = "js"
+    }
+
+    companion object {
+        private val parserDeferred: Deferred<PrettifyParser> =
+            CoroutineScope(Dispatchers.Default).async {
+                PrettifyParser()
+            }
+
+        internal val parser
+            get() = runBlocking { parserDeferred.await() }
     }
 }
