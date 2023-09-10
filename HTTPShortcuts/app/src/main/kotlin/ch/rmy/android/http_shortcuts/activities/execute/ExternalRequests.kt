@@ -50,5 +50,7 @@ constructor(
         }
 
     private suspend fun getResult(request: ExternalRequest) =
-        ExternalRequestFragment.getResult(activityProvider.getActivity(), request)
+        activityProvider.withActivity { activity ->
+            ExternalRequestFragment.getResult(activity, request)
+        }
 }

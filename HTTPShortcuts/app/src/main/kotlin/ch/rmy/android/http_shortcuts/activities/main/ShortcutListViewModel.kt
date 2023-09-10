@@ -17,9 +17,9 @@ import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogHandler
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
+import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.activities.main.models.ShortcutItem
 import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
@@ -89,6 +89,7 @@ constructor(
     private val clipboardUtil: ClipboardUtil,
     private val dialogHandler: ExecuteDialogHandler,
     private val shareUtil: ShareUtil,
+    private val executionStarter: ExecutionStarter,
 ) : BaseViewModel<ShortcutListViewModel.InitData, ShortcutListViewState>(application) {
 
     private lateinit var category: Category
@@ -189,11 +190,11 @@ constructor(
         emitEvent(ShortcutListEvent.SelectShortcut(shortcutId))
     }
 
-    private suspend fun executeShortcut(shortcutId: ShortcutId) {
+    private fun executeShortcut(shortcutId: ShortcutId) {
         logInfo("Preparing to execute shortcut")
-        sendIntent(
-            ExecuteActivity.IntentBuilder(shortcutId)
-                .trigger(ShortcutTriggerType.MAIN_SCREEN)
+        executionStarter.execute(
+            shortcutId = shortcutId,
+            trigger = ShortcutTriggerType.MAIN_SCREEN,
         )
     }
 
@@ -373,7 +374,9 @@ constructor(
     fun onCurlExportShareButtonClicked() = runAction {
         val curlCommand = (viewState.dialogState as? ShortcutListDialogState.CurlExport)?.command ?: skipAction()
         updateDialogState(null)
-        shareUtil.shareText(activityProvider.getActivity(), curlCommand)
+        activityProvider.withActivity { activity ->
+            shareUtil.shareText(activity, curlCommand)
+        }
     }
 
     fun onExportAsFileOptionSelected() = runAction {

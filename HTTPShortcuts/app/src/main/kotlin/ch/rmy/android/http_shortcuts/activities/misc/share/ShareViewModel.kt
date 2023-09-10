@@ -14,7 +14,7 @@ import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
@@ -43,6 +43,7 @@ constructor(
     private val shortcutRepository: ShortcutRepository,
     private val variableRepository: VariableRepository,
     private val shareUtil: ShareUtil,
+    private val executionStarter: ExecutionStarter,
 ) : BaseViewModel<ShareViewModel.InitData, ShareViewState>(application) {
     private lateinit var shortcuts: List<Shortcut>
     private lateinit var variables: List<Variable>
@@ -146,11 +147,11 @@ constructor(
     }
 
     private suspend fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKey, String> = emptyMap()) {
-        sendIntent(
-            ExecuteActivity.IntentBuilder(shortcutId)
-                .variableValues(variableValues)
-                .files(fileUris)
-                .trigger(ShortcutTriggerType.SHARE)
+        executionStarter.execute(
+            shortcutId = shortcutId,
+            variableValues = variableValues,
+            fileUris = fileUris,
+            trigger = ShortcutTriggerType.SHARE,
         )
         finish(skipAnimation = true)
     }

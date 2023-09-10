@@ -44,12 +44,14 @@ constructor(
     private fun formatIPV4Address(ip: Int): String =
         "${ip shr 0 and 0xFF}.${ip shr 8 and 0xFF}.${ip shr 16 and 0xFF}.${ip shr 24 and 0xFF}"
 
-    fun showWifiPicker() {
+    suspend fun showWifiPicker() {
         try {
-            Intent(WifiManager.ACTION_PICK_WIFI_NETWORK)
-                .putExtra("extra_prefs_show_button_bar", true)
-                .putExtra("wifi_enable_next_on_connect", true)
-                .startActivity(activityProvider.getActivity())
+            activityProvider.withActivity { activity ->
+                Intent(WifiManager.ACTION_PICK_WIFI_NETWORK)
+                    .putExtra("extra_prefs_show_button_bar", true)
+                    .putExtra("wifi_enable_next_on_connect", true)
+                    .startActivity(activity)
+            }
         } catch (e: ActivityNotFoundException) {
             context.showToast(R.string.error_not_supported)
         }

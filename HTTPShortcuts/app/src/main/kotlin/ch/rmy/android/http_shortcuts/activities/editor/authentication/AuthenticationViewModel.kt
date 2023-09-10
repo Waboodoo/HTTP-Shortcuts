@@ -87,11 +87,13 @@ constructor(
     fun onPickCertificateFromSystemOptionSelected() = runAction {
         updateDialogState(null)
         try {
-            ClientCertUtil.promptForAlias(activityProvider.getActivity()) { alias ->
-                runAction {
-                    onClientCertParamsChanged(
-                        ClientCertParams.Alias(alias)
-                    )
+            activityProvider.withActivity { activity ->
+                ClientCertUtil.promptForAlias(activity) { alias ->
+                    runAction {
+                        onClientCertParamsChanged(
+                            ClientCertParams.Alias(alias)
+                        )
+                    }
                 }
             }
         } catch (e: ActivityNotFoundException) {

@@ -6,9 +6,9 @@ import android.net.Uri
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
+import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
@@ -29,6 +29,7 @@ constructor(
     private val activityProvider: ActivityProvider,
     private val clipboardUtil: ClipboardUtil,
     private val shareUtil: ShareUtil,
+    private val executionStarter: ExecutionStarter,
 ) {
 
     suspend operator fun invoke(shortcut: Shortcut, response: ShortcutResponse?, output: String?, dialogHandle: DialogHandle) = coroutineScope {
@@ -50,7 +51,7 @@ constructor(
                     action = action,
                     content = if (output == null && FileTypeUtil.isImage(response?.contentType)) {
                         ExecuteDialogState.ShowResult.Content.Image(
-                            response!!.getContentUri(activityProvider.getActivity())!!,
+                            response!!.getContentUri(context)!!,
                         )
                     } else {
                         ExecuteDialogState.ShowResult.Content.Text(
@@ -80,23 +81,26 @@ constructor(
     }
 
     private fun rerunShortcut(shortcutId: ShortcutId) {
-        ExecuteActivity.IntentBuilder(shortcutId)
-            .trigger(ShortcutTriggerType.DIALOG_RERUN)
-            .startActivity(context)
+        executionStarter.execute(
+            shortcutId = shortcutId,
+            trigger = ShortcutTriggerType.DIALOG_RERUN,
+        )
     }
 
-    private fun shareResponse(shortcutName: String, text: String, type: String, responseFileUri: Uri?) {
-        if (shouldShareAsText(text, type)) {
-            shareUtil.shareText(activityProvider.getActivity(), text)
-        } else {
-            Intent(Intent.ACTION_SEND)
-                .setType(type)
-                .putExtra(Intent.EXTRA_STREAM, responseFileUri)
-                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                .let {
-                    Intent.createChooser(it, shortcutName)
-                }
-                .startActivity(activityProvider.getActivity())
+    private suspend fun shareResponse(shortcutName: String, text: String, type: String, responseFileUri: Uri?) {
+        activityProvider.withActivity { activity ->
+            if (shouldShareAsText(text, type)) {
+                shareUtil.shareText(activity, text)
+            } else {
+                Intent(Intent.ACTION_SEND)
+                    .setType(type)
+                    .putExtra(Intent.EXTRA_STREAM, responseFileUri)
+                    .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    .let {
+                        Intent.createChooser(it, shortcutName)
+                    }
+                    .startActivity(activity)
+            }
         }
     }
 

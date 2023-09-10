@@ -1,15 +1,15 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
+import android.content.Context
 import ch.rmy.android.http_shortcuts.plugin.TaskerIntent
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import javax.inject.Inject
 
 class TriggerTaskerTaskAction
 @Inject
 constructor(
-    private val activityProvider: ActivityProvider,
+    private val context: Context,
 ) : Action<TriggerTaskerTaskAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext) {
         val intent = TaskerIntent(taskName)
@@ -17,7 +17,8 @@ constructor(
             .forEach { (variableName, value) ->
                 intent.addLocalVariable("%${variableName.lowercase()}", value)
             }
-        activityProvider.getActivity().sendBroadcast(intent)
+        // TODO: Test this
+        context.sendBroadcast(intent)
     }
 
     companion object {

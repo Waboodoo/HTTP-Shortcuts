@@ -24,6 +24,7 @@ fun SettingsScreen() {
             selectedDarkModeOption = viewState.selectedDarkModeOption,
             selectedClickActionOption = viewState.selectedClickActionOption,
             crashReportingEnabled = viewState.crashReportingAllowed,
+            experimentalExecutionModeEnabled = viewState.experimentalExecutionModeEnabled,
             onLanguageSelected = viewModel::onLanguageSelected,
             onDarkModeOptionSelected = viewModel::onDarkModeOptionSelected,
             onClickActionOptionSelected = viewModel::onClickActionOptionSelected,
@@ -39,6 +40,8 @@ fun SettingsScreen() {
             onAllowOverlayButtonClicked = viewModel::onAllowOverlayButtonClicked,
             onAllowXiaomiOverlayButtonClicked = viewModel::onAllowXiaomiOverlayButtonClicked,
             onBatteryOptimizationButtonClicked = viewModel::onBatteryOptimizationButtonClicked,
+            onExperimentalExecutionModeChanged = viewModel::onExperimentalExecutionModeChanged,
+            onExperimentalHelpTextClicked = viewModel::onExperimentalHelpTextClicked,
         )
     }
 

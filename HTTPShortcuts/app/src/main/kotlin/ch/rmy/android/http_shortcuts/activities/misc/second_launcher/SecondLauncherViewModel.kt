@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.misc.second_launcher
 
 import android.app.Application
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
@@ -16,6 +16,7 @@ class SecondLauncherViewModel
 constructor(
     application: Application,
     private val shortcutRepository: ShortcutRepository,
+    private val executionStarter: ExecutionStarter,
 ) : BaseViewModel<Unit, SecondLauncherViewState>(application) {
 
     override suspend fun initialize(data: Unit): SecondLauncherViewState {
@@ -35,10 +36,10 @@ constructor(
             )
     }
 
-    private suspend fun executeShortcut(shortcutId: ShortcutId) {
-        sendIntent(
-            ExecuteActivity.IntentBuilder(shortcutId)
-                .trigger(ShortcutTriggerType.SECONDARY_LAUNCHER_APP)
+    private fun executeShortcut(shortcutId: ShortcutId) {
+        executionStarter.execute(
+            shortcutId = shortcutId,
+            trigger = ShortcutTriggerType.SECONDARY_LAUNCHER_APP,
         )
     }
 

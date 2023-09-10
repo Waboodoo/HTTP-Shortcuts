@@ -24,7 +24,9 @@ constructor(
     private val networkUtil: NetworkUtil,
 ) : Action<Unit> {
     override suspend fun Unit.execute(executionContext: ExecutionContext): String? {
-        ensureLocationPermissionIsEnabled(activityProvider.getActivity(), executionContext.dialogHandle)
+        activityProvider.withActivity { activity ->
+            ensureLocationPermissionIsEnabled(activity, executionContext.dialogHandle)
+        }
         return networkUtil.getCurrentSsid()
     }
 

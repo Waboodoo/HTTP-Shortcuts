@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.settings
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.outlined.Javascript
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Layers
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Science
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Title
 import androidx.compose.material.icons.outlined.TouchApp
@@ -24,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.components.HelpText
 import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.SettingsGroup
 import ch.rmy.android.http_shortcuts.components.SettingsSelection
@@ -43,6 +46,7 @@ fun SettingsContent(
     selectedLanguage: String?,
     selectedDarkModeOption: String,
     crashReportingEnabled: Boolean,
+    experimentalExecutionModeEnabled: Boolean,
     selectedClickActionOption: ShortcutClickBehavior,
     onLanguageSelected: (String?) -> Unit,
     onDarkModeOptionSelected: (String) -> Unit,
@@ -59,6 +63,8 @@ fun SettingsContent(
     onAllowOverlayButtonClicked: () -> Unit,
     onAllowXiaomiOverlayButtonClicked: () -> Unit,
     onBatteryOptimizationButtonClicked: () -> Unit,
+    onExperimentalExecutionModeChanged: (Boolean) -> Unit,
+    onExperimentalHelpTextClicked: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -233,6 +239,31 @@ fun SettingsContent(
                     onClick = onBatteryOptimizationButtonClicked,
                 )
             }
+        }
+
+        SettingsGroup(
+            title = stringResource(R.string.settings_title_experimental),
+        ) {
+            HelpText(
+                text = stringResource(R.string.instructions_experimental_section),
+                modifier = Modifier
+                    .padding(
+                        vertical = Spacing.TINY,
+                        horizontal = Spacing.MEDIUM,
+                    )
+                    .clickable(onClick = onExperimentalHelpTextClicked),
+            )
+
+            SettingsSelection(
+                icon = Icons.Outlined.Science,
+                title = stringResource(R.string.settings_title_execution_mode),
+                selectedKey = experimentalExecutionModeEnabled,
+                items = listOf(
+                    false to stringResource(R.string.option_execution_mode_foreground),
+                    true to stringResource(R.string.option_execution_mode_background),
+                ),
+                onItemSelected = onExperimentalExecutionModeChanged,
+            )
         }
     }
 }

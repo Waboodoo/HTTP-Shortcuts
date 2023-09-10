@@ -27,25 +27,26 @@ constructor(
         val parameters = JSONObject(jsonData)
         val intent = constructIntent(parameters)
         withContext(Dispatchers.Main) {
-            val activity = activityProvider.getActivity()
-            try {
-                when (parameters.optString(KEY_TYPE).lowercase()) {
-                    TYPE_ACTIVITY -> {
-                        activity.startActivity(intent)
+            activityProvider.withActivity { activity ->
+                try {
+                    when (parameters.optString(KEY_TYPE).lowercase()) {
+                        TYPE_ACTIVITY -> {
+                            activity.startActivity(intent)
+                        }
+                        TYPE_SERVICE -> {
+                            activity.startService(intent)
+                        }
+                        else -> {
+                            activity.sendBroadcast(intent)
+                        }
                     }
-                    TYPE_SERVICE -> {
-                        activity.startService(intent)
+                } catch (e: Exception) {
+                    if (shouldLogException(e)) {
+                        logException(e)
                     }
-                    else -> {
-                        activity.sendBroadcast(intent)
+                    throw ActionException {
+                        getString(R.string.error_action_type_send_intent_failed, e.message)
                     }
-                }
-            } catch (e: Exception) {
-                if (shouldLogException(e)) {
-                    logException(e)
-                }
-                throw ActionException {
-                    getString(R.string.error_action_type_send_intent_failed, e.message)
                 }
             }
         }

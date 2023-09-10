@@ -4,7 +4,7 @@ import android.app.Application
 import android.net.Uri
 import androidx.core.net.toUri
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
@@ -20,6 +20,7 @@ class DeepLinkViewModel
 constructor(
     application: Application,
     private val shortcutRepository: ShortcutRepository,
+    private val executionStarter: ExecutionStarter,
 ) : BaseViewModel<DeepLinkViewModel.InitData, DeepLinkViewState>(application) {
     override suspend fun initialize(data: InitData): DeepLinkViewState {
         val deepLinkUrl = initData.url
@@ -56,11 +57,11 @@ constructor(
         }
     }
 
-    private suspend fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKey, String>) {
-        sendIntent(
-            ExecuteActivity.IntentBuilder(shortcutId)
-                .trigger(ShortcutTriggerType.DEEP_LINK)
-                .variableValues(variableValues)
+    private fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKey, String>) {
+        executionStarter.execute(
+            shortcutId = shortcutId,
+            trigger = ShortcutTriggerType.DEEP_LINK,
+            variableValues = variableValues,
         )
     }
 

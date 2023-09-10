@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.misc.quick_settings_tile
 
 import android.app.Application
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
@@ -17,6 +17,7 @@ class QuickSettingsTileViewModel
 constructor(
     application: Application,
     private val shortcutRepository: ShortcutRepository,
+    private val executionStarter: ExecutionStarter,
 ) : BaseViewModel<Unit, QuickSettingsTileViewState>(application) {
 
     private lateinit var shortcuts: List<Shortcut>
@@ -44,9 +45,9 @@ constructor(
     }
 
     private suspend fun executeShortcut(shortcutId: ShortcutId) {
-        sendIntent(
-            ExecuteActivity.IntentBuilder(shortcutId)
-                .trigger(ShortcutTriggerType.QUICK_SETTINGS_TILE)
+        executionStarter.execute(
+            shortcutId = shortcutId,
+            trigger = ShortcutTriggerType.QUICK_SETTINGS_TILE,
         )
     }
 

@@ -12,10 +12,10 @@ import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.editor.usecases.FetchFaviconUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogHandler
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
+import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.data.SessionInfoStore
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -61,6 +61,7 @@ constructor(
     private val cleanUpStarter: CleanUpWorker.Starter,
     private val dialogHandler: ExecuteDialogHandler,
     private val launcherShortcutUpdater: LauncherShortcutUpdater,
+    private val executionStarter: ExecutionStarter,
 ) : BaseViewModel<ShortcutEditorViewModel.InitData, ShortcutEditorViewState>(application) {
 
     private var isSaving = false
@@ -303,9 +304,9 @@ constructor(
         }
         logInfo("Test button clicked")
         waitForOperationsToFinish()
-        sendIntent(
-            ExecuteActivity.IntentBuilder(TEMPORARY_ID)
-                .trigger(ShortcutTriggerType.TEST_IN_EDITOR)
+        executionStarter.execute(
+            shortcutId = TEMPORARY_ID,
+            trigger = ShortcutTriggerType.TEST_IN_EDITOR,
         )
     }
 

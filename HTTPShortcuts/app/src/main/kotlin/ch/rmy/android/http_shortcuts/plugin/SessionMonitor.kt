@@ -12,6 +12,7 @@ class SessionMonitor
 constructor() {
 
     private var startedDeferred: CompletableDeferred<Unit>? = null
+    private var result: String? = null
     private var completedDeferred: CompletableDeferred<String?>? = null
 
     suspend fun monitorSession(startTimeout: Duration, completionTimeout: Duration): String {
@@ -33,8 +34,13 @@ constructor() {
         startedDeferred = null
     }
 
-    fun onSessionComplete(result: String?) {
+    fun onResult(result: String?) {
+        this.result = result
+    }
+
+    fun onSessionComplete() {
         completedDeferred?.complete(result)
         completedDeferred = null
+        result = null
     }
 }

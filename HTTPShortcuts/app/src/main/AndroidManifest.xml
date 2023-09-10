@@ -93,6 +93,13 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.misc.host.HostActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.Transparent" />
+
+        <activity
             android:name=".activities.response.DisplayResponseActivity"
             android:configChanges="orientation|screenSize" />
 
