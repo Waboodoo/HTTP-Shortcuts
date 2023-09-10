@@ -7,7 +7,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import javax.inject.Inject
 
@@ -17,6 +17,7 @@ constructor(
     private val context: Context,
     private val shortcutRepository: ShortcutRepository,
     private val widgetManager: WidgetManager,
+    private val launcherShortcutUpdater: LauncherShortcutUpdater,
 ) : Action<ChangeIconAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext) =
         changeIcon(this.shortcutNameOrId ?: executionContext.shortcutId)
@@ -33,15 +34,7 @@ constructor(
 
         shortcutRepository.setIcon(shortcut.id, newIcon)
 
-        val launcherShortcutManager = LauncherShortcutManager(context)
-        if (launcherShortcutManager.supportsPinning()) {
-            launcherShortcutManager.updatePinnedShortcut(
-                shortcutId = shortcut.id,
-                shortcutName = shortcut.name,
-                shortcutIcon = newIcon,
-            )
-        }
-
+        launcherShortcutUpdater.updatePinnedShortcut(shortcut.id)
         widgetManager.updateWidgets(context, shortcut.id)
     }
 

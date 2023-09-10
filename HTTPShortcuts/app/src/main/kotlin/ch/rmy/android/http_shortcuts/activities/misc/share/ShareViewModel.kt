@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.data.RealmUnavailableException
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.runIfNotNull
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -18,16 +20,14 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
-import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
+import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import ch.rmy.android.http_shortcuts.variables.VariableLookup
 import ch.rmy.android.http_shortcuts.variables.VariableManager
-import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +42,7 @@ constructor(
     application: Application,
     private val shortcutRepository: ShortcutRepository,
     private val variableRepository: VariableRepository,
+    private val shareUtil: ShareUtil,
 ) : BaseViewModel<ShareViewModel.InitData, ShareViewState>(application) {
     private lateinit var shortcuts: List<Shortcut>
     private lateinit var variables: List<Variable>
@@ -58,6 +59,11 @@ constructor(
     override suspend fun initialize(data: InitData): ShareViewState {
         try {
             shortcuts = shortcutRepository.getShortcuts()
+                .runIfNotNull(data.shortcutId) { shortcutId ->
+                    filter { it.id == shortcutId }
+                        .takeUnlessEmpty()
+                        ?: this
+                }
             variables = variableRepository.getVariables()
         } catch (e: RealmUnavailableException) {
             showToast(R.string.error_generic, long = true)
@@ -100,9 +106,9 @@ constructor(
 
     private suspend fun handleTextSharing() {
         val variableLookup = VariableManager(variables)
-        val variables = getTargetableVariablesForTextSharing()
+        val variables = shareUtil.getTextShareVariables(variables)
         val variableIds = variables.map { it.id }.toSet()
-        val shortcuts = getTargetableShortcutsForTextSharing(variableIds, variableLookup)
+        val shortcuts = getTextShareTargets(variableIds, variableLookup)
 
         variableValues = variables.associate { variable ->
             variable.key to when {
@@ -118,22 +124,13 @@ constructor(
         }
     }
 
-    private fun getTargetableVariablesForTextSharing() =
-        variables
-            .filter { it.isShareText || it.isShareTitle }
-            .toSet()
-
-    private fun getTargetableShortcutsForTextSharing(variableIds: Set<VariableId>, variableLookup: VariableLookup): List<Shortcut> =
+    private fun getTextShareTargets(variableIds: Set<VariableId>, variableLookup: VariableLookup): List<Shortcut> =
         shortcuts
-            .filter { it.hasShareVariable(variableIds, variableLookup) }
+            .filter { shareUtil.isTextShareTarget(it, variableIds, variableLookup) }
 
     private fun getTargetableShortcutsForFileSharing(isImage: Boolean?): List<Shortcut> =
         shortcuts
-            .filter {
-                it.hasFileParameter(isImage) ||
-                    it.usesGenericFileBody() ||
-                    (isImage != false && it.fileUploadOptions?.type == FileUploadType.CAMERA)
-            }
+            .filter { shareUtil.isFileShareTarget(it, isImage) }
 
     private suspend fun handleFileSharing() {
         val isImage = fileUris.singleOrNull()
@@ -184,25 +181,10 @@ constructor(
         val text: String?,
         val title: String?,
         val fileUris: List<Uri>,
+        val shortcutId: ShortcutId?,
     )
 
     companion object {
-
-        internal fun Shortcut.hasShareVariable(variableIds: Set<VariableId>, variableLookup: VariableLookup): Boolean {
-            val variableIdsInShortcut = VariableResolver.extractVariableIdsIncludingScripting(this, variableLookup)
-            return variableIds.any { variableIdsInShortcut.contains(it) }
-        }
-
-        internal fun Shortcut.hasFileParameter(isImage: Boolean? = null): Boolean =
-            parameters.any {
-                when (it.parameterType) {
-                    ParameterType.STRING -> false
-                    ParameterType.FILE -> {
-                        it.fileUploadOptions?.type != FileUploadType.CAMERA || isImage != false
-                    }
-                }
-            }
-
         @WorkerThread
         internal fun cacheSharedFiles(context: Context, fileUris: List<Uri>): List<Uri> =
             fileUris

@@ -8,7 +8,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
@@ -20,6 +20,7 @@ constructor(
     private val context: Context,
     private val shortcutRepository: ShortcutRepository,
     private val widgetManager: WidgetManager,
+    private val launcherShortcutUpdater: LauncherShortcutUpdater,
 ) : Action<RenameShortcutAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext) {
         renameShortcut(
@@ -45,14 +46,7 @@ constructor(
         }
         shortcutRepository.setName(shortcut.id, newName)
 
-        LauncherShortcutManager(context)
-            .takeIf { it.supportsPinning() }
-            ?.updatePinnedShortcut(
-                shortcutId = shortcut.id,
-                shortcutName = newName,
-                shortcutIcon = shortcut.icon,
-            )
-
+        launcherShortcutUpdater.updatePinnedShortcut(shortcut.id)
         widgetManager.updateWidgets(context, shortcut.id)
     }
 

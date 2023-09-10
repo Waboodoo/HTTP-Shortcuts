@@ -13,7 +13,6 @@ import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.models.CategoryItem
-import ch.rmy.android.http_shortcuts.activities.main.usecases.LauncherShortcutMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLogDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkRestrictionDialogUseCase
@@ -31,6 +30,7 @@ import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.extensions.findShortcut
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
@@ -39,6 +39,7 @@ import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
 import ch.rmy.android.http_shortcuts.utils.SecondaryLauncherManager
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
@@ -48,6 +49,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.mindrot.jbcrypt.BCrypt
 import javax.inject.Inject
 import kotlin.random.Random
@@ -61,7 +63,6 @@ constructor(
     application: Application,
     private val categoryRepository: CategoryRepository,
     private val appRepository: AppRepository,
-    private val launcherShortcutMapper: LauncherShortcutMapperUseCase,
     private val secondaryLauncherMapper: SecondaryLauncherMapperUseCase,
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
     private val shouldShowRecoveryDialog: ShouldShowRecoveryDialogUseCase,
@@ -69,6 +70,7 @@ constructor(
     private val shouldShowNetworkRestrictionDialog: ShouldShowNetworkRestrictionDialogUseCase,
     private val executionScheduler: ExecutionScheduler,
     private val launcherShortcutManager: LauncherShortcutManager,
+    private val launcherShortcutUpdater: LauncherShortcutUpdater,
     private val secondaryLauncherManager: SecondaryLauncherManager,
     private val widgetManager: WidgetManager,
     private val pendingExecutionsRepository: PendingExecutionsRepository,
@@ -223,17 +225,21 @@ constructor(
             ?.let { sendIntent(it) }
     }
 
-    private fun updateLauncherSettings(categories: List<Category>) {
-        launcherShortcutManager.updateAppShortcuts(launcherShortcutMapper(categories))
-        secondaryLauncherManager.setSecondaryLauncherVisibility(secondaryLauncherMapper(categories))
+    private suspend fun updateLauncherSettings(categories: List<Category>) {
+        withContext(Dispatchers.Default) {
+            launcherShortcutUpdater.updateAppShortcuts()
+            secondaryLauncherManager.setSecondaryLauncherVisibility(secondaryLauncherMapper(categories))
+        }
     }
 
-    private suspend fun placeShortcutOnHomeScreen(shortcut: ShortcutPlaceholder) {
+    private suspend fun placeShortcutOnHomeScreen(shortcutPlaceholder: ShortcutPlaceholder) {
         if (launcherShortcutManager.supportsPinning()) {
-            launcherShortcutManager.pinShortcut(shortcut)
+            withContext(Dispatchers.Default) {
+                launcherShortcutUpdater.pinShortcut(shortcutPlaceholder.id)
+            }
         } else {
-            sendBroadcast(IntentUtil.getLegacyShortcutPlacementIntent(context, shortcut, install = true))
-            showSnackbar(StringResLocalizable(R.string.shortcut_placed, shortcut.name))
+            sendBroadcast(IntentUtil.getLegacyShortcutPlacementIntent(context, shortcutPlaceholder, install = true))
+            showSnackbar(StringResLocalizable(R.string.shortcut_placed, shortcutPlaceholder.name))
         }
     }
 
@@ -454,9 +460,8 @@ constructor(
     }
 
     private suspend fun placeOnHomeScreenAndFinish(shortcutId: ShortcutId) {
-        val shortcut = getShortcutById(shortcutId) ?: return
         finish(
-            intent = launcherShortcutManager.createShortcutPinIntent(shortcut.toShortcutPlaceholder()),
+            intent = launcherShortcutUpdater.createShortcutPinIntent(shortcutId),
             okResultCode = true,
         )
     }
@@ -490,16 +495,8 @@ constructor(
         )
     }
 
-    private fun getShortcutById(shortcutId: ShortcutId): Shortcut? {
-        for (category in categories) {
-            for (shortcut in category.shortcuts) {
-                if (shortcut.id == shortcutId) {
-                    return shortcut
-                }
-            }
-        }
-        return null
-    }
+    private fun getShortcutById(shortcutId: ShortcutId): Shortcut? =
+        categories.findShortcut(shortcutId)
 
     fun onWidgetSettingsSubmitted(shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) = runAction {
         logInfo("Widget settings submitted")

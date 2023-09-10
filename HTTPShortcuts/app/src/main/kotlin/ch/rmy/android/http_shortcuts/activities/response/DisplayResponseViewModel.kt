@@ -42,6 +42,7 @@ constructor(
     application: Application,
     private val clipboardUtil: ClipboardUtil,
     private val activityProvider: ActivityProvider,
+    private val shareUtil: ShareUtil,
 ) : BaseViewModel<DisplayResponseViewModel.InitData, DisplayResponseViewState>(application) {
 
     private lateinit var responseText: String
@@ -101,7 +102,7 @@ constructor(
 
     fun onShareButtonClicked() = runAction {
         if (shouldShareAsText()) {
-            ShareUtil.shareText(activityProvider.getActivity(), responseText)
+            shareUtil.shareText(activityProvider.getActivity(), responseText)
         } else {
             sendIntent(
                 Intent(Intent.ACTION_SEND)

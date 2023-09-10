@@ -11,6 +11,8 @@ When you create or edit a variable, you'll find a checkbox labelled "Allow Recei
 
 If you use this variable in multiple shortcuts, you will be prompted to choose which shortcut should be executed.
 
+If you are on Android 11 or newer, you can enhance this by enabling a shortcut as a Direct Share target. You will find the checkbox for this in its "Trigger & Execution Settings". When this is enabled, the shortcut will appear in the Direct Share sheet, making it easier to quickly share text with that specific shortcut.
+
 Note that the value that you share will not be stored into that variable, but will only be used temporarily for the execution of the shortcut, meaning that the next time you execute the shortcut that variable will still have its previous value.
 
 See also the [variables documentation](#variables.md#sharing) for more information.
@@ -21,6 +23,8 @@ See also the [variables documentation](#variables.md#sharing) for more informati
 If you want to share a file, you can do so by opening the *Request Body / Parameters* section in the shortcut editor and there either set the *Request Body Type* to *File (Picker)* or set it to *Parameters (form-data)* and then add a parameter of type *Single File* or *Multiple Files*. After that save your changes. You should now be able to share files into the HTTP Shortcuts app (the option is called "Send to...") and it will allow you to pick the shortcut as a target. This will execute the shortcut and it will use the content of the shared file as the request body or as a form parameter.
 
 If you have multiple shortcuts that use files in their body, you'll be prompted to select which shortcut should receive the shared file.
+
+If you are on Android 11 or newer, you can enhance this by enabling a shortcut as a Direct Share target. You will find the checkbox for this in its "Trigger & Execution Settings". When this is enabled, the shortcut will appear in the Direct Share sheet, making it easier to quickly share files with that specific shortcut.
 
 <a name="deep-link"></a>
 ## Trigger shortcut via deep-link

@@ -78,6 +78,9 @@ Variables of type *clipboard content* will resolve to the latest textual value t
 
 <a name="sharing"></a>
 ## Sharing Values into Variables
-In the advanced settings section of a variable you can mark it as *Allow Receiving Value from Share Dialog*. This makes it possible to provide the value of this variable through Android's *Share*-dialog, e.g., by sharing a URL or text snippet from another app. The variable will then assume the shared value during execution.
+In the advanced settings section of a variable you can mark it as *Allow Receiving Value from Share Dialog*. This makes it possible to provide the value of this variable through Android's *Share*-dialog, e.g., by sharing a URL or text snippet from another app. The variable will then assume the shared value during the execution of a shortcut.
 
 If you enable this option, you will also find a dropdown further down which lets you pick which part of the shared value the variable should assume: the text, the title (if any), or both.
+
+If you are on Android 11 or newer, you can enhance this by enabling a shortcut as a Direct Share target. You will find the checkbox for this in its "Trigger & Execution Settings". When this is enabled, the shortcut will appear in the Direct Share sheet, making it easier to quickly share text with that specific shortcut.
+

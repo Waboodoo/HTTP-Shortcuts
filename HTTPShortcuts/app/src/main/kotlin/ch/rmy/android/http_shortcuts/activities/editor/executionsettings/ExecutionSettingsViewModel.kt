@@ -34,6 +34,7 @@ constructor(
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
         return ExecutionSettingsViewState(
             launcherShortcutOptionVisible = launcherShortcutManager.supportsLauncherShortcuts(),
+            directShareOptionVisible = launcherShortcutManager.supportsDirectShare(),
             quickSettingsTileShortcutOptionVisible = quickSettingsTileManager.supportsQuickSettingsTiles(),
             waitForConnection = shortcut.isWaitForNetwork,
             waitForConnectionOptionVisible = shortcut.type == ShortcutExecutionType.APP,
