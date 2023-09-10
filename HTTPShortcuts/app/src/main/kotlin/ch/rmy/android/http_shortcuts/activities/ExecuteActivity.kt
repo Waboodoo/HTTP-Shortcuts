@@ -18,7 +18,6 @@ import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.getParcelableList
 import ch.rmy.android.framework.extensions.getSerializable
-import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
@@ -30,9 +29,6 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
-import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
-import ch.rmy.android.http_shortcuts.scheduling.ExecutionSchedulerWorker
-import ch.rmy.android.http_shortcuts.utils.CacheFilesCleanupWorker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -48,18 +44,7 @@ class ExecuteActivity : BaseComposeActivity() {
     @Inject
     lateinit var pendingExecutionsRepository: PendingExecutionsRepository
 
-    @Inject
-    lateinit var cacheFilesCleanupStarter: CacheFilesCleanupWorker.Starter
-
-    @Inject
-    lateinit var executionSchedulerStarter: ExecutionSchedulerWorker.Starter
-
-    @Inject
-    lateinit var historyCleanUpStarter: HistoryCleanUpWorker.Starter
-
     private val viewModel: ExecuteViewModel by viewModels()
-
-    private var isLowMemory = false
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
@@ -129,13 +114,6 @@ class ExecuteActivity : BaseComposeActivity() {
 
     override fun finish() {
         excludeFromRecents()
-        executionSchedulerStarter()
-        if (!isLowMemory) {
-            tryOrLog {
-                cacheFilesCleanupStarter()
-                historyCleanUpStarter()
-            }
-        }
         super.finish()
     }
 
@@ -146,11 +124,6 @@ class ExecuteActivity : BaseComposeActivity() {
                     .firstOrNull()
                     ?.setExcludeFromRecents(true)
             }
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        isLowMemory = true
     }
 
     private fun initViewModelBindings() {
