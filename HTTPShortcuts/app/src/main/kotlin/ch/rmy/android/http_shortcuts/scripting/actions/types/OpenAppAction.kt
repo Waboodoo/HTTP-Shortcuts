@@ -20,9 +20,11 @@ constructor(
     override suspend fun Params.execute(executionContext: ExecutionContext) {
         withContext(Dispatchers.Main) {
             try {
-                context.packageManager.getLaunchIntentForPackage(packageName)
-                    ?.startActivity(activityProvider.getActivity())
-                    ?: throwUnsupportedError()
+                activityProvider.withActivity { activity ->
+                    context.packageManager.getLaunchIntentForPackage(packageName)
+                        ?.startActivity(activity)
+                        ?: throwUnsupportedError()
+                }
             } catch (e: ActivityNotFoundException) {
                 throwUnsupportedError()
             }

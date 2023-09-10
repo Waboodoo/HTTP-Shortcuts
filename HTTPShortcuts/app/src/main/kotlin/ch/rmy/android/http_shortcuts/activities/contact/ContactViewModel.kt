@@ -50,20 +50,22 @@ constructor(
 
     private suspend fun sendMail(address: String, subject: String, text: String, title: String, attachment: Uri? = null) {
         try {
-            Intent(Intent.ACTION_SEND, "mailto:$address".toUri())
-                .setType("message/rfc822")
-                .putExtra(Intent.EXTRA_EMAIL, arrayOf(address))
-                .putExtra(Intent.EXTRA_SUBJECT, subject)
-                .putExtra(Intent.EXTRA_TEXT, text)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                .runIfNotNull(attachment) {
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        .putExtra(Intent.EXTRA_STREAM, it)
-                }
-                .let {
-                    Intent.createChooser(it, title)
-                }
-                .startActivity(activityProvider.getActivity())
+            activityProvider.withActivity { activity ->
+                Intent(Intent.ACTION_SEND, "mailto:$address".toUri())
+                    .setType("message/rfc822")
+                    .putExtra(Intent.EXTRA_EMAIL, arrayOf(address))
+                    .putExtra(Intent.EXTRA_SUBJECT, subject)
+                    .putExtra(Intent.EXTRA_TEXT, text)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .runIfNotNull(attachment) {
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            .putExtra(Intent.EXTRA_STREAM, it)
+                    }
+                    .let {
+                        Intent.createChooser(it, title)
+                    }
+                    .startActivity(activity)
+            }
         } catch (e: ActivityNotFoundException) {
             showToast(R.string.error_not_supported)
         }

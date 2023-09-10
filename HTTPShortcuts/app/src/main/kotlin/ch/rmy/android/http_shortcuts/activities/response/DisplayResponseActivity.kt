@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.response
 
+import android.content.Intent
 import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.core.net.toUri
@@ -89,6 +90,7 @@ class DisplayResponseActivity : BaseComposeActivity() {
 
         init {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
 
         fun name(name: String) = also {

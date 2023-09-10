@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.execute.usecases
 
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.runIf
@@ -9,14 +10,13 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.BrowserNotFoundException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
-import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.Validation
 import javax.inject.Inject
 
 class OpenInBrowserUseCase
 @Inject
 constructor(
-    private val activityProvider: ActivityProvider,
+    private val context: Context,
 ) {
 
     operator fun invoke(url: String, browserPackageName: String) {
@@ -31,10 +31,11 @@ constructor(
                 }
             }
             Intent(Intent.ACTION_VIEW, uri)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 .runIf(browserPackageName.isNotEmpty()) {
                     setPackage(browserPackageName)
                 }
-                .startActivity(activityProvider.getActivity())
+                .startActivity(context)
         } catch (e: ActivityNotFoundException) {
             if (browserPackageName.isNotEmpty()) {
                 throw BrowserNotFoundException(browserPackageName)

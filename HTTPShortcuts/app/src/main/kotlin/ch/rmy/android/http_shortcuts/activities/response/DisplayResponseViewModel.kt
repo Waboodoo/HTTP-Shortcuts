@@ -12,7 +12,7 @@ import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.activities.response.models.DetailInfo
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
@@ -43,6 +43,7 @@ constructor(
     private val clipboardUtil: ClipboardUtil,
     private val activityProvider: ActivityProvider,
     private val shareUtil: ShareUtil,
+    private val executionStarter: ExecutionStarter,
 ) : BaseViewModel<DisplayResponseViewModel.InitData, DisplayResponseViewState>(application) {
 
     private lateinit var responseText: String
@@ -93,16 +94,18 @@ constructor(
     }
 
     fun onRerunButtonClicked() = runAction {
-        sendIntent(
-            ExecuteActivity.IntentBuilder(initData.shortcutId)
-                .trigger(ShortcutTriggerType.WINDOW_RERUN)
+        executionStarter.execute(
+            shortcutId = initData.shortcutId,
+            trigger = ShortcutTriggerType.WINDOW_RERUN,
         )
         finish(skipAnimation = true)
     }
 
     fun onShareButtonClicked() = runAction {
         if (shouldShareAsText()) {
-            shareUtil.shareText(activityProvider.getActivity(), responseText)
+            activityProvider.withActivity { activity ->
+                shareUtil.shareText(activity, responseText)
+            }
         } else {
             sendIntent(
                 Intent(Intent.ACTION_SEND)

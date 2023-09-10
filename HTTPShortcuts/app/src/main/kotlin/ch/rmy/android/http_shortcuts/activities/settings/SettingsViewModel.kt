@@ -51,7 +51,8 @@ constructor(
             canRequestIgnoreBatteryOptimization() && !isIgnoringBatteryOptimizations()
         },
         allowOverlayButtonVisible = restrictionsUtil.canAllowOverlay(),
-        allowXiaomiOverlayButtonVisible = restrictionsUtil.hasPermissionEditor()
+        allowXiaomiOverlayButtonVisible = restrictionsUtil.hasPermissionEditor(),
+        experimentalExecutionModeEnabled = settings.useExperimentalExecutionMode,
     )
 
     fun onLockButtonClicked() = runAction {
@@ -180,5 +181,16 @@ constructor(
         updateViewState {
             copy(dialogState = dialogState)
         }
+    }
+
+    fun onExperimentalExecutionModeChanged(enabled: Boolean) = runAction {
+        updateViewState {
+            copy(experimentalExecutionModeEnabled = enabled)
+        }
+        settings.useExperimentalExecutionMode = enabled
+    }
+
+    fun onExperimentalHelpTextClicked() = runAction {
+        navigate(NavigationDestination.Contact)
     }
 }

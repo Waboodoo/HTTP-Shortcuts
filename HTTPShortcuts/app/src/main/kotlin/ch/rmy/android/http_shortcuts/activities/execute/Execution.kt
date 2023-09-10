@@ -57,11 +57,11 @@ import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.HttpRequesterWorker
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.plugin.SessionMonitor
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionSchedulerWorker
 import ch.rmy.android.http_shortcuts.scripting.ResultHandler
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
-import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.CacheFilesCleanupWorker
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
@@ -82,6 +82,8 @@ import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.net.UnknownHostException
@@ -100,7 +102,6 @@ class Execution(
     private val pendingExecutionsRepository: PendingExecutionsRepository = entryPoint.pendingExecutionsRepository()
     private val variableRepository: VariableRepository = entryPoint.variableRepository()
     private val appRepository: AppRepository = entryPoint.appRepository()
-    private val activityProvider: ActivityProvider = entryPoint.activityProvider()
     private val variableResolver: VariableResolver = entryPoint.variableResolver()
     private val httpRequester: HttpRequester = entryPoint.httpRequester()
     private val showResultDialog: ShowResultDialogUseCase = entryPoint.showResultDialog()
@@ -120,6 +121,7 @@ class Execution(
     private val cacheFilesCleanupStarter: CacheFilesCleanupWorker.Starter = entryPoint.cacheFilesCleanupStarter()
     private val historyCleanUpStarter: HistoryCleanUpWorker.Starter = entryPoint.historyCleanUpStarter()
     private val executionSchedulerStarter: ExecutionSchedulerWorker.Starter = entryPoint.executionSchedulerStarter()
+    private val sessionMonitor: SessionMonitor = entryPoint.sessionMonitor()
 
     private lateinit var globalCode: String
     private lateinit var shortcut: Shortcut
@@ -131,6 +133,7 @@ class Execution(
 
     suspend fun execute(): Flow<ExecutionStatus> = flow {
         logInfo("Beginning to execute shortcut (${params.shortcutId}, trigger=${params.trigger ?: "unknown"})")
+        sessionMonitor.onSessionStarted()
         emit(ExecutionStatus.Preparing)
         try {
             executeWithoutExceptionHandling()
@@ -161,6 +164,14 @@ class Execution(
             }
         }
     }
+        .onEach { status ->
+            if (status is ExecutionStatus.WithResult) {
+                sessionMonitor.onResult(status.result)
+            }
+        }
+        .onCompletion {
+            sessionMonitor.onSessionComplete()
+        }
 
     private suspend fun displayError(error: Throwable) {
         generateOutputFromError(error)
@@ -602,7 +613,7 @@ class Execution(
                             monospace()
                         }
                         .actions(shortcut.responseHandling?.displayActions ?: emptyList())
-                        .startActivity(activityProvider.getActivity())
+                        .startActivity(context)
                 }
                 else -> Unit
             }
@@ -652,7 +663,6 @@ class Execution(
         fun pendingExecutionsRepository(): PendingExecutionsRepository
         fun variableRepository(): VariableRepository
         fun appRepository(): AppRepository
-        fun activityProvider(): ActivityProvider
         fun variableResolver(): VariableResolver
         fun httpRequester(): HttpRequester
         fun showResultDialog(): ShowResultDialogUseCase
@@ -672,6 +682,7 @@ class Execution(
         fun cacheFilesCleanupStarter(): CacheFilesCleanupWorker.Starter
         fun historyCleanUpStarter(): HistoryCleanUpWorker.Starter
         fun executionSchedulerStarter(): ExecutionSchedulerWorker.Starter
+        fun sessionMonitor(): SessionMonitor
     }
 
     companion object {

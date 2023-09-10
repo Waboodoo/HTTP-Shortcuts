@@ -3,6 +3,7 @@
 ### Improvements
 - Shortcuts can now be configured to show up as Direct Share targets (on Android 11 and up only). You'll find the option for this in the shortcut's "Trigger & Execution Settings".
 - Performance improvements for the syntax highlighting for the Scripting feature and the editing of JSON request bodies
+- Added an experimental (i.e., not finalized and potentially unstable) setting to allow shortcuts to run in the background without showing the loading spinner
 
 ### Miscellaneous
 - Lots and lots of cleanup and refactoring under the hood. If you find bugs, let me know.

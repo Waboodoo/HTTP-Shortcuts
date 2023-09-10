@@ -14,16 +14,15 @@ class PermissionManager
 @Inject
 constructor(
     private val context: Context,
+    private val activityProvider: ActivityProvider,
 ) {
-
-    @Inject
-    lateinit var activityProvider: ActivityProvider
-
     suspend fun requestLocationPermissionIfNeeded(): Boolean =
         requestPermissionIfNeeded(ACCESS_FINE_LOCATION)
 
-    fun shouldShowRationaleForLocationPermission(): Boolean =
-        ActivityCompat.shouldShowRequestPermissionRationale(activityProvider.getActivity(), ACCESS_FINE_LOCATION)
+    suspend fun shouldShowRationaleForLocationPermission(): Boolean =
+        activityProvider.withActivity { activity ->
+            ActivityCompat.shouldShowRequestPermissionRationale(activity, ACCESS_FINE_LOCATION)
+        }
 
     fun hasNotificationPermission(): Boolean =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -33,5 +32,7 @@ constructor(
         }
 
     private suspend fun requestPermissionIfNeeded(permission: String): Boolean =
-        Peko.requestPermissionsAsync(activityProvider.getActivity(), permission) is PermissionResult.Granted
+        activityProvider.withActivity { activity ->
+            Peko.requestPermissionsAsync(activity, permission) is PermissionResult.Granted
+        }
 }

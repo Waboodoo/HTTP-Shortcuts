@@ -1,8 +1,7 @@
 package ch.rmy.android.http_shortcuts.plugin
 
 import android.content.Context
-import ch.rmy.android.framework.extensions.startActivity
-import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.plugin.VariableHelper.extractVariableMap
 import com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerAction
@@ -23,13 +22,17 @@ class TriggerShortcutActionRunner : TaskerPluginRunnerAction<Input, Output>() {
     override fun run(context: Context, input: TaskerInput<Input>): TaskerPluginResult<Output> {
         val entryPoint = EntryPointAccessors.fromApplication<TriggerShortcutActionRunnerEntryPoint>(context)
         val sessionMonitor = entryPoint.sessionMonitor()
+        val executionStarter = entryPoint.executionStarter()
+
         sessionMonitor.onSessionScheduled()
         val shortcutId = input.regular.shortcutId
         val variableValues = extractVariableMap(input)
-        ExecuteActivity.IntentBuilder(shortcutId)
-            .variableValues(variableValues)
-            .trigger(ShortcutTriggerType.PLUGIN)
-            .startActivity(context)
+
+        executionStarter.execute(
+            shortcutId = shortcutId,
+            variableValues = variableValues,
+            trigger = ShortcutTriggerType.PLUGIN,
+        )
 
         return try {
             val result = runBlocking {
@@ -49,6 +52,8 @@ class TriggerShortcutActionRunner : TaskerPluginRunnerAction<Input, Output>() {
     @InstallIn(SingletonComponent::class)
     interface TriggerShortcutActionRunnerEntryPoint {
         fun sessionMonitor(): SessionMonitor
+
+        fun executionStarter(): ExecutionStarter
     }
 
     companion object {

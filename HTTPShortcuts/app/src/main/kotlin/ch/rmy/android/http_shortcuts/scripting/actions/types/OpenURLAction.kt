@@ -26,8 +26,10 @@ constructor(
                 }
             }
             try {
-                Intent(Intent.ACTION_VIEW, uri)
-                    .startActivity(activityProvider.getActivity())
+                activityProvider.withActivity { activity ->
+                    Intent(Intent.ACTION_VIEW, uri)
+                        .startActivity(activity)
+                }
             } catch (e: ActivityNotFoundException) {
                 throw ActionException {
                     getString(R.string.error_no_app_found_for_url, url)

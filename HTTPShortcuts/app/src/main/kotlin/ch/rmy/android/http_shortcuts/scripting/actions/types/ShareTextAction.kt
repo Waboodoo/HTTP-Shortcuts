@@ -20,10 +20,12 @@ constructor(
             text
                 .takeUnlessEmpty()
                 ?.let {
-                    shareUtil.shareText(
-                        activityProvider.getActivity(),
-                        text.truncate(MAX_LENGTH),
-                    )
+                    activityProvider.withActivity { activity ->
+                        shareUtil.shareText(
+                            activity,
+                            text.truncate(MAX_LENGTH),
+                        )
+                    }
                 }
         }
     }

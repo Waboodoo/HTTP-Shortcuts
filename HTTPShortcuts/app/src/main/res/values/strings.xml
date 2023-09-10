@@ -1469,4 +1469,14 @@
         <item quantity="one">1 button selected</item>
         <item quantity="other">%d buttons selected</item>
     </plurals>
+    <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
+    <string name="settings_title_experimental">Experimental</string>
+    <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
+    <string name="settings_title_execution_mode">Execution Mode</string>
+    <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
+    <string name="option_execution_mode_foreground">Run shortcuts in foreground with loading indicator (default)</string>
+    <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
+    <string name="option_execution_mode_background">Run shortcuts in background without loading indicator (experimental)</string>
+    <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
+    <string name="instructions_experimental_section">"This section contains settings for experimental features, which are not yet finalized and may be unstable. Enable at your own risk. If you do enable them and encounter issues, please let me know by sending me an email or creating a Github issue to share your discoveries.</string>
 </resources>

@@ -21,6 +21,7 @@ import ch.rmy.android.framework.extensions.getSerializable
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteWorker
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.components.ProgressDialog
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
@@ -29,6 +30,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
+import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -43,6 +45,12 @@ class ExecuteActivity : BaseComposeActivity() {
 
     @Inject
     lateinit var pendingExecutionsRepository: PendingExecutionsRepository
+
+    @Inject
+    lateinit var executeWorkerStarter: ExecuteWorker.Starter
+
+    @Inject
+    lateinit var settings: Settings
 
     private val viewModel: ExecuteViewModel by viewModels()
 
@@ -62,18 +70,23 @@ class ExecuteActivity : BaseComposeActivity() {
 
     override fun onCreated(savedState: Bundle?) {
         super.onCreated(savedState)
-        viewModel.init(
-            ExecutionParams(
-                shortcutId = intent.extractShortcutId(),
-                variableValues = intent.extractVariableValues(),
-                executionId = intent.extras?.getString(EXTRA_EXECUTION_SCHEDULE_ID),
-                tryNumber = intent.extras?.getInt(EXTRA_TRY_NUMBER) ?: 0,
-                recursionDepth = intent.extras?.getInt(EXTRA_RECURSION_DEPTH) ?: 0,
-                fileUris = intent.getParcelableList(EXTRA_FILES) ?: emptyList(),
-                trigger = ShortcutTriggerType.parse(intent.extras?.getString(EXTRA_TRIGGER)),
-            )
+        val params = ExecutionParams(
+            shortcutId = intent.extractShortcutId(),
+            variableValues = intent.extractVariableValues(),
+            executionId = intent.extras?.getString(EXTRA_EXECUTION_SCHEDULE_ID),
+            tryNumber = intent.extras?.getInt(EXTRA_TRY_NUMBER) ?: 0,
+            recursionDepth = intent.extras?.getInt(EXTRA_RECURSION_DEPTH) ?: 0,
+            fileUris = intent.getParcelableList(EXTRA_FILES) ?: emptyList(),
+            trigger = ShortcutTriggerType.parse(intent.extras?.getString(EXTRA_TRIGGER)),
         )
 
+        if (settings.useExperimentalExecutionMode) {
+            executeWorkerStarter.invoke(params)
+            finishWithoutAnimation()
+            return
+        }
+
+        viewModel.init(params)
         initViewModelBindings()
     }
 
@@ -147,7 +160,9 @@ class ExecuteActivity : BaseComposeActivity() {
         }
 
         fun variableValues(variableValues: Map<VariableKey, String>) = also {
-            intent.putExtra(EXTRA_VARIABLE_VALUES, HashMap(variableValues))
+            if (variableValues.isNotEmpty()) {
+                intent.putExtra(EXTRA_VARIABLE_VALUES, HashMap(variableValues))
+            }
         }
 
         fun recursionDepth(recursionDepth: Int) = also {
@@ -155,10 +170,12 @@ class ExecuteActivity : BaseComposeActivity() {
         }
 
         fun files(files: List<Uri>) = also {
-            intent.putParcelableArrayListExtra(
-                EXTRA_FILES,
-                ArrayList<Uri>().apply { addAll(files) }
-            )
+            if (files.isNotEmpty()) {
+                intent.putParcelableArrayListExtra(
+                    EXTRA_FILES,
+                    ArrayList<Uri>().apply { addAll(files) }
+                )
+            }
         }
 
         fun executionId(id: ExecutionId) = also {

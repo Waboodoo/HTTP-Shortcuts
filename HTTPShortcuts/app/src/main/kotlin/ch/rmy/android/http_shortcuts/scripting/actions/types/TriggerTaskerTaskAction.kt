@@ -17,7 +17,9 @@ constructor(
             .forEach { (variableName, value) ->
                 intent.addLocalVariable("%${variableName.lowercase()}", value)
             }
-        activityProvider.getActivity().sendBroadcast(intent)
+        activityProvider.withActivity { activity ->
+            activity.sendBroadcast(intent)
+        }
     }
 
     companion object {

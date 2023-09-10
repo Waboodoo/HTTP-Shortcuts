@@ -82,6 +82,10 @@ constructor(
         get() = getString(KEY_USER_AGENT)?.takeUnlessEmpty()
         set(value) = putString(KEY_USER_AGENT, value ?: "")
 
+    var useExperimentalExecutionMode: Boolean
+        get() = getBoolean(KEY_EXPERIMENTAL_EXECUTION_MODE)
+        set(value) = putBoolean(KEY_EXPERIMENTAL_EXECUTION_MODE, value)
+
     companion object {
 
         const val LANGUAGE_DEFAULT = "default"
@@ -104,5 +108,6 @@ constructor(
         private const val KEY_DARK_THEME = "dark_theme"
         private const val KEY_PREVIOUS_ICON_COLOR = "previous_icon_color"
         private const val KEY_USER_AGENT = "user_agent"
+        private const val KEY_EXPERIMENTAL_EXECUTION_MODE = "experimental_execution_mode"
     }
 }

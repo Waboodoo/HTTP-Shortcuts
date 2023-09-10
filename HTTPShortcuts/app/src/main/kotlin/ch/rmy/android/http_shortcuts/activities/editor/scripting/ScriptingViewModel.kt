@@ -3,8 +3,8 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting
 import android.app.Application
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.models.CodeFieldType
+import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
@@ -31,6 +31,7 @@ constructor(
     application: Application,
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
     private val codeTransformer: CodeTransformer,
+    private val executionStarter: ExecutionStarter,
 ) : BaseViewModel<ScriptingViewModel.InitData, ScriptingViewState>(application) {
 
     private lateinit var shortcutExecutionType: ShortcutExecutionType
@@ -160,9 +161,9 @@ constructor(
 
     fun onTestButtonClicked() = runAction {
         waitForOperationsToFinish()
-        sendIntent(
-            ExecuteActivity.IntentBuilder(Shortcut.TEMPORARY_ID)
-                .trigger(ShortcutTriggerType.TEST_IN_EDITOR)
+        executionStarter.execute(
+            shortcutId = Shortcut.TEMPORARY_ID,
+            trigger = ShortcutTriggerType.TEST_IN_EDITOR,
         )
     }
 

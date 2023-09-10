@@ -4,7 +4,9 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -19,48 +21,53 @@ constructor(
         subtitle: String,
         negativeButtonText: String,
     ): Result =
-        suspendCancellableCoroutine { continuation ->
-            val activity = activityProvider.getActivity()
-            val executor = ContextCompat.getMainExecutor(activity)
-            val biometricPrompt = BiometricPrompt(
-                activity, executor,
-                object : BiometricPrompt.AuthenticationCallback() {
-                    override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                        super.onAuthenticationError(errorCode, errString)
-                        when (errorCode) {
-                            BiometricPrompt.ERROR_NEGATIVE_BUTTON -> {
-                                continuation.resume(Result.NEGATIVE_BUTTON)
+        withContext(Dispatchers.Main) {
+            activityProvider.withActivity { activity ->
+                suspendCancellableCoroutine { continuation ->
+                    val executor = ContextCompat.getMainExecutor(activity)
+                    val biometricPrompt = BiometricPrompt(
+                        activity, executor,
+                        object : BiometricPrompt.AuthenticationCallback() {
+                            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                                super.onAuthenticationError(errorCode, errString)
+                                when (errorCode) {
+                                    BiometricPrompt.ERROR_NEGATIVE_BUTTON -> {
+                                        continuation.resume(Result.NEGATIVE_BUTTON)
+                                    }
+                                    BiometricPrompt.ERROR_USER_CANCELED -> {
+                                        continuation.cancel()
+                                    }
+                                    else -> {
+                                        continuation.resumeWithException(BiometricException(errString.toString()))
+                                    }
+                                }
                             }
-                            BiometricPrompt.ERROR_USER_CANCELED -> {
-                                continuation.cancel()
-                            }
-                            else -> {
-                                continuation.resumeWithException(BiometricException(errString.toString()))
+
+                            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                                super.onAuthenticationSucceeded(result)
+                                continuation.resume(Result.SUCCESS)
                             }
                         }
-                    }
+                    )
 
-                    override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                        super.onAuthenticationSucceeded(result)
-                        continuation.resume(Result.SUCCESS)
-                    }
+                    biometricPrompt.authenticate(
+                        BiometricPrompt.PromptInfo.Builder()
+                            .setTitle(title)
+                            .setSubtitle(subtitle)
+                            .setConfirmationRequired(false)
+                            .setNegativeButtonText(negativeButtonText)
+                            .build()
+                    )
                 }
-            )
-
-            biometricPrompt.authenticate(
-                BiometricPrompt.PromptInfo.Builder()
-                    .setTitle(title)
-                    .setSubtitle(subtitle)
-                    .setConfirmationRequired(false)
-                    .setNegativeButtonText(negativeButtonText)
-                    .build()
-            )
+            }
         }
 
-    fun canUseBiometrics(): Boolean =
+    suspend fun canUseBiometrics(): Boolean =
         try {
-            BiometricManager.from(activityProvider.getActivity())
-                .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK) == BiometricManager.BIOMETRIC_SUCCESS
+            activityProvider.withActivity { activity ->
+                BiometricManager.from(activity)
+                    .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK) == BiometricManager.BIOMETRIC_SUCCESS
+            }
         } catch (e: NoActivityAvailableException) {
             false
         }

@@ -7,7 +7,6 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
-import ch.rmy.android.http_shortcuts.plugin.SessionMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,7 +18,6 @@ class ExecuteViewModel
 constructor(
     application: Application,
     private val executionFactory: ExecutionFactory,
-    private val sessionMonitor: SessionMonitor,
     private val dialogHandler: ExecuteDialogHandler,
 ) : BaseViewModel<ExecutionParams, ExecuteViewState>(application) {
 
@@ -30,7 +28,6 @@ constructor(
             terminateInitialization()
         }
 
-        sessionMonitor.onSessionStarted()
         lastExecutionTime = SystemClock.elapsedRealtime()
         lastExecutionData = data
 
@@ -60,12 +57,8 @@ constructor(
     }
 
     private suspend fun ViewModelScope<ExecuteViewState>.execute() {
-        var result: String? = null
         try {
             execution.execute().collect { status ->
-                if (status is ExecutionStatus.WithResult) {
-                    result = status.result
-                }
                 when (status) {
                     is ExecutionStatus.InProgress -> {
                         updateViewState {
@@ -82,7 +75,6 @@ constructor(
             }
         } finally {
             finish(skipAnimation = true)
-            sessionMonitor.onSessionComplete(result)
         }
     }
 
