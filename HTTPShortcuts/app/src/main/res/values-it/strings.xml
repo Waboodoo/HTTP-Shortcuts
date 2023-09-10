@@ -1411,12 +1411,6 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
     <string name="settings_title_remote_edit">"Modifica remota"</string>
 
-    <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format">"Usa formato file legacy"</string>
-
-    <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format_summary">"Abilita l'esportazione di scorciatoie e variabili utilizzando il vecchio formato di file (ovvero un singolo file JSON). Non permette l'esportazione di icone di collegamento personalizzate."</string>
-
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">"Autenticazione del certificato del cliente"</string>
 

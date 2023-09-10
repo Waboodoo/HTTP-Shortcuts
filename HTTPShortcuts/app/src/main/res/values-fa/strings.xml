@@ -2,31 +2,31 @@
 <resources>
 
     <!-- The name of the app -->
-    <string name="app_name">"میانبر HTTP"</string>
+    <string name="app_name">"میان‌برهای اچ‌تی‌تی‌پی"</string>
 
     <!-- The name of the default category -->
-    <string name="shortcuts">"میانبر ها"</string>
+    <string name="shortcuts">"میان‌برها"</string>
 
     <!-- The name used as a fallback for shortcuts without a name -->
-    <string name="shortcut_safe_name">"میانبر"</string>
+    <string name="shortcut_safe_name">"میان‌بر"</string>
 
     <!-- Title in editor when editing a shortcut -->
-    <string name="edit_shortcut">"ویرایش میانبر"</string>
+    <string name="edit_shortcut">"ویرایش میان‌بر"</string>
 
     <!-- Title in editor when creating a new shortcut -->
     <string name="create_shortcut">"ایجاد میانبر"</string>
 
     <!-- Content description of icon image, accessibility information -->
-    <string name="icon_description">"آیکون"</string>
+    <string name="icon_description">"نماد"</string>
 
     <!-- Label above input field in editor, for shortcut name -->
-    <string name="label_name">"نام میانبر"</string>
+    <string name="label_name">"نام میان‌بر"</string>
 
     <!-- Label above input field in editor, for shortcut description -->
     <string name="label_description">"توضیح"</string>
 
     <!-- Label above input field in editor, for shortcut URL -->
-    <string name="label_url">"لینک"</string>
+    <string name="label_url">"پیوند"</string>
 
     <!-- Button to save changes made to shortcut/variable -->
     <string name="save_button">"ذخیره"</string>
@@ -38,7 +38,7 @@
     <string name="label_method">"متد"</string>
 
     <!-- Label above input field in editor, for shortcut authentication username -->
-    <string name="label_username">"نام کاربری"</string>
+    <string name="label_username">"نام‌کاربری"</string>
 
     <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">"گذرواژه"</string>
@@ -65,7 +65,7 @@
     <string name="action_move">"حرکت"</string>
 
     <!-- Empty state, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts">"هنوز میانبر وجود ندارد"</string>
+    <string name="empty_state_shortcuts">"هنوز میان‌بر وجود ندارد"</string>
 
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts_instructions">"برای شروع بر روی دکمه + کلیک کنید"</string>
@@ -77,7 +77,7 @@
     <string name="empty_state_variables_instructions">"برای اضافه کردن متغییر روی + کلیک کنید"</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
-    <string name="confirm_delete_shortcut_message">"آیا میخواهید این میانبر را حذف کنید؟"</string>
+    <string name="confirm_delete_shortcut_message">"آیا میخواهید این میان‌بر را حذف کنید؟"</string>
 
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
     <string name="confirm_discard_changes_message">"شما تغییرات ذخیره نشده دارید. لغو تغییرات؟"</string>
@@ -86,10 +86,10 @@
     <string name="dialog_discard">"لغو"</string>
 
     <!-- Title of fullscreen window when shortcut is executed/run -->
-    <string name="title_activity_execute">"میانبر را اجرا کنید"</string>
+    <string name="title_activity_execute">"میان‌بر را اجرا کنید"</string>
 
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
-    <string name="shortcut_not_found">"میانبر پیدا نشد.ممکن است مجبور شوید دوباره آن را به صفحه اصلی اضافه کنید."</string>
+    <string name="shortcut_not_found">"میان‌بر پیدا نشد. ممکن است مجبور شوید دوباره آن را به صفحه اصلی اضافه کنید."</string>
 
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">"لطفاً نام خود را وارد کنید."</string>
@@ -110,7 +110,7 @@
     <string name="error_set_image">"ناموفق در نمایش تصویر یا آیکون"</string>
 
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
-    <string name="change_icon">"تغییر آیکون"</string>
+    <string name="change_icon">"تغییر نماد"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
     <string name="choose_image">"تصویر دلخواه"</string>
@@ -1373,12 +1373,6 @@
 
     <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
     <string name="settings_title_remote_edit">"ویرایش از راه دور"</string>
-
-    <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format">"از فرمت فایل قدیمی استفاده کنید"</string>
-
-    <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format_summary">"فعال کردن صادرات میانبرها و متغیرها با استفاده از فرمت فایل قدیمی (به عنوان مثال، یک فایل JSON). این کار از صادرات آیکون های میانبر سفارشی جلوگیری می کند."</string>
 
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">"احراز هویت گواهی مشتری"</string>

@@ -1335,12 +1335,6 @@ Tuto funkci můžete povolit úpravou zástupce a zaškrtnutím políčka \"%1$s
     <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
     <string name="settings_title_remote_edit">"Vzdálené úpravy"</string>
 
-    <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format">"Použití staršího formátu souborů"</string>
-
-    <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format_summary">"Umožňuje exportovat zástupce a proměnné ve starém formátu (tj. jeden soubor JSON). Tím se zabrání exportu vlastních ikon zástupců."</string>
-
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">"Ověřování klientských certifikátů"</string>
 

@@ -1382,12 +1382,6 @@
     <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
     <string name="settings_title_remote_edit">"リモート編集"</string>
 
-    <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format">"レガシー(旧式)のファイル形式を使用"</string>
-
-    <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format_summary">"古いファイル形式（つまり、JSONファイル１つ）を使用してショートカットと変数をエクスポートできるようにします。 JSON形式のエクスポートには、カスタム ショートカットのアイコンを含めることはできません。"</string>
-
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">"クライアント証明認証"</string>
 
@@ -2198,4 +2192,15 @@
 
     <!-- Subtitle, shown on button for selecting a file to use as a request body or parameter. %s is a placeholder for the selected file's name -->
     <string name="subtitle_file_data_source_choose_file">"ファイル「%s」"</string>
+
+    <!-- Label on button, shown in Response settings of shortcut editor, allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
+    <string name="button_select_response_toolbar_buttons">"ツールバーボタンを表示"</string>
+
+    <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
+    <string name="title_select_response_toolbar_buttons">"ツールバーボタンを選択"</string>
+
+    <!-- Subtitle on button, shown in Response settings of shortcut editor, shows how many buttons the user has selected to be shown in the response window toolbar -->
+    <plurals name="subtitle_response_toolbar_actions">
+        <item quantity="other">"選択：%d個のボタン"</item>
+    </plurals>
 </resources>

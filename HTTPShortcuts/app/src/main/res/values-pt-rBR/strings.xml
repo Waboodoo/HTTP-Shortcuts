@@ -1365,12 +1365,6 @@ Você pode habilitar este recurso editando um atalho e selecionando a caixa de s
     <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
     <string name="settings_title_remote_edit">"Edição remota"</string>
 
-    <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format">"Use o formato de arquivo legado"</string>
-
-    <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format_summary">"Permitir exportar atalhos e variáveis usando o formato de arquivo antigo (ou seja, um único arquivo JSON). Isto impedirá a exportação de ícones de atalhos personalizados."</string>
-
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">"Autenticação de Certificado de Cliente"</string>
 

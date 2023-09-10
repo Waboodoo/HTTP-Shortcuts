@@ -1393,12 +1393,6 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
     <string name="settings_title_remote_edit">"Uzaktan Düzenleme"</string>
 
-    <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format">"Eski Dosya Biçimini Kullan"</string>
-
-    <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format_summary">"Eski dosya biçimini (yani tek bir JSON dosyası) kullanarak kısayolları ve değişkenleri dışa aktarmayı etkinleştirin.  Bu, özel kısayol simgelerinin dışa aktarılmasını önleyecektir."</string>
-
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">"İstemci Sertifikası Kimlik Doğrulaması"</string>
 

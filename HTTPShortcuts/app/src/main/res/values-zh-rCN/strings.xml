@@ -1395,12 +1395,6 @@
     <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
     <string name="settings_title_remote_edit">"远程编辑"</string>
 
-    <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format">"使用旧文件格式"</string>
-
-    <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format_summary">"启用来使用旧文件格式 （如单一 JSON 文件）导出快捷方式&amp;变量。这会阻止导出自定义的快捷方式图标。"</string>
-
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">"客户端证书身份验证"</string>
 
@@ -2210,4 +2204,15 @@
 
     <!-- Subtitle, shown on button for selecting a file to use as a request body or parameter. %s is a placeholder for the selected file's name -->
     <string name="subtitle_file_data_source_choose_file">"文件“%s”"</string>
+
+    <!-- Label on button, shown in Response settings of shortcut editor, allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
+    <string name="button_select_response_toolbar_buttons">"显示工具栏按钮"</string>
+
+    <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
+    <string name="title_select_response_toolbar_buttons">"选择工具栏按钮"</string>
+
+    <!-- Subtitle on button, shown in Response settings of shortcut editor, shows how many buttons the user has selected to be shown in the response window toolbar -->
+    <plurals name="subtitle_response_toolbar_actions">
+        <item quantity="other">"选中了 %d 个按钮"</item>
+    </plurals>
 </resources>

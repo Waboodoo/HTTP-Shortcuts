@@ -1351,12 +1351,6 @@
     <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
     <string name="settings_title_remote_edit">"Удаленное редактирование"</string>
 
-    <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format">"Использовать устаревший формат файла"</string>
-
-    <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format_summary">"Включите экспорт ярлыков и переменных с использованием старого формата файла (т. Е. Одного файла JSON). Это предотвратит экспорт пользовательских значков ярлыков."</string>
-
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">"Проверка подлинности сертификата клиента"</string>
 

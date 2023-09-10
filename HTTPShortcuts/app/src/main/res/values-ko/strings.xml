@@ -230,8 +230,7 @@
 
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="import_failed_with_reason">"바로가기 가져오기 실패:
-
-%s"</string>
+%s"</string>
 
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">"바로가기 내보내기 실패: %s"</string>
@@ -867,8 +866,7 @@
 
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
     <string name="error_js_pattern">"JavaScript 오류:
-
-%s"</string>
+%s"</string>
 
     <!-- Button: Shown below JavaScript editor (for pre-request and post-request actions), allows to add snippets of JS code -->
     <string name="button_add_code_snippet">"코드 스니펫 추가"</string>
@@ -1392,12 +1390,6 @@
 
     <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
     <string name="settings_title_remote_edit">"원격 편집"</string>
-
-    <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format">"레거시 파일 형식 사용"</string>
-
-    <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
-    <string name="settings_use_legacy_export_format_summary">"이전 파일 형식(예: 단일 JSON 파일)을 사용하여 바로 가기 및 변수를 내보낼 수 있습니다. 이렇게 하면 사용자 지정 바로 가기 아이콘을 내보낼 수 없습니다."</string>
 
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">"클라이언트 인증서 인증"</string>

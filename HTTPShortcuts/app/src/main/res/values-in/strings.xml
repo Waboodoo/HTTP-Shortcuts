@@ -1396,14 +1396,6 @@ Anda dapat mengaktifkan fitur ini dengan mengedit pintasan dan mencentang kotak 
     <!-- Fuzzy -->
     <string name="settings_title_remote_edit">"Pengubahan Jarak Jauh"</string>
 
-    <!-- Name of setting that allows the user to enable exporting using the legacy file format -->
-    <!-- Fuzzy -->
-    <string name="settings_use_legacy_export_format">"Gunakan Format File Lama"</string>
-
-    <!-- Subtitle of setting that allows the user to enable exporting using the legacy file format -->
-    <!-- Fuzzy -->
-    <string name="settings_use_legacy_export_format_summary">"Aktifkan untuk ekspor pintasan &amp; variabel menggunakan format file kena (mis. sebuah file JSON). Ini akan akan mencegah mengeskpor ikon pintasan kustom."</string>
-
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">"Autentikasi Sertifikat Klien"</string>
 
