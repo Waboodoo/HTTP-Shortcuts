@@ -15,6 +15,7 @@ import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.extensions.truncate
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.http_shortcuts.R
@@ -48,6 +49,7 @@ import ch.rmy.android.http_shortcuts.extensions.isTemporaryShortcut
 import ch.rmy.android.http_shortcuts.extensions.resolve
 import ch.rmy.android.http_shortcuts.extensions.shouldIncludeInHistory
 import ch.rmy.android.http_shortcuts.extensions.type
+import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
 import ch.rmy.android.http_shortcuts.history.HistoryEvent
 import ch.rmy.android.http_shortcuts.history.HistoryEventLogger
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
@@ -56,9 +58,11 @@ import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.HttpRequesterWorker
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
+import ch.rmy.android.http_shortcuts.scheduling.ExecutionSchedulerWorker
 import ch.rmy.android.http_shortcuts.scripting.ResultHandler
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
+import ch.rmy.android.http_shortcuts.utils.CacheFilesCleanupWorker
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
@@ -113,6 +117,9 @@ class Execution(
     private val checkHeadlessExecution: CheckHeadlessExecutionUseCase = entryPoint.checkHeadlessExecution()
     private val errorFormatter: ErrorFormatter = entryPoint.errorFormatter()
     private val historyEventLogger: HistoryEventLogger = entryPoint.historyEventLogger()
+    private val cacheFilesCleanupStarter: CacheFilesCleanupWorker.Starter = entryPoint.cacheFilesCleanupStarter()
+    private val historyCleanUpStarter: HistoryCleanUpWorker.Starter = entryPoint.historyCleanUpStarter()
+    private val executionSchedulerStarter: ExecutionSchedulerWorker.Starter = entryPoint.executionSchedulerStarter()
 
     private lateinit var globalCode: String
     private lateinit var shortcut: Shortcut
@@ -146,6 +153,12 @@ class Execution(
                 context.showToast(R.string.error_generic)
             }
             logException(e)
+        } finally {
+            tryOrLog {
+                cacheFilesCleanupStarter()
+                historyCleanUpStarter()
+                executionSchedulerStarter()
+            }
         }
     }
 
@@ -656,6 +669,9 @@ class Execution(
         fun checkHeadlessExecution(): CheckHeadlessExecutionUseCase
         fun errorFormatter(): ErrorFormatter
         fun historyEventLogger(): HistoryEventLogger
+        fun cacheFilesCleanupStarter(): CacheFilesCleanupWorker.Starter
+        fun historyCleanUpStarter(): HistoryCleanUpWorker.Starter
+        fun executionSchedulerStarter(): ExecutionSchedulerWorker.Starter
     }
 
     companion object {
