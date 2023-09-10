@@ -20,6 +20,7 @@ import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -270,7 +271,7 @@ private fun NumberSliderDialog(
     onDismissed: () -> Unit,
 ) {
     var sliderValue by rememberSaveable(key = "number-picker-value") {
-        mutableStateOf(((initialValue ?: min) - min) / (max - min) * 10000f)
+        mutableFloatStateOf(((initialValue ?: min) - min) / (max - min) * 10000f)
     }
     val roundedValue = remember(sliderValue, min, max, stepSize) {
         ((sliderValue / 10000f) * (max - min) / stepSize).roundToInt() * stepSize + min

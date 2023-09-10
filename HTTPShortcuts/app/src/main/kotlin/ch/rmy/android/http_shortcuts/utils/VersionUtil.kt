@@ -29,7 +29,6 @@ constructor(
             -1
         }
 
-    @Suppress("DEPRECATION")
     private fun getPackageInfo(context: Context) =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             context.packageManager.getPackageInfo(context.packageName, PackageManager.PackageInfoFlags.of(0))

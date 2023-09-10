@@ -18,7 +18,6 @@ constructor(
             context.getSystemService<VibratorManager>()
                 ?.defaultVibrator
         } else {
-            @Suppress("DEPRECATION")
             context.getSystemService()
         }
             ?.takeIf { it.hasVibrator() }

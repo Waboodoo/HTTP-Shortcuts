@@ -8,7 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -63,7 +63,7 @@ private fun DelayPickerDialog(
     onDismissed: () -> Unit,
 ) {
     var value by rememberSaveable(key = "delay-dialog-value") {
-        mutableStateOf(initialDelay.inWholeMilliseconds)
+        mutableLongStateOf(initialDelay.inWholeMilliseconds)
     }
     val timeout = remember(value) {
         value.milliseconds

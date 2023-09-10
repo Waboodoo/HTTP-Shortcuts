@@ -87,7 +87,7 @@ class RemoteEditManager(
             .execute()
             .let {
                 if (it.isSuccessful) {
-                    it.body!!
+                    it.body
                 } else {
                     throw IOException()
                 }

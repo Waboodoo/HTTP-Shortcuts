@@ -43,7 +43,7 @@ class ResponseFileStorage(
     }
 
     private fun getStream(response: Response): InputStream =
-        response.body!!.byteStream()
+        response.body.byteStream()
 
     companion object {
         internal fun Response.getMimeType(): String =
