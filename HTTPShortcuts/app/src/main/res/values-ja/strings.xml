@@ -2203,4 +2203,7 @@
     <plurals name="subtitle_response_toolbar_actions">
         <item quantity="other">"選択：%d個のボタン"</item>
     </plurals>
+
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu and it will be promoted as a Direct Share target, allowing easy sharing of content into that specific shortcut -->
+    <string name="label_launcher_shortcut_or_direct_share">"ランチャーにアプリショートカットとして表示して、ダイレクトシェアのターゲットとして表示する"</string>
 </resources>

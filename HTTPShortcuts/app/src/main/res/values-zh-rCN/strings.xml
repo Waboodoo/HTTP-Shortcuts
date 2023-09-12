@@ -2215,4 +2215,7 @@
     <plurals name="subtitle_response_toolbar_actions">
         <item quantity="other">"选中了 %d 个按钮"</item>
     </plurals>
+
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu and it will be promoted as a Direct Share target, allowing easy sharing of content into that specific shortcut -->
+    <string name="label_launcher_shortcut_or_direct_share">"显示为启动器的应用快捷方式并提示为“直接分享”目标"</string>
 </resources>

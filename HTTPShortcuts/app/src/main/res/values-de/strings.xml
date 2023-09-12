@@ -2215,4 +2215,22 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
         <item quantity="one">"1 Knopf ausgewählt"</item>
         <item quantity="other">"%d Knöpfe ausgewählt"</item>
     </plurals>
+
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu and it will be promoted as a Direct Share target, allowing easy sharing of content into that specific shortcut -->
+    <string name="label_launcher_shortcut_or_direct_share">"Als App-Shortcut auf Launcher und in \"Direct Share\" für einfacheres Teilen anzeigen"</string>
+
+    <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
+    <string name="settings_title_experimental">"Experimentelles"</string>
+
+    <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
+    <string name="settings_title_execution_mode">"Ausführungsmodus"</string>
+
+    <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
+    <string name="option_execution_mode_foreground">"Shortcuts im Vordergrund ausführen (Standard)"</string>
+
+    <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
+    <string name="option_execution_mode_background">"Shortcuts im Hintergrund ausführen (experimentell)"</string>
+
+    <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
+    <string name="instructions_experimental_section">"Dieser Bereich enthält Einstellungen für experimentelle Features, welche noch nicht ausgereift sind und möglicherweise nicht stabil funktionieren. Verwende diese auf eigene Gefahr. Falls du diese ausprobieren möchtest, so schreib mir doch eine E-Mail oder erstelle ein Github-Issue falls du Probleme feststellst oder Verbesserungsvorschläge hast."</string>
 </resources>
