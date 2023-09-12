@@ -820,7 +820,7 @@ triggerTaskerTask('mytask', {
 });
 ```
 
-You may need to manually go to the app's permissions and grant the "net.dinglisch.android.tasker.PERMISSION_RUN_TASKS" permission for this to work.
+Please note that you may need to manually go to the app's permissions and grant the "net.dinglisch.android.tasker.PERMISSION_RUN_TASKS" permission for this to work, and also you will need to allow this in Tasker's settings under "Preferences > Misc > Allow External Access".
 
 <a name="get-location"></a>
 ### Get Location
