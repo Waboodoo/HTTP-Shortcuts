@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.navigation
 import android.net.Uri
 import android.os.Bundle
 import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -80,7 +81,7 @@ fun NavGraphBuilder.composable(
         enterTransition = {
             fadeIn(
                 animationSpec = tween(500),
-            )
+            ) + slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up)
         },
         exitTransition = {
             fadeOut(
