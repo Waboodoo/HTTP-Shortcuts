@@ -1,3 +1,19 @@
+## Version 3.5.0
+
+### Improvements
+- Shortcuts can now be configured to show up as Direct Share targets (on Android 11 and up only). You'll find the option for this in the shortcut's "Trigger & Execution Settings".
+- Performance improvements for the syntax highlighting for the Scripting feature and the editing of JSON request bodies
+
+### Miscellaneous
+- Lots and lots of cleanup and refactoring under the hood. If you find bugs, let me know.
+- Minor cleanup of UI of the Response Handling screen
+- Removed the option to export using the legacy JSON format
+
+### Bugfixes
+- Variable now also respect the URL- and JSON-encode setting when a value for them is being shared into the app
+- The app can now properly detect whether Tasker is installed, to advertise the `triggerTaskerTask` function on the code snippet screen.
+- It is no longer possible to add invalid characters into the global user-agent
+
 ## Version 3.4.0
 
 ### Improvements
