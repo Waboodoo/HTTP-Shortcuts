@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.components.ChangeTitleDialog
 import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.TextInputDialog
+import ch.rmy.android.http_shortcuts.utils.Validation
 
 @Composable
 fun SettingsDialogs(
@@ -66,7 +67,7 @@ private fun ChangeUserAgentDialog(
         message = stringResource(R.string.instructions_set_user_agent),
         initialValue = initialValue,
         transformValue = {
-            it.take(300)
+            it.filter(Validation::isValidInHeaderValue).take(300)
         },
         onDismissRequest = { text ->
             if (text != null) {

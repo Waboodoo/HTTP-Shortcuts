@@ -24,4 +24,10 @@ object Validation {
                         scheme.equals("https", ignoreCase = true)
                 } ?: false
                 )
+
+    fun isValidInHeaderName(c: Char): Boolean =
+        c in '!'..'~'
+
+    fun isValidInHeaderValue(c: Char): Boolean =
+        (c > '\u001f' || c == '\t') && c < '\u007f'
 }

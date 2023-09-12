@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.SuggestionDropdown
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
+import ch.rmy.android.http_shortcuts.utils.Validation
 
 @Composable
 fun RequestHeadersDialogs(
@@ -170,12 +171,12 @@ private fun EditHeaderDialog(
 
 private fun findInvalidCharacterInKey(key: String): Char? =
     key.firstOrNull { c ->
-        c <= '\u0020' || c >= '\u007f'
+        !Validation.isValidInHeaderName(c)
     }
 
 private fun findInvalidCharacterInValue(value: String): Char? =
     value.firstOrNull { c ->
-        (c <= '\u001f' && c != '\t') || c >= '\u007f'
+        !Validation.isValidInHeaderValue(c)
     }
 
 private val SUGGESTED_KEYS = arrayOf(
