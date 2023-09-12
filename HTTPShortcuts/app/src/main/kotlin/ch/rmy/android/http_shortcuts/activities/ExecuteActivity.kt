@@ -18,7 +18,6 @@ import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.getParcelableList
 import ch.rmy.android.framework.extensions.getSerializable
-import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
@@ -136,9 +135,6 @@ class ExecuteActivity : BaseComposeActivity() {
             ?.let { activityManager ->
                 activityManager.appTasks
                     .firstOrNull()
-                    ?.apply {
-                        logInfo("XXXX")
-                    }
                     ?.setExcludeFromRecents(true)
             }
     }
