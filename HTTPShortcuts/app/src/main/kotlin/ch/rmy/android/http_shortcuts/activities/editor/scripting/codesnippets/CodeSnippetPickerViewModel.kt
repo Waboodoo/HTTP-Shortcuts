@@ -126,14 +126,15 @@ constructor(
             ?: skipAction()
         when (viewState.dialogState) {
             is CodeSnippetPickerDialogState.SelectVariableForReading -> {
+                updateDialogState(null)
                 returnResult("getVariable(\"${variableKey}\")", "")
             }
             is CodeSnippetPickerDialogState.SelectVariableForWriting -> {
+                updateDialogState(null)
                 returnResult("setVariable(\"${variableKey}\", \"", "\");\n")
             }
             else -> skipAction()
         }
-        updateDialogState(null)
     }
 
     fun onIconSelected(icon: ShortcutIcon) = runAction {
@@ -217,12 +218,14 @@ constructor(
         val shortcutName = shortcutPlaceholderProvider.findPlaceholderById(shortcutId)
             ?.name
             ?: skipAction()
+        updateDialogState(null)
         callback("\"${shortcutName}\"")
     }
 
     fun onCurrentShortcutSelected() = runAction {
         val callback = onShortcutSelected ?: skipAction()
         onShortcutSelected = null
+        updateDialogState(null)
         callback("\"\"")
     }
 
