@@ -2233,4 +2233,10 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
 
     <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
     <string name="instructions_experimental_section">"Dieser Bereich enthält Einstellungen für experimentelle Features, welche noch nicht ausgereift sind und möglicherweise nicht stabil funktionieren. Verwende diese auf eigene Gefahr. Falls du diese ausprobieren möchtest, so schreib mir doch eine E-Mail oder erstelle ein Github-Issue falls du Probleme feststellst oder Verbesserungsvorschläge hast."</string>
+
+    <!-- Name of button in settings screen that allows to cancel all scheduled shortcuts executions -->
+    <string name="settings_cancel_all_pending_executions">"Alle ausstehenden Ausführungen abbrechen"</string>
+
+    <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
+    <string name="message_pending_executions_cancelled">"Ausstehende Ausführungen abgebrochen."</string>
 </resources>

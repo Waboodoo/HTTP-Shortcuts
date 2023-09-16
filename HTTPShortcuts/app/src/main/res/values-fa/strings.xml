@@ -65,28 +65,35 @@
     <string name="action_move">"حرکت"</string>
 
     <!-- Empty state, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts">"هنوز میان‌بر وجود ندارد"</string>
+    <string name="empty_state_shortcuts">"هنوز میان‌بر وجود ندارد."</string>
 
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts_instructions">"برای شروع بر روی دکمه + کلیک کنید"</string>
+    <string name="empty_state_shortcuts_instructions">"یک میانبر به شما امکان می دهد تا یک درخواست HTTP را ارسال کنید و به صورت اختیاری پاسخ را پردازش و نمایش دهید.
+
+برای شروع روی دکمه + کلیک کنید یا در بخش اطلاعات، مستندات را بررسی کنید."</string>
 
     <!-- Empty state, shown in list when there are no variables yet -->
-    <string name="empty_state_variables">"هنوز هیچ متغیری وجود ندارد"</string>
+    <string name="empty_state_variables">"هنوز هیچ متغیری وجود ندارد."</string>
 
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">"برای اضافه کردن متغییر روی + کلیک کنید"</string>
+    <string name="empty_state_variables_instructions">"متغیرها به شما این امکان را می دهند که به صورت پویا مقادیر را در میانبرهای خود وارد کنید. به عنوان مثال، در URL، سرصفحه ها یا بدنه درخواست. هنگام ویرایش میانبر به دنبال دکمه \“{}\” بگردید تا همه مکان هایی را که می توان یک متغیر در آن درج کرد را پیدا کنید.
+
+برای افزودن متغیر روی دکمه + کلیک کنید."</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
-    <string name="confirm_delete_shortcut_message">"آیا میخواهید این میان‌بر را حذف کنید؟"</string>
+    <string name="confirm_delete_shortcut_message">"آیا میخواهید این میان‌بر را حذف کنید?"</string>
 
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
-    <string name="confirm_discard_changes_message">"شما تغییرات ذخیره نشده دارید. لغو تغییرات؟"</string>
+    <string name="confirm_discard_changes_message">"شما تغییرات ذخیره نشده دارید. لغو تغییرات?"</string>
 
     <!-- Dialog option: Discard (unsaved changes) -->
     <string name="dialog_discard">"لغو"</string>
 
     <!-- Title of fullscreen window when shortcut is executed/run -->
     <string name="title_activity_execute">"میان‌بر را اجرا کنید"</string>
+
+    <!-- Confirmation message shown in Toast when a shortcut was executed. %s is a placeholder for the shortcut's name -->
+    <string name="executed">"%s اجرا شده است."</string>
 
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">"میان‌بر پیدا نشد. ممکن است مجبور شوید دوباره آن را به صفحه اصلی اضافه کنید."</string>
@@ -95,19 +102,22 @@
     <string name="validation_name_not_empty">"لطفاً نام خود را وارد کنید."</string>
 
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
-    <string name="validation_url_invalid">"لطفاً لینک https خود را وارد کنید."</string>
+    <string name="validation_url_invalid">"لطفاً لینک HTTP(S) خود را وارد کنید."</string>
 
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
-    <string name="error_http">"کد وضعیت ناموفق بود"</string>
+    <string name="error_http">"%1$s ناموفق بود با کد وضعیت %2$d (%3$s)."</string>
 
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
-    <string name="error_other">"ناموفق"</string>
+    <string name="error_other">"%1$s ناموفق: %2$s"</string>
 
     <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
-    <string name="error_response_too_large">"پیام واکنش برای نمایش بسیار بزرگ هست"</string>
+    <string name="error_response_too_large">"نتیجه برای نمایش بسیار بزرگ است (محدودیت %s است)"</string>
 
     <!-- Error shown when a selected image cannot be used as an icon -->
-    <string name="error_set_image">"ناموفق در نمایش تصویر یا آیکون"</string>
+    <string name="error_set_image">"استفاده از تصویر در آیکن ناموفق بود."</string>
+
+    <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
+    <string name="template_shortcut_name_copy">"%1$s (کپی)"</string>
 
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
     <string name="change_icon">"تغییر نماد"</string>
@@ -152,10 +162,10 @@
     <string name="dialog_remove">"حذف"</string>
 
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
-    <string name="section_request_headers">"سرصفحه های درخواستی"</string>
+    <string name="section_request_headers">"هدرهای درخواست"</string>
 
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
-    <string name="section_request_body">"درخواست بدنه / پارامترها"</string>
+    <string name="section_request_body">"بدنه درخواست / پارامترها"</string>
 
     <!-- Title of dialog to edit a custom header of a shortcut -->
     <string name="title_custom_header_edit">"ویرایش هدر"</string>
@@ -164,13 +174,13 @@
     <string name="title_custom_header_add">"هدر را اضافه کنید"</string>
 
     <!-- Label of input field to provide name of custom header -->
-    <string name="label_custom_header_key">"سرتیتر"</string>
+    <string name="label_custom_header_key">"هدر"</string>
 
     <!-- Label of input field to provide value of custom header -->
-    <string name="label_custom_header_value">"ارزش"</string>
+    <string name="label_custom_header_value">"مقدار"</string>
 
     <!-- Label of input field to provide request body of a shortcut -->
-    <string name="label_custom_body">"درخواست بدن"</string>
+    <string name="label_custom_body">"بدنه درخواست"</string>
 
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">"تنظیمات"</string>
@@ -182,13 +192,13 @@
     <string name="settings_title_basic">"تنظیمات پایه"</string>
 
     <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
-    <string name="settings_click_behavior">"میانبر اقدام کلیک کنید"</string>
+    <string name="settings_click_behavior">"وقتی کلیک شد کدام میانبر اجرا شود"</string>
 
     <!-- Name of setting that allows the user to change the app's language -->
     <string name="settings_language">"زبان"</string>
 
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: execute the shortcut (i.e., send request) -->
-    <string name="settings_click_behavior_run">"Shortcut را اجرا کنید"</string>
+    <string name="settings_click_behavior_run">"اجرای میانبر"</string>
 
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: edit the shortcut -->
     <string name="settings_click_behavior_edit">"میانبر را ویرایش کنید"</string>
@@ -217,14 +227,14 @@
     </plurals>
 
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
-    <string name="export_in_progress">"در حال صادرات…"</string>
+    <string name="export_in_progress">"در حال خروجی گرفتن…"</string>
 
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="import_failed_with_reason">"وارد کردن میانبرها انجام نشد:
 %s"</string>
 
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="export_failed_with_reason">"صادر کردن میانبرها انجام نشد: %s"</string>
+    <string name="export_failed_with_reason">"خروجی گرفتن میانبرها انجام نشد: %s"</string>
 
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
     <string name="import_failure_reason_invalid_json">"JSON نامعتبر است"</string>
@@ -253,7 +263,7 @@
 
     <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="milliseconds">
-        <item quantity="other">"\u0020میلی ثانیه"</item>
+        <item quantity="other">"%dمیلی ثانیه"</item>
     </plurals>
 
     <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
@@ -283,7 +293,7 @@
     <string name="settings_github_summary">"درست است، این برنامه منبع باز است"</string>
 
     <!-- Dialog title, for changelog, shown when a new version of the app is released -->
-    <string name="changelog_title_whats_new">"چه خبر؟"</string>
+    <string name="changelog_title_whats_new">"چه خبر?"</string>
 
     <!-- Dialog title, for changelog, showing what's new in a release -->
     <string name="changelog_title">"تغییرات"</string>
@@ -307,13 +317,13 @@
     <string name="settings_play_store_summary">"با تشکر از شما برای رتبه بندی و بررسی شما"</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_duplicated">"\"%1$s\" تکراری شد."</string>
+    <string name="shortcut_duplicated">"\“%1$s\” تکراری شد."</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_deleted">"\"%1$s\" حذف شد."</string>
+    <string name="shortcut_deleted">"\“%1$s\” حذف شد."</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_placed">"\"%1$s\" در صفحه اصلی قرار داده شد."</string>
+    <string name="shortcut_placed">"\“%1$s\” در صفحه اصلی قرار داده شد."</string>
 
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
     <string name="dialog_delete">"حذف"</string>
@@ -367,12 +377,12 @@
     <string name="title_create_category">"ایجاد دسته بندی"</string>
 
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">"این دسته حذف شود؟
+    <string name="confirm_delete_category_message">"این دسته حذف شود?
 
 تمام میانبرهای موجود در داخل حذف خواهند شد."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
-    <string name="message_category_hidden">"رده پنهان"</string>
+    <string name="message_category_hidden">"دسته بندی مخفی."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
     <string name="message_category_visible">"دسته دیگر پنهان نیست."</string>
@@ -381,7 +391,7 @@
     <string name="message_category_created">"دسته ایجاد شد."</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
-    <string name="message_category_deleted">"دسته حذف شد"</string>
+    <string name="message_category_deleted">"دسته حذف شد."</string>
 
     <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
     <plurals name="shortcut_count">
@@ -446,10 +456,10 @@
     <string name="warning_invalid_variable_key">"نام متغیرها ممکن است فقط حاوی زیرخط، اعداد و حروف الفبای انگلیسی باشد."</string>
 
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
-    <string name="confirm_delete_variable_message">"این متغیر حذف شود؟"</string>
+    <string name="confirm_delete_variable_message">"این متغیر حذف شود?"</string>
 
     <!-- Message, shown in snackbar, confirming to user that a variable was deleted. %1$s is a placeholder for the variable name -->
-    <string name="variable_deleted">"\"%1$s\" حذف شد."</string>
+    <string name="variable_deleted">"\“%1$s\” حذف شد."</string>
 
     <!-- Checkbox label, for option to enable URL encoding of a variable -->
     <string name="label_url_encode">"کد URL"</string>
@@ -625,7 +635,7 @@
     <string name="settings_privacy_policy">"سیاست حفظ حریم خصوصی"</string>
 
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
-    <string name="settings_privacy_policy_summary">"نوچ،اطلاعاتت شمارا به سرقت نبرد."</string>
+    <string name="settings_privacy_policy_summary">"نه، اطلاعات شما را نمی دزدید"</string>
 
     <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
     <string name="settings_lock_app_title">"قفل کردن تنظیمات"</string>
@@ -643,13 +653,13 @@
     <string name="label_variable_slider_step">"اندازه گام"</string>
 
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
-    <string name="error_slider_max_not_greater_than_min">"\"حداکثر\" باید بزرگ تر از \"حداقل\" باشد."</string>
+    <string name="error_slider_max_not_greater_than_min">"حداکثر باید بیشتر از حداقل باشد."</string>
 
     <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
     <string name="error_slider_step_size_must_be_positive">"اندازه گام باید یک عدد مثبت باشد."</string>
 
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
-    <string name="plugin_blurb_execute_task">"اجرا میانبر \"%1$s\""</string>
+    <string name="plugin_blurb_execute_task">"اجرا میانبر \“%1$s\”"</string>
 
     <!-- Label of dropdown to select the request body type in shortcut editor -->
     <string name="label_request_body_type">"درخواست نوع بدنه"</string>
@@ -715,10 +725,10 @@
     <string name="action_type_abort_execution">"لغو اعدام"</string>
 
     <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
-    <string name="action_type_trigger_shortcut_error_recursion_depth_reached">"حداکثر تعداد ایجاد در صفحه رسیده است میانبر ساخته نخواهد شد."</string>
+    <string name="action_type_trigger_shortcut_error_recursion_depth_reached">"حداکثر استفاده تو در تو رسیده‌اید. ممکن است میانبرهای زیادی داشته باشید که میانبرهای دیگر را راه‌اندازی می‌کنند، یا حتی یک حلقه بی‌پایان."</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
-    <string name="error_invalid_url">"آدرس لینک اشتباه است. می بایست به صورت امن و HTTPS باشد. (%s)"</string>
+    <string name="error_invalid_url">"آدرس لینک  (%s) اشتباه است."</string>
 
     <!-- error message: Shown in toast when the user tries to execute a shortcut with invalid proxy settings -->
     <string name="error_invalid_proxy">"پروکسی نامعتبر (%s)"</string>
@@ -733,7 +743,7 @@
     <string name="title_select_placement_method">"نحوه جایگذاری"</string>
 
     <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->
-    <string name="description_select_placement_method">"روش مورد نظرتان را برای قرار دادن میانبر انتخاب کنید. اگر در استفاده از روش \"Default\" با مشکل مواجه شدید، می توانید روش \"Legacy\" را امتحان کنید. لطفا توجه داشته باشید که برخی از ویژگی ها(به عنوان مثال تغییر نام میانبر) با روش Legacy در دسترس نیستند."</string>
+    <string name="description_select_placement_method">"روش مورد نظرتان را برای قرار دادن میانبر انتخاب کنید. اگر در استفاده از روش \“Default\” با مشکل مواجه شدید، می توانید روش \“Legacy\”  را امتحان کنید. لطفا توجه داشته باشید که برخی از ویژگی ها(به عنوان مثال تغییر نام میانبر) با روش Legacy در دسترس نیستند."</string>
 
     <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
     <string name="label_placement_method_default">"پیشفرض"</string>
@@ -742,7 +752,7 @@
     <string name="label_placement_method_legacy">"انتخابی"</string>
 
     <!-- Dialog message to prompt user to confirm execution of shortcut -->
-    <string name="dialog_message_confirm_shortcut_execution">"این میانبر اجرا شود؟"</string>
+    <string name="dialog_message_confirm_shortcut_execution">"این میانبر اجرا شود?"</string>
 
     <!-- Dialog title: Unlock the app (after it was locked. user is required to enter a password) -->
     <string name="dialog_title_unlock_app">"باز کردن قفل برنامه"</string>
@@ -760,7 +770,7 @@
     <string name="dialog_title_lock_app">"قفل کردن برنامه"</string>
 
     <!-- Dialog text: Asks user to enter a password to lock the app's settings -->
-    <string name="dialog_text_lock_app">"گذرواژه تنظیمات خود را وارد کنید و میانبر های خود را اصلاح کنید"</string>
+    <string name="dialog_text_lock_app">"یک رمز عبور برای قفل کردن تنظیمات برنامه و جلوگیری از تغییر میانبرهای خود وارد کنید."</string>
 
     <!-- Dialog button: Lock the app (by entering a password) -->
     <string name="button_lock_app">"قفل کردن"</string>
@@ -775,7 +785,7 @@
     <string name="warning_data_saver_battery_saver_enabled">"حالت‌های «بهینه‌سازی داده» و/یا «بهینه‌سازی باتری» در دستگاه شما فعال هستند. اگر با مشکل کار نکردن میانبرها مواجه شدید، لطفاً آنها را غیرفعال کنید."</string>
 
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
-    <string name="message_variable_duplicated">"\"%1$s\" تکراری شد."</string>
+    <string name="message_variable_duplicated">"\“%1$s\” تکرار شد."</string>
 
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">"URL میانبر و روش HTTP را تنظیم کنید"</string>
@@ -888,17 +898,16 @@
     <string name="dialog_code_snippet_set_variable">"مقدار متغیر را تنظیم کنید"</string>
 
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_triggering">"نمی‌توان میانبر \"%1$s\" را فعال کرد زیرا وجود ندارد."</string>
+    <string name="error_shortcut_not_found_for_triggering">"نمی‌توان میانبر \“%1$s\” را فعال کرد زیرا وجود ندارد."</string>
 
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_renaming">"نمی توان نام میانبر \"%1$s\" را تغییر داد زیرا وجود ندارد."</string>
+    <string name="error_shortcut_not_found_for_renaming">"نمی توان نام میانبر \“%1$s\” را تغییر داد زیرا وجود ندارد."</string>
 
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_changing_icon">"نمی توان نماد میانبر \"%1$s\" را تغییر داد زیرا وجود ندارد."</string>
+    <string name="error_shortcut_not_found_for_changing_icon">"نمی توان نماد میانبر \“%1$s\” را تغییر داد زیرا وجود ندارد."</string>
 
     <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
-    <string name="settings_dark_theme_options_on">"همیشه تاریک
-"</string>
+    <string name="settings_dark_theme_options_on">"همیشه تاریک"</string>
 
     <!-- Settings option for dark mode: when selected the app will never use Dark Mode -->
     <string name="settings_dark_theme_options_off">"همیشه روشن"</string>
@@ -913,7 +922,7 @@
     <string name="message_blank_response">"پاسخ خالی"</string>
 
     <!-- Message shown in snackbar when the title on the main title bar was changed. -->
-    <string name="message_title_changed">"عنوان تغییر کرد"</string>
+    <string name="message_title_changed">"عنوان تغییر کرد."</string>
 
     <!-- Dialog title: Shown in dialog title when changing the title of the main screen of the app -->
     <string name="title_set_title">"تغییر عنوان"</string>
@@ -930,7 +939,7 @@
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
     <string name="instructions_quick_settings_tile">"شما هنوز هیچ میانبری ندارید که بتواند از طریق کاشی تنظیمات سریع فعال شود.
 
-می توانید این ویژگی را با ویرایش میانبر و انتخاب کادر انتخاب \"%1$s\" موجود در \"%2$s\" فعال کنید."</string>
+می توانید این ویژگی را با ویرایش میانبر و انتخاب کادر انتخاب \“%1$s\” موجود در \“%2$s\” فعال کنید."</string>
 
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">"کد وضعیت"</string>
@@ -1019,7 +1028,7 @@
     <string name="button_description_create_trigger_shortcut">"چند میانبر را همزمان راه اندازی کنید"</string>
 
     <!-- Dropdown option for request body: file (i.e., user gets to pick a file which is used as the request body) -->
-    <string name="request_body_option_file">"فایل (انتخاب کننده)"</string>
+    <string name="request_body_option_file">"فایل"</string>
 
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
     <string name="label_scripting_scripting_shortcuts_subtitle">"کد جاوا اسکریپت را اجرا کنید"</string>
@@ -1076,7 +1085,7 @@
     <string name="title_remove_trigger_shortcut">"میانبر را حذف کنید"</string>
 
     <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="message_remove_trigger_shortcut">"میانبر \"%s\" از لیست میانبرهای فعال حذف شود؟"</string>
+    <string name="message_remove_trigger_shortcut">"میانبر \“%s\” از لیست میانبرهای فعال حذف شود?"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
     <string name="action_type_prompt_title">"درخواست متن"</string>
@@ -1190,10 +1199,10 @@
     <string name="label_accept_cookies">"کوکی ها را ذخیره کنید"</string>
 
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of all cookies -->
-    <string name="confirm_clear_cookies_message">"همه کوکی های ذخیره شده حذف شوند؟"</string>
+    <string name="confirm_clear_cookies_message">"همه کوکی های ذخیره شده حذف شوند?"</string>
 
     <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
-    <string name="message_cookies_cleared">"کوکی ها حذف شدند"</string>
+    <string name="message_cookies_cleared">"کوکی ها حذف شدند."</string>
 
     <!-- Generic button: Help (to open documentation) -->
     <string name="dialog_help">"کمک"</string>
@@ -1205,7 +1214,7 @@
     <string name="dialog_code_snippet_text_processing">"پردازش متن"</string>
 
     <!-- Error message: Shown when user tries to use an unsupported hash function -->
-    <string name="error_unsupported_hash_algorithm">"الگوریتم هش پشتیبانی نشده \"%1$s\". از %2$s استفاده کنید."</string>
+    <string name="error_unsupported_hash_algorithm">"الگوریتم هش پشتیبانی نشده \“%1$s\”. از %2$s استفاده کنید."</string>
 
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">"ویرایش در کامپیوتر"</string>
@@ -1217,13 +1226,13 @@
     <string name="instructions_remote_edit_step_1">"رمز عبور را در فیلد بالا وارد کنید."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: click the push button -->
-    <string name="instructions_remote_edit_step_2">"روی دکمه &lt;pre&gt;\"Push to Server\"&lt;/pre&gt; کلیک کنید."</string>
+    <string name="instructions_remote_edit_step_2">"روی دکمه &lt;pre&gt;\”ارسال به سرور\”&lt;/pre&gt; کلیک کنید."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">"%s را در مرورگر رایانه خود باز کنید، شناسه دستگاه و رمز عبور خود را وارد کرده و ویرایش را شروع کنید."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"پس از اتمام ویرایش و ذخیره تغییرات خود، روی دکمه &lt;pre&gt;\"Pull Changes\"&lt;/pre&gt; در زیر کلیک کنید تا تغییرات خود را دوباره در برنامه بارگیری کنید."</string>
+    <string name="instructions_remote_edit_step_4">"پس از اتمام ویرایش و ذخیره تغییرات خود، روی دکمه &lt;pre&gt;\”دریافت تغییرات\”&lt;/pre&gt;  در زیر کلیک کنید تا تغییرات خود را دوباره در برنامه بارگیری کنید."</string>
 
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">"فشار به سرور"</string>
@@ -1286,7 +1295,7 @@
     <string name="action_save_global_scripting">"ذخیره تغییرات"</string>
 
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
-    <string name="error_shortcut_not_found_for_deep_link">"میانبر \"%s\" یافت نشد"</string>
+    <string name="error_shortcut_not_found_for_deep_link">"میانبر \“%s\” یافت نشد"</string>
 
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
     <string name="instructions_deep_linking">"برای استفاده از ویژگی پیوند عمیق، مطمئن شوید که از یک URL معتبر فرم استفاده کنید:
@@ -1309,7 +1318,7 @@
     <string name="message_permission_rational">"مجوزهای مکان برای بررسی نام (SSID) شبکه Wi-Fi فعلی مورد نیاز است. این الزامی است که توسط سیستم عامل اندروید تحمیل شده است. اطلاعات مکان شما مستقیماً قابل دسترسی نیست."</string>
 
     <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
-    <string name="message_wrong_wifi_network">"به شبکه Wi-Fi پیکربندی شده برای این میانبر \"%1$s\" متصل نیست. اکنون شبکه Wi-Fi دیگری انتخاب کنید؟"</string>
+    <string name="message_wrong_wifi_network">"به شبکه Wi-Fi پیکربندی شده برای این میانبر \“%1$s\” متصل نیست. میخواهید شبکه Wi-Fi دیگری انتخاب کنید?"</string>
 
     <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
     <string name="action_label_select">"انتخاب کنید"</string>
@@ -1381,7 +1390,7 @@
     <string name="label_subtitle_no_client_cert">"برای انتخاب گواهی کلیک کنید."</string>
 
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
-    <string name="label_subtitle_client_cert_in_use">"با استفاده از گواهی \"%s\". برای حذف کلیک کنید."</string>
+    <string name="label_subtitle_client_cert_in_use">"از گواهی \“%s\” استفاده می‌کند. برای حذف کلیک کنید."</string>
 
     <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
     <string name="error_failed_to_use_client_cert">"بارگیری یا استفاده از گواهی مشتری انجام نشد. ممکن است این مورد توسط دستگاه شما پشتیبانی نشود یا نیاز به پیکربندی مجدد در تنظیمات میانبر داشته باشد."</string>
@@ -1396,7 +1405,7 @@
     <string name="settings_f_droid_summary">"به روز رسانی را بررسی کنید"</string>
 
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
-    <string name="label_subtitle_client_cert_file_in_use">"با استفاده از فایل گواهی برای حذف کلیک کنید."</string>
+    <string name="label_subtitle_client_cert_file_in_use">"از فایل گواهی استفاده می‌کند. برای حذف کلیک کنید."</string>
 
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">"گواهی مشتری"</string>
@@ -1408,7 +1417,7 @@
     <string name="label_client_cert_from_os_subtitle">"توصیه شده، امن تر"</string>
 
     <!-- Label, for option in dialog to pick a client certificate from a .p12 file -->
-    <string name="label_client_cert_from_file">"وارد کردن از فایل p12"</string>
+    <string name="label_client_cert_from_file">"وارد کردن از فایل .p12"</string>
 
     <!-- Subtitle for Label, for option in dialog to pick a client certificate from a .p12 file -->
     <string name="label_client_cert_from_file_subtitle">"یک کپی از فایل و رمز عبور بدون محافظت خاص در داخل برنامه ذخیره می شود. با مسئولیت خود استفاده کنید."</string>
@@ -1444,7 +1453,7 @@
     <string name="message_json_encode_instructions">"اگر از این متغیر در یک رشته JSON، به عنوان مثال، در یک بدنه درخواست استفاده می کنید، این را فعال کنید. شخصیت های خاص فرار خواهند شد."</string>
 
     <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
-    <string name="message_url_encode_instructions">"اگر از این متغیر در داخل یک URL استفاده می کنید، این را فعال کنید، به عنوان مثال، به عنوان بخشی از یک رشته پرس و جو. شخصیت های خاص فرار خواهند شد."</string>
+    <string name="message_url_encode_instructions">"اگر از این متغیر در داخل یک URL استفاده می کنید، این را فعال کنید، به عنوان مثال، به عنوان بخشی از یک رشته پرس و جو. کاراکترهای خاص نادیده گرفته خواهند شد."</string>
 
     <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay">"اجازه نمایش بر روی سایر برنامه ها"</string>
@@ -1499,10 +1508,10 @@
     <string name="action_type_to_string_description">"یک Uint8Array را به یک رشته تبدیل می کند"</string>
 
     <!-- Description for Base64decode function in scripting -->
-    <string name="action_type_base64decode_description">"یک رشته رمزگذاری شده Base64 را به Unit8Array (آرایه بایت) تبدیل می کند."</string>
+    <string name="action_type_base64decode_description">"یک رشته رمزگذاری شده Base64 را به Unit8Array (آرایه بایت) تبدیل می کند"</string>
 
     <!-- Description for Base64encode function in scripting -->
-    <string name="action_type_base64encode_description">"یک رشته یا Uint8Array (آرایه بایت) را به یک رشته رمزگذاری شده Base64 تبدیل می کند."</string>
+    <string name="action_type_base64encode_description">"یک رشته یا Uint8Array (آرایه بایت) را به یک رشته رمزگذاری شده Base64 تبدیل می کند"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response header -->
     <string name="dialog_code_snippet_response_header">"دریافت سرصفحه پاسخ با نام"</string>
@@ -1540,13 +1549,13 @@
     <string name="error_failed_to_get_wifi_ssid">"تعیین SSID Wi-Fi فعلی انجام نشد."</string>
 
     <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
-    <string name="placeholder_request_body_content">"بدنه درخواست HTTP خام را در اینجا وارد کنید. شما می توانید متغیرهایی را از طریق دکمه \"{}\" اضافه کنید."</string>
+    <string name="placeholder_request_body_content">"بدنه درخواست HTTP خام را در اینجا وارد کنید. شما می توانید متغیرهایی را از طریق دکمه \“{}\” اضافه کنید."</string>
 
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_description">"میانبر دیگری را برنامه ریزی کنید تا پس از اتمام میانبر فعلی اجرا شود"</string>
 
     <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="message_remove_deleted_trigger_shortcut">"میانبر حذف شده از لیست میانبرهای فعال شده حذف شود؟"</string>
+    <string name="message_remove_deleted_trigger_shortcut">"میانبر حذف شده از لیست میانبرهای فعال شده حذف شود?"</string>
 
     <!-- Label above input field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">"مرورگر"</string>
@@ -1561,18 +1570,18 @@
     <string name="error_browser_not_found">"مرورگر با نام بسته %s یافت نشد"</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
-    <string name="confirm_delete_custom_icon_message">"این نماد حذف شود؟"</string>
+    <string name="confirm_delete_custom_icon_message">"این نماد حذف شود?"</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
-    <string name="confirm_delete_custom_icon_still_in_use_message">"این نماد همچنان در حداقل 1 میانبر استفاده می شود. حذف آن ممکن است مشکلاتی ایجاد کند.
+    <string name="confirm_delete_custom_icon_still_in_use_message">"این آیکن همچنان در حداقل 1 میانبر استفاده می شود. حذف آن ممکن است مشکلاتی ایجاد کند.
 
-به هر حال حذف شود؟"</string>
+به هر حال حذف شود?"</string>
 
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
     <string name="button_delete_all_unused_icons">"حذف آیکون های استفاده نشده"</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
-    <string name="confirm_delete_all_unused_custom_icons_message">"تمام نمادهای استفاده نشده حذف شود؟"</string>
+    <string name="confirm_delete_all_unused_custom_icons_message">"تمام آیکن‌های استفاده نشده حذف شود?"</string>
 
     <!-- Error message, shown in snackbar when the user tried to fetch a page's favicon but it failed -->
     <string name="error_failed_to_fetch_favicon">"نماد واکشی نشد. این وب سایت ممکن است یک وب سایت مناسب نداشته باشد."</string>
@@ -1611,7 +1620,7 @@
     <string name="action_type_change_icon_description">"تغییر توضیحات میانبر"</string>
 
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <string name="error_shortcut_not_found_for_changing_description">"توضیح میانبر \"%1$s\" تغییر نمی کند زیرا وجود ندارد."</string>
+    <string name="error_shortcut_not_found_for_changing_description">"توضیحات میانبر \“%1$s\” تغییر نمی کند زیرا وجود ندارد."</string>
 
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">"از مرورگر پیش فرض استفاده کنید"</string>
@@ -1623,7 +1632,7 @@
     <string name="category_background_type_default">"پیش فرض"</string>
 
     <!-- Message, shown in snackbar, to confirm to the user that a category's changes were saved -->
-    <string name="message_category_edited">"دسته به روز شد"</string>
+    <string name="message_category_edited">"دسته بندی آپدیت شد."</string>
 
     <!-- Label above input field in category editor, for category name -->
     <string name="label_category_name">"نام دسته"</string>
@@ -1876,4 +1885,325 @@
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a password -->
     <string name="action_type_prompt_password_title">"درخواست رمز عبور"</string>
+
+    <!-- Page title, for page showing all events that happened recently -->
+    <string name="title_event_history">"تاریخچه رویداد"</string>
+
+    <!-- Button in Event History screen, to clear all events and empty the history -->
+    <string name="button_clear_history">"حذف تاریخچه"</string>
+
+    <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
+    <string name="message_history_cleared">"تاریخچه حذف شد."</string>
+
+    <!-- Empty state, shown in event history when there are no events yet -->
+    <string name="empty_state_history">"هیچ رویداد اخیری وجود ندارد"</string>
+
+    <!-- Empty state instructions, shown in event history when there are no events -->
+    <string name="empty_state_history_instructions">"جزئیات مربوط به میانبرهای اخیراً راه اندازی شده را در اینجا خواهید دید که می توانید از آنها برای عیب یابی استفاده کنید.
+می‌توانید از طریق گزینه‌ای که در صفحه \“%s\” یافت می‌شود، میان‌برهای فردی را در اینجا منع کنید."</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
+    <string name="label_exclude_from_history">"از تاریخچه رویداد حذف شود"</string>
+
+    <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_shortcut_triggered">"\“%s\” فعال شد"</string>
+
+    <!-- Title of event history entry, which states that an HTTP request was sent. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_http_request_sent">"درخواست HTTP برای \“%s\” ارسال شد"</string>
+
+    <!-- Title of event history entry, which states that an HTTP response was received. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the status code (e.g. "404 Not Found") -->
+    <string name="event_history_title_http_response_received">"پاسخ HTTP برای \“%1$s\” دریافت شد: %2$s"</string>
+
+    <!-- Title of event history entry, which states that a network error has occurred. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_network_error">"خطای شبکه برای \“%s\”"</string>
+
+    <!-- Title of event history entry, which states that an execution error has occurred. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_execution_error">"Execution error for \“%s\”"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, which indicates how a shortcut was triggered. %s is a placeholder for the trigger source, e.g. "homescreen" -->
+    <string name="label_prefix_event_history_trigger_origin">"فعال شده از طریق: %s"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_rerun_from_dialog">"اجرای مجدد از گفتگو"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_rerun_from_window">"اجرا مجدد از پنجره"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_main_screen">"صفحه اصلی"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_share">"اشتراک گذاری در برنامه"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_quick_settings_tile">"کاشی تنظیمات سریع"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_app_shortcut">"میانبر برنامه"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_home_screen_shortcut">"میانبر صفحه اصلی"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_legacy_shortcut">"میانبر قدیمی"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_widget">"ویجت"</string>
+
+    <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_scripting">"اسکریپت"</string>
+
+    <!-- Message shown in snackbar to let the user know that the details of a (selected) history event were copied to the clipboard -->
+    <string name="message_history_event_details_copied">"جزئیات رویداد کپی شد."</string>
+
+    <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
+    <string name="action_type_set_result_title">"نتیجه را تنظیم کنید"</string>
+
+    <!-- Shortcut Action Description: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
+    <string name="action_type_set_result_description">"یک رشته سفارشی را تنظیم کنید تا به میانبری که executeShortcut نامیده می شود یا به Tasker برگردانده شود"</string>
+
+    <!-- Label/description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
+    <string name="label_plugin_result">"نتیجه"</string>
+
+    <!-- Description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
+    <string name="label_plugin_result_detail">"رشته داده سفارشی که توسط تابع «setResult()» تنظیم شده است"</string>
+
+    <!-- Generic dialog button: Configure (e.g. some settings) -->
+    <string name="dialog_configure">"پیکربندی"</string>
+
+    <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_plugin_dialog_configure_app_overlay">"برای اینکه بتوانید میانبر را از یک برنامه دیگر راه اندازی کنید، ابتدا باید به برنامه میانبر HTTP اجازه دهید تا روی برنامه های دیگر قرار بگیرد.
+
+برای پیکربندی اکنون روی دکمه \“%s\” کلیک کنید."</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="label_secondary_launcher_shortcut">"اجازه راه‌اندازی از طریق برنامه راه‌انداز ثانویه"</string>
+
+    <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
+    <string name="title_activity_secondary_launcher_trigger">"اجراکننده میانبر"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the meta data of a selected file -->
+    <string name="dialog_code_snippet_get_file_meta">"دریافت Meta Data فایل انتخابی"</string>
+
+    <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
+    <string name="action_type_log_event">"ثبت رویداد"</string>
+
+    <!-- Shortcut Action Title: Action that allows to share text to another app -->
+    <string name="action_share_text_title">"اشتراک گذاری متن"</string>
+
+    <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
+    <string name="label_run_repeatedly">"به طور مکرر اجرا کنید"</string>
+
+    <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">"برای اینکه یک میانبر بتواند بارها و بارها به روشی قابل اعتماد اجرا شود، ابتدا باید به برنامه میانبر HTTP اجازه دهید تا روی برنامه های دیگر قرار بگیرد.
+
+برای پیکربندی اکنون روی دکمه \“%s\” کلیک کنید.
+
+همچنین ممکن است لازم باشد برنامه را از بهینه سازی باتری حذف کنید. این را می توانید در تنظیمات برنامه پیدا کنید."</string>
+
+    <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
+    <string name="instructions_repetitions">"زمان تکرار دقیق نیست، اما می تواند چند دقیقه تغییر کند، زیرا تابعه بهینه سازی باتری توسط اندروید است. لطفاً توجه داشته باشید که استفاده از این ویژگی ممکن است به میزان قابل توجهی استفاده برنامه از باتری را افزایش دهد."</string>
+
+    <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
+    <string name="label_no_repetition">"بدون تکرار"</string>
+
+    <!-- Title of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
+    <string name="settings_ignore_battery_optimizations">"حذف از بهینه سازی باتری"</string>
+
+    <!-- Subtitle of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
+    <string name="settings_ignore_battery_optimizations_summary">"اگر در زمان‌بندی یا اجرای مکرر میانبر با مشکل مواجه هستید، این را فعال کنید."</string>
+
+    <!-- Label for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen -->
+    <string name="label_store_response_into_file">"ذخیره پاسخ در فایل"</string>
+
+    <!-- Label: Shown above text input field that lets the user pick the file name that should be used for storing the HTTP response into a file -->
+    <string name="label_store_response_file_name">"نام فایل"</string>
+
+    <!-- Label for checkbox which lets the user configure that when storing the HTTP response into a file, if the target file already exists whether the app is allowed to overwrite it -->
+    <string name="label_store_response_replace_file">"جایگزین کردن فایل در صورتی که وجود داشت"</string>
+
+    <!-- Title on dialog that lets the user choose an icon for a category -->
+    <string name="title_category_select_icon">"انتخاب آیکن دسته بندی"</string>
+
+    <!-- Title of event history entry, which states that a shortcut was cancelled. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_shortcut_cancelled">"\“%s\” لغو شد"</string>
+
+    <!-- Section title on settings screen for options shared by all shortcuts -->
+    <string name="settings_title_global_shortcut_settings">"تنظیمات میانبر سراسری"</string>
+
+    <!-- Button in settings page to open editor for configuring certificate pinning -->
+    <string name="settings_certificate_pinning">"استفاده از سرتیفیکیت"</string>
+
+    <!-- Title of editor for configuring certificate pinning -->
+    <string name="title_certificate_pinning">"استفاده از سرتیفیکیت"</string>
+
+    <!-- Empty state instructions for certificate pinning screen -->
+    <string name="empty_state_certificate_pinning_instructions">"اگر باید مطمئن باشید که درخواست‌های HTTP شما از طریق یک اتصال ایمن ارسال می‌شوند، می‌توانید با افزودن فینگرپرینت SHA-1 یا SHA-256 گواهینامه در اینجا، استفاده از سرتیفیکیت را برای میزبان‌های خاص فعال کنید.
+
+برای گواهی‌های self-signed، به جای آن، بخش میانبر «%s» را بررسی کنید."</string>
+
+    <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
+    <string name="message_certificate_pinning_deleted">"فینگرپرینت گواهینامه حذف شد."</string>
+
+    <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
+    <string name="confirm_delete_certificate_pinning_message">"این فینگرپرینت حذف شود?"</string>
+
+    <!-- Label for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="label_certificate_pinning_hostname_pattern">"الگوی نام میزبان"</string>
+
+    <!-- Hint text for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="hint_certificate_pinning_hostname_pattern">"به عنوان مثال: *.example.com"</string>
+
+    <!-- Label for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
+    <string name="label_certificate_pinning_fingerprint">"فینگرپرینت گواهینامه"</string>
+
+    <!-- Hint text for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
+    <string name="hint_certificate_pinning_fingerprint">"فینگرپرینت hex-encoded SHA-1 یا SHA-256 سرور خود را وارد کنید"</string>
+
+    <!-- Placeholder text shown when a toggle or multi-select variable option is just an empty string -->
+    <string name="empty_option_placeholder">"- خالی -"</string>
+
+    <!-- Empty state shown on the custom icons screen when the user has no icons set up -->
+    <string name="empty_state_custom_icons">"شما هیچ آیکن سفارشی ندارید."</string>
+
+    <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
+    <string name="label_require_specific_wifi_ssid">"نیاز به Wi-Fi خاصی دارد"</string>
+
+    <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
+    <string name="option_no_proxy">"بدون پروکسی"</string>
+
+    <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
+    <string name="button_format_json">"مرتب سازی"</string>
+
+    <!-- Error, shown in snackbar, when the user tries to format a custom request body, but it is invalid JSON syntax -->
+    <string name="error_cannot_format_invalid_json">"ساختار JSON نامعتبر است"</string>
+
+    <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
+    <string name="title_move_shortcuts">"حرکت میانبرها"</string>
+
+    <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
+    <string name="placeholder_empty_category_for_moving">"هیچ میانبری در این دسته بندی وجود ندارد"</string>
+
+    <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
+    <string name="subtitle_include_meta_information">"هدرهای پاسخ، کد وضعیت، …"</string>
+
+    <!-- Type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp">"برچسب زمانی"</string>
+
+    <!-- Description for type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp_description">"تاریخ/زمان فعلی با استفاده از یک قالب خاص"</string>
+
+    <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
+    <string name="label_file_upload_options_allow_image_editing">"به برش و چرخش تصاویر اجازه دهید"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
+    <string name="action_type_prompt_number_title">"وارد کردن عدد"</string>
+
+    <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
+    <string name="label_host_verification">"تأیید میزبانی"</string>
+
+    <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
+    <string name="option_host_verification_default">"پیش فرض امن"</string>
+
+    <!-- Option in host verification dropdown, for only checking the server's certificate fingerprint without validating the trust chain -->
+    <string name="option_host_verification_self_signed">"فقط فینگرپرینت گواهی را بررسی کنید"</string>
+
+    <!-- Option in host verification dropdown, for disabling any host verification, which is considered insecure and discouraged -->
+    <string name="option_host_verification_trust_all">"بدون تأیید (به همه اعتماد کنید، ناامن)"</string>
+
+    <!-- Label for text input field in host verification settings, for specifying the fingerprint of the certificate -->
+    <string name="label_host_verification_certificate_fingerprint">"فینگرپرینت گواهی"</string>
+
+    <!-- Hint text for text input field in host verification settings, for specifying the fingerprint of the certificate -->
+    <string name="hint_host_verification_certificate_fingerprint">"اثر انگشت hex-encoded SHA-1 یا SHA-256 گواهی سرور (self-signed) خود را وارد کنید"</string>
+
+    <!-- Button label, for button shown in Scripting editor nav bar to allow the user to undo a recent change -->
+    <string name="button_undo">"برگرداندن"</string>
+
+    <!-- Error message shown when biometric (e.g. fingerprint) execution confirmation fails. %s is a placeholder for a more detailed description of the error -->
+    <string name="error_biometric_confirmation_failed">"تأیید بیومتریک ناموفق بود: %s"</string>
+
+    <!-- Subtitle shown on biometric confirmation dialog (e.g. asking for a fingerprint), for confirming the execution of a shortcut -->
+    <string name="subtitle_biometric_confirmation_prompt">"اجرای میانبر را تایید کنید"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: no confirmation -->
+    <string name="option_confirmation_none">"بدون تایید"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: simple confirmation, i.e., only asking the user to press a button -->
+    <string name="option_confirmation_simple">"تایید ساده"</string>
+
+    <!-- Option in dropdown to select the confirmation type for a shortcut: biometric confirmation, i.e., asking the user to authenticate by fingerprint or similar -->
+    <string name="option_confirmation_biometric">"تایید بیومتریک"</string>
+
+    <!-- Title of section in settings that allows user to change the "User-Agent" header that is sent by default with all shortcuts -->
+    <string name="settings_user_agent">"سفارشی سازی User-Agent"</string>
+
+    <!-- Message shown in snackbar as confirmation when the user changes the "User-Agent" header's value in the settings -->
+    <string name="message_user_agent_changed">"User-Agent  تغییر کرد."</string>
+
+    <!-- Dialog title: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
+    <string name="title_set_user_agent">"تغییر User-Agent"</string>
+
+    <!-- Dialog message: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
+    <string name="instructions_set_user_agent">"یک User-Agent سفارشی تنظیم کنید که برای همه درخواست‌های HTTP استفاده می‌شود، یا برای استفاده از پیش‌فرض آن را خالی بگذارید."</string>
+
+    <!-- Subtitle shown on biometric app unlock dialog (e.g. asking for a fingerprint) -->
+    <string name="subtitle_biometric_app_unlock_prompt">"در حالی که برنامه قفل است، تغییر در میانبرها، متغیرها یا تنظیمات امکان پذیر نیست."</string>
+
+    <!-- Button label, shown on negative button below biometric prompt for unlocking the app. clicking it allows the user to instead try unlocking the app with their password -->
+    <string name="button_app_unlock_use_password">"استفاده از رمزعبور"</string>
+
+    <!-- Checkbox label, shown on dialog that lets the user lock the app -->
+    <string name="label_app_lock_use_biometrics">"امکان باز کردن قفل با سنسورهای بیومتریک"</string>
+
+    <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
+    <string name="label_monospace_response">"نمایش متن با استفاده از فونت monospace"</string>
+
+    <!-- Subtitle for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen. The %s is a placeholder for the directory name. -->
+    <string name="subtitle_store_response_into_file_directory">"ذخیره در فهرست “%s”"</string>
+
+    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown let's the user choose the source of the file data -->
+    <string name="label_file_options_file_data_source">"منبع داده فایل"</string>
+
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker -->
+    <string name="option_file_data_source_file_picker">"بازکردن انتخابگر فایل"</string>
+
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker for selecting multiple files -->
+    <string name="option_file_data_source_file_picker_multi">"باز کردن انتخابگر فایل (چند انتخابی)"</string>
+
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open camera to take a picture -->
+    <string name="option_file_data_source_camera">"گرفتن عکس از دوربین"</string>
+
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a specific static file stored on the device -->
+    <string name="option_file_data_source_specific_file">"استفاده از فایل خاص"</string>
+
+    <!-- Button label, for choosing a file to use as a request body or parameter -->
+    <string name="label_file_data_source_choose_file">"انتخاب فایل"</string>
+
+    <!-- Subtitle, shown on button for selecting a file to use as a request body or parameter. %s is a placeholder for the selected file's name -->
+    <string name="subtitle_file_data_source_choose_file">"فایل “%s”"</string>
+
+    <!-- Label on button, shown in Response settings of shortcut editor, allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
+    <string name="button_select_response_toolbar_buttons">"نمایش دکمه های نوار ابزار"</string>
+
+    <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
+    <string name="title_select_response_toolbar_buttons">"انتخاب دکمه های نوار ابزار"</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu and it will be promoted as a Direct Share target, allowing easy sharing of content into that specific shortcut -->
+    <string name="label_launcher_shortcut_or_direct_share">"به عنوان میانبر برنامه در لانچر نمایش داده شود و به عنوان هدف اشتراک مستقیم نمایش داده شود"</string>
+
+    <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
+    <string name="settings_title_experimental">"آزمایشی"</string>
+
+    <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
+    <string name="settings_title_execution_mode">"حالت اجرا"</string>
+
+    <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
+    <string name="option_execution_mode_foreground">"اجرای میانبرها در پیش زمینه با نمایش لودینگ بار (پیش فرض)"</string>
+
+    <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
+    <string name="option_execution_mode_background">"اجرای میانبرها در پس زمینه بدون لودینگ (آزمایشی)"</string>
+
+    <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
+    <string name="instructions_experimental_section">"این بخش شامل تنظیماتی برای ویژگی های آزمایشی است که هنوز نهایی نشده اند و ممکن است ناپایدار باشند. با مسئولیت خود فعال کنید. اگر آنها را فعال کردید و با مشکلاتی مواجه شدید، لطفاً با ارسال ایمیل به من یا ایجاد یک مشکل Github برای به اشتراک گذاشتن اکتشافات خود به من اطلاع دهید."</string>
 </resources>

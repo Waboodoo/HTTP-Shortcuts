@@ -2206,4 +2206,19 @@
 
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu and it will be promoted as a Direct Share target, allowing easy sharing of content into that specific shortcut -->
     <string name="label_launcher_shortcut_or_direct_share">"ランチャーにアプリショートカットとして表示して、ダイレクトシェアのターゲットとして表示する"</string>
+
+    <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
+    <string name="settings_title_experimental">"実験中"</string>
+
+    <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
+    <string name="settings_title_execution_mode">"実行モード"</string>
+
+    <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
+    <string name="option_execution_mode_foreground">"読み込みインジケーターを使用してショートカットをフォアグラウンドで実行する (デフォルト)"</string>
+
+    <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
+    <string name="option_execution_mode_background">"インジケーターを読み込みせずにバックグラウンドでショートカットを実行する (実験中)"</string>
+
+    <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
+    <string name="instructions_experimental_section">"このセクションには、実験的な機能の設定が含まれています。まだ正式版ではなく、不安定である可能性があります。 ご自身の責任で有効にしてください。 これらを有効にして問題が発生した場合は、開発者にメールを送信するか、Github で問題提議を作成して情報共有してください。"</string>
 </resources>
