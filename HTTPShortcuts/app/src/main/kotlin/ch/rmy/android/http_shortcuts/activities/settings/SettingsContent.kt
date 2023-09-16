@@ -18,6 +18,7 @@ import androidx.compose.material.icons.outlined.Javascript
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Layers
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.Science
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Title
@@ -60,6 +61,7 @@ fun SettingsContent(
     onCrashReportingChanged: (Boolean) -> Unit,
     onEventHistoryClicked: () -> Unit,
     onClearCookiesButtonClicked: () -> Unit,
+    onCancelAllPendingExecutionsButtonClicked: () -> Unit,
     onAllowOverlayButtonClicked: () -> Unit,
     onAllowXiaomiOverlayButtonClicked: () -> Unit,
     onBatteryOptimizationButtonClicked: () -> Unit,
@@ -211,6 +213,12 @@ fun SettingsContent(
                 icon = Icons.Outlined.Cookie,
                 title = stringResource(R.string.settings_clear_cookies),
                 onClick = onClearCookiesButtonClicked,
+            )
+
+            SettingsButton(
+                icon = Icons.Outlined.Schedule,
+                title = stringResource(R.string.settings_cancel_all_pending_executions),
+                onClick = onCancelAllPendingExecutionsButtonClicked,
             )
 
             if (allowOverlayButtonVisible) {

@@ -102,6 +102,7 @@ constructor(
         viewModelScope.launch {
             if (initData.cancelPendingExecutions) {
                 pendingExecutionsRepository.removeAllPendingExecutions()
+                showSnackbar(R.string.message_pending_executions_cancelled)
             } else {
                 scheduleExecutions()
             }

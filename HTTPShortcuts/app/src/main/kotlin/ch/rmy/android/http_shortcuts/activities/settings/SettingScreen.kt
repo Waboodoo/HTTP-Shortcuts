@@ -37,6 +37,7 @@ fun SettingsScreen() {
             onCrashReportingChanged = viewModel::onCrashReportingChanged,
             onEventHistoryClicked = viewModel::onEventHistoryClicked,
             onClearCookiesButtonClicked = viewModel::onClearCookiesButtonClicked,
+            onCancelAllPendingExecutionsButtonClicked = viewModel::onCancelAllPendingExecutionsButtonClicked,
             onAllowOverlayButtonClicked = viewModel::onAllowOverlayButtonClicked,
             onAllowXiaomiOverlayButtonClicked = viewModel::onAllowXiaomiOverlayButtonClicked,
             onBatteryOptimizationButtonClicked = viewModel::onBatteryOptimizationButtonClicked,

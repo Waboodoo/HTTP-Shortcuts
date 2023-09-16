@@ -7,6 +7,7 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.settings.usecases.CreateQuickSettingsTileUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.logging.Logging
@@ -32,6 +33,7 @@ constructor(
     application: Application,
     private val settings: Settings,
     private val appRepository: AppRepository,
+    private val pendingExecutionsRepository: PendingExecutionsRepository,
     private val localeHelper: LocaleHelper,
     private val cookieManager: CookieManager,
     private val appOverlayUtil: AppOverlayUtil,
@@ -76,6 +78,11 @@ constructor(
 
     fun onClearCookiesButtonClicked() = runAction {
         updateDialogState(SettingsDialogState.ClearCookies)
+    }
+
+    fun onCancelAllPendingExecutionsButtonClicked() = runAction {
+        pendingExecutionsRepository.removeAllPendingExecutions()
+        showSnackbar(R.string.message_pending_executions_cancelled)
     }
 
     fun onClearCookiesConfirmed() = runAction {

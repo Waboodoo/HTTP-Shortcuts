@@ -174,6 +174,8 @@
     <string name="settings_language">Language</string>
     <!-- Name of button in settings screen that allows to clear all HTTP cookies -->
     <string name="settings_clear_cookies">Delete Cookies</string>
+    <!-- Name of button in settings screen that allows to cancel all scheduled shortcuts executions -->
+    <string name="settings_cancel_all_pending_executions">Cancel all pending executions</string>
     <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay">Allow Displaying Over Other Apps</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
@@ -1093,6 +1095,8 @@
     <string name="confirm_clear_cookies_message">Delete all stored cookies?</string>
     <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
     <string name="message_cookies_cleared">Cookies deleted.</string>
+    <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
+    <string name="message_pending_executions_cancelled">Pending executions cancelled.</string>
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">This feature allows you to edit your shortcuts on a computer, from the comfort of a browser. Please read the app\'s Privacy Policy before getting started, then follow these steps:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
