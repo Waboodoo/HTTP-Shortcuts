@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.http
 
-import ch.rmy.android.framework.extensions.runIf
 import okhttp3.Interceptor
+import okhttp3.Request
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.asResponseBody
 import okhttp3.internal.http.promisesBody
@@ -12,15 +12,18 @@ import org.brotli.dec.BrotliInputStream
 
 object CompressionInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request().newBuilder()
-            .runIf(chain.request().header("Accept-Encoding") == null) {
-                header("Accept-Encoding", "br,gzip")
-            }
-            .build()
-
-        val response = chain.proceed(request)
+        val response = chain.proceed(getFinalRequest(chain.request()))
         return uncompressIfNeeded(response)
     }
+
+    private fun getFinalRequest(request: Request): Request =
+        if (request.header("Accept-Encoding") == null && request.header("Range") == null) {
+            request.newBuilder()
+                .header("Accept-Encoding", "br,gzip")
+                .build()
+        } else {
+            request
+        }
 
     private fun uncompressIfNeeded(response: Response): Response {
         val body = response.takeIf { it.promisesBody() }?.body
