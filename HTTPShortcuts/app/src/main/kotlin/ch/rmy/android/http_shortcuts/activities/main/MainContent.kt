@@ -35,8 +35,9 @@ fun MainContent(
     onRemoveShortcutFromHomeScreen: (ShortcutPlaceholder) -> Unit,
     onSelectShortcut: (ShortcutId) -> Unit,
 ) {
-    val activeTabIndex = categoryItems.indexOfFirstOrNull { it.categoryId == activeCategoryId } ?: 0
-    val pagerState = rememberPagerState(initialPage = activeTabIndex) {
+    val pagerState = rememberPagerState(
+        initialPage = categoryItems.indexOfFirstOrNull { it.categoryId == activeCategoryId } ?: 0,
+    ) {
         categoryItems.size
     }
 
@@ -53,7 +54,7 @@ fun MainContent(
         if (categoryItems.size > 1) {
             TabBar(
                 categoryItems = categoryItems,
-                activeTabIndex = activeTabIndex,
+                activeTabIndex = pagerState.currentPage,
                 onActiveCategoryIdChanged = onActiveCategoryIdChanged,
             )
         }
@@ -72,7 +73,7 @@ fun MainContent(
             ShortcutListContent(
                 category = categoryItems[index],
                 selectionMode = selectionMode,
-                isActive = index == activeTabIndex,
+                isActive = index == pagerState.currentPage,
                 onPlaceShortcutOnHomeScreen = onPlaceShortcutOnHomeScreen,
                 onRemoveShortcutFromHomeScreen = onRemoveShortcutFromHomeScreen,
                 onSelectShortcut = onSelectShortcut,
