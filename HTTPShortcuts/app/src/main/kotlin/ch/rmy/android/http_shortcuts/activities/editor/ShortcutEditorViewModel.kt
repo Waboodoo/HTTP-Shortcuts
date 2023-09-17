@@ -141,6 +141,19 @@ constructor(
         }
         return ShortcutEditorViewState(
             shortcutExecutionType = executionType,
+            toolbarSubtitle = getToolbarSubtitle(),
+            shortcutIcon = shortcut.icon,
+            shortcutName = shortcut.name,
+            shortcutDescription = shortcut.description,
+            isExecutable = canExecute(),
+            hasChanges = hasChanges(),
+            requestBodyButtonEnabled = shortcut.allowsBody(),
+            basicSettingsSubtitle = getBasicSettingsSubtitle(),
+            headersSubtitle = getHeadersSubtitle(),
+            requestBodySubtitle = getRequestBodySubtitle(),
+            authenticationSettingsSubtitle = getAuthenticationSubtitle(),
+            scriptingSubtitle = getScriptingSubtitle(),
+            triggerShortcutsSubtitle = getTriggerShortcutsSubtitle(),
         )
     }
 
