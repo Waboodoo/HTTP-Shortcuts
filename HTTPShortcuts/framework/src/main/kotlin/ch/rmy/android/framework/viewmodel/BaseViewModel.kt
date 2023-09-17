@@ -61,6 +61,8 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         synchronized(this) {
             if (isInitializationStarted) {
                 if (data != initData) {
+                    logInfo("Previous init data = $initData")
+                    logInfo("New init data = $data")
                     logException(IllegalStateException("cannot re-initialize view model with different data"))
                 }
                 return

@@ -71,7 +71,7 @@ sealed interface NavigationDestination {
         private const val ARG_INCLUDE_RESPONSE_OPTIONS = "includeResponseOptions"
         private const val ARG_INCLUDE_NETWORK_ERROR_OPTION = "includeNetworkErrorOption"
 
-        override val path = "shortcutEditor"
+        override val path = "codeSnippetPicker"
 
         override val arguments =
             listOf(
