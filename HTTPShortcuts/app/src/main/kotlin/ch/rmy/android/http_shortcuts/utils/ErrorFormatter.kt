@@ -50,7 +50,11 @@ constructor(
         if (includeBody) {
             try {
                 tryOrLog {
-                    val responseBody = error.shortcutResponse.getContentAsString(context)
+                    val responseBody = try {
+                        error.shortcutResponse.getContentAsString(context)
+                    } catch (e: ResponseTooLargeException) {
+                        e.getLocalizedMessage(context)
+                    }
                     if (responseBody.isNotEmpty()) {
                         builder.append("\n\n")
                         builder.append(responseBody.truncate(MAX_ERROR_LENGTH))
