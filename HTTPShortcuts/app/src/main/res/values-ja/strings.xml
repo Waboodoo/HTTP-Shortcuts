@@ -2221,4 +2221,10 @@
 
     <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
     <string name="instructions_experimental_section">"このセクションには、実験的な機能の設定が含まれています。まだ正式版ではなく、不安定である可能性があります。 ご自身の責任で有効にしてください。 これらを有効にして問題が発生した場合は、開発者にメールを送信するか、Github で問題提議を作成して情報共有してください。"</string>
+
+    <!-- Name of button in settings screen that allows to cancel all scheduled shortcuts executions -->
+    <string name="settings_cancel_all_pending_executions">"全ての実行の保留をキャンセルする"</string>
+
+    <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
+    <string name="message_pending_executions_cancelled">"保留中の実行をキャンセルしました"</string>
 </resources>
