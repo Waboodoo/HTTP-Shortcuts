@@ -23,6 +23,7 @@ val okHttpVersion: String by properties
 val kotlinTestJunit5Version: String by properties
 val mockkVersion: String by properties
 val androidCoreKtxTestVersion: String by properties
+val hiltVersion: String by properties
 
 val bugsnagAPIKey: String by rootProject.ext
 val poeditorAPIKey: String by rootProject.ext
@@ -67,7 +68,7 @@ android {
         // Version name and code must remain as literals so that F-Droid can read them
         versionName = "3.5.0"
         // 11,(2 digits major),(2 digits minor),(2 digits patch),(2 digits build)
-        versionCode = 1103050003
+        versionCode = 1103060000
 
         buildConfigField("String", "BUGSNAG_API_KEY", "\"$bugsnagAPIKey\"")
         buildConfigField("String", "BUILD_TIMESTAMP", "\"${rootProject.ext["buildTimestamp"]}\"")
@@ -247,8 +248,8 @@ dependencies {
     implementation(project(path = ":framework"))
 
     /* Dependency Injection */
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
     implementation("androidx.hilt:hilt-work:1.0.0")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
@@ -261,9 +262,9 @@ dependencies {
     implementation("com.github.skydoves:colorpickerview:2.2.4")
 
     /* Compose */
-    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    implementation(platform("androidx.compose:compose-bom:2023.09.01"))
     implementation("androidx.compose.material3:material3:1.2.0-alpha07")
-    implementation("androidx.navigation:navigation-compose:2.7.2")
+    implementation("androidx.navigation:navigation-compose:2.7.3")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
@@ -278,15 +279,15 @@ dependencies {
     implementation("com.github.yalantis:ucrop:2.2.8")
 
     /* Image display */
-    implementation("io.coil-kt:coil-compose:2.3.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     /* Image meta data extraction */
     implementation("androidx.exifinterface:exifinterface:1.3.6")
 
     /* HTTP & Network */
     implementation("com.squareup.okhttp3:okhttp:$okHttpVersion")
-    implementation("com.squareup.okhttp3:okhttp-brotli:$okHttpVersion")
-    implementation("io.github.rburgst:okhttp-digest:2.6")
+    implementation("org.brotli:dec:0.1.2")
+    implementation("io.github.rburgst:okhttp-digest:3.1.0")
     implementation("com.github.franmontiel:PersistentCookieJar:v1.0.1")
     implementation("org.conscrypt:conscrypt-android:2.5.2")
 

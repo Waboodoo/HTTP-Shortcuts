@@ -11,6 +11,7 @@ val coroutinesVersion: String by properties
 val kotlinTestJunit5Version: String by properties
 val mockkVersion: String by properties
 val androidCoreKtxTestVersion: String by properties
+val hiltVersion: String by properties
 
 android {
     namespace = "ch.rmy.android.framework"
@@ -87,13 +88,13 @@ dependencies {
     api("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
     api("androidx.core:core-ktx:1.12.0@aar")
-    api("androidx.annotation:annotation:1.6.0")
+    api("androidx.annotation:annotation:1.7.0")
     api("androidx.appcompat:appcompat:1.6.1")
     api("androidx.preference:preference-ktx:1.2.1")
 
     /* Dependency Injection */
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
     /* Database */
     api("io.realm.kotlin:library-base:1.8.0")
