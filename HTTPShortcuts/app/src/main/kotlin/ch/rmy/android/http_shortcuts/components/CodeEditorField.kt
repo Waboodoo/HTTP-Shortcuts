@@ -6,8 +6,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -39,6 +44,13 @@ fun CodeEditorField(
         TextFieldDefaults.colors()
     }
 
+    var previousText by remember {
+        mutableStateOf("")
+    }
+    var previousAnnotated by remember {
+        mutableStateOf(AnnotatedString(""))
+    }
+
     TextField(
         modifier = modifier,
         colors = textFieldColors,
@@ -55,7 +67,16 @@ fun CodeEditorField(
             autoCorrect = false,
         ),
         visualTransformation = {
-            TransformedText(syntaxHighlighter.format(it.text), OffsetMapping.Identity)
+            val formatted = if (it.text == previousText) {
+                previousAnnotated
+            } else {
+                syntaxHighlighter.format(it.text)
+                    .apply {
+                        previousText = it.text
+                        previousAnnotated = this
+                    }
+            }
+            TransformedText(formatted, OffsetMapping.Identity)
         },
         minLines = minLines,
         label = if (label != null) {

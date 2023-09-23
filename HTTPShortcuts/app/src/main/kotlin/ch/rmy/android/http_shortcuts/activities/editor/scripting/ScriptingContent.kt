@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -135,12 +136,13 @@ private fun CodeSection(
         )
     }
 
-    LaunchedEffect(code) {
+    DisposableEffect(code) {
         if (code != textFieldValue.text) {
             textFieldValue = textFieldValue.copy(
                 text = code,
             )
         }
+        onDispose { }
     }
 
     if (isFocused) {

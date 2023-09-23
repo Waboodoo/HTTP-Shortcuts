@@ -31,6 +31,9 @@ class SyntaxHighlighter(
         }
 
     fun applyFormatting(builder: AnnotatedString.Builder, text: String) {
+        if (text.length > MAX_LENGTH) {
+            return
+        }
         with(builder) {
             parser.parse(language, text).forEach {
                 addStyle(theme.toSpanStyle(it), it.offset, it.offset + it.length)
@@ -61,6 +64,12 @@ class SyntaxHighlighter(
     }
 
     companion object {
+        /**
+         * Performance is impaired too much when the text gets too long, so we rather disable syntax highlighting altogether
+         * after the maximum length has been reached.
+         */
+        const val MAX_LENGTH = 4_000
+
         private val parserDeferred: Deferred<PrettifyParser> =
             CoroutineScope(Dispatchers.Default).async {
                 PrettifyParser()
