@@ -13,11 +13,11 @@ object Validation {
 
     fun isValidUrl(uri: Uri) =
         uri.scheme?.isNotEmpty() == true &&
-            uri.host?.isNotEmpty() == true &&
             uri.host?.contains("[{}<>\"']".toRegex()) != true
 
     fun isValidHttpUrl(uri: Uri) =
         isValidUrl(uri) &&
+            !uri.host.isNullOrEmpty() &&
             (
                 uri.scheme?.let { scheme ->
                     scheme.equals("http", ignoreCase = true) ||
