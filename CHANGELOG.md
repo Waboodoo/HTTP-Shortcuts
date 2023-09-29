@@ -1,3 +1,12 @@
+## Version 3.6.0
+
+### Improvements
+- The performance of the syntax highlighting in the Scripting editor was improved, allowing for larger bits of code
+- Starting an import directly from clicking a link now works more universally, as you can use a URL of the form `https://http-shortcuts.rmy.ch/import?url=[URL]` to automatically start an import from a URL
+
+### Bugfixes
+- The `openUrl()` function now works again also on Android 11 and up
+
 ## Version 3.5.0
 
 ### Improvements
