@@ -151,6 +151,7 @@ constructor(
                     }
 
                     if (oldBase.categories.singleOrNull()?.shortcuts?.isEmpty() == true) {
+                        oldBase.categories.singleOrNull()?.delete()
                         oldBase.categories.clear()
                     }
 
