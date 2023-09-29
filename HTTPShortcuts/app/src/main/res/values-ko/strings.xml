@@ -2230,7 +2230,7 @@
     </plurals>
 
     <!-- Title of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
-    <string name="settings_ignore_battery_optimizations">"배터리 최적화 제외"</string>
+    <string name="settings_ignore_battery_optimizations">"배터리 사용량 최적화 제외"</string>
 
     <!-- Label: Shown above text input field that lets the user pick the file name that should be used for storing the HTTP response into a file -->
     <string name="label_store_response_file_name">"파일명"</string>

@@ -82,7 +82,9 @@
     <string name="empty_state_shortcuts">"brak skrótów"</string>
 
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts_instructions">"Aby zacząć kliknij w +"</string>
+    <string name="empty_state_shortcuts_instructions">"Skrót pozwala na wysłanie pojedynczego żądania HTTP, opcjonalnie przetwarzając i wyświetlając odpowiedź.
+
+Kliknij przycisk +, aby rozpocząć, lub sprawdź Dokumentację w sekcji Informacje."</string>
 
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">"Nie masz jeszcze żadnych zmiennych."</string>
@@ -96,10 +98,10 @@ Kliknij przycisk +, aby dodać zmienną."</string>
     <string name="confirm_delete_shortcut_message">"Usunąć ten skrót?"</string>
 
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
-    <string name="confirm_discard_changes_message">"Istnieją niezapisane zmiany. Pominąć je?"</string>
+    <string name="confirm_discard_changes_message">"Masz niezapisane zmiany. Odrzucić zmiany?"</string>
 
     <!-- Dialog option: Discard (unsaved changes) -->
-    <string name="dialog_discard">"Pomiń"</string>
+    <string name="dialog_discard">"Odrzuć"</string>
 
     <!-- Title of fullscreen window when shortcut is executed/run -->
     <string name="title_activity_execute">"Uruchom skrót"</string>
@@ -108,7 +110,7 @@ Kliknij przycisk +, aby dodać zmienną."</string>
     <string name="executed">"%s uruchomiony"</string>
 
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
-    <string name="shortcut_not_found">"Brak skrótu. Możliwe, że musisz go dodać ponownie na ekran główny."</string>
+    <string name="shortcut_not_found">"Skrót nie znaleziony. Może być konieczne ponowne dodanie go na ekranie głównym."</string>
 
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">"Proszę wpisać nazwę"</string>
@@ -2074,6 +2076,22 @@ Może być również konieczne wykluczenie aplikacji z optymalizacji baterii. Zn
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
     <string name="label_no_repetition">"Żadnych powtórzeń"</string>
 
+    <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d minutes -->
+    <plurals name="label_repeat_every_x_minutes">
+        <item quantity="one">"Co minutę"</item>
+        <item quantity="few">"Co %d minut"</item>
+        <item quantity="many">"Co %d minut"</item>
+        <item quantity="other">"Co %d minut"</item>
+    </plurals>
+
+    <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d hours -->
+    <plurals name="label_repeat_every_x_hours">
+        <item quantity="one">"Co godzinę"</item>
+        <item quantity="few">"Co %d godziny"</item>
+        <item quantity="many">"Co %d godziny"</item>
+        <item quantity="other">"Co %d godziny"</item>
+    </plurals>
+
     <!-- Title of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
     <string name="settings_ignore_battery_optimizations">"Wyklucz z optymalizacji baterii"</string>
 
@@ -2209,13 +2227,13 @@ W przypadku certyfikatów z podpisem własnym sprawdź zamiast tego sekcję skr�
     <string name="message_user_agent_changed">"Zmieniono agenta użytkownika."</string>
 
     <!-- Dialog title: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
-    <string name="title_set_user_agent">"Zmień agenta użytkownika"</string>
+    <string name="title_set_user_agent">"Zmień User-Agent"</string>
 
     <!-- Dialog message: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
-    <string name="instructions_set_user_agent">"Ustaw niestandardowego klienta użytkownika, który będzie używany dla wszystkich żądań HTTP, lub pozostaw puste, aby użyć domyślnego."</string>
+    <string name="instructions_set_user_agent">"Ustaw niestandardowy User-Agent, który będzie używany we wszystkich żądaniach HTTP, lub pozostaw pole puste, aby użyć domyślnego."</string>
 
     <!-- Subtitle shown on biometric app unlock dialog (e.g. asking for a fingerprint) -->
-    <string name="subtitle_biometric_app_unlock_prompt">"Zmiany skrótów, zmiennych i ustawień nie są możliwe, gdy aplikacja jest zablokowana."</string>
+    <string name="subtitle_biometric_app_unlock_prompt">"Zmiany w skrótach, zmiennych lub ustawieniach nie są możliwe, gdy aplikacja jest zablokowana."</string>
 
     <!-- Button label, shown on negative button below biometric prompt for unlocking the app. clicking it allows the user to instead try unlocking the app with their password -->
     <string name="button_app_unlock_use_password">"Użyj hasła"</string>
@@ -2224,7 +2242,7 @@ W przypadku certyfikatów z podpisem własnym sprawdź zamiast tego sekcję skr�
     <string name="label_app_lock_use_biometrics">"Zezwól na odblokowanie za pomocą danych biometrycznych"</string>
 
     <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
-    <string name="label_monospace_response">"Wyświetlaj tekst przy użyciu czcionki o stałej szerokości"</string>
+    <string name="label_monospace_response">"Wyświetl tekst za pomocą czcionki o stałej szerokości"</string>
 
     <!-- Subtitle for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen. The %s is a placeholder for the directory name. -->
     <string name="subtitle_store_response_into_file_directory">"Zapisywanie w katalogu „%s”."</string>
@@ -2236,7 +2254,7 @@ W przypadku certyfikatów z podpisem własnym sprawdź zamiast tego sekcję skr�
     <string name="option_file_data_source_file_picker">"Otwórz selektor plików"</string>
 
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker for selecting multiple files -->
-    <string name="option_file_data_source_file_picker_multi">"Otwórz selektor plików (wybór wielu plików)"</string>
+    <string name="option_file_data_source_file_picker_multi">"Otwórz wybieranie plików (wybór wielu plików)"</string>
 
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open camera to take a picture -->
     <string name="option_file_data_source_camera">"Zrób zdjęcie z aparatu"</string>
@@ -2248,5 +2266,43 @@ W przypadku certyfikatów z podpisem własnym sprawdź zamiast tego sekcję skr�
     <string name="label_file_data_source_choose_file">"Wybierz plik"</string>
 
     <!-- Subtitle, shown on button for selecting a file to use as a request body or parameter. %s is a placeholder for the selected file's name -->
-    <string name="subtitle_file_data_source_choose_file">"Akta\""</string>
+    <string name="subtitle_file_data_source_choose_file">"Plik “%s”"</string>
+
+    <!-- Label on button, shown in Response settings of shortcut editor, allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
+    <string name="button_select_response_toolbar_buttons">"Pokaż przyciski paska narzędzi"</string>
+
+    <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
+    <string name="title_select_response_toolbar_buttons">"Wybierz przyciski paska narzędzi"</string>
+
+    <!-- Subtitle on button, shown in Response settings of shortcut editor, shows how many buttons the user has selected to be shown in the response window toolbar -->
+    <plurals name="subtitle_response_toolbar_actions">
+        <item quantity="one">"Wybrano 1 przycisk"</item>
+        <item quantity="few">"Wybrano %d przycisków"</item>
+        <item quantity="many">"Wybrano %d przycisków"</item>
+        <item quantity="other">"Wybrano %d przycisków"</item>
+    </plurals>
+
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu and it will be promoted as a Direct Share target, allowing easy sharing of content into that specific shortcut -->
+    <string name="label_launcher_shortcut_or_direct_share">"Pokaż w menu uruchamiania i promuj jako docelowy udział bezpośredni"</string>
+
+    <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
+    <string name="settings_title_experimental">"Eksperymentalny"</string>
+
+    <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
+    <string name="settings_title_execution_mode">"Tryb wykonania"</string>
+
+    <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
+    <string name="option_execution_mode_foreground">"Uruchamiaj skróty na pierwszym planie z wskaźnikiem ładowania (domyślnie)"</string>
+
+    <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
+    <string name="option_execution_mode_background">"Uruchamiaj skróty w tle bez wskaźnika ładowania (eksperymentalnie)"</string>
+
+    <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
+    <string name="instructions_experimental_section">"Ta sekcja zawiera ustawienia dla eksperymentalnych funkcji, które nie są jeszcze ostatecznie ustalone i mogą być niestabilne. Włącz je na własne ryzyko. Jeśli je włączysz i napotkasz problemy, proszę daj mi znać, wysyłając e-mail lub tworząc zgłoszenie na Githubie, aby podzielić się swoimi spostrzeżeniami."</string>
+
+    <!-- Name of button in settings screen that allows to cancel all scheduled shortcuts executions -->
+    <string name="settings_cancel_all_pending_executions">"Anuluj wszystkie oczekujące wykonania"</string>
+
+    <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
+    <string name="message_pending_executions_cancelled">"Oczekujące wykonania anulowane."</string>
 </resources>
