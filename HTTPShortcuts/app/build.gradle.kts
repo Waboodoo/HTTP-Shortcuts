@@ -263,7 +263,7 @@ dependencies {
 
     /* Compose */
     implementation(platform("androidx.compose:compose-bom:2023.09.01"))
-    implementation("androidx.compose.material3:material3:1.2.0-alpha07")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha08")
     implementation("androidx.navigation:navigation-compose:2.7.3")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui-tooling-preview")
