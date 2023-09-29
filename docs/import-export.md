@@ -16,7 +16,7 @@ On the Import / Export Screen you'll also find the "Edit on Computer" option. It
 If you want to share your shortcuts as a template or as part of a tutorial, you can allow others to easily import them by uploading the exported zip file somewhere on your website (or any publicly accessible host) and then constructing a deep-link URL using the following format:
 
 ```
-http-shortcuts://import?url=[URL]
+https://http-shortcuts.rmy.ch/import?url=[URL]
 ```
 
 where `[URL]` is a URL-encoded version of the URL where your exported file can be downloaded from. You can then include this deep-link URL on your website so that people can click on it to immediately import your shortcuts into their app.

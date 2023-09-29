@@ -69,7 +69,9 @@ constructor(
         host == "cancel-executions" && path?.trimEnd('/').isNullOrEmpty()
 
     private fun Uri.getImportUrl(): Uri? =
-        takeIf { host == "import" && path?.trimEnd('/').isNullOrEmpty() }
+        takeIf {
+            (host == "import" && path?.trimEnd('/').isNullOrEmpty()) || (scheme == "https" && path?.trim('/') == "import")
+        }
             ?.getQueryParameter("url")
             ?.toUri()
 
