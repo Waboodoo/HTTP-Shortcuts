@@ -68,7 +68,7 @@ android {
         // Version name and code must remain as literals so that F-Droid can read them
         versionName = "3.6.0"
         // 11,(2 digits major),(2 digits minor),(2 digits patch),(2 digits build)
-        versionCode = 1103060000
+        versionCode = 1103060001
 
         buildConfigField("String", "BUGSNAG_API_KEY", "\"$bugsnagAPIKey\"")
         buildConfigField("String", "BUILD_TIMESTAMP", "\"${rootProject.ext["buildTimestamp"]}\"")

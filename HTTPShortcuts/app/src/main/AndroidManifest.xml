@@ -151,8 +151,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
+                    android:host="http-shortcuts.rmy.ch"
                     android:path="/import"
-                    android:scheme="http-shortcuts" />
+                    android:scheme="https" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
