@@ -136,16 +136,15 @@
             android:launchMode="singleInstance"
             android:noHistory="true"
             android:theme="@style/Theme.Transparent">
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="http-shortcuts.rmy.ch"
-                    android:path="/import"
-                    android:scheme="https" />
+                <data android:host="http-shortcuts.rmy.ch" />
+                <data android:scheme="https" />
+                <data android:path="/import" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
