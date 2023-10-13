@@ -95,6 +95,7 @@ private fun LockAppDialog(
         confirmButton = stringResource(R.string.button_lock_app),
         allowEmpty = false,
         monospace = true,
+        singleLine = true,
         transformValue = {
             it.take(50)
         },
