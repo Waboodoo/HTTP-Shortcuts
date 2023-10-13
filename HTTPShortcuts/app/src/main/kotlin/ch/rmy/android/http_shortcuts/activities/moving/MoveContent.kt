@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.moving
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.moving.models.CategoryItem
 import ch.rmy.android.http_shortcuts.components.FontSize
-import ch.rmy.android.http_shortcuts.components.HelpText
+import ch.rmy.android.http_shortcuts.components.ScreenInstructionsHeaders
 import ch.rmy.android.http_shortcuts.components.ShortcutIcon
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
@@ -61,11 +60,7 @@ fun MoveContent(
     )
 
     Column {
-        Box(
-            modifier = Modifier.padding(horizontal = Spacing.MEDIUM),
-        ) {
-            HelpText(text = stringResource(R.string.message_moving_enabled))
-        }
+        ScreenInstructionsHeaders(text = stringResource(R.string.message_moving_enabled))
         LazyColumn(
             state = reorderableState.listState,
             modifier = Modifier

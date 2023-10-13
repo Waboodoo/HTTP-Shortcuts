@@ -125,12 +125,11 @@ constructor(
             } else {
                 when (selectionMode) {
                     SelectionMode.NORMAL -> showNormalStartupDialogsIfNeeded()
-                    SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT -> showToast(R.string.instructions_select_shortcut_for_home_screen, long = true)
+                    SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT -> Unit
                     SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT -> {
                         if (initData.widgetId != null) {
                             setActivityResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(initData.widgetId!!))
                         }
-                        showToast(R.string.instructions_select_shortcut_for_home_screen, long = true)
                     }
                     SelectionMode.PLUGIN -> showPluginStartupDialogsIfNeeded()
                 }

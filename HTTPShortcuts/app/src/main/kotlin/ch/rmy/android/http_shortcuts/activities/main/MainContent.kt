@@ -16,9 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.extensions.indexOfFirstOrNull
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.models.CategoryItem
+import ch.rmy.android.http_shortcuts.components.ScreenInstructionsHeaders
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
@@ -57,6 +60,13 @@ fun MainContent(
                 activeTabIndex = pagerState.currentPage,
                 onActiveCategoryIdChanged = onActiveCategoryIdChanged,
             )
+        }
+
+        when (selectionMode) {
+            SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT, SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT -> {
+                ScreenInstructionsHeaders(stringResource(R.string.instructions_select_shortcut_for_home_screen))
+            }
+            else -> Unit
         }
 
         HorizontalPager(
