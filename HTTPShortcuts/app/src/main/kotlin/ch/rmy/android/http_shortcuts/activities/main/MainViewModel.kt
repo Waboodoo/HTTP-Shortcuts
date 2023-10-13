@@ -48,6 +48,7 @@ import ch.rmy.curlcommand.CurlCommand
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.mindrot.jbcrypt.BCrypt
@@ -96,8 +97,17 @@ constructor(
             variablePlaceholderProvider.applyVariables(variableRepository.getVariables())
         }
 
+        val appLockObservable = appRepository.getObservableLock()
+        val appLock = appLockObservable.firstOrNull()
+
         observeToolbarTitle()
-        observeAppLock()
+        viewModelScope.launch {
+            appLockObservable.collect { appLock ->
+                updateViewState {
+                    copy(isLocked = appLock != null)
+                }
+            }
+        }
 
         viewModelScope.launch {
             if (initData.cancelPendingExecutions) {
@@ -110,7 +120,7 @@ constructor(
         }
 
         viewModelScope.launch {
-            if (data.importUrl != null) {
+            if (data.importUrl != null && appLock == null) {
                 navigate(NavigationDestination.ImportExport.buildRequest(data.importUrl))
             } else {
                 when (selectionMode) {
@@ -131,7 +141,7 @@ constructor(
             selectionMode = selectionMode,
             categoryItems = getCategoryTabItems(),
             activeCategoryId = initData.initialCategoryId ?: categories.first { !it.hidden }.id,
-            isLocked = false,
+            isLocked = appLock != null,
         )
     }
 
@@ -154,10 +164,10 @@ constructor(
     }
 
     private fun showNormalStartupDialogsIfNeeded() {
-        viewModelScope.launch {
+        runAction {
             delay(500.milliseconds)
             val recoveryInfo = shouldShowRecoveryDialog()
-            if (recoveryInfo != null) {
+            if (recoveryInfo != null && !viewState.isLocked) {
                 updateDialogState(
                     MainDialogState.RecoverShortcut(
                         recoveryInfo = recoveryInfo,
@@ -253,16 +263,6 @@ constructor(
             appRepository.getObservableToolbarTitle().collect { toolbarTitle ->
                 updateViewState {
                     copy(toolbarTitle = toolbarTitle)
-                }
-            }
-        }
-    }
-
-    private fun observeAppLock() {
-        viewModelScope.launch {
-            appRepository.getObservableLock().collect { appLock ->
-                updateViewState {
-                    copy(isLocked = appLock != null)
                 }
             }
         }
