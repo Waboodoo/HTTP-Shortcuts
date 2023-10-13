@@ -252,23 +252,23 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
     implementation("androidx.hilt:hilt-work:1.0.0")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-beta01")
 
     /* Support libraries */
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.core:core-splashscreen:1.0.1")
 
     /* Color picker */
-    implementation("com.github.skydoves:colorpickerview:2.2.4")
+    implementation("com.github.skydoves:colorpickerview:2.3.0")
 
     /* Compose */
-    implementation(platform("androidx.compose:compose-bom:2023.09.01"))
-    implementation("androidx.compose.material3:material3:1.2.0-alpha08")
-    implementation("androidx.navigation:navigation-compose:2.7.3")
+    implementation(platform("androidx.compose:compose-bom:2023.10.00"))
+    implementation("androidx.compose.material3:material3:1.2.0-alpha09")
+    implementation("androidx.navigation:navigation-compose:2.7.4")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
-    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation("androidx.activity:activity-compose:1.8.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
@@ -298,7 +298,7 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.8.1")
 
     /* Tasker integration */
-    implementation("com.joaomgcd:taskerpluginlibrary:0.4.7")
+    implementation("com.joaomgcd:taskerpluginlibrary:0.4.9")
 
     /* Scripting */
     // This is not the latest version, but it's the latest one that has a published artifact, and the newer ones lead to
@@ -319,7 +319,7 @@ dependencies {
     implementation("org.mindrot:jbcrypt:0.4")
 
     /* Crash Reporting */
-    "releaseFullImplementation"("com.bugsnag:bugsnag-android:5.31.1")
+    "releaseFullImplementation"("com.bugsnag:bugsnag-android:5.31.2")
 
     /* cURL import & export */
     implementation(project(path = ":curl_command"))

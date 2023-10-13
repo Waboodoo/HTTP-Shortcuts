@@ -11,12 +11,12 @@
         android:layout_height="260dp"
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
-        app:selector="@drawable/wheel" />
+        app:selector="@drawable/colorpickerview_wheel" />
 
     <com.skydoves.colorpickerview.sliders.BrightnessSlideBar
         android:id="@+id/brightnessSlideBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:selector_BrightnessSlider="@drawable/wheel" />
+        app:selector_BrightnessSlider="@drawable/colorpickerview_wheel" />
 
 </LinearLayout>

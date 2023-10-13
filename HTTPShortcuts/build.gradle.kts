@@ -15,8 +15,8 @@ buildscript {
 plugins {
     id("com.diffplug.spotless") version "6.4.2"
     id("org.jetbrains.kotlin.jvm") version "1.7.21" apply false
-    id("io.realm.kotlin") version "1.8.0" apply false
-    id("com.google.dagger.hilt.android") version "2.48" apply false
+    id("io.realm.kotlin") version "1.9.0" apply false
+    id("com.google.dagger.hilt.android") version "2.48.1" apply false
 }
 
 ext {
