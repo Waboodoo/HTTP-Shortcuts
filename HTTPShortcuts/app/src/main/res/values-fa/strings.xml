@@ -223,7 +223,8 @@
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
     <plurals name="shortcut_export_success">
-        <item quantity="other">"1 میانبر صادر شد."</item>
+        <item quantity="one">"1 میانبر صادر شد."</item>
+        <item quantity="other">"%d میانبر صادر شد."</item>
     </plurals>
 
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
@@ -241,7 +242,8 @@
 
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
     <plurals name="shortcut_import_success">
-        <item quantity="other">"1 میانبر وارد شد."</item>
+        <item quantity="one">"1 میانبر وارد شد."</item>
+        <item quantity="other">"%d میانبر وارد شد."</item>
     </plurals>
 
     <!-- Message shown in progress dialog while shortcuts are being imported -->
@@ -258,16 +260,19 @@
 
     <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="seconds">
+        <item quantity="one">"%d ثانیه"</item>
         <item quantity="other">"%d ثانیه"</item>
     </plurals>
 
     <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="milliseconds">
-        <item quantity="other">"%dمیلی ثانیه"</item>
+        <item quantity="one">"%d میلی ثانیه"</item>
+        <item quantity="other">"%d میلی ثانیه"</item>
     </plurals>
 
     <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %s is a placeholder for the actual number. -->
     <plurals name="minutes">
+        <item quantity="one">"%d دقیقه"</item>
         <item quantity="other">"%d دقیقه"</item>
     </plurals>
 
@@ -395,7 +400,8 @@
 
     <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
     <plurals name="shortcut_count">
-        <item quantity="other">"میانبر %d"</item>
+        <item quantity="one">"میانبر %d"</item>
+        <item quantity="other">"%d دقیقه"</item>
     </plurals>
 
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
@@ -801,7 +807,8 @@
 
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
     <plurals name="subtitle_request_headers_pattern">
-        <item quantity="other">"%d سرصفحه مجموعه"</item>
+        <item quantity="one">"%d هدر تنظیم شده"</item>
+        <item quantity="other">"%d هدر تنظیم شده"</item>
     </plurals>
 
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
@@ -821,7 +828,8 @@
 
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
     <plurals name="subtitle_request_body_params_pattern">
-        <item quantity="other">"%d پارامتر مجموعه"</item>
+        <item quantity="one">"%d پارامتر تنظیم شده"</item>
+        <item quantity="other">"%d پارامتر تنظیم شده"</item>
     </plurals>
 
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
@@ -1000,6 +1008,7 @@
 
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
     <plurals name="warning_variable_still_in_use_in_shortcuts">
+        <item quantity="one">"این متغیر هنوز در میانبر %2$d استفاده می‌شود: %1$s"</item>
         <item quantity="other">"این متغیر هنوز در میانبر %2$d استفاده می‌شود: %1$s"</item>
     </plurals>
 
@@ -1072,6 +1081,7 @@
     <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
     <string name="label_trigger_shortcuts_subtitle_none">"هنوز میانبری انتخاب نشده است"</string>
     <plurals name="label_trigger_shortcuts_subtitle">
+        <item quantity="one">"%d میانبر انتخاب شد"</item>
         <item quantity="other">"%d میانبر انتخاب شد"</item>
     </plurals>
 
@@ -2009,11 +2019,13 @@
 
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d minutes -->
     <plurals name="label_repeat_every_x_minutes">
+        <item quantity="one">"هر یک دقیقه"</item>
         <item quantity="other">"هر %d دقیقه"</item>
     </plurals>
 
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d hours -->
     <plurals name="label_repeat_every_x_hours">
+        <item quantity="one">"هر یک ساعت"</item>
         <item quantity="other">"هر %d ساعت"</item>
     </plurals>
 
@@ -2201,6 +2213,7 @@
 
     <!-- Subtitle on button, shown in Response settings of shortcut editor, shows how many buttons the user has selected to be shown in the response window toolbar -->
     <plurals name="subtitle_response_toolbar_actions">
+        <item quantity="one">"یک دکمه انتخاب شده است"</item>
         <item quantity="other">"%d دکمه انتخاب شده است"</item>
     </plurals>
 

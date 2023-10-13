@@ -53,7 +53,7 @@
     <string name="action_run">"실행"</string>
 
     <!-- Shortcut dropdown option: Edit the shortcut -->
-    <string name="action_edit">"편집"</string>
+    <string name="action_edit">"수정"</string>
 
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">"사본 만들기"</string>
@@ -68,25 +68,24 @@
     <string name="empty_state_shortcuts">"바로가기가 없습니다."</string>
 
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
-    <!-- Fuzzy -->
-    <string name="empty_state_shortcuts_instructions">"시작하려면 + 버튼을 클릭하세요."</string>
+    <string name="empty_state_shortcuts_instructions">"바로가기로 HTTP 요청을 보내고, 응답 내용을 처리하거나 표시할 수 있습니다.
+
+🞣 버튼을 누르면 바로 시작할 수 있고, 정보 메뉴에서 도움말(영문)을 확인할 수도 있습니다."</string>
 
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">"변수가 없습니다."</string>
 
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <!-- Fuzzy -->
-    <string name="empty_state_variables_instructions">"바로가기에 변수를 쓰면 값을 동적으로 반영할 수 있습니다. 예를 들어 URL의 일부를 매번 입력 받거나 필요에 따라 변경하고 싶다면 그 부분을 변수로 쓰면 됩니다.
-바로가기를 만들 때 “{}” 버튼을 누르면 변수를 찾아서 입력할 수 있습니다.
+    <string name="empty_state_variables_instructions">"변수를 이용하면 값을 동적으로 반영할 수 있습니다. 예를 들어 URL의 일부분을 매번 입력 받은 값으로 치환하거나, 필요에 따라 달라지게 만들고 싶다면, 그 부분을 변수로 쓰면 됩니다.
+바로가기를 만들 때 ❴❵ 버튼을 눌러 변수를 삽입할 수 있습니다.
 
-+ 버튼을 눌러 변수를 추가하세요."</string>
+🞣 버튼을 눌러 변수를 만들 수 있습니다."</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">"이 바로가기를 삭제할까요?"</string>
 
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
-    <!-- Fuzzy -->
-    <string name="confirm_discard_changes_message">"저장되지 않은 변경 사항이 있습니다. 변경 사항을 저장하지 않고 무시할까요?"</string>
+    <string name="confirm_discard_changes_message">"변경 내용을 저장하지 않고 나갈까요?"</string>
 
     <!-- Dialog option: Discard (unsaved changes) -->
     <string name="dialog_discard">"저장 안 함"</string>
@@ -98,8 +97,7 @@
     <string name="executed">"%s 실행 완료"</string>
 
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
-    <!-- Fuzzy -->
-    <string name="shortcut_not_found">"바로가기를 찾을 수 없습니다. 홈 화면에 다시 추가해야 할 수도 있습니다."</string>
+    <string name="shortcut_not_found">"바로가기가 없습니다. 홈 화면에 다시 추가해 주세요."</string>
 
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">"바로가기 이름을 입력해 주세요."</string>
@@ -114,8 +112,7 @@
     <string name="error_other">"%1$s 실패: %2$s"</string>
 
     <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
-    <!-- Fuzzy -->
-    <string name="error_response_too_large">"응답이 너무 커서 표시할 수 없습니다 (최대 %s)"</string>
+    <string name="error_response_too_large">"응답 내용이 너무 커 표시할 수 없습니다 (최대 %s)"</string>
 
     <!-- Error shown when a selected image cannot be used as an icon -->
     <!-- Fuzzy -->
@@ -149,7 +146,7 @@
     <string name="title_post_param_add_file">"파일 파라미터 추가"</string>
 
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
-    <string name="label_post_param_key">"파라미터명"</string>
+    <string name="label_post_param_key">"파라미터 이름"</string>
 
     <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
     <string name="label_post_param_file_name">"파일명 (선택사항)"</string>
@@ -170,7 +167,7 @@
     <string name="section_request_headers">"요청 헤더"</string>
 
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
-    <string name="section_request_body">"요청 바디 / 파라미터"</string>
+    <string name="section_request_body">"요청 Body · 파라미터"</string>
 
     <!-- Title of dialog to edit a custom header of a shortcut -->
     <string name="title_custom_header_edit">"헤더 수정"</string>
@@ -179,39 +176,36 @@
     <string name="title_custom_header_add">"헤더 추가"</string>
 
     <!-- Label of input field to provide name of custom header -->
-    <string name="label_custom_header_key">"헤더"</string>
+    <string name="label_custom_header_key">"헤더 이름"</string>
 
     <!-- Label of input field to provide value of custom header -->
     <string name="label_custom_header_value">"값"</string>
 
     <!-- Label of input field to provide request body of a shortcut -->
-    <string name="label_custom_body">"요청 바디"</string>
+    <string name="label_custom_body">"요청 Body"</string>
 
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">"설정"</string>
 
     <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
-    <!-- Fuzzy -->
-    <string name="menu_action_unlock_app">"설정 잠금 해제"</string>
+    <string name="menu_action_unlock_app">"앱 잠금 해제"</string>
 
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">"일반 설정"</string>
 
     <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
-    <!-- Fuzzy -->
-    <string name="settings_click_behavior">"바로가기 클릭시 동작"</string>
+    <string name="settings_click_behavior">"바로가기를 눌렀을 때"</string>
 
     <!-- Name of setting that allows the user to change the app's language -->
     <string name="settings_language">"언어"</string>
 
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: execute the shortcut (i.e., send request) -->
-    <string name="settings_click_behavior_run">"바로가기 실행하기"</string>
+    <string name="settings_click_behavior_run">"바로가기 실행"</string>
 
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: edit the shortcut -->
-    <string name="settings_click_behavior_edit">"바로가기 수정하기"</string>
+    <string name="settings_click_behavior_edit">"바로가기 수정"</string>
 
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
-    <!-- Fuzzy -->
     <string name="settings_click_behavior_menu">"옵션 메뉴 표시"</string>
 
     <!-- Section title on settings screen for privacy related settings -->
@@ -227,16 +221,15 @@
     <string name="settings_crash_reporting_disallow">"충돌 보고서 보내지 않기"</string>
 
     <!-- Button in settings page to start export of shortcuts -->
-    <string name="settings_export">"바로가기 및 변수 내보내기"</string>
+    <string name="settings_export">"바로가기·변수 내보내기"</string>
 
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
-    <!-- Fuzzy -->
     <plurals name="shortcut_export_success">
-        <item quantity="other">"바로가기 %d개 내보내기 완료"</item>
+        <item quantity="other">"바로가기 %d개를 내보냈습니다."</item>
     </plurals>
 
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
-    <string name="export_in_progress">"내보내기 중…"</string>
+    <string name="export_in_progress">"내보내는 중…"</string>
 
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="import_failed_with_reason">"바로가기 불러오기 실패:
@@ -246,17 +239,15 @@
     <string name="export_failed_with_reason">"바로가기 내보내기 실패: %s"</string>
 
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
-    <!-- Fuzzy -->
-    <string name="import_failure_reason_invalid_json">"잘못된 JSON"</string>
+    <string name="import_failure_reason_invalid_json">"JSON 형식이 아닙니다"</string>
 
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
-    <!-- Fuzzy -->
     <plurals name="shortcut_import_success">
-        <item quantity="other">"바로가기 %d개 불러오기 완료"</item>
+        <item quantity="other">"바로가기 %d개를 가져왔습니다."</item>
     </plurals>
 
     <!-- Message shown in progress dialog while shortcuts are being imported -->
-    <string name="import_in_progress">"불러오는 중…"</string>
+    <string name="import_in_progress">"가져오는 중…"</string>
 
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">"시간 제한"</string>
@@ -286,8 +277,7 @@
     <string name="pattern_minutes_seconds">"%1$s %2$s"</string>
 
     <!-- Title of option in settings to show change changelog of current and past versions -->
-    <!-- Fuzzy -->
-    <string name="settings_changelog">"변경 로그"</string>
+    <string name="settings_changelog">"업데이트 내역"</string>
 
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
     <string name="settings_changelog_summary">"버전 %1$s"</string>
@@ -302,24 +292,19 @@
     <string name="settings_github">"Github에서 보기"</string>
 
     <!-- Button subtitle for "View on Github" button -->
-    <!-- Fuzzy -->
-    <string name="settings_github_summary">"그렇습니다, 이 앱은 오픈 소스입니다"</string>
+    <string name="settings_github_summary">"네! 이 앱은 오픈 소스예요"</string>
 
     <!-- Dialog title, for changelog, shown when a new version of the app is released -->
-    <!-- Fuzzy -->
-    <string name="changelog_title_whats_new">"새로운 소식?"</string>
+    <string name="changelog_title_whats_new">"새 기능!"</string>
 
     <!-- Dialog title, for changelog, showing what's new in a release -->
-    <!-- Fuzzy -->
-    <string name="changelog_title">"변경 로그"</string>
+    <string name="changelog_title">"업데이트 내역"</string>
 
     <!-- Checkbox label, shown on Changelog dialog, allowing user to enable that the dialog shows when the app is started -->
-    <!-- Fuzzy -->
-    <string name="changelog_checkbox_show_at_startup">"시작할 때 표시"</string>
+    <string name="changelog_checkbox_show_at_startup">"시작할 때마다 보기"</string>
 
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
-    <!-- Fuzzy -->
-    <string name="execution_delayed">"인터넷에 연결되면 %1$s이(가) 실행됩니다."</string>
+    <string name="execution_delayed">"인터넷을 사용할 수 있을 때 “%1$s” 바로가기를 실행합니다."</string>
 
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
     <string name="label_wait_for_connection">"오프라인시 연결될 때까지 기다리기"</string>
@@ -331,8 +316,7 @@
     <string name="settings_play_store">"Play Store에서 보기"</string>
 
     <!-- Button subtitle for "View in Play Store" button -->
-    <!-- Fuzzy -->
-    <string name="settings_play_store_summary">"평가 및 리뷰 감사합니다"</string>
+    <string name="settings_play_store_summary">"평가와 리뷰에 감사 드립니다"</string>
 
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_duplicated">"“%1$s” 바로가기가 이미 있습니다."</string>
@@ -362,14 +346,12 @@
     <string name="dialog_checkbox_do_not_show_again">"다시 보지 않기"</string>
 
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
-    <string name="label_require_execution_confirmation">"확인 후 실행하기"</string>
+    <string name="label_require_execution_confirmation">"실행 전에 확인 요청"</string>
 
     <!-- Page title, for page listing all the libraries and 3rd party assets used in the app -->
-    <!-- Fuzzy -->
     <string name="title_licenses">"감사의 말"</string>
 
     <!-- Button, for opening page listing all the libraries and 3rd party assets used in the app -->
-    <!-- Fuzzy -->
     <string name="settings_licenses">"감사의 말"</string>
 
     <!-- Button subtitle, for "Acknowledgements" button -->
@@ -434,7 +416,7 @@
     <string name="create_variable">"새 변수"</string>
 
     <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown then the variable is evaluated -->
-    <string name="label_variable_title">"다이얼로그 제목 (선택사항)"</string>
+    <string name="label_variable_title">"선택창 제목 (선택사항)"</string>
 
     <!-- label, shown in variable editor for Date Input variable, to allow the user to specify a date format -->
     <string name="label_variable_date_format">"날짜 형식"</string>
@@ -446,34 +428,34 @@
     <string name="variable_type_constant">"일반 스태틱 변수"</string>
 
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
-    <string name="variable_type_text">"텍스트 입력하기"</string>
+    <string name="variable_type_text">"텍스트 입력 받기"</string>
 
     <!-- Type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
-    <string name="variable_type_number">"숫자 입력하기"</string>
+    <string name="variable_type_number">"숫자 입력 받기"</string>
 
     <!-- Type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
-    <string name="variable_type_slider">"숫자 슬라이더"</string>
+    <string name="variable_type_slider">"숫자 슬라이더 값 받기"</string>
 
     <!-- Type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
-    <string name="variable_type_password">"패스워드 입력하기"</string>
+    <string name="variable_type_password">"패스워드 입력 받기"</string>
 
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
-    <string name="variable_type_select">"여러 보기 중 선택하기"</string>
+    <string name="variable_type_select">"객관식 선택 받기"</string>
 
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle">"토글(전환)"</string>
 
     <!-- Type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
-    <string name="variable_type_date">"날짜 선택하기"</string>
+    <string name="variable_type_date">"날짜 선택 받기"</string>
 
     <!-- Type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
-    <string name="variable_type_time">"시간 선택하기"</string>
+    <string name="variable_type_time">"시간 선택 받기"</string>
 
     <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
-    <string name="variable_type_color">"색상 선택하기"</string>
+    <string name="variable_type_color">"색상 선택 받기"</string>
 
     <!-- Error message, information user that the variable name they entered is not valid -->
-    <string name="warning_invalid_variable_key">"변수명에는 영문(알파벳), 숫자, 언더스코어(_)만 입력해 주세요."</string>
+    <string name="warning_invalid_variable_key">"변수 이름에는 영문(알파벳), 숫자, 언더스코어(_)만 입력해 주세요."</string>
 
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
     <string name="confirm_delete_variable_message">"이 변수를 삭제할까요?"</string>
@@ -488,13 +470,13 @@
     <string name="label_json_encode">"JSON 인코드"</string>
 
     <!-- Section title, for section containing basic settings for a shortcut -->
-    <string name="section_basic_variable_settings">"기초 설정"</string>
+    <string name="section_basic_variable_settings">"기본 설정"</string>
 
     <!-- Error message, informing user that the entered variable key is empty -->
-    <string name="validation_key_non_empty">"변수명을 입력해 주세요."</string>
+    <string name="validation_key_non_empty">"변수 이름을 입력해 주세요."</string>
 
     <!-- Error message, informing user that the entered variable key already exists -->
-    <string name="validation_key_already_exists">"같은 변수명을 이미 사용 중입니다."</string>
+    <string name="validation_key_already_exists">"같은 변수 이름이 이미 있습니다."</string>
 
     <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
     <string name="title_add_toggle_option">"값 추가"</string>
@@ -509,22 +491,22 @@
     <string name="section_toggle_options">"값 전환"</string>
 
     <!-- Title, for dialog that allows user to add an option to a Selection variable -->
-    <string name="title_add_select_option">"보기 추가"</string>
+    <string name="title_add_select_option">"옵션 추가"</string>
 
     <!-- Title, for dialog that allows user to edit an existing option of a Selection variable -->
-    <string name="title_edit_select_option">"보기 수정"</string>
+    <string name="title_edit_select_option">"옵션 수정"</string>
 
     <!-- Button, to allow a user to add an option to a Selection variable -->
-    <string name="button_add_select_option">"보기 추가"</string>
+    <string name="button_add_select_option">"옵션 추가"</string>
 
     <!-- Section title, for section that lists all selectable options of a Selection variable -->
-    <string name="section_select_options">"선택할 보기들"</string>
+    <string name="section_select_options">"선택할 옵션"</string>
 
     <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Label" -->
-    <string name="label_select_label">"보여줄 이름"</string>
+    <string name="label_select_label">"선택시 보여줄 옵션명(문항)"</string>
 
     <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Value" -->
-    <string name="label_select_value">"값"</string>
+    <string name="label_select_value">"실제 값"</string>
 
     <!-- Button, for opening help article page -->
     <string name="button_show_help">"도움말 표시"</string>
@@ -543,11 +525,10 @@
 
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
     <!-- Fuzzy -->
-    <string name="help_text_code_snippet_get_variable_no_variable">"아직 변수가 없습니다. 시작하려면 아래의 CREATE 버튼을 클릭하세요."</string>
+    <string name="help_text_code_snippet_get_variable_no_variable">"이 동작을 사용하려면 값을 가져올 변수를 만들어야 합니다."</string>
 
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <!-- Fuzzy -->
-    <string name="help_text_code_snippet_set_variable_no_variable">"이 작업으로 설정할 수있는 상수 유형의 변수가 아직 없습니다. 시작하려면 아래의 CREATE 버튼을 클릭하세요."</string>
+    <string name="help_text_code_snippet_set_variable_no_variable">"이 동작을 사용하려면 값을 설정할 수 있는 스태틱 변수를 만들어야 합니다."</string>
 
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">"새 변수"</string>
@@ -562,7 +543,7 @@
     <string name="error_not_enough_toggle_values">"값을 둘 이상 추가해 주세요."</string>
 
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
-    <string name="error_not_enough_select_values">"선택할 보기를 하나 이상 추가해 주세요."</string>
+    <string name="error_not_enough_select_values">"옵션을 추가해 주세요."</string>
 
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">"날짜 형식이 잘못됐습니다."</string>
@@ -577,7 +558,7 @@
     <string name="share_title">"공유하기…"</string>
 
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
-    <string name="label_remember_value">"입력한 값을 계속 저장"</string>
+    <string name="label_remember_value">"입력한 값을 저장해 두기"</string>
 
     <!-- Action, allows the user to cancel a pending shortcut execution -->
     <string name="action_cancel_pending">"실행 대기중인 요청 취소하기"</string>
@@ -597,17 +578,16 @@
 자세한 내용은 변수 섹션의 설명서를 참조하세요."</string>
 
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
-    <!-- Fuzzy -->
-    <string name="label_allow_share_into">"'공유…' 허용"</string>
+    <string name="label_allow_share_into">"공유하기 기능으로 값 받기"</string>
 
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">"내보내기…"</string>
 
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
-    <string name="button_export_to_general">"파일로 저장하기"</string>
+    <string name="button_export_to_general">"파일로 저장"</string>
 
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
-    <string name="button_export_send_to">"다른 앱으로 공유하기"</string>
+    <string name="button_export_send_to">"다른 앱으로 공유"</string>
 
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">"바로가기 종류 선택"</string>
@@ -625,8 +605,7 @@
     <string name="title_curl_import">"cURL 명령어"</string>
 
     <!-- Instruction text for shortcut import from cURL format -->
-    <!-- Fuzzy -->
-    <string name="instructions_curl_import">"아래에 cURL 명령어를 입력하거나 붙여 넣어 새 바로가기를 만드세요."</string>
+    <string name="instructions_curl_import">"아래의 cURL 명령어로 새 바로가기를 만듭니다."</string>
 
     <!-- Text on button to start shortcut import from a cURL command -->
     <string name="curl_import_button">"변환하기"</string>
@@ -647,15 +626,13 @@
     <string name="label_launcher_shortcut">"홈 화면 위젯을 추가할 때 이 바로가기 표시하기"</string>
 
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
-    <string name="label_quick_tile_shortcut">"빠른 설정창 버튼으로 실행하기"</string>
+    <string name="label_quick_tile_shortcut">"빠른 설정창 버튼으로 시작"</string>
 
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
-    <!-- Fuzzy -->
     <string name="error_share_failed">"공유하는 동안 오류가 발생했습니다."</string>
 
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
-    <!-- Fuzzy -->
-    <string name="error_not_supported">"이 기능은 기기에서 지원되지 않습니다."</string>
+    <string name="error_not_supported">"이 기기에서 사용할 수 없는 기능입니다."</string>
 
     <!-- Generic error shown when something went wrong and there is no better error message available -->
     <string name="error_generic">"문제가 생겼습니다…"</string>
@@ -664,15 +641,13 @@
     <string name="settings_privacy_policy">"개인정보 처리방침"</string>
 
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
-    <!-- Fuzzy -->
-    <string name="settings_privacy_policy_summary">"아니요, 데이터를 도용하지 않습니다"</string>
+    <string name="settings_privacy_policy_summary">"정보를 빼가지 않는답니다"</string>
 
     <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
-    <string name="settings_lock_app_title">"잠금 설정"</string>
+    <string name="settings_lock_app_title">"앱 잠금 설정"</string>
 
     <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
-    <!-- Fuzzy -->
-    <string name="settings_lock_app_summary">"바로가기 및 설정 변경 방지"</string>
+    <string name="settings_lock_app_summary">"바로가기를 수정하거나 앱 설정을 변경할 수 없도록 합니다"</string>
 
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">"최소"</string>
@@ -681,31 +656,28 @@
     <string name="label_variable_slider_max">"최대"</string>
 
     <!-- Label above input box, for step size (numeric) value of a horizontal slider -->
-    <!-- Fuzzy -->
-    <string name="label_variable_slider_step">"단계 크기"</string>
+    <string name="label_variable_slider_step">"설정 단계"</string>
 
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
-    <!-- Fuzzy -->
-    <string name="error_slider_max_not_greater_than_min">"최대값은 최소값보다 커야합니다."</string>
+    <string name="error_slider_max_not_greater_than_min">"최댓값이 최솟값보다 커야 합니다."</string>
 
     <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
-    <!-- Fuzzy -->
-    <string name="error_slider_step_size_must_be_positive">"단계 크기는 양수이어야합니다."</string>
+    <string name="error_slider_step_size_must_be_positive">"설정 단계를 양수로 입력해 주세요"</string>
 
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
     <string name="plugin_blurb_execute_task">"“%1$s” 바로가기 실행"</string>
 
     <!-- Label of dropdown to select the request body type in shortcut editor -->
-    <string name="label_request_body_type">"요청 바디 종류"</string>
+    <string name="label_request_body_type">"요청 Body 형식"</string>
 
     <!-- Dropdown option for request body: form-data (i.e. list of parameters) -->
-    <string name="request_body_option_form_data">"파라미터 및 파일 (form-data)"</string>
+    <string name="request_body_option_form_data">"파라미터·파일 (form-data)"</string>
 
     <!-- Dropdown option for request body: x-www-form-urlencoded (i.e. list of parameters) -->
     <string name="request_body_option_x_www_form_urlencoded">"파라미터 (x-www-form-urlencoded)"</string>
 
     <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
-    <string name="request_body_option_custom_text">"텍스트 입력"</string>
+    <string name="request_body_option_custom_text">"원문 직접 입력"</string>
 
     <!-- Label above input box for Request Content-Type -->
     <string name="label_content_type">"Content-Type"</string>
@@ -714,38 +686,31 @@
     <string name="button_copy_curl_export">"복사"</string>
 
     <!-- Section title in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
-    <!-- Fuzzy -->
     <string name="label_response_handling">"응답 처리"</string>
 
     <!-- Section subtitle in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
-    <!-- Fuzzy -->
-    <string name="label_response_handling_subtitle">"응답 처리 방법 정의"</string>
+    <string name="label_response_handling_subtitle">"응답을 어떻게 처리할지 정합니다"</string>
 
     <!-- Section title in shortcut editor: "Scripting", allows to write scripts for advanced workflows -->
     <string name="label_scripting">"스크립트 실행"</string>
 
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
-    <!-- Fuzzy -->
-    <string name="label_scripting_subtitle">"실행 전후에 JavaScript 코드 실행"</string>
+    <string name="label_scripting_subtitle">"실행 전·후 JavaScript 코드 실행"</string>
 
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
-    <!-- Fuzzy -->
-    <string name="label_scripting_browser_shortcuts_subtitle">"실행하기 전에 JavaScript 코드를 실행하세요"</string>
+    <string name="label_scripting_browser_shortcuts_subtitle">"실행 전 JavaScript 코드 실행"</string>
 
     <!-- Section title in shortcut editor, groups together technical settings -->
-    <!-- Fuzzy -->
-    <string name="label_advanced_technical_settings">"고급 기술 설정"</string>
+    <string name="label_advanced_technical_settings">"고급 설정"</string>
 
     <!-- Section subtitle in shortcut editor, shown below "Advanced Technical Settings" -->
-    <!-- Fuzzy -->
-    <string name="label_advanced_technical_settings_subtitle">"전문가용"</string>
+    <string name="label_advanced_technical_settings_subtitle">"이런 옵션이 무엇을 의미하는지 이해하는 분들을 위한 설정"</string>
 
     <!-- Shortcut Action Title: Show Toast (small popup message) -->
-    <!-- Fuzzy -->
-    <string name="action_type_toast_title">"Toast 표시"</string>
+    <string name="action_type_toast_title">"Toast 팝업"</string>
 
     <!-- Shortcut Action Title: Show Dialog -->
-    <string name="action_type_dialog_title">"다이얼로그 표시"</string>
+    <string name="action_type_dialog_title">"선택창 열기"</string>
 
     <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->
     <string name="action_copy_to_clipboard_title">"클립보드에 복사하기"</string>
@@ -754,17 +719,15 @@
     <string name="action_type_vibrate_title">"진동"</string>
 
     <!-- Shortcut Action Title: Change Shortcut Name -->
-    <string name="action_type_rename_shortcut_title">"바로가기명 수정"</string>
+    <string name="action_type_rename_shortcut_title">"바로가기 이름 바꾸기"</string>
 
     <!-- Shortcut Action Title: Change Shortcut Icon -->
     <string name="action_type_change_icon_title">"바로가기 아이콘 변경"</string>
 
     <!-- Shortcut Action Title: Trigger a shortcut, i.e., execute it -->
-    <!-- Fuzzy -->
-    <string name="action_type_trigger_shortcut_title">"바로가기 트리거"</string>
+    <string name="action_type_trigger_shortcut_title">"바로가기 시작(또는 대기)"</string>
 
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
-    <!-- Fuzzy -->
     <string name="action_type_abort_execution">"실행 중단"</string>
 
     <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
@@ -784,27 +747,22 @@
     <string name="error_invalid_content_type">"잘못된 콘텐츠 유형 (%s)."</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid header -->
-    <!-- Fuzzy -->
-    <string name="error_invalid_header">"잘못된 헤더 (%s)."</string>
+    <string name="error_invalid_header">"“%s” 헤더에 문제가 있습니다."</string>
 
     <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
-    <!-- Fuzzy -->
-    <string name="title_select_placement_method">"배치 방법"</string>
+    <string name="title_select_placement_method">"추가 방법"</string>
 
     <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->
-    <!-- Fuzzy -->
-    <string name="description_select_placement_method">"바로가기를 배치하는 데 사용할 방법을 선택하세요. \"기본\"방법에 문제가 발생하면 대신 \"레거시\"방법을 사용해보세요. 레거시 방법으로는 일부 기능(예: 바로가기 이름 변경)을 사용할 수 없습니다."</string>
+    <string name="description_select_placement_method">"바로가기 추가 방식을 선택해 주세요. “기본” 방식으로 문제가 생긴다면 “옛 방식”을 사용해 주세요. 단, 옛 방식을 사용하면 이름 변경 등 일부 기능을 사용할 수 없습니다."</string>
 
     <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
     <string name="label_placement_method_default">"기본"</string>
 
     <!-- Label: Alternative option in dialog for selecting how to place the shortcut on the homescreen: Legacy (method) -->
-    <!-- Fuzzy -->
-    <string name="label_placement_method_legacy">"레거시"</string>
+    <string name="label_placement_method_legacy">"옛 방식"</string>
 
     <!-- Dialog message to prompt user to confirm execution of shortcut -->
-    <!-- Fuzzy -->
-    <string name="dialog_message_confirm_shortcut_execution">"이 바로가기를 실행하시겠습니까?"</string>
+    <string name="dialog_message_confirm_shortcut_execution">"이 바로가기를 실행할까요?"</string>
 
     <!-- Dialog title: Unlock the app (after it was locked. user is required to enter a password) -->
     <string name="dialog_title_unlock_app">"앱 잠금 해제"</string>
@@ -813,38 +771,31 @@
     <string name="button_unlock_app">"잠금 해제"</string>
 
     <!-- Dialog text: Asks user to enter a password to unlock the app's settings -->
-    <!-- Fuzzy -->
-    <string name="dialog_text_unlock_app">"앱 설정을 잠금 해제하려면 암호를 입력하세요."</string>
+    <string name="dialog_text_unlock_app">"앱 잠금을 해제하려면 패스워드를 입력해 주세요."</string>
 
     <!-- Dialog text: Asks user to enter the password to unlock the app's settings again, after an incorrect try -->
-    <!-- Fuzzy -->
-    <string name="dialog_text_unlock_app_retry">"잘못된 암호. 다시 시도하세요."</string>
+    <string name="dialog_text_unlock_app_retry">"패스워드를 잘못 입력했습니다. 다시 입력해 주세요."</string>
 
     <!-- Dialog title: Asks user to enter a password to lock the app's settings -->
-    <string name="dialog_title_lock_app">"앱 잠금"</string>
+    <string name="dialog_title_lock_app">"앱 잠금 설정"</string>
 
     <!-- Dialog text: Asks user to enter a password to lock the app's settings -->
-    <!-- Fuzzy -->
-    <string name="dialog_text_lock_app">"암호를 입력하여 앱 설정을 잠그고 바로가기가 수정되지 않도록 하세요."</string>
+    <string name="dialog_text_lock_app">"앱 설정을 잠그고 바로가기·변수를 수정하지 못하게 하려면 패스워드를 입력해 주세요."</string>
 
     <!-- Dialog button: Lock the app (by entering a password) -->
-    <string name="button_lock_app">"잠금"</string>
+    <string name="button_lock_app">"잠금 설정"</string>
 
     <!-- Snackbar message: App was locked (settings can no longer be changed) -->
-    <!-- Fuzzy -->
-    <string name="message_app_locked">"앱이 잠겨 있습니다."</string>
+    <string name="message_app_locked">"앱 잠금을 설정했습니다."</string>
 
     <!-- Snackbar message: App was unlocked (settings can be changed again) -->
-    <!-- Fuzzy -->
-    <string name="message_app_unlocked">"앱 잠금이 해제되었습니다."</string>
+    <string name="message_app_unlocked">"앱 잠금을 해제했습니다."</string>
 
     <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
-    <!-- Fuzzy -->
-    <string name="warning_data_saver_battery_saver_enabled">"기기에서 데이터 세이버 및/또는 배터리 세이버 모드가 활성화되어 있습니다. 바로가기가 작동하지 않는 문제가 발생하면 이 모드를 비활성화하세요."</string>
+    <string name="warning_data_saver_battery_saver_enabled">"기기 설정에 따라 이 앱에 데이터 절약 모드 및 배터리 사용량 최적화를 사용 중입니다. 두 설정 모두에서 이 앱을 제외하지 않으면 바로가기가 제대로 작동하지 않을 수도 있습니다."</string>
 
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
-    <!-- Fuzzy -->
-    <string name="message_variable_duplicated">"\"%1$s\"이(가) 중복되었습니다."</string>
+    <string name="message_variable_duplicated">"“%1$s” 변수가 이미 존재합니다."</string>
 
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">"바로가기 URL과 HTTP 메소드 설정"</string>
@@ -856,84 +807,65 @@
     <string name="subtitle_basic_request_settings_pattern">"%1$s %2$s"</string>
 
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
-    <!-- Fuzzy -->
-    <string name="subtitle_request_headers_none">"헤더가 설정되지 않았습니다"</string>
+    <string name="subtitle_request_headers_none">"헤더를 추가하지 않았습니다"</string>
 
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
-    <!-- Fuzzy -->
     <plurals name="subtitle_request_headers_pattern">
-        <item quantity="other">"%d 헤더 세트"</item>
+        <item quantity="other">"추가한 헤더 %d개"</item>
     </plurals>
 
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
-    <!-- Fuzzy -->
-    <string name="subtitle_authentication_none">"인증 안함"</string>
+    <string name="subtitle_authentication_none">"인증 없음"</string>
 
     <!-- Section subtitle, shown in shortcut editor when no Basic Authentication is enabled -->
-    <!-- Fuzzy -->
     <string name="subtitle_authentication_basic">"사용자명과 패스워드로 단순 인증"</string>
 
     <!-- Section subtitle, shown in shortcut editor when Digest Authentication is enabled -->
-    <!-- Fuzzy -->
-    <string name="subtitle_authentication_digest">"사용자 이름과 암호로 요약 인증"</string>
+    <string name="subtitle_authentication_digest">"사용자명과 패스워드로 Digest 인증"</string>
 
     <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
-    <!-- Fuzzy -->
-    <string name="subtitle_authentication_bearer">"토큰으로 베어러 인증"</string>
+    <string name="subtitle_authentication_bearer">"토큰으로 Bearer 인증"</string>
 
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
-    <!-- Fuzzy -->
-    <string name="subtitle_request_body_params_none">"매개변수가 설정되지 않았습니다"</string>
+    <string name="subtitle_request_body_params_none">"파라미터를 설정하지 않았습니다"</string>
 
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
-    <!-- Fuzzy -->
     <plurals name="subtitle_request_body_params_pattern">
-        <item quantity="other">"%d 매개변수 세트"</item>
+        <item quantity="other">"현재 설정: 파라미터(%d개) 전송"</item>
     </plurals>
 
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
-    <!-- Fuzzy -->
-    <string name="subtitle_request_body_none">"요청 본문이 없습니다."</string>
+    <string name="subtitle_request_body_none">"요청 Body 내용이 없습니다"</string>
 
     <!-- Section subtitle, shown in shortcut editor when a custom request body is set. %s is a placeholder for the data type, e.g. application/json -->
-    <!-- Fuzzy -->
-    <string name="subtitle_request_body_custom">"맞춤 요청 본문 세트 (%s)"</string>
+    <string name="subtitle_request_body_custom">"현재 설정: 원문(%s) 전송"</string>
 
     <!-- Section subtitle, shown for "Custom Request Body" option when it is not available because the selected HTTP method (%1$s) does not support a request body -->
-    <!-- Fuzzy -->
-    <string name="subtitle_request_body_not_available">"%1$s에는 적용되지 않습니다"</string>
+    <string name="subtitle_request_body_not_available">"%1$s 메소드에 해당 없음"</string>
 
     <!-- Empty state, shown in list when there are no custom request headers yet -->
-    <!-- Fuzzy -->
-    <string name="empty_state_request_headers">"헤더가 설정되지 않았습니다"</string>
+    <string name="empty_state_request_headers">"추가한 헤더가 없습니다"</string>
 
     <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
-    <!-- Fuzzy -->
-    <string name="empty_state_request_headers_instructions">"+ 버튼을 클릭하여 요청 헤더를 추가하세요."</string>
+    <string name="empty_state_request_headers_instructions">"🞣 버튼을 눌러 요청 헤더를 추가할 수 있습니다."</string>
 
     <!-- Empty state, shown in list when there are no request parameters yet -->
-    <!-- Fuzzy -->
-    <string name="empty_state_request_parameters">"매개변수가 설정되지 않았습니다"</string>
+    <string name="empty_state_request_parameters">"설정한 파라미터가 없습니다"</string>
 
     <!-- Empty state instructions, shown in list when there are no parameters yet -->
-    <!-- Fuzzy -->
-    <string name="empty_state_request_parameters_instructions">"+ 버튼을 클릭하여 매개변수를 추가하세요."</string>
+    <string name="empty_state_request_parameters_instructions">"🞣 버튼을 눌러 파라미터를 추가할 수 있습니다."</string>
 
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor. -->
-    <!-- Fuzzy -->
     <string name="label_follow_redirects">"리디렉션 따르기"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
-    <!-- Fuzzy -->
-    <string name="label_pre_request_script">"실행하기 전에 실행"</string>
+    <string name="label_pre_request_script">"실행하기 전 실행"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
-    <!-- Fuzzy -->
-    <string name="label_post_request_success_script">"성공 후 실행"</string>
+    <string name="label_post_request_success_script">"성공했을 때 실행"</string>
 
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut fails -->
-    <!-- Fuzzy -->
-    <string name="label_post_request_failure_script">"실패 후 실행"</string>
+    <string name="label_post_request_failure_script">"실패했을 때 실행"</string>
 
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">"오류"</string>
@@ -955,7 +887,7 @@
     <string name="dialog_code_snippet_variables">"변수"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
-    <string name="dialog_code_snippet_response_body">"응답 바디"</string>
+    <string name="dialog_code_snippet_response_body">"응답 Body"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response headers -->
     <string name="dialog_code_snippet_response_headers">"응답 헤더 전체"</string>
@@ -976,16 +908,13 @@
     <string name="dialog_code_snippet_set_variable">"변수 값 쓰기"</string>
 
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <!-- Fuzzy -->
-    <string name="error_shortcut_not_found_for_triggering">"바로가기 \"%1$s\"이(가) 없기 때문에 트리거할 수 없습니다."</string>
+    <string name="error_shortcut_not_found_for_triggering">"“%1$s” 바로가기가 없어 시작할 수 없습니다."</string>
 
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <!-- Fuzzy -->
-    <string name="error_shortcut_not_found_for_renaming">"바로가기 \"%1$s\"이(가) 없기 때문에 이름을 바꿀 수 없습니다."</string>
+    <string name="error_shortcut_not_found_for_renaming">"“%1$s” 바로가기가 없어 이름을 바꿀 수 없습니다."</string>
 
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <!-- Fuzzy -->
-    <string name="error_shortcut_not_found_for_changing_icon">"바로가기 \"%1$s\" 아이콘이 없기 때문에 아이콘을 변경할 수 없습니다."</string>
+    <string name="error_shortcut_not_found_for_changing_icon">"“%1$s” 바로가기가 없어 아이콘을 바꿀 수 없습니다."</string>
 
     <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
     <string name="settings_dark_theme_options_on">"다크"</string>
@@ -1009,21 +938,18 @@
     <string name="title_set_title">"앱 제목 설정"</string>
 
     <!-- Dialog title: Shown in dialog title when entering the URL to import shortcuts from -->
-    <!-- Fuzzy -->
-    <string name="dialog_title_import_from_url">"URL에서 가져 오기"</string>
+    <string name="dialog_title_import_from_url">"URL에서 가져오기"</string>
 
     <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
-    <!-- Fuzzy -->
-    <string name="error_can_only_import_from_http_url">"유효한 http(s) URL에서만 가져올 수 있습니다"</string>
+    <string name="error_can_only_import_from_http_url">"http(s) URL을 잘못 입력했습니다"</string>
 
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
-    <string name="action_quick_settings_tile_trigger">"바로가기 실행"</string>
+    <string name="action_quick_settings_tile_trigger">"바로가기 시작"</string>
 
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <!-- Fuzzy -->
-    <string name="instructions_quick_settings_tile">"빠른 설정 타일을 통해 트리거할 수 있는 바로가기가 아직 없습니다.
+    <string name="instructions_quick_settings_tile">"빠른 설정창 버튼으로 시작할 수 있는 바로가기가 없습니다.
 
-바로가기를 편집하고 \"%2$s\"에 있는 \"%1$s\"확인란을 선택하여 이 기능을 활성화할 수 있습니다."</string>
+실행하려는 바로가기의 “%1$s”에서 “%1$s” 옵션을 사용해 주세요."</string>
 
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">"응답 코드"</string>
@@ -1044,12 +970,10 @@
     <string name="dialog_title_parameter_type">"파라미터 종류"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
-    <!-- Fuzzy -->
-    <string name="option_parameter_type_string">"문자열 (기본값)"</string>
+    <string name="option_parameter_type_string">"텍스트"</string>
 
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
-    <!-- Fuzzy -->
-    <string name="option_parameter_type_file">"단일 파일"</string>
+    <string name="option_parameter_type_file">"파일"</string>
 
     <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
     <string name="subtitle_parameter_value_file">"파일"</string>
@@ -1075,8 +999,7 @@
     <string name="label_show_widget_label">"라벨 표시"</string>
 
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
-    <!-- Fuzzy -->
-    <string name="action_create_widget">"위젯 생성"</string>
+    <string name="action_create_widget">"위젯 추가"</string>
 
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
     <string name="title_configure_widget">"위젯 구성"</string>
@@ -1103,14 +1026,13 @@
     <string name="label_variable_name">"이름"</string>
 
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
-    <!-- Fuzzy -->
-    <string name="button_description_create_browser_shortcut">"브라우저에서 URL을 여세요"</string>
+    <string name="button_description_create_browser_shortcut">"브라우저에서 열기"</string>
 
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">"스크립트 바로가기"</string>
 
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
-    <string name="button_description_create_scripting_shortcut">"JavaScript 코드로 고급 작업 수행하기"</string>
+    <string name="button_description_create_scripting_shortcut">"JavaScript 코드를 이용한 고급 작업 만들기"</string>
 
     <!-- Option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
     <string name="button_create_trigger_shortcut">"멀티 바로가기"</string>
@@ -1119,8 +1041,7 @@
     <string name="button_description_create_trigger_shortcut">"다른 바로가기들을 한 번에 실행하기"</string>
 
     <!-- Dropdown option for request body: file (i.e., user gets to pick a file which is used as the request body) -->
-    <!-- Fuzzy -->
-    <string name="request_body_option_file">"파일 (선택기)"</string>
+    <string name="request_body_option_file">"파일"</string>
 
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
     <string name="label_scripting_scripting_shortcuts_subtitle">"JavaScript 코드 실행"</string>
@@ -1138,27 +1059,22 @@
     <string name="subtitle_editor_toolbar_trigger_shortcut">"멀티 바로가기"</string>
 
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
-    <!-- Fuzzy -->
-    <string name="subtitle_request_body_file">"파일 요청 본문 세트"</string>
+    <string name="subtitle_request_body_file">"현재 설정: 파일 전송"</string>
 
     <!-- Error: Shown when the text-to-speech action fails to speak a piece of text -->
-    <!-- Fuzzy -->
-    <string name="error_tts_failed">"텍스트를 말하지 못했습니다"</string>
+    <string name="error_tts_failed">"글자 읽어주기 오류"</string>
 
     <!-- Label: Option shown in Code Snippet Picker when inserting an action that targets a shortcut, allows to target the current shortcut -->
-    <!-- Fuzzy -->
     <string name="label_insert_action_code_for_current_shortcut">"현재 바로가기"</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code -->
     <string name="placeholder_javascript_code_generic">"JavaScript 코드를 입력해 주세요"</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the shortcut -->
-    <!-- Fuzzy -->
-    <string name="placeholder_javascript_code_before">"바로가기를 실행하기 전에 (예: 일부 변수 준비) JavaScript 코드를 여기에 추가하세요."</string>
+    <string name="placeholder_javascript_code_before">"바로가기를 실행하기 전, 변수를 준비하는 등의 JavaScript 코드를 추가할 수 있습니다."</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs after the shortcut on success -->
-    <!-- Fuzzy -->
-    <string name="placeholder_javascript_code_success">"응답을 처리하는 등, 바로가기가 실행된 후에 실행되도록 JavaScript 코드를 여기에 추가하세요."</string>
+    <string name="placeholder_javascript_code_success">"바로가기를 실행하고 나서, 응답을 처리하는 등의 JavaScript 코드를 추가할 수 있습니다."</string>
 
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs when execution fails -->
     <!-- Fuzzy -->
@@ -1168,16 +1084,12 @@
     <string name="label_trigger_shortcuts">"바로가기"</string>
 
     <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
-    <!-- Fuzzy -->
-    <string name="label_trigger_shortcuts_subtitle_none">"아직 바로가기가 선택되지 않았습니다"</string>
-
-    <!-- Fuzzy -->
+    <string name="label_trigger_shortcuts_subtitle_none">"바로가기를 선택하지 않았습니다"</string>
     <plurals name="label_trigger_shortcuts_subtitle">
-        <item quantity="other">"%d 바로가기가 선택됨"</item>
+        <item quantity="other">"바로가기 %d개 선택"</item>
     </plurals>
 
     <!-- Dialog title: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <!-- Fuzzy -->
     <string name="title_add_trigger_shortcut">"바로가기 추가"</string>
 
     <!-- Dialog error message: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed but the user doesn't have any shortcuts yet -->
@@ -1185,61 +1097,49 @@
     <string name="error_add_trigger_shortcut_no_shortcuts">"추가할 수 있는 바로가기가 없습니다. 여기서 바로가기를 선택하기 전에 먼저 추가로 바로가기를 만들어야합니다."</string>
 
     <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <!-- Fuzzy -->
-    <string name="title_remove_trigger_shortcut">"바로가기 제거"</string>
+    <string name="title_remove_trigger_shortcut">"바로가기 삭제"</string>
 
     <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <!-- Fuzzy -->
-    <string name="message_remove_trigger_shortcut">"트리거된 바로가기 목록에서 바로가기 \"%s\"을(를) 제거하시겠습니까?"</string>
+    <string name="message_remove_trigger_shortcut">"실행 목록에서 “%1$s” 바로가기를 제외할까요?"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
-    <!-- Fuzzy -->
-    <string name="action_type_prompt_title">"텍스트 프롬프트"</string>
+    <string name="action_type_prompt_title">"텍스트 입력 받기"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to confirm something -->
-    <!-- Fuzzy -->
     <string name="action_type_confirm_title">"확인 요청"</string>
 
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
     <string name="action_type_wait">"대기"</string>
 
     <!-- Shortcut Action Title: Get the IP Address of the current WiFi -->
-    <!-- Fuzzy -->
-    <string name="action_type_get_wifi_ip_address">"WiFi에서 IP 주소 받기"</string>
+    <string name="action_type_get_wifi_ip_address">"Wi-Fi의 IP 주소"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
-    <!-- Fuzzy -->
-    <string name="dialog_code_snippet_shortcut_info">"바로가기 정보"</string>
+    <string name="dialog_code_snippet_shortcut_info">"현재 바로가기 정보"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to interact with the user (show dialog, prompt for input, ...) -->
-    <!-- Fuzzy -->
-    <string name="dialog_code_snippet_user_interaction">"사용자 상호 작용"</string>
+    <string name="dialog_code_snippet_user_interaction">"UI 소통"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to modify shortcuts -->
-    <!-- Fuzzy -->
     <string name="dialog_code_snippet_modify_shortcuts">"바로가기 수정"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to control the flow of the script (abort, if-else, ...) -->
-    <!-- Fuzzy -->
-    <string name="dialog_code_snippet_control_flow">"흐름 제어"</string>
+    <string name="dialog_code_snippet_control_flow">"진행 흐름"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to don't belong in any of the other categories -->
     <string name="dialog_code_snippet_misc">"기타"</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
-    <!-- Fuzzy -->
-    <string name="dialog_code_snippet_get_shortcut_id">"바로가기 ID 받기"</string>
+    <string name="dialog_code_snippet_get_shortcut_id">"이 바로가기의 ID"</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the name of the current shortcut -->
-    <!-- Fuzzy -->
-    <string name="dialog_code_snippet_get_shortcut_name">"바로가기 이름 가져 오기"</string>
+    <string name="dialog_code_snippet_get_shortcut_name">"이 바로가기의 이름"</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
-    <!-- Fuzzy -->
-    <string name="dialog_code_snippet_get_shortcut_description">"바로가기 설명 받기"</string>
+    <string name="dialog_code_snippet_get_shortcut_description">"이 바로가기의 설명"</string>
 
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a json object -->
-    <string name="dialog_code_snippet_response_body_json">"응답 본문을 JSON으로 가져 오기"</string>
+    <string name="dialog_code_snippet_response_body_json">"응답 Body 형식을 JSON으로 설정"</string>
 
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid bearer auth token configured -->
     <string name="error_invalid_bearer_auth">"Bearer 인증 토큰이 잘못됐습니다: %s"</string>
@@ -1251,34 +1151,28 @@
     <string name="action_type_send_intent_title">"Intent 보내기"</string>
 
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
-    <!-- Fuzzy -->
-    <string name="error_action_type_send_intent_failed">"Intent를 보내지 못했습니다: %s"</string>
+    <string name="error_action_type_send_intent_failed">"Intent 전송 실패: %s"</string>
 
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
-    <!-- Fuzzy -->
     <string name="settings_troubleshooting">"문제 해결"</string>
 
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
-    <!-- Fuzzy -->
-    <string name="label_response_on_success">"성공한 경우"</string>
+    <string name="label_response_on_success">"성공했을 때"</string>
 
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
-    <string name="label_response_on_failure">"실패한 경우"</string>
+    <string name="label_response_on_failure">"실패했을 때"</string>
 
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
-    <!-- Fuzzy -->
-    <string name="label_include_meta_information">"메타 정보 표시"</string>
+    <string name="label_include_meta_information">"메타데이터 표시"</string>
 
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
-    <!-- Fuzzy -->
-    <string name="label_response_handling_type">"디스플레이 유형"</string>
+    <string name="label_response_handling_type">"표시 방법"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
-    <!-- Fuzzy -->
-    <string name="option_response_handling_type_toast">"토스트 팝업"</string>
+    <string name="option_response_handling_type_toast">"Toast 팝업"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
-    <string name="option_response_handling_type_dialog">"다이얼로그 창"</string>
+    <string name="option_response_handling_type_dialog">"선택창"</string>
 
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
     <string name="option_response_handling_type_window">"전체화면"</string>
@@ -1305,12 +1199,10 @@
     <string name="label_response_handling_success_message">"메시지"</string>
 
     <!-- Shortcut dropdown option: export the shortcut -->
-    <!-- Fuzzy -->
     <string name="action_export">"내보내기"</string>
 
     <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL) -->
-    <!-- Fuzzy -->
-    <string name="title_export_shortcut_as">"내보내기…"</string>
+    <string name="title_export_shortcut_as">"내보내기 방법"</string>
 
     <!-- Dialog option, for exporting a single shortcut as cURL -->
     <string name="action_export_as_curl">"cURL 명령어"</string>
@@ -1331,47 +1223,38 @@
     <string name="dialog_help">"도움말"</string>
 
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
-    <!-- Fuzzy -->
-    <string name="action_type_selection_title">"선택 항목 표시(객관식)"</string>
+    <string name="action_type_selection_title">"객관식 옵션 제시"</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to process text (e.g. encoding, hashing, ...) -->
     <string name="dialog_code_snippet_text_processing">"텍스트 처리"</string>
 
     <!-- Error message: Shown when user tries to use an unsupported hash function -->
-    <!-- Fuzzy -->
-    <string name="error_unsupported_hash_algorithm">"지원되지 않는 해시 알고리즘 \"%1$s\". %2$s를 사용하세요."</string>
+    <string name="error_unsupported_hash_algorithm">"“%1$s” 알고리즘을 사용할 수 없습니다. “%2$s” 알고리즘을 사용해 주세요."</string>
 
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
-    <!-- Fuzzy -->
-    <string name="settings_remote_edit">"컴퓨터에서 수정"</string>
+    <string name="settings_remote_edit">"PC에서 수정하기"</string>
 
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <!-- Fuzzy -->
     <string name="instructions_remote_edit">"이 기능을 사용하면 브라우저에서 편안하게 컴퓨터의 바로 가기를 편집할 수 있습니다. 시작하기 전에 앱의 개인 정보 보호 정책을 읽고 다음 단계를 따르십시오."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
-    <!-- Fuzzy -->
-    <string name="instructions_remote_edit_step_1">"위의 필드에 암호를 입력하십시오."</string>
+    <string name="instructions_remote_edit_step_1">"위 입력란에 패스워드를 입력해 주세요."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: click the push button -->
-    <!-- Fuzzy -->
-    <string name="instructions_remote_edit_step_2">"&lt;pre&gt;\"서버로 푸시\"&lt;/pre&gt; 버튼을 클릭합니다."</string>
+    <string name="instructions_remote_edit_step_2">"&lt;pre&gt;“서버로 푸시”&lt;/pre&gt; 버튼을 클릭해 주세요."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
-    <!-- Fuzzy -->
-    <string name="instructions_remote_edit_step_3">"컴퓨터의 브라우저에서 %s를 열고 장치 ID와 암호를 입력하고 편집을 시작하십시오."</string>
+    <string name="instructions_remote_edit_step_3">"PC에서 %s 사이트를 열고, 기기 ID와 패스워드를 입력하면 수정할 수 있습니다."</string>
 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <!-- Fuzzy -->
-    <string name="instructions_remote_edit_step_4">"편집을 마치고 변경 사항을 저장했으면 아래의 &lt;pre&gt;\"변경 사항 가져오기\"&lt;/pre&gt; 버튼을 클릭하여 변경 사항을 앱으로 다시 다운로드하세요."</string>
+    <string name="instructions_remote_edit_step_4">"변경 내용을 저장하고 아래의 &lt;pre&gt;“변경 내용 가져오기”&lt;/pre&gt; 버튼을 클릭하면 변경한 내용을 앱으로 가져옵니다."</string>
 
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
-    <!-- Fuzzy -->
-    <string name="button_remote_edit_upload">"서버로 푸시"</string>
+    <string name="button_remote_edit_upload">"서버에 보내기"</string>
 
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
-    <!-- Fuzzy -->
-    <string name="button_remote_edit_download">"풀 변경 사항"</string>
+    <string name="button_remote_edit_download">"변경 내용 가져오기"</string>
 
     <!-- Label: Shown above a textfield with the device's ID, used to log in to edit server when editing shortcuts on a computer -->
     <string name="label_remote_edit_device_id">"기기 ID"</string>
@@ -1380,31 +1263,24 @@
     <string name="label_remote_edit_password">"패스워드"</string>
 
     <!-- Status message shown while shortcuts & variables are being pushed to the remote server, shown on progress dialog -->
-    <!-- Fuzzy -->
-    <string name="remote_edit_upload_in_progress">"서버로 푸시하는 중…"</string>
+    <string name="remote_edit_upload_in_progress">"서버에 보내는 중…"</string>
 
     <!-- Status message shown while changes to shortcuts & variables are being pulled down from the remote server, shown on progress dialog -->
-    <!-- Fuzzy -->
-    <string name="remote_edit_download_in_progress">"변경사항을 가져오는 중…"</string>
+    <string name="remote_edit_download_in_progress">"변경 내용을 가져오는 중…"</string>
 
     <!-- Message: Success message shown in snackbar when pushing shortcuts and variables to the editing server was successful -->
-    <!-- Fuzzy -->
-    <string name="message_remote_edit_upload_successful">"성공적으로 서버에 푸시되었습니다."</string>
+    <string name="message_remote_edit_upload_successful">"서버에 보냈습니다."</string>
 
     <!-- Message: Success message shown in snackbar when pulling changes to shortcuts and variables from the editing server was successful -->
-    <!-- Fuzzy -->
-    <string name="message_remote_edit_download_successful">"변경사항을 가져왔습니다."</string>
+    <string name="message_remote_edit_download_successful">"변경 내용을 가져왔습니다."</string>
 
     <!-- Error message: shown in dialog when pushing shortcuts to the editing server failed -->
-    <!-- Fuzzy -->
-    <string name="error_remote_edit_upload">"서버에 푸시하지 못했습니다. 나중에 다시 시도 해주십시오."</string>
+    <string name="error_remote_edit_upload">"서버에 보내지 못했습니다. 나중에 다시 시도해 주세요."</string>
 
     <!-- Error message: shown in dialog when pulling changes to shortcuts from the editing server failed -->
-    <!-- Fuzzy -->
-    <string name="error_remote_edit_download">"서버에서 변경 사항을 가져오지 못했습니다. 네트워크 연결을 확인하고 암호를 변경하지 않았는지 확인하십시오."</string>
+    <string name="error_remote_edit_download">"변경 내용을 가져오지 못했습니다. 네트워크 연결이 원활한지, 패스워드를 변경하지 않았는지 확인해 주세요."</string>
 
     <!-- Option for dropdown menu in remote editor, allows to change the remote editing server -->
-    <!-- Fuzzy -->
     <string name="button_change_remote_server">"서버 주소 변경"</string>
 
     <!-- Dialog title: allows to change the remote editing server -->
@@ -1435,12 +1311,10 @@
     <string name="placeholder_javascript_global_scripting">"예를 들어 일부 변수를 준비하거나 바로 가기의 스크립팅 섹션에서 사용할 수 있는 일부 기능을 정의하기 위해 모든 바로 가기 실행 시작 시 실행할 JavaScript 코드를 여기에 추가합니다."</string>
 
     <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
-    <!-- Fuzzy -->
-    <string name="action_save_global_scripting">"변경 사항을 저장하다"</string>
+    <string name="action_save_global_scripting">"변경 내용 저장"</string>
 
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
-    <!-- Fuzzy -->
-    <string name="error_shortcut_not_found_for_deep_link">"바로 가기 \"%s\"를 찾을 수 없습니다."</string>
+    <string name="error_shortcut_not_found_for_deep_link">"“%1$s” 바로가기가 없습니다."</string>
 
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
     <!-- Fuzzy -->
@@ -1449,55 +1323,44 @@
 %s"</string>
 
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
-    <!-- Fuzzy -->
     <string name="placeholder_deleted_shortcut">"삭제된 바로가기"</string>
 
     <!-- Menu button, allows saving a response as a file -->
-    <!-- Fuzzy -->
     <string name="button_save_response_as_file">"파일로 저장"</string>
 
     <!-- Label: Wifi network selection config in shortcut settings -->
-    <!-- Fuzzy -->
-    <string name="label_ssid">"필수 Wi-Fi SSID"</string>
+    <string name="label_ssid">"이 Wi-Fi 네트워크에 연결했을 때만"</string>
 
     <!-- Dialog title: Permission request for wifi/ssid check -->
-    <!-- Fuzzy -->
-    <string name="title_permission_dialog">"필요한 권한"</string>
+    <string name="title_permission_dialog">"권한이 필요합니다"</string>
 
     <!-- Message: Rational given for location permission in wifi/ssid check -->
     <!-- Fuzzy -->
     <string name="message_permission_rational">"현재 Wi-Fi 네트워크의 이름(SSID)을 확인하기 위해 위치 권한이 필요합니다. 이는 Android OS에서 부과하는 요구 사항입니다. 위치 데이터는 직접 액세스되지 않습니다."</string>
 
     <!-- Message: Shown to the user when connected to a different wifi network than the one given in the config -->
-    <!-- Fuzzy -->
-    <string name="message_wrong_wifi_network">"이 바로 가기 \"%1$s\"에 대해 구성된 Wi-Fi 네트워크에 연결되어 있지 않습니다. 지금 다른 Wi-Fi 네트워크를 선택하시겠습니까?"</string>
+    <string name="message_wrong_wifi_network">"“%1$s” 바로가기에 설정한 Wi-Fi 네트워크에 연결한 상태가 아닙니다. 다른 Wi-Fi 네트워크를 선택할까요?"</string>
 
     <!-- Action label: Shown on wifi check dialog to open the wifi picker -->
     <string name="action_label_select">"선택"</string>
 
     <!-- Error message, shown when user declines location permission for wifi check -->
-    <!-- Fuzzy -->
-    <string name="error_missing_location_permission">"현재 Wi-Fi의 SSID를 확인하지 못했습니다. 위치 권한이 필요합니다."</string>
+    <string name="error_missing_location_permission">"Wi-Fi 네트워크를 확인하려면 위치 권한이 필요합니다."</string>
 
     <!-- Message: Success message shown when a response was saved to a file -->
-    <!-- Fuzzy -->
-    <string name="message_response_saved_to_file">"응답이 파일에 저장되었습니다."</string>
+    <string name="message_response_saved_to_file">"응답을 파일에 저장했습니다."</string>
 
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files -->
-    <!-- Fuzzy -->
-    <string name="dialog_code_snippet_files">"선택한 파일"</string>
+    <string name="dialog_code_snippet_files">"선택 파일 관련"</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
-    <!-- Fuzzy -->
-    <string name="dialog_code_snippet_get_file_name">"선택한 파일의 이름 가져오기"</string>
+    <string name="dialog_code_snippet_get_file_name">"선택한 파일의 이름"</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
-    <!-- Fuzzy -->
-    <string name="dialog_code_snippet_get_file_type">"선택한 파일 유형 가져오기"</string>
+    <string name="dialog_code_snippet_get_file_type">"선택한 파일의 종류"</string>
 
     <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
-    <!-- Fuzzy -->
-    <string name="dialog_code_snippet_get_file_size">"선택한 파일의 크기 가져오기(바이트)"</string>
+    <string name="dialog_code_snippet_get_file_size">"선택한 파일의 크기(바이트 단위)"</string>
 
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, ...) -->
     <string name="title_about">"정보"</string>
@@ -1506,7 +1369,6 @@
     <string name="settings_documentation">"도움말"</string>
 
     <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
-    <!-- Fuzzy -->
     <string name="settings_documentation_summary">"FAQ, 참고자료, 예제 등등…"</string>
 
     <!-- Instructions shown below the "Allow Share..." checkbox in the variable editor -->
@@ -1520,53 +1382,44 @@
     <string name="title_edit_custom_icon">"아이콘 변경"</string>
 
     <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
-    <!-- Fuzzy -->
-    <string name="error_invalid_remote_edit_host_url">"잘못된 URL. http여야 합니다."</string>
+    <string name="error_invalid_remote_edit_host_url">"올바른 HTTP(s) URL이 아닙니다."</string>
 
     <!-- Dialog option, for exporting a single shortcut as a file -->
     <string name="action_export_as_file">"파일"</string>
 
     <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
-    <!-- Fuzzy -->
-    <string name="title_import_export">"불러오기 / 내보내기"</string>
+    <string name="title_import_export">"가져오기 · 내보내기"</string>
 
     <!-- Button in settings page to start import of shortcuts from a file -->
-    <!-- Fuzzy -->
-    <string name="settings_import_from_file">"파일에서 불러오기"</string>
+    <string name="settings_import_from_file">"파일 선택"</string>
 
     <!-- Button in settings page to start import of shortcuts from a url -->
-    <!-- Fuzzy -->
-    <string name="settings_import_from_url">"URL에서 불러오기"</string>
+    <string name="settings_import_from_url">"URL 입력"</string>
 
     <!-- Section title on import/export screen for options related to importing -->
-    <string name="settings_title_import">"불러오기"</string>
+    <string name="settings_title_import">"가져오기"</string>
 
     <!-- Section title on import/export screen for options related to exporting -->
     <string name="settings_title_export">"내보내기"</string>
 
     <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
-    <!-- Fuzzy -->
-    <string name="settings_title_remote_edit">"원격 편집"</string>
+    <string name="settings_title_remote_edit">"원격 수정"</string>
 
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
-    <!-- Fuzzy -->
-    <string name="label_client_cert">"클라이언트 인증서 인증"</string>
+    <string name="label_client_cert">"클라이언트 인증서 사용"</string>
 
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
-    <!-- Fuzzy -->
-    <string name="label_subtitle_no_client_cert">"인증서를 선택하려면 클릭하세요."</string>
+    <string name="label_subtitle_no_client_cert">"인증서를 선택하려면 클릭해 주세요."</string>
 
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
-    <!-- Fuzzy -->
-    <string name="label_subtitle_client_cert_in_use">"인증서 \"%s\"를 사용 중입니다. 제거하려면 클릭하세요."</string>
+    <string name="label_subtitle_client_cert_in_use">"“%s” 인증서를 사용 중입니다. 삭제하려면 클릭해 주세요."</string>
 
     <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
     <!-- Fuzzy -->
     <string name="error_failed_to_use_client_cert">"클라이언트 인증서를 로드하거나 사용하지 못했습니다. 장치에서 지원하지 않거나 바로 가기 설정에서 다시 구성해야 할 수 있습니다."</string>
 
     <!-- Error message: Shown when user tries to use an unsupported hmac function -->
-    <!-- Fuzzy -->
-    <string name="error_unsupported_hmac_algorithm">"지원되지 않는 HMAC 알고리즘 \"%1$s\" 또는 잘못된 키입니다. %2$s를 사용하세요."</string>
+    <string name="error_unsupported_hmac_algorithm">"“%1$s” HMAC 알고리즘을 사용할 수 없거나 키가 잘못됐습니다. “%2$s” 알고리즘을 사용해 주세요."</string>
 
     <!-- Button, shown on About page, to allow opening the app's F-Droid page -->
     <string name="settings_f_droid">"F-Droid에서 보기"</string>
@@ -1575,40 +1428,33 @@
     <string name="settings_f_droid_summary">"업데이트 확인"</string>
 
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
-    <!-- Fuzzy -->
-    <string name="label_subtitle_client_cert_file_in_use">"인증서 파일을 사용합니다. 제거하려면 클릭하십시오."</string>
+    <string name="label_subtitle_client_cert_file_in_use">"인증서를 사용 중입니다. 삭제하려면 클릭해 주세요."</string>
 
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">"클라이언트 인증서"</string>
 
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
-    <!-- Fuzzy -->
-    <string name="label_client_cert_from_os">"OS에서 관리"</string>
+    <string name="label_client_cert_from_os">"기기 인증서 저장공간"</string>
 
     <!-- Subtitle for Label, for option in dialog to pick a client certificate managed by the operating system -->
-    <!-- Fuzzy -->
-    <string name="label_client_cert_from_os_subtitle">"권장, 더 안전한"</string>
+    <string name="label_client_cert_from_os_subtitle">"더 안전하고 권장하는 방식입니다."</string>
 
     <!-- Label, for option in dialog to pick a client certificate from a .p12 file -->
-    <!-- Fuzzy -->
-    <string name="label_client_cert_from_file">".p12 파일에서 가져오기"</string>
+    <string name="label_client_cert_from_file">".p12 파일 가져오기"</string>
 
     <!-- Subtitle for Label, for option in dialog to pick a client certificate from a .p12 file -->
-    <!-- Fuzzy -->
-    <string name="label_client_cert_from_file_subtitle">"파일 및 비밀번호의 사본은 특별한 보호 없이 앱 내부에 저장됩니다. 자신의 책임하에 사용하십시오."</string>
+    <string name="label_client_cert_from_file_subtitle">"인증서 파일과 패스워드를 앱 내부에 별다른 보호 없이 보관합니다. 이를 유념해 스스로의 책임하에 사용해 주세요."</string>
 
     <!-- Title of dialog, for entering the password for a client cert file -->
     <string name="title_client_cert_file_password">"패스워드"</string>
 
     <!-- Shortcut dropdown option: display information about the shortcut -->
-    <!-- Fuzzy -->
-    <string name="action_shortcut_information">"정보 표시"</string>
+    <string name="action_shortcut_information">"정보 보기"</string>
 
     <!-- Label shown above a text field showing a shortcut's ID -->
     <string name="label_shortcut_id">"바로가기 ID"</string>
 
     <!-- Label shown above a text field showing a shortcut's deep link URL -->
-    <!-- Fuzzy -->
     <string name="label_deep_link_url">"딥링크 URL"</string>
 
     <!-- Message: instructions shown below a shortcut's deep-linking URL -->
@@ -1616,7 +1462,6 @@
     <string name="message_deep_link_instructions">"예를 들어 QR 스캐너 또는 NFC 리더를 통해 다른 앱에서 이 URL을 호출하여 이 바로 가기를 트리거할 수 있습니다. URL에 쿼리 매개변수를 추가하여 변수 값을 전달합니다."</string>
 
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
-    <!-- Fuzzy -->
     <string name="action_play_sound">"소리 재생"</string>
 
     <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting. -->
@@ -1627,8 +1472,7 @@
     <string name="action_rerun_shortcut">"재실행"</string>
 
     <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
-    <!-- Fuzzy -->
-    <string name="label_multiline">"여러 줄"</string>
+    <string name="label_multiline">"여러 줄로 입력 받기"</string>
 
     <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
     <!-- Fuzzy -->
@@ -1639,7 +1483,6 @@
     <string name="message_url_encode_instructions">"URL 내에서(예: 쿼리 문자열의 일부로) 이 변수를 사용하는 경우 이를 활성화하십시오. 특수 문자는 이스케이프 처리됩니다."</string>
 
     <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <!-- Fuzzy -->
     <string name="settings_allow_overlay">"다른 앱 위에 표시 허용"</string>
 
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
@@ -1651,8 +1494,7 @@
     <string name="message_moving_enabled">"바로 가기를 드래그하여 재정렬하십시오."</string>
 
     <!-- Category dropdown option: Place category on home screen -->
-    <!-- Fuzzy -->
-    <string name="action_place_category">"홈 화면에 배치"</string>
+    <string name="action_place_category">"홈 화면에 추가"</string>
 
     <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
     <string name="action_type_wake_on_lan">"Wake-on-LAN"</string>
@@ -1662,7 +1504,7 @@
 %2$s"</string>
 
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
-    <string name="label_select_variable_separator">"구분 기호"</string>
+    <string name="label_select_variable_separator">"구분자"</string>
 
     <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
     <string name="label_select_variable_multi_select">"복수 선택 가능"</string>
@@ -1671,8 +1513,7 @@
     <string name="error_action_type_send_wol_failed">"Wake-on-LAN 패킷 전송 실패: %s"</string>
 
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails because on an invalid MAC address -->
-    <!-- Fuzzy -->
-    <string name="error_action_type_send_wol_invalid_mac_address">"잘못된 MAC 주소: %s"</string>
+    <string name="error_action_type_send_wol_invalid_mac_address">"올바르지 않은 MAC 주소: %s"</string>
 
     <!-- Section title in shortcut editor, groups together settings related to triggering, scheduling and executing a shortcut -->
     <string name="label_execution_settings">"실행 관련 설정"</string>
@@ -1682,8 +1523,7 @@
     <string name="label_execution_settings_subtitle">"바로 가기를 실행해야 하는 시기와 방법을 정의합니다."</string>
 
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
-    <!-- Fuzzy -->
-    <string name="import_failure_reason_data_version_mismatch">"선택한 파일은 최신 버전의 앱에서 내보냈습니다. 최신 버전의 앱이 설치되어 있는지 확인하세요."</string>
+    <string name="import_failure_reason_data_version_mismatch">"이 버전에서는 가져올 수 없는 파일입니다. 가져오려면 앱을 업데이트해 주세요."</string>
 
     <!-- Shortcut Action Title: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
     <string name="action_type_to_hex_string">"Bytes형을 Hex String으로"</string>
@@ -1711,7 +1551,7 @@
 
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <!-- Fuzzy -->
-    <string name="empty_state_trigger_shortcuts">"아직 트리거할 바로가기를 추가하지 않았습니다."</string>
+    <string name="empty_state_trigger_shortcuts">"시작할 수 있는 바로가기가 없습니다."</string>
 
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
     <!-- Fuzzy -->
@@ -1742,21 +1582,18 @@
     <string name="error_failed_to_get_wifi_ssid">"접속된 Wi-Fi 네트워크 이름을 알 수 없습니다."</string>
 
     <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
-    <!-- Fuzzy -->
-    <string name="placeholder_request_body_content">"원시 HTTP 요청 본문을 여기에 입력하십시오. \"{}\" 버튼을 통해 변수 자리 표시자를 추가할 수 있습니다."</string>
+    <string name="placeholder_request_body_content">"HTTP 요청 Body 원문(raw)을 입력해 주세요. ❴❵ 버튼을 눌러 변수를 삽입할 수 있습니다."</string>
 
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_description">"이 바로가기 이후에 특정 바로가기를 실행하도록 예약합니다"</string>
 
     <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <!-- Fuzzy -->
-    <string name="message_remove_deleted_trigger_shortcut">"트리거된 바로가기 목록에서 삭제된 바로가기를 제거하시겠습니까?"</string>
+    <string name="message_remove_deleted_trigger_shortcut">"실행 목록에서 삭제된 바로가기를 제외할까요?"</string>
 
     <!-- Label above input field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">"브라우저"</string>
 
     <!-- Option in "Change Icon" dialog, allows user to fetch the favicon of the shortcut's URL to use as a shortcut icon -->
-    <!-- Fuzzy -->
     <string name="choose_page_favicon">"페이지 Favicon 가져오기"</string>
 
     <!-- Title of window for managing and selecting custom icons -->
@@ -1770,16 +1607,15 @@
     <string name="confirm_delete_custom_icon_message">"이 아이콘을 삭제할까요?"</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
-    <!-- Fuzzy -->
-    <string name="confirm_delete_custom_icon_still_in_use_message">"이 아이콘은 최소 1개의 바로가기에서 아직 사용되고 있습니다. 삭제하면 문제가 발생할 수 있습니다.
+    <string name="confirm_delete_custom_icon_still_in_use_message">"이 아이콘을 사용하는 바로가기가 있습니다.
 
-그래도 삭제하시겠습니까?"</string>
+문제가 발생할 수 있더라도 삭제하시겠습니까?"</string>
 
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
     <string name="button_delete_all_unused_icons">"미사용 아이콘 삭제"</string>
 
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
-    <string name="confirm_delete_all_unused_custom_icons_message">"미사용 아이콘을 모두 삭제할까요?"</string>
+    <string name="confirm_delete_all_unused_custom_icons_message">"사용하지 않는 아이콘을 모두 삭제할까요?"</string>
 
     <!-- Error message, shown in snackbar when the user tried to fetch a page's favicon but it failed -->
     <!-- Fuzzy -->
@@ -1796,7 +1632,7 @@
 
     <!-- Label of dropdown menu, for selecting which type of data to receive from the share dialog to use as the value of a variable -->
     <!-- Fuzzy -->
-    <string name="label_share_support">"공유를 통해 받을 데이터"</string>
+    <string name="label_share_support">"공유하기 기능으로 받을 정보"</string>
 
     <!-- Label of an option in the share dialog, for receiving only the text -->
     <string name="label_share_support_option_text">"텍스트만"</string>
@@ -1820,8 +1656,7 @@
     <string name="action_type_change_icon_description">"바로가기 설명 수정"</string>
 
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
-    <!-- Fuzzy -->
-    <string name="error_shortcut_not_found_for_changing_description">"바로가기 \"%1$s\"이(가) 없기 때문에 설명을 변경할 수 없습니다."</string>
+    <string name="error_shortcut_not_found_for_changing_description">"“%1$s” 바로가기가 없어 설명을 바꿀 수 없습니다."</string>
 
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">"기본 브라우저"</string>
@@ -1836,7 +1671,7 @@
     <string name="message_category_edited">"카테고리를 수정했습니다."</string>
 
     <!-- Label above input field in category editor, for category name -->
-    <string name="label_category_name">"카테고리명"</string>
+    <string name="label_category_name">"카테고리 이름"</string>
 
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
     <string name="label_category_layout_type">"레이아웃 종류"</string>
@@ -1845,34 +1680,29 @@
     <string name="label_category_background">"배경색"</string>
 
     <!-- Option in category editor to choose the shortcut click behavior, to set it to the global default -->
-    <string name="settings_click_behavior_global_default">"기본 설정 따르기"</string>
+    <string name="settings_click_behavior_global_default">"앱 기본 설정 따르기"</string>
 
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
     <!-- Fuzzy -->
     <string name="description_customizable_widget">"바로 가기 레이블의 색상을 선택하거나 레이블을 완전히 숨길지 여부를 선택하십시오."</string>
 
     <!-- Option when picking the layout for a category: Show shortcuts in a dense grid -->
-    <!-- Fuzzy -->
-    <string name="layout_type_dense_grid">"조밀한 그리드"</string>
+    <string name="layout_type_dense_grid">"좁은 바둑판"</string>
 
     <!-- Option when picking the layout for a category: Show shortcuts in a medium grid -->
-    <!-- Fuzzy -->
-    <string name="layout_type_medium_grid">"중간 그리드"</string>
+    <string name="layout_type_medium_grid">"중간 바둑판"</string>
 
     <!-- Option when picking the layout for a category: Show shortcuts in a wide grid -->
-    <!-- Fuzzy -->
-    <string name="layout_type_wide_grid">"와이드 그리드"</string>
+    <string name="layout_type_wide_grid">"넓은 바둑판"</string>
 
     <!-- Option to choose from when selecting the background of a category: custom color -->
     <string name="category_background_type_color">"색상"</string>
 
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'Image' -->
-    <!-- Fuzzy -->
-    <string name="subtitle_request_body_image">"이미지 요청 본문 세트"</string>
+    <string name="subtitle_request_body_image">"현재 설정: 사진 전송"</string>
 
     <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
-    <!-- Fuzzy -->
-    <string name="subtitle_parameter_value_image">"영상"</string>
+    <string name="subtitle_parameter_value_image">"촬영한 사진"</string>
 
     <!-- Title of an action in the code snippet picker: Parse a JSON string -->
     <string name="action_type_parse_json">"JSON 파싱하기"</string>
@@ -1881,16 +1711,13 @@
     <string name="action_type_parse_xml">"XML 파싱하기"</string>
 
     <!-- Title of dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it -->
-    <!-- Fuzzy -->
-    <string name="title_unsaved_changes_detected">"저장되지 않은 바로가기 발견"</string>
+    <string name="title_unsaved_changes_detected">"저장하지 않은 바로가기"</string>
 
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
-    <!-- Fuzzy -->
-    <string name="message_unsaved_changes_detected">"바로 가기 \"%s\"에서 저장되지 않은 변경 사항이 발견되었습니다. 변경 사항을 복구하고 계속 수정하시겠습니까?"</string>
+    <string name="message_unsaved_changes_detected">"“%1$s” 바로가기의 변경 내용을 저장하지 않았습니다. 변경 내용을 복구하고 수정 화면으로 돌아갈까요?"</string>
 
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. -->
-    <!-- Fuzzy -->
-    <string name="message_unsaved_changes_detected_no_name">"바로 가기에 저장되지 않은 변경 사항이 있습니다. 변경 사항을 복구하고 계속 수정하시겠습니까?"</string>
+    <string name="message_unsaved_changes_detected_no_name">"최근 바로가기의 변경 내용을 저장하지 않았습니다. 변경 내용을 복구하고 수정 화면으로 돌아갈까요?"</string>
 
     <!-- Button label, shown on dialog that asks user if they want to recover a shortcut that has unsaved changes -->
     <string name="button_recover">"복원"</string>
@@ -1904,8 +1731,7 @@
     <string name="settings_allow_overlay_xiaomi_summary">"홈 화면에서 트리거될 때 바로 가기가 작동하지 않는 경우 활성화"</string>
 
     <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
-    <!-- Fuzzy -->
-    <string name="running_tasker_plugin">"Tasker가 바로 가기를 실행 중입니다."</string>
+    <string name="running_tasker_plugin">"Tasker가 바로가기를 시작했습니다."</string>
 
     <!-- Shortcut Action Title: generate a random UUID (Universal Unique Identifier, version 4) -->
     <string name="action_type_generate_uuid">"랜덤 UUID 생성"</string>
@@ -1917,8 +1743,7 @@
     <string name="action_type_scan_barcode_title">"바코드 스캔"</string>
 
     <!-- Shortcut Action Description: Scan Barcode (e.g. QR Code) -->
-    <!-- Fuzzy -->
-    <string name="action_type_scan_barcode_description">"“QR Droid”, “Barcode Scanner”, “Binary Eye” 등의 앱이 설치되어 있어야 합니다."</string>
+    <string name="action_type_scan_barcode_description">"“QR Droid”, “Barcode Scanner”, “Binary Eye” 등의 앱을 따로 설치해야 합니다."</string>
 
     <!-- Error message: Shown when the user tries to use the 'scanBarcode' function but doesn't have the required app installed -->
     <string name="error_barcode_scanner_not_installed">"바코드를 스캔하려면 “QR Droid”, “Barcode Scanner”, “Binary Eye” 등의 앱이 설치되어 있어야 합니다."</string>
@@ -1931,8 +1756,7 @@
     <string name="message_response_handling_toast_limitations">"토스트는 2줄의 텍스트로 제한되므로 매우 짧은 메시지에 가장 적합합니다."</string>
 
     <!-- Error message: Shown to the user when the app tries to determine the device's current location but failed, e.g. because of a missing permission -->
-    <!-- Fuzzy -->
-    <string name="error_failed_to_get_location">"현재 위치를 파악할 수 없습니다."</string>
+    <string name="error_failed_to_get_location">"현재 위치를 알 수 없습니다."</string>
 
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
     <string name="action_type_get_location_description">"기기의 현재 위치를 요청하고, 결과 객체를 반환합니다"</string>
@@ -1950,43 +1774,34 @@
     <string name="message_variables_sorted">"변수를 정렬했습니다."</string>
 
     <!-- Description for type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant_description">"일정한 값을 저장해 둡니다. JavaScript 코드로 읽고 쓸 수 있습니다."</string>
+    <string name="variable_type_constant_description">"일정한 값을 저장해 두거나 JavaScript로 설정할 수 있는 일반적 변수"</string>
 
     <!-- Description for type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
-    <!-- Fuzzy -->
-    <string name="variable_type_text_description">"텍스트 입력 필드가 있는 대화 상자를 표시합니다."</string>
+    <string name="variable_type_text_description">"텍스트 입력창을 통한 입력값"</string>
 
     <!-- Description for type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
-    <!-- Fuzzy -->
-    <string name="variable_type_number_description">"숫자 입력 필드가 있는 대화 상자를 표시합니다."</string>
+    <string name="variable_type_number_description">"숫자 입력창을 통한 입력값"</string>
 
     <!-- Description for type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
-    <!-- Fuzzy -->
-    <string name="variable_type_slider_description">"최소값과 최대값이 설정된 숫자 슬라이더가 있는 대화 상자를 표시합니다."</string>
+    <string name="variable_type_slider_description">"최솟값과 최댓값 사이로 설정할 수 있는 숫자 슬라이더의 값"</string>
 
     <!-- Description type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
-    <!-- Fuzzy -->
-    <string name="variable_type_password_description">"암호 입력 필드가 있는 대화 상자를 표시합니다."</string>
+    <string name="variable_type_password_description">"패스워드 입력창을 통한 입력값"</string>
 
     <!-- Description for type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
-    <!-- Fuzzy -->
-    <string name="variable_type_select_description">"하나 이상의 값을 선택할 수 있는 선택 대화 상자를 표시합니다."</string>
+    <string name="variable_type_select_description">"여러 옵션 중 하나 또는 여럿을 선택한 결괏값"</string>
 
     <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
-    <!-- Fuzzy -->
-    <string name="variable_type_toggle_description">"사용할 때마다 다른 값으로 전환"</string>
+    <string name="variable_type_toggle_description">"매번 반댓값으로 전환"</string>
 
     <!-- Description for type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
-    <!-- Fuzzy -->
-    <string name="variable_type_date_description">"날짜 선택기가 있는 대화 상자를 표시합니다."</string>
+    <string name="variable_type_date_description">"날짜 선택창을 통한 선택값"</string>
 
     <!-- Description for type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
-    <!-- Fuzzy -->
-    <string name="variable_type_time_description">"시간 선택기가 있는 대화 상자를 표시합니다."</string>
+    <string name="variable_type_time_description">"시간 선택창을 통한 선택값"</string>
 
     <!-- Description for type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
-    <!-- Fuzzy -->
-    <string name="variable_type_color_description">"색상 선택기가 있는 대화 상자를 표시합니다."</string>
+    <string name="variable_type_color_description">"색상 선택창을 통한 선택값"</string>
 
     <!-- Shortcut Action Title: Send a UDP packet to another device on the network -->
     <string name="action_type_send_udp_packet">"UDP 패킷 전송"</string>
@@ -1998,15 +1813,13 @@
     <string name="dialog_title_select_shortcuts_for_export">"바로가기 선택"</string>
 
     <!-- Label above input box, for prefix text displayed in front of the number in a number slider (input dialog) -->
-    <!-- Fuzzy -->
-    <string name="label_variable_slider_prefix">"접두사 텍스트"</string>
+    <string name="label_variable_slider_prefix">"접두사"</string>
 
     <!-- Label above input box, for suffix text displayed after the number in a number slider (input dialog) -->
-    <!-- Fuzzy -->
-    <string name="label_variable_slider_suffix">"접미사 텍스트"</string>
+    <string name="label_variable_slider_suffix">"접미사"</string>
 
     <!-- label, shown in variable editor, to allow the user to enter a dialog text that will be shown when the variable is evaluated -->
-    <string name="label_variable_text">"다이얼로그 내용(선택사항)"</string>
+    <string name="label_variable_text">"선택창 내용 (선택사항)"</string>
 
     <!-- Shortcut Action Title: Action that allows to retrieve the latest item from the device's clipboard -->
     <string name="action_get_clipboard_content_title">"클립보드 내용 가져오기"</string>
@@ -2021,15 +1834,13 @@
     <string name="variable_type_uuid">"UUID"</string>
 
     <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
-    <!-- Fuzzy -->
-    <string name="variable_type_uuid_description">"각 실행에서 새로운 임의의 UUID를 생성합니다."</string>
+    <string name="variable_type_uuid_description">"실행할 때마다 랜덤 UUID 생성"</string>
 
     <!-- Type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
     <string name="variable_type_clipboard">"클립보드 내용"</string>
 
     <!-- Description for type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
-    <!-- Fuzzy -->
-    <string name="variable_type_clipboard_description">"클립보드에 마지막으로 복사된 값을 가정합니다."</string>
+    <string name="variable_type_clipboard_description">"클립보드에 마지막으로 복사해 둔 값"</string>
 
     <!-- Status message shown while some data or files are being processed, e.g. for sharing -->
     <string name="generic_processing_in_progress">"처리 중입니다…"</string>
@@ -2038,8 +1849,7 @@
     <string name="settings_donate">"기부"</string>
 
     <!-- Button subtitle, for option to open the app's Donate page in a browser, for users who wish to support the app -->
-    <!-- Fuzzy -->
-    <string name="settings_donate_summary">"나에게 음료수를 사주어 감사를 표시하십시오"</string>
+    <string name="settings_donate_summary">"제게 고마우시다면 차 한 잔 사 주셔도 됩니다"</string>
 
     <!-- Title of section in settings that allows user to add a quick settings tile. -->
     <string name="settings_add_quick_settings_tile_title">"빠른 설정창 버튼"</string>
@@ -2061,8 +1871,7 @@
     <string name="action_copy_response">"복사"</string>
 
     <!-- Label for dropdown in shortcut editor, for picking the main action that should be displayed on the dialog that displays the HTTP response -->
-    <!-- Fuzzy -->
-    <string name="label_dialog_action_dropdown">"대화 작업"</string>
+    <string name="label_dialog_action_dropdown">"선택창 동작"</string>
 
     <!-- Option in dropdown menu for selecting the main action available on a dialog that displays the HTTP response, allows to show no action -->
     <string name="label_dialog_action_none">"없음"</string>
@@ -2077,16 +1886,13 @@
     <string name="action_type_execute_shortcut_title">"바로가기 실행"</string>
 
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
-    <!-- Fuzzy -->
-    <string name="action_type_execute_shortcut_description">"다른 바로 가기를 즉시 실행하고 그 결과를 반환합니다."</string>
+    <string name="action_type_execute_shortcut_description">"바로 다른 바로가기를 실행한 뒤 반환 값을 받습니다"</string>
 
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
-    <!-- Fuzzy -->
-    <string name="error_unsupported_file_url">"file:// 스키마가 포함된 URL은 지원되지 않습니다."</string>
+    <string name="error_unsupported_file_url">"file: 스키마를 사용하는 URL은 사용할 수 없습니다"</string>
 
     <!-- Error message: Shown when the user tries to parse XML using the parseXML JS function, but the XML is invalid. %s is a placeholder for a more detailed description of the error -->
-    <!-- Fuzzy -->
-    <string name="error_invalid_xml">"잘못된 XML: %s"</string>
+    <string name="error_invalid_xml">"올바르지 않은 XML: %s"</string>
 
     <!-- Error message: Shown when the user tries to send an MQTT message via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <string name="error_failed_to_send_mqtt">"MQTT 메시지 전송 실패: %s"</string>
@@ -2098,7 +1904,6 @@
     <string name="error_failed_to_send_tcp">"TCP 패킷 전송 실패: %s"</string>
 
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
-    <!-- Fuzzy -->
     <string name="error_opening_files_using_open_url_not_supported">"openUrl()을 사용한 파일 열기는 지원되지 않습니다."</string>
 
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
@@ -2111,20 +1916,16 @@
     <string name="label_proxy_password">"프록시 패스워드"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
-    <!-- Fuzzy -->
-    <string name="action_type_prompt_date_title">"날짜 프롬프트"</string>
+    <string name="action_type_prompt_date_title">"날짜 선택 받기"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
-    <!-- Fuzzy -->
-    <string name="action_type_prompt_time_title">"시간에 대한 프롬프트"</string>
+    <string name="action_type_prompt_time_title">"시간 선택 받기"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a color -->
-    <!-- Fuzzy -->
-    <string name="action_type_prompt_color_title">"색상 프롬프트"</string>
+    <string name="action_type_prompt_color_title">"색상 선택 받기"</string>
 
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a password -->
-    <!-- Fuzzy -->
-    <string name="action_type_prompt_password_title">"비밀번호 묻기"</string>
+    <string name="action_type_prompt_password_title">"패스워드 입력 받기"</string>
 
     <!-- Page title, for page showing all events that happened recently -->
     <string name="title_event_history">"실행 로그"</string>
@@ -2157,10 +1958,10 @@
     <string name="event_history_title_execution_error">"“%s” 실행 오류"</string>
 
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, which indicates how a shortcut was triggered. %s is a placeholder for the trigger source, e.g. "homescreen" -->
-    <string name="label_prefix_event_history_trigger_origin">"시작 경로: %s"</string>
+    <string name="label_prefix_event_history_trigger_origin">"시작 방법: %s"</string>
 
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
-    <string name="label_event_history_trigger_type_rerun_from_dialog">"재실행 요청 (다이얼로그)"</string>
+    <string name="label_event_history_trigger_type_rerun_from_dialog">"선택창 선택에 따라 재실행"</string>
 
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_rerun_from_window">"재실행 요청 (창)"</string>
@@ -2181,7 +1982,7 @@
     <string name="label_event_history_trigger_type_home_screen_shortcut">"홈 화면 바로가기"</string>
 
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
-    <string name="label_event_history_trigger_type_legacy_shortcut">"이전 방식 바로가기"</string>
+    <string name="label_event_history_trigger_type_legacy_shortcut">"바로가기(옛 방식)"</string>
 
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_widget">"위젯"</string>
@@ -2193,19 +1994,28 @@
     <string name="message_history_event_details_copied">"실행 이력 상세내역을 복사했습니다."</string>
 
     <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
-    <string name="action_type_set_result_title">"결과값 설정"</string>
+    <string name="action_type_set_result_title">"결괏값 설정"</string>
 
     <!-- Shortcut Action Description: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
-    <string name="action_type_set_result_description">"executeShortcut()으로 이 바로가기를 호출한 콜러 또는 Tasker에 리턴할 결과값 string 설정"</string>
+    <string name="action_type_set_result_description">"executeShortcut()으로 이 바로가기를 호출한 콜러 또는 Tasker에 리턴할 결괏값 string 설정"</string>
 
     <!-- Label/description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
-    <string name="label_plugin_result">"결과값"</string>
+    <string name="label_plugin_result">"결괏값"</string>
 
     <!-- Description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
-    <string name="label_plugin_result_detail">"`setResult()`로 설정한 결과값 string"</string>
+    <string name="label_plugin_result_detail">"`setResult()`로 설정한 결괏값 string"</string>
 
     <!-- Generic dialog button: Configure (e.g. some settings) -->
     <string name="dialog_configure">"설정"</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="label_secondary_launcher_shortcut">"“바로가기 시작” 앱(secondary)으로 시작하기"</string>
+
+    <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
+    <string name="title_activity_secondary_launcher_trigger">"바로가기 시작"</string>
+
+    <!-- Dialog option: shown in code snippet picker, option to get the meta data of a selected file -->
+    <string name="dialog_code_snippet_get_file_meta">"선택한 파일의 메타데이터"</string>
 
     <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
     <string name="action_type_log_event">"로그 남기기"</string>
@@ -2235,9 +2045,32 @@
     <!-- Label: Shown above text input field that lets the user pick the file name that should be used for storing the HTTP response into a file -->
     <string name="label_store_response_file_name">"파일명"</string>
 
+    <!-- Title on dialog that lets the user choose an icon for a category -->
+    <string name="title_category_select_icon">"카테고리 아이콘 선택"</string>
+
+    <!-- Title of event history entry, which states that a shortcut was cancelled. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_shortcut_cancelled">"“%s” 취소"</string>
+
     <!-- Section title on settings screen for options shared by all shortcuts -->
-    <!-- Fuzzy -->
-    <string name="settings_title_global_shortcut_settings">"바로가기 기본 설정"</string>
+    <string name="settings_title_global_shortcut_settings">"바로가기 관련"</string>
+
+    <!-- Button in settings page to open editor for configuring certificate pinning -->
+    <string name="settings_certificate_pinning">"인증서 Pinning"</string>
+
+    <!-- Title of editor for configuring certificate pinning -->
+    <string name="title_certificate_pinning">"인증서 Pinning"</string>
+
+    <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
+    <string name="confirm_delete_certificate_pinning_message">"이 인증서 Fingerprint를 삭제할까요?"</string>
+
+    <!-- Label for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="label_certificate_pinning_hostname_pattern">"호스트명 패턴"</string>
+
+    <!-- Hint text for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="hint_certificate_pinning_hostname_pattern">"*.example.com 형식"</string>
+
+    <!-- Label for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
+    <string name="label_certificate_pinning_fingerprint">"인증서 Fingerprint"</string>
 
     <!-- Placeholder text shown when a toggle or multi-select variable option is just an empty string -->
     <string name="empty_option_placeholder">"- 내용 없음 -"</string>
@@ -2263,6 +2096,15 @@
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <string name="subtitle_include_meta_information">"응답 헤더, 상태 코드 등등…"</string>
 
+    <!-- Type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp">"현재 일시"</string>
+
+    <!-- Description for type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp_description">"설정한 형식에 따른 현재 날짜와 시각"</string>
+
+    <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
+    <string name="action_type_prompt_number_title">"숫자 입력 받기"</string>
+
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <string name="label_host_verification">"인증서 유효성 확인"</string>
 
@@ -2281,17 +2123,20 @@
     <!-- Button label, for button shown in Scripting editor nav bar to allow the user to undo a recent change -->
     <string name="button_undo">"실행 취소"</string>
 
+    <!-- Error message shown when biometric (e.g. fingerprint) execution confirmation fails. %s is a placeholder for a more detailed description of the error -->
+    <string name="error_biometric_confirmation_failed">"생체 인식 실패: %s"</string>
+
     <!-- Subtitle shown on biometric confirmation dialog (e.g. asking for a fingerprint), for confirming the execution of a shortcut -->
     <string name="subtitle_biometric_confirmation_prompt">"바로가기 실행 승인"</string>
 
     <!-- Option in dropdown to select the confirmation type for a shortcut: no confirmation -->
-    <string name="option_confirmation_none">"승인 불필요"</string>
+    <string name="option_confirmation_none">"확인 필요 없음"</string>
 
     <!-- Option in dropdown to select the confirmation type for a shortcut: simple confirmation, i.e., only asking the user to press a button -->
     <string name="option_confirmation_simple">"단순 확인"</string>
 
     <!-- Option in dropdown to select the confirmation type for a shortcut: biometric confirmation, i.e., asking the user to authenticate by fingerprint or similar -->
-    <string name="option_confirmation_biometric">"생체 인식"</string>
+    <string name="option_confirmation_biometric">"생체 인식 승인"</string>
 
     <!-- Title of section in settings that allows user to change the "User-Agent" header that is sent by default with all shortcuts -->
     <string name="settings_user_agent">"User-Agent 헤더 설정"</string>
@@ -2302,17 +2147,23 @@
     <!-- Dialog title: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
     <string name="title_set_user_agent">"User-Agent 설정"</string>
 
+    <!-- Subtitle shown on biometric app unlock dialog (e.g. asking for a fingerprint) -->
+    <string name="subtitle_biometric_app_unlock_prompt">"앱 잠금 상태에서는 바로가기·변수를 수정하거나 설정을 변경할 수 없습니다."</string>
+
     <!-- Button label, shown on negative button below biometric prompt for unlocking the app. clicking it allows the user to instead try unlocking the app with their password -->
-    <string name="button_app_unlock_use_password">"패스워드 입력하기"</string>
+    <string name="button_app_unlock_use_password">"패스워드로 잠금 해제"</string>
 
     <!-- Checkbox label, shown on dialog that lets the user lock the app -->
-    <string name="label_app_lock_use_biometrics">"생체 인식 사용하기"</string>
+    <string name="label_app_lock_use_biometrics">"생체 인식으로 잠금 해제"</string>
 
     <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
     <string name="label_monospace_response">"고정폭(monospace) 폰트로 보여주기"</string>
 
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker -->
+    <string name="option_file_data_source_file_picker">"파일 선택창 사용"</string>
+
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open camera to take a picture -->
-    <string name="option_file_data_source_camera">"카메라로 사진 촬영"</string>
+    <string name="option_file_data_source_camera">"사진 촬영"</string>
 
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a specific static file stored on the device -->
     <string name="option_file_data_source_specific_file">"특정 파일"</string>
@@ -2322,4 +2173,16 @@
 
     <!-- Subtitle, shown on button for selecting a file to use as a request body or parameter. %s is a placeholder for the selected file's name -->
     <string name="subtitle_file_data_source_choose_file">"파일 “%s”"</string>
+
+    <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
+    <string name="settings_title_experimental">"실험중"</string>
+
+    <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
+    <string name="settings_title_execution_mode">"실행 모드"</string>
+
+    <!-- Name of button in settings screen that allows to cancel all scheduled shortcuts executions -->
+    <string name="settings_cancel_all_pending_executions">"예정된 실행 모두 취소"</string>
+
+    <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
+    <string name="message_pending_executions_cancelled">"예정된 실행을 모두 취소했습니다."</string>
 </resources>
