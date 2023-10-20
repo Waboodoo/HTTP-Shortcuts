@@ -15,5 +15,6 @@ data class SettingsViewState(
     val selectedDarkModeOption: String,
     val selectedClickActionOption: ShortcutClickBehavior,
     val crashReportingAllowed: Boolean,
+    val colorTheme: String,
     val experimentalExecutionModeEnabled: Boolean,
 )

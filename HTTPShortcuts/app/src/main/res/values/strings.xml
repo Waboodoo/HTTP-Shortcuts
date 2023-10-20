@@ -168,6 +168,8 @@
     <string name="menu_action_unlock_app">Unlock settings</string>
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">Basic Settings</string>
+    <!-- Title of section in "Settings" screen: (Visual) Appearance of the app itself (e.g. themes, dark mode) -->
+    <string name="settings_appearance">Appearance</string>
     <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
     <string name="settings_click_behavior">Shortcut Click Action</string>
     <!-- Name of setting that allows the user to change the app's language -->
@@ -1483,4 +1485,10 @@
     <string name="option_execution_mode_background">Run shortcuts in background without loading indicator (experimental)</string>
     <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
     <string name="instructions_experimental_section">"This section contains settings for experimental features, which are not yet finalized and may be unstable. Enable at your own risk. If you do enable them and encounter issues, please let me know by sending me an email or creating a Github issue to share your discoveries.</string>
+    <!-- Title of setting in settings screen, for selecting the app's color theme -->
+    <string name="settings_dynamic_color">Theme</string>
+    <!-- Option in "Theme" setting, to use the default theme the app's colors -->
+    <string name="settings_dynamic_color_option_dynamic_color">Use Dynamic Color</string>
+    <!-- Option in "Theme" setting, to use Dynamic Color, i.e., use the same color scheme as the OS -->
+    <string name="settings_dynamic_color_option_default_theme">Use default theme</string>
 </resources>

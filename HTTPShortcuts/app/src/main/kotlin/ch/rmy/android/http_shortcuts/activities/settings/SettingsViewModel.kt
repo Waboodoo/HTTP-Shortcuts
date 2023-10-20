@@ -49,6 +49,7 @@ constructor(
         selectedDarkModeOption = settings.darkThemeSetting,
         selectedClickActionOption = settings.clickBehavior,
         crashReportingAllowed = settings.isCrashReportingAllowed,
+        colorTheme = settings.colorTheme,
         batteryOptimizationButtonVisible = restrictionsUtil.run {
             canRequestIgnoreBatteryOptimization() && !isIgnoringBatteryOptimizations()
         },
@@ -199,5 +200,12 @@ constructor(
 
     fun onExperimentalHelpTextClicked() = runAction {
         navigate(NavigationDestination.Contact)
+    }
+
+    fun onColorThemeChanged(colorTheme: String) = runAction {
+        settings.colorTheme = colorTheme
+        updateViewState {
+            copy(colorTheme = settings.colorTheme)
+        }
     }
 }

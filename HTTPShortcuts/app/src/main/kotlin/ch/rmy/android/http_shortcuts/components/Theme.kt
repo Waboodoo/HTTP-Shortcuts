@@ -1,10 +1,22 @@
 package ch.rmy.android.http_shortcuts.components
 
+import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ch.rmy.android.http_shortcuts.utils.Settings
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
 
 private val LightColors = lightColorScheme(
     primary = md_theme_light_primary,
@@ -72,15 +84,31 @@ private val DarkColors = darkColorScheme(
 
 @Composable
 fun AppTheme(
-    useDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
+    val context = LocalContext.current
+    val useDarkTheme: Boolean = isSystemInDarkTheme()
+    val settings = remember {
+        EntryPointAccessors.fromApplication<AppThemeEntryPoint>(context).settings()
+    }
+    val colorTheme by settings.colorThemeFlow.collectAsStateWithLifecycle()
+    val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && colorTheme == "dynamic-color"
+
+    val colors = when {
+        dynamicColor && useDarkTheme -> dynamicDarkColorScheme(context)
+        dynamicColor && !useDarkTheme -> dynamicLightColorScheme(context)
+        useDarkTheme -> DarkColors
+        else -> LightColors
+    }
+
     MaterialTheme(
-        colorScheme = if (useDarkTheme) {
-            DarkColors
-        } else {
-            LightColors
-        },
+        colorScheme = colors,
         content = content,
     )
+}
+
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+interface AppThemeEntryPoint {
+    fun settings(): Settings
 }

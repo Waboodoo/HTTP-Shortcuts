@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.settings
 
+import android.os.Build
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.outlined.Javascript
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Layers
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Title
@@ -44,6 +46,7 @@ fun SettingsContent(
     selectedLanguage: String?,
     selectedDarkModeOption: String,
     crashReportingEnabled: Boolean,
+    colorTheme: String,
     experimentalExecutionModeEnabled: Boolean,
     selectedClickActionOption: ShortcutClickBehavior,
     onLanguageSelected: (String?) -> Unit,
@@ -62,6 +65,7 @@ fun SettingsContent(
     onAllowOverlayButtonClicked: () -> Unit,
     onAllowXiaomiOverlayButtonClicked: () -> Unit,
     onBatteryOptimizationButtonClicked: () -> Unit,
+    onColorThemeChanged: (String) -> Unit,
     onExperimentalExecutionModeChanged: (Boolean) -> Unit,
     onExperimentalHelpTextClicked: () -> Unit,
 ) {
@@ -109,25 +113,6 @@ fun SettingsContent(
                 onItemSelected = onLanguageSelected,
             )
 
-            SettingsSelection(
-                icon = Icons.Outlined.DarkMode,
-                title = stringResource(R.string.settings_dark_theme),
-                selectedKey = selectedDarkModeOption,
-                items = listOf(
-                    DARK_THEME_AUTO to stringResource(R.string.settings_dark_theme_options_auto),
-                    DARK_THEME_ON to stringResource(R.string.settings_dark_theme_options_on),
-                    DARK_THEME_OFF to stringResource(R.string.settings_dark_theme_options_off),
-                ),
-                onItemSelected = onDarkModeOptionSelected,
-            )
-
-            SettingsButton(
-                icon = Icons.Outlined.Title,
-                title = stringResource(R.string.settings_app_title_title),
-                subtitle = stringResource(R.string.settings_app_title_summary),
-                onClick = onChangeTitleButtonClicked,
-            )
-
             SettingsButton(
                 icon = Icons.Outlined.Lock,
                 title = stringResource(R.string.settings_lock_app_title),
@@ -141,6 +126,42 @@ fun SettingsContent(
                     title = stringResource(R.string.settings_add_quick_settings_tile_title),
                     subtitle = stringResource(R.string.settings_add_quick_settings_tile_summary),
                     onClick = onQuickSettingsTileButtonClicked,
+                )
+            }
+        }
+
+        SettingsGroup(
+            title = stringResource(R.string.settings_appearance),
+        ) {
+            SettingsButton(
+                icon = Icons.Outlined.Title,
+                title = stringResource(R.string.settings_app_title_title),
+                subtitle = stringResource(R.string.settings_app_title_summary),
+                onClick = onChangeTitleButtonClicked,
+            )
+
+            SettingsSelection(
+                icon = Icons.Outlined.DarkMode,
+                title = stringResource(R.string.settings_dark_theme),
+                selectedKey = selectedDarkModeOption,
+                items = listOf(
+                    DARK_THEME_AUTO to stringResource(R.string.settings_dark_theme_options_auto),
+                    DARK_THEME_ON to stringResource(R.string.settings_dark_theme_options_on),
+                    DARK_THEME_OFF to stringResource(R.string.settings_dark_theme_options_off),
+                ),
+                onItemSelected = onDarkModeOptionSelected,
+            )
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                SettingsSelection(
+                    icon = Icons.Outlined.Palette,
+                    title = stringResource(R.string.settings_dynamic_color),
+                    selectedKey = colorTheme,
+                    items = listOf(
+                        "default" to stringResource(R.string.settings_dynamic_color_option_default_theme),
+                        "dynamic-color" to stringResource(R.string.settings_dynamic_color_option_dynamic_color),
+                    ),
+                    onItemSelected = onColorThemeChanged,
                 )
             }
         }

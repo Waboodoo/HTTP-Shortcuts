@@ -7,8 +7,12 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.PreferencesStore
 import ch.rmy.android.framework.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class Settings
 @Inject
 constructor(
@@ -86,6 +90,17 @@ constructor(
         get() = getBoolean(KEY_EXPERIMENTAL_EXECUTION_MODE)
         set(value) = putBoolean(KEY_EXPERIMENTAL_EXECUTION_MODE, value)
 
+    var colorTheme: String
+        get() = getString(KEY_COLOR_THEME) ?: "default"
+        set(value) {
+            val newValue = value.takeIf { it == "dynamic-color" } ?: "default"
+            _colorThemeFlow.value = newValue
+            putString(KEY_COLOR_THEME, newValue)
+        }
+
+    private val _colorThemeFlow = MutableStateFlow(colorTheme)
+    val colorThemeFlow = _colorThemeFlow.asStateFlow()
+
     companion object {
 
         const val LANGUAGE_DEFAULT = "default"
@@ -109,5 +124,6 @@ constructor(
         private const val KEY_PREVIOUS_ICON_COLOR = "previous_icon_color"
         private const val KEY_USER_AGENT = "user_agent"
         private const val KEY_EXPERIMENTAL_EXECUTION_MODE = "experimental_execution_mode"
+        private const val KEY_COLOR_THEME = "color_theme"
     }
 }
