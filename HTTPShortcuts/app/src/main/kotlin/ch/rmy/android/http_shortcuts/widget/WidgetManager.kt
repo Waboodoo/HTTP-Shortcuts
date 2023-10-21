@@ -43,7 +43,7 @@ constructor(
     }
 
     private fun updateWidget(context: Context, widget: Widget) {
-        val shortcut = widget.shortcut ?: return
+        /*val shortcut = widget.shortcut ?: return
         RemoteViews(context.packageName, R.layout.widget).also { views ->
             views.setOnClickPendingIntent(
                 R.id.widget_base,
@@ -72,7 +72,7 @@ constructor(
 
             AppWidgetManager.getInstance(context)
                 .updateAppWidget(widget.widgetId, views)
-        }
+        }*/
     }
 
     suspend fun deleteWidgets(widgetIds: List<Int>) {

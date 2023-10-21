@@ -275,6 +275,10 @@ dependencies {
     implementation("com.github.qawaz:compose-code-editor:2.0.3")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
 
+    /* Widgets */
+    implementation("androidx.glance:glance-appwidget:1.0.0")
+    implementation("androidx.glance:glance-material3:1.0.0")
+
     /* Image cropping */
     implementation("com.github.yalantis:ucrop:2.2.8")
 
