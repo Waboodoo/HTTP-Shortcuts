@@ -252,7 +252,7 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
     implementation("androidx.hilt:hilt-work:1.0.0")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-beta01")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-rc01")
 
     /* Support libraries */
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
@@ -263,7 +263,7 @@ dependencies {
 
     /* Compose */
     implementation(platform("androidx.compose:compose-bom:2023.10.00"))
-    implementation("androidx.compose.material3:material3:1.2.0-alpha09")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha10")
     implementation("androidx.navigation:navigation-compose:2.7.4")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui-tooling-preview")
@@ -292,7 +292,7 @@ dependencies {
     implementation("org.conscrypt:conscrypt-android:2.5.2")
 
     /* Custom Tabs (for Browser Shortcuts) */
-    implementation("androidx.browser:browser:1.5.0")
+    implementation("androidx.browser:browser:1.6.0")
 
     /* Permissions */
     implementation("com.markodevcic:peko:2.2.0")
@@ -301,7 +301,7 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.8.1")
 
     /* Tasker integration */
-    implementation("com.joaomgcd:taskerpluginlibrary:0.4.9")
+    implementation("com.joaomgcd:taskerpluginlibrary:0.4.10")
 
     /* Scripting */
     // This is not the latest version, but it's the latest one that has a published artifact, and the newer ones lead to
