@@ -2239,4 +2239,16 @@
 
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">"待执行项已被取消。"</string>
+
+    <!-- Title of section in "Settings" screen: (Visual) Appearance of the app itself (e.g. themes, dark mode) -->
+    <string name="settings_appearance">"外观"</string>
+
+    <!-- Title of setting in settings screen, for selecting the app's color theme -->
+    <string name="settings_dynamic_color">"主题"</string>
+
+    <!-- Option in "Theme" setting, to use the default theme the app's colors -->
+    <string name="settings_dynamic_color_option_dynamic_color">"使用动态颜色"</string>
+
+    <!-- Option in "Theme" setting, to use Dynamic Color, i.e., use the same color scheme as the OS -->
+    <string name="settings_dynamic_color_option_default_theme">"使用默认主题"</string>
 </resources>

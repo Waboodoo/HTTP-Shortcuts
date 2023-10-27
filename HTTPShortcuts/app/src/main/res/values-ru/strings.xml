@@ -2149,4 +2149,46 @@ Wake-on-LAN"</string>
 
     <!-- Subtitle, shown on button for selecting a file to use as a request body or parameter. %s is a placeholder for the selected file's name -->
     <string name="subtitle_file_data_source_choose_file">"Файл «%s»"</string>
+
+    <!-- Label on button, shown in Response settings of shortcut editor, allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
+    <string name="button_select_response_toolbar_buttons">"Показать кнопки панели инструментов"</string>
+
+    <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
+    <string name="title_select_response_toolbar_buttons">"Выбор кнопок панели инструментов"</string>
+
+    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu and it will be promoted as a Direct Share target, allowing easy sharing of content into that specific shortcut -->
+    <string name="label_launcher_shortcut_or_direct_share">"Отображение в виде ярлыка приложения в пусковой установке и продвижение в качестве цели Direct Share"</string>
+
+    <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
+    <string name="settings_title_experimental">"Экспериментальная"</string>
+
+    <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
+    <string name="settings_title_execution_mode">"Режим исполнения"</string>
+
+    <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
+    <string name="option_execution_mode_foreground">"Запуск ярлыков на переднем плане с индикатором загрузки (по умолчанию)"</string>
+
+    <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
+    <string name="option_execution_mode_background">"Запуск ярлыков в фоновом режиме без индикатора загрузки (экспериментально)"</string>
+
+    <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
+    <string name="instructions_experimental_section">"Данный раздел содержит настройки для экспериментальных функций, которые еще не доработаны и могут быть нестабильными. Включайте их на свой страх и риск. Если вы включите их и столкнетесь с проблемами, пожалуйста, сообщите мне об этом, отправив письмо или создав проблему на Github, чтобы поделиться своими открытиями."</string>
+
+    <!-- Name of button in settings screen that allows to cancel all scheduled shortcuts executions -->
+    <string name="settings_cancel_all_pending_executions">"Отмена всех незавершенных операций"</string>
+
+    <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
+    <string name="message_pending_executions_cancelled">"Отложенные исполнения отменены."</string>
+
+    <!-- Title of section in "Settings" screen: (Visual) Appearance of the app itself (e.g. themes, dark mode) -->
+    <string name="settings_appearance">"Внешний вид"</string>
+
+    <!-- Title of setting in settings screen, for selecting the app's color theme -->
+    <string name="settings_dynamic_color">"Тема"</string>
+
+    <!-- Option in "Theme" setting, to use the default theme the app's colors -->
+    <string name="settings_dynamic_color_option_dynamic_color">"Использование динамического цвета"</string>
+
+    <!-- Option in "Theme" setting, to use Dynamic Color, i.e., use the same color scheme as the OS -->
+    <string name="settings_dynamic_color_option_default_theme">"Использовать тему по умолчанию"</string>
 </resources>
