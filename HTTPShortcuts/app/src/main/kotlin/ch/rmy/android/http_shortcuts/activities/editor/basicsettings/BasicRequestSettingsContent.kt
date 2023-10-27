@@ -15,6 +15,7 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.models.InstalledBrowser
+import ch.rmy.android.http_shortcuts.activities.execute.usecases.OpenInBrowserUseCase
 import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
@@ -107,7 +108,10 @@ private fun BrowserPackageNameSelection(
     SelectionField(
         title = stringResource(R.string.label_browser_package_name),
         selectedKey = packageName,
-        items = listOf("" to stringResource(R.string.placeholder_browser_package_name)) +
+        items = listOf(
+            "" to stringResource(R.string.placeholder_browser_package_name),
+            OpenInBrowserUseCase.CUSTOM_TABS_PACKAGE_NAME to stringResource(R.string.option_browser_custom_tab),
+        ) +
             browserPackageNameOptions.map {
                 it.packageName to (it.appName ?: it.packageName)
             },

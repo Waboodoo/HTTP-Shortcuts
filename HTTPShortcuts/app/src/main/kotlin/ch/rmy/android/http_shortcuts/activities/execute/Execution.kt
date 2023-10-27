@@ -540,7 +540,7 @@ class Execution(
             shortcut.codeOnFailure.isNotEmpty() ||
             globalCode.isNotEmpty()
 
-    private fun openShortcutInBrowser(variableManager: VariableManager) {
+    private suspend fun openShortcutInBrowser(variableManager: VariableManager) {
         openInBrowser(url = injectVariables(shortcut.url, variableManager), browserPackageName = shortcut.browserPackageName)
     }
 

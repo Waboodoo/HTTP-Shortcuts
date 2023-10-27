@@ -291,6 +291,9 @@ dependencies {
     implementation("com.github.franmontiel:PersistentCookieJar:v1.0.1")
     implementation("org.conscrypt:conscrypt-android:2.5.2")
 
+    /* Custom Tabs (for Browser Shortcuts) */
+    implementation("androidx.browser:browser:1.5.0")
+
     /* Permissions */
     implementation("com.markodevcic:peko:2.2.0")
 
