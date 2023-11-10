@@ -2227,4 +2227,19 @@
 
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">"保留中の実行をキャンセルしました"</string>
+
+    <!-- Title of section in "Settings" screen: (Visual) Appearance of the app itself (e.g. themes, dark mode) -->
+    <string name="settings_appearance">"外観"</string>
+
+    <!-- Title of setting in settings screen, for selecting the app's color theme -->
+    <string name="settings_dynamic_color">"テーマ"</string>
+
+    <!-- Option in "Theme" setting, to use the default theme the app's colors -->
+    <string name="settings_dynamic_color_option_dynamic_color">"ダイナミック色を使用"</string>
+
+    <!-- Option in "Theme" setting, to use Dynamic Color, i.e., use the same color scheme as the OS -->
+    <string name="settings_dynamic_color_option_default_theme">"デフォルト色を使用"</string>
+
+    <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
+    <string name="option_browser_custom_tab">"カスタムタブを使用"</string>
 </resources>

@@ -2251,4 +2251,7 @@ Optionen f√ºr selbst-signierte Zertifikate findest du im Shortcut-Editor unter ‚
 
     <!-- Option in "Theme" setting, to use Dynamic Color, i.e., use the same color scheme as the OS -->
     <string name="settings_dynamic_color_option_default_theme">"Standard-Farbschema verwenden"</string>
+
+    <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
+    <string name="option_browser_custom_tab">"Custom-Tabs verwenden"</string>
 </resources>
