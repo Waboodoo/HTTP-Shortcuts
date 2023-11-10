@@ -178,7 +178,7 @@ android {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
 
-    packagingOptions {
+    packaging {
         jniLibs {
             excludes.add("META-INF/*")
         }
@@ -244,15 +244,15 @@ bugsnag {
 }
 
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation(project(path = ":framework"))
 
     /* Dependency Injection */
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
-    implementation("androidx.hilt:hilt-work:1.0.0")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-rc01")
+    implementation("androidx.hilt:hilt-work:1.1.0")
+    kapt("androidx.hilt:hilt-compiler:1.1.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 
     /* Support libraries */
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
@@ -262,9 +262,9 @@ dependencies {
     implementation("com.github.skydoves:colorpickerview:2.3.0")
 
     /* Compose */
-    implementation(platform("androidx.compose:compose-bom:2023.10.00"))
+    implementation(platform("androidx.compose:compose-bom:2023.10.01"))
     implementation("androidx.compose.material3:material3:1.2.0-alpha10")
-    implementation("androidx.navigation:navigation-compose:2.7.4")
+    implementation("androidx.navigation:navigation-compose:2.7.5")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
@@ -279,7 +279,7 @@ dependencies {
     implementation("com.github.yalantis:ucrop:2.2.8")
 
     /* Image display */
-    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("io.coil-kt:coil-compose:2.5.0")
 
     /* Image meta data extraction */
     implementation("androidx.exifinterface:exifinterface:1.3.6")
@@ -322,7 +322,7 @@ dependencies {
     implementation("org.mindrot:jbcrypt:0.4")
 
     /* Crash Reporting */
-    "releaseFullImplementation"("com.bugsnag:bugsnag-android:5.31.2")
+    "releaseFullImplementation"("com.bugsnag:bugsnag-android:5.31.3")
 
     /* cURL import & export */
     implementation(project(path = ":curl_command"))
