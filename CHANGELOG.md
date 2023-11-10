@@ -1,3 +1,13 @@
+## Version 3.7.0
+
+### Improvements
+- Browser Shortcuts can now be configured to open in a Custom Tab instead of a regular browser tab
+- The app's theme can now be changed to use Dynamic Color
+
+### Bugfixes
+- Deep-links for quickly importing from a URL now work without taking a detour through the browser
+- It is no longer possible to bypass the app's lock by using deep-links
+
 ## Version 3.6.0
 
 ### Improvements
@@ -5,7 +15,7 @@
 - Starting an import directly from clicking a link now works more universally, as you can use a URL of the form `https://http-shortcuts.rmy.ch/import?url=[URL]` to automatically start an import from a URL
 
 ### Bugfixes
-- The `openUrl()` function now works again Android 13
+- The `openUrl()` function now works again in Android 13
 
 ## Version 3.5.0
 
