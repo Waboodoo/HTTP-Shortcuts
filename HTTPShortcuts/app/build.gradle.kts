@@ -68,7 +68,7 @@ android {
         // Version name and code must remain as literals so that F-Droid can read them
         versionName = "3.7.0"
         // 11,(2 digits major),(2 digits minor),(2 digits patch),(2 digits build)
-        versionCode = 1103070000
+        versionCode = 1103070001
 
         buildConfigField("String", "BUGSNAG_API_KEY", "\"$bugsnagAPIKey\"")
         buildConfigField("String", "BUILD_TIMESTAMP", "\"${rootProject.ext["buildTimestamp"]}\"")
@@ -263,7 +263,7 @@ dependencies {
 
     /* Compose */
     implementation(platform("androidx.compose:compose-bom:2023.10.01"))
-    implementation("androidx.compose.material3:material3:1.2.0-alpha10")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha09")
     implementation("androidx.navigation:navigation-compose:2.7.5")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui-tooling-preview")
