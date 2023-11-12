@@ -129,4 +129,35 @@ class CurlCommand internal constructor() : Serializable {
         internal fun encode(text: String): String =
             URLEncoder.encode(text, PARAMETER_ENCODING)
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is CurlCommand) return false
+        if (url != other.url) return false
+        if (method != other.method) return false
+        if (headersInternal != other.headersInternal) return false
+        if (usesBinaryData != other.usesBinaryData) return false
+        if (dataInternal != other.dataInternal) return false
+        if (timeout != other.timeout) return false
+        if (username != other.username) return false
+        if (password != other.password) return false
+        if (isFormData != other.isFormData) return false
+        if (proxyHost != other.proxyHost) return false
+        if (proxyPort != other.proxyPort) return false
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = url.hashCode()
+        result = 31 * result + method.hashCode()
+        result = 31 * result + headersInternal.hashCode()
+        result = 31 * result + usesBinaryData.hashCode()
+        result = 31 * result + dataInternal.hashCode()
+        result = 31 * result + timeout
+        result = 31 * result + username.hashCode()
+        result = 31 * result + password.hashCode()
+        result = 31 * result + isFormData.hashCode()
+        result = 31 * result + proxyHost.hashCode()
+        result = 31 * result + proxyPort
+        return result
+    }
 }
