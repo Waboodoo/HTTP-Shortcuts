@@ -100,6 +100,8 @@ class Shortcut() : RealmObject {
 
     var acceptCookies: Boolean = true
 
+    var keepConnectionOpen: Boolean = false
+
     private var proxy: String = "HTTP"
 
     var proxyHost: String? = null
@@ -201,6 +203,7 @@ class Shortcut() : RealmObject {
             other.followRedirects != followRedirects ||
             other.confirmation != confirmation ||
             other.acceptCookies != acceptCookies ||
+            other.keepConnectionOpen != keepConnectionOpen ||
             other.proxyType != proxyType ||
             other.proxyHost != proxyHost ||
             other.proxyPort != proxyPort ||

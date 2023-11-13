@@ -30,6 +30,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 fun AdvancedSettingsContent(
     followRedirects: Boolean,
     storeCookies: Boolean,
+    keepConnectionOpen: Boolean,
     requireSpecificWifi: Boolean,
     wifiSsid: String,
     timeoutSubtitle: String,
@@ -43,6 +44,7 @@ fun AdvancedSettingsContent(
     certificateFingerprint: String,
     onFollowRedirectsChanged: (Boolean) -> Unit,
     onStoreCookiesChanged: (Boolean) -> Unit,
+    onKeepConnectionOpenChanged: (Boolean) -> Unit,
     onRequireSpecificWifiChanged: (Boolean) -> Unit,
     onWifiSsidChanged: (String) -> Unit,
     onTimeoutButtonClicked: () -> Unit,
@@ -67,6 +69,12 @@ fun AdvancedSettingsContent(
             label = stringResource(R.string.label_accept_cookies),
             checked = storeCookies,
             onCheckedChange = onStoreCookiesChanged,
+        )
+
+        Checkbox(
+            label = stringResource(R.string.label_keep_connection_open),
+            checked = keepConnectionOpen,
+            onCheckedChange = onKeepConnectionOpenChanged,
         )
 
         HorizontalDivider()

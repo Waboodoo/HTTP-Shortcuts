@@ -28,6 +28,7 @@ constructor(
             hostVerificationEnabled = !shortcut.url.startsWith("http:", ignoreCase = true),
             hostVerificationType = shortcut.getHostVerificationType(),
             acceptCookies = shortcut.acceptCookies,
+            keepConnectionOpen = shortcut.keepConnectionOpen,
             timeout = shortcut.timeout.milliseconds,
             proxyType = shortcut.proxyType.takeUnless { shortcut.proxyHost.isNullOrEmpty() },
             proxyHost = shortcut.proxyHost ?: "",
@@ -92,6 +93,15 @@ constructor(
         }
         withProgressTracking {
             temporaryShortcutRepository.setAcceptCookies(acceptCookies)
+        }
+    }
+
+    fun onKeepConnectionOpenChanged(keepConnectionOpen: Boolean) = runAction {
+        updateViewState {
+            copy(keepConnectionOpen = keepConnectionOpen)
+        }
+        withProgressTracking {
+            temporaryShortcutRepository.setKeepConnectionOpen(keepConnectionOpen)
         }
     }
 

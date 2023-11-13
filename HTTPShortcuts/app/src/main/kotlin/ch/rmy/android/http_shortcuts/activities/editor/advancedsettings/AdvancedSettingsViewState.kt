@@ -15,6 +15,7 @@ data class AdvancedSettingsViewState(
     val hostVerificationType: HostVerificationType,
     val certificateFingerprint: String,
     val acceptCookies: Boolean,
+    val keepConnectionOpen: Boolean,
     val timeout: Duration,
     val proxyType: ProxyType?,
     val proxyHost: String,

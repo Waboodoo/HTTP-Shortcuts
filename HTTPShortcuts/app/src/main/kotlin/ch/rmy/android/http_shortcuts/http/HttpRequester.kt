@@ -163,7 +163,9 @@ constructor(
             )
 
             val request = RequestBuilder(shortcut.method, requestData.url)
-                .header(HttpHeaders.CONNECTION, "close")
+                .runIf(!shortcut.keepConnectionOpen) {
+                    header(HttpHeaders.CONNECTION, "close")
+                }
                 .userAgent(UserAgentProvider.getUserAgent(context))
                 .runIf(shortcut.usesCustomBody()) {
                     contentType(determineContentType(shortcut))

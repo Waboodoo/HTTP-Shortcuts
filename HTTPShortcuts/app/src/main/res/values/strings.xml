@@ -898,6 +898,8 @@
     <string name="label_follow_redirects">Follow redirects</string>
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether cookies should be stored for the HTTP request -->
     <string name="label_accept_cookies">Store cookies</string>
+    <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether the HTTP connection should be kept open after a request is made -->
+    <string name="label_keep_connection_open">Keep connection open after request</string>
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
     <string name="label_pre_request_script">Run before Execution</string>
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->

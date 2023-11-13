@@ -23,6 +23,7 @@ fun AdvancedSettingsScreen() {
         AdvancedSettingsContent(
             followRedirects = viewState.followRedirects,
             storeCookies = viewState.acceptCookies,
+            keepConnectionOpen = viewState.keepConnectionOpen,
             requireSpecificWifi = viewState.requireSpecificWifi,
             wifiSsid = viewState.wifiSsid,
             timeoutSubtitle = viewState.timeoutSubtitle.localize(),
@@ -36,6 +37,7 @@ fun AdvancedSettingsScreen() {
             certificateFingerprint = viewState.certificateFingerprint,
             onFollowRedirectsChanged = viewModel::onFollowRedirectsChanged,
             onStoreCookiesChanged = viewModel::onAcceptCookiesChanged,
+            onKeepConnectionOpenChanged = viewModel::onKeepConnectionOpenChanged,
             onRequireSpecificWifiChanged = viewModel::onRequireSpecificWifiChanged,
             onWifiSsidChanged = viewModel::onWifiSsidChanged,
             onTimeoutButtonClicked = viewModel::onTimeoutButtonClicked,

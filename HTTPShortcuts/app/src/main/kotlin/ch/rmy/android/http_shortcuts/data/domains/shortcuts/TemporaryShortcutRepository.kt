@@ -378,6 +378,12 @@ constructor(
         }
     }
 
+    suspend fun setKeepConnectionOpen(keepConnectionOpen: Boolean) {
+        commitTransactionForShortcut { shortcut ->
+            shortcut.keepConnectionOpen = keepConnectionOpen
+        }
+    }
+
     suspend fun setTimeout(timeout: Duration) {
         commitTransactionForShortcut { shortcut ->
             shortcut.timeout = timeout.inWholeMilliseconds.toInt()
