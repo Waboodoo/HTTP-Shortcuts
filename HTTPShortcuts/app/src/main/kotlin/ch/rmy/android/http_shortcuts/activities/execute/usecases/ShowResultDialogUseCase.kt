@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -33,9 +34,10 @@ constructor(
 ) {
 
     suspend operator fun invoke(shortcut: Shortcut, response: ShortcutResponse?, output: String?, dialogHandle: DialogHandle) = coroutineScope {
+        val responseHandling = shortcut.responseHandling
         val shortcutName = shortcut.getSafeName(context)
         val text = output ?: response?.getContentAsString(context) ?: ""
-        val action = shortcut.responseHandling?.displayActions?.firstOrNull()
+        val action = responseHandling?.displayActions?.firstOrNull()
             ?.takeIf {
                 when (it) {
                     ResponseDisplayAction.RERUN -> true
@@ -49,17 +51,18 @@ constructor(
                 ExecuteDialogState.ShowResult(
                     title = shortcutName,
                     action = action,
-                    content = if (output == null && FileTypeUtil.isImage(response?.contentType)) {
+                    content = if (output == null && responseHandling?.responseContentType == null && FileTypeUtil.isImage(response?.contentType)) {
                         ExecuteDialogState.ShowResult.Content.Image(
                             response!!.getContentUri(context)!!,
                         )
                     } else {
                         ExecuteDialogState.ShowResult.Content.Text(
-                            (output ?: response?.getContentAsString(context) ?: "")
-                                .ifBlank { context.getString(R.string.message_blank_response) }
+                            text = (output ?: response?.getContentAsString(context) ?: "")
+                                .ifBlank { context.getString(R.string.message_blank_response) },
+                            allowHtml = responseHandling?.responseContentType == ResponseContentType.HTML,
                         )
                     },
-                    monospace = shortcut.responseHandling?.monospace == true,
+                    monospace = responseHandling?.monospace == true,
                 )
             )
         } catch (e: DialogCancellationException) {

@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.models
 
+import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.types.EmbeddedRealmObject
@@ -34,6 +35,7 @@ class ResponseHandling() : EmbeddedRealmObject {
     var uiType: String = UI_TYPE_WINDOW
     var successOutput: String = SUCCESS_OUTPUT_RESPONSE
     var failureOutput: String = FAILURE_OUTPUT_DETAILED
+    private var contentType: String? = null
     var successMessage: String = ""
     var includeMetaInfo: Boolean = false
     var monospace: Boolean = false
@@ -42,6 +44,12 @@ class ResponseHandling() : EmbeddedRealmObject {
         get() = actions.mapNotNull(ResponseDisplayAction::parse)
         set(value) {
             actions = value.mapTo(realmListOf()) { it.key }
+        }
+
+    var responseContentType: ResponseContentType?
+        get() = contentType?.let(ResponseContentType::parse)
+        set(value) {
+            contentType = value?.key
         }
 
     var storeDirectory: String? = null
@@ -70,7 +78,8 @@ class ResponseHandling() : EmbeddedRealmObject {
             other.storeDirectory == storeDirectory &&
             other.storeFileName == storeFileName &&
             other.replaceFileIfExists == replaceFileIfExists &&
-            other.monospace == monospace
+            other.monospace == monospace &&
+            other.contentType == contentType
 
     companion object {
 

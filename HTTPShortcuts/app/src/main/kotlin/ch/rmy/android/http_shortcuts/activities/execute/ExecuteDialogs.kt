@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -381,7 +382,14 @@ private fun ShowResultDialog(
                         AsyncImage(model = content.imageUri, contentDescription = null)
                     }
                     is ExecuteDialogState.ShowResult.Content.Text -> {
-                        HtmlRichText(text = content.text, monospace = monospace)
+                        if (content.allowHtml) {
+                            HtmlRichText(text = content.text, monospace = monospace)
+                        } else {
+                            Text(
+                                text = content.text,
+                                fontFamily = if (monospace) FontFamily.Monospace else null,
+                            )
+                        }
                     }
                 }
             }

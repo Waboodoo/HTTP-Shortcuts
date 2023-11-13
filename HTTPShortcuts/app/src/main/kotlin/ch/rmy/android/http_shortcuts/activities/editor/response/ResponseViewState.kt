@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.response
 
 import androidx.compose.runtime.Stable
 import ch.rmy.android.framework.utils.localization.Localizable
+import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 
 @Stable
@@ -9,6 +10,7 @@ data class ResponseViewState(
     val dialogState: ResponseDialogState? = null,
     val successMessageHint: Localizable,
     val responseUiType: String,
+    val responseContentType: ResponseContentType?,
     val responseSuccessOutput: String,
     val responseFailureOutput: String,
     val includeMetaInformation: Boolean,

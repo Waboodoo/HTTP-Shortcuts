@@ -43,6 +43,7 @@ fun ResponseScreen() {
         ResponseContent(
             successMessageHint = viewState.successMessageHint.localize(),
             responseUiType = viewState.responseUiType,
+            responseContentType = viewState.responseContentType,
             responseSuccessOutput = viewState.responseSuccessOutput,
             responseFailureOutput = viewState.responseFailureOutput,
             includeMetaInformation = viewState.includeMetaInformation,
@@ -57,6 +58,7 @@ fun ResponseScreen() {
             onSuccessMessageChanged = viewModel::onSuccessMessageChanged,
             onResponseFailureOutputChanged = viewModel::onResponseFailureOutputChanged,
             onResponseUiTypeChanged = viewModel::onResponseUiTypeChanged,
+            onResponseContentTypeChanged = viewModel::onResponseContentTypeChanged,
             onDialogActionChanged = viewModel::onDialogActionChanged,
             onIncludeMetaInformationChanged = viewModel::onIncludeMetaInformationChanged,
             onWindowActionsButtonClicked = viewModel::onWindowActionsButtonClicked,

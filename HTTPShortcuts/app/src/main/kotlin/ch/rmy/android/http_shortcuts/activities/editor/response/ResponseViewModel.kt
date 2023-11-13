@@ -10,6 +10,7 @@ import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
+import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -30,6 +31,7 @@ constructor(
         return ResponseViewState(
             successMessageHint = getSuccessMessageHint(shortcut),
             responseUiType = responseHandling.uiType,
+            responseContentType = responseHandling.responseContentType,
             responseSuccessOutput = responseHandling.successOutput,
             responseFailureOutput = responseHandling.failureOutput,
             includeMetaInformation = responseHandling.includeMetaInfo,
@@ -57,6 +59,15 @@ constructor(
         }
         withProgressTracking {
             temporaryShortcutRepository.setResponseUiType(responseUiType)
+        }
+    }
+
+    fun onResponseContentTypeChanged(responseContentType: ResponseContentType?) = runAction {
+        updateViewState {
+            copy(responseContentType = responseContentType)
+        }
+        withProgressTracking {
+            temporaryShortcutRepository.setResponseContentType(responseContentType)
         }
     }
 

@@ -92,7 +92,7 @@ sealed class ExecuteDialogState<T : Any> {
     ) : ExecuteDialogState<Unit>() {
         @Stable
         sealed class Content {
-            data class Text(val text: String) : Content()
+            data class Text(val text: String, val allowHtml: Boolean) : Content()
             data class Image(val imageUri: Uri) : Content()
         }
     }

@@ -37,6 +37,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
+import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
@@ -590,7 +591,15 @@ class Execution(
                     }
                     DisplayResponseActivity.IntentBuilder(shortcut.id)
                         .name(shortcutName)
-                        .type(response?.contentType)
+                        .type(
+                            when (shortcut.responseHandling?.responseContentType) {
+                                ResponseContentType.PLAIN_TEXT -> FileTypeUtil.TYPE_PLAIN_TEXT
+                                ResponseContentType.JSON -> FileTypeUtil.TYPE_JSON
+                                ResponseContentType.XML -> FileTypeUtil.TYPE_XML
+                                ResponseContentType.HTML -> FileTypeUtil.TYPE_HTML
+                                null -> response?.contentType
+                            }
+                        )
                         .runIfNotNull(output) {
                             text(it)
                         }
