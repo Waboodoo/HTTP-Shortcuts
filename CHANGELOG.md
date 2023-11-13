@@ -1,7 +1,9 @@
 ## Version 3.7.0
 
 ### Improvements
+- You can now override the content type of a shortcut's response, forcing it to be displayed as plain text, JSON, XML, or HTML
 - Browser Shortcuts can now be configured to open in a Custom Tab instead of a regular browser tab
+- It is now possible to keep the HTTP connection open after a request was made, allowing for faster requests in succession
 - The app's theme can now be changed to use Dynamic Color
 
 ### Bugfixes
