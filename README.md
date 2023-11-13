@@ -20,7 +20,7 @@ or [download the latest APK](https://github.com/Waboodoo/HTTP-Shortcuts/releases
 
 Find more information and documentation on the [official website](https://http-shortcuts.rmy.ch/).
 
-[Support this app](https://http-shortcuts.rmy.ch/support-me) by helping me [translate it](https://poeditor.com/join/project/8tHhwOTzVZ) or by becoming a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_shortcuts)!
+[Support this app](https://http-shortcuts.rmy.ch/support-me) by helping me [translate it](https://crowdin.com/project/http-shortcuts) or by becoming a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_shortcuts)!
 
 ## Features
 - Supports HTTP and HTTPS, and methods GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE

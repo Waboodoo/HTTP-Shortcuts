@@ -17,7 +17,7 @@ object ExternalURLs {
     const val F_DROID = "https://f-droid.org/en/packages/ch.rmy.android.http_shortcuts/"
     const val GITHUB = "https://github.com/Waboodoo/HTTP-Shortcuts"
     const val RELEASES = "$GITHUB/releases"
-    const val TRANSLATION = "https://poeditor.com/join/project/8tHhwOTzVZ"
+    const val TRANSLATION = "https://crowdin.com/project/http-shortcuts"
 
     fun getScriptingDocumentation(docRef: String) =
         "$BASE_URL/scripting#$docRef"

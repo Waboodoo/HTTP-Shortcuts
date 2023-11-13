@@ -107,7 +107,7 @@ There is currently no support for voice recognition in HTTP Shortcuts, with the 
 
 ## I would like to help translate the app. How can I contribute?
 
-First of all, thank you for even considering this. I appreciate the effort. You can join the translation project here: [HTTP Shortcuts on poeditor.com](https://poeditor.com/join/project/8tHhwOTzVZ)
+First of all, thank you for even considering this. I appreciate the effort. You can join the translation project here: [HTTP Shortcuts on crowdin.com](https://crowdin.com/project/http-shortcuts)
 
 ## Is this app also available on iOS?
 
