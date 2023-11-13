@@ -24,12 +24,18 @@ import java.net.Proxy
 import java.security.KeyStore
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Singleton
 import javax.net.ssl.KeyManagerFactory
 import javax.net.ssl.SSLContext
 
+@Singleton
 class HttpClientFactory
 @Inject
 constructor() {
+    private val baseClient = OkHttpClient.Builder()
+        .fastFallback(true)
+        .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.CLEARTEXT))
+        .build()
 
     fun getClient(
         context: Context,
@@ -42,59 +48,56 @@ constructor() {
         cookieJar: CookieJar? = null,
         certificatePins: List<CertificatePin> = emptyList(),
         hostVerificationConfig: HostVerificationConfig = HostVerificationConfig.Default,
-    ): OkHttpClient =
-        OkHttpClient.Builder()
-            .fastFallback(true)
-            .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.CLEARTEXT))
-            .configureTLS(context, hostVerificationConfig, clientCertParams)
-            .runIf(username != null && password != null) {
-                val authenticator = DigestAuthenticator(Credentials(username, password))
-                authenticator(authenticator)
-            }
-            .addInterceptor(CompressionInterceptor)
-            .followRedirects(followRedirects)
-            .followSslRedirects(followRedirects)
-            .connectTimeout(timeout, TimeUnit.MILLISECONDS)
-            .readTimeout(timeout, TimeUnit.MILLISECONDS)
-            .writeTimeout(timeout, TimeUnit.MILLISECONDS)
-            .runIf(certificatePins.isNotEmpty()) {
-                certificatePinner(
-                    CertificatePinner.Builder()
-                        .runFor(certificatePins) { pin ->
-                            val hash = Base64.encodeToString(pin.hash, Base64.NO_WRAP)
-                            val prefix = if (pin.isSha256) "sha256" else "sha1"
-                            add(pin.pattern, "$prefix/$hash")
-                        }
-                        .build()
-                )
-            }
-            .runIfNotNull(cookieJar) {
-                cookieJar(it)
-            }
-            .runIfNotNull(proxy) {
-                Authenticator.setDefault(object : Authenticator() {
-                    override fun getPasswordAuthentication(): PasswordAuthentication {
-                        if (it.host.equals(requestingHost, ignoreCase = true) && it.port == requestingPort) {
-                            return PasswordAuthentication(it.username, it.password.toCharArray())
-                        }
-                        return super.getPasswordAuthentication()
+    ): OkHttpClient = baseClient.newBuilder()
+        .configureTLS(context, hostVerificationConfig, clientCertParams)
+        .runIf(username != null && password != null) {
+            val authenticator = DigestAuthenticator(Credentials(username, password))
+            authenticator(authenticator)
+        }
+        .addInterceptor(CompressionInterceptor)
+        .followRedirects(followRedirects)
+        .followSslRedirects(followRedirects)
+        .connectTimeout(timeout, TimeUnit.MILLISECONDS)
+        .readTimeout(timeout, TimeUnit.MILLISECONDS)
+        .writeTimeout(timeout, TimeUnit.MILLISECONDS)
+        .runIf(certificatePins.isNotEmpty()) {
+            certificatePinner(
+                CertificatePinner.Builder()
+                    .runFor(certificatePins) { pin ->
+                        val hash = Base64.encodeToString(pin.hash, Base64.NO_WRAP)
+                        val prefix = if (pin.isSha256) "sha256" else "sha1"
+                        add(pin.pattern, "$prefix/$hash")
                     }
-                })
-                try {
-                    proxy(
-                        Proxy(
-                            when (it.type) {
-                                ProxyType.HTTP -> Proxy.Type.HTTP
-                                ProxyType.SOCKS -> Proxy.Type.SOCKS
-                            },
-                            InetSocketAddress(it.host, it.port),
-                        )
-                    )
-                } catch (e: IllegalArgumentException) {
-                    throw InvalidProxyException(e.message!!)
+                    .build()
+            )
+        }
+        .runIfNotNull(cookieJar) {
+            cookieJar(it)
+        }
+        .runIfNotNull(proxy) {
+            Authenticator.setDefault(object : Authenticator() {
+                override fun getPasswordAuthentication(): PasswordAuthentication {
+                    if (it.host.equals(requestingHost, ignoreCase = true) && it.port == requestingPort) {
+                        return PasswordAuthentication(it.username, it.password.toCharArray())
+                    }
+                    return super.getPasswordAuthentication()
                 }
+            })
+            try {
+                proxy(
+                    Proxy(
+                        when (it.type) {
+                            ProxyType.HTTP -> Proxy.Type.HTTP
+                            ProxyType.SOCKS -> Proxy.Type.SOCKS
+                        },
+                        InetSocketAddress(it.host, it.port),
+                    )
+                )
+            } catch (e: IllegalArgumentException) {
+                throw InvalidProxyException(e.message!!)
             }
-            .build()
+        }
+        .build()
 
     private fun OkHttpClient.Builder.configureTLS(
         context: Context,
