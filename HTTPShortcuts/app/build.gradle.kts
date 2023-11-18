@@ -7,7 +7,6 @@ import com.android.build.gradle.api.BaseVariantOutput
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 
 plugins {
-    id("de.jansauer.poeditor") version "1.1.0"
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
@@ -26,8 +25,6 @@ val androidCoreKtxTestVersion: String by properties
 val hiltVersion: String by properties
 
 val bugsnagAPIKey: String by rootProject.ext
-val poeditorAPIKey: String by rootProject.ext
-val poeditorProjectId: String by rootProject.ext
 val autoBuildDocs: Boolean by rootProject.ext
 val useBugsnag = bugsnagAPIKey.isNotEmpty()
 
@@ -342,22 +339,6 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
-}
-
-poeditor {
-    apiKey.set(poeditorAPIKey)
-    projectId.set(poeditorProjectId)
-
-    terms(
-        mapOf(
-            "lang" to "en",
-            "file" to "src/main/res/values/strings.xml",
-            "updating" to "terms_translations",
-            "overwrite" to true,
-            "sync_terms" to true,
-        )
-    )
-    // translation definitions omitted as the plugin currently does not support filtering by "translated" status, making its pull feature unusable
 }
 
 fun generateHtmlFromMarkdown(inputFile: String, outputFile: String, templateFile: String, mutate: String.() -> String = { this }) {
