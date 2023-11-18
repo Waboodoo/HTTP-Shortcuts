@@ -4,6 +4,7 @@ import ch.rmy.android.framework.extensions.isInt
 import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
@@ -122,7 +123,13 @@ class Shortcut() : RealmObject {
 
     var codeOnFailure: String = ""
 
-    var browserPackageName: String = ""
+    private var browserPackageName: String = ""
+
+    var targetBrowser: TargetBrowser
+        get() = TargetBrowser.parse(browserPackageName)
+        set(value) {
+            browserPackageName = value.serialize()
+        }
 
     var excludeFromHistory: Boolean = false
 

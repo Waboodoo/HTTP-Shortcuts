@@ -8,6 +8,7 @@ import ch.rmy.android.framework.extensions.getCaseInsensitive
 import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
+import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
@@ -105,9 +106,9 @@ constructor(
         }
     }
 
-    suspend fun setBrowserPackageName(packageName: String) {
+    suspend fun setTargetBrowser(targetBrowser: TargetBrowser) {
         commitTransactionForShortcut { shortcut ->
-            shortcut.browserPackageName = packageName.trim()
+            shortcut.targetBrowser = targetBrowser
         }
     }
 

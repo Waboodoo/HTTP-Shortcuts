@@ -23,12 +23,12 @@ fun BasicRequestSettingsScreen() {
             methodVisible = viewState.methodVisible,
             method = viewState.method,
             url = viewState.url,
-            browserPackageName = viewState.browserPackageName,
-            browserPackageNameVisible = viewState.browserPackageNameVisible,
+            targetBrowser = viewState.targetBrowser,
+            targetBrowserChoiceVisible = viewState.targetBrowserChoiceVisible,
             browserPackageNameOptions = viewState.browserPackageNameOptions,
             onMethodChanged = viewModel::onMethodChanged,
             onUrlChanged = viewModel::onUrlChanged,
-            onBrowserPackageNameChanged = viewModel::onBrowserPackageNameChanged,
+            onTargetBrowserChanged = viewModel::onTargetBrowserChanged,
         )
     }
 }

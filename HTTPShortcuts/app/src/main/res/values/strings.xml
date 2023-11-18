@@ -24,6 +24,8 @@
     <string name="placeholder_browser_package_name">Use default browser</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
     <string name="option_browser_custom_tab">Use Custom Tab</string>
+    <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
+    <string name="option_custom_browser_in_custom_tab">%s (Custom Tab)</string>
     <!-- Button to save changes made to shortcut/variable -->
     <string name="save_button">Save</string>
     <!-- Button to test changes made to shortcut -->

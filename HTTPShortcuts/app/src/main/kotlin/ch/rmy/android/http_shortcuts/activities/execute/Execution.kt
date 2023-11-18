@@ -542,7 +542,7 @@ class Execution(
             globalCode.isNotEmpty()
 
     private suspend fun openShortcutInBrowser(variableManager: VariableManager) {
-        openInBrowser(url = injectVariables(shortcut.url, variableManager), browserPackageName = shortcut.browserPackageName)
+        openInBrowser(url = injectVariables(shortcut.url, variableManager), targetBrowser = shortcut.targetBrowser)
     }
 
     private fun injectVariables(string: String, variableManager: VariableManager): String =

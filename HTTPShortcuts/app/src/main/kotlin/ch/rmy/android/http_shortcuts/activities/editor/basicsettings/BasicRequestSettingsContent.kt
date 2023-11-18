@@ -10,15 +10,16 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.models.InstalledBrowser
-import ch.rmy.android.http_shortcuts.activities.execute.usecases.OpenInBrowserUseCase
 import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
+import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 
 @Composable
@@ -26,12 +27,12 @@ fun BasicRequestSettingsContent(
     methodVisible: Boolean,
     method: String,
     url: String,
-    browserPackageName: String,
-    browserPackageNameVisible: Boolean,
+    targetBrowser: TargetBrowser,
+    targetBrowserChoiceVisible: Boolean,
     browserPackageNameOptions: List<InstalledBrowser>,
     onMethodChanged: (String) -> Unit,
     onUrlChanged: (String) -> Unit,
-    onBrowserPackageNameChanged: (String) -> Unit,
+    onTargetBrowserChanged: (TargetBrowser) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -45,11 +46,11 @@ fun BasicRequestSettingsContent(
 
         UrlField(url, onUrlChanged)
 
-        if (browserPackageNameVisible) {
-            BrowserPackageNameSelection(
-                packageName = browserPackageName,
+        if (targetBrowserChoiceVisible) {
+            TargetBrowserSelection(
+                targetBrowser = targetBrowser,
                 browserPackageNameOptions = browserPackageNameOptions,
-                onPackageNameSelected = onBrowserPackageNameChanged,
+                onTargetBrowserChanged = onTargetBrowserChanged,
             )
         }
     }
@@ -100,21 +101,28 @@ private fun UrlField(url: String, onUrlChanged: (String) -> Unit) {
 }
 
 @Composable
-private fun BrowserPackageNameSelection(
-    packageName: String,
+private fun TargetBrowserSelection(
+    targetBrowser: TargetBrowser,
     browserPackageNameOptions: List<InstalledBrowser>,
-    onPackageNameSelected: (String) -> Unit,
+    onTargetBrowserChanged: (TargetBrowser) -> Unit,
 ) {
+    val resources = LocalContext.current.resources
     SelectionField(
         title = stringResource(R.string.label_browser_package_name),
-        selectedKey = packageName,
+        selectedKey = targetBrowser,
         items = listOf(
-            "" to stringResource(R.string.placeholder_browser_package_name),
-            OpenInBrowserUseCase.CUSTOM_TABS_PACKAGE_NAME to stringResource(R.string.option_browser_custom_tab),
+            TargetBrowser.Browser(packageName = null) to stringResource(R.string.placeholder_browser_package_name),
+            TargetBrowser.CustomTabs(packageName = null) to stringResource(R.string.option_browser_custom_tab),
         ) +
-            browserPackageNameOptions.map {
-                it.packageName to (it.appName ?: it.packageName)
+            browserPackageNameOptions.flatMap {
+                listOf(
+                    TargetBrowser.Browser(it.packageName) to (it.appName ?: it.packageName),
+                    TargetBrowser.CustomTabs(it.packageName) to resources.getString(
+                        R.string.option_custom_browser_in_custom_tab,
+                        (it.appName ?: it.packageName),
+                    ),
+                )
             },
-        onItemSelected = onPackageNameSelected,
+        onItemSelected = onTargetBrowserChanged,
     )
 }

@@ -14,8 +14,7 @@ class GetAvailableBrowserPackageNamesUseCase
 constructor(
     private val context: Context,
 ) {
-
-    operator fun invoke(currentValue: String): List<InstalledBrowser> =
+    operator fun invoke(currentValue: String?): List<InstalledBrowser> =
         context.packageManager.queryIntentActivities(
             Intent(Intent.ACTION_VIEW, "https://http-shortcuts.rmy.ch".toUri()),
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PackageManager.MATCH_ALL else 0,
@@ -27,8 +26,8 @@ constructor(
                 )
             }
             .let { browsers ->
-                browsers.runIf(currentValue.isNotEmpty() && browsers.none { it.packageName == currentValue }) {
-                    plus(InstalledBrowser(packageName = currentValue))
+                browsers.runIf(currentValue != null && browsers.none { it.packageName == currentValue }) {
+                    plus(InstalledBrowser(packageName = currentValue!!))
                 }
             }
             .sortedBy { it.appName ?: it.packageName }
