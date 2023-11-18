@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ScrollableTabRow
@@ -73,6 +74,7 @@ fun MainContent(
             state = pagerState,
             userScrollEnabled = true,
             beyondBoundsPageCount = 2,
+            flingBehavior = PagerDefaults.flingBehavior(state = pagerState, snapPositionalThreshold = 0.3f),
             key = { index ->
                 categoryItems[index].categoryId
             },
