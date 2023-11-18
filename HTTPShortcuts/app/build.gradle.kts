@@ -289,7 +289,7 @@ dependencies {
     implementation("org.conscrypt:conscrypt-android:2.5.2")
 
     /* Custom Tabs (for Browser Shortcuts) */
-    implementation("androidx.browser:browser:1.6.0")
+    implementation("androidx.browser:browser:1.7.0")
 
     /* Permissions */
     implementation("com.markodevcic:peko:2.2.0")
