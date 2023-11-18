@@ -277,6 +277,11 @@ constructor(
         navigate(NavigationDestination.ImportExport.buildRequest())
     }
 
+    fun onTroubleShootingButtonClicked() = runAction {
+        logInfo("Trouble Shooting button clicked")
+        navigate(NavigationDestination.TroubleShooting)
+    }
+
     fun onAboutButtonClicked() = runAction {
         logInfo("About button clicked")
         navigate(NavigationDestination.About)

@@ -307,6 +307,10 @@ sealed interface NavigationDestination {
             bundle.getEncodedString(ARG_SHORTCUT_ID)
     }
 
+    object TroubleShooting : NoArgNavigationDestination {
+        override val path = "troubleShooting"
+    }
+
     object Variables : NoArgNavigationDestination {
         override val path = "variables"
     }

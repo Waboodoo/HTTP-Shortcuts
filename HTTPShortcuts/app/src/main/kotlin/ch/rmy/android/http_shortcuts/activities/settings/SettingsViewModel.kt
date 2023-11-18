@@ -7,13 +7,11 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.settings.usecases.CreateQuickSettingsTileUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
-import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Settings.RESULT_APP_LOCKED
-import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.BiometricUtil
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
@@ -33,10 +31,8 @@ constructor(
     application: Application,
     private val settings: Settings,
     private val appRepository: AppRepository,
-    private val pendingExecutionsRepository: PendingExecutionsRepository,
     private val localeHelper: LocaleHelper,
     private val cookieManager: CookieManager,
-    private val appOverlayUtil: AppOverlayUtil,
     private val restrictionsUtil: RestrictionsUtil,
     private val createQuickSettingsTile: CreateQuickSettingsTileUseCase,
     private val biometricUtil: BiometricUtil,
@@ -50,11 +46,6 @@ constructor(
         selectedClickActionOption = settings.clickBehavior,
         crashReportingAllowed = settings.isCrashReportingAllowed,
         colorTheme = settings.colorTheme,
-        batteryOptimizationButtonVisible = restrictionsUtil.run {
-            canRequestIgnoreBatteryOptimization() && !isIgnoringBatteryOptimizations()
-        },
-        allowOverlayButtonVisible = restrictionsUtil.canAllowOverlay(),
-        allowXiaomiOverlayButtonVisible = restrictionsUtil.hasPermissionEditor(),
         experimentalExecutionModeEnabled = settings.useExperimentalExecutionMode,
     )
 
@@ -75,15 +66,6 @@ constructor(
                 logException(e)
             }
         }
-    }
-
-    fun onClearCookiesButtonClicked() = runAction {
-        updateDialogState(SettingsDialogState.ClearCookies)
-    }
-
-    fun onCancelAllPendingExecutionsButtonClicked() = runAction {
-        pendingExecutionsRepository.removeAllPendingExecutions()
-        showSnackbar(R.string.message_pending_executions_cancelled)
     }
 
     fun onClearCookiesConfirmed() = runAction {
@@ -163,22 +145,6 @@ constructor(
         if (!allowed) {
             Logging.disableCrashReporting(context)
         }
-    }
-
-    fun onEventHistoryClicked() = runAction {
-        navigate(NavigationDestination.History)
-    }
-
-    fun onAllowOverlayButtonClicked() = runAction {
-        sendIntent(appOverlayUtil.getSettingsIntent() ?: skipAction())
-    }
-
-    fun onAllowXiaomiOverlayButtonClicked() = runAction {
-        sendIntent(restrictionsUtil.getPermissionEditorIntent())
-    }
-
-    fun onBatteryOptimizationButtonClicked() = runAction {
-        sendIntent(restrictionsUtil.getRequestIgnoreBatteryOptimizationIntent() ?: skipAction())
     }
 
     fun onDialogDismissalRequested() = runAction {

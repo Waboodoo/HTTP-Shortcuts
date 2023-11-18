@@ -8,18 +8,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Badge
-import androidx.compose.material.icons.outlined.BatteryFull
 import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material.icons.outlined.ControlPoint
-import androidx.compose.material.icons.outlined.Cookie
 import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Javascript
 import androidx.compose.material.icons.outlined.Language
-import androidx.compose.material.icons.outlined.Layers
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Palette
-import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Title
 import androidx.compose.material.icons.outlined.TouchApp
@@ -40,9 +35,6 @@ import ch.rmy.android.http_shortcuts.utils.Settings.Companion.DARK_THEME_ON
 fun SettingsContent(
     privacySectionVisible: Boolean,
     quickSettingsTileButtonVisible: Boolean,
-    batteryOptimizationButtonVisible: Boolean,
-    allowOverlayButtonVisible: Boolean,
-    allowXiaomiOverlayButtonVisible: Boolean,
     selectedLanguage: String?,
     selectedDarkModeOption: String,
     crashReportingEnabled: Boolean,
@@ -59,12 +51,6 @@ fun SettingsContent(
     onCertificatePinningButtonClicked: () -> Unit,
     onGlobalScriptingButtonClicked: () -> Unit,
     onCrashReportingChanged: (Boolean) -> Unit,
-    onEventHistoryClicked: () -> Unit,
-    onClearCookiesButtonClicked: () -> Unit,
-    onCancelAllPendingExecutionsButtonClicked: () -> Unit,
-    onAllowOverlayButtonClicked: () -> Unit,
-    onAllowXiaomiOverlayButtonClicked: () -> Unit,
-    onBatteryOptimizationButtonClicked: () -> Unit,
     onColorThemeChanged: (String) -> Unit,
     onExperimentalExecutionModeChanged: (Boolean) -> Unit,
     onExperimentalHelpTextClicked: () -> Unit,
@@ -214,55 +200,6 @@ fun SettingsContent(
                         false to stringResource(R.string.settings_crash_reporting_disallow),
                     ),
                     onItemSelected = onCrashReportingChanged,
-                )
-            }
-        }
-
-        SettingsGroup(
-            title = stringResource(R.string.settings_troubleshooting),
-        ) {
-            SettingsButton(
-                icon = Icons.Outlined.History,
-                title = stringResource(R.string.title_event_history),
-                onClick = onEventHistoryClicked,
-            )
-
-            SettingsButton(
-                icon = Icons.Outlined.Cookie,
-                title = stringResource(R.string.settings_clear_cookies),
-                onClick = onClearCookiesButtonClicked,
-            )
-
-            SettingsButton(
-                icon = Icons.Outlined.Schedule,
-                title = stringResource(R.string.settings_cancel_all_pending_executions),
-                onClick = onCancelAllPendingExecutionsButtonClicked,
-            )
-
-            if (allowOverlayButtonVisible) {
-                SettingsButton(
-                    icon = Icons.Outlined.Layers,
-                    title = stringResource(R.string.settings_allow_overlay),
-                    subtitle = stringResource(R.string.settings_allow_overlay_summary),
-                    onClick = onAllowOverlayButtonClicked,
-                )
-            }
-
-            if (allowXiaomiOverlayButtonVisible) {
-                SettingsButton(
-                    icon = Icons.Outlined.Layers,
-                    title = stringResource(R.string.settings_allow_overlay_xiaomi),
-                    subtitle = stringResource(R.string.settings_allow_overlay_xiaomi_summary),
-                    onClick = onAllowXiaomiOverlayButtonClicked,
-                )
-            }
-
-            if (batteryOptimizationButtonVisible) {
-                SettingsButton(
-                    icon = Icons.Outlined.BatteryFull,
-                    title = stringResource(R.string.settings_ignore_battery_optimizations),
-                    subtitle = stringResource(R.string.settings_ignore_battery_optimizations_summary),
-                    onClick = onBatteryOptimizationButtonClicked,
                 )
             }
         }

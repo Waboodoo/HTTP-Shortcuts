@@ -5,6 +5,7 @@ import androidx.compose.material.icons.filled.DataObject
 import androidx.compose.material.icons.filled.ImportExport
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Troubleshoot
 import androidx.compose.material.icons.filled.ViewWeek
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -17,6 +18,7 @@ fun MainMenu(
     onCategoriesButtonClicked: () -> Unit,
     onVariablesButtonClicked: () -> Unit,
     onImportExportButtonClicked: () -> Unit,
+    onTroubleShootingButtonClicked: () -> Unit,
     onSettingsButtonClicked: () -> Unit,
     onAboutButtonClicked: () -> Unit,
 ) {
@@ -35,6 +37,11 @@ fun MainMenu(
             title = stringResource(R.string.title_import_export),
             icon = Icons.Filled.ImportExport,
             onClick = onImportExportButtonClicked,
+        )
+        MenuItem(
+            title = stringResource(R.string.settings_troubleshooting),
+            icon = Icons.Filled.Troubleshoot,
+            onClick = onTroubleShootingButtonClicked,
         )
         MenuItem(
             title = stringResource(R.string.title_settings),

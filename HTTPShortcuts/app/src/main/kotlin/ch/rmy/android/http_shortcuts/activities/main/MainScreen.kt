@@ -96,6 +96,7 @@ fun MainScreen(
                     onCategoriesButtonClicked = viewModel::onCategoriesButtonClicked,
                     onVariablesButtonClicked = viewModel::onVariablesButtonClicked,
                     onImportExportButtonClicked = viewModel::onImportExportButtonClicked,
+                    onTroubleShootingButtonClicked = viewModel::onTroubleShootingButtonClicked,
                     onSettingsButtonClicked = viewModel::onSettingsButtonClicked,
                     onAboutButtonClicked = viewModel::onAboutButtonClicked,
                 )
