@@ -10,4 +10,5 @@
     <item name="splash_background" type="color">@color/brand_icon</item>
     <item name="history_text_color_success" type="color">#FF009933</item>
     <item name="history_text_color_failure" type="color">#FF993300</item>
+    <item name="warning" type="color">#BF360C</item>
 </resources>

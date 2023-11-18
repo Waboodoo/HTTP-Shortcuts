@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -13,14 +14,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
+import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.HelpText
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.rememberSyntaxHighlighter
@@ -28,6 +34,7 @@ import ch.rmy.android.http_shortcuts.extensions.rememberSyntaxHighlighter
 @Composable
 fun CurlImportContent(
     inputText: String,
+    unsupportedOptions: List<String>,
     onInputTextChanged: (String) -> Unit,
     onSubmit: () -> Unit,
 ) {
@@ -67,5 +74,19 @@ fun CurlImportContent(
                 TransformedText(syntaxHighlighter.format(it.text), OffsetMapping.Identity)
             },
         )
+
+        if (unsupportedOptions.isNotEmpty()) {
+            Text(
+                modifier = Modifier.padding(top = Spacing.TINY),
+                text = buildAnnotatedString {
+                    append(stringResource(R.string.warning_unsupported_curl_options))
+                    append(" ")
+                    pushStyle(SpanStyle(fontFamily = FontFamily.Monospace))
+                    append(unsupportedOptions.joinToString(", ").truncate(100))
+                },
+                color = colorResource(R.color.warning),
+                fontSize = FontSize.SMALL,
+            )
+        }
     }
 }

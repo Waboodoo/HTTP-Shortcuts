@@ -33,6 +33,7 @@ fun CurlImportScreen() {
     ) {
         CurlImportContent(
             inputText = inputText,
+            unsupportedOptions = state?.unsupportedOptions ?: emptyList(),
             onInputTextChanged = viewModel::onInputTextChanged,
             onSubmit = viewModel::onSubmitButtonClicked,
         )

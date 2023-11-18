@@ -1515,4 +1515,6 @@
     <string name="option_response_charset_auto">Determine automatically</string>
     <!-- Label for dropdown in "Response Handling" settings, allows the user to choose which character set should be used to decode the HTTP response -->
     <string name="label_response_charset">Response Charset</string>
+    <!-- Warning message shown at the bottom of the cURL import screen when curl options have been detected that are not known to the app. The list of unsupported options is shown after this warning. -->
+    <string name="warning_unsupported_curl_options">Some options are not supported and will be ignored: </string>
 </resources>

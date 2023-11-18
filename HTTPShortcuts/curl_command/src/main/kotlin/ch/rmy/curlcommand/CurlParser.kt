@@ -129,5 +129,36 @@ class CurlParser private constructor(arguments: List<String>) {
             val curlParser = CurlParser(arguments)
             return curlParser.builder.build()
         }
+
+        fun isSupportedOption(option: String) =
+            option in SUPPORTED_OPTIONS
+
+        private val SUPPORTED_OPTIONS = setOf(
+            "-X",
+            "--request",
+            "-x",
+            "--proxy",
+            "-H",
+            "--header",
+            "-d",
+            "--data",
+            "--data-binary",
+            "--data-urlencode",
+            "--data-raw",
+            "-F",
+            "--form",
+            "-m",
+            "--max-time",
+            "--connect-timeout",
+            "-u",
+            "--user",
+            "-A",
+            "--user-agent",
+            "--url",
+            "-e",
+            "--referer",
+            "-G",
+            "--get",
+        )
     }
 }

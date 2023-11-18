@@ -2,7 +2,7 @@ package ch.rmy.curlcommand
 
 import java.util.StringTokenizer
 
-internal object CommandParser {
+object CommandParser {
 
     private enum class State {
         INIT,
