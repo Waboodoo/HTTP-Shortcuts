@@ -207,6 +207,7 @@ constructor(
     }
 
     fun onDiscardDialogConfirmed() = runAction {
+        updateDialogState(null)
         closeScreen()
     }
 
