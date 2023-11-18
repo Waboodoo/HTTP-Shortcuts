@@ -37,6 +37,7 @@ import okhttp3.CookieJar
 import okhttp3.Response
 import java.io.IOException
 import java.net.UnknownHostException
+import java.nio.charset.Charset
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -241,7 +242,12 @@ constructor(
                             )
                         }
 
-                        val shortcutResponse = prepareResponse(requestData.url, okHttpResponse, contentFile)
+                        val shortcutResponse = prepareResponse(
+                            url = requestData.url,
+                            response = okHttpResponse,
+                            contentFile = contentFile,
+                            charsetOverride = shortcut.responseHandling?.charsetOverride,
+                        )
                         if (isSuccess) {
                             continuation.resume(shortcutResponse)
                         } else {
@@ -325,13 +331,14 @@ constructor(
 
     companion object {
 
-        internal fun prepareResponse(url: String, response: Response, contentFile: DocumentFile?) =
+        internal fun prepareResponse(url: String, response: Response, contentFile: DocumentFile?, charsetOverride: Charset?) =
             ShortcutResponse(
                 url = url,
                 headers = HttpHeaders.parse(response.headers),
                 statusCode = response.code,
                 contentFile = contentFile,
                 timing = response.receivedResponseAtMillis - response.sentRequestAtMillis,
+                charsetOverride = charsetOverride,
             )
 
         internal fun determineContentType(shortcut: Shortcut): String? =

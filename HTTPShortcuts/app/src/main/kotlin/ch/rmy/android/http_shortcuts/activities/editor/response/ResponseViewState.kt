@@ -4,6 +4,7 @@ import androidx.compose.runtime.Stable
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
+import java.nio.charset.Charset
 
 @Stable
 data class ResponseViewState(
@@ -11,6 +12,8 @@ data class ResponseViewState(
     val successMessageHint: Localizable,
     val responseUiType: String,
     val responseContentType: ResponseContentType?,
+    val responseCharset: Charset?,
+    val availableCharsets: List<Charset>,
     val responseSuccessOutput: String,
     val responseFailureOutput: String,
     val includeMetaInformation: Boolean,

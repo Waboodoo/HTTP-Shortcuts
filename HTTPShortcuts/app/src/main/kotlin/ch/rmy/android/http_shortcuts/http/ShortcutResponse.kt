@@ -18,6 +18,7 @@ class ShortcutResponse internal constructor(
     val statusCode: Int,
     val contentFile: DocumentFile?,
     val timing: Long,
+    private val charsetOverride: Charset?,
 ) {
 
     val contentType: String?
@@ -26,9 +27,10 @@ class ShortcutResponse internal constructor(
         }
 
     val charset: Charset by lazy {
-        headers.getLast(HttpHeaders.CONTENT_TYPE)
-            ?.split("charset=", limit = 2)?.getOrNull(1)
-            ?.toCharset()
+        charsetOverride
+            ?: headers.getLast(HttpHeaders.CONTENT_TYPE)
+                ?.split("charset=", limit = 2)?.getOrNull(1)
+                ?.toCharset()
             ?: Charsets.UTF_8
     }
 

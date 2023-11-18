@@ -30,6 +30,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.curlcommand.CurlCommand
 import kotlinx.coroutines.flow.Flow
 import java.net.URLDecoder
+import java.nio.charset.Charset
 import javax.inject.Inject
 import kotlin.time.Duration
 
@@ -248,6 +249,12 @@ constructor(
     suspend fun setResponseContentType(responseContentType: ResponseContentType?) {
         commitTransactionForResponseHandling { responseHandling ->
             responseHandling.responseContentType = responseContentType
+        }
+    }
+
+    suspend fun setCharsetOverride(charset: Charset?) {
+        commitTransactionForResponseHandling { responseHandling ->
+            responseHandling.charsetOverride = charset
         }
     }
 

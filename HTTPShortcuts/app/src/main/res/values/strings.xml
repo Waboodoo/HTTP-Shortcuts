@@ -1511,4 +1511,8 @@
     <string name="option_response_content_type_xml">XML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as HTML -->
     <string name="option_response_content_type_html">HTML</string>
+    <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response charset. This is the default option, i.e., determine the charset automatically from the response headers -->
+    <string name="option_response_charset_auto">Determine automatically</string>
+    <!-- Label for dropdown in "Response Handling" settings, allows the user to choose which character set should be used to decode the HTTP response -->
+    <string name="label_response_charset">Response Charset</string>
 </resources>

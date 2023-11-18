@@ -5,6 +5,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.types.EmbeddedRealmObject
 import io.realm.kotlin.types.RealmList
+import java.nio.charset.Charset
 
 class ResponseHandling() : EmbeddedRealmObject {
 
@@ -36,6 +37,7 @@ class ResponseHandling() : EmbeddedRealmObject {
     var successOutput: String = SUCCESS_OUTPUT_RESPONSE
     var failureOutput: String = FAILURE_OUTPUT_DETAILED
     private var contentType: String? = null
+    private var charset: String? = null
     var successMessage: String = ""
     var includeMetaInfo: Boolean = false
     var monospace: Boolean = false
@@ -50,6 +52,18 @@ class ResponseHandling() : EmbeddedRealmObject {
         get() = contentType?.let(ResponseContentType::parse)
         set(value) {
             contentType = value?.key
+        }
+
+    var charsetOverride: Charset?
+        get() = charset?.let {
+            try {
+                Charset.forName(it)
+            } catch (e: Exception) {
+                null
+            }
+        }
+        set(value) {
+            charset = value?.name()
         }
 
     var storeDirectory: String? = null
@@ -79,7 +93,8 @@ class ResponseHandling() : EmbeddedRealmObject {
             other.storeFileName == storeFileName &&
             other.replaceFileIfExists == replaceFileIfExists &&
             other.monospace == monospace &&
-            other.contentType == contentType
+            other.contentType == contentType &&
+            other.charset == charset
 
     companion object {
 

@@ -15,6 +15,9 @@ import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.nio.charset.Charset
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,10 +31,22 @@ constructor(
     override suspend fun initialize(data: Unit): ResponseViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
         val responseHandling = shortcut.responseHandling!!
+
+        runAction {
+            val charsets = withContext(Dispatchers.Default) {
+                Charset.availableCharsets().values.toList()
+            }
+            updateViewState {
+                copy(availableCharsets = charsets)
+            }
+        }
+
         return ResponseViewState(
             successMessageHint = getSuccessMessageHint(shortcut),
             responseUiType = responseHandling.uiType,
             responseContentType = responseHandling.responseContentType,
+            responseCharset = responseHandling.charsetOverride,
+            availableCharsets = emptyList(),
             responseSuccessOutput = responseHandling.successOutput,
             responseFailureOutput = responseHandling.failureOutput,
             includeMetaInformation = responseHandling.includeMetaInfo,
@@ -68,6 +83,15 @@ constructor(
         }
         withProgressTracking {
             temporaryShortcutRepository.setResponseContentType(responseContentType)
+        }
+    }
+
+    fun onResponseCharsetChanged(charset: Charset?) = runAction {
+        updateViewState {
+            copy(responseCharset = charset)
+        }
+        withProgressTracking {
+            temporaryShortcutRepository.setCharsetOverride(charset)
         }
     }
 

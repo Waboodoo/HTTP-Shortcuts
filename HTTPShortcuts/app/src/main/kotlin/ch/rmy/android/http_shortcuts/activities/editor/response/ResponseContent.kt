@@ -23,6 +23,7 @@ import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
 import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
+import java.nio.charset.Charset
 
 @Composable
 fun ResponseContent(
@@ -30,6 +31,8 @@ fun ResponseContent(
     responseUiType: String,
     responseSuccessOutput: String,
     responseContentType: ResponseContentType?,
+    responseCharset: Charset?,
+    availableCharsets: List<Charset>,
     responseFailureOutput: String,
     includeMetaInformation: Boolean,
     successMessage: String,
@@ -44,6 +47,7 @@ fun ResponseContent(
     onResponseFailureOutputChanged: (String) -> Unit,
     onResponseUiTypeChanged: (String) -> Unit,
     onResponseContentTypeChanged: (ResponseContentType?) -> Unit,
+    onResponseCharsetChanged: (Charset?) -> Unit,
     onDialogActionChanged: (ResponseDisplayAction?) -> Unit,
     onIncludeMetaInformationChanged: (Boolean) -> Unit,
     onWindowActionsButtonClicked: () -> Unit,
@@ -97,6 +101,20 @@ fun ResponseContent(
             selectedKey = responseFailureOutput,
             items = FAILURE_OUTPUT_TYPES.toItems(),
             onItemSelected = onResponseFailureOutputChanged,
+        )
+
+        Spacer(modifier = Modifier.height(Spacing.SMALL))
+
+        SelectionField(
+            modifier = Modifier.padding(horizontal = Spacing.MEDIUM),
+            title = stringResource(R.string.label_response_charset),
+            selectedKey = responseCharset,
+            items = listOf(
+                null to stringResource(R.string.option_response_charset_auto)
+            ) + availableCharsets.map {
+                it to it.name()
+            },
+            onItemSelected = onResponseCharsetChanged,
         )
 
         AnimatedVisibility(
