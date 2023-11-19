@@ -11,8 +11,6 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import ch.rmy.android.http_shortcuts.utils.GsonUtil
-import ch.rmy.curlcommand.CurlCommand
 import java.io.Serializable
 
 sealed interface NavigationDestination {
@@ -188,7 +186,7 @@ sealed interface NavigationDestination {
         private const val ARG_EXECUTION_TYPE = "executionType"
         private const val ARG_CATEGORY_ID = "categoryId"
         private const val ARG_SHORTCUT_ID = "shortcutId"
-        private const val ARG_CURL_COMMAND = "curlCommand"
+        private const val ARG_CURL_COMMAND_ID = "curlCommandId"
         private const val ARG_RECOVERY_MODE = "recoveryMode"
 
         override val path = "shortcutEditor/main"
@@ -198,7 +196,7 @@ sealed interface NavigationDestination {
                 stringArg(ARG_EXECUTION_TYPE),
                 optionalStringArg(ARG_CATEGORY_ID),
                 optionalStringArg(ARG_SHORTCUT_ID),
-                optionalStringArg(ARG_CURL_COMMAND),
+                optionalStringArg(ARG_CURL_COMMAND_ID),
                 optionalBooleanArg(ARG_RECOVERY_MODE),
             )
 
@@ -206,13 +204,13 @@ sealed interface NavigationDestination {
             shortcutId: ShortcutId? = null,
             categoryId: CategoryId? = null,
             executionType: ShortcutExecutionType = ShortcutExecutionType.APP,
-            curlCommand: CurlCommand? = null,
+            curlCommandId: NavigationArgStore.ArgStoreId? = null,
             recoveryMode: Boolean = false,
         ) = buildNavigationRequest {
             pathPart(executionType.type)
             parameter(ARG_CATEGORY_ID, categoryId)
             parameter(ARG_SHORTCUT_ID, shortcutId)
-            parameter(ARG_CURL_COMMAND, curlCommand?.let { GsonUtil.toJson(it) })
+            parameter(ARG_CURL_COMMAND_ID, curlCommandId)
             parameter(ARG_RECOVERY_MODE, recoveryMode)
         }
 
@@ -227,11 +225,9 @@ sealed interface NavigationDestination {
                 ?.let(ShortcutExecutionType.Companion::get)
                 ?: ShortcutExecutionType.APP
 
-        fun extractCurlCommand(bundle: Bundle): CurlCommand? =
-            bundle.getEncodedString(ARG_CURL_COMMAND)
-                ?.let {
-                    GsonUtil.gson.fromJson(it, CurlCommand::class.java)
-                }
+        fun extractCurlCommandId(bundle: Bundle): NavigationArgStore.ArgStoreId? =
+            bundle.getEncodedString(ARG_CURL_COMMAND_ID)
+                ?.let(NavigationArgStore::ArgStoreId)
 
         fun extractRecoveryMode(bundle: Bundle): Boolean =
             bundle.getBoolean(ARG_RECOVERY_MODE)

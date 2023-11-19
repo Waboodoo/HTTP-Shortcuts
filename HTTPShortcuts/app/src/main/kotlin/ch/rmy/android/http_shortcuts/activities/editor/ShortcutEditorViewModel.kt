@@ -33,6 +33,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
@@ -62,6 +63,7 @@ constructor(
     private val dialogHandler: ExecuteDialogHandler,
     private val launcherShortcutUpdater: LauncherShortcutUpdater,
     private val executionStarter: ExecutionStarter,
+    private val navigationArgStore: NavigationArgStore,
 ) : BaseViewModel<ShortcutEditorViewModel.InitData, ShortcutEditorViewState>(application) {
 
     private var isSaving = false
@@ -107,9 +109,13 @@ constructor(
                 shortcutRepository.createTemporaryShortcutFromShortcut(data.shortcutId)
             }
         }
-        data.curlCommand?.let {
-            temporaryShortcutRepository.importFromCurl(it)
-        }
+        data.curlCommandId
+            ?.let {
+                navigationArgStore.takeArg(it) as CurlCommand?
+            }
+            ?.let { curlCommand ->
+                temporaryShortcutRepository.importFromCurl(curlCommand)
+            }
 
         val shortcutFlow = temporaryShortcutRepository.getObservableTemporaryShortcut()
         this.shortcut = shortcutFlow.first()
@@ -158,7 +164,7 @@ constructor(
     }
 
     private fun hasChanges() =
-        initData.recoveryMode || oldShortcut?.isSameAs(shortcut) == false || initData.curlCommand != null
+        initData.recoveryMode || oldShortcut?.isSameAs(shortcut) == false || initData.curlCommandId != null
 
     private fun canExecute() =
         when (shortcut.type) {
@@ -536,7 +542,7 @@ constructor(
     data class InitData(
         val categoryId: CategoryId?,
         val shortcutId: ShortcutId?,
-        val curlCommand: CurlCommand?,
+        val curlCommandId: NavigationArgStore.ArgStoreId?,
         val executionType: ShortcutExecutionType,
         val recoveryMode: Boolean,
     )

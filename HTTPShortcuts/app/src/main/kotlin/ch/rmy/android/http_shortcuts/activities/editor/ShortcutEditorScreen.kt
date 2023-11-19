@@ -19,22 +19,22 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.extensions.localize
+import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.ResultHandler
-import ch.rmy.curlcommand.CurlCommand
 
 @Composable
 fun ShortcutEditorScreen(
     savedStateHandle: SavedStateHandle,
     categoryId: CategoryId?,
     shortcutId: ShortcutId?,
-    curlCommand: CurlCommand?,
+    curlCommandId: NavigationArgStore.ArgStoreId?,
     executionType: ShortcutExecutionType,
     recoveryMode: Boolean,
 ) {
     val (viewModel, state) = bindViewModel<ShortcutEditorViewModel.InitData, ShortcutEditorViewState, ShortcutEditorViewModel>(
         ShortcutEditorViewModel.InitData(
-            categoryId, shortcutId, curlCommand, executionType, recoveryMode,
+            categoryId, shortcutId, curlCommandId, executionType, recoveryMode,
         )
     )
 

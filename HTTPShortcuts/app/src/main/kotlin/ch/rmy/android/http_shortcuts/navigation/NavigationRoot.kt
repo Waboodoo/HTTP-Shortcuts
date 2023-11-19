@@ -144,7 +144,7 @@ fun NavigationRoot() {
                 backStackEntry.savedStateHandle,
                 categoryId = NavigationDestination.ShortcutEditor.extractCategoryId(backStackEntry.arguments!!),
                 shortcutId = NavigationDestination.ShortcutEditor.extractShortcutId(backStackEntry.arguments!!),
-                curlCommand = NavigationDestination.ShortcutEditor.extractCurlCommand(backStackEntry.arguments!!),
+                curlCommandId = NavigationDestination.ShortcutEditor.extractCurlCommandId(backStackEntry.arguments!!),
                 executionType = NavigationDestination.ShortcutEditor.extractExecutionType(backStackEntry.arguments!!),
                 recoveryMode = NavigationDestination.ShortcutEditor.extractRecoveryMode(backStackEntry.arguments!!),
             )

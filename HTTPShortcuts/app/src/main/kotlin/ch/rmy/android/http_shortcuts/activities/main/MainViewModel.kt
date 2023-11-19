@@ -32,6 +32,7 @@ import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.findShortcut
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
+import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
@@ -80,6 +81,7 @@ constructor(
     private val variablePlaceholderProvider: VariablePlaceholderProvider,
     private val settings: Settings,
     private val unlockApp: UnlockAppUseCase,
+    private val navigationArgStore: NavigationArgStore,
 ) : BaseViewModel<MainViewModel.InitData, MainViewState>(application) {
 
     private lateinit var categories: List<Category>
@@ -492,10 +494,11 @@ constructor(
 
     fun onCurlCommandSubmitted(curlCommand: CurlCommand) = runAction {
         logInfo("curl command submitted")
+        val curlCommandId = navigationArgStore.storeArg(curlCommand)
         navigate(
             NavigationDestination.ShortcutEditor.buildRequest(
                 categoryId = viewState.activeCategoryId,
-                curlCommand = curlCommand,
+                curlCommandId = curlCommandId,
             )
         )
     }
