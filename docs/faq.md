@@ -101,10 +101,6 @@ If you install the app from an APK from the [Releases Page](https://github.com/W
 
 If you install the app from F-Droid, then unfortunately you won't get an architecture-specific variant. As a result, the app you're installing will contain all the variants and therefore be 3 - 4 times larger than it needs to be.
 
-## What about voice recognition?
-
-There is currently no support for voice recognition in HTTP Shortcuts, with the exception of a very basic and experimental feature. Try "OK Google, search [Name of Shortcut] in HTTP Shortcuts".
-
 ## I would like to help translate the app. How can I contribute?
 
 First of all, thank you for even considering this. I appreciate the effort. You can join the translation project here: [HTTP Shortcuts on crowdin.com](https://crowdin.com/project/http-shortcuts)

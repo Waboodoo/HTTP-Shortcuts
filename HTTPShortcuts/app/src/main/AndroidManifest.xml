@@ -164,21 +164,6 @@
         </activity>
 
         <activity
-            android:name=".activities.misc.voice.VoiceActivity"
-            android:configChanges="orientation|screenSize"
-            android:excludeFromRecents="true"
-            android:exported="true"
-            android:label="@string/title_activity_execute"
-            android:launchMode="singleInstance"
-            android:noHistory="true"
-            android:theme="@style/Theme.Transparent">
-            <intent-filter>
-                <action android:name="com.google.android.gms.actions.SEARCH_ACTION" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name=".activities.misc.second_launcher.SecondLauncherActivity"
             android:configChanges="orientation|screenSize"
             android:enabled="false"

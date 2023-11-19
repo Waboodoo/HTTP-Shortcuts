@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="RunShortcutQueries">
+        <item>run $shortcutName</item>
+        <item>start $shortcutName</item>
+        <item>execute $shortcutName</item>
+        <item>launch $shortcutName</item>
+        <item>trigger $shortcutName</item>
+    </string-array>
+</resources>

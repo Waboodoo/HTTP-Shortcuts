@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <share-target android:targetClass="ch.rmy.android.http_shortcuts.activities.misc.share.ShareActivity">
         <data android:mimeType="text/plain" />
         <category android:name="ch.rmy.android.http_shortcuts.directshare.category.TEXT_SHARE_TARGET" />
@@ -8,4 +9,16 @@
         <data android:mimeType="*/*" />
         <category android:name="ch.rmy.android.http_shortcuts.directshare.category.FILE_SHARE_TARGET" />
     </share-target>
+
+    <capability
+        android:name="custom.actions.intent.RUN_SHORTCUT"
+        app:queryPatterns="@array/RunShortcutQueries">
+        <intent android:action="android.intent.action.VIEW">
+            <url-template android:value="http-shortcuts://deep-link/{shortcutName}" />
+            <parameter
+                android:name="shortcutName"
+                android:key="shortcutName"
+                android:mimeType="https://schema.org/Text" />
+        </intent>
+    </capability>
 </shortcuts>

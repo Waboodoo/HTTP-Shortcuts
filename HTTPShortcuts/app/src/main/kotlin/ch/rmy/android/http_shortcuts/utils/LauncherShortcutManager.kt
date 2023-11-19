@@ -2,6 +2,8 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.Capability
+import android.content.pm.CapabilityParams
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.os.Build
@@ -102,6 +104,17 @@ constructor(
                     }
                 }
             )
+            .run {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    addCapabilityBinding(
+                        Capability.Builder("custom.actions.intent.RUN_SHORTCUT").build(),
+                        CapabilityParams.Builder("shortcutName", label)
+                            .build()
+                    )
+                } else {
+                    this
+                }
+            }
             .run {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     setLongLived(true)
