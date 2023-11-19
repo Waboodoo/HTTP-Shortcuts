@@ -1,3 +1,16 @@
+## Version 3.8.0
+
+### Improvements
+- When configuring a Browser Shortcut to open in a Custom Tab, it is now possible to also select which specific browser to use
+- It is now possible to override the response charset, to handle cases where a server does not indicate the content's charset correctly
+- Custom icons can now be cropped into a circular shape
+- The cURL import screen now shows a warning when unsupported options are used
+- Experimental: added integration with Google Assistant. Activate it from the shortcut editor's "Trigger & Execution Settings" section
+
+### Miscellaneous
+- The "Troubleshooting" section was moved out of the Settings screen and onto its own dedicated screen for easier access
+- Tweaked the swipe gesture for easier switching between categories
+
 ## Version 3.7.0
 
 ### Improvements
