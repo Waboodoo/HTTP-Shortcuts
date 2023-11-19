@@ -9,7 +9,6 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
-import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
@@ -29,6 +28,7 @@ import ch.rmy.android.http_shortcuts.activities.execute.usecases.RequestBiometri
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.RequestSimpleConfirmationUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.ShowResultDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
+import ch.rmy.android.http_shortcuts.activities.response.models.ResponseData
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
@@ -58,6 +58,7 @@ import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.HttpRequesterWorker
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 import ch.rmy.android.http_shortcuts.plugin.SessionMonitor
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionSchedulerWorker
@@ -123,6 +124,7 @@ class Execution(
     private val historyCleanUpStarter: HistoryCleanUpWorker.Starter = entryPoint.historyCleanUpStarter()
     private val executionSchedulerStarter: ExecutionSchedulerWorker.Starter = entryPoint.executionSchedulerStarter()
     private val sessionMonitor: SessionMonitor = entryPoint.sessionMonitor()
+    private val navigationArgStore: NavigationArgStore = entryPoint.navigationArgStore()
 
     private lateinit var globalCode: String
     private lateinit var shortcut: Shortcut
@@ -589,39 +591,29 @@ class Execution(
                         // because it would interrupt the execution. Therefore, we suppress it here.
                         return@withContext
                     }
-                    DisplayResponseActivity.IntentBuilder(shortcut.id)
-                        .name(shortcutName)
-                        .type(
-                            when (shortcut.responseHandling?.responseContentType) {
-                                ResponseContentType.PLAIN_TEXT -> FileTypeUtil.TYPE_PLAIN_TEXT
-                                ResponseContentType.JSON -> FileTypeUtil.TYPE_JSON
-                                ResponseContentType.XML -> FileTypeUtil.TYPE_XML
-                                ResponseContentType.HTML -> FileTypeUtil.TYPE_HTML
-                                null -> response?.contentType
-                            }
-                        )
-                        .runIfNotNull(output) {
-                            text(it)
-                        }
-                        .runIfNotNull(response?.getContentUri(context)) {
-                            responseFileUri(it)
-                        }
-                        .runIfNotNull(response?.charset) {
-                            charset(it)
-                        }
-                        .runIfNotNull(response?.url) {
-                            url(it)
-                        }
-                        .runIf(shortcut.responseHandling?.includeMetaInfo == true) {
-                            showDetails(true)
-                                .timing(response?.timing)
-                                .headers(response?.headers)
-                                .statusCode(response?.statusCode)
-                        }
-                        .runIf(shortcut.responseHandling?.monospace == true) {
-                            monospace()
-                        }
-                        .actions(shortcut.responseHandling?.displayActions ?: emptyList())
+                    val responseData = ResponseData(
+                        shortcutId = shortcut.id,
+                        shortcutName = shortcutName,
+                        text = output,
+                        mimeType = when (shortcut.responseHandling?.responseContentType) {
+                            ResponseContentType.PLAIN_TEXT -> FileTypeUtil.TYPE_PLAIN_TEXT
+                            ResponseContentType.JSON -> FileTypeUtil.TYPE_JSON
+                            ResponseContentType.XML -> FileTypeUtil.TYPE_XML
+                            ResponseContentType.HTML -> FileTypeUtil.TYPE_HTML
+                            null -> response?.contentType
+                        },
+                        charset = response?.charset,
+                        url = response?.url?.toUri(),
+                        fileUri = response?.getContentUri(context),
+                        statusCode = response?.statusCode,
+                        headers = response?.headers?.toMultiMap() ?: emptyMap(),
+                        timing = response?.timing,
+                        showDetails = shortcut.responseHandling?.includeMetaInfo == true,
+                        monospace = shortcut.responseHandling?.monospace == true,
+                        actions = shortcut.responseHandling?.displayActions ?: emptyList(),
+                    )
+                    val responseDataId = navigationArgStore.storeArg(responseData)
+                    DisplayResponseActivity.IntentBuilder(shortcutName, responseDataId)
                         .startActivity(context)
                 }
                 else -> Unit
@@ -692,6 +684,7 @@ class Execution(
         fun historyCleanUpStarter(): HistoryCleanUpWorker.Starter
         fun executionSchedulerStarter(): ExecutionSchedulerWorker.Starter
         fun sessionMonitor(): SessionMonitor
+        fun navigationArgStore(): NavigationArgStore
     }
 
     companion object {

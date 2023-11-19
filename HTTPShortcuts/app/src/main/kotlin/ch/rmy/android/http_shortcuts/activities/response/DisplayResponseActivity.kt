@@ -1,54 +1,43 @@
 package ch.rmy.android.http_shortcuts.activities.response
 
 import android.content.Intent
-import android.net.Uri
+import android.os.Bundle
 import androidx.compose.runtime.Composable
-import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
-import ch.rmy.android.framework.extensions.getParcelable
-import ch.rmy.android.framework.extensions.getSerializable
-import ch.rmy.android.framework.extensions.toCharset
-import ch.rmy.android.framework.extensions.truncate
+import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
-import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
-import ch.rmy.android.http_shortcuts.http.HttpHeaders
+import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.nio.charset.Charset
-import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 @AndroidEntryPoint
 class DisplayResponseActivity : BaseComposeActivity() {
 
+    private lateinit var responseDataId: NavigationArgStore.ArgStoreId
+
+    override fun onCreated(savedState: Bundle?) {
+        val responseDataId = intent?.extras
+            ?.getString(EXTRA_RESPONSE_DATA_ID)
+            ?.let { NavigationArgStore.ArgStoreId(it) }
+        if (responseDataId == null) {
+            finishWithoutAnimation()
+        } else {
+            this.responseDataId = responseDataId
+            super.onCreated(savedState)
+        }
+    }
+
     @Composable
     override fun Content() {
         DisplayResponseScreen(
-            shortcutId = intent?.extras?.getString(EXTRA_SHORTCUT_ID) ?: "",
             shortcutName = intent?.extras?.getString(EXTRA_NAME) ?: "",
-            text = intent?.extras?.getString(EXTRA_TEXT),
-            mimeType = intent?.extras?.getString(EXTRA_TYPE),
-            charset = intent?.getStringExtra(EXTRA_CHARSET)
-                ?.toCharset()
-                ?: Charsets.UTF_8,
-            url = intent?.extras?.getString(EXTRA_URL)?.toUri(),
-            fileUri = intent?.getParcelable(EXTRA_RESPONSE_FILE_URI),
-            statusCode = intent?.extras?.getInt(EXTRA_STATUS_CODE)
-                ?.takeUnless { it == 0 },
-            headers = intent?.getSerializable(EXTRA_HEADERS) ?: emptyMap(),
-            timing = intent?.extras?.getLong(EXTRA_TIMING)
-                ?.takeUnless { it == 0L }
-                ?.milliseconds,
-            showDetails = intent?.extras?.getBoolean(EXTRA_DETAILS, false) ?: false,
-            monospace = intent?.extras?.getBoolean(EXTRA_MONOSPACE, false) ?: false,
-            actions = (intent?.extras?.getStringArrayList(EXTRA_ACTIONS) ?: emptyList())
-                .mapNotNull(ResponseDisplayAction::parse),
+            responseDataId = responseDataId,
         )
     }
 
@@ -86,87 +75,17 @@ class DisplayResponseActivity : BaseComposeActivity() {
         finish()
     }
 
-    class IntentBuilder(shortcutId: ShortcutId) : BaseIntentBuilder(DisplayResponseActivity::class) {
-
+    class IntentBuilder(name: String, responseDataId: NavigationArgStore.ArgStoreId) : BaseIntentBuilder(DisplayResponseActivity::class) {
         init {
-            intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        }
-
-        fun name(name: String) = also {
             intent.putExtra(EXTRA_NAME, name)
-        }
-
-        fun type(type: String?) = also {
-            intent.putExtra(EXTRA_TYPE, type)
-        }
-
-        fun text(text: String) = also {
-            intent.putExtra(EXTRA_TEXT, text.truncate(MAX_TEXT_LENGTH))
-        }
-
-        fun responseFileUri(uri: Uri) = also {
-            intent.putExtra(EXTRA_RESPONSE_FILE_URI, uri)
-        }
-
-        fun charset(charset: Charset) = also {
-            intent.putExtra(EXTRA_CHARSET, charset.name())
-        }
-
-        fun url(url: String) = also {
-            intent.putExtra(EXTRA_URL, url)
-        }
-
-        fun monospace() = also {
-            intent.putExtra(EXTRA_MONOSPACE, true)
-        }
-
-        fun showDetails(showDetails: Boolean) = also {
-            intent.putExtra(EXTRA_DETAILS, showDetails)
-        }
-
-        fun headers(headers: HttpHeaders?) = also {
-            intent.putExtra(
-                EXTRA_HEADERS,
-                headers?.toMultiMap()?.let {
-                    HashMap<String, ArrayList<String>>().apply {
-                        it.forEach { (name, values) ->
-                            put(name, ArrayList<String>().also { it.addAll(values) })
-                        }
-                    }
-                }
-            )
-        }
-
-        fun statusCode(statusCode: Int?) = also {
-            intent.putExtra(EXTRA_STATUS_CODE, statusCode ?: return@also)
-        }
-
-        fun timing(timing: Long?) = also {
-            intent.putExtra(EXTRA_TIMING, timing ?: return@also)
-        }
-
-        fun actions(actions: List<ResponseDisplayAction>) = also {
-            intent.putStringArrayListExtra(EXTRA_ACTIONS, ArrayList(actions.map { it.key }))
+            intent.putExtra(EXTRA_RESPONSE_DATA_ID, responseDataId.toString())
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
     }
 
     companion object {
-        private const val EXTRA_SHORTCUT_ID = "id"
         private const val EXTRA_NAME = "name"
-        private const val EXTRA_TYPE = "type"
-        private const val EXTRA_TEXT = "text"
-        private const val EXTRA_CHARSET = "charset"
-        private const val EXTRA_RESPONSE_FILE_URI = "response_file_uri"
-        private const val EXTRA_URL = "url"
-        private const val EXTRA_HEADERS = "headers"
-        private const val EXTRA_STATUS_CODE = "status_code"
-        private const val EXTRA_TIMING = "timing"
-        private const val EXTRA_DETAILS = "details"
-        private const val EXTRA_ACTIONS = "actions"
-        private const val EXTRA_MONOSPACE = "monospace"
-
-        private const val MAX_TEXT_LENGTH = 700000
+        private const val EXTRA_RESPONSE_DATA_ID = "response_data_id"
 
         private val FINISH_DELAY = 8.seconds
     }

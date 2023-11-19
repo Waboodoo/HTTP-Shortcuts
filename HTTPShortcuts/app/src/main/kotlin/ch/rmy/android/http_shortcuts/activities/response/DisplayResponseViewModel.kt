@@ -14,11 +14,11 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.activities.response.models.DetailInfo
-import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
+import ch.rmy.android.http_shortcuts.activities.response.models.ResponseData
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.extensions.readIntoString
 import ch.rmy.android.http_shortcuts.http.HttpStatus
+import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.isImage
@@ -31,36 +31,40 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.nio.charset.Charset
 import javax.inject.Inject
-import kotlin.time.Duration
 
 @HiltViewModel
 class DisplayResponseViewModel
 @Inject
 constructor(
     application: Application,
+    private val navigationArgStore: NavigationArgStore,
     private val clipboardUtil: ClipboardUtil,
     private val activityProvider: ActivityProvider,
     private val shareUtil: ShareUtil,
     private val executionStarter: ExecutionStarter,
 ) : BaseViewModel<DisplayResponseViewModel.InitData, DisplayResponseViewState>(application) {
 
+    private lateinit var responseData: ResponseData
     private lateinit var responseText: String
     private var responseTooLarge: Boolean = false
 
     private var savingJob: Job? = null
 
     override suspend fun initialize(data: InitData): DisplayResponseViewState {
-        logInfo("Preparing to display response of type ${data.mimeType}")
-        responseText = if (isImage(data.mimeType)) {
+        logInfo("Preparing to display response")
+
+        responseData = navigationArgStore.takeArg(data.responseDataId) as ResponseData?
+            ?: terminateInitialization()
+
+        responseText = if (isImage(responseData.mimeType)) {
             ""
         } else {
-            data.text
+            responseData.text
                 ?: try {
                     withContext(Dispatchers.IO) {
-                        data.fileUri?.readIntoString(context, CONTENT_SIZE_LIMIT, data.charset)
-                            ?.runIf(initData.mimeType == FileTypeUtil.TYPE_JSON) {
+                        responseData.fileUri?.readIntoString(context, CONTENT_SIZE_LIMIT, responseData.charset ?: Charsets.UTF_8)
+                            ?.runIf(responseData.mimeType == FileTypeUtil.TYPE_JSON) {
                                 GsonUtil.tryPrettyPrint(this)
                             }
                             ?: ""
@@ -72,30 +76,31 @@ constructor(
                 }
         }
         return DisplayResponseViewState(
-            detailInfo = if (initData.showDetails) {
+            actions = responseData.actions,
+            detailInfo = if (responseData.showDetails) {
                 DetailInfo(
-                    url = initData.url?.toString(),
-                    status = initData.statusCode?.let { "$it (${HttpStatus.getMessage(it)})" },
-                    timing = initData.timing,
-                    headers = initData.headers.entries.flatMap { (key, values) -> values.map { key to it } },
+                    url = responseData.url?.toString(),
+                    status = responseData.statusCode?.let { "$it (${HttpStatus.getMessage(it)})" },
+                    timing = responseData.timing,
+                    headers = responseData.headers.entries.flatMap { (key, values) -> values.map { key to it } },
                 )
                     .takeUnless { !it.hasGeneralInfo && it.headers.isEmpty() }
             } else null,
-            monospace = initData.monospace,
+            monospace = responseData.monospace,
             text = responseText,
-            fileUri = initData.fileUri,
+            fileUri = responseData.fileUri,
             limitExceeded = if (responseTooLarge) CONTENT_SIZE_LIMIT else null,
-            mimeType = initData.mimeType,
-            url = initData.url,
-            canShare = initData.fileUri != null,
+            mimeType = responseData.mimeType,
+            url = responseData.url,
+            canShare = responseData.fileUri != null,
             canCopy = responseText.isNotEmpty() && responseText.length < MAX_COPY_LENGTH,
-            canSave = initData.fileUri != null,
+            canSave = responseData.fileUri != null,
         )
     }
 
     fun onRerunButtonClicked() = runAction {
         executionStarter.execute(
-            shortcutId = initData.shortcutId,
+            shortcutId = responseData.shortcutId,
             trigger = ShortcutTriggerType.WINDOW_RERUN,
         )
         finish(skipAnimation = true)
@@ -109,20 +114,20 @@ constructor(
         } else {
             sendIntent(
                 Intent(Intent.ACTION_SEND)
-                    .runIfNotNull(initData.mimeType) {
+                    .runIfNotNull(responseData.mimeType) {
                         setType(it)
                     }
-                    .putExtra(Intent.EXTRA_STREAM, initData.fileUri)
+                    .putExtra(Intent.EXTRA_STREAM, responseData.fileUri)
                     .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     .let {
-                        Intent.createChooser(it, initData.shortcutName)
+                        Intent.createChooser(it, responseData.shortcutName)
                     }
             )
         }
     }
 
     private fun shouldShareAsText() =
-        !isImage(initData.mimeType) && responseText.length < MAX_SHARE_LENGTH
+        !isImage(responseData.mimeType) && responseText.length < MAX_SHARE_LENGTH
 
     fun onCopyButtonClicked() {
         clipboardUtil.copyToClipboard(responseText)
@@ -130,7 +135,7 @@ constructor(
 
     fun onSaveButtonClicked() = runAction {
         emitEvent(DisplayResponseEvent.SuppressAutoFinish)
-        emitEvent(DisplayResponseEvent.PickFileForSaving(initData.mimeType))
+        emitEvent(DisplayResponseEvent.PickFileForSaving(responseData.mimeType))
     }
 
     fun onFilePickedForSaving(file: Uri) = runAction {
@@ -141,7 +146,7 @@ constructor(
             try {
                 withContext(Dispatchers.IO) {
                     context.contentResolver.openOutputStream(file)!!.use { output ->
-                        context.contentResolver.openInputStream(initData.fileUri!!)!!.use { input ->
+                        context.contentResolver.openInputStream(responseData.fileUri!!)!!.use { input ->
                             input.copyTo(output)
                         }
                     }
@@ -173,19 +178,7 @@ constructor(
 
     @Stable
     data class InitData(
-        val shortcutId: ShortcutId,
-        val shortcutName: String,
-        val text: String?,
-        val mimeType: String?,
-        val charset: Charset,
-        val url: Uri?,
-        val fileUri: Uri?,
-        val statusCode: Int?,
-        val headers: Map<String, List<String>>,
-        val timing: Duration?,
-        val showDetails: Boolean,
-        val monospace: Boolean,
-        val actions: List<ResponseDisplayAction>,
+        val responseDataId: NavigationArgStore.ArgStoreId,
     )
 
     companion object {

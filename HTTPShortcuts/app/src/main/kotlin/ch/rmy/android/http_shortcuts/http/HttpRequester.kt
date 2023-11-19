@@ -41,6 +41,7 @@ import java.nio.charset.Charset
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import kotlin.time.Duration.Companion.milliseconds
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin as CertificatePinModel
 
 class HttpRequester
@@ -337,7 +338,7 @@ constructor(
                 headers = HttpHeaders.parse(response.headers),
                 statusCode = response.code,
                 contentFile = contentFile,
-                timing = response.receivedResponseAtMillis - response.sentRequestAtMillis,
+                timing = (response.receivedResponseAtMillis - response.sentRequestAtMillis).milliseconds,
                 charsetOverride = charsetOverride,
             )
 

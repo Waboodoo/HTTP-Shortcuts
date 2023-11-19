@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.response
 
 import android.content.ActivityNotFoundException
-import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FileCopy
@@ -18,31 +17,16 @@ import ch.rmy.android.http_shortcuts.components.ProgressDialog
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
-import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
-import java.nio.charset.Charset
-import kotlin.time.Duration
+import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 
 @Composable
 fun DisplayResponseScreen(
-    shortcutId: ShortcutId,
     shortcutName: String,
-    text: String?,
-    mimeType: String?,
-    charset: Charset,
-    url: Uri?,
-    fileUri: Uri?,
-    statusCode: Int?,
-    headers: Map<String, List<String>>,
-    timing: Duration?,
-    showDetails: Boolean,
-    monospace: Boolean,
-    actions: List<ResponseDisplayAction>,
+    responseDataId: NavigationArgStore.ArgStoreId,
 ) {
     val (viewModel, state) = bindViewModel<DisplayResponseViewModel.InitData, DisplayResponseViewState, DisplayResponseViewModel>(
-        DisplayResponseViewModel.InitData(
-            shortcutId, shortcutName, text, mimeType, charset, url, fileUri, statusCode, headers, timing, showDetails, monospace, actions,
-        )
+        DisplayResponseViewModel.InitData(responseDataId)
     )
 
     val openFilePicker = rememberLauncherForActivityResult(SaveFileContract) { file ->
@@ -67,7 +51,7 @@ fun DisplayResponseScreen(
         title = shortcutName,
         backButton = BackButton.CROSS,
         actions = { viewState ->
-            actions.forEach { action ->
+            viewState.actions.forEach { action ->
                 when (action) {
                     ResponseDisplayAction.RERUN -> {
                         ToolbarIcon(

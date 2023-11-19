@@ -11,13 +11,14 @@ import ch.rmy.android.http_shortcuts.utils.SizeLimitedReader
 import java.io.File
 import java.nio.charset.Charset
 import java.util.Locale
+import kotlin.time.Duration
 
 class ShortcutResponse internal constructor(
     val url: String,
     val headers: HttpHeaders,
     val statusCode: Int,
     val contentFile: DocumentFile?,
-    val timing: Long,
+    val timing: Duration,
     private val charsetOverride: Charset?,
 ) {
 
