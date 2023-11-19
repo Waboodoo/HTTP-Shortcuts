@@ -7,6 +7,7 @@ import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.icons.models.IconShape
 import ch.rmy.android.http_shortcuts.activities.icons.usecases.GetIconListItemsUseCase
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
@@ -26,13 +27,15 @@ constructor(
     private val getIconListItems: GetIconListItemsUseCase,
 ) : BaseViewModel<Unit, IconPickerViewState>(application) {
 
+    private var selectedShape = IconShape.SQUARE
+
     override suspend fun initialize(data: Unit): IconPickerViewState {
         val icons = withContext(Dispatchers.IO) {
             getIconListItems()
         }
         viewModelScope.launch {
             if (icons.isEmpty()) {
-                showImagePicker()
+                showCircleSelectionDialog()
             }
         }
         return IconPickerViewState(
@@ -49,11 +52,25 @@ constructor(
     }
 
     fun onAddIconButtonClicked() = runAction {
-        showImagePicker()
+        showCircleSelectionDialog()
+    }
+
+    private suspend fun showCircleSelectionDialog() {
+        updateViewState {
+            copy(dialogState = IconPickerDialogState.SelectShape)
+        }
     }
 
     private suspend fun showImagePicker() {
         emitEvent(IconPickerEvent.ShowImagePicker)
+    }
+
+    fun onShapeSelected(iconShape: IconShape) = runAction {
+        selectedShape = iconShape
+        updateViewState {
+            copy(dialogState = null)
+        }
+        showImagePicker()
     }
 
     fun onIconCreationFailed() = runAction {
@@ -61,12 +78,19 @@ constructor(
     }
 
     fun onImageSelected(image: Uri) = runAction {
-        emitEvent(IconPickerEvent.ShowImageCropper(image))
+        emitEvent(IconPickerEvent.ShowImageCropper(image, selectedShape))
     }
 
     fun onIconCreated(iconFile: File) = runAction {
         val iconName = IconUtil.generateCustomIconName()
-        iconFile.renameTo(File(context.filesDir, iconName))
+        val targetFile = File(context.filesDir, iconName)
+        withContext(Dispatchers.IO) {
+            if (selectedShape == IconShape.CIRCLE) {
+                IconUtil.cropImageToCircle(iconFile, targetFile)
+            } else {
+                iconFile.renameTo(targetFile)
+            }
+        }
         val icon = ShortcutIcon.CustomIcon(iconName)
 
         val isFirstIcon = viewState.icons.isEmpty()

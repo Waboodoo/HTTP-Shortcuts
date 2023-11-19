@@ -15,7 +15,7 @@ import java.io.File
 class CropImageContract(
     private val title: String? = null,
     private val enforceSquare: Boolean = false,
-    private val maxSize: Int? = null
+    private val maxSize: Int? = null,
 ) : ActivityResultContract<CropImageContract.Input, CropImageContract.Result>() {
     override fun createIntent(context: Context, input: Input): Intent {
         val destinationFile = Uri.fromFile(File.createTempFile("crop_", null, context.cacheDir))
@@ -26,6 +26,9 @@ class CropImageContract(
                     setCompressionQuality(100)
                     setCompressionFormat(input.compressFormat)
                     setFreeStyleCropEnabled(!enforceSquare)
+                    if (input.circle) {
+                        setCircleDimmedLayer(true)
+                    }
                 }
             )
             .runIf(enforceSquare) {
@@ -49,6 +52,7 @@ class CropImageContract(
     data class Input(
         val imageUri: Uri,
         val compressFormat: CompressFormat = CompressFormat.PNG,
+        val circle: Boolean = false,
     )
 
     sealed interface Result {

@@ -1517,4 +1517,10 @@
     <string name="label_response_charset">Response Charset</string>
     <!-- Warning message shown at the bottom of the cURL import screen when curl options have been detected that are not known to the app. The list of unsupported options is shown after this warning. -->
     <string name="warning_unsupported_curl_options">Some options are not supported and will be ignored: </string>
+    <!-- Dialog title for dialog that lets the user choose the shape of their custom icon: square or circular -->
+    <string name="dialog_title_select_icon_shape">Select Icon Shape</string>
+    <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_square">Square</string>
+    <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_round">Round</string>
 </resources>

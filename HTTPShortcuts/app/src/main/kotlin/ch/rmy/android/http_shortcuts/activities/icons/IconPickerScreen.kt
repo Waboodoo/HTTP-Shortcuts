@@ -10,6 +10,7 @@ import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.icons.models.IconShape
 import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.FloatingAddButton
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
@@ -50,7 +51,7 @@ fun IconPickerScreen() {
                 }
             }
             is IconPickerEvent.ShowImageCropper -> consume {
-                cropImageIntoCustomIcon.launch(CropImageContract.Input(event.imageUri))
+                cropImageIntoCustomIcon.launch(CropImageContract.Input(event.imageUri, circle = event.shape == IconShape.CIRCLE))
             }
             else -> false
         }
@@ -80,6 +81,7 @@ fun IconPickerScreen() {
 
     IconPickerDialogs(
         dialogState = state?.dialogState,
+        onShapeSelected = viewModel::onShapeSelected,
         onDeleteConfirmed = viewModel::onDeletionConfirmed,
         onDialogDismissRequested = viewModel::onDialogDismissalRequested,
     )
