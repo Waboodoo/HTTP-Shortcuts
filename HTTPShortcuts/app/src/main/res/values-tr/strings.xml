@@ -626,7 +626,6 @@ Daha fazla bilgi için değişken bölümündeki yardım düğmesine tıklayın.
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">Başlatıcıda uygulama kısayolu olarak göster</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu and it will be promoted as a Direct Share target, allowing easy sharing of content into that specific shortcut -->
-    <string name="label_launcher_shortcut_or_direct_share">Başlatıcıda uygulama kısayolu olarak gösterin ve Doğrudan Paylaşım hedefi olarak tanıtın</string>
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="label_secondary_launcher_shortcut">İkincil başlatıcı uygulaması aracılığıyla tetiklemeye izin ver</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
@@ -1515,4 +1514,8 @@ Kendinden imzalı sertifikalar için bunun yerine kısayolun \"%s\" bölümünü
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as HTML -->
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response charset. This is the default option, i.e., determine the charset automatically from the response headers -->
     <!-- Label for dropdown in "Response Handling" settings, allows the user to choose which character set should be used to decode the HTTP response -->
+    <!-- Warning message shown at the bottom of the cURL import screen when curl options have been detected that are not known to the app. The list of unsupported options is shown after this warning. -->
+    <!-- Dialog title for dialog that lets the user choose the shape of their custom icon: square or circular -->
+    <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <!-- Option in dialog that lets the user choose the shape of their custom icon -->
 </resources>

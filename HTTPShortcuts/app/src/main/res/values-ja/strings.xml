@@ -25,6 +25,7 @@
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
     <string name="option_browser_custom_tab">カスタムタブを使用</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
+    <string name="option_custom_browser_in_custom_tab">%s (カスタムタブ)</string>
     <!-- Button to save changes made to shortcut/variable -->
     <string name="save_button">保存</string>
     <!-- Button to test changes made to shortcut -->
@@ -96,9 +97,7 @@
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">変数がありません</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">変数を使用すると、動的に値をショートカットに代入できます（例：URL、ヘッダー、リクエスト ボディに保存する値を変数で指定する）ショートカット編集時に「{}」ボタンを押すと、使用できる変数から選択して変数名を記述できます。
-
-変数を追加するには[＋] ボタンをクリックします。</string>
+    <string name="empty_state_variables_instructions">変数を使用すると、動的に値をショートカットに代入できます（例：URL、ヘッダー、リクエスト ボディに保存する値を変数で指定する）ショートカット編集時に「{}」ボタンを押すと、使用できる変数から選択して変数名を記述できます。\n\n変数を追加するには[＋] ボタンをクリックします。</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">このショートカットを削除しますか？</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
@@ -234,7 +233,7 @@
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">エクスポート中…</string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">ショートカットのインポート失敗：%s</string>
+    <string name="import_failed_with_reason">ショートカットのインポート失敗：\n%s</string>
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">ショートカットのエクスポート失敗：%s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
@@ -254,7 +253,7 @@
     <!-- Label, for option to set the proxy hostname for a shortcut -->
     <string name="label_proxy_host">Proxyホスト名／IPアドレス</string>
     <!-- Label, for option to set the proxy port for a shortcut -->
-    <string name="label_proxy_port">Proxyポート</string>
+    <string name="label_proxy_port">プロキシ ポート</string>
     <!-- Label, for option to set the proxy username for a shortcut -->
     <string name="label_proxy_username">プロキシ ユーザー名</string>
     <!-- Label, for option to set the proxy password for a shortcut -->
@@ -360,7 +359,7 @@
     <!-- Button, for opening page listing all the libraries and 3rd party assets used in the app -->
     <string name="settings_licenses">感謝</string>
     <!-- Button subtitle, for "Acknowledgements" button -->
-    <string name="settings_licenses_summary">ライブラリ＆リソース情報</string>
+    <string name="settings_licenses_summary">翻訳者、コード提供者、ライブラリ＆リソース情報</string>
     <!-- Page title, for page showing all configured categories -->
     <string name="title_categories">カテゴリー</string>
     <!-- Page title, for editing a category -->
@@ -388,9 +387,7 @@
     <!-- Page title, shown in editor when creating a new category -->
     <string name="title_create_category">カテゴリーを作成</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">このカテゴリーを削除する？
-
-ここに含まれるショートカットが全て削除されます。</string>
+    <string name="confirm_delete_category_message">このカテゴリーを削除する？\n\nここに含まれるショートカットが全て削除されます。</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">カテゴリーを非表示</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
@@ -626,7 +623,7 @@
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">ランチャーにこのアプリのショートカットを表示する</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu and it will be promoted as a Direct Share target, allowing easy sharing of content into that specific shortcut -->
-    <string name="label_launcher_shortcut_or_direct_share">ランチャーにアプリショートカットとして表示して、ダイレクトシェアのターゲットとして表示する</string>
+    <string name="label_launcher_shortcut_or_direct_share">ダイレクトシェア、Googleアシスタント、その他アプリのランチャーショートカットによるトリガーを許可する</string>
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="label_secondary_launcher_shortcut">セカンダリ―ランチャーアプリ経由のトリガーを許可</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
@@ -1531,5 +1528,15 @@
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as HTML -->
     <string name="option_response_content_type_html">HTML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response charset. This is the default option, i.e., determine the charset automatically from the response headers -->
+    <string name="option_response_charset_auto">自動検知</string>
     <!-- Label for dropdown in "Response Handling" settings, allows the user to choose which character set should be used to decode the HTTP response -->
+    <string name="label_response_charset">レスポンス文字コード</string>
+    <!-- Warning message shown at the bottom of the cURL import screen when curl options have been detected that are not known to the app. The list of unsupported options is shown after this warning. -->
+    <string name="warning_unsupported_curl_options">一部のオプションはサポートされていないため無視されます:</string>
+    <!-- Dialog title for dialog that lets the user choose the shape of their custom icon: square or circular -->
+    <string name="dialog_title_select_icon_shape">アイコンの形を選択</string>
+    <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_square">四角</string>
+    <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_round">丸形</string>
 </resources>

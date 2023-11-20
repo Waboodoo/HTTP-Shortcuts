@@ -13,7 +13,9 @@
     <!-- Label above input field in editor, for shortcut name -->
     <string name="label_name">Nom du raccourci</string>
     <!-- Label above input field in editor, for shortcut description -->
+    <string name="label_description">Description</string>
     <!-- Label above input field in editor, for shortcut URL -->
+    <string name="label_url">URL</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">Navigateur</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
@@ -23,6 +25,7 @@
     <!-- Button to save changes made to shortcut/variable -->
     <string name="save_button">Sauvegarder</string>
     <!-- Button to test changes made to shortcut -->
+    <string name="test_button">Tester</string>
     <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, …) -->
     <string name="label_method">Méthodes de requête</string>
     <!-- Label above input field in editor, for shortcut authentication username -->
@@ -34,7 +37,9 @@
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
     <string name="label_response_on_success">En cas de Succés</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the response content should be treated as -->
+    <string name="label_response_type_selection">Type de réponse</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the custom message that they enter should be treated as -->
+    <string name="label_response_message_type_selection">Type de message</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
     <string name="label_response_on_failure">En cas d\'échec</string>
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
@@ -140,6 +145,7 @@ Cliquez sur le bouton + pour commencer.</string>
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
     <string name="label_post_param_value">Valeur</string>
     <!-- Generic dialog button: OK -->
+    <string name="dialog_ok">OK</string>
     <!-- Generic button: Cancel -->
     <string name="dialog_cancel">Annuler</string>
     <!-- Generic button: Help (to open documentation) -->
@@ -298,6 +304,7 @@ Cliquez sur le bouton + pour commencer.</string>
     <!-- Dialog title, for changelog, shown when a new version of the app is released -->
     <string name="changelog_title_whats_new">Quoi de nouveaux?</string>
     <!-- Dialog title, for changelog, showing what's new in a release -->
+    <string name="changelog_title">Changements</string>
     <!-- Checkbox label, shown on Changelog dialog, allowing user to enable that the dialog shows when the app is started -->
     <string name="changelog_checkbox_show_at_startup">Afficher au démarrage</string>
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
@@ -315,6 +322,7 @@ Cliquez sur le bouton + pour commencer.</string>
     <!-- Button subtitle for "View in F-Droid" button -->
     <string name="settings_f_droid_summary">Vérifier les mises à jour</string>
     <!-- Title of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation">Documentation</string>
     <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation_summary">FAQ, références, exemples, …</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
@@ -394,6 +402,7 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés.</string>
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">Exécuter le raccourci HTTP</string>
     <!-- Button/page title, for viewing list of variables -->
+    <string name="title_variables">Variables</string>
     <!-- Button, to edit a variable -->
     <string name="edit_variable">Modifier la variable</string>
     <!-- Button, to create a new variable -->
@@ -443,6 +452,7 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés.</string>
     <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle_description">Passe à une valeur différente à chaque fois qu\'il est utilisé</string>
     <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid">UUID</string>
     <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
     <string name="variable_type_uuid_description">Génère un nouvel UUID aléatoire à chaque exécution.</string>
     <!-- Type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
@@ -518,6 +528,7 @@ Cependant, vous n\'avez pas encore configuré de variables.</string>
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">Créer</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
+    <string name="dialog_title_variable_selection">Variables</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
     <string name="label_edit_variables">Modifier variables</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
@@ -605,7 +616,6 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">Afficher en tant que raccourci d\'application sur le lanceur</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu and it will be promoted as a Direct Share target, allowing easy sharing of content into that specific shortcut -->
-    <string name="label_launcher_shortcut_or_direct_share">Afficher comme raccourci d\'application sur le lanceur et promouvoir comme cible de Direct Share</string>
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="label_secondary_launcher_shortcut">Permettre le déclenchement via une application de lancement secondaire</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
@@ -635,7 +645,9 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_summary">Modifier le titre de l\'écran principal de l\'application</string>
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_min">Minimum</string>
     <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_max">Maximum</string>
     <!-- Label above input box, for step size (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_step">Taille de pas</string>
     <!-- Label above input box, for prefix text displayed in front of the number in a number slider (input dialog) -->
@@ -763,6 +775,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
     <string name="action_type_get_location_description">Demande l\'emplacement physique de l\'appareil et le renvoie sous forme d\'objet.</string>
     <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
+    <string name="action_type_wake_on_lan">Wake-on-LAN</string>
     <!-- Shortcut Action Title: Send a UDP packet to another device on the network -->
     <string name="action_type_send_udp_packet">Envoyer un paquet UDP</string>
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
@@ -881,6 +894,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether cookies should be stored for the HTTP request -->
     <string name="label_accept_cookies">Stocker les cookies</string>
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether the HTTP connection should be kept open after a request is made -->
+    <string name="label_keep_connection_open">Garder la connexion ouverte après la requête</string>
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
     <string name="label_pre_request_script">Exécuter avant l\'exécution</string>
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
@@ -910,6 +924,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
     <string name="dialog_code_snippet_handle_response">Réponse de la poignée</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get or set variables -->
+    <string name="dialog_code_snippet_variables">Variables</string>
     <!-- Dialog option: shown in code snippet picker, shows options to interact with the user (show dialog, prompt for input, …) -->
     <string name="dialog_code_snippet_user_interaction">Interaction avec l\'utilisateur</string>
     <!-- Dialog option: shown in code snippet picker, shows options to modify shortcuts -->
@@ -997,6 +1012,7 @@ Vous pouvez activer cette fonctionnalité en modifiant un raccourci et en cochan
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">Code de statut</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
+    <string name="label_response_url">URL</string>
     <!-- Label: Response time, shows how long the HTTP request took -->
     <string name="label_response_timing">Temps de réponse</string>
     <!-- Label: Shown above section that lists general information about the HTTP response, e.g. status code -->
@@ -1083,6 +1099,7 @@ Vous pouvez activer cette fonctionnalité en modifiant un raccourci et en cochan
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show nothing -->
     <string name="option_response_handling_failure_output_none">Ne rien afficher (exécuter silencieusement)</string>
     <!-- Label for text area in shortcut editor that allows to enter a custom message which should be displayed when the request succeeds -->
+    <string name="label_response_handling_success_message">Message</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of all cookies -->
     <string name="confirm_clear_cookies_message">Supprimer tous les cookies stockés ?</string>
     <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
@@ -1268,6 +1285,7 @@ Supprimer quand même ?</string>
     <!-- Message: shown in snackbar, indicates to the user that the app's quick settings tile was successfully added to the device's notification shade -->
     <string name="message_quick_settings_tile_added">Ajout d\'une tuile de réglages rapides.</string>
     <!-- Title: Shown on the Documentation screen, where users can read through the app's documentation -->
+    <string name="title_documentation">Documentation</string>
     <!-- Button text: Shown on Documentation screen, allows to view the current page in the external browser -->
     <string name="button_open_documentation_in_browser">Ouvrir dans le navigateur</string>
     <!-- Option in dropdown menu for selecting the main action available on a dialog that displays the HTTP response, allows to show no action -->
@@ -1328,7 +1346,9 @@ Vous pouvez empêcher les raccourcis individuels d\'apparaître ici grâce à un
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_legacy_shortcut">Raccourci de l\'héritage</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_widget">Widget</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_scripting">Scripting</string>
     <!-- Message shown in snackbar to let the user know that the details of a (selected) history event were copied to the clipboard -->
     <string name="message_history_event_details_copied">Les détails de l\'événement ont été copiés.</string>
     <!-- Label/description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
@@ -1402,6 +1422,7 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
     <string name="option_no_proxy">Pas de procuration</string>
     <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
+    <string name="button_format_json">Formater</string>
     <!-- Error, shown in snackbar, when the user tries to format a custom request body, but it is invalid JSON syntax -->
     <string name="error_cannot_format_invalid_json">Syntaxe JSON non valide</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
@@ -1465,6 +1486,10 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
     <string name="title_select_response_toolbar_buttons">Sélectionner les boutons de la barre d\'outils</string>
     <!-- Subtitle on button, shown in Response settings of shortcut editor, shows how many buttons the user has selected to be shown in the response window toolbar -->
+    <plurals name="subtitle_response_toolbar_actions">
+        <item quantity="one">1 bouton sélectionné</item>
+        <item quantity="other">%d boutons sélectionnés</item>
+    </plurals>
     <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
     <string name="settings_title_experimental">Expérimental</string>
     <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
@@ -1482,10 +1507,21 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <!-- Option in "Theme" setting, to use Dynamic Color, i.e., use the same color scheme as the OS -->
     <string name="settings_dynamic_color_option_default_theme">Utiliser le thème par défaut</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This is the default option, i.e., determine the type automatically from the response headers -->
+    <string name="option_response_content_type_auto">Déterminer automatiquement</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as plain text -->
+    <string name="option_response_content_type_plain_text">Texte simple</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as JSON -->
+    <string name="option_response_content_type_json">JSON</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as XML -->
+    <string name="option_response_content_type_xml">XML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as HTML -->
+    <string name="option_response_content_type_html">HTML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response charset. This is the default option, i.e., determine the charset automatically from the response headers -->
+    <string name="option_response_charset_auto">Déterminer automatiquement</string>
     <!-- Label for dropdown in "Response Handling" settings, allows the user to choose which character set should be used to decode the HTTP response -->
+    <string name="label_response_charset">Charset de réponse</string>
+    <!-- Warning message shown at the bottom of the cURL import screen when curl options have been detected that are not known to the app. The list of unsupported options is shown after this warning. -->
+    <!-- Dialog title for dialog that lets the user choose the shape of their custom icon: square or circular -->
+    <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <!-- Option in dialog that lets the user choose the shape of their custom icon -->
 </resources>

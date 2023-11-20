@@ -1361,4 +1361,8 @@ Excluir de qualquer maneira?</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as HTML -->
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response charset. This is the default option, i.e., determine the charset automatically from the response headers -->
     <!-- Label for dropdown in "Response Handling" settings, allows the user to choose which character set should be used to decode the HTTP response -->
+    <!-- Warning message shown at the bottom of the cURL import screen when curl options have been detected that are not known to the app. The list of unsupported options is shown after this warning. -->
+    <!-- Dialog title for dialog that lets the user choose the shape of their custom icon: square or circular -->
+    <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <!-- Option in dialog that lets the user choose the shape of their custom icon -->
 </resources>

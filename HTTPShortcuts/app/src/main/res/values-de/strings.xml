@@ -1549,4 +1549,12 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="option_response_charset_auto">Automatisch bestimmen</string>
     <!-- Label for dropdown in "Response Handling" settings, allows the user to choose which character set should be used to decode the HTTP response -->
     <string name="label_response_charset">Response-Zeichensatz</string>
+    <!-- Warning message shown at the bottom of the cURL import screen when curl options have been detected that are not known to the app. The list of unsupported options is shown after this warning. -->
+    <string name="warning_unsupported_curl_options">Einige Optionen werden nicht unterstützt und werden ignoriert:</string>
+    <!-- Dialog title for dialog that lets the user choose the shape of their custom icon: square or circular -->
+    <string name="dialog_title_select_icon_shape">Symbolform wählen</string>
+    <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_square">Quadratisch</string>
+    <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_round">Rund</string>
 </resources>

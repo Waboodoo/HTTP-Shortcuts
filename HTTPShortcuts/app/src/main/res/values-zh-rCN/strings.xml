@@ -25,6 +25,7 @@
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
     <string name="option_browser_custom_tab">使用定制标签页</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
+    <string name="option_custom_browser_in_custom_tab">%s (定制标签页)</string>
     <!-- Button to save changes made to shortcut/variable -->
     <string name="save_button">保存</string>
     <!-- Button to test changes made to shortcut -->
@@ -613,7 +614,7 @@
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">在主应用长按快捷菜单中显示方式</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu and it will be promoted as a Direct Share target, allowing easy sharing of content into that specific shortcut -->
-    <string name="label_launcher_shortcut_or_direct_share">显示为启动器的应用快捷方式并提示为“直接分享”目标</string>
+    <string name="label_launcher_shortcut_or_direct_share">允许通过直接分享、谷歌助手或作为启动器的应用快捷键进行触发</string>
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="label_secondary_launcher_shortcut">允许通过第二启动器应用进行触发</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
@@ -1516,5 +1517,15 @@
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as HTML -->
     <string name="option_response_content_type_html">HTML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response charset. This is the default option, i.e., determine the charset automatically from the response headers -->
+    <string name="option_response_charset_auto">自动确定</string>
     <!-- Label for dropdown in "Response Handling" settings, allows the user to choose which character set should be used to decode the HTTP response -->
+    <string name="label_response_charset">响应字符集</string>
+    <!-- Warning message shown at the bottom of the cURL import screen when curl options have been detected that are not known to the app. The list of unsupported options is shown after this warning. -->
+    <string name="warning_unsupported_curl_options">一些选项不被支持，将被忽略：</string>
+    <!-- Dialog title for dialog that lets the user choose the shape of their custom icon: square or circular -->
+    <string name="dialog_title_select_icon_shape">选择图标形状</string>
+    <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_square">方型</string>
+    <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_round">圆形</string>
 </resources>
