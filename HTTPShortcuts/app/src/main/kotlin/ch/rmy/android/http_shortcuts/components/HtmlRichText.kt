@@ -180,7 +180,7 @@ private suspend fun toAnnotatedString(
                             else -> null
                         }
                         is SuperscriptSpan -> SpanStyle(baselineShift = BaselineShift.Superscript)
-                        is SubscriptSpan -> SpanStyle(baselineShift = BaselineShift.Superscript)
+                        is SubscriptSpan -> SpanStyle(baselineShift = BaselineShift.Subscript)
                         is UnderlineSpan -> SpanStyle(textDecoration = TextDecoration.Underline)
                         is StrikethroughSpan -> SpanStyle(textDecoration = TextDecoration.LineThrough)
                         is URLSpan -> SpanStyle(color = linkColor, textDecoration = TextDecoration.Underline)
