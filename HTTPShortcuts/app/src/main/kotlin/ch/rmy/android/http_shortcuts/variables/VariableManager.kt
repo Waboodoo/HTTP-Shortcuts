@@ -12,7 +12,7 @@ import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
 class VariableManager(
-    variables: List<Variable>,
+    val variables: List<Variable>,
     preResolvedValues: Map<VariableKey, String> = emptyMap(),
 ) : VariableLookup {
 

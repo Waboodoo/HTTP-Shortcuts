@@ -24,8 +24,9 @@ constructor(
             .filter { variableId ->
                 !variableManager.isResolved(variableId)
             }
-            .mapNotNull { variableId ->
-                variableManager.getVariableById(variableId)
+            .toSet()
+            .let { variableIds ->
+                variableManager.variables.filter { it.id in variableIds }
             }
             .forEach { variable ->
                 resolveVariable(variableManager, variable, dialogHandle)
