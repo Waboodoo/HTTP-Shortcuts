@@ -76,6 +76,7 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
+import io.realm.kotlin.ext.copyFromRealm
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -236,7 +237,7 @@ class Execution(
         }
         checkWifiSSID(shortcutName, shortcut.wifiSsid, dialogHandle)
 
-        val variableManager = VariableManager(variableRepository.getVariables(), params.variableValues)
+        val variableManager = VariableManager(variableRepository.getVariables().map { it.copyFromRealm() }, params.variableValues)
 
         if (shouldDelayExecution()) {
             logInfo("Delaying execution")
