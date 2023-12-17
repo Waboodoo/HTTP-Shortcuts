@@ -93,7 +93,7 @@ object IconUtil {
         val options = BitmapFactory.Options()
         options.inPreferredConfig = Bitmap.Config.ARGB_8888
         val bitmap = if (adaptive) {
-            getAdaptiveBitmapFromVectorDrawable(context, identifier, icon.tint, inferBackground = icon.hasBackgroundCircle)
+            getAdaptiveBitmapFromVectorDrawable(context, identifier, icon.tint, inferBackground = icon.hasBackground)
         } else {
             getBitmapFromVectorDrawable(context, identifier, icon.tint)
         }

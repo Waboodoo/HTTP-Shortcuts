@@ -46,8 +46,9 @@ sealed interface ShortcutIcon {
                     }
         }
 
-        val hasBackgroundCircle: Boolean
-            get() = iconName.startsWith("flat_")
+        val hasBackground: Boolean
+            get() = iconName.startsWith("flat_") ||
+                iconName in ICONS_WITH_BACKGROUND
 
         @DrawableRes
         fun getDrawableIdentifier(context: Context): Int =
@@ -123,6 +124,20 @@ sealed interface ShortcutIcon {
                 "yellow" to 0xFFFD00,
                 "white" to 0xFFFFFF,
                 "grey" to 0x888888,
+            )
+
+            private val ICONS_WITH_BACKGROUND = arrayOf(
+                "freepik_modem",
+                "freepik_print",
+                "freepik_tv",
+                "freepik_check",
+                "freepik_close",
+                "freepik_accept",
+                "freepik_add",
+                "freepik_minus",
+                "freepik_cancel",
+                "freepik_heart",
+                "freepik_rate",
             )
         }
     }
