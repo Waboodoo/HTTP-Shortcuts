@@ -88,7 +88,7 @@ dependencies {
     api("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
     api("androidx.core:core-ktx:1.12.0@aar")
-    api("androidx.annotation:annotation:1.7.0")
+    api("androidx.annotation:annotation:1.7.1")
     api("androidx.appcompat:appcompat:1.6.1")
     api("androidx.preference:preference-ktx:1.2.1")
 

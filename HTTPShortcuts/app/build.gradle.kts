@@ -260,17 +260,17 @@ dependencies {
 
     /* Compose */
     implementation(platform("androidx.compose:compose-bom:2023.10.01"))
-    implementation("androidx.compose.material3:material3:1.2.0-alpha09")
-    implementation("androidx.navigation:navigation-compose:2.7.5")
+    implementation("androidx.compose.material3:material3:1.2.0-beta01")
+    implementation("androidx.navigation:navigation-compose:2.7.6")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
-    implementation("androidx.activity:activity-compose:1.8.0")
+    implementation("androidx.activity:activity-compose:1.8.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
     implementation("com.github.qawaz:compose-code-editor:2.0.3")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
 
     /* Image cropping */
     implementation("com.github.yalantis:ucrop:2.2.8")
@@ -279,7 +279,7 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.5.0")
 
     /* Image meta data extraction */
-    implementation("androidx.exifinterface:exifinterface:1.3.6")
+    implementation("androidx.exifinterface:exifinterface:1.3.7")
 
     /* HTTP & Network */
     implementation("com.squareup.okhttp3:okhttp:$okHttpVersion")
