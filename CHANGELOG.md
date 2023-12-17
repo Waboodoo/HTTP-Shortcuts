@@ -1,3 +1,13 @@
+## Version 3.9.0
+
+### Improvements
+- When using multiple variables in a shortcut, their values are now resolved in deterministic order, according to the order in which the variables appear on the Variables screen
+- Built-in icons are now treated as adaptive icons, allowing them to look nicer on the home screen of devices that support this
+
+### Bugfixes
+- `<sub>` tags in HTML responses are no longer incorrectly displayed as superscript
+- Variable value resolution no longer fails under some rare conditions
+
 ## Version 3.8.0
 
 ### Improvements
