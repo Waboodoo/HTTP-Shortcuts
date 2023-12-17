@@ -46,6 +46,9 @@ sealed interface ShortcutIcon {
                     }
         }
 
+        val hasBackgroundCircle: Boolean
+            get() = iconName.startsWith("flat_")
+
         @DrawableRes
         fun getDrawableIdentifier(context: Context): Int =
             context.resources.getIdentifier(

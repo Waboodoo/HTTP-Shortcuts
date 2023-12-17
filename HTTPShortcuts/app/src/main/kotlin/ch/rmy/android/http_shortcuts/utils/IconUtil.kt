@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
@@ -62,9 +63,15 @@ object IconUtil {
                 }
             }
             is ShortcutIcon.BuiltInIcon -> {
-                val file = generateRasterizedIconForBuiltInIcon(context, icon)
-                val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-                Icon.createWithBitmap(bitmap)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    val file = generateRasterizedIconForBuiltInIcon(context, icon, adaptive = true)
+                    val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+                    Icon.createWithAdaptiveBitmap(bitmap)
+                } else {
+                    val file = generateRasterizedIconForBuiltInIcon(context, icon)
+                    val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+                    Icon.createWithBitmap(bitmap)
+                }
             }
         }
     } catch (e: Exception) {
@@ -74,8 +81,9 @@ object IconUtil {
     fun generateRasterizedIconForBuiltInIcon(
         context: Context,
         icon: ShortcutIcon.BuiltInIcon,
+        adaptive: Boolean = false,
     ): File {
-        val fileName = "icon_${icon.iconName}.png"
+        val fileName = "icon${if (adaptive) "_a" else ""}_${icon.iconName}.png"
         val file = context.getFileStreamPath(fileName)
         if (file.exists()) {
             return file
@@ -84,7 +92,11 @@ object IconUtil {
         val identifier = icon.getDrawableIdentifier(context)
         val options = BitmapFactory.Options()
         options.inPreferredConfig = Bitmap.Config.ARGB_8888
-        val bitmap = getBitmapFromVectorDrawable(context, identifier, icon.tint)
+        val bitmap = if (adaptive) {
+            getAdaptiveBitmapFromVectorDrawable(context, identifier, icon.tint, inferBackground = icon.hasBackgroundCircle)
+        } else {
+            getBitmapFromVectorDrawable(context, identifier, icon.tint)
+        }
         context.openFileOutput(fileName, 0).use {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
             it.flush()
@@ -102,6 +114,31 @@ object IconUtil {
         if (tint != null) {
             DrawableCompat.setTint(drawable, tint)
         }
+        drawable.draw(canvas)
+        return bitmap
+    }
+
+    private fun getAdaptiveBitmapFromVectorDrawable(context: Context, drawableId: Int, tint: Int?, inferBackground: Boolean): Bitmap {
+        val drawable = AppCompatResources.getDrawable(context, drawableId)!!
+        val density = context.resources.displayMetrics.density
+        val outerSize = (108 * density).toInt()
+        val innerSize = ((if (inferBackground) 68 else 56) * density).toInt()
+        val offset = (outerSize - innerSize) / 2
+        val bitmap = Bitmap.createBitmap(outerSize, outerSize, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(offset, offset, innerSize + offset, innerSize + offset)
+        if (tint != null) {
+            DrawableCompat.setTint(drawable, tint)
+        }
+        val backgroundColor = if (inferBackground) {
+            drawable.draw(canvas)
+            bitmap.getPixel(offset + 3, outerSize / 2)
+                .takeUnless { Color.alpha(it) != 0xFF }
+                ?: Color.WHITE
+        } else {
+            Color.WHITE
+        }
+        canvas.drawColor(backgroundColor)
         drawable.draw(canvas)
         return bitmap
     }
