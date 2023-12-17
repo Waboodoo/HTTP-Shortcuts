@@ -56,6 +56,10 @@ constructor(
         get() = getBoolean(KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN)
         set(hidden) = putBoolean(KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN, hidden)
 
+    var isExternalUrlWarningPermanentlyHidden: Boolean
+        get() = getBoolean(KEY_EXTERNAL_URL_WARNING_PERMANENTLY_HIDDEN)
+        set(hidden) = putBoolean(KEY_EXTERNAL_URL_WARNING_PERMANENTLY_HIDDEN, hidden)
+
     var changeLogLastVersion: String?
         get() = getString(KEY_CHANGE_LOG_LAST_VERSION)
         set(version) = putString(KEY_CHANGE_LOG_LAST_VERSION, version)
@@ -117,6 +121,7 @@ constructor(
         private const val KEY_CHANGE_LOG_PERMANENTLY_HIDDEN = "change_log_permanently_hidden"
         private const val KEY_CHANGE_LOG_LAST_VERSION = "change_log_last_seen_version"
         private const val KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN = "network_restriction_permanently_hidden"
+        private const val KEY_EXTERNAL_URL_WARNING_PERMANENTLY_HIDDEN = "external_url_warning_permanently_hidden"
         private const val KEY_REMOTE_EDIT_SERVER = "remote_edit_server"
         private const val KEY_REMOTE_EDIT_DEVICE_ID = "remote_edit_device_id"
         private const val KEY_REMOTE_EDIT_PASSWORD = "remote_edit_password"

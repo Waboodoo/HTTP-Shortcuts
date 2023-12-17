@@ -19,4 +19,5 @@ data class DisplayResponseViewState(
     val canCopy: Boolean,
     val canSave: Boolean,
     val isSaving: Boolean = false,
+    val showExternalUrlWarning: Boolean,
 )

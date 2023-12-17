@@ -23,6 +23,7 @@ import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.isImage
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
+import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import ch.rmy.android.http_shortcuts.utils.SizeLimitedReader
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,6 +44,7 @@ constructor(
     private val activityProvider: ActivityProvider,
     private val shareUtil: ShareUtil,
     private val executionStarter: ExecutionStarter,
+    private val settings: Settings,
 ) : BaseViewModel<DisplayResponseViewModel.InitData, DisplayResponseViewState>(application) {
 
     private lateinit var responseData: ResponseData
@@ -95,6 +97,7 @@ constructor(
             canShare = responseData.fileUri != null,
             canCopy = responseText.isNotEmpty() && responseText.length < MAX_COPY_LENGTH,
             canSave = responseData.fileUri != null,
+            showExternalUrlWarning = !settings.isExternalUrlWarningPermanentlyHidden,
         )
     }
 
@@ -174,6 +177,13 @@ constructor(
 
     fun onFilePickerFailed() = runAction {
         showSnackbar(R.string.error_not_supported)
+    }
+
+    fun onExternalUrlWarningHidden(hidden: Boolean) = runAction {
+        updateViewState {
+            copy(showExternalUrlWarning = !hidden)
+        }
+        settings.isExternalUrlWarningPermanentlyHidden = hidden
     }
 
     @Stable

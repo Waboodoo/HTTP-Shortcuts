@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.response
 
 import android.content.Context
+import android.net.Uri
 import android.util.AttributeSet
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
@@ -20,8 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.viewinterop.NoOpUpdate
+import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.consume
-import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.tryOrIgnore
 import ch.rmy.android.http_shortcuts.components.LoadingIndicator
@@ -34,10 +35,14 @@ import kotlin.time.Duration.Companion.milliseconds
 fun ResponseBrowser(
     text: String,
     baseUrl: String?,
+    onExternalUrl: (Uri) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val webView = rememberWebView(key = "response") { context, _ ->
         ResponseWebView(context)
+    }
+    LaunchedEffect(onExternalUrl) {
+        webView.onExternalUrl = onExternalUrl
     }
 
     var loadingSpinnerVisible by remember {
@@ -70,6 +75,7 @@ fun ResponseBrowser(
                 webView.onLoaded = {
                     isLoading = false
                 }
+                webView.onExternalUrl = onExternalUrl
                 webView.loadFromString(text, baseUrl)
                 webView
             },
@@ -86,11 +92,12 @@ class ResponseWebView @JvmOverloads constructor(
 ) : WebView(context, attrs) {
 
     var onLoaded: () -> Unit = {}
+    var onExternalUrl: (Uri) -> Unit = {}
 
     init {
         webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String) = consume {
-                context.openURL(url)
+                onExternalUrl(url.toUri())
             }
 
             override fun shouldInterceptRequest(view: WebView, request: WebResourceRequest): WebResourceResponse? {

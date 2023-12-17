@@ -8,19 +8,24 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
@@ -31,6 +36,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.response.models.DetailInfo
 import ch.rmy.android.http_shortcuts.components.FontSize
@@ -53,6 +60,8 @@ fun DisplayResponseContent(
     url: Uri?,
     limitExceeded: Long?,
     monospace: Boolean,
+    showExternalUrlWarning: Boolean,
+    onExternalUrlWarningHidden: (Boolean) -> Unit,
 ) {
     Column {
         if (detailInfo != null) {
@@ -72,6 +81,8 @@ fun DisplayResponseContent(
                 url = url,
                 limitExceeded = limitExceeded,
                 monospace = monospace,
+                showExternalUrlWarning = showExternalUrlWarning,
+                onExternalUrlWarningHidden = onExternalUrlWarningHidden,
             )
         }
     }
@@ -170,6 +181,8 @@ private fun ResponseDisplay(
     url: Uri?,
     limitExceeded: Long?,
     monospace: Boolean,
+    showExternalUrlWarning: Boolean,
+    onExternalUrlWarningHidden: (Boolean) -> Unit,
 ) {
     val context = LocalContext.current
     if (FileTypeUtil.isImage(mimeType)) {
@@ -196,7 +209,33 @@ private fun ResponseDisplay(
     }
     when (mimeType) {
         FileTypeUtil.TYPE_HTML -> {
-            ResponseBrowser(text, url?.toString())
+            var externalUrl by remember {
+                mutableStateOf<Uri?>(null)
+            }
+            ResponseBrowser(
+                text,
+                url?.toString(),
+                onExternalUrl = {
+                    if (showExternalUrlWarning) {
+                        externalUrl = it
+                    } else {
+                        context.openURL(it)
+                    }
+                }
+            )
+            externalUrl?.let {
+                OpenExternalUrlDialog(
+                    url = it,
+                    onConfirm = {
+                        externalUrl = null
+                        context.openURL(it)
+                    },
+                    onDoNotShowAgain = onExternalUrlWarningHidden,
+                    onDismissed = {
+                        externalUrl = null
+                    }
+                )
+            }
         }
         FileTypeUtil.TYPE_JSON -> {
             SyntaxHighlightedText(text, language = "json")
@@ -261,4 +300,58 @@ private fun SyntaxHighlightedText(text: String, language: String) {
             )
         }
     }
+}
+
+@Composable
+private fun OpenExternalUrlDialog(
+    url: Uri,
+    onDoNotShowAgain: (Boolean) -> Unit,
+    onConfirm: () -> Unit,
+    onDismissed: () -> Unit,
+) {
+    var permanentlyHidden by remember {
+        mutableStateOf(false)
+    }
+    AlertDialog(
+        onDismissRequest = onDismissed,
+        text = {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
+            ) {
+                Text(stringResource(R.string.warning_page_wants_to_open_url, url))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            permanentlyHidden = !permanentlyHidden
+                            onDoNotShowAgain(permanentlyHidden)
+                        }
+                        .padding(Spacing.TINY),
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.SMALL, Alignment.CenterHorizontally),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Checkbox(
+                        checked = permanentlyHidden,
+                        onCheckedChange = null,
+                    )
+                    Text(
+                        stringResource(R.string.dialog_checkbox_do_not_show_again),
+                        fontSize = FontSize.MEDIUM,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onConfirm) {
+                Text(stringResource(R.string.dialog_ok))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismissed) {
+                Text(stringResource(R.string.dialog_cancel))
+            }
+        }
+    )
 }
