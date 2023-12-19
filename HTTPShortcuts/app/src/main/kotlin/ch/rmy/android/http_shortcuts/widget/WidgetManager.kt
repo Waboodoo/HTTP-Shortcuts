@@ -65,7 +65,7 @@ constructor(
                 views.setViewVisibility(R.id.widget_label, View.GONE)
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                views.setImageViewIcon(R.id.widget_icon, IconUtil.getIcon(context, shortcut.icon))
+                views.setImageViewIcon(R.id.widget_icon, IconUtil.getIcon(context, shortcut.icon, adaptive = false))
             } else {
                 views.setImageViewUri(R.id.widget_icon, shortcut.icon.getIconURI(context, external = true))
             }

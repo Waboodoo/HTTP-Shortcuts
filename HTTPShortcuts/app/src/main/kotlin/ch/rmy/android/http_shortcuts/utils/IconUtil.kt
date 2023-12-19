@@ -43,7 +43,7 @@ object IconUtil {
     private val CUSTOM_ICON_NAME_PATTERN = CUSTOM_ICON_NAME_REGEX.toPattern(Pattern.CASE_INSENSITIVE)
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    fun getIcon(context: Context, icon: ShortcutIcon): Icon? = try {
+    fun getIcon(context: Context, icon: ShortcutIcon, adaptive: Boolean): Icon? = try {
         when (icon) {
             is ShortcutIcon.NoIcon -> {
                 Icon.createWithResource(context.packageName, ShortcutIcon.NoIcon.ICON_RESOURCE)
@@ -63,7 +63,7 @@ object IconUtil {
                 }
             }
             is ShortcutIcon.BuiltInIcon -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && adaptive) {
                     val file = generateRasterizedIconForBuiltInIcon(context, icon, adaptive = true)
                     val bitmap = BitmapFactory.decodeFile(file.absolutePath)
                     Icon.createWithAdaptiveBitmap(bitmap)
@@ -122,7 +122,7 @@ object IconUtil {
         val drawable = AppCompatResources.getDrawable(context, drawableId)!!
         val density = context.resources.displayMetrics.density
         val outerSize = (108 * density).toInt()
-        val innerSize = ((if (inferBackground) 68 else 56) * density).toInt()
+        val innerSize = ((if (inferBackground) 64 else 54) * density).toInt()
         val offset = (outerSize - innerSize) / 2
         val bitmap = Bitmap.createBitmap(outerSize, outerSize, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)

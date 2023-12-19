@@ -130,6 +130,7 @@ sealed interface ShortcutIcon {
                 "freepik_modem",
                 "freepik_print",
                 "freepik_tv",
+                "freepik_projector",
                 "freepik_check",
                 "freepik_close",
                 "freepik_accept",
