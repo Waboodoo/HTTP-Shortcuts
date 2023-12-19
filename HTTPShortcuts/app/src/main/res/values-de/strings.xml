@@ -1557,4 +1557,6 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="icon_shape_square">Quadratisch</string>
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
     <string name="icon_shape_round">Rund</string>
+    <!-- Warning message shown to user when an HTML page wants to open a URL in the external browser. %s is a placeholder for the URL. -->
+    <string name="warning_page_wants_to_open_url">Die Seite möchte folgende URL in einem Browser öffnen:\n\n%s</string>
 </resources>

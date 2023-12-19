@@ -1524,4 +1524,5 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <!-- Dialog title for dialog that lets the user choose the shape of their custom icon: square or circular -->
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <!-- Warning message shown to user when an HTML page wants to open a URL in the external browser. %s is a placeholder for the URL. -->
 </resources>

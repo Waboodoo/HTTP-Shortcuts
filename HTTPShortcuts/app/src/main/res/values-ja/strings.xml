@@ -445,7 +445,7 @@
     <!-- Type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
     <string name="variable_type_slider">スライドバーで入力</string>
     <!-- Description for type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
-    <string name="variable_type_slider_description">スライダ(最低値から最大値の設定)つきのダイアログを表示</string>
+    <string name="variable_type_slider_description">スライダ(最低値から最大値の設定バー)つきのダイアログを表示</string>
     <!-- Type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
     <string name="variable_type_password">パスワードを入力</string>
     <!-- Description type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
@@ -1539,4 +1539,6 @@
     <string name="icon_shape_square">四角</string>
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
     <string name="icon_shape_round">丸形</string>
+    <!-- Warning message shown to user when an HTML page wants to open a URL in the external browser. %s is a placeholder for the URL. -->
+    <string name="warning_page_wants_to_open_url">このページは、ブラウザで次のURLリンクを開きます:\n\n%s</string>
 </resources>
