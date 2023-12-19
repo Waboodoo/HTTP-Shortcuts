@@ -254,16 +254,27 @@ private fun ResponseDisplay(
 
 @Composable
 private fun PlainText(text: String, monospace: Boolean = false, italic: Boolean = false) {
+    val fontFamily = if (monospace) FontFamily.Monospace else null
+    val fontStyle = if (italic) FontStyle.Italic else FontStyle.Normal
     Box(modifier = Modifier.verticalScroll(rememberScrollState())) {
         SelectionContainer {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(Spacing.MEDIUM),
-                text = text,
-                fontFamily = if (monospace) FontFamily.Monospace else null,
-                fontStyle = if (italic) FontStyle.Italic else FontStyle.Normal,
-            )
+            Column(
+                modifier = Modifier.padding(Spacing.MEDIUM)
+            ) {
+                // Somehow, verticalScroll starts falling apart and crashing when the text
+                // composable is too big, so we split it up into smaller chunks
+                text.split("\n")
+                    .chunked(1000)
+                    .map { it.joinToString(separator = "\n") }
+                    .forEach {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = it,
+                            fontFamily = fontFamily,
+                            fontStyle = fontStyle,
+                        )
+                    }
+            }
         }
     }
 }
