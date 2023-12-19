@@ -10,6 +10,7 @@
 ### Bugfixes
 - `<sub>` tags in HTML responses are no longer incorrectly displayed as superscript
 - Variable value resolution no longer fails under some rare conditions
+- Fixed a crash that would happen when trying to display a 1000+ lines plain text response
 
 ## Version 3.8.0
 
