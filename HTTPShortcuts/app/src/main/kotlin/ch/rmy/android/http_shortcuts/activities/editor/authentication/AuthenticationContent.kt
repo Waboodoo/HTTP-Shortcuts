@@ -3,7 +3,9 @@ package ch.rmy.android.http_shortcuts.activities.editor.authentication
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -40,7 +42,6 @@ fun AuthenticationContent(
         modifier = Modifier
             .padding(vertical = Spacing.MEDIUM)
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
     ) {
         AuthenticationTypeSelection(
             modifier = Modifier
@@ -51,36 +52,44 @@ fun AuthenticationContent(
         )
 
         AnimatedVisibility(visible = authenticationType.usesUsernameAndPassword) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
-            ) {
-                UsernameField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = Spacing.MEDIUM),
-                    username = username,
-                    onUsernameChanged = onUsernameChanged,
-                )
+            Column {
+                Spacer(modifier = Modifier.height(Spacing.SMALL))
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
+                ) {
+                    UsernameField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = Spacing.MEDIUM),
+                        username = username,
+                        onUsernameChanged = onUsernameChanged,
+                    )
 
-                PasswordField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = Spacing.MEDIUM),
-                    password = password,
-                    onPasswordChanged = onPasswordChanged,
-                )
+                    PasswordField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = Spacing.MEDIUM),
+                        password = password,
+                        onPasswordChanged = onPasswordChanged,
+                    )
+                }
             }
         }
 
         AnimatedVisibility(visible = authenticationType.usesToken) {
-            TokenField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = Spacing.MEDIUM),
-                token = token,
-                onTokenChanged = onTokenChanged,
-            )
+            Column {
+                Spacer(modifier = Modifier.height(Spacing.SMALL))
+                TokenField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Spacing.MEDIUM),
+                    token = token,
+                    onTokenChanged = onTokenChanged,
+                )
+            }
         }
+
+        Spacer(modifier = Modifier.height(Spacing.SMALL))
 
         Column(
             modifier = Modifier.padding(top = Spacing.MEDIUM)
