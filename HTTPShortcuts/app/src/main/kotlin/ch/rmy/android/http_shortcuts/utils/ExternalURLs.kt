@@ -13,6 +13,7 @@ object ExternalURLs {
     const val PRIVACY_POLICY = "$BASE_URL/privacy-policy"
     const val DOCUMENTATION_PAGE = "$BASE_URL/documentation"
     const val DONATION_PAGE = "$BASE_URL/support-me#donate"
+    const val CONTACT_PAGE = "$BASE_URL/contact"
     const val PLAY_STORE = "https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"
     const val F_DROID = "https://f-droid.org/en/packages/ch.rmy.android.http_shortcuts/"
     const val GITHUB = "https://github.com/Waboodoo/HTTP-Shortcuts"

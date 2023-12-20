@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_contact">Entwickler kontaktieren</string>
-    <string name="contact_instructions">Wenn du Bugs findest, Fragen, Probleme oder Feature-Wünsche hast kannst du mich via E-Mail kontaktieren. Gerne helfe ich dir weiter.\n\nBitte beachte jedoch:\n\n• Ich bin nur eine Person.\n• Ich entwickle diese App ausschließlich in meiner Freizeit.\n• Ich spreche nur Deutsch und Englisch.\n• Ich antworte manchmal nicht besonders schnell auf E-Mails, bitte hab Geduld.\n\nBitte tippe \"%1$s\" in das Textfeld unten um fortzufahren.</string>
+    <string name="contact_instructions">Hallo, ich bin Roland, der Typ der diese App entwickelt.\nWenn du Bugs findest, Fragen, Probleme oder Feature-Wünsche hast, kannst du mich via E-Mail kontaktieren. Gerne helfe ich dir weiter wenn ich kann.\n\nBitte beachte jedoch:\n\n• Ich bin nur eine Person.\n• Ich entwickle diese App ausschließlich in meiner Freizeit, ohne Entlöhnung.\n• Ich spreche nur Deutsch und Englisch.\n• Ich antworte manchmal nicht besonders schnell auf E-Mails, bitte hab Geduld.\n\nBitte tippe \"%1$s\" in das Textfeld unten um fortzufahren.</string>
 </resources>

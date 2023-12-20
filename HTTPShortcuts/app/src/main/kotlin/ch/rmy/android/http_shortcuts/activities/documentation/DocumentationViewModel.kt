@@ -4,6 +4,7 @@ import android.app.Application
 import android.net.Uri
 import androidx.core.net.toUri
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -30,7 +31,11 @@ constructor(
     }
 
     fun onExternalUrl(url: Uri) = runAction {
-        openURL(url)
+        if (url.toString() == ExternalURLs.CONTACT_PAGE) {
+            navigate(NavigationDestination.Contact)
+        } else {
+            openURL(url)
+        }
     }
 
     data class InitData(
