@@ -3,6 +3,7 @@ A simple but powerful Android app that allows you to create shortcuts and widget
 <a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"><img alt="Get it on Google Play" src="../assets/play_store.svg" height="80" style="margin-right: 20px"></a><a href="https://f-droid.org/en/packages/ch.rmy.android.http_shortcuts/"><img alt="Get it on F-Droid" src="../assets/f_droid.svg" height="80" style="margin-right: 20px"></a><a href="https://github.com/Waboodoo/HTTP-Shortcuts/releases"><img alt="Get it on Github" src="../assets/github.svg" height="80"></a>
 
 This app is open-source and can be found on [Github](https://github.com/Waboodoo/HTTP-Shortcuts).
+If you find bugs, have questions or feature requests, feel free to [contact me](https://http-shortcuts.rmy.ch/contact).
 
 ## Features
 - Completely free, open-source, no ads and [(almost) no tracking](privacy-policy.md)
