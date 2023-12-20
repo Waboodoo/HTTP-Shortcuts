@@ -134,14 +134,22 @@ object IconUtil {
             drawable.draw(canvas)
             bitmap.getPixel(offset + 3, outerSize / 2)
                 .takeUnless { Color.alpha(it) != 0xFF }
-                ?: Color.WHITE
         } else {
-            Color.WHITE
+            null
         }
+            ?: if (tint?.isCloseToWhite() == true) {
+                Color.BLACK
+            } else {
+                Color.WHITE
+            }
+
         canvas.drawColor(backgroundColor)
         drawable.draw(canvas)
         return bitmap
     }
+
+    private fun Int.isCloseToWhite() =
+        Color.red(this) > 200 && Color.green(this) > 200 && Color.blue(this) > 200
 
     fun createIconFromStream(context: Context, inStream: InputStream): ShortcutIcon? {
         val bitmap = BitmapFactory.decodeStream(inStream)
