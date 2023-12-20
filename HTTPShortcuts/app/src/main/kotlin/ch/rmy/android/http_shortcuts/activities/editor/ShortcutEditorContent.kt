@@ -69,7 +69,8 @@ fun ShortcutEditorContent(
     ) {
         Column(
             modifier = Modifier
-                .padding(Spacing.MEDIUM),
+                .padding(horizontal = Spacing.MEDIUM)
+                .padding(top = Spacing.TINY, bottom = Spacing.MEDIUM),
             verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
         ) {
             Row(
