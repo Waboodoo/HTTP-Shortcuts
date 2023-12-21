@@ -1285,7 +1285,7 @@ Yine de silinsin mi?</string>
     <string name="button_sort_variables">Sırala</string>
     <!-- Message: Shown in a snackbar after all variables have been sorted (alphabetically) -->
     <string name="message_variables_sorted">Değişkenler sıralandı.</string>
-    <!-- Button label on menu, for searching. Currently only used in Code Snippet picker but might be used to search in other places -->
+    <!-- Button label on menu, for searching. Used in Code Snippet picker and for Documentation screens -->
     <string name="menu_action_search">Ara</string>
     <!-- Generic message for empty state when a search yields no results, displayed in the middle of the screen -->
     <string name="instructions_search_no_results">Sonuç yok</string>
@@ -1519,4 +1519,5 @@ Kendinden imzalı sertifikalar için bunun yerine kısayolun \"%s\" bölümünü
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
     <!-- Warning message shown to user when an HTML page wants to open a URL in the external browser. %s is a placeholder for the URL. -->
+    <!-- Placeholder text shown in the text field for the search feature on the Documentation screen -->
 </resources>

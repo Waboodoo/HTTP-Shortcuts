@@ -1269,7 +1269,7 @@ Eliminare comunque?</string>
     <string name="button_sort_variables">Ordinamento</string>
     <!-- Message: Shown in a snackbar after all variables have been sorted (alphabetically) -->
     <string name="message_variables_sorted">Variabili ordinate.</string>
-    <!-- Button label on menu, for searching. Currently only used in Code Snippet picker but might be used to search in other places -->
+    <!-- Button label on menu, for searching. Used in Code Snippet picker and for Documentation screens -->
     <string name="menu_action_search">Ricerca</string>
     <!-- Generic message for empty state when a search yields no results, displayed in the middle of the screen -->
     <string name="instructions_search_no_results">Nessun risultato</string>
@@ -1511,4 +1511,5 @@ Per i certificati autofirmati, controllare invece la sezione \"%s\" della scorci
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
     <!-- Warning message shown to user when an HTML page wants to open a URL in the external browser. %s is a placeholder for the URL. -->
+    <!-- Placeholder text shown in the text field for the search feature on the Documentation screen -->
 </resources>
