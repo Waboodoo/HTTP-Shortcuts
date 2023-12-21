@@ -2,7 +2,8 @@
 
 ### Improvements
 - When using multiple variables in a shortcut, their values are now resolved in deterministic order, according to the order in which the variables appear on the Variables screen
-- Built-in icons are now treated as adaptive icons, allowing them to look nicer on the home screen of devices that support this
+- Built-in icons are now treated as adaptive icons, allowing them to have nicer backgrounds when placed on the home screen of devices that support this
+- It is now possible to search for text in the built-in documentation pages
 
 ### Miscellaneous
 - When an HTML response tries to open a URL, either because of a redirect or a clicked link, it will first warn about the use of an external browser

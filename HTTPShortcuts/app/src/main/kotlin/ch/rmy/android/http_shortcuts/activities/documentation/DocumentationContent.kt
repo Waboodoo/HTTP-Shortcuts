@@ -12,16 +12,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import ch.rmy.android.http_shortcuts.activities.documentation.models.SearchDirection
 import ch.rmy.android.http_shortcuts.components.LoadingIndicator
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun DocumentationContent(
     url: Uri,
+    searchQuery: String?,
+    searchDirectionRequests: Flow<SearchDirection>,
     onPageChanged: (Uri) -> Unit,
     onPageTitle: (String?) -> Unit,
     onExternalUrl: (Uri) -> Unit,
+    onSearchResults: (Int, Int) -> Unit,
 ) {
     var isLoading by remember {
         mutableStateOf(true)
@@ -46,11 +51,14 @@ fun DocumentationContent(
         }
 
         DocumentationBrowser(
-            url,
-            onPageChanged,
-            onPageTitle,
+            url = url,
+            searchQuery = searchQuery,
+            searchDirectionRequests = searchDirectionRequests,
+            onPageChanged = onPageChanged,
+            onPageTitle = onPageTitle,
             onLoadingStateChanged = { isLoading = it },
-            onExternalUrl,
+            onExternalUrl = onExternalUrl,
+            onSearchResults = onSearchResults,
             modifier = Modifier
                 .fillMaxSize()
                 .alpha(if (isLoadingScreenVisible) 0f else 1f),

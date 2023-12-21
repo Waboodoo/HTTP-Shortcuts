@@ -11,16 +11,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.viewinterop.NoOpUpdate
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ch.rmy.android.http_shortcuts.activities.documentation.models.SearchDirection
 import ch.rmy.android.http_shortcuts.extensions.rememberWebView
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlin.time.Duration.Companion.milliseconds
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun DocumentationBrowser(
     url: Uri,
+    searchQuery: String?,
+    searchDirectionRequests: Flow<SearchDirection>,
     onPageChanged: (Uri) -> Unit,
     onPageTitle: (String?) -> Unit,
     onLoadingStateChanged: (loading: Boolean) -> Unit,
     onExternalUrl: (Uri) -> Unit,
+    onSearchResults: (Int, Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val webView = rememberWebView(key = "documentation") { context, _ ->
@@ -37,6 +44,27 @@ fun DocumentationBrowser(
         val internalUrl = DocumentationUrlManager.toInternalUrl(url)?.toString() ?: return@LaunchedEffect
         if (internalUrl != webView.url) {
             webView.loadUrl(internalUrl)
+        }
+    }
+    LaunchedEffect(webView) {
+        webView.setFindListener { activeMatchOrdinal, numberOfMatches, _ ->
+            onSearchResults(activeMatchOrdinal + if (numberOfMatches > 0) 1 else 0, numberOfMatches)
+        }
+    }
+    LaunchedEffect(searchQuery) {
+        if (searchQuery != null) {
+            delay(200.milliseconds)
+            webView.findAllAsync(searchQuery)
+        } else {
+            webView.findAllAsync("")
+        }
+    }
+    LaunchedEffect(searchDirectionRequests) {
+        searchDirectionRequests.collect {
+            when (it) {
+                SearchDirection.PREVIOUS -> webView.findNext(false)
+                SearchDirection.NEXT -> webView.findNext(true)
+            }
         }
     }
 
