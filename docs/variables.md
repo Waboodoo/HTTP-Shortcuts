@@ -1,8 +1,8 @@
 # Variables
 
-Variables allow you to inject pieces of information dynamically into your shortcuts when executing them. A variable consists of a name and a value which is resolved at execution time, based on its type. For some variable types this means that a prompt dialog is shown that asks for a value, others can be resolved without user input. They are global, meaning that they do not belong to a specific shortcut but can be used by all of them.
+Variables allow you to inject pieces of information dynamically into your shortcuts when executing them. A variable consists of a name and a value which is resolved at execution time, based on its type. For some variable types this means that a prompt dialog is shown that asks for a value, others can be resolved without user input. They are global, meaning that they do not belong to a specific shortcut but can be used by any of them.
 
-Variables are also particularly useful when combined with the app's [Scripting](scripting.md) capabilities, as it allows you to compute a value using a piece of JavaScript, storing that value into a variable and then use that value as part of the HTTP request.
+Variables are also particularly useful when combined with the app's [Scripting](scripting.md) capabilities, as it allows you to compute a value using a piece of JavaScript code, store that value into a variable and then use that value as part of the HTTP request.
 
 For more details on when variables are resolved see the [Execution Flow](execution-flow.md) documentation.
 
@@ -10,7 +10,7 @@ For more details on when variables are resolved see the [Execution Flow](executi
 
 You can insert a placeholder for a variable into your shortcuts' url, requests parameters, request body, authentication and header fields by clicking the *"{ }"* button next to the input field and selecting a variable.
 
-When executing a shortcut that contains variable placeholders all of them are resolved according to their type.
+When executing a shortcut that contains variable placeholders all of them are resolved according to their type. The are resolved in the order in which they appear in the Variables screen, so if you want one variable to be resolved before another, make sure to rearrange them accordingly by dragging.
 
 You can also insert these placeholders into some of your variables, i.e., you can have variables reference other variables, and you can use them when writing [scripts](scripting.md#variables).
 
@@ -23,7 +23,7 @@ When creating a variable, you have to select its type. The type dictates how the
 
 A *Static Variable* (formerly called *constant*) stores a static value. A typical use case is to store a piece of information that is shared across multiple shortcuts, such as an authentication token or a domain name. This way it can easily be changed.
 
-It is also possible to change the value of a static variable programmatically before or after a shortcut runs, e.g., store parts of an HTTP response into it. See the [Scripting](scripting.md#variables) documentation for more details.
+It is also possible to change the value of a static variable programmatically before or after a shortcut runs, e.g., to store parts of an HTTP response into it. See the [Scripting](scripting.md#variables) documentation for more details.
 
 <a name="multiple-choice"></a>
 ### Multiple Choice Selection
