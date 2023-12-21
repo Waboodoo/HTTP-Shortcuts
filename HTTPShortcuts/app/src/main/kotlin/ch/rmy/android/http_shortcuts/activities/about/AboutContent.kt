@@ -5,10 +5,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Article
+import androidx.compose.material.icons.automirrored.outlined.Article
+import androidx.compose.material.icons.automirrored.outlined.LiveHelp
 import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.LiveHelp
 import androidx.compose.material.icons.outlined.People
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.runtime.Composable
@@ -47,7 +47,7 @@ fun AboutContent(
         )
 
         SettingsButton(
-            icon = Icons.Outlined.LiveHelp,
+            icon = Icons.AutoMirrored.Outlined.LiveHelp,
             title = stringResource(R.string.settings_documentation),
             subtitle = stringResource(R.string.settings_documentation_summary),
             onClick = onDocumentationButtonClicked,
@@ -105,7 +105,7 @@ fun AboutContent(
         )
 
         SettingsButton(
-            icon = Icons.Outlined.Article,
+            icon = Icons.AutoMirrored.Outlined.Article,
             title = stringResource(R.string.settings_privacy_policy),
             subtitle = stringResource(R.string.settings_privacy_policy_summary),
             onClick = onPrivacyPolicyButtonClicked,

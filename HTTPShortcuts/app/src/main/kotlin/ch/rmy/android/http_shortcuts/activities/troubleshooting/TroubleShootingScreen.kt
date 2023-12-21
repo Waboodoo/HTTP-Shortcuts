@@ -24,6 +24,8 @@ fun TroubleShootingScreen() {
             onAllowOverlayButtonClicked = viewModel::onAllowOverlayButtonClicked,
             onAllowXiaomiOverlayButtonClicked = viewModel::onAllowXiaomiOverlayButtonClicked,
             onBatteryOptimizationButtonClicked = viewModel::onBatteryOptimizationButtonClicked,
+            onDocumentationButtonClicked = viewModel::onDocumentationButtonClicked,
+            onContactButtonClicked = viewModel::onContactButtonClicked,
         )
     }
 

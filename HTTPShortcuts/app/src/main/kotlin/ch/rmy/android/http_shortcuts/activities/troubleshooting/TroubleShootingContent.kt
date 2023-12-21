@@ -5,11 +5,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.LiveHelp
 import androidx.compose.material.icons.outlined.BatteryFull
 import androidx.compose.material.icons.outlined.Cookie
+import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Layers
 import androidx.compose.material.icons.outlined.Schedule
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -28,6 +31,8 @@ fun TroubleShootingContent(
     onAllowOverlayButtonClicked: () -> Unit,
     onAllowXiaomiOverlayButtonClicked: () -> Unit,
     onBatteryOptimizationButtonClicked: () -> Unit,
+    onDocumentationButtonClicked: () -> Unit,
+    onContactButtonClicked: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -78,5 +83,21 @@ fun TroubleShootingContent(
                 onClick = onBatteryOptimizationButtonClicked,
             )
         }
+
+        HorizontalDivider()
+
+        SettingsButton(
+            icon = Icons.AutoMirrored.Outlined.LiveHelp,
+            title = stringResource(R.string.settings_documentation),
+            subtitle = stringResource(R.string.settings_documentation_summary),
+            onClick = onDocumentationButtonClicked,
+        )
+
+        SettingsButton(
+            icon = Icons.Outlined.Email,
+            title = stringResource(R.string.settings_mail),
+            subtitle = stringResource(R.string.settings_mail_summary),
+            onClick = onContactButtonClicked,
+        )
     }
 }

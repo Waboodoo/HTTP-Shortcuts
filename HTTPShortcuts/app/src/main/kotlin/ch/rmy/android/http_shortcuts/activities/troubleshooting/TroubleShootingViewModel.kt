@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
+import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -74,6 +75,14 @@ constructor(
 
     fun onBatteryOptimizationButtonClicked() = runAction {
         sendIntent(restrictionsUtil.getRequestIgnoreBatteryOptimizationIntent() ?: skipAction())
+    }
+
+    fun onDocumentationButtonClicked() = runAction {
+        openURL(ExternalURLs.DOCUMENTATION_PAGE)
+    }
+
+    fun onContactButtonClicked() = runAction {
+        navigate(NavigationDestination.Contact)
     }
 
     fun onDialogDismissalRequested() = runAction {
