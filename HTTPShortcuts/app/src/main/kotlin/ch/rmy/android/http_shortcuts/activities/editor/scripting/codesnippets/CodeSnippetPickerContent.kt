@@ -75,7 +75,6 @@ fun CodeSnippetPickerContent(
                         is ItemWrapper.CodeSnippet -> {
                             with(itemWrapper.codeSnippetItem) {
                                 CodeSnippetItem(
-                                    modifier = Modifier.animateItemPlacement(),
                                     title = title.localize(),
                                     description = description?.localize(),
                                     onDocumentationButtonClicked = docRef?.let {
@@ -91,7 +90,6 @@ fun CodeSnippetPickerContent(
                         }
                         is ItemWrapper.Section -> {
                             Section(
-                                modifier = Modifier.animateItemPlacement(),
                                 title = itemWrapper.sectionItem.title.localize(),
                                 icon = itemWrapper.sectionItem.icon,
                                 expanded = itemWrapper.expanded,
@@ -140,14 +138,13 @@ private fun SearchBar(
 
 @Composable
 private fun Section(
-    modifier: Modifier,
     title: String,
     icon: Int,
     expanded: Boolean,
     onClicked: () -> Unit,
 ) {
     val rotationDegrees by animateFloatAsState(targetValue = if (expanded) 90f else 0f)
-    Column(modifier) {
+    Column {
         HorizontalDivider()
         ListItem(
             modifier = Modifier.clickable(onClick = onClicked),
@@ -175,7 +172,6 @@ private fun Section(
 
 @Composable
 private fun CodeSnippetItem(
-    modifier: Modifier,
     title: String,
     description: String?,
     onDocumentationButtonClicked: (() -> Unit)?,
@@ -184,8 +180,7 @@ private fun CodeSnippetItem(
 
     ListItem(
         modifier = Modifier
-            .clickable(onClick = onClicked)
-            .then(modifier),
+            .clickable(onClick = onClicked),
         leadingContent = {
             Spacer(modifier = Modifier.width(20.dp))
         },
