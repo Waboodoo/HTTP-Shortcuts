@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.tiles
 
 import android.content.Intent
+import android.graphics.drawable.Icon
 import android.os.Build
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
@@ -18,6 +19,8 @@ import ch.rmy.android.http_shortcuts.activities.misc.quick_settings_tile.QuickSe
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CancellationException
@@ -142,9 +145,18 @@ class QuickTileService : TileService() {
         super.onStartListening()
         scope.launch {
             val shortcuts = getShortcuts()
-            qsTile?.label = when (shortcuts.size) {
-                1 -> shortcuts.first().name
-                else -> getString(R.string.action_quick_settings_tile_trigger)
+            val shortcut = shortcuts.singleOrNull()
+            if (shortcut != null) {
+                qsTile?.label = shortcut.name
+                qsTile?.icon = (shortcut.icon as? ShortcutIcon.BuiltInIcon)
+                    ?.takeIf { it.isUsableAsSilhouette }
+                    ?.let {
+                        IconUtil.getIcon(context, it, adaptive = false)
+                    }
+                    ?: Icon.createWithResource(context, R.drawable.ic_quick_settings_tile)
+            } else {
+                qsTile?.label = getString(R.string.action_quick_settings_tile_trigger)
+                qsTile?.icon = Icon.createWithResource(context, R.drawable.ic_quick_settings_tile)
             }
             qsTile?.updateTile()
         }

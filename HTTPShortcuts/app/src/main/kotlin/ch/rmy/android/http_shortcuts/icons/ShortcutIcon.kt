@@ -50,6 +50,9 @@ sealed interface ShortcutIcon {
             get() = iconName.startsWith("flat_") ||
                 iconName in ICONS_WITH_BACKGROUND
 
+        val isUsableAsSilhouette
+            get() = iconName.startsWith("bitsies_") || iconName.startsWith("black_")
+
         @DrawableRes
         fun getDrawableIdentifier(context: Context): Int =
             context.resources.getIdentifier(
