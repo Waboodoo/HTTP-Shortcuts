@@ -21,6 +21,7 @@ class CurlParserTest {
         assertEquals(listOf("This is my \"data\""), command.data)
         assertEquals("foo", command.username)
         assertEquals("bar", command.password)
+        assertFalse(command.isDigestAuth)
         assertEquals("192.168.1.42", command.proxyHost)
         assertEquals(1337, command.proxyPort)
     }
@@ -181,5 +182,15 @@ class CurlParserTest {
         val command = CurlParser.parse(target)
 
         assertEquals("http://foo?test=lol&username=myuser", command.url)
+    }
+
+    @Test
+    fun testDigestAuth() {
+        val target = "curl --digest --user foo:bar"
+        val command = CurlParser.parse(target)
+
+        assertEquals("foo", command.username)
+        assertEquals("bar", command.password)
+        assertTrue(command.isDigestAuth)
     }
 }

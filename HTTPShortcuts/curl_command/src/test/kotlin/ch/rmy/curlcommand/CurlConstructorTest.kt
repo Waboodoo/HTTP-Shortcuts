@@ -23,6 +23,21 @@ class CurlConstructorTest {
         assertEquals(expected, actual)
     }
 
+
+    @Test
+    fun testDigestAuth() {
+        val curlCommand = CurlCommand.Builder()
+            .isDigestAuth()
+            .username("user")
+            .password("password123")
+            .url("http://example.com")
+            .build()
+
+        val expected = "curl http://example.com --digest -u user:password123"
+        val actual = CurlConstructor.toCurlCommandString(curlCommand)
+        assertEquals(expected, actual)
+    }
+
     @Test
     fun testCurlConstructorParsed() {
         val originalCommand = CurlCommand.Builder()

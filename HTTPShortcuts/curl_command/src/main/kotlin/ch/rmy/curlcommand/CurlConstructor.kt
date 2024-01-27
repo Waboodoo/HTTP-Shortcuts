@@ -16,6 +16,9 @@ object CurlConstructor {
         }
 
         if (curlCommand.username.isNotEmpty()) {
+            if (curlCommand.isDigestAuth) {
+                builder.option("--digest")
+            }
             builder.option("-u", curlCommand.username + if (curlCommand.password.isNotEmpty()) ":" + curlCommand.password else "")
         }
 

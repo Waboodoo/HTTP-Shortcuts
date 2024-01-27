@@ -23,6 +23,8 @@ class CurlCommand internal constructor() : Serializable {
         private set
     var password = ""
         private set
+    var isDigestAuth: Boolean = false
+        private set
     var isFormData: Boolean = false
         private set
     var proxyHost: String = ""
@@ -80,6 +82,10 @@ class CurlCommand internal constructor() : Serializable {
 
         fun timeout(timeout: Int) = also {
             curlCommand.timeout = timeout
+        }
+
+        fun isDigestAuth() = also {
+            curlCommand.isDigestAuth = true
         }
 
         fun username(username: String) = also {

@@ -40,6 +40,9 @@ constructor(
             .runIf(shortcut.authenticationType.usesUsernameAndPassword) {
                 username(rawPlaceholdersToResolvedValues(shortcut.username, variableValues))
                     .password(rawPlaceholdersToResolvedValues(shortcut.password, variableValues))
+                    .runIf(shortcut.authenticationType == ShortcutAuthenticationType.DIGEST) {
+                        isDigestAuth()
+                    }
             }
             .runIf(shortcut.authenticationType == ShortcutAuthenticationType.BEARER) {
                 header(HttpHeaders.AUTHORIZATION, "Bearer ${shortcut.authToken}")

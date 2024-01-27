@@ -89,6 +89,10 @@ class CurlParser private constructor(arguments: List<String>) {
                         }
                         continue@loop
                     }
+                    "--digest" -> {
+                        builder.isDigestAuth()
+                        continue@loop
+                    }
                     "-A", "--user-agent" -> {
                         builder.header("User-Agent", iterator.next())
                         continue@loop
@@ -145,6 +149,7 @@ class CurlParser private constructor(arguments: List<String>) {
             "--data-binary",
             "--data-urlencode",
             "--data-raw",
+            "--digest",
             "-F",
             "--form",
             "-m",

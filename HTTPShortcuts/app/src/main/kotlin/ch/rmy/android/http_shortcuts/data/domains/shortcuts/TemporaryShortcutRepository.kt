@@ -468,7 +468,11 @@ constructor(
             shortcut.username = curlCommand.username
             shortcut.password = curlCommand.password
             if (curlCommand.username.isNotEmpty() || curlCommand.password.isNotEmpty()) {
-                shortcut.authenticationType = ShortcutAuthenticationType.BASIC
+                shortcut.authenticationType = if (curlCommand.isDigestAuth) {
+                    ShortcutAuthenticationType.DIGEST
+                } else {
+                    ShortcutAuthenticationType.BASIC
+                }
             }
             shortcut.timeout = curlCommand.timeout
 
