@@ -82,14 +82,10 @@ constructor(
     }
 
     fun onIconCreated(iconFile: File) = runAction {
-        val iconName = IconUtil.generateCustomIconName()
+        val iconName = IconUtil.generateCustomIconName(circular = selectedShape == IconShape.CIRCLE)
         val targetFile = File(context.filesDir, iconName)
         withContext(Dispatchers.IO) {
-            if (selectedShape == IconShape.CIRCLE) {
-                IconUtil.cropImageToCircle(iconFile, targetFile)
-            } else {
-                iconFile.renameTo(targetFile)
-            }
+            iconFile.renameTo(targetFile)
         }
         val icon = ShortcutIcon.CustomIcon(iconName)
 

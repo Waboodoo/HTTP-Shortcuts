@@ -179,6 +179,9 @@ sealed interface ShortcutIcon {
                 null
             }
 
+        override val isCircular: Boolean
+            get() = fileName.contains(IconUtil.CUSTOM_CIRCULAR_ICON_NAME_SUFFIX)
+
         override fun toString() = fileName
 
         override fun equals(other: Any?) =
@@ -205,6 +208,9 @@ sealed interface ShortcutIcon {
     }
 
     fun getIconURI(context: Context, external: Boolean = false): Uri
+
+    val isCircular: Boolean
+        get() = false
 
     companion object {
         fun fromName(iconName: String?): ShortcutIcon =

@@ -6,10 +6,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
-import android.graphics.Rect
 import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -21,7 +17,6 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.io.FileOutputStream
 import java.io.InputStream
 import java.time.Instant
 import java.util.regex.Pattern
@@ -34,6 +29,7 @@ object IconUtil {
 
     private const val CUSTOM_ICON_NAME_PREFIX = "custom-icon_"
     private const val CUSTOM_ICON_NAME_SUFFIX = ".png"
+    const val CUSTOM_CIRCULAR_ICON_NAME_SUFFIX = "_circle"
     private const val CUSTOM_ICON_NAME_ALTERNATIVE_SUFFIX = ".jpg"
 
     private const val CUSTOM_ICON_MAX_FILE_SIZE = 8 * 1024 * 1024
@@ -156,7 +152,7 @@ object IconUtil {
             ?: return null
         val iconSize = getIconSize(context)
         val scaledBitmap = bitmap.scale(iconSize, iconSize)
-        val iconName = generateCustomIconName()
+        val iconName = generateCustomIconName(circular = false)
         context.openFileOutput(iconName, 0).use {
             scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
             it.flush()
@@ -185,8 +181,11 @@ object IconUtil {
     fun isCustomIconName(string: String) =
         string.matches(CUSTOM_ICON_NAME_REGEX.toRegex())
 
-    fun generateCustomIconName(): String =
-        "${CUSTOM_ICON_NAME_PREFIX}x${Instant.now().toEpochMilli()}$CUSTOM_ICON_NAME_SUFFIX"
+    fun generateCustomIconName(circular: Boolean): String =
+        "${CUSTOM_ICON_NAME_PREFIX}x" +
+            "${Instant.now().toEpochMilli()}" +
+            (if (circular) CUSTOM_CIRCULAR_ICON_NAME_SUFFIX else "") +
+            CUSTOM_ICON_NAME_SUFFIX
 
     fun extractCustomIconNames(string: String): Set<String> =
         buildSet {
@@ -205,23 +204,4 @@ object IconUtil {
                 ?.map { it.name }
                 ?: emptyList()
         }
-
-    fun cropImageToCircle(input: File, output: File) {
-        val bitmap = BitmapFactory.decodeFile(input.absolutePath)
-        val target = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(target)
-        val paint = Paint()
-        val rect = Rect(0, 0, bitmap.width, bitmap.height)
-        paint.isAntiAlias = true
-        canvas.drawARGB(0, 0, 0, 0)
-        canvas.drawCircle((bitmap.width / 2).toFloat(), (bitmap.height / 2).toFloat(), (bitmap.width / 2).toFloat(), paint)
-        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-        canvas.drawBitmap(bitmap, rect, rect, paint)
-        FileOutputStream(output).use {
-            target.compress(Bitmap.CompressFormat.PNG, 100, it)
-            it.flush()
-        }
-        bitmap.recycle()
-        target.recycle()
-    }
 }
