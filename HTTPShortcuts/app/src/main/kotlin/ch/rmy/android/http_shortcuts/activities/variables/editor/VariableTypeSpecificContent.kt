@@ -7,6 +7,8 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.types.ConstantT
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.ConstantTypeViewState
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.DateTypeEditor
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.DateTypeViewState
+import ch.rmy.android.http_shortcuts.activities.variables.editor.types.IncrementTypeEditor
+import ch.rmy.android.http_shortcuts.activities.variables.editor.types.IncrementTypeViewState
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.SelectTypeEditor
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.SelectTypeViewState
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.SliderTypeEditor
@@ -36,6 +38,7 @@ fun VariableTypeSpecificContent(
         is TimeTypeViewState -> TimeTypeEditor(viewState, onViewStateChanged)
         is TimestampTypeViewState -> TimestampTypeEditor(viewState, onViewStateChanged)
         is ToggleTypeViewState -> ToggleTypeEditor(viewState, onViewStateChanged)
+        is IncrementTypeViewState -> IncrementTypeEditor(viewState, onViewStateChanged)
         null -> Unit
     }
 }

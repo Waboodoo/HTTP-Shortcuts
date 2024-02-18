@@ -18,6 +18,7 @@ enum class VariableType(
     TIME("time"),
     SLIDER("slider", supportsDialogTitle = true, supportsDialogMessage = true),
     TOGGLE("toggle"),
+    INCREMENT("increment"),
     UUID("uuid"),
     CLIPBOARD("clipboard"),
     TIMESTAMP("timestamp"),

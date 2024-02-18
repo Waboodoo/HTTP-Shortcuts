@@ -97,6 +97,7 @@ private fun CreationDialog(
         VariableTypeEntry(VariableType.COLOR, onVariableTypeSelected)
         HorizontalDivider()
         VariableTypeEntry(VariableType.TOGGLE, onVariableTypeSelected)
+        VariableTypeEntry(VariableType.INCREMENT, onVariableTypeSelected)
         VariableTypeEntry(VariableType.CLIPBOARD, onVariableTypeSelected)
         VariableTypeEntry(VariableType.TIMESTAMP, onVariableTypeSelected)
         VariableTypeEntry(VariableType.UUID, onVariableTypeSelected)

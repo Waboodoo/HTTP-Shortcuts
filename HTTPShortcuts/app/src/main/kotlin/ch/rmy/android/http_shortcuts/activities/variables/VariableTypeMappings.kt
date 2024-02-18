@@ -36,6 +36,7 @@ object VariableTypeMappings {
             VariableTypeMapping(VariableType.TIME, R.string.variable_type_time, R.string.variable_type_time_description),
             VariableTypeMapping(VariableType.COLOR, R.string.variable_type_color, R.string.variable_type_color_description),
             VariableTypeMapping(VariableType.TOGGLE, R.string.variable_type_toggle, R.string.variable_type_toggle_description),
+            VariableTypeMapping(VariableType.INCREMENT, R.string.variable_type_increment, R.string.variable_type_increment_description),
             VariableTypeMapping(VariableType.CLIPBOARD, R.string.variable_type_clipboard, R.string.variable_type_clipboard_description),
             VariableTypeMapping(VariableType.UUID, R.string.variable_type_uuid, R.string.variable_type_uuid_description),
             VariableTypeMapping(VariableType.TIMESTAMP, R.string.variable_type_timestamp, R.string.variable_type_timestamp_description)

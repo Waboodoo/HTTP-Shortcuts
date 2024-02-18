@@ -16,6 +16,7 @@ constructor(
     private val timeType: TimeType,
     private val sliderType: SliderType,
     private val toggleType: ToggleType,
+    private val incrementType: IncrementType,
     private val uuidType: UUIDType,
     private val clipboardType: ClipboardType,
     private val timestampType: TimestampType,
@@ -32,6 +33,7 @@ constructor(
         VariableTypeEnum.TIME -> timeType
         VariableTypeEnum.SLIDER -> sliderType
         VariableTypeEnum.TOGGLE -> toggleType
+        VariableTypeEnum.INCREMENT -> incrementType
         VariableTypeEnum.UUID -> uuidType
         VariableTypeEnum.CLIPBOARD -> clipboardType
         VariableTypeEnum.TIMESTAMP -> timestampType
