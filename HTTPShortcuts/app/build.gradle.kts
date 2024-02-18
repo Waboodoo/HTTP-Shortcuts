@@ -252,25 +252,25 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 
     /* Support libraries */
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
 
     /* Color picker */
     implementation("com.github.skydoves:colorpickerview:2.3.0")
 
     /* Compose */
-    implementation(platform("androidx.compose:compose-bom:2023.10.01"))
-    implementation("androidx.compose.material3:material3:1.2.0-beta01")
-    implementation("androidx.navigation:navigation-compose:2.7.6")
+    implementation(platform("androidx.compose:compose-bom:2024.02.00"))
+    implementation("androidx.compose.material3:material3:1.2.0")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("androidx.activity:activity-compose:1.8.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
     implementation("com.github.qawaz:compose-code-editor:2.0.3")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
 
     /* Image cropping */
     implementation("com.github.yalantis:ucrop:2.2.8")
@@ -295,7 +295,7 @@ dependencies {
     implementation("com.markodevcic:peko:2.2.0")
 
     /* Scheduling */
-    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
 
     /* Tasker integration */
     implementation("com.joaomgcd:taskerpluginlibrary:0.4.10")
@@ -306,8 +306,8 @@ dependencies {
     implementation("com.github.LiquidPlayer:LiquidCore:0.6.2")
 
     /* Location lookup (for Scripting) */
-    debugImplementation("com.google.android.gms:play-services-location:21.0.1")
-    "releaseFullImplementation"("com.google.android.gms:play-services-location:21.0.1")
+    debugImplementation("com.google.android.gms:play-services-location:21.1.0")
+    "releaseFullImplementation"("com.google.android.gms:play-services-location:21.1.0")
 
     /* Biometric confirmation */
     implementation("androidx.biometric:biometric:1.2.0-alpha05")
@@ -319,7 +319,7 @@ dependencies {
     implementation("org.mindrot:jbcrypt:0.4")
 
     /* Crash Reporting */
-    "releaseFullImplementation"("com.bugsnag:bugsnag-android:5.31.3")
+    "releaseFullImplementation"("com.bugsnag:bugsnag-android:6.2.0")
 
     /* cURL import & export */
     implementation(project(path = ":curl_command"))

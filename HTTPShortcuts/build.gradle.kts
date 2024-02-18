@@ -4,9 +4,9 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.2.0")
+        classpath("com.android.tools.build:gradle:8.2.2")
         classpath("com.bugsnag:bugsnag-android-gradle-plugin:8.0.1")
-        classpath("org.jetbrains:markdown:0.3.5")
+        classpath("org.jetbrains:markdown:0.6.1")
         classpath(kotlin("gradle-plugin", "1.9.0"))
         classpath("com.github.bjoernq:unmockplugin:0.7.9")
     }

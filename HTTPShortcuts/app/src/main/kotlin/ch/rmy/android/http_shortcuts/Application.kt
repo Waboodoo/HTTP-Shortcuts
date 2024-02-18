@@ -30,10 +30,11 @@ class Application : android.app.Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
-    override fun getWorkManagerConfiguration() =
+    override val workManagerConfiguration: Configuration by lazy {
         Configuration.Builder()
             .setWorkerFactory(workerFactory)
             .build()
+    }
 
     override fun onCreate() {
         super.onCreate()
