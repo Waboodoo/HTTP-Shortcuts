@@ -29,7 +29,7 @@ selectedFiles[0].meta;
 </code></pre><p>Each file also has a unique ID, which is currently only useful if you want to forward these files to another shortcut using the <a href="#trigger-shortcut"><code>enqueueShortcut</code></a> function.</p><pre><code class="language-js">selectedFiles[0].id;
 
 const allFileIds = selectedFiles.map(file =&gt; file.id);
-</code></pre><p>The <code>meta</code> field currently only provides information about images and is otherwise an empty object. It allows to read out an image's orientation and the timestamp of when it was created (in &quot;YYYY-MM-DD HH:mm:ss&quot; format):</p><pre><code class="language-js">const myMeta = selectedFiles[0].meta;
+</code></pre><p>The <code>meta</code> field currently only provides information about images and is otherwise an empty object. It allows to read out an image's orientation and the timestamp of when it was created (in &quot;yyyy-MM-dd HH:mm:ss&quot; format):</p><pre><code class="language-js">const myMeta = selectedFiles[0].meta;
 
 /*
 myMeta might look like this now:
@@ -51,8 +51,8 @@ showDialog('You can also use &lt;b&gt;basic&lt;/b&gt; &lt;i&gt;HTML&lt;/i&gt; fo
 const myPassword2 = promptPassword(&quot;Please enter your password:&quot;, &quot;secret123&quot;);
 </code></pre><p><a name="prompt-color"></a></p><h3>promptColor</h3><p>The <code>promptColor()</code> function opens a color picker. The selected color is returned in hex RGB (e.g. FF0000 for red), or <code>null</code> if the picker is cancelled. As an optional parameter you can pass in the preselected color.</p><pre><code class="language-js">const myColor = promptColor();
 const myColor2 = promptColor(&quot;#FF0000&quot;);
-</code></pre><p><a name="prompt-date"></a></p><h3>promptDate</h3><p>The <code>promptDate()</code> function opens a date picker. The selected date is returned, or <code>null</code> if the picker is cancelled. As the first parameter, you may pass the date format that should be used for the return value (defaults to YYYY-MM-DD), and as a second parameter you may pass the preselected date (in YYYY-MM-DD format).</p><pre><code class="language-js">const myDate = promptDate();
-const myDate2 = promptDate(&quot;YYYY-MM-DD&quot;, &quot;2050-12-31&quot;);
+</code></pre><p><a name="prompt-date"></a></p><h3>promptDate</h3><p>The <code>promptDate()</code> function opens a date picker. The selected date is returned, or <code>null</code> if the picker is cancelled. As the first parameter, you may pass the date format that should be used for the return value (defaults to yyyy-MM-dd), and as a second parameter you may pass the preselected date (in yyyy-MM-dd format).</p><pre><code class="language-js">const myDate = promptDate();
+const myDate2 = promptDate(&quot;yyyy-MM-dd&quot;, &quot;2050-12-31&quot;);
 </code></pre><p><a name="prompt-time"></a></p><h3>promptTime</h3><p>The <code>promptTime()</code> function opens a time picker. The selected time is returned, or <code>null</code> if the picker is cancelled. As the first parameter, you may pass the time format that should be used for the return value (defaults to HH:mm), and as a second parameter you may pass the preselected time (in HH:mm format).</p><pre><code class="language-js">const myTime = promptTime();
 const myTime2 = promptTime(&quot;HH/mm&quot;, &quot;13:37&quot;);
 </code></pre><p><a name="show-selection"></a></p><h3>showSelection</h3><p>This function allows you to display a multiple-choice dialog from which an option can be picked. It takes one argument, which must be either an object consisting of key-value string pairs, or a list of strings. It returns the selected value as a string, or <code>null</code> if the dialog is closed without a selection (e.g. by pressing the back button).</p><pre><code class="language-js">// Using an array of strings
