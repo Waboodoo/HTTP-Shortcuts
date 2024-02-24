@@ -329,6 +329,13 @@ constructor(
                     insertText("JSON.parse(\"", "\")")
                 }
                 item(
+                    R.string.action_type_parse_html,
+                    docRef = "parse-html",
+                    keywords = setOf("parse", "html", "read"),
+                ) {
+                    insertText("parseHTML(\"", "\")")
+                }
+                item(
                     R.string.action_type_parse_xml,
                     docRef = "parse-xml",
                     keywords = setOf("parse", "xml", "read"),

@@ -430,6 +430,106 @@ const myHMACasHex = toHexString(myHMAC);
 // the value of `myHMACasHex` is '34d60d40202ae16ae3dd70c9715b1900f9fe30cf10af483e74ea8f6bef18bd09' now.
 ```
 
+<a name="parse-html"></a>
+### parseHTML
+
+The `parseHTML` function allows to parse an HTML string into an object representation. Each HTML element is converted into a JS object with attributes `name`, `attributes`, `children`, and `text` (if any), as is showcased by the following example:
+
+```js
+// Given some XML string
+const myHTML = `<html lang="de">
+    <head>
+        <title>Hello World</title>
+    </head>
+    <body>
+        <ul style="color: red">
+            <li>Item 1</li>
+            <li>Item 2</li>
+        </ul>
+    </body>
+</html>`;
+
+const result = parseHTML(myHTML);
+
+/*
+The result variable now holds the following object (blank text fields omitted for clarity):
+{
+    "name": "html",
+    "attributes": {
+        "lang": "de"
+    },
+    "children": [
+        {
+            "name": "head",
+            "attributes": {},
+            "children": [
+                {
+                    "name": "title",
+                    "attributes": {},
+                    "children": [],
+                    "text": "Hello World"
+                }
+            ]
+        },
+        {
+            "name": "body",
+            "attributes": {},
+            "children": [
+                {
+                    "name": "ul",
+                    "attributes": {
+                        "style": "color: red"
+                    },
+                    "children": [
+                        {
+                            "name": "li",
+                            "attributes": {},
+                            "children": [],
+                            "text": "Item 1"
+                        },
+                        {
+                            "name": "li",
+                            "attributes": {},
+                            "children": [],
+                            "text": "Item 2"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+*/
+
+// We can now easily extract the parts we're interested in
+const title = result.children[0].children[0].text;
+```
+
+As a second parameter, you can provide a CSS-style selector query to search for and parse only specific parts of the HTML. In this case, the returned value is an array of all found elements.
+```js
+const myHTML = '...'; // same as in the example above
+
+const result = parseHTML(myHTML, 'ul > li'); // query for all `li` elements which are direct decendants of `ul` elements.
+
+/*
+The result variable now holds the following list of objects:
+[
+    {
+        "name": "li",
+        "attributes": {},
+        "children": [],
+        "text": "Item 1"
+    },
+    {
+        "name": "li",
+        "attributes": {},
+        "children": [],
+        "text": "Item 2"
+    }
+]
+*/
+```
+
 <a name="parse-xml"></a>
 ### parseXML
 

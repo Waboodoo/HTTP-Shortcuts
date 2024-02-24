@@ -291,6 +291,9 @@ dependencies {
     /* Custom Tabs (for Browser Shortcuts) */
     implementation("androidx.browser:browser:1.8.0")
 
+    /* HTML parsing */
+    implementation("org.jsoup:jsoup:1.17.2")
+
     /* Permissions */
     implementation("com.markodevcic:peko:2.2.0")
 

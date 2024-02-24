@@ -19,6 +19,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.HmacActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.LogEventActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenAppActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenURLActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.ParseHTMLActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ParseXMLActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PlaySoundActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptActionType
@@ -72,6 +73,7 @@ constructor(
     logEventActionType: LogEventActionType,
     openAppActionType: OpenAppActionType,
     openURLActionType: OpenURLActionType,
+    parseHTMLActionType: ParseHTMLActionType,
     parseXMLActionType: ParseXMLActionType,
     playSoundActionType: PlaySoundActionType,
     promptActionType: PromptActionType,
@@ -130,6 +132,7 @@ constructor(
             logEventActionType,
             openAppActionType,
             openURLActionType,
+            parseHTMLActionType,
             parseXMLActionType,
             playSoundActionType,
             promptActionType,
