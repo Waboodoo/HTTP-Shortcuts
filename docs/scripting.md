@@ -141,7 +141,7 @@ selectedFiles[0].id;
 const allFileIds = selectedFiles.map(file => file.id);
 ```
 
-The `meta` field currently only provides information about images and is otherwise an empty object. It allows to read out an image's orientation and the timestamp of when it was created (in "YYYY-MM-DD HH:mm:ss" format):
+The `meta` field currently only provides information about images and is otherwise an empty object. It allows to read out an image's orientation and the timestamp of when it was created (in "yyyy-MM-dd HH:mm:ss" format):
 
 ```js
 const myMeta = selectedFiles[0].meta;
@@ -249,11 +249,11 @@ const myColor2 = promptColor("#FF0000");
 <a name="prompt-date"></a>
 ### promptDate
 
-The `promptDate()` function opens a date picker. The selected date is returned, or `null` if the picker is cancelled. As the first parameter, you may pass the date format that should be used for the return value (defaults to YYYY-MM-DD), and as a second parameter you may pass the preselected date (in YYYY-MM-DD format).
+The `promptDate()` function opens a date picker. The selected date is returned, or `null` if the picker is cancelled. As the first parameter, you may pass the date format that should be used for the return value (defaults to yyyy-MM-dd), and as a second parameter you may pass the preselected date (in yyyy-MM-dd format).
 
 ```js
 const myDate = promptDate();
-const myDate2 = promptDate("YYYY-MM-DD", "2050-12-31");
+const myDate2 = promptDate("yyyy-MM-dd", "2050-12-31");
 ```
 
 <a name="prompt-time"></a>
