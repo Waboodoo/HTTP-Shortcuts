@@ -440,6 +440,8 @@ Todos os atalhos contidos nela serão excluídos.</string>
     <string name="variable_type_toggle">Alternar</string>
     <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle_description">Muda para um valor diferente cada vez que é usado</string>
+    <!-- Type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <!-- Description for type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
     <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
     <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
     <string name="variable_type_uuid_description">Gera uma nova UUID aleatória em cada execução</string>

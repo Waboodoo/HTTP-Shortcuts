@@ -23,7 +23,9 @@
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">استخدم المتصفح الافتراضي</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
+    <string name="option_browser_custom_tab">استخدام علامة تبويب مخصصة</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
+    <string name="option_custom_browser_in_custom_tab">%s (علامة تبويب مخصصة)</string>
     <!-- Button to save changes made to shortcut/variable -->
     <string name="save_button">حفظ</string>
     <!-- Button to test changes made to shortcut -->
@@ -39,7 +41,9 @@
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
     <string name="label_response_on_success">على النجاح</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the response content should be treated as -->
+    <string name="label_response_type_selection">وقت الاستجابة</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the custom message that they enter should be treated as -->
+    <string name="label_response_message_type_selection">نوع الرسالة</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
     <string name="label_response_on_failure">عند الفشل</string>
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
@@ -173,6 +177,7 @@
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">الاعدادات العادية</string>
     <!-- Title of section in "Settings" screen: (Visual) Appearance of the app itself (e.g. themes, dark mode) -->
+    <string name="settings_appearance">المظهر</string>
     <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
     <string name="settings_click_behavior">انقر فوق اختصار الإجراء</string>
     <!-- Name of setting that allows the user to change the app's language -->
@@ -378,6 +383,7 @@
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">%s (مخفي)</string>
     <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
+    <string name="title_move_shortcuts">نقل الاختصارات</string>
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">قم بتنفيذ اختصار HTTP</string>
     <!-- Button/page title, for viewing list of variables -->
@@ -430,6 +436,8 @@
     <string name="variable_type_toggle">تبديل</string>
     <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle_description">ينتقل إلى قيمة مختلفة في كل مرة عند استخدامه</string>
+    <!-- Type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <!-- Description for type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
     <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
     <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
     <string name="variable_type_uuid_description">يولد UUID عشوائي جديد في كل عملية تنفيذ</string>

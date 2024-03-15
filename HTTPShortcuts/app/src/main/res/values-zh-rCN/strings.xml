@@ -457,6 +457,10 @@
     <string name="variable_type_toggle">切换</string>
     <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle_description">使用时每次切换到不同值</string>
+    <!-- Type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment">增加计数器</string>
+    <!-- Description for type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment_description">每次使用都会增大数字</string>
     <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
     <string name="variable_type_uuid">UUID</string>
     <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
@@ -564,7 +568,7 @@
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">发送到…</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">没有找到合适的快捷方式，要使用这个功能。你必须至少要有一个使用了共享变量的快捷方式。查阅文档中关于变量部分以获取更多信息。</string>
+    <string name="error_not_suitable_shortcuts">没找到合适的快捷方式。\n\n要使用此功能，您需要至少有一个快捷方式使用允许接收共享文本作为其值的变量，或者具有文件参数或使用文件作为其请求正文的快捷方式。\n\n单击变量部分中的帮助按钮以获取更多信息</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">允许“共享”</string>
     <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
@@ -1531,4 +1535,5 @@
     <!-- Warning message shown to user when an HTML page wants to open a URL in the external browser. %s is a placeholder for the URL. -->
     <string name="warning_page_wants_to_open_url">页面想要在浏览器中打开以下URL：\n\n%s</string>
     <!-- Placeholder text shown in the text field for the search feature on the Documentation screen -->
+    <string name="placeholder_documentation_search_query">在页面中搜索…</string>
 </resources>
