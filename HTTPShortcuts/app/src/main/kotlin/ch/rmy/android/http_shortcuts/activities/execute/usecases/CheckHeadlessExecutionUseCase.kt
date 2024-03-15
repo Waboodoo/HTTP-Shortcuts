@@ -28,6 +28,7 @@ constructor(
             !usesFiles &&
             !storesResponse &&
             !shortcut.isWaitForNetwork &&
+            shortcut.wifiSsid.isEmpty() &&
             !networkUtil.isNetworkPerformanceRestricted() &&
             computeVariablesSize(variableValuesByIds) < MAX_VARIABLES_SIZE
     }
