@@ -172,7 +172,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
 
     packaging {
@@ -247,9 +247,9 @@ dependencies {
     /* Dependency Injection */
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
-    implementation("androidx.hilt:hilt-work:1.1.0")
-    kapt("androidx.hilt:hilt-compiler:1.1.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation("androidx.hilt:hilt-work:1.2.0")
+    kapt("androidx.hilt:hilt-compiler:1.2.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     /* Support libraries */
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
@@ -259,8 +259,8 @@ dependencies {
     implementation("com.github.skydoves:colorpickerview:2.3.0")
 
     /* Compose */
-    implementation(platform("androidx.compose:compose-bom:2024.02.00"))
-    implementation("androidx.compose.material3:material3:1.2.0")
+    implementation(platform("androidx.compose:compose-bom:2024.02.02"))
+    implementation("androidx.compose.material3:material3:1.2.1")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui-tooling-preview")
@@ -276,7 +276,7 @@ dependencies {
     implementation("com.github.yalantis:ucrop:2.2.8")
 
     /* Image display */
-    implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation("io.coil-kt:coil-compose:2.6.0")
 
     /* Image meta data extraction */
     implementation("androidx.exifinterface:exifinterface:1.3.7")
@@ -289,7 +289,7 @@ dependencies {
     implementation("org.conscrypt:conscrypt-android:2.5.2")
 
     /* Custom Tabs (for Browser Shortcuts) */
-    implementation("androidx.browser:browser:1.7.0")
+    implementation("androidx.browser:browser:1.8.0")
 
     /* Permissions */
     implementation("com.markodevcic:peko:2.2.0")
@@ -306,8 +306,8 @@ dependencies {
     implementation("com.github.LiquidPlayer:LiquidCore:0.6.2")
 
     /* Location lookup (for Scripting) */
-    debugImplementation("com.google.android.gms:play-services-location:21.1.0")
-    "releaseFullImplementation"("com.google.android.gms:play-services-location:21.1.0")
+    debugImplementation("com.google.android.gms:play-services-location:21.2.0")
+    "releaseFullImplementation"("com.google.android.gms:play-services-location:21.2.0")
 
     /* Biometric confirmation */
     implementation("androidx.biometric:biometric:1.2.0-alpha05")

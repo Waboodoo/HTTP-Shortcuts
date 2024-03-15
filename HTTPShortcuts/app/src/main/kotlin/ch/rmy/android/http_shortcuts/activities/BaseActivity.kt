@@ -10,7 +10,7 @@ abstract class BaseActivity : BaseActivity() {
     open val initializeWithTheme: Boolean
         get() = true
 
-    final override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(if (initializeWithTheme) R.style.LightTheme else R.style.Theme_Transparent)
         super.onCreate(savedInstanceState)
         onCreated(savedInstanceState)

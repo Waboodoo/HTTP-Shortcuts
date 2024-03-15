@@ -97,7 +97,7 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
     /* Database */
-    api("io.realm.kotlin:library-base:1.8.0")
+    api("io.realm.kotlin:library-base:1.14.0")
 
     /* Testing */
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinTestJunit5Version")
