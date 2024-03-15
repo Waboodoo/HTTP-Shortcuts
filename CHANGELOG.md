@@ -1,3 +1,16 @@
+## Version 3.10.0
+
+### Improvements
+- There is now a new variable type "Incrementing Counter", which increases its value by 1 every time it is used
+- The `openUrl` Scripting function can now be used to target a specific browser, or to open a URL in custom tabs
+- When using the quick settings tile with only a single shortcut, and that shortcut uses a built-in icon with a distinct silhouette, the quick settings tile will use the shortcut's icon instead of displaying the default icon
+
+### Miscellaneous
+- When selecting a custom image and using the "circle" shape, an uncropped version of the image is preserved for better icon quality when placed on the home screen
+
+### Bugfixes
+- In the cURL import & export, digest authentication now properly uses `--digest`
+
 ## Version 3.9.0
 
 ### Improvements
