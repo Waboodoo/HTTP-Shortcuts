@@ -64,6 +64,11 @@ The *Color Input* type triggers a prompt dialog where a color can be selected. I
 
 The *Toggle* type consists of a list of values. Every time it is used it resolves to the next value in the list. When the last value is reached it starts again from the first.
 
+<a name="increment"></a>
+### Incrementing Counter
+
+The *Incrementing Counter* type tracks a and returns a number. Each time the variable is resolved, the number is increased by 1.
+
 <a name="uuid"></a>
 ### UUID
 

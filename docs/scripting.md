@@ -736,6 +736,13 @@ openUrl('https://www.wikipedia.org/');
 
 Please note that this can not be used to open files.
 
+As a second parameter, you may pass the package name of the browser or app that should handle the URL. You may instead also pass "custom-tabs" or "custom-tabs(\[package-name])` to open the URL using a custom tab instead of a standalone browser window.
+
+```js
+openUrl('https://example.com', 'org.mozilla.firefox');
+openUrl('https://example.com', 'custom-tabs(org.mozilla.firefox)');
+```
+
 <a name="send-intent"></a>
 ### Send Intent
 With this function you can send an [Intent](https://developer.android.com/guide/components/intents-filters). It takes an object as its only parameter, where the object should have one or more of the following properties:
