@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -240,6 +241,7 @@ fun VariablePlaceholderTextField(
 
     if (dialogVisible) {
         val context = LocalContext.current
+        val keyboard = LocalSoftwareKeyboardController.current
         VariablePickerDialog(
             title = stringResource(R.string.dialog_title_variable_selection),
             variables = placeholders,
@@ -253,6 +255,7 @@ fun VariablePlaceholderTextField(
                 onValueChange(textFieldValue.text)
                 dialogVisible = false
                 focusRequester.requestFocus()
+                keyboard?.show()
             },
             showEditButton = allowOpeningVariableEditor,
             onDismissRequested = {

@@ -152,6 +152,7 @@ private fun CodeSection(
                     textFieldValue = textFieldValue.insertAtCursor(event.textBeforeCursor, event.textAfterCursor)
                     onCodeChanged(textFieldValue.text)
                     focusRequester.requestFocus()
+                    keyboard?.show()
                 }
                 else -> false
             }

@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -29,6 +30,7 @@ import ch.rmy.android.http_shortcuts.components.SelectDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
+import kotlinx.coroutines.delay
 
 @Composable
 fun CertPinningDialogs(
@@ -101,8 +103,11 @@ private fun EditorDialog(
     onDismissed: () -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
+    val keyboard = LocalSoftwareKeyboardController.current
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
+        delay(50)
+        keyboard?.show()
     }
 
     var patternValue by rememberSaveable(key = "pattern") {

@@ -37,6 +37,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.extensions.consume
@@ -50,8 +51,10 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.runIf
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun DocumentationScreen(url: Uri?) {
@@ -151,6 +154,7 @@ private fun SearchBar(
     val focusRequester = remember {
         FocusRequester()
     }
+    val keyboard = LocalSoftwareKeyboardController.current
 
     Row(
         modifier = Modifier
@@ -229,6 +233,8 @@ private fun SearchBar(
 
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
+            delay(50.milliseconds)
+            keyboard?.show()
         }
     }
 }

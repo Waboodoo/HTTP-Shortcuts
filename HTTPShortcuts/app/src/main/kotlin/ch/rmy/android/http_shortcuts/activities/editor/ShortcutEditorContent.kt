@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.http_shortcuts.R
@@ -189,10 +190,12 @@ private fun ShortcutNameField(
     onNameChanged: (String) -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
+    val keyboard = LocalSoftwareKeyboardController.current
     EventHandler {
         when (it) {
             is ShortcutEditorEvent.FocusNameInputField -> consume {
                 focusRequester.requestFocus()
+                keyboard?.show()
             }
             else -> false
         }

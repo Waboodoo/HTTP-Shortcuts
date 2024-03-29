@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import ch.rmy.android.framework.extensions.consume
@@ -128,10 +129,12 @@ private fun VariableKey(
     onKeyChanged: (String) -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
+    val keyboard = LocalSoftwareKeyboardController.current
     EventHandler {
         when (it) {
             is VariableEditorEvent.FocusVariableKeyInput -> consume {
                 focusRequester.requestFocus()
+                keyboard?.show()
             }
             else -> false
         }

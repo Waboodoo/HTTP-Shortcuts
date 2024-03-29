@@ -9,11 +9,15 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -40,6 +44,10 @@ fun CurlImportContent(
 ) {
     val syntaxHighlighter = rememberSyntaxHighlighter("sh")
     val focusRequester = remember { FocusRequester() }
+    val keyboard = LocalSoftwareKeyboardController.current
+    var focusRequested by remember {
+        mutableStateOf(false)
+    }
 
     Column(
         modifier = Modifier
@@ -54,7 +62,11 @@ fun CurlImportContent(
                 .fillMaxWidth()
                 .focusRequester(focusRequester)
                 .onGloballyPositioned {
-                    focusRequester.requestFocus()
+                    if (!focusRequested) {
+                        focusRequested = true
+                        focusRequester.requestFocus()
+                        keyboard?.show()
+                    }
                 }
                 .weight(1f),
             keyboardOptions = KeyboardOptions(
