@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.models
 
+import ch.rmy.android.framework.extensions.hasDuplicatesBy
 import ch.rmy.android.framework.extensions.isInt
 import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
@@ -143,6 +144,11 @@ class Variable() : RealmObject {
             "Invalid variable type: $type"
         }
         options?.forEach(Option::validate)
+        options?.let { options ->
+            require(!options.hasDuplicatesBy { it.id }) {
+                "Duplicate option IDs"
+            }
+        }
     }
 
     companion object {
