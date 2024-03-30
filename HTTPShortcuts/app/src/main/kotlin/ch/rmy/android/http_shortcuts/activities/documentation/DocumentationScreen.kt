@@ -86,10 +86,6 @@ fun DocumentationScreen(url: Uri?) {
         MutableSharedFlow<SearchDirection>()
     }
 
-    BackHandler(searchQuery != null) {
-        searchQuery = null
-    }
-
     SimpleScaffold(
         viewState = state,
         title = stringResource(R.string.title_documentation),
@@ -126,6 +122,10 @@ fun DocumentationScreen(url: Uri?) {
             )
 
             searchQuery?.let {
+                BackHandler {
+                    searchQuery = null
+                }
+
                 SearchBar(
                     query = it,
                     results = searchResults,
