@@ -42,7 +42,7 @@ constructor(
                         }
                         is TargetBrowser.CustomTabs -> {
                             val intent = CustomTabsIntent.Builder()
-                                .setShareState(CustomTabsIntent.SHARE_STATE_OFF)
+                                .setShareState(CustomTabsIntent.SHARE_STATE_ON)
                                 .build()
                                 .applyIfNotNull(targetBrowser.packageName) {
                                     intent.setPackage(it)
