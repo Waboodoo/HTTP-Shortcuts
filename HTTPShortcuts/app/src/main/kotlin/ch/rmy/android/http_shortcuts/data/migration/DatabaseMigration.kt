@@ -175,7 +175,7 @@ class DatabaseMigration : AutomaticSchemaMigration {
         // 2.4.0
         if (oldVersion == 44L) {
             migrationContext.enumerate("Shortcut") { oldShortcut, newShortcut ->
-                val clientCertAlias = oldShortcut.getNullableValue<String>("clientCertAlias")
+                val clientCertAlias = oldShortcut.getString("clientCertAlias")
                 if (!clientCertAlias.isNullOrEmpty()) {
                     newShortcut?.set("clientCert", "alias:$clientCertAlias")
                 }
