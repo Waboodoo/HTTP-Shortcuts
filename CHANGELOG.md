@@ -1,3 +1,14 @@
+## Version 3.11.0
+
+### Improvements
+- It is now possible to increase or decrease the font size when displaying a response in a window
+- The Scripting function `parseHTML()` was added, which allows to extract information from an HTML string
+- When opening a custom tab with the `openUrl()` function, it now shows the Share button
+
+### Bugfixes
+- Hitting the back button while viewing the in-app documentation will now first close the search instead of navigating back to the previous page
+- When a text input field is automatically selected, the soft keyboard should now show up more reliably
+
 ## Version 3.10.0
 
 ### Improvements
