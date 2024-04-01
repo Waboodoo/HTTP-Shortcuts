@@ -300,6 +300,12 @@ constructor(
         }
     }
 
+    suspend fun setFontSize(fontSize: Int?) {
+        commitTransactionForResponseHandling { responseHandling ->
+            responseHandling.fontSize = fontSize
+        }
+    }
+
     suspend fun setResponseIncludeMetaInfo(includeMetaInfo: Boolean) {
         commitTransactionForResponseHandling { responseHandling ->
             responseHandling.includeMetaInfo = includeMetaInfo

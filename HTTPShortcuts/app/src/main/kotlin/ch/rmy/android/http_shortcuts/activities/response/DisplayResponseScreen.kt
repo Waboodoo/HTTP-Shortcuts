@@ -99,6 +99,7 @@ fun DisplayResponseScreen(
             url = viewState.url,
             limitExceeded = viewState.limitExceeded,
             monospace = viewState.monospace,
+            fontSize = viewState.fontSize,
             showExternalUrlWarning = viewState.showExternalUrlWarning,
             onExternalUrlWarningHidden = viewModel::onExternalUrlWarningHidden,
         )

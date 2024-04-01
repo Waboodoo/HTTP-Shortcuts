@@ -24,4 +24,5 @@ data class ResponseViewState(
     val storeFileName: String,
     val replaceFileIfExists: Boolean,
     val useMonospaceFont: Boolean,
+    val fontSize: Int?,
 )

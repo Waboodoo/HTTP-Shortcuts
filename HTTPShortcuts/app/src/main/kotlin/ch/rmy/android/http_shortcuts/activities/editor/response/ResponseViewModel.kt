@@ -57,6 +57,7 @@ constructor(
             storeFileName = responseHandling.storeFileName.orEmpty(),
             replaceFileIfExists = responseHandling.replaceFileIfExists,
             useMonospaceFont = responseHandling.monospace,
+            fontSize = responseHandling.fontSize,
         )
     }
 
@@ -215,6 +216,15 @@ constructor(
         }
         withProgressTracking {
             temporaryShortcutRepository.setUseMonospaceFont(monospace)
+        }
+    }
+
+    fun onFontSizeChanged(fontSize: Int?) = runAction {
+        updateViewState {
+            copy(fontSize = fontSize)
+        }
+        withProgressTracking {
+            temporaryShortcutRepository.setFontSize(fontSize)
         }
     }
 

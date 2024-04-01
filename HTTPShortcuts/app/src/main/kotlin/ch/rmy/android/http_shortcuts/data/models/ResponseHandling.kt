@@ -41,6 +41,7 @@ class ResponseHandling() : EmbeddedRealmObject {
     var successMessage: String = ""
     var includeMetaInfo: Boolean = false
     var monospace: Boolean = false
+    var fontSize: Int? = null
 
     var displayActions: List<ResponseDisplayAction>
         get() = actions.mapNotNull(ResponseDisplayAction::parse)
@@ -93,6 +94,7 @@ class ResponseHandling() : EmbeddedRealmObject {
             other.storeFileName == storeFileName &&
             other.replaceFileIfExists == replaceFileIfExists &&
             other.monospace == monospace &&
+            other.fontSize == fontSize &&
             other.contentType == contentType &&
             other.charset == charset
 

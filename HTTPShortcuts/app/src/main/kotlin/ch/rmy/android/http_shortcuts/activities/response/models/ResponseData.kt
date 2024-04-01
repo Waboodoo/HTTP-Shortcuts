@@ -21,5 +21,6 @@ data class ResponseData(
     val timing: Duration?,
     val showDetails: Boolean,
     val monospace: Boolean,
+    val fontSize: Int?,
     val actions: List<ResponseDisplayAction>,
 )

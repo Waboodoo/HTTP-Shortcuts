@@ -611,6 +611,7 @@ class Execution(
                         timing = response?.timing,
                         showDetails = shortcut.responseHandling?.includeMetaInfo == true,
                         monospace = shortcut.responseHandling?.monospace == true,
+                        fontSize = shortcut.responseHandling?.fontSize,
                         actions = shortcut.responseHandling?.displayActions ?: emptyList(),
                     )
                     val responseDataId = navigationArgStore.storeArg(responseData)

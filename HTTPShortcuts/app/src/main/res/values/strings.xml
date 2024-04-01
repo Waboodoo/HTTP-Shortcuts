@@ -1533,4 +1533,20 @@
     <string name="warning_page_wants_to_open_url">The page wants to open the following URL in a browser:\n\n%s</string>
     <!-- Placeholder text shown in the text field for the search feature on the Documentation screen -->
     <string name="placeholder_documentation_search_query">Search in page…</string>
+    <!-- Label for dropdown in shortcut editor, for picking the font size in which the response should be displayed -->
+    <string name="label_font_size">Font Size</string>
+    <!-- Option in font size drop down: Tiny -->
+    <string name="font_size_tiny">Tiny</string>
+    <!-- Option in font size drop down: Very small -->
+    <string name="font_size_very_small">Very small</string>
+    <!-- Option in font size drop down: Small -->
+    <string name="font_size_small">Small</string>
+    <!-- Option in font size drop down: Regular -->
+    <string name="font_size_regular">Regular</string>
+    <!-- Option in font size drop down: Large -->
+    <string name="font_size_large">Large</string>
+    <!-- Option in font size drop down: Very large -->
+    <string name="font_size_very_large">Very large</string>
+    <!-- Option in font size drop down: Huge -->
+    <string name="font_size_huge">Huge</string>
 </resources>

@@ -10,6 +10,7 @@ data class DisplayResponseViewState(
     val actions: List<ResponseDisplayAction>,
     val detailInfo: DetailInfo?,
     val monospace: Boolean,
+    val fontSize: Int?,
     val text: String,
     val fileUri: Uri?,
     val limitExceeded: Long?,

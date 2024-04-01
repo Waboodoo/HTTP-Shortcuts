@@ -37,6 +37,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.isUnspecified
+import androidx.compose.ui.unit.sp
 import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.response.models.DetailInfo
@@ -60,6 +63,7 @@ fun DisplayResponseContent(
     url: Uri?,
     limitExceeded: Long?,
     monospace: Boolean,
+    fontSize: Int?,
     showExternalUrlWarning: Boolean,
     onExternalUrlWarningHidden: (Boolean) -> Unit,
 ) {
@@ -81,6 +85,7 @@ fun DisplayResponseContent(
                 url = url,
                 limitExceeded = limitExceeded,
                 monospace = monospace,
+                fontSize = fontSize?.sp ?: TextUnit.Unspecified,
                 showExternalUrlWarning = showExternalUrlWarning,
                 onExternalUrlWarningHidden = onExternalUrlWarningHidden,
             )
@@ -181,6 +186,7 @@ private fun ResponseDisplay(
     url: Uri?,
     limitExceeded: Long?,
     monospace: Boolean,
+    fontSize: TextUnit,
     showExternalUrlWarning: Boolean,
     onExternalUrlWarningHidden: (Boolean) -> Unit,
 ) {
@@ -200,11 +206,19 @@ private fun ResponseDisplay(
         return
     }
     if (limitExceeded != null) {
-        PlainText(stringResource(R.string.error_response_too_large, Formatter.formatShortFileSize(context, limitExceeded)), italic = true)
+        PlainText(
+            stringResource(R.string.error_response_too_large, Formatter.formatShortFileSize(context, limitExceeded)),
+            italic = true,
+            fontSize = fontSize,
+        )
         return
     }
     if (text.isBlank()) {
-        PlainText(stringResource(R.string.message_blank_response), italic = true)
+        PlainText(
+            stringResource(R.string.message_blank_response),
+            italic = true,
+            fontSize = fontSize,
+        )
         return
     }
     when (mimeType) {
@@ -238,22 +252,22 @@ private fun ResponseDisplay(
             }
         }
         FileTypeUtil.TYPE_JSON -> {
-            SyntaxHighlightedText(text, language = "json")
+            SyntaxHighlightedText(text, language = "json", fontSize = fontSize)
         }
         FileTypeUtil.TYPE_XML -> {
-            SyntaxHighlightedText(text, language = "xml")
+            SyntaxHighlightedText(text, language = "xml", fontSize = fontSize)
         }
         FileTypeUtil.TYPE_YAML, FileTypeUtil.TYPE_YAML_ALT -> {
-            SyntaxHighlightedText(text, language = "yml")
+            SyntaxHighlightedText(text, language = "yml", fontSize = fontSize)
         }
         else -> {
-            PlainText(text, monospace)
+            PlainText(text, monospace, fontSize = fontSize)
         }
     }
 }
 
 @Composable
-private fun PlainText(text: String, monospace: Boolean = false, italic: Boolean = false) {
+private fun PlainText(text: String, monospace: Boolean = false, italic: Boolean = false, fontSize: TextUnit) {
     val fontFamily = if (monospace) FontFamily.Monospace else null
     val fontStyle = if (italic) FontStyle.Italic else FontStyle.Normal
     Box(modifier = Modifier.verticalScroll(rememberScrollState())) {
@@ -272,6 +286,8 @@ private fun PlainText(text: String, monospace: Boolean = false, italic: Boolean 
                             text = it,
                             fontFamily = fontFamily,
                             fontStyle = fontStyle,
+                            fontSize = fontSize,
+                            lineHeight = if (fontSize.isUnspecified) TextUnit.Unspecified else fontSize * 1.2f,
                         )
                     }
             }
@@ -280,7 +296,7 @@ private fun PlainText(text: String, monospace: Boolean = false, italic: Boolean 
 }
 
 @Composable
-private fun SyntaxHighlightedText(text: String, language: String) {
+private fun SyntaxHighlightedText(text: String, language: String, fontSize: TextUnit) {
     var wrapLines by rememberSaveable(key = "wrap-lines") {
         mutableStateOf(true)
     }
@@ -307,6 +323,7 @@ private fun SyntaxHighlightedText(text: String, language: String) {
                 text = syntaxHighlighter.format(text),
                 style = TextStyle(
                     fontFamily = FontFamily.Monospace,
+                    fontSize = fontSize,
                 ),
             )
         }

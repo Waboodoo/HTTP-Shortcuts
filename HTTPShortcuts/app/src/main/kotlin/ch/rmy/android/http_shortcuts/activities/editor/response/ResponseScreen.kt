@@ -56,6 +56,7 @@ fun ResponseScreen() {
             storeFileName = viewState.storeFileName,
             replaceFileIfExists = viewState.replaceFileIfExists,
             useMonospaceFont = viewState.useMonospaceFont,
+            fontSize = viewState.fontSize,
             onResponseSuccessOutputChanged = viewModel::onResponseSuccessOutputChanged,
             onSuccessMessageChanged = viewModel::onSuccessMessageChanged,
             onResponseFailureOutputChanged = viewModel::onResponseFailureOutputChanged,
@@ -69,6 +70,7 @@ fun ResponseScreen() {
             onReplaceFileIfExistsChanged = viewModel::onStoreFileOverwriteChanged,
             onStoreFileNameChanged = viewModel::onStoreFileNameChanged,
             onUseMonospaceFontChanged = viewModel::onUseMonospaceFontChanged,
+            onFontSizeChanged = viewModel::onFontSizeChanged,
         )
     }
 

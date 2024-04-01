@@ -89,6 +89,7 @@ constructor(
                     .takeUnless { !it.hasGeneralInfo && it.headers.isEmpty() }
             } else null,
             monospace = responseData.monospace,
+            fontSize = responseData.fontSize,
             text = responseText,
             fileUri = responseData.fileUri,
             limitExceeded = if (responseTooLarge) CONTENT_SIZE_LIMIT else null,

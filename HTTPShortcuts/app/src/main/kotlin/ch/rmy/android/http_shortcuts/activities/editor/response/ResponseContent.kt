@@ -42,6 +42,7 @@ fun ResponseContent(
     storeFileName: String,
     replaceFileIfExists: Boolean,
     useMonospaceFont: Boolean,
+    fontSize: Int?,
     onResponseSuccessOutputChanged: (String) -> Unit,
     onSuccessMessageChanged: (String) -> Unit,
     onResponseFailureOutputChanged: (String) -> Unit,
@@ -55,6 +56,7 @@ fun ResponseContent(
     onReplaceFileIfExistsChanged: (Boolean) -> Unit,
     onStoreFileNameChanged: (String) -> Unit,
     onUseMonospaceFontChanged: (Boolean) -> Unit,
+    onFontSizeChanged: (Int?) -> Unit,
 ) {
     val hasOutput = responseSuccessOutput != ResponseHandling.SUCCESS_OUTPUT_NONE || responseFailureOutput != ResponseHandling.FAILURE_OUTPUT_NONE
 
@@ -274,6 +276,18 @@ fun ResponseContent(
                         onCheckedChange = onUseMonospaceFontChanged,
                     )
                 }
+
+                AnimatedVisibility(visible = responseContentType != ResponseContentType.HTML) {
+                    SelectionField(
+                        modifier = Modifier
+                            .padding(top = Spacing.SMALL)
+                            .padding(horizontal = Spacing.MEDIUM),
+                        title = stringResource(R.string.label_font_size),
+                        selectedKey = fontSize,
+                        items = FONT_SIZES.toItems(),
+                        onItemSelected = onFontSizeChanged,
+                    )
+                }
             }
         }
 
@@ -357,6 +371,16 @@ private val RESPONSE_CONTENT_TYPES = listOf(
     ResponseContentType.JSON to R.string.option_response_content_type_json,
     ResponseContentType.XML to R.string.option_response_content_type_xml,
     ResponseContentType.HTML to R.string.option_response_content_type_html,
+)
+
+private val FONT_SIZES = listOf(
+    8 to R.string.font_size_tiny,
+    11 to R.string.font_size_very_small,
+    13 to R.string.font_size_small,
+    null to R.string.font_size_regular,
+    19 to R.string.font_size_large,
+    23 to R.string.font_size_very_large,
+    27 to R.string.font_size_huge,
 )
 
 @Composable
