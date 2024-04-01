@@ -5,6 +5,9 @@
 - The Scripting function `parseHTML()` was added, which allows to extract information from an HTML string
 - When opening a custom tab with the `openUrl()` function, it now shows the Share button
 
+### Miscellaneous
+- There is now an experimental setting, which lets you change the execution mode of all shortcuts from running in the foreground (i.e. by showing the spinner animation during execution) to running in the background (i.e., no spinner). If you try it out and discover problems, or if you try it out for a longer time and find no problems, please let me know.
+
 ### Bugfixes
 - Hitting the back button while viewing the in-app documentation will now first close the search instead of navigating back to the previous page
 - When a text input field is automatically selected, the soft keyboard should now show up more reliably
