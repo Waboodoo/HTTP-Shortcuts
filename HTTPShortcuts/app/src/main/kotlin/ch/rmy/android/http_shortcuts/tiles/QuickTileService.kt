@@ -1,5 +1,7 @@
 package ch.rmy.android.http_shortcuts.tiles
 
+import android.annotation.SuppressLint
+import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.drawable.Icon
 import android.os.Build
@@ -86,10 +88,24 @@ class QuickTileService : TileService() {
                         .build(context)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         .let { intent ->
-                            startActivityAndCollapse(intent)
+                            startIntent(intent)
                         }
                 }
             }
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("StartActivityAndCollapseDeprecated")
+    private fun startIntent(intent: Intent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_IMMUTABLE
+            } else 0
+            val pendingIntent = PendingIntent.getActivity(context, 0, intent, flags)
+            startActivityAndCollapse(pendingIntent)
+        } else {
+            startActivityAndCollapse(intent)
+        }
     }
 
     private fun executeShortcut(shortcut: Shortcut) {
@@ -118,7 +134,7 @@ class QuickTileService : TileService() {
             .build(context)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             .let { intent ->
-                startActivityAndCollapse(intent)
+                startIntent(intent)
             }
     }
 
