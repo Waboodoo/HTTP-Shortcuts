@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.settings
 
 import android.os.Build
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,6 +16,7 @@ import androidx.compose.material.icons.outlined.Javascript
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Palette
+import androidx.compose.material.icons.outlined.Science
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Title
 import androidx.compose.material.icons.outlined.TouchApp
@@ -22,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.components.HelpText
 import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.SettingsGroup
 import ch.rmy.android.http_shortcuts.components.SettingsSelection
@@ -204,7 +207,6 @@ fun SettingsContent(
             }
         }
 
-        /*
         SettingsGroup(
             title = stringResource(R.string.settings_title_experimental),
         ) {
@@ -229,6 +231,5 @@ fun SettingsContent(
                 onItemSelected = onExperimentalExecutionModeChanged,
             )
         }
-         */
     }
 }
