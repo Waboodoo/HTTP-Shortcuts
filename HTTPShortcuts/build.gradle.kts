@@ -16,7 +16,7 @@ plugins {
     id("com.diffplug.spotless") version "6.4.2"
     id("org.jetbrains.kotlin.jvm") version "1.7.21" apply false
     id("io.realm.kotlin") version "1.14.0" apply false
-    id("com.google.dagger.hilt.android") version "2.51" apply false
+    id("com.google.dagger.hilt.android") version "2.51.1" apply false
 }
 
 ext {
