@@ -780,6 +780,8 @@
     <string name="error_action_type_send_wol_invalid_mac_address">Invalid MAC address: %s</string>
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">Trigger Tasker Task</string>
+    <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
+    <string name="action_type_set_wireguard_tunnel_state_title">Enable or Disable Wireguard Tunnel</string>
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Get Current Location</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -1549,4 +1551,8 @@
     <string name="font_size_very_large">Very large</string>
     <!-- Option in font size drop down: Huge -->
     <string name="font_size_huge">Huge</string>
+    <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
+    <string name="wireguard_setup_instructions">Make sure to also enable the “Allow remote control apps” setting in the Wireguard app.</string>
+    <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
+    <string name="wireguard_permission_not_granted">The Wireguard permission was not granted.</string>
 </resources>

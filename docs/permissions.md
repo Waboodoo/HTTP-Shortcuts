@@ -51,6 +51,9 @@ This is not needed for normal operation, but you might encounter problems with p
 ## net.dinglisch.android.tasker.PERMISSION_RUN_TASKS
 Used by the [`triggerTaskerTask()`](scripting.md#trigger-tasker-task) function to allow triggering Tasker tasks from Scripting.
 
+# com.wireguard.android.permission.CONTROL_TUNNELS
+Used by the [`setWireguardTunnelState()`](scripting.md#set-wireguard-tunnel-state) function to allow enabling or disabling a Wireguard tunnel from Scripting. This permission needs to be granted explicitly by the user if they wish to make use of this feature.
+
 ## use biometric hardware / use fingerprint hardware
 The app allows to configure a shortcut in a way that it requires biometric confirmation before running, for extra security. This requires a permission.
 

@@ -11,8 +11,8 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetPickerViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.models.CodeSnippetItem
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.models.SectionItem
-import ch.rmy.android.http_shortcuts.plugin.TaskerUtil
 import ch.rmy.android.http_shortcuts.utils.CameraUtil
+import ch.rmy.android.http_shortcuts.utils.IntegrationUtil
 import ch.rmy.android.http_shortcuts.utils.SearchUtil.normalizeToKeywords
 import ch.rmy.android.http_shortcuts.utils.VibrationUtil
 import javax.inject.Inject
@@ -23,7 +23,7 @@ constructor(
     private val context: Context,
     private val vibrationUtil: VibrationUtil,
     private val cameraUtil: CameraUtil,
-    private val taskerUtil: TaskerUtil,
+    private val integrationUtil: IntegrationUtil,
 ) {
 
     operator fun invoke(initData: CodeSnippetPickerViewModel.InitData, callback: (Event) -> Unit): List<SectionItem> =
@@ -571,13 +571,22 @@ constructor(
                 ) {
                     insertText("sendIntent({", "});\n")
                 }
-                if (taskerUtil.isTaskerAvailable()) {
+                if (integrationUtil.isTaskerAvailable()) {
                     item(
                         R.string.action_type_trigger_tasker_title,
                         docRef = "trigger-tasker-task",
                         keywords = setOf("start", "invoke", "execute"),
                     ) {
                         sendEvent(Event.PickTaskerTask)
+                    }
+                }
+                if (integrationUtil.isWireguardAvailable()) {
+                    item(
+                        R.string.action_type_set_wireguard_tunnel_state_title,
+                        docRef = "set-wireguard-tunnel-state",
+                        keywords = setOf("start", "tunnel", "open", "vpn", "wireguard"),
+                    ) {
+                        insertText("setWireguardTunnelState(\"tunnel-name", "\", true);\n")
                     }
                 }
                 item(

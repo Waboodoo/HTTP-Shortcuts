@@ -929,6 +929,17 @@ triggerTaskerTask('mytask', {
 
 Please note that you may need to manually go to the app's permissions and grant the "net.dinglisch.android.tasker.PERMISSION_RUN_TASKS" permission for this to work, and also you will need to allow this in Tasker's settings under "Preferences > Misc > Allow External Access".
 
+<a name="set-wireguard-tunnel-state"></a>
+### Set Wireguard Tunnel State
+If you have [Wireguard](https://play.google.com/store/apps/details?id=com.wireguard.android) installed, you can use the `setWireguardTunnelState` function to enable or disable a tunnel. Pass in the name of the tunnel as the first parameter, and as the second parameter pass `true` to enable the tunnel or `false` to disable it.
+
+```js
+setWireguardTunnelState('my-tunnel', true);
+```
+
+For this to work, you will need to grant the app a special permission, and you will need to enable the "Allow remote control apps" setting in the Wireguard app.
+
+
 <a name="get-location"></a>
 ### Get Location
 If you want to query your device's physical location, you can do so via the `getLocation()` function. It can take up to 20 seconds for the location request to complete, and it might not always be possible to determine the location.

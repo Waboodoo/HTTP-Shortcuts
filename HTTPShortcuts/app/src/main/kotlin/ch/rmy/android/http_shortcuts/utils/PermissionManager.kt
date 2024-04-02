@@ -19,6 +19,12 @@ constructor(
     suspend fun requestLocationPermissionIfNeeded(): Boolean =
         requestPermissionIfNeeded(ACCESS_FINE_LOCATION)
 
+    suspend fun requestWireguardPermissionIfNeeded(): Boolean =
+        requestPermissionIfNeeded(WIREGUARD_PERMISSION)
+
+    fun hasWireguardPermission(): Boolean =
+        ActivityCompat.checkSelfPermission(context, WIREGUARD_PERMISSION) == PackageManager.PERMISSION_GRANTED
+
     suspend fun shouldShowRationaleForLocationPermission(): Boolean =
         activityProvider.withActivity { activity ->
             ActivityCompat.shouldShowRequestPermissionRationale(activity, ACCESS_FINE_LOCATION)
@@ -35,4 +41,8 @@ constructor(
         activityProvider.withActivity { activity ->
             Peko.requestPermissionsAsync(activity, permission) is PermissionResult.Granted
         }
+
+    companion object {
+        private const val WIREGUARD_PERMISSION = "com.wireguard.android.permission.CONTROL_TUNNELS"
+    }
 }

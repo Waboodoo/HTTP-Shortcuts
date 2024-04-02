@@ -3,6 +3,7 @@
 ### Improvements
 - It is now possible to increase or decrease the font size when displaying a response in a window
 - The Scripting function `parseHTML()` was added, which allows to extract information from an HTML string
+- If you have Wireguard installed, you can now use the Scripting function `setWireguardTunnelState()` to enable or disable a tunnel
 - When opening a custom tab with the `openUrl()` function, it now shows the Share button
 
 ### Miscellaneous
