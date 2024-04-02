@@ -23,7 +23,9 @@
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">Sử dụng trình duyệt mặc định</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
+    <string name="option_browser_custom_tab">Dùng Tab tùy chỉnh</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
+    <string name="option_custom_browser_in_custom_tab">%s (Tab tùy chỉnh)</string>
     <!-- Button to save changes made to shortcut/variable -->
     <string name="save_button">Lưu</string>
     <!-- Button to test changes made to shortcut -->
@@ -31,12 +33,15 @@
     <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, …) -->
     <string name="label_method">Phương pháp</string>
     <!-- Label above input field in editor, for shortcut authentication username -->
+    <string name="label_username">Tên người dùng</string>
     <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">Mật khẩu</string>
     <!-- Label above input field in editor, for shortcut authentication token -->
+    <string name="label_auth_token">Token</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
     <string name="label_response_on_success">trên thành công</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the response content should be treated as -->
+    <string name="label_response_type_selection">Kiểu phản hồi</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the custom message that they enter should be treated as -->
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
     <string name="label_response_on_failure">khi thất bại</string>
@@ -766,6 +771,7 @@ Nhấp vào nút trợ giúp trong phần biến để biết thêm thông tin.<
     <string name="error_action_type_send_wol_invalid_mac_address">Địa chỉ MAC không hợp lệ: %s</string>
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">Kích hoạt tác vụ Tasker</string>
+    <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Nhận vị trí hiện tại</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -1245,6 +1251,7 @@ Vẫn xóa?</string>
     <string name="action_type_parse_json">Phân tích cú pháp JSON</string>
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
     <string name="action_type_parse_xml">Phân tích cú pháp XML</string>
+    <!-- Title of an action in the code snippet picker: Parse an HTML string -->
     <!-- Title of dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it -->
     <string name="title_unsaved_changes_detected">Đã tìm thấy phím tắt chưa lưu</string>
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
@@ -1398,4 +1405,14 @@ Vẫn xóa?</string>
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
     <!-- Warning message shown to user when an HTML page wants to open a URL in the external browser. %s is a placeholder for the URL. -->
     <!-- Placeholder text shown in the text field for the search feature on the Documentation screen -->
+    <!-- Label for dropdown in shortcut editor, for picking the font size in which the response should be displayed -->
+    <!-- Option in font size drop down: Tiny -->
+    <!-- Option in font size drop down: Very small -->
+    <!-- Option in font size drop down: Small -->
+    <!-- Option in font size drop down: Regular -->
+    <!-- Option in font size drop down: Large -->
+    <!-- Option in font size drop down: Very large -->
+    <!-- Option in font size drop down: Huge -->
+    <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
+    <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
 </resources>

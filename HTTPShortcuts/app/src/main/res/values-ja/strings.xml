@@ -785,6 +785,7 @@
     <string name="error_action_type_send_wol_invalid_mac_address">無効なMACアドレス：%s</string>
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">Taskerタスクをトリガー</string>
+    <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">現在の位置情報を取得</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -1270,6 +1271,7 @@
     <string name="action_type_parse_json">JSON解析</string>
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
     <string name="action_type_parse_xml">XML解析</string>
+    <!-- Title of an action in the code snippet picker: Parse an HTML string -->
     <!-- Title of dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it -->
     <string name="title_unsaved_changes_detected">未保存のショートカットあり</string>
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
@@ -1547,4 +1549,14 @@
     <string name="warning_page_wants_to_open_url">このページは、ブラウザで次のURLリンクを開きます:\n\n%s</string>
     <!-- Placeholder text shown in the text field for the search feature on the Documentation screen -->
     <string name="placeholder_documentation_search_query">ページ内で検索…</string>
+    <!-- Label for dropdown in shortcut editor, for picking the font size in which the response should be displayed -->
+    <!-- Option in font size drop down: Tiny -->
+    <!-- Option in font size drop down: Very small -->
+    <!-- Option in font size drop down: Small -->
+    <!-- Option in font size drop down: Regular -->
+    <!-- Option in font size drop down: Large -->
+    <!-- Option in font size drop down: Very large -->
+    <!-- Option in font size drop down: Huge -->
+    <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
+    <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
 </resources>
