@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.body
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
@@ -32,6 +34,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import ch.rmy.android.framework.extensions.move
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.body.models.ParameterListItem
@@ -47,10 +50,8 @@ import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.extensions.rememberSyntaxHighlighter
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
-import org.burnoutcrew.reorderable.ReorderableItem
-import org.burnoutcrew.reorderable.detectReorderAfterLongPress
-import org.burnoutcrew.reorderable.rememberReorderableLazyListState
-import org.burnoutcrew.reorderable.reorderable
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyColumnState
 
 @Composable
 fun RequestBodyContent(
@@ -220,6 +221,7 @@ private fun ColumnScope.BodyTextEditor(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ColumnScope.ParameterList(
     parameters: List<ParameterListItem>,
@@ -234,21 +236,20 @@ private fun ColumnScope.ParameterList(
         return
     }
 
-    val reorderableState = rememberReorderableLazyListState(
-        onMove = { from, to ->
-            onParameterMoved(from.key as String, to.key as String)
-        },
-    )
+    var localParameters by remember(parameters) { mutableStateOf(parameters) }
+    val lazyListState = rememberLazyListState()
+    val reorderableState = rememberReorderableLazyColumnState(lazyListState) { from, to ->
+        localParameters = localParameters.move(from.index, to.index)
+        onParameterMoved(from.key as String, to.key as String)
+    }
 
     LazyColumn(
-        state = reorderableState.listState,
+        state = lazyListState,
         modifier = Modifier
-            .weight(1f)
-            .reorderable(reorderableState)
-            .detectReorderAfterLongPress(reorderableState),
+            .weight(1f),
     ) {
         items(
-            items = parameters,
+            items = localParameters,
             key = { it.id },
         ) { item ->
             ReorderableItem(reorderableState, key = item.id) { isDragging ->
@@ -260,7 +261,8 @@ private fun ColumnScope.ParameterList(
                         .background(MaterialTheme.colorScheme.surface)
                         .clickable {
                             onParameterClicked(item.id)
-                        },
+                        }
+                        .longPressDraggableHandle(),
                 )
             }
         }

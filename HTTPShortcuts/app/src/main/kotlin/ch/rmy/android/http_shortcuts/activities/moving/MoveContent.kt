@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.moving
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
@@ -33,40 +35,34 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
-import org.burnoutcrew.reorderable.ReorderableItem
-import org.burnoutcrew.reorderable.detectReorderAfterLongPress
-import org.burnoutcrew.reorderable.rememberReorderableLazyListState
-import org.burnoutcrew.reorderable.reorderable
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyColumnState
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MoveContent(
     categories: List<CategoryItem>,
     onShortcutMoved: (ShortcutId, ShortcutId?, CategoryId?) -> Unit,
     onMoveEnded: () -> Unit,
 ) {
-    val reorderableState = rememberReorderableLazyListState(
-        onMove = { from, to ->
-            val shortcutId = from.key as ShortcutId
-            val targetKey = to.key as String
-            if (targetKey.startsWith(CATEGORY_KEY_PREFIX)) {
-                onShortcutMoved(shortcutId, null, targetKey.removePrefix(CATEGORY_KEY_PREFIX))
-            } else {
-                onShortcutMoved(shortcutId, targetKey, null)
-            }
-        },
-        onDragEnd = { _, _ ->
-            onMoveEnded()
-        },
-    )
+    val lazyListState = rememberLazyListState()
+    val reorderableState = rememberReorderableLazyColumnState(lazyListState) { from, to ->
+        val shortcutId = from.key as ShortcutId
+        val targetKey = to.key as String
+        if (targetKey.startsWith(CATEGORY_KEY_PREFIX)) {
+            onShortcutMoved(shortcutId, null, targetKey.removePrefix(CATEGORY_KEY_PREFIX))
+        } else {
+            onShortcutMoved(shortcutId, targetKey, null)
+        }
+    }
 
     Column {
         ScreenInstructionsHeaders(text = stringResource(R.string.message_moving_enabled))
         LazyColumn(
-            state = reorderableState.listState,
+            state = lazyListState,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .reorderable(reorderableState)
                 .padding(
                     vertical = Spacing.MEDIUM,
                 ),
@@ -77,18 +73,24 @@ fun MoveContent(
                     key = "$CATEGORY_KEY_PREFIX${category.id}",
                     contentType = "category",
                 ) {
-                    Column {
-                        if (index != 0) {
-                            Spacer(
-                                modifier = Modifier.height(Spacing.MEDIUM),
+                    ReorderableItem(
+                        reorderableState,
+                        key = "$CATEGORY_KEY_PREFIX${category.id}",
+                        enabled = true,
+                    ) {
+                        Column {
+                            if (index != 0) {
+                                Spacer(
+                                    modifier = Modifier.height(Spacing.MEDIUM),
+                                )
+                            }
+                            CategoryHeader(
+                                name = category.name,
                             )
-                        }
-                        CategoryHeader(
-                            name = category.name,
-                        )
 
-                        if (category.shortcuts.isEmpty()) {
-                            EmptyCategoryContent()
+                            if (category.shortcuts.isEmpty()) {
+                                EmptyCategoryContent()
+                            }
                         }
                     }
                 }
@@ -101,13 +103,15 @@ fun MoveContent(
                     ReorderableItem(
                         reorderableState,
                         key = item.id,
-                        modifier = Modifier.detectReorderAfterLongPress(reorderableState)
                     ) { isDragging ->
                         val elevation = animateDpAsState(if (isDragging) 16.dp else 0.dp)
                         ShortcutListItem(
                             modifier = Modifier
                                 .shadow(elevation.value)
-                                .background(MaterialTheme.colorScheme.surface),
+                                .background(MaterialTheme.colorScheme.surface)
+                                .longPressDraggableHandle(
+                                    onDragStopped = onMoveEnded,
+                                ),
                             shortcut = item,
                         )
                     }

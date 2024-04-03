@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor.headers
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -8,24 +9,29 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import ch.rmy.android.framework.extensions.move
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.headers.models.HeaderListItem
 import ch.rmy.android.http_shortcuts.components.EmptyState
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderText
-import org.burnoutcrew.reorderable.ReorderableItem
-import org.burnoutcrew.reorderable.detectReorderAfterLongPress
-import org.burnoutcrew.reorderable.rememberReorderableLazyListState
-import org.burnoutcrew.reorderable.reorderable
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyColumnState
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RequestHeadersContent(
     headers: List<HeaderListItem>,
@@ -40,21 +46,20 @@ fun RequestHeadersContent(
         return
     }
 
-    val reorderableState = rememberReorderableLazyListState(
-        onMove = { from, to ->
-            onHeaderMoved(from.key as String, to.key as String)
-        },
-    )
+    var localHeaders by remember(headers) { mutableStateOf(headers) }
+    val lazyListState = rememberLazyListState()
+    val reorderableState = rememberReorderableLazyColumnState(lazyListState) { from, to ->
+        localHeaders = localHeaders.move(from.index, to.index)
+        onHeaderMoved(from.key as String, to.key as String)
+    }
 
     LazyColumn(
-        state = reorderableState.listState,
+        state = lazyListState,
         modifier = Modifier
-            .fillMaxSize()
-            .reorderable(reorderableState)
-            .detectReorderAfterLongPress(reorderableState),
+            .fillMaxSize(),
     ) {
         items(
-            items = headers,
+            items = localHeaders,
             key = { it.id },
         ) { item ->
             ReorderableItem(reorderableState, key = item.id) { isDragging ->
@@ -66,7 +71,8 @@ fun RequestHeadersContent(
                         .background(MaterialTheme.colorScheme.surface)
                         .clickable {
                             onHeaderClicked(item.id)
-                        },
+                        }
+                        .longPressDraggableHandle(),
                 )
             }
         }

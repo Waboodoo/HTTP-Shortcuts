@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.variables
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -10,26 +11,31 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ch.rmy.android.framework.extensions.move
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.models.VariableListItem
 import ch.rmy.android.http_shortcuts.components.EmptyState
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.extensions.localize
-import org.burnoutcrew.reorderable.ReorderableItem
-import org.burnoutcrew.reorderable.detectReorderAfterLongPress
-import org.burnoutcrew.reorderable.rememberReorderableLazyListState
-import org.burnoutcrew.reorderable.reorderable
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyColumnState
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VariablesContent(
     variables: List<VariableListItem>,
@@ -44,21 +50,20 @@ fun VariablesContent(
         return
     }
 
-    val reorderableState = rememberReorderableLazyListState(
-        onMove = { from, to ->
-            onVariableMoved(from.key as VariableId, to.key as VariableId)
-        },
-    )
+    var localVariables by remember(variables) { mutableStateOf(variables) }
+    val lazyListState = rememberLazyListState()
+    val reorderableState = rememberReorderableLazyColumnState(lazyListState) { from, to ->
+        localVariables = localVariables.move(from.index, to.index)
+        onVariableMoved(from.key as VariableId, to.key as VariableId)
+    }
 
     LazyColumn(
-        state = reorderableState.listState,
+        state = lazyListState,
         modifier = Modifier
-            .fillMaxSize()
-            .reorderable(reorderableState)
-            .detectReorderAfterLongPress(reorderableState),
+            .fillMaxSize(),
     ) {
         items(
-            items = variables,
+            items = localVariables,
             contentType = { "variable" },
             key = { it.id },
         ) { item ->
@@ -71,7 +76,8 @@ fun VariablesContent(
                         .background(MaterialTheme.colorScheme.surface)
                         .clickable {
                             onVariableClicked(item.id)
-                        },
+                        }
+                        .longPressDraggableHandle(),
                 )
             }
         }

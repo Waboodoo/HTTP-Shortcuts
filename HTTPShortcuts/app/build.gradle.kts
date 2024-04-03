@@ -268,7 +268,7 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
-    implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
+    implementation("sh.calvin.reorderable:reorderable:1.4.0")
     implementation("com.github.qawaz:compose-code-editor:2.0.3")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
 

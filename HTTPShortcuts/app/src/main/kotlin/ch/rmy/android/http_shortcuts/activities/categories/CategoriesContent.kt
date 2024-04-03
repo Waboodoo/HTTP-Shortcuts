@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.List
@@ -23,44 +25,47 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import ch.rmy.android.framework.extensions.move
 import ch.rmy.android.http_shortcuts.activities.categories.models.CategoryListItem
 import ch.rmy.android.http_shortcuts.components.ShortcutIcon
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.extensions.localize
-import org.burnoutcrew.reorderable.ReorderableItem
-import org.burnoutcrew.reorderable.detectReorderAfterLongPress
-import org.burnoutcrew.reorderable.rememberReorderableLazyListState
-import org.burnoutcrew.reorderable.reorderable
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyColumnState
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoriesContent(
     categories: List<CategoryListItem>,
     onCategoryClicked: (CategoryId) -> Unit,
     onCategoryMoved: (CategoryId, CategoryId) -> Unit,
 ) {
-    val reorderableState = rememberReorderableLazyListState(
-        onMove = { from, to ->
-            onCategoryMoved(from.key as CategoryId, to.key as CategoryId)
-        },
-    )
+    var localCategories by remember(categories) { mutableStateOf(categories) }
+    val lazyListState = rememberLazyListState()
+    val reorderableState = rememberReorderableLazyColumnState(lazyListState) { from, to ->
+        localCategories = localCategories.move(from.index, to.index)
+        onCategoryMoved(from.key as CategoryId, to.key as CategoryId)
+    }
 
     LazyColumn(
-        state = reorderableState.listState,
+        state = lazyListState,
         modifier = Modifier
-            .fillMaxSize()
-            .reorderable(reorderableState)
-            .detectReorderAfterLongPress(reorderableState),
+            .fillMaxSize(),
     ) {
         items(
-            items = categories,
+            items = localCategories,
             contentType = { "category" },
             key = { it.id },
         ) { item ->
@@ -73,7 +78,8 @@ fun CategoriesContent(
                         .background(MaterialTheme.colorScheme.surface)
                         .clickable {
                             onCategoryClicked(item.id)
-                        },
+                        }
+                        .longPressDraggableHandle(),
                 )
             }
         }

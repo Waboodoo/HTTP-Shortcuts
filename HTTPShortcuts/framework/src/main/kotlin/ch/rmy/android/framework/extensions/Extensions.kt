@@ -53,11 +53,15 @@ fun <T> T.takeUnlessEmpty(): T? where T : Collection<*> =
 fun <T, ID : Any> List<T>.swapped(id1: ID, id2: ID, getId: T.() -> ID?): List<T> {
     val oldPosition = indexOfFirstOrNull { it.getId() == id1 } ?: return this
     val newPosition = indexOfFirstOrNull { it.getId() == id2 } ?: return this
-    return toMutableList()
+    return move(oldPosition, newPosition)
+}
+
+@CheckResult
+fun <T> List<T>.move(oldPosition: Int, newPosition: Int): List<T> =
+    toMutableList()
         .also { list ->
             list.add(newPosition, list.removeAt(oldPosition))
         }
-}
 
 fun <T> MutableCollection<T>.addOrRemove(item: T) {
     addOrRemove(item, item !in this)

@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor.types
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
@@ -24,6 +26,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -35,6 +38,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import ch.rmy.android.framework.extensions.move
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.R
@@ -43,10 +47,8 @@ import ch.rmy.android.http_shortcuts.components.SettingsGroup
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderText
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
-import org.burnoutcrew.reorderable.ReorderableItem
-import org.burnoutcrew.reorderable.detectReorderAfterLongPress
-import org.burnoutcrew.reorderable.rememberReorderableLazyListState
-import org.burnoutcrew.reorderable.reorderable
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyColumnState
 
 @Composable
 fun ToggleTypeEditor(
@@ -157,32 +159,31 @@ fun ToggleTypeEditor(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun OptionsList(
     options: List<ToggleTypeViewState.OptionItem>,
     onOptionClicked: (ToggleTypeViewState.OptionItem) -> Unit,
     onOptionMoved: (String, String) -> Unit,
 ) {
-    val reorderableState = rememberReorderableLazyListState(
-        onMove = { from, to ->
-            onOptionMoved(from.key as String, to.key as String)
-        },
-    )
+    var localOptions by remember(options) { mutableStateOf(options) }
+    val lazyListState = rememberLazyListState()
+    val reorderableState = rememberReorderableLazyColumnState(lazyListState) { from, to ->
+        localOptions = localOptions.move(from.index, to.index)
+        onOptionMoved(from.key as String, to.key as String)
+    }
 
     if (options.isNotEmpty()) {
         HorizontalDivider()
     }
-    reorderableState.listState
     LazyColumn(
-        state = reorderableState.listState,
+        state = lazyListState,
         modifier = Modifier
             .fillMaxWidth()
-            .sizeIn(maxHeight = 3000.dp)
-            .reorderable(reorderableState)
-            .detectReorderAfterLongPress(reorderableState),
+            .sizeIn(maxHeight = 3000.dp),
     ) {
         items(
-            items = options,
+            items = localOptions,
             key = { it.id },
         ) { item ->
             ReorderableItem(reorderableState, key = item.id) { isDragging ->
@@ -194,7 +195,8 @@ private fun OptionsList(
                         .background(MaterialTheme.colorScheme.surface)
                         .clickable {
                             onOptionClicked(item)
-                        },
+                        }
+                        .longPressDraggableHandle(),
                 )
             }
         }
