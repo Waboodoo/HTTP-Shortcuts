@@ -777,6 +777,7 @@
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">触发 Tasker 任务</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
+    <string name="action_type_set_wireguard_tunnel_state_title">启用或禁用 Wireguard 隧道</string>
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">获取当前位置</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -1263,6 +1264,7 @@
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
     <string name="action_type_parse_xml">解析 XML</string>
     <!-- Title of an action in the code snippet picker: Parse an HTML string -->
+    <string name="action_type_parse_html">解析 HTML</string>
     <!-- Title of dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it -->
     <string name="title_unsaved_changes_detected">找到了未保存的快捷方式</string>
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
@@ -1539,13 +1541,23 @@
     <!-- Placeholder text shown in the text field for the search feature on the Documentation screen -->
     <string name="placeholder_documentation_search_query">在页面中搜索…</string>
     <!-- Label for dropdown in shortcut editor, for picking the font size in which the response should be displayed -->
+    <string name="label_font_size">字体大小</string>
     <!-- Option in font size drop down: Tiny -->
+    <string name="font_size_tiny">极小</string>
     <!-- Option in font size drop down: Very small -->
+    <string name="font_size_very_small">非常小</string>
     <!-- Option in font size drop down: Small -->
+    <string name="font_size_small">小</string>
     <!-- Option in font size drop down: Regular -->
+    <string name="font_size_regular">普通</string>
     <!-- Option in font size drop down: Large -->
+    <string name="font_size_large">大</string>
     <!-- Option in font size drop down: Very large -->
+    <string name="font_size_very_large">非常大</string>
     <!-- Option in font size drop down: Huge -->
+    <string name="font_size_huge">巨大</string>
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
+    <string name="wireguard_setup_instructions">请确保在Wireguard应用中启用“允许远程控制应用”设置。</string>
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
+    <string name="wireguard_permission_not_granted">Wireguard权限未被授予。</string>
 </resources>
