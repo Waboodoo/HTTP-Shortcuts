@@ -1,11 +1,14 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -13,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -29,7 +33,11 @@ import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.SettingsGroup
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.localize
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VariableEditorContent(
     variableKey: String,
@@ -105,14 +113,27 @@ fun VariableEditorContent(
             )
 
             Column {
+                val coroutineScope = rememberCoroutineScope()
+                val bringIntoViewRequester = remember { BringIntoViewRequester() }
                 Checkbox(
                     label = stringResource(R.string.label_allow_share_into),
                     subtitle = stringResource(R.string.message_allow_share_instructions),
                     checked = allowShareChecked,
-                    onCheckedChange = onAllowShareChanged,
+                    onCheckedChange = { checked ->
+                        if (checked) {
+                            coroutineScope.launch {
+                                delay(200.milliseconds)
+                                bringIntoViewRequester.bringIntoView()
+                            }
+                        }
+                        onAllowShareChanged(checked)
+                    },
                 )
                 AnimatedVisibility(visible = shareSupportVisible) {
                     ShareSupportSelection(
+                        modifier = Modifier
+                            .bringIntoViewRequester(bringIntoViewRequester)
+                            .padding(bottom = Spacing.MEDIUM),
                         shareSupport = shareSupport,
                         onShareSupportChanged = onShareSupportChanged,
                     )
@@ -202,11 +223,12 @@ private fun DialogMessage(message: String, onMessageChanged: (String) -> Unit) {
 
 @Composable
 private fun ShareSupportSelection(
+    modifier: Modifier = Modifier,
     shareSupport: ShareSupport,
     onShareSupportChanged: (ShareSupport) -> Unit,
 ) {
     SelectionField(
-        modifier = Modifier.padding(horizontal = Spacing.MEDIUM),
+        modifier = modifier.padding(horizontal = Spacing.MEDIUM),
         title = stringResource(R.string.label_share_support),
         selectedKey = shareSupport,
         items = listOf(
