@@ -277,6 +277,7 @@ dependencies {
 
     /* Image display */
     implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation("net.engawapg.lib:zoomable:1.6.1")
 
     /* Image meta data extraction */
     implementation("androidx.exifinterface:exifinterface:1.3.7")

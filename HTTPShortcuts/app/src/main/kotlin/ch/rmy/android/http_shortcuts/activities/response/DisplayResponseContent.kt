@@ -53,6 +53,8 @@ import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
+import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.zoomable
 
 @Composable
 fun DisplayResponseContent(
@@ -201,7 +203,8 @@ private fun ResponseDisplay(
                 .build(),
             contentDescription = null,
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .zoomable(rememberZoomState()),
         )
         return
     }

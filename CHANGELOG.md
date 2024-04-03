@@ -5,6 +5,7 @@
 - The Scripting function `parseHTML()` was added, which allows to extract information from an HTML string
 - If you have Wireguard installed, you can now use the Scripting function `setWireguardTunnelState()` to enable or disable a tunnel
 - When opening a custom tab with the `openUrl()` function, it now shows the Share button
+- When the HTTP response is an image and it is displayed using the Fullscreen Window option, it is now possible to zoom in on the image
 
 ### Miscellaneous
 - There is now an experimental setting, which lets you change the execution mode of all shortcuts from running in the foreground (i.e. by showing the spinner animation during execution) to running in the background (i.e., no spinner). If you try it out and discover problems, or if you try it out for a longer time and find no problems, please let me know.
