@@ -1,18 +1,17 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.content.Context
-import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
+import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.utils.Toaster
 import ch.rmy.android.http_shortcuts.variables.Variables
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ToastAction
 @Inject
 constructor(
-    private val context: Context,
+    private val settings: Settings,
+    private val toaster: Toaster,
 ) : Action<ToastAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext) {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(
@@ -22,9 +21,7 @@ constructor(
         if (finalMessage.isEmpty()) {
             return
         }
-        withContext(Dispatchers.Main) {
-            context.showToast(HTMLUtil.toSpanned(finalMessage), long = true)
-        }
+        toaster.showToast(HTMLUtil.toSpanned(finalMessage), long = true, isForeground = !settings.useExperimentalExecutionMode)
     }
 
     data class Params(
