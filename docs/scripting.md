@@ -19,7 +19,7 @@ Using these code blocks, there are a number of things you can achieve. See the [
 
 You can access the response of your HTTP request via the `response` object.
 
-Please note that the `response` object is only available in the *"Run on Success"* code block, and will otherwise be `null`.
+Please note that the `response` object is only available in the *"Run on Success"* code block, as well as in the *"Run on Failure"* code block in case there was an HTTP response (i.e., a status code of 4xx or 5xx), and will otherwise be `null`.
 
 ### Getting the Response Body
 
@@ -530,6 +530,13 @@ The result variable now holds the following list of objects:
 */
 ```
 
+In case you're not familiar with CSS selectors, here's some examples:
+- `li` would select all `<li>` elements
+- `.my-class` would select all elements that have the class "my-class"
+- `p img` would select all `<img>` elements which are within a `<p>` element (not necessarily as a direct child)
+- `a[href]` would select all `<a>` elements which have a `href` attribute
+- `ul.my-class > li` would select all `<li>` elements which are direct child elements of `<ul>` elements which have the "my-class" class
+
 <a name="parse-xml"></a>
 ### parseXML
 
@@ -927,7 +934,7 @@ triggerTaskerTask('mytask', {
 });
 ```
 
-Please note that you may need to manually go to the app's permissions and grant the "net.dinglisch.android.tasker.PERMISSION_RUN_TASKS" permission for this to work, and also you will need to allow this in Tasker's settings under "Preferences > Misc > Allow External Access".
+Please note that you may need to manually go to the app's permissions and allow the app to run Tasker tasks for this to work, and also you will need to allow this in Tasker's settings under "Preferences > Misc > Allow External Access".
 
 <a name="set-wireguard-tunnel-state"></a>
 ### Set Wireguard Tunnel State
