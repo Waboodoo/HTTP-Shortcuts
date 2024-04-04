@@ -55,6 +55,7 @@ constructor(
                             .setTitle(title)
                             .setSubtitle(subtitle)
                             .setConfirmationRequired(false)
+                            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
                             .setNegativeButtonText(negativeButtonText)
                             .build()
                     )
