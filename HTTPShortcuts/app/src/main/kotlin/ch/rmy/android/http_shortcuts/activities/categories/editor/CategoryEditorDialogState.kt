@@ -5,5 +5,5 @@ import androidx.compose.runtime.Stable
 @Stable
 sealed class CategoryEditorDialogState {
     data class ColorPicker(val initialColor: Int) : CategoryEditorDialogState()
-    object DiscardWarning : CategoryEditorDialogState()
+    data object DiscardWarning : CategoryEditorDialogState()
 }

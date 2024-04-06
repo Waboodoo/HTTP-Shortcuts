@@ -5,7 +5,7 @@ import androidx.compose.runtime.Stable
 @Stable
 sealed class AuthenticationDialogState {
     @Stable
-    object SelectClientCertType : AuthenticationDialogState()
+    data object SelectClientCertType : AuthenticationDialogState()
 
     @Stable
     data class PasswordPromptForCertFile(val fileName: String) : AuthenticationDialogState()

@@ -17,5 +17,5 @@ sealed class ImportExportDialogState {
         val entries: List<MenuEntry<ShortcutId>>,
     ) : ImportExportDialogState()
 
-    object SelectExportDestinationDialog : ImportExportDialogState()
+    data object SelectExportDestinationDialog : ImportExportDialogState()
 }

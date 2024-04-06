@@ -14,7 +14,7 @@ sealed class CategoriesDialogState {
         val deleteOptionEnabled: Boolean,
     ) : CategoriesDialogState()
 
-    object Deletion : CategoriesDialogState()
+    data object Deletion : CategoriesDialogState()
 
     data class IconPicker(
         val currentIcon: ShortcutIcon.BuiltInIcon?,

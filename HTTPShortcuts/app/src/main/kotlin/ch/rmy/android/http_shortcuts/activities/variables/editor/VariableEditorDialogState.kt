@@ -5,5 +5,5 @@ import androidx.compose.runtime.Stable
 @Stable
 sealed class VariableEditorDialogState {
     @Stable
-    object DiscardWarning : VariableEditorDialogState()
+    data object DiscardWarning : VariableEditorDialogState()
 }

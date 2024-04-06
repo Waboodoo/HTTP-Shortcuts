@@ -4,5 +4,5 @@ import androidx.compose.runtime.Stable
 
 @Stable
 sealed class GlobalScriptingDialogState {
-    object DiscardWarning : GlobalScriptingDialogState()
+    data object DiscardWarning : GlobalScriptingDialogState()
 }

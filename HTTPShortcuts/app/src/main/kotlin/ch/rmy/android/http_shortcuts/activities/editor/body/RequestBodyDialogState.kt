@@ -8,7 +8,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 @Stable
 sealed class RequestBodyDialogState {
     @Stable
-    object ParameterTypePicker : RequestBodyDialogState()
+    data object ParameterTypePicker : RequestBodyDialogState()
 
     @Stable
     data class ParameterEditor(

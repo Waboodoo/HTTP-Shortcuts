@@ -6,7 +6,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 @Stable
 sealed class VariablesDialogState {
     @Stable
-    object Creation : VariablesDialogState()
+    data object Creation : VariablesDialogState()
 
     @Stable
     data class ContextMenu(

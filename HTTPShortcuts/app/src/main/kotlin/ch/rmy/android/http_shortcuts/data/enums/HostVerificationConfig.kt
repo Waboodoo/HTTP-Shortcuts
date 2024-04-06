@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.enums
 
 sealed class HostVerificationConfig {
-    object Default : HostVerificationConfig()
+    data object Default : HostVerificationConfig()
 
     data class SelfSigned(
         val expectedFingerprint: ByteArray,
@@ -13,5 +13,5 @@ sealed class HostVerificationConfig {
             expectedFingerprint.contentHashCode()
     }
 
-    object TrustAll : HostVerificationConfig()
+    data object TrustAll : HostVerificationConfig()
 }

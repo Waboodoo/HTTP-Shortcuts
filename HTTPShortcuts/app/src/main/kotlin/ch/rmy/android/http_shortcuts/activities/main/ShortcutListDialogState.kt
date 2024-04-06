@@ -23,10 +23,10 @@ sealed class ShortcutListDialogState {
     ) : ShortcutListDialogState()
 
     @Stable
-    object ExportOptions : ShortcutListDialogState()
+    data object ExportOptions : ShortcutListDialogState()
 
     @Stable
-    object ExportDestinationOptions : ShortcutListDialogState()
+    data object ExportDestinationOptions : ShortcutListDialogState()
 
     @Stable
     data class ContextMenu(
@@ -40,5 +40,5 @@ sealed class ShortcutListDialogState {
     ) : ShortcutListDialogState()
 
     @Stable
-    object ExportProgress : ShortcutListDialogState()
+    data object ExportProgress : ShortcutListDialogState()
 }

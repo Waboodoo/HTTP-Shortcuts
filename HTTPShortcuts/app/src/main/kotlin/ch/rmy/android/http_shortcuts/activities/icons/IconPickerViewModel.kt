@@ -121,7 +121,7 @@ constructor(
         when (val dialogState = viewState.dialogState) {
             is IconPickerDialogState.BulkDelete -> onBulkDeletionConfirmed()
             is IconPickerDialogState.DeleteIcon -> onDeletionConfirmed(dialogState.icon)
-            null -> Unit
+            else -> Unit
         }
     }
 

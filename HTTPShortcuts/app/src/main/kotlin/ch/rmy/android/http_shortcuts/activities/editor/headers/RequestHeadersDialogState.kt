@@ -5,7 +5,7 @@ import androidx.compose.runtime.Stable
 @Stable
 sealed class RequestHeadersDialogState {
     @Stable
-    object AddHeader : RequestHeadersDialogState()
+    data object AddHeader : RequestHeadersDialogState()
 
     @Stable
     data class EditHeader(

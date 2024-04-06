@@ -8,7 +8,7 @@ import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 @Stable
 sealed class CodeSnippetPickerDialogState {
     @Stable
-    object SelectIcon : CodeSnippetPickerDialogState()
+    data object SelectIcon : CodeSnippetPickerDialogState()
 
     @Stable
     data class SelectShortcut(

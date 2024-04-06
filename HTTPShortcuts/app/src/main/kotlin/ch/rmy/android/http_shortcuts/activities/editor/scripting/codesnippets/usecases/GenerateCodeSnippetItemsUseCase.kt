@@ -604,10 +604,10 @@ constructor(
         data class InsertText(val textBeforeCursor: String, val textAfterCursor: String) : Event
         data class PickShortcut(@StringRes val title: Int, val andThen: (shortcutPlaceholder: String) -> Unit) : Event
         data class PickIcon(val shortcutPlaceholder: String) : Event
-        object PickVariableForReading : Event
-        object PickVariableForWriting : Event
-        object PickTaskerTask : Event
-        object PickNotificationSound : Event
+        data object PickVariableForReading : Event
+        data object PickVariableForWriting : Event
+        data object PickTaskerTask : Event
+        data object PickNotificationSound : Event
     }
 
     companion object {

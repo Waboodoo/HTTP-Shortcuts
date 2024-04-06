@@ -57,7 +57,7 @@ class CropImageContract(
 
     sealed interface Result {
         data class Success(val imageFile: File) : Result
-        object Failure : Result
-        object Canceled : Result
+        data object Failure : Result
+        data object Canceled : Result
     }
 }

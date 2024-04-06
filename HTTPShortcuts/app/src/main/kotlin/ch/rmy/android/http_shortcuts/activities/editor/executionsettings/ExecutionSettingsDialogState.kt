@@ -6,7 +6,7 @@ import kotlin.time.Duration
 @Stable
 sealed class ExecutionSettingsDialogState {
     @Stable
-    object AppOverlayPrompt : ExecutionSettingsDialogState()
+    data object AppOverlayPrompt : ExecutionSettingsDialogState()
 
     @Stable
     data class DelayPicker(

@@ -5,10 +5,10 @@ import androidx.compose.runtime.Stable
 @Stable
 sealed class CertPinningDialogState {
     @Stable
-    object ContextMenu : CertPinningDialogState()
+    data object ContextMenu : CertPinningDialogState()
 
     @Stable
-    object ConfirmDeletion : CertPinningDialogState()
+    data object ConfirmDeletion : CertPinningDialogState()
 
     @Stable
     data class Editor(

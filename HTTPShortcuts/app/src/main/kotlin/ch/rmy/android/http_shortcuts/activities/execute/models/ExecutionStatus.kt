@@ -6,7 +6,7 @@ import java.io.IOException
 
 sealed interface ExecutionStatus {
 
-    object Preparing : ExecutionStatus
+    data object Preparing : ExecutionStatus
 
     data class InProgress(
         override val variableValues: Map<VariableId, String>,

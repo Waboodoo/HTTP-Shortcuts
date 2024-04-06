@@ -7,13 +7,13 @@ import ch.rmy.android.http_shortcuts.activities.main.models.RecoveryInfo
 sealed class MainDialogState {
 
     @Stable
-    object ShortcutCreation : MainDialogState()
+    data object ShortcutCreation : MainDialogState()
 
     @Stable
-    object ChangeLog : MainDialogState()
+    data object ChangeLog : MainDialogState()
 
     @Stable
-    object NetworkRestrictionsWarning : MainDialogState()
+    data object NetworkRestrictionsWarning : MainDialogState()
 
     @Stable
     data class ChangeTitle(
@@ -21,7 +21,7 @@ sealed class MainDialogState {
     ) : MainDialogState()
 
     @Stable
-    object ShortcutPlacement : MainDialogState()
+    data object ShortcutPlacement : MainDialogState()
 
     @Stable
     data class Unlock(
@@ -34,8 +34,8 @@ sealed class MainDialogState {
     ) : MainDialogState()
 
     @Stable
-    object AppOverlayInfo : MainDialogState()
+    data object AppOverlayInfo : MainDialogState()
 
     @Stable
-    object Progress : MainDialogState()
+    data object Progress : MainDialogState()
 }

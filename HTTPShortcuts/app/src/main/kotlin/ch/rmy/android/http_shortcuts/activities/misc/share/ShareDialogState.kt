@@ -6,10 +6,10 @@ import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 @Stable
 sealed class ShareDialogState {
     @Stable
-    object Progress : ShareDialogState()
+    data object Progress : ShareDialogState()
 
     @Stable
-    object Instructions : ShareDialogState()
+    data object Instructions : ShareDialogState()
 
     @Stable
     data class PickShortcut(

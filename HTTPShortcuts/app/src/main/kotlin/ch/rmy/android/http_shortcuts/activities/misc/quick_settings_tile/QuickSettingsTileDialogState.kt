@@ -6,7 +6,7 @@ import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 @Stable
 sealed class QuickSettingsTileDialogState {
     @Stable
-    object Instructions : QuickSettingsTileDialogState()
+    data object Instructions : QuickSettingsTileDialogState()
 
     @Stable
     data class PickShortcut(

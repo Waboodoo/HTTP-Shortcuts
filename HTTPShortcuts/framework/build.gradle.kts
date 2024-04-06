@@ -67,7 +67,6 @@ android {
     }
 
     kotlinOptions {
-        languageVersion = "1.6"
         jvmTarget = "1.8"
     }
 
