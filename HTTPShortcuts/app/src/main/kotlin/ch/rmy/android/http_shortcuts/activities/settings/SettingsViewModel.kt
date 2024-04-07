@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.settings
 import android.app.Application
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.settings.usecases.CreateQuickSettingsTileUseCase
@@ -36,6 +37,7 @@ constructor(
     private val restrictionsUtil: RestrictionsUtil,
     private val createQuickSettingsTile: CreateQuickSettingsTileUseCase,
     private val biometricUtil: BiometricUtil,
+    private val clipboardUtil: ClipboardUtil,
 ) : BaseViewModel<Unit, SettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit) = SettingsViewState(
@@ -45,6 +47,7 @@ constructor(
         selectedDarkModeOption = settings.darkThemeSetting,
         selectedClickActionOption = settings.clickBehavior,
         crashReportingAllowed = settings.isCrashReportingAllowed,
+        deviceId = settings.deviceId,
         colorTheme = settings.colorTheme,
         experimentalExecutionModeEnabled = settings.useExperimentalExecutionMode,
     )
@@ -145,6 +148,11 @@ constructor(
         if (!allowed) {
             Logging.disableCrashReporting(context)
         }
+    }
+
+    fun onDeviceIdButtonClicked() = runAction {
+        clipboardUtil.copyToClipboard(settings.deviceId)
+        showSnackbar(R.string.message_device_id_copied)
     }
 
     fun onDialogDismissalRequested() = runAction {

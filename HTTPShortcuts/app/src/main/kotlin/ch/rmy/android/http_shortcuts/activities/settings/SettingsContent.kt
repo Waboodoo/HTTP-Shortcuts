@@ -16,6 +16,7 @@ import androidx.compose.material.icons.outlined.Javascript
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Palette
+import androidx.compose.material.icons.outlined.PermDeviceInformation
 import androidx.compose.material.icons.outlined.Science
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Title
@@ -41,6 +42,7 @@ fun SettingsContent(
     selectedLanguage: String?,
     selectedDarkModeOption: String,
     crashReportingEnabled: Boolean,
+    deviceId: String,
     colorTheme: String,
     experimentalExecutionModeEnabled: Boolean,
     selectedClickActionOption: ShortcutClickBehavior,
@@ -54,6 +56,7 @@ fun SettingsContent(
     onCertificatePinningButtonClicked: () -> Unit,
     onGlobalScriptingButtonClicked: () -> Unit,
     onCrashReportingChanged: (Boolean) -> Unit,
+    onDeviceIdButtonClicked: () -> Unit,
     onColorThemeChanged: (String) -> Unit,
     onExperimentalExecutionModeChanged: (Boolean) -> Unit,
     onExperimentalHelpTextClicked: () -> Unit,
@@ -205,6 +208,14 @@ fun SettingsContent(
                     onItemSelected = onCrashReportingChanged,
                 )
             }
+
+            SettingsButton(
+                icon = Icons.Outlined.PermDeviceInformation,
+                title = stringResource(R.string.settings_device_id),
+                subtitle = stringResource(R.string.settings_device_id_summary, deviceId),
+                enabled = crashReportingEnabled,
+                onClick = onDeviceIdButtonClicked,
+            )
         }
 
         SettingsGroup(

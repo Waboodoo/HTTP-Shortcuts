@@ -5,5 +5,5 @@ data class MetaData(
     val appVersionCode: Long,
     val device: String,
     val language: String,
-    val userId: String,
+    val deviceId: String,
 )

@@ -1555,4 +1555,10 @@
     <string name="wireguard_setup_instructions">Make sure to also enable the “Allow remote control apps” setting in the Wireguard app.</string>
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
     <string name="wireguard_permission_not_granted">The Wireguard permission was not granted.</string>
+    <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
+    <string name="settings_device_id">Device ID</string>
+    <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
+    <string name="settings_device_id_summary">Include this ID when you report bugs on Github:\n%s</string>
+    <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
+    <string name="message_device_id_copied">Device ID copied to clipboard.</string>
 </resources>

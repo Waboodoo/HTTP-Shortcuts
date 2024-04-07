@@ -19,12 +19,15 @@ constructor(
     context: Context,
 ) : PreferencesStore(context) {
 
-    val userId: String
-        get() = getString(KEY_USER_ID)
+    val deviceId: String
+        get() = getString(DEVICE_ID)
             ?: run {
                 UUIDUtils.newUUID()
+                    .uppercase()
+                    .replace("-", "")
+                    .take(20)
                     .also {
-                        putString(KEY_USER_ID, it)
+                        putString(DEVICE_ID, it)
                     }
             }
 
@@ -113,7 +116,7 @@ constructor(
         const val DARK_THEME_OFF = "off"
         const val DARK_THEME_AUTO = "auto"
 
-        private const val KEY_USER_ID = "user_id"
+        private const val DEVICE_ID = "device_id"
         private const val KEY_LANGUAGE = "language"
         private const val KEY_CLICK_BEHAVIOR = "click_behavior"
         private const val KEY_CRASH_REPORTING = "crash_reporting"

@@ -89,7 +89,7 @@ constructor(
             appVersionCode = versionUtil.getVersionCode(),
             device = "${Build.MANUFACTURER} ${Build.MODEL}",
             language = Locale.getDefault().language,
-            userId = settings.userId,
+            deviceId = settings.deviceId,
         )
 
     companion object {
