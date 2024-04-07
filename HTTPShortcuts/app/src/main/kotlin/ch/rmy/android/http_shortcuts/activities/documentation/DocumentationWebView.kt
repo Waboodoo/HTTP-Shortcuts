@@ -90,6 +90,8 @@ class DocumentationWebView(context: Context) : WebView(context) {
             userAgentString = UserAgentProvider.getUserAgent(context)
             blockNetworkLoads = true
             blockNetworkImage = false
+            setSupportZoom(true)
+            displayZoomControls = false
         }
     }
 }

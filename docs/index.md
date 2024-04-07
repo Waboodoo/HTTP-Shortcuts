@@ -20,7 +20,7 @@ If you find bugs, have questions or feature requests, feel free to [contact me](
 - Value injection through [global variables](variables.md) with dynamically determined values (e.g., text, numbers, passwords, selections, colors, dates, …)
 - Run arbitrary [JavaScript](https://http-shortcuts.rmy.ch/scripting) before & after execution, which allows for lots of customization with features such as:
   - compute values such as timestamps, random numbers, UUIDs, hashes, HMACs, base64, etc.
-  - parse JSON or XML and extract data from them
+  - parse JSON, HTML or XML and extract data from it
   - show toast message or message dialogs
   - vibrate or play notification sounds
   - trigger other shortcuts to chain multiple HTTP requests 

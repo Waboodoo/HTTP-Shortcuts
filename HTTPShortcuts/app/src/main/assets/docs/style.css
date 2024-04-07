@@ -24,8 +24,8 @@ h4 {
 ul {
     padding-left: 1em;
 }
-li {
-    font-size: 1em;
+ul > li > a {
+    font-size: 1.07em;
 }
 a {
     color: #487092;

@@ -39,13 +39,13 @@ Find more information and documentation on the [official website](https://http-s
 - Grouping into categories through tabs
 - Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)
 - Import & Export in JSON or cURL format
-- 3rd party integration support (e.g. Tasker or Macrodroid)
+- 3rd party integration support (e.g. Tasker, Macrodroid or Wireguard)
 - Dark Mode support
 - Easy remote editing on a computer via the web editor
 - Event history to see details about recently executed HTTP requests & responses
 - Run arbitrary [JavaScript](https://http-shortcuts.rmy.ch/scripting) before & after execution, which allows for lots of customization with features such as:
   - compute values such as timestamps, random numbers, UUIDs, hashes, HMACs, base64, etc.
-  - parse JSON or XML and extract data from them
+  - parse JSON, HTML or XML and extract data from it
   - show toast message or message dialogs
   - vibrate or play notification sounds
   - trigger other shortcuts to chain multiple HTTP requests 
