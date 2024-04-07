@@ -36,7 +36,7 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
     private var initialized = false
 
     fun initCrashReporting(context: Context) {
-        val settings = settings
+        val settings = Settings(context)
         val deviceId = settings.deviceId
         if (isAppOutdated || !settings.isCrashReportingAllowed || deviceId in BLACKLISTED_DEVICE_IDS) {
             return
