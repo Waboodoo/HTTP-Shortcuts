@@ -1589,4 +1589,10 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="wireguard_setup_instructions">Stelle sicher, dass du in der Wireguard-App auch die Einstellung „Allow remote control apps“ aktiviert hast.</string>
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
     <string name="wireguard_permission_not_granted">Die Wireguard-Berechtigung wurde nicht erteilt.</string>
+    <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
+    <string name="settings_device_id">Geräte-ID</string>
+    <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
+    <string name="settings_device_id_summary">Gib diese ID an, wenn du Bugs auf Github meldest:\n%s</string>
+    <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
+    <string name="message_device_id_copied">Geräte-ID in Zwischenablage kopiert.</string>
 </resources>

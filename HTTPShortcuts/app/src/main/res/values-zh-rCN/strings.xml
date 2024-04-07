@@ -1560,4 +1560,7 @@
     <string name="wireguard_setup_instructions">请确保在Wireguard应用中启用“允许远程控制应用”设置。</string>
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
     <string name="wireguard_permission_not_granted">Wireguard权限未被授予。</string>
+    <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
+    <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
+    <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
 </resources>

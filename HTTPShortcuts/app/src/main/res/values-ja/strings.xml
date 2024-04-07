@@ -1571,4 +1571,10 @@
     <string name="wireguard_setup_instructions">Wireguardアプリの設定で「リモートコントロールアプリを許可する」も有効にしてください。</string>
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
     <string name="wireguard_permission_not_granted">Wireguardアクセス許可が付与されていませんでした。</string>
+    <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
+    <string name="settings_device_id">デバイスID</string>
+    <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
+    <string name="settings_device_id_summary">Githubでバグ報告をするときにこのIDを含めてください:\n%s</string>
+    <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
+    <string name="message_device_id_copied">デバイスIDをクリップボードにコピーしました</string>
 </resources>
