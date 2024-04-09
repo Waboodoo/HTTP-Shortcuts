@@ -1,3 +1,8 @@
+## Version 3.11.1
+
+### Bugfixes
+- Fixed a bug that caused some shortcuts to fail when executed. Mostly shortcuts that send requests to subdomains and use cookies were affected.
+
 ## Version 3.11.0
 
 ### Improvements
