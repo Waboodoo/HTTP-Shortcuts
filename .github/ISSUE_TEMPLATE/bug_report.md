@@ -27,3 +27,4 @@ Please complete the following information:
 - Android OS Version: [e.g. 9.0]
 - App Version [e.g. 1.32.0]
 - Any other context about the problem that you think is relevant
+- Device ID if possible: (Unless you installed from F-Droid or have crash reporting disabled, you can find this in Settings > Privacy)
