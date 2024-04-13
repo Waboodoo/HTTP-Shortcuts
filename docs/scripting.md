@@ -19,7 +19,7 @@ Using these code blocks, there are a number of things you can achieve. See the [
 
 You can access the response of your HTTP request via the `response` object.
 
-Please note that the `response` object is only available in the *"Run on Success"* code block, as well as in the *"Run on Failure"* code block in case there was an HTTP response (i.e., a status code of 4xx or 5xx), and will otherwise be `null`.
+> Please note that the `response` object is only available in the *"Run on Success"* code block, as well as in the *"Run on Failure"* code block in case there was an HTTP response (i.e., a status code of 4xx or 5xx), and will otherwise be `null`.
 
 ### Getting the Response Body
 
@@ -87,7 +87,7 @@ You can access the value of any of your variables via the `getVariable()` functi
 const myValue = getVariable('myVariable');
 ```
 
-Please note that the returned value will always be a string. If the variable does not exist an error is raised.
+> Please note that the returned value will always be a string. If the variable does not exist an error is raised.
 
 <a name="set-variable"></a>
 ### setVariable
@@ -98,7 +98,7 @@ You can store a value as a string into a variable via the `setVariable()` functi
 setVariable('myVariable', 'Hello World');
 ```
 
-Please note that there is a size limit of 30000 characters. If the variable does not exist an error is raised.
+> Please note that there is a size limit of 30000 characters. If the variable does not exist an error is raised.
 
 As an optional third parameter you can pass a boolean. If it is `true`, the new value will be stored but not used immediately for the current execution. This is useful for variable types which support the 'Remember value' feature (such as Date Input, Time Input, Text Input, etc.) as it allows to change the stored previous value which is used as the default selected value.
 
@@ -181,7 +181,7 @@ With this function you can display a toast message on the screen. Simply pass yo
 showToast('Hello World');
 ```
 
-Please note that no toast will be displayed if the string you pass is empty. Also note that a toast will show at most two lines of text, so it is best suited for short messages.
+> Please note that no toast will be displayed if the string you pass is empty. Also note that a toast will show at most two lines of text, so it is best suited for short messages.
 
 <a name="show-dialog"></a>
 ### showDialog
@@ -194,7 +194,7 @@ showDialog('My Message', 'My Title');
 showDialog('You can also use <b>basic</b> <i>HTML</i> for formatting the message.');
 ```
 
-Please note that no dialog will be displayed if the string you pass is empty.
+> Please note that no dialog will be displayed if the string you pass is empty.
 
 <a name="prompt-confirm"></a>
 ### prompt, confirm
@@ -295,7 +295,9 @@ playSound();
 <a name="speak"></a>
 ### speak
 
-With this function you can have a piece of text be read out loud, using the device's text-to-speech engine. Simply pass the text you want to read as the first parameter, and optionally a language identifier as the second parameter. Please note that only the first 400 characters will be read. Please also note that the second parameter is ignored if the language is not supported.
+With this function you can have a piece of text be read out loud, using the device's text-to-speech engine. Simply pass the text you want to read as the first parameter, and optionally a language identifier as the second parameter.
+
+> Please note that only the first 400 characters will be read. Please also note that the second parameter is ignored if the language is not supported.
 
 ```js
 speak('Hello World');
@@ -303,7 +305,7 @@ speak('Hello World');
 speak('Dieser Text ist deutsch', 'de');
 ```
 
-This function may not be supported by all devices.
+> This function may not be supported by all devices.
 
 <a name="vibrate"></a>
 ### vibrate
@@ -379,7 +381,7 @@ The `wait` function allows you to delay execution by waiting (also called sleepi
 wait(3000); // delay execution by 3 seconds
 ```
 
-Please note that this is a blocking action, meaning that you will not be able to interact with the app during the waiting time.
+> Please note that this is a blocking action, meaning that you will not be able to interact with the app during the waiting time.
 
 <a name="abort"></a>
 ### abort and abortAll
@@ -634,7 +636,7 @@ sendMQTTMessages("tcp://192.168.0.42:1234", {"username": "admin", "password": "1
 ]);
 ```
 
-Please note that this does not provide any particular quality of service guarantees, and that it is not possible to subscribe to topics this way.
+> Please note that this does not provide any particular quality of service guarantees, and that it is not possible to subscribe to topics this way.
 
 <a name="send-tcp-packet"></a>
 ### Send TCP Packet
@@ -681,7 +683,9 @@ enqueueShortcut('My Other Shortcut', {
 });
 ```
 
-As an optional third parameter, you can pass the number of milliseconds by which to delay the execution. This way you can schedule a shortcut to run at a later point in time. Please note that the delay will not be exact and can not exceed 5 minutes.
+As an optional third parameter, you can pass the number of milliseconds by which to delay the execution. This way you can schedule a shortcut to run at a later point in time.
+
+> Please note that the delay will not be exact and can not exceed 5 minutes.
 
 ```js
 enqueueShortcut('My Other Shortcut', null, 2 * 60 * 1000); // runs in 2 minutes
@@ -689,7 +693,7 @@ enqueueShortcut('My Other Shortcut', null, 2 * 60 * 1000); // runs in 2 minutes
 
 Note that the shortcut will only be executed once the current shortcut (and all shortcuts that have been enqueued before it) has finished executing. It will *not* be executed immediately. If you need the shortcut to run immediately, use `executeShortcut` instead.
 
-Also note that this might lead to infinite loops if the enqueued shortcut also enqueues shortcuts. To reduce the impact of this in case it happens accidentally, the app will delay every 10th execution by 5 seconds so that have enough time to stop the execution manually. If you're really sure that you *do* want an infinite loop, you can work around this protection by setting a delay of at least 500 milliseconds.
+Also note that this might lead to infinite loops if the enqueued shortcut also enqueues shortcuts. To reduce the impact of this in case it happens accidentally, the app will delay every 10th execution by 5 seconds so that you have enough time to stop the execution manually. If you're really sure that you *do* want an infinite loop, you can work around this protection by setting a delay of at least 500 milliseconds.
 
 <a name="execute-shortcut"></a>
 ### executeShortcut
@@ -821,7 +825,7 @@ You can use the `shareText` function to share a piece of text with another app. 
 shareText('Hello World');
 ```
 
-Please note that the text that is shared can be at most 200000 characters long, otherwise it will be truncated.
+> Please note that the text that is shared can be at most 200000 characters long, otherwise it will be truncated.
 
 <a name="open-app"></a>
 ### Open another App
@@ -841,7 +845,7 @@ This function allows you to open a URL in another app. This typically opens a br
 openUrl('https://www.wikipedia.org/');
 ```
 
-Please note that this can not be used to open files.
+> Please note that this can not be used to open files.
 
 As a second parameter, you may pass the package name of the browser or app that should handle the URL. You may instead also pass "custom-tabs" or "custom-tabs(\[package-name])` to open the URL using a custom tab instead of a standalone browser window.
 
@@ -878,7 +882,7 @@ Each extra consists of the following properties:
 |type|The type of the extra|`'string'` (default), `'boolean'`, `'int'`, `'long'`, `'double'`, `'float'`|
 |value|The value of the extra|depends on the `type`|
 
-Please note that it is unfortunately *not* possible to send intents that require the app to hold a specific permission, as there is no way to dynamically add such a permission to the app. This is a technical limitation that the app itself cannot address. The recommended workaround is to use a 3rd-party automation app such as Tasker to perform such actions and trigger their tasks/workflows either via an intent or via the `triggerTaskerTask` function (see below). Another possibility would be to fork the app, add the required permission to it and build it yourself.
+> Please note that it is unfortunately *not* possible to send intents that require the app to hold a specific permission, as there is no way to dynamically add such a permission to the app. This is a technical limitation that the app itself cannot address. The recommended workaround is to use a 3rd-party automation app such as Tasker to perform such actions and trigger their tasks/workflows either via an intent or via the `triggerTaskerTask` function (see below). Another possibility would be to fork the app, add the required permission to it and build it yourself.
 
 Here is a generic example showing the syntax:
 
@@ -934,7 +938,7 @@ triggerTaskerTask('mytask', {
 });
 ```
 
-Please note that you may need to manually go to the app's permissions and allow the app to run Tasker tasks for this to work, and also you will need to allow this in Tasker's settings under "Preferences > Misc > Allow External Access".
+> Please note that you may need to manually go to the app's permissions and allow the app to run Tasker tasks for this to work, and also you will need to allow this in Tasker's settings under "Preferences > Misc > Allow External Access".
 
 <a name="set-wireguard-tunnel-state"></a>
 ### Set Wireguard Tunnel State
@@ -944,7 +948,7 @@ If you have [Wireguard](https://play.google.com/store/apps/details?id=com.wiregu
 setWireguardTunnelState('my-tunnel', true);
 ```
 
-For this to work, you will need to grant the app a special permission, and you will need to enable the "Allow remote control apps" setting in the Wireguard app.
+> For this to work, you will need to grant the app a special permission, and you will need to enable the "Allow remote control apps" setting in the Wireguard app. You might also need to exclude the Wireguard app from battery optimizations and allow it to run unrestricted.
 
 
 <a name="get-location"></a>
@@ -970,7 +974,7 @@ if (myLocation.status == 'success') {
 }
 ```
 
-Please note that this function makes use of Google Play Services. If those are not available on the device, or if you've installed the app from F-Droid, then a fallback is used which may be less accurate, less reliable or take longer to find the location.
+> Please note that this function makes use of Google Play Services. If those are not available on the device, or if you've installed the app from F-Droid, then a fallback is used which may be less accurate, less reliable or take longer to find the location.
 
 <a name="examples"></a>
 ## Examples

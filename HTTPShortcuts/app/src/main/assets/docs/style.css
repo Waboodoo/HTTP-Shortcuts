@@ -114,6 +114,19 @@ table thead + tbody tr:first-child td {
     border-radius: 0 !important;
 }
 
+blockquote {
+    border: 1px solid #059df7;
+    border-radius: 5px;
+    background: #f0f9ff;
+    margin: 0;
+    padding: 0px 16px;
+}
+
+.dark blockquote {
+    border: 1px solid #059df7;
+    background: #062a40;
+}
+
 .dark code, .dark pre, .dark th {
    background: #090909;
    border-color: #202020;
