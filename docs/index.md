@@ -27,7 +27,7 @@ If you find bugs, have questions or feature requests, feel free to [contact me](
   - interact with other devices and services by sending TCP or UDP packets, MQTT messages or using Wake-on-LAN
 - Keep everything organized by categorizing into different tabs
 - Import & Export in JSON or cURL format
-- 3rd party integration (e.g. Tasker)
+- 3rd party integration (e.g. Tasker, Wireguard)
 - Configure it from your browser using the [Web Editor](https://http-shortcuts.rmy.ch/editor)
 - Runs on Android 5 (Lollipop) or newer. For Android 4.0 - Android 4.4.4, download and [install the APK of version 2.9.0](https://github.com/Waboodoo/HTTP-Shortcuts/releases/tag/v2.9.0).
 
