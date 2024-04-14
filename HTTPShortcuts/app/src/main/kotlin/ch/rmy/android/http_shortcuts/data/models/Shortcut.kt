@@ -73,7 +73,7 @@ class Shortcut() : RealmObject {
 
     private var authentication: String? = ShortcutAuthenticationType.NONE.type
 
-    var launcherShortcut: Boolean = false
+    var launcherShortcut: Boolean = true
 
     var secondaryLauncherShortcut: Boolean = false
 

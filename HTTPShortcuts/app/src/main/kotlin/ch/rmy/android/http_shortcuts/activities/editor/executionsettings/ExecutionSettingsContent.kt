@@ -52,10 +52,11 @@ fun ExecutionSettingsContent(
     ) {
         if (launcherShortcutOptionVisible) {
             Checkbox(
-                label = if (directShareOptionVisible) {
-                    stringResource(R.string.label_launcher_shortcut_or_direct_share)
+                label = stringResource(R.string.label_launcher_shortcut),
+                subtitle = if (directShareOptionVisible) {
+                    stringResource(R.string.subtitle_launcher_shortcut_with_direct_share)
                 } else {
-                    stringResource(R.string.label_launcher_shortcut)
+                    stringResource(R.string.subtitle_launcher_shortcut)
                 },
                 checked = launcherShortcut,
                 onCheckedChange = onLauncherShortcutChanged,
