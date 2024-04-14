@@ -48,10 +48,16 @@ import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
-import ch.rmy.android.http_shortcuts.extensions.rememberSyntaxHighlighter
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
+import ch.rmy.android.http_shortcuts.utils.rememberSyntaxHighlighter
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyColumnState
+
+/**
+ * Performance is impaired too much when the text gets too long, so we rather disable syntax highlighting altogether
+ * after the maximum length has been reached.
+ */
+private const val SYNTAX_HIGHLIGHTING_MAX_LENGTH = 4_000
 
 @Composable
 fun RequestBodyContent(
@@ -200,7 +206,9 @@ private fun ColumnScope.BodyTextEditor(
                     fontFamily = FontFamily.Monospace,
                 ),
                 transformation = {
-                    syntaxHighlighter?.applyFormatting(this, it)
+                    if (it.length <= SYNTAX_HIGHLIGHTING_MAX_LENGTH) {
+                        syntaxHighlighter?.applyFormatting(this, it)
+                    }
                 },
                 isError = bodyContentError.isNotEmpty(),
                 supportingText = bodyContentError.takeUnlessEmpty()?.let {

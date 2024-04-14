@@ -20,9 +20,11 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -30,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -45,14 +48,16 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.response.models.DetailInfo
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.Spacing
-import ch.rmy.android.http_shortcuts.extensions.rememberSyntaxHighlighter
 import ch.rmy.android.http_shortcuts.extensions.runIf
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
+import ch.rmy.android.http_shortcuts.utils.rememberSyntaxHighlighter
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 
@@ -306,6 +311,21 @@ private fun SyntaxHighlightedText(text: String, language: String, fontSize: Text
     val scrollState = rememberScrollState()
 
     val syntaxHighlighter = rememberSyntaxHighlighter(language)
+    var formattedText by remember {
+        mutableStateOf(AnnotatedString(text))
+    }
+    val coroutineScope = rememberCoroutineScope()
+    DisposableEffect(syntaxHighlighter, text) {
+        val job = coroutineScope.launch(Dispatchers.Default) {
+            formattedText = buildAnnotatedString {
+                append(text)
+                syntaxHighlighter.applyFormatting(this, text)
+            }
+        }
+        onDispose {
+            job.cancel()
+        }
+    }
 
     Box(modifier = Modifier.verticalScroll(rememberScrollState())) {
         SelectionContainer {
@@ -323,7 +343,7 @@ private fun SyntaxHighlightedText(text: String, language: String, fontSize: Text
                         },
                     )
                     .padding(Spacing.MEDIUM),
-                text = syntaxHighlighter.format(text),
+                text = formattedText,
                 style = TextStyle(
                     fontFamily = FontFamily.Monospace,
                     fontSize = fontSize,

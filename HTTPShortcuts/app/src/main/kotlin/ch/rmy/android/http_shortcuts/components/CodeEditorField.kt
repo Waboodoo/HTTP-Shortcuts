@@ -6,21 +6,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.TransformedText
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.extensions.rememberSyntaxHighlighter
+import ch.rmy.android.http_shortcuts.utils.rememberSyntaxHighlighter
+import ch.rmy.android.http_shortcuts.utils.syntaxHighlightingVisualTransformation
 
 @Composable
 fun CodeEditorField(
@@ -44,13 +38,6 @@ fun CodeEditorField(
         TextFieldDefaults.colors()
     }
 
-    var previousText by remember {
-        mutableStateOf("")
-    }
-    var previousAnnotated by remember {
-        mutableStateOf(AnnotatedString(""))
-    }
-
     TextField(
         modifier = modifier,
         colors = textFieldColors,
@@ -66,18 +53,7 @@ fun CodeEditorField(
             capitalization = KeyboardCapitalization.None,
             autoCorrect = false,
         ),
-        visualTransformation = {
-            val formatted = if (it.text == previousText) {
-                previousAnnotated
-            } else {
-                syntaxHighlighter.format(it.text)
-                    .apply {
-                        previousText = it.text
-                        previousAnnotated = this
-                    }
-            }
-            TransformedText(formatted, OffsetMapping.Identity)
-        },
+        visualTransformation = syntaxHighlightingVisualTransformation(syntaxHighlighter, value.text),
         minLines = minLines,
         label = if (label != null) {
             {

@@ -3,10 +3,8 @@ package ch.rmy.android.http_shortcuts.extensions
 import android.content.Context
 import android.os.Bundle
 import android.webkit.WebView
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.SaverScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -15,7 +13,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import ch.rmy.android.framework.utils.localization.Localizable
-import ch.rmy.android.http_shortcuts.utils.SyntaxHighlighter
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -58,14 +55,6 @@ fun <T : WebView> rememberWebView(key: String, init: (Context, isRestore: Boolea
         init(context, false)
     }
     return webView
-}
-
-@Composable
-fun rememberSyntaxHighlighter(language: String): SyntaxHighlighter {
-    val useDarkTheme = isSystemInDarkTheme()
-    return remember(language, useDarkTheme) {
-        SyntaxHighlighter(language, useDarkTheme)
-    }
 }
 
 fun TextFieldValue.insertAtCursor(before: String, after: String): TextFieldValue {

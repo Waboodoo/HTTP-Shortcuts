@@ -1,8 +1,19 @@
 package ch.rmy.android.http_shortcuts.utils
 
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import com.wakaztahir.codeeditor.highlight.prettify.PrettifyParser
 import com.wakaztahir.codeeditor.highlight.theme.CodeTheme
 import com.wakaztahir.codeeditor.highlight.theme.DefaultTheme
@@ -11,7 +22,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlin.time.Duration.Companion.milliseconds
 
 class SyntaxHighlighter(
     private val language: String,
@@ -24,19 +38,21 @@ class SyntaxHighlighter(
         DefaultTheme()
     }
 
-    fun format(text: String): AnnotatedString =
-        buildAnnotatedString {
-            append(text)
-            applyFormatting(this, text)
-        }
-
     fun applyFormatting(builder: AnnotatedString.Builder, text: String) {
-        if (text.length > MAX_LENGTH) {
-            return
-        }
         with(builder) {
             parser.parse(language, text).forEach {
                 addStyle(theme.toSpanStyle(it), it.offset, it.offset + it.length)
+            }
+        }
+    }
+
+    fun getFormattingTransformation(text: String): (builder: AnnotatedString.Builder) -> Unit {
+        val parseResult = parser.parse(language, text)
+        return { builder ->
+            with(builder) {
+                parseResult.forEach {
+                    addStyle(theme.toSpanStyle(it), it.offset, it.offset + it.length)
+                }
             }
         }
     }
@@ -64,12 +80,6 @@ class SyntaxHighlighter(
     }
 
     companion object {
-        /**
-         * Performance is impaired too much when the text gets too long, so we rather disable syntax highlighting altogether
-         * after the maximum length has been reached.
-         */
-        const val MAX_LENGTH = 4_000
-
         private val parserDeferred: Deferred<PrettifyParser> =
             CoroutineScope(Dispatchers.Default).async {
                 PrettifyParser()
@@ -77,5 +87,42 @@ class SyntaxHighlighter(
 
         internal val parser
             get() = runBlocking { parserDeferred.await() }
+    }
+}
+
+@Composable
+fun rememberSyntaxHighlighter(language: String): SyntaxHighlighter {
+    val useDarkTheme = isSystemInDarkTheme()
+    return remember(language, useDarkTheme) {
+        SyntaxHighlighter(language, useDarkTheme)
+    }
+}
+
+private val FORMATTING_DELAY = 300.milliseconds
+
+@Composable
+fun syntaxHighlightingVisualTransformation(syntaxHighlighter: SyntaxHighlighter, value: String): VisualTransformation {
+    var transformation: (AnnotatedString.Builder) -> Unit by remember {
+        mutableStateOf(syntaxHighlighter.getFormattingTransformation(value))
+    }
+    val coroutineScope = rememberCoroutineScope()
+    DisposableEffect(syntaxHighlighter, value) {
+        val job = coroutineScope.launch(Dispatchers.Default) {
+            delay(FORMATTING_DELAY)
+            transformation = syntaxHighlighter.getFormattingTransformation(value)
+        }
+        onDispose {
+            job.cancel()
+        }
+    }
+
+    return transformation.let { transform ->
+        VisualTransformation { text ->
+            val formatted = buildAnnotatedString {
+                append(text)
+                transform(this)
+            }
+            TransformedText(formatted, OffsetMapping.Identity)
+        }
     }
 }

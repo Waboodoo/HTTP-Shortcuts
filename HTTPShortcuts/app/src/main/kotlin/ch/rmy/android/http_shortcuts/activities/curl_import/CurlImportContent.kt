@@ -26,14 +26,13 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.input.OffsetMapping
-import androidx.compose.ui.text.input.TransformedText
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.HelpText
 import ch.rmy.android.http_shortcuts.components.Spacing
-import ch.rmy.android.http_shortcuts.extensions.rememberSyntaxHighlighter
+import ch.rmy.android.http_shortcuts.utils.rememberSyntaxHighlighter
+import ch.rmy.android.http_shortcuts.utils.syntaxHighlightingVisualTransformation
 
 @Composable
 fun CurlImportContent(
@@ -82,9 +81,7 @@ fun CurlImportContent(
             ),
             value = inputText,
             onValueChange = onInputTextChanged,
-            visualTransformation = {
-                TransformedText(syntaxHighlighter.format(it.text), OffsetMapping.Identity)
-            },
+            visualTransformation = syntaxHighlightingVisualTransformation(syntaxHighlighter, inputText),
         )
 
         if (unsupportedOptions.isNotEmpty()) {
