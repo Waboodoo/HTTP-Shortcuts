@@ -1,3 +1,15 @@
+## Version 3.12.0
+
+### Improvements
+- The performance of the syntax highlighting is now improved, so that it also works on larger pieces of code or data
+- Some tweaks to the built-in documentation were made to make it easier to understand
+
+### Miscellaneous
+- Newly created shortcuts now have the "Show as app shortcut on launcher" option enabled by default, for easier integration with other apps
+
+### Bugfixes
+- The `getClipboarContent()` function should now also work when using the experimental background execution setting
+
 ## Version 3.11.1
 
 ### Bugfixes
