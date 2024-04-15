@@ -617,8 +617,8 @@
     <string name="authentication_bearer">令牌认证</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">在主应用长按快捷菜单中显示方式</string>
-    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu and it will be promoted as a Direct Share target, allowing easy sharing of content into that specific shortcut -->
-    <string name="label_launcher_shortcut_or_direct_share">允许通过直接分享、谷歌助手或作为启动器的应用快捷键进行触发</string>
+    <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
+    <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="label_secondary_launcher_shortcut">允许通过第二启动器应用进行触发</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
@@ -1180,7 +1180,7 @@
     <!-- Error message, shown when user declines location permission for Wi-Fi check -->
     <string name="error_missing_location_permission">无法获取位置权限。正在终止权限。</string>
     <!-- Message: Success message shown when a response was saved to a file -->
-    <string name="message_response_saved_to_file">响应未保存到文件。</string>
+    <string name="message_response_saved_to_file">响应已保存到文件。</string>
     <!-- Dialog title: Shown in progress dialog while a file is being saved -->
     <string name="saving_in_progress">正在保存…</string>
     <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->

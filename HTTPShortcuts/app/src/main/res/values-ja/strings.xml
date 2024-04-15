@@ -626,8 +626,10 @@
     <string name="authentication_bearer">ベアラー(Bearer)認証</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">ランチャーにこのアプリのショートカットを表示する</string>
-    <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu and it will be promoted as a Direct Share target, allowing easy sharing of content into that specific shortcut -->
-    <string name="label_launcher_shortcut_or_direct_share">ダイレクトシェア、Googleアシスタント、その他アプリのランチャーショートカットによるトリガーを許可する</string>
+    <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
+    <string name="subtitle_launcher_shortcut">これにより、Google Assistant や Bixby Routines などのサードパーティーのアプリ経由でショートカットを使用することも可能になります。</string>
+    <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
+    <string name="subtitle_launcher_shortcut_with_direct_share">これにより、ダイレクト共有や、Google Assistant や Bixby Routines などのサードパーティーのアプリ経由でショートカットの使用も可能になります。</string>
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="label_secondary_launcher_shortcut">セカンダリ―ランチャーアプリ経由のトリガーを許可</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
