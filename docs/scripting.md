@@ -537,6 +537,7 @@ In case you're not familiar with CSS selectors, here's some examples:
 - `.my-class` would select all elements that have the class "my-class"
 - `p img` would select all `<img>` elements which are within a `<p>` element (not necessarily as a direct child)
 - `a[href]` would select all `<a>` elements which have a `href` attribute
+- `[id="my-id"]` would select all elements which have the `id="my-id"` attribute
 - `ul.my-class > li` would select all `<li>` elements which are direct child elements of `<ul>` elements which have the "my-class" class
 
 <a name="parse-xml"></a>

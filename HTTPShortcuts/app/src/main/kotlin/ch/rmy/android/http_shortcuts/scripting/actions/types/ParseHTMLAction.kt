@@ -1,21 +1,30 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
+import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import org.json.JSONArray
 import org.json.JSONObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Attributes
+import org.jsoup.nodes.DataNode
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
 import org.jsoup.nodes.TextNode
+import org.jsoup.select.Selector.SelectorParseException
 import javax.inject.Inject
 
 class ParseHTMLAction
 @Inject
 constructor() : Action<ParseHTMLAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext): Any {
-        val results = Jsoup.parse(htmlInput).select(query).filterIsInstance<Element>().map { node ->
-            processNode(node)
+        val results = try {
+            Jsoup.parse(htmlInput).select(query).filterIsInstance<Element>().map { node ->
+                processNode(node)
+            }
+        } catch (e: SelectorParseException) {
+            throw ActionException {
+                "Error in parseHTML: ${e.message}"
+            }
         }
         if (query == ":root" && results.size == 1) {
             return results.first()
@@ -28,6 +37,10 @@ constructor() : Action<ParseHTMLAction.Params> {
         node.childNodes().forEach { childNode ->
             if (childNode is TextNode) {
                 val newText = childNode.text()
+                val text = element.optString("text") + newText
+                element.put("text", text)
+            } else if (childNode is DataNode) {
+                val newText = childNode.wholeData
                 val text = element.optString("text") + newText
                 element.put("text", text)
             } else if (childNode is Element) {
