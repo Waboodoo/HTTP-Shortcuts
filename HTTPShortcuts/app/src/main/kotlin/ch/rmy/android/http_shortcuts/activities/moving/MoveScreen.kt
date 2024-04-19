@@ -19,7 +19,8 @@ fun MoveScreen() {
     ) {
         MoveContent(
             categories = categories,
-            onShortcutMoved = viewModel::onShortcutMoved,
+            onShortcutMovedToShortcut = viewModel::onShortcutMovedToShortcut,
+            onShortcutMovedToCategory = viewModel::onShortcutMovedToCategory,
             onMoveEnded = viewModel::onMoveEnded,
         )
     }

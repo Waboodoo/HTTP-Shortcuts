@@ -42,7 +42,8 @@ import sh.calvin.reorderable.rememberReorderableLazyColumnState
 @Composable
 fun MoveContent(
     categories: List<CategoryItem>,
-    onShortcutMoved: (ShortcutId, ShortcutId?, CategoryId?) -> Unit,
+    onShortcutMovedToShortcut: (ShortcutId, ShortcutId) -> Unit,
+    onShortcutMovedToCategory: (ShortcutId, CategoryId) -> Unit,
     onMoveEnded: () -> Unit,
 ) {
     val lazyListState = rememberLazyListState()
@@ -50,9 +51,9 @@ fun MoveContent(
         val shortcutId = from.key as ShortcutId
         val targetKey = to.key as String
         if (targetKey.startsWith(CATEGORY_KEY_PREFIX)) {
-            onShortcutMoved(shortcutId, null, targetKey.removePrefix(CATEGORY_KEY_PREFIX))
+            onShortcutMovedToCategory(shortcutId, targetKey.removePrefix(CATEGORY_KEY_PREFIX))
         } else {
-            onShortcutMoved(shortcutId, targetKey, null)
+            onShortcutMovedToShortcut(shortcutId, targetKey)
         }
     }
 
