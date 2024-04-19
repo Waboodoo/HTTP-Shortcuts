@@ -4,7 +4,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.3.1")
+        classpath("com.android.tools.build:gradle:8.3.2")
         classpath("com.bugsnag:bugsnag-android-gradle-plugin:8.1.0")
         classpath("org.jetbrains:markdown:0.7.0")
         classpath(kotlin("gradle-plugin", "1.9.23"))

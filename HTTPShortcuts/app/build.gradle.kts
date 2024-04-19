@@ -267,7 +267,7 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
-    implementation("sh.calvin.reorderable:reorderable:1.4.0")
+    implementation("sh.calvin.reorderable:reorderable:1.5.0")
     implementation("com.github.qawaz:compose-code-editor:2.0.3")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
 
@@ -322,7 +322,7 @@ dependencies {
     implementation("org.mindrot:jbcrypt:0.4")
 
     /* Crash Reporting */
-    "releaseFullImplementation"("com.bugsnag:bugsnag-android:6.3.0")
+    "releaseFullImplementation"("com.bugsnag:bugsnag-android:6.4.0")
 
     /* cURL import & export */
     implementation(project(path = ":curl_command"))
