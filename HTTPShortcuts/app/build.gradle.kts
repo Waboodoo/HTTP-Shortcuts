@@ -333,6 +333,10 @@ dependencies {
     /* JSON serialization & deserialization */
     implementation("com.google.code.gson:gson:$gsonVersion")
 
+    /* Google Assistant integration */
+    implementation("androidx.core:core-ktx:1.13.0")
+    implementation("androidx.core:core-google-shortcuts:1.1.0")
+
     /* Testing */
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinTestJunit5Version")
     testImplementation("io.mockk:mockk:$mockkVersion")

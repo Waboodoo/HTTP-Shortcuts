@@ -2,15 +2,13 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.Capability
-import android.content.pm.CapabilityParams
-import android.content.pm.ShortcutInfo
-import android.content.pm.ShortcutManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
-import androidx.core.content.getSystemService
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.content.pm.ShortcutManagerCompat.EXTRA_SHORTCUT_ID
+import androidx.core.graphics.drawable.IconCompat
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
@@ -27,9 +25,6 @@ class LauncherShortcutManager
 constructor(
     private val context: Context,
 ) {
-    private val shortcutManager
-        get() = context.getSystemService<ShortcutManager>()!!
-
     fun supportsLauncherShortcuts() =
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1
 
@@ -47,24 +42,23 @@ constructor(
     private fun update(shortcuts: Collection<LauncherShortcut>) {
         try {
             val max = try {
-                shortcutManager.maxShortcutCountPerActivity
+                ShortcutManagerCompat.getMaxShortcutCountPerActivity(context)
             } catch (e: Exception) {
                 logException(e)
                 5
             }
 
-            val launcherShortcuts = createLauncherShortcuts(shortcuts.take(max))
-            if (launcherShortcuts.isEmpty() && shortcutManager.dynamicShortcuts.isEmpty()) {
-                return
+            val shortcutInfos = createShortcutsInfos(shortcuts)
+            if (shortcutInfos.isNotEmpty() || ShortcutManagerCompat.getDynamicShortcuts(context).isNotEmpty()) {
+                ShortcutManagerCompat.setDynamicShortcuts(context, shortcutInfos.take(max))
             }
-            shortcutManager.dynamicShortcuts = launcherShortcuts
         } catch (e: Exception) {
             logException(e)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
-    private fun createLauncherShortcuts(shortcuts: Collection<LauncherShortcut>): List<ShortcutInfo> =
+    private fun createShortcutsInfos(shortcuts: Collection<LauncherShortcut>): List<ShortcutInfoCompat> =
         shortcuts
             .mapIndexed { index, launcherShortcut ->
                 createShortcutInfo(
@@ -79,10 +73,10 @@ constructor(
         launcherShortcut: LauncherShortcut,
         rank: Int = 0,
         trigger: ShortcutTriggerType,
-    ): ShortcutInfo {
+    ): ShortcutInfoCompat {
         val icon = IconUtil.getIcon(context, launcherShortcut.icon, adaptive = true)
         val label = launcherShortcut.name.ifEmpty { "-" }
-        return ShortcutInfo.Builder(context, ID_PREFIX_SHORTCUT + launcherShortcut.id)
+        return ShortcutInfoCompat.Builder(context, ID_PREFIX_SHORTCUT + launcherShortcut.id)
             .setShortLabel(label)
             .setLongLabel(label)
             .setRank(rank)
@@ -92,7 +86,7 @@ constructor(
                     .build(context)
             )
             .runIfNotNull(icon) {
-                setIcon(it)
+                setIcon(IconCompat.createFromIcon(context, it))
             }
             .setCategories(
                 buildSet {
@@ -107,9 +101,9 @@ constructor(
             .run {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     addCapabilityBinding(
-                        Capability.Builder("custom.actions.intent.RUN_SHORTCUT").build(),
-                        CapabilityParams.Builder("shortcutName", label)
-                            .build()
+                        "custom.actions.intent.RUN_SHORTCUT",
+                        "shortcutName",
+                        listOf(label),
                     )
                 } else {
                     this
@@ -127,7 +121,7 @@ constructor(
 
     fun supportsPinning(): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (shortcutManager.isRequestPinShortcutSupported) {
+            if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
                 return true
             }
         }
@@ -137,14 +131,14 @@ constructor(
     fun pinShortcut(shortcut: LauncherShortcut) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
-            shortcutManager.requestPinShortcut(shortcutInfo, null)
+            ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)
         }
     }
 
     fun createShortcutPinIntent(shortcut: LauncherShortcut): Intent {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
-            return shortcutManager.createShortcutResultIntent(shortcutInfo)
+            return ShortcutManagerCompat.createShortcutResultIntent(context, shortcutInfo)
         }
         throw RuntimeException()
     }
@@ -152,21 +146,21 @@ constructor(
     fun updatePinnedShortcut(shortcut: LauncherShortcut) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
-            shortcutManager.updateShortcuts(listOf(shortcutInfo))
+            ShortcutManagerCompat.updateShortcuts(context, listOf(shortcutInfo))
         }
     }
 
     fun pinCategory(categoryId: CategoryId, categoryName: String, shortcutIcon: ShortcutIcon) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutInfo = createCategoryShortcutInfo(categoryId, categoryName, shortcutIcon)
-            shortcutManager.requestPinShortcut(shortcutInfo, null)
+            ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)
         }
     }
 
     fun updatePinnedCategoryShortcut(categoryId: CategoryId, categoryName: String, icon: ShortcutIcon) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val shortcutInfo = createCategoryShortcutInfo(categoryId, categoryName, icon)
-            shortcutManager.updateShortcuts(listOf(shortcutInfo))
+            ShortcutManagerCompat.updateShortcuts(context, listOf(shortcutInfo))
         }
     }
 
@@ -175,8 +169,8 @@ constructor(
         categoryId: CategoryId,
         categoryName: String,
         icon: ShortcutIcon,
-    ): ShortcutInfo =
-        ShortcutInfo.Builder(context, ID_PREFIX_CATEGORY + categoryId)
+    ): ShortcutInfoCompat =
+        ShortcutInfoCompat.Builder(context, ID_PREFIX_CATEGORY + categoryId)
             .setShortLabel(categoryName)
             .setLongLabel(categoryName)
             .setRank(0)
@@ -186,15 +180,15 @@ constructor(
                     .build(context)
             )
             .runIfNotNull(IconUtil.getIcon(context, icon, adaptive = true)) {
-                setIcon(it)
+                setIcon(IconCompat.createFromIcon(context, it))
             }
             .build()
 
     fun removeShortcut(shortcutId: ShortcutId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val ids = listOf(ID_PREFIX_SHORTCUT + shortcutId)
-            shortcutManager.removeLongLivedShortcuts(ids)
-            shortcutManager.removeDynamicShortcuts(ids)
+            ShortcutManagerCompat.removeLongLivedShortcuts(context, ids)
+            ShortcutManagerCompat.removeDynamicShortcuts(context, ids)
         }
     }
 
