@@ -64,7 +64,7 @@ android {
         // Version name and code must remain as literals so that F-Droid can read them
         versionName = "3.12.0"
         // 11,(2 digits major),(2 digits minor),(2 digits patch),(2 digits build)
-        versionCode = 1103120001
+        versionCode = 1103120002
 
         buildConfigField("String", "BUGSNAG_API_KEY", "\"$bugsnagAPIKey\"")
         buildConfigField("String", "BUILD_TIMESTAMP", "\"${rootProject.ext["buildTimestamp"]}\"")
@@ -334,7 +334,6 @@ dependencies {
     implementation("com.google.code.gson:gson:$gsonVersion")
 
     /* Google Assistant integration */
-    implementation("androidx.core:core-ktx:1.13.0")
     implementation("androidx.core:core-google-shortcuts:1.1.0")
 
     /* Testing */

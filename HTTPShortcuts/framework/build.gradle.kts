@@ -85,7 +85,7 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     api("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
-    api("androidx.core:core-ktx:1.12.0@aar")
+    api("androidx.core:core-ktx:1.13.0@aar")
     api("androidx.annotation:annotation:1.7.1")
     api("androidx.appcompat:appcompat:1.6.1")
     api("androidx.preference:preference-ktx:1.2.1")
@@ -95,7 +95,7 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
     /* Database */
-    api("io.realm.kotlin:library-base:1.15.0")
+    api("io.realm.kotlin:library-base:1.14.0") // only update if it's really necessary, this thing grows larger with every version...
 
     /* Testing */
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinTestJunit5Version")
