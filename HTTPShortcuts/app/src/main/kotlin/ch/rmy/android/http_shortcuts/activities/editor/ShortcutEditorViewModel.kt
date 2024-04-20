@@ -446,6 +446,7 @@ constructor(
     }
 
     fun onScriptingButtonClicked() = runAction {
+        skipIfBusy()
         logInfo("Scripting button clicked")
         navigate(NavigationDestination.ShortcutEditorScripting.buildRequest(shortcutId))
     }
