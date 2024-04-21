@@ -32,14 +32,14 @@ constructor(
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
 
     @WorkerThread
-    fun updateAppShortcuts(shortcuts: Collection<LauncherShortcut>) {
+    fun updateAppShortcuts(shortcuts: Collection<LauncherShortcut>, updatedShortcutId: ShortcutId? = null) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            update(shortcuts)
+            update(shortcuts, updatedShortcutId)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
-    private fun update(shortcuts: Collection<LauncherShortcut>) {
+    private fun update(shortcuts: Collection<LauncherShortcut>, updatedShortcutId: ShortcutId?) {
         try {
             val max = try {
                 ShortcutManagerCompat.getMaxShortcutCountPerActivity(context)
@@ -52,6 +52,15 @@ constructor(
             if (shortcutInfos.isNotEmpty() || ShortcutManagerCompat.getDynamicShortcuts(context).isNotEmpty()) {
                 ShortcutManagerCompat.setDynamicShortcuts(context, shortcutInfos.take(max))
             }
+
+            updatedShortcutId
+                ?.let(::createShortcutInfoId)
+                ?.let { shortcutInfoId ->
+                    shortcutInfos.find { it.id == shortcutInfoId }
+                }
+                ?.let { shortcutInfo ->
+                    ShortcutManagerCompat.pushDynamicShortcut(context, shortcutInfo)
+                }
         } catch (e: Exception) {
             logException(e)
         }
@@ -76,7 +85,7 @@ constructor(
     ): ShortcutInfoCompat {
         val icon = IconUtil.getIcon(context, launcherShortcut.icon, adaptive = true)
         val label = launcherShortcut.name.ifEmpty { "-" }
-        return ShortcutInfoCompat.Builder(context, ID_PREFIX_SHORTCUT + launcherShortcut.id)
+        return ShortcutInfoCompat.Builder(context, createShortcutInfoId(launcherShortcut.id))
             .setShortLabel(label)
             .setLongLabel(label)
             .setRank(rank)
@@ -186,11 +195,14 @@ constructor(
 
     fun removeShortcut(shortcutId: ShortcutId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val ids = listOf(ID_PREFIX_SHORTCUT + shortcutId)
+            val ids = listOf(createShortcutInfoId(shortcutId))
             ShortcutManagerCompat.removeLongLivedShortcuts(context, ids)
             ShortcutManagerCompat.removeDynamicShortcuts(context, ids)
         }
     }
+
+    private fun createShortcutInfoId(shortcutId: ShortcutId): String =
+        ID_PREFIX_SHORTCUT + shortcutId
 
     companion object {
         private const val ID_PREFIX_SHORTCUT = "shortcut_"

@@ -237,9 +237,9 @@ constructor(
             ?.let { sendIntent(it) }
     }
 
-    private suspend fun updateLauncherSettings(categories: List<Category>) {
+    private suspend fun updateLauncherSettings(categories: List<Category>, shortcutId: ShortcutId? = null) {
         withContext(Dispatchers.Default) {
-            launcherShortcutUpdater.updateAppShortcuts()
+            launcherShortcutUpdater.updateAppShortcuts(shortcutId)
             secondaryLauncherManager.setSecondaryLauncherVisibility(secondaryLauncherMapper(categories))
         }
     }
@@ -411,7 +411,7 @@ constructor(
         logInfo("Shortcut created")
         val categories = categoryRepository.getCategories()
         this@MainViewModel.categories = categories
-        updateLauncherSettings(categories)
+        updateLauncherSettings(categories, shortcutId)
         selectShortcut(shortcutId)
     }
 
@@ -511,11 +511,11 @@ constructor(
         returnForHomeScreenWidgetPlacement(shortcutId, showLabel, labelColor)
     }
 
-    fun onShortcutEdited() = runAction {
+    fun onShortcutEdited(shortcutId: ShortcutId) = runAction {
         logInfo("Shortcut edited")
         val categories = categoryRepository.getCategories()
         this@MainViewModel.categories = categories
-        updateLauncherSettings(categories)
+        updateLauncherSettings(categories, shortcutId)
     }
 
     fun onPlaceShortcutOnHomeScreen(shortcut: ShortcutPlaceholder) = runAction {
