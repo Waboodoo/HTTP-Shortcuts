@@ -80,6 +80,16 @@ class CurlParserTest {
     }
 
     @Test
+    fun `no space between arguments that have no parameter`() {
+        val target = "curl -kX POST foo"
+        val command = CurlParser.parse(target)
+
+        assertEquals("http://foo", command.url)
+        assertEquals("POST", command.method)
+        assertTrue(command.insecure)
+    }
+
+    @Test
     fun testMultipleDataArguments() {
         val target = "curl --data Hello -d \" world\""
         val command = CurlParser.parse(target)
