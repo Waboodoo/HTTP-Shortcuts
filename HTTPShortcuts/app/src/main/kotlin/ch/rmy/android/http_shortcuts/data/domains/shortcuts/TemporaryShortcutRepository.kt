@@ -504,6 +504,12 @@ constructor(
                     shortcut.headers.add(copy(Header(key = key, value = value)))
                 }
             }
+
+            if (curlCommand.proxyHost.isNotEmpty() && curlCommand.proxyPort != 0) {
+                shortcut.proxyType = ProxyType.HTTP
+                shortcut.proxyHost = curlCommand.proxyHost
+                shortcut.proxyPort = curlCommand.proxyPort
+            }
         }
     }
 
