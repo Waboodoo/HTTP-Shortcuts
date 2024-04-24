@@ -510,6 +510,10 @@ constructor(
                 shortcut.proxyHost = curlCommand.proxyHost
                 shortcut.proxyPort = curlCommand.proxyPort
             }
+
+            if (curlCommand.insecure) {
+                shortcut.acceptAllCertificates = true
+            }
         }
     }
 

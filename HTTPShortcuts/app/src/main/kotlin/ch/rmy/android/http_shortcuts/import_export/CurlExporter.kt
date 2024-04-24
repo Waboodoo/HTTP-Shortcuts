@@ -95,5 +95,8 @@ constructor(
                 header(HttpHeaders.CONTENT_TYPE, shortcut.contentType.ifEmpty { Shortcut.DEFAULT_CONTENT_TYPE })
                     .data(rawPlaceholdersToResolvedValues(shortcut.bodyContent, variableValues))
             }
+            .runIf(shortcut.acceptAllCertificates) {
+                insecure()
+            }
             .build()
 }

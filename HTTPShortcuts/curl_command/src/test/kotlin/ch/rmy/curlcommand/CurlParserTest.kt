@@ -193,4 +193,11 @@ class CurlParserTest {
         assertEquals("bar", command.password)
         assertTrue(command.isDigestAuth)
     }
+
+    @Test
+    fun `insecure flag`() {
+        val target = "curl -k foo"
+        val command = CurlParser.parse(target)
+        assertTrue(command.insecure)
+    }
 }

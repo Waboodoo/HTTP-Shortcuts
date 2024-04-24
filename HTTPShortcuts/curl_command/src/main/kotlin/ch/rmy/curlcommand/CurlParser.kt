@@ -114,6 +114,10 @@ class CurlParser private constructor(arguments: List<String>) {
                     builder.forceGet()
                     continue@loop
                 }
+                "-k", "--insecure" -> {
+                    builder.insecure()
+                    continue@loop
+                }
             }
 
             if (argument.startsWith("http:", ignoreCase = true) || argument.startsWith("https:", ignoreCase = true)) {
@@ -164,6 +168,8 @@ class CurlParser private constructor(arguments: List<String>) {
             "--referer",
             "-G",
             "--get",
+            "-k",
+            "--insecure",
         )
     }
 }

@@ -31,6 +31,8 @@ class CurlCommand internal constructor() : Serializable {
         private set
     var proxyPort: Int = 0
         private set
+    var insecure: Boolean = false
+        private set
 
     class Builder {
 
@@ -108,6 +110,10 @@ class CurlCommand internal constructor() : Serializable {
         fun forceGet() {
             method(METHOD_GET)
             forceGet = true
+        }
+
+        fun insecure() = also {
+            curlCommand.insecure = true
         }
 
         fun build(): CurlCommand {

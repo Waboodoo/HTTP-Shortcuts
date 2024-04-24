@@ -42,6 +42,10 @@ object CurlConstructor {
             builder.option("--data-binary", "@file")
         }
 
+        if (curlCommand.insecure) {
+            builder.option("--insecure")
+        }
+
         return builder.build()
     }
 }
