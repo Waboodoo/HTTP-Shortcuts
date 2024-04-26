@@ -30,4 +30,8 @@ Zusätzlich musst du eventuell auch noch die App von Akku-Optimierungen ausschli
 
     <!-- Label for dropdown in shortcut editor, for picking the font size in which the response should be displayed -->
     <string name="label_font_size" tools:ignore="Typos">Schriftgrösse</string>
+    <!-- Option in font size drop down: Large -->
+    <string name="font_size_large" tools:ignore="Typos">Gross</string>
+    <!-- Option in font size drop down: Very large -->
+    <string name="font_size_very_large" tools:ignore="Typos">Sehr gross</string>
 </resources>

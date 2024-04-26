@@ -66,10 +66,8 @@
     <string name="action_delete">Löschen</string>
     <!-- Shortcut dropdown option: export the shortcut -->
     <string name="action_export">Exportieren</string>
-    <!-- Dialog button: Confirm exporting the selected shortcuts -->
+    <!-- Menu button: Confirm exporting the selected shortcuts -->
     <string name="dialog_button_export">Exportieren</string>
-    <!-- Dialog title: shown in dialog when selecting which shortcuts to export -->
-    <string name="dialog_title_select_shortcuts_for_export">Shortcuts auswählen</string>
     <!-- Shortcut dropdown option: display information about the shortcut -->
     <string name="action_shortcut_information">Information anzeigen</string>
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
@@ -600,9 +598,9 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
     <string name="title_export">Exportieren…</string>
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
-    <string name="button_export_to_general">Dokumente (in Datei speichern)</string>
+    <string name="button_export_to_general">In Datei speichern</string>
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
-    <string name="button_export_send_to">Andere App (Teilen)</string>
+    <string name="button_export_send_to">Teilen</string>
     <!-- Dialog title when creating a new shortcut, shows options below -->
     <string name="title_create_new_shortcut_options_dialog">Neuen Shortcut erstellen</string>
     <!-- Option in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
@@ -1582,9 +1580,9 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <!-- Option in font size drop down: Regular -->
     <string name="font_size_regular">Normal</string>
     <!-- Option in font size drop down: Large -->
-    <string name="font_size_large">Gross</string>
+    <string name="font_size_large">Groß</string>
     <!-- Option in font size drop down: Very large -->
-    <string name="font_size_very_large">Sehr gross</string>
+    <string name="font_size_very_large">Sehr groß</string>
     <!-- Option in font size drop down: Huge -->
     <string name="font_size_huge">Riesig</string>
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
@@ -1597,4 +1595,6 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="settings_device_id_summary">Gib diese ID an, wenn du Bugs auf Github meldest:\n%s</string>
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
     <string name="message_device_id_copied">Geräte-ID in Zwischenablage kopiert.</string>
+    <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
+    <string name="instructions_export">Wähle alle Shortcuts aus, die exportiert werden sollen. Alle erforderlichen Variablen werden automatisch exportiert.</string>
 </resources>

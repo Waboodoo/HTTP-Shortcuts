@@ -66,10 +66,8 @@
     <string name="action_delete">删除</string>
     <!-- Shortcut dropdown option: export the shortcut -->
     <string name="action_export">导出</string>
-    <!-- Dialog button: Confirm exporting the selected shortcuts -->
+    <!-- Menu button: Confirm exporting the selected shortcuts -->
     <string name="dialog_button_export">导出</string>
-    <!-- Dialog title: shown in dialog when selecting which shortcuts to export -->
-    <string name="dialog_title_select_shortcuts_for_export">选择快捷方式</string>
     <!-- Shortcut dropdown option: display information about the shortcut -->
     <string name="action_shortcut_information">显示信息</string>
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
@@ -1568,4 +1566,5 @@
     <string name="settings_device_id_summary">当你在 Github：\n%s 上报告故障时包括此 ID</string>
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
     <string name="message_device_id_copied">设备ID已复制到剪贴板。</string>
+    <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
 </resources>

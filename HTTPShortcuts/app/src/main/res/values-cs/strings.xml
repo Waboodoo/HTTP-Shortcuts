@@ -58,9 +58,7 @@
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
     <string name="action_delete">Smazat</string>
     <!-- Shortcut dropdown option: export the shortcut -->
-    <!-- Dialog button: Confirm exporting the selected shortcuts -->
-    <!-- Dialog title: shown in dialog when selecting which shortcuts to export -->
-    <string name="dialog_title_select_shortcuts_for_export">Vyberte zkratky</string>
+    <!-- Menu button: Confirm exporting the selected shortcuts -->
     <!-- Shortcut dropdown option: display information about the shortcut -->
     <string name="action_shortcut_information">Zobrazit informace</string>
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
@@ -1487,4 +1485,5 @@ V případě certifikátů podepsaných vlastním podpisem zkontrolujte místo t
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
+    <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
 </resources>
