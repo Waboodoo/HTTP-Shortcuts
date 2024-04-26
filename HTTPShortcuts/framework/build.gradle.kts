@@ -6,13 +6,6 @@ plugins {
     id("de.mobilej.unmock")
 }
 
-val kotlinVersion: String by properties
-val coroutinesVersion: String by properties
-val kotlinTestJunit5Version: String by properties
-val mockkVersion: String by properties
-val androidCoreKtxTestVersion: String by properties
-val hiltVersion: String by properties
-
 android {
     namespace = "ch.rmy.android.framework"
     compileSdk = 34
@@ -82,26 +75,26 @@ unMock {
 }
 
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
-    api("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
-    api("androidx.core:core-ktx:1.13.0@aar")
-    api("androidx.annotation:annotation:1.7.1")
-    api("androidx.appcompat:appcompat:1.6.1")
-    api("androidx.preference:preference-ktx:1.2.1")
+    coreLibraryDesugaring(libs.desugar)
+    api(libs.kotlin.stdlib)
+    api(libs.kotlinx.coroutines.android)
+    api(libs.androidx.core)
+    api(libs.androidx.annotation)
+    api(libs.androidx.appcompat)
+    api(libs.androidx.preference)
 
     /* Dependency Injection */
-    implementation("com.google.dagger:hilt-android:$hiltVersion")
-    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 
     /* Database */
-    api("io.realm.kotlin:library-base:1.14.0") // only update if it's really necessary, this thing grows larger with every version...
+    api(libs.realm)
 
     /* Testing */
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinTestJunit5Version")
-    testImplementation("io.mockk:mockk:$mockkVersion")
-    testImplementation("androidx.test:core-ktx:$androidCoreKtxTestVersion")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
+    testImplementation(libs.kotlin.test.junit5)
+    testImplementation(libs.mockk)
+    testImplementation(libs.androidx.test)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
 
 kapt {

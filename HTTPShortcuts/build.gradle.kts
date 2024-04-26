@@ -4,19 +4,19 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.3.2")
-        classpath("com.bugsnag:bugsnag-android-gradle-plugin:8.1.0")
-        classpath("org.jetbrains:markdown:0.7.0")
-        classpath(kotlin("gradle-plugin", "1.9.23"))
-        classpath("com.github.bjoernq:unmockplugin:0.7.9")
+        classpath(libs.kotlin.gradle.plugin)
+        classpath(libs.android.gradle)
+        classpath(libs.bugsnag.gradle)
+        classpath(libs.jetbrains.markdown)
+        classpath(libs.unmock)
     }
 }
 
 plugins {
-    id("com.diffplug.spotless") version "6.4.2"
-    id("org.jetbrains.kotlin.jvm") version "1.9.23" apply false
-    id("io.realm.kotlin") version "1.14.0" apply false
-    id("com.google.dagger.hilt.android") version "2.51.1" apply false
+    alias(libs.plugins.spotless)
+    alias(libs.plugins.kotlinJvm) apply false
+    alias(libs.plugins.realm) apply false
+    alias(libs.plugins.hiltAndroid) apply false
 }
 
 ext {

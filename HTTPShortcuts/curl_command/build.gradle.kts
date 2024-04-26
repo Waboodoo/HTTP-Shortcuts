@@ -1,16 +1,9 @@
 plugins {
-    id("java-library")
     id("org.jetbrains.kotlin.jvm")
 }
 
-val kotlinVersion: String by properties
-val kotlinTestJunit5Version: String by properties
-
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
-
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinTestJunit5Version")
-
+    testImplementation(libs.kotlin.test.junit5)
 }
 
 java {

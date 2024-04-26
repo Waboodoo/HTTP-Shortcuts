@@ -1,16 +1,11 @@
 plugins {
-    id("java-library")
     id("org.jetbrains.kotlin.jvm")
 }
 
-val coroutinesVersion: String by properties
-val gsonVersion: String by properties
-val okHttpVersion: String by properties
-
 dependencies {
-    implementation("com.squareup.okhttp3:okhttp:$okHttpVersion")
-    implementation("com.google.code.gson:gson:$gsonVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+    implementation(libs.okhttp3)
+    implementation(libs.gson)
+    implementation(libs.kotlinx.coroutines)
 }
 
 java {
