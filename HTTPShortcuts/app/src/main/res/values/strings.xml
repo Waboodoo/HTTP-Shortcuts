@@ -66,10 +66,8 @@
     <string name="action_delete">Delete</string>
     <!-- Shortcut dropdown option: export the shortcut -->
     <string name="action_export">Export</string>
-    <!-- Dialog button: Confirm exporting the selected shortcuts -->
+    <!-- Menu button: Confirm exporting the selected shortcuts -->
     <string name="dialog_button_export">Export</string>
-    <!-- Dialog title: shown in dialog when selecting which shortcuts to export -->
-    <string name="dialog_title_select_shortcuts_for_export">Select Shortcuts</string>
     <!-- Shortcut dropdown option: display information about the shortcut -->
     <string name="action_shortcut_information">Show Info</string>
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
@@ -1563,4 +1561,6 @@
     <string name="settings_device_id_summary">Include this ID when you report bugs on Github:\n%s</string>
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
     <string name="message_device_id_copied">Device ID copied to clipboard.</string>
+    <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
+    <string name="instructions_export">Select which shortcuts should be exported. All required variables will be exported automatically.</string>
 </resources>

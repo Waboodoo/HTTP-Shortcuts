@@ -18,7 +18,6 @@ import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
-import ch.rmy.android.http_shortcuts.import_export.OpenFilePickerForExportContract
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.RemoteEdit.RESULT_CHANGES_IMPORTED
 import ch.rmy.android.http_shortcuts.navigation.ResultHandler
 
@@ -43,24 +42,12 @@ fun ImportExportScreen(
         }
     }
 
-    val openFilePickerForExport = rememberLauncherForActivityResult(OpenFilePickerForExportContract) { fileUri ->
-        fileUri?.let(viewModel::onFilePickedForExport)
-    }
     val openFilePickerForImport = rememberLauncherForActivityResult(FilePickerUtil.PickFile) { fileUri ->
         fileUri?.let(viewModel::onFilePickedForImport)
     }
 
     EventHandler { event ->
         when (event) {
-            is ImportExportEvent.OpenFilePickerForExport -> consume {
-                try {
-                    openFilePickerForExport.launch(
-                        OpenFilePickerForExportContract.Params()
-                    )
-                } catch (e: ActivityNotFoundException) {
-                    context.showToast(R.string.error_not_supported)
-                }
-            }
             is ImportExportEvent.OpenFilePickerForImport -> consume {
                 try {
                     openFilePickerForImport.launch(null)
@@ -95,9 +82,6 @@ fun ImportExportScreen(
     ImportExportDialog(
         state?.dialogState,
         onImportFromUrl = viewModel::onImportFromUrlDialogSubmitted,
-        onShortcutsSelectedForExport = viewModel::onShortcutsForExportSelected,
         onDismissRequest = viewModel::onDialogDismissalRequested,
-        onExportToFileOptionSelected = viewModel::onExportToFileOptionSelected,
-        onExportViaSharingOptionSelected = viewModel::onExportViaSharingOptionSelected,
     )
 }

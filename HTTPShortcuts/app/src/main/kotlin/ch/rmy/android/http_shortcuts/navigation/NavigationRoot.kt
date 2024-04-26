@@ -28,6 +28,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcut
 import ch.rmy.android.http_shortcuts.activities.globalcode.GlobalScriptingScreen
 import ch.rmy.android.http_shortcuts.activities.history.HistoryScreen
 import ch.rmy.android.http_shortcuts.activities.icons.IconPickerScreen
+import ch.rmy.android.http_shortcuts.activities.importexport.ExportScreen
 import ch.rmy.android.http_shortcuts.activities.importexport.ImportExportScreen
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainScreen
@@ -125,6 +126,10 @@ fun NavigationRoot() {
                 savedStateHandle = backStackEntry.savedStateHandle,
                 importUrl = NavigationDestination.ImportExport.extractImportUrl(backStackEntry.arguments!!),
             )
+        }
+
+        composable(NavigationDestination.Export) {
+            ExportScreen()
         }
 
         composable(NavigationDestination.MoveShortcuts) {

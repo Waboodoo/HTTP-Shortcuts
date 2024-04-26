@@ -1,30 +1,19 @@
 package ch.rmy.android.http_shortcuts.activities.importexport
 
 import android.app.Application
-import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
-import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.isWebUrl
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
-import ch.rmy.android.framework.ui.IntentBuilder
-import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.importexport.usecases.GetShortcutSelectionDialogUseCase
-import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
-import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
-import ch.rmy.android.http_shortcuts.import_export.ExportFormat
-import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
@@ -44,13 +33,8 @@ constructor(
     application: Application,
     private val settings: Settings,
     private val shortcutRepository: ShortcutRepository,
-    private val getShortcutSelectionDialog: GetShortcutSelectionDialogUseCase,
-    private val exporter: Exporter,
     private val importer: Importer,
-    private val getUsedVariableIds: GetUsedVariableIdsUseCase,
 ) : BaseViewModel<ImportExportViewModel.InitData, ImportExportViewState>(application) {
-
-    private var shortcutIdsForExport: Collection<ShortcutId>? = null
 
     private var currentJob: Job? = null
         set(value) {
@@ -96,101 +80,7 @@ constructor(
     }
 
     fun onExportButtonClicked() = runAction {
-        setDialogState(getShortcutSelectionDialog())
-    }
-
-    fun onShortcutsForExportSelected(shortcutIds: Collection<ShortcutId>?) = runAction {
-        shortcutIdsForExport = shortcutIds
-        setDialogState(
-            ImportExportDialogState.SelectExportDestinationDialog,
-        )
-    }
-
-    fun onExportToFileOptionSelected() = runAction {
-        hideDialog()
-        emitEvent(ImportExportEvent.OpenFilePickerForExport)
-    }
-
-    fun onFilePickedForExport(file: Uri) = runAction {
-        hideDialog()
-        currentJob = launch {
-            startExportToUri(shortcutIdsForExport, file)
-            shortcutIdsForExport = null
-        }
-    }
-
-    fun onExportViaSharingOptionSelected() = runAction {
-        hideDialog()
-        currentJob = launch {
-            sendExport(shortcutIdsForExport)
-            shortcutIdsForExport = null
-        }
-    }
-
-    private suspend fun getVariableIdsForExport(shortcutIds: Collection<ShortcutId>?): Set<VariableId>? =
-        if (shortcutIds != null) {
-            getUsedVariableIds(shortcutIds)
-        } else null
-
-    private suspend fun ViewModelScope<*>.startExportToUri(shortcutIds: Collection<ShortcutId>?, file: Uri) {
-        try {
-            showProgressDialog(R.string.export_in_progress)
-            val variableIds = getVariableIdsForExport(shortcutIds)
-            val status = exporter.exportToUri(
-                file,
-                shortcutIds = shortcutIds,
-                variableIds = variableIds,
-                excludeDefaults = true,
-            )
-
-            showSnackbar(
-                QuantityStringLocalizable(
-                    R.plurals.shortcut_export_success,
-                    status.exportedShortcuts,
-                    status.exportedShortcuts,
-                )
-            )
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Exception) {
-            logException(e)
-            showError(StringResLocalizable(R.string.export_failed_with_reason, e.message ?: e.javaClass.simpleName))
-        } finally {
-            hideProgressDialog()
-        }
-    }
-
-    private suspend fun sendExport(shortcutIds: Collection<ShortcutId>?) {
-        val cacheFile = FileUtil.createCacheFile(context, ExportFormat.ZIP.getFileName(single = false))
-
-        try {
-            showProgressDialog(R.string.export_in_progress)
-            val variableIds = getVariableIdsForExport(shortcutIds)
-            exporter
-                .exportToUri(
-                    cacheFile,
-                    shortcutIds = shortcutIds,
-                    variableIds = variableIds,
-                    excludeDefaults = true,
-                )
-
-            sendIntent(object : IntentBuilder {
-                override fun build(context: Context) =
-                    Intent(Intent.ACTION_SEND)
-                        .setType(ExportFormat.ZIP.fileTypeForSharing)
-                        .putExtra(Intent.EXTRA_STREAM, cacheFile)
-                        .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        .let {
-                            Intent.createChooser(it, context.getString(R.string.title_export))
-                        }
-            })
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Exception) {
-            handleUnexpectedError(e)
-        } finally {
-            hideProgressDialog()
-        }
+        navigate(NavigationDestination.Export)
     }
 
     fun onRemoteEditorChangesImported() = runAction {

@@ -166,6 +166,10 @@ sealed interface NavigationDestination {
         const val RESULT_CATEGORIES_CHANGED_FROM_IMPORT = "categories-changed-from-import"
     }
 
+    object Export : NoArgNavigationDestination {
+        override val path = "export"
+    }
+
     object MoveShortcuts : NoArgNavigationDestination {
         override val path = "moveShortcuts"
     }
