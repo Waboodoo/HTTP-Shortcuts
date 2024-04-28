@@ -99,6 +99,7 @@ fun rememberSyntaxHighlighter(language: String): SyntaxHighlighter {
 }
 
 private val FORMATTING_DELAY = 300.milliseconds
+private const val FORMATTING_DELAY_THRESHOLD = 2000
 
 @Composable
 fun syntaxHighlightingVisualTransformation(syntaxHighlighter: SyntaxHighlighter, value: String): VisualTransformation {
@@ -108,7 +109,9 @@ fun syntaxHighlightingVisualTransformation(syntaxHighlighter: SyntaxHighlighter,
     val coroutineScope = rememberCoroutineScope()
     DisposableEffect(syntaxHighlighter, value) {
         val job = coroutineScope.launch(Dispatchers.Default) {
-            delay(FORMATTING_DELAY)
+            if (value.length > FORMATTING_DELAY_THRESHOLD) {
+                delay(FORMATTING_DELAY)
+            }
             transformation = syntaxHighlighter.getFormattingTransformation(value)
         }
         onDispose {
