@@ -244,7 +244,7 @@
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">正在导出快捷方式…</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
-    <string name="label_timeout">创建超时</string>
+    <string name="label_timeout">超时时间</string>
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">代理类型</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
@@ -1567,4 +1567,5 @@
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
     <string name="message_device_id_copied">设备ID已复制到剪贴板。</string>
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
+    <string name="instructions_export">选择要导出的快捷方式。所有必需的变量都将被自动导出。</string>
 </resources>
