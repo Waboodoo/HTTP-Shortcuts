@@ -4,6 +4,7 @@
 - The performance of the syntax highlighting is now improved, so that it also works on larger pieces of code or data
 - When exporting shortcuts, you can now more easily select which shortcuts should be exported
 - When importing from or exporting to curl, the `--insecure` option is now supported
+- In Scripting, it is now possible to get the ID and name of the category the current shortcut belongs to
 - Some tweaks to the built-in documentation were made to make it easier to understand
 
 ### Miscellaneous
@@ -12,6 +13,7 @@
 ### Bugfixes
 - The `getClipboarContent()` function should now also work when using the experimental background execution setting
 - The `parseHtml()` function now also works for reading the content of `<script>` and `<style>` tags
+- When saving changes to Global Scripting, the screen now properly closes without showing the discard warning
 
 ## Version 3.11.1
 
