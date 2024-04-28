@@ -367,7 +367,7 @@ constructor(
 
         try {
             withProgressTracking {
-                shortcutRepository.copyTemporaryShortcutToShortcut(shortcutId, categoryId?.takeIf { isNewShortcut })
+                shortcutRepository.copyTemporaryShortcutToShortcut(shortcutId, categoryId.takeIf { isNewShortcut })
                 temporaryShortcutRepository.deleteTemporaryShortcut()
             }
             onSaveSuccessful(shortcutId)

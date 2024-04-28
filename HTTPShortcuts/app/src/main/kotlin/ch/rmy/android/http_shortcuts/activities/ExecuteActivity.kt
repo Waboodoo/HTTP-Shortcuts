@@ -24,6 +24,7 @@ import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteWorker
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.components.ProgressDialog
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -72,6 +73,7 @@ class ExecuteActivity : BaseComposeActivity() {
         super.onCreated(savedState)
         val params = ExecutionParams(
             shortcutId = intent.extractShortcutId(),
+            categoryId = intent.extractCategoryId(),
             variableValues = intent.extractVariableValues(),
             executionId = intent.extras?.getString(EXTRA_EXECUTION_SCHEDULE_ID),
             tryNumber = intent.extras?.getInt(EXTRA_TRY_NUMBER) ?: 0,
@@ -153,6 +155,10 @@ class ExecuteActivity : BaseComposeActivity() {
             intent.putExtra(EXTRA_SHORTCUT_ID, shortcutId)
         }
 
+        fun categoryId(categoryId: CategoryId) = also {
+            intent.putExtra(EXTRA_CATEGORY_ID, categoryId)
+        }
+
         fun tryNumber(tryNumber: Int) = also {
             if (tryNumber > 0) {
                 intent.putExtra(EXTRA_TRY_NUMBER, tryNumber)
@@ -192,6 +198,7 @@ class ExecuteActivity : BaseComposeActivity() {
         private const val ACTION_EXECUTE_SHORTCUT = "ch.rmy.android.http_shortcuts.execute"
 
         private const val EXTRA_SHORTCUT_ID = "id"
+        private const val EXTRA_CATEGORY_ID = "category_id"
         private const val EXTRA_VARIABLE_VALUES = "variable_values"
         private const val EXTRA_TRY_NUMBER = "try_number"
         private const val EXTRA_RECURSION_DEPTH = "recursion_depth"
@@ -203,6 +210,9 @@ class ExecuteActivity : BaseComposeActivity() {
             getStringExtra(EXTRA_SHORTCUT_ID)
                 ?: data?.lastPathSegment
                 ?: ""
+
+        fun Intent.extractCategoryId(): CategoryId? =
+            getStringExtra(EXTRA_CATEGORY_ID)
 
         fun Intent.extractVariableValues(): Map<VariableKey, String> =
             getSerializable<HashMap<VariableKey, String>>(EXTRA_VARIABLE_VALUES)

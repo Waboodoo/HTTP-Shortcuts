@@ -39,6 +39,9 @@ constructor(
             )
         } else {
             ExecuteActivity.IntentBuilder(shortcutId)
+                .runIfNotNull(categoryId) {
+                    categoryId(it)
+                }
                 .runIfNotNull(trigger) {
                     trigger(it)
                 }
