@@ -325,6 +325,7 @@ constructor(
         waitForOperationsToFinish()
         executionStarter.execute(
             shortcutId = TEMPORARY_ID,
+            categoryId = categoryId,
             trigger = ShortcutTriggerType.TEST_IN_EDITOR,
         )
     }
@@ -448,7 +449,7 @@ constructor(
     fun onScriptingButtonClicked() = runAction {
         skipIfBusy()
         logInfo("Scripting button clicked")
-        navigate(NavigationDestination.ShortcutEditorScripting.buildRequest(shortcutId))
+        navigate(NavigationDestination.ShortcutEditorScripting.buildRequest(shortcutId, categoryId))
     }
 
     fun onTriggerShortcutsButtonClicked() = runAction {
@@ -541,7 +542,7 @@ constructor(
     }
 
     data class InitData(
-        val categoryId: CategoryId?,
+        val categoryId: CategoryId,
         val shortcutId: ShortcutId?,
         val curlCommandId: NavigationArgStore.ArgStoreId?,
         val executionType: ShortcutExecutionType,

@@ -22,7 +22,7 @@ constructor(
         }
         val shortcutId = sessionInfoStore.editingShortcutId
         val categoryId = sessionInfoStore.editingShortcutCategoryId
-        return if ((shortcutId != null || categoryId != null) && shortcut.hasChanges()) {
+        return if (categoryId != null && shortcut.hasChanges()) {
             RecoveryInfo(
                 shortcutName = shortcut.name,
                 shortcutId = shortcutId,

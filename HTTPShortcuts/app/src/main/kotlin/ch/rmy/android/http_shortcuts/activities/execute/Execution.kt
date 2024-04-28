@@ -39,6 +39,8 @@ import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.data.models.Base
+import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
@@ -79,7 +81,6 @@ import dagger.hilt.components.SingletonComponent
 import io.realm.kotlin.ext.copyFromRealm
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
@@ -128,6 +129,7 @@ class Execution(
     private val navigationArgStore: NavigationArgStore = entryPoint.navigationArgStore()
 
     private lateinit var globalCode: String
+    private lateinit var category: Category
     private lateinit var shortcut: Shortcut
     private lateinit var certificatePins: List<CertificatePin>
 
@@ -264,6 +266,7 @@ class Execution(
         if (usesScripting) {
             scriptExecutor.initialize(
                 shortcut = shortcut,
+                category = category,
                 variableManager = variableManager,
                 fileUploadResult = fileUploadResult,
                 resultHandler = resultHandler,
@@ -440,17 +443,31 @@ class Execution(
 
     private suspend fun loadData() {
         coroutineScope {
-            val baseDeferred = async {
-                appRepository.getBase()
-            }
-            val shortcutDeferred = async {
-                shortcutRepository.getShortcutById(params.shortcutId)
-            }
-            val base = baseDeferred.await()
+            val base = appRepository.getBase()
             globalCode = base.globalCode.orEmpty()
-            shortcut = shortcutDeferred.await()
+            if (!findCategoryAndShortcut(base)) {
+                throw NoSuchElementException()
+            }
             certificatePins = base.certificatePins
         }
+    }
+
+    private suspend fun findCategoryAndShortcut(base: Base): Boolean {
+        if (params.shortcutId == Shortcut.TEMPORARY_ID) {
+            shortcut = shortcutRepository.getShortcutById(Shortcut.TEMPORARY_ID)
+            category = base.categories.first { it.id == params.categoryId!! }
+            return true
+        }
+        for (category in base.categories) {
+            for (shortcut in category.shortcuts) {
+                if (shortcut.id == params.shortcutId) {
+                    this@Execution.category = category
+                    this@Execution.shortcut = shortcut
+                    return true
+                }
+            }
+        }
+        return false
     }
 
     private suspend fun scheduleRepetitionIfNeeded() {

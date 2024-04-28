@@ -109,12 +109,14 @@ setVariable('myVariable', 'Hello World', true); // only changes the stored value
 <a name="shortcut-info"></a>
 ## Getting Information about the Current Shortcut
 
-You can easily retrieve information about the current shortcut from the `shortcut` object. Currently this only includes the shortcut's ID, name and description.
+You can easily retrieve information about the current shortcut and the category it belongs to from the `shortcut` object. This includes the shortcut's ID, name and description, as well as its category's ID and name.
 
 ```js
 shortcut.id;
 shortcut.name;
 shortcut.description;
+shortcut.category.id;
+shortcut.category.name;
 ```
 
 

@@ -5,6 +5,7 @@ import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.resume
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
 import ch.rmy.android.http_shortcuts.exceptions.UserAbortException
@@ -49,6 +50,7 @@ constructor(
 
     suspend fun initialize(
         shortcut: Shortcut,
+        category: Category,
         variableManager: VariableManager,
         fileUploadResult: FileUploadManager.Result?,
         resultHandler: ResultHandler,
@@ -56,7 +58,7 @@ constructor(
         recursionDepth: Int = 0,
     ) {
         runWithExceptionHandling {
-            registerShortcut(shortcut)
+            registerShortcut(shortcut, category)
             registerFiles(fileUploadResult)
             registerActions(shortcut.id, variableManager, resultHandler, dialogHandle, recursionDepth)
         }
@@ -107,13 +109,17 @@ constructor(
         }
     }
 
-    private fun registerShortcut(shortcut: Shortcut) {
+    private fun registerShortcut(shortcut: Shortcut, category: Category) {
         jsContext.property(
             "shortcut",
             mapOf(
                 "id" to shortcut.id,
                 "name" to shortcut.name,
                 "description" to shortcut.description,
+                "category" to mapOf(
+                    "id" to category.id,
+                    "name" to category.name,
+                ),
             ),
             READ_ONLY,
         )

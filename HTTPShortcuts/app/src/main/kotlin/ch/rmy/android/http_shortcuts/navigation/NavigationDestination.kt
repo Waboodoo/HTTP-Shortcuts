@@ -198,7 +198,7 @@ sealed interface NavigationDestination {
         override val arguments =
             listOf(
                 stringArg(ARG_EXECUTION_TYPE),
-                optionalStringArg(ARG_CATEGORY_ID),
+                stringArg(ARG_CATEGORY_ID),
                 optionalStringArg(ARG_SHORTCUT_ID),
                 optionalStringArg(ARG_CURL_COMMAND_ID),
                 optionalBooleanArg(ARG_RECOVERY_MODE),
@@ -206,20 +206,20 @@ sealed interface NavigationDestination {
 
         fun buildRequest(
             shortcutId: ShortcutId? = null,
-            categoryId: CategoryId? = null,
+            categoryId: CategoryId,
             executionType: ShortcutExecutionType = ShortcutExecutionType.APP,
             curlCommandId: NavigationArgStore.ArgStoreId? = null,
             recoveryMode: Boolean = false,
         ) = buildNavigationRequest {
             pathPart(executionType.type)
-            parameter(ARG_CATEGORY_ID, categoryId)
+            pathPart(categoryId)
             parameter(ARG_SHORTCUT_ID, shortcutId)
             parameter(ARG_CURL_COMMAND_ID, curlCommandId)
             parameter(ARG_RECOVERY_MODE, recoveryMode)
         }
 
-        fun extractCategoryId(bundle: Bundle): CategoryId? =
-            bundle.getEncodedString(ARG_CATEGORY_ID)
+        fun extractCategoryId(bundle: Bundle): CategoryId =
+            bundle.getEncodedString(ARG_CATEGORY_ID)!!
 
         fun extractShortcutId(bundle: Bundle): ShortcutId? =
             bundle.getEncodedString(ARG_SHORTCUT_ID)
@@ -275,19 +275,25 @@ sealed interface NavigationDestination {
 
     object ShortcutEditorScripting : NavigationDestination {
         private const val ARG_SHORTCUT_ID = "shortcutId"
+        private const val ARG_CATEGORY_ID = "categoryId"
         override val path = "shortcutEditor/scripting"
 
         override val arguments =
             listOf(
-                optionalStringArg(ARG_SHORTCUT_ID)
+                optionalStringArg(ARG_SHORTCUT_ID),
+                stringArg(ARG_CATEGORY_ID),
             )
 
-        fun buildRequest(shortcutId: ShortcutId?) = buildNavigationRequest {
+        fun buildRequest(shortcutId: ShortcutId?, categoryId: CategoryId) = buildNavigationRequest {
             parameter(ARG_SHORTCUT_ID, shortcutId)
+            pathPart(categoryId)
         }
 
         fun extractShortcutId(bundle: Bundle): ShortcutId? =
             bundle.getEncodedString(ARG_SHORTCUT_ID)
+
+        fun extractCategoryId(bundle: Bundle): CategoryId =
+            bundle.getEncodedString(ARG_CATEGORY_ID)!!
     }
 
     object ShortcutEditorTriggerShortcuts : NavigationDestination {

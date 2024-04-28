@@ -26,7 +26,7 @@ import ch.rmy.android.http_shortcuts.navigation.ResultHandler
 @Composable
 fun ShortcutEditorScreen(
     savedStateHandle: SavedStateHandle,
-    categoryId: CategoryId?,
+    categoryId: CategoryId,
     shortcutId: ShortcutId?,
     curlCommandId: NavigationArgStore.ArgStoreId?,
     executionType: ShortcutExecutionType,

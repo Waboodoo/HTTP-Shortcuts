@@ -6,6 +6,7 @@ import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
@@ -21,6 +22,7 @@ constructor(
 ) {
     fun execute(
         shortcutId: ShortcutId,
+        categoryId: CategoryId? = null,
         trigger: ShortcutTriggerType,
         variableValues: Map<VariableKey, String> = emptyMap(),
         fileUris: List<Uri> = emptyList(),
@@ -29,6 +31,7 @@ constructor(
             executeWorkerStarter.invoke(
                 ExecutionParams(
                     shortcutId = shortcutId,
+                    categoryId = categoryId,
                     trigger = trigger,
                     variableValues = variableValues,
                     fileUris = fileUris,

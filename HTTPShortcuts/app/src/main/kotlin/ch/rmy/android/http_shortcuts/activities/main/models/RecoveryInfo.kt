@@ -8,5 +8,5 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 data class RecoveryInfo(
     val shortcutName: String,
     val shortcutId: ShortcutId?,
-    val categoryId: CategoryId?,
+    val categoryId: CategoryId,
 )
