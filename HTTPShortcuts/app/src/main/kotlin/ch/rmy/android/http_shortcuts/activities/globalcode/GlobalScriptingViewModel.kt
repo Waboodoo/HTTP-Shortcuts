@@ -60,6 +60,7 @@ constructor(
                     }
             }
         )
+        closeScreen()
     }
 
     fun onGlobalCodeChanged(globalCode: String) = runAction {
