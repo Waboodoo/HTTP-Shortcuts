@@ -151,7 +151,7 @@ class DatabaseMigration : AutomaticSchemaMigration {
         }
 
         // 1.30.0
-        if (oldVersion < 37) {
+        if (oldVersion == 36L) {
             migrationContext.enumerate("Widget") { _, newWidget ->
                 newWidget?.set("showLabel", true)
             }
