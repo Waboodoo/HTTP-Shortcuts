@@ -9,7 +9,7 @@ import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-kapt")
+    alias(libs.plugins.ksp)
     id("com.bugsnag.android.gradle")
     id("io.realm.kotlin")
     id("de.mobilej.unmock")
@@ -237,9 +237,8 @@ dependencies {
 
     /* Dependency Injection */
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.work)
-    kapt(libs.androidx.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
 
     /* Support libraries */
@@ -331,10 +330,6 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.androidx.test)
     testImplementation(libs.kotlinx.coroutines.test)
-}
-
-kapt {
-    correctErrorTypes = true
 }
 
 fun generateHtmlFromMarkdown(inputFile: String, outputFile: String, templateFile: String, mutate: String.() -> String = { this }) {

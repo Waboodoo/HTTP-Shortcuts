@@ -1,7 +1,7 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-kapt")
+    alias(libs.plugins.ksp)
     id("org.jetbrains.kotlin.android")
     id("de.mobilej.unmock")
 }
@@ -85,7 +85,7 @@ dependencies {
 
     /* Dependency Injection */
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
     /* Database */
     api(libs.realm)
@@ -95,8 +95,4 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.androidx.test)
     testImplementation(libs.kotlinx.coroutines.test)
-}
-
-kapt {
-    correctErrorTypes = true
 }

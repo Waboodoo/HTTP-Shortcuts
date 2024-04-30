@@ -4,7 +4,6 @@ activity = "1.9.0"
 androidGradle = "8.3.2"
 androidXCore = "1.13.0"
 androidXNavigation = "2.7.7"
-androidxHiltCompiler = "1.2.0"
 androidxTestCore = "1.5.0"
 annotation = "1.7.1"
 appcompat = "1.6.1"
@@ -30,6 +29,7 @@ jbcrypt = "0.4"
 jsoup = "1.17.2"
 kotlin = "1.9.23"
 kotlinxCoroutines = "1.8.0"
+ksp = "1.9.23-1.0.20"
 lifecycle = "2.7.0"
 liquidcore = "0.6.2"  # This is not the latest version, but it's the latest one that has a published artifact, and the newer ones lead to a larger build size without adding significant benefits, so I'm keeping this at the old version for now
 markdown = "0.7.0"
@@ -67,7 +67,6 @@ androidx-compose-uiToolingPreview = { module = "androidx.compose.ui:ui-tooling-p
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidXCore" }
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "exifinterface" }
 androidx-googleShortcuts = { module = "androidx.core:core-google-shortcuts", version.ref = "googleShortcuts" }
-androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "androidxHiltCompiler" }
 androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hiltWork" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
@@ -116,5 +115,6 @@ zoomable = { module = "net.engawapg.lib:zoomable", version.ref = "zoomable" }
 [plugins]
 hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 realm = { id = "io.realm.kotlin", version.ref = "realm" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
