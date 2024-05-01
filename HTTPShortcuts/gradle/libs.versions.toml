@@ -4,6 +4,7 @@ activity = "1.9.0"
 androidGradle = "8.3.2"
 androidXCore = "1.13.0"
 androidXNavigation = "2.7.7"
+androidxHiltCompiler = "1.2.0"
 androidxTestCore = "1.5.0"
 annotation = "1.7.1"
 appcompat = "1.6.1"
@@ -67,6 +68,7 @@ androidx-compose-uiToolingPreview = { module = "androidx.compose.ui:ui-tooling-p
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidXCore" }
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "exifinterface" }
 androidx-googleShortcuts = { module = "androidx.core:core-google-shortcuts", version.ref = "googleShortcuts" }
+androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "androidxHiltCompiler" }
 androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hiltWork" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
