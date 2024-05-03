@@ -10,6 +10,7 @@ import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.content.pm.ShortcutManagerCompat.EXTRA_SHORTCUT_ID
 import androidx.core.graphics.drawable.IconCompat
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
@@ -95,7 +96,21 @@ constructor(
                     .build(context)
             )
             .runIfNotNull(icon) {
-                setIcon(IconCompat.createFromIcon(context, it))
+                val iconCompat = IconCompat.createFromIcon(context, it)
+                    ?.takeIf { iconCompat ->
+                        when (iconCompat.type) {
+                            IconCompat.TYPE_BITMAP,
+                            IconCompat.TYPE_ADAPTIVE_BITMAP,
+                            IconCompat.TYPE_RESOURCE,
+                            -> true
+                            else -> {
+                                logInfo("Unsupported icon: ${launcherShortcut.icon}")
+                                logException(IllegalArgumentException("Unsupported icon type ${iconCompat.type}"))
+                                false
+                            }
+                        }
+                    }
+                setIcon(iconCompat ?: IconCompat.createWithResource(context, ShortcutIcon.NoIcon.ICON_RESOURCE))
             }
             .setCategories(
                 buildSet {
