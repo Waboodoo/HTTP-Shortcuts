@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.variables
 
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIf
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
@@ -62,7 +64,10 @@ class VariableManager(
             }
 
     fun setVariableValue(variable: Variable, value: String, storeOnly: Boolean = false) {
-        variable.value = value
+        tryOrLog {
+            logInfo("Updating variable in-memory, managed = ${variable.isManaged()}")
+            variable.value = value
+        }
         if (!storeOnly) {
             variableValuesById[variable.id] = encodeValue(variable, value)
         }
