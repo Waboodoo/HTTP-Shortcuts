@@ -65,7 +65,7 @@ fun MainScreen(
                 viewModel.onShortcutCreated(result.shortcutId)
             }
             is NavigationDestination.ShortcutEditor.ShortcutEditedResult -> {
-                viewModel.onShortcutEdited(result.shortcutId)
+                viewModel.onShortcutEdited()
             }
             is NavigationDestination.Widget.Result -> {
                 viewModel.onWidgetSettingsSubmitted(

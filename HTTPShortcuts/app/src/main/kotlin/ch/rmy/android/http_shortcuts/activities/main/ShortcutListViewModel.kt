@@ -170,7 +170,7 @@ constructor(
     }
 
     fun onShortcutClicked(shortcutId: ShortcutId) = runAction {
-        logInfo("Shortcut clicked")
+        logInfo("Shortcut clicked (selectionMode = ${initData.selectionMode}")
         if (initData.selectionMode != SelectionMode.NORMAL) {
             selectShortcut(shortcutId)
             skipAction()

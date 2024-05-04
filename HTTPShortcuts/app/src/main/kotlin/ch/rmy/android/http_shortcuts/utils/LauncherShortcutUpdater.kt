@@ -22,7 +22,7 @@ constructor(
     private val launcherShortcutManager: LauncherShortcutManager,
     private val shareUtil: ShareUtil,
 ) {
-    suspend fun updateAppShortcuts(updatedShortcutId: ShortcutId? = null) {
+    suspend fun updateAppShortcuts() {
         val categories = categoryRepository.getCategories()
         val variables = variableRepository.getVariables()
         val variableIds = shareUtil.getTextShareVariables(variables).map { it.id }.toSet()
@@ -31,7 +31,7 @@ constructor(
             .map { shortcut ->
                 getLauncherShortcut(shortcut, variableIds, VariableManager(variables))
             }
-        launcherShortcutManager.updateAppShortcuts(launcherShortcuts, updatedShortcutId)
+        launcherShortcutManager.updateAppShortcuts(launcherShortcuts)
     }
 
     suspend fun pinShortcut(shortcutId: ShortcutId) {
