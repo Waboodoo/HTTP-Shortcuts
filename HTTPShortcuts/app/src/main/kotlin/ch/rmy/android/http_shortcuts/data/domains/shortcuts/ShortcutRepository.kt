@@ -113,11 +113,14 @@ constructor(
         }
     }
 
-    suspend fun createTemporaryShortcutFromShortcut(shortcutId: ShortcutId) {
+    suspend fun createTemporaryShortcutFromShortcut(shortcutId: ShortcutId, categoryId: CategoryId) {
         commitTransaction {
             val shortcut = getShortcutById(shortcutId)
                 .findFirst()!!
             copyShortcut(shortcut, Shortcut.TEMPORARY_ID)
+                .apply {
+                    this.categoryId = categoryId
+                }
         }
     }
 

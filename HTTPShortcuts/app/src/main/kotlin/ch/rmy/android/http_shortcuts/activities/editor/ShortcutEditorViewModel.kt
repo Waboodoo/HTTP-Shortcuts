@@ -103,10 +103,11 @@ constructor(
                 temporaryShortcutRepository.createNewTemporaryShortcut(
                     initialIcon = Icons.getRandomInitialIcon(context),
                     executionType = executionType,
+                    categoryId = data.categoryId,
                 )
             }
             else -> {
-                shortcutRepository.createTemporaryShortcutFromShortcut(data.shortcutId)
+                shortcutRepository.createTemporaryShortcutFromShortcut(data.shortcutId, data.categoryId)
             }
         }
         data.curlCommandId
@@ -325,7 +326,6 @@ constructor(
         waitForOperationsToFinish()
         executionStarter.execute(
             shortcutId = TEMPORARY_ID,
-            categoryId = categoryId,
             trigger = ShortcutTriggerType.TEST_IN_EDITOR,
         )
     }
@@ -449,7 +449,7 @@ constructor(
     fun onScriptingButtonClicked() = runAction {
         skipIfBusy()
         logInfo("Scripting button clicked")
-        navigate(NavigationDestination.ShortcutEditorScripting.buildRequest(shortcutId, categoryId))
+        navigate(NavigationDestination.ShortcutEditorScripting.buildRequest(shortcutId))
     }
 
     fun onTriggerShortcutsButtonClicked() = runAction {

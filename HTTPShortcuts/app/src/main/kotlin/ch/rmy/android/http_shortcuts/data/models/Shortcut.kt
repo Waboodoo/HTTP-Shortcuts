@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.data.models
 import ch.rmy.android.framework.extensions.isInt
 import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
@@ -25,6 +26,7 @@ class Shortcut() : RealmObject {
         id: ShortcutId = "",
         icon: ShortcutIcon = ShortcutIcon.NoIcon,
         executionType: ShortcutExecutionType = ShortcutExecutionType.APP,
+        categoryId: CategoryId? = null
     ) : this() {
         this.id = id
         this.icon = icon
@@ -32,11 +34,15 @@ class Shortcut() : RealmObject {
         if (executionType == ShortcutExecutionType.APP) {
             responseHandling = ResponseHandling()
         }
+        this.categoryId = categoryId
     }
 
     @PrimaryKey
     var id: ShortcutId = ""
     var executionType: String? = ShortcutExecutionType.APP.type
+
+    // Only valid when id == TEMPORARY_ID
+    var categoryId: CategoryId? = null
 
     var name: String = ""
 

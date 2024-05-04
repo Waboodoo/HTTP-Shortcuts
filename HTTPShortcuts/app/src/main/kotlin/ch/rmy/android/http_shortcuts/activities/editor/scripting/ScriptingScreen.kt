@@ -20,7 +20,6 @@ import ch.rmy.android.http_shortcuts.activities.editor.scripting.models.CodeFiel
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
-import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.ResultHandler
@@ -29,11 +28,9 @@ import ch.rmy.android.http_shortcuts.navigation.ResultHandler
 fun ScriptingScreen(
     savedStateHandle: SavedStateHandle,
     currentShortcutId: ShortcutId?,
-    categoryId: CategoryId,
 ) {
     val (viewModel, state) = bindViewModel<ScriptingViewModel.InitData, ScriptingViewState, ScriptingViewModel>(
         ScriptingViewModel.InitData(
-            categoryId = categoryId,
             currentShortcutId = currentShortcutId,
         ),
     )

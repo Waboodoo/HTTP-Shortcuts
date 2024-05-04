@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.models.CodeFieldType
 import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
-import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
@@ -164,7 +163,6 @@ constructor(
         waitForOperationsToFinish()
         executionStarter.execute(
             shortcutId = Shortcut.TEMPORARY_ID,
-            categoryId = initData.categoryId,
             trigger = ShortcutTriggerType.TEST_IN_EDITOR,
         )
     }
@@ -216,7 +214,6 @@ constructor(
     )
 
     data class InitData(
-        val categoryId: CategoryId,
         val currentShortcutId: ShortcutId?,
     )
 

@@ -275,25 +275,19 @@ sealed interface NavigationDestination {
 
     object ShortcutEditorScripting : NavigationDestination {
         private const val ARG_SHORTCUT_ID = "shortcutId"
-        private const val ARG_CATEGORY_ID = "categoryId"
         override val path = "shortcutEditor/scripting"
 
         override val arguments =
             listOf(
                 optionalStringArg(ARG_SHORTCUT_ID),
-                stringArg(ARG_CATEGORY_ID),
             )
 
-        fun buildRequest(shortcutId: ShortcutId?, categoryId: CategoryId) = buildNavigationRequest {
+        fun buildRequest(shortcutId: ShortcutId?) = buildNavigationRequest {
             parameter(ARG_SHORTCUT_ID, shortcutId)
-            pathPart(categoryId)
         }
 
         fun extractShortcutId(bundle: Bundle): ShortcutId? =
             bundle.getEncodedString(ARG_SHORTCUT_ID)
-
-        fun extractCategoryId(bundle: Bundle): CategoryId =
-            bundle.getEncodedString(ARG_CATEGORY_ID)!!
     }
 
     object ShortcutEditorTriggerShortcuts : NavigationDestination {

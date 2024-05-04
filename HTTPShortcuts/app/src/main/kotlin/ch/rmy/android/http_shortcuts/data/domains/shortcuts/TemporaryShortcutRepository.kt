@@ -7,6 +7,7 @@ import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.extensions.getCaseInsensitive
 import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
@@ -45,13 +46,14 @@ constructor(
             getTemporaryShortcut()
         }
 
-    suspend fun createNewTemporaryShortcut(initialIcon: ShortcutIcon, executionType: ShortcutExecutionType) {
+    suspend fun createNewTemporaryShortcut(initialIcon: ShortcutIcon, executionType: ShortcutExecutionType, categoryId: CategoryId) {
         commitTransaction {
             copyOrUpdate(
                 Shortcut(
                     id = Shortcut.TEMPORARY_ID,
                     icon = initialIcon,
                     executionType = executionType,
+                    categoryId = categoryId,
                 )
             )
         }

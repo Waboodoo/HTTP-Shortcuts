@@ -187,7 +187,6 @@ fun NavigationRoot() {
             ScriptingScreen(
                 savedStateHandle = backStackEntry.savedStateHandle,
                 currentShortcutId = NavigationDestination.ShortcutEditorScripting.extractShortcutId(backStackEntry.arguments!!),
-                categoryId = NavigationDestination.ShortcutEditorScripting.extractCategoryId(backStackEntry.arguments!!),
             )
         }
 

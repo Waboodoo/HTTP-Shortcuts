@@ -455,7 +455,7 @@ class Execution(
     private suspend fun findCategoryAndShortcut(base: Base): Boolean {
         if (params.shortcutId == Shortcut.TEMPORARY_ID) {
             shortcut = shortcutRepository.getShortcutById(Shortcut.TEMPORARY_ID)
-            category = base.categories.first { it.id == params.categoryId!! }
+            category = base.categories.first { it.id == shortcut.categoryId!! }
             return true
         }
         for (category in base.categories) {
