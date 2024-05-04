@@ -1,3 +1,8 @@
+## Version 3.12.1
+
+### Bugfixes
+- Fixed crash when placing a shortcut on the home screen
+
 ## Version 3.12.0
 
 ### Improvements
