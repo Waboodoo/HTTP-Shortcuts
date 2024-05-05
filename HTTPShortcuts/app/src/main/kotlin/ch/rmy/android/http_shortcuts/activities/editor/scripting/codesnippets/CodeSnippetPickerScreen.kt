@@ -28,12 +28,14 @@ import ch.rmy.android.http_shortcuts.utils.RingtonePickerContract
 fun CodeSnippetPickerScreen(
     savedStateHandle: SavedStateHandle,
     currentShortcutId: ShortcutId?,
+    includeSuccessOptions: Boolean,
     includeResponseOptions: Boolean,
     includeNetworkErrorOption: Boolean,
 ) {
     val (viewModel, state) = bindViewModel<CodeSnippetPickerViewModel.InitData, CodeSnippetPickerViewState, CodeSnippetPickerViewModel>(
         CodeSnippetPickerViewModel.InitData(
             currentShortcutId,
+            includeSuccessOptions,
             includeResponseOptions,
             includeNetworkErrorOption,
         )

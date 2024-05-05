@@ -66,6 +66,7 @@ sealed interface NavigationDestination {
 
     object CodeSnippetPicker : NavigationDestination {
         private const val ARG_SHORTCUT_ID = "shortcutId"
+        private const val ARG_INCLUDE_SUCCESS_OPTIONS = "includeSuccessOptions"
         private const val ARG_INCLUDE_RESPONSE_OPTIONS = "includeResponseOptions"
         private const val ARG_INCLUDE_NETWORK_ERROR_OPTION = "includeNetworkErrorOption"
 
@@ -74,22 +75,28 @@ sealed interface NavigationDestination {
         override val arguments =
             listOf(
                 optionalStringArg(ARG_SHORTCUT_ID),
+                optionalBooleanArg(ARG_INCLUDE_SUCCESS_OPTIONS),
                 optionalBooleanArg(ARG_INCLUDE_RESPONSE_OPTIONS),
                 optionalBooleanArg(ARG_INCLUDE_NETWORK_ERROR_OPTION),
             )
 
         fun buildRequest(
             shortcutId: ShortcutId? = null,
+            includeSuccessOptions: Boolean = false,
             includeResponseOptions: Boolean = false,
             includeNetworkErrorOption: Boolean = false,
         ) = buildNavigationRequest {
             parameter(ARG_SHORTCUT_ID, shortcutId)
+            parameter(ARG_INCLUDE_SUCCESS_OPTIONS, includeSuccessOptions)
             parameter(ARG_INCLUDE_RESPONSE_OPTIONS, includeResponseOptions)
             parameter(ARG_INCLUDE_NETWORK_ERROR_OPTION, includeNetworkErrorOption)
         }
 
         fun extractShortcutId(bundle: Bundle): ShortcutId? =
             bundle.getEncodedString(ARG_SHORTCUT_ID)
+
+        fun extractIncludeSuccessOptions(bundle: Bundle): Boolean =
+            bundle.getBoolean(ARG_INCLUDE_SUCCESS_OPTIONS)
 
         fun extractIncludeResponseOptions(bundle: Bundle): Boolean =
             bundle.getBoolean(ARG_INCLUDE_RESPONSE_OPTIONS)

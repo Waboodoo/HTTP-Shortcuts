@@ -9,6 +9,7 @@ import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
+import ch.rmy.android.http_shortcuts.exceptions.TreatAsFailureException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.HttpStatus
@@ -30,6 +31,9 @@ constructor(
             }
             is UserException -> {
                 getErrorMessage(error)
+            }
+            is TreatAsFailureException -> {
+                error.message ?: getString(R.string.error_user_defined)
             }
             else -> {
                 String.format(getString(R.string.error_other), shortcutName, getErrorMessage(error))

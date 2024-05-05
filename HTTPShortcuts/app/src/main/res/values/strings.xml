@@ -802,6 +802,8 @@
     <string name="action_type_send_mqtt_message">Send MQTT Message</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">Abort Execution</string>
+    <!-- Shortcut Action Title: Abort the execution of the shortcut and instead run the steps as if the request had failed -->
+    <string name="action_type_abort_and_treat_as_failure">Abort and Treat as Failure</string>
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
     <string name="action_type_wait">Wait</string>
     <!-- Shortcut Action Title: Get the IP Address of the current Wi-Fi -->
@@ -1577,4 +1579,6 @@
     <string name="message_history_switched_to_absolute_times">Switched to absolute times.</string>
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute relative (e.g. 42 sec ago) -->
     <string name="message_history_switched_to_relative_times">Switched to relative times.</string>
+    <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
+    <string name="error_user_defined">Execution was aborted and treated as failure</string>
 </resources>

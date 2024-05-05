@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
+import ch.rmy.android.http_shortcuts.exceptions.TreatAsFailureException
 import ch.rmy.android.http_shortcuts.exceptions.UserAbortException
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
@@ -161,11 +162,11 @@ constructor(
         jsContext.evaluateScript(
             """
             function abort() {
-                __abort(false);
+                __abort(0);
                 throw "Abort";
             }
             function abortAll() {
-                __abort(true);
+                __abort(1);
                 throw "Abort";
             }
             """.trimIndent()
@@ -175,11 +176,26 @@ constructor(
             object : JSFunction(jsContext, "run") {
                 @Suppress("unused")
                 @Keep
-                fun run(abortAll: Boolean) {
-                    lastException = UserAbortException(abortAll = abortAll)
+                fun run(abortType: Int, message: String?) {
+                    lastException = when (abortType) {
+                        2 -> TreatAsFailureException(message?.takeUnless { it == "undefined" })
+                        1 -> UserAbortException(abortAll = true)
+                        else -> UserAbortException(abortAll = false)
+                    }
                 }
             },
             READ_ONLY,
+        )
+    }
+
+    fun registerAbortAndTreatAsFailure() {
+        jsContext.evaluateScript(
+            """
+            function abortAndTreatAsFailure(message) {
+                __abort(2, message);
+                throw "Abort";
+            }
+            """.trimIndent()
         )
     }
 

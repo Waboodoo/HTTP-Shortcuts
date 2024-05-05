@@ -88,6 +88,7 @@ fun NavigationRoot() {
             CodeSnippetPickerScreen(
                 backStackEntry.savedStateHandle,
                 currentShortcutId = NavigationDestination.CodeSnippetPicker.extractShortcutId(backStackEntry.arguments!!),
+                includeSuccessOptions = NavigationDestination.CodeSnippetPicker.extractIncludeSuccessOptions(backStackEntry.arguments!!),
                 includeResponseOptions = NavigationDestination.CodeSnippetPicker.extractIncludeResponseOptions(backStackEntry.arguments!!),
                 includeNetworkErrorOption = NavigationDestination.CodeSnippetPicker.extractIncludeNetworkErrorOption(backStackEntry.arguments!!),
             )

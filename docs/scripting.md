@@ -386,7 +386,7 @@ wait(3000); // delay execution by 3 seconds
 > Please note that this is a blocking action, meaning that you will not be able to interact with the app during the waiting time.
 
 <a name="abort"></a>
-### abort and abortAll
+### abort, abortAll and abortAndTreatAsFailure
 
 With the `abort` function you can abort the execution of the shortcut.
 
@@ -395,6 +395,19 @@ abort();
 ```
 
 If the shortcut was called from another shortcut via the [executeShortcut](#execute-shortcut) function, only the current shortcut will be aborted. If you want to abort also the calling shortcut, you can use `abortAll()`.
+
+As part of the "Run on Success" code block, you can also use the `abortAndTreatAsFailure()` function, which skips the rest of the "success" steps and instead treats the execution as a failure, meaning that the "Run on Failure" code will be run, as well as any other failure-related steps such as displaying an error message. You can use this in cases where the default behavior of only checking the HTTP status code is not enough to determine whether a request should be considered a success. As an optional parameter, you can pass a string which will be used as the error message.
+
+```js
+// Basic example
+abortAndTreatAsFailure();
+
+// More realistic example
+const responseBody = JSON.parse(response.body);
+if (responseBody.status === 'error') {
+  abortAndTreatAsFailure(responseBody.error);
+}
+```
 
 <a name="text-processing"></a>
 ## Text Processing

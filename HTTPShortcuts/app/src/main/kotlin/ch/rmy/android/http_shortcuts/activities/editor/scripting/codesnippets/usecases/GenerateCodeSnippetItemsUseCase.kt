@@ -320,6 +320,15 @@ constructor(
                 ) {
                     insertText("abort();\n")
                 }
+                if (initData.includeSuccessOptions) {
+                    item(
+                        R.string.action_type_abort_and_treat_as_failure,
+                        docRef = "abort",
+                        keywords = setOf("stop", "cancel", "exit", "failure"),
+                    ) {
+                        insertText("abortAndTreatAsFailure();\n")
+                    }
+                }
             }
             section(R.string.dialog_code_snippet_text_processing, R.drawable.ic_text_processing) {
                 item(

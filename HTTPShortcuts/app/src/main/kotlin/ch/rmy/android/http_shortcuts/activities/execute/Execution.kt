@@ -46,6 +46,7 @@ import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
+import ch.rmy.android.http_shortcuts.exceptions.TreatAsFailureException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.extensions.getSafeName
 import ch.rmy.android.http_shortcuts.extensions.isTemporaryShortcut
@@ -389,10 +390,40 @@ class Execution(
             throw e
         }
 
-        scriptExecutor.execute(
-            script = shortcut.codeOnSuccess,
-            response = response,
-        )
+        try {
+            scriptExecutor.registerAbortAndTreatAsFailure()
+            scriptExecutor.execute(
+                script = shortcut.codeOnSuccess,
+                response = response,
+            )
+        } catch (e: TreatAsFailureException) {
+            scriptExecutor.execute(
+                script = shortcut.codeOnFailure,
+                error = ErrorResponse(response),
+            )
+
+            when (val failureOutput = shortcut.responseHandling?.failureOutput) {
+                ResponseHandling.FAILURE_OUTPUT_DETAILED,
+                ResponseHandling.FAILURE_OUTPUT_SIMPLE,
+                -> {
+                    displayResult(
+                        generateOutputFromError(e, simple = failureOutput == ResponseHandling.FAILURE_OUTPUT_SIMPLE),
+                        response = response,
+                    )
+                }
+                else -> Unit
+            }
+
+            emit(
+                ExecutionStatus.CompletedWithError(
+                    error = null,
+                    response = response,
+                    variableValues = variableManager.getVariableValuesByIds(),
+                    result = resultHandler.getResult(),
+                ),
+            )
+            return
+        }
 
         if (shortcut.responseHandling?.storeDirectory != null && response.contentFile != null) {
             renameResponseFile(response, variableManager)

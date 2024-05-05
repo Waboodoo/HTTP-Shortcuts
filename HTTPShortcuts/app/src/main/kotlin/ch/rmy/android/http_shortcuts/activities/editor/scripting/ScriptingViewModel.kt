@@ -196,6 +196,7 @@ constructor(
                 )
                 CodeFieldType.SUCCESS -> NavigationDestination.CodeSnippetPicker.buildRequest(
                     shortcutId = initData.currentShortcutId,
+                    includeSuccessOptions = true,
                     includeResponseOptions = true,
                 )
                 CodeFieldType.FAILURE -> NavigationDestination.CodeSnippetPicker.buildRequest(

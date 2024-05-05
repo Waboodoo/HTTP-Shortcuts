@@ -246,6 +246,7 @@ constructor(
 
     data class InitData(
         val currentShortcutId: ShortcutId?,
+        val includeSuccessOptions: Boolean,
         val includeResponseOptions: Boolean,
         val includeNetworkErrorOption: Boolean,
     )
