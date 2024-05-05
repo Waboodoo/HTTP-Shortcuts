@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 data class HistoryListItem(
     val id: String,
     val time: LocalDateTime,
+    val epochMillis: Long,
     val title: Localizable,
     val detail: Localizable?,
     val displayType: DisplayType?,

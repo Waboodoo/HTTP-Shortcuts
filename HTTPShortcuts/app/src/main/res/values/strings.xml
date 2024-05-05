@@ -1315,6 +1315,8 @@
     <string name="title_event_history">Event History</string>
     <!-- Button in Event History screen, to clear all events and empty the history -->
     <string name="button_clear_history">Clear History</string>
+    <!-- Button in Event History screen, to switch between showing absolute times and relative times -->
+    <string name="button_history_toggle_time_mode">Toggle Time Mode</string>
     <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
     <string name="message_history_cleared">History cleared.</string>
     <!-- Empty state, shown in event history when there are no recent events -->
@@ -1567,4 +1569,8 @@
     <string name="instructions_export">Select which shortcuts should be exported. All required variables will be exported automatically.</string>
     <!-- Title shown on Response screen which allows to expand a panel showing some meta information about the response -->
     <string name="title_response_meta_information">Meta Information</string>
+    <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute values (e.g. 13:37) -->
+    <string name="message_history_switched_to_absolute_times">Switched to absolute times.</string>
+    <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute relative (e.g. 42 sec ago) -->
+    <string name="message_history_switched_to_relative_times">Switched to relative times.</string>
 </resources>

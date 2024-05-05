@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.history
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -17,6 +18,12 @@ fun HistoryScreen() {
         viewState = state,
         title = stringResource(R.string.title_event_history),
         actions = { viewState ->
+            ToolbarIcon(
+                Icons.Filled.AccessTime,
+                contentDescription = stringResource(R.string.button_history_toggle_time_mode),
+                enabled = viewState.isTimeModeButtonEnabled,
+                onClick = viewModel::onTimeModeToggleButtonClicked,
+            )
             ToolbarIcon(
                 Icons.Filled.Delete,
                 contentDescription = stringResource(R.string.button_clear_history),

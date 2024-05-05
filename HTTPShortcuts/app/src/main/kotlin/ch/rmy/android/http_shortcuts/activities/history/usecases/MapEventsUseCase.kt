@@ -27,6 +27,7 @@ constructor() {
             HistoryListItem(
                 id = eventModel.id,
                 time = LocalDateTime.ofInstant(eventModel.eventTime, ZoneId.systemDefault()),
+                epochMillis = eventModel.eventTime.toEpochMilli(),
                 title = event.getTitle(),
                 detail = event.getDetail(),
                 displayType = event.getDisplayType(),

@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.activities.history.usecases.CopyHistoryItem
 import ch.rmy.android.http_shortcuts.activities.history.usecases.MapEventsUseCase
 import ch.rmy.android.http_shortcuts.data.domains.history.HistoryRepository
 import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
+import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,6 +23,7 @@ constructor(
     private val mapEvents: MapEventsUseCase,
     private val historyCleanUpStarter: HistoryCleanUpWorker.Starter,
     private val copyHistoryItemUseCase: CopyHistoryItemUseCase,
+    private val settings: Settings,
 ) : BaseViewModel<Unit, HistoryViewState>(application) {
 
     override suspend fun initialize(data: Unit): HistoryViewState {
@@ -37,6 +39,7 @@ constructor(
         }
         return HistoryViewState(
             historyItems = emptyList(),
+            useRelativeTimes = settings.useRelativeTimesInHistory,
         )
     }
 
@@ -53,6 +56,15 @@ constructor(
             ?: skipAction()
         copyHistoryItemUseCase(item)
         showSnackbar(R.string.message_history_event_details_copied)
+    }
+
+    fun onTimeModeToggleButtonClicked() = runAction {
+        val useRelative = !getCurrentViewState().useRelativeTimes
+        updateViewState {
+            settings.useRelativeTimesInHistory = useRelative
+            copy(useRelativeTimes = useRelative)
+        }
+        showSnackbar(if (useRelative) R.string.message_history_switched_to_relative_times else R.string.message_history_switched_to_absolute_times)
     }
 
     companion object {

@@ -62,6 +62,7 @@ fun <T : Any> SimpleScaffold(
     val showSnackbar = remember(snackbarHostState, scope) {
         { message: String, long: Boolean ->
             scope.launch {
+                snackbarHostState.currentSnackbarData?.dismiss()
                 snackbarHostState.showSnackbar(
                     message = message,
                     duration = if (long) SnackbarDuration.Long else SnackbarDuration.Short,

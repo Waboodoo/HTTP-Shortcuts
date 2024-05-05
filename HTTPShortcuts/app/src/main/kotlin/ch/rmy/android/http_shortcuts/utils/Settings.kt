@@ -105,6 +105,10 @@ constructor(
             putString(KEY_COLOR_THEME, newValue)
         }
 
+    var useRelativeTimesInHistory: Boolean
+        get() = getBoolean(KEY_HISTORY_USE_RELATIVE_TIMES)
+        set(value) = putBoolean(KEY_HISTORY_USE_RELATIVE_TIMES, value)
+
     private val _colorThemeFlow = MutableStateFlow(colorTheme)
     val colorThemeFlow = _colorThemeFlow.asStateFlow()
 
@@ -133,5 +137,6 @@ constructor(
         private const val KEY_USER_AGENT = "user_agent"
         private const val KEY_EXPERIMENTAL_EXECUTION_MODE = "experimental_execution_mode"
         private const val KEY_COLOR_THEME = "color_theme"
+        private const val KEY_HISTORY_USE_RELATIVE_TIMES = "history_relative_times"
     }
 }

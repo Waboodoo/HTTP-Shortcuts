@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.history
 
+import android.text.format.DateUtils
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
@@ -14,8 +15,12 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -28,6 +33,10 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.formatMediumTime
 import ch.rmy.android.http_shortcuts.extensions.formatShortTime
 import ch.rmy.android.http_shortcuts.extensions.localize
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import java.time.Instant
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun HistoryContent(state: HistoryViewState, onLongPressed: (eventId: String) -> Unit) {
@@ -53,6 +62,7 @@ fun HistoryContent(state: HistoryViewState, onLongPressed: (eventId: String) -> 
             ) { historyItem ->
                 HistoryListItemView(
                     historyItem,
+                    useRelativeTime = state.useRelativeTimes,
                     expanded = expanded.getOrDefault(historyItem.id, false),
                     onClick = {
                         expanded[historyItem.id] = !expanded.getOrDefault(historyItem.id, false)
@@ -70,10 +80,13 @@ fun HistoryContent(state: HistoryViewState, onLongPressed: (eventId: String) -> 
 @Composable
 private fun HistoryListItemView(
     historyItem: HistoryListItem,
+    useRelativeTime: Boolean,
     expanded: Boolean,
     onClick: () -> Unit,
     onLongPress: () -> Unit,
 ) {
+    val now = if (useRelativeTime) now() else 0L
+
     Column(
         modifier = Modifier
             .combinedClickable(
@@ -102,7 +115,11 @@ private fun HistoryListItemView(
                         .weight(1f, fill = true)
                 )
 
-                Time(historyItem, detailed = expanded)
+                if (useRelativeTime) {
+                    Time(time = relativeTime(historyItem.epochMillis, now))
+                } else {
+                    Time(time = historyItem.time.run { if (expanded) formatMediumTime() else formatShortTime() })
+                }
             }
 
             if (expanded) {
@@ -113,6 +130,24 @@ private fun HistoryListItemView(
 
     HorizontalDivider()
 }
+
+@Composable
+private fun now(): Long {
+    var now by remember {
+        mutableLongStateOf(Instant.now().toEpochMilli())
+    }
+    LaunchedEffect(Unit) {
+        while (isActive) {
+            now = Instant.now().toEpochMilli()
+            delay(1.seconds)
+        }
+    }
+    return now
+}
+
+private fun relativeTime(epochMillis: Long, now: Long): String =
+    DateUtils.getRelativeTimeSpanString(epochMillis, now, 0L, DateUtils.FORMAT_ABBREV_ALL)
+        .toString()
 
 @Composable
 private fun Title(historyItem: HistoryListItem, modifier: Modifier = Modifier) {
@@ -134,9 +169,9 @@ private fun HistoryListItem.getTitleColor(): Color =
     }
 
 @Composable
-private fun Time(historyItem: HistoryListItem, detailed: Boolean) {
+private fun Time(time: String) {
     Text(
-        text = historyItem.time.run { if (detailed) formatMediumTime() else formatShortTime() },
+        text = time,
         fontSize = FontSize.TINY,
     )
 }
