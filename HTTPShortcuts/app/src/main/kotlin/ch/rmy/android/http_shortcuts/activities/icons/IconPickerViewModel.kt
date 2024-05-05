@@ -89,15 +89,12 @@ constructor(
         }
         val icon = ShortcutIcon.CustomIcon(iconName)
 
-        val isFirstIcon = viewState.icons.isEmpty()
         updateViewState {
             copy(
                 icons = icons.plus(IconPickerListItem(icon, isUnused = true)),
             )
         }
-        if (isFirstIcon) {
-            selectIcon(icon)
-        }
+        selectIcon(icon)
     }
 
     fun onImagePickerFailed() = runAction {
