@@ -285,16 +285,16 @@ class Shortcut() : RealmObject {
         require(method in setOf(METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_PATCH, METHOD_DELETE, METHOD_HEAD, METHOD_OPTIONS, METHOD_TRACE)) {
             "Invalid method: $method"
         }
-        require(ShortcutExecutionType.values().any { it.type == executionType }) {
+        require(ShortcutExecutionType.entries.any { it.type == executionType }) {
             "Invalid shortcut executionType: $executionType"
         }
         require(retryPolicy in setOf(RETRY_POLICY_NONE, RETRY_POLICY_WAIT_FOR_INTERNET)) {
             "Invalid retry policy: $retryPolicy"
         }
-        require(RequestBodyType.values().any { it.type == requestBodyType }) {
+        require(RequestBodyType.entries.any { it.type == requestBodyType }) {
             "Invalid request body type: $requestBodyType"
         }
-        require(ShortcutAuthenticationType.values().any { it.type == authentication }) {
+        require(ShortcutAuthenticationType.entries.any { it.type == authentication }) {
             "Invalid authentication: $authentication"
         }
         require(timeout >= 0) {

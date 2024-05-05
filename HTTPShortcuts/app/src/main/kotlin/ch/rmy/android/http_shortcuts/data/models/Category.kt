@@ -69,7 +69,7 @@ class Category() : RealmObject {
         require(id.isUUID() || id.isInt()) {
             "Invalid category ID found, must be UUID: $id"
         }
-        require(CategoryLayoutType.values().any { it.type == layoutType || it.legacyAlias == layoutType }) {
+        require(CategoryLayoutType.entries.any { it.type == layoutType || it.legacyAlias == layoutType }) {
             "Invalid layout type: $layoutType"
         }
         require(name.isNotBlank()) {

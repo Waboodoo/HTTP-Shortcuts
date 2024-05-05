@@ -140,7 +140,7 @@ class Variable() : RealmObject {
         require(Variables.isValidVariableKey(key)) {
             "Invalid variable key: $key"
         }
-        require(VariableType.values().any { it.type == type }) {
+        require(VariableType.entries.any { it.type == type }) {
             "Invalid variable type: $type"
         }
         options?.forEach(Option::validate)

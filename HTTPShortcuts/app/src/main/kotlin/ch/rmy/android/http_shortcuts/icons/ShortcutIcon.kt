@@ -34,7 +34,7 @@ sealed interface ShortcutIcon {
                     matchResult.groupValues[2]
                         .hexStringToColorInt()
                 }
-                ?: Icons.TintColor.values()
+                ?: Icons.TintColor.entries
                     .firstOrNull {
                         iconName.startsWith(it.prefix)
                     }

@@ -9,7 +9,7 @@ import androidx.activity.result.contract.ActivityResultContract
 object BarcodeScannerContract : ActivityResultContract<Unit, String?>() {
 
     override fun createIntent(context: Context, input: Unit): Intent {
-        for (targetApp in BarcodeScannerApp.values()) {
+        for (targetApp in BarcodeScannerApp.entries) {
             val intent = targetApp.createIntent()
             if (context.packageManager.queryIntentActivities(intent, 0).isNotEmpty()) {
                 return intent
@@ -22,7 +22,7 @@ object BarcodeScannerContract : ActivityResultContract<Unit, String?>() {
         intent
             ?.takeIf { resultCode == RESULT_OK }
             ?.run {
-                for (targetApp in BarcodeScannerApp.values()) {
+                for (targetApp in BarcodeScannerApp.entries) {
                     val result = targetApp.getResult(this)
                     if (result != null) {
                         return@run result
