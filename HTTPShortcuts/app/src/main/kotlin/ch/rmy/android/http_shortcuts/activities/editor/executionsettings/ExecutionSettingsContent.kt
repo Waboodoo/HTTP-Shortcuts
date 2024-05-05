@@ -65,6 +65,7 @@ fun ExecutionSettingsContent(
 
         Checkbox(
             label = stringResource(R.string.label_secondary_launcher_shortcut),
+            subtitle = stringResource(R.string.subtitle_secondary_launcher_shortcut),
             checked = secondaryLauncherShortcut,
             onCheckedChange = onSecondaryLauncherShortcutChanged,
         )
