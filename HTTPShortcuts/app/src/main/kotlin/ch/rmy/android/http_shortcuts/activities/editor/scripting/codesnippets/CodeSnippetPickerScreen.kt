@@ -5,7 +5,7 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.launch
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.HelpOutline
+import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -86,7 +86,7 @@ fun CodeSnippetPickerScreen(
         title = stringResource(R.string.title_add_code_snippet),
         actions = {
             ToolbarIcon(
-                Icons.Filled.HelpOutline,
+                Icons.AutoMirrored.Filled.HelpOutline,
                 contentDescription = stringResource(R.string.button_show_help),
                 onClick = viewModel::onHelpButtonClicked,
             )

@@ -2,8 +2,8 @@ package ch.rmy.android.http_shortcuts.activities.variables
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.HelpOutline
-import androidx.compose.material.icons.filled.Sort
+import androidx.compose.material.icons.automirrored.filled.HelpOutline
+import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
@@ -25,13 +25,13 @@ fun VariablesScreen() {
         title = stringResource(R.string.title_variables),
         actions = { viewState ->
             ToolbarIcon(
-                Icons.Filled.Sort,
+                Icons.AutoMirrored.Filled.Sort,
                 contentDescription = stringResource(R.string.button_sort_variables),
                 enabled = viewState.isSortButtonEnabled,
                 onClick = viewModel::onSortButtonClicked,
             )
             ToolbarIcon(
-                Icons.Filled.HelpOutline,
+                Icons.AutoMirrored.Filled.HelpOutline,
                 contentDescription = stringResource(R.string.button_show_help),
                 onClick = viewModel::onHelpButtonClicked,
             )

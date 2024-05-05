@@ -2,9 +2,9 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.HelpOutline
+import androidx.compose.material.icons.automirrored.filled.HelpOutline
+import androidx.compose.material.icons.automirrored.filled.Undo
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Undo
 import androidx.compose.material.icons.outlined.PostAdd
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -54,7 +54,7 @@ fun ScriptingScreen(
         title = stringResource(R.string.label_scripting),
         actions = { viewState ->
             ToolbarIcon(
-                Icons.Filled.Undo,
+                Icons.AutoMirrored.Filled.Undo,
                 enabled = viewState.isUndoButtonEnabled,
                 contentDescription = stringResource(R.string.button_undo),
                 onClick = viewModel::onUndoButtonClicked,
@@ -68,7 +68,7 @@ fun ScriptingScreen(
                 )
             }
             ToolbarIcon(
-                Icons.Filled.HelpOutline,
+                Icons.AutoMirrored.Filled.HelpOutline,
                 contentDescription = stringResource(R.string.button_show_help),
                 onClick = viewModel::onHelpButtonClicked,
             )

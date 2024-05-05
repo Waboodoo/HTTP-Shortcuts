@@ -17,8 +17,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.GridView
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
@@ -117,7 +117,7 @@ private fun CategoryItem(
                     horizontalAlignment = Alignment.End,
                 ) {
                     val typeIcon = when (category.layoutType) {
-                        CategoryLayoutType.LINEAR_LIST -> Icons.Filled.List
+                        CategoryLayoutType.LINEAR_LIST -> Icons.AutoMirrored.Filled.List
                         CategoryLayoutType.DENSE_GRID,
                         CategoryLayoutType.MEDIUM_GRID,
                         CategoryLayoutType.WIDE_GRID,

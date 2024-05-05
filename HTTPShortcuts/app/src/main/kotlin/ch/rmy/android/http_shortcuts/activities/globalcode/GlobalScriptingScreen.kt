@@ -2,8 +2,8 @@ package ch.rmy.android.http_shortcuts.activities.globalcode
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.material.icons.outlined.PostAdd
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -40,7 +40,7 @@ fun GlobalScriptingScreen(
         backButton = BackButton.CROSS,
         actions = { viewState ->
             ToolbarIcon(
-                Icons.Filled.HelpOutline,
+                Icons.AutoMirrored.Filled.HelpOutline,
                 contentDescription = stringResource(R.string.button_show_help),
                 onClick = viewModel::onHelpButtonClicked,
             )
