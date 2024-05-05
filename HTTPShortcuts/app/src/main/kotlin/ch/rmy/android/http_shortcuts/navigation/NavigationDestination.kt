@@ -166,8 +166,23 @@ sealed interface NavigationDestination {
         const val RESULT_CATEGORIES_CHANGED_FROM_IMPORT = "categories-changed-from-import"
     }
 
-    object Export : NoArgNavigationDestination {
+    object Export : NavigationDestination {
+        private const val ARG_TO_FILE = "toFile"
+
         override val path = "export"
+
+        override val arguments =
+            listOf(
+                optionalBooleanArg(ARG_TO_FILE)
+            )
+
+        fun buildRequest(toFile: Boolean) =
+            buildNavigationRequest {
+                parameter(ARG_TO_FILE, toFile)
+            }
+
+        fun extractToFile(bundle: Bundle): Boolean =
+            bundle.getBoolean(ARG_TO_FILE)
     }
 
     object MoveShortcuts : NoArgNavigationDestination {

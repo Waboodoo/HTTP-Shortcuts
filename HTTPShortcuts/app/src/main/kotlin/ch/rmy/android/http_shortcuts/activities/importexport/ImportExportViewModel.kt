@@ -79,8 +79,12 @@ constructor(
         setDialogState(ImportExportDialogState.ImportFromUrl(initialValue = prefill))
     }
 
-    fun onExportButtonClicked() = runAction {
-        navigate(NavigationDestination.Export)
+    fun onExportToFileButtonClicked() = runAction {
+        navigate(NavigationDestination.Export.buildRequest(toFile = true))
+    }
+
+    fun onExportViaShareButtonClicked() = runAction {
+        navigate(NavigationDestination.Export.buildRequest(toFile = false))
     }
 
     fun onRemoteEditorChangesImported() = runAction {

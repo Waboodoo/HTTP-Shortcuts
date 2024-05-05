@@ -37,7 +37,7 @@ constructor(
     private val categoryRepository: CategoryRepository,
     private val getUsedVariableIds: GetUsedVariableIdsUseCase,
     private val exporter: Exporter,
-) : BaseViewModel<Unit, ExportViewState>(application) {
+) : BaseViewModel<ExportViewModel.InitData, ExportViewState>(application) {
 
     private var currentJob: Job? = null
         set(value) {
@@ -45,7 +45,7 @@ constructor(
             field = value
         }
 
-    override suspend fun initialize(data: Unit): ExportViewState {
+    override suspend fun initialize(data: InitData): ExportViewState {
         val items = buildList {
             categoryRepository.getCategories()
                 .forEach { category ->
@@ -83,20 +83,19 @@ constructor(
             .map { it.shortcutId }
 
     fun onExportButtonClicked() = runAction {
-        setDialogState(ExportDialogState.SelectExportDestinationDialog)
+        if (initData.toFile) {
+            emitEvent(ExportEvent.OpenFilePickerForExport)
+        } else {
+            currentJob = launch {
+                sendExport()
+            }
+        }
     }
 
     fun onFilePickedForExport(file: Uri) = runAction {
         hideDialog()
         currentJob = launch {
             startExportToUri(file)
-        }
-    }
-
-    fun onExportViaSharingOptionSelected() = runAction {
-        hideDialog()
-        currentJob = launch {
-            sendExport()
         }
     }
 
@@ -197,11 +196,6 @@ constructor(
         }
     }
 
-    fun onExportToFileOptionSelected() = runAction {
-        hideDialog()
-        emitEvent(ExportEvent.OpenFilePickerForExport)
-    }
-
     fun onShortcutCheckedChanged(shortcutId: ShortcutId, checked: Boolean) = runAction {
         updateViewState {
             var affectedCategoryId: CategoryId? = null
@@ -277,4 +271,8 @@ constructor(
             )
         }
     }
+
+    data class InitData(
+        val toFile: Boolean,
+    )
 }

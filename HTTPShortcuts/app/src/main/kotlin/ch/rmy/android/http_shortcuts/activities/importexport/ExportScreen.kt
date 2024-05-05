@@ -19,9 +19,9 @@ import ch.rmy.android.http_shortcuts.components.bindViewModel
 import ch.rmy.android.http_shortcuts.import_export.OpenFilePickerForExportContract
 
 @Composable
-fun ExportScreen() {
+fun ExportScreen(toFile: Boolean) {
     val context = LocalContext.current
-    val (viewModel, state) = bindViewModel<ExportViewState, ExportViewModel>()
+    val (viewModel, state) = bindViewModel<ExportViewModel.InitData, ExportViewState, ExportViewModel>(ExportViewModel.InitData(toFile))
 
     val openFilePickerForExport = rememberLauncherForActivityResult(OpenFilePickerForExportContract) { fileUri ->
         fileUri?.let(viewModel::onFilePickedForExport)
@@ -77,7 +77,5 @@ fun ExportScreen() {
     ExportDialog(
         state?.dialogState,
         onDismissRequest = viewModel::onDialogDismissalRequested,
-        onExportToFileOptionSelected = viewModel::onExportToFileOptionSelected,
-        onExportViaSharingOptionSelected = viewModel::onExportViaSharingOptionSelected,
     )
 }

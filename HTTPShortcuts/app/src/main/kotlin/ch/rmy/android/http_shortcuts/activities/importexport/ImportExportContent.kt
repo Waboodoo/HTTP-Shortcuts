@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Input
 import androidx.compose.material.icons.outlined.CloudDownload
 import androidx.compose.material.icons.outlined.Devices
 import androidx.compose.material.icons.outlined.Input
 import androidx.compose.material.icons.outlined.Output
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,7 +23,8 @@ fun ImportExportContent(
     exportEnabled: Boolean,
     onImportFromFileClicked: () -> Unit,
     onImportFromUrlClicked: () -> Unit,
-    onExportClicked: () -> Unit,
+    onExportToFileClicked: () -> Unit,
+    onExportViaShareClicked: () -> Unit,
     onRemoteEditButtonClicked: () -> Unit,
 ) {
     Column(
@@ -33,7 +36,7 @@ fun ImportExportContent(
             title = stringResource(R.string.settings_title_import),
         ) {
             SettingsButton(
-                icon = Icons.Outlined.Input,
+                icon = Icons.AutoMirrored.Outlined.Input,
                 title = stringResource(R.string.settings_import_from_file),
                 onClick = onImportFromFileClicked,
             )
@@ -50,9 +53,15 @@ fun ImportExportContent(
         ) {
             SettingsButton(
                 icon = Icons.Outlined.Output,
-                title = stringResource(R.string.settings_export),
+                title = stringResource(R.string.settings_export_to_file),
                 enabled = exportEnabled,
-                onClick = onExportClicked,
+                onClick = onExportToFileClicked,
+            )
+            SettingsButton(
+                icon = Icons.Outlined.Share,
+                title = stringResource(R.string.settings_export_via_share),
+                enabled = exportEnabled,
+                onClick = onExportViaShareClicked,
             )
         }
 

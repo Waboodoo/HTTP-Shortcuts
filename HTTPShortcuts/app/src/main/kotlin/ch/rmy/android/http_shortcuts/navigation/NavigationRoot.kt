@@ -128,8 +128,10 @@ fun NavigationRoot() {
             )
         }
 
-        composable(NavigationDestination.Export) {
-            ExportScreen()
+        composable(NavigationDestination.Export) { backStackEntry ->
+            ExportScreen(
+                toFile = NavigationDestination.Export.extractToFile(backStackEntry.arguments!!),
+            )
         }
 
         composable(NavigationDestination.MoveShortcuts) {

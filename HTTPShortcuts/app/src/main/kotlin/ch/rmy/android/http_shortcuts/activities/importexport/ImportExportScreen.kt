@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.HelpOutline
+import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -64,7 +64,7 @@ fun ImportExportScreen(
         title = stringResource(R.string.title_import_export),
         actions = {
             ToolbarIcon(
-                Icons.Outlined.HelpOutline,
+                Icons.AutoMirrored.Filled.HelpOutline,
                 contentDescription = stringResource(R.string.button_show_help),
                 onClick = viewModel::onHelpButtonClicked,
             )
@@ -74,7 +74,8 @@ fun ImportExportScreen(
             exportEnabled = viewState.exportEnabled,
             onImportFromFileClicked = viewModel::onImportFromFileButtonClicked,
             onImportFromUrlClicked = viewModel::onImportFromURLButtonClicked,
-            onExportClicked = viewModel::onExportButtonClicked,
+            onExportToFileClicked = viewModel::onExportToFileButtonClicked,
+            onExportViaShareClicked = viewModel::onExportViaShareButtonClicked,
             onRemoteEditButtonClicked = viewModel::onRemoteEditButtonClicked,
         )
     }

@@ -52,4 +52,6 @@
     <string name="instructions_repetitions">The timing of the repetition is not exact but can vary by a few minutes, as it is subject to Android\'s power optimisations. Please note that using this feature might significantly increase the app\'s use of battery.</string>
     <!-- Title of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
     <string name="settings_ignore_battery_optimizations">Exclude from Battery Optimisation</string>
+    <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
+    <string name="settings_export_via_share">Export via Share Dialogue</string>
 </resources>

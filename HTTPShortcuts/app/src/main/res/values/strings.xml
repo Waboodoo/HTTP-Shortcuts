@@ -216,8 +216,10 @@
     <string name="settings_import_from_file">Import from File</string>
     <!-- Button in settings page to start import of shortcuts from a url -->
     <string name="settings_import_from_url">Import from URL</string>
-    <!-- Button in settings page to start export of shortcuts -->
-    <string name="settings_export">Export Shortcuts &amp; Variables</string>
+    <!-- Button on Import&Export screen to lets the user export shortcuts into a file -->
+    <string name="settings_export_to_file">Export to File</string>
+    <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
+    <string name="settings_export_via_share">Export via Share Dialog</string>
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">Edit on Computer</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
