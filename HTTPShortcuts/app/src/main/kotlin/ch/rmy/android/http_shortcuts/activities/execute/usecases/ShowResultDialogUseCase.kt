@@ -63,6 +63,7 @@ constructor(
                         )
                     },
                     monospace = responseHandling?.monospace == true,
+                    fontSize = responseHandling?.fontSize,
                 )
             )
         } catch (e: DialogCancellationException) {

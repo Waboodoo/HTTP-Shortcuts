@@ -202,11 +202,23 @@ fun ResponseContent(
                 }
 
                 AnimatedVisibility(visible = responseContentType == ResponseContentType.PLAIN_TEXT) {
-                    Checkbox(
-                        label = stringResource(R.string.label_monospace_response),
-                        checked = useMonospaceFont,
-                        onCheckedChange = onUseMonospaceFontChanged,
-                    )
+                    Column {
+                        Checkbox(
+                            label = stringResource(R.string.label_monospace_response),
+                            checked = useMonospaceFont,
+                            onCheckedChange = onUseMonospaceFontChanged,
+                        )
+
+                        SelectionField(
+                            modifier = Modifier
+                                .padding(top = Spacing.SMALL)
+                                .padding(horizontal = Spacing.MEDIUM),
+                            title = stringResource(R.string.label_font_size),
+                            selectedKey = fontSize,
+                            items = FONT_SIZES.toItems(),
+                            onItemSelected = onFontSizeChanged,
+                        )
+                    }
                 }
             }
         }

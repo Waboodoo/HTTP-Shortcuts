@@ -89,6 +89,7 @@ sealed class ExecuteDialogState<T : Any> {
         val action: ResponseDisplayAction?,
         val content: Content,
         val monospace: Boolean,
+        val fontSize: Int?,
     ) : ExecuteDialogState<Unit>() {
         @Stable
         sealed class Content {

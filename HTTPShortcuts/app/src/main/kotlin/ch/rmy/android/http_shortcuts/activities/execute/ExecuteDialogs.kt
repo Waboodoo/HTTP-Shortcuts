@@ -31,7 +31,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.isUnspecified
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.R
@@ -249,6 +252,7 @@ private fun ExecuteDialog(
                 content = dialogState.content,
                 action = dialogState.action,
                 monospace = dialogState.monospace,
+                fontSize = dialogState.fontSize?.sp ?: TextUnit.Unspecified,
                 onActionButtonClicked = {
                     onResult(Unit)
                 },
@@ -365,6 +369,7 @@ private fun ShowResultDialog(
     content: ExecuteDialogState.ShowResult.Content,
     action: ResponseDisplayAction?,
     monospace: Boolean,
+    fontSize: TextUnit,
     onActionButtonClicked: () -> Unit,
     onDismissed: () -> Unit,
 ) {
@@ -388,6 +393,8 @@ private fun ShowResultDialog(
                             Text(
                                 text = content.text,
                                 fontFamily = if (monospace) FontFamily.Monospace else null,
+                                fontSize = fontSize,
+                                lineHeight = if (fontSize.isUnspecified) TextUnit.Unspecified else fontSize * 1.2f,
                             )
                         }
                     }
