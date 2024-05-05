@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.moving.models.CategoryItem
 import ch.rmy.android.http_shortcuts.components.FontSize
@@ -50,6 +51,7 @@ fun MoveContent(
     val reorderableState = rememberReorderableLazyColumnState(lazyListState) { from, to ->
         val shortcutId = from.key as ShortcutId
         val targetKey = to.key as String
+        logInfo("MoveContent", "Moving shortcuts, from=$shortcutId, to=$targetKey")
         if (targetKey.startsWith(CATEGORY_KEY_PREFIX)) {
             onShortcutMovedToCategory(shortcutId, targetKey.removePrefix(CATEGORY_KEY_PREFIX))
         } else {

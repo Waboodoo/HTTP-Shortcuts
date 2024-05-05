@@ -33,6 +33,7 @@ constructor(
     val categories = _categories.asStateFlow()
 
     override suspend fun initialize(data: Unit) {
+        logInfo("Initialized MoveViewModel")
         viewModelScope.launch {
             categoryRepository.getObservableCategories().collect {
                 _categories.value = it.toCategoryItems()
@@ -130,6 +131,7 @@ constructor(
     }
 
     fun onMoveEnded() = runAction {
+        logInfo("Shortcut moving has ended, applying changes")
         withProgressTracking {
             shortcutRepository.moveShortcuts(
                 _categories.value.associate { category -> category.id to category.shortcuts.map { it.id } }
