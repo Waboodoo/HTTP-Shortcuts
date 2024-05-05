@@ -25,15 +25,15 @@ fun VariablesScreen() {
         title = stringResource(R.string.title_variables),
         actions = { viewState ->
             ToolbarIcon(
-                Icons.Filled.HelpOutline,
-                contentDescription = stringResource(R.string.button_show_help),
-                onClick = viewModel::onHelpButtonClicked,
-            )
-            ToolbarIcon(
                 Icons.Filled.Sort,
                 contentDescription = stringResource(R.string.button_sort_variables),
                 enabled = viewState.isSortButtonEnabled,
                 onClick = viewModel::onSortButtonClicked,
+            )
+            ToolbarIcon(
+                Icons.Filled.HelpOutline,
+                contentDescription = stringResource(R.string.button_show_help),
+                onClick = viewModel::onHelpButtonClicked,
             )
         },
         floatingActionButton = {
