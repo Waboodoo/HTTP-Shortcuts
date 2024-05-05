@@ -193,13 +193,13 @@
     <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
     <string name="settings_allow_overlay_xiaomi_summary">Enable if shortcuts are not working when triggered from Home Screen</string>
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: execute the shortcut (i.e., send request) -->
-    <string name="settings_click_behavior_run">Execute the Shortcut</string>
+    <string name="settings_click_behavior_run">Execute the shortcut</string>
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: edit the shortcut -->
-    <string name="settings_click_behavior_edit">Edit the Shortcut</string>
+    <string name="settings_click_behavior_edit">Edit the shortcut</string>
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
-    <string name="settings_click_behavior_menu">Show the Options Menu</string>
+    <string name="settings_click_behavior_menu">Show the options menu</string>
     <!-- Option in category editor to choose the shortcut click behavior, to set it to the global default -->
-    <string name="settings_click_behavior_global_default">Use Global Default</string>
+    <string name="settings_click_behavior_global_default">Use global default</string>
     <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
     <string name="title_import_export">Import / Export</string>
     <!-- Section title on settings screen for privacy related settings -->
@@ -997,11 +997,11 @@
     <!-- Error message: Shown when the user tries to use the 'scanBarcode' function but doesn't have the required app installed -->
     <string name="error_barcode_scanner_not_installed">The \“QR Droid\”, \“Barcode Scanner\” or \“Binary Eye\” app needs to be installed to scan barcodes.</string>
     <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
-    <string name="settings_dark_theme_options_on">Always Dark</string>
+    <string name="settings_dark_theme_options_on">Always dark</string>
     <!-- Settings option for dark mode: when selected the app will never use Dark Mode -->
-    <string name="settings_dark_theme_options_off">Always Light</string>
+    <string name="settings_dark_theme_options_off">Always light</string>
     <!-- Settings option for dark mode: when selected the app will use Dark Mode according to the system settings (i.e., automatically switch) -->
-    <string name="settings_dark_theme_options_auto">Follow System Settings</string>
+    <string name="settings_dark_theme_options_auto">Follow system settings</string>
     <!-- Title of dark mode theme settings (which allows user to pick how/when the app should use dark mode) -->
     <string name="settings_dark_theme">Dark Mode</string>
     <!-- Message: Shown as a placeholder when the HTTP response has no content that could be displayed -->
@@ -1558,7 +1558,7 @@
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">Device ID</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
-    <string name="settings_device_id_summary">Include this ID when you report bugs on Github:\n%s</string>
+    <string name="settings_device_id_summary">Include this ID when reporting bugs on Github:\n%s</string>
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
     <string name="message_device_id_copied">Device ID copied to clipboard.</string>
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
