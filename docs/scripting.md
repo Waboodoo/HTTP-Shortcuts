@@ -151,8 +151,8 @@ const myMeta = selectedFiles[0].meta;
 /*
 myMeta might look like this now:
 {
-    'created': '2022-12-31 23:59:59',
-    'orientation': 1,
+  'created': '2022-12-31 23:59:59',
+  'orientation': 1,
 }
 */
 ```
@@ -209,7 +209,7 @@ Similar to how JavaScript works in a browser, you can use `prompt()` and `confir
 
 ```js
 if (confirm('Are you sure?')) {
-    // Do something only if the user clicked 'OK'
+  // Do something only if the user clicked 'OK'
 }
 ```
 
@@ -279,9 +279,9 @@ const starterPokemon = showSelection(['Bulbasaur', 'Charmander', 'Squirtle']);
 
 // Using an object
 const favoriteColor = showSelection({
-    '#ff0000': 'Red',
-    '#00ff00': 'Green',
-    '#0000ff': 'Blue',
+  '#ff0000': 'Red',
+  '#00ff00': 'Green',
+  '#0000ff': 'Blue',
 });
 ```
 
@@ -442,15 +442,15 @@ The `parseHTML` function allows to parse an HTML string into an object represent
 ```js
 // Given some XML string
 const myHTML = `<html lang="de">
-    <head>
-        <title>Hello World</title>
-    </head>
-    <body>
-        <ul style="color: red">
-            <li>Item 1</li>
-            <li>Item 2</li>
-        </ul>
-    </body>
+  <head>
+    <title>Hello World</title>
+  </head>
+  <body>
+    <ul style="color: red">
+      <li>Item 1</li>
+      <li>Item 2</li>
+    </ul>
+  </body>
 </html>`;
 
 const result = parseHTML(myHTML);
@@ -458,50 +458,50 @@ const result = parseHTML(myHTML);
 /*
 The result variable now holds the following object (blank text fields omitted for clarity):
 {
-    "name": "html",
-    "attributes": {
-        "lang": "de"
-    },
-    "children": [
+  "name": "html",
+  "attributes": {
+    "lang": "de"
+  },
+  "children": [
+    {
+      "name": "head",
+      "attributes": {},
+      "children": [
         {
-            "name": "head",
-            "attributes": {},
-            "children": [
-                {
-                    "name": "title",
-                    "attributes": {},
-                    "children": [],
-                    "text": "Hello World"
-                }
-            ]
-        },
-        {
-            "name": "body",
-            "attributes": {},
-            "children": [
-                {
-                    "name": "ul",
-                    "attributes": {
-                        "style": "color: red"
-                    },
-                    "children": [
-                        {
-                            "name": "li",
-                            "attributes": {},
-                            "children": [],
-                            "text": "Item 1"
-                        },
-                        {
-                            "name": "li",
-                            "attributes": {},
-                            "children": [],
-                            "text": "Item 2"
-                        }
-                    ]
-                }
-            ]
+          "name": "title",
+          "attributes": {},
+           "children": [],
+           "text": "Hello World"
         }
-    ]
+      ]
+    },
+    {
+      "name": "body",
+      "attributes": {},
+      "children": [
+        {
+          "name": "ul",
+          "attributes": {
+            "style": "color: red"
+          },
+          "children": [
+            {
+              "name": "li",
+              "attributes": {},
+              "children": [],
+              "text": "Item 1"
+            },
+            {
+              "name": "li",
+              "attributes": {},
+              "children": [],
+              "text": "Item 2"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
 */
 
@@ -518,18 +518,18 @@ const result = parseHTML(myHTML, 'ul > li'); // query for all `li` elements whic
 /*
 The result variable now holds the following list of objects:
 [
-    {
-        "name": "li",
-        "attributes": {},
-        "children": [],
-        "text": "Item 1"
-    },
-    {
-        "name": "li",
-        "attributes": {},
-        "children": [],
-        "text": "Item 2"
-    }
+  {
+    "name": "li",
+    "attributes": {},
+    "children": [],
+    "text": "Item 1"
+  },
+  {
+    "name": "li",
+    "attributes": {},
+    "children": [],
+    "text": "Item 2"
+  }
 ]
 */
 ```
@@ -558,19 +558,19 @@ const result = parseXML(myXML);
 /*
 The result variable now holds the following object:
 {
-    "name": "element",
-    "attributes": {},
-    "children": [
-        {
-            "name": "foo",
-            "attributes": {
-                "bar": "123"
-            },
-            "children": [],
-            "text": "Hello World"
-        }
-    ],
-    "text": "\n    \n"
+  "name": "element",
+  "attributes": {},
+  "children": [
+    {
+      "name": "foo",
+      "attributes": {
+        "bar": "123"
+      },
+      "children": [],
+      "text": "Hello World"
+    }
+  ],
+  "text": "\n    \n"
 }
 */
 
@@ -633,13 +633,17 @@ wakeOnLan('01-23-45-67-89-ab', '255.255.255.255', 9);
 The `sendMqttMessages` function allows you to connect to an MQTT broker, send (i.e. publish) one or more messages to it, and then disconnect again. The first parameter is the URI of the server/broker, the second (optional) parameter provides options for the connection (e.g. username and password) and the third parameter is a list of all the messages that should be sent.
 
 ```js
-sendMQTTMessages("tcp://192.168.0.42:1234", {"username": "admin", "password": "1234"}, [
+sendMQTTMessages(
+  "tcp://192.168.0.42:1234",
+  {"username": "admin", "password": "1234"},
+  [
     {"topic": "hallway-lamp/set", "payload": "{\"state\":\"ON\"}"},
     {"topic": "desk-lamp/set", "payload": "{\"state\":\"ON\", \"brightness\": 255}"},
-]);
+  ]
+);
 ```
 
-> Please note that this does not provide any particular quality of service guarantees, and that it is not possible to subscribe to topics this way.
+> Please note that this does not provide any particular quality of service guarantees, and that it is not possible to subscribe to topics this way, meaning you can't receive any MQTT messages.
 
 <a name="send-tcp-packet"></a>
 ### Send TCP Packet
@@ -681,8 +685,8 @@ Optionally you can pass an object as the second parameter to provide values for 
 
 ```js
 enqueueShortcut('My Other Shortcut', {
-    'My_Variable1': 'Hello World',
-    'My_Variable2': ':D',
+  'My_Variable1': 'Hello World',
+  'My_Variable2': ':D',
 });
 ```
 
@@ -711,8 +715,8 @@ Optionally you can pass an object as the second parameter to provide values for 
 
 ```js
 executeShortcut('My Other Shortcut', {
-    'My_Variable1': 'Hello World',
-    'My_Variable2': ':D',
+  'My_Variable1': 'Hello World',
+  'My_Variable2': ':D',
 });
 ```
 
@@ -726,14 +730,14 @@ The function will return an object which contains a `status` field which you can
 ```js
 const result = executeShortcut('My Other Shortcut');
 if (result.status === 'success') {
-    const body = result.response.body;
-    alert(body);
+  const body = result.response.body;
+  alert(body);
 } else if (result.status === 'failure') {
-    if (result.networkError) {
-        alert(result.networkError);
-    } else {
-        alert(result.response.body);
-    }
+  if (result.networkError) {
+    alert(result.networkError);
+  } else {
+    alert(result.response.body);
+  }
 }
 ```
 
@@ -763,17 +767,17 @@ When executing or enqueuing another shortcut, it is possible to forward one or m
 ```js
 // Pass a single file
 enqueueShortcut('My Other Shortcut', {
-    '$files': selectedFiles[0].id,
+  '$files': selectedFiles[0].id,
 });
 
 // Pass 2 files
 enqueueShortcut('My Other Shortcut', {
-    '$files': [selectedFiles[0].id, selectedFiles[1].id],
+  '$files': [selectedFiles[0].id, selectedFiles[1].id],
 });
 
 // Pass all files
 enqueueShortcut('My Other Shortcut', {
-    '$files': selectedFiles.map(file => file.id),
+  '$files': selectedFiles.map(file => file.id),
 });
 ```
 
@@ -850,7 +854,7 @@ openUrl('https://www.wikipedia.org/');
 
 > Please note that this can not be used to open files.
 
-As a second parameter, you may pass the package name of the browser or app that should handle the URL. You may instead also pass "custom-tabs" or "custom-tabs(\[package-name])` to open the URL using a custom tab instead of a standalone browser window.
+As a second parameter, you may pass the package name of the browser or app that should handle the URL. You may instead also pass "custom-tabs" or "custom-tabs(\[package-name])" to open the URL using a custom tab instead of a standalone browser window.
 
 ```js
 openUrl('https://example.com', 'org.mozilla.firefox');
@@ -891,17 +895,17 @@ Here is a generic example showing the syntax:
 
 ```js
 sendIntent({
-    type: 'activity',
-    action: 'my.special.action',
-    packageName: 'com.example.foobar',
-    className: 'com.example.foobar.MainActivity',
-    extras: [
-        {
-            name: 'favorite_number',
-            type: 'int',
-            value: 42,
-        },
-    ],
+  type: 'activity',
+  action: 'my.special.action',
+  packageName: 'com.example.foobar',
+  className: 'com.example.foobar.MainActivity',
+  extras: [
+    {
+      name: 'favorite_number',
+      type: 'int',
+      value: 42,
+    },
+  ],
 });
 ```
 
@@ -909,9 +913,9 @@ The following example shows how you can use this function to open another applic
 
 ```js
 sendIntent({
-    type: 'activity',
-    action: 'android.intent.action.VIEW',
-    dataUri: 'https://example.com',
+  type: 'activity',
+  action: 'android.intent.action.VIEW',
+  dataUri: 'https://example.com',
 });
 ```
 The above example is equivalent to calling `openUrl('https://example.com')`.
@@ -920,9 +924,9 @@ If you want to just open a specific app without sending any data to it, you can 
 
 ```js
 sendIntent({
-    type: 'activity',
-    action: 'android.intent.action.MAIN',
-    packageName: 'com.android.chrome',
+  type: 'activity',
+  action: 'android.intent.action.MAIN',
+  packageName: 'com.android.chrome',
 });
 ```
 
@@ -936,8 +940,8 @@ If you have [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch
 triggerTaskerTask('doStuff');
 
 triggerTaskerTask('mytask', {
-    myLocalVariable: 'hello',
-    andAnother: 'world',
+  myLocalVariable: 'hello',
+  andAnother: 'world',
 });
 ```
 
@@ -971,9 +975,9 @@ The resulting object consists of the following fields:
 ```js
 const myLocation = getLocation();
 if (myLocation.status == 'success') {
-    alert(`I am currently at ${myLocation.coordinates}`);
+  alert(`I am currently at ${myLocation.coordinates}`);
 } else {
-    alert('I am so lost right now');
+  alert('I am so lost right now');
 }
 ```
 
@@ -1013,11 +1017,11 @@ This example shows how the shortcut icon and label can be changed based on the r
 
 ```js
 if (response.body == 'OK') {
-    renameShortcut('', 'Success');
-    changeIcon('', 'freepik_check'); // changes the icon of the current shortcut to a green checkmark
+  renameShortcut('', 'Success');
+  changeIcon('', 'freepik_check'); // changes the icon of the current shortcut to a green checkmark
 } else {
-    renameShortcut('', 'Failure');
-    changeIcon('', 'freepik_close'); // changes the icon of the current shortcut to a red cross
+  renameShortcut('', 'Failure');
+  changeIcon('', 'freepik_close'); // changes the icon of the current shortcut to a red cross
 }
 ```
 
@@ -1027,8 +1031,8 @@ This example shows how you can show a custom confirmation message before the sho
 
 ```js
 if (!confirm('Should I do the thing?')) {
-    showToast('Not doing the thing.');
-    abort();
+  showToast('Not doing the thing.');
+  abort();
 }
 ```
 
@@ -1036,10 +1040,10 @@ Or you might want to bypass the confirmation step if you are in your home networ
 
 ```js
 if (getWifiSSID() != 'My Home Network') {
-    if (!confirm('Should I do the thing?')) {
-        showToast('Not doing the thing.');
-        abort();
-    }
+  if (!confirm('Should I do the thing?')) {
+    showToast('Not doing the thing.');
+    abort();
+  }
 }
 ```
 

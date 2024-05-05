@@ -36,8 +36,8 @@ const allFileIds = selectedFiles.map(file =&gt; file.id);
 /*
 myMeta might look like this now:
 {
-    'created': '2022-12-31 23:59:59',
-    'orientation': 1,
+  'created': '2022-12-31 23:59:59',
+  'orientation': 1,
 }
 */
 </code></pre><p>The <code>orientation</code> field is an integer with the following meaning:</p><ul><li>0 means no orientation information is available</li><li>1 means a rotation of 0 degrees, i.e., no adjument is needed</li><li>2 means a rotation of 0 degrees, and the image is mirrored</li><li>3 means a rotation of 180 degrees</li><li>4 means a rotation of 180 degrees, and the image is mirrored</li><li>5 means a rotation of 90 degrees</li><li>6 means a rotation of 90 degrees, and the image is mirrored</li><li>7 means a rotation of 270 degrees</li><li>8 means a rotation of 270 degrees, and the image is mirrored</li></ul><p><a name="user-interaction"></a></p><h2>User Interaction</h2><p>This section describes how you can interact with the user (i.e., you), during the execution of a shortcut, e.g., to ask for additional input, to confirm an action or to display information.</p><p><a name="show-toast"></a></p><h3>showToast</h3><p>With this function you can display a toast message on the screen. Simply pass your message as the first parameter.</p><pre><code class="language-js">showToast('Hello World');
@@ -45,7 +45,7 @@ myMeta might look like this now:
 
 showDialog('You can also use &lt;b&gt;basic&lt;/b&gt; &lt;i&gt;HTML&lt;/i&gt; for formatting the message.');
 </code></pre><blockquote><p>Please note that no dialog will be displayed if the string you pass is empty.</p></blockquote><p><a name="prompt-confirm"></a></p><h3>prompt, confirm</h3><p>Similar to how JavaScript works in a browser, you can use <code>prompt()</code> and <code>confirm()</code> to ask the user for input as part of a workflow.</p><p><code>prompt()</code> will open a dialog window asking for text input. The entered text is then returned as a string. If the dialog is cancelled, <code>null</code> is returned instead. Pass a message in as the first parameter, and optionally a second parameter to prefill the text input field.</p><p><code>confirm()</code> will open a confirmation dialog. It returns true if the dialog is confirmed, or false if it is cancelled. Pass a message in as the first parameter.</p><pre><code class="language-js">if (confirm('Are you sure?')) {
-    // Do something only if the user clicked 'OK'
+  // Do something only if the user clicked 'OK'
 }
 </code></pre><pre><code class="language-js">const myName = prompt('What is your name?');
 </code></pre><p><a name="prompt-number"></a></p><h3>promptNumber</h3><p>You can use the <code>promptNumber</code>function to open an input dialog that asks for a number. The entered number will be the return value, or <code>null</code> if the dialog is cancelled. If the entered value is not a valid number <code>NaN</code> will be returned.</p><p>As the first parameter pass the text to display on the dialog. This must not be empty. As an optional second parameter you may pass a default value which is used to prefill the input field.</p><pre><code class="language-js">const myNumber = promptNumber('What is your favorite number?', 42);
@@ -62,9 +62,9 @@ const starterPokemon = showSelection(['Bulbasaur', 'Charmander', 'Squirtle']);
 
 // Using an object
 const favoriteColor = showSelection({
-    '#ff0000': 'Red',
-    '#00ff00': 'Green',
-    '#0000ff': 'Blue',
+  '#ff0000': 'Red',
+  '#00ff00': 'Green',
+  '#0000ff': 'Blue',
 });
 </code></pre><p><a name="play-sound"></a></p><h3>playSound</h3><p>With this function you can play a notification sound. If no argument is passed, it will use the system's default notification sound. You can use the Code Snippet picker inside the app to select a different sound.</p><pre><code class="language-js">playSound();
 </code></pre><p><a name="speak"></a></p><h3>speak</h3><p>With this function you can have a piece of text be read out loud, using the device's text-to-speech engine. Simply pass the text you want to read as the first parameter, and optionally a language identifier as the second parameter.</p><blockquote><p>Please note that only the first 400 characters will be read. Please also note that the second parameter is ignored if the language is not supported.</p></blockquote><pre><code class="language-js">speak('Hello World');
@@ -86,15 +86,15 @@ const myHMACasHex = toHexString(myHMAC);
 // the value of `myHMACasHex` is '34d60d40202ae16ae3dd70c9715b1900f9fe30cf10af483e74ea8f6bef18bd09' now.
 </code></pre><p><a name="parse-html"></a></p><h3>parseHTML</h3><p>The <code>parseHTML</code> function allows to parse an HTML string into an object representation. Each HTML element is converted into a JS object with attributes <code>name</code>, <code>attributes</code>, <code>children</code>, and <code>text</code> (if any), as is showcased by the following example:</p><pre><code class="language-js">// Given some XML string
 const myHTML = `&lt;html lang=&quot;de&quot;&gt;
-    &lt;head&gt;
-        &lt;title&gt;Hello World&lt;/title&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;ul style=&quot;color: red&quot;&gt;
-            &lt;li&gt;Item 1&lt;/li&gt;
-            &lt;li&gt;Item 2&lt;/li&gt;
-        &lt;/ul&gt;
-    &lt;/body&gt;
+  &lt;head&gt;
+    &lt;title&gt;Hello World&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;ul style=&quot;color: red&quot;&gt;
+      &lt;li&gt;Item 1&lt;/li&gt;
+      &lt;li&gt;Item 2&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/body&gt;
 &lt;/html&gt;`;
 
 const result = parseHTML(myHTML);
@@ -102,50 +102,50 @@ const result = parseHTML(myHTML);
 /*
 The result variable now holds the following object (blank text fields omitted for clarity):
 {
-    &quot;name&quot;: &quot;html&quot;,
-    &quot;attributes&quot;: {
-        &quot;lang&quot;: &quot;de&quot;
-    },
-    &quot;children&quot;: [
+  &quot;name&quot;: &quot;html&quot;,
+  &quot;attributes&quot;: {
+    &quot;lang&quot;: &quot;de&quot;
+  },
+  &quot;children&quot;: [
+    {
+      &quot;name&quot;: &quot;head&quot;,
+      &quot;attributes&quot;: {},
+      &quot;children&quot;: [
         {
-            &quot;name&quot;: &quot;head&quot;,
-            &quot;attributes&quot;: {},
-            &quot;children&quot;: [
-                {
-                    &quot;name&quot;: &quot;title&quot;,
-                    &quot;attributes&quot;: {},
-                    &quot;children&quot;: [],
-                    &quot;text&quot;: &quot;Hello World&quot;
-                }
-            ]
-        },
-        {
-            &quot;name&quot;: &quot;body&quot;,
-            &quot;attributes&quot;: {},
-            &quot;children&quot;: [
-                {
-                    &quot;name&quot;: &quot;ul&quot;,
-                    &quot;attributes&quot;: {
-                        &quot;style&quot;: &quot;color: red&quot;
-                    },
-                    &quot;children&quot;: [
-                        {
-                            &quot;name&quot;: &quot;li&quot;,
-                            &quot;attributes&quot;: {},
-                            &quot;children&quot;: [],
-                            &quot;text&quot;: &quot;Item 1&quot;
-                        },
-                        {
-                            &quot;name&quot;: &quot;li&quot;,
-                            &quot;attributes&quot;: {},
-                            &quot;children&quot;: [],
-                            &quot;text&quot;: &quot;Item 2&quot;
-                        }
-                    ]
-                }
-            ]
+          &quot;name&quot;: &quot;title&quot;,
+          &quot;attributes&quot;: {},
+           &quot;children&quot;: [],
+           &quot;text&quot;: &quot;Hello World&quot;
         }
-    ]
+      ]
+    },
+    {
+      &quot;name&quot;: &quot;body&quot;,
+      &quot;attributes&quot;: {},
+      &quot;children&quot;: [
+        {
+          &quot;name&quot;: &quot;ul&quot;,
+          &quot;attributes&quot;: {
+            &quot;style&quot;: &quot;color: red&quot;
+          },
+          &quot;children&quot;: [
+            {
+              &quot;name&quot;: &quot;li&quot;,
+              &quot;attributes&quot;: {},
+              &quot;children&quot;: [],
+              &quot;text&quot;: &quot;Item 1&quot;
+            },
+            {
+              &quot;name&quot;: &quot;li&quot;,
+              &quot;attributes&quot;: {},
+              &quot;children&quot;: [],
+              &quot;text&quot;: &quot;Item 2&quot;
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
 */
 
@@ -158,18 +158,18 @@ const result = parseHTML(myHTML, 'ul &gt; li'); // query for all `li` elements w
 /*
 The result variable now holds the following list of objects:
 [
-    {
-        &quot;name&quot;: &quot;li&quot;,
-        &quot;attributes&quot;: {},
-        &quot;children&quot;: [],
-        &quot;text&quot;: &quot;Item 1&quot;
-    },
-    {
-        &quot;name&quot;: &quot;li&quot;,
-        &quot;attributes&quot;: {},
-        &quot;children&quot;: [],
-        &quot;text&quot;: &quot;Item 2&quot;
-    }
+  {
+    &quot;name&quot;: &quot;li&quot;,
+    &quot;attributes&quot;: {},
+    &quot;children&quot;: [],
+    &quot;text&quot;: &quot;Item 1&quot;
+  },
+  {
+    &quot;name&quot;: &quot;li&quot;,
+    &quot;attributes&quot;: {},
+    &quot;children&quot;: [],
+    &quot;text&quot;: &quot;Item 2&quot;
+  }
 ]
 */
 </code></pre><p>In case you're not familiar with CSS selectors, here's some examples:</p><ul><li><code>li</code> would select all <code>&lt;li&gt;</code> elements</li><li><code>.my-class</code> would select all elements that have the class &quot;my-class&quot;</li><li><code>p img</code> would select all <code>&lt;img&gt;</code> elements which are within a <code>&lt;p&gt;</code> element (not necessarily as a direct child)</li><li><code>a[href]</code> would select all <code>&lt;a&gt;</code> elements which have a <code>href</code> attribute</li><li><code>[id=&quot;my-id&quot;]</code> would select all elements which have the <code>id=&quot;my-id&quot;</code> attribute</li><li><code>ul.my-class &gt; li</code> would select all <code>&lt;li&gt;</code> elements which are direct child elements of <code>&lt;ul&gt;</code> elements which have the &quot;my-class&quot; class</li></ul><p><a name="parse-xml"></a></p><h3>parseXML</h3><p>The <code>parseXML</code> function allows to parse an XML string into an object representation. Each XML element is converted into a JS object with attributes <code>name</code>, <code>attributes</code>, <code>children</code>, and <code>text</code> (if any), as is showcased by the following example:</p><pre><code class="language-js">// Given some XML string
@@ -182,19 +182,19 @@ const result = parseXML(myXML);
 /*
 The result variable now holds the following object:
 {
-    &quot;name&quot;: &quot;element&quot;,
-    &quot;attributes&quot;: {},
-    &quot;children&quot;: [
-        {
-            &quot;name&quot;: &quot;foo&quot;,
-            &quot;attributes&quot;: {
-                &quot;bar&quot;: &quot;123&quot;
-            },
-            &quot;children&quot;: [],
-            &quot;text&quot;: &quot;Hello World&quot;
-        }
-    ],
-    &quot;text&quot;: &quot;\n    \n&quot;
+  &quot;name&quot;: &quot;element&quot;,
+  &quot;attributes&quot;: {},
+  &quot;children&quot;: [
+    {
+      &quot;name&quot;: &quot;foo&quot;,
+      &quot;attributes&quot;: {
+        &quot;bar&quot;: &quot;123&quot;
+      },
+      &quot;children&quot;: [],
+      &quot;text&quot;: &quot;Hello World&quot;
+    }
+  ],
+  &quot;text&quot;: &quot;\n    \n&quot;
 }
 */
 
@@ -212,11 +212,15 @@ const result = toString(myValue);
 </code></pre><p>For this function to work, location services need to be enabled and the app needs to be granted the permission to access the device's location. This is a technical limitation imposed by the Android OS. See also the <a href="permissions.md">Permissions</a> page for details.</p><p><a name="wol"></a></p><h3>Wake-on-LAN</h3><p>You can use the <code>wakeOnLan</code> function to send a magic packet to turn on another device on your network. The first parameter has to be the MAC-address of the device. As the optional second parameter, you can pass the network/broadcast address to be used, and as the third parameter you can define the port.</p><pre><code class="language-js">wakeOnLan('01-23-45-67-89-ab');
 
 wakeOnLan('01-23-45-67-89-ab', '255.255.255.255', 9);
-</code></pre><p><a name="send-mqtt-message"></a></p><h3>Send MQTT message</h3><p>The <code>sendMqttMessages</code> function allows you to connect to an MQTT broker, send (i.e. publish) one or more messages to it, and then disconnect again. The first parameter is the URI of the server/broker, the second (optional) parameter provides options for the connection (e.g. username and password) and the third parameter is a list of all the messages that should be sent.</p><pre><code class="language-js">sendMQTTMessages(&quot;tcp://192.168.0.42:1234&quot;, {&quot;username&quot;: &quot;admin&quot;, &quot;password&quot;: &quot;1234&quot;}, [
+</code></pre><p><a name="send-mqtt-message"></a></p><h3>Send MQTT message</h3><p>The <code>sendMqttMessages</code> function allows you to connect to an MQTT broker, send (i.e. publish) one or more messages to it, and then disconnect again. The first parameter is the URI of the server/broker, the second (optional) parameter provides options for the connection (e.g. username and password) and the third parameter is a list of all the messages that should be sent.</p><pre><code class="language-js">sendMQTTMessages(
+  &quot;tcp://192.168.0.42:1234&quot;,
+  {&quot;username&quot;: &quot;admin&quot;, &quot;password&quot;: &quot;1234&quot;},
+  [
     {&quot;topic&quot;: &quot;hallway-lamp/set&quot;, &quot;payload&quot;: &quot;{\&quot;state\&quot;:\&quot;ON\&quot;}&quot;},
     {&quot;topic&quot;: &quot;desk-lamp/set&quot;, &quot;payload&quot;: &quot;{\&quot;state\&quot;:\&quot;ON\&quot;, \&quot;brightness\&quot;: 255}&quot;},
-]);
-</code></pre><blockquote><p>Please note that this does not provide any particular quality of service guarantees, and that it is not possible to subscribe to topics this way.</p></blockquote><p><a name="send-tcp-packet"></a></p><h3>Send TCP Packet</h3><p>You can use the <code>sendTCPPacket</code> function to send a TCP packet to another device on your network. Pass the packet data as the first parameter (either as a string, <code>Uint8Array</code> or array of numbers denoting bytes), the target host's name or IP address as the second parameter and its TCP port as the third parameter.</p><pre><code class="language-js">sendTCPPacket('hello', '192.168.1.42', 1337);
+  ]
+);
+</code></pre><blockquote><p>Please note that this does not provide any particular quality of service guarantees, and that it is not possible to subscribe to topics this way, meaning you can't receive any MQTT messages.</p></blockquote><p><a name="send-tcp-packet"></a></p><h3>Send TCP Packet</h3><p>You can use the <code>sendTCPPacket</code> function to send a TCP packet to another device on your network. Pass the packet data as the first parameter (either as a string, <code>Uint8Array</code> or array of numbers denoting bytes), the target host's name or IP address as the second parameter and its TCP port as the third parameter.</p><pre><code class="language-js">sendTCPPacket('hello', '192.168.1.42', 1337);
 
 sendTCPPacket([0x68, 0x65, 0x6C, 0x6C, 0x6F], 'example.com', 4242);
 </code></pre><p><a name="send-udp-packet"></a></p><h3>Send UDP Packet</h3><p>You can use the <code>sendUDPPacket</code> function to send a UDP packet to another device on your network. Pass the packet data as the first parameter (either as a string, <code>Uint8Array</code> or array of numbers denoting bytes), the target host's name or IP address as the second parameter and its UDP port as the third parameter.</p><pre><code class="language-js">sendUDPPacket('hello', '192.168.1.42', 1337);
@@ -224,25 +228,25 @@ sendTCPPacket([0x68, 0x65, 0x6C, 0x6C, 0x6F], 'example.com', 4242);
 sendUDPPacket([0x68, 0x65, 0x6C, 0x6C, 0x6F], 'example.com', 4242);
 </code></pre><p><a name="misc"></a></p><h2>Miscellaneous Built-In Functions</h2><p>This section lists all of the built-in functions which do not fall into a specific category.</p><p><a name="trigger-shortcut"></a></p><h3>enqueueShortcut</h3><p>With this function you can enqueue a shortcut to execute after the current one (or after the last enqueued one if there are already shortcuts scheduled to execute). Simply pass the name or ID of a shortcut as the first parameter.</p><pre><code class="language-js">enqueueShortcut('My Other Shortcut');
 </code></pre><p>Optionally you can pass an object as the second parameter to provide values for variables. This will not change the stored values of the variables but they will assume the specified value when the other shortcut is executed. This is particularly useful for dynamic variable types (such as <em>&quot;Text Input&quot;</em> or <em>&quot;Multiple Choice Selection&quot;</em>).</p><pre><code class="language-js">enqueueShortcut('My Other Shortcut', {
-    'My_Variable1': 'Hello World',
-    'My_Variable2': ':D',
+  'My_Variable1': 'Hello World',
+  'My_Variable2': ':D',
 });
 </code></pre><p>As an optional third parameter, you can pass the number of milliseconds by which to delay the execution. This way you can schedule a shortcut to run at a later point in time.</p><blockquote><p>Please note that the delay will not be exact and can not exceed 5 minutes.</p></blockquote><pre><code class="language-js">enqueueShortcut('My Other Shortcut', null, 2 * 60 * 1000); // runs in 2 minutes
 </code></pre><p>Note that the shortcut will only be executed once the current shortcut (and all shortcuts that have been enqueued before it) has finished executing. It will <em>not</em> be executed immediately. If you need the shortcut to run immediately, use <code>executeShortcut</code> instead.</p><p>Also note that this might lead to infinite loops if the enqueued shortcut also enqueues shortcuts. To reduce the impact of this in case it happens accidentally, the app will delay every 10th execution by 5 seconds so that you have enough time to stop the execution manually. If you're really sure that you <em>do</em> want an infinite loop, you can work around this protection by setting a delay of at least 500 milliseconds.</p><p><a name="execute-shortcut"></a></p><h3>executeShortcut</h3><p>This function allows you to execute another shortcut within the current one and receive its result. Pass the name or ID of a shortcut as the first parameter.</p><pre><code class="language-js">executeShortcut('My Other Shortcut');
 </code></pre><p>Optionally you can pass an object as the second parameter to provide values for variables. This will not change the stored values of the variables but they will assume the specified value when the other shortcut is executed. This is particularly useful for dynamic variable types (such as <em>&quot;Text Input&quot;</em> or <em>&quot;Multiple Choice Selection&quot;</em>).</p><pre><code class="language-js">executeShortcut('My Other Shortcut', {
-    'My_Variable1': 'Hello World',
-    'My_Variable2': ':D',
+  'My_Variable1': 'Hello World',
+  'My_Variable2': ':D',
 });
 </code></pre><p>The function will return an object which contains a <code>status</code> field which you can query to see if the shortcut's execution was successful. It may contain the values &quot;success&quot;, &quot;failure&quot;, &quot;unknown&quot;, or &quot;aborted&quot;.</p><ul><li>&quot;success&quot; means that the shortcut successfully executed an HTTP request. Its response is returned in the <code>response</code> field, using the same <a href="#handle-response">format</a> as the <code>response</code> object that is available for all shortcut executions.</li><li>&quot;failure&quot; means that the shortcut's HTTP request failed, either due to a network error or the HTTP status was not 2xx or 3xx. In this case, you can get more information about the failure via the <code>response</code> field or the <code>networkError</code> field, one of which is always non-null in this case.</li><li>&quot;unknown&quot; means that the shortcut did not (directly) make an HTTP request and therefore has no response. This will happen if the shortcut is not an HTTP shortcut or if the HTTP request was delayed or rescheduled.</li><li>&quot;aborted&quot; means that the <code>abort()</code> function was called</li></ul><pre><code class="language-js">const result = executeShortcut('My Other Shortcut');
 if (result.status === 'success') {
-    const body = result.response.body;
-    alert(body);
+  const body = result.response.body;
+  alert(body);
 } else if (result.status === 'failure') {
-    if (result.networkError) {
-        alert(result.networkError);
-    } else {
-        alert(result.response.body);
-    }
+  if (result.networkError) {
+    alert(result.networkError);
+  } else {
+    alert(result.response.body);
+  }
 }
 </code></pre><p>Please note the following technical limitations:</p><ul><li>A shortcut that is executed this way cannot display its response in a fullscreen window. If you need to display its response, please change the response display type to use a toast or dialog window instead.</li><li>A shortcut that is executed this way shares the resolution of variable values with the original, i.e., calling shortcut. This means that if you have e.g. a multiple choice variable that is used in both of the shortcuts, you will be prompted to select a value only once (not twice) and the selected value will be used for both shortcut executions.</li><li>There is a maximum recursion depth of 3, meaning that you can not arbitrarily nest shortcut executions within shortcut executions. This is to prevent infinite recursion and stack overflows. If you want to chain more shortcuts together, consider using <a href="#trigger-shortcut">enqueueShortcut()</a>.</li></ul><p><a name="set-result"></a></p><h4>Passing data back</h4><p>If you wish to pass data from the called shortcut to the calling shortcut, you can either do this by storing values into variables (using <a href="#set-variable">setVariable()</a>) in the called shortcut and then reading those values in the calling shortcut (using <a href="#get-variable">getVariable()</a>), or you can use the <code>setResult</code> function. The latter accepts a single string argument. This string can then be accessed by the calling shortcut on the object returned by the <code>executeShortcut</code> function via its <code>result</code> key.</p><pre><code class="language-js">// What the called shortcut does:
 setResult('Hello World');
@@ -252,17 +256,17 @@ const resultObject = executeShortcut('My other shortcut');
 const myResult = resultObject.result; // will now have the value &quot;Hello World&quot;
 </code></pre><p>This same mechanism also allows passing data back to Tasker in the case where the shortcut was triggered from Tasker.</p><h4>Forwarding Files</h4><p>When executing or enqueuing another shortcut, it is possible to forward one or more selected files to it. This can be useful if you have a shortcut that uses a file in a form parameter or its request body, and you want to use the same file also for another shortcut to include in another request. To do this, pass the <a href="#files">IDs of the files</a> in via the special <code>$files</code> variable. You can pass either a single file ID or an array of file IDs, as shown in the following examples:</p><pre><code class="language-js">// Pass a single file
 enqueueShortcut('My Other Shortcut', {
-    '$files': selectedFiles[0].id,
+  '$files': selectedFiles[0].id,
 });
 
 // Pass 2 files
 enqueueShortcut('My Other Shortcut', {
-    '$files': [selectedFiles[0].id, selectedFiles[1].id],
+  '$files': [selectedFiles[0].id, selectedFiles[1].id],
 });
 
 // Pass all files
 enqueueShortcut('My Other Shortcut', {
-    '$files': selectedFiles.map(file =&gt; file.id),
+  '$files': selectedFiles.map(file =&gt; file.id),
 });
 </code></pre><p>This mechanism works both for the <code>enqueueShortcut</code> and the <code>executeShortcut</code> function.</p><p><a name="log-event"></a></p><h3>Log Event</h3><p>The <code>logEvent</code> function allows you to log custom events into the Event History (which you'll find in the app's main menu). This can be used for debugging and troubleshooting. Pass an event title as the first parameter and optionally a message with details as the second parameter.</p><pre><code class="language-js">logEvent('Hello World');
 
@@ -275,43 +279,43 @@ logEvent('My complex event', {'foo': 'bar'});
 </code></pre><p><a name="share-text"></a></p><h3>Share Text with Another App</h3><p>You can use the <code>shareText</code> function to share a piece of text with another app. Simply pass the value you want to share as the first parameter. This will open the system's share picker where you can select which app to share into.</p><pre><code class="language-js">shareText('Hello World');
 </code></pre><blockquote><p>Please note that the text that is shared can be at most 200000 characters long, otherwise it will be truncated.</p></blockquote><p><a name="open-app"></a></p><h3>Open another App</h3><p>The <code>openApp</code> function allows you to open another app via its package name. If no app with the given package name is installed, an error is displayed.</p><pre><code class="language-js">openApp('com.github.android'); // Opens the Github app
 </code></pre><p><a name="open-url"></a></p><h3>Open a URL</h3><p>This function allows you to open a URL in another app. This typically opens a browser, but it can also be used to invoke a deep-link into another app. An error message is displayed if the URL is malformed or if there is no app installed that can handle the URL.</p><pre><code class="language-js">openUrl('https://www.wikipedia.org/');
-</code></pre><blockquote><p>Please note that this can not be used to open files.</p></blockquote><p>As a second parameter, you may pass the package name of the browser or app that should handle the URL. You may instead also pass &quot;custom-tabs&quot; or &quot;custom-tabs([package-name])` to open the URL using a custom tab instead of a standalone browser window.</p><pre><code class="language-js">openUrl('https://example.com', 'org.mozilla.firefox');
+</code></pre><blockquote><p>Please note that this can not be used to open files.</p></blockquote><p>As a second parameter, you may pass the package name of the browser or app that should handle the URL. You may instead also pass &quot;custom-tabs&quot; or &quot;custom-tabs([package-name])&quot; to open the URL using a custom tab instead of a standalone browser window.</p><pre><code class="language-js">openUrl('https://example.com', 'org.mozilla.firefox');
 openUrl('https://example.com', 'custom-tabs(org.mozilla.firefox)');
 </code></pre><p><a name="send-intent"></a></p><h3>Send Intent</h3><p>With this function you can send an <a href="https://developer.android.com/guide/components/intents-filters">Intent</a>. It takes an object as its only parameter, where the object should have one or more of the following properties:</p><table><thead><tr><th>Parameter</th><th>Description</th><th>Type / Values</th></tr></thead><tbody><tr><td>type</td><td>Defines how the intent should be sent.</td><td><code>'broadcast'</code> (default), <code>'activity'</code> or <code>'service'</code></td></tr><tr class="intellij-row-even"><td>action</td><td>A string that specifies the generic action to perform (such as view or pick).</td><td>string</td></tr><tr><td>category</td><td>A string containing additional information about the kind of component that should handle the intent.</td><td>string</td></tr><tr class="intellij-row-even"><td>categories</td><td>Same as <code>category</code> but allows specifying multiple values.</td><td>list of strings</td></tr><tr><td>dataUri</td><td>A URI that references the data to be acted on</td><td>string</td></tr><tr class="intellij-row-even"><td>dataType</td><td>The MIME type of the data</td><td>string</td></tr><tr><td>className</td><td>The full name of a class that is to be started by the Intent</td><td>string</td></tr><tr class="intellij-row-even"><td>packageName</td><td>The name of an application package that is to be started by the Intent</td><td>string</td></tr><tr><td>extras</td><td>A list of extras, i.e., additional parameters to be sent</td><td>list of objects (see below)</td></tr><tr class="intellij-row-even"><td>clearTask</td><td>Whether to set the <a href="https://developer.android.com/reference/android/content/Intent#FLAG_ACTIVITY_CLEAR_TASK"><code>FLAG_ACTIVITY_CLEAR_TASK</code></a> flag</td><td>boolean</td></tr><tr><td>excludeFromRecents</td><td>Whether to set the <a href="https://developer.android.com/reference/android/content/Intent#FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS"><code>FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS</code></a> flag</td><td>boolean</td></tr><tr class="intellij-row-even"><td>newTask</td><td>Whether to set the <a href="https://developer.android.com/reference/android/content/Intent#FLAG_ACTIVITY_NEW_TASK"><code>FLAG_ACTIVITY_NEW_TASK</code></a> flag</td><td>boolean</td></tr><tr><td>noHistory</td><td>Whether to set the <a href="https://developer.android.com/reference/android/content/Intent#FLAG_ACTIVITY_NO_HISTORY"><code>FLAG_ACTIVITY_NO_HISTORY</code></a> flag</td><td>boolean</td></tr></tbody></table><p>Each extra consists of the following properties:</p><table><thead><tr><th>Parameter</th><th>Description</th><th>Type / Values</th></tr></thead><tbody><tr><td>name</td><td>The name of the extra</td><td>string</td></tr><tr class="intellij-row-even"><td>type</td><td>The type of the extra</td><td><code>'string'</code> (default), <code>'boolean'</code>, <code>'int'</code>, <code>'long'</code>, <code>'double'</code>, <code>'float'</code></td></tr><tr><td>value</td><td>The value of the extra</td><td>depends on the <code>type</code></td></tr></tbody></table><blockquote><p>Please note that it is unfortunately <em>not</em> possible to send intents that require the app to hold a specific permission, as there is no way to dynamically add such a permission to the app. This is a technical limitation that the app itself cannot address. The recommended workaround is to use a 3rd-party automation app such as Tasker to perform such actions and trigger their tasks/workflows either via an intent or via the <code>triggerTaskerTask</code> function (see below). Another possibility would be to fork the app, add the required permission to it and build it yourself.</p></blockquote><p>Here is a generic example showing the syntax:</p><pre><code class="language-js">sendIntent({
-    type: 'activity',
-    action: 'my.special.action',
-    packageName: 'com.example.foobar',
-    className: 'com.example.foobar.MainActivity',
-    extras: [
-        {
-            name: 'favorite_number',
-            type: 'int',
-            value: 42,
-        },
-    ],
+  type: 'activity',
+  action: 'my.special.action',
+  packageName: 'com.example.foobar',
+  className: 'com.example.foobar.MainActivity',
+  extras: [
+    {
+      name: 'favorite_number',
+      type: 'int',
+      value: 42,
+    },
+  ],
 });
 </code></pre><p>The following example shows how you can use this function to open another application, in this case a browser to display a website:</p><pre><code class="language-js">sendIntent({
-    type: 'activity',
-    action: 'android.intent.action.VIEW',
-    dataUri: 'https://example.com',
+  type: 'activity',
+  action: 'android.intent.action.VIEW',
+  dataUri: 'https://example.com',
 });
 </code></pre><p>The above example is equivalent to calling <code>openUrl('https://example.com')</code>.</p><p>If you want to just open a specific app without sending any data to it, you can do so by specifying the app's package name and using the <code>android.intent.action.MAIN</code> action. The following example will just open Google Chrome:</p><pre><code class="language-js">sendIntent({
-    type: 'activity',
-    action: 'android.intent.action.MAIN',
-    packageName: 'com.android.chrome',
+  type: 'activity',
+  action: 'android.intent.action.MAIN',
+  packageName: 'com.android.chrome',
 });
 </code></pre><p>The above example is equivalent to calling <code>openApp('com.android.chrome')</code>.</p><p><a name="trigger-tasker-task"></a></p><h3>Trigger Tasker Task</h3><p>If you have <a href="https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm">Tasker</a> installed on your device, you can use this function to trigger one of its tasks. Pass in the name of the task as the first parameter, and optionally an object containing some key-value pairs to pass along as local variables as the second argument.</p><pre><code class="language-js">triggerTaskerTask('doStuff');
 
 triggerTaskerTask('mytask', {
-    myLocalVariable: 'hello',
-    andAnother: 'world',
+  myLocalVariable: 'hello',
+  andAnother: 'world',
 });
 </code></pre><blockquote><p>Please note that you may need to manually go to the app's permissions and allow the app to run Tasker tasks for this to work, and also you will need to allow this in Tasker's settings under &quot;Preferences &gt; Misc &gt; Allow External Access&quot;.</p></blockquote><p><a name="set-wireguard-tunnel-state"></a></p><h3>Set Wireguard Tunnel State</h3><p>If you have <a href="https://play.google.com/store/apps/details?id=com.wireguard.android">Wireguard</a> installed, you can use the <code>setWireguardTunnelState</code> function to enable or disable a tunnel. Pass in the name of the tunnel as the first parameter, and as the second parameter pass <code>true</code> to enable the tunnel or <code>false</code> to disable it.</p><pre><code class="language-js">setWireguardTunnelState('my-tunnel', true);
 </code></pre><blockquote><p>For this to work, you will need to grant the app a special permission, and you will need to enable the &quot;Allow remote control apps&quot; setting in the Wireguard app. You might also need to exclude the Wireguard app from battery optimizations and allow it to run unrestricted.</p></blockquote><p><a name="get-location"></a></p><h3>Get Location</h3><p>If you want to query your device's physical location, you can do so via the <code>getLocation()</code> function. It can take up to 20 seconds for the location request to complete, and it might not always be possible to determine the location.</p><p>The resulting object consists of the following fields:</p><table><thead><tr><th>Field</th><th>Description</th><th>Type</th></tr></thead><tbody><tr><td>status</td><td>Indicates whether a location could be determined. Will be <code>'success'</code> or <code>'unknown'</code></td><td>string</td></tr><tr class="intellij-row-even"><td>latitude</td><td>The latitude in degrees, or null if the location is unknown</td><td>number</td></tr><tr><td>longitude</td><td>The longitude in degrees, or null if the location is unknown</td><td>number</td></tr><tr class="intellij-row-even"><td>accuracy</td><td>The estimated horizontal accuracy radius in meters at the 68th percentile confidence level, or null if the location or the accuracy is unknown</td><td>number</td></tr><tr><td>coordinates</td><td>The latitude and longitude concatenated with a comma, for convenience</td><td>string</td></tr></tbody></table><pre><code class="language-js">const myLocation = getLocation();
 if (myLocation.status == 'success') {
-    alert(`I am currently at ${myLocation.coordinates}`);
+  alert(`I am currently at ${myLocation.coordinates}`);
 } else {
-    alert('I am so lost right now');
+  alert('I am so lost right now');
 }
 </code></pre><blockquote><p>Please note that this function makes use of Google Play Services. If those are not available on the device, or if you've installed the app from F-Droid, then a fallback is used which may be less accurate, less reliable or take longer to find the location.</p></blockquote><p><a name="examples"></a></p><h2>Examples</h2><p>This section lists some examples for typical use-cases of the code execution feature.</p><h3>Generate values for use in the request</h3><p>Sometimes you need to generate a value, for example the current date, or a random number, to be used in your request. You can do this by generating the value and then storing it into a variable that you then use in your request. Here's an example:</p><pre><code class="language-js">const randomNumber = Math.floor(Math.random() * 10);
 setVariable('myNumber', randomNumber);
@@ -323,21 +327,21 @@ showDialog(`The current temperature is ${temperature}°C`, 'Temperature');
 
 setVariable('temperature', temperature);
 </code></pre><h3>Change icon and label based on response</h3><p>This example shows how the shortcut icon and label can be changed based on the received response. The example assumes that the server returns 'OK' if the request was a success.</p><pre><code class="language-js">if (response.body == 'OK') {
-    renameShortcut('', 'Success');
-    changeIcon('', 'freepik_check'); // changes the icon of the current shortcut to a green checkmark
+  renameShortcut('', 'Success');
+  changeIcon('', 'freepik_check'); // changes the icon of the current shortcut to a green checkmark
 } else {
-    renameShortcut('', 'Failure');
-    changeIcon('', 'freepik_close'); // changes the icon of the current shortcut to a red cross
+  renameShortcut('', 'Failure');
+  changeIcon('', 'freepik_close'); // changes the icon of the current shortcut to a red cross
 }
 </code></pre><h3>Ask for confirmation before execution shortcut</h3><p>This example shows how you can show a custom confirmation message before the shortcut executes and only execute it if the user confirms by clicking 'OK'.</p><pre><code class="language-js">if (!confirm('Should I do the thing?')) {
-    showToast('Not doing the thing.');
-    abort();
+  showToast('Not doing the thing.');
+  abort();
 }
 </code></pre><p>Or you might want to bypass the confirmation step if you are in your home network:</p><pre><code class="language-js">if (getWifiSSID() != 'My Home Network') {
-    if (!confirm('Should I do the thing?')) {
-        showToast('Not doing the thing.');
-        abort();
-    }
+  if (!confirm('Should I do the thing?')) {
+    showToast('Not doing the thing.');
+    abort();
+  }
 }
 </code></pre><h3>Read the response out loud</h3><p>This example shows how you can have the received response be read out loud (using text-to-speech). The example assumes that the response is in plain-text (i.e., not HTML, JSON, ...).</p><pre><code class="language-js">speak(response.body);
 </code></pre>
