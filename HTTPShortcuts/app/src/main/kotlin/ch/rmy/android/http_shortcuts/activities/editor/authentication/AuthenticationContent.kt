@@ -200,10 +200,14 @@ private fun ClientCertButton(
     SettingsButton(
         enabled = enabled,
         title = stringResource(R.string.label_client_cert),
-        subtitle = when (clientCertParams) {
-            is ClientCertParams.Alias -> stringResource(R.string.label_subtitle_client_cert_in_use, clientCertParams.alias)
-            is ClientCertParams.File -> stringResource(R.string.label_subtitle_client_cert_file_in_use)
-            else -> stringResource(R.string.label_subtitle_no_client_cert)
+        subtitle = if (enabled) {
+            when (clientCertParams) {
+                is ClientCertParams.Alias -> stringResource(R.string.label_subtitle_client_cert_in_use, clientCertParams.alias)
+                is ClientCertParams.File -> stringResource(R.string.label_subtitle_client_cert_file_in_use)
+                else -> stringResource(R.string.label_subtitle_no_client_cert)
+            }
+        } else {
+            stringResource(R.string.label_subtitle_not_applicable_for_http)
         },
         onClick = onClientCertButtonClicked,
     )

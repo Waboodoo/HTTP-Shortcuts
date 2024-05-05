@@ -262,6 +262,8 @@
     <string name="label_subtitle_client_cert_in_use">Using certificate \“%s\”. Click to remove.</string>
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
     <string name="label_subtitle_client_cert_file_in_use">Using certificate file. Click to remove.</string>
+    <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
+    <string name="label_subtitle_not_applicable_for_http">Only applicable when using HTTPS</string>
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">Client Certificate</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
