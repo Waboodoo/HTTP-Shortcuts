@@ -15,14 +15,18 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,10 +36,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.icons.IconFilterProvider
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
+import kotlin.time.Duration.Companion.milliseconds
 
 private const val STATE_BUILT_IN = "built-in"
 private const val STATE_COLOR_PICKER = "color-picker"
@@ -155,6 +166,32 @@ private fun BuiltInIconPicker(
         getTintableIcons(context, if (isDarkMode) Icons.TintColor.WHITE else Icons.TintColor.BLACK)
     }
 
+    val iconFilterProvider = remember {
+        IconFilterProvider(context)
+    }
+    LaunchedEffect(iconFilterProvider, coloredIcons, tintableIcons) {
+        iconFilterProvider.init(coloredIcons + tintableIcons)
+    }
+    var searchQuery by remember {
+        mutableStateOf("")
+    }
+    var filteredIcons by remember {
+        mutableStateOf<List<ShortcutIcon.BuiltInIcon>?>(null)
+    }
+    LaunchedEffect(searchQuery) {
+        if (searchQuery.isBlank()) {
+            filteredIcons = null
+        } else {
+            delay(300.milliseconds)
+            filteredIcons = withContext(Dispatchers.Default) {
+                iconFilterProvider.createFilter(searchQuery)
+                    ?.let {
+                        (coloredIcons + tintableIcons).filter(it)
+                    }
+            }
+        }
+    }
+
     AlertDialog(
         modifier = Modifier
             .padding(vertical = Spacing.MEDIUM),
@@ -174,28 +211,82 @@ private fun BuiltInIconPicker(
                     modifier = Modifier.padding(Spacing.MEDIUM),
                 )
 
+                SearchBar(
+                    query = searchQuery,
+                    onQueryChanged = {
+                        searchQuery = it
+                    },
+                )
+
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(minSize = 44.dp),
                     contentPadding = PaddingValues(Spacing.MEDIUM),
                     verticalArrangement = Arrangement.spacedBy(Spacing.MEDIUM),
                     horizontalArrangement = Arrangement.spacedBy(Spacing.MEDIUM),
                 ) {
-                    if (activeIcon != null) {
-                        iconSection(listOf(activeIcon), onIconSelected, keySuffix = "-active")
-                        divider()
+                    filteredIcons?.let {
+                        if (it.isEmpty()) {
+                            noResults()
+                        } else {
+                            iconSection(it, onIconSelected)
+                        }
                     }
-                    iconSection(coloredIcons, onIconSelected)
-                    divider()
-                    iconSection(tintableIcons, onIconSelected)
+                        ?: run {
+                            if (activeIcon != null) {
+                                iconSection(listOf(activeIcon), onIconSelected, keySuffix = "-active")
+                                divider()
+                            }
+                            iconSection(coloredIcons, onIconSelected)
+                            divider()
+                            iconSection(tintableIcons, onIconSelected)
+                        }
                 }
             }
         }
     }
 }
 
+@Composable
+private fun SearchBar(
+    query: String,
+    onQueryChanged: (String) -> Unit,
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = Spacing.SMALL),
+    ) {
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = query,
+            onValueChange = onQueryChanged,
+            placeholder = {
+                Text(stringResource(R.string.menu_action_search))
+            },
+            leadingIcon = {
+                Icon(androidx.compose.material.icons.Icons.Outlined.Search, contentDescription = null)
+            },
+            maxLines = 1,
+            singleLine = true,
+        )
+    }
+}
+
 private fun LazyGridScope.divider() {
     item(key = "divider", contentType = "divider", span = { GridItemSpan(maxLineSpan) }) {
         HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.SMALL))
+    }
+}
+
+private fun LazyGridScope.noResults() {
+    item(key = "noResults", contentType = "noResults", span = { GridItemSpan(maxLineSpan) }) {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(Spacing.SMALL),
+            text = stringResource(R.string.instructions_search_no_results),
+            textAlign = TextAlign.Center,
+        )
     }
 }
 
@@ -249,3 +340,12 @@ private fun getTintableIcons(context: Context, tintColor: Icons.TintColor): List
     Icons.getTintableIcons().map { iconResource ->
         ShortcutIcon.BuiltInIcon.fromDrawableResource(context, iconResource, tintColor)
     }
+
+@Preview
+@Composable
+private fun BuiltInIconPicker_Preview() {
+    BuiltInIconPicker(
+        onIconSelected = {},
+        onDismissRequested = {},
+    )
+}

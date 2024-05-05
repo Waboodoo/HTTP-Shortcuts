@@ -2,6 +2,7 @@
 -keep class ch.rmy.android.http_shortcuts.data.models.** { *; }
 -keep class ch.rmy.android.http_shortcuts.activities.contact.MetaData { *; }
 -keep class ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams { *; }
+-keep class ch.rmy.android.http_shortcuts.icons.IconIndex { *; }
 -dontwarn com.yalantis.ucrop**
 -keep class com.yalantis.ucrop** { *; }
 -keep interface com.yalantis.ucrop** { *; }

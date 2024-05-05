@@ -1,0 +1,309 @@
+{
+  "synonyms": [
+    [
+      "light",
+      "lamp",
+      "brightness"
+    ],
+    [
+      "television",
+      "tv",
+      "screen",
+      "monitor"
+    ],
+    [
+      "computer",
+      "pc"
+    ],
+    [
+      "folder",
+      "directory"
+    ],
+    [
+      "briefcase",
+      "suitcase"
+    ],
+    [
+      "calculator",
+      "maths"
+    ],
+    [
+      "cart",
+      "shopping"
+    ],
+    [
+      "browser",
+      "window"
+    ],
+    [
+      "plug",
+      "power",
+      "electricity"
+    ],
+    [
+      "flash",
+      "lightning"
+    ],
+    [
+      "clock",
+      "time"
+    ],
+    [
+      "globe",
+      "earth"
+    ],
+    [
+      "lock",
+      "security",
+      "key"
+    ],
+    [
+      "flame",
+      "fire"
+    ],
+    [
+      "image",
+      "photograph",
+      "picture"
+    ],
+    [
+      "diskette",
+      "floppydisk",
+      "save"
+    ],
+    [
+      "torch",
+      "flashlight"
+    ],
+    [
+      "hazard",
+      "danger",
+      "warning",
+      "alarm"
+    ],
+    [
+      "document",
+      "file"
+    ],
+    [
+      "user",
+      "person"
+    ],
+    [
+      "swap",
+      "arrow"
+    ],
+    [
+      "living",
+      "room",
+      "couch",
+      "sofa"
+    ],
+    [
+      "battery",
+      "charge"
+    ],
+    [
+      "flower",
+      "plant"
+    ],
+    [
+      "telephone",
+      "mobile",
+      "phone"
+    ]
+  ],
+  "icons": {
+    "flat_color_check": [
+      "checkbox"
+    ],
+    "flat_color_x": [
+      "cross",
+      "checkbox"
+    ],
+    "flat_color_denied": [
+      "forbidden"
+    ],
+    "flat_color_dev": [
+      "code"
+    ],
+    "flat_color_die": [
+      "game"
+    ],
+    "flat_color_genius": [
+      "science"
+    ],
+    "flat_color_hourglass": [
+      "time"
+    ],
+    "flat_color_magicwand": [
+      "wizard"
+    ],
+    "flat_color_profle": [
+      "profile",
+      "user"
+    ],
+    "flat_grey_cloud": [
+      "weather"
+    ],
+    "flat_grey_bolt": [
+      "weather"
+    ],
+    "flat_grey_umbrella": [
+      "weather"
+    ],
+    "flat_grey_windsock": [
+      "weather"
+    ],
+    "flat_grey_rainbow": [
+      "weather"
+    ],
+    "freepik_check": [
+      "checkmark"
+    ],
+    "freepik_close": [
+      "forbidden"
+    ],
+    "bitsies_dollar": [
+      "money"
+    ],
+    "bitsies_mastercard": [
+      "creditcard"
+    ],
+    "bitsies_visa": [
+      "creditcard"
+    ],
+    "bitsies_experiment": [
+      "science"
+    ],
+    "bitsies_wifi": [
+      "network"
+    ],
+    "bitsies_wrench": [
+      "tool"
+    ],
+    "black_circle": [
+      "shape"
+    ],
+    "black_rectangle": [
+      "shape"
+    ],
+    "black_cloud": [
+      "weather"
+    ],
+    "black_dice": [
+      "game"
+    ],
+    "black_business_man": [
+      "person"
+    ],
+    "black_user_female": [
+      "person"
+    ],
+    "black_user_male": [
+      "person"
+    ],
+    "black_view": [
+      "eye"
+    ],
+    "black_butterfly": [
+      "animal"
+    ],
+    "black_cat": [
+      "animal"
+    ],
+    "black_dog": [
+      "animal"
+    ],
+    "black_fish": [
+      "animal"
+    ],
+    "black_squirrel": [
+      "animal"
+    ],
+    "black_turtle": [
+      "animal"
+    ],
+    "black_penguin": [
+      "animal"
+    ],
+    "black_footprint": [
+      "paw",
+      "animal"
+    ],
+    "black_pine_tree": [
+      "plant"
+    ],
+    "black_palm_tree": [
+      "plant"
+    ],
+    "black_folder_sharing": [
+      "network"
+    ],
+    "black_fuel_station": [
+      "car"
+    ],
+    "black_hour_glass": [
+      "time"
+    ],
+    "black_office": [
+      "building"
+    ],
+    "black_instrument_barometer": [
+      "gauge"
+    ],
+    "black_instrument_round_bottom_flask": [
+      "science"
+    ],
+    "black_iris": [
+      "aperture"
+    ],
+    "black_solar": [
+      "sun"
+    ],
+    "black_moon": [
+      "night"
+    ],
+    "black_smile": [
+      "face"
+    ],
+    "black_laugh": [
+      "face"
+    ],
+    "black_sad": [
+      "face"
+    ],
+    "black_sleepy": [
+      "face"
+    ],
+    "black_headphone": [
+      "music"
+    ],
+    "black_gramaphone": [
+      "music",
+      "gramophone"
+    ],
+    "black_guitar": [
+      "music"
+    ],
+    "black_beamed_notes": [
+      "music"
+    ],
+    "black_quarter_note": [
+      "music"
+    ],
+    "black_joystick": [
+      "game"
+    ],
+    "black_danger": [
+      "skull",
+      "death"
+    ],
+    "black_hat": [
+      "wizard"
+    ],
+    "black_toy": [
+      "children"
+    ]
+  }
+}

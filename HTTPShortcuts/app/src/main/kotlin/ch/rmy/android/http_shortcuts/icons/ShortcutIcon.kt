@@ -75,7 +75,7 @@ sealed interface ShortcutIcon {
                 .takeUnless { it == 0 }
                 ?: NoIcon.ICON_RESOURCE
 
-        private val normalizedIconName: String = run {
+        val normalizedIconName: String = run {
             iconName
                 .run {
                     COLOR_SUFFIX_REGEX.matchEntire(this)
@@ -84,7 +84,7 @@ sealed interface ShortcutIcon {
                         }
                         ?: this
                 }
-                .runFor(Icons.TintColor.values().asIterable()) { tintColor ->
+                .runFor(Icons.TintColor.entries.asIterable()) { tintColor ->
                     runIf(startsWith(tintColor.prefix)) {
                         replacePrefix(tintColor.prefix, Icons.DEFAULT_TINT_PREFIX)
                     }

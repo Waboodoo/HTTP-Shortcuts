@@ -869,4 +869,6 @@ object Icons {
         GREY("grey_", Color.GRAY),
         WHITE("white_", Color.WHITE),
     }
+
+    val PREFIXES = setOf("black_", "grey_", "white_", "freepik_", "bitsies_", "flat_grey_", "flat_color_")
 }
