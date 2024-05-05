@@ -12,6 +12,7 @@ object Spacing {
     val TINY = 4.dp
     val SMALL = 8.dp
     val MEDIUM = 16.dp
+    val BIG = 32.dp
     val HUGE = 64.dp
 }
 
