@@ -53,6 +53,6 @@ constructor(
     companion object {
         private const val TAG = "history-cleanup"
 
-        private val MAX_AGE = 8.hours
+        private val MAX_AGE = 12.hours
     }
 }
