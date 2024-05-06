@@ -18,6 +18,7 @@
     - [Number Slider](variables.md#number-slider)
     - [Color Input](variables.md#color)
     - [Toggle](variables.md#toggle)
+    - [Incrementing Counter](variables.md#increment)
     - [UUID](variables.md#uuid)
     - [Timestamp](variables.md#timestamp)
     - [Clipboard Content](variables.md#clipboard-content)
