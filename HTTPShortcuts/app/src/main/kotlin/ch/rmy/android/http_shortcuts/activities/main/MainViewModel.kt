@@ -27,7 +27,6 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRep
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
-import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.findShortcut
@@ -37,7 +36,6 @@ import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
-import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
@@ -316,27 +314,10 @@ constructor(
         )
     }
 
-    fun onCreationDialogOptionSelected(executionType: ShortcutExecutionType) = runAction {
-        logInfo("Preparing to open editor for creating shortcut of type $executionType")
-        updateDialogState(null)
-        navigate(
-            NavigationDestination.ShortcutEditor.buildRequest(
-                categoryId = viewState.activeCategoryId,
-                executionType = executionType,
-            )
-        )
-    }
-
-    fun onCreationDialogHelpButtonClicked() = runAction {
-        logInfo("Shortcut creation help button clicked")
-        updateDialogState(null)
-        openURL(ExternalURLs.SHORTCUTS_DOCUMENTATION)
-    }
-
     fun onCreateShortcutButtonClicked() = runAction {
         logInfo("Shortcut creation FAB clicked")
-        updateDialogState(
-            MainDialogState.ShortcutCreation,
+        navigate(
+            NavigationDestination.TypePicker.buildRequest(viewState.activeCategoryId)
         )
     }
 
@@ -399,12 +380,6 @@ constructor(
                 updateDialogState(MainDialogState.Unlock(tryAgain = true))
             }
         }
-    }
-
-    fun onCurlImportOptionSelected() = runAction {
-        logInfo("curl import button clicked")
-        updateDialogState(null)
-        navigate(NavigationDestination.CurlImport)
     }
 
     fun onShortcutCreated(shortcutId: ShortcutId) = runAction {

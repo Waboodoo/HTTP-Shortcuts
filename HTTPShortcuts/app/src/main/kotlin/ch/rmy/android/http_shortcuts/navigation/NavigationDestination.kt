@@ -208,6 +208,26 @@ sealed interface NavigationDestination {
         const val RESULT_APP_LOCKED = "app-locked"
     }
 
+    object TypePicker : NavigationDestination {
+        private const val ARG_CATEGORY_ID = "categoryId"
+
+        override val path = "shortcutEditor/typePicker"
+
+        override val arguments =
+            listOf(
+                stringArg(ARG_CATEGORY_ID),
+            )
+
+        fun buildRequest(
+            categoryId: CategoryId,
+        ) = buildNavigationRequest {
+            pathPart(categoryId)
+        }
+
+        fun extractCategoryId(bundle: Bundle): CategoryId =
+            bundle.getEncodedString(ARG_CATEGORY_ID)!!
+    }
+
     object ShortcutEditor : NavigationDestination {
         private const val ARG_EXECUTION_TYPE = "executionType"
         private const val ARG_CATEGORY_ID = "categoryId"

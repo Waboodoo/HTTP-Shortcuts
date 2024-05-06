@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -29,11 +28,8 @@ import ch.rmy.android.http_shortcuts.components.ChangeTitleDialog
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.ProgressDialog
-import ch.rmy.android.http_shortcuts.components.SelectDialog
-import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.TextInputDialog
-import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 
 @Composable
 fun MainDialogs(
@@ -44,9 +40,6 @@ fun MainDialogs(
     onRecoveryConfirmed: () -> Unit,
     onRecoveryDiscarded: () -> Unit,
     onShortcutPlacementConfirmed: (useLegacy: Boolean) -> Unit,
-    onShortcutTypeSelected: (ShortcutExecutionType) -> Unit,
-    onCurlImportSelected: () -> Unit,
-    onShortcutCreationHelpButtonClicked: () -> Unit,
     onNetworkRestrictionsWarningHidden: (Boolean) -> Unit,
     onUnlockDialogSubmitted: (String) -> Unit,
     onDismissed: () -> Unit,
@@ -86,14 +79,6 @@ fun MainDialogs(
                 recoveryInfo = dialogState.recoveryInfo,
                 onConfirmed = onRecoveryConfirmed,
                 onDiscarded = onRecoveryDiscarded,
-                onDismissed = onDismissed,
-            )
-        }
-        is MainDialogState.ShortcutCreation -> {
-            ShortcutCreationDialog(
-                onShortcutTypeSelected = onShortcutTypeSelected,
-                onCurlImportSelected = onCurlImportSelected,
-                onHelpButtonClicked = onShortcutCreationHelpButtonClicked,
                 onDismissed = onDismissed,
             )
         }
@@ -202,57 +187,6 @@ private fun RecoverShortcutDialog(
             dismissOnClickOutside = false,
         ),
     )
-}
-
-@Composable
-private fun ShortcutCreationDialog(
-    onShortcutTypeSelected: (ShortcutExecutionType) -> Unit,
-    onCurlImportSelected: () -> Unit,
-    onHelpButtonClicked: () -> Unit,
-    onDismissed: () -> Unit,
-) {
-    SelectDialog(
-        title = stringResource(R.string.title_create_new_shortcut_options_dialog),
-        onDismissRequest = onDismissed,
-        extraButton = {
-            TextButton(onClick = onHelpButtonClicked) {
-                Text(stringResource(R.string.dialog_help))
-            }
-        },
-    ) {
-        SelectDialogEntry(
-            label = stringResource(R.string.button_create_new),
-            onClick = {
-                onShortcutTypeSelected(ShortcutExecutionType.APP)
-            },
-        )
-        SelectDialogEntry(
-            label = stringResource(R.string.button_curl_import),
-            onClick = onCurlImportSelected,
-        )
-        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.MEDIUM))
-        SelectDialogEntry(
-            label = stringResource(R.string.button_create_trigger_shortcut),
-            description = stringResource(R.string.button_description_create_trigger_shortcut),
-            onClick = {
-                onShortcutTypeSelected(ShortcutExecutionType.TRIGGER)
-            },
-        )
-        SelectDialogEntry(
-            label = stringResource(R.string.button_create_browser_shortcut),
-            description = stringResource(R.string.button_description_create_browser_shortcut),
-            onClick = {
-                onShortcutTypeSelected(ShortcutExecutionType.BROWSER)
-            },
-        )
-        SelectDialogEntry(
-            label = stringResource(R.string.button_create_scripting_shortcut),
-            description = stringResource(R.string.button_description_create_scripting_shortcut),
-            onClick = {
-                onShortcutTypeSelected(ShortcutExecutionType.SCRIPTING)
-            },
-        )
-    }
 }
 
 @Composable

@@ -7,9 +7,6 @@ import ch.rmy.android.http_shortcuts.activities.main.models.RecoveryInfo
 sealed class MainDialogState {
 
     @Stable
-    data object ShortcutCreation : MainDialogState()
-
-    @Stable
     data object ChangeLog : MainDialogState()
 
     @Stable

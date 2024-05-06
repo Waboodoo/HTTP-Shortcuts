@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseScreen
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingScreen
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetPickerScreen
 import ch.rmy.android.http_shortcuts.activities.editor.shortcuts.TriggerShortcutsScreen
+import ch.rmy.android.http_shortcuts.activities.editor.typepicker.TypePickerScreen
 import ch.rmy.android.http_shortcuts.activities.globalcode.GlobalScriptingScreen
 import ch.rmy.android.http_shortcuts.activities.history.HistoryScreen
 import ch.rmy.android.http_shortcuts.activities.icons.IconPickerScreen
@@ -145,6 +146,10 @@ fun NavigationRoot() {
 
         composable(NavigationDestination.Settings) {
             SettingsScreen()
+        }
+
+        composable(NavigationDestination.TypePicker) { backStackEntry ->
+            TypePickerScreen(categoryId = NavigationDestination.TypePicker.extractCategoryId(backStackEntry.arguments!!))
         }
 
         composable(NavigationDestination.ShortcutEditor) { backStackEntry ->
