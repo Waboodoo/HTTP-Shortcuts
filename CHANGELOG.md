@@ -1,3 +1,19 @@
+## Version 3.13.0
+
+### Improvements
+- On the Event History screen, it is now possible to use relative timestamps instead of absolute ones
+- The "Meta Information" section that is displayed above the response is now collapsed by default and can be expanded when needed
+- The icon picker for built-in icons now has a (rudimentary) search
+- There is now an `abortAndTreatAsFailure()` Scripting function which can be used to customize whether a response should be considered a success or not
+- Similar to the response window, it is now possible to also change the font size of the response dialog
+- Various small tweaks to the UI here and there to improve clarity and to make it more consistent
+
+### Miscellaneous
+- The Event History now shows up to 12 hours of data instead of only 8
+
+### Bugfixes
+- Fixed a crash that occasionally happened when testing shortcuts
+
 ## Version 3.12.1
 
 ### Bugfixes
