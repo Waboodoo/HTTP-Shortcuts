@@ -18,6 +18,11 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
@@ -36,17 +41,24 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
+import kotlinx.coroutines.delay
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyColumnState
+import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MoveContent(
     categories: List<CategoryItem>,
+    initialShortcut: ShortcutId,
     onShortcutMovedToShortcut: (ShortcutId, ShortcutId) -> Unit,
     onShortcutMovedToCategory: (ShortcutId, CategoryId) -> Unit,
     onMoveEnded: () -> Unit,
 ) {
+    var scrolledToInitial by rememberSaveable {
+        mutableStateOf(false)
+    }
+
     val lazyListState = rememberLazyListState()
     val reorderableState = rememberReorderableLazyColumnState(lazyListState) { from, to ->
         val shortcutId = from.key as ShortcutId
@@ -56,6 +68,18 @@ fun MoveContent(
             onShortcutMovedToCategory(shortcutId, targetKey.removePrefix(CATEGORY_KEY_PREFIX))
         } else {
             onShortcutMovedToShortcut(shortcutId, targetKey)
+        }
+    }
+
+    if (!scrolledToInitial) {
+        LaunchedEffect(Unit) {
+            delay(300.milliseconds)
+            categories.findIndexOf(initialShortcut)
+                ?.takeIf { it > 5 }
+                ?.let { index ->
+                    lazyListState.animateScrollToItem(index - 3)
+                }
+            scrolledToInitial = true
         }
     }
 
@@ -122,6 +146,20 @@ fun MoveContent(
             }
         }
     }
+}
+
+private fun List<CategoryItem>.findIndexOf(shortcutId: ShortcutId): Int? {
+    var i = 0
+    for (category in this) {
+        i++
+        for (shortcut in category.shortcuts) {
+            if (shortcut.id == shortcutId) {
+                return i
+            }
+            i++
+        }
+    }
+    return null
 }
 
 @Composable

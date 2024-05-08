@@ -271,7 +271,8 @@ constructor(
 
     fun onMoveOptionSelected() = runAction {
         updateDialogState(null)
-        navigate(NavigationDestination.MoveShortcuts)
+        val shortcutId = activeShortcutId ?: skipAction()
+        navigate(NavigationDestination.MoveShortcuts.buildRequest(shortcutId))
     }
 
     fun onDuplicateOptionSelected() = runAction {

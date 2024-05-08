@@ -136,8 +136,10 @@ fun NavigationRoot() {
             )
         }
 
-        composable(NavigationDestination.MoveShortcuts) {
-            MoveScreen()
+        composable(NavigationDestination.MoveShortcuts) { backStackEntry ->
+            MoveScreen(
+                initialShortcut = NavigationDestination.MoveShortcuts.extractShortcutId(backStackEntry.arguments!!)
+            )
         }
 
         composable(NavigationDestination.RemoteEdit) {

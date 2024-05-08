@@ -192,8 +192,24 @@ sealed interface NavigationDestination {
             bundle.getBoolean(ARG_TO_FILE)
     }
 
-    object MoveShortcuts : NoArgNavigationDestination {
+    object MoveShortcuts : NavigationDestination {
+        private const val ARG_SHORTCUT_ID = "shortcutId"
+
         override val path = "moveShortcuts"
+
+        override val arguments =
+            listOf(
+                stringArg(ARG_SHORTCUT_ID),
+            )
+
+        fun buildRequest(
+            shortcutId: ShortcutId,
+        ) = buildNavigationRequest {
+            pathPart(shortcutId)
+        }
+
+        fun extractShortcutId(bundle: Bundle): ShortcutId =
+            bundle.getEncodedString(ARG_SHORTCUT_ID)!!
     }
 
     object RemoteEdit : NoArgNavigationDestination {
