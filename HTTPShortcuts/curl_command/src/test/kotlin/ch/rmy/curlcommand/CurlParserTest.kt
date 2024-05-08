@@ -210,4 +210,11 @@ class CurlParserTest {
         val command = CurlParser.parse(target)
         assertTrue(command.insecure)
     }
+
+    @Test
+    fun `head flag`() {
+        val target = "curl --head foo"
+        val command = CurlParser.parse(target)
+        assertEquals("HEAD", command.method)
+    }
 }
