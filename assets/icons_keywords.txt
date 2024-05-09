@@ -1,0 +1,452 @@
+# This file holds the keywords used for the icon search
+# Each line represents one entry for the search index.
+# A line consists of multiple keywords separated by a space.
+# Keywords must only consist of lowercase latin characters.
+# An underscore in a keyword means that the keyword represents multiple keywords, e.g. a_b_c corresponds to the keywords a, b, c and abc
+# The first word represents the lookup key. One or more icons may map to it.
+# If this file is updated, follow these steps to apply the changes to the code:
+# 1. Make a copy of the file
+# 2. Remove this header comment, including all empty lines
+# 3. gzip the file
+# 4. Place it in app/src/main/assets and name it icon_keywords (replace the existing file)
+
+accept ok checkmark
+add plus
+alarm bell ring
+alarm_clock time
+anchor ship
+announcement news megaphone
+aperture lens
+application window
+archive files documents
+armor shield protect
+art painting colors
+attach paperclip
+attachment paperclip
+auction justice hammer tool
+bank building
+barchart graph data analysis
+basket_ball sports
+bat_man
+battery charge energy
+battery_charging charge energy
+battery_dead charge energy
+battery_full charge energy
+battery_half charge energy
+battery_low charge energy
+beamed_notes music audio sound
+beep_signal sound
+bell alarm notification
+beverage_coffee cup tea
+bike bicycle vehicle
+biker bicycle vehicle
+bike_wheel bicycle vehicle
+bin trash delete garbage
+blender kitchen appliance device
+blimp zeppelin vehicle
+bluetooth wireless
+boat ship
+bolt flash lightning
+bomb explode weapon destroy
+box cardboard carton
+briefcase suitcase business
+brightness light lamp
+browser window
+brush painting color art
+brush_pencil art
+bus vehicle
+business_man person
+butterfly animal
+cake food
+calculator maths
+calendar time date
+calendar_date time
+camera pictures images
+cancel abort stop cross
+car vehicle garage
+cargo vehicle truck
+cart vehicle
+car_wheel vehicle drive
+cassette recording
+cat animal pet
+caution warning hazard
+cctv_camera surveillance
+cd cdrom disc
+character typography letter a
+chart_bar data analysis graph
+chart_pie data analysis graph
+chat talking speech speak
+check tick checkmark checkbox accept
+cheese food
+chef_cap cooking
+circle shape round
+circle_compass measure
+city buildings houses
+clapboard movies video recording
+clean broom
+clipboard copy paste
+clock time
+close cross cancel exit abort
+cloud weather
+cmyk color
+coffee_machine kitchen device appliance
+color paint art
+color_wheel paint art
+command_mac apple computer monitor screen
+command_refresh circle recycle reload arrows
+compass navigate
+compose edit write text document
+computer pc monitor screen
+cone traffic
+contacts address book
+controls settings dial
+cooker pot kitchen
+copy multiple documents
+couch sofa living_room
+countdown clock timer
+cpu pc computer chip
+credit_card money
+crossroads signs paths
+crown king
+cruise ship boat
+cup tea coffee
+cursor arrow point
+cut scissors
+cutlery_fork_knife kitchen food
+cycling bike bicycle vehicle
+danger hazard warning skull bones death poison
+dashboard gauge measure scale
+data_edit pencil
+data_information stack
+delete remove destroy
+denied cancel forbidden abort
+dev developer code script
+device_bell ring alarm
+device_calculator maths
+dice games
+die games
+diskette floppy disc save
+document file paper
+document_edit file
+dog animal pet
+dollar money
+dolly vehicle move cargo
+door open entrance
+download cloud
+driller tool
+drink wine food kitchen
+dvd movies video
+earth planet globe
+easel art painting
+electric_car vehicle garage
+electronics energy house
+email mail post letter
+energy_saving_bulb light lamp
+enter arrow
+exit arrow
+experiment science
+eye visible
+eyedropper tool
+fan appliance
+fashion shoe
+female person user
+film movie
+film_reel movie
+film_roll movie
+finger_print biometric
+fire flame
+fish animal
+flame fire
+flash lightning
+floppy diskette save
+flower plant
+folder directory
+folder_sharing directory
+food cutlery kitchen
+football sports ball
+footprint animal paws
+frames photos pictures
+fuel_station gasoline car
+game_controller play
+gas gasoline car
+gear settings
+genius science
+gift present
+glasses visible
+global globe planet earth
+globe planet earth
+gps navigate
+gramaphone gromophone music sound audio
+graph data analysis
+guitar instrument music sound audio
+gun weapon
+hamburger food
+hat wizard magic
+hazard warning radioactive
+headphone device music audio sound
+headphones device music audio sound
+helicopter vehicle
+help question
+home house building
+home_security key house
+hot_air balloon
+hour_glass timer
+house home building
+houses home buildings
+image picture photograph
+indicator gauge measure
+info information
+instrument_barometer gauge measure
+instrument_round_bottom_flask science measure
+instrument_telescope science
+internet network
+interstate road car traffic
+invisible eye
+ipad device tablet
+iris eye
+jewel diamond
+joy_pad game controller
+joystick game controller
+key lock unlock security
+key_access lock unlock security
+keyboard type input
+knight chess game
+lamp light
+lan network
+laptop computer
+latitude navigate gps
+laugh person face emotion
+leaf outdoor green nature
+lens camera
+light lamp
+light_bulb lamp
+lightning flash weather
+linear_gauge measure
+link chain connection
+linux computer monitor screen
+loading circle
+location pin map
+lock security
+locked security
+logout door leave exit
+loud_speaker music sound audio
+mac_pc computer monitor screen
+magic_wand wizard
+magnet magnetic
+magnifier enhance zoom
+magnifying_glass enhance zoom
+mail email letter post
+male person user
+map navigate
+map_location navigate
+mastercard creditcard
+medal_bronze success
+medal_gold success
+medal_silver success
+media_back reverse
+media_end finish eject
+media_fast_forward skip
+megaphone audio sound announcement
+memory_card save storage
+merge join arrow
+message speech speak chat
+messages speech speak chat
+mic microphone sound audio record
+microphone sound audio record
+minus subtract maths
+mobile device phone
+mobile_phone device
+modem device router network wifi
+money cash
+motorcycle bike vehicle
+mouse device peripheral
+movie record video
+music notes audio sound
+mute audio sound
+new sun star sparkle
+news paper
+next arrow forward
+office building
+origami paper
+outlet_plug power energy
+paintbrush art color
+paint_can art color
+paint_roller color
+palm_tree plant
+password security
+pen pencil write
+pencil write
+penguin animal linux
+phone telephone call
+photo photograph picture image
+photograph picture image
+piano instrument music audio sound
+picture photograph image
+picture_frame photograph image
+pie_chart graph data analysis
+pin location tack needle
+pine_tree plant
+pizza food kitchen
+plane vehicle airplane aeroplane
+planet space
+plug power electricity energy
+plugin power electricity energy
+plus addition maths
+polaroid photograph image picture
+polaroid_camera photograph image picture
+polaroids photographs images pictures
+power energy electricity on off
+present gift
+price_tag label
+print printer device paper
+printer device paper
+prize trophy success
+profle person user
+projector device video beamer
+puzzles game
+quarter_note music audio sound
+quote quotation
+racing_flags flags
+radio device audio music sound
+radio_tower broadcast
+rain weather
+rainbow weather
+rate star
+rectangle shape
+refrigerator device appliance kitchen fridge
+reload arrow refresh
+remote_control tv television
+remove minus
+rgb color
+road_backward arrow down
+road_forward arrow up
+road_block construction
+robot artificial
+rocket space_ship vehicle
+ruler_triangle tool measure
+running sports jogging
+sad person face emotion
+sail_boat ship
+sand_glass hour_glass time clock
+satellite space communicate
+savings money
+schooolbus school_bus vehicle bus
+scissors cut tool
+scooter vehicle kick_scooter
+search magnify zoom find
+security shield protection
+self_timer measure gauge
+settings control
+shape_lightning flash
+shape_square rectangle
+ship_wheel navigate helm
+shirt clothing
+shoe_prints shoes
+shop tag label
+shopping_basket
+shopping_cart
+shout megaphone announcement
+shutdown power off on
+skateboard vehicle
+sleepy person face emotion
+sliders control settings
+smart_phone telephone mobile device
+smile person face emotion
+snack_doughnut food
+snow weather
+sofa couch living_room
+solar sun weather
+space_ship rocket vehicle
+space_shuttle vehicle
+speaker audio sound music
+speaker_volume audio sound music
+speech audio sound voice
+speedometer gauge measure
+sports trophy success
+spray_paint color
+squirrel animal
+stats graph data analysis
+steering_wheel car garage
+stop forbidden cancel
+sub sub_woofer speaker audio sound music
+submarine vehicle
+success checkmark tick
+suitcase briefcase
+sun weather
+support help
+swap_down arrow
+swap_left arrow
+swap_right arrow
+swap_up arrow
+swatches colors paints shades
+sword weapon
+synchronize recycle arrows
+syringe medical
+table_fan device
+table_lamp light
+tablet device
+tag label
+take_off plane vehicle
+tape_recorder radio device audio music sound
+taxi car vehicle
+tele_phone call device
+television tv device screen monitor
+tent building outdoors camping
+thumbs_down
+thumb_sup
+thunder cloud weather lightning flash
+toaster device appliance kitchen food
+tool_box
+torch flashlight
+tractor vehicle
+traffic_cone
+train vehicle
+transport_school_bus vehicle
+tree plant
+trends stocks data analysis graph
+tripod camera
+trophy victory success
+truck vehicle
+tube circle shape
+turtle animal
+tv television device screen monitor
+typography writing
+ufo vehicle
+umbrella weather rain
+unicycle vehicle
+university building
+un_locked security
+usb peripherals
+user person people
+user_female person people
+user_male person people
+useradd person people
+user_edit person people
+user_remove person people
+users person people
+video film movie
+video_camera_classic
+video_camera_compact
+visa credit_card
+visible eye
+voicemail audio sound
+volume audio sound music
+volume_high audio sound music
+volume_low audio sound music
+volume_mute audio sound music
+waiting_popup loading
+wallet money
+warning alert hazard
+warning_message alert hazard
+washing_machine device appliance
+weather clouds sun
+webcam camera
+wifi network wireless
+windows_pc computer monitor screen
+windsock weather
+windy arrow
+wizard magic
+wrench tool
+x cross cancel
+zoom_in
+zoom_out

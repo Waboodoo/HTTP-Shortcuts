@@ -96,6 +96,15 @@ sealed interface ShortcutIcon {
                 }
         }
 
+        val plainName: String by lazy(LazyThreadSafetyMode.NONE) {
+            var name = normalizedIconName
+            Icons.PREFIXES.forEach { prefix ->
+                name = name.removePrefix(prefix)
+            }
+            name.filter { it.isLetter() || it == '_' }
+                .trimEnd('_')
+        }
+
         override fun toString() = iconName
 
         override fun equals(other: Any?) =

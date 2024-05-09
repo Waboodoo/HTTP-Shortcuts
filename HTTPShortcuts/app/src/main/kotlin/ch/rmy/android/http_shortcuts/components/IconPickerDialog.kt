@@ -169,8 +169,8 @@ private fun BuiltInIconPicker(
     val iconFilterProvider = remember {
         IconFilterProvider(context)
     }
-    LaunchedEffect(iconFilterProvider, coloredIcons, tintableIcons) {
-        iconFilterProvider.init(coloredIcons + tintableIcons)
+    LaunchedEffect(iconFilterProvider) {
+        iconFilterProvider.init()
     }
     var searchQuery by remember {
         mutableStateOf("")
