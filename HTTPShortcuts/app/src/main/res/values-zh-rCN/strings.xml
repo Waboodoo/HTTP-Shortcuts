@@ -84,6 +84,7 @@
     <string name="empty_state_shortcuts">无快捷方式</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts_instructions">按 + 以开始</string>
+    <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">你尚未添加任何要触发的快捷方式。</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
@@ -218,8 +219,10 @@
     <string name="settings_import_from_file">从文件导入</string>
     <!-- Button in settings page to start import of shortcuts from a url -->
     <string name="settings_import_from_url">从 URL 导入</string>
-    <!-- Button in settings page to start export of shortcuts -->
-    <string name="settings_export">导出快捷方式</string>
+    <!-- Button on Import&Export screen to lets the user export shortcuts into a file -->
+    <string name="settings_export_to_file">导出至文件</string>
+    <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
+    <string name="settings_export_via_share">通过共享对话框导出</string>
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">在电脑上编辑</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
@@ -263,6 +266,8 @@
     <string name="label_subtitle_client_cert_in_use">使用证书 \"%s\"。点击删除。</string>
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
     <string name="label_subtitle_client_cert_file_in_use">正使用证书文件。点击移除。</string>
+    <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
+    <string name="label_subtitle_not_applicable_for_http">仅在使用 HTTPS 时可用</string>
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">客户端证书</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
@@ -581,10 +586,14 @@
     <string name="button_export_to_general">文档</string>
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">其他应用</string>
-    <!-- Dialog title when creating a new shortcut, shows options below -->
-    <string name="title_create_new_shortcut_options_dialog">新建快捷方式</string>
+    <!-- Instruction text, shown at the top of the screen when creating a new shortcut, shows options below -->
+    <string name="instructions_create_new_shortcut_options_dialog">选择您想要创建的快捷方式类型。</string>
     <!-- Option in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <string name="button_create_new">新建快捷方式</string>
+    <!-- Button in shortcut creation screen, to select the type of shortcut: from scratch (i.e., start with a blank editor) -->
+    <string name="button_create_from_scratch">从头创建</string>
+    <!-- Section title, shown on shortcut creation screen, above the section that lets the user pick advanced shortcut types -->
+    <string name="section_title_advanced_shortcut_types">高级类型</string>
     <!-- Option in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">从 cURL 命令创建</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
@@ -621,6 +630,8 @@
     <string name="subtitle_launcher_shortcut_with_direct_share">这也将允许通过第三方应用程序，例如谷歌助手或 Bixby Routines，或 Direct Share 使用快捷方式，</string>
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="label_secondary_launcher_shortcut">允许通过第二启动器应用进行触发</string>
+    <!-- Subtitle for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="subtitle_secondary_launcher_shortcut">这主要在无法使用常规主屏幕部件的情况下有用。</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">允许通过快捷工具栏启动</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
@@ -792,6 +803,8 @@
     <string name="action_type_send_mqtt_message">发送 MQTT 消息</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">停止执行</string>
+    <!-- Shortcut Action Title: Abort the execution of the shortcut and instead run the steps as if the request had failed -->
+    <string name="action_type_abort_and_treat_as_failure">中止并视为失败</string>
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
     <string name="action_type_wait">等待</string>
     <!-- Shortcut Action Title: Get the IP Address of the current Wi-Fi -->
@@ -1313,6 +1326,8 @@
     <string name="title_event_history">事件历史</string>
     <!-- Button in Event History screen, to clear all events and empty the history -->
     <string name="button_clear_history">清除历史</string>
+    <!-- Button in Event History screen, to switch between showing absolute times and relative times -->
+    <string name="button_history_toggle_time_mode">切换时间模式</string>
     <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
     <string name="message_history_cleared">历史已清除。</string>
     <!-- Empty state, shown in event history when there are no recent events -->
@@ -1568,4 +1583,12 @@
     <string name="message_device_id_copied">设备ID已复制到剪贴板。</string>
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
     <string name="instructions_export">选择要导出的快捷方式。所有必需的变量都将被自动导出。</string>
+    <!-- Title shown on Response screen which allows to expand a panel showing some meta information about the response -->
+    <string name="title_response_meta_information">元信息</string>
+    <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute values (e.g. 13:37) -->
+    <string name="message_history_switched_to_absolute_times">已切换到绝对时间。</string>
+    <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute relative (e.g. 42 sec ago) -->
+    <string name="message_history_switched_to_relative_times">已切换到相对时间。</string>
+    <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
+    <string name="error_user_defined">执行被中止并作为失败处理</string>
 </resources>

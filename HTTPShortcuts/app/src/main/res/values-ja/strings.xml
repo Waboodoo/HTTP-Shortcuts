@@ -86,6 +86,8 @@
     <string name="empty_state_shortcuts_instructions">ショートカットは、任意のレスポンス処理や表示を含め、１行のHTTPリクエストを送信できます。
 
 開始するには[＋]ボタンをクリックするか、「アプリについて」項目のドキュメントを確認してください。</string>
+    <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
+    <string name="empty_state_no_shortcuts_in_category">このカテゴリーにショートカットなし</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">トリガーするショートカットが追加されていません。</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
@@ -220,8 +222,10 @@
     <string name="settings_import_from_file">ファイルからインポート</string>
     <!-- Button in settings page to start import of shortcuts from a url -->
     <string name="settings_import_from_url">URLからインポート</string>
-    <!-- Button in settings page to start export of shortcuts -->
-    <string name="settings_export">ショートカットと変数をエクスポート</string>
+    <!-- Button on Import&Export screen to lets the user export shortcuts into a file -->
+    <string name="settings_export_to_file">ファイルへエクスポート</string>
+    <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
+    <string name="settings_export_via_share">共有ダイアログでエクスポート</string>
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">パソコンで編集</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
@@ -264,6 +268,8 @@
     <string name="label_subtitle_client_cert_in_use">証明「%s」を利用しています。クリックで削除します。</string>
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
     <string name="label_subtitle_client_cert_file_in_use">証明書ファイルを使用しています。クリックして削除します。</string>
+    <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
+    <string name="label_subtitle_not_applicable_for_http">HTTPS を使用時のみ適用可能</string>
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">クライアント証明書</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
@@ -590,10 +596,14 @@
     <string name="button_export_to_general">ドキュメント（ファイル保存）</string>
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">その他のアプリ（共有）</string>
-    <!-- Dialog title when creating a new shortcut, shows options below -->
-    <string name="title_create_new_shortcut_options_dialog">ショートカットのタイプを選択</string>
+    <!-- Instruction text, shown at the top of the screen when creating a new shortcut, shows options below -->
+    <string name="instructions_create_new_shortcut_options_dialog">作成したいショートカットの種類を選択</string>
     <!-- Option in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <string name="button_create_new">標準 HTTPショートカット</string>
+    <!-- Button in shortcut creation screen, to select the type of shortcut: from scratch (i.e., start with a blank editor) -->
+    <string name="button_create_from_scratch">新規作成する</string>
+    <!-- Section title, shown on shortcut creation screen, above the section that lets the user pick advanced shortcut types -->
+    <string name="section_title_advanced_shortcut_types">高度なタイプ</string>
     <!-- Option in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">cURLコマンドからインポート</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
@@ -630,6 +640,8 @@
     <string name="subtitle_launcher_shortcut_with_direct_share">これにより、ダイレクト共有や、Google Assistant や Bixby Routines などのサードパーティーのアプリ経由でショートカットの使用も可能になります。</string>
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="label_secondary_launcher_shortcut">セカンダリ―ランチャーアプリ経由のトリガーを許可</string>
+    <!-- Subtitle for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="subtitle_secondary_launcher_shortcut">これは、通常のホーム画面ウィジェットが使用できない場合などに便利です。</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">「クイック設定タイル」経由でトリガーを許可する</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
@@ -801,6 +813,8 @@
     <string name="action_type_send_mqtt_message">MQTTメッセージを送信</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">実行を中止</string>
+    <!-- Shortcut Action Title: Abort the execution of the shortcut and instead run the steps as if the request had failed -->
+    <string name="action_type_abort_and_treat_as_failure">中止して「失敗」として扱う</string>
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
     <string name="action_type_wait">待機</string>
     <!-- Shortcut Action Title: Get the IP Address of the current Wi-Fi -->
@@ -1322,6 +1336,8 @@
     <string name="title_event_history">イベント履歴</string>
     <!-- Button in Event History screen, to clear all events and empty the history -->
     <string name="button_clear_history">履歴消去</string>
+    <!-- Button in Event History screen, to switch between showing absolute times and relative times -->
+    <string name="button_history_toggle_time_mode">タイムモードを切り替え</string>
     <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
     <string name="message_history_cleared">履歴を消去しました</string>
     <!-- Empty state, shown in event history when there are no recent events -->
@@ -1579,4 +1595,12 @@
     <string name="message_device_id_copied">デバイスIDをクリップボードにコピーしました</string>
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
     <string name="instructions_export">エクスポートするショートカットを選択してください。必要な変数は、全て自動的にエクスポートされます。</string>
+    <!-- Title shown on Response screen which allows to expand a panel showing some meta information about the response -->
+    <string name="title_response_meta_information">メタ情報</string>
+    <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute values (e.g. 13:37) -->
+    <string name="message_history_switched_to_absolute_times">絶対時刻に切り替えました</string>
+    <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute relative (e.g. 42 sec ago) -->
+    <string name="message_history_switched_to_relative_times">相対時刻に切り替えました</string>
+    <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
+    <string name="error_user_defined">実行が中止され、失敗として扱いました</string>
 </resources>

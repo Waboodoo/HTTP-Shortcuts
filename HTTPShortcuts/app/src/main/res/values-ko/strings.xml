@@ -81,6 +81,7 @@
     <string name="empty_state_shortcuts_instructions">바로가기로 HTTP 요청을 보내고, 응답 내용을 처리하거나 표시할 수 있습니다.
 
 🞣 버튼을 누르면 바로 시작할 수 있고, 정보 메뉴에서 도움말(영문)을 확인할 수도 있습니다.</string>
+    <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">시작할 수 있는 바로가기가 없습니다.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
@@ -217,8 +218,8 @@
     <string name="settings_import_from_file">파일 선택</string>
     <!-- Button in settings page to start import of shortcuts from a url -->
     <string name="settings_import_from_url">URL 입력</string>
-    <!-- Button in settings page to start export of shortcuts -->
-    <string name="settings_export">바로가기·변수 내보내기</string>
+    <!-- Button on Import&Export screen to lets the user export shortcuts into a file -->
+    <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">PC에서 수정하기</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
@@ -262,6 +263,7 @@
     <string name="label_subtitle_client_cert_in_use">“%s” 인증서를 사용 중입니다. 삭제하려면 클릭해 주세요.</string>
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
     <string name="label_subtitle_client_cert_file_in_use">인증서를 사용 중입니다. 삭제하려면 클릭해 주세요.</string>
+    <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">클라이언트 인증서</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
@@ -587,10 +589,11 @@
     <string name="button_export_to_general">파일로 저장</string>
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">다른 앱으로 공유</string>
-    <!-- Dialog title when creating a new shortcut, shows options below -->
-    <string name="title_create_new_shortcut_options_dialog">바로가기 종류 선택</string>
+    <!-- Instruction text, shown at the top of the screen when creating a new shortcut, shows options below -->
     <!-- Option in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <string name="button_create_new">일반 HTTP 바로가기</string>
+    <!-- Button in shortcut creation screen, to select the type of shortcut: from scratch (i.e., start with a blank editor) -->
+    <!-- Section title, shown on shortcut creation screen, above the section that lets the user pick advanced shortcut types -->
     <!-- Option in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">cURL 명령어 변환하기</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
@@ -625,6 +628,7 @@
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="label_secondary_launcher_shortcut">“바로가기 시작” 앱(secondary)으로 시작하기</string>
+    <!-- Subtitle for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">빠른 설정창 버튼으로 시작</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
@@ -793,6 +797,7 @@
     <string name="action_type_send_mqtt_message">MQTT 메시지 전송</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">실행 중단</string>
+    <!-- Shortcut Action Title: Abort the execution of the shortcut and instead run the steps as if the request had failed -->
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
     <string name="action_type_wait">대기</string>
     <!-- Shortcut Action Title: Get the IP Address of the current Wi-Fi -->
@@ -1311,6 +1316,7 @@
     <string name="title_event_history">실행 로그</string>
     <!-- Button in Event History screen, to clear all events and empty the history -->
     <string name="button_clear_history">로그 전체 삭제</string>
+    <!-- Button in Event History screen, to switch between showing absolute times and relative times -->
     <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
     <string name="message_history_cleared">로그를 삭제했습니다.</string>
     <!-- Empty state, shown in event history when there are no recent events -->
@@ -1504,4 +1510,8 @@
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
+    <!-- Title shown on Response screen which allows to expand a panel showing some meta information about the response -->
+    <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute values (e.g. 13:37) -->
+    <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute relative (e.g. 42 sec ago) -->
+    <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
 </resources>

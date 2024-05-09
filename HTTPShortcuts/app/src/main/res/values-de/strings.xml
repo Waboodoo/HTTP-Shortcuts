@@ -86,6 +86,8 @@
     <string name="empty_state_shortcuts_instructions">Ein Shortcut ermöglicht es dir, einen einzelnen HTTP-Request zu senden, und nach Bedarf die Response zu verarbeiten und anzuzeigen.
 
 Drücke den + Knopf um loszulegen, oder lies die Dokumentation, welche du auf der ”Information”-Seite findest.</string>
+    <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
+    <string name="empty_state_no_shortcuts_in_category">noch keine Shortcuts in dieser Kategorie</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">noch keine Shortcuts ausgewählt</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
@@ -222,8 +224,10 @@ Drücke den + Knopf um eine Variable zu erstellen.</string>
     <string name="settings_import_from_file">Aus Datei importieren</string>
     <!-- Button in settings page to start import of shortcuts from a url -->
     <string name="settings_import_from_url">Von URL importieren</string>
-    <!-- Button in settings page to start export of shortcuts -->
-    <string name="settings_export">Shortcuts &amp; Variablen exportieren</string>
+    <!-- Button on Import&Export screen to lets the user export shortcuts into a file -->
+    <string name="settings_export_to_file">In Datei exportieren</string>
+    <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
+    <string name="settings_export_via_share">Export über Teilen-Dialog</string>
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">Am Computer bearbeiten</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
@@ -269,6 +273,8 @@ Drücke den + Knopf um eine Variable zu erstellen.</string>
     <string name="label_subtitle_client_cert_in_use">Zertifikat ”%s” wird verwendet. Klicke um zu entfernen.</string>
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
     <string name="label_subtitle_client_cert_file_in_use">Zertifikat-Datei wird verwendet. Klicken zum Entfernen.</string>
+    <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
+    <string name="label_subtitle_not_applicable_for_http">Nur anwendbar bei HTTPS</string>
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">Client-Zertifikat</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
@@ -601,24 +607,28 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="button_export_to_general">In Datei speichern</string>
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">Teilen</string>
-    <!-- Dialog title when creating a new shortcut, shows options below -->
-    <string name="title_create_new_shortcut_options_dialog">Neuen Shortcut erstellen</string>
+    <!-- Instruction text, shown at the top of the screen when creating a new shortcut, shows options below -->
+    <string name="instructions_create_new_shortcut_options_dialog">Wähle den Typ des Shortcuts, den du erstellen möchtest.</string>
     <!-- Option in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <string name="button_create_new">Normaler HTTP Shortcut</string>
+    <!-- Button in shortcut creation screen, to select the type of shortcut: from scratch (i.e., start with a blank editor) -->
+    <string name="button_create_from_scratch">Von Grund auf erstellen</string>
+    <!-- Section title, shown on shortcut creation screen, above the section that lets the user pick advanced shortcut types -->
+    <string name="section_title_advanced_shortcut_types">Fortgeschrittene Typen</string>
     <!-- Option in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">Aus cURL-Befehl erstellen</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Browsershortcut</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
-    <string name="button_description_create_browser_shortcut">URL im Browser öffnen</string>
+    <string name="button_description_create_browser_shortcut">Öffnet eine URL im Browser</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">Scripting-Shortcut</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
-    <string name="button_description_create_scripting_shortcut">Erstelle fortgeschrittene Workflows mit JavaScript</string>
+    <string name="button_description_create_scripting_shortcut">Führt nur JavaScript-Code aus, für fortgeschrittene Workflows</string>
     <!-- Option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
     <string name="button_create_trigger_shortcut">Multi-Shortcut</string>
     <!-- Description for option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
-    <string name="button_description_create_trigger_shortcut">Löse mehrere Shortcuts gleichzeitig aus</string>
+    <string name="button_description_create_trigger_shortcut">Führt mehrere Shortcuts in Folge aus</string>
     <!-- Window title for cURL import -->
     <string name="title_curl_import">cURL-Import</string>
     <!-- Instruction text for shortcut import from cURL format -->
@@ -641,6 +651,8 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="subtitle_launcher_shortcut_with_direct_share">Dies ermöglicht auch die Verwendung des Shortcuts in Direct Share und durch Drittanbieter-Apps wie Google Assistant oder Bixby Routinen</string>
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="label_secondary_launcher_shortcut">Auslösen durch sekundäre App erlauben</string>
+    <!-- Subtitle for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="subtitle_secondary_launcher_shortcut">Dies ist vor allem dann nützlich, wenn normale Widgets auf dem Homescreen nicht verwendet werden können.</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Auslösen via Quick Settings Tile erlauben</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
@@ -813,6 +825,8 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="action_type_send_mqtt_message">MQTT-Nachricht senden</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">Ausführung abbrechen</string>
+    <!-- Shortcut Action Title: Abort the execution of the shortcut and instead run the steps as if the request had failed -->
+    <string name="action_type_abort_and_treat_as_failure">Abbrechen und als Fehler behandeln</string>
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
     <string name="action_type_wait">Warten</string>
     <!-- Shortcut Action Title: Get the IP Address of the current Wi-Fi -->
@@ -1337,6 +1351,8 @@ Trotzdem löschen?</string>
     <string name="title_event_history">Verlauf</string>
     <!-- Button in Event History screen, to clear all events and empty the history -->
     <string name="button_clear_history">Verlauf löschen</string>
+    <!-- Button in Event History screen, to switch between showing absolute times and relative times -->
+    <string name="button_history_toggle_time_mode">Zeitanzeige umschalten</string>
     <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
     <string name="message_history_cleared">Verlauf gelöscht.</string>
     <!-- Empty state, shown in event history when there are no recent events -->
@@ -1597,4 +1613,12 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="message_device_id_copied">Geräte-ID in Zwischenablage kopiert.</string>
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
     <string name="instructions_export">Wähle alle Shortcuts aus, die exportiert werden sollen. Alle erforderlichen Variablen werden automatisch exportiert.</string>
+    <!-- Title shown on Response screen which allows to expand a panel showing some meta information about the response -->
+    <string name="title_response_meta_information">Meta-Informationen</string>
+    <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute values (e.g. 13:37) -->
+    <string name="message_history_switched_to_absolute_times">Auf absolute Zeitangaben umgestellt.</string>
+    <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute relative (e.g. 42 sec ago) -->
+    <string name="message_history_switched_to_relative_times">Auf relative Zeitangaben umgestellt.</string>
+    <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
+    <string name="error_user_defined">Ausführung wurde abgebrochen und als Fehler behandelt</string>
 </resources>

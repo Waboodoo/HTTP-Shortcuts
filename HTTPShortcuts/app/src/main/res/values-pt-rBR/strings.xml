@@ -77,6 +77,7 @@
     <string name="empty_state_shortcuts_instructions">Um atalho permite que você envie uma única solicitação HTTP, opcionalmente processando e exibindo a resposta.
 
 Clique no botão + para começar, ou verifique a Documentação na seção Sobre.</string>
+    <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Você ainda não acrescentou nenhum atalho para acionar.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
@@ -209,8 +210,8 @@ Clique no botão + para adicionar uma variável.</string>
     <string name="settings_import_from_file">Importação de arquivo</string>
     <!-- Button in settings page to start import of shortcuts from a url -->
     <string name="settings_import_from_url">Importação do URL</string>
-    <!-- Button in settings page to start export of shortcuts -->
-    <string name="settings_export">Exportar atalhos</string>
+    <!-- Button on Import&Export screen to lets the user export shortcuts into a file -->
+    <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">Editar no computador</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
@@ -248,6 +249,7 @@ Clique no botão + para adicionar uma variável.</string>
     <string name="label_subtitle_client_cert_in_use">Usando certificados \"%s\". Clique para remover.</string>
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
     <string name="label_subtitle_client_cert_file_in_use">Usando arquivo de certificado. Clique para remover.</string>
+    <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">Certificado de cliente</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
@@ -565,10 +567,11 @@ Consulte a documentação na seção variável para obter mais informações.</s
     <string name="button_export_to_general">Documentos (Arquivo da loja)</string>
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">Outro app</string>
-    <!-- Dialog title when creating a new shortcut, shows options below -->
-    <string name="title_create_new_shortcut_options_dialog">Criar Novo Atalho</string>
+    <!-- Instruction text, shown at the top of the screen when creating a new shortcut, shows options below -->
     <!-- Option in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <string name="button_create_new">Do começo</string>
+    <!-- Button in shortcut creation screen, to select the type of shortcut: from scratch (i.e., start with a blank editor) -->
+    <!-- Section title, shown on shortcut creation screen, above the section that lets the user pick advanced shortcut types -->
     <!-- Option in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">De comando cURL</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
@@ -602,6 +605,7 @@ Consulte a documentação na seção variável para obter mais informações.</s
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <!-- Subtitle for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Permitir acionamento via Quick Settings Tile</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
@@ -762,6 +766,7 @@ Consulte a documentação na seção variável para obter mais informações.</s
     <string name="action_type_send_mqtt_message">Enviar mensagem MQTT</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">Abortar a execução</string>
+    <!-- Shortcut Action Title: Abort the execution of the shortcut and instead run the steps as if the request had failed -->
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
     <string name="action_type_wait">Aguarde</string>
     <!-- Shortcut Action Title: Get the IP Address of the current Wi-Fi -->
@@ -1263,6 +1268,7 @@ Excluir de qualquer maneira?</string>
     <string name="error_opening_files_using_open_url_not_supported">A abertura de arquivos usando o openUrl() não é suportada</string>
     <!-- Page title, for page showing all events that happened recently -->
     <!-- Button in Event History screen, to clear all events and empty the history -->
+    <!-- Button in Event History screen, to switch between showing absolute times and relative times -->
     <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
     <!-- Empty state, shown in event history when there are no recent events -->
     <!-- Empty state instructions, shown in event history when there are no events -->
@@ -1384,4 +1390,8 @@ Excluir de qualquer maneira?</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
+    <!-- Title shown on Response screen which allows to expand a panel showing some meta information about the response -->
+    <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute values (e.g. 13:37) -->
+    <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute relative (e.g. 42 sec ago) -->
+    <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
 </resources>
