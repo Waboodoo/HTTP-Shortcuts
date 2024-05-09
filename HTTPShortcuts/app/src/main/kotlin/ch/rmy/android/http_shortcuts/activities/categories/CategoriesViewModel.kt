@@ -129,7 +129,7 @@ constructor(
         if (category.shortcuts.isEmpty()) {
             deleteCategory(categoryId)
         } else {
-            updateDialogState(CategoriesDialogState.Deletion)
+            updateDialogState(CategoriesDialogState.Deletion(category.name))
         }
     }
 

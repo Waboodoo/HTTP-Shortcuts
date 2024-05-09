@@ -40,6 +40,7 @@ fun VariablesDialogs(
         }
         is VariablesDialogState.Delete -> {
             DeletionDialog(
+                title = dialogState.variableKey,
                 shortcutNames = dialogState.shortcutNames,
                 onConfirmed = onDeleteConfirmed,
                 onDismissed = onDismissed,
@@ -120,11 +121,13 @@ private fun VariableTypeEntry(
 
 @Composable
 private fun DeletionDialog(
+    title: String,
     shortcutNames: List<String>,
     onConfirmed: () -> Unit,
     onDismissed: () -> Unit,
 ) {
     ConfirmDialog(
+        title = title,
         message = if (shortcutNames.isEmpty()) {
             stringResource(R.string.confirm_delete_variable_message)
         } else {
