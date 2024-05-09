@@ -185,10 +185,6 @@
     <!-- Option for crash reporting opt out -->
     <string name="settings_crash_reporting_disallow">"Ikke send noen krasjrapporter"</string>
 
-    <!-- Button in settings page to start export of shortcuts -->
-    <!-- Fuzzy -->
-    <string name="settings_export">"Eksporter snarveier"</string>
-
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">"Eksporterer…"</string>
 
@@ -497,9 +493,6 @@ Se dokumentasjonen i variabelseksjonen for mere informasjon."</string>
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <!-- Fuzzy -->
     <string name="button_export_send_to">"En annen app"</string>
-
-    <!-- Dialog title when creating a new shortcut, shows options below -->
-    <string name="title_create_new_shortcut_options_dialog">"Lag en ny snarvei"</string>
 
     <!-- Option 1 in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <!-- Fuzzy -->
