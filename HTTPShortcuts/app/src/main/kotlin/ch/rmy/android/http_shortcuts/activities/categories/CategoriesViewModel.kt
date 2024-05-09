@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.categories
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
+import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
@@ -136,7 +137,13 @@ constructor(
     fun onPlaceOnHomeScreenClicked() = runAction {
         val categoryId = activeCategoryId ?: skipAction()
         val category = getCategory(categoryId) ?: skipAction()
-        updateDialogState(CategoriesDialogState.IconPicker(category.icon as? ShortcutIcon.BuiltInIcon))
+        updateDialogState(
+            CategoriesDialogState.IconPicker(
+                currentIcon = (category.icon as? ShortcutIcon.BuiltInIcon)
+                    ?: ShortcutIcon.BuiltInIcon.fromDrawableResource(context, R.drawable.flat_grey_folder),
+                suggestionBase = category.name,
+            )
+        )
     }
 
     fun onCategoryIconSelected(icon: ShortcutIcon) = runAction {

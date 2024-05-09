@@ -476,6 +476,7 @@ constructor(
         updateDialogState(
             ShortcutEditorDialogState.PickIcon(
                 currentIcon = viewState.shortcutIcon as? ShortcutIcon.BuiltInIcon,
+                suggestionBase = viewState.shortcutName,
                 includeFaviconOption = hasUrl(),
             ),
         )

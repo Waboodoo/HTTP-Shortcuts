@@ -12,9 +12,10 @@ import java.util.zip.GZIPInputStream
 
 class IconFilterProvider(private val context: Context) {
 
-    private var iconKeywords: Map<String, Set<String>> = emptyMap()
-
     suspend fun init() {
+        if (iconKeywords.isNotEmpty()) {
+            return
+        }
         logInfo("Initializing IconFilterProvider")
         tryOrLog {
             iconKeywords = withContext(Dispatchers.IO) {
@@ -40,23 +41,36 @@ class IconFilterProvider(private val context: Context) {
         }
     }
 
-    fun createFilter(query: String): ((ShortcutIcon.BuiltInIcon) -> Boolean)? {
+    fun createScoringFunction(query: String): ((ShortcutIcon.BuiltInIcon) -> Int)? {
         val queryTerms = query.trim()
             .takeUnlessEmpty()
             ?.let { SearchUtil.normalizeToKeywords(it, minLength = 1) }
             ?: return null
         return { icon ->
-            icon.matches(queryTerms)
+            icon.score(queryTerms)
         }
     }
 
-    private fun ShortcutIcon.BuiltInIcon.matches(queryTerms: Collection<String>): Boolean {
+    private fun ShortcutIcon.BuiltInIcon.score(queryTerms: Collection<String>): Int {
+        val primaryKeywords = SearchUtil.normalizeToKeywords(plainName, minLength = 1)
         val keywords = iconKeywords[plainName.filter { it != '_' }]
-            ?: SearchUtil.normalizeToKeywords(plainName, minLength = 1)
-        return keywords.any { keyword ->
-            queryTerms.any { queryTerm ->
-                keyword.startsWith(queryTerm) || (keyword.length >= 5 && queryTerm.length >= 5 && queryTerm.contains(keyword))
+            ?: primaryKeywords
+        var score = 0
+        keywords.forEach { keyword ->
+            queryTerms.forEach { queryTerm ->
+                if (keyword == queryTerm) {
+                    score += if (keyword in primaryKeywords) (if (primaryKeywords.size == 1) 18 else 12) else 9
+                } else if (keyword.startsWith(queryTerm)) {
+                    score += if (keyword in primaryKeywords) 6 else 4
+                } else if (keyword.length >= 5 && queryTerm.length >= 5 && queryTerm.contains(keyword)) {
+                    score += 1
+                }
             }
         }
+        return score
+    }
+
+    companion object {
+        private var iconKeywords: Map<String, Set<String>> = emptyMap()
     }
 }

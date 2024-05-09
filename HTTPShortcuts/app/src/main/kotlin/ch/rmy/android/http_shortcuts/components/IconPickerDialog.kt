@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.outlined.Search
@@ -55,6 +56,7 @@ private const val STATE_COLOR_PICKER = "color-picker"
 fun IconPickerDialog(
     title: String,
     currentIcon: ShortcutIcon.BuiltInIcon? = null,
+    suggestionBase: String? = null,
     onCustomIconOptionSelected: () -> Unit,
     onIconSelected: (ShortcutIcon) -> Unit,
     onFaviconOptionSelected: (() -> Unit)? = null,
@@ -74,6 +76,7 @@ fun IconPickerDialog(
         STATE_BUILT_IN -> {
             BuiltInIconPicker(
                 activeIcon = currentIcon,
+                suggestionBase = suggestionBase,
                 onIconSelected = {
                     if (it.tint != null) {
                         persistedIcon = it.iconName
@@ -106,6 +109,15 @@ fun IconPickerDialog(
         }
 
         else -> {
+            // Init iconFilterProvider here such that it can already start building up the global in-memory search index
+            val context = LocalContext.current
+            val iconFilterProvider = remember {
+                IconFilterProvider(context)
+            }
+            LaunchedEffect(iconFilterProvider) {
+                iconFilterProvider.init()
+            }
+
             OptionsDialog(
                 title,
                 onBuiltInIconOptionSelected = {
@@ -154,6 +166,7 @@ private fun OptionsDialog(
 @Composable
 private fun BuiltInIconPicker(
     activeIcon: ShortcutIcon.BuiltInIcon? = null,
+    suggestionBase: String? = null,
     onIconSelected: (ShortcutIcon.BuiltInIcon) -> Unit,
     onDismissRequested: () -> Unit,
 ) {
@@ -165,12 +178,39 @@ private fun BuiltInIconPicker(
     val tintableIcons = remember(isDarkMode) {
         getTintableIcons(context, if (isDarkMode) Icons.TintColor.WHITE else Icons.TintColor.BLACK)
     }
+    val allIcons = remember {
+        coloredIcons + tintableIcons
+    }
 
     val iconFilterProvider = remember {
         IconFilterProvider(context)
     }
-    LaunchedEffect(iconFilterProvider) {
+    var suggestions by remember {
+        mutableStateOf(emptyList<ShortcutIcon.BuiltInIcon>())
+    }
+    LaunchedEffect(iconFilterProvider, activeIcon, suggestionBase) {
         iconFilterProvider.init()
+        if (suggestionBase != null) {
+            suggestions = withContext(Dispatchers.Default) {
+                iconFilterProvider.createScoringFunction(suggestionBase)
+                    ?.let { scoringFunction ->
+                        allIcons
+                            .asSequence()
+                            .map { it to scoringFunction(it) }
+                            .filter { (_, score) -> score != 0 }
+                            .sortedByDescending { (_, score) -> score }
+                            .map { (icon, _) -> icon }
+                            .filterNot { it.normalizedIconName == activeIcon?.normalizedIconName }
+                            .take(4)
+                            .toList()
+                    }
+                    ?.toList()
+                    ?: emptyList()
+            }
+        }
+    }
+    val topRowIcons = remember(activeIcon, suggestions) {
+        listOfNotNull(activeIcon) + suggestions
     }
     var searchQuery by remember {
         mutableStateOf("")
@@ -178,15 +218,19 @@ private fun BuiltInIconPicker(
     var filteredIcons by remember {
         mutableStateOf<List<ShortcutIcon.BuiltInIcon>?>(null)
     }
-    LaunchedEffect(searchQuery) {
+    LaunchedEffect(searchQuery, allIcons) {
         if (searchQuery.isBlank()) {
             filteredIcons = null
         } else {
             delay(300.milliseconds)
             filteredIcons = withContext(Dispatchers.Default) {
-                iconFilterProvider.createFilter(searchQuery)
-                    ?.let {
-                        (coloredIcons + tintableIcons).filter(it)
+                iconFilterProvider.createScoringFunction(searchQuery)
+                    ?.let { scoringFunction ->
+                        allIcons
+                            .map { it to scoringFunction(it) }
+                            .filter { (_, score) -> score != 0 }
+                            .sortedByDescending { (_, score) -> score }
+                            .map { (icon, _) -> icon }
                     }
             }
         }
@@ -219,6 +263,9 @@ private fun BuiltInIconPicker(
                 )
 
                 LazyVerticalGrid(
+                    state = rememberSaveable(filteredIcons, saver = LazyGridState.Saver) {
+                        LazyGridState()
+                    },
                     columns = GridCells.Adaptive(minSize = 44.dp),
                     contentPadding = PaddingValues(Spacing.MEDIUM),
                     verticalArrangement = Arrangement.spacedBy(Spacing.MEDIUM),
@@ -232,8 +279,8 @@ private fun BuiltInIconPicker(
                         }
                     }
                         ?: run {
-                            if (activeIcon != null) {
-                                iconSection(listOf(activeIcon), onIconSelected, keySuffix = "-active")
+                            if (topRowIcons.isNotEmpty()) {
+                                iconSection(topRowIcons, onIconSelected, keySuffix = "-top")
                                 divider()
                             }
                             iconSection(coloredIcons, onIconSelected)

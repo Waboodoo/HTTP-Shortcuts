@@ -65,7 +65,7 @@ camera pictures images
 cancel abort stop cross
 car vehicle garage
 cargo vehicle truck
-cart vehicle
+cart shopping basket
 car_wheel vehicle drive
 cassette recording
 cat animal pet

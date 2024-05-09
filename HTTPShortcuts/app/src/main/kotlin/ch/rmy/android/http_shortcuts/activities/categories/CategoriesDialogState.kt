@@ -20,5 +20,6 @@ sealed class CategoriesDialogState {
 
     data class IconPicker(
         val currentIcon: ShortcutIcon.BuiltInIcon?,
+        val suggestionBase: String?,
     ) : CategoriesDialogState()
 }

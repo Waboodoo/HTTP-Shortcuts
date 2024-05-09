@@ -43,6 +43,7 @@ fun CategoriesDialogs(
         is CategoriesDialogState.IconPicker -> {
             IconPickerDialog(
                 currentIcon = dialogState.currentIcon,
+                suggestionBase = dialogState.suggestionBase,
                 title = stringResource(R.string.title_category_select_icon),
                 onCustomIconOptionSelected = onCustomIconOptionSelected,
                 onIconSelected = onIconSelected,

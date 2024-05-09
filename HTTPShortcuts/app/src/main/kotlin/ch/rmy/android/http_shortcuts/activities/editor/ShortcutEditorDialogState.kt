@@ -11,6 +11,7 @@ sealed class ShortcutEditorDialogState {
     @Stable
     data class PickIcon(
         val currentIcon: ShortcutIcon.BuiltInIcon?,
+        val suggestionBase: String?,
         val includeFaviconOption: Boolean,
     ) : ShortcutEditorDialogState()
 }
