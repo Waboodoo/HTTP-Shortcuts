@@ -11,12 +11,8 @@
 
 A simple Android app that allows you to create shortcuts that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request, with the possibility to process and display the response in various ways.
 
-<a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts">
-<img alt="Get it on Google Play" src="/assets/play_store.svg" height="80" />
-</a>
-<a href="https://f-droid.org/en/packages/ch.rmy.android.http_shortcuts/">
-<img alt="Get it on F-Droid" src="/assets/f_droid.svg" height="80" />
-</a>
+<a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"><img alt="Get it on Google Play" src="/assets/play_store.svg" height="80" /></a>
+<a href="https://f-droid.org/en/packages/ch.rmy.android.http_shortcuts/"><img alt="Get it on F-Droid" src="/assets/f_droid.svg" height="80" /></a>
 
 
 or [download the latest APK](https://github.com/Waboodoo/HTTP-Shortcuts/releases) directly.
