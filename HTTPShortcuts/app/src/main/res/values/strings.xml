@@ -81,17 +81,17 @@
     <!-- Dialog option, for exporting a single shortcut as a file -->
     <string name="action_export_as_file">File</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts">You don\'t have any shortcuts yet.</string>
+    <string name="empty_state_shortcuts">You don\’t have any shortcuts yet.</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts_instructions">A shortcut allows you to send a single HTTP request, optionally processing and displaying the response.\n\nClick the + button to get started, or check the Documentation in the Information section.</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <string name="empty_state_no_shortcuts_in_category">no shortcuts yet in this category</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts">You haven\'t added any shortcuts to trigger yet.</string>
+    <string name="empty_state_trigger_shortcuts">You haven\’t added any shortcuts to trigger yet.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts_instructions">Add all the shortcuts to this list that you want to trigger as part of this multi-shortcut.\n\nClick the + button to get started.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
-    <string name="empty_state_variables">You don\'t have any variables yet.</string>
+    <string name="empty_state_variables">You don\’t have any variables yet.</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
     <string name="empty_state_variables_instructions">Variables allow you to dynamically insert values into your shortcuts, e.g., into the URL, headers or request body. Look for the \“{}\” button when editing a shortcut to find all the places where a variable placeholder can be inserted.\n\nClick the + button to add a variable.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
@@ -213,7 +213,7 @@
     <!-- Option for crash reporting opt in -->
     <string name="settings_crash_reporting_allow">Send crash reports to help improve the app</string>
     <!-- Option for crash reporting opt out -->
-    <string name="settings_crash_reporting_disallow">Don\'t send any crash reports</string>
+    <string name="settings_crash_reporting_disallow">Don\’t send any crash reports</string>
     <!-- Button in settings page to start import of shortcuts from a file -->
     <string name="settings_import_from_file">Import from File</string>
     <!-- Button in settings page to start import of shortcuts from a url -->
@@ -310,13 +310,13 @@
     <!-- Button title, for option to open the app's Github page in a browser -->
     <string name="settings_github">View on Github</string>
     <!-- Button subtitle for "View on Github" button -->
-    <string name="settings_github_summary">That\'s right, this app is open-source</string>
+    <string name="settings_github_summary">That\’s right, this app is open-source</string>
     <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
     <string name="settings_donate">Donate / Sponsor</string>
     <!-- Button subtitle, for option to open the app's Donate page in a browser, for users who wish to support the app -->
     <string name="settings_donate_summary">Show your appreciation by buying me a drink or sponsoring my work</string>
     <!-- Dialog title, for changelog, shown when a new version of the app is released -->
-    <string name="changelog_title_whats_new">What\'s new?</string>
+    <string name="changelog_title_whats_new">What\’s new?</string>
     <!-- Dialog title, for changelog, showing what's new in a release -->
     <string name="changelog_title">Changelog</string>
     <!-- Checkbox label, shown on Changelog dialog, allowing user to enable that the dialog shows when the app is started -->
@@ -356,7 +356,7 @@
     <!-- Label, for dropdown picker, allowing to select the authentication method (i.e., how to authenticate) of a shortcut -->
     <string name="label_authentication_method">Authentication Method</string>
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
-    <string name="dialog_checkbox_do_not_show_again">Don\'t show again</string>
+    <string name="dialog_checkbox_do_not_show_again">Don\’t show again</string>
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
     <string name="label_require_execution_confirmation">Require confirmation before execution</string>
     <!-- Page title, for page listing all the libraries and 3rd party assets used in the app -->
@@ -531,13 +531,13 @@
     <!-- Button, for opening help article page -->
     <string name="button_show_help">Show Help</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button">This button allows you to include placeholders for variables, i.e., dynamic values, into your shortcut.\n\nYou don\'t have any variables configured yet. You can do so by clicking the CREATE button below.</string>
+    <string name="help_text_variable_button">This button allows you to include placeholders for variables, i.e., dynamic values, into your shortcut.\n\nYou don\’t have any variables configured yet. You can do so by clicking the CREATE button below.</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button_for_variables">This button allows you to include placeholders for the values of other variables into this one.\n\nYou don\'t have any variables configured yet, however.</string>
+    <string name="help_text_variable_button_for_variables">This button allows you to include placeholders for the values of other variables into this one.\n\nYou don\’t have any variables configured yet, however.</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_get_variable_no_variable">You don\'t have any variables yet. Click the Create button below to get started.</string>
+    <string name="help_text_code_snippet_get_variable_no_variable">You don\’t have any variables yet. Click the Create button below to get started.</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">You don\'t have any variables yet that can be set by this action. Click the Create button below to get started.</string>
+    <string name="help_text_code_snippet_set_variable_no_variable">You don\’t have any variables yet that can be set by this action. Click the Create button below to get started.</string>
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">Create</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
@@ -661,7 +661,7 @@
     <!-- Title of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_title">App Title</string>
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
-    <string name="settings_app_title_summary">Change the title of the app\'s main screen</string>
+    <string name="settings_app_title_summary">Change the title of the app\’s main screen</string>
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">Minimum</string>
     <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
@@ -721,7 +721,7 @@
     <!-- Section title in shortcut editor, groups together technical settings -->
     <string name="label_advanced_technical_settings">Advanced Technical Settings</string>
     <!-- Section subtitle in shortcut editor, shown below "Advanced Technical Settings" -->
-    <string name="label_advanced_technical_settings_subtitle">For people who know what they\'re doing</string>
+    <string name="label_advanced_technical_settings_subtitle">For people who know what they\’re doing</string>
     <!-- Shortcut Action Title: Show Toast (small popup message) -->
     <string name="action_type_toast_title">Show Toast</string>
     <!-- Shortcut Action Title: Show Dialog -->
@@ -797,7 +797,7 @@
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Get Current Location</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
-    <string name="action_type_get_location_description">Queries the device\'s physical location and returns it as an object</string>
+    <string name="action_type_get_location_description">Queries the device\’s physical location and returns it as an object</string>
     <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
     <string name="action_type_wake_on_lan">Wake-on-LAN</string>
     <!-- Shortcut Action Title: Send a UDP packet to another device on the network -->
@@ -869,9 +869,9 @@
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">Multi-Shortcut</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
-    <string name="subtitle_basic_request_settings_prompt">Set the shortcut\'s URL and HTTP method</string>
+    <string name="subtitle_basic_request_settings_prompt">Set the shortcut\’s URL and HTTP method</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
-    <string name="subtitle_basic_request_settings_url_only_prompt">Set the shortcut\'s URL</string>
+    <string name="subtitle_basic_request_settings_url_only_prompt">Set the shortcut\’s URL</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
     <string name="subtitle_basic_request_settings_pattern">%1$s %2$s</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
@@ -935,9 +935,9 @@
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
     <string name="error_js_pattern_with_line_number">JavaScript error (at line %1$d):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
-    <string name="error_variable_not_found_read">Variable error: tried to get value of variable that doesn\'t exist: %s</string>
+    <string name="error_variable_not_found_read">Variable error: tried to get value of variable that doesn\’t exist: %s</string>
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
-    <string name="error_variable_not_found_write">Variable error: tried to set value of variable that doesn\'t exist: %s</string>
+    <string name="error_variable_not_found_write">Variable error: tried to set value of variable that doesn\’t exist: %s</string>
     <!-- Button: Shown below JavaScript editor (for pre-request and post-request actions), allows to add snippets of JS code -->
     <string name="button_add_code_snippet">Add Code Snippet</string>
     <!-- Title: Shown on menu dialog (for pre-request and post-request actions), allows to add snippets of JS code -->
@@ -1130,7 +1130,7 @@
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">Pending executions cancelled.</string>
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
-    <string name="instructions_remote_edit">This feature allows you to edit your shortcuts on a computer, from the comfort of a browser. Please read the app\'s Privacy Policy before getting started, then follow these steps:</string>
+    <string name="instructions_remote_edit">This feature allows you to edit your shortcuts on a computer, from the comfort of a browser. Please read the app\’s Privacy Policy before getting started, then follow these steps:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
     <string name="instructions_remote_edit_step_1">Enter a password into the field above.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: click the push button -->
@@ -1174,7 +1174,7 @@
     <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="settings_global_scripting_summary">Run JavaScript code before every shortcut execution</string>
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
-    <string name="placeholder_javascript_global_scripting">Add JavaScript code here to run at the start of every shortcut execution, e.g., to prepare some variables or define some functions which can be used in a shortcut\'s Scripting section.</string>
+    <string name="placeholder_javascript_global_scripting">Add JavaScript code here to run at the start of every shortcut execution, e.g., to prepare some variables or define some functions which can be used in a shortcut\’s Scripting section.</string>
     <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
     <string name="action_save_global_scripting">Save Changes</string>
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
@@ -1194,7 +1194,7 @@
     <!-- Action label: Shown on wifi check dialog to open the Wi-Fi picker -->
     <string name="action_label_select">Select</string>
     <!-- Error message, shown when user declines location permission for Wi-Fi check -->
-    <string name="error_missing_location_permission">Failed to determine the current Wi-Fi\'s SSID. Location permission is required.</string>
+    <string name="error_missing_location_permission">Failed to determine the current Wi-Fi\’s SSID. Location permission is required.</string>
     <!-- Message: Success message shown when a response was saved to a file -->
     <string name="message_response_saved_to_file">Response saved to file.</string>
     <!-- Dialog title: Shown in progress dialog while a file is being saved -->
@@ -1208,7 +1208,7 @@
     <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
     <string name="settings_title_remote_edit">Remote Editing</string>
     <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
-    <string name="error_failed_to_use_client_cert">Failed to load or use the client certificate. It may be that this is not supported by your device or that it needs to be re-configured in the shortcut\'s settings.</string>
+    <string name="error_failed_to_use_client_cert">Failed to load or use the client certificate. It may be that this is not supported by your device or that it needs to be re-configured in the shortcut\’s settings.</string>
     <!-- Label shown above a text field showing a shortcut's ID -->
     <string name="label_shortcut_id">Shortcut ID</string>
     <!-- Label shown above a text field showing a shortcut's deep link URL -->
@@ -1240,7 +1240,7 @@
     <!-- Error message: Shown to the user when the app tries to determine the SSID (name) of the current Wi-Fi but failed, e.g. because of a missing permission -->
     <string name="error_failed_to_get_wifi_ssid">Failed to determine the SSID of the current Wi-Fi.</string>
     <!-- Error message: Shown to the user when the app tries to determine the device's current location but failed, e.g. because of a missing permission -->
-    <string name="error_failed_to_get_location">The device\'s physical location could not be determined.</string>
+    <string name="error_failed_to_get_location">The device\’s physical location could not be determined.</string>
     <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
     <string name="placeholder_request_body_content">Enter the raw HTTP request body here. You can add variable placeholders via the \“{}\” button.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
@@ -1272,7 +1272,7 @@
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">Background</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
-    <string name="description_customizable_widget">Choose the color of your shortcut\'s label, or whether to hide the label completely.</string>
+    <string name="description_customizable_widget">Choose the color of your shortcut\’s label, or whether to hide the label completely.</string>
     <!-- Title of an action in the code snippet picker: Parse a JSON string -->
     <string name="action_type_parse_json">Parse JSON</string>
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
@@ -1388,9 +1388,9 @@
     <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
     <string name="label_run_repeatedly">Run repeatedly</string>
     <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_run_repeatedly_dialog_configure_app_overlay">For a shortcut to be able to run repeatedly in a reliable way, you first need to allow the HTTP Shortcuts app to draw over other apps.\n\nTap the \“%s\” button below to configure this now.\n\nYou might also need to exclude the app from Battery Optimizations. You can find this in the app\'s settings.</string>
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">For a shortcut to be able to run repeatedly in a reliable way, you first need to allow the HTTP Shortcuts app to draw over other apps.\n\nTap the \“%s\” button below to configure this now.\n\nYou might also need to exclude the app from Battery Optimizations. You can find this in the app\’s settings.</string>
     <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
-    <string name="instructions_repetitions">The timing of the repetition is not exact but can vary by a few minutes, as it is subject to Android\'s power optimizations. Please note that using this feature might significantly increase the app\'s use of battery.</string>
+    <string name="instructions_repetitions">The timing of the repetition is not exact but can vary by a few minutes, as it is subject to Android\’s power optimizations. Please note that using this feature might significantly increase the app\’s use of battery.</string>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
     <string name="label_no_repetition">No repetition</string>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d minutes -->
@@ -1405,7 +1405,7 @@
     <!-- Title of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
     <string name="settings_ignore_battery_optimizations">Exclude from Battery Optimization</string>
     <!-- Subtitle of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
-    <string name="settings_ignore_battery_optimizations_summary">Enable this if you\'re experiencing problems with scheduling or repeated shortcut execution.</string>
+    <string name="settings_ignore_battery_optimizations_summary">Enable this if you\’re experiencing problems with scheduling or repeated shortcut execution.</string>
     <!-- Label for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen -->
     <string name="label_store_response_into_file">Store response into file</string>
     <!-- Subtitle for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen. The %s is a placeholder for the directory name. -->
@@ -1419,7 +1419,7 @@
     <!-- Title of editor for configuring certificate pinning -->
     <string name="title_certificate_pinning">Certificate Pinning</string>
     <!-- Empty state instructions for certificate pinning screen -->
-    <string name="empty_state_certificate_pinning_instructions">If you need to be extra certain that your HTTP requests are sent over a secure connection, you can enable certificate pinning for specific hosts by adding the SHA-1 or SHA-256 fingerprint of their certificate here.\n\nFor self-signed certificates, check the shortcut\'s “%s” section instead.</string>
+    <string name="empty_state_certificate_pinning_instructions">If you need to be extra certain that your HTTP requests are sent over a secure connection, you can enable certificate pinning for specific hosts by adding the SHA-1 or SHA-256 fingerprint of their certificate here.\n\nFor self-signed certificates, check the shortcut\’s “%s” section instead.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
     <string name="message_certificate_pinning_deleted">Certificate fingerprint deleted.</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
@@ -1435,7 +1435,7 @@
     <!-- Placeholder text shown when a toggle or multi-select variable option is just an empty string -->
     <string name="empty_option_placeholder">- empty -</string>
     <!-- Empty state shown on the custom icons screen when the user has no icons set up -->
-    <string name="empty_state_custom_icons">You don\'t have any custom icons.</string>
+    <string name="empty_state_custom_icons">You don\’t have any custom icons.</string>
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
     <string name="label_require_specific_wifi_ssid">Require specific Wi-Fi</string>
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
