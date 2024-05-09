@@ -84,6 +84,8 @@
     <string name="empty_state_shortcuts">You don\'t have any shortcuts yet.</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts_instructions">A shortcut allows you to send a single HTTP request, optionally processing and displaying the response.\n\nClick the + button to get started, or check the Documentation in the Information section.</string>
+    <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
+    <string name="empty_state_no_shortcuts_in_category">no shortcuts yet in this category</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">You haven\'t added any shortcuts to trigger yet.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->

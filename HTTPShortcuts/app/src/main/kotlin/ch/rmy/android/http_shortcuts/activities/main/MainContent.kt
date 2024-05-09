@@ -84,6 +84,7 @@ fun MainContent(
         ) { index ->
             ShortcutListContent(
                 category = categoryItems[index],
+                hasMultipleCategories = categoryItems.size > 1,
                 selectionMode = selectionMode,
                 isActive = index == pagerState.currentPage,
                 onPlaceShortcutOnHomeScreen = onPlaceShortcutOnHomeScreen,

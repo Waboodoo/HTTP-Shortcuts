@@ -54,6 +54,7 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 
 @Composable
 fun ShortcutList(
+    hasMultipleCategories: Boolean,
     shortcuts: List<ShortcutItem>,
     layoutType: CategoryLayoutType,
     textColor: Color?,
@@ -63,10 +64,16 @@ fun ShortcutList(
     onShortcutLongClicked: (ShortcutId) -> Unit,
 ) {
     if (shortcuts.isEmpty()) {
-        EmptyState(
-            title = stringResource(R.string.empty_state_shortcuts),
-            description = stringResource(R.string.empty_state_shortcuts_instructions),
-        )
+        if (hasMultipleCategories) {
+            EmptyState(
+                description = stringResource(R.string.empty_state_no_shortcuts_in_category),
+            )
+        } else {
+            EmptyState(
+                title = stringResource(R.string.empty_state_shortcuts),
+                description = stringResource(R.string.empty_state_shortcuts_instructions),
+            )
+        }
     }
 
     val textStyle = TextStyle.Default.runIf(useTextShadows) { copy(shadow = DefaultTextShadow) }

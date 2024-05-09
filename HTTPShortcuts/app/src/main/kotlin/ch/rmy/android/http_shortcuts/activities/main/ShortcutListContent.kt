@@ -26,6 +26,7 @@ import ch.rmy.android.http_shortcuts.import_export.OpenFilePickerForExportContra
 @Composable
 fun ShortcutListContent(
     category: CategoryItem,
+    hasMultipleCategories: Boolean,
     selectionMode: SelectionMode,
     isActive: Boolean,
     onPlaceShortcutOnHomeScreen: (ShortcutPlaceholder) -> Unit,
@@ -76,6 +77,7 @@ fun ShortcutListContent(
             },
     ) {
         ShortcutList(
+            hasMultipleCategories = hasMultipleCategories,
             shortcuts = state.shortcuts,
             layoutType = category.layoutType,
             textColor = category.background.textColor(),
