@@ -39,16 +39,15 @@ constructor(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        return try {
+        try {
             val executionId = inputData.getString(INPUT_EXECUTION_ID) ?: return Result.failure()
             runPendingExecution(context, executionId)
-            Result.success()
         } catch (e: NoSuchElementException) {
-            Result.success()
+            // Nothing to do here
         } catch (e: Exception) {
             logException(e)
-            Result.failure()
         }
+        return Result.success()
     }
 
     private suspend fun runPendingExecution(context: Context, id: String) {

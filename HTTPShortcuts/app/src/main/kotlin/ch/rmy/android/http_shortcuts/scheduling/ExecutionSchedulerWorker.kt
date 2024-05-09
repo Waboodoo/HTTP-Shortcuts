@@ -8,8 +8,8 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runIf
+import ch.rmy.android.framework.extensions.tryOrLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import javax.inject.Inject
@@ -23,14 +23,12 @@ constructor(
     private val executionScheduler: ExecutionScheduler,
 ) : CoroutineWorker(context, params) {
 
-    override suspend fun doWork(): Result =
-        try {
+    override suspend fun doWork(): Result {
+        tryOrLog {
             executionScheduler.schedule()
-            Result.success()
-        } catch (e: Exception) {
-            logException(e)
-            Result.failure()
         }
+        return Result.success()
+    }
 
     class Starter
     @Inject

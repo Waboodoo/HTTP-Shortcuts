@@ -57,15 +57,14 @@ constructor(
             execution.execute().collect()
 
             logInfo("ExecuteWorker finished")
-            Result.success()
         } catch (e: CancellationException) {
-            Result.success()
+            // Nothing to do here
         } catch (e: Throwable) {
             logException(e)
-            Result.failure()
         } finally {
             dialogJob.cancel()
         }
+        Result.success()
     }
 
     private fun getParams() =
