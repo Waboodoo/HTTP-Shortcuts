@@ -5,6 +5,7 @@
 - The "Meta Information" section that is displayed above the response is now collapsed by default and can be expanded when needed
 - The icon picker for built-in icons now has a (rudimentary, English-only) search
 - There is now an `abortAndTreatAsFailure()` Scripting function which can be used to customize whether a response should be considered a success or not
+- The `sendTCPPacket()` Scripting function can now also be used to listen for incoming data, allowing for a basic request-response setup
 - Similar to the response window, it is now possible to also change the font size of the response dialog
 - The curl import now supports the `--head` parameter
 - Various small tweaks to the UI here and there to improve clarity, performance, and to make it more consistent
