@@ -1,7 +1,7 @@
 package ch.rmy.android.framework.extensions
 
 import android.util.Log
-import ch.rmy.android.framework.BuildConfig
+import ch.rmy.android.http_shortcuts.BuildConfig
 
 object GlobalLogger {
 

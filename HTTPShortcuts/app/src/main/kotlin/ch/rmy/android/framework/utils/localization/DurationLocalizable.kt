@@ -1,8 +1,8 @@
 package ch.rmy.android.framework.utils.localization
 
 import android.content.Context
-import ch.rmy.android.framework.R
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.http_shortcuts.R
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds

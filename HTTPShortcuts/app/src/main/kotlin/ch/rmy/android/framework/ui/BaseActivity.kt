@@ -3,7 +3,6 @@ package ch.rmy.android.framework.ui
 import android.content.ActivityNotFoundException
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
-import ch.rmy.android.framework.R
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
@@ -12,6 +11,7 @@ import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.utils.SnackbarManager
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
+import ch.rmy.android.http_shortcuts.R
 
 abstract class BaseActivity : AppCompatActivity() {
 

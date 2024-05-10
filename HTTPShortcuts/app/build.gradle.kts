@@ -56,7 +56,7 @@ android {
         // Version name and code must remain as literals so that F-Droid can read them
         versionName = "3.13.0"
         // 11,(2 digits major),(2 digits minor),(2 digits patch),(2 digits build)
-        versionCode = 1103130000
+        versionCode = 1103130002
 
         buildConfigField("String", "BUGSNAG_API_KEY", "\"$bugsnagAPIKey\"")
         buildConfigField("String", "BUILD_TIMESTAMP", "\"${rootProject.ext["buildTimestamp"]}\"")
@@ -233,7 +233,7 @@ bugsnag {
 
 dependencies {
     coreLibraryDesugaring(libs.desugar)
-    implementation(project(path = ":framework"))
+    implementation(libs.kotlin.stdlib)
 
     /* Dependency Injection */
     implementation(libs.hilt.android)
@@ -243,8 +243,16 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
 
     /* Support libraries */
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.annotation)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.preference)
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.splashscreen)
+
+    /* Database */
+    implementation(libs.realm)
 
     /* Color picker */
     implementation(libs.colorpickerview)

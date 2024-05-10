@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.annotation.UiThread
 import androidx.core.net.toUri
-import ch.rmy.android.framework.R
+import ch.rmy.android.http_shortcuts.R
 
 @UiThread
 fun Context.showToast(message: CharSequence, long: Boolean = false) {

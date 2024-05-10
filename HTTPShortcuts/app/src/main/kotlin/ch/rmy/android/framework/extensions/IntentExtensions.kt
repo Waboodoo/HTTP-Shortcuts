@@ -31,8 +31,8 @@ fun IntentBuilder.startActivity(context: Context) {
     build(context).startActivity(context)
 }
 
-fun <T : Any?> ActivityResultLauncher<T>.launch(options: ActivityOptionsCompat? = null) {
-    launch(null, options)
+fun ActivityResultLauncher<Unit?>.launch(options: ActivityOptionsCompat? = null) {
+    launch(Unit, options)
 }
 
 @Suppress("DEPRECATION")
