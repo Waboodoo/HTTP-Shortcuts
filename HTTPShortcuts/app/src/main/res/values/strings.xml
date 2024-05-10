@@ -1321,6 +1321,8 @@
     <string name="error_failed_to_send_udp">Failed to send UDP packet: %s</string>
     <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <string name="error_failed_to_send_tcp">Failed to send TCP packet: %s</string>
+    <!-- Error message: Shown when the user tries to read a TCP response via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_receive_tcp">Failed to read from TCP socket: %s</string>
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">Opening files using openUrl() is not supported</string>
     <!-- Page title, for page showing all events that happened recently -->

@@ -20,13 +20,14 @@ constructor(
                 data = actionDTO.getByteArray(0) ?: ByteArray(0),
                 ipAddress = actionDTO.getString(1)?.takeUnlessEmpty() ?: "255.255.255.255",
                 port = actionDTO.getInt(2) ?: 0,
+                options = actionDTO.getObject(3) ?: emptyMap(),
             ),
         )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
         functionNameAliases = setOf(FUNCTION_NAME_ALIAS),
-        parameters = 3,
+        parameters = 4,
     )
 
     companion object {

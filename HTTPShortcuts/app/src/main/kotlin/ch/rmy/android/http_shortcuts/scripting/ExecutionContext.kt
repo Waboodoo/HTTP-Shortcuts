@@ -12,4 +12,5 @@ class ExecutionContext(
     val resultHandler: ResultHandler,
     val recursionDepth: Int,
     val dialogHandle: DialogHandle,
+    val cleanupHandler: CleanupHandler,
 )

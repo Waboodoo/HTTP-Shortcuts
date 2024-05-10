@@ -47,6 +47,8 @@ constructor(
             }
     }
 
+    private val cleanupHandler = CleanupHandler()
+
     private var lastException: Throwable? = null
 
     suspend fun initialize(
@@ -68,6 +70,9 @@ constructor(
     private suspend fun runWithExceptionHandling(block: () -> Unit) {
         try {
             suspendCancellableCoroutine<Unit> { continuation ->
+                continuation.invokeOnCancellation {
+                    cleanupHandler.finally()
+                }
                 jsContext.setExceptionHandler { exception ->
                     if (continuation.isActive) {
                         continuation.resumeWithException(lastException ?: exception)
@@ -90,6 +95,8 @@ constructor(
                 is JSONException -> JavaScriptException(e)
                 else -> e
             }
+        } finally {
+            cleanupHandler.finally()
         }
     }
 
@@ -246,6 +253,7 @@ constructor(
                                     resultHandler = resultHandler,
                                     recursionDepth = recursionDepth,
                                     dialogHandle = dialogHandle,
+                                    cleanupHandler = cleanupHandler,
                                 )
                             )
                         }
