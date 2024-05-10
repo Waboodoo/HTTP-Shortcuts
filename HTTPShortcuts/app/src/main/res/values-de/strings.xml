@@ -1345,6 +1345,8 @@ Trotzdem löschen?</string>
     <string name="error_failed_to_send_udp">Senden von UDP-Paket fehlgeschlagen: %s</string>
     <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <string name="error_failed_to_send_tcp">Senden von TCP-Paket fehlgeschlagen: %s</string>
+    <!-- Error message: Shown when the user tries to read a TCP response via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_receive_tcp">Empfangen von TCP-Daten fehlgeschlagen: %s</string>
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">Das Öffnen von Dateien ist mit openUrl() nicht möglich</string>
     <!-- Page title, for page showing all events that happened recently -->
@@ -1621,4 +1623,8 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="message_history_switched_to_relative_times">Auf relative Zeitangaben umgestellt.</string>
     <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
     <string name="error_user_defined">Ausführung wurde abgebrochen und als Fehler behandelt</string>
+    <!-- Accessibility description for main menu button -->
+    <string name="accessibility_main_menu">Hauptmenü</string>
+    <!-- Accessibility description for the variable button on the right of text input fields -->
+    <string name="accessibility_variable_field_button">Variablen hinzufügen</string>
 </resources>

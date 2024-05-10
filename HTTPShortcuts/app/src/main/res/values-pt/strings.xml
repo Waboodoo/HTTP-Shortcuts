@@ -1261,6 +1261,7 @@ Eliminar de qualquer maneira?</string>
     <string name="error_failed_to_send_udp">Falha no envio do pacote UDP: %s</string>
     <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <string name="error_failed_to_send_tcp">Falha no envio de pacotes TCP: %s</string>
+    <!-- Error message: Shown when the user tries to read a TCP response via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">A abertura de ficheiros usando o openUrl() não é suportada</string>
     <!-- Page title, for page showing all events that happened recently -->
@@ -1491,4 +1492,6 @@ Para certificados auto-assinados, verifique a secção \"%s\" do atalho.</string
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute values (e.g. 13:37) -->
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute relative (e.g. 42 sec ago) -->
     <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
+    <!-- Accessibility description for main menu button -->
+    <!-- Accessibility description for the variable button on the right of text input fields -->
 </resources>

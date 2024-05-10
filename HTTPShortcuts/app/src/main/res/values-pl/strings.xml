@@ -1330,6 +1330,7 @@ Usunąć mimo to?</string>
     <string name="error_failed_to_send_udp">Nie udało się wysłać pakietu UDP: %s</string>
     <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <string name="error_failed_to_send_tcp">Nie udało się wysłać pakietu TCP: %s</string>
+    <!-- Error message: Shown when the user tries to read a TCP response via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">Otwieranie plików za pomocą funkcji openUrl() nie jest obsługiwane</string>
     <!-- Page title, for page showing all events that happened recently -->
@@ -1575,4 +1576,6 @@ W przypadku certyfikatów z podpisem własnym sprawdź zamiast tego sekcję skr�
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute values (e.g. 13:37) -->
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute relative (e.g. 42 sec ago) -->
     <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
+    <!-- Accessibility description for main menu button -->
+    <!-- Accessibility description for the variable button on the right of text input fields -->
 </resources>
