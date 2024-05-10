@@ -26,6 +26,11 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.role
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.http_shortcuts.extensions.runIf
 
@@ -40,6 +45,7 @@ fun <T> SelectionField(
 ) {
     var expanded by remember(enabled) { mutableStateOf(false) }
     var dropdownWidth by remember { mutableIntStateOf(0) }
+    val selectedValue = items.find { it.first == selectedKey }?.second ?: ""
 
     Box(
         Modifier
@@ -51,12 +57,24 @@ fun <T> SelectionField(
     ) {
         TextField(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clearAndSetSemantics {
+                    contentDescription = "$title: $selectedValue"
+                    role = Role.DropdownList
+                    onClick {
+                        if (enabled) {
+                            expanded = !expanded
+                            true
+                        } else {
+                            false
+                        }
+                    }
+                },
             enabled = enabled,
             label = {
                 Text(title)
             },
-            value = items.find { it.first == selectedKey }?.second ?: "",
+            value = selectedValue,
             onValueChange = {},
             interactionSource = clickOnlyInteractionSource {
                 if (enabled) {

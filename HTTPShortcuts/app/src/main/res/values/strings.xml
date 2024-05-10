@@ -1589,4 +1589,8 @@
     <string name="message_history_switched_to_relative_times">Switched to relative times.</string>
     <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
     <string name="error_user_defined">Execution was aborted and treated as failure</string>
+    <!-- Accessibility description for main menu button -->
+    <string name="accessibility_main_menu">Main menu</string>
+    <!-- Accessibility description for the variable button on the right of text input fields -->
+    <string name="accessibility_variable_field_button">Add variables</string>
 </resources>

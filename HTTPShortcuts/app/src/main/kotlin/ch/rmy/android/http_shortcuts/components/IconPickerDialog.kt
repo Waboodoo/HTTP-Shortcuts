@@ -362,11 +362,12 @@ private fun LazyGridScope.iconSection(
 
 @Composable
 private fun IconItem(
-    icon: ShortcutIcon,
+    icon: ShortcutIcon.BuiltInIcon,
     onIconClicked: () -> Unit,
 ) {
     ShortcutIcon(
         icon,
+        contentDescription = icon.plainName,
         modifier = Modifier
             .fillMaxWidth()
             .clickable(

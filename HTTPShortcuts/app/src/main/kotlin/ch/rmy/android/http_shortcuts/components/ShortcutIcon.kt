@@ -22,6 +22,7 @@ import coil.request.ImageRequest
 fun ShortcutIcon(
     shortcutIcon: ShortcutIcon,
     modifier: Modifier = Modifier,
+    contentDescription: String? = null,
     size: Dp = 44.dp,
 ) {
     val context = LocalContext.current
@@ -42,7 +43,7 @@ fun ShortcutIcon(
 
     AsyncImage(
         model = model,
-        contentDescription = stringResource(R.string.icon_description),
+        contentDescription = contentDescription,
         colorFilter = tint?.let { ColorFilter.tint(tint) },
         modifier = Modifier
             .size(width = size, height = size)

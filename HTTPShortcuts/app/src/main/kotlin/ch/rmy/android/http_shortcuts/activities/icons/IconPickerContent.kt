@@ -73,6 +73,7 @@ private fun IconItem(
 ) {
     ShortcutIcon(
         icon,
+        contentDescription = stringResource(R.string.icon_description),
         modifier = Modifier
             .fillMaxWidth()
             .aspectRatio(1f)

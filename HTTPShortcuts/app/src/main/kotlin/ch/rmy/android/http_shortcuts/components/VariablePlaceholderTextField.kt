@@ -231,7 +231,10 @@ fun VariablePlaceholderTextField(
                     dialogVisible = true
                 },
             ) {
-                Icon(Icons.Filled.DataObject, null)
+                Icon(
+                    Icons.Filled.DataObject,
+                    contentDescription = stringResource(R.string.accessibility_variable_field_button),
+                )
             }
         },
         visualTransformation = {

@@ -12,6 +12,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import ch.rmy.android.http_shortcuts.R
 
 @Composable
 fun Menu(
@@ -21,6 +23,7 @@ fun Menu(
 
     ToolbarIcon(
         Icons.Outlined.MoreVert,
+        contentDescription = stringResource(R.string.accessibility_main_menu),
         onClick = { expanded = !expanded },
     )
     DropdownMenu(
@@ -52,7 +55,7 @@ fun MenuScope.MenuItem(
         leadingIcon = {
             Icon(
                 imageVector = icon,
-                contentDescription = title,
+                contentDescription = null,
             )
         },
         onClick = {
