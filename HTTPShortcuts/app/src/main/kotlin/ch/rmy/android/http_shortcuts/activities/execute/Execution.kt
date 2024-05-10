@@ -265,6 +265,7 @@ class Execution(
         val resultHandler = ResultHandler()
 
         if (usesScripting) {
+            logInfo("Initializing ScriptExecutor")
             scriptExecutor.initialize(
                 shortcut = shortcut,
                 category = category,
@@ -281,6 +282,7 @@ class Execution(
             scriptExecutor.execute(shortcut.codeOnPrepare)
         }
 
+        logInfo("Resolving variables")
         variableResolver.resolve(variableManager, shortcut, dialogHandle)
 
         when (shortcut.type) {
@@ -479,6 +481,7 @@ class Execution(
             if (!findCategoryAndShortcut(base)) {
                 throw NoSuchElementException()
             }
+            logInfo("Shortcut loaded: type=${shortcut.type}")
             certificatePins = base.certificatePins
         }
     }
@@ -486,7 +489,18 @@ class Execution(
     private suspend fun findCategoryAndShortcut(base: Base): Boolean {
         if (params.shortcutId == Shortcut.TEMPORARY_ID) {
             shortcut = shortcutRepository.getShortcutById(Shortcut.TEMPORARY_ID)
-            category = base.categories.first { it.id == shortcut.categoryId!! }
+            category = if (shortcut.categoryId == null) {
+                logException(IllegalStateException("categoryId was not set in temporary shortcut"))
+                null
+            } else {
+                base.categories.firstOrNull { it.id == shortcut.categoryId!! }
+                    .also {
+                        if (it == null) {
+                            logException(IllegalStateException("Temporary shortcut's category not found"))
+                        }
+                    }
+            }
+                ?: Category().apply { id = "unknown" }
             return true
         }
         for (category in base.categories) {
