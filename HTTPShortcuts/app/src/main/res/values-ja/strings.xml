@@ -1331,6 +1331,7 @@
     <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <string name="error_failed_to_send_tcp">TCPパケットを送信失敗: %s</string>
     <!-- Error message: Shown when the user tries to read a TCP response via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_receive_tcp">TCPソケットから読み込みに失敗: %s</string>
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">openURL()を使用して「ファイルを開く」はサポートされていません</string>
     <!-- Page title, for page showing all events that happened recently -->
@@ -1605,5 +1606,7 @@
     <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
     <string name="error_user_defined">実行が中止され、失敗として扱いました</string>
     <!-- Accessibility description for main menu button -->
+    <string name="accessibility_main_menu">メイン メニュー</string>
     <!-- Accessibility description for the variable button on the right of text input fields -->
+    <string name="accessibility_variable_field_button">変数を追加</string>
 </resources>

@@ -1322,6 +1322,7 @@
     <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <string name="error_failed_to_send_tcp">发送 TCP 包失败: %s</string>
     <!-- Error message: Shown when the user tries to read a TCP response via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_receive_tcp">从 TCP 套接字读取失败: %s</string>
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">不支持用 openUrl() 打开文件</string>
     <!-- Page title, for page showing all events that happened recently -->
@@ -1594,5 +1595,7 @@
     <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
     <string name="error_user_defined">执行被中止并作为失败处理</string>
     <!-- Accessibility description for main menu button -->
+    <string name="accessibility_main_menu">主菜单</string>
     <!-- Accessibility description for the variable button on the right of text input fields -->
+    <string name="accessibility_variable_field_button">添加变量</string>
 </resources>
