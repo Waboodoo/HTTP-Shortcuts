@@ -67,6 +67,9 @@ fun MainContent(
             SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT, SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT -> {
                 ScreenInstructionsHeaders(stringResource(R.string.instructions_select_shortcut_for_home_screen))
             }
+            SelectionMode.PLUGIN -> {
+                ScreenInstructionsHeaders(stringResource(R.string.instructions_select_shortcut_for_plugin))
+            }
             else -> Unit
         }
 
