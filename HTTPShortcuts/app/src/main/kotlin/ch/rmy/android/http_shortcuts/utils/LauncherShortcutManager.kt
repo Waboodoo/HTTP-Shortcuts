@@ -14,6 +14,7 @@ import androidx.core.content.pm.ShortcutManagerCompat.EXTRA_SHORTCUT_ID
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIfNotNull
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
@@ -197,6 +198,7 @@ constructor(
             val ids = listOf(createShortcutInfoId(shortcutId))
             shortcutManager.removeLongLivedShortcuts(ids)
             shortcutManager.removeDynamicShortcuts(ids)
+            shortcutManager.disableShortcuts(ids, context.getString(R.string.error_shortcut_deleted))
         }
     }
 
