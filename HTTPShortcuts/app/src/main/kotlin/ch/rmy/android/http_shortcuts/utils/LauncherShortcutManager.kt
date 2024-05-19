@@ -82,7 +82,6 @@ constructor(
         rank: Int = 0,
         trigger: ShortcutTriggerType,
     ): ShortcutInfo {
-        logInfo("Creating shortcut info. icon = ${launcherShortcut.icon}")
         val icon = IconUtil.getIcon(context, launcherShortcut.icon, adaptive = true)
         val label = launcherShortcut.name.ifEmpty { "-" }
         return ShortcutInfo.Builder(context, createShortcutInfoId(launcherShortcut.id))
@@ -139,6 +138,7 @@ constructor(
 
     fun pinShortcut(shortcut: LauncherShortcut) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            logInfo("Pinning shortcut")
             val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
             shortcutManager.requestPinShortcut(shortcutInfo, null)
         }
@@ -154,6 +154,7 @@ constructor(
 
     fun updatePinnedShortcut(shortcut: LauncherShortcut) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            logInfo("Updating pinned shortcut")
             val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
             shortcutManager.updateShortcuts(listOf(shortcutInfo))
         }
