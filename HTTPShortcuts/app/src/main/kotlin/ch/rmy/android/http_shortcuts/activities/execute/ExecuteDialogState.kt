@@ -16,6 +16,13 @@ sealed class ExecuteDialogState<T : Any> {
     ) : ExecuteDialogState<Unit>()
 
     @Stable
+    data class Warning(
+        val message: Localizable,
+        val title: Localizable? = null,
+        val onHidden: (Boolean) -> Unit,
+    ) : ExecuteDialogState<Unit>()
+
+    @Stable
     data class GenericConfirm(
         val message: Localizable,
         val title: Localizable? = null,

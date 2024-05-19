@@ -63,6 +63,10 @@ constructor(
         get() = getBoolean(KEY_EXTERNAL_URL_WARNING_PERMANENTLY_HIDDEN)
         set(hidden) = putBoolean(KEY_EXTERNAL_URL_WARNING_PERMANENTLY_HIDDEN, hidden)
 
+    var isMalformedJsonWarningPermanentlyHidden: Boolean
+        get() = getBoolean(KEY_MALFORMED_JSON_WARNING_PERMANENTLY_HIDDEN)
+        set(hidden) = putBoolean(KEY_MALFORMED_JSON_WARNING_PERMANENTLY_HIDDEN, hidden)
+
     var changeLogLastVersion: String?
         get() = getString(KEY_CHANGE_LOG_LAST_VERSION)
         set(version) = putString(KEY_CHANGE_LOG_LAST_VERSION, version)
@@ -138,5 +142,6 @@ constructor(
         private const val KEY_EXPERIMENTAL_EXECUTION_MODE = "experimental_execution_mode"
         private const val KEY_COLOR_THEME = "color_theme"
         private const val KEY_HISTORY_USE_RELATIVE_TIMES = "history_relative_times"
+        private const val KEY_MALFORMED_JSON_WARNING_PERMANENTLY_HIDDEN = "malformed_json_warning_permanently_hidden"
     }
 }

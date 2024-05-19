@@ -27,6 +27,7 @@ import ch.rmy.android.http_shortcuts.activities.execute.usecases.OpenInBrowserUs
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.RequestBiometricConfirmationUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.RequestSimpleConfirmationUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.ShowResultDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.execute.usecases.ValidateRequestDataUseCase
 import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
 import ch.rmy.android.http_shortcuts.activities.response.models.ResponseData
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
@@ -128,6 +129,7 @@ class Execution(
     private val executionSchedulerStarter: ExecutionSchedulerWorker.Starter = entryPoint.executionSchedulerStarter()
     private val sessionMonitor: SessionMonitor = entryPoint.sessionMonitor()
     private val navigationArgStore: NavigationArgStore = entryPoint.navigationArgStore()
+    private val validateRequestData: ValidateRequestDataUseCase = entryPoint.validateRequestData()
 
     private lateinit var globalCode: String
     private lateinit var category: Category
@@ -340,6 +342,9 @@ class Execution(
                         fileUploadResult = fileUploadResult,
                         useCookieJar = shortcut.acceptCookies,
                         certificatePins = certificatePins,
+                        validateRequestData = { requestData ->
+                            validateRequestData(dialogHandle, shortcut, requestData)
+                        },
                     )
             } catch (e: UnknownHostException) {
                 if (shouldReschedule(e)) {
@@ -749,6 +754,7 @@ class Execution(
         fun executionSchedulerStarter(): ExecutionSchedulerWorker.Starter
         fun sessionMonitor(): SessionMonitor
         fun navigationArgStore(): NavigationArgStore
+        fun validateRequestData(): ValidateRequestDataUseCase
     }
 
     companion object {

@@ -1,34 +1,19 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.window.DialogProperties
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.models.RecoveryInfo
 import ch.rmy.android.http_shortcuts.components.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.components.ChangeTitleDialog
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
-import ch.rmy.android.http_shortcuts.components.FontSize
+import ch.rmy.android.http_shortcuts.components.HideableDialog
 import ch.rmy.android.http_shortcuts.components.ProgressDialog
-import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.TextInputDialog
 
 @Composable
@@ -109,45 +94,10 @@ private fun NetworkRestrictionsWarningDialog(
     onNetworkRestrictionsWarningHidden: (Boolean) -> Unit,
     onDismissed: () -> Unit,
 ) {
-    var permanentlyHidden by remember {
-        mutableStateOf(false)
-    }
-    AlertDialog(
-        onDismissRequest = onDismissed,
-        text = {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
-            ) {
-                Text(stringResource(R.string.warning_data_saver_battery_saver_enabled))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            permanentlyHidden = !permanentlyHidden
-                            onNetworkRestrictionsWarningHidden(permanentlyHidden)
-                        }
-                        .padding(Spacing.TINY),
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.SMALL, Alignment.CenterHorizontally),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Checkbox(
-                        checked = permanentlyHidden,
-                        onCheckedChange = null,
-                    )
-                    Text(
-                        stringResource(R.string.dialog_checkbox_do_not_show_again),
-                        fontSize = FontSize.MEDIUM,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-            }
-        },
-        confirmButton = {
-            TextButton(onClick = onDismissed) {
-                Text(stringResource(R.string.dialog_ok))
-            }
-        },
+    HideableDialog(
+        message = stringResource(R.string.warning_data_saver_battery_saver_enabled),
+        onHidden = onNetworkRestrictionsWarningHidden,
+        onDismissed = onDismissed,
     )
 }
 

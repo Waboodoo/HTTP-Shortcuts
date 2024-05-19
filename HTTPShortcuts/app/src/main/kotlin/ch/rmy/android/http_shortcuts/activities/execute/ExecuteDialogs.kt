@@ -41,6 +41,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.ColorPickerDialog
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.FontSize
+import ch.rmy.android.http_shortcuts.components.HideableDialog
 import ch.rmy.android.http_shortcuts.components.HtmlRichText
 import ch.rmy.android.http_shortcuts.components.MessageDialog
 import ch.rmy.android.http_shortcuts.components.MultiSelectDialog
@@ -95,6 +96,14 @@ private fun ExecuteDialog(
                 title = dialogState.title?.localize(),
                 message = dialogState.message.localize(),
                 onDismissRequest = onDismissed,
+            )
+        }
+        is ExecuteDialogState.Warning -> {
+            HideableDialog(
+                title = dialogState.title?.localize(),
+                message = dialogState.message.localize(),
+                onHidden = dialogState.onHidden,
+                onDismissed = onDismissed,
             )
         }
         is ExecuteDialogState.GenericConfirm -> {

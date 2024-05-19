@@ -11,6 +11,7 @@ data class RequestData(
     val authToken: String,
     val body: String,
     val proxy: ProxyParams?,
+    val contentType: String?,
 ) {
 
     val uri

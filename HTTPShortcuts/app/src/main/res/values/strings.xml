@@ -1609,4 +1609,8 @@
     <string name="title_response_display">Response Display</string>
     <!-- Title of screen that lets the user configure how their custom message is displayed -->
     <string name="title_message_display">Message Display</string>
+    <!-- Title of a generic warning dialog. The dialog may be used in various situations. -->
+    <string name="warning_dialog_title">Warning</string>
+    <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
+    <string name="warning_message_malformed_json">Your request body contains invalid JSON, which will likely cause the request to fail.\n\n%s</string>
 </resources>
