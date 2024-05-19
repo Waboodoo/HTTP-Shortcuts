@@ -8,13 +8,13 @@ import ch.rmy.android.http_shortcuts.components.models.MenuEntry
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 
 @Composable
-fun ResponseDialogs(
-    dialogState: ResponseDialogState?,
+fun ResponseDisplayDialogs(
+    dialogState: ResponseDisplayDialogState?,
     onActionsSelected: (List<ResponseDisplayAction>) -> Unit,
     onDismissed: () -> Unit,
 ) {
     when (dialogState) {
-        is ResponseDialogState.SelectActions -> SelectActionsDialog(
+        is ResponseDisplayDialogState.SelectActions -> SelectActionsDialog(
             actions = dialogState.actions,
             onResult = onActionsSelected,
             onDismissed = onDismissed,

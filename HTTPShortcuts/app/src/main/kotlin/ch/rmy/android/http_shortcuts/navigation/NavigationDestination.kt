@@ -331,6 +331,10 @@ sealed interface NavigationDestination {
         override val path = "shortcutEditor/response"
     }
 
+    object ShortcutEditorResponseDisplay : NoArgNavigationDestination {
+        override val path = "shortcutEditor/responseDisplay"
+    }
+
     object ShortcutEditorScripting : NavigationDestination {
         private const val ARG_SHORTCUT_ID = "shortcutId"
         override val path = "shortcutEditor/scripting"

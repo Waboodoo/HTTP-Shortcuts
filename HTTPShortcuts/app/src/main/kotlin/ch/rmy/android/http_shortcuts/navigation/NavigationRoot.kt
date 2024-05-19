@@ -21,6 +21,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.BasicReques
 import ch.rmy.android.http_shortcuts.activities.editor.body.RequestBodyScreen
 import ch.rmy.android.http_shortcuts.activities.editor.executionsettings.ExecutionSettingsScreen
 import ch.rmy.android.http_shortcuts.activities.editor.headers.RequestHeadersScreen
+import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseDisplayScreen
 import ch.rmy.android.http_shortcuts.activities.editor.response.ResponseScreen
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.ScriptingScreen
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.CodeSnippetPickerScreen
@@ -191,6 +192,10 @@ fun NavigationRoot() {
 
         composable(NavigationDestination.ShortcutEditorResponse) {
             ResponseScreen()
+        }
+
+        composable(NavigationDestination.ShortcutEditorResponseDisplay) {
+            ResponseDisplayScreen()
         }
 
         composable(NavigationDestination.ShortcutEditorScripting) { backStackEntry ->

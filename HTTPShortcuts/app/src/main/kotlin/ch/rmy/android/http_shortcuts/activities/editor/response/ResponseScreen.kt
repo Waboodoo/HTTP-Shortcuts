@@ -43,40 +43,21 @@ fun ResponseScreen() {
         ResponseContent(
             successMessageHint = viewState.successMessageHint.localize(),
             responseUiType = viewState.responseUiType,
-            responseContentType = viewState.responseContentType,
-            responseCharset = viewState.responseCharset,
-            availableCharsets = viewState.availableCharsets,
             responseSuccessOutput = viewState.responseSuccessOutput,
             responseFailureOutput = viewState.responseFailureOutput,
-            includeMetaInformation = viewState.includeMetaInformation,
             successMessage = viewState.successMessage,
-            responseDisplayActions = viewState.responseDisplayActions,
             storeResponseIntoFile = viewState.storeResponseIntoFile,
             storeDirectory = viewState.storeDirectory,
             storeFileName = viewState.storeFileName,
             replaceFileIfExists = viewState.replaceFileIfExists,
-            useMonospaceFont = viewState.useMonospaceFont,
-            fontSize = viewState.fontSize,
             onResponseSuccessOutputChanged = viewModel::onResponseSuccessOutputChanged,
             onSuccessMessageChanged = viewModel::onSuccessMessageChanged,
             onResponseFailureOutputChanged = viewModel::onResponseFailureOutputChanged,
             onResponseUiTypeChanged = viewModel::onResponseUiTypeChanged,
-            onResponseContentTypeChanged = viewModel::onResponseContentTypeChanged,
-            onResponseCharsetChanged = viewModel::onResponseCharsetChanged,
-            onDialogActionChanged = viewModel::onDialogActionChanged,
-            onIncludeMetaInformationChanged = viewModel::onIncludeMetaInformationChanged,
-            onWindowActionsButtonClicked = viewModel::onWindowActionsButtonClicked,
+            onDisplaySettingsClicked = viewModel::onDisplaySettingsClicked,
             onStoreResponseIntoFileChanged = viewModel::onStoreIntoFileCheckboxChanged,
             onReplaceFileIfExistsChanged = viewModel::onStoreFileOverwriteChanged,
             onStoreFileNameChanged = viewModel::onStoreFileNameChanged,
-            onUseMonospaceFontChanged = viewModel::onUseMonospaceFontChanged,
-            onFontSizeChanged = viewModel::onFontSizeChanged,
         )
     }
-
-    ResponseDialogs(
-        dialogState = state?.dialogState,
-        onActionsSelected = viewModel::onWindowActionsSelected,
-        onDismissed = viewModel::onDismissDialog,
-    )
 }

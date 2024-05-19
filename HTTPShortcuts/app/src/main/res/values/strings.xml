@@ -1597,4 +1597,16 @@
     <string name="accessibility_main_menu">Main menu</string>
     <!-- Accessibility description for the variable button on the right of text input fields -->
     <string name="accessibility_variable_field_button">Add variables</string>
+    <!-- Label on button shown on the Response Handling screen, clicking it leads to a settings screen that lets the user configure how the response (or custom message) is displayed -->
+    <string name="button_display_settings">Display Settings</string>
+    <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_response">Configure how the response is displayed</string>
+    <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_message">Configure how the message is displayed</string>
+    <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_error">Configure how the error message is displayed</string>
+    <!-- Title of screen that lets the user configure how the HTTP response is displayed -->
+    <string name="title_response_display">Response Display</string>
+    <!-- Title of screen that lets the user configure how their custom message is displayed -->
+    <string name="title_message_display">Message Display</string>
 </resources>
