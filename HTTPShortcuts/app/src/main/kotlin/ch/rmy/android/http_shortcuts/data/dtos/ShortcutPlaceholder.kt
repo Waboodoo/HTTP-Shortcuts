@@ -7,5 +7,6 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 data class ShortcutPlaceholder(
     val id: String,
     val name: String,
+    val description: String?,
     val icon: ShortcutIcon,
 )

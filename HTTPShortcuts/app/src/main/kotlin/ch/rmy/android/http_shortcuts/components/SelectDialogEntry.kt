@@ -56,7 +56,7 @@ fun SelectDialogEntry(
             ShortcutIcon(
                 icon,
                 modifier = Modifier
-                    .padding(end = Spacing.SMALL)
+                    .padding(end = Spacing.SMALL + Spacing.TINY)
                     .runIf(!enabled) {
                         alpha(0.3f)
                     }

@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.extensions
 
 import android.content.Context
 import ch.rmy.android.framework.extensions.fromHexString
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
@@ -22,6 +23,7 @@ fun Shortcut.toShortcutPlaceholder() =
     ShortcutPlaceholder(
         id = id,
         name = name,
+        description = description.takeUnlessEmpty(),
         icon = icon,
     )
 
