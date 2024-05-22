@@ -1,3 +1,13 @@
+## Version 3.14.0
+
+### Improvements
+- The Response Handling screen was redesigned for more clarity and to allow for future improvements
+- Shortcut selection dialogs now also show the shortcuts' descriptions
+- A warning is now displayed when a request body contains malformed JSON
+
+### Bugfixes
+- Homescreen shortcuts are now properly disabled when the respective shortcut is deleted
+
 ## Version 3.13.0
 
 ### Improvements
