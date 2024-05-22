@@ -110,6 +110,8 @@
     <string name="executed">%s 実行しました</string>
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">ショートカットが見つかりません。 ホーム画面に再び追加する必要があるかもしれません。</string>
+    <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
+    <string name="error_shortcut_deleted">このショートカットは削除されました。</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">名前を入力してください</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
@@ -1066,6 +1068,8 @@
     <string name="error_text_too_long_for_variable">%d 文字数を超過しています。変数プレースホルダーを挿入できません。</string>
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">ホーム画面に配置するには、ショートカットを選択するか、作成してください。</string>
+    <!-- Instructions: Shown in info text at the top of the screen to inform user that they should select or create a shortcut, which is then used as by the 3rd party app (e.g. Tasker) -->
+    <string name="instructions_select_shortcut_for_plugin">トリガーするショートカットを選択または作成</string>
     <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
     <string name="label_widget">カスタム ウィジェット</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
@@ -1592,7 +1596,7 @@
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">デバイスID</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
-    <string name="settings_device_id_summary">Githubでバグ報告をするときにこのIDを含めてください:\n%s</string>
+    <string name="settings_device_id_summary">Githubでバグ報告をする時に、このIDを含めてください:\n%s</string>
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
     <string name="message_device_id_copied">デバイスIDをクリップボードにコピーしました</string>
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
@@ -1609,4 +1613,20 @@
     <string name="accessibility_main_menu">メイン メニュー</string>
     <!-- Accessibility description for the variable button on the right of text input fields -->
     <string name="accessibility_variable_field_button">変数を追加</string>
+    <!-- Label on button shown on the Response Handling screen, clicking it leads to a settings screen that lets the user configure how the response (or custom message) is displayed -->
+    <string name="button_display_settings">設定を表示</string>
+    <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_response">レスポンスの表示方法を設定する</string>
+    <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_message">メッセージの表示方法を設定する</string>
+    <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_error">エラーメッセージの表示方法を設定する</string>
+    <!-- Title of screen that lets the user configure how the HTTP response is displayed -->
+    <string name="title_response_display">レスポンスの表示</string>
+    <!-- Title of screen that lets the user configure how their custom message is displayed -->
+    <string name="title_message_display">メッセージの表示</string>
+    <!-- Title of a generic warning dialog. The dialog may be used in various situations. -->
+    <string name="warning_dialog_title">注意</string>
+    <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
+    <string name="warning_message_malformed_json">リクエストボディに無効なJSONが含まれているため、リクエストに失敗する可能性があります。\n\n%s</string>
 </resources>

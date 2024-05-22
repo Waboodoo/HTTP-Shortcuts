@@ -103,6 +103,7 @@ Feu clic al botó + per afegir una variable.</string>
     <string name="executed">%s executada.</string>
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">Drecera no trobada. És possible que hagis de tornar-la a afegir a la pantalla d\'inici.</string>
+    <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Si us plau introdueix un nom.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
@@ -1016,6 +1017,7 @@ Podeu activar aquesta funció editant una drecera i seleccionant la casella de s
     <string name="error_text_too_long_for_variable">El text supera el límit de caràcters de %d. No es pot inserir un marcador de posició variable.</string>
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">Seleccioneu o creeu una drecera per col·locar-la a la pantalla d\'inici.</string>
+    <!-- Instructions: Shown in info text at the top of the screen to inform user that they should select or create a shortcut, which is then used as by the 3rd party app (e.g. Tasker) -->
     <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
     <string name="label_widget">Giny personalitzable</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
@@ -1410,4 +1412,12 @@ Suprimir de totes maneres?</string>
     <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
     <!-- Accessibility description for main menu button -->
     <!-- Accessibility description for the variable button on the right of text input fields -->
+    <!-- Label on button shown on the Response Handling screen, clicking it leads to a settings screen that lets the user configure how the response (or custom message) is displayed -->
+    <!-- Subtitle on button shown on the Response Handling screen -->
+    <!-- Subtitle on button shown on the Response Handling screen -->
+    <!-- Subtitle on button shown on the Response Handling screen -->
+    <!-- Title of screen that lets the user configure how the HTTP response is displayed -->
+    <!-- Title of screen that lets the user configure how their custom message is displayed -->
+    <!-- Title of a generic warning dialog. The dialog may be used in various situations. -->
+    <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
 </resources>

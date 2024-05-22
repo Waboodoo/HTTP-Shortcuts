@@ -112,6 +112,8 @@ Drücke den + Knopf um eine Variable zu erstellen.</string>
     <string name="executed">%s ausgeführt.</string>
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">Shortcut nicht gefunden. Der Shortcut muss ev. neu platziert werden.</string>
+    <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
+    <string name="error_shortcut_deleted">Dieser Shortcut wurde gelöscht.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Bitte gib einen Namen ein.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
@@ -1080,6 +1082,8 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="error_text_too_long_for_variable">Text länger als %d Zeichen. Variable kann nicht eingefügt werden.</string>
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">Wähle oder erstelle einen Shortcut um in auf dem Homescreen zu platzieren.</string>
+    <!-- Instructions: Shown in info text at the top of the screen to inform user that they should select or create a shortcut, which is then used as by the 3rd party app (e.g. Tasker) -->
+    <string name="instructions_select_shortcut_for_plugin">Wähle oder erstelle einen Shortcut der ausgelöst werden soll.</string>
     <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
     <string name="label_widget">Konfigurierbares Widget</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
@@ -1627,4 +1631,20 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="accessibility_main_menu">Hauptmenü</string>
     <!-- Accessibility description for the variable button on the right of text input fields -->
     <string name="accessibility_variable_field_button">Variablen hinzufügen</string>
+    <!-- Label on button shown on the Response Handling screen, clicking it leads to a settings screen that lets the user configure how the response (or custom message) is displayed -->
+    <string name="button_display_settings">Anzeigeeinstellungen</string>
+    <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_response">Konfiguriere, wie die Response angezeigt wird</string>
+    <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_message">Konfiguriere, wie die Nachricht angezeigt wird</string>
+    <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_error">Konfiguriere, wie die Fehlermeldung angezeigt wird</string>
+    <!-- Title of screen that lets the user configure how the HTTP response is displayed -->
+    <string name="title_response_display">Response-Anzeige</string>
+    <!-- Title of screen that lets the user configure how their custom message is displayed -->
+    <string name="title_message_display">Nachrichten-Anzeige</string>
+    <!-- Title of a generic warning dialog. The dialog may be used in various situations. -->
+    <string name="warning_dialog_title">Warnung</string>
+    <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
+    <string name="warning_message_malformed_json">Dein Request-Body enthält ungültiges JSON, was möglicherweise dazu führt, dass der Request fehlschlägt.\n\n%s</string>
 </resources>

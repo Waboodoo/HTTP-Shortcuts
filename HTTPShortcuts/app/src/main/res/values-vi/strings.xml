@@ -108,6 +108,7 @@ Nhấp vào nút + để thêm một biến.</string>
     <string name="executed">%s được thực thi.</string>
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">Không tìm thấy phím tắt. Bạn có thể phải thêm lại nó vào màn hình chính.</string>
+    <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Vui lòng nhập tên.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
@@ -1037,6 +1038,7 @@ Bạn có thể bật tính năng này bằng cách chỉnh sửa phím tắt v�
     <string name="error_text_too_long_for_variable">Văn bản vượt quá giới hạn ký tự %d. Không thể chèn trình giữ chỗ biến.</string>
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">Chọn hoặc tạo một lối tắt để đặt nó trên màn hình chính.</string>
+    <!-- Instructions: Shown in info text at the top of the screen to inform user that they should select or create a shortcut, which is then used as by the 3rd party app (e.g. Tasker) -->
     <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
     <string name="label_widget">Tiện ích tùy chỉnh</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
@@ -1431,4 +1433,12 @@ Vẫn xóa?</string>
     <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
     <!-- Accessibility description for main menu button -->
     <!-- Accessibility description for the variable button on the right of text input fields -->
+    <!-- Label on button shown on the Response Handling screen, clicking it leads to a settings screen that lets the user configure how the response (or custom message) is displayed -->
+    <!-- Subtitle on button shown on the Response Handling screen -->
+    <!-- Subtitle on button shown on the Response Handling screen -->
+    <!-- Subtitle on button shown on the Response Handling screen -->
+    <!-- Title of screen that lets the user configure how the HTTP response is displayed -->
+    <!-- Title of screen that lets the user configure how their custom message is displayed -->
+    <!-- Title of a generic warning dialog. The dialog may be used in various situations. -->
+    <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
 </resources>
