@@ -14,9 +14,11 @@ import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
 class VariableManager(
-    val variables: List<Variable>,
+    variables: List<Variable>,
     preResolvedValues: Map<VariableKey, String> = emptyMap(),
 ) : VariableLookup {
+
+    val variables: List<Variable>
 
     private val variablesById: Map<VariableId, Variable>
 
@@ -26,6 +28,7 @@ class VariableManager(
 
     init {
         val detachedVariables = variables.map { if (it.isManaged()) it.copyFromRealm() else it }
+        this.variables = variables
         variablesById = detachedVariables.associateBy { it.id }
         variablesByKey = detachedVariables.associateBy { it.key }
 
