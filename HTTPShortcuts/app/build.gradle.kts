@@ -332,7 +332,7 @@ dependencies {
     implementation(libs.gson)
 
     /* Google Assistant integration */
-    implementation(libs.androidx.googleShortcuts)
+    "releaseFullImplementation"(libs.androidx.googleShortcuts)
 
     /* Testing */
     testImplementation(libs.kotlin.test.junit5)
