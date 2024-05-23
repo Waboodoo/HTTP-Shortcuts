@@ -20,7 +20,6 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -41,6 +40,12 @@ fun <T> SelectionField(
     items: List<Pair<T, String>>,
     onItemSelected: (T) -> Unit,
     modifier: Modifier = Modifier,
+    itemFactory: @Composable (T, String) -> Unit = { _, value ->
+        Text(
+            text = value,
+            modifier = Modifier.fillMaxWidth(),
+        )
+    },
     enabled: Boolean = true,
 ) {
     var expanded by remember(enabled) { mutableStateOf(false) }
@@ -121,12 +126,7 @@ fun <T> SelectionField(
                             onItemSelected(key)
                         },
                         text = {
-                            Text(
-                                text = value,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .align(Alignment.Start)
-                            )
+                            itemFactory(key, value)
                         },
                     )
                 }

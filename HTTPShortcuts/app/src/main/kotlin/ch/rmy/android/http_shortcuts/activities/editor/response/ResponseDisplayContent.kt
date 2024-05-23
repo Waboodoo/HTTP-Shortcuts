@@ -3,14 +3,18 @@ package ch.rmy.android.http_shortcuts.activities.editor.response
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.SelectionField
@@ -89,14 +93,9 @@ fun ResponseDisplayContent(
                 )
 
                 AnimatedVisibility(visible = responseContentType != ResponseContentType.HTML) {
-                    SelectionField(
-                        modifier = Modifier
-                            .padding(top = Spacing.SMALL)
-                            .padding(horizontal = Spacing.MEDIUM),
-                        title = stringResource(R.string.label_font_size),
-                        selectedKey = fontSize,
-                        items = FONT_SIZES.toItems(),
-                        onItemSelected = onFontSizeChanged,
+                    FontSizeSelection(
+                        fontSize = fontSize,
+                        onFontSizeChanged = onFontSizeChanged,
                     )
                 }
 
@@ -127,14 +126,9 @@ fun ResponseDisplayContent(
                 )
 
                 AnimatedVisibility(visible = responseContentType != ResponseContentType.HTML) {
-                    SelectionField(
-                        modifier = Modifier
-                            .padding(top = Spacing.SMALL)
-                            .padding(horizontal = Spacing.MEDIUM),
-                        title = stringResource(R.string.label_font_size),
-                        selectedKey = fontSize,
-                        items = FONT_SIZES.toItems(),
-                        onItemSelected = onFontSizeChanged,
+                    FontSizeSelection(
+                        fontSize = fontSize,
+                        onFontSizeChanged = onFontSizeChanged,
                     )
                 }
 
@@ -148,6 +142,29 @@ fun ResponseDisplayContent(
             }
         }
     }
+}
+
+@Composable
+private fun FontSizeSelection(
+    fontSize: Int?,
+    onFontSizeChanged: (Int?) -> Unit,
+) {
+    SelectionField(
+        modifier = Modifier
+            .padding(top = Spacing.SMALL)
+            .padding(horizontal = Spacing.MEDIUM),
+        title = stringResource(R.string.label_font_size),
+        selectedKey = fontSize,
+        items = FONT_SIZES.toItems(),
+        itemFactory = { key, value ->
+            Text(
+                text = value,
+                fontSize = key?.sp ?: TextUnit.Unspecified,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        },
+        onItemSelected = onFontSizeChanged,
+    )
 }
 
 private val DIALOG_ACTIONS = listOf(
