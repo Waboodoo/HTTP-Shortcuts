@@ -6,6 +6,7 @@
 - A warning is now displayed when a request body contains malformed JSON
 
 ### Bugfixes
+- Fixed a crash that would happen on some devices when deleting characters in Scripting fields or the cURL import
 - Homescreen shortcuts are now properly disabled when the respective shortcut is deleted
 
 ## Version 3.13.0
