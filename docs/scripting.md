@@ -661,7 +661,9 @@ sendMQTTMessages(
 <a name="send-tcp-packet"></a>
 ### Send TCP Packet
 
-You can use the `sendTCPPacket` function to send a TCP packet to another device on your network. Pass the packet data as the first parameter (either as a string, `Uint8Array` or array of numbers denoting bytes), the target host's name or IP address as the second parameter and its TCP port as the third parameter.
+You can use the `sendTCPPacket` function to send a TCP packet to another device on your network. This can be useful when interacting with devices that have a telnet interface.
+
+Pass the packet data as the first parameter (either as a string, `Uint8Array` or array of numbers denoting bytes), the target host's name or IP address as the second parameter and its TCP port as the third parameter.
 
 ```js
 sendTCPPacket('hello', '192.168.1.42', 1337);
@@ -671,7 +673,7 @@ sendTCPPacket([0x68, 0x65, 0x6C, 0x6C, 0x6F], 'example.com', 4242);
 
 If you want to listen for incoming data from the TCP connection, you can specify so by passing in a configuration object as the fourth parameter. This object may have the following fields:
 
-- `read`: If set to "text", all incoming data is read as text and returned. If set to "line", only a single line of text is read and returned. If not specified, nothing is read and `null` is returned.
+- `read`: If set to "text", all incoming data is read as text and returned as a string. If set to "line", only a single line of text is read and returned as a string. If not specified, nothing is read and `null` is returned.
 - `timeout`: The time in milliseconds after which the socket is automatically closed. Must be at most 30000, defaults to 3000. If `read` is set to "text" and this timeout is hit, all data that was read until that point is returned.
 - `charset`: The charset that should be used to decode the incoming data. Defaults to UTF-8.
 
