@@ -223,7 +223,7 @@ light_bulb lamp
 lightning flash weather
 linear_gauge measure
 link chain connection
-linux computer monitor screen
+linux pc computer monitor screen
 loading circle
 location pin map
 lock security
