@@ -42,6 +42,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -54,12 +55,15 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isUnspecified
 import androidx.compose.ui.unit.sp
 import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.response.models.DetailInfo
+import ch.rmy.android.http_shortcuts.activities.response.models.TableData
 import ch.rmy.android.http_shortcuts.components.FontSize
+import ch.rmy.android.http_shortcuts.components.LoadingIndicator
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.runIf
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
@@ -69,6 +73,7 @@ import ch.rmy.android.http_shortcuts.utils.rememberSyntaxHighlighter
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
+import com.sunnychung.lib.android.composabletable.ux.Table
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
@@ -85,6 +90,8 @@ fun DisplayResponseContent(
     monospace: Boolean,
     fontSize: Int?,
     showExternalUrlWarning: Boolean,
+    tableData: TableData?,
+    processing: Boolean,
     onExternalUrlWarningHidden: (Boolean) -> Unit,
 ) {
     var detailsExpanded by remember {
@@ -113,6 +120,8 @@ fun DisplayResponseContent(
                 monospace = monospace,
                 fontSize = fontSize?.sp ?: TextUnit.Unspecified,
                 showExternalUrlWarning = showExternalUrlWarning,
+                tableData = tableData,
+                processing = processing,
                 onExternalUrlWarningHidden = onExternalUrlWarningHidden,
             )
 
@@ -254,6 +263,8 @@ private fun ResponseDisplay(
     monospace: Boolean,
     fontSize: TextUnit,
     showExternalUrlWarning: Boolean,
+    processing: Boolean,
+    tableData: TableData?,
     onExternalUrlWarningHidden: (Boolean) -> Unit,
 ) {
     val context = LocalContext.current
@@ -319,7 +330,13 @@ private fun ResponseDisplay(
             }
         }
         FileTypeUtil.TYPE_JSON -> {
-            SyntaxHighlightedText(text, language = "json", fontSize = fontSize)
+            if (tableData != null) {
+                TableView(tableData, fontSize)
+            } else if (!processing && text.isNotEmpty()) {
+                SyntaxHighlightedText(text, language = "json", fontSize = fontSize)
+            } else {
+                LoadingIndicator()
+            }
         }
         FileTypeUtil.TYPE_XML -> {
             SyntaxHighlightedText(text, language = "xml", fontSize = fontSize)
@@ -406,8 +423,47 @@ private fun SyntaxHighlightedText(text: String, language: String, fontSize: Text
                 style = TextStyle(
                     fontFamily = FontFamily.Monospace,
                     fontSize = fontSize,
+                    lineHeight = if (fontSize.isUnspecified) TextUnit.Unspecified else fontSize * 1.2f,
                 ),
             )
+        }
+    }
+}
+
+@Composable
+private fun TableView(tableData: TableData, fontSize: TextUnit) {
+    SelectionContainer {
+        Table(
+            modifier = Modifier
+                .padding(4.dp)
+                .fillMaxWidth(),
+            rowCount = tableData.rows.size + 1,
+            columnCount = tableData.columns.size,
+            maxCellWidthDp = 300.dp,
+            stickyRowCount = 1,
+        ) { rowIndex, columnIndex ->
+            if (rowIndex == 0) {
+                Text(
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(horizontal = 4.dp, vertical = 2.dp),
+                    text = tableData.columns[columnIndex],
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = fontSize,
+                    lineHeight = if (fontSize.isUnspecified) TextUnit.Unspecified else fontSize * 1.2f,
+                )
+            } else {
+                Text(
+                    modifier = Modifier
+                        .runIf(rowIndex % 2 == 0) {
+                            background(Color(0x10909090))
+                        }
+                        .padding(horizontal = 4.dp, vertical = 2.dp),
+                    text = tableData.rows[rowIndex - 1][tableData.columns[columnIndex]] ?: "",
+                    fontSize = fontSize,
+                    lineHeight = if (fontSize.isUnspecified) TextUnit.Unspecified else fontSize * 1.2f,
+                )
+            }
         }
     }
 }

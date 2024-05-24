@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.editor.response
 
+import android.os.Build
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -36,6 +37,7 @@ fun ResponseDisplayContent(
     responseDisplayActions: List<ResponseDisplayAction>,
     useMonospaceFont: Boolean,
     fontSize: Int?,
+    jsonArrayAsTable: Boolean,
     onResponseContentTypeChanged: (ResponseContentType?) -> Unit,
     onResponseCharsetChanged: (Charset?) -> Unit,
     onDialogActionChanged: (ResponseDisplayAction?) -> Unit,
@@ -43,6 +45,7 @@ fun ResponseDisplayContent(
     onWindowActionsButtonClicked: () -> Unit,
     onUseMonospaceFontChanged: (Boolean) -> Unit,
     onFontSizeChanged: (Int?) -> Unit,
+    onJsonArrayAsTableChanged: (Boolean) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -91,21 +94,6 @@ fun ResponseDisplayContent(
                     items = DIALOG_ACTIONS.toItems(),
                     onItemSelected = onDialogActionChanged,
                 )
-
-                AnimatedVisibility(visible = responseContentType != ResponseContentType.HTML) {
-                    FontSizeSelection(
-                        fontSize = fontSize,
-                        onFontSizeChanged = onFontSizeChanged,
-                    )
-                }
-
-                AnimatedVisibility(visible = responseContentType == ResponseContentType.PLAIN_TEXT) {
-                    Checkbox(
-                        label = stringResource(R.string.label_monospace_response),
-                        checked = useMonospaceFont,
-                        onCheckedChange = onUseMonospaceFontChanged,
-                    )
-                }
             }
             ResponseHandling.UI_TYPE_WINDOW -> {
                 SettingsButton(
@@ -124,22 +112,30 @@ fun ResponseDisplayContent(
                     checked = includeMetaInformation,
                     onCheckedChange = onIncludeMetaInformationChanged,
                 )
-
-                AnimatedVisibility(visible = responseContentType != ResponseContentType.HTML) {
-                    FontSizeSelection(
-                        fontSize = fontSize,
-                        onFontSizeChanged = onFontSizeChanged,
-                    )
-                }
-
-                AnimatedVisibility(visible = responseContentType == ResponseContentType.PLAIN_TEXT) {
-                    Checkbox(
-                        label = stringResource(R.string.label_monospace_response),
-                        checked = useMonospaceFont,
-                        onCheckedChange = onUseMonospaceFontChanged,
-                    )
-                }
             }
+        }
+
+        AnimatedVisibility(visible = responseContentType != ResponseContentType.HTML) {
+            FontSizeSelection(
+                fontSize = fontSize,
+                onFontSizeChanged = onFontSizeChanged,
+            )
+        }
+
+        AnimatedVisibility(visible = responseContentType == ResponseContentType.PLAIN_TEXT) {
+            Checkbox(
+                label = stringResource(R.string.label_monospace_response),
+                checked = useMonospaceFont,
+                onCheckedChange = onUseMonospaceFontChanged,
+            )
+        }
+
+        AnimatedVisibility(visible = responseContentType == ResponseContentType.JSON && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Checkbox(
+                label = stringResource(R.string.label_json_array_as_table),
+                checked = jsonArrayAsTable,
+                onCheckedChange = onJsonArrayAsTableChanged,
+            )
         }
     }
 }
@@ -151,7 +147,7 @@ private fun FontSizeSelection(
 ) {
     SelectionField(
         modifier = Modifier
-            .padding(top = Spacing.SMALL)
+            .padding(vertical = Spacing.SMALL)
             .padding(horizontal = Spacing.MEDIUM),
         title = stringResource(R.string.label_font_size),
         selectedKey = fontSize,

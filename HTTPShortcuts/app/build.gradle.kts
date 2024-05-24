@@ -269,6 +269,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.reorderable)
     implementation(libs.composeCodeEditor)
+    implementation(libs.composableTable)
     implementation(libs.accompanist.systemuicontroller)
 
     /* Image cropping */

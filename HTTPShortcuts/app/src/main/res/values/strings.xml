@@ -1613,4 +1613,6 @@
     <string name="warning_dialog_title">Warning</string>
     <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
     <string name="warning_message_malformed_json">Your request body contains invalid JSON, which will likely cause the request to fail.\n\n%s</string>
+    <!-- Label for checkbox in editor, to allow JSON responses to be displayed as a table instead of plain JSON -->
+    <string name="label_json_array_as_table">Display JSON array as table</string>
 </resources>

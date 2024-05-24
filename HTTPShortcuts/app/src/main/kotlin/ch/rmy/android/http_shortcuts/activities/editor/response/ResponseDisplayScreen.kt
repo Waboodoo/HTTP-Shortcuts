@@ -34,6 +34,7 @@ fun ResponseDisplayScreen() {
             responseDisplayActions = viewState.responseDisplayActions,
             useMonospaceFont = viewState.useMonospaceFont,
             fontSize = viewState.fontSize,
+            jsonArrayAsTable = viewState.jsonArrayAsTable,
             onResponseContentTypeChanged = viewModel::onResponseContentTypeChanged,
             onResponseCharsetChanged = viewModel::onResponseCharsetChanged,
             onDialogActionChanged = viewModel::onDialogActionChanged,
@@ -41,6 +42,7 @@ fun ResponseDisplayScreen() {
             onWindowActionsButtonClicked = viewModel::onWindowActionsButtonClicked,
             onUseMonospaceFontChanged = viewModel::onUseMonospaceFontChanged,
             onFontSizeChanged = viewModel::onFontSizeChanged,
+            onJsonArrayAsTableChanged = viewModel::onJsonArrayAsTableChanged,
         )
     }
 

@@ -40,6 +40,7 @@ class ResponseHandling() : EmbeddedRealmObject {
     private var charset: String? = null
     var successMessage: String = ""
     var includeMetaInfo: Boolean = false
+    var jsonArrayAsTable: Boolean = false
     var monospace: Boolean = false
     var fontSize: Int? = null
 
@@ -89,6 +90,7 @@ class ResponseHandling() : EmbeddedRealmObject {
             other.failureOutput == failureOutput &&
             other.successMessage == successMessage &&
             other.includeMetaInfo == includeMetaInfo &&
+            other.jsonArrayAsTable == jsonArrayAsTable &&
             other.actions == actions &&
             other.storeDirectory == storeDirectory &&
             other.storeFileName == storeFileName &&

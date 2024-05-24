@@ -23,21 +23,16 @@ import java.lang.reflect.Type
 
 object GsonUtil {
 
-    fun tryPrettyPrint(jsonString: String): String =
-        try {
-            prettyPrintOrThrow(jsonString)
-        } catch (e: JsonParseException) {
-            jsonString
-        }
-
-    fun prettyPrintOrThrow(jsonString: String): String {
-        val json = JsonParser.parseString(jsonString)
+    fun prettyPrintOrThrow(json: JsonElement): String {
         val gson = GsonBuilder()
             .setPrettyPrinting()
             .disableHtmlEscaping()
             .create()
         return gson.toJson(json)
     }
+
+    fun prettyPrintOrThrow(jsonString: String): String =
+        prettyPrintOrThrow(JsonParser.parseString(jsonString))
 
     fun extractErrorMessage(e: JsonParseException): String? =
         (e.cause as? MalformedJsonException)?.message

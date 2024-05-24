@@ -43,6 +43,7 @@ constructor(
             responseDisplayActions = responseHandling.displayActions,
             useMonospaceFont = responseHandling.monospace,
             fontSize = responseHandling.fontSize,
+            jsonArrayAsTable = responseHandling.jsonArrayAsTable,
         )
     }
 
@@ -133,6 +134,15 @@ constructor(
         }
         withProgressTracking {
             temporaryShortcutRepository.setDisplayActions(actions)
+        }
+    }
+
+    fun onJsonArrayAsTableChanged(jsonArrayAsTable: Boolean) = runAction {
+        updateViewState {
+            copy(jsonArrayAsTable = jsonArrayAsTable)
+        }
+        withProgressTracking {
+            temporaryShortcutRepository.setJsonArrayAsTable(jsonArrayAsTable)
         }
     }
 

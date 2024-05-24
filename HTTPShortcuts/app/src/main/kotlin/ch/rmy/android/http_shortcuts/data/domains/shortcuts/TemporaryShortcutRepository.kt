@@ -469,6 +469,12 @@ constructor(
         }
     }
 
+    suspend fun setJsonArrayAsTable(jsonArrayAsTable: Boolean) {
+        commitTransactionForResponseHandling { responseHandling ->
+            responseHandling.jsonArrayAsTable = jsonArrayAsTable
+        }
+    }
+
     suspend fun importFromCurl(curlCommand: CurlCommand) {
         commitTransactionForShortcut { shortcut ->
             shortcut.method = curlCommand.method

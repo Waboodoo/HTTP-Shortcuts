@@ -680,6 +680,7 @@ class Execution(
                         monospace = shortcut.responseHandling?.monospace == true,
                         fontSize = shortcut.responseHandling?.fontSize,
                         actions = shortcut.responseHandling?.displayActions ?: emptyList(),
+                        jsonArrayAsTable = shortcut.responseHandling?.jsonArrayAsTable == true,
                     )
                     val responseDataId = navigationArgStore.storeArg(responseData)
                     DisplayResponseActivity.IntentBuilder(shortcutName, responseDataId)

@@ -17,4 +17,5 @@ data class ResponseDisplayViewState(
     val fontSize: Int?,
     val includeMetaInformation: Boolean,
     val responseDisplayActions: List<ResponseDisplayAction>,
+    val jsonArrayAsTable: Boolean,
 )

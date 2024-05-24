@@ -270,7 +270,7 @@ class DatabaseMigration : AutomaticSchemaMigration {
     }
 
     companion object {
-        const val VERSION = 76L
+        const val VERSION = 77L
         const val COMPATIBILITY_VERSION = 71L
     }
 }

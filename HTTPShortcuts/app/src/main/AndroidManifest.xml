@@ -23,6 +23,8 @@
     <!-- Integration with Wireguard -->
     <uses-permission android:name="com.wireguard.android.permission.CONTROL_TUNNELS" />
 
+    <uses-sdk tools:overrideLibrary="com.sunnychung.lib.android.composabletable" />
+
     <uses-feature
         android:name="android.hardware.location"
         android:required="false" />

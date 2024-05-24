@@ -15,6 +15,7 @@ bugsnag = "8.1.0"
 bugsnagAndroid = "6.5.0"
 coilCompose = "2.6.0"
 colorpickerview = "2.3.0"
+composableTable = "1.2.0"
 composeBom = "2024.05.00"
 composeCodeEditor = "2.0.3"  # Updating breaks a lot of things, this will require some work, or possibly a different library
 conscrypt = "2.5.2"
@@ -83,6 +84,7 @@ bugsnag-android = { module = "com.bugsnag:bugsnag-android", version.ref = "bugsn
 bugsnag-gradle = { module = "com.bugsnag:bugsnag-android-gradle-plugin", version.ref = "bugsnag" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 colorpickerview = { module = "com.github.skydoves:colorpickerview", version.ref = "colorpickerview" }
+composableTable = { module = "io.github.sunny-chung:composable-table", version.ref = "composableTable" }
 composeCodeEditor = { module = "com.github.qawaz:compose-code-editor", version.ref = "composeCodeEditor" }
 conscrypt = { module = "org.conscrypt:conscrypt-android", version.ref = "conscrypt" }
 desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }

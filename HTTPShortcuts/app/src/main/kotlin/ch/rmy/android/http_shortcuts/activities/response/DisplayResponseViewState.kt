@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.response
 import android.net.Uri
 import androidx.compose.runtime.Stable
 import ch.rmy.android.http_shortcuts.activities.response.models.DetailInfo
+import ch.rmy.android.http_shortcuts.activities.response.models.TableData
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 
 @Stable
@@ -21,4 +22,6 @@ data class DisplayResponseViewState(
     val canSave: Boolean,
     val isSaving: Boolean = false,
     val showExternalUrlWarning: Boolean,
+    val tableData: TableData? = null,
+    val processing: Boolean = false,
 )

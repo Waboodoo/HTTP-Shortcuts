@@ -23,4 +23,5 @@ data class ResponseData(
     val monospace: Boolean,
     val fontSize: Int?,
     val actions: List<ResponseDisplayAction>,
+    val jsonArrayAsTable: Boolean,
 )
