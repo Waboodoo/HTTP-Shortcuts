@@ -109,6 +109,7 @@
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">快捷方式不存在，您可能需要将其重新添加至桌面</string>
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
+    <string name="error_shortcut_deleted">此快捷方式已被删除。</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">请输入一个名称</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
@@ -1059,6 +1060,7 @@
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">选择或创建快捷方式以将其放置于主屏幕上</string>
     <!-- Instructions: Shown in info text at the top of the screen to inform user that they should select or create a shortcut, which is then used as by the 3rd party app (e.g. Tasker) -->
+    <string name="instructions_select_shortcut_for_plugin">选择或创建应触发的快捷方式。</string>
     <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
     <string name="label_widget">可制定的小部件</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
@@ -1601,11 +1603,19 @@
     <!-- Accessibility description for the variable button on the right of text input fields -->
     <string name="accessibility_variable_field_button">添加变量</string>
     <!-- Label on button shown on the Response Handling screen, clicking it leads to a settings screen that lets the user configure how the response (or custom message) is displayed -->
+    <string name="button_display_settings">显示设置</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_response">配置响应的显示方式</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_message">配置消息的显示方式</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_error">配置错误消息的显示方式</string>
     <!-- Title of screen that lets the user configure how the HTTP response is displayed -->
+    <string name="title_response_display">响应显示</string>
     <!-- Title of screen that lets the user configure how their custom message is displayed -->
+    <string name="title_message_display">消息显示</string>
     <!-- Title of a generic warning dialog. The dialog may be used in various situations. -->
+    <string name="warning_dialog_title">警告</string>
     <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
+    <string name="warning_message_malformed_json">您的请求正文包含无效的 JSON ，这可能会导致请求失败。\n\n%s</string>
 </resources>
