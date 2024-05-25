@@ -130,12 +130,14 @@ fun ResponseDisplayContent(
             )
         }
 
-        AnimatedVisibility(visible = responseContentType == ResponseContentType.JSON && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Checkbox(
-                label = stringResource(R.string.label_json_array_as_table),
-                checked = jsonArrayAsTable,
-                onCheckedChange = onJsonArrayAsTableChanged,
-            )
+        if (responseUiType == ResponseHandling.UI_TYPE_WINDOW) {
+            AnimatedVisibility(visible = responseContentType == ResponseContentType.JSON && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Checkbox(
+                    label = stringResource(R.string.label_json_array_as_table),
+                    checked = jsonArrayAsTable,
+                    onCheckedChange = onJsonArrayAsTableChanged,
+                )
+            }
         }
     }
 }
