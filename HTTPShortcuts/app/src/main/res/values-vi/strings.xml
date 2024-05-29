@@ -1441,4 +1441,5 @@ Vẫn xóa?</string>
     <!-- Title of screen that lets the user configure how their custom message is displayed -->
     <!-- Title of a generic warning dialog. The dialog may be used in various situations. -->
     <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
+    <!-- Label for checkbox in editor, to allow JSON responses to be displayed as a table instead of plain JSON -->
 </resources>

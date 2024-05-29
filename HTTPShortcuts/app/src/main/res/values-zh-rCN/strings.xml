@@ -1618,4 +1618,5 @@
     <string name="warning_dialog_title">警告</string>
     <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
     <string name="warning_message_malformed_json">您的请求正文包含无效的 JSON ，这可能会导致请求失败。\n\n%s</string>
+    <!-- Label for checkbox in editor, to allow JSON responses to be displayed as a table instead of plain JSON -->
 </resources>

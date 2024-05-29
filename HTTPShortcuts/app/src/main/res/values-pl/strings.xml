@@ -35,10 +35,13 @@
     <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">Hasło</string>
     <!-- Label above input field in editor, for shortcut authentication token -->
+    <string name="label_auth_token">Token</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
     <string name="label_response_on_success">Prawidłowa odpowiedź</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the response content should be treated as -->
+    <string name="label_response_type_selection">Typ Odpowiedzi</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the custom message that they enter should be treated as -->
+    <string name="label_response_message_type_selection">Typ Wiadomości</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
     <string name="label_response_on_failure">Błąd odpowiedzi</string>
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
@@ -82,6 +85,7 @@
 
 Kliknij przycisk +, aby rozpocząć, lub sprawdź Dokumentację w sekcji Informacje.</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
+    <string name="empty_state_no_shortcuts_in_category">jeszcze nie ma skrótów w tej kategorii</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Nie dodałeś jeszcze żadnych skrótów do uruchomienia.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
@@ -107,6 +111,7 @@ Kliknij przycisk +, aby dodać zmienną.</string>
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">Skrót nie znaleziony. Może być konieczne ponowne dodanie go na ekranie głównym.</string>
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
+    <string name="error_shortcut_deleted">Ten skrót został usunięty.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Proszę wpisać nazwę</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
@@ -148,6 +153,7 @@ Kliknij przycisk +, aby dodać zmienną.</string>
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
     <string name="label_post_param_value">Wartość</string>
     <!-- Generic dialog button: OK -->
+    <string name="dialog_ok">OK</string>
     <!-- Generic button: Cancel -->
     <string name="dialog_cancel">Anuluj</string>
     <!-- Generic button: Help (to open documentation) -->
@@ -177,6 +183,7 @@ Kliknij przycisk +, aby dodać zmienną.</string>
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">Ustawienia podstawowe</string>
     <!-- Title of section in "Settings" screen: (Visual) Appearance of the app itself (e.g. themes, dark mode) -->
+    <string name="settings_appearance">Wygląd</string>
     <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
     <string name="settings_click_behavior">Akcja po kliknięciu w skrótu</string>
     <!-- Name of setting that allows the user to change the app's language -->
@@ -218,7 +225,9 @@ Kliknij przycisk +, aby dodać zmienną.</string>
     <!-- Button in settings page to start import of shortcuts from a url -->
     <string name="settings_import_from_url">Importuj z adresu URL</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts into a file -->
+    <string name="settings_export_to_file">Wyeksportuj do Pliku</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
+    <string name="settings_export_via_share">Wyeksportuj przez okno udostępniania</string>
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">Edytuj na komputerze</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
@@ -271,6 +280,7 @@ Upewnij się, że masz zainstalowaną najnowszą wersję aplikacji.</string>
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
     <string name="label_subtitle_client_cert_file_in_use">Korzystanie z pliku certyfikatu. Kliknij, aby usunąć.</string>
     <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
+    <string name="label_subtitle_not_applicable_for_http">Dotyczy tylko, gdy używasz HTTPS</string>
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">Certyfikat klienta</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
@@ -447,6 +457,7 @@ Wszystkie zawarte w nim skróty zostaną usunięte.</string>
     <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
     <string name="label_variable_time_format">Format czasu</string>
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
+    <string name="label_select_variable_separator">Separator</string>
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
     <string name="variable_type_constant">Zmienna statyczna</string>
     <!-- Description for type of variable: Constant, i.e., a variable that always has the same value -->
@@ -476,8 +487,11 @@ Wszystkie zawarte w nim skróty zostaną usunięte.</string>
     <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle_description">Podczas używania przełącza się za każdym razem na inną wartość</string>
     <!-- Type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment">Zwiększający się licznik</string>
     <!-- Description for type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment_description">Zwiększa liczbę przy każdym kolejnym użytku</string>
     <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid">UUID</string>
     <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
     <string name="variable_type_uuid_description">Generuje nowy losowy UUID przy każdym wykonaniu.</string>
     <!-- Type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
@@ -607,6 +621,7 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych.</string>
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">Do innej aplikacji</string>
     <!-- Instruction text, shown at the top of the screen when creating a new shortcut, shows options below -->
+    <string name="instructions_create_new_shortcut_options_dialog">Wybierz rodzaj skrótu, który chcesz utworzyć.</string>
     <!-- Option in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <string name="button_create_new">Zwykły skrót HTTP</string>
     <!-- Button in shortcut creation screen, to select the type of shortcut: from scratch (i.e., start with a blank editor) -->
@@ -1588,4 +1603,5 @@ W przypadku certyfikatów z podpisem własnym sprawdź zamiast tego sekcję skr�
     <!-- Title of screen that lets the user configure how their custom message is displayed -->
     <!-- Title of a generic warning dialog. The dialog may be used in various situations. -->
     <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
+    <!-- Label for checkbox in editor, to allow JSON responses to be displayed as a table instead of plain JSON -->
 </resources>

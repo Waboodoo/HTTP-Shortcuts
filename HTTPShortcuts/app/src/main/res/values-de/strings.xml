@@ -1647,4 +1647,6 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="warning_dialog_title">Warnung</string>
     <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
     <string name="warning_message_malformed_json">Dein Request-Body enthält ungültiges JSON, was möglicherweise dazu führt, dass der Request fehlschlägt.\n\n%s</string>
+    <!-- Label for checkbox in editor, to allow JSON responses to be displayed as a table instead of plain JSON -->
+    <string name="label_json_array_as_table">JSON-Array als Tabelle anzeigen</string>
 </resources>
