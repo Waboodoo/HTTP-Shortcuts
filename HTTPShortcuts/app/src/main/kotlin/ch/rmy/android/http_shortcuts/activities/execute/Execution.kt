@@ -72,6 +72,7 @@ import ch.rmy.android.http_shortcuts.utils.CacheFilesCleanupWorker
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
+import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
@@ -112,6 +113,7 @@ class Execution(
     private val httpRequester: HttpRequester = entryPoint.httpRequester()
     private val showResultDialog: ShowResultDialogUseCase = entryPoint.showResultDialog()
     private val executionScheduler: ExecutionScheduler = entryPoint.executionScheduler()
+    private val launcherShortcutManager: LauncherShortcutManager = entryPoint.launcherShortcutManager()
     private val openInBrowser: OpenInBrowserUseCase = entryPoint.openInBrowser()
     private val requestSimpleConfirmation: RequestSimpleConfirmationUseCase = entryPoint.requestSimpleConfirmation()
     private val requestBiometricConfirmation: RequestBiometricConfirmationUseCase = entryPoint.requestBiometricConfirmation()
@@ -234,6 +236,8 @@ class Execution(
                 )
             )
         }
+
+        launcherShortcutManager.reportUse(params.shortcutId)
 
         when (requiresConfirmation()) {
             ConfirmationType.SIMPLE -> requestSimpleConfirmation(shortcutName, dialogHandle)
@@ -738,6 +742,7 @@ class Execution(
         fun httpRequester(): HttpRequester
         fun showResultDialog(): ShowResultDialogUseCase
         fun executionScheduler(): ExecutionScheduler
+        fun launcherShortcutManager(): LauncherShortcutManager
         fun openInBrowser(): OpenInBrowserUseCase
         fun requestSimpleConfirmation(): RequestSimpleConfirmationUseCase
         fun requestBiometricConfirmation(): RequestBiometricConfirmationUseCase

@@ -38,6 +38,12 @@ constructor(
     fun supportsDirectShare() =
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
 
+    fun reportUse(shortcutId: ShortcutId) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            shortcutManager.reportShortcutUsed(createShortcutInfoId(shortcutId))
+        }
+    }
+
     @WorkerThread
     fun updateAppShortcuts(shortcuts: Collection<LauncherShortcut>) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
