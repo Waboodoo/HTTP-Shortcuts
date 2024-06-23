@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import android.util.TypedValue.COMPLEX_UNIT_SP
 import android.view.View
 import android.widget.RemoteViews
 import ch.rmy.android.framework.extensions.createIntent
@@ -61,6 +62,7 @@ constructor(
                 views.setViewVisibility(R.id.widget_label, View.VISIBLE)
                 views.setTextViewText(R.id.widget_label, shortcut.name)
                 views.setTextColor(R.id.widget_label, widget.labelColor?.let(Color::parseColor) ?: Color.WHITE)
+                views.setTextViewTextSize(R.id.widget_label, COMPLEX_UNIT_SP, if (shortcut.name.length < 20) 18f else 12f)
             } else {
                 views.setViewVisibility(R.id.widget_label, View.GONE)
             }
