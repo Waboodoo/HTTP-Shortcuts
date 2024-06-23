@@ -102,6 +102,8 @@ fun NavGraphBuilder.composable(
     )
 }
 
+private const val EMPTY_STRING_PLACEHOLDER = "___emPty___"
+
 class RouteBuilder(
     private val basePath: String,
 ) {
@@ -126,7 +128,7 @@ class RouteBuilder(
                 append(basePath)
                 requiredArguments.forEach { value ->
                     append("/")
-                    append(Uri.encode(value))
+                    append(Uri.encode(value.ifEmpty { EMPTY_STRING_PLACEHOLDER }))
                 }
                 if (optionalArguments.isNotEmpty()) {
                     append("?")
@@ -166,7 +168,7 @@ fun optionalBooleanArg(key: String) =
     }
 
 fun Bundle.getEncodedString(key: String): String? =
-    getString(key)?.let(Uri::decode)
+    getString(key)?.let(Uri::decode)?.let { if (it == EMPTY_STRING_PLACEHOLDER) "" else it }
 
 fun getRoute(path: String, arguments: List<NamedNavArgument>) =
     if (arguments.isEmpty()) {
