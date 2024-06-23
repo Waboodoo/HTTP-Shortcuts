@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.MoveShortcuts.RESULT_SHORTCUTS_MOVED
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,6 +32,8 @@ constructor(
 
     private val _categories = MutableStateFlow<List<CategoryItem>>(emptyList())
     val categories = _categories.asStateFlow()
+
+    private var hasChanged = false
 
     override suspend fun initialize(data: Unit) {
         logInfo("Initialized MoveViewModel")
@@ -137,8 +140,14 @@ constructor(
                 _categories.value.associate { category -> category.id to category.shortcuts.map { it.id } }
             )
         }
+        hasChanged = true
     }
 
     private fun CategoryItem.contains(shortcutId: ShortcutId) =
         shortcuts.any { it.id == shortcutId }
+
+    fun onBackPressed() = runAction {
+        waitForOperationsToFinish()
+        closeScreen(result = if (hasChanged) RESULT_SHORTCUTS_MOVED else null)
+    }
 }

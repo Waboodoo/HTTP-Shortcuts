@@ -20,6 +20,7 @@ import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Categories.RESULT_CATEGORIES_CHANGED
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.ImportExport.RESULT_CATEGORIES_CHANGED_FROM_IMPORT
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.MoveShortcuts.RESULT_SHORTCUTS_MOVED
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Settings.RESULT_APP_LOCKED
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Widget.RESULT_WIDGET_SETTINGS_CANCELLED
 import ch.rmy.android.http_shortcuts.navigation.ResultHandler
@@ -52,8 +53,9 @@ fun MainScreen(
         when (result) {
             RESULT_CATEGORIES_CHANGED,
             RESULT_CATEGORIES_CHANGED_FROM_IMPORT,
+            RESULT_SHORTCUTS_MOVED,
             -> {
-                viewModel.onRestartRequested()
+                viewModel.onShortcutsOrCategoriesChanged()
             }
             RESULT_APP_LOCKED -> {
                 viewModel.onAppLocked()

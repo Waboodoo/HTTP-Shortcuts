@@ -527,7 +527,8 @@ constructor(
         ActivityCloser.onMainActivityClosed()
     }
 
-    fun onRestartRequested() = runAction {
+    fun onShortcutsOrCategoriesChanged() = runAction {
+        launcherShortcutUpdater.updateAppShortcuts()
         emitEvent(MainEvent.Restart)
     }
 

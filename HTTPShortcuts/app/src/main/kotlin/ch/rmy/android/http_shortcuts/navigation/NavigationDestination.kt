@@ -210,6 +210,8 @@ sealed interface NavigationDestination {
 
         fun extractShortcutId(bundle: Bundle): ShortcutId =
             bundle.getEncodedString(ARG_SHORTCUT_ID)!!
+
+        const val RESULT_SHORTCUTS_MOVED = "shortcuts-moved"
     }
 
     object RemoteEdit : NoArgNavigationDestination {

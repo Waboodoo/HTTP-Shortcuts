@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.moving
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
@@ -13,6 +14,10 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 fun MoveScreen(initialShortcut: ShortcutId) {
     val (viewModel, state) = bindViewModel<Unit, MoveViewModel>()
     val categories by viewModel.categories.collectAsStateWithLifecycle()
+
+    BackHandler(state != null) {
+        viewModel.onBackPressed()
+    }
 
     SimpleScaffold(
         viewState = state,
