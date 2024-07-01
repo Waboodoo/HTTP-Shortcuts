@@ -19,6 +19,7 @@ import java.time.format.FormatStyle
 
 val shortTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
 val mediumTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)
+val mediumDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
 
 @Stable
 @Composable
@@ -32,6 +33,10 @@ fun LocalDateTime.formatShortTime(): String =
 @Stable
 fun LocalDateTime.formatMediumTime(): String =
     mediumTimeFormatter.format(this)
+
+@Stable
+fun LocalDateTime.formatMediumDateTime(): String =
+    mediumDateTimeFormatter.format(this)
 
 @Composable
 fun <T : WebView> rememberWebView(key: String, init: (Context, isRestore: Boolean) -> T): T {

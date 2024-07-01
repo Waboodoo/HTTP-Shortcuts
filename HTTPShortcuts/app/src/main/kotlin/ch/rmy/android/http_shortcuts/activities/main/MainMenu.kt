@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DataObject
+import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.ImportExport
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
@@ -17,6 +18,7 @@ import ch.rmy.android.http_shortcuts.components.MenuItem
 fun MainMenu(
     onCategoriesButtonClicked: () -> Unit,
     onVariablesButtonClicked: () -> Unit,
+    onWorkingDirectoriesClicked: () -> Unit,
     onImportExportButtonClicked: () -> Unit,
     onTroubleShootingButtonClicked: () -> Unit,
     onSettingsButtonClicked: () -> Unit,
@@ -32,6 +34,11 @@ fun MainMenu(
             title = stringResource(R.string.title_variables),
             icon = Icons.Filled.DataObject,
             onClick = onVariablesButtonClicked,
+        )
+        MenuItem(
+            title = stringResource(R.string.menu_action_working_directories),
+            icon = Icons.Filled.Folder,
+            onClick = onWorkingDirectoriesClicked,
         )
         MenuItem(
             title = stringResource(R.string.title_import_export),

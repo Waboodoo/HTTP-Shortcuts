@@ -10,6 +10,7 @@ object DocumentationUrlManager {
     private val SUPPORTED_PATHS = setOf(
         "advanced",
         "categories",
+        "directories",
         "documentation",
         "execution-flow",
         "faq",

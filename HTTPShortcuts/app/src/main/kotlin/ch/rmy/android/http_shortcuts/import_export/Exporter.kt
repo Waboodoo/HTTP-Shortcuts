@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.import_export
 
 import android.content.Context
 import android.net.Uri
-import ch.rmy.android.framework.extensions.applyIfNotNull
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
@@ -12,6 +11,7 @@ import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
@@ -90,23 +90,35 @@ constructor(
         return ExportStatus(exportedShortcuts = base.shortcuts.size)
     }
 
-    private suspend fun getBase(shortcutIds: Collection<ShortcutId>?, variableIds: Collection<VariableId>?): Base =
-        appRepository.getBase()
-            .copyFromRealm()
-            .applyIfNotNull(shortcutIds) {
-                title = null
-                categories.forEach { category ->
-                    category.shortcuts.safeRemoveIf { shortcut ->
-                        shortcut.id !in shortcutIds!!
-                    }
-                }
-                categories.safeRemoveIf { category ->
-                    category.shortcuts.isEmpty()
+    private suspend fun getBase(
+        shortcutIds: Collection<ShortcutId>?,
+        variableIds: Collection<VariableId>?,
+    ): Base {
+        val base = appRepository.getBase().copyFromRealm()
+        if (shortcutIds != null) {
+            base.title = null
+            base.categories.forEach { category ->
+                category.shortcuts.safeRemoveIf { shortcut ->
+                    shortcut.id !in shortcutIds
                 }
             }
-            .applyIfNotNull(variableIds) {
-                variables.safeRemoveIf { !variableIds!!.contains(it.id) }
+            base.categories.safeRemoveIf { category ->
+                category.shortcuts.isEmpty()
             }
+        }
+        if (variableIds != null) {
+            base.variables.safeRemoveIf { it.id !in variableIds }
+        }
+
+        base.getUsedWorkingDirectoryIds().let { workingDirectoryIds ->
+            base.workingDirectories.safeRemoveIf { it.id !in workingDirectoryIds }
+        }
+
+        return base
+    }
+
+    private fun Base.getUsedWorkingDirectoryIds(): Collection<WorkingDirectoryId> =
+        shortcuts.mapNotNull { it.responseHandling?.storeDirectoryId }
 
     private suspend fun exportData(base: Base, writer: Appendable, excludeDefaults: Boolean = false) {
         withContext(Dispatchers.IO) {

@@ -155,6 +155,12 @@ fun stringArg(key: String) =
         nullable = false
     }
 
+fun booleanArg(key: String) =
+    navArgument(key) {
+        type = NavType.BoolType
+        nullable = false
+    }
+
 fun optionalStringArg(key: String) =
     navArgument(key) {
         type = NavType.StringType

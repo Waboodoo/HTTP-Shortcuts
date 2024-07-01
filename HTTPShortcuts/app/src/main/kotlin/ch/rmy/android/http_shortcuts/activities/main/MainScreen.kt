@@ -97,6 +97,7 @@ fun MainScreen(
                 MainMenu(
                     onCategoriesButtonClicked = viewModel::onCategoriesButtonClicked,
                     onVariablesButtonClicked = viewModel::onVariablesButtonClicked,
+                    onWorkingDirectoriesClicked = viewModel::onWorkingDirectoriesClicked,
                     onImportExportButtonClicked = viewModel::onImportExportButtonClicked,
                     onTroubleShootingButtonClicked = viewModel::onTroubleShootingButtonClicked,
                     onSettingsButtonClicked = viewModel::onSettingsButtonClicked,

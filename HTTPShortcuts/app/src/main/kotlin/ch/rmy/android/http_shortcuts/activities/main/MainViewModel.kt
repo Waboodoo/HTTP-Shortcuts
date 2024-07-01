@@ -301,6 +301,11 @@ constructor(
         navigate(NavigationDestination.Variables)
     }
 
+    fun onWorkingDirectoriesClicked() = runAction {
+        logInfo("Working directories button clicked")
+        navigate(NavigationDestination.WorkingDirectories.buildRequest())
+    }
+
     fun onToolbarTitleClicked() = runAction {
         logInfo("Toolbar title clicked")
         if (selectionMode == SelectionMode.NORMAL && !viewState.isLocked) {

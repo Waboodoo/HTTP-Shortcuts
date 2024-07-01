@@ -9,6 +9,7 @@ import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
@@ -284,9 +285,9 @@ constructor(
         }
     }
 
-    suspend fun setStoreDirectory(directoryUri: Uri?) {
+    suspend fun setStoreDirectory(workingDirectoryId: WorkingDirectoryId?) {
         commitTransactionForResponseHandling { responseHandling ->
-            responseHandling.storeDirectory = directoryUri?.toString()
+            responseHandling.storeDirectoryId = workingDirectoryId
         }
     }
 

@@ -4,12 +4,25 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import android.provider.DocumentsContract
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.documentfile.provider.DocumentFile
+import ch.rmy.android.framework.extensions.runIfNotNull
 
-object PickDirectoryContract : ActivityResultContract<Unit?, (ContentResolver) -> Uri?>() {
-    override fun createIntent(context: Context, input: Unit?): Intent =
+object PickDirectoryContract : ActivityResultContract<Uri?, (ContentResolver) -> Uri?>() {
+    override fun createIntent(context: Context, input: Uri?): Intent =
         Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
             .addCategory(Intent.CATEGORY_DEFAULT)
+            .runIfNotNull(input) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    runIfNotNull(DocumentFile.fromTreeUri(context, it)?.uri) { fileUri ->
+                        putExtra(DocumentsContract.EXTRA_INITIAL_URI, fileUri)
+                    }
+                } else {
+                    this
+                }
+            }
             .addFlags(
                 Intent.FLAG_GRANT_READ_URI_PERMISSION
                     or Intent.FLAG_GRANT_WRITE_URI_PERMISSION

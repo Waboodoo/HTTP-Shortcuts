@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.http
 
 import android.content.Context
-import androidx.core.net.toUri
+import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import okhttp3.Response
@@ -12,15 +12,15 @@ import java.net.SocketTimeoutException
 class ResponseFileStorage(
     private val context: Context,
     private val sessionId: String,
-    private val storeDirectory: String?,
+    private val storeDirectoryUri: Uri?,
 ) {
 
     fun store(response: Response, finishNormallyOnTimeout: Boolean): DocumentFile {
         val fileName = "response_$sessionId"
 
-        val documentFile = storeDirectory
+        val documentFile = storeDirectoryUri
             ?.let {
-                val directory = DocumentFile.fromTreeUri(context, storeDirectory.toUri())
+                val directory = DocumentFile.fromTreeUri(context, it)
                 directory?.createFile(response.getMimeType(), fileName)
             }
             ?: run {

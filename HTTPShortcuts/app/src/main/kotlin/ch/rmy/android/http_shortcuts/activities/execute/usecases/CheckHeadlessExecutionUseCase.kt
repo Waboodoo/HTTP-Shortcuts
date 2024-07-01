@@ -22,7 +22,7 @@ constructor(
         val usesToastOutput = responseHandling.uiType == UI_TYPE_TOAST
         val usesCodeAfterExecution = shortcut.codeOnSuccess.isNotEmpty() || shortcut.codeOnFailure.isNotEmpty()
         val usesFiles = shortcut.usesGenericFileBody() || shortcut.hasFileParameter()
-        val storesResponse = responseHandling.storeDirectory != null
+        val storesResponse = responseHandling.storeDirectoryId != null
         return (usesNoOutput || (usesToastOutput && permissionManager.hasNotificationPermission())) &&
             !usesCodeAfterExecution &&
             !usesFiles &&

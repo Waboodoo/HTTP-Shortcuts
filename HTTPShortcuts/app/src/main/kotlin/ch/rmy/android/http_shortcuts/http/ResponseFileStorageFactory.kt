@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.http
 
 import android.content.Context
+import android.net.Uri
 import javax.inject.Inject
 
 class ResponseFileStorageFactory
@@ -8,6 +9,6 @@ class ResponseFileStorageFactory
 constructor(
     private val context: Context,
 ) {
-    fun create(sessionId: String, storeDirectory: String?): ResponseFileStorage =
-        ResponseFileStorage(context, sessionId, storeDirectory)
+    fun create(sessionId: String, storeDirectoryUri: Uri?): ResponseFileStorage =
+        ResponseFileStorage(context, sessionId, storeDirectoryUri)
 }

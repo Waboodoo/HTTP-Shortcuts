@@ -11,6 +11,7 @@ import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKe
 import ch.rmy.android.http_shortcuts.data.migration.migrations.RequireConfirmationMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseActionMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseHandlingMigration
+import ch.rmy.android.http_shortcuts.data.migration.migrations.WorkingDirectoryMigration
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
@@ -164,6 +165,9 @@ internal object ImportMigrator {
             }
             71L -> { // 3.4.0
                 FileUploadTypeMigration().migrateImport(base)
+            }
+            78L -> { // 3.15.0
+                WorkingDirectoryMigration().migrateImport(base)
             }
         }
     }

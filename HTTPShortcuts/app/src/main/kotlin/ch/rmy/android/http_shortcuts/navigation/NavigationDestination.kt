@@ -8,6 +8,7 @@ import ch.rmy.android.framework.navigation.NavigationRequest
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -439,6 +440,29 @@ sealed interface NavigationDestination {
         ) : Serializable
 
         const val RESULT_WIDGET_SETTINGS_CANCELLED = "widget-settings-cancelled"
+    }
+
+    object WorkingDirectories : NavigationDestination {
+        private const val ARG_PICKER = "picker"
+
+        override val path = "workingDirectories"
+
+        override val arguments =
+            listOf(
+                booleanArg(ARG_PICKER),
+            )
+
+        fun buildRequest(picker: Boolean = false) = buildNavigationRequest {
+            pathPart(picker)
+        }
+
+        fun extractPicker(bundle: Bundle): Boolean =
+            bundle.getBoolean(ARG_PICKER)
+
+        data class WorkingDirectoryPickerResult(
+            val workingDirectoryId: WorkingDirectoryId,
+            val name: String,
+        ) : Serializable
     }
 }
 

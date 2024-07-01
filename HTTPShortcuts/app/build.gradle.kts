@@ -375,6 +375,7 @@ tasks.register("syncDocumentation") {
     val files = listOf(
         "advanced",
         "categories",
+        "directories",
         "documentation",
         "execution-flow",
         "faq",

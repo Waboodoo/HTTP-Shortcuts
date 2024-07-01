@@ -34,6 +34,7 @@ import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
@@ -46,6 +47,7 @@ import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
 import ch.rmy.android.http_shortcuts.exceptions.TreatAsFailureException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
@@ -109,6 +111,7 @@ class Execution(
     private val pendingExecutionsRepository: PendingExecutionsRepository = entryPoint.pendingExecutionsRepository()
     private val variableRepository: VariableRepository = entryPoint.variableRepository()
     private val appRepository: AppRepository = entryPoint.appRepository()
+    private val workingDirectoryRepository: WorkingDirectoryRepository = entryPoint.workingDirectoryRepository()
     private val variableResolver: VariableResolver = entryPoint.variableResolver()
     private val httpRequester: HttpRequester = entryPoint.httpRequester()
     private val showResultDialog: ShowResultDialogUseCase = entryPoint.showResultDialog()
@@ -136,6 +139,7 @@ class Execution(
     private lateinit var globalCode: String
     private lateinit var category: Category
     private lateinit var shortcut: Shortcut
+    private var workingDirectory: WorkingDirectory? = null
     private lateinit var certificatePins: List<CertificatePin>
 
     private val shortcutName by lazy {
@@ -340,7 +344,8 @@ class Execution(
                 httpRequester
                     .executeShortcut(
                         context,
-                        shortcut,
+                        shortcut = shortcut,
+                        storeDirectoryUri = workingDirectory?.directoryUri,
                         sessionId = sessionId,
                         variableValues = variableManager.getVariableValuesByIds(),
                         fileUploadResult = fileUploadResult,
@@ -436,8 +441,13 @@ class Execution(
             return
         }
 
-        if (shortcut.responseHandling?.storeDirectory != null && response.contentFile != null) {
-            renameResponseFile(response, variableManager)
+        if (shortcut.responseHandling?.storeDirectoryId != null && response.contentFile != null) {
+            workingDirectoryRepository.touchWorkingDirectory(shortcut.responseHandling!!.storeDirectoryId!!)
+            withContext(Dispatchers.IO) {
+                workingDirectory?.directoryUri?.let {
+                    renameResponseFile(response, variableManager, it)
+                }
+            }
         }
 
         emit(
@@ -489,6 +499,9 @@ class Execution(
             globalCode = base.globalCode.orEmpty()
             if (!findCategoryAndShortcut(base)) {
                 throw NoSuchElementException()
+            }
+            workingDirectory = shortcut.responseHandling?.storeDirectoryId?.let { workingDirectoryId ->
+                base.workingDirectories.find { it.id == workingDirectoryId }
             }
             logInfo("Shortcut loaded: type=${shortcut.type}")
             certificatePins = base.certificatePins
@@ -695,10 +708,9 @@ class Execution(
         }
     }
 
-    private fun renameResponseFile(response: ShortcutResponse, variableManager: VariableManager) {
+    private fun renameResponseFile(response: ShortcutResponse, variableManager: VariableManager, directoryUri: Uri) {
         try {
             val responseHandling = shortcut.responseHandling!!
-            val directoryUri = responseHandling.storeDirectory!!.toUri()
             val directory = DocumentFile.fromTreeUri(context, directoryUri)
             val fileName = responseHandling.storeFileName
                 ?.takeUnlessEmpty()
@@ -738,6 +750,7 @@ class Execution(
         fun pendingExecutionsRepository(): PendingExecutionsRepository
         fun variableRepository(): VariableRepository
         fun appRepository(): AppRepository
+        fun workingDirectoryRepository(): WorkingDirectoryRepository
         fun variableResolver(): VariableResolver
         fun httpRequester(): HttpRequester
         fun showResultDialog(): ShowResultDialogUseCase

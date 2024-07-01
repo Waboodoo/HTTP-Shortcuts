@@ -41,6 +41,7 @@ import ch.rmy.android.http_shortcuts.activities.troubleshooting.TroubleShootingS
 import ch.rmy.android.http_shortcuts.activities.variables.VariablesScreen
 import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorScreen
 import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsScreen
+import ch.rmy.android.http_shortcuts.activities.workingdirectories.WorkingDirectoriesScreen
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 
 @Composable
@@ -190,8 +191,10 @@ fun NavigationRoot() {
             RequestHeadersScreen()
         }
 
-        composable(NavigationDestination.ShortcutEditorResponse) {
-            ResponseScreen()
+        composable(NavigationDestination.ShortcutEditorResponse) { backStackEntry ->
+            ResponseScreen(
+                savedStateHandle = backStackEntry.savedStateHandle,
+            )
         }
 
         composable(NavigationDestination.ShortcutEditorResponseDisplay) {
@@ -231,6 +234,12 @@ fun NavigationRoot() {
                 shortcutId = NavigationDestination.Widget.extractShortcutId(backStackEntry.arguments!!),
                 shortcutName = NavigationDestination.Widget.extractShortcutName(backStackEntry.arguments!!),
                 shortcutIcon = NavigationDestination.Widget.extractShortcutIcon(backStackEntry.arguments!!),
+            )
+        }
+
+        composable(NavigationDestination.WorkingDirectories) { backStackEntry ->
+            WorkingDirectoriesScreen(
+                picker = NavigationDestination.WorkingDirectories.extractPicker(backStackEntry.arguments!!),
             )
         }
     }

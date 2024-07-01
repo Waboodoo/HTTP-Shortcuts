@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.models
 
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import io.realm.kotlin.ext.realmListOf
@@ -68,7 +69,7 @@ class ResponseHandling() : EmbeddedRealmObject {
             charset = value?.name()
         }
 
-    var storeDirectory: String? = null
+    var storeDirectoryId: WorkingDirectoryId? = null
     var storeFileName: String? = null
     var replaceFileIfExists: Boolean = false
 
@@ -92,7 +93,7 @@ class ResponseHandling() : EmbeddedRealmObject {
             other.includeMetaInfo == includeMetaInfo &&
             other.jsonArrayAsTable == jsonArrayAsTable &&
             other.actions == actions &&
-            other.storeDirectory == storeDirectory &&
+            other.storeDirectoryId == storeDirectoryId &&
             other.storeFileName == storeFileName &&
             other.replaceFileIfExists == replaceFileIfExists &&
             other.monospace == monospace &&

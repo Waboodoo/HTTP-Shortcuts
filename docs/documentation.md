@@ -9,6 +9,7 @@
     - [Browser Shortcut](shortcuts.md#browser-shortcut)
     - [Scripting Shortcut](shortcuts.md#scripting-shortcut)
 - [Categories](categories.md)
+- [Directories](directories.md)
 - [Execution Flow](execution-flow.md)
 - [Variables](variables.md)
     - [Static Variable (Constant)](variables.md#constant)

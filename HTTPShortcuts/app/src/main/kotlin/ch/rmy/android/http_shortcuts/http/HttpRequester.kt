@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.http
 
 import android.content.ContentResolver
 import android.content.Context
+import android.net.Uri
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.fromHexString
@@ -61,6 +62,7 @@ constructor(
     suspend fun executeShortcut(
         context: Context,
         shortcut: Shortcut,
+        storeDirectoryUri: Uri?,
         sessionId: String,
         variableValues: Map<VariableId, String>,
         fileUploadResult: FileUploadManager.Result? = null,
@@ -69,7 +71,7 @@ constructor(
         validateRequestData: suspend (RequestData) -> Unit = {},
     ): ShortcutResponse =
         withContext(Dispatchers.IO) {
-            val responseFileStorage = responseFileStorageFactory.create(sessionId, shortcut.responseHandling?.storeDirectory)
+            val responseFileStorage = responseFileStorageFactory.create(sessionId, storeDirectoryUri)
             val requestData = RequestData(
                 url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, variableValues).trim(),
                 username = Variables.rawPlaceholdersToResolvedValues(shortcut.username, variableValues),

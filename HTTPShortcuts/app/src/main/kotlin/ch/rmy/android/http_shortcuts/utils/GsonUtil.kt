@@ -16,6 +16,7 @@ import com.google.gson.JsonSerializer
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.MalformedJsonException
 import io.realm.kotlin.ext.realmListOf
+import io.realm.kotlin.types.RealmInstant
 import io.realm.kotlin.types.RealmList
 import java.io.EOFException
 import java.lang.reflect.ParameterizedType
@@ -75,6 +76,7 @@ object GsonUtil {
     val gson: Gson by lazy {
         GsonBuilder()
             .registerTypeAdapter(Uri::class.java, UriSerializer)
+            .registerTypeAdapter(RealmInstant::class.java, RealmInstantSerializer)
             .create()
     }
 
@@ -84,5 +86,13 @@ object GsonUtil {
 
         override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Uri? =
             json?.asString?.toUri()
+    }
+
+    object RealmInstantSerializer : JsonSerializer<RealmInstant>, JsonDeserializer<RealmInstant> {
+        override fun serialize(src: RealmInstant, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement =
+            JsonPrimitive(src.epochSeconds)
+
+        override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): RealmInstant? =
+            json?.asLong?.let { RealmInstant.from(it, 0) }
     }
 }

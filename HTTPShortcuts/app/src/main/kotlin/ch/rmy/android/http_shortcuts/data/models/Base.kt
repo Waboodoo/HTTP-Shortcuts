@@ -13,6 +13,8 @@ class Base : RealmObject {
         private set
     var variables: RealmList<Variable> = realmListOf()
         private set
+    var workingDirectories: RealmList<WorkingDirectory> = realmListOf()
+        private set
     var title: String? = null
     var globalCode: String? = null
     var certificatePins: RealmList<CertificatePin> = realmListOf()
@@ -23,6 +25,7 @@ class Base : RealmObject {
     fun validate() {
         categories.forEach(Category::validate)
         variables.forEach(Variable::validate)
+        workingDirectories.forEach(WorkingDirectory::validate)
         certificatePins.forEach(CertificatePin::validate)
         require(!categories.hasDuplicatesBy { it.id }) {
             "Duplicate category IDs"

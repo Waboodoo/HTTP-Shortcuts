@@ -1,39 +1,30 @@
 package ch.rmy.android.http_shortcuts.activities.editor.response
 
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import ch.rmy.android.framework.extensions.consume
-import ch.rmy.android.framework.extensions.launch
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.localize
-import ch.rmy.android.http_shortcuts.utils.PickDirectoryContract
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
+import ch.rmy.android.http_shortcuts.navigation.ResultHandler
 
 @Composable
-fun ResponseScreen() {
+fun ResponseScreen(savedStateHandle: SavedStateHandle) {
     val (viewModel, state) = bindViewModel<ResponseViewState, ResponseViewModel>()
-
-    val context = LocalContext.current
-    val pickDirectory = rememberLauncherForActivityResult(PickDirectoryContract) { getDirectoryUri ->
-        viewModel.onStoreFileDirectoryPicked(getDirectoryUri(context.contentResolver))
-    }
-
-    EventHandler { event ->
-        when (event) {
-            is ResponseEvent.PickDirectory -> consume {
-                pickDirectory.launch()
-            }
-            else -> false
-        }
-    }
 
     BackHandler(state != null) {
         viewModel.onBackPressed()
+    }
+
+    ResultHandler(savedStateHandle) { result ->
+        when (result) {
+            is NavigationDestination.WorkingDirectories.WorkingDirectoryPickerResult -> {
+                viewModel.onWorkingDirectoryPicked(result.workingDirectoryId, result.name)
+            }
+        }
     }
 
     SimpleScaffold(
@@ -47,7 +38,7 @@ fun ResponseScreen() {
             responseFailureOutput = viewState.responseFailureOutput,
             successMessage = viewState.successMessage,
             storeResponseIntoFile = viewState.storeResponseIntoFile,
-            storeDirectory = viewState.storeDirectory,
+            storeDirectoryName = viewState.storeDirectoryName,
             storeFileName = viewState.storeFileName,
             replaceFileIfExists = viewState.replaceFileIfExists,
             onResponseSuccessOutputChanged = viewModel::onResponseSuccessOutputChanged,

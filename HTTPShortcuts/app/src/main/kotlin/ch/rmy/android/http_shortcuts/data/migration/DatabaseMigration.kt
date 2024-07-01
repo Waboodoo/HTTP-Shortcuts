@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.data.migration.migrations.RequireConfirmati
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseActionMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseHandlingMigration
 import ch.rmy.android.http_shortcuts.data.migration.migrations.UniqueIdsMigration
+import ch.rmy.android.http_shortcuts.data.migration.migrations.WorkingDirectoryMigration
 import io.realm.kotlin.dynamic.getNullableValue
 import io.realm.kotlin.dynamic.getValue
 import io.realm.kotlin.migration.AutomaticSchemaMigration
@@ -259,6 +260,10 @@ class DatabaseMigration : AutomaticSchemaMigration {
             FileUploadTypeMigration().migrateRealm(migrationContext)
         }
 
+        if (oldVersion < 78) {
+            WorkingDirectoryMigration().migrateRealm(migrationContext)
+        }
+
         // update version number
         newRealm.query("Base")
             .first()
@@ -270,7 +275,7 @@ class DatabaseMigration : AutomaticSchemaMigration {
     }
 
     companion object {
-        const val VERSION = 77L
-        const val COMPATIBILITY_VERSION = 71L
+        const val VERSION = 78L
+        const val COMPATIBILITY_VERSION = 78L
     }
 }

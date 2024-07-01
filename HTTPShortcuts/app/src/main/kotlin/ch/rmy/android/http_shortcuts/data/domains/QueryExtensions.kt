@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.models.AppLock
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
@@ -17,6 +18,7 @@ import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.Widget
+import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import io.realm.kotlin.query.RealmQuery
 import io.realm.kotlin.query.Sort
 import io.realm.kotlin.types.RealmInstant
@@ -45,6 +47,9 @@ fun RealmContext.getVariableByKeyOrId(keyOrId: VariableKeyOrId): RealmQuery<Vari
 
 fun RealmContext.getTemporaryVariable(): RealmQuery<Variable> =
     get("${Variable.FIELD_ID} == $0", Variable.TEMPORARY_ID)
+
+fun RealmContext.getWorkingDirectory(workingDirectoryId: WorkingDirectoryId): RealmQuery<WorkingDirectory> =
+    get("${WorkingDirectory.FIELD_ID} == $0", workingDirectoryId)
 
 fun RealmContext.getPendingExecutions(shortcutId: ShortcutId? = null, waitForNetwork: Boolean? = null): RealmQuery<PendingExecution> {
     logInfo("getPendingExecution for shortcutId=$shortcutId, waitForNetwork=$waitForNetwork")

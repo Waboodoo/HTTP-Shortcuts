@@ -19,6 +19,7 @@ import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.UserException
@@ -43,6 +44,7 @@ constructor(
     @Assisted params: WorkerParameters,
     private val appRepository: AppRepository,
     private val shortcutRepository: ShortcutRepository,
+    private val workingDirectoryRepository: WorkingDirectoryRepository,
     private val httpRequester: HttpRequester,
     private val errorFormatter: ErrorFormatter,
 ) : CoroutineWorker(context, params) {
@@ -60,7 +62,15 @@ constructor(
             httpRequester
                 .executeShortcut(
                     context,
-                    shortcut,
+                    shortcut = shortcut,
+                    storeDirectoryUri = shortcut.responseHandling?.storeDirectoryId
+                        ?.let { workingDirectoryId ->
+                            try {
+                                workingDirectoryRepository.getWorkingDirectoryById(workingDirectoryId).directoryUri
+                            } catch (e: NoSuchElementException) {
+                                null
+                            }
+                        },
                     sessionId = params.sessionId,
                     variableValues = params.variableValues,
                     fileUploadResult = params.fileUploadResult,

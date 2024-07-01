@@ -168,6 +168,11 @@ constructor(
                     val persistedVariablesIds = persistedVariables.map { it.id }
                     oldBase.variables.removeIf { it.id in persistedVariablesIds }
                     oldBase.variables.addAll(persistedVariables)
+
+                    val persistedWorkingDirectories = copyOrUpdate(base.workingDirectories)
+                    val persistedWorkingDirectoryIds = persistedWorkingDirectories.map { it.id }
+                    oldBase.workingDirectories.removeIf { it.id in persistedWorkingDirectoryIds }
+                    oldBase.workingDirectories.addAll(persistedWorkingDirectories)
                 }
                 Importer.ImportMode.REPLACE -> {
                     if (base.title != null) {
@@ -185,6 +190,9 @@ constructor(
 
                     oldBase.certificatePins.clear()
                     oldBase.certificatePins.addAll(copyOrUpdate(base.certificatePins))
+
+                    oldBase.workingDirectories.clear()
+                    oldBase.workingDirectories.addAll(copyOrUpdate(base.workingDirectories))
                 }
             }
             oldBase.validate()

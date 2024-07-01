@@ -29,7 +29,7 @@ fun ResponseContent(
     responseFailureOutput: String,
     successMessage: String,
     storeResponseIntoFile: Boolean,
-    storeDirectory: String?,
+    storeDirectoryName: String?,
     storeFileName: String,
     replaceFileIfExists: Boolean,
     onResponseSuccessOutputChanged: (String) -> Unit,
@@ -129,7 +129,7 @@ fun ResponseContent(
 
         Checkbox(
             label = stringResource(R.string.label_store_response_into_file),
-            subtitle = storeDirectory?.let {
+            subtitle = storeDirectoryName?.let {
                 stringResource(R.string.subtitle_store_response_into_file_directory, it)
             },
             checked = storeResponseIntoFile,

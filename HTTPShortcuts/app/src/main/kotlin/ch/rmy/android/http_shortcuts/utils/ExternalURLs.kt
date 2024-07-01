@@ -7,6 +7,7 @@ object ExternalURLs {
     const val CATEGORIES_DOCUMENTATION = "$BASE_URL/categories"
     const val VARIABLES_DOCUMENTATION = "$BASE_URL/variables"
     const val SCRIPTING_DOCUMENTATION = "$BASE_URL/scripting#scripting"
+    const val WORKING_DIRECTORIES_DOCUMENTATION = "$BASE_URL/directories"
     const val IMPORT_EXPORT_DOCUMENTATION = "$BASE_URL/import-export"
     const val CERTIFICATE_PINNING_DOCUMENTATION = "$BASE_URL/advanced#certificate-pinning"
 
