@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.data.models
 
 import android.net.Uri
 import androidx.core.net.toUri
-import ch.rmy.android.framework.extensions.isInt
 import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.framework.extensions.toInstant
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId

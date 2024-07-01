@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.resolve
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
@@ -97,6 +98,13 @@ constructor(
             }
             .runIf(shortcut.acceptAllCertificates) {
                 insecure()
+            }
+            .runIf(
+                shortcut.responseHandling?.run {
+                    successOutput == ResponseHandling.SUCCESS_OUTPUT_NONE && failureOutput == ResponseHandling.FAILURE_OUTPUT_NONE
+                } == true
+            ) {
+                silent()
             }
             .build()
 }

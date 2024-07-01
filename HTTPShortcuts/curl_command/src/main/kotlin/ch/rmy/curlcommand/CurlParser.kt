@@ -131,6 +131,10 @@ class CurlParser private constructor(arguments: List<String>) {
                     builder.insecure()
                     continue@loop
                 }
+                "-s", "--silent" -> {
+                    builder.silent()
+                    continue@loop
+                }
                 "-I", "--head" -> {
                     builder.method("HEAD")
                     continue@loop
@@ -188,6 +192,8 @@ class CurlParser private constructor(arguments: List<String>) {
             "--get",
             "-k",
             "--insecure",
+            "-s",
+            "--silent",
             "--head",
             "-I",
         )

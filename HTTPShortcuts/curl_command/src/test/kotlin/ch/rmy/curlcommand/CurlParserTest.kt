@@ -212,6 +212,13 @@ class CurlParserTest {
     }
 
     @Test
+    fun `silent flag`() {
+        val target = "curl -s foo"
+        val command = CurlParser.parse(target)
+        assertTrue(command.silent)
+    }
+
+    @Test
     fun `head flag`() {
         val target = "curl --head foo"
         val command = CurlParser.parse(target)

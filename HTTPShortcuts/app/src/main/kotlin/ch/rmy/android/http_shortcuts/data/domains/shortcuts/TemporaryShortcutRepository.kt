@@ -523,6 +523,11 @@ constructor(
             if (curlCommand.insecure) {
                 shortcut.acceptAllCertificates = true
             }
+
+            if (curlCommand.silent) {
+                shortcut.responseHandling?.successOutput = ResponseHandling.SUCCESS_OUTPUT_NONE
+                shortcut.responseHandling?.failureOutput = ResponseHandling.FAILURE_OUTPUT_NONE
+            }
         }
     }
 

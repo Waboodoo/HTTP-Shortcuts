@@ -50,6 +50,18 @@ class CurlConstructorTest {
     }
 
     @Test
+    fun `silent flag`() {
+        val curlCommand = CurlCommand.Builder()
+            .silent()
+            .url("http://example.com")
+            .build()
+
+        val expected = "curl http://example.com --silent"
+        val actual = CurlConstructor.toCurlCommandString(curlCommand)
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun testCurlConstructorParsed() {
         val originalCommand = CurlCommand.Builder()
             .method("POST")

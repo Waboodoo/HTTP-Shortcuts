@@ -33,6 +33,8 @@ class CurlCommand internal constructor() : Serializable {
         private set
     var insecure: Boolean = false
         private set
+    var silent: Boolean = false
+        private set
 
     class Builder {
 
@@ -116,6 +118,10 @@ class CurlCommand internal constructor() : Serializable {
             curlCommand.insecure = true
         }
 
+        fun silent() = also {
+            curlCommand.silent = true
+        }
+
         fun build(): CurlCommand {
             if (forceGet) {
                 // TODO: This is a naive implementation, which is not generally correct
@@ -155,6 +161,8 @@ class CurlCommand internal constructor() : Serializable {
         if (isFormData != other.isFormData) return false
         if (proxyHost != other.proxyHost) return false
         if (proxyPort != other.proxyPort) return false
+        if (insecure != other.insecure) return false
+        if (silent != other.silent) return false
         return true
     }
 
@@ -170,6 +178,8 @@ class CurlCommand internal constructor() : Serializable {
         result = 31 * result + isFormData.hashCode()
         result = 31 * result + proxyHost.hashCode()
         result = 31 * result + proxyPort
+        result = 31 * result + insecure.hashCode()
+        result = 31 * result + silent.hashCode()
         return result
     }
 }

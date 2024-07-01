@@ -46,6 +46,10 @@ object CurlConstructor {
             builder.option("--insecure")
         }
 
+        if (curlCommand.silent) {
+            builder.option("--silent")
+        }
+
         return builder.build()
     }
 }
