@@ -18,6 +18,7 @@ plugins {
     alias(libs.plugins.realm) apply false
     alias(libs.plugins.hiltAndroid) apply false
     alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.compose.compiler) apply false
 }
 
 ext {

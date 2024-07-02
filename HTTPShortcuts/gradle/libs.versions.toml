@@ -29,9 +29,9 @@ hiltNavigationCompose = "1.2.0"
 hiltWork = "1.2.0"
 jbcrypt = "0.4"
 jsoup = "1.17.2"
-kotlin = "1.9.23"
+kotlin = "2.0.0"
 kotlinxCoroutines = "1.8.1"
-ksp = "1.9.23-1.0.20"
+ksp = "2.0.0-1.0.22"
 lifecycle = "2.7.0"
 liquidcore = "0.6.2"  # This is not the latest version, but it's the latest one that has a published artifact, and the newer ones lead to a larger build size without adding significant benefits, so I'm keeping this at the old version for now
 markdown = "0.7.0"
@@ -44,7 +44,7 @@ peko = "2.2.0"
 persistentCookieJar = "v1.0.1"
 playServicesLocation = "21.3.0"
 preference = "1.2.1"
-realm = "1.14.0"  # only update if it's really necessary, this thing grows larger with every version...
+realm = "2.0.0"  # only update if it's really necessary, this thing grows larger with every version...
 reorderable = "2.1.1"
 spotless = "6.4.2"
 taskerplugin = "0.4.10"
@@ -117,6 +117,7 @@ unmock = { module = "com.github.bjoernq:unmockplugin", version.ref = "unmockplug
 zoomable = { module = "net.engawapg.lib:zoomable", version.ref = "zoomable" }
 
 [plugins]
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

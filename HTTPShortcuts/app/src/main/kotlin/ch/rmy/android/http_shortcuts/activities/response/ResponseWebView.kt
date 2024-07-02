@@ -96,6 +96,7 @@ class ResponseWebView @JvmOverloads constructor(
 
     init {
         webViewClient = object : WebViewClient() {
+            @Deprecated("Deprecated in Java")
             override fun shouldOverrideUrlLoading(view: WebView, url: String) = consume {
                 onExternalUrl(url.toUri())
             }

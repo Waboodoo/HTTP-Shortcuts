@@ -14,6 +14,7 @@ plugins {
     id("io.realm.kotlin")
     id("de.mobilej.unmock")
     id("com.google.dagger.hilt.android")
+    alias(libs.plugins.compose.compiler)
 }
 
 val bugsnagAPIKey: String by rootProject.ext
@@ -160,10 +161,6 @@ android {
         renderScript = false
         resValues = false
         shaders = false
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.11"
     }
 
     packaging {
