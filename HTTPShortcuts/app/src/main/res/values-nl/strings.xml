@@ -1486,4 +1486,19 @@ Mogelijk moet je de app ook uitsluiten van Batterijoptimalisaties. Dit kun je vi
     <!-- Title of a generic warning dialog. The dialog may be used in various situations. -->
     <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
     <!-- Label for checkbox in editor, to allow JSON responses to be displayed as a table instead of plain JSON -->
+    <!-- Screen title, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <!-- Option in main screen's menu, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <!-- Empty state, shown in list when there are no Directories yet -->
+    <!-- Empty state instructions, shown in list when there are no directories yet -->
+    <!-- Message, shown in snackbar, to confirm to the user that a directory was created/mounted -->
+    <!-- Message, shown in snackbar, confirming to user that a directory was deleted. %1$s is a placeholder for the directory's name -->
+    <!-- Action button label, shown in context menu of Directories screen, to allow re-mounting a directory, i.e., connecting it to a directory in the device's file system -->
+    <!-- Generic action button label, shown in context menus, allows renaming things, e.g. directories -->
+    <!-- Subtitle shown below directory name on Directories screen, when a directory is not mounted, i.e., it is disconnected from its counterpart on the device's file system -->
+    <!-- Subtitle shown below directory name on Directories screen, to indicate when this directory was last read from or written to -->
+    <!-- Subtitle shown below directory name on Directories screen, to indicate that this directory was never read from or written to -->
+    <!-- Instructions: Shown at the top of the Directories screen when picking a directory that should be used for a specific feature -->
+    <!-- Dialog prompt to ask user to confirm deletion of a directory -->
+    <!-- Title for the dialog window that lets the user rename a directory -->
+    <!-- Error message, informing user that the entered directory name already exists -->
 </resources>

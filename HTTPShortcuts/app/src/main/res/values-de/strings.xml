@@ -1649,4 +1649,34 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="warning_message_malformed_json">Dein Request-Body enthält ungültiges JSON, was möglicherweise dazu führt, dass der Request fehlschlägt.\n\n%s</string>
     <!-- Label for checkbox in editor, to allow JSON responses to be displayed as a table instead of plain JSON -->
     <string name="label_json_array_as_table">JSON-Array als Tabelle anzeigen</string>
+    <!-- Screen title, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="title_working_directories">Eingehängte Verzeichnisse</string>
+    <!-- Option in main screen's menu, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="menu_action_working_directories">Verzeichnisse</string>
+    <!-- Empty state, shown in list when there are no Directories yet -->
+    <string name="empty_state_working_directories">Du hast noch keine Verzeichnisse eingehängt.</string>
+    <!-- Empty state instructions, shown in list when there are no directories yet -->
+    <string name="empty_state_working_directories_instructions">Hier kannst du Verzeichnisse vom Dateisystem deines Geräts einhängen, was der App den Zugriff auf deren Inhalte und das Erstellen neuer Dateien ermöglicht.\n\nKlicke auf den + Knopf um ein Verzeichnis einzuhängen.</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a directory was created/mounted -->
+    <string name="message_working_directory_mounted">Verzeichnis eingehängt.</string>
+    <!-- Message, shown in snackbar, confirming to user that a directory was deleted. %1$s is a placeholder for the directory's name -->
+    <string name="working_directory_deleted">\“%1$s\” gelöscht.</string>
+    <!-- Action button label, shown in context menu of Directories screen, to allow re-mounting a directory, i.e., connecting it to a directory in the device's file system -->
+    <string name="button_mount_working_directory">Einhängen</string>
+    <!-- Generic action button label, shown in context menus, allows renaming things, e.g. directories -->
+    <string name="action_rename">Umbenennen</string>
+    <!-- Subtitle shown below directory name on Directories screen, when a directory is not mounted, i.e., it is disconnected from its counterpart on the device's file system -->
+    <string name="working_directory_unmounted_subtitle">Nicht eingehängt</string>
+    <!-- Subtitle shown below directory name on Directories screen, to indicate when this directory was last read from or written to -->
+    <string name="working_directory_last_accessed">Letzter Zugriff: %s</string>
+    <!-- Subtitle shown below directory name on Directories screen, to indicate that this directory was never read from or written to -->
+    <string name="working_directory_never_accessed">Nie zugegriffen</string>
+    <!-- Instructions: Shown at the top of the Directories screen when picking a directory that should be used for a specific feature -->
+    <string name="instructions_select_directory">Wähle oder hänge ein neues Verzeichnis ein, um der App das Lesen und Schreiben von Dateien zu ermöglichen.</string>
+    <!-- Dialog prompt to ask user to confirm deletion of a directory -->
+    <string name="confirm_delete_working_directory_message">Diese Verzeichnis-Einhängung löschen? Das eigentliche Verzeichnis des Dateisystems bleibt unverändert und keine Dateien werden gelöscht.</string>
+    <!-- Title for the dialog window that lets the user rename a directory -->
+    <string name="title_rename_working_directory">Verzeichnis umbenennen</string>
+    <!-- Error message, informing user that the entered directory name already exists -->
+    <string name="validation_directory_name_already_exists">Ein Verzeichnis mit diesem Namen existiert bereits.</string>
 </resources>

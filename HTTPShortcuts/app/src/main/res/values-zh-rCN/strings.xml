@@ -1619,4 +1619,35 @@
     <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
     <string name="warning_message_malformed_json">您的请求正文包含无效的 JSON ，这可能会导致请求失败。\n\n%s</string>
     <!-- Label for checkbox in editor, to allow JSON responses to be displayed as a table instead of plain JSON -->
+    <string name="label_json_array_as_table">以表格形式展示JSON数组</string>
+    <!-- Screen title, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="title_working_directories">挂载的目录</string>
+    <!-- Option in main screen's menu, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="menu_action_working_directories">目录</string>
+    <!-- Empty state, shown in list when there are no Directories yet -->
+    <string name="empty_state_working_directories">您尚未挂载任何目录。</string>
+    <!-- Empty state instructions, shown in list when there are no directories yet -->
+    <string name="empty_state_working_directories_instructions">在这里，您可以从您设备的文件系统挂载目录，允许应用程序访问它们的内容并在其中创建新的文件。\n\n单击+按钮以挂载一个目录。</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a directory was created/mounted -->
+    <string name="message_working_directory_mounted">目录已挂载。</string>
+    <!-- Message, shown in snackbar, confirming to user that a directory was deleted. %1$s is a placeholder for the directory's name -->
+    <string name="working_directory_deleted">%1$s 已删除</string>
+    <!-- Action button label, shown in context menu of Directories screen, to allow re-mounting a directory, i.e., connecting it to a directory in the device's file system -->
+    <string name="button_mount_working_directory">挂载</string>
+    <!-- Generic action button label, shown in context menus, allows renaming things, e.g. directories -->
+    <string name="action_rename">重命名</string>
+    <!-- Subtitle shown below directory name on Directories screen, when a directory is not mounted, i.e., it is disconnected from its counterpart on the device's file system -->
+    <string name="working_directory_unmounted_subtitle">卸载</string>
+    <!-- Subtitle shown below directory name on Directories screen, to indicate when this directory was last read from or written to -->
+    <string name="working_directory_last_accessed">上次访问时间: %s</string>
+    <!-- Subtitle shown below directory name on Directories screen, to indicate that this directory was never read from or written to -->
+    <string name="working_directory_never_accessed">从未访问</string>
+    <!-- Instructions: Shown at the top of the Directories screen when picking a directory that should be used for a specific feature -->
+    <string name="instructions_select_directory">选择或挂载一个新目录以允许应用读取和写入其中的文件。</string>
+    <!-- Dialog prompt to ask user to confirm deletion of a directory -->
+    <string name="confirm_delete_working_directory_message">删除此目录挂载？文件系统上的实际目录将不会受影响，也不会删除任何文件。</string>
+    <!-- Title for the dialog window that lets the user rename a directory -->
+    <string name="title_rename_working_directory">重命名目录</string>
+    <!-- Error message, informing user that the entered directory name already exists -->
+    <string name="validation_directory_name_already_exists">另一个目录也是这个名称</string>
 </resources>
