@@ -1,3 +1,14 @@
+## Version 3.15.0
+
+### Improvements
+- If the response is a JSON array, there is now an option to display it as a table instead of raw JSON
+- The curl import and export now supports the `--silent` parameter
+- There is now a dedicated screen for managing directories, for granting the app access to reading and writing files. So far this is only used for storing HTTP responses into files, but it will be expanded upon in upcoming releases.
+
+### Bugfixes
+- In the widget, the label is now less likely to be truncated or hidden when there isn't enough space
+- When shortcuts are moved within the app, the shortcuts shown on the main app launcher are now also moved immediately
+
 ## Version 3.14.0
 
 ### Improvements
