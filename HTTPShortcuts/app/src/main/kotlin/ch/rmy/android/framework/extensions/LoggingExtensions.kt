@@ -11,30 +11,30 @@ object GlobalLogger {
         this.logging = logging
     }
 
-    internal fun logException(origin: String, e: Throwable) {
+    internal fun logException(origin: String?, e: Throwable) {
         logging?.logException(origin, e)
     }
 
-    internal fun logInfo(origin: String, message: String) {
+    internal fun logInfo(origin: String?, message: String) {
         logging?.logInfo(origin, message)
     }
 }
 
 interface Logging {
-    fun logException(origin: String, e: Throwable)
+    fun logException(origin: String?, e: Throwable)
 
-    fun logInfo(origin: String, message: String)
+    fun logInfo(origin: String?, message: String)
 }
 
 fun Any.logException(e: Throwable) {
-    GlobalLogger.logException(this.javaClass.name.ifEmpty { "anonymous" }, e)
+    GlobalLogger.logException(if (BuildConfig.DEBUG) this.javaClass.name.ifEmpty { "anonymous" } else null, e)
 }
 
 fun Any.logInfo(message: String) {
-    logInfo(this.javaClass.name.ifEmpty { "anonymous" }, message)
+    logInfo(if (BuildConfig.DEBUG) this.javaClass.name.ifEmpty { "anonymous" } else null, message)
 }
 
-fun logInfo(source: String, message: String) {
+fun logInfo(source: String?, message: String) {
     GlobalLogger.logInfo(source, message)
 }
 

@@ -82,9 +82,8 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
         }
     }
 
-    override fun logException(origin: String, e: Throwable) {
+    override fun logException(origin: String?, e: Throwable) {
         if (initialized && !shouldIgnore(e)) {
-            Bugsnag.leaveBreadcrumb("Logging exception from $origin")
             Bugsnag.notify(e)
         }
     }
@@ -96,9 +95,9 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
             e is InflateException ||
             e.stackTrace.any { it.className.contains("Miui") }
 
-    override fun logInfo(origin: String, message: String) {
+    override fun logInfo(origin: String?, message: String) {
         if (initialized) {
-            Bugsnag.leaveBreadcrumb("$origin: $message")
+            Bugsnag.leaveBreadcrumb("${origin?.plus(": ") ?: ""}$message")
         }
     }
 }
