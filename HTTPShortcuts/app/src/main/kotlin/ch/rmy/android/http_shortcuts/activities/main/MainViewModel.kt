@@ -504,6 +504,9 @@ constructor(
 
     fun onRemoveShortcutFromHomeScreen(shortcut: ShortcutPlaceholder) = runAction {
         removeShortcutFromHomeScreen(shortcut)
+        val categories = categoryRepository.getCategories()
+        this@MainViewModel.categories = categories
+        updateLauncherSettings(categories)
     }
 
     fun onSelectShortcut(shortcutId: ShortcutId) = runAction {
