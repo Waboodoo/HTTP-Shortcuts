@@ -8,6 +8,7 @@
 ### Bugfixes
 - In the widget, the label is now less likely to be truncated or hidden when there isn't enough space
 - When shortcuts are moved within the app, the shortcuts shown on the main app launcher are now also rearranged accordingly
+- When a shortcut that used the "Secondary Launcher App" option is deleted, the "Trigger Shortcut" app is properly removed from the launcher now
 
 ## Version 3.14.0
 
