@@ -102,3 +102,21 @@ Once you have configured a certificate pinning this way, all HTTP shortcuts that
 
 By default, HTTP requests to a server that uses a self-signed certificate will fail, as the trust chain can not be verified. In order to make such requests work, edit your shortcut and look for the "Advanced Technical Settings" section at the bottom. In there you will find the "Host Verification" option. Change it from "Secure Default" to "Check Certificate Fingerprint" only and then copy the SHA-1 or SHA-256 fingerprint of your certificate into the text field below. This will disable the normal host verification and instead only check the fingerprint of the certificate presented by the server. In either case your connection will be encrypted.
 
+<a name="tables"></a>
+## Displaying responses as a table
+
+If your HTTP response body is a JSON array, you have the option to display it as a table instead of as raw JSON. To enable this, open the "Response Handling" screen from the shortcut editor. There, make sure that "Display Type" is set to "Fullscreen Window", then click the "Display Settings" button. On the screen that opens, set the "Response Type" to "JSON" and enable the "Display JSON array as table" checkbox.
+
+You can also use this feature to display a custom table, by setting the "On Success" setting to "Show a message" instead of "Show the response", and then putting your custom JSON table into the "Message" field, e.g. via a [variable](variables.md) which is then set via the [setVariable](scripting.md#set-variable) Scripting function.
+
+Here's an example code snippet that generates a JSON array from a JS list, such that it could then be displayed as a table:
+
+```js
+const myList = [
+  {columnA: "A1", columnB: "B1"},
+  {columnA: "A2", columnB: "B2"},
+  {columnA: "A3", columnB: "B3"},
+]
+
+setVariable("myMessage", JSON.stringify(myList));
+```
