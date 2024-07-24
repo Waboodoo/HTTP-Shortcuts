@@ -260,7 +260,7 @@ class DatabaseMigration : AutomaticSchemaMigration {
             FileUploadTypeMigration().migrateRealm(migrationContext)
         }
 
-        if (oldVersion < 78) {
+        if (oldVersion in (58 until 78)) {
             WorkingDirectoryMigration().migrateRealm(migrationContext)
         }
 
