@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.documentation
 
 import android.net.Uri
 import ch.rmy.android.framework.extensions.isWebUrl
+import ch.rmy.android.framework.utils.WebViewChecker
 
 object DocumentationUrlManager {
 
@@ -49,6 +50,9 @@ object DocumentationUrlManager {
 
     fun canHandle(url: Uri): Boolean {
         if (!url.isWebUrl || url.host != DOCUMENTATION_HOST) {
+            return false
+        }
+        if (!WebViewChecker.isWebViewAvailable()) {
             return false
         }
         return url.path.orEmpty().trimStart('/') in SUPPORTED_PATHS

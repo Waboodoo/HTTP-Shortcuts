@@ -1,8 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.main.usecases
 
-import android.webkit.WebView
 import androidx.annotation.CheckResult
-import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.utils.WebViewChecker
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.VersionUtil
 import javax.inject.Inject
@@ -19,11 +18,7 @@ constructor(
         if (isPermanentlyHidden) {
             return false
         }
-        try {
-            // Try to access a harmless method on the WebView. This will fail if no WebView is installed.
-            WebView.setWebContentsDebuggingEnabled(false)
-        } catch (e: Exception) {
-            logException(e)
+        if (!WebViewChecker.isWebViewAvailable()) {
             return false
         }
         val version = versionUtil.getVersionName()
