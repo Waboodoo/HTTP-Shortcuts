@@ -10,6 +10,8 @@ import ch.rmy.android.http_shortcuts.data.domains.getCategoryById
 import ch.rmy.android.http_shortcuts.data.domains.getShortcutById
 import ch.rmy.android.http_shortcuts.data.domains.getShortcutByNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import io.realm.kotlin.ext.copyFromRealm
@@ -149,6 +151,9 @@ constructor(
                 }
                 headers.forEach { header ->
                     header.id = newUUID()
+                }
+                if (executionType == ShortcutExecutionType.APP.type && responseHandling == null) {
+                    responseHandling = ResponseHandling()
                 }
             }
             .let(::copyOrUpdate)
