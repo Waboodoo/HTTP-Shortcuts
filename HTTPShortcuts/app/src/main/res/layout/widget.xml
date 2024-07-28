@@ -22,8 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="2"
-            android:paddingTop="4dp"
+            android:lines="2"
+            android:paddingTop="3dp"
             android:textAlignment="center"
             android:textSize="18sp" />
     </LinearLayout>

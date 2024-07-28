@@ -101,6 +101,7 @@ private fun WidgetPreview(
             Text(
                 shortcutName,
                 color = labelColor,
+                minLines = 2,
                 maxLines = 2,
                 textAlign = TextAlign.Center,
                 overflow = TextOverflow.Ellipsis,
