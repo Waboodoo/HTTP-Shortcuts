@@ -171,6 +171,8 @@ class Shortcut() : RealmObject {
             proxy = value.type
         }
 
+    var excludeFromFileSharing: Boolean = false
+
     fun allowsBody(): Boolean =
         METHOD_POST == method ||
             METHOD_PUT == method ||
@@ -225,7 +227,8 @@ class Shortcut() : RealmObject {
             other.wifiSsid != wifiSsid ||
             other.clientCert != clientCert ||
             other.browserPackageName != browserPackageName ||
-            other.excludeFromHistory != excludeFromHistory
+            other.excludeFromHistory != excludeFromHistory ||
+            other.excludeFromFileSharing != excludeFromFileSharing
         ) {
             return false
         }

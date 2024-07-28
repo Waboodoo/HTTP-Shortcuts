@@ -33,6 +33,8 @@ fun ExecutionSettingsScreen() {
             excludeFromHistory = viewState.excludeFromHistory,
             repetitionInterval = viewState.repetitionInterval,
             canUseBiometrics = viewState.canUseBiometrics,
+            excludeFromFileSharing = viewState.excludeFromFileSharing,
+            usesFiles = viewState.usesFiles,
             onLauncherShortcutChanged = viewModel::onLauncherShortcutChanged,
             onSecondaryLauncherShortcutChanged = viewModel::onSecondaryLauncherShortcutChanged,
             onQuickSettingsTileShortcutChanged = viewModel::onQuickSettingsTileShortcutChanged,
@@ -41,6 +43,7 @@ fun ExecutionSettingsScreen() {
             onWaitForConnectionChanged = viewModel::onWaitForConnectionChanged,
             onDelayButtonClicked = viewModel::onDelayButtonClicked,
             onRepetitionIntervalChanged = viewModel::onRepetitionIntervalChanged,
+            onExcludeFromFileSharingChanged = viewModel::onExcludeFromFileSharingChanged,
         )
     }
 

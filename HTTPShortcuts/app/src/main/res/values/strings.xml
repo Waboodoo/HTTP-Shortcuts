@@ -638,6 +638,10 @@
     <string name="label_secondary_launcher_shortcut">Allow triggering via secondary launcher app</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="subtitle_secondary_launcher_shortcut">This is mainly useful in cases where regular home screen widgets can not be used.</string>
+    <!-- Label for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="label_shortcut_as_file_share_target">Allow receiving files from share dialog</string>
+    <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="subtitle_shortcut_as_file_share_target">Enabling this allows you to share files from other apps and use them for this shortcut\'s request body or form parameters.</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Allow triggering via Quick Settings Tile</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->

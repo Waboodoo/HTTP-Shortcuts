@@ -98,6 +98,12 @@ constructor(
         }
     }
 
+    suspend fun setExcludeFromFileSharingChanged(exclude: Boolean) {
+        commitTransactionForShortcut { shortcut ->
+            shortcut.excludeFromFileSharing = exclude
+        }
+    }
+
     suspend fun setMethod(method: String) {
         commitTransactionForShortcut { shortcut ->
             shortcut.method = method

@@ -44,9 +44,12 @@ constructor() {
     }
 
     fun isFileShareTarget(shortcut: Shortcut, forImage: Boolean? = null): Boolean =
-        shortcut.hasFileParameter(forImage) ||
-            shortcut.usesGenericFileBody() ||
-            (forImage != false && shortcut.fileUploadOptions?.type == FileUploadType.CAMERA)
+        !shortcut.excludeFromFileSharing &&
+            (
+                shortcut.hasFileParameter(forImage) ||
+                    shortcut.usesGenericFileBody() ||
+                    (forImage != false && shortcut.fileUploadOptions?.type == FileUploadType.CAMERA)
+                )
 
     companion object {
         private const val TYPE_TEXT = "text/plain"

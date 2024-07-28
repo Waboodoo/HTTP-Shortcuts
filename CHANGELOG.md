@@ -1,3 +1,12 @@
+## Version 3.16.0
+
+### Improvements
+- You can now exclude shortcuts from being able to receive files from the Share dialog, similar to how it was already possible to exclude variables. This option can be found on the "Trigger & Execution Settings" screen.
+
+### Miscellaneous
+
+### Bugfixes
+
 ## Version 3.15.0
 
 ### Improvements
