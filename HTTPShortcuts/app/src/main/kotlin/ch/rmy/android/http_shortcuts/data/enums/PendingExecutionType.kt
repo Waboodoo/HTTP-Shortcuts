@@ -11,7 +11,7 @@ enum class PendingExecutionType {
 
     companion object {
         fun parse(name: String?) =
-            values().firstOrNull { it.name == name }
+            entries.firstOrNull { it.name == name }
                 ?: UNKNOWN
     }
 }

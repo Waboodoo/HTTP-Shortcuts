@@ -16,7 +16,7 @@ enum class ShortcutAuthenticationType(
 
     companion object {
         fun parse(type: String?) =
-            values().firstOrNull { it.type == type }
+            entries.firstOrNull { it.type == type }
                 ?: NONE
     }
 }

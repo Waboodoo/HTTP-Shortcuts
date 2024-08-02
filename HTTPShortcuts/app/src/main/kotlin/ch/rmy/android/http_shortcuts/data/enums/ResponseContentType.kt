@@ -11,6 +11,6 @@ enum class ResponseContentType(val key: String) {
 
     companion object {
         fun parse(key: String) =
-            values().firstOrNull { it.key == key }
+            entries.firstOrNull { it.key == key }
     }
 }

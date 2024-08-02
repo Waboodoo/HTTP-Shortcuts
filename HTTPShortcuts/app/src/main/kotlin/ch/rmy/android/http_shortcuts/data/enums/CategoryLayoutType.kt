@@ -17,7 +17,7 @@ enum class CategoryLayoutType(
 
     companion object {
         fun parse(type: String?) =
-            values().firstOrNull { it.type == type || (it.legacyAlias != null && it.legacyAlias == type) }
+            entries.firstOrNull { it.type == type || (it.legacyAlias != null && it.legacyAlias == type) }
                 ?: LINEAR_LIST
     }
 }
