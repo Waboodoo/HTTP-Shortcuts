@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.scheduling
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
-import android.os.Build
 import android.os.SystemClock
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import javax.inject.Inject
@@ -34,7 +33,7 @@ constructor(
             context,
             requestCode,
             intent,
-            (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0) or PendingIntent.FLAG_CANCEL_CURRENT,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT,
         )
     }
 

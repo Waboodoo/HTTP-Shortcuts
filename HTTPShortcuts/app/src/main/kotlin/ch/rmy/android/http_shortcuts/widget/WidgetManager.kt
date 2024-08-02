@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.util.TypedValue.COMPLEX_UNIT_SP
 import android.view.View
 import android.widget.RemoteViews
@@ -52,10 +51,7 @@ constructor(
                     .trigger(ShortcutTriggerType.WIDGET)
                     .build(context)
                     .let { intent ->
-                        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            PendingIntent.FLAG_IMMUTABLE
-                        } else 0
-                        PendingIntent.getActivity(context, widget.widgetId, intent, flags)
+                        PendingIntent.getActivity(context, widget.widgetId, intent, PendingIntent.FLAG_IMMUTABLE)
                     }
             )
             if (widget.showLabel) {
@@ -66,11 +62,7 @@ constructor(
             } else {
                 views.setViewVisibility(R.id.widget_label, View.GONE)
             }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                views.setImageViewIcon(R.id.widget_icon, IconUtil.getIcon(context, shortcut.icon, adaptive = false))
-            } else {
-                views.setImageViewUri(R.id.widget_icon, shortcut.icon.getIconURI(context, external = true))
-            }
+            views.setImageViewIcon(R.id.widget_icon, IconUtil.getIcon(context, shortcut.icon, adaptive = false))
 
             AppWidgetManager.getInstance(context)
                 .updateAppWidget(widget.widgetId, views)

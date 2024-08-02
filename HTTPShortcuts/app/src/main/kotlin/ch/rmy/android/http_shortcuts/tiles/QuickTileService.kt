@@ -98,10 +98,7 @@ class QuickTileService : TileService() {
     @SuppressLint("StartActivityAndCollapseDeprecated")
     private fun startIntent(intent: Intent) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PendingIntent.FLAG_IMMUTABLE
-            } else 0
-            val pendingIntent = PendingIntent.getActivity(context, 0, intent, flags)
+            val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
             startActivityAndCollapse(pendingIntent)
         } else {
             startActivityAndCollapse(intent)

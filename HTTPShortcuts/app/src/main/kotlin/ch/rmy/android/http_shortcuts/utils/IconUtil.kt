@@ -8,7 +8,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.Icon
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.getSystemService
 import androidx.core.graphics.drawable.DrawableCompat
@@ -38,7 +37,6 @@ object IconUtil {
         "(${quote(CUSTOM_ICON_NAME_SUFFIX)}|${quote(CUSTOM_ICON_NAME_ALTERNATIVE_SUFFIX)})"
     private val CUSTOM_ICON_NAME_PATTERN = CUSTOM_ICON_NAME_REGEX.toPattern(Pattern.CASE_INSENSITIVE)
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     fun getIcon(context: Context, icon: ShortcutIcon, adaptive: Boolean): Icon? = try {
         when (icon) {
             is ShortcutIcon.NoIcon -> {

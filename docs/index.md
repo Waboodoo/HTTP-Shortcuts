@@ -29,7 +29,9 @@ If you find bugs, have questions or feature requests, feel free to [contact me](
 - Import & Export in JSON or cURL format
 - 3rd party integration (e.g. Tasker, Wireguard)
 - Configure it from your browser using the [Web Editor](https://http-shortcuts.rmy.ch/editor)
-- Runs on Android 5 (Lollipop) or newer. For Android 4.0 - Android 4.4.4, download and [install the APK of version 2.9.0](https://github.com/Waboodoo/HTTP-Shortcuts/releases/tag/v2.9.0).
+- Runs on Android 6 (Marshmallow) or newer.
+  - For Android 5, download and [install the APK of version 3.14.0](https://github.com/Waboodoo/HTTP-Shortcuts/releases/tag/v3.14.0).
+  - For Android 4.0 - Android 4.4.4, download and [install the APK of version 2.9.0](https://github.com/Waboodoo/HTTP-Shortcuts/releases/tag/v2.9.0).
 
 ## Screenshots
 ![Main Screen](../assets/screenshots/01.png)

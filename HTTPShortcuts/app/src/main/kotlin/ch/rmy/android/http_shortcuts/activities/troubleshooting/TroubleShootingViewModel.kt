@@ -36,10 +36,7 @@ constructor(
         selectedClickActionOption = settings.clickBehavior,
         crashReportingAllowed = settings.isCrashReportingAllowed,
         colorTheme = settings.colorTheme,
-        batteryOptimizationButtonVisible = restrictionsUtil.run {
-            canRequestIgnoreBatteryOptimization() && !isIgnoringBatteryOptimizations()
-        },
-        allowOverlayButtonVisible = restrictionsUtil.canAllowOverlay(),
+        batteryOptimizationButtonVisible = !restrictionsUtil.isIgnoringBatteryOptimizations(),
         allowXiaomiOverlayButtonVisible = restrictionsUtil.hasPermissionEditor(),
         experimentalExecutionModeEnabled = settings.useExperimentalExecutionMode,
     )
@@ -66,7 +63,7 @@ constructor(
     }
 
     fun onAllowOverlayButtonClicked() = runAction {
-        sendIntent(appOverlayUtil.getSettingsIntent() ?: skipAction())
+        sendIntent(appOverlayUtil.getSettingsIntent())
     }
 
     fun onAllowXiaomiOverlayButtonClicked() = runAction {
@@ -74,7 +71,7 @@ constructor(
     }
 
     fun onBatteryOptimizationButtonClicked() = runAction {
-        sendIntent(restrictionsUtil.getRequestIgnoreBatteryOptimizationIntent() ?: skipAction())
+        sendIntent(restrictionsUtil.getRequestIgnoreBatteryOptimizationIntent())
     }
 
     fun onDocumentationButtonClicked() = runAction {

@@ -30,20 +30,13 @@ constructor(
                 ?: false
         } else false
 
-    fun canRequestIgnoreBatteryOptimization(): Boolean =
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-
-    fun getRequestIgnoreBatteryOptimizationIntent(): Intent? =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Intent(ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, "package:$packageName".toUri())
-        } else null
+    fun getRequestIgnoreBatteryOptimizationIntent(): Intent =
+        Intent(ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, "package:$packageName".toUri())
 
     fun isIgnoringBatteryOptimizations(): Boolean =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            context.getSystemService<PowerManager>()
-                ?.isIgnoringBatteryOptimizations(packageName)
-                ?: true
-        } else true
+        context.getSystemService<PowerManager>()
+            ?.isIgnoringBatteryOptimizations(packageName)
+            ?: true
 
     fun hasPermissionEditor() =
         Build.MANUFACTURER?.equals("xiaomi", ignoreCase = true) == true
@@ -52,9 +45,6 @@ constructor(
         Intent("miui.intent.action.APP_PERM_EDITOR")
             .setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity")
             .putExtra("extra_pkgname", packageName)
-
-    fun canAllowOverlay(): Boolean =
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 
     fun canCreateQuickSettingsTiles(): Boolean =
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU

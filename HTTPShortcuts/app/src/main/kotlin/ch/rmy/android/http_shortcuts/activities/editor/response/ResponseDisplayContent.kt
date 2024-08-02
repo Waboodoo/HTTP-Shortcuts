@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.activities.editor.response
 
-import android.os.Build
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -131,7 +130,7 @@ fun ResponseDisplayContent(
         }
 
         if (responseUiType == ResponseHandling.UI_TYPE_WINDOW) {
-            AnimatedVisibility(visible = responseContentType == ResponseContentType.JSON && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            AnimatedVisibility(visible = responseContentType == ResponseContentType.JSON) {
                 Checkbox(
                     label = stringResource(R.string.label_json_array_as_table),
                     checked = jsonArrayAsTable,

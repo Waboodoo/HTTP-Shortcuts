@@ -231,8 +231,7 @@ constructor(
 
     fun onAppOverlayConfigureButtonClicked() = runAction {
         updateDialogState(null)
-        appOverlayUtil.getSettingsIntent()
-            ?.let { sendIntent(it) }
+        sendIntent(appOverlayUtil.getSettingsIntent())
     }
 
     private suspend fun updateLauncherSettings(categories: List<Category>) {

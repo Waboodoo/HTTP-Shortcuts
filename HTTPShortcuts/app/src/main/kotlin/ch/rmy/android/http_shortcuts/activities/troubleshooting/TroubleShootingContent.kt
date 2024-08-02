@@ -23,7 +23,6 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 @Composable
 fun TroubleShootingContent(
     batteryOptimizationButtonVisible: Boolean,
-    allowOverlayButtonVisible: Boolean,
     allowXiaomiOverlayButtonVisible: Boolean,
     onEventHistoryClicked: () -> Unit,
     onClearCookiesButtonClicked: () -> Unit,
@@ -57,14 +56,12 @@ fun TroubleShootingContent(
             onClick = onCancelAllPendingExecutionsButtonClicked,
         )
 
-        if (allowOverlayButtonVisible) {
-            SettingsButton(
-                icon = Icons.Outlined.Layers,
-                title = stringResource(R.string.settings_allow_overlay),
-                subtitle = stringResource(R.string.settings_allow_overlay_summary),
-                onClick = onAllowOverlayButtonClicked,
-            )
-        }
+        SettingsButton(
+            icon = Icons.Outlined.Layers,
+            title = stringResource(R.string.settings_allow_overlay),
+            subtitle = stringResource(R.string.settings_allow_overlay_summary),
+            onClick = onAllowOverlayButtonClicked,
+        )
 
         if (allowXiaomiOverlayButtonVisible) {
             SettingsButton(

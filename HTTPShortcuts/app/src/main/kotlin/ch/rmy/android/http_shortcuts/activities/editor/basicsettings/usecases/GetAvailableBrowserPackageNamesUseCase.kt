@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.editor.basicsettings.usecases
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.models.InstalledBrowser
@@ -17,7 +16,7 @@ constructor(
     operator fun invoke(currentValue: String?): List<InstalledBrowser> =
         context.packageManager.queryIntentActivities(
             Intent(Intent.ACTION_VIEW, "https://http-shortcuts.rmy.ch".toUri()),
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PackageManager.MATCH_ALL else 0,
+            PackageManager.MATCH_ALL,
         )
             .map {
                 InstalledBrowser(

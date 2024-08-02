@@ -16,7 +16,6 @@ fun TroubleShootingScreen() {
     ) { viewState ->
         TroubleShootingContent(
             batteryOptimizationButtonVisible = viewState.batteryOptimizationButtonVisible,
-            allowOverlayButtonVisible = viewState.allowOverlayButtonVisible,
             allowXiaomiOverlayButtonVisible = viewState.allowXiaomiOverlayButtonVisible,
             onEventHistoryClicked = viewModel::onEventHistoryClicked,
             onClearCookiesButtonClicked = viewModel::onClearCookiesButtonClicked,

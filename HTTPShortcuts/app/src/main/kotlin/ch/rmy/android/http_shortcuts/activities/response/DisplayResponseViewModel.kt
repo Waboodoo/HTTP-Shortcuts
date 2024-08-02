@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.response
 import android.app.Application
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
@@ -89,7 +88,7 @@ constructor(
                 withContext(Dispatchers.Default) {
                     try {
                         val json = JsonParser.parseString(responseText)
-                        val table = if (responseData.jsonArrayAsTable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        val table = if (responseData.jsonArrayAsTable) {
                             getTableData(json)
                         } else null
                         updateViewState {

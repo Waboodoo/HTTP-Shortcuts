@@ -145,8 +145,7 @@ constructor(
 
     fun onAppOverlayDialogConfirmed() = runAction {
         updateDialogState(null)
-        val intent = appOverlayUtil.getSettingsIntent() ?: skipAction()
-        sendIntent(intent)
+        sendIntent(appOverlayUtil.getSettingsIntent())
     }
 
     fun onDelayButtonClicked() = runAction {
