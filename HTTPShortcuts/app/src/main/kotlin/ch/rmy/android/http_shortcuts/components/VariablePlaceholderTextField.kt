@@ -162,6 +162,7 @@ fun VariablePlaceholderTextField(
     minLines: Int = 1,
     singleLine: Boolean = false,
     transformation: AnnotatedString.Builder.(String) -> Unit = {},
+    showVariableButton: Boolean = true,
 ) {
     val viewModel = hiltViewModel<VariablePlaceholderViewModel>()
     val placeholders by viewModel.variablePlaceholders.collectAsStateWithLifecycle()
@@ -224,19 +225,21 @@ fun VariablePlaceholderTextField(
         minLines = minLines,
         singleLine = singleLine,
         placeholder = placeholder,
-        trailingIcon = {
-            IconButton(
-                onClick = {
-                    logInfo("VariablePlaceholderTextField", "Variable button clicked")
-                    dialogVisible = true
-                },
-            ) {
-                Icon(
-                    Icons.Filled.DataObject,
-                    contentDescription = stringResource(R.string.accessibility_variable_field_button),
-                )
+        trailingIcon = if (showVariableButton) {
+            {
+                IconButton(
+                    onClick = {
+                        logInfo("VariablePlaceholderTextField", "Variable button clicked")
+                        dialogVisible = true
+                    },
+                ) {
+                    Icon(
+                        Icons.Filled.DataObject,
+                        contentDescription = stringResource(R.string.accessibility_variable_field_button),
+                    )
+                }
             }
-        },
+        } else null,
         visualTransformation = {
             transformVariablePlaceholders(it.text, placeholders, placeholderStyle, transformation)
         },

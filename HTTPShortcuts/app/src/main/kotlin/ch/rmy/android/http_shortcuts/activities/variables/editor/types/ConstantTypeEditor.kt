@@ -28,5 +28,6 @@ fun ConstantTypeEditor(
             onViewStateChanged(viewState.copy(value = it))
         },
         maxLines = 12,
+        showVariableButton = false,
     )
 }
