@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 @Stable
 data class WidgetSettingsViewState(
     val showLabel: Boolean,
+    val showIcon: Boolean,
     val labelColor: Int,
     val shortcutName: String,
     val shortcutIcon: ShortcutIcon,

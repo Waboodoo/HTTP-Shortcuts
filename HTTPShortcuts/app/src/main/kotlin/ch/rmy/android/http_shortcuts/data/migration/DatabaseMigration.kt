@@ -264,6 +264,12 @@ class DatabaseMigration : AutomaticSchemaMigration {
             WorkingDirectoryMigration().migrateRealm(migrationContext)
         }
 
+        if (oldVersion < 80 && oldVersion >= 36) {
+            migrationContext.enumerate("Widget") { _, newWidget ->
+                newWidget?.set("showIcon", true)
+            }
+        }
+
         // update version number
         newRealm.query("Base")
             .first()
@@ -275,7 +281,7 @@ class DatabaseMigration : AutomaticSchemaMigration {
     }
 
     companion object {
-        const val VERSION = 79L
+        const val VERSION = 80L
         const val COMPATIBILITY_VERSION = 78L
     }
 }

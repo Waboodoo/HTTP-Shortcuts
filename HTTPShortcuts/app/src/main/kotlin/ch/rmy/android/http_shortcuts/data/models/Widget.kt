@@ -10,11 +10,13 @@ class Widget() : RealmObject {
         shortcut: Shortcut? = null,
         labelColor: String? = null,
         showLabel: Boolean = true,
+        showIcon: Boolean = true,
     ) : this() {
         this.widgetId = widgetId
         this.shortcut = shortcut
         this.labelColor = labelColor
         this.showLabel = showLabel
+        this.showIcon = showIcon
     }
 
     @PrimaryKey
@@ -22,6 +24,7 @@ class Widget() : RealmObject {
     var shortcut: Shortcut? = null
     var labelColor: String? = null
     var showLabel: Boolean = true
+    var showIcon: Boolean = true
 
     companion object {
         const val FIELD_WIDGET_ID = "widgetId"

@@ -16,13 +16,20 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRepository(realmFactory) {
 
-    suspend fun createWidget(widgetId: Int, shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) {
+    suspend fun createWidget(
+        widgetId: Int,
+        shortcutId: ShortcutId,
+        showLabel: Boolean,
+        showIcon: Boolean,
+        labelColor: String?,
+    ) {
         commitTransaction {
             copyOrUpdate(
                 Widget(
                     widgetId = widgetId,
                     shortcut = getShortcutById(shortcutId).findFirst(),
                     showLabel = showLabel,
+                    showIcon = showIcon,
                     labelColor = labelColor,
                 )
             )

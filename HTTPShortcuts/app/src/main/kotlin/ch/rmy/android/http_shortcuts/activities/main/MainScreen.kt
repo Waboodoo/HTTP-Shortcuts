@@ -73,6 +73,7 @@ fun MainScreen(
                 viewModel.onWidgetSettingsSubmitted(
                     shortcutId = result.shortcutId,
                     showLabel = result.showLabel,
+                    showIcon = result.showIcon,
                     labelColor = result.labelColor,
                 )
             }

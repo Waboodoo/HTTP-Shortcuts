@@ -32,11 +32,13 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon as ShortcutIconModel
 @Composable
 fun WidgetSettingsContent(
     showLabel: Boolean,
+    showIcon: Boolean,
     labelColor: Color,
     labelColorText: String,
     shortcutName: String,
     shortcutIcon: ShortcutIconModel,
     onShowLabelChanged: (Boolean) -> Unit,
+    onShowIconChanged: (Boolean) -> Unit,
     onLabelColorButtonClicked: () -> Unit,
 ) {
     Column(
@@ -52,10 +54,11 @@ fun WidgetSettingsContent(
             contentAlignment = Alignment.Center,
         ) {
             WidgetPreview(
-                showLabel,
-                labelColor,
-                shortcutName,
-                shortcutIcon,
+                showLabel = showLabel,
+                showIcon = showIcon,
+                labelColor = labelColor,
+                shortcutName = shortcutName,
+                shortcutIcon = shortcutIcon,
             )
         }
 
@@ -63,8 +66,18 @@ fun WidgetSettingsContent(
 
         Checkbox(
             checked = showLabel,
+            enabled = showIcon,
             label = stringResource(R.string.label_show_widget_label),
             onCheckedChange = onShowLabelChanged,
+        )
+
+        HorizontalDivider()
+
+        Checkbox(
+            checked = showIcon,
+            enabled = showLabel,
+            label = stringResource(R.string.label_show_widget_icon),
+            onCheckedChange = onShowIconChanged,
         )
 
         HorizontalDivider()
@@ -83,6 +96,7 @@ fun WidgetSettingsContent(
 @Composable
 private fun WidgetPreview(
     showLabel: Boolean,
+    showIcon: Boolean,
     labelColor: Color,
     shortcutName: String,
     shortcutIcon: ShortcutIconModel,
@@ -95,14 +109,16 @@ private fun WidgetPreview(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(Spacing.SMALL, Alignment.CenterVertically)
     ) {
-        ShortcutIcon(shortcutIcon)
+        if (showIcon) {
+            ShortcutIcon(shortcutIcon)
+        }
 
         if (showLabel) {
             Text(
                 shortcutName,
                 color = labelColor,
-                minLines = 2,
-                maxLines = 2,
+                minLines = if (showIcon) 2 else 1,
+                maxLines = if (showIcon) 2 else 4,
                 textAlign = TextAlign.Center,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -115,6 +131,7 @@ private fun WidgetPreview(
 private fun WidgetPreview_Preview1() {
     WidgetPreview(
         showLabel = true,
+        showIcon = true,
         labelColor = Color.White,
         shortcutName = "Shortcut",
         shortcutIcon = ShortcutIconModel.NoIcon,
@@ -126,6 +143,7 @@ private fun WidgetPreview_Preview1() {
 private fun WidgetPreview_Preview2() {
     WidgetPreview(
         showLabel = true,
+        showIcon = true,
         labelColor = Color.Red,
         shortcutName = "Shortcut with a rather long text",
         shortcutIcon = ShortcutIconModel.NoIcon,
@@ -137,6 +155,19 @@ private fun WidgetPreview_Preview2() {
 private fun WidgetPreview_Preview3() {
     WidgetPreview(
         showLabel = false,
+        showIcon = true,
+        labelColor = Color.White,
+        shortcutName = "Shortcut",
+        shortcutIcon = ShortcutIconModel.NoIcon,
+    )
+}
+
+@Preview
+@Composable
+private fun WidgetPreview_Preview4() {
+    WidgetPreview(
+        showLabel = true,
+        showIcon = false,
         labelColor = Color.White,
         shortcutName = "Shortcut",
         shortcutIcon = ShortcutIconModel.NoIcon,

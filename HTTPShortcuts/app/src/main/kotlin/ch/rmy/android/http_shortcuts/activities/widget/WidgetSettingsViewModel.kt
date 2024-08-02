@@ -32,6 +32,7 @@ constructor(
     override suspend fun initialize(data: InitData) =
         WidgetSettingsViewState(
             showLabel = true,
+            showIcon = true,
             labelColor = Color.WHITE,
             shortcutIcon = shortcutIcon,
             shortcutName = shortcutName,
@@ -46,6 +47,12 @@ constructor(
     fun onShowLabelChanged(enabled: Boolean) = runAction {
         updateViewState {
             copy(showLabel = enabled)
+        }
+    }
+
+    fun onShowIconChanged(enabled: Boolean) = runAction {
+        updateViewState {
+            copy(showIcon = enabled)
         }
     }
 
@@ -64,6 +71,7 @@ constructor(
                 shortcutId = shortcutId,
                 labelColor = viewState.labelColorFormatted,
                 showLabel = viewState.showLabel,
+                showIcon = viewState.showIcon,
             ),
         )
     }

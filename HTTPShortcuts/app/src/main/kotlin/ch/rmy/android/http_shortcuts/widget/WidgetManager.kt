@@ -24,8 +24,14 @@ constructor(
     private val widgetsRepository: WidgetsRepository,
 ) {
 
-    suspend fun createWidget(widgetId: Int, shortcutId: ShortcutId, showLabel: Boolean, labelColor: String?) {
-        widgetsRepository.createWidget(widgetId, shortcutId, showLabel, labelColor)
+    suspend fun createWidget(
+        widgetId: Int,
+        shortcutId: ShortcutId,
+        showLabel: Boolean,
+        showIcon: Boolean,
+        labelColor: String?,
+    ) {
+        widgetsRepository.createWidget(widgetId, shortcutId, showLabel, showIcon, labelColor)
     }
 
     suspend fun updateWidgets(context: Context, widgetIds: List<Int>) {
@@ -62,7 +68,15 @@ constructor(
             } else {
                 views.setViewVisibility(R.id.widget_label, View.GONE)
             }
-            views.setImageViewIcon(R.id.widget_icon, IconUtil.getIcon(context, shortcut.icon, adaptive = false))
+            if (widget.showIcon) {
+                if (widget.showLabel) {
+                    views.setInt(R.id.widget_label, "setLines", 2)
+                }
+                views.setImageViewIcon(R.id.widget_icon, IconUtil.getIcon(context, shortcut.icon, adaptive = false))
+            } else {
+                views.setInt(R.id.widget_label, "setMaxLines", 4)
+                views.setViewVisibility(R.id.widget_icon, View.GONE)
+            }
 
             AppWidgetManager.getInstance(context)
                 .updateAppWidget(widget.widgetId, views)
