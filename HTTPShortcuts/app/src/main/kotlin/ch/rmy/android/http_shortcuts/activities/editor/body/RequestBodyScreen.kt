@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.editor.body
 
+import android.content.ActivityNotFoundException
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.animation.AnimatedVisibility
@@ -10,11 +11,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.launch
+import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.FloatingAddButton
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.bindViewModel
+import ch.rmy.android.http_shortcuts.logging.Logging.logException
 import ch.rmy.android.http_shortcuts.utils.PickFileContract
 
 @Composable
@@ -32,10 +35,20 @@ fun RequestBodyScreen() {
     EventHandler { event ->
         when (event) {
             is RequestBodyEvent.PickFileForBody -> consume {
-                pickFileForBody.launch()
+                try {
+                    pickFileForBody.launch()
+                } catch (e: ActivityNotFoundException) {
+                    logException("RequestBodyScreen", e)
+                    context.showToast(R.string.error_not_supported)
+                }
             }
             is RequestBodyEvent.PickFileForParameter -> consume {
-                pickFileForParameter.launch()
+                try {
+                    pickFileForParameter.launch()
+                } catch (e: ActivityNotFoundException) {
+                    logException("RequestBodyScreen", e)
+                    context.showToast(R.string.error_not_supported)
+                }
             }
             else -> false
         }
