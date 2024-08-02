@@ -35,16 +35,20 @@ constructor() : Action<ParseHTMLAction.Params> {
     private fun processNode(node: Node): JSONObject {
         val element = createElement(node.normalName(), node.attributes())
         node.childNodes().forEach { childNode ->
-            if (childNode is TextNode) {
-                val newText = childNode.text()
-                val text = element.optString("text") + newText
-                element.put("text", text)
-            } else if (childNode is DataNode) {
-                val newText = childNode.wholeData
-                val text = element.optString("text") + newText
-                element.put("text", text)
-            } else if (childNode is Element) {
-                element.getJSONArray("children").put(processNode(childNode))
+            when (childNode) {
+                is TextNode -> {
+                    val newText = childNode.text()
+                    val text = element.optString("text") + newText
+                    element.put("text", text)
+                }
+                is DataNode -> {
+                    val newText = childNode.wholeData
+                    val text = element.optString("text") + newText
+                    element.put("text", text)
+                }
+                is Element -> {
+                    element.getJSONArray("children").put(processNode(childNode))
+                }
             }
         }
         return element

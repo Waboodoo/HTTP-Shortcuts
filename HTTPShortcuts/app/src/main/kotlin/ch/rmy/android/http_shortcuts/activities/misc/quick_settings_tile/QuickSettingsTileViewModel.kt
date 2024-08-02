@@ -44,7 +44,7 @@ constructor(
         }
     }
 
-    private suspend fun executeShortcut(shortcutId: ShortcutId) {
+    private fun executeShortcut(shortcutId: ShortcutId) {
         executionStarter.execute(
             shortcutId = shortcutId,
             trigger = ShortcutTriggerType.QUICK_SETTINGS_TILE,

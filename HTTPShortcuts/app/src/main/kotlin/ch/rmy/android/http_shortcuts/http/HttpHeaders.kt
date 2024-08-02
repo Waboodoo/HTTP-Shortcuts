@@ -25,8 +25,6 @@ class HttpHeaders private constructor(private val headers: Map<String, List<Stri
 
         const val CONTENT_DISPOSITION = "Content-Disposition"
 
-        const val CONTENT_ENCODING = "Content-Encoding"
-
         const val CONTENT_LENGTH = "Content-Length"
 
         const val CONTENT_TYPE = "Content-Type"
