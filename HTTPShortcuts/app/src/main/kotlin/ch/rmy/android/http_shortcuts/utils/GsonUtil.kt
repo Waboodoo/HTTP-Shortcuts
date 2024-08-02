@@ -61,7 +61,7 @@ object GsonUtil {
             .create()
             .fromJson(data, Base::class.java)
 
-    fun <T> fromJsonObject(jsonObject: String?): Map<String, T> {
+    inline fun <reified T> fromJsonObject(jsonObject: String?): Map<String, T> {
         if (jsonObject == null) {
             return emptyMap()
         }

@@ -93,6 +93,16 @@ class Variable() : RealmObject {
             }
         }
 
+    var isExcludeValueFromExport: Boolean
+        get() = flags and FLAG_EXCLUDE_VALUE_FROM_EXPORT != 0
+        set(value) {
+            flags = if (value) {
+                flags or FLAG_EXCLUDE_VALUE_FROM_EXPORT
+            } else {
+                flags and FLAG_EXCLUDE_VALUE_FROM_EXPORT.inv()
+            }
+        }
+
     fun isSameAs(other: Variable): Boolean {
         if (other.key != key ||
             other.type != type ||
@@ -161,5 +171,6 @@ class Variable() : RealmObject {
         private const val FLAG_SHARE_TEXT = 0x1
         private const val FLAG_MULTILINE = 0x2
         private const val FLAG_SHARE_TITLE = 0x4
+        private const val FLAG_EXCLUDE_VALUE_FROM_EXPORT = 0x8
     }
 }

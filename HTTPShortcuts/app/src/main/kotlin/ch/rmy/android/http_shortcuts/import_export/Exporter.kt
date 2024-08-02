@@ -23,6 +23,7 @@ import ch.rmy.android.http_shortcuts.data.models.Repetition
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import ch.rmy.android.http_shortcuts.usecases.GetUsedCustomIconsUseCase
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import io.realm.kotlin.ext.copyFromRealm
@@ -50,8 +51,16 @@ constructor(
         shortcutIds: Collection<ShortcutId>? = null,
         variableIds: Collection<VariableId>? = null,
         excludeDefaults: Boolean = false,
+        excludeVariableValuesIfNeeded: Boolean = true,
     ): ExportStatus {
         val base = getBase(shortcutIds, variableIds)
+        if (excludeVariableValuesIfNeeded) {
+            base.variables.forEach { variable ->
+                if (variable.isExcludeValueFromExport) {
+                    variable.value = ""
+                }
+            }
+        }
         return withContext(Dispatchers.IO) {
             when (format) {
                 ExportFormat.ZIP -> {
@@ -185,6 +194,7 @@ constructor(
             FileUploadOptions::class,
             ResponseHandling::class,
             Repetition::class,
+            WorkingDirectory::class,
         )
     }
 }

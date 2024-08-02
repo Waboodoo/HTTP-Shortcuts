@@ -124,6 +124,7 @@ constructor(
                         jsonEncodeChecked = variable.jsonEncode,
                         allowShareChecked = variable.isShareText || variable.isShareTitle,
                         shareSupport = variable.getShareSupport(),
+                        excludeValueFromExports = variable.isExcludeValueFromExport,
                     )
                 }
             }
@@ -132,6 +133,7 @@ constructor(
             dialogTitleVisible = variableType.supportsDialogTitle,
             dialogMessageVisible = variableType.supportsDialogMessage,
             variableTypeViewState = typeViewModel?.createViewState(variable),
+            excludeValueCheckboxVisible = variableType.storesValue,
         )
     }
 
@@ -299,6 +301,15 @@ constructor(
             return ShareSupport.TITLE
         }
         return ShareSupport.TEXT
+    }
+
+    fun onExcludeValueFromExportsChanged(exclude: Boolean) = runAction {
+        updateViewState {
+            copy(excludeValueFromExports = exclude)
+        }
+        withProgressTracking {
+            temporaryVariableRepository.setExcludeValueFromExports(exclude)
+        }
     }
 
     fun onDismissDialog() = runAction {

@@ -51,6 +51,8 @@ fun VariableEditorContent(
     dialogTitleVisible: Boolean,
     dialogMessageVisible: Boolean,
     shareSupportVisible: Boolean,
+    excludeValueCheckboxVisible: Boolean,
+    excludeValueFromExports: Boolean,
     onVariableKeyChanged: (String) -> Unit,
     onDialogTitleChanged: (String) -> Unit,
     onDialogMessageChanged: (String) -> Unit,
@@ -58,6 +60,7 @@ fun VariableEditorContent(
     onJsonEncodeChanged: (Boolean) -> Unit,
     onAllowShareChanged: (Boolean) -> Unit,
     onShareSupportChanged: (ShareSupport) -> Unit,
+    onExcludeValueFromExportsChanged: (Boolean) -> Unit,
     typeSpecificContent: @Composable ColumnScope.() -> Unit,
 ) {
     Column(
@@ -138,6 +141,15 @@ fun VariableEditorContent(
                         onShareSupportChanged = onShareSupportChanged,
                     )
                 }
+            }
+
+            if (excludeValueCheckboxVisible) {
+                Checkbox(
+                    label = stringResource(R.string.label_exclude_variable_value_from_exports),
+                    subtitle = stringResource(R.string.message_exclude_variable_value_from_exports_instructions),
+                    checked = excludeValueFromExports,
+                    onCheckedChange = onExcludeValueFromExportsChanged,
+                )
             }
         }
     }

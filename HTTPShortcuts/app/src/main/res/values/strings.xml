@@ -504,6 +504,10 @@
     <string name="label_url_encode">URL encode</string>
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">JSON encode</string>
+    <!-- Checkbox label, for option to enable/disable the exclusion of a variable's value in exports -->
+    <string name="label_exclude_variable_value_from_exports">Exclude stored value from exports</string>
+    <!-- Instructions shown below the "IExclude stored value from exports" checkbox in the variable editor -->
+    <string name="message_exclude_variable_value_from_exports_instructions">Enable this if you don\'t want this variable\'s stored value (if any) to be included in exports.</string>
     <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">Basic Settings</string>
     <!-- Error message, informing user that the entered variable name is empty -->

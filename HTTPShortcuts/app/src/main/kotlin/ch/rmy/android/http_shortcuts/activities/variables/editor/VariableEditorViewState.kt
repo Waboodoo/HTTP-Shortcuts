@@ -19,6 +19,8 @@ data class VariableEditorViewState(
     val allowShareChecked: Boolean = false,
     val shareSupport: ShareSupport = ShareSupport.TEXT,
     val variableTypeViewState: VariableTypeViewState?,
+    val excludeValueFromExports: Boolean = false,
+    val excludeValueCheckboxVisible: Boolean,
 ) {
     val shareSupportVisible: Boolean
         get() = allowShareChecked

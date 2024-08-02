@@ -52,6 +52,8 @@ fun VariableEditorScreen(
             dialogTitleVisible = viewState.dialogTitleVisible,
             dialogMessageVisible = viewState.dialogMessageVisible,
             shareSupportVisible = viewState.shareSupportVisible,
+            excludeValueCheckboxVisible = viewState.excludeValueCheckboxVisible,
+            excludeValueFromExports = viewState.excludeValueFromExports,
             onVariableKeyChanged = viewModel::onVariableKeyChanged,
             onDialogTitleChanged = viewModel::onDialogTitleChanged,
             onDialogMessageChanged = viewModel::onDialogMessageChanged,
@@ -59,6 +61,7 @@ fun VariableEditorScreen(
             onJsonEncodeChanged = viewModel::onJsonEncodeChanged,
             onAllowShareChanged = viewModel::onAllowShareChanged,
             onShareSupportChanged = viewModel::onShareSupportChanged,
+            onExcludeValueFromExportsChanged = viewModel::onExcludeValueFromExportsChanged,
         ) {
             VariableTypeSpecificContent(
                 viewState.variableTypeViewState,

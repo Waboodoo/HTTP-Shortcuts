@@ -70,6 +70,12 @@ constructor(
         }
     }
 
+    suspend fun setExcludeValueFromExports(exclude: Boolean) {
+        commitTransactionForVariable { variable ->
+            variable.isExcludeValueFromExport = exclude
+        }
+    }
+
     suspend fun setRememberValue(enabled: Boolean) {
         commitTransactionForVariable { variable ->
             variable.rememberValue = enabled

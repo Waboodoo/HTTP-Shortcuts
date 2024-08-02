@@ -32,7 +32,11 @@ class RemoteEditManager(
     suspend fun upload(deviceId: String, password: String) {
         withContext(Dispatchers.IO) {
             val file = File(context.cacheDir, "remote-edit.json")
-            exporter.exportToUri(FileUtil.getUriFromFile(context, file), format = ExportFormat.LEGACY_JSON)
+            exporter.exportToUri(
+                FileUtil.getUriFromFile(context, file),
+                format = ExportFormat.LEGACY_JSON,
+                excludeVariableValuesIfNeeded = false,
+            )
             pushToServer(deviceId, password, file)
         }
     }

@@ -7,21 +7,22 @@ enum class VariableType(
     val type: String,
     val supportsDialogTitle: Boolean = false,
     val supportsDialogMessage: Boolean = false,
+    val storesValue: Boolean = true,
 ) {
     CONSTANT("constant"),
     TEXT("text", supportsDialogTitle = true, supportsDialogMessage = true),
     NUMBER("number", supportsDialogTitle = true, supportsDialogMessage = true),
     PASSWORD("password", supportsDialogTitle = true, supportsDialogMessage = true),
-    SELECT("select", supportsDialogTitle = true),
+    SELECT("select", supportsDialogTitle = true, storesValue = false),
     COLOR("color", supportsDialogTitle = true),
     DATE("date"),
     TIME("time"),
     SLIDER("slider", supportsDialogTitle = true, supportsDialogMessage = true),
     TOGGLE("toggle"),
     INCREMENT("increment"),
-    UUID("uuid"),
-    CLIPBOARD("clipboard"),
-    TIMESTAMP("timestamp"),
+    UUID("uuid", storesValue = false),
+    CLIPBOARD("clipboard", storesValue = false),
+    TIMESTAMP("timestamp", storesValue = false),
     ;
 
     override fun toString() =
@@ -29,7 +30,7 @@ enum class VariableType(
 
     companion object {
         fun parse(type: String?) =
-            values()
+            entries
                 .firstOrNull { it.type == type }
                 ?: CONSTANT
     }
