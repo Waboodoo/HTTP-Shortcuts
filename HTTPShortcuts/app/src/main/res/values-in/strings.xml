@@ -146,8 +146,6 @@ Klik tombol + untuk menambah variabel.</string>
     <!-- Generic dialog button: OK -->
     <!-- Generic button: Cancel -->
     <string name="dialog_cancel">Batal</string>
-    <!-- Generic button: Help (to open documentation) -->
-    <string name="dialog_help">Bantuan</string>
     <!-- Generic button: remove -->
     <string name="dialog_remove">Hapus</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
@@ -481,6 +479,8 @@ Semua pintasan didalamnya akan terhapus.</string>
     <string name="label_url_encode">Enkoding URL</string>
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">Enkoding JSON</string>
+    <!-- Checkbox label, for option to enable/disable the exclusion of a variable's value in exports -->
+    <!-- Instructions shown below the "IExclude stored value from exports" checkbox in the variable editor -->
     <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">Pengaturan Dasar</string>
     <!-- Error message, informing user that the entered variable name is empty -->
@@ -612,6 +612,8 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <!-- Subtitle for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <!-- Label for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Izinkan memicu di Ubin Pengaturan Cepat</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
@@ -1030,6 +1032,7 @@ Anda dapat mengaktifkan fitur ini dengan mengedit pintasan dan mencentang kotak 
     <string name="label_widget">Widget yang Dapat Disesuaikan</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">Tampilkan Label</string>
+    <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
     <string name="action_create_widget">Buat Widget</string>
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
@@ -1253,8 +1256,6 @@ Tetap hapus?</string>
     <string name="message_unsaved_changes_detected_no_name">Perubahan yang belum disimpan pada pintasan ditemukan. Apakah Anda ingin memulihkan perubahan dan melanjutkan pengeditan?</string>
     <!-- Button label, shown on dialog that asks user if they want to recover a shortcut that has unsaved changes -->
     <string name="button_recover">Pulih</string>
-    <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
-    <string name="running_tasker_plugin">Tasker memicu Pintasan</string>
     <!-- Button text: translate app (prompt to help & become a translator) -->
     <string name="settings_help_translate">Menjadi Penerjemah</string>
     <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->

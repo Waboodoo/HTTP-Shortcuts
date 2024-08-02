@@ -156,8 +156,6 @@
     <string name="dialog_ok">OK</string>
     <!-- Generic button: Cancel -->
     <string name="dialog_cancel">キャンセル</string>
-    <!-- Generic button: Help (to open documentation) -->
-    <string name="dialog_help">ヘルプ</string>
     <!-- Generic button: remove -->
     <string name="dialog_remove">削除</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
@@ -502,6 +500,8 @@
     <string name="label_url_encode">URLエンコード</string>
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">JSONエンコード</string>
+    <!-- Checkbox label, for option to enable/disable the exclusion of a variable's value in exports -->
+    <!-- Instructions shown below the "IExclude stored value from exports" checkbox in the variable editor -->
     <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">基本設定</string>
     <!-- Error message, informing user that the entered variable name is empty -->
@@ -644,6 +644,10 @@
     <string name="label_secondary_launcher_shortcut">セカンダリ―ランチャーアプリ経由のトリガーを許可</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="subtitle_secondary_launcher_shortcut">これは、通常のホーム画面ウィジェットが使用できない場合などに便利です。</string>
+    <!-- Label for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="label_shortcut_as_file_share_target">共有ダイアログからのファイル受信を許可する</string>
+    <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="subtitle_shortcut_as_file_share_target">これを有効にすると、他のアプリからファイル共有で、このショートカットのリクエストボディまたはフォームパラメータで使用できます。</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">「クイック設定タイル」経由でトリガーを許可する</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
@@ -1074,6 +1078,7 @@
     <string name="label_widget">カスタム ウィジェット</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">ラベルを表示</string>
+    <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
     <string name="action_create_widget">ウィジェット作成</string>
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
@@ -1300,8 +1305,6 @@
     <string name="message_unsaved_changes_detected_no_name">未保存のショートカット変更が見つかりました。その変更を復元して編集を続けますか？</string>
     <!-- Button label, shown on dialog that asks user if they want to recover a shortcut that has unsaved changes -->
     <string name="button_recover">復元</string>
-    <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
-    <string name="running_tasker_plugin">Tasker がショートカットをトリガー</string>
     <!-- Button text: translate app (prompt to help & become a translator) -->
     <string name="settings_help_translate">翻訳者になる</string>
     <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->

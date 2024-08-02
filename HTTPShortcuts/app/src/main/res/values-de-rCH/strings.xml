@@ -34,4 +34,6 @@ Zusätzlich musst du eventuell auch noch die App von Akku-Optimierungen ausschli
     <string name="font_size_large" tools:ignore="Typos">Gross</string>
     <!-- Option in font size drop down: Very large -->
     <string name="font_size_very_large" tools:ignore="Typos">Sehr gross</string>
+    <!-- Instructions shown below the "IExclude stored value from exports" checkbox in the variable editor -->
+    <string name="message_exclude_variable_value_from_exports_instructions" tools:ignore="Typos">Aktiviere diese Option, wenn du den gespeicherten Wert dieser Variable von jeglichen Exporten ausschliessen möchtest.</string>
 </resources>

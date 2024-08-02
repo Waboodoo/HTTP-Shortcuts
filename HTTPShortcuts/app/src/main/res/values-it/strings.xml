@@ -146,8 +146,6 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <string name="dialog_ok">Ok</string>
     <!-- Generic button: Cancel -->
     <string name="dialog_cancel">Annulla</string>
-    <!-- Generic button: Help (to open documentation) -->
-    <string name="dialog_help">Aiuto</string>
     <!-- Generic button: remove -->
     <string name="dialog_remove">Rimuovi</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
@@ -488,6 +486,8 @@ Tutte le scorciatoie contenute all\'interno verranno eliminate.</string>
     <string name="label_url_encode">Codifica URL</string>
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">Codifica JSON</string>
+    <!-- Checkbox label, for option to enable/disable the exclusion of a variable's value in exports -->
+    <!-- Instructions shown below the "IExclude stored value from exports" checkbox in the variable editor -->
     <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">Impostazioni di base</string>
     <!-- Error message, informing user that the entered variable name is empty -->
@@ -623,6 +623,8 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="label_secondary_launcher_shortcut">Permetti attivazione tramite l\'app launcher secondaria</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <!-- Label for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Consenti attivazione tramite Impostazioni Rapide</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
@@ -1045,6 +1047,7 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <string name="label_widget">Widget personalizzabile</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">Mostra etichetta</string>
+    <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
     <string name="action_create_widget">Crea Widget</string>
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
@@ -1269,8 +1272,6 @@ Eliminare comunque?</string>
     <string name="message_unsaved_changes_detected_no_name">Sono state trovate modifiche non salvate su un collegamento. Si desidera recuperare le modifiche e continuare a modificare?</string>
     <!-- Button label, shown on dialog that asks user if they want to recover a shortcut that has unsaved changes -->
     <string name="button_recover">Recupero</string>
-    <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
-    <string name="running_tasker_plugin">Tasker sta attivando una scorciatoia</string>
     <!-- Button text: translate app (prompt to help & become a translator) -->
     <string name="settings_help_translate">Diventa un traduttore</string>
     <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->

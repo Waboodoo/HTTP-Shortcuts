@@ -158,8 +158,6 @@ Drücke den + Knopf um eine Variable zu erstellen.</string>
     <string name="dialog_ok">OK</string>
     <!-- Generic button: Cancel -->
     <string name="dialog_cancel">Abbrechen</string>
-    <!-- Generic button: Help (to open documentation) -->
-    <string name="dialog_help">Hilfe</string>
     <!-- Generic button: remove -->
     <string name="dialog_remove">Entfernen</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
@@ -513,6 +511,10 @@ Alle darin enthaltenen Shortcuts werden gelöscht.</string>
     <string name="label_url_encode">Kodieren für URLs</string>
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">Kodieren für JSON</string>
+    <!-- Checkbox label, for option to enable/disable the exclusion of a variable's value in exports -->
+    <string name="label_exclude_variable_value_from_exports">Gespeicherten Wert nie exportieren</string>
+    <!-- Instructions shown below the "IExclude stored value from exports" checkbox in the variable editor -->
+    <string name="message_exclude_variable_value_from_exports_instructions">Aktiviere diese Option, wenn du den gespeicherten Wert dieser Variable von jeglichen Exporten ausschließen möchtest.</string>
     <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">Allgemeine Einstellungen</string>
     <!-- Error message, informing user that the entered variable name is empty -->
@@ -655,6 +657,10 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="label_secondary_launcher_shortcut">Auslösen durch sekundäre App erlauben</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="subtitle_secondary_launcher_shortcut">Dies ist vor allem dann nützlich, wenn normale Widgets auf dem Homescreen nicht verwendet werden können.</string>
+    <!-- Label for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="label_shortcut_as_file_share_target">”Teilen …” erlauben</string>
+    <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="subtitle_shortcut_as_file_share_target">Ist diese Option aktiviert, so kannst du Dateien mit der App teilen und deren Inhalt als den Request-Body oder als einen Form-Parameter des Shortcuts verwenden.</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Auslösen via Quick Settings Tile erlauben</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
@@ -1088,6 +1094,8 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="label_widget">Konfigurierbares Widget</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">Name anzeigen</string>
+    <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
+    <string name="label_show_widget_icon">Symbol anzeigen</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
     <string name="action_create_widget">Widget erstellen</string>
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
@@ -1315,8 +1323,6 @@ Trotzdem löschen?</string>
     <string name="message_unsaved_changes_detected_no_name">Es wurden ungesicherte Änderungen eines Shortcuts gefunden. Möchtest du diese wiederherstellen und die Bearbeitung fortsetzen?</string>
     <!-- Button label, shown on dialog that asks user if they want to recover a shortcut that has unsaved changes -->
     <string name="button_recover">Wiederherstellen</string>
-    <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
-    <string name="running_tasker_plugin">Tasker führt einen Shortcut aus</string>
     <!-- Button text: translate app (prompt to help & become a translator) -->
     <string name="settings_help_translate">Übersetzer werden</string>
     <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->

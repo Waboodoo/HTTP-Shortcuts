@@ -145,8 +145,6 @@
     <!-- Generic dialog button: OK -->
     <!-- Generic button: Cancel -->
     <string name="dialog_cancel">Отмена</string>
-    <!-- Generic button: Help (to open documentation) -->
-    <string name="dialog_help">Помощь</string>
     <!-- Generic button: remove -->
     <string name="dialog_remove">Удалить</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
@@ -469,6 +467,8 @@
     <string name="label_url_encode">Закодировать URL</string>
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">Закодировать JSON</string>
+    <!-- Checkbox label, for option to enable/disable the exclusion of a variable's value in exports -->
+    <!-- Instructions shown below the "IExclude stored value from exports" checkbox in the variable editor -->
     <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">Базовые настройки</string>
     <!-- Error message, informing user that the entered variable name is empty -->
@@ -604,6 +604,8 @@
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="label_secondary_launcher_shortcut">Разрешить запуск через вторичное приложение пусковой установки</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <!-- Label for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Разрешить запуск через плитку быстрых настроек</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
@@ -1020,6 +1022,7 @@
     <string name="label_widget">Настраиваемый виджет</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">Показать этикетку</string>
+    <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
     <string name="action_create_widget">Создать виджет</string>
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
@@ -1242,8 +1245,6 @@
     <string name="message_unsaved_changes_detected_no_name">Обнаружены несохраненные изменения на ярлыке. Вы хотите восстановить изменения и продолжить редактирование?</string>
     <!-- Button label, shown on dialog that asks user if they want to recover a shortcut that has unsaved changes -->
     <string name="button_recover">Восстановить</string>
-    <!-- Message displayed in notification while a shortcut is being executed that was triggered from Tasker -->
-    <string name="running_tasker_plugin">Tasker запускает ярлык</string>
     <!-- Button text: translate app (prompt to help & become a translator) -->
     <string name="settings_help_translate">Стать переводчиком</string>
     <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
