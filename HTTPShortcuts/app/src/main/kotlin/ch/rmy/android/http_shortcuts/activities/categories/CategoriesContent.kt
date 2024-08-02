@@ -43,7 +43,7 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.extensions.localize
 import sh.calvin.reorderable.ReorderableItem
-import sh.calvin.reorderable.rememberReorderableLazyColumnState
+import sh.calvin.reorderable.rememberReorderableLazyListState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -54,7 +54,7 @@ fun CategoriesContent(
 ) {
     var localCategories by remember(categories) { mutableStateOf(categories) }
     val lazyListState = rememberLazyListState()
-    val reorderableState = rememberReorderableLazyColumnState(lazyListState) { from, to ->
+    val reorderableState = rememberReorderableLazyListState(lazyListState) { from, to ->
         localCategories = localCategories.move(from.index, to.index)
         onCategoryMoved(from.key as CategoryId, to.key as CategoryId)
     }

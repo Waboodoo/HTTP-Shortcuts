@@ -33,7 +33,7 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.extensions.localize
 import sh.calvin.reorderable.ReorderableItem
-import sh.calvin.reorderable.rememberReorderableLazyColumnState
+import sh.calvin.reorderable.rememberReorderableLazyListState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -52,7 +52,7 @@ fun VariablesContent(
 
     var localVariables by remember(variables) { mutableStateOf(variables) }
     val lazyListState = rememberLazyListState()
-    val reorderableState = rememberReorderableLazyColumnState(lazyListState) { from, to ->
+    val reorderableState = rememberReorderableLazyListState(lazyListState) { from, to ->
         localVariables = localVariables.move(from.index, to.index)
         onVariableMoved(from.key as VariableId, to.key as VariableId)
     }

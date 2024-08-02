@@ -29,7 +29,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.headers.models.HeaderList
 import ch.rmy.android.http_shortcuts.components.EmptyState
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderText
 import sh.calvin.reorderable.ReorderableItem
-import sh.calvin.reorderable.rememberReorderableLazyColumnState
+import sh.calvin.reorderable.rememberReorderableLazyListState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -48,7 +48,7 @@ fun RequestHeadersContent(
 
     var localHeaders by remember(headers) { mutableStateOf(headers) }
     val lazyListState = rememberLazyListState()
-    val reorderableState = rememberReorderableLazyColumnState(lazyListState) { from, to ->
+    val reorderableState = rememberReorderableLazyListState(lazyListState) { from, to ->
         localHeaders = localHeaders.move(from.index, to.index)
         onHeaderMoved(from.key as String, to.key as String)
     }

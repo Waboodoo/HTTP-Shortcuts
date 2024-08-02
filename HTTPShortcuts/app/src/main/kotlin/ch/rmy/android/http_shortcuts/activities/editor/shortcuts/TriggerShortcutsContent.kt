@@ -32,7 +32,7 @@ import ch.rmy.android.http_shortcuts.components.EmptyState
 import ch.rmy.android.http_shortcuts.components.ShortcutIcon
 import ch.rmy.android.http_shortcuts.extensions.localize
 import sh.calvin.reorderable.ReorderableItem
-import sh.calvin.reorderable.rememberReorderableLazyColumnState
+import sh.calvin.reorderable.rememberReorderableLazyListState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -51,7 +51,7 @@ fun TriggerShortcutsContent(
 
     var localShortcuts by remember(shortcuts) { mutableStateOf(shortcuts) }
     val lazyListState = rememberLazyListState()
-    val reorderableState = rememberReorderableLazyColumnState(lazyListState) { from, to ->
+    val reorderableState = rememberReorderableLazyListState(lazyListState) { from, to ->
         localShortcuts = localShortcuts.move(from.index, to.index)
         onShortcutMoved(
             ShortcutListItemId.fromString(from.key as String),

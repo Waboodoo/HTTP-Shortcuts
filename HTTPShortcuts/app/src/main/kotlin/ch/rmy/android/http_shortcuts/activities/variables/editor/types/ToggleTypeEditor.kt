@@ -48,7 +48,7 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderText
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
 import sh.calvin.reorderable.ReorderableItem
-import sh.calvin.reorderable.rememberReorderableLazyColumnState
+import sh.calvin.reorderable.rememberReorderableLazyListState
 
 @Composable
 fun ToggleTypeEditor(
@@ -168,7 +168,7 @@ private fun OptionsList(
 ) {
     var localOptions by remember(options) { mutableStateOf(options) }
     val lazyListState = rememberLazyListState()
-    val reorderableState = rememberReorderableLazyColumnState(lazyListState) { from, to ->
+    val reorderableState = rememberReorderableLazyListState(lazyListState) { from, to ->
         localOptions = localOptions.move(from.index, to.index)
         onOptionMoved(from.key as String, to.key as String)
     }

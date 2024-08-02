@@ -51,7 +51,7 @@ import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.utils.rememberSyntaxHighlighter
 import sh.calvin.reorderable.ReorderableItem
-import sh.calvin.reorderable.rememberReorderableLazyColumnState
+import sh.calvin.reorderable.rememberReorderableLazyListState
 
 /**
  * Performance is impaired too much when the text gets too long, so we rather disable syntax highlighting altogether
@@ -246,7 +246,7 @@ private fun ColumnScope.ParameterList(
 
     var localParameters by remember(parameters) { mutableStateOf(parameters) }
     val lazyListState = rememberLazyListState()
-    val reorderableState = rememberReorderableLazyColumnState(lazyListState) { from, to ->
+    val reorderableState = rememberReorderableLazyListState(lazyListState) { from, to ->
         localParameters = localParameters.move(from.index, to.index)
         onParameterMoved(from.key as String, to.key as String)
     }
