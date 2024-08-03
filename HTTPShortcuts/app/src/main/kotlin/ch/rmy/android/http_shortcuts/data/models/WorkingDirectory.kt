@@ -46,5 +46,6 @@ class WorkingDirectory : RealmObject {
 
     companion object {
         const val FIELD_ID = "id"
+        const val FIELD_NAME = "name"
     }
 }

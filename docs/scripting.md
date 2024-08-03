@@ -121,7 +121,9 @@ shortcut.category.name;
 
 
 <a name="files"></a>
-## Selected Files
+## Files
+
+### Selected Files
 
 If your shortcut makes use of file parameters or uses the content of a file as the request body then you can access information about these files using the `selectedFiles` array. Each selected file has an entry, allowing you to read out its file name, size (in bytes), media type and potentially some additional meta information.
 
@@ -168,6 +170,30 @@ The `orientation` field is an integer with the following meaning:
 - 6 means a rotation of 90 degrees, and the image is mirrored
 - 7 means a rotation of 270 degrees
 - 8 means a rotation of 270 degrees, and the image is mirrored
+
+
+<a name="read-write-files"></a>
+### Reading and Writing Files
+
+If you want to read from an existing file or write data to a file, you first need to mount the directory which contains the file. This can be done via the ["(Mounted) Directories screen](directories.md). Once you have a mounted directory, you can use the `getDirectory()` function to get a handle to it. Pass the name of the mounted directory as the first parameter. This handle then lets you read and write files, using the `readFile()` and `writeFile()` functions.
+
+For `readFiles()`, pass the name or path of the file you wish to read from as the first parameter, relative to the mounted directory. The file must exist, otherwise an error is raised. As an optional second parameter, you can pass the encoding that should be used to read the file, which defaults to UTF-8. The file's entire content is returned as a string.
+
+```js
+const dir = getDirectory('myMountedDirectory');
+const fileContent = dir.readFile('someDir/someFile.txt');
+```
+
+For `writeFiles()`, pass the name or path of the file you wish to write to as the first parameter, relative to the mounted directory. If the file or a directory along its path does not yet exist, it is automatically created.
+
+> If the file already exists, its contents will be replaced without warning!
+
+As the second parameter, pass the content you wish to write into the file.
+
+```js
+const dir = getDirectory('myMountedDirectory');
+dir.writeFile('someFile.txt', 'New file content');
+```
 
 <a name="user-interaction"></a>
 ## User Interaction

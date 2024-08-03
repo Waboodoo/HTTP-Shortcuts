@@ -254,6 +254,10 @@ constructor(
                                     recursionDepth = recursionDepth,
                                     dialogHandle = dialogHandle,
                                     cleanupHandler = cleanupHandler,
+                                    onException = { e ->
+                                        lastException = e
+                                        throw e
+                                    }
                                 )
                             )
                         }

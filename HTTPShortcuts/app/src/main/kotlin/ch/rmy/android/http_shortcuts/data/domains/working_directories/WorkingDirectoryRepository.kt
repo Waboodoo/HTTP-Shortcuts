@@ -6,6 +6,7 @@ import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getWorkingDirectory
+import ch.rmy.android.http_shortcuts.data.domains.getWorkingDirectoryByNameOrId
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -27,6 +28,11 @@ constructor(
     suspend fun getWorkingDirectoryById(id: WorkingDirectoryId): WorkingDirectory =
         queryItem {
             getWorkingDirectory(id)
+        }
+
+    suspend fun getWorkingDirectoryByNameOrId(nameOrId: String): WorkingDirectory =
+        queryItem {
+            this.getWorkingDirectoryByNameOrId(nameOrId)
         }
 
     suspend fun createWorkingDirectory(name: String, directoryUri: Uri): WorkingDirectory {

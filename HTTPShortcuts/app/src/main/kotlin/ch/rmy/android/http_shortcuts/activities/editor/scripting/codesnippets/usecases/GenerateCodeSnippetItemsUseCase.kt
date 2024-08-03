@@ -131,6 +131,20 @@ constructor(
             }
             section(R.string.dialog_code_snippet_files, R.drawable.ic_files) {
                 item(
+                    R.string.dialog_code_snippet_read_from_file,
+                    docRef = "read-write-files",
+                    keywords = setOf("files", "read"),
+                ) {
+                    insertText("getDirectory(\"\").readFile(\"", "\");\n")
+                }
+                item(
+                    R.string.dialog_code_snippet_write_to_file,
+                    docRef = "read-write-files",
+                    keywords = setOf("files", "write", "store", "persist"),
+                ) {
+                    insertText("getDirectory(\"\").writeFile(\"", "\", \"...\");\n")
+                }
+                item(
                     R.string.dialog_code_snippet_get_file_name,
                     docRef = "files",
                     keywords = setOf("files", "selected", "name"),

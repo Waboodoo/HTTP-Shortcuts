@@ -51,6 +51,9 @@ fun RealmContext.getTemporaryVariable(): RealmQuery<Variable> =
 fun RealmContext.getWorkingDirectory(workingDirectoryId: WorkingDirectoryId): RealmQuery<WorkingDirectory> =
     get("${WorkingDirectory.FIELD_ID} == $0", workingDirectoryId)
 
+fun RealmContext.getWorkingDirectoryByNameOrId(workingDirectoryNameOrId: String): RealmQuery<WorkingDirectory> =
+    get("${WorkingDirectory.FIELD_ID} == $0 OR ${WorkingDirectory.FIELD_NAME} ==[c] $1", workingDirectoryNameOrId, workingDirectoryNameOrId)
+
 fun RealmContext.getPendingExecutions(shortcutId: ShortcutId? = null, waitForNetwork: Boolean? = null): RealmQuery<PendingExecution> {
     logInfo("getPendingExecution for shortcutId=$shortcutId, waitForNetwork=$waitForNetwork")
     return if (shortcutId != null && waitForNetwork != null) {

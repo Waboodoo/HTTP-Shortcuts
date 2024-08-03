@@ -13,4 +13,9 @@ class ExecutionContext(
     val recursionDepth: Int,
     val dialogHandle: DialogHandle,
     val cleanupHandler: CleanupHandler,
-)
+    val onException: (Exception) -> Nothing,
+) {
+    fun throwException(exception: Exception): Nothing {
+        onException(exception)
+    }
+}
