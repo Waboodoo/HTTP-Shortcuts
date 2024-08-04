@@ -933,7 +933,7 @@
     <string name="title_add_code_snippet">코드 예제 모음</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
     <string name="dialog_code_snippet_shortcut_info">현재 바로가기 정보</string>
-    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files -->
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files and to interact with the file system -->
     <string name="dialog_code_snippet_files">선택 파일 관련</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
     <string name="dialog_code_snippet_handle_response">응답 처리</string>
@@ -953,6 +953,8 @@
     <string name="dialog_code_snippet_network">네트워크</string>
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_id">이 바로가기의 ID</string>
+    <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
+    <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">선택한 파일의 이름</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->

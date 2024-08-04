@@ -896,7 +896,7 @@
     <string name="title_add_code_snippet">Προσθήκη αποσπάσματος κώδικα</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
     <string name="dialog_code_snippet_shortcut_info">Πληροφορίες συντόμευσης</string>
-    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files -->
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files and to interact with the file system -->
     <string name="dialog_code_snippet_files">Επιλεγμένα αρχεία</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
     <string name="dialog_code_snippet_handle_response">Απάντηση χειρισμού</string>
@@ -916,6 +916,8 @@
     <string name="dialog_code_snippet_network">Δίκτυο</string>
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_id">Λήψη αναγνωριστικού συντόμευσης</string>
+    <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
+    <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Λήψη ονόματος επιλεγμένου αρχείου</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->

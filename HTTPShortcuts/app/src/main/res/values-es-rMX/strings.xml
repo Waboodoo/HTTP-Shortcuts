@@ -779,7 +779,7 @@ Todos los atajos dentro de esta se eliminaran también.</string>
     <!-- Title: Shown on menu dialog (for pre-request and post-request actions), allows to add snippets of JS code -->
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
     <string name="dialog_code_snippet_shortcut_info">Información del atajo</string>
-    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files -->
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files and to interact with the file system -->
     <string name="dialog_code_snippet_files">Archivos Seleccionados</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
     <string name="dialog_code_snippet_handle_response">Manejo de respuesta</string>
@@ -796,6 +796,8 @@ Todos los atajos dentro de esta se eliminaran también.</string>
     <string name="dialog_code_snippet_misc">Misceláneos</string>
     <!-- Dialog option: shown in code snippet picker, shows options for interacting with the network or querying its state -->
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
+    <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
+    <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
     <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->

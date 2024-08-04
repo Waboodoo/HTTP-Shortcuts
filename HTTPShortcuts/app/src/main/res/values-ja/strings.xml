@@ -501,7 +501,9 @@
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">JSONエンコード</string>
     <!-- Checkbox label, for option to enable/disable the exclusion of a variable's value in exports -->
+    <string name="label_exclude_variable_value_from_exports">保存されている値をエクスポート時に除外</string>
     <!-- Instructions shown below the "IExclude stored value from exports" checkbox in the variable editor -->
+    <string name="message_exclude_variable_value_from_exports_instructions">この変数に保存されている値 (もしあれば) をエクスポートに含めたくない場合は、これを有効にしてください。</string>
     <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">基本設定</string>
     <!-- Error message, informing user that the entered variable name is empty -->
@@ -954,7 +956,7 @@
     <string name="title_add_code_snippet">コードスニペットを追加</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
     <string name="dialog_code_snippet_shortcut_info">ショートカット情報</string>
-    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files -->
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files and to interact with the file system -->
     <string name="dialog_code_snippet_files">選択されたファイル</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
     <string name="dialog_code_snippet_handle_response">レスポンスの取り扱い</string>
@@ -974,6 +976,10 @@
     <string name="dialog_code_snippet_network">ネットワーク</string>
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_id">ショートカットIDを取得</string>
+    <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
+    <string name="dialog_code_snippet_read_from_file">ファイルから読み込む</string>
+    <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
+    <string name="dialog_code_snippet_write_to_file">ファイルに書き出す</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">選択したファイル名を取得</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -1079,6 +1085,7 @@
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">ラベルを表示</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
+    <string name="label_show_widget_icon">アイコンを表示</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
     <string name="action_create_widget">ウィジェット作成</string>
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->

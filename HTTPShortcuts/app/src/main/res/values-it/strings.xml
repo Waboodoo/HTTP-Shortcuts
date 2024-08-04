@@ -926,7 +926,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <string name="title_add_code_snippet">Aggiungi Frammento di Codice</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
     <string name="dialog_code_snippet_shortcut_info">Informazioni sulla Scorciatoia</string>
-    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files -->
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files and to interact with the file system -->
     <string name="dialog_code_snippet_files">File selezionati</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
     <string name="dialog_code_snippet_handle_response">Gestione della Risposta</string>
@@ -946,6 +946,8 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <string name="dialog_code_snippet_network">Rete</string>
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_id">Ottieni ID Scorciatoia</string>
+    <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
+    <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Ottieni il nome del file selezionato</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->

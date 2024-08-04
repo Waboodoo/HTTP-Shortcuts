@@ -912,7 +912,7 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <string name="title_add_code_snippet">Tambah Potongan Kode</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
     <string name="dialog_code_snippet_shortcut_info">Informasi Pintasan</string>
-    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files -->
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files and to interact with the file system -->
     <string name="dialog_code_snippet_files">File Terpilih</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
     <string name="dialog_code_snippet_handle_response">Penanganan Respon</string>
@@ -932,6 +932,8 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <string name="dialog_code_snippet_network">Jaringan</string>
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_id">Dapatkan ID Pintasan</string>
+    <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
+    <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Dapatkah Nama dari File Terpilih</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->

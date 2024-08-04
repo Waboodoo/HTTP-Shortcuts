@@ -896,7 +896,7 @@ Consulte a documentação na seção variável para obter mais informações.</s
     <string name="title_add_code_snippet">Adicionar Snippet de código</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
     <string name="dialog_code_snippet_shortcut_info">Informações de atalho</string>
-    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files -->
+    <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files and to interact with the file system -->
     <string name="dialog_code_snippet_files">Arquivos selecionados</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
     <string name="dialog_code_snippet_handle_response">Resposta de manuseio</string>
@@ -916,6 +916,8 @@ Consulte a documentação na seção variável para obter mais informações.</s
     <string name="dialog_code_snippet_network">Rede</string>
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_id">Obter o Shortcut ID</string>
+    <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
+    <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Obter nome do arquivo selecionado</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
