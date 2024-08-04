@@ -3,7 +3,6 @@
 ### Improvements
 - It is now possible to read and write files using the Scripting feature
 - You can now exclude shortcuts from being able to receive files from the Share dialog, similar to how it was already possible to exclude variables. This option can be found on the "Trigger & Execution Settings" screen.
-- Shortcuts that use file bodies or file parameters can now be excluded from the Share dialog
 - Variables can now be configured such that their values are excluded from exports
 - In widgets, it is now possible to hide the icon, allowing the creation of text-only home screen widgets
 
@@ -14,7 +13,7 @@
 ### Bugfixes
 - The label in widgets is now aligned such that multiple widgets placed next to each other with varying label lengths still look nice
 - Links to documentation now open in the browser instead of crashing when no web view is available
-- Fixed a few crashes that would during app startup in some rare cases
+- Fixed a few crashes that would occur during app startup in some rare cases
 
 ## Version 3.15.0
 
