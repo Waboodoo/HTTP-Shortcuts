@@ -38,6 +38,10 @@ fun logInfo(source: String?, message: String) {
     GlobalLogger.logInfo(source, message)
 }
 
+fun logException(source: String?, e: Throwable) {
+    GlobalLogger.logException(source, e)
+}
+
 inline fun <T> Any.tryOrLog(block: () -> T): T? =
     try {
         block()

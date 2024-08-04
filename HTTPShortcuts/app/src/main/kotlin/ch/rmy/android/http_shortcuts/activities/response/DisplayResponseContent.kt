@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.response
 
+import android.content.ActivityNotFoundException
 import android.net.Uri
 import android.text.format.Formatter
 import androidx.compose.animation.core.animateFloatAsState
@@ -58,7 +59,10 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isUnspecified
 import androidx.compose.ui.unit.sp
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.openURL
+import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.response.models.DetailInfo
 import ch.rmy.android.http_shortcuts.activities.response.models.TableData
@@ -78,6 +82,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
+
+private const val TAG = "DisplayResponseContent"
 
 @Composable
 fun DisplayResponseContent(
@@ -311,7 +317,16 @@ private fun ResponseDisplay(
                     if (showExternalUrlWarning) {
                         externalUrl = it
                     } else {
-                        context.openURL(it)
+                        try {
+                            logInfo(TAG, "Opening URL: $it")
+                            context.openURL(it)
+                        } catch (e: ActivityNotFoundException) {
+                            logException(TAG, e)
+                            context.showToast("No app found to open URL")
+                        } catch (e: SecurityException) {
+                            logException(TAG, e)
+                            context.showToast("Missing permission, can't open URL")
+                        }
                     }
                 }
             )
