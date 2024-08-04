@@ -29,6 +29,12 @@ The response body is available as a string via `response.body`.
 const myBody = response.body;
 ```
 
+If you know that the response body is in JSON format, you can use `JSON.parse()` to turn it into a JS object, array or primitive.
+
+```js
+const myJson = JSON.parse(response.body);
+```
+
 <a name="response-headers"></a>
 ### Getting Response Headers
 
