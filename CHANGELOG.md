@@ -8,6 +8,7 @@
 
 ### Miscellaneous
 - Android 5 is no longer supported. Android 6 is the new minimum supported Android version.
+- The maximum length for static variables is increased to 40'000 characters.
 - I'm beginning to phase out the feature that allows having variable placeholders inside static variables. Let me know if you see a problem with that.
 
 ### Bugfixes

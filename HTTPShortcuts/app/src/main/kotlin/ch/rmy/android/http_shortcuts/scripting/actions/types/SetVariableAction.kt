@@ -15,7 +15,6 @@ constructor(
     private val variableRepository: VariableRepository,
 ) : Action<SetVariableAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext) {
-        val value = value.truncate(MAX_VARIABLE_LENGTH)
         logInfo("Setting variable value (${value.length} characters)")
         executionContext.variableManager.setVariableValueByKeyOrId(variableKeyOrId, value, storeOnly)
         val variable = try {
@@ -28,7 +27,7 @@ constructor(
                 )
             }
         }
-        variableRepository.setVariableValue(variable.id, value)
+        variableRepository.setVariableValue(variable.id, value.truncate(MAX_VARIABLE_LENGTH))
     }
 
     data class Params(
@@ -39,6 +38,6 @@ constructor(
 
     companion object {
 
-        private const val MAX_VARIABLE_LENGTH = 30_000
+        private const val MAX_VARIABLE_LENGTH = 40_000
     }
 }

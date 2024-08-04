@@ -25,6 +25,8 @@ A *Static Variable* (formerly called *constant*) stores a static value. A typica
 
 It is also possible to change the value of a static variable programmatically before or after a shortcut runs, e.g., to store parts of an HTTP response into it. See the [Scripting](scripting.md#variables) documentation for more details.
 
+> The value of a static variable can be at most 40'000 characters long.
+
 <a name="multiple-choice"></a>
 ### Multiple Choice Selection
 

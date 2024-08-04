@@ -104,7 +104,9 @@ You can store a value as a string into a variable via the `setVariable()` functi
 setVariable('myVariable', 'Hello World');
 ```
 
-> Please note that there is a size limit of 30000 characters. If the variable does not exist an error is raised.
+> Please note that there is a size limit of 30'000 characters. If you set a value larger than that, it will be used unaltered for the current execution, but the value that is stored will be truncated.
+
+> If the variable does not exist an error is raised.
 
 As an optional third parameter you can pass a boolean. If it is `true`, the new value will be stored but not used immediately for the current execution. This is useful for variable types which support the 'Remember value' feature (such as Date Input, Time Input, Text Input, etc.) as it allows to change the stored previous value which is used as the default selected value.
 
