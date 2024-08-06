@@ -63,7 +63,7 @@ fun <T : WebView> rememberWebView(key: String, init: (Context, isRestore: Boolea
 }
 
 fun TextFieldValue.insertAtCursor(before: String, after: String): TextFieldValue {
-    val position = selection.end
+    val position = selection.min
     return copy(
         text = text.take(position) + before + after + text.drop(position),
         selection = TextRange(position + before.length),

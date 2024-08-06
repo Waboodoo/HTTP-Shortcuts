@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextRange
@@ -197,6 +198,7 @@ fun VariablePlaceholderTextField(
         modifier = Modifier
             .fillMaxWidth()
             .focusRequester(focusRequester)
+            .clearAndSetSemantics { }
             .then(modifier),
         label = label,
         value = textFieldValue,
