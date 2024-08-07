@@ -73,7 +73,7 @@ sealed interface ShortcutIcon {
                 context.packageName,
             )
                 .takeUnless { it == 0 }
-                ?: NoIcon.ICON_RESOURCE
+                ?: NoIcon.iconResource
 
         val normalizedIconName: String = run {
             iconName
@@ -217,9 +217,10 @@ sealed interface ShortcutIcon {
         override fun toString() = ""
 
         override fun getIconURI(context: Context, external: Boolean): Uri =
-            getDrawableUri(context, ICON_RESOURCE)
+            getDrawableUri(context, iconResource)
 
-        const val ICON_RESOURCE = R.drawable.ic_launcher
+        val iconResource
+            get() = R.drawable.ic_launcher
 
         override fun equals(other: Any?) =
             other is NoIcon

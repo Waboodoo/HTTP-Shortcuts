@@ -36,7 +36,7 @@ object IntentUtil {
         } catch (e: Exception) {
             addIntent.putExtra(
                 Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                Intent.ShortcutIconResource.fromContext(context.applicationContext, ShortcutIcon.NoIcon.ICON_RESOURCE),
+                Intent.ShortcutIconResource.fromContext(context.applicationContext, ShortcutIcon.NoIcon.iconResource),
             )
         }
 

@@ -40,7 +40,7 @@ object IconUtil {
     fun getIcon(context: Context, icon: ShortcutIcon, adaptive: Boolean): Icon? = try {
         when (icon) {
             is ShortcutIcon.NoIcon -> {
-                Icon.createWithResource(context.packageName, ShortcutIcon.NoIcon.ICON_RESOURCE)
+                Icon.createWithResource(context.packageName, ShortcutIcon.NoIcon.iconResource)
             }
             is ShortcutIcon.ExternalResourceIcon -> {
                 Icon.createWithResource(icon.packageName, icon.resourceId)
@@ -48,7 +48,7 @@ object IconUtil {
             is ShortcutIcon.CustomIcon -> {
                 val file = icon.getFile(context)
                 if (file == null) {
-                    Icon.createWithResource(context.packageName, ShortcutIcon.NoIcon.ICON_RESOURCE)
+                    Icon.createWithResource(context.packageName, ShortcutIcon.NoIcon.iconResource)
                 } else {
                     val options = BitmapFactory.Options()
                     options.inPreferredConfig = Bitmap.Config.ARGB_8888
