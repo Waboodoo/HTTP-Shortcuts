@@ -75,7 +75,7 @@ class QuickTileService : TileService() {
             ?.let(::executeShortcut)
             ?: run {
                 if (shortcuts.isNotEmpty() && shortcuts.all { it.canRunWithoutExecuteActivity() }) {
-                    setTheme(R.style.Theme_MaterialComponents_DayNight_NoActionBar)
+                    setTheme(com.google.android.material.R.style.Theme_MaterialComponents_DayNight_NoActionBar)
                     showDialog(
                         AlertDialog.Builder(context)
                             .setItems(shortcuts.map { it.name }.toTypedArray()) { _, index ->
