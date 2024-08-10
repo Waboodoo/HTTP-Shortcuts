@@ -28,7 +28,7 @@
     - [Handle Response](scripting.md#handle-response)
     - [Variables](scripting.md#variables)
     - [Shortcut Info](scripting.md#shortcut-info)
-    - [Selected Files](scripting.md#files)
+    - [Files](scripting.md#files)
     - [User Interaction](scripting.md#user-interaction)
     - [Modify Shortcuts](scripting.md#modify-shortcuts)
     - [Control Flow](scripting.md#control-flow)
