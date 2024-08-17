@@ -1,3 +1,15 @@
+## Version 3.17.0
+
+### Improvements
+- It is now possible to hide shortcuts inside the app, either manually or with the `setShortcutHidden` Scripting function.
+
+### Miscellaneous
+- Removed unnecessary details from malformed GSON error message
+- The size of the APK file is back to a more reasonable value, after having blown up unexpectedly for version 3.16.0
+
+### Bugfixes
+- When using the `prompt()` function with a very long text, the text now properly scrolls instead of pushing the text input field off screen.
+
 ## Version 3.16.0
 
 ### Improvements
