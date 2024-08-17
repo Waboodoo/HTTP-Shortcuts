@@ -14,5 +14,6 @@ data class SettingsViewState(
     val crashReportingAllowed: Boolean,
     val deviceId: String,
     val colorTheme: String,
+    val showHiddenShortcuts: Boolean,
     val experimentalExecutionModeEnabled: Boolean,
 )

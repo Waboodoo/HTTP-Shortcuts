@@ -37,6 +37,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.SendMQTTMessagesAct
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendTCPPacketActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendUDPPacketActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetResultActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.SetShortcutHiddenActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetWireguardTunnelStateActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ShareTextActionType
@@ -92,6 +93,7 @@ constructor(
     sendMQTTMessagesActionType: SendMQTTMessagesActionType,
     sendTCPPacketActionType: SendTCPPacketActionType,
     sendUDPPacketActionType: SendUDPPacketActionType,
+    setShortcutHiddenActionType: SetShortcutHiddenActionType,
     setResultActionType: SetResultActionType,
     setVariableActionType: SetVariableActionType,
     setWireguardTunnelStateActionType: SetWireguardTunnelStateActionType,
@@ -153,6 +155,7 @@ constructor(
             sendMQTTMessagesActionType,
             sendTCPPacketActionType,
             sendUDPPacketActionType,
+            setShortcutHiddenActionType,
             setResultActionType,
             setVariableActionType,
             setWireguardTunnelStateActionType,

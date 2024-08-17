@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -51,6 +52,8 @@ import ch.rmy.android.http_shortcuts.components.ShortcutIcon
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
+
+private const val HIDDEN_ALPHA = 0.4f
 
 @Composable
 fun ShortcutList(
@@ -162,7 +165,11 @@ private fun ShortcutListItem(
         modifier,
     ) {
         ListItem(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .runIf(shortcut.isHidden) {
+                    alpha(HIDDEN_ALPHA)
+                },
             colors = ListItemDefaults.colors(
                 containerColor = Color.Transparent,
             ),
@@ -267,7 +274,10 @@ private fun ShortcutGridItem(
     textStyle: TextStyle,
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .runIf(shortcut.isHidden) {
+                alpha(HIDDEN_ALPHA)
+            },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(Spacing.SMALL, Alignment.CenterVertically)
     ) {

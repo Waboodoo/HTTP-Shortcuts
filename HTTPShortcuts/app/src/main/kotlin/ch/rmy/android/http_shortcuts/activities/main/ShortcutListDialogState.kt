@@ -32,6 +32,7 @@ sealed class ShortcutListDialogState {
     data class ContextMenu(
         val shortcutName: String,
         val isPending: Boolean,
+        val isHidden: Boolean,
     ) : ShortcutListDialogState()
 
     @Stable

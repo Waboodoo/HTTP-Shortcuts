@@ -49,6 +49,7 @@ constructor(
         crashReportingAllowed = settings.isCrashReportingAllowed,
         deviceId = settings.deviceId,
         colorTheme = settings.colorTheme,
+        showHiddenShortcuts = settings.showHiddenShortcuts,
         experimentalExecutionModeEnabled = settings.useExperimentalExecutionMode,
     )
 
@@ -180,6 +181,13 @@ constructor(
         settings.colorTheme = colorTheme
         updateViewState {
             copy(colorTheme = settings.colorTheme)
+        }
+    }
+
+    fun onShowHiddenShortcutsChanged(show: Boolean) = runAction {
+        settings.showHiddenShortcuts = show
+        updateViewState {
+            copy(showHiddenShortcuts = show)
         }
     }
 }

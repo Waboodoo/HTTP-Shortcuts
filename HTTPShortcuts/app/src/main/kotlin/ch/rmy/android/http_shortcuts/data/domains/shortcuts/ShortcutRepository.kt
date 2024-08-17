@@ -194,4 +194,12 @@ constructor(
                 ?.description = description
         }
     }
+
+    suspend fun setHidden(shortcutId: ShortcutId, hidden: Boolean) {
+        commitTransaction {
+            getShortcutById(shortcutId)
+                .findFirst()
+                ?.hidden = hidden
+        }
+    }
 }

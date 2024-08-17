@@ -306,6 +306,15 @@ constructor(
                         sendEvent(Event.PickIcon(shortcutPlaceholder))
                     }
                 }
+                item(
+                    R.string.action_type_change_shortcut_hidden_title,
+                    docRef = "set-shortcut-hidden",
+                    keywords = setOf("change", "update", "visible", "visibility", "hide", "hidden", "show"),
+                ) {
+                    pickShortcut(R.string.action_type_change_shortcut_hidden_title) { shortcutPlaceholder ->
+                        insertText("setShortcutHidden($shortcutPlaceholder, true", ");\n")
+                    }
+                }
             }
             section(R.string.dialog_code_snippet_control_flow, R.drawable.ic_control_flow) {
                 item(

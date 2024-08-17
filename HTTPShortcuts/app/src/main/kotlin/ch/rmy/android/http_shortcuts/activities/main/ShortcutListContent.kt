@@ -96,6 +96,8 @@ fun ShortcutListContent(
         onEditOptionSelected = viewModel::onEditOptionSelected,
         onMoveOptionSelected = viewModel::onMoveOptionSelected,
         onDuplicateOptionSelected = viewModel::onDuplicateOptionSelected,
+        onShowSelected = viewModel::onShowSelected,
+        onHideSelected = viewModel::onHideSelected,
         onDeleteOptionSelected = viewModel::onDeleteOptionSelected,
         onShowInfoOptionSelected = viewModel::onShowInfoOptionSelected,
         onExportOptionSelected = viewModel::onExportOptionSelected,

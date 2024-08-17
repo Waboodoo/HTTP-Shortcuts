@@ -17,6 +17,7 @@ import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.PermDeviceInformation
+import androidx.compose.material.icons.outlined.RemoveRedEye
 import androidx.compose.material.icons.outlined.Science
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Title
@@ -45,6 +46,7 @@ fun SettingsContent(
     deviceId: String,
     colorTheme: String,
     experimentalExecutionModeEnabled: Boolean,
+    showHiddenShortcuts: Boolean,
     selectedClickActionOption: ShortcutClickBehavior,
     onLanguageSelected: (String?) -> Unit,
     onDarkModeOptionSelected: (String) -> Unit,
@@ -58,6 +60,7 @@ fun SettingsContent(
     onCrashReportingChanged: (Boolean) -> Unit,
     onDeviceIdButtonClicked: () -> Unit,
     onColorThemeChanged: (String) -> Unit,
+    onShowHiddenShortcutsChanged: (Boolean) -> Unit,
     onExperimentalExecutionModeChanged: (Boolean) -> Unit,
     onExperimentalHelpTextClicked: () -> Unit,
 ) {
@@ -161,6 +164,17 @@ fun SettingsContent(
         SettingsGroup(
             title = stringResource(R.string.settings_title_global_shortcut_settings),
         ) {
+            SettingsSelection(
+                icon = Icons.Outlined.RemoveRedEye,
+                title = stringResource(R.string.settings_title_show_hidden_shortcuts),
+                selectedKey = showHiddenShortcuts,
+                items = listOf(
+                    false to stringResource(R.string.settings_option_hide_hidden_shortcuts),
+                    true to stringResource(R.string.settings_option_show_hidden_shortcuts),
+                ),
+                onItemSelected = onShowHiddenShortcutsChanged,
+            )
+
             SettingsSelection(
                 icon = Icons.Outlined.TouchApp,
                 title = stringResource(R.string.settings_click_behavior),

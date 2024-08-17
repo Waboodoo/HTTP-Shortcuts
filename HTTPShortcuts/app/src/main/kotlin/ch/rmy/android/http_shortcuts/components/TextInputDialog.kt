@@ -80,7 +80,7 @@ fun TextInputDialog(
         },
         text = {
             Column(
-                modifier=Modifier.verticalScroll(rememberScrollState()),
+                modifier = Modifier.verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(Spacing.SMALL)
             ) {
                 if (message != null) {

@@ -34,6 +34,8 @@ fun ShortcutListDialogs(
     onEditOptionSelected: () -> Unit,
     onMoveOptionSelected: () -> Unit,
     onDuplicateOptionSelected: () -> Unit,
+    onShowSelected: () -> Unit,
+    onHideSelected: () -> Unit,
     onDeleteOptionSelected: () -> Unit,
     onShowInfoOptionSelected: () -> Unit,
     onExportOptionSelected: () -> Unit,
@@ -88,12 +90,15 @@ fun ShortcutListDialogs(
             ContextMenuDialog(
                 shortcutName = dialogState.shortcutName,
                 isPending = dialogState.isPending,
+                isHidden = dialogState.isHidden,
                 onPlaceOnHomeScreenOptionSelected = onPlaceOnHomeScreenOptionSelected,
                 onExecuteOptionSelected = onExecuteOptionSelected,
                 onCancelPendingExecutionOptionSelected = onCancelPendingExecutionOptionSelected,
                 onEditOptionSelected = onEditOptionSelected,
                 onMoveOptionSelected = onMoveOptionSelected,
                 onDuplicateOptionSelected = onDuplicateOptionSelected,
+                onShowSelected = onShowSelected,
+                onHideSelected = onHideSelected,
                 onDeleteOptionSelected = onDeleteOptionSelected,
                 onShowInfoOptionSelected = onShowInfoOptionSelected,
                 onExportOptionSelected = onExportOptionSelected,
@@ -272,12 +277,15 @@ private fun ExportDestinationOptionsDialog(
 private fun ContextMenuDialog(
     shortcutName: String,
     isPending: Boolean,
+    isHidden: Boolean,
     onPlaceOnHomeScreenOptionSelected: () -> Unit,
     onExecuteOptionSelected: () -> Unit,
     onCancelPendingExecutionOptionSelected: () -> Unit,
     onEditOptionSelected: () -> Unit,
     onMoveOptionSelected: () -> Unit,
     onDuplicateOptionSelected: () -> Unit,
+    onShowSelected: () -> Unit,
+    onHideSelected: () -> Unit,
     onDeleteOptionSelected: () -> Unit,
     onShowInfoOptionSelected: () -> Unit,
     onExportOptionSelected: () -> Unit,
@@ -316,6 +324,17 @@ private fun ContextMenuDialog(
             label = stringResource(R.string.action_duplicate),
             onClick = onDuplicateOptionSelected,
         )
+        if (isHidden) {
+            SelectDialogEntry(
+                label = stringResource(R.string.action_show_shortcut),
+                onClick = onShowSelected,
+            )
+        } else {
+            SelectDialogEntry(
+                label = stringResource(R.string.action_hide_shortcut),
+                onClick = onHideSelected,
+            )
+        }
         SelectDialogEntry(
             label = stringResource(R.string.action_delete),
             onClick = onDeleteOptionSelected,

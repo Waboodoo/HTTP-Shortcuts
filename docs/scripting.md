@@ -117,12 +117,13 @@ setVariable('myVariable', 'Hello World', true); // only changes the stored value
 <a name="shortcut-info"></a>
 ## Getting Information about the Current Shortcut
 
-You can easily retrieve information about the current shortcut and the category it belongs to from the `shortcut` object. This includes the shortcut's ID, name and description, as well as its category's ID and name.
+You can easily retrieve information about the current shortcut and the category it belongs to from the `shortcut` object. This includes the shortcut's ID, name, description and whether it is hidden, as well as its category's ID and name.
 
 ```js
 shortcut.id;
 shortcut.name;
 shortcut.description;
+shortcut.hidden;
 shortcut.category.id;
 shortcut.category.name;
 ```
@@ -392,7 +393,7 @@ With this function you can change the description of a shortcut. Simply pass the
 changeDescription('My Shortcut', 'New Description');
 ```
 
-Note: a shortcut's description is only visible in categories that use a list layout, not in those that use a grid layout.
+> A shortcut's description is only visible in categories that use a list layout, not in those that use a grid layout.
 
 <a name="change-icon"></a>
 ### changeIcon
@@ -402,6 +403,17 @@ With this function you can change the icon of a shortcut. Simply pass the name o
 ```js
 changeIcon('My Shortcut', 'bitsies_lightbulb');
 ```
+
+<a name="set-shortcut-hidden"></a>
+### setShortcutHidden
+
+This function allows you to show or hide individual shortcuts inside the app. Simply pass the name or ID of a shortcut as the first parameter and `true` or `false` as the second parameter. You can also pass an empty string as the first parameter to target the current shortcut.
+
+```js
+setShortcutHidden('My Shortcut', true);
+```
+
+> You can make hidden shortcuts visible via an option on the Settings screen.
 
 <a name="control-flow"></a>
 ## Control Flow

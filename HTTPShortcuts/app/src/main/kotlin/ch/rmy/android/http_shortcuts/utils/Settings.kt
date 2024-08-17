@@ -41,6 +41,12 @@ constructor(
             putString(KEY_CLICK_BEHAVIOR, value.type)
         }
 
+    var showHiddenShortcuts: Boolean
+        get() = getBoolean(KEY_SHOW_HIDDEN_SHORTCUTS)
+        set(value) {
+            putBoolean(KEY_SHOW_HIDDEN_SHORTCUTS, value)
+        }
+
     var isCrashReportingAllowed: Boolean
         get() = (getString(KEY_CRASH_REPORTING) ?: "true") != "false"
         set(value) {
@@ -127,6 +133,7 @@ constructor(
         private const val DEVICE_ID = "device_id"
         private const val KEY_LANGUAGE = "language"
         private const val KEY_CLICK_BEHAVIOR = "click_behavior"
+        private const val KEY_SHOW_HIDDEN_SHORTCUTS = "show_hidden_shortcuts"
         private const val KEY_CRASH_REPORTING = "crash_reporting"
         private const val KEY_IMPORT_URL = "import_url"
         private const val KEY_CHANGE_LOG_PERMANENTLY_HIDDEN = "change_log_permanently_hidden"

@@ -65,6 +65,9 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
                     logInfo("New init data = $data")
                     logException(IllegalStateException("cannot re-initialize view model with different data"))
                 }
+                viewModelScope.launch {
+                    onReactivated()
+                }
                 return
             }
             this.initData = data
@@ -86,6 +89,8 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
     }
 
     protected abstract suspend fun initialize(data: InitData): ViewState
+
+    protected open suspend fun onReactivated() {}
 
     protected fun terminateInitialization(): Nothing {
         throw ViewModelCancellationException()

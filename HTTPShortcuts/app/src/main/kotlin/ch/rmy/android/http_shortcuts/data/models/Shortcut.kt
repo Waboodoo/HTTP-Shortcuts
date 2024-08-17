@@ -48,6 +48,8 @@ class Shortcut() : RealmObject {
 
     private var iconName: String? = icon.toString().takeUnlessEmpty()
 
+    var hidden: Boolean = false
+
     var method = METHOD_GET
 
     var url: String = "https://"
@@ -194,6 +196,7 @@ class Shortcut() : RealmObject {
             other.bodyContent != bodyContent ||
             other.description != description ||
             other.iconName != iconName ||
+            other.hidden != hidden ||
             other.method != method ||
             other.password != password ||
             other.authToken != authToken ||

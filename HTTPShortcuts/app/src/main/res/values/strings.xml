@@ -772,6 +772,8 @@
     <string name="action_type_change_icon_title">Change Shortcut Icon</string>
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <string name="action_type_change_icon_description">Change Shortcut Description</string>
+    <!-- Shortcut Action Title: Change Shortcut Visibility -->
+    <string name="action_type_change_shortcut_hidden_title">Show/Hide Shortcut</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Enqueue Shortcut</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -1012,6 +1014,8 @@
     <string name="error_shortcut_not_found_for_triggering">Could not trigger shortcut \“%1$s\” because it does not exist.</string>
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">Could not rename shortcut \“%1$s\” because it does not exist.</string>
+    <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_set_visible">Could not change visibility of shortcut \“%1$s\” because it does not exist.</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Could not change icon of shortcut \“%1$s\” because it does not exist.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1525,6 +1529,12 @@
         <item quantity="one">1 button selected</item>
         <item quantity="other">%d buttons selected</item>
     </plurals>
+    <!-- Option in settings, allows to set whether hidden shortcuts should be visible or not -->
+    <string name="settings_title_show_hidden_shortcuts">Hidden Shortcuts</string>
+    <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
+    <string name="settings_option_show_hidden_shortcuts">Show hidden shortcuts</string>
+    <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
+    <string name="settings_option_hide_hidden_shortcuts">Don\'t show hidden shortcuts</string>
     <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
     <string name="settings_title_experimental">Experimental</string>
     <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
@@ -1655,4 +1665,12 @@
     <string name="title_rename_working_directory">Rename Directory</string>
     <!-- Error message, informing user that the entered directory name already exists -->
     <string name="validation_directory_name_already_exists">Another directory with this name already exists.</string>
+    <!-- Action, shown on dropdown when editing a shortcut, for allowing to hide a shortcut -->
+    <string name="action_hide_shortcut">Hide</string>
+    <!-- Action, shown on dropdown when editing a shortcut, for allowing to show a hidden shortcut -->
+    <string name="action_show_shortcut">Show</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a shortcut was hidden -->
+    <string name="message_shortcut_hidden">Shortcut hidden.</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
+    <string name="message_shortcut_visible">Shortcut no longer hidden.</string>
 </resources>

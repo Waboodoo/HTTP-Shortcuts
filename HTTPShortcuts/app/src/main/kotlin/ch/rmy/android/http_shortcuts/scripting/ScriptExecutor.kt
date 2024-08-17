@@ -124,6 +124,7 @@ constructor(
                 "id" to shortcut.id,
                 "name" to shortcut.name,
                 "description" to shortcut.description,
+                "hidden" to shortcut.hidden,
                 "category" to mapOf(
                     "id" to category.id,
                     "name" to category.name,

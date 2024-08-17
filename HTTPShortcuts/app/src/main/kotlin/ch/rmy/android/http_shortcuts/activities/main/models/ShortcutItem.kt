@@ -11,4 +11,5 @@ data class ShortcutItem(
     val description: String,
     val icon: ShortcutIcon,
     val isPending: Boolean,
+    val isHidden: Boolean,
 )
