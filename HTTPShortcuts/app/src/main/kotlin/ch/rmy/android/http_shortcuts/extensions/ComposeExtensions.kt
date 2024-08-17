@@ -67,6 +67,7 @@ fun TextFieldValue.insertAtCursor(before: String, after: String): TextFieldValue
     return copy(
         text = text.take(position) + before + after + text.drop(position),
         selection = TextRange(position + before.length),
+        composition = null,
     )
 }
 
