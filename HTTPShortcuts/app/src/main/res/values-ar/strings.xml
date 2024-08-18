@@ -729,6 +729,7 @@
     <string name="action_type_change_icon_title">تغيير رمز الاختصار</string>
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <string name="action_type_change_icon_description">تغيير وصف الاختصار</string>
+    <!-- Shortcut Action Title: Change Shortcut Visibility -->
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">اختصارات قائمة الانتظار</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -954,6 +955,7 @@
     <string name="error_shortcut_not_found_for_triggering">تعذر تشغيل الاختصار \"%1$s\" لأنه غير موجود.</string>
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">تعذرت إعادة تسمية الاختصار \"%1$s\" لأنه غير موجود.</string>
+    <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">تعذر تغيير رمز الاختصار \"%1$s\" لأنه غير موجود.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1387,6 +1389,9 @@
     <!-- Label on button, shown in Response settings of shortcut editor, allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
     <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
     <!-- Subtitle on button, shown in Response settings of shortcut editor, shows how many buttons the user has selected to be shown in the response window toolbar -->
+    <!-- Option in settings, allows to set whether hidden shortcuts should be visible or not -->
+    <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
+    <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
     <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
     <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
@@ -1452,4 +1457,8 @@
     <!-- Dialog prompt to ask user to confirm deletion of a directory -->
     <!-- Title for the dialog window that lets the user rename a directory -->
     <!-- Error message, informing user that the entered directory name already exists -->
+    <!-- Action, shown on dropdown when editing a shortcut, for allowing to hide a shortcut -->
+    <!-- Action, shown on dropdown when editing a shortcut, for allowing to show a hidden shortcut -->
+    <!-- Message, shown in snackbar, to confirm to the user that a shortcut was hidden -->
+    <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
 </resources>

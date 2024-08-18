@@ -789,6 +789,8 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="action_type_change_icon_title">Shortcut-Symbol ändern</string>
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <string name="action_type_change_icon_description">Shortcut-Beschreibung ändern</string>
+    <!-- Shortcut Action Title: Change Shortcut Visibility -->
+    <string name="action_type_change_shortcut_hidden_title">Shortcut zeigen/verbergen</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Shortcut auslösen</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -1030,6 +1032,8 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="error_shortcut_not_found_for_triggering">Shortcut ”%1$s” konnte nicht ausgeführt werden, da er nicht existiert.</string>
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">Shortcut ”%1$s” konnte nicht umbenannt werden, da er nicht existiert.</string>
+    <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_set_visible">Die Sichtbarkeit des Shortcuts \“%1$s\” konnte nicht geändert werden, da er nicht existiert.</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Das Symbol des Shortcuts ”%1$s” konnte nicht geändert werden, da er nicht existiert.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1559,6 +1563,12 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
         <item quantity="one">1 Knopf ausgewählt</item>
         <item quantity="other">%d Knöpfe ausgewählt</item>
     </plurals>
+    <!-- Option in settings, allows to set whether hidden shortcuts should be visible or not -->
+    <string name="settings_title_show_hidden_shortcuts">Verborgene Shortcuts</string>
+    <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
+    <string name="settings_option_show_hidden_shortcuts">Verborgene Shortcuts anzeigen</string>
+    <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
+    <string name="settings_option_hide_hidden_shortcuts">Verborgene Shortcuts nicht anzeigen</string>
     <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
     <string name="settings_title_experimental">Experimentelles</string>
     <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
@@ -1689,4 +1699,12 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="title_rename_working_directory">Verzeichnis umbenennen</string>
     <!-- Error message, informing user that the entered directory name already exists -->
     <string name="validation_directory_name_already_exists">Ein Verzeichnis mit diesem Namen existiert bereits.</string>
+    <!-- Action, shown on dropdown when editing a shortcut, for allowing to hide a shortcut -->
+    <string name="action_hide_shortcut">Verbergen</string>
+    <!-- Action, shown on dropdown when editing a shortcut, for allowing to show a hidden shortcut -->
+    <string name="action_show_shortcut">Zeigen</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a shortcut was hidden -->
+    <string name="message_shortcut_hidden">Shortcut verborgen.</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
+    <string name="message_shortcut_visible">Shortcut nicht mehr verborgen.</string>
 </resources>

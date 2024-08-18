@@ -768,6 +768,8 @@
     <string name="action_type_change_icon_title">更改快捷方式图标</string>
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <string name="action_type_change_icon_description">更改快捷方式描述</string>
+    <!-- Shortcut Action Title: Change Shortcut Visibility -->
+    <string name="action_type_change_shortcut_hidden_title">显示/隐藏快捷方式</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">启动此快捷方式</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -1007,6 +1009,8 @@
     <string name="error_shortcut_not_found_for_triggering">无法执行快捷方式\"%1$s\"，快捷方式不存在</string>
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">无法重命名快捷方式\"%1$s\"，快捷方式不存在</string>
+    <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_set_visible">无法更改快捷方式\“%1$s\” 的可见性，因为它不存在。</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">不能更改快捷方式\"%1$s\"的图标，快捷方式不存在</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1530,6 +1534,12 @@
     <plurals name="subtitle_response_toolbar_actions">
         <item quantity="other">选中了 %d 个按钮</item>
     </plurals>
+    <!-- Option in settings, allows to set whether hidden shortcuts should be visible or not -->
+    <string name="settings_title_show_hidden_shortcuts">隐藏的快捷方式</string>
+    <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
+    <string name="settings_option_show_hidden_shortcuts">显示隐藏的快捷方式</string>
+    <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
+    <string name="settings_option_hide_hidden_shortcuts">不显示隐藏的快捷方式</string>
     <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
     <string name="settings_title_experimental">实验性</string>
     <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
@@ -1660,4 +1670,12 @@
     <string name="title_rename_working_directory">重命名目录</string>
     <!-- Error message, informing user that the entered directory name already exists -->
     <string name="validation_directory_name_already_exists">另一个目录也是这个名称</string>
+    <!-- Action, shown on dropdown when editing a shortcut, for allowing to hide a shortcut -->
+    <string name="action_hide_shortcut">隐藏</string>
+    <!-- Action, shown on dropdown when editing a shortcut, for allowing to show a hidden shortcut -->
+    <string name="action_show_shortcut">显示</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a shortcut was hidden -->
+    <string name="message_shortcut_hidden">已隐藏快捷方式。</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
+    <string name="message_shortcut_visible">快捷方式不再隐藏。</string>
 </resources>

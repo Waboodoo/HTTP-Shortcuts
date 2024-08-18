@@ -722,6 +722,7 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <string name="action_type_change_icon_title">Alterar Ícone de atalho</string>
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <string name="action_type_change_icon_description">Alterar Atalho Descrição</string>
+    <!-- Shortcut Action Title: Change Shortcut Visibility -->
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Atalho de Enqueue</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -948,6 +949,7 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <string name="error_shortcut_not_found_for_triggering">Não foi possível accionar o atalho \"%1$s\" porque ele não existe.</string>
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">Não foi possível renomear o atalho \"%1$s\" porque ele não existe.</string>
+    <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Não foi possível alterar o ícone do atalho \"%1$s\" porque ele não existe.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1451,6 +1453,9 @@ Para certificados auto-assinados, verifique a secção \"%s\" do atalho.</string
     <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
     <string name="title_select_response_toolbar_buttons">Selecionar botões da barra de ferramentas</string>
     <!-- Subtitle on button, shown in Response settings of shortcut editor, shows how many buttons the user has selected to be shown in the response window toolbar -->
+    <!-- Option in settings, allows to set whether hidden shortcuts should be visible or not -->
+    <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
+    <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
     <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
     <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Modo de execução</string>
@@ -1523,4 +1528,8 @@ Para certificados auto-assinados, verifique a secção \"%s\" do atalho.</string
     <!-- Dialog prompt to ask user to confirm deletion of a directory -->
     <!-- Title for the dialog window that lets the user rename a directory -->
     <!-- Error message, informing user that the entered directory name already exists -->
+    <!-- Action, shown on dropdown when editing a shortcut, for allowing to hide a shortcut -->
+    <!-- Action, shown on dropdown when editing a shortcut, for allowing to show a hidden shortcut -->
+    <!-- Message, shown in snackbar, to confirm to the user that a shortcut was hidden -->
+    <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
 </resources>

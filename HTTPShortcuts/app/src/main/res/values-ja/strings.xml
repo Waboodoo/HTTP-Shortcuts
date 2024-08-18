@@ -777,6 +777,8 @@
     <string name="action_type_change_icon_title">ショートカット アイコンを変更</string>
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <string name="action_type_change_icon_description">ショートカットの説明を変更</string>
+    <!-- Shortcut Action Title: Change Shortcut Visibility -->
+    <string name="action_type_change_shortcut_hidden_title">ショートカットを表示／非表示</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">トリガー 待ちショートカット</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -1016,6 +1018,8 @@
     <string name="error_shortcut_not_found_for_triggering">ショートカット「%1$s」が存在しないためトリガーできませんでした。</string>
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">ショートカットが存在しないためショートカット名「%1$s」を変更できませんでした。</string>
+    <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_set_visible">ショートカット「%1$s」が存在しないため表示を変更できませんでした。</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">ショートカットが存在しないためショートカット「%1$s」のアイコンを変更できませんでした。</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1541,6 +1545,12 @@
     <plurals name="subtitle_response_toolbar_actions">
         <item quantity="other">選択：%d個のボタン</item>
     </plurals>
+    <!-- Option in settings, allows to set whether hidden shortcuts should be visible or not -->
+    <string name="settings_title_show_hidden_shortcuts">非表示のショートカット</string>
+    <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
+    <string name="settings_option_show_hidden_shortcuts">非表示のショートカットを表示</string>
+    <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
+    <string name="settings_option_hide_hidden_shortcuts">非表示のショートカットを表示しない</string>
     <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
     <string name="settings_title_experimental">実験中</string>
     <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
@@ -1671,4 +1681,12 @@
     <string name="title_rename_working_directory">ディレクトリ名を変更</string>
     <!-- Error message, informing user that the entered directory name already exists -->
     <string name="validation_directory_name_already_exists">同じ名前のディレクトリが既に存在しています。</string>
+    <!-- Action, shown on dropdown when editing a shortcut, for allowing to hide a shortcut -->
+    <string name="action_hide_shortcut">非表示</string>
+    <!-- Action, shown on dropdown when editing a shortcut, for allowing to show a hidden shortcut -->
+    <string name="action_show_shortcut">表示する</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a shortcut was hidden -->
+    <string name="message_shortcut_hidden">ショートカットが非表示</string>
+    <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
+    <string name="message_shortcut_visible">今後ショートカットは非表示になりません</string>
 </resources>
