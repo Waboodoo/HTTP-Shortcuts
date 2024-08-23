@@ -1,12 +1,16 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.content.Context
+import android.webkit.MimeTypeMap
+import androidx.annotation.Keep
 import androidx.documentfile.provider.DocumentFile
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.liquidplayer.javascript.JSObject
+import java.io.File
 import java.nio.charset.Charset
 import java.nio.charset.IllegalCharsetNameException
 import java.nio.charset.UnsupportedCharsetException
@@ -83,6 +87,22 @@ constructor(
                         }
                     }
             }
+
+            override fun appendFile(filePath: String, content: String) {
+                val file = directory.findOrCreateFileFromPath(filePath)
+                    ?: executionContext.throwException(
+                        ActionException {
+                            "File \"$filePath\" not found in directory \"${workingDirectory.name}\""
+                        }
+                    )
+                contentResolver.openOutputStream(file.uri, "wa")!!
+                    .use {
+                        it.writer().apply {
+                            write(content)
+                            flush()
+                        }
+                    }
+            }
         }
     }
 
@@ -103,16 +123,36 @@ constructor(
                 return null
             }
             fileHandle = fileHandle.findFile(fileName)
-                ?: (if (index != parts.lastIndex) fileHandle.createDirectory(fileName) else fileHandle.createFile("text/plain", fileName))
+                ?: (
+                    if (index != parts.lastIndex) {
+                        fileHandle.createDirectory(fileName)
+                    } else {
+                        fileHandle.createFile(
+                            determineMimeType(fileName),
+                            fileName
+                        )
+                    }
+                    )
                 ?: return null
         }
         return fileHandle
     }
 
+    private fun determineMimeType(fileName: String): String =
+        File(fileName).extension.takeUnlessEmpty()?.let { extension ->
+            MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+        }
+            ?: "text/plain"
+
     interface DirectoryHandle {
+        @Keep
         fun readFile(filePath: String, encoding: String?): String
 
+        @Keep
         fun writeFile(filePath: String, content: String)
+
+        @Keep
+        fun appendFile(filePath: String, content: String)
     }
 
     data class Params(
