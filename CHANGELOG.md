@@ -1,3 +1,15 @@
+## Version 3.18.0
+
+### Improvements
+- In addition to `writeFile`, there is now also an `appendFile()` Scripting function which allows to append content to a file instead of fully replacing the file's content.
+
+### Miscellaneous
+- Rearranged some options on the "Response Handling" screen for clarity
+- The "Display JSON array as table" option is now enabled by default, and it now also applies if the response is a JSON object with a single key which holds a JSON array.
+
+### Bugfixes
+- The `getDirectory(...).readFile()` and `getDirectory(...).writeFile()` Scripting function should now work as expected
+
 ## Version 3.17.0
 
 ### Improvements
