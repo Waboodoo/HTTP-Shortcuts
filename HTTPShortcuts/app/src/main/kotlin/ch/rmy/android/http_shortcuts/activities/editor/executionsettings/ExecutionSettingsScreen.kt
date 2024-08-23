@@ -34,6 +34,7 @@ fun ExecutionSettingsScreen() {
             repetitionInterval = viewState.repetitionInterval,
             canUseBiometrics = viewState.canUseBiometrics,
             excludeFromFileSharing = viewState.excludeFromFileSharing,
+            canUseFiles = viewState.canUseFiles,
             usesFiles = viewState.usesFiles,
             onLauncherShortcutChanged = viewModel::onLauncherShortcutChanged,
             onSecondaryLauncherShortcutChanged = viewModel::onSecondaryLauncherShortcutChanged,

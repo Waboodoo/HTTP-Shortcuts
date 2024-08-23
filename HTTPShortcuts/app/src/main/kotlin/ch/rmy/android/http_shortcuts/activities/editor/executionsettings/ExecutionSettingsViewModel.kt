@@ -33,12 +33,13 @@ constructor(
 
     override suspend fun initialize(data: Unit): ExecutionSettingsViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        val isAppShortcut = shortcut.type == ShortcutExecutionType.APP
         return ExecutionSettingsViewState(
             launcherShortcutOptionVisible = launcherShortcutManager.supportsLauncherShortcuts(),
             directShareOptionVisible = launcherShortcutManager.supportsDirectShare(),
             quickSettingsTileShortcutOptionVisible = quickSettingsTileManager.supportsQuickSettingsTiles(),
             waitForConnection = shortcut.isWaitForNetwork,
-            waitForConnectionOptionVisible = shortcut.type == ShortcutExecutionType.APP,
+            waitForConnectionOptionVisible = isAppShortcut,
             launcherShortcut = shortcut.launcherShortcut,
             secondaryLauncherShortcut = shortcut.secondaryLauncherShortcut,
             quickSettingsTileShortcut = shortcut.quickSettingsTileShortcut,
@@ -48,6 +49,7 @@ constructor(
             repetitionInterval = shortcut.repetition?.interval,
             canUseBiometrics = biometricUtil.canUseBiometrics(),
             excludeFromFileSharing = shortcut.excludeFromFileSharing,
+            canUseFiles = isAppShortcut,
             usesFiles = shortcut.usesGenericFileBody() || shortcut.hasFileParameter(),
         )
     }

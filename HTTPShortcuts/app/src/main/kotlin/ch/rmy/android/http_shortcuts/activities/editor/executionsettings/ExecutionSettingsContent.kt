@@ -39,6 +39,7 @@ fun ExecutionSettingsContent(
     repetitionInterval: Int?,
     canUseBiometrics: Boolean,
     excludeFromFileSharing: Boolean,
+    canUseFiles: Boolean,
     usesFiles: Boolean,
     onLauncherShortcutChanged: (Boolean) -> Unit,
     onSecondaryLauncherShortcutChanged: (Boolean) -> Unit,
@@ -81,15 +82,17 @@ fun ExecutionSettingsContent(
             )
         }
 
-        Checkbox(
-            label = stringResource(R.string.label_shortcut_as_file_share_target),
-            subtitle = stringResource(R.string.subtitle_shortcut_as_file_share_target),
-            checked = !excludeFromFileSharing,
-            enabled = usesFiles,
-            onCheckedChange = {
-                onExcludeFromFileSharingChanged(!it)
-            },
-        )
+        if (canUseFiles) {
+            Checkbox(
+                label = stringResource(R.string.label_shortcut_as_file_share_target),
+                subtitle = stringResource(R.string.subtitle_shortcut_as_file_share_target),
+                checked = !excludeFromFileSharing,
+                enabled = usesFiles,
+                onCheckedChange = {
+                    onExcludeFromFileSharingChanged(!it)
+                },
+            )
+        }
 
         HorizontalDivider()
 

@@ -21,5 +21,6 @@ data class ExecutionSettingsViewState(
     val repetitionInterval: Int?,
     val canUseBiometrics: Boolean,
     val excludeFromFileSharing: Boolean,
+    val canUseFiles: Boolean,
     val usesFiles: Boolean,
 )

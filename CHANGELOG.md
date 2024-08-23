@@ -8,7 +8,8 @@
 - The "Display JSON array as table" option is now enabled by default, and it now also applies if the response is a JSON object with a single key which holds a JSON array.
 
 ### Bugfixes
-- The `getDirectory(...).readFile()` and `getDirectory(...).writeFile()` Scripting function should now work as expected
+- The `getDirectory(...).readFile()` and `getDirectory(...).writeFile()` Scripting function should now work as expected.
+- The "Allow receiving files from share dialog" checkbox now only shows for regular HTTP shortcuts instead of all shortcut types.
 
 ## Version 3.17.0
 
