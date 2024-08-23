@@ -50,25 +50,6 @@ fun ResponseContent(
     ) {
         SelectionField(
             modifier = Modifier.padding(horizontal = Spacing.MEDIUM),
-            title = stringResource(R.string.label_response_handling_type),
-            selectedKey = responseUiType,
-            items = UI_TYPES.toItems(),
-            onItemSelected = onResponseUiTypeChanged,
-        )
-
-        AnimatedVisibility(visible = responseUiType == ResponseHandling.UI_TYPE_TOAST) {
-            HelpText(
-                text = stringResource(R.string.message_response_handling_toast_limitations),
-                modifier = Modifier
-                    .padding(top = Spacing.TINY)
-                    .padding(horizontal = Spacing.MEDIUM),
-            )
-        }
-
-        Spacer(modifier = Modifier.height(Spacing.MEDIUM))
-
-        SelectionField(
-            modifier = Modifier.padding(horizontal = Spacing.MEDIUM),
             title = stringResource(R.string.label_response_on_success),
             selectedKey = responseSuccessOutput,
             items = SUCCESS_OUTPUT_TYPES.toItems(),
@@ -107,6 +88,26 @@ fun ResponseContent(
             items = FAILURE_OUTPUT_TYPES.toItems(),
             onItemSelected = onResponseFailureOutputChanged,
         )
+
+        Spacer(modifier = Modifier.height(Spacing.MEDIUM))
+
+        SelectionField(
+            modifier = Modifier.padding(horizontal = Spacing.MEDIUM),
+            title = stringResource(R.string.label_response_handling_type),
+            selectedKey = responseUiType,
+            items = UI_TYPES.toItems(),
+            enabled = hasOutput,
+            onItemSelected = onResponseUiTypeChanged,
+        )
+
+        AnimatedVisibility(visible = responseUiType == ResponseHandling.UI_TYPE_TOAST) {
+            HelpText(
+                text = stringResource(R.string.message_response_handling_toast_limitations),
+                modifier = Modifier
+                    .padding(top = Spacing.TINY)
+                    .padding(horizontal = Spacing.MEDIUM),
+            )
+        }
 
         Spacer(modifier = Modifier.height(Spacing.MEDIUM))
 
