@@ -159,11 +159,7 @@ fun SettingsContent(
                     onItemSelected = onColorThemeChanged,
                 )
             }
-        }
 
-        SettingsGroup(
-            title = stringResource(R.string.settings_title_global_shortcut_settings),
-        ) {
             SettingsSelection(
                 icon = Icons.Outlined.RemoveRedEye,
                 title = stringResource(R.string.settings_title_show_hidden_shortcuts),
@@ -174,7 +170,11 @@ fun SettingsContent(
                 ),
                 onItemSelected = onShowHiddenShortcutsChanged,
             )
+        }
 
+        SettingsGroup(
+            title = stringResource(R.string.settings_title_global_shortcut_settings),
+        ) {
             SettingsSelection(
                 icon = Icons.Outlined.TouchApp,
                 title = stringResource(R.string.settings_click_behavior),
