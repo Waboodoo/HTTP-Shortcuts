@@ -8,10 +8,23 @@ class GetTableDataUseCase
 @Inject
 constructor() {
     operator fun invoke(element: JsonElement): TableData? {
-        if (!element.isJsonArray) {
-            return null
+        val array = when {
+            element.isJsonArray -> {
+                element.asJsonArray
+            }
+            element.isJsonObject -> {
+                val obj = element.asJsonObject
+                obj.keySet()
+                    .singleOrNull()
+                    ?.let { key ->
+                        obj.get(key)
+                    }
+                    ?.takeIf { it.isJsonArray }
+                    ?.asJsonArray
+            }
+            else -> null
         }
-        val array = element.asJsonArray
+            ?: return null
         val rows = mutableListOf<Map<String, String>>()
         val columns = mutableListOf<String>()
         array.forEach {
