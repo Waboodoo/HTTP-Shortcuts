@@ -17,24 +17,33 @@
     <!-- Label above input field in editor, for shortcut description -->
     <string name="label_description">Descrizione</string>
     <!-- Label above input field in editor, for shortcut URL -->
+    <string name="label_url">URL</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="label_browser_package_name">Browser</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">Utilizzare il browser predefinito</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
+    <string name="option_browser_custom_tab">Usa Scheda Personalizzata</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
+    <string name="option_custom_browser_in_custom_tab">%s (scheda Personale)</string>
     <!-- Button to save changes made to shortcut/variable -->
     <string name="save_button">Salva</string>
     <!-- Button to test changes made to shortcut -->
+    <string name="test_button">Prova</string>
     <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, …) -->
     <string name="label_method">Metodo</string>
     <!-- Label above input field in editor, for shortcut authentication username -->
     <string name="label_username">Nome utente</string>
     <!-- Label above input field in editor, for shortcut authentication password -->
+    <string name="label_password">Password</string>
     <!-- Label above input field in editor, for shortcut authentication token -->
+    <string name="label_auth_token">Token</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
     <string name="label_response_on_success">In caso di Successo</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the response content should be treated as -->
+    <string name="label_response_type_selection">Tipo Di Risposta</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the custom message that they enter should be treated as -->
+    <string name="label_response_message_type_selection">Tipo Di Messaggio</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
     <string name="label_response_on_failure">In caso di Errore</string>
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
@@ -70,6 +79,7 @@
     <!-- Dialog option, for exporting a single shortcut as a cURL command -->
     <string name="action_export_as_curl">cURL</string>
     <!-- Dialog option, for exporting a single shortcut as a file -->
+    <string name="action_export_as_file">File</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">Ancora nessuna scorciatoia</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
@@ -77,6 +87,7 @@
 
 Fai clic sul pulsante + per iniziare, o controlla la Documentazione sulla sezione Informazioni.</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
+    <string name="empty_state_no_shortcuts_in_category">nessuna scorciatoia ancora in questa categoria</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Non hai ancora aggiunto una scorciatoia da attivare.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
@@ -102,6 +113,7 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">Scorciatoia non trovata. Potresti doverla riaggiungere alla schermata iniziale.</string>
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
+    <string name="error_shortcut_deleted">Questa scorciatoia è stata eliminata.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Inserisci un nome.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
@@ -157,6 +169,7 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <!-- Title of dialog to add a custom header to a shortcut -->
     <string name="title_custom_header_add">Aggiungi Intestazione</string>
     <!-- Label of input field to provide name of custom header -->
+    <string name="label_custom_header_key">Intestazione</string>
     <!-- Label of input field to provide value of custom header -->
     <string name="label_custom_header_value">Valore</string>
     <!-- Label of input field to provide request body of a shortcut -->
@@ -198,6 +211,7 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
     <string name="title_import_export">Importa / Esporta</string>
     <!-- Section title on settings screen for privacy related settings -->
+    <string name="settings_title_privacy">Privacy</string>
     <!-- Section title on settings screen for options shared by all shortcuts -->
     <string name="settings_title_global_shortcut_settings">Impostazioni generali scorciatoie</string>
     <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
@@ -211,7 +225,9 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <!-- Button in settings page to start import of shortcuts from a url -->
     <string name="settings_import_from_url">Importa da URL</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts into a file -->
+    <string name="settings_export_to_file">Esporta in file</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
+    <string name="settings_export_via_share">Esporta tramite la finestra di condivisione</string>
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">Modifica sul PC</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
@@ -238,6 +254,7 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">Importazione in corso…</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
+    <string name="label_timeout">Timeout</string>
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">Tipo di proxy</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
@@ -257,6 +274,7 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
     <string name="label_subtitle_client_cert_file_in_use">Utilizzo il file del certificato. Fare clic per rimuovere.</string>
     <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
+    <string name="label_subtitle_not_applicable_for_http">Applicabile solo quando si utilizza HTTPS</string>
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">Certificato cliente</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
@@ -268,6 +286,7 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <!-- Subtitle for Label, for option in dialog to pick a client certificate from a .p12 file -->
     <string name="label_client_cert_from_file_subtitle">Una copia del file e della password verranno archiviate all\'interno dell\'app senza protezione speciale. Utilizza a tuo rischio.</string>
     <!-- Title of dialog, for entering the password for a client cert file -->
+    <string name="title_client_cert_file_password">Password</string>
     <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %d is a placeholder for the actual number. -->
     <plurals name="seconds">
         <item quantity="one">%d secondo</item>
@@ -284,9 +303,11 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
         <item quantity="other">%d minuti</item>
     </plurals>
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
+    <string name="pattern_minutes_seconds">%1$s, %2$s</string>
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">Risoluzione dei problemi</string>
     <!-- Title of option in settings to show change changelog of current and past versions -->
+    <string name="settings_changelog">Changelog</string>
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
     <string name="settings_changelog_summary">Versione %1$s</string>
     <!-- Button title, for option to contact the app developer (via email) -->
@@ -453,11 +474,15 @@ Tutte le scorciatoie contenute all\'interno verranno eliminate.</string>
     <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle_description">Passa ad un valore diverso ogni volta che viene utilizzato</string>
     <!-- Type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment">Contatore Incrementante</string>
     <!-- Description for type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment_description">Aumenta un numero ogni volta che viene usato</string>
     <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid">UUID</string>
     <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
     <string name="variable_type_uuid_description">Genera un nuovo UUID casuale a ogni esecuzione.</string>
     <!-- Type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp">Timestamp</string>
     <!-- Description for type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
     <string name="variable_type_timestamp_description">La data/ora corrente utilizzando un formato specifico</string>
     <!-- Type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
@@ -487,7 +512,9 @@ Tutte le scorciatoie contenute all\'interno verranno eliminate.</string>
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">Codifica JSON</string>
     <!-- Checkbox label, for option to enable/disable the exclusion of a variable's value in exports -->
+    <string name="label_exclude_variable_value_from_exports">Escludi il valore memorizzato dalle esportazioni</string>
     <!-- Instructions shown below the "IExclude stored value from exports" checkbox in the variable editor -->
+    <string name="message_exclude_variable_value_from_exports_instructions">Abilita questa opzione se non vuoi che il valore memorizzato di questa variabile (se presente) sia incluso nelle esportazioni.</string>
     <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">Impostazioni di base</string>
     <!-- Error message, informing user that the entered variable name is empty -->
@@ -585,10 +612,13 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">Altra app</string>
     <!-- Instruction text, shown at the top of the screen when creating a new shortcut, shows options below -->
+    <string name="instructions_create_new_shortcut_options_dialog">Seleziona il tipo di scorciatoia che desideri creare.</string>
     <!-- Option in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <string name="button_create_new">Scorciatoia HTTP regolare</string>
     <!-- Button in shortcut creation screen, to select the type of shortcut: from scratch (i.e., start with a blank editor) -->
+    <string name="button_create_from_scratch">Crea da zero</string>
     <!-- Section title, shown on shortcut creation screen, above the section that lets the user pick advanced shortcut types -->
+    <string name="section_title_advanced_shortcut_types">Tipi Avanzati</string>
     <!-- Option in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">Importa da Comando cURL</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
@@ -616,15 +646,21 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Dropdown option for "Authentication" of a shortcut: "Digest Authentication", aka. DigestAuth (username & password) -->
     <string name="authentication_digest">Autenticazione Digest</string>
     <!-- Dropdown option for "Authentication" of a shortcut: "Bearer Authentication", aka. BearerAuth (token) -->
+    <string name="authentication_bearer">Autenticazione Del Portatore</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">Mostra come app sul programma di avvio</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
+    <string name="subtitle_launcher_shortcut">Questo permetterà anche di utilizzare la scorciatoia tramite applicazioni di terze parti come Google Assistant o Bixby Routines.</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
+    <string name="subtitle_launcher_shortcut_with_direct_share">Questo permetterà anche di utilizzare la scorciatoia tramite Direct Share o applicazioni di terze parti come Google Assistant o Bixby Routines.</string>
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="label_secondary_launcher_shortcut">Permetti attivazione tramite l\'app launcher secondaria</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="subtitle_secondary_launcher_shortcut">Questo è utile soprattutto nei casi in cui i widget della schermata home normale non possono essere usati.</string>
     <!-- Label for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="label_shortcut_as_file_share_target">Consenti la ricezione di file dalla finestra di condivisione</string>
     <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="subtitle_shortcut_as_file_share_target">Abilitando questa opzione puoi condividere file da altre app e usarli per i parametri del corpo o del modulo di richiesta di questa scorciatoia.</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Consenti attivazione tramite Impostazioni Rapide</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
@@ -680,6 +716,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Dropdown option for request body: file (i.e., user gets to pick a file which is used as the request body) -->
     <string name="request_body_option_file">File (Selettore)</string>
     <!-- Label above input box for Request Content-Type -->
+    <string name="label_content_type">Content-Type</string>
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
     <string name="button_copy_curl_export">Copia</string>
     <!-- Section title in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
@@ -687,6 +724,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Section subtitle in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
     <string name="label_response_handling_subtitle">Definisci come gestire la risposta</string>
     <!-- Section title in shortcut editor: "Scripting", allows to write scripts for advanced workflows -->
+    <string name="label_scripting">Scripting</string>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
     <string name="label_scripting_subtitle">Esegui il codice JavaScript prima o dopo l\'esecuzione</string>
     <!-- Section title in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger -->
@@ -752,6 +790,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <string name="action_type_change_icon_description">Modifica della scorciatoia Descrizione</string>
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
+    <string name="action_type_change_shortcut_hidden_title">Mostra/Nascondi Scorciatoia</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Attiva Scorciatoia</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -781,11 +820,13 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">Attiva attività Tasker</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
+    <string name="action_type_set_wireguard_tunnel_state_title">Abilita o disabilita il tunnel Wireguard</string>
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Ottenere la posizione corrente</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
     <string name="action_type_get_location_description">Interroga la posizione fisica del dispositivo e la restituisce come oggetto</string>
     <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
+    <string name="action_type_wake_on_lan">Wake-on-LAN</string>
     <!-- Shortcut Action Title: Send a UDP packet to another device on the network -->
     <string name="action_type_send_udp_packet">Inviare un pacchetto UDP</string>
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
@@ -795,6 +836,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">Interrompi Esecuzione</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut and instead run the steps as if the request had failed -->
+    <string name="action_type_abort_and_treat_as_failure">Interrompere e trattare come fallimento</string>
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
     <string name="action_type_wait">Aspetta</string>
     <!-- Shortcut Action Title: Get the IP Address of the current Wi-Fi -->
@@ -820,7 +862,9 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->
     <string name="description_select_placement_method">Seleziona il metodo da utilizzare per posizionare il collegamento. Se incontri problemi con il metodo \"Default\", puoi provare invece il metodo \"Legacy\". Tieni presente che alcune funzioni (ad esempio la modifica del nome di scelta rapida) non sono disponibili con il metodo Legacy.</string>
     <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
+    <string name="label_placement_method_default">Predefinito</string>
     <!-- Label: Alternative option in dialog for selecting how to place the shortcut on the homescreen: Legacy (method) -->
+    <string name="label_placement_method_legacy">Eredità</string>
     <!-- Dialog message to prompt user to confirm execution of shortcut -->
     <string name="dialog_message_confirm_shortcut_execution">Eseguire questa scorciatoia?</string>
     <!-- Dialog title: Unlock the app (after it was locked. user is required to enter a password) -->
@@ -856,6 +900,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">Imposta l\'URL della scorciatoia</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
+    <string name="subtitle_basic_request_settings_pattern">%1$s %2$s</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
     <string name="subtitle_request_headers_none">Nessuna intestazione personalizzata impostata</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
@@ -903,6 +948,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether cookies should be stored for the HTTP request -->
     <string name="label_accept_cookies">Memorizza i cookies</string>
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether the HTTP connection should be kept open after a request is made -->
+    <string name="label_keep_connection_open">Mantieni la connessione aperta dopo la richiesta</string>
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
     <string name="label_pre_request_script">Esegui prima dell\'Esecuzione</string>
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
@@ -948,7 +994,9 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_id">Ottieni ID Scorciatoia</string>
     <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
+    <string name="dialog_code_snippet_read_from_file">Leggi da file</string>
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
+    <string name="dialog_code_snippet_write_to_file">Scrivi su file</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Ottieni il nome del file selezionato</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -986,6 +1034,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">Impossibile rinominare la scorciatoia \"%1$s\" perché non esiste.</string>
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_set_visible">Impossibile cambiare la visibilità della scorciatoia \“%1$s\” perché non esiste.</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Impossibile modificare l\'icona della scorciatoia \"%1$s\" perché non esiste.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1023,6 +1072,7 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">Codice di stato</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
+    <string name="label_response_url">URL</string>
     <!-- Label: Response time, shows how long the HTTP request took -->
     <string name="label_response_timing">Tempo di Risposta</string>
     <!-- Label: Shown above section that lists general information about the HTTP response, e.g. status code -->
@@ -1036,6 +1086,7 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
     <string name="option_parameter_type_file">File singolo</string>
     <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
+    <string name="subtitle_parameter_value_file">File</string>
     <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
     <string name="subtitle_parameter_value_image">Immagine</string>
     <!-- Subtitle: Shown in request parameter editor underneath every files parameter to indicate their type -->
@@ -1047,11 +1098,13 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">Seleziona o crea un collegamento per posizionarlo nella schermata principale.</string>
     <!-- Instructions: Shown in info text at the top of the screen to inform user that they should select or create a shortcut, which is then used as by the 3rd party app (e.g. Tasker) -->
+    <string name="instructions_select_shortcut_for_plugin">Seleziona o crea una scorciatoia che dovrebbe essere attivata.</string>
     <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
     <string name="label_widget">Widget personalizzabile</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">Mostra etichetta</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
+    <string name="label_show_widget_icon">Mostra Icona</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
     <string name="action_create_widget">Crea Widget</string>
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
@@ -1134,6 +1187,7 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Label: Shown above a textfield with the device's ID, used to log in to edit server when editing shortcuts on a computer -->
     <string name="label_remote_edit_device_id">ID del dispositivo</string>
     <!-- Label: Shown above a textfield for entering a password, used to log in to edit server when editing shortcuts on a computer -->
+    <string name="label_remote_edit_password">Password</string>
     <!-- Status message shown while shortcuts & variables are being pushed to the remote server, shown on progress dialog -->
     <string name="remote_edit_upload_in_progress">Caricamento sul server in corso…</string>
     <!-- Status message shown while changes to shortcuts & variables are being pulled down from the remote server, shown on progress dialog -->
@@ -1201,6 +1255,7 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Label shown above a text field showing a shortcut's ID -->
     <string name="label_shortcut_id">ID Scorciatoia</string>
     <!-- Label shown above a text field showing a shortcut's deep link URL -->
+    <string name="label_deep_link_url">Url Deep-Linking</string>
     <!-- Message: instructions shown below a shortcut's deep-linking URL -->
     <string name="message_deep_link_instructions">Puoi attivare questa scorciatoia richiamando questo URL da un\'altra app, ad esempio tramite uno scanner QR o un lettore NFC. Aggiungi i parametri di query all\'URL per passare i valori delle variabili.</string>
     <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting.  -->
@@ -1268,6 +1323,7 @@ Eliminare comunque?</string>
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
     <string name="action_type_parse_xml">Analizzare XML</string>
     <!-- Title of an action in the code snippet picker: Parse an HTML string -->
+    <string name="action_type_parse_html">Parse HTML</string>
     <!-- Title of dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it -->
     <string name="title_unsaved_changes_detected">Trovato un collegamento non salvato</string>
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
@@ -1309,6 +1365,7 @@ Eliminare comunque?</string>
     <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <string name="error_failed_to_send_tcp">Invio fallito del pacchetto TCP: %s</string>
     <!-- Error message: Shown when the user tries to read a TCP response via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_receive_tcp">Lettura dal socket TCP non riuscita: %s</string>
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">L\'apertura di file tramite openUrl() non è supportata</string>
     <!-- Page title, for page showing all events that happened recently -->
@@ -1316,6 +1373,7 @@ Eliminare comunque?</string>
     <!-- Button in Event History screen, to clear all events and empty the history -->
     <string name="button_clear_history">Storia chiara</string>
     <!-- Button in Event History screen, to switch between showing absolute times and relative times -->
+    <string name="button_history_toggle_time_mode">Attiva/Disattiva Modalità Tempo</string>
     <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
     <string name="message_history_cleared">Storia cancellata.</string>
     <!-- Empty state, shown in event history when there are no recent events -->
@@ -1356,7 +1414,9 @@ Eliminare comunque?</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_legacy_shortcut">Scorciatoia tradizionale</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_widget">Widget</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_scripting">Scripting</string>
     <!-- Message shown in snackbar to let the user know that the details of a (selected) history event were copied to the clipboard -->
     <string name="message_history_event_details_copied">Dettagli dell\'evento copiati.</string>
     <!-- Label/description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
@@ -1501,8 +1561,11 @@ Per i certificati autofirmati, controllare invece la sezione \"%s\" della scorci
     <string name="title_select_response_toolbar_buttons">Selezionare i pulsanti della barra degli strumenti</string>
     <!-- Subtitle on button, shown in Response settings of shortcut editor, shows how many buttons the user has selected to be shown in the response window toolbar -->
     <!-- Option in settings, allows to set whether hidden shortcuts should be visible or not -->
+    <string name="settings_title_show_hidden_shortcuts">Scorciatoie Nascoste</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
+    <string name="settings_option_show_hidden_shortcuts">Mostra scorciatoie nascoste</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
+    <string name="settings_option_hide_hidden_shortcuts">Non mostrare scorciatoie nascoste</string>
     <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
     <string name="settings_title_experimental">Sperimentale</string>
     <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
@@ -1520,64 +1583,125 @@ Per i certificati autofirmati, controllare invece la sezione \"%s\" della scorci
     <!-- Option in "Theme" setting, to use Dynamic Color, i.e., use the same color scheme as the OS -->
     <string name="settings_dynamic_color_option_default_theme">Utilizzare il tema predefinito</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This is the default option, i.e., determine the type automatically from the response headers -->
+    <string name="option_response_content_type_auto">Determina automaticamente</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as plain text -->
+    <string name="option_response_content_type_plain_text">Testo semplice</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as JSON -->
+    <string name="option_response_content_type_json">JSON</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as XML -->
+    <string name="option_response_content_type_xml">XML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as HTML -->
+    <string name="option_response_content_type_html">HTML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response charset. This is the default option, i.e., determine the charset automatically from the response headers -->
+    <string name="option_response_charset_auto">Determina automaticamente</string>
     <!-- Label for dropdown in "Response Handling" settings, allows the user to choose which character set should be used to decode the HTTP response -->
+    <string name="label_response_charset">Charset Risposta</string>
     <!-- Warning message shown at the bottom of the cURL import screen when curl options have been detected that are not known to the app. The list of unsupported options is shown after this warning. -->
+    <string name="warning_unsupported_curl_options">Alcune opzioni non sono supportate e verranno ignorate:</string>
     <!-- Dialog title for dialog that lets the user choose the shape of their custom icon: square or circular -->
+    <string name="dialog_title_select_icon_shape">Seleziona Forma Icona</string>
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_square">Quadrato</string>
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_round">Tondo</string>
     <!-- Warning message shown to user when an HTML page wants to open a URL in the external browser. %s is a placeholder for the URL. -->
+    <string name="warning_page_wants_to_open_url">La pagina vuole aprire il seguente URL in un browser:\n\n%s</string>
     <!-- Placeholder text shown in the text field for the search feature on the Documentation screen -->
+    <string name="placeholder_documentation_search_query">Cerca nella pagina…</string>
     <!-- Label for dropdown in shortcut editor, for picking the font size in which the response should be displayed -->
+    <string name="label_font_size">Font Size</string>
     <!-- Option in font size drop down: Tiny -->
+    <string name="font_size_tiny">Minuscolo</string>
     <!-- Option in font size drop down: Very small -->
+    <string name="font_size_very_small">Molto piccolo</string>
     <!-- Option in font size drop down: Small -->
+    <string name="font_size_small">Piccolo</string>
     <!-- Option in font size drop down: Regular -->
+    <string name="font_size_regular">Regolare</string>
     <!-- Option in font size drop down: Large -->
+    <string name="font_size_large">Grande</string>
     <!-- Option in font size drop down: Very large -->
+    <string name="font_size_very_large">Molto grande</string>
     <!-- Option in font size drop down: Huge -->
+    <string name="font_size_huge">Enorme</string>
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
+    <string name="wireguard_setup_instructions">Assicurarsi di abilitare anche il “Consenti applicazioni di controllo remoto” impostazione nell\'app Wireguard.</string>
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
+    <string name="wireguard_permission_not_granted">Il permesso Wireguard non è stato concesso.</string>
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
+    <string name="settings_device_id">Id Del Dispositivo</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
+    <string name="settings_device_id_summary">Includi questo ID quando segnala bug su Github:\n%s</string>
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
+    <string name="message_device_id_copied">ID dispositivo copiato negli appunti.</string>
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
+    <string name="instructions_export">Seleziona quali scorciatoie devono essere esportate. Tutte le variabili richieste verranno esportate automaticamente.</string>
     <!-- Title shown on Response screen which allows to expand a panel showing some meta information about the response -->
+    <string name="title_response_meta_information">Meta Informazioni</string>
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute values (e.g. 13:37) -->
+    <string name="message_history_switched_to_absolute_times">Passato a tempi assoluti.</string>
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute relative (e.g. 42 sec ago) -->
+    <string name="message_history_switched_to_relative_times">Passato a tempi relativi.</string>
     <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
+    <string name="error_user_defined">L\'esecuzione è stata interrotta e trattata come fallimento</string>
     <!-- Accessibility description for main menu button -->
+    <string name="accessibility_main_menu">Menu principale</string>
     <!-- Accessibility description for the variable button on the right of text input fields -->
+    <string name="accessibility_variable_field_button">Aggiungi variabili</string>
     <!-- Label on button shown on the Response Handling screen, clicking it leads to a settings screen that lets the user configure how the response (or custom message) is displayed -->
+    <string name="button_display_settings">Impostazioni Di Visualizzazione</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_response">Configura come viene visualizzata la risposta</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_message">Configura come viene visualizzato il messaggio</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_error">Configura come viene visualizzato il messaggio di errore</string>
     <!-- Title of screen that lets the user configure how the HTTP response is displayed -->
+    <string name="title_response_display">Display Risposta</string>
     <!-- Title of screen that lets the user configure how their custom message is displayed -->
+    <string name="title_message_display">Visualizzazione Messaggio</string>
     <!-- Title of a generic warning dialog. The dialog may be used in various situations. -->
+    <string name="warning_dialog_title">Attenzione</string>
     <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
+    <string name="warning_message_malformed_json">Il corpo della richiesta contiene JSON non valido, il che probabilmente causerà il fallimento della richiesta.\n\n%s</string>
     <!-- Label for checkbox in editor, to allow JSON responses to be displayed as a table instead of plain JSON -->
+    <string name="label_json_array_as_table">Mostra l\'array JSON come tabella</string>
     <!-- Screen title, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="title_working_directories">Directory Montate</string>
     <!-- Option in main screen's menu, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="menu_action_working_directories">Directory</string>
     <!-- Empty state, shown in list when there are no Directories yet -->
+    <string name="empty_state_working_directories">Non hai ancora montato nessuna directory.</string>
     <!-- Empty state instructions, shown in list when there are no directories yet -->
+    <string name="empty_state_working_directories_instructions">Qui puoi montare le directory dal file system del tuo dispositivo, che consente all\'app di accedere ai loro contenuti e creare nuovi file al loro interno.\n\nFare clic sul pulsante + per montare una directory.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a directory was created/mounted -->
+    <string name="message_working_directory_mounted">Directory montata.</string>
     <!-- Message, shown in snackbar, confirming to user that a directory was deleted. %1$s is a placeholder for the directory's name -->
+    <string name="working_directory_deleted">\“%1$s\” eliminato.</string>
     <!-- Action button label, shown in context menu of Directories screen, to allow re-mounting a directory, i.e., connecting it to a directory in the device's file system -->
+    <string name="button_mount_working_directory">Monta</string>
     <!-- Generic action button label, shown in context menus, allows renaming things, e.g. directories -->
+    <string name="action_rename">Rinomina</string>
     <!-- Subtitle shown below directory name on Directories screen, when a directory is not mounted, i.e., it is disconnected from its counterpart on the device's file system -->
+    <string name="working_directory_unmounted_subtitle">Smontato</string>
     <!-- Subtitle shown below directory name on Directories screen, to indicate when this directory was last read from or written to -->
+    <string name="working_directory_last_accessed">Ultimo accesso: %s</string>
     <!-- Subtitle shown below directory name on Directories screen, to indicate that this directory was never read from or written to -->
+    <string name="working_directory_never_accessed">Mai accesso</string>
     <!-- Instructions: Shown at the top of the Directories screen when picking a directory that should be used for a specific feature -->
+    <string name="instructions_select_directory">Selezionare o montare una nuova directory per consentire all\'app di leggere e scrivere i file.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a directory -->
+    <string name="confirm_delete_working_directory_message">Eliminare il montaggio di questa directory? La directory attuale sul file system non verrà toccata e nessun file verrà eliminato.</string>
     <!-- Title for the dialog window that lets the user rename a directory -->
+    <string name="title_rename_working_directory">Rinomina Cartella</string>
     <!-- Error message, informing user that the entered directory name already exists -->
+    <string name="validation_directory_name_already_exists">Esiste già un\'altra directory con questo nome.</string>
     <!-- Action, shown on dropdown when editing a shortcut, for allowing to hide a shortcut -->
+    <string name="action_hide_shortcut">Nascondi</string>
     <!-- Action, shown on dropdown when editing a shortcut, for allowing to show a hidden shortcut -->
+    <string name="action_show_shortcut">Mostra</string>
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut was hidden -->
+    <string name="message_shortcut_hidden">Shortcut hidden.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
+    <string name="message_shortcut_visible">Scorciatoia non più nascosta.</string>
 </resources>

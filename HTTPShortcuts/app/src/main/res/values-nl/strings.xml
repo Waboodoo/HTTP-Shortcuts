@@ -17,14 +17,19 @@
     <!-- Label above input field in editor, for shortcut description -->
     <string name="label_description">Beschrijving</string>
     <!-- Label above input field in editor, for shortcut URL -->
+    <string name="label_url">URL</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="label_browser_package_name">browser</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">Standaardbrowser gebruiken</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
+    <string name="option_browser_custom_tab">Aangepaste tab gebruiken</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
+    <string name="option_custom_browser_in_custom_tab">%s (Aangepast Tabblad)</string>
     <!-- Button to save changes made to shortcut/variable -->
     <string name="save_button">Opslaan</string>
     <!-- Button to test changes made to shortcut -->
+    <string name="test_button">Test</string>
     <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, …) -->
     <string name="label_method">Methode</string>
     <!-- Label above input field in editor, for shortcut authentication username -->
@@ -32,10 +37,13 @@
     <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">Paswoord</string>
     <!-- Label above input field in editor, for shortcut authentication token -->
+    <string name="label_auth_token">Token</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
     <string name="label_response_on_success">Op succes</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the response content should be treated as -->
+    <string name="label_response_type_selection">Type reactie</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the custom message that they enter should be treated as -->
+    <string name="label_response_message_type_selection">Bericht type</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
     <string name="label_response_on_failure">Op falen</string>
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
@@ -57,7 +65,9 @@
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
     <string name="action_delete">Verwijderen</string>
     <!-- Shortcut dropdown option: export the shortcut -->
+    <string name="action_export">Exporteren</string>
     <!-- Menu button: Confirm exporting the selected shortcuts -->
+    <string name="dialog_button_export">Exporteren</string>
     <!-- Shortcut dropdown option: display information about the shortcut -->
     <string name="action_shortcut_information">Toon info</string>
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
@@ -75,6 +85,7 @@
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts_instructions">Klik op de + knop om te beginnen</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
+    <string name="empty_state_no_shortcuts_in_category">nog geen snelkoppelingen in deze categorie</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Je hebt nog geen snelkoppelingen toegevoegd om te activeren.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
@@ -98,6 +109,7 @@ Klik op de + knop om te beginnen.</string>
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">Snelkoppeling niet gevonden. Mogelijk moet u deze opnieuw toevoegen aan het home scherm.</string>
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
+    <string name="error_shortcut_deleted">Deze snelkoppeling is verwijderd.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Voer een naam in.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
@@ -117,6 +129,7 @@ Klik op de + knop om te beginnen.</string>
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
     <string name="choose_image">Aangepaste Afbeelding</string>
     <!-- Option in "Change Icon" dialog, allows user to fetch the favicon of the shortcut's URL to use as a shortcut icon -->
+    <string name="choose_page_favicon">Pagina Favicon ophalen</string>
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
     <string name="choose_icon">Kies Standaard Icoon</string>
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
@@ -138,20 +151,25 @@ Klik op de + knop om te beginnen.</string>
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
     <string name="label_post_param_value">Waarde</string>
     <!-- Generic dialog button: OK -->
+    <string name="dialog_ok">Ok</string>
     <!-- Generic button: Cancel -->
     <string name="dialog_cancel">Annuleren</string>
     <!-- Generic button: remove -->
     <string name="dialog_remove">Verwijderen</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
+    <string name="section_request_headers">Aanvraag van headers</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
+    <string name="section_request_body">Aanvraag body / Parameters</string>
     <!-- Title of dialog to edit a custom header of a shortcut -->
     <string name="title_custom_header_edit">Header Bewerken</string>
     <!-- Title of dialog to add a custom header to a shortcut -->
     <string name="title_custom_header_add">Header Toevoegen</string>
     <!-- Label of input field to provide name of custom header -->
+    <string name="label_custom_header_key">Koptekst</string>
     <!-- Label of input field to provide value of custom header -->
     <string name="label_custom_header_value">Waarde</string>
     <!-- Label of input field to provide request body of a shortcut -->
+    <string name="label_custom_body">Aanvraag body</string>
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">Instellingen</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
@@ -187,7 +205,9 @@ Klik op de + knop om te beginnen.</string>
     <!-- Option in category editor to choose the shortcut click behavior, to set it to the global default -->
     <string name="settings_click_behavior_global_default">Globale standaard gebruiken</string>
     <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
+    <string name="title_import_export">Importeren / exporteren</string>
     <!-- Section title on settings screen for privacy related settings -->
+    <string name="settings_title_privacy">Privacy</string>
     <!-- Section title on settings screen for options shared by all shortcuts -->
     <string name="settings_title_global_shortcut_settings">Globale snelkoppelingsinstellingen</string>
     <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
@@ -201,7 +221,9 @@ Klik op de + knop om te beginnen.</string>
     <!-- Button in settings page to start import of shortcuts from a url -->
     <string name="settings_import_from_url">Importeren van URL</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts into a file -->
+    <string name="settings_export_to_file">Exporteren naar bestand</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
+    <string name="settings_export_via_share">Exporteren via deelvenster</string>
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">Bewerken op de computer</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
@@ -221,6 +243,10 @@ Klik op de + knop om te beginnen.</string>
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
     <string name="import_failure_reason_data_version_mismatch">Het geselecteerde bestand werd geëxporteerd door een nieuwere versie van de app. Zorg ervoor dat u de laatste versie van de app hebt geïnstalleerd.</string>
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
+    <plurals name="shortcut_import_success">
+        <item quantity="one">1 snelkoppeling geïmporteerd.</item>
+        <item quantity="other">%d snelkoppelingen geïmporteerd.</item>
+    </plurals>
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">Importeren...</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
@@ -244,6 +270,7 @@ Klik op de + knop om te beginnen.</string>
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
     <string name="label_subtitle_client_cert_file_in_use">Certificaatbestand gebruiken. Klik om te verwijderen.</string>
     <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
+    <string name="label_subtitle_not_applicable_for_http">Alleen van toepassing bij gebruik van HTTPS</string>
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">Klantcertificaat</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
@@ -257,12 +284,26 @@ Klik op de + knop om te beginnen.</string>
     <!-- Title of dialog, for entering the password for a client cert file -->
     <string name="title_client_cert_file_password">Wachtwoord</string>
     <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %d is a placeholder for the actual number. -->
+    <plurals name="seconds">
+        <item quantity="one">%d seconde</item>
+        <item quantity="other">%d seconden</item>
+    </plurals>
     <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %d is a placeholder for the actual number. -->
+    <plurals name="milliseconds">
+        <item quantity="one">%d milliseconde</item>
+        <item quantity="other">%d milliseconden</item>
+    </plurals>
     <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %d is a placeholder for the actual number. -->
+    <plurals name="minutes">
+        <item quantity="one">%d minuut</item>
+        <item quantity="other">%d minuten</item>
+    </plurals>
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
+    <string name="pattern_minutes_seconds">%1$s, %2$s</string>
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">Problemen oplossen</string>
     <!-- Title of option in settings to show change changelog of current and past versions -->
+    <string name="settings_changelog">Wijzigingslogboek</string>
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
     <string name="settings_changelog_summary">Versie %1$s</string>
     <!-- Button title, for option to contact the app developer (via email) -->
@@ -280,6 +321,7 @@ Klik op de + knop om te beginnen.</string>
     <!-- Dialog title, for changelog, shown when a new version of the app is released -->
     <string name="changelog_title_whats_new">Wat is er nieuw?</string>
     <!-- Dialog title, for changelog, showing what's new in a release -->
+    <string name="changelog_title">Wijzigingslogboek</string>
     <!-- Checkbox label, shown on Changelog dialog, allowing user to enable that the dialog shows when the app is started -->
     <string name="changelog_checkbox_show_at_startup">Tonen bij opstarten</string>
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
@@ -367,6 +409,10 @@ Alle snelkoppelingen erin zullen verwijderd worden.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
     <string name="message_category_deleted">Categorie verwijderd.</string>
     <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
+    <plurals name="shortcut_count">
+        <item quantity="one">%d snelkoppeling</item>
+        <item quantity="other">%d snelkoppelingen</item>
+    </plurals>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">%s (verborgen)</string>
     <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
@@ -420,11 +466,15 @@ Alle snelkoppelingen erin zullen verwijderd worden.</string>
     <!-- Description for type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
     <string name="variable_type_select_description">Toont een selectiedialoog om één of meerdere waarden te kiezen</string>
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
+    <string name="variable_type_toggle">Omschakelen</string>
     <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle_description">Schakelt bij gebruik telkens over op een andere waarde</string>
     <!-- Type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment">Toename teller</string>
     <!-- Description for type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment_description">Verhoogt een getal elke keer wanneer het gebruikt</string>
     <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid">UUID</string>
     <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
     <string name="variable_type_uuid_description">Genereert een nieuwe willekeurige UUID bij elke uitvoering</string>
     <!-- Type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
@@ -458,7 +508,9 @@ Alle snelkoppelingen erin zullen verwijderd worden.</string>
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">JSON coderen</string>
     <!-- Checkbox label, for option to enable/disable the exclusion of a variable's value in exports -->
+    <string name="label_exclude_variable_value_from_exports">Uitsluiten van opgeslagen waarde van export</string>
     <!-- Instructions shown below the "IExclude stored value from exports" checkbox in the variable editor -->
+    <string name="message_exclude_variable_value_from_exports_instructions">Schakel dit in als je de opgeslagen waarde van deze variabele (indien aanwezig) niet in de export wilt opnemen.</string>
     <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">Basisinstellingen</string>
     <!-- Error message, informing user that the entered variable name is empty -->
@@ -482,6 +534,7 @@ Alle snelkoppelingen erin zullen verwijderd worden.</string>
     <!-- Section title, for section that lists all selectable options of a Selection variable -->
     <string name="section_select_options">Selecteerbare opties</string>
     <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Label" -->
+    <string name="label_select_label">Omschrijving</string>
     <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Value" -->
     <string name="label_select_value">Waarde</string>
     <!-- Button, for opening help article page -->
@@ -555,10 +608,13 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">Andere app (delen)</string>
     <!-- Instruction text, shown at the top of the screen when creating a new shortcut, shows options below -->
+    <string name="instructions_create_new_shortcut_options_dialog">Selecteer het type snelkoppeling dat u wilt aanmaken.</string>
     <!-- Option in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <string name="button_create_new">Normale HTTP-snelkoppeling</string>
     <!-- Button in shortcut creation screen, to select the type of shortcut: from scratch (i.e., start with a blank editor) -->
+    <string name="button_create_from_scratch">Creëer vanaf nul</string>
     <!-- Section title, shown on shortcut creation screen, above the section that lets the user pick advanced shortcut types -->
+    <string name="section_title_advanced_shortcut_types">Geavanceerde types</string>
     <!-- Option in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">Importeren vanuit cURL commando</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
@@ -570,6 +626,7 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_description_create_scripting_shortcut">JavaScript-code schrijven voor geavanceerde workflows</string>
     <!-- Option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
+    <string name="button_create_trigger_shortcut">Multi-snelkoppeling</string>
     <!-- Description for option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
     <string name="button_description_create_trigger_shortcut">Meerdere snelkoppelingen tegelijk activeren</string>
     <!-- Window title for cURL import -->
@@ -577,6 +634,7 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Instruction text for shortcut import from cURL format -->
     <string name="instructions_curl_import">Typ of plak hieronder een cURL commando om er een nieuwe snelkoppeling van te maken.</string>
     <!-- Text on button to start shortcut import from a cURL command -->
+    <string name="curl_import_button">Importeren</string>
     <!-- Dropdown option for "Authentication" of a shortcut: no authentication -->
     <string name="authentication_none">Geen authentificatie</string>
     <!-- Dropdown option for "Authentication" of a shortcut: "Basic Authentication", aka. BasicAuth (username & password) -->
@@ -588,12 +646,17 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">Toon als app snelkoppeling op launcher</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
+    <string name="subtitle_launcher_shortcut">Dit zal ook het gebruik van snelkoppeling via apps van derden zoals Google Assistant of Bixby Routines mogelijk maken.</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
+    <string name="subtitle_launcher_shortcut_with_direct_share">Dit zal ook het gebruik van snelkoppeling via Directe Delen of derden, zoals Google Assistant of Bixby Routines, mogelijk maken.</string>
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="label_secondary_launcher_shortcut">Sta triggering toe via secundaire launcher app</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="subtitle_secondary_launcher_shortcut">Dit is vooral nuttig in gevallen waarin reguliere startscherm widgets niet kunnen worden gebruikt.</string>
     <!-- Label for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="label_shortcut_as_file_share_target">Sta het ontvangen van bestanden toe vanuit het dialoogvenster delen</string>
     <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="subtitle_shortcut_as_file_share_target">Door dit in te schakelen kunt u bestanden van andere apps delen en ze gebruiken voor de inhoud van deze snelkoppelingen of formulierparameters.</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Triggering via Quick Settings Tile toestaan</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
@@ -621,7 +684,9 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_summary">De titel van het hoofdscherm van de app wijzigen</string>
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_min">Minimum</string>
     <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_max">Maximum</string>
     <!-- Label above input box, for step size (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_step">Stapgrootte</string>
     <!-- Label above input box, for prefix text displayed in front of the number in a number slider (input dialog) -->
@@ -641,6 +706,7 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Dropdown option for request body: form-data (i.e. list of parameters) -->
     <string name="request_body_option_form_data">Parameters (formulier-data)</string>
     <!-- Dropdown option for request body: x-www-form-urlencoded (i.e. list of parameters) -->
+    <string name="request_body_option_x_www_form_urlencoded">Parameters (x-www-form-urlencoded)</string>
     <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
     <string name="request_body_option_custom_text">Aangepaste tekst</string>
     <!-- Dropdown option for request body: file (i.e., user gets to pick a file which is used as the request body) -->
@@ -654,12 +720,17 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Section subtitle in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
     <string name="label_response_handling_subtitle">Bepalen hoe het antwoord moet worden behandeld</string>
     <!-- Section title in shortcut editor: "Scripting", allows to write scripts for advanced workflows -->
+    <string name="label_scripting">Scripten</string>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
     <string name="label_scripting_subtitle">JavaScript-code uitvoeren voor of na uitvoering</string>
     <!-- Section title in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger -->
     <string name="label_trigger_shortcuts">Snelkoppelingen</string>
     <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
     <string name="label_trigger_shortcuts_subtitle_none">Nog geen snelkoppelingen geselecteerd</string>
+    <plurals name="label_trigger_shortcuts_subtitle">
+        <item quantity="one">%d snelkoppeling geselecteerd</item>
+        <item quantity="other">%d snelkoppelingen geselecteerd</item>
+    </plurals>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
     <string name="label_scripting_browser_shortcuts_subtitle">JavaScript-code uitvoeren vóór uitvoering</string>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
@@ -715,6 +786,7 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <string name="action_type_change_icon_description">Snelkoppeling wijzigen Beschrijving</string>
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
+    <string name="action_type_change_shortcut_hidden_title">Sneltoets weergeven/verbergen</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Enqueue snelkoppeling</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -732,7 +804,9 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
     <string name="action_type_send_intent_title">Intentie verzenden</string>
     <!-- Shortcut Action Title: Open a URL (e.g. in a browser) -->
+    <string name="action_type_open_url_title">Open URL</string>
     <!-- Shortcut Action Title: Open another app (via its package name) -->
+    <string name="action_type_open_app_title">App openen</string>
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">Gefaald om intentie te verzenden: %s</string>
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
@@ -742,11 +816,13 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">Trigger Taak</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
+    <string name="action_type_set_wireguard_tunnel_state_title">Wireguard tunnel in- of uitschakelen</string>
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Huidige locatie ophalen</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
     <string name="action_type_get_location_description">Vraagt de fysieke locatie van het apparaat op en stuurt het terug als een object</string>
     <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
+    <string name="action_type_wake_on_lan">Wake-on-LAN</string>
     <!-- Shortcut Action Title: Send a UDP packet to another device on the network -->
     <string name="action_type_send_udp_packet">UDP-pakket verzenden</string>
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
@@ -756,6 +832,7 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">Uitvoering afbreken</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut and instead run the steps as if the request had failed -->
+    <string name="action_type_abort_and_treat_as_failure">Afbreken en handelen als mislukt</string>
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
     <string name="action_type_wait">Wacht</string>
     <!-- Shortcut Action Title: Get the IP Address of the current Wi-Fi -->
@@ -813,14 +890,20 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Scripting Shortcut", i.e., one that only allows JavaScript for execution and doesn't actually make an HTTP request -->
     <string name="subtitle_editor_toolbar_scripting_shortcut">Scripting Snelkoppeling</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
+    <string name="subtitle_editor_toolbar_trigger_shortcut">Multi-snelkoppeling</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">Stel de URL en de HTTP-methode van de snelkoppeling in</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">Stel de URL van de snelkoppeling in</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
+    <string name="subtitle_basic_request_settings_pattern">%1$s %2$s</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
     <string name="subtitle_request_headers_none">Geen headers ingesteld</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
+    <plurals name="subtitle_request_headers_pattern">
+        <item quantity="one">%d koptekst ingesteld</item>
+        <item quantity="other">%d headers ingesteld</item>
+    </plurals>
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
     <string name="subtitle_authentication_none">Geen authenticatie</string>
     <!-- Section subtitle, shown in shortcut editor when using a client certificate for authentication -->
@@ -834,6 +917,10 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">Geen parameters ingesteld</string>
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
+    <plurals name="subtitle_request_body_params_pattern">
+        <item quantity="one">%d parameter ingesteld</item>
+        <item quantity="other">%d parameters ingesteld</item>
+    </plurals>
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
     <string name="subtitle_request_body_none">Geen request body ingesteld</string>
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
@@ -857,6 +944,7 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether cookies should be stored for the HTTP request -->
     <string name="label_accept_cookies">Cookies opslaan</string>
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether the HTTP connection should be kept open after a request is made -->
+    <string name="label_keep_connection_open">Verbinding open houden na verzoek</string>
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
     <string name="label_pre_request_script">Uitvoeren voor uitvoering</string>
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
@@ -902,7 +990,9 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_id">Haal snelkoppeling ID</string>
     <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
+    <string name="dialog_code_snippet_read_from_file">Lees uit bestand</string>
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
+    <string name="dialog_code_snippet_write_to_file">Schrijf naar bestand</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Naam van geselecteerd bestand opvragen</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -940,6 +1030,7 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">Kan snelkoppeling \"%1$s\" niet hernoemen omdat deze niet bestaat.</string>
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_set_visible">Kon de zichtbaarheid van snelkoppeling \"%1$s\" niet wijzigen omdat deze niet bestaat.</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Kan icoontje van snelkoppeling \"%1$s\" niet wijzigen omdat het niet bestaat.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -975,7 +1066,9 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
 
 U kunt deze functie inschakelen door een snelkoppeling te bewerken en het selectievakje \"%1$s\" te selecteren in \"%2$s\".</string>
     <!-- Label: Status code, shows the HTTP status code of the response -->
+    <string name="label_status_code">Status Code</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
+    <string name="label_response_url">URL</string>
     <!-- Label: Response time, shows how long the HTTP request took -->
     <string name="label_response_timing">Reactietijd</string>
     <!-- Label: Shown above section that lists general information about the HTTP response, e.g. status code -->
@@ -983,6 +1076,7 @@ U kunt deze functie inschakelen door een snelkoppeling te bewerken en het select
     <!-- Label: Shown above section that lists HTTP response headers -->
     <string name="label_response_headers">Koppen</string>
     <!-- Dialog title: Shown in dialog when adding a new request parameter and user has to pick its type -->
+    <string name="dialog_title_parameter_type">Type parameter</string>
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
     <string name="option_parameter_type_string">Tekst</string>
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
@@ -1000,11 +1094,13 @@ U kunt deze functie inschakelen door een snelkoppeling te bewerken en het select
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">Selecteer of maak een snelkoppeling om deze op het startscherm te plaatsen.</string>
     <!-- Instructions: Shown in info text at the top of the screen to inform user that they should select or create a shortcut, which is then used as by the 3rd party app (e.g. Tasker) -->
+    <string name="instructions_select_shortcut_for_plugin">Selecteer of maak een snelkoppeling die moet worden geactiveerd.</string>
     <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
     <string name="label_widget">Aanpasbare Widget</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">Label tonen</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
+    <string name="label_show_widget_icon">Pictogram weergeven</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
     <string name="action_create_widget">Widget maken</string>
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
@@ -1014,6 +1110,10 @@ U kunt deze functie inschakelen door een snelkoppeling te bewerken en het select
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
     <string name="error_invalid_character">Ongeldig karakter: %s</string>
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
+    <plurals name="warning_variable_still_in_use_in_shortcuts">
+        <item quantity="one">Deze variabele is nog in gebruik in %2$d snelkoppeling: %1$s</item>
+        <item quantity="other">Deze variabele wordt nog steeds gebruikt in %2$d snelkoppelingen: %1$s</item>
+    </plurals>
     <!-- Error: Shown when the text-to-speech action fails to speak a piece of text -->
     <string name="error_tts_failed">Niet gesproken tekst</string>
     <!-- Label: Option shown in Code Snippet Picker when inserting an action that targets a shortcut, allows to target the current shortcut -->
@@ -1037,9 +1137,11 @@ U kunt deze functie inschakelen door een snelkoppeling te bewerken en het select
     <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <string name="message_remove_deleted_trigger_shortcut">Verwijder verwijderde snelkoppeling uit de lijst van geactiveerde snelkoppelingen?</string>
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
+    <string name="label_response_handling_type">Weergave type</string>
     <!-- Label for dropdown in shortcut editor, for picking the main action that should be displayed on the dialog that displays the HTTP response -->
     <string name="label_dialog_action_dropdown">Dialoog Actie</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
+    <string name="option_response_handling_type_toast">Toast popup</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">Dialoogvenster</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
@@ -1099,6 +1201,7 @@ U kunt deze functie inschakelen door een snelkoppeling te bewerken en het select
     <!-- Dialog title: allows to change the remote editing server -->
     <string name="title_change_remote_server">Serveradres wijzigen</string>
     <!-- Dialog button (generic): Allows to reset some setting to its original value -->
+    <string name="dialog_reset">Reset</string>
     <!-- Title of code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="title_global_scripting">Globale scripting</string>
     <!-- Button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
@@ -1138,7 +1241,9 @@ U kunt deze functie inschakelen door een snelkoppeling te bewerken en het select
     <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
     <string name="error_invalid_remote_edit_host_url">Ongeldige URL. Moet http(s) zijn.</string>
     <!-- Section title on import/export screen for options related to importing -->
+    <string name="settings_title_import">Importeren</string>
     <!-- Section title on import/export screen for options related to exporting -->
+    <string name="settings_title_export">Exporteren</string>
     <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
     <string name="settings_title_remote_edit">Bewerken op afstand</string>
     <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
@@ -1146,6 +1251,7 @@ U kunt deze functie inschakelen door een snelkoppeling te bewerken en het select
     <!-- Label shown above a text field showing a shortcut's ID -->
     <string name="label_shortcut_id">Snelkoppeling ID</string>
     <!-- Label shown above a text field showing a shortcut's deep link URL -->
+    <string name="label_deep_link_url">Diep-Link URL</string>
     <!-- Message: instructions shown below a shortcut's deep-linking URL -->
     <string name="message_deep_link_instructions">U kunt deze snelkoppeling activeren door deze URL aan te roepen vanuit een andere app, bijvoorbeeld via een QR-scanner of NFC-lezer. Voeg query parameters toe aan de URL om variabele waarden door te geven.</string>
     <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting.  -->
@@ -1189,6 +1295,7 @@ Toch maar verwijderen?</string>
     <!-- Error message, shown in snackbar when the user tried to fetch a page's favicon but it failed -->
     <string name="error_failed_to_fetch_favicon">Mislukt om pictogram op te halen. Deze website heeft misschien geen geschikte.</string>
     <!-- Shortcut Action Title: Allows removing leading and trailing whitespace characters from a string -->
+    <string name="action_type_trim_string">Tekenreeks bijsnijden</string>
     <!-- Shortcut Action Description: Allows removing leading and trailing whitespace characters from a string -->
     <string name="action_type_trim_string_description">Voorlopende en achterlopende spaties verwijderen</string>
     <!-- Label of dropdown menu, for selecting which type of data to receive from the share dialog to use as the value of a variable -->
@@ -1212,6 +1319,7 @@ Toch maar verwijderen?</string>
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
     <string name="action_type_parse_xml">XML parsen</string>
     <!-- Title of an action in the code snippet picker: Parse an HTML string -->
+    <string name="action_type_parse_html">Parse HTML</string>
     <!-- Title of dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it -->
     <string name="title_unsaved_changes_detected">Niet-opgeslagen snelkoppeling gevonden</string>
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
@@ -1253,6 +1361,7 @@ Toch maar verwijderen?</string>
     <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <string name="error_failed_to_send_tcp">TCP pakket niet verzonden: %s</string>
     <!-- Error message: Shown when the user tries to read a TCP response via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_receive_tcp">Lezen van TCP socket mislukt: %s</string>
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">Het openen van bestanden met openUrl() wordt niet ondersteund</string>
     <!-- Page title, for page showing all events that happened recently -->
@@ -1260,6 +1369,7 @@ Toch maar verwijderen?</string>
     <!-- Button in Event History screen, to clear all events and empty the history -->
     <string name="button_clear_history">Duidelijke geschiedenis</string>
     <!-- Button in Event History screen, to switch between showing absolute times and relative times -->
+    <string name="button_history_toggle_time_mode">Schakel tijdmodus</string>
     <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
     <string name="message_history_cleared">Geschiedenis gewist.</string>
     <!-- Empty state, shown in event history when there are no recent events -->
@@ -1300,7 +1410,9 @@ U kunt individuele snelkoppelingen uitsluiten van weergave via een optie in het 
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_legacy_shortcut">Verouderde snelkoppeling</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_widget">Widget</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_scripting">Scripten</string>
     <!-- Message shown in snackbar to let the user know that the details of a (selected) history event were copied to the clipboard -->
     <string name="message_history_event_details_copied">Details van het evenement gekopieerd.</string>
     <!-- Label/description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
@@ -1330,7 +1442,15 @@ Mogelijk moet je de app ook uitsluiten van Batterijoptimalisaties. Dit kun je vi
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
     <string name="label_no_repetition">Geen herhaling</string>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d minutes -->
+    <plurals name="label_repeat_every_x_minutes">
+        <item quantity="one">Elke %d minuten</item>
+        <item quantity="other">Elke %d minuten</item>
+    </plurals>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d hours -->
+    <plurals name="label_repeat_every_x_hours">
+        <item quantity="one">Elk uur</item>
+        <item quantity="other">Elke %d uur</item>
+    </plurals>
     <!-- Title of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
     <string name="settings_ignore_battery_optimizations">Uitsluiten van batterijoptimalisatie</string>
     <!-- Subtitle of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
@@ -1434,9 +1554,16 @@ Mogelijk moet je de app ook uitsluiten van Batterijoptimalisaties. Dit kun je vi
     <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
     <string name="title_select_response_toolbar_buttons">Werkbalkknoppen selecteren</string>
     <!-- Subtitle on button, shown in Response settings of shortcut editor, shows how many buttons the user has selected to be shown in the response window toolbar -->
+    <plurals name="subtitle_response_toolbar_actions">
+        <item quantity="one">1 knop geselecteerd</item>
+        <item quantity="other">%d knoppen geselecteerd</item>
+    </plurals>
     <!-- Option in settings, allows to set whether hidden shortcuts should be visible or not -->
+    <string name="settings_title_show_hidden_shortcuts">Verborgen snelkoppelingen</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
+    <string name="settings_option_show_hidden_shortcuts">Verborgen snelkoppelingen weergeven</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
+    <string name="settings_option_hide_hidden_shortcuts">Verborgen snelkoppelingen niet weergeven</string>
     <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
     <string name="settings_title_experimental">Experimenteel</string>
     <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
@@ -1454,64 +1581,124 @@ Mogelijk moet je de app ook uitsluiten van Batterijoptimalisaties. Dit kun je vi
     <!-- Option in "Theme" setting, to use Dynamic Color, i.e., use the same color scheme as the OS -->
     <string name="settings_dynamic_color_option_default_theme">Standaard thema gebruiken</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This is the default option, i.e., determine the type automatically from the response headers -->
+    <string name="option_response_content_type_auto">Bepaal automatisch</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as plain text -->
+    <string name="option_response_content_type_plain_text">Onopgemaakte tekst</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as JSON -->
+    <string name="option_response_content_type_json">JSON</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as XML -->
+    <string name="option_response_content_type_xml">XML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as HTML -->
+    <string name="option_response_content_type_html">HTML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response charset. This is the default option, i.e., determine the charset automatically from the response headers -->
+    <string name="option_response_charset_auto">Bepaal automatisch</string>
     <!-- Label for dropdown in "Response Handling" settings, allows the user to choose which character set should be used to decode the HTTP response -->
+    <string name="label_response_charset">Tekenset voor antwoord</string>
     <!-- Warning message shown at the bottom of the cURL import screen when curl options have been detected that are not known to the app. The list of unsupported options is shown after this warning. -->
+    <string name="warning_unsupported_curl_options">Sommige opties worden niet ondersteund en zullen worden genegeerd:</string>
     <!-- Dialog title for dialog that lets the user choose the shape of their custom icon: square or circular -->
+    <string name="dialog_title_select_icon_shape">Selecteer pictogramvorm</string>
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_square">Vierkant</string>
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_round">Ronde</string>
     <!-- Warning message shown to user when an HTML page wants to open a URL in the external browser. %s is a placeholder for the URL. -->
+    <string name="warning_page_wants_to_open_url">De pagina wil de volgende URL in een browser openen:\n\n%s</string>
     <!-- Placeholder text shown in the text field for the search feature on the Documentation screen -->
     <!-- Label for dropdown in shortcut editor, for picking the font size in which the response should be displayed -->
+    <string name="label_font_size">Font Size</string>
     <!-- Option in font size drop down: Tiny -->
+    <string name="font_size_tiny">Klein</string>
     <!-- Option in font size drop down: Very small -->
+    <string name="font_size_very_small">Zeer klein</string>
     <!-- Option in font size drop down: Small -->
+    <string name="font_size_small">Klein</string>
     <!-- Option in font size drop down: Regular -->
+    <string name="font_size_regular">Normaal</string>
     <!-- Option in font size drop down: Large -->
+    <string name="font_size_large">groot</string>
     <!-- Option in font size drop down: Very large -->
+    <string name="font_size_very_large">Zeer groot</string>
     <!-- Option in font size drop down: Huge -->
+    <string name="font_size_huge">Enorme</string>
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
+    <string name="wireguard_setup_instructions">Zorg ervoor dat ook de \"Sta externe besturingsapps toe\" instelling in de Wireguard wordt ingeschakeld.</string>
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
+    <string name="wireguard_permission_not_granted">De Wireguard toestemming is niet verleend.</string>
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
+    <string name="settings_device_id">Apparaat ID</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
+    <string name="settings_device_id_summary">Inclusief dit ID bij het melden van bugs op Github:\n%s</string>
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
+    <string name="message_device_id_copied">Apparaat ID gekopieerd naar klembord.</string>
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
+    <string name="instructions_export">Selecteer welke snelkoppelingen moeten worden geëxporteerd. Alle benodigde variabelen worden automatisch geëxporteerd.</string>
     <!-- Title shown on Response screen which allows to expand a panel showing some meta information about the response -->
+    <string name="title_response_meta_information">Meta Informatie</string>
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute values (e.g. 13:37) -->
+    <string name="message_history_switched_to_absolute_times">Overgeschakeld naar absolute tijden.</string>
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute relative (e.g. 42 sec ago) -->
+    <string name="message_history_switched_to_relative_times">Overgeschakeld naar relatieve tijden.</string>
     <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
+    <string name="error_user_defined">Uitvoering is afgebroken en behandeld als mislukt</string>
     <!-- Accessibility description for main menu button -->
+    <string name="accessibility_main_menu">Hoofd menu</string>
     <!-- Accessibility description for the variable button on the right of text input fields -->
+    <string name="accessibility_variable_field_button">Variabelen toevoegen</string>
     <!-- Label on button shown on the Response Handling screen, clicking it leads to a settings screen that lets the user configure how the response (or custom message) is displayed -->
+    <string name="button_display_settings">Weergave instellingen</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_response">Stel in hoe het antwoord wordt weergegeven</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_message">Stel in hoe het bericht wordt weergegeven</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_error">Stel in hoe het foutbericht wordt weergegeven</string>
     <!-- Title of screen that lets the user configure how the HTTP response is displayed -->
+    <string name="title_response_display">Antwoord weergave</string>
     <!-- Title of screen that lets the user configure how their custom message is displayed -->
+    <string name="title_message_display">Weergave bericht</string>
     <!-- Title of a generic warning dialog. The dialog may be used in various situations. -->
+    <string name="warning_dialog_title">Waarschuwing</string>
     <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
+    <string name="warning_message_malformed_json">Je body van je aanvraag bevat ongeldige JSON, wat er waarschijnlijk voor zal zorgen dat het verzoek mislukt.\n\n%s</string>
     <!-- Label for checkbox in editor, to allow JSON responses to be displayed as a table instead of plain JSON -->
+    <string name="label_json_array_as_table">Toon JSON array als tabel</string>
     <!-- Screen title, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="title_working_directories">Gekoppelde mappen</string>
     <!-- Option in main screen's menu, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="menu_action_working_directories">Mappen</string>
     <!-- Empty state, shown in list when there are no Directories yet -->
+    <string name="empty_state_working_directories">Je hebt nog geen mappen gekoppeld.</string>
     <!-- Empty state instructions, shown in list when there are no directories yet -->
+    <string name="empty_state_working_directories_instructions">Hier kun je mappen koppelen van het bestandssysteem van je apparaat, waarmee de app toegang krijgt tot de inhoud en nieuwe bestanden erin kan aanmaken.\n\nKlik op de + knop om een map te koppelen.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a directory was created/mounted -->
+    <string name="message_working_directory_mounted">Map gemonteerd.</string>
     <!-- Message, shown in snackbar, confirming to user that a directory was deleted. %1$s is a placeholder for the directory's name -->
+    <string name="working_directory_deleted">\"%1$s\" verwijderd.</string>
     <!-- Action button label, shown in context menu of Directories screen, to allow re-mounting a directory, i.e., connecting it to a directory in the device's file system -->
+    <string name="button_mount_working_directory">Bestijgen</string>
     <!-- Generic action button label, shown in context menus, allows renaming things, e.g. directories -->
+    <string name="action_rename">Hernoem</string>
     <!-- Subtitle shown below directory name on Directories screen, when a directory is not mounted, i.e., it is disconnected from its counterpart on the device's file system -->
+    <string name="working_directory_unmounted_subtitle">Ontkoppeld</string>
     <!-- Subtitle shown below directory name on Directories screen, to indicate when this directory was last read from or written to -->
+    <string name="working_directory_last_accessed">Laatst benaderd: %s</string>
     <!-- Subtitle shown below directory name on Directories screen, to indicate that this directory was never read from or written to -->
+    <string name="working_directory_never_accessed">Nooit geopend</string>
     <!-- Instructions: Shown at the top of the Directories screen when picking a directory that should be used for a specific feature -->
+    <string name="instructions_select_directory">Selecteer of koppel een nieuwe map zodat de app bestanden kan lezen en schrijven.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a directory -->
+    <string name="confirm_delete_working_directory_message">Deze koppeling van de map verwijderen? De map zelf op het bestandssysteem zal niet worden aangeraakt en er zullen geen bestanden worden verwijderd.</string>
     <!-- Title for the dialog window that lets the user rename a directory -->
+    <string name="title_rename_working_directory">Map hernoemen</string>
     <!-- Error message, informing user that the entered directory name already exists -->
+    <string name="validation_directory_name_already_exists">Er bestaat al een andere map met deze naam.</string>
     <!-- Action, shown on dropdown when editing a shortcut, for allowing to hide a shortcut -->
+    <string name="action_hide_shortcut">Verbergen</string>
     <!-- Action, shown on dropdown when editing a shortcut, for allowing to show a hidden shortcut -->
+    <string name="action_show_shortcut">Weergeven</string>
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut was hidden -->
+    <string name="message_shortcut_hidden">Shortcut hidden.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
+    <string name="message_shortcut_visible">Snelkoppeling niet langer verborgen.</string>
 </resources>
