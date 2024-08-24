@@ -23,6 +23,7 @@ If you find bugs, have questions or feature requests, feel free to [contact me](
   - parse JSON, HTML or XML and extract data from it
   - show toast message or message dialogs
   - vibrate or play notification sounds
+  - read and write files
   - trigger other shortcuts to chain multiple HTTP requests 
   - interact with other devices and services by sending TCP or UDP packets, MQTT messages or using Wake-on-LAN
 - Keep everything organized by categorizing into different tabs

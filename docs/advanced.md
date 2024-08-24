@@ -105,9 +105,9 @@ By default, HTTP requests to a server that uses a self-signed certificate will f
 <a name="tables"></a>
 ## Displaying responses as a table
 
-If your HTTP response body is a JSON array, you have the option to display it as a table instead of as raw JSON. To enable this, open the "Response Handling" screen from the shortcut editor. There, make sure that "Display Type" is set to "Fullscreen Window", then click the "Display Settings" button. On the screen that opens, set the "Response Type" to "JSON" and enable the "Display JSON array as table" checkbox.
+If your HTTP response body is a JSON array (or a JSON object with a single field which is a JSON array), you have the option to display it as a table instead of as raw JSON. To enable this, open the "Response Handling" screen from the shortcut editor. There, make sure that "Display Type" is set to "Fullscreen Window", then click the "Display Settings" button. On the screen that opens, set the "Response Type" to "JSON" and enable the "Display JSON array as table" checkbox (it's enabled by default).
 
-You can also use this feature to display a custom table, by setting the "On Success" setting to "Show a message" instead of "Show the response", and then putting your custom JSON table into the "Message" field, e.g. via a [variable](variables.md) which is then set via the [setVariable](scripting.md#set-variable) Scripting function.
+You can also use this feature to display a custom table, by setting the "On Success" setting to "Show a custom message" instead of "Show the response", and then putting your custom JSON table into the "Message" field, e.g. via a [variable](variables.md) which is then set via the [setVariable](scripting.md#set-variable) Scripting function.
 
 Here's an example code snippet that generates a JSON array from a JS list, such that it could then be displayed as a table:
 
