@@ -25,7 +25,10 @@ fun CertPinningContent(
 ) {
     if (pins.isEmpty()) {
         EmptyState(
-            description = stringResource(R.string.empty_state_certificate_pinning_instructions, stringResource(R.string.section_advanced_settings)),
+            description = stringResource(
+                R.string.empty_state_certificate_pinning_instructions,
+                stringResource(R.string.label_advanced_technical_settings),
+            ),
         )
         return
     }

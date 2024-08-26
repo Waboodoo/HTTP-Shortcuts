@@ -349,7 +349,7 @@
     <string name="dialog_delete">Delete</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Basic Request Settings</string>
-    <!-- Section title, shown in shortcut editor, for section containing advanced settings -->
+    <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Advanced Settings</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
     <string name="section_authentication">Authentication</string>
