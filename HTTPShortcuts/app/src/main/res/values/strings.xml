@@ -978,6 +978,8 @@
     <string name="dialog_code_snippet_read_from_file">Read from File</string>
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
     <string name="dialog_code_snippet_write_to_file">Write to File</string>
+    <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
+    <string name="dialog_code_snippet_append_to_file">Append to File</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Get Name of Selected File</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->

@@ -145,6 +145,13 @@ constructor(
                     insertText("getDirectory(\"\").writeFile(\"", "\", \"...\");\n")
                 }
                 item(
+                    R.string.dialog_code_snippet_append_to_file,
+                    docRef = "read-write-files",
+                    keywords = setOf("files", "write", "store", "persist", "add", "attach"),
+                ) {
+                    insertText("getDirectory(\"\").appendFile(\"", "\", \"...\");\n")
+                }
+                item(
                     R.string.dialog_code_snippet_get_file_name,
                     docRef = "files",
                     keywords = setOf("files", "selected", "name"),
