@@ -55,9 +55,9 @@ android {
         targetSdk = 34
 
         // Version name and code must remain as literals so that F-Droid can read them
-        versionName = "3.18.0"
+        versionName = "3.19.0"
         // 11,(2 digits major),(2 digits minor),(2 digits patch),(2 digits build)
-        versionCode = 1103180000
+        versionCode = 1103190000
 
         buildConfigField("String", "BUGSNAG_API_KEY", "\"$bugsnagAPIKey\"")
         buildConfigField("String", "BUILD_TIMESTAMP", "\"${rootProject.ext["buildTimestamp"]}\"")
@@ -166,6 +166,7 @@ android {
     packaging {
         jniLibs {
             excludes.add("META-INF/*")
+            useLegacyPackaging = true
         }
         resources {
             excludes.add("META-INF/*")
