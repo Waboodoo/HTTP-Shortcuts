@@ -99,7 +99,7 @@ fun AdvancedSettingsContent(
                     },
                     keyboardOptions = KeyboardOptions(
                         capitalization = KeyboardCapitalization.None,
-                        autoCorrect = false,
+                        autoCorrectEnabled = false,
                     ),
                     value = wifiSsid,
                     onValueChange = onWifiSsidChanged,
@@ -227,7 +227,7 @@ private fun ProxyHostField(
         },
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
-            autoCorrect = false,
+            autoCorrectEnabled = false,
         ),
         value = host,
         onValueChange = onHostChanged,
@@ -248,8 +248,8 @@ private fun ProxyPortField(
         },
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
+            autoCorrectEnabled = false,
             keyboardType = KeyboardType.Number,
-            autoCorrect = false,
         ),
         value = port,
         onValueChange = { text ->
@@ -273,7 +273,7 @@ private fun ProxyUsernameField(
         },
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
-            autoCorrect = false,
+            autoCorrectEnabled = false,
         ),
         value = username,
         onValueChange = onUsernameChanged,
@@ -295,7 +295,7 @@ private fun ProxyPasswordField(
         },
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
-            autoCorrect = false,
+            autoCorrectEnabled = false,
         ),
         value = password,
         onValueChange = onPasswordChanged,

@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -28,7 +27,6 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainContent(
     categoryItems: List<CategoryItem>,

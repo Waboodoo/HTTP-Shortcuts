@@ -186,8 +186,8 @@ private fun VariableKey(
             onKeyChanged(it.take(30))
         },
         keyboardOptions = KeyboardOptions(
-            autoCorrect = false,
             capitalization = KeyboardCapitalization.None,
+            autoCorrectEnabled = false,
         ),
         singleLine = true,
         isError = error != null,

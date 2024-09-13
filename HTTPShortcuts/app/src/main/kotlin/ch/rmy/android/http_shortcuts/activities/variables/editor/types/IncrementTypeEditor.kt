@@ -30,7 +30,7 @@ fun IncrementTypeEditor(
             onViewStateChanged(viewState.copy(value = value))
         },
         keyboardOptions = KeyboardOptions(
-            autoCorrect = false,
+            autoCorrectEnabled = false,
             keyboardType = KeyboardType.Number,
         ),
         singleLine = true,

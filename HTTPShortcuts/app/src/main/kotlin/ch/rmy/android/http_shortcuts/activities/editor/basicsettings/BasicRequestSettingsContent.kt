@@ -90,9 +90,9 @@ private fun UrlField(url: String, onUrlChanged: (String) -> Unit) {
             Text(stringResource(R.string.label_url))
         },
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Uri,
             capitalization = KeyboardCapitalization.None,
-            autoCorrect = false,
+            autoCorrectEnabled = false,
+            keyboardType = KeyboardType.Uri,
         ),
         value = url,
         onValueChange = onUrlChanged,

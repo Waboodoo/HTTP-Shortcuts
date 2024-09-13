@@ -52,7 +52,7 @@ fun CodeEditorField(
         },
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
-            autoCorrect = false,
+            autoCorrectEnabled = false,
         ),
         visualTransformation = syntaxHighlightingVisualTransformation(syntaxHighlighter, value.text),
         minLines = minLines,

@@ -139,7 +139,7 @@ private fun UsernameField(
         },
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
-            autoCorrect = false,
+            autoCorrectEnabled = false,
         ),
         value = username,
         onValueChange = onUsernameChanged,
@@ -161,7 +161,7 @@ private fun PasswordField(
         },
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
-            autoCorrect = false,
+            autoCorrectEnabled = false,
         ),
         value = password,
         onValueChange = onPasswordChanged,
@@ -183,7 +183,7 @@ private fun TokenField(
         },
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
-            autoCorrect = false,
+            autoCorrectEnabled = false,
         ),
         value = token,
         onValueChange = onTokenChanged,
