@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.liquidplayer.javascript.JSObject
+import org.liquidplayer.javascript.JSValue
 import java.io.File
 import java.nio.charset.Charset
 import java.nio.charset.IllegalCharsetNameException
@@ -72,23 +73,28 @@ constructor(
                     }
             }
 
-            override fun writeFile(filePath: String, content: String) {
+            override fun writeFile(filePath: String, content: JSValue?) {
+                content ?: return
                 val file = directory.findOrCreateFileFromPath(filePath)
                     ?: executionContext.throwException(
                         ActionException {
                             "File \"$filePath\" not found in directory \"${workingDirectory.name}\""
                         }
                     )
-                contentResolver.openOutputStream(file.uri)!!
-                    .use {
-                        it.writer().apply {
-                            write(content)
-                            flush()
-                        }
+                contentResolver.openOutputStream(file.uri, "wt")!!
+                    .use { out ->
+                        out.write(content.toByteArray())
                     }
             }
 
-            override fun appendFile(filePath: String, content: String) {
+            private fun JSValue.toByteArray(): ByteArray =
+                when {
+                    isUint8Array || isInt8Array || isArray -> toJSArray().map { it.toString().toByte() }.toByteArray()
+                    else -> toString().toByteArray()
+                }
+
+            override fun appendFile(filePath: String, content: JSValue?) {
+                content ?: return
                 val file = directory.findOrCreateFileFromPath(filePath)
                     ?: executionContext.throwException(
                         ActionException {
@@ -96,11 +102,8 @@ constructor(
                         }
                     )
                 contentResolver.openOutputStream(file.uri, "wa")!!
-                    .use {
-                        it.writer().apply {
-                            write(content)
-                            flush()
-                        }
+                    .use { out ->
+                        out.write(content.toByteArray())
                     }
             }
         }
@@ -149,10 +152,10 @@ constructor(
         fun readFile(filePath: String, encoding: String?): String
 
         @Keep
-        fun writeFile(filePath: String, content: String)
+        fun writeFile(filePath: String, content: JSValue?)
 
         @Keep
-        fun appendFile(filePath: String, content: String)
+        fun appendFile(filePath: String, content: JSValue?)
     }
 
     data class Params(

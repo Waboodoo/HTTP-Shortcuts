@@ -197,11 +197,12 @@ For `writeFile()` and `appendFile()`, pass the name or path of the file you wish
 
 > For `writeFile()`, if the file already exists, its contents will be replaced without warning! For `appendFile()`, the new content will be appended and the existing file content is preserved.
 
-As the second parameter, pass the content you wish to write into the file.
+As the second parameter, pass the content you wish to write into the file. If this is an array, `Uint8Array` or `Int8Array`, it will be written as bytes. Otherwise, it will be written as a string, using UTF-8 encoding.
 
 ```js
 const dir = getDirectory('myMountedDirectory');
 dir.writeFile('someFile.txt', 'New file content');
+dir.appendFile('someFile.txt', [72, 101, 108, 108, 111]);
 ```
 
 <a name="user-interaction"></a>
