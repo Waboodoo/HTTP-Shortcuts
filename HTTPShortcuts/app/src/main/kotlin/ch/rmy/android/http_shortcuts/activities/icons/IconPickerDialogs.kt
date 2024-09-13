@@ -12,9 +12,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Circle
 import androidx.compose.material.icons.outlined.Square
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -104,7 +104,7 @@ private fun ShapeButton(
             .clickable(
                 onClick = onClick,
                 interactionSource = remember { MutableInteractionSource() },
-                indication = rememberRipple(bounded = false),
+                indication = ripple(bounded = false),
             )
             .padding(horizontal = Spacing.MEDIUM),
         horizontalAlignment = Alignment.CenterHorizontally,

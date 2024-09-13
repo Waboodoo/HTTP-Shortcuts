@@ -10,12 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -93,7 +93,7 @@ fun ShortcutEditorContent(
                             .clickable(
                                 enabled = !iconLoading,
                                 interactionSource = remember { MutableInteractionSource() },
-                                indication = rememberRipple(bounded = false),
+                                indication = ripple(bounded = false),
                                 onClick = onShortcutIconClicked,
                             ),
                     )

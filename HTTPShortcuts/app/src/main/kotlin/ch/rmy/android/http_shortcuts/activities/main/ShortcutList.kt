@@ -22,7 +22,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.HourglassEmpty
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -30,6 +29,7 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -240,7 +240,7 @@ private fun ShortcutGrid(
                     .animateItemPlacement()
                     .combinedClickable(
                         interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(bounded = false, radius = 48.dp),
+                        indication = ripple(bounded = false, radius = 48.dp),
                         onLongClick = if (isLongClickingEnabled) {
                             {
                                 onShortcutLongClicked(item.id)

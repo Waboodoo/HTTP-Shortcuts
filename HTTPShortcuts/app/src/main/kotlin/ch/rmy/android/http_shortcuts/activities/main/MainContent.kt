@@ -76,7 +76,7 @@ fun MainContent(
         HorizontalPager(
             state = pagerState,
             userScrollEnabled = true,
-            beyondBoundsPageCount = 2,
+            beyondViewportPageCount = 2,
             flingBehavior = PagerDefaults.flingBehavior(state = pagerState, snapPositionalThreshold = 0.3f),
             key = { index ->
                 categoryItems[index].categoryId

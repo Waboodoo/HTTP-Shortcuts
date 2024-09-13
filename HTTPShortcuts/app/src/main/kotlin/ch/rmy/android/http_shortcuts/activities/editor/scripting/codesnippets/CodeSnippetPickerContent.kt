@@ -19,13 +19,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -208,7 +208,7 @@ private fun CodeSnippetItem(
                     modifier = Modifier
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
-                            indication = rememberRipple(bounded = false),
+                            indication = ripple(bounded = false),
                             onClick = onDocumentationButtonClicked,
                         )
                         .alpha(0.8f)
