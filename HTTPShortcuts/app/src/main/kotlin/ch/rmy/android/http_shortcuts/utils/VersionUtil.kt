@@ -13,9 +13,10 @@ constructor(
     fun getVersionName(): String =
         try {
             getPackageInfo(context).versionName
-        } catch (e: PackageManager.NameNotFoundException) {
-            "???"
+        } catch (_: PackageManager.NameNotFoundException) {
+            null
         }
+            ?: "???"
 
     @Suppress("DEPRECATION")
     fun getVersionCode(): Long =
@@ -25,7 +26,7 @@ constructor(
             } else {
                 getPackageInfo(context).versionCode.toLong()
             }
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (_: PackageManager.NameNotFoundException) {
             -1
         }
 
