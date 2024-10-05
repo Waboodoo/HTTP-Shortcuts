@@ -6,18 +6,18 @@ import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
 import javax.inject.Inject
 
-class SetShortcutHiddenActionType
+class SetCategoryHiddenActionType
 @Inject
 constructor(
-    private val setShortcutHiddenAction: SetShortcutHiddenAction,
+    private val setCategoryHiddenAction: SetCategoryHiddenAction,
 ) : ActionType {
     override val type = TYPE
 
     override fun getActionRunnable(actionDTO: ActionData) =
         ActionRunnable(
-            action = setShortcutHiddenAction,
-            params = SetShortcutHiddenAction.Params(
-                shortcutNameOrId = actionDTO.getString(0)?.takeUnlessEmpty(),
+            action = setCategoryHiddenAction,
+            params = SetCategoryHiddenAction.Params(
+                categoryNameOrId = actionDTO.getString(0)?.takeUnlessEmpty(),
                 hidden = actionDTO.getBoolean(1) != false,
             ),
         )
@@ -28,7 +28,7 @@ constructor(
     )
 
     companion object {
-        private const val TYPE = "set_shortcut_hidden"
-        private const val FUNCTION_NAME = "setShortcutHidden"
+        private const val TYPE = "set_category_hidden"
+        private const val FUNCTION_NAME = "setCategoryHidden"
     }
 }

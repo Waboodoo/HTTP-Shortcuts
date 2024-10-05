@@ -774,6 +774,8 @@
     <string name="action_type_change_icon_description">Change Shortcut Description</string>
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
     <string name="action_type_change_shortcut_hidden_title">Show/Hide Shortcut</string>
+    <!-- Shortcut Action Title: Change Category Visibility -->
+    <string name="action_type_change_category_hidden_title">Show/Hide Category</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Enqueue Shortcut</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -1018,6 +1020,8 @@
     <string name="error_shortcut_not_found_for_renaming">Could not rename shortcut \“%1$s\” because it does not exist.</string>
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_set_visible">Could not change visibility of shortcut \“%1$s\” because it does not exist.</string>
+    <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
+    <string name="error_category_not_found_for_set_visible">Could not change visibility of category \“%1$s\” because it does not exist.</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Could not change icon of shortcut \“%1$s\” because it does not exist.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->

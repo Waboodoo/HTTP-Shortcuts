@@ -47,6 +47,8 @@ import ch.rmy.curlcommand.CurlCommand
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -90,11 +92,24 @@ constructor(
     private var activeShortcutId: ShortcutId? = null
 
     override suspend fun initialize(data: InitData): MainViewState {
-        this.categories = categoryRepository.getCategories()
+        val categoriesFlow = categoryRepository.getObservableCategories()
+        this.categories = categoriesFlow.first()
 
         viewModelScope.launch(Dispatchers.Default) {
             // Ensure that the VariablePlaceholderProvider is initialized
             variablePlaceholderProvider.applyVariables(variableRepository.getVariables())
+        }
+
+        viewModelScope.launch {
+            categoriesFlow.drop(1).collect { categories ->
+                this@MainViewModel.categories = categories
+                updateViewState {
+                    copy(
+                        categoryItems = getCategoryTabItems(),
+                        activeCategoryId = (categories.find { it.id == activeCategoryId && !it.hidden } ?: categories.first { !it.hidden }).id
+                    )
+                }
+            }
         }
 
         val appLockObservable = appRepository.getObservableLock()

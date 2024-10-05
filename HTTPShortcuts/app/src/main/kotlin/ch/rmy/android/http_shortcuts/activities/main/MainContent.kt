@@ -56,7 +56,7 @@ fun MainContent(
         if (categoryItems.size > 1) {
             TabBar(
                 categoryItems = categoryItems,
-                activeTabIndex = pagerState.currentPage,
+                activeTabIndex = pagerState.currentPage.coerceAtMost(categoryItems.size - 1),
                 onActiveCategoryIdChanged = onActiveCategoryIdChanged,
             )
         }

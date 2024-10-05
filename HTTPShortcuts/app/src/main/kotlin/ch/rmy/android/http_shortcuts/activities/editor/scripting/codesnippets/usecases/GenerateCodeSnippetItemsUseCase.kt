@@ -322,6 +322,13 @@ constructor(
                         insertText("setShortcutHidden($shortcutPlaceholder, true", ");\n")
                     }
                 }
+                item(
+                    R.string.action_type_change_category_hidden_title,
+                    docRef = "set-category-hidden",
+                    keywords = setOf("change", "update", "visible", "visibility", "hide", "hidden", "show"),
+                ) {
+                    insertText("setCategoryHidden(\"category name", "\", true);\n")
+                }
             }
             section(R.string.dialog_code_snippet_control_flow, R.drawable.ic_control_flow) {
                 item(

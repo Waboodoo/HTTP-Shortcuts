@@ -6,6 +6,7 @@ import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getCategoryById
+import ch.rmy.android.http_shortcuts.data.domains.getCategoryByNameOrId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
@@ -34,6 +35,11 @@ constructor(
     suspend fun getCategory(categoryId: CategoryId): Category =
         queryItem {
             getCategoryById(categoryId)
+        }
+
+    suspend fun getCategoryByNameOrId(categoryNameOrId: String): Category =
+        queryItem {
+            this.getCategoryByNameOrId(categoryNameOrId)
         }
 
     fun getObservableCategory(categoryId: CategoryId): Flow<Category> =
@@ -96,8 +102,16 @@ constructor(
         }
     }
 
-    suspend fun toggleCategoryHidden(categoryId: CategoryId, hidden: Boolean) {
+    suspend fun setCategoryHidden(categoryId: CategoryId, hidden: Boolean) {
         commitTransaction {
+            if (hidden) {
+                val categories = getBase().findFirst()!!.categories
+                if (categories.all { it.hidden || it.id == categoryId }) {
+                    // Disallow hiding the last non-hidden category
+                    return@commitTransaction
+                }
+            }
+
             getCategoryById(categoryId)
                 .findFirst()
                 ?.hidden = hidden

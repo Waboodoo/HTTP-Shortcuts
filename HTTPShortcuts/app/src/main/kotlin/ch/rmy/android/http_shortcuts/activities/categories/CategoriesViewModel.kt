@@ -103,7 +103,7 @@ constructor(
         val categoryId = activeCategoryId ?: skipAction()
         updateDialogState(null)
         withProgressTracking {
-            categoryRepository.toggleCategoryHidden(categoryId, !visible)
+            categoryRepository.setCategoryHidden(categoryId, !visible)
             hasChanged = true
             showSnackbar(if (visible) R.string.message_category_visible else R.string.message_category_hidden)
         }

@@ -30,6 +30,9 @@ fun RealmContext.getBase(): RealmQuery<Base> =
 fun RealmContext.getCategoryById(categoryId: CategoryId): RealmQuery<Category> =
     get("${Category.FIELD_ID} == $0", categoryId)
 
+fun RealmContext.getCategoryByNameOrId(categoryNameOrId: String): RealmQuery<Category> =
+    get("${Category.FIELD_ID} == $0 OR ${Category.FIELD_NAME} ==[c] $1", categoryNameOrId, categoryNameOrId)
+
 fun RealmContext.getShortcutById(shortcutId: ShortcutId): RealmQuery<Shortcut> =
     get("${Shortcut.FIELD_ID} == $0", shortcutId)
 

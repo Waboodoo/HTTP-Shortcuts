@@ -36,6 +36,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.SendIntentActionTyp
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendMQTTMessagesActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendTCPPacketActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendUDPPacketActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.SetCategoryHiddenActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetResultActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetShortcutHiddenActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableActionType
@@ -93,6 +94,7 @@ constructor(
     sendMQTTMessagesActionType: SendMQTTMessagesActionType,
     sendTCPPacketActionType: SendTCPPacketActionType,
     sendUDPPacketActionType: SendUDPPacketActionType,
+    setCategoryHiddenActionType: SetCategoryHiddenActionType,
     setShortcutHiddenActionType: SetShortcutHiddenActionType,
     setResultActionType: SetResultActionType,
     setVariableActionType: SetVariableActionType,
@@ -155,6 +157,7 @@ constructor(
             sendMQTTMessagesActionType,
             sendTCPPacketActionType,
             sendUDPPacketActionType,
+            setCategoryHiddenActionType,
             setShortcutHiddenActionType,
             setResultActionType,
             setVariableActionType,
