@@ -247,7 +247,7 @@
 
 ## Version 3.1.0
 
-### Improvments
+### Improvements
 - Scripting shortcuts can now be tested directly from the code editor screen
 - The contrast of the color scheme for syntax highlighting in the code editor was increased for better readability
 - In addition to the `abort` function, there is now also an `abortAll` function which can be used in combination with the `executeShortcut` function.
@@ -272,7 +272,7 @@
 
 ## Version 3.0.0
 
-A lot of things were added, changed and reworked in this version. It is very likely that new bugs were introduced or that things no longer work the same way they did before. If you encounter any issue, please let me know, either by contacting me (see the "Contact Developer" option on the Information screen) or by opening a Github issue.
+A lot of things were added, changed and reworked in this version. It is very likely that new bugs were introduced or that things no longer work the same way they did before. If you encounter any issue, please let me know, either by contacting me (see the "Contact Developer" option on the Information screen) or by opening a GitHub issue.
 
 ### Improvements
 - The app's UI was migrated to Material Design 3
@@ -660,7 +660,7 @@ This version includes a massive refactoring under the hood, so there's a good ch
 - Fixed a deadlock that would happen when calling the `wait` function too many times
 - Fixed crash on Android 12 when trying to open Wi-Fi selection screen
 - Reduced likelihood of old response window showing up again when triggering a new shortcut
-- Removed "Multline" checkbox from Number Input and Password Input variable types as it had no effect and was never supposed to be there
+- Removed "Multiline" checkbox from Number Input and Password Input variable types as it had no effect and was never supposed to be there
 - Improved the handling of large HTTP responses. The app is now less likely to crash when encountering these
 
 ## Version 2.12.0
@@ -693,7 +693,7 @@ For convenience, there is now a `response.getHeader(headerName)` and a `response
 ## Version 2.10.0
 
 ### Important Changes
-The minimum supported Android version is now at 5.0 (Lollipop). Going forward, older versions of Android will no longer receive updates. You can still install older versions of the app by [downloading the APK directly from Github](https://github.com/Waboodoo/HTTP-Shortcuts/releases).
+The minimum supported Android version is now at 5.0 (Lollipop). Going forward, older versions of Android will no longer receive updates. You can still install older versions of the app by [downloading the APK directly from GitHub](https://github.com/Waboodoo/HTTP-Shortcuts/releases).
 
 Furthermore, this version introduces a breaking change to the Scripting feature, specifically to the built-in `hmac` and `base64decode` functions. The return type of these functions is now `Uint8Array` (i.e., an array of bytes) instead of a hex string. See the **Scripting** section below for more information.
 
@@ -840,7 +840,7 @@ The Import and Export functionality was moved out of the general settings screen
 ### Miscellaneous
 - Shortcuts can now be limited to only execute when connected to a specific wifi (thanks [@crasu](https://github.com/crasu))
 - The value input field for static (constant) variables is now multi-line, making it easier to enter or view larger values.
-- It is now possible to trigger a specific shortcut via a invoking a deep-link of the form `http-shortcuts://deep-link/<id-of-shortcut-here>`
+- It is now possible to trigger a specific shortcut by invoking a deep-link of the form `http-shortcuts://deep-link/<id-of-shortcut-here>`
 - When displaying a JSON formatted response in a window, it is now possible to toggle line-wrapping by tapping.
 - The `About` section was moved out of the `Settings` page to be a standalone page.
 

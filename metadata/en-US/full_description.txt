@@ -44,6 +44,6 @@ Some ideas what to use HTTP shortcuts for:
 <li>Automate workflows</li>
 </ul>
 
-Find it on Github: <a href="https://github.com/Waboodoo/HTTP-Shortcuts">https://github.com/Waboodoo/HTTP-Shortcuts</a>.
+Find it on GitHub: <a href="https://github.com/Waboodoo/HTTP-Shortcuts">https://github.com/Waboodoo/HTTP-Shortcuts</a>.
 Or visit the official website for documentation: <a href="https://http-shortcuts.rmy.ch">https://http-shortcuts.rmy.ch</a>
 

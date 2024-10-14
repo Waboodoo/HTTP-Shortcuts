@@ -7,7 +7,7 @@ This page is a collection of some less commonly used or more advanced use cases,
 
 You might want to be able to share a piece of text (e.g. the URL of the current page in a browser) from an app and use it as part of an HTTP request. You can do this with the use of [variables](#variables.md).
 
-When you create or edit a variable, you'll find a checkbox labelled "Allow Receiving Value from Share Dialog". Enable this and save your changes. From now on you can share text from an other app into the HTTP Shortcuts app, and it will use the shared text as the value of that variable, in whatever place you used the variable.
+When you create or edit a variable, you'll find a checkbox labelled "Allow Receiving Value from Share Dialog". Enable this and save your changes. From now on you can share text from another app into the HTTP Shortcuts app, and it will use the shared text as the value of that variable, in whatever place you used the variable.
 
 If you use this variable in multiple shortcuts, you will be prompted to choose which shortcut should be executed.
 
@@ -46,7 +46,7 @@ Make sure to properly URL-encode the value.
 
 In some cases you might not be able to use home screen shortcuts. In this case, as a workaround, the app supports a secondary launcher app, through which shortcuts can be triggered.
 
-To enable this secondary launcher app, open the editor for one of your shortcuts and go to the "Trigger & Execution Settings" screen. There you'll find a "Allow triggering via secondary launcher app" checkbox. Enable this and save your changes. After this you should find the secondary launcher app in your device's list of apps under the name "Trigger shortcut".
+To enable this secondary launcher app, open the editor for one of your shortcuts and go to the "Trigger & Execution Settings" screen. There you'll find an "Allow triggering via secondary launcher app" checkbox. Enable this and save your changes. After this you should find the secondary launcher app in your device's list of apps under the name "Trigger shortcut".
 
 If you enable this for multiple shortcuts you'll be prompted to select the shortcut you want to trigger every time you open this secondary app.
 
@@ -57,7 +57,7 @@ Unfortunately, due to technical limitations on Android, it is not possible to ch
 
 On most Android devices you can pull down the status bar to reveal the quick settings area, e.g. to quickly toggle Wi-Fi or enable "Do not disturb" mode. You can edit this area and choose the tiles that are relevant to you and rearrange them. When you do you'll notice that there's also an HTTP Shortcuts tile called "Trigger shortcut". This tile allows you to quickly trigger a shortcut from anywhere.
 
-To enable a shortcut to be accessible via this quick settings tile, open the editor for it and go to the "Trigger & Execution Settings" screen. There you'll find a "Allow triggering via Quick Settings Tile" checkbox. Enable this and save your changes.
+To enable a shortcut to be accessible via this quick settings tile, open the editor for it and go to the "Trigger & Execution Settings" screen. There you'll find an "Allow triggering via Quick Settings Tile" checkbox. Enable this and save your changes.
 
 If you enable this for multiple shortcuts you'll be prompted to select the shortcut you want to trigger every time.
 
@@ -90,8 +90,8 @@ When you use HTTPS, your requests will be sent over a secure connection. "Secure
 The HTTP Shortcuts supports basic certificate pinning. You'll find the option for it on the Settings screen. Each entry you add here consists of a hostname pattern and the certificate fingerprint. The hostname pattern defines for which domain name(s) the pinning should be used. The following formats are supported:
 
 - Exact matching host names. E.g. `example.com` would match only that domain itself, no subdomains
-- Wildcard for all subdomains (but not subdomains of those subdomains). Use the asterisks character for this. E.g. `*.example.com` would match `foo.exmaple.com` and `bar.example.com`, but not `example.com` or `foo.bar.example.com`
-- Wildcard for all subdomains and arbirtarily many subdomains of those. Use two asterisks characters for this. E.g. `**.example.com` would match `example.com`, `foo.example.com` as well as `foo.bar.example.com`
+- Wildcard for all subdomains (but not subdomains of those subdomains). Use the asterisks character for this. E.g. `*.example.com` would match `foo.example.com` and `bar.example.com`, but not `example.com` or `foo.bar.example.com`
+- Wildcard for all subdomains and arbitrarily many subdomains of those. Use two asterisks characters for this. E.g. `**.example.com` would match `example.com`, `foo.example.com` as well as `foo.bar.example.com`
 
 The fingerprint has to be either the SHA-1 or SHA-256 fingerprint of your server's certificate, e.g. `7B:50:2C:...:3F:5E`. One easy way to get this fingerprint (although, technically not secure, so you better know what you're doing) is to enter the wrong value first and find the correct value in the error message you get back after executing a shortcut that uses it.
 
