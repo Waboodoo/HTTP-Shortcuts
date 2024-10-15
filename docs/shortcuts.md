@@ -2,7 +2,7 @@
 
 The *HTTP Shortcuts* app allows you to create *shortcuts* that represent an action, resource or workflow. They can be invoked (executed) by clicking them, either inside the app itself, or after placing them on your device's home screen as widgets.
 
-Get started by clicking the *plus button* at the bottom right when opening the app and pick which type of shortcut you want to create. For each shortcut you can set a name, an icon and a description. Depening on the type, there's a number of additional options.
+Get started by clicking the *plus button* at the bottom right when opening the app and pick which type of shortcut you want to create. For each shortcut you can set a name, an icon and a description. Depending on the type, there's a number of additional options.
 
 ![Start creating a shortcut by picking a type](../assets/documentation/shortcuts/01.png)
 

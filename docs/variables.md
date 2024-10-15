@@ -10,7 +10,7 @@ For more details on when variables are resolved see the [Execution Flow](executi
 
 You can insert a placeholder for a variable into your shortcuts' url, requests parameters, request body, authentication and header fields by clicking the *"{ }"* button next to the input field and selecting a variable.
 
-When executing a shortcut that contains variable placeholders all of them are resolved according to their type. The are resolved in the order in which they appear in the Variables screen, so if you want one variable to be resolved before another, make sure to rearrange them accordingly by dragging.
+When executing a shortcut that contains variable placeholders all of them are resolved according to their type. They are resolved in the order in which they appear in the Variables screen, so if you want one variable to be resolved before another, make sure to rearrange them accordingly by dragging.
 
 You can also insert these placeholders into some of your variables, i.e., you can have variables reference other variables, and you can use them when writing [scripts](scripting.md#variables).
 

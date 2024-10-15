@@ -176,7 +176,7 @@ glasses visible
 global globe planet earth
 globe planet earth
 gps navigate
-gramaphone gromophone music sound audio
+gramaphone gromophone gramophone music sound audio
 graph data analysis
 guitar instrument music sound audio
 gun weapon
@@ -301,7 +301,7 @@ price_tag label
 print printer device paper
 printer device paper
 prize trophy success
-profle person user
+profle profile person user
 projector device video beamer
 puzzles game
 quarter_note music audio sound

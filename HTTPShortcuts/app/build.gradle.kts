@@ -121,7 +121,7 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
 
-        /* Used for Play Store & Github release page */
+        /* Used for Play Store & GitHub release page */
         create("releaseFull") {
             isMinifyEnabled = true
             isShrinkResources = true

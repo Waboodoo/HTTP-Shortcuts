@@ -12,4 +12,4 @@ The main goal of this app is to provide an easy way to send HTTP requests from a
 
 Shortcuts can be grouped together into different [categories](categories.md) which are shown as separate tabs inside the app.
 
-In some cases you want do to more than just send a simple HTTP request but need more powerful tools for advanced workflows. This is where [variables](variables.md) come in, which allow you to dynamically inject values into your request, and the [scripting](scripting.md) capabilities of the app, which allow you to use JavaScript code snippets to further customize how your shortcuts behave.
+In some cases you want to do more than just send a simple HTTP request but need more powerful tools for advanced workflows. This is where [variables](variables.md) come in, which allow you to dynamically inject values into your request, and the [scripting](scripting.md) capabilities of the app, which allow you to use JavaScript code snippets to further customize how your shortcuts behave.

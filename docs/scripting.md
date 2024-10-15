@@ -171,7 +171,7 @@ myMeta might look like this now:
 The `orientation` field is an integer with the following meaning:
 
 - 0 means no orientation information is available
-- 1 means a rotation of 0 degrees, i.e., no adjument is needed
+- 1 means a rotation of 0 degrees, i.e., no adjustment is needed
 - 2 means a rotation of 0 degrees, and the image is mirrored
 - 3 means a rotation of 180 degrees
 - 4 means a rotation of 180 degrees, and the image is mirrored
@@ -224,7 +224,7 @@ showToast('Hello World');
 <a name="show-dialog"></a>
 ### showDialog
 
-With this function you can display a dialog window on the screen. Simply pass your message as the first parameter, and optionally a title for the dialog as the second paramter. The dialog will be displayed until its *"OK"* button is pressed.
+With this function you can display a dialog window on the screen. Simply pass your message as the first parameter, and optionally a title for the dialog as the second parameter. The dialog will be displayed until its *"OK"* button is pressed.
 
 ```js
 showDialog('My Message', 'My Title');
@@ -348,7 +348,7 @@ speak('Dieser Text ist deutsch', 'de');
 <a name="vibrate"></a>
 ### vibrate
 
-With this function you can cause the device to vibrate (if supported). As an optional first parameter, you can pass the number of the vibration pattern you want to use, and as an optional second paramter you can pass a boolean denoting whether the execution should wait for the vibration pattern to finish or not.
+With this function you can cause the device to vibrate (if supported). As an optional first parameter, you can pass the number of the vibration pattern you want to use, and as an optional second parameter you can pass a boolean denoting whether the execution should wait for the vibration pattern to finish or not.
 
 Vibration patterns:
 
@@ -573,7 +573,7 @@ As a second parameter, you can provide a CSS-style selector query to search for 
 ```js
 const myHTML = '...'; // same as in the example above
 
-const result = parseHTML(myHTML, 'ul > li'); // query for all `li` elements which are direct decendants of `ul` elements.
+const result = parseHTML(myHTML, 'ul > li'); // query for all `li` elements which are direct descendants of `ul` elements.
 
 /*
 The result variable now holds the following list of objects:
@@ -915,7 +915,7 @@ shareText('Hello World');
 The `openApp` function allows you to open another app via its package name. If no app with the given package name is installed, an error is displayed.
 
 ```js
-openApp('com.github.android'); // Opens the Github app
+openApp('com.github.android'); // Opens the GitHub app
 ```
 
 <a name="open-url"></a>
