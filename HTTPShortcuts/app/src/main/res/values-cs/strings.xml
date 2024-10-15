@@ -35,8 +35,8 @@
     <!-- Label above input field in editor, for shortcut authentication token -->
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
     <string name="label_response_on_success">O úspěchu</string>
-    <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the response content should be treated as -->
-    <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the custom message that they enter should be treated as -->
+    <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the response content should be treated as -->
+    <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the custom message that they enter should be treated as -->
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
     <string name="label_response_on_failure">O selhání</string>
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
@@ -277,9 +277,9 @@ Klepnutím na tlačítko + přidáte proměnnou.</string>
     <string name="settings_mail">Kontaktovat vývojáře</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Dotazy, požadavky na funkce, zpětná vazba, ...</string>
-    <!-- Button title, for option to open the app's Github page in a browser -->
-    <string name="settings_github">Zobrazit na Githubu</string>
-    <!-- Button subtitle for "View on Github" button -->
+    <!-- Button title, for option to open the app's GitHub page in a browser -->
+    <string name="settings_github">Zobrazit na GitHubu</string>
+    <!-- Button subtitle for "View on GitHub" button -->
     <string name="settings_github_summary">Přesně tak, tato aplikace je open-source.</string>
     <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
     <string name="settings_donate">Darovat</string>
@@ -319,7 +319,7 @@ Klepnutím na tlačítko + přidáte proměnnou.</string>
     <string name="dialog_delete">Odstranit</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Základní nastavení požadavku</string>
-    <!-- Section title, shown in shortcut editor, for section containing advanced settings -->
+    <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Rozšířená nastavení</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
     <string name="section_authentication">Ověřování</string>
@@ -727,6 +727,7 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <string name="action_type_change_icon_description">Změnit zkratku Popis</string>
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
+    <!-- Shortcut Action Title: Change Category Visibility -->
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Zkratka Enqueue</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -918,6 +919,7 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <string name="dialog_code_snippet_get_shortcut_id">Získat ID zkratky</string>
     <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
+    <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Získat název vybraného souboru</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -955,6 +957,7 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">Zástupce \"%1$s\" nelze přejmenovat, protože neexistuje.</string>
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Nelze změnit ikonu zástupce \"%1$s\", protože neexistuje.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1438,7 +1441,7 @@ V případě certifikátů podepsaných vlastním podpisem zkontrolujte místo t
     <string name="button_app_unlock_use_password">Použití hesla</string>
     <!-- Checkbox label, shown on dialog that lets the user lock the app -->
     <string name="label_app_lock_use_biometrics">Povolení odemykání pomocí biometrických údajů</string>
-    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown let's the user choose the source of the file data -->
+    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown lets the user choose the source of the file data -->
     <string name="label_file_options_file_data_source">Zdroj dat souboru</string>
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker -->
     <string name="option_file_data_source_file_picker">Otevřít nástroj pro výběr souborů</string>
@@ -1462,14 +1465,14 @@ V případě certifikátů podepsaných vlastním podpisem zkontrolujte místo t
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
     <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
     <string name="settings_title_experimental">Experimentální</string>
-    <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
+    <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Režim provádění</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
     <string name="option_execution_mode_foreground">Spustit zástupce v popředí s indikátorem načítání (výchozí)</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
     <string name="option_execution_mode_background">Spouštění zástupců na pozadí bez načítání indikátoru (experimentální)</string>
     <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
-    <string name="instructions_experimental_section">Tato část obsahuje nastavení experimentálních funkcí, která ještě nejsou dokončena a mohou být nestabilní. Povolení je na vlastní nebezpečí. Pokud je povolíte a narazíte na problémy, dejte mi prosím vědět zasláním e-mailu nebo vytvořením problému na Githubu a podělte se o své objevy.</string>
+    <string name="instructions_experimental_section">Tato část obsahuje nastavení experimentálních funkcí, která ještě nejsou dokončena a mohou být nestabilní. Povolení je na vlastní nebezpečí. Pokud je povolíte a narazíte na problémy, dejte mi prosím vědět zasláním e-mailu nebo vytvořením problému na GitHubu a podělte se o své objevy.</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">Téma</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->

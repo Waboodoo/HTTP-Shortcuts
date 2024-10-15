@@ -40,9 +40,9 @@
     <string name="label_auth_token">Jeton</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
     <string name="label_response_on_success">En cas de Succès</string>
-    <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the response content should be treated as -->
+    <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the response content should be treated as -->
     <string name="label_response_type_selection">Type de réponse</string>
-    <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the custom message that they enter should be treated as -->
+    <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the custom message that they enter should be treated as -->
     <string name="label_response_message_type_selection">Type de message</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
     <string name="label_response_on_failure">En cas d\'échec</string>
@@ -305,9 +305,9 @@ Cliquez sur le bouton + pour commencer.</string>
     <string name="settings_mail">Contacter le développeur</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Questions, demandes de fonctionnalités, autres commentaires, …</string>
-    <!-- Button title, for option to open the app's Github page in a browser -->
-    <string name="settings_github">Voir sur Github</string>
-    <!-- Button subtitle for "View on Github" button -->
+    <!-- Button title, for option to open the app's GitHub page in a browser -->
+    <string name="settings_github">Voir sur GitHub</string>
+    <!-- Button subtitle for "View on GitHub" button -->
     <string name="settings_github_summary">Et oui! Cette application est open-source</string>
     <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
     <string name="settings_donate">Faire un don</string>
@@ -347,7 +347,7 @@ Cliquez sur le bouton + pour commencer.</string>
     <string name="dialog_delete">Supprimer</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Paramètres de la requête basique</string>
-    <!-- Section title, shown in shortcut editor, for section containing advanced settings -->
+    <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Paramètres Avancés</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
     <string name="section_authentication">Authentification</string>
@@ -782,6 +782,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <string name="action_type_change_icon_description">Modifier la description du raccourci</string>
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
     <string name="action_type_change_shortcut_hidden_title">Afficher/Masquer le raccourci</string>
+    <!-- Shortcut Action Title: Change Category Visibility -->
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Déclencher Raccourci</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -988,6 +989,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <string name="dialog_code_snippet_read_from_file">Lire depuis un fichier</string>
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
     <string name="dialog_code_snippet_write_to_file">Écrire dans le fichier</string>
+    <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Obtenir le nom du fichier sélectionné</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -1026,6 +1028,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <string name="error_shortcut_not_found_for_renaming">Impossible de renommer le raccourci \"%1$s\" car il n\'existe pas.</string>
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_set_visible">Impossible de modifier la visibilité du raccourci \“%1$s\” car il n\'existe pas.</string>
+    <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Impossible de modifier le raccourci \"%1$s\" car il n\'existe pas.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1530,7 +1533,7 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <string name="button_app_unlock_use_password">Utiliser le mot de passe</string>
     <!-- Checkbox label, shown on dialog that lets the user lock the app -->
     <string name="label_app_lock_use_biometrics">Permettre le déverrouillage avec des données biométriques</string>
-    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown let's the user choose the source of the file data -->
+    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown lets the user choose the source of the file data -->
     <string name="label_file_options_file_data_source">Fichier Source de données</string>
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker -->
     <string name="option_file_data_source_file_picker">Ouvrir le sélecteur de fichiers</string>
@@ -1561,14 +1564,14 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <string name="settings_option_hide_hidden_shortcuts">Ne pas afficher les raccourcis cachés</string>
     <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
     <string name="settings_title_experimental">Expérimental</string>
-    <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
+    <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Mode d\'exécution</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
     <string name="option_execution_mode_foreground">Exécuter les raccourcis au premier plan avec un indicateur de chargement (par défaut)</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
     <string name="option_execution_mode_background">Exécution de raccourcis en arrière-plan sans indicateur de chargement (expérimental)</string>
     <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
-    <string name="instructions_experimental_section">Cette section contient des paramètres pour des fonctionnalités expérimentales, qui ne sont pas encore finalisées et peuvent être instables. Activez-les à vos risques et périls. Si vous les activez et que vous rencontrez des problèmes, veuillez m\'en informer en m\'envoyant un courriel ou en créant un problème Github pour partager vos découvertes.</string>
+    <string name="instructions_experimental_section">Cette section contient des paramètres pour des fonctionnalités expérimentales, qui ne sont pas encore finalisées et peuvent être instables. Activez-les à vos risques et périls. Si vous les activez et que vous rencontrez des problèmes, veuillez m\'en informer en m\'envoyant un courriel ou en créant un problème GitHub pour partager vos découvertes.</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">Thème</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
@@ -1624,7 +1627,7 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">ID de l\'appareil</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
-    <string name="settings_device_id_summary">Inclure cet ID lors du rapport de bugs sur Github :\n%s</string>
+    <string name="settings_device_id_summary">Inclure cet ID lors du rapport de bugs sur GitHub :\n%s</string>
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
     <string name="message_device_id_copied">ID de l\'appareil copié dans le presse-papiers.</string>
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->

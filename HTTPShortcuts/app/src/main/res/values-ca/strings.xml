@@ -36,8 +36,8 @@
     <!-- Label above input field in editor, for shortcut authentication token -->
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
     <string name="label_response_on_success">Sobre l\'èxit</string>
-    <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the response content should be treated as -->
-    <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the custom message that they enter should be treated as -->
+    <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the response content should be treated as -->
+    <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the custom message that they enter should be treated as -->
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
     <string name="label_response_on_failure">Sobre el fracàs</string>
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
@@ -293,9 +293,9 @@ Feu clic al botó + per afegir una variable.</string>
     <string name="settings_mail">Contactar el desenvolupador</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Preguntes, sol·licituds de noves funcions, comentaris…</string>
-    <!-- Button title, for option to open the app's Github page in a browser -->
-    <string name="settings_github">Veure a Github</string>
-    <!-- Button subtitle for "View on Github" button -->
+    <!-- Button title, for option to open the app's GitHub page in a browser -->
+    <string name="settings_github">Veure a GitHub</string>
+    <!-- Button subtitle for "View on GitHub" button -->
     <string name="settings_github_summary">És correcte, aquesta aplicació és de codi obert</string>
     <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
     <string name="settings_donate">Donar</string>
@@ -335,7 +335,7 @@ Feu clic al botó + per afegir una variable.</string>
     <string name="dialog_delete">Esborrar</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Configuració de sol·licitud bàsica</string>
-    <!-- Section title, shown in shortcut editor, for section containing advanced settings -->
+    <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Configuració avançada</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
     <string name="section_authentication">Autenticació</string>
@@ -740,6 +740,7 @@ Per a més informació consulteu la documentació a la secció de variables.</st
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <string name="action_type_change_icon_description">Canvia la descripció de la drecera</string>
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
+    <!-- Shortcut Action Title: Change Category Visibility -->
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Drecera d\'execució</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -928,6 +929,7 @@ Per a més informació consulteu la documentació a la secció de variables.</st
     <string name="dialog_code_snippet_get_shortcut_id">Obteniu l\'identificador de drecera</string>
     <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
+    <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Obteniu el nom del fitxer seleccionat</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -964,6 +966,7 @@ Per a més informació consulteu la documentació a la secció de variables.</st
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">No s\'ha pogut canviar el nom de la drecera \"%1$s\" perquè no existeix.</string>
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">No s\'ha pogut canviar la icona de la drecera \"%1$s\" perquè no existeix.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1366,7 +1369,7 @@ Suprimir de totes maneres?</string>
     <!-- Subtitle shown on biometric app unlock dialog (e.g. asking for a fingerprint) -->
     <!-- Button label, shown on negative button below biometric prompt for unlocking the app. clicking it allows the user to instead try unlocking the app with their password -->
     <!-- Checkbox label, shown on dialog that lets the user lock the app -->
-    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown let's the user choose the source of the file data -->
+    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown lets the user choose the source of the file data -->
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker -->
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker for selecting multiple files -->
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open camera to take a picture -->
@@ -1380,7 +1383,7 @@ Suprimir de totes maneres?</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
     <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
-    <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
+    <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
     <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->

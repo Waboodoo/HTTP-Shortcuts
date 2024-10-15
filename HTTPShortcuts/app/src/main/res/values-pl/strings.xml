@@ -40,9 +40,9 @@
     <string name="label_auth_token">Token</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
     <string name="label_response_on_success">Prawidłowa odpowiedź</string>
-    <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the response content should be treated as -->
+    <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the response content should be treated as -->
     <string name="label_response_type_selection">Typ Odpowiedzi</string>
-    <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the custom message that they enter should be treated as -->
+    <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the custom message that they enter should be treated as -->
     <string name="label_response_message_type_selection">Typ Wiadomości</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
     <string name="label_response_on_failure">Błąd odpowiedzi</string>
@@ -326,9 +326,9 @@ Upewnij się, że masz zainstalowaną najnowszą wersję aplikacji.</string>
     <string name="settings_mail">Kontakt z programistą</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Pytania, prośba o nowe opcje, opinie, …</string>
-    <!-- Button title, for option to open the app's Github page in a browser -->
-    <string name="settings_github">Zobacz na Github</string>
-    <!-- Button subtitle for "View on Github" button -->
+    <!-- Button title, for option to open the app's GitHub page in a browser -->
+    <string name="settings_github">Zobacz na GitHub</string>
+    <!-- Button subtitle for "View on GitHub" button -->
     <string name="settings_github_summary">Tak, to jest aplikacja z otwartym kodem źródłowym</string>
     <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
     <string name="settings_donate">Darowizna</string>
@@ -368,7 +368,7 @@ Upewnij się, że masz zainstalowaną najnowszą wersję aplikacji.</string>
     <string name="dialog_delete">Usuń</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Podstawowe ustawienia requestów</string>
-    <!-- Section title, shown in shortcut editor, for section containing advanced settings -->
+    <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Ustawienia zaawansowane</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
     <string name="section_authentication">Uwierzytelnianie</string>
@@ -807,6 +807,7 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych.</string>
     <string name="action_type_change_icon_description">Zmień opis skrótu</string>
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
     <string name="action_type_change_shortcut_hidden_title">Pokaż/Ukryj skrót</string>
+    <!-- Shortcut Action Title: Change Category Visibility -->
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Wyzwalacz skrótu</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -1017,6 +1018,7 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych.</string>
     <string name="dialog_code_snippet_read_from_file">Odczyt z pliku</string>
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
     <string name="dialog_code_snippet_write_to_file">Zapisz do pliku</string>
+    <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Uzyskaj nazwę wybranego pliku</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -1055,6 +1057,7 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych.</string>
     <string name="error_shortcut_not_found_for_renaming">Nie można zmienić nazwy skrótu \"%1$s\" , ponieważ nie istnieje.</string>
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_set_visible">Nie można zmienić widoczności skrótu \“%1$s\", ponieważ nie istnieje.</string>
+    <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Nie można zmienić ikony skrótu \"%1$s\" ponieważ nie istnieje.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1567,7 +1570,7 @@ W przypadku certyfikatów z podpisem własnym sprawdź zamiast tego sekcję skr�
     <string name="button_app_unlock_use_password">Użyj hasła</string>
     <!-- Checkbox label, shown on dialog that lets the user lock the app -->
     <string name="label_app_lock_use_biometrics">Zezwól na odblokowanie za pomocą danych biometrycznych</string>
-    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown let's the user choose the source of the file data -->
+    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown lets the user choose the source of the file data -->
     <string name="label_file_options_file_data_source">Źródło danych pliku</string>
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker -->
     <string name="option_file_data_source_file_picker">Otwórz selektor plików</string>
@@ -1600,14 +1603,14 @@ W przypadku certyfikatów z podpisem własnym sprawdź zamiast tego sekcję skr�
     <string name="settings_option_hide_hidden_shortcuts">Nie pokazuj ukrytych skrótów</string>
     <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
     <string name="settings_title_experimental">Eksperymentalny</string>
-    <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
+    <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Tryb wykonania</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
     <string name="option_execution_mode_foreground">Uruchamiaj skróty na pierwszym planie z wskaźnikiem ładowania (domyślnie)</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
     <string name="option_execution_mode_background">Uruchamiaj skróty w tle bez wskaźnika ładowania (eksperymentalnie)</string>
     <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
-    <string name="instructions_experimental_section">Ta sekcja zawiera ustawienia dla eksperymentalnych funkcji, które nie są jeszcze ostatecznie ustalone i mogą być niestabilne. Włącz je na własne ryzyko. Jeśli je włączysz i napotkasz problemy, proszę daj mi znać, wysyłając e-mail lub tworząc zgłoszenie na Githubie, aby podzielić się swoimi spostrzeżeniami.</string>
+    <string name="instructions_experimental_section">Ta sekcja zawiera ustawienia dla eksperymentalnych funkcji, które nie są jeszcze ostatecznie ustalone i mogą być niestabilne. Włącz je na własne ryzyko. Jeśli je włączysz i napotkasz problemy, proszę daj mi znać, wysyłając e-mail lub tworząc zgłoszenie na GitHubie, aby podzielić się swoimi spostrzeżeniami.</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">Motyw</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
@@ -1663,7 +1666,7 @@ W przypadku certyfikatów z podpisem własnym sprawdź zamiast tego sekcję skr�
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">ID urządzenia</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
-    <string name="settings_device_id_summary">Dołącz ten identyfikator podczas zgłaszania błędów na Github:\n%s</string>
+    <string name="settings_device_id_summary">Dołącz ten identyfikator podczas zgłaszania błędów na GitHub:\n%s</string>
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
     <string name="message_device_id_copied">ID urządzenia skopiowano do schowka.</string>
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->

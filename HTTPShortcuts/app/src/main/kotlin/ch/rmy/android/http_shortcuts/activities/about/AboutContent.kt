@@ -29,7 +29,7 @@ fun AboutContent(
     onTranslateButtonClicked: () -> Unit,
     onPlayStoreButtonClicked: () -> Unit,
     onFDroidButtonClicked: () -> Unit,
-    onGithubButtonClicked: () -> Unit,
+    onGitHubButtonClicked: () -> Unit,
     onDonateButtonClicked: () -> Unit,
     onAcknowledgementButtonClicked: () -> Unit,
     onPrivacyPolicyButtonClicked: () -> Unit,
@@ -87,7 +87,7 @@ fun AboutContent(
             icon = painterResource(R.drawable.ic_github_circle),
             title = stringResource(R.string.settings_github),
             subtitle = stringResource(R.string.settings_github_summary),
-            onClick = onGithubButtonClicked,
+            onClick = onGitHubButtonClicked,
         )
 
         SettingsButton(

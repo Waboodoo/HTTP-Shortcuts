@@ -40,9 +40,9 @@
     <string name="label_auth_token">令牌</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
     <string name="label_response_on_success">成功时</string>
-    <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the response content should be treated as -->
+    <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the response content should be treated as -->
     <string name="label_response_type_selection">响应类型</string>
-    <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the custom message that they enter should be treated as -->
+    <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the custom message that they enter should be treated as -->
     <string name="label_response_message_type_selection">消息类型</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
     <string name="label_response_on_failure">失败时</string>
@@ -305,9 +305,9 @@
     <string name="settings_mail">联系开发者</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">提问题，请求新功能，其它…</string>
-    <!-- Button title, for option to open the app's Github page in a browser -->
-    <string name="settings_github">在 Github 查看</string>
-    <!-- Button subtitle for "View on Github" button -->
+    <!-- Button title, for option to open the app's GitHub page in a browser -->
+    <string name="settings_github">在 GitHub 查看</string>
+    <!-- Button subtitle for "View on GitHub" button -->
     <string name="settings_github_summary">是的，这款应用是开源的</string>
     <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
     <string name="settings_donate">捐赠</string>
@@ -347,7 +347,7 @@
     <string name="dialog_delete">删除</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">基本设置</string>
-    <!-- Section title, shown in shortcut editor, for section containing advanced settings -->
+    <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">高级设置</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
     <string name="section_authentication">认证</string>
@@ -770,6 +770,7 @@
     <string name="action_type_change_icon_description">更改快捷方式描述</string>
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
     <string name="action_type_change_shortcut_hidden_title">显示/隐藏快捷方式</string>
+    <!-- Shortcut Action Title: Change Category Visibility -->
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">启动此快捷方式</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -973,6 +974,7 @@
     <string name="dialog_code_snippet_read_from_file">从文件读取</string>
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
     <string name="dialog_code_snippet_write_to_file">写入文件</string>
+    <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">获取所选文件的名称</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -1011,6 +1013,7 @@
     <string name="error_shortcut_not_found_for_renaming">无法重命名快捷方式\"%1$s\"，快捷方式不存在</string>
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_set_visible">无法更改快捷方式\“%1$s\” 的可见性，因为它不存在。</string>
+    <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">不能更改快捷方式\"%1$s\"的图标，快捷方式不存在</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1512,7 +1515,7 @@
     <string name="button_app_unlock_use_password">使用密码</string>
     <!-- Checkbox label, shown on dialog that lets the user lock the app -->
     <string name="label_app_lock_use_biometrics">允许使用生物特征解锁</string>
-    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown let's the user choose the source of the file data -->
+    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown lets the user choose the source of the file data -->
     <string name="label_file_options_file_data_source">文件数据源</string>
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker -->
     <string name="option_file_data_source_file_picker">打开文件选择器</string>
@@ -1542,14 +1545,14 @@
     <string name="settings_option_hide_hidden_shortcuts">不显示隐藏的快捷方式</string>
     <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
     <string name="settings_title_experimental">实验性</string>
-    <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
+    <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">执行模式</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
     <string name="option_execution_mode_foreground">后台运行快捷方式并加载指示器（默认）</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
     <string name="option_execution_mode_background">不加载指示器在后台运行快捷方式（实验性）</string>
     <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
-    <string name="instructions_experimental_section">此部分包含实验性功能的设置，这些功能尚未完工，可能不稳定。你需要自己承担开启它们造成的不良后果。如果你仍选择启用并遇到问题，请让我知晓，方法时给我发送电子邮件或创建 Github issue 来分享你的发现。</string>
+    <string name="instructions_experimental_section">此部分包含实验性功能的设置，这些功能尚未完工，可能不稳定。你需要自己承担开启它们造成的不良后果。如果你仍选择启用并遇到问题，请让我知晓，方法时给我发送电子邮件或创建 GitHub issue 来分享你的发现。</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">主题</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
@@ -1605,7 +1608,7 @@
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">设备 ID</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
-    <string name="settings_device_id_summary">当你在 Github：\n%s 上报告故障时包括此 ID</string>
+    <string name="settings_device_id_summary">当你在 GitHub：\n%s 上报告故障时包括此 ID</string>
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
     <string name="message_device_id_copied">设备ID已复制到剪贴板。</string>
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->

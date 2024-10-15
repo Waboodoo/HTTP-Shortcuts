@@ -24,7 +24,7 @@ fun AboutScreen() {
             onTranslateButtonClicked = viewModel::onTranslateButtonClicked,
             onPlayStoreButtonClicked = viewModel::onPlayStoreButtonClicked,
             onFDroidButtonClicked = viewModel::onFDroidButtonClicked,
-            onGithubButtonClicked = viewModel::onGithubButtonClicked,
+            onGitHubButtonClicked = viewModel::onGitHubButtonClicked,
             onDonateButtonClicked = viewModel::onDonateButtonClicked,
             onAcknowledgementButtonClicked = viewModel::onAcknowledgementButtonClicked,
             onPrivacyPolicyButtonClicked = viewModel::onPrivacyPolicyButtonClicked,

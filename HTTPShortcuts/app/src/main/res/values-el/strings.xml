@@ -36,8 +36,8 @@
     <!-- Label above input field in editor, for shortcut authentication token -->
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
     <string name="label_response_on_success">Για την επιτυχία</string>
-    <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the response content should be treated as -->
-    <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the custom message that they enter should be treated as -->
+    <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the response content should be treated as -->
+    <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the custom message that they enter should be treated as -->
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
     <string name="label_response_on_failure">Σχετικά με την αποτυχία</string>
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
@@ -278,9 +278,9 @@
     <string name="settings_mail">Επικοινωνία με τον προγραμματιστή</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Ερωτήσεις, αιτήματα χαρακτηριστικών, σχόλια, ...</string>
-    <!-- Button title, for option to open the app's Github page in a browser -->
-    <string name="settings_github">Προβολή στο Github</string>
-    <!-- Button subtitle for "View on Github" button -->
+    <!-- Button title, for option to open the app's GitHub page in a browser -->
+    <string name="settings_github">Προβολή στο GitHub</string>
+    <!-- Button subtitle for "View on GitHub" button -->
     <string name="settings_github_summary">Σωστά, αυτή η εφαρμογή είναι ανοιχτού κώδικα</string>
     <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
     <string name="settings_donate">Δωρεά</string>
@@ -319,7 +319,7 @@
     <string name="dialog_delete">Διαγραφή</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Βασικές ρυθμίσεις αιτήματος</string>
-    <!-- Section title, shown in shortcut editor, for section containing advanced settings -->
+    <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Ρυθμίσεις για προχωρημένους</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
     <string name="section_authentication">Αυθεντικοποίηση</string>
@@ -730,6 +730,7 @@
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <string name="action_type_change_icon_description">Αλλαγή συντόμευσης Περιγραφή</string>
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
+    <!-- Shortcut Action Title: Change Category Visibility -->
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Συντόμευση Enqueue</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -919,6 +920,7 @@
     <string name="dialog_code_snippet_get_shortcut_id">Λήψη αναγνωριστικού συντόμευσης</string>
     <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
+    <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Λήψη ονόματος επιλεγμένου αρχείου</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -956,6 +958,7 @@
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">Δεν ήταν δυνατή η μετονομασία της συντόμευσης \"%1$s\" επειδή δεν υπάρχει.</string>
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Δεν ήταν δυνατή η αλλαγή του εικονιδίου της συντόμευσης \"%1$s\" επειδή δεν υπάρχει.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1440,7 +1443,7 @@
     <string name="button_app_unlock_use_password">Χρήση κωδικού πρόσβασης</string>
     <!-- Checkbox label, shown on dialog that lets the user lock the app -->
     <string name="label_app_lock_use_biometrics">Επιτρέψτε το ξεκλείδωμα με βιομετρικά στοιχεία</string>
-    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown let's the user choose the source of the file data -->
+    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown lets the user choose the source of the file data -->
     <string name="label_file_options_file_data_source">Πηγή δεδομένων αρχείου</string>
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker -->
     <string name="option_file_data_source_file_picker">Άνοιγμα επιλογέα αρχείων</string>
@@ -1464,14 +1467,14 @@
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
     <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
     <string name="settings_title_experimental">Πειραματικό</string>
-    <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
+    <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Λειτουργία εκτέλεσης</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
     <string name="option_execution_mode_foreground">Εκτέλεση συντομεύσεων στο προσκήνιο με ένδειξη φόρτωσης (προεπιλογή)</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
     <string name="option_execution_mode_background">Εκτέλεση συντομεύσεων στο παρασκήνιο χωρίς ένδειξη φόρτωσης (πειραματικά)</string>
     <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
-    <string name="instructions_experimental_section">Αυτή η ενότητα περιέχει ρυθμίσεις για πειραματικές λειτουργίες, οι οποίες δεν έχουν ακόμη οριστικοποιηθεί και ενδέχεται να είναι ασταθείς. Ενεργοποιήστε τις με δική σας ευθύνη. Αν τις ενεργοποιήσετε και αντιμετωπίσετε προβλήματα, ενημερώστε με στέλνοντάς μου ένα email ή δημιουργώντας ένα θέμα στο Github για να μοιραστείτε τις ανακαλύψεις σας.</string>
+    <string name="instructions_experimental_section">Αυτή η ενότητα περιέχει ρυθμίσεις για πειραματικές λειτουργίες, οι οποίες δεν έχουν ακόμη οριστικοποιηθεί και ενδέχεται να είναι ασταθείς. Ενεργοποιήστε τις με δική σας ευθύνη. Αν τις ενεργοποιήσετε και αντιμετωπίσετε προβλήματα, ενημερώστε με στέλνοντάς μου ένα email ή δημιουργώντας ένα θέμα στο GitHub για να μοιραστείτε τις ανακαλύψεις σας.</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">Θέμα</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->

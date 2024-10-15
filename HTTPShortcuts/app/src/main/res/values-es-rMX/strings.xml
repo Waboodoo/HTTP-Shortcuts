@@ -34,8 +34,8 @@
     <string name="label_password">Contraseña</string>
     <!-- Label above input field in editor, for shortcut authentication token -->
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
-    <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the response content should be treated as -->
-    <!-- Label above dropdown in "Response Handling" section of shortcut editor, let's the user define what the custom message that they enter should be treated as -->
+    <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the response content should be treated as -->
+    <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the custom message that they enter should be treated as -->
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
@@ -265,9 +265,9 @@ Haga clic en el botón + de la pantalla principal para comenzar o consulte la do
     <string name="settings_mail">Contactar al Desarrollador</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Preguntas, solicitud de características, retroalimentación, ...</string>
-    <!-- Button title, for option to open the app's Github page in a browser -->
-    <string name="settings_github">Ver en Github</string>
-    <!-- Button subtitle for "View on Github" button -->
+    <!-- Button title, for option to open the app's GitHub page in a browser -->
+    <string name="settings_github">Ver en GitHub</string>
+    <!-- Button subtitle for "View on GitHub" button -->
     <string name="settings_github_summary">Es correcto, está aplicación es de codigo-abierto</string>
     <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
     <string name="settings_donate">Donar</string>
@@ -304,7 +304,7 @@ Haga clic en el botón + de la pantalla principal para comenzar o consulte la do
     <string name="dialog_delete">Eliminar</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Configuración Basica de la solicitud</string>
-    <!-- Section title, shown in shortcut editor, for section containing advanced settings -->
+    <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Configuración Avanzada</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
     <string name="section_authentication">Autentificación</string>
@@ -654,6 +654,7 @@ Todos los atajos dentro de esta se eliminaran también.</string>
     <string name="action_type_change_icon_title">Cambiar Ícono del Atajo</string>
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
+    <!-- Shortcut Action Title: Change Category Visibility -->
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Poner en Cola el  Atajo</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -799,6 +800,7 @@ Todos los atajos dentro de esta se eliminaran también.</string>
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
+    <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
     <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
@@ -824,6 +826,7 @@ Todos los atajos dentro de esta se eliminaran también.</string>
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <!-- Error message: Shown when user tries to use an unsupported hash function -->
@@ -1129,7 +1132,7 @@ Todos los atajos dentro de esta se eliminaran también.</string>
     <!-- Subtitle shown on biometric app unlock dialog (e.g. asking for a fingerprint) -->
     <!-- Button label, shown on negative button below biometric prompt for unlocking the app. clicking it allows the user to instead try unlocking the app with their password -->
     <!-- Checkbox label, shown on dialog that lets the user lock the app -->
-    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown let's the user choose the source of the file data -->
+    <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown lets the user choose the source of the file data -->
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker -->
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker for selecting multiple files -->
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open camera to take a picture -->
@@ -1143,7 +1146,7 @@ Todos los atajos dentro de esta se eliminaran también.</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
     <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
-    <!-- Option in experimental settings, let's the user pick how shortcuts should be executed -->
+    <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
     <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->

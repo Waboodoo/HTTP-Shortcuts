@@ -65,7 +65,7 @@ constructor(
         openURL(ExternalURLs.F_DROID)
     }
 
-    fun onGithubButtonClicked() = runAction {
+    fun onGitHubButtonClicked() = runAction {
         openURL(ExternalURLs.GITHUB)
     }
 
