@@ -416,6 +416,17 @@ setShortcutHidden('My Shortcut', true);
 
 > You can make hidden shortcuts visible via an option on the Settings screen.
 
+<a name="set-category-hidden"></a>
+### setCategoryHidden
+
+This function allows you to show or hide categories. Simply pass the name or ID of a category as the first parameter and `true` or `false` as the second parameter.
+
+```js
+setCategoryHidden('My Category', true);
+```
+
+> There must always be at least one non-hidden category. If you try to hide the last visible category with this, nothing will happen.
+
 <a name="control-flow"></a>
 ## Control Flow
 
