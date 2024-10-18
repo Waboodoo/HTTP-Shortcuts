@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
+import android.content.ActivityNotFoundException
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -10,9 +11,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.runIfNotNull
+import ch.rmy.android.framework.extensions.showToast
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
 import ch.rmy.android.http_shortcuts.activities.main.models.CategoryItem
 import ch.rmy.android.http_shortcuts.components.EventHandler
@@ -22,6 +26,7 @@ import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.import_export.OpenFilePickerForExportContract
+import ch.rmy.android.http_shortcuts.logging.Logging.logException
 
 @Composable
 fun ShortcutListContent(
@@ -49,12 +54,18 @@ fun ShortcutListContent(
         return
     }
 
+    val context = LocalContext.current
     EventHandler(enabled = isActive) { event ->
         when (event) {
             is ShortcutListEvent.OpenFilePickerForExport -> consume {
-                openFilePickerForExport.launch(
-                    OpenFilePickerForExportContract.Params(single = true)
-                )
+                try {
+                    openFilePickerForExport.launch(
+                        OpenFilePickerForExportContract.Params(single = true)
+                    )
+                } catch (e: ActivityNotFoundException) {
+                    logException("ShortcutListContent", e)
+                    context.showToast(R.string.error_not_supported)
+                }
             }
             is ShortcutListEvent.PlaceShortcutOnHomeScreen -> consume {
                 onPlaceShortcutOnHomeScreen(event.shortcut)
