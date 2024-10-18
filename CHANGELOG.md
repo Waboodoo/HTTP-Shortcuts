@@ -1,3 +1,14 @@
+## Version 3.19.0
+
+### Improvements
+- It is now possible to show/hide categories with Scripting
+- The `writeFile` and `appendFile` Scripting functions can now also write raw bytes instead of just strings
+- The Code Snippet picker now includes an "Append to File" option
+
+### Miscellaneous
+- Prepared for Android 15
+- Fixed typos and other minor improvements to documentation and help texts (thanks [@NathanBaulch](https://github.com/NathanBaulch))
+
 ## Version 3.18.0
 
 ### Improvements
