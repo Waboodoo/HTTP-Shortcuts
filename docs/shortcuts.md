@@ -4,6 +4,8 @@ The *HTTP Shortcuts* app allows you to create *shortcuts* that represent an acti
 
 Get started by clicking the *plus button* at the bottom right when opening the app and pick which type of shortcut you want to create. For each shortcut you can set a name, an icon and a description. Depending on the type, there's a number of additional options.
 
+Once you've create a shortcut, it will appear on the app's main screen. You can long-press it to open its context menu, which includes options such as editing, exporting, deleting, etc.
+
 ![Start creating a shortcut by picking a type](../assets/documentation/shortcuts/01.png)
 
 <a name="regular"></a>
