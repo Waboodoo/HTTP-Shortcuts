@@ -1,7 +1,7 @@
 [versions]
 accompanist = "0.34.0"
 activity = "1.9.2"
-androidGradle = "8.7.0"
+androidGradle = "8.7.1"
 androidXCore = "1.13.1"
 androidXNavigation = "2.8.2"
 androidxHiltCompiler = "1.2.0"
