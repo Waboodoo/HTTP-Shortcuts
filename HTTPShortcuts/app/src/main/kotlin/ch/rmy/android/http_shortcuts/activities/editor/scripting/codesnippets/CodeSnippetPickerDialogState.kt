@@ -25,4 +25,9 @@ sealed class CodeSnippetPickerDialogState {
     data class SelectVariableForWriting(
         val variables: List<VariablePlaceholder>,
     ) : CodeSnippetPickerDialogState()
+
+    @Stable
+    data class SelectWorkingDirectory(
+        val directoryNames: List<String>,
+    ) : CodeSnippetPickerDialogState()
 }

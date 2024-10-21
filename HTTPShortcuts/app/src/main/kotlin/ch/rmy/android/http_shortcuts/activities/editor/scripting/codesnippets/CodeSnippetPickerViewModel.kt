@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PlaySoundActionType
@@ -33,6 +34,7 @@ constructor(
     application: Application,
     private val shortcutRepository: ShortcutRepository,
     private val variableRepository: VariableRepository,
+    private val workingDirectoryRepository: WorkingDirectoryRepository,
     private val generateCodeSnippetItems: GenerateCodeSnippetItemsUseCase,
     private val variablePlaceholderProvider: VariablePlaceholderProvider,
     private val shortcutPlaceholderProvider: ShortcutPlaceholderProvider,
@@ -42,6 +44,7 @@ constructor(
 
     private var iconPickerShortcutPlaceholder: String? = null
     private var onShortcutSelected: ((String) -> Unit)? = null
+    private var onWorkingDirectorySelected: ((directoryName: String) -> Unit)? = null
 
     private var sectionItems: List<SectionItem> = emptyList()
     private var expandedSections = mutableSetOf<String>()
@@ -83,8 +86,10 @@ constructor(
                 emitEvent(CodeSnippetPickerEvent.OpenRingtonePicker)
             }
             is GenerateCodeSnippetItemsUseCase.Event.PickShortcut -> {
-                onShortcutSelected = event.andThen
                 showShortcutPicker(event.title, event.andThen)
+            }
+            is GenerateCodeSnippetItemsUseCase.Event.PickWorkingDirectory -> {
+                showWorkingDirectoryPicker(event.andThen)
             }
             is GenerateCodeSnippetItemsUseCase.Event.PickTaskerTask -> {
                 emitEvent(CodeSnippetPickerEvent.OpenTaskerTaskPicker)
@@ -112,6 +117,21 @@ constructor(
                 title = StringResLocalizable(title),
                 shortcuts = placeholders,
             )
+        )
+    }
+
+    private suspend fun showWorkingDirectoryPicker(callback: (String) -> Unit) {
+        val workingDirectories = workingDirectoryRepository.getWorkingDirectories()
+        if (workingDirectories.size <= 1) {
+            callback(workingDirectories.getOrNull(0)?.name ?: "")
+            return
+        }
+        onWorkingDirectorySelected = callback
+
+        updateDialogState(
+            CodeSnippetPickerDialogState.SelectWorkingDirectory(
+                directoryNames = workingDirectories.map { it.name },
+            ),
         )
     }
 
@@ -227,6 +247,13 @@ constructor(
         onShortcutSelected = null
         updateDialogState(null)
         callback("\"\"")
+    }
+
+    fun onWorkingDirectorySelected(workingDirectoryName: String) = runAction {
+        val callback = onWorkingDirectorySelected ?: skipAction()
+        onWorkingDirectorySelected = null
+        updateDialogState(null)
+        callback(workingDirectoryName)
     }
 
     fun onDialogDismissRequested() = runAction {

@@ -25,6 +25,13 @@ constructor(
                 workingDirectories.sortedBy { it.name.lowercase() }
             }
 
+    suspend fun getWorkingDirectories(): List<WorkingDirectory> =
+        queryItem {
+            getBase()
+        }
+            .workingDirectories
+            .sortedBy { it.name.lowercase() }
+
     suspend fun getWorkingDirectoryById(id: WorkingDirectoryId): WorkingDirectory =
         queryItem {
             getWorkingDirectory(id)

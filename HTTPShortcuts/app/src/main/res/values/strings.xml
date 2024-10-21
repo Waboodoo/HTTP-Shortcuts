@@ -1679,4 +1679,6 @@
     <string name="message_shortcut_hidden">Shortcut hidden.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
     <string name="message_shortcut_visible">Shortcut no longer hidden.</string>
+    <!-- Title for dialog, when selecting a directory (to be used in Scripting) -->
+    <string name="title_select_working_directory">Select Directory</string>
 </resources>

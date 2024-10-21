@@ -112,6 +112,7 @@ fun CodeSnippetPickerScreen(
         onCustomIconOptionSelected = viewModel::onCustomIconOptionSelected,
         onVariableSelected = viewModel::onVariableSelected,
         onVariableEditorButtonClicked = viewModel::onVariableEditorButtonClicked,
+        onWorkingDirectorySelected = viewModel::onWorkingDirectorySelected,
         onDismissRequested = viewModel::onDialogDismissRequested,
     )
 }

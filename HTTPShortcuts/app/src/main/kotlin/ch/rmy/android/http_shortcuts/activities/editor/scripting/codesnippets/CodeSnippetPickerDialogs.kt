@@ -5,6 +5,8 @@ import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.IconPickerDialog
+import ch.rmy.android.http_shortcuts.components.SelectDialog
+import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.ShortcutPickerDialog
 import ch.rmy.android.http_shortcuts.components.VariablePickerDialog
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -22,6 +24,7 @@ fun CodeSnippetPickerDialogs(
     onCustomIconOptionSelected: () -> Unit,
     onVariableSelected: (VariableId) -> Unit,
     onVariableEditorButtonClicked: () -> Unit,
+    onWorkingDirectorySelected: (String) -> Unit,
     onDismissRequested: () -> Unit,
 ) {
     when (dialogState) {
@@ -75,6 +78,13 @@ fun CodeSnippetPickerDialogs(
                 )
             }
         }
+        is CodeSnippetPickerDialogState.SelectWorkingDirectory -> {
+            SelectWorkingDirectory(
+                directoryNames = dialogState.directoryNames,
+                onWorkingDirectorySelected = onWorkingDirectorySelected,
+                onDismissRequested = onDismissRequested,
+            )
+        }
         null -> Unit
     }
 }
@@ -109,4 +119,25 @@ private fun SelectIcon(
         onIconSelected = onIconSelected,
         onDismissRequested = onDismissRequested,
     )
+}
+
+@Composable
+private fun SelectWorkingDirectory(
+    directoryNames: List<String>,
+    onWorkingDirectorySelected: (String) -> Unit,
+    onDismissRequested: () -> Unit,
+) {
+    SelectDialog(
+        title = stringResource(R.string.title_select_working_directory),
+        onDismissRequest = onDismissRequested,
+    ) {
+        directoryNames.forEach { directoryName ->
+            SelectDialogEntry(
+                label = directoryName,
+                onClick = {
+                    onWorkingDirectorySelected(directoryName)
+                },
+            )
+        }
+    }
 }

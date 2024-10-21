@@ -135,21 +135,27 @@ constructor(
                     docRef = "read-write-files",
                     keywords = setOf("files", "read"),
                 ) {
-                    insertText("getDirectory(\"\").readFile(\"", "\");\n")
+                    pickWorkingDirectory { directoryName ->
+                        insertText("getDirectory(\"${escape(directoryName)}\").readFile(\"", "\");\n")
+                    }
                 }
                 item(
                     R.string.dialog_code_snippet_write_to_file,
                     docRef = "read-write-files",
                     keywords = setOf("files", "write", "store", "persist"),
                 ) {
-                    insertText("getDirectory(\"\").writeFile(\"", "\", \"...\");\n")
+                    pickWorkingDirectory { directoryName ->
+                        insertText("getDirectory(\"${escape(directoryName)}\").writeFile(\"", "\", \"...\");\n")
+                    }
                 }
                 item(
                     R.string.dialog_code_snippet_append_to_file,
                     docRef = "read-write-files",
                     keywords = setOf("files", "write", "store", "persist", "add", "attach"),
                 ) {
-                    insertText("getDirectory(\"\").appendFile(\"", "\", \"...\");\n")
+                    pickWorkingDirectory { directoryName ->
+                        insertText("getDirectory(\"${escape(directoryName)}\").appendFile(\"", "\", \"...\");\n")
+                    }
                 }
                 item(
                     R.string.dialog_code_snippet_get_file_name,
@@ -646,9 +652,13 @@ constructor(
             }
         }
 
+    private fun escape(input: String): String =
+        input.replace("\"", "\\\"")
+
     sealed interface Event {
         data class InsertText(val textBeforeCursor: String, val textAfterCursor: String) : Event
         data class PickShortcut(@StringRes val title: Int, val andThen: (shortcutPlaceholder: String) -> Unit) : Event
+        data class PickWorkingDirectory(val andThen: (directoryName: String) -> Unit) : Event
         data class PickIcon(val shortcutPlaceholder: String) : Event
         data object PickVariableForReading : Event
         data object PickVariableForWriting : Event
@@ -724,6 +734,14 @@ constructor(
             fun pickShortcut(@StringRes title: Int, action: ActionContext.(shortcutPlaceholder: String) -> Unit) {
                 sendEvent(
                     Event.PickShortcut(title) {
+                        action(it)
+                    }
+                )
+            }
+
+            fun pickWorkingDirectory(action: ActionContext.(directoryName: String) -> Unit) {
+                sendEvent(
+                    Event.PickWorkingDirectory {
                         action(it)
                     }
                 )
