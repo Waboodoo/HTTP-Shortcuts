@@ -24,6 +24,7 @@ import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
+import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 
 @Composable
@@ -34,6 +35,7 @@ fun AdvancedSettingsContent(
     requireSpecificWifi: Boolean,
     wifiSsid: String,
     timeoutSubtitle: String,
+    ipVersion: IpVersion?,
     proxyType: ProxyType?,
     proxyHost: String,
     proxyPort: String,
@@ -48,6 +50,7 @@ fun AdvancedSettingsContent(
     onRequireSpecificWifiChanged: (Boolean) -> Unit,
     onWifiSsidChanged: (String) -> Unit,
     onTimeoutButtonClicked: () -> Unit,
+    onIpVersionChanged: (IpVersion?) -> Unit,
     onProxyTypeChanged: (ProxyType?) -> Unit,
     onProxyHostChanged: (String) -> Unit,
     onProxyPortChanged: (String) -> Unit,
@@ -115,6 +118,24 @@ fun AdvancedSettingsContent(
             subtitle = timeoutSubtitle,
             onClick = onTimeoutButtonClicked,
         )
+
+        HorizontalDivider()
+
+        Column(
+            modifier = Modifier.padding(Spacing.MEDIUM),
+            verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
+        ) {
+            SelectionField(
+                title = stringResource(R.string.label_ip_version),
+                selectedKey = ipVersion,
+                items = listOf(
+                    null to stringResource(R.string.option_ip_version_auto),
+                    IpVersion.V4 to "IPv4",
+                    IpVersion.V6 to "IPv6",
+                ),
+                onItemSelected = onIpVersionChanged,
+            )
+        }
 
         HorizontalDivider()
 

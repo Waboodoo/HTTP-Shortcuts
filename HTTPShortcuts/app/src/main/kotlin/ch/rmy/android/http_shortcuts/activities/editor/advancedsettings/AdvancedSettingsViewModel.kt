@@ -4,6 +4,7 @@ import android.app.Application
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.models.HostVerificationType
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
+import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
@@ -29,6 +30,7 @@ constructor(
             hostVerificationType = shortcut.getHostVerificationType(),
             acceptCookies = shortcut.acceptCookies,
             keepConnectionOpen = shortcut.keepConnectionOpen,
+            ipVersion = shortcut.ipVersion,
             timeout = shortcut.timeout.milliseconds,
             proxyType = shortcut.proxyType.takeUnless { shortcut.proxyHost.isNullOrEmpty() },
             proxyHost = shortcut.proxyHost ?: "",
@@ -124,6 +126,15 @@ constructor(
         }
         withProgressTracking {
             temporaryShortcutRepository.setTimeout(timeout)
+        }
+    }
+
+    fun onIpVersionChanged(ipVersion: IpVersion?) = runAction {
+        updateViewState {
+            copy(ipVersion = ipVersion)
+        }
+        withProgressTracking {
+            temporaryShortcutRepository.setIpVersion(ipVersion)
         }
     }
 

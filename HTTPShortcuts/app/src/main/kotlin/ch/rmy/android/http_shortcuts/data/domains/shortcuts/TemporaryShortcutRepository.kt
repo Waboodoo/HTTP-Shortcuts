@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
+import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
@@ -413,6 +414,12 @@ constructor(
         }
     }
 
+    suspend fun setIpVersion(ipVersion: IpVersion?) {
+        commitTransactionForShortcut { shortcut ->
+            shortcut.ipVersion = ipVersion
+        }
+    }
+
     suspend fun setProxyType(proxyType: ProxyType) {
         commitTransactionForShortcut { shortcut ->
             shortcut.proxyType = proxyType
@@ -502,6 +509,12 @@ constructor(
                 }
             }
             shortcut.timeout = curlCommand.timeout
+
+            if (curlCommand.ipVersion4) {
+                shortcut.ipVersion = IpVersion.V4
+            } else if (curlCommand.ipVersion6) {
+                shortcut.ipVersion = IpVersion.V6
+            }
 
             if (curlCommand.usesBinaryData) {
                 shortcut.bodyType = RequestBodyType.FILE

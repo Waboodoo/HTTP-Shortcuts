@@ -8,6 +8,7 @@ import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.HostVerificationConfig
+import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.exceptions.ClientCertException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidProxyException
@@ -15,9 +16,12 @@ import com.burgstaller.okhttp.digest.Credentials
 import okhttp3.CertificatePinner
 import okhttp3.ConnectionSpec
 import okhttp3.CookieJar
+import okhttp3.Dns
 import okhttp3.OkHttpClient
 import org.conscrypt.Conscrypt
 import java.net.Authenticator
+import java.net.Inet4Address
+import java.net.Inet6Address
 import java.net.InetSocketAddress
 import java.net.PasswordAuthentication
 import java.net.Proxy
@@ -44,6 +48,7 @@ constructor() {
         password: String? = null,
         followRedirects: Boolean = true,
         timeout: Long = 10000,
+        ipVersion: IpVersion? = null,
         proxy: ProxyParams? = null,
         cookieJar: CookieJar? = null,
         certificatePins: List<CertificatePin> = emptyList(),
@@ -95,6 +100,14 @@ constructor() {
                 )
             } catch (e: IllegalArgumentException) {
                 throw InvalidProxyException(e.message!!)
+            }
+        }
+        .runIfNotNull(ipVersion) {
+            dns { hostname ->
+                when (it) {
+                    IpVersion.V4 -> Dns.SYSTEM.lookup(hostname).filterIsInstance<Inet4Address>()
+                    IpVersion.V6 -> Dns.SYSTEM.lookup(hostname).filterIsInstance<Inet6Address>()
+                }
             }
         }
         .build()

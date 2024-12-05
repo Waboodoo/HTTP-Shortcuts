@@ -139,6 +139,14 @@ class CurlParser private constructor(arguments: List<String>) {
                     builder.method("HEAD")
                     continue@loop
                 }
+                "-4", "--ipv4" -> {
+                    builder.ipVersion4()
+                    continue@loop
+                }
+                "-6", "--ipv6" -> {
+                    builder.ipVersion6()
+                    continue@loop
+                }
             }
             wasNoParamArgument = false
 
@@ -196,6 +204,10 @@ class CurlParser private constructor(arguments: List<String>) {
             "--silent",
             "--head",
             "-I",
+            "-4",
+            "--ipv4",
+            "-6",
+            "--ipv6"
         )
     }
 }

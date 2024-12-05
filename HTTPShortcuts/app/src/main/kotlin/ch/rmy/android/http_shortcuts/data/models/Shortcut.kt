@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
+import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
@@ -111,6 +112,8 @@ class Shortcut() : RealmObject {
 
     var keepConnectionOpen: Boolean = false
 
+    private var protocolVersion: String? = null
+
     private var proxy: String = "HTTP"
 
     var proxyHost: String? = null
@@ -167,6 +170,12 @@ class Shortcut() : RealmObject {
             authentication = value.type
         }
 
+    var ipVersion: IpVersion?
+        get() = protocolVersion?.let { IpVersion.parse(it) }
+        set(value) {
+            protocolVersion = value?.version
+        }
+
     var proxyType: ProxyType
         get() = ProxyType.parse(proxy)
         set(value) {
@@ -202,6 +211,7 @@ class Shortcut() : RealmObject {
             other.authToken != authToken ||
             other.retryPolicy != retryPolicy ||
             other.timeout != timeout ||
+            other.ipVersion != ipVersion ||
             other.url != url ||
             other.username != username ||
             other.authentication != authentication ||

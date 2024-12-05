@@ -2,9 +2,11 @@ package ch.rmy.android.http_shortcuts.import_export
 
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
@@ -54,6 +56,12 @@ constructor(
             .method(shortcut.method)
             .runIf(shortcut.timeout != 10000) {
                 timeout(shortcut.timeout)
+            }
+            .runIfNotNull(shortcut.ipVersion) {
+                when (it) {
+                    IpVersion.V4 -> ipVersion4()
+                    IpVersion.V6 -> ipVersion6()
+                }
             }
             .runFor(shortcut.headers) { header ->
                 header(

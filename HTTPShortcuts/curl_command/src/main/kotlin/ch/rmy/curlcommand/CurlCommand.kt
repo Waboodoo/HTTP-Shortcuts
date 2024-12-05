@@ -35,6 +35,10 @@ class CurlCommand internal constructor() : Serializable {
         private set
     var silent: Boolean = false
         private set
+    var ipVersion4: Boolean = false
+        private set
+    var ipVersion6: Boolean = false
+        private set
 
     class Builder {
 
@@ -120,6 +124,16 @@ class CurlCommand internal constructor() : Serializable {
 
         fun silent() = also {
             curlCommand.silent = true
+        }
+
+        fun ipVersion4() = also {
+            curlCommand.ipVersion4 = true
+            curlCommand.ipVersion6 = false
+        }
+
+        fun ipVersion6() = also {
+            curlCommand.ipVersion6 = true
+            curlCommand.ipVersion4 = false
         }
 
         fun build(): CurlCommand {
