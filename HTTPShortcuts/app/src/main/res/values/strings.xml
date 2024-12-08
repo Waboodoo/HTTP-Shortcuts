@@ -253,7 +253,7 @@
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Timeout</string>
     <!-- Label, for dropdown picker, allowing to select the Internet Protocol version used for hostname resolution by a shortcut -->
-    <string name="label_ip_version">Protocol Version</string>
+    <string name="label_ip_version">Internet Protocol Version</string>
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">Proxy Type</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->

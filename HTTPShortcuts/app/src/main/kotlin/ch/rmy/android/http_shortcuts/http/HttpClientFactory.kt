@@ -12,6 +12,7 @@ import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.exceptions.ClientCertException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidProxyException
+import ch.rmy.android.http_shortcuts.exceptions.NoIpAddressException
 import com.burgstaller.okhttp.digest.Credentials
 import okhttp3.CertificatePinner
 import okhttp3.ConnectionSpec
@@ -108,6 +109,9 @@ constructor() {
                     IpVersion.V4 -> Dns.SYSTEM.lookup(hostname).filterIsInstance<Inet4Address>()
                     IpVersion.V6 -> Dns.SYSTEM.lookup(hostname).filterIsInstance<Inet6Address>()
                 }
+                    .ifEmpty {
+                        throw NoIpAddressException(hostname, it)
+                    }
             }
         }
         .build()
