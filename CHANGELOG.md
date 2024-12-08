@@ -1,3 +1,8 @@
+## Version 3.21.0
+
+### Improvements
+- It is now possible to select whether IPv4 or IPv6 should be used for a shortcut's hostname (thanks [menendezeldemente](https://github.com/menendezeldemente))
+
 ## Version 3.20.0
 
 ### Improvements
@@ -6,7 +11,6 @@
 
 ### Bugfixes
 - When exporting shortcuts that use the `getDirectory()` function in their Scripting, the directories are now also included in the export.
-- The F-Droid build, which stopped working in version 3.19.0, should now work again
 
 ### Miscellaneous
 - When creating your very first shortcut, a useful hint is now shown if you haven't opened the "Response Handling" section
