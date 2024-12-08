@@ -4,6 +4,7 @@ import androidx.compose.runtime.Stable
 import ch.rmy.android.framework.utils.localization.DurationLocalizable
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.models.HostVerificationType
+import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import kotlin.time.Duration
 
@@ -17,6 +18,7 @@ data class AdvancedSettingsViewState(
     val acceptCookies: Boolean,
     val keepConnectionOpen: Boolean,
     val timeout: Duration,
+    val ipVersion: IpVersion?,
     val proxyType: ProxyType?,
     val proxyHost: String,
     val proxyPort: String,

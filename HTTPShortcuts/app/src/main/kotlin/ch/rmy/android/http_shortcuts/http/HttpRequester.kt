@@ -172,6 +172,7 @@ constructor(
                 password = requestData.password.takeIf { useDigestAuth },
                 followRedirects = shortcut.followRedirects,
                 timeout = shortcut.timeout.toLong(),
+                ipVersion = shortcut.ipVersion,
                 proxy = requestData.proxy,
                 cookieJar = cookieJar,
                 certificatePins = certificatePins.map(CertificatePin::toCertificatePin),

@@ -50,6 +50,14 @@ object CurlConstructor {
             builder.option("--silent")
         }
 
+        if (curlCommand.ipVersion4) {
+            builder.option("--ipv4")
+        }
+
+        if (curlCommand.ipVersion6) {
+            builder.option("--ipv6")
+        }
+
         return builder.build()
     }
 }

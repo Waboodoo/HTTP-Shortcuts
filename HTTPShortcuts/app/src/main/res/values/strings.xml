@@ -252,6 +252,8 @@
     <string name="import_in_progress">Importing…</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Timeout</string>
+    <!-- Label, for dropdown picker, allowing to select the Internet Protocol version used for hostname resolution by a shortcut -->
+    <string name="label_ip_version">Protocol Version</string>
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">Proxy Type</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
@@ -1468,6 +1470,8 @@
     <string name="empty_state_custom_icons">You don\’t have any custom icons.</string>
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
     <string name="label_require_specific_wifi_ssid">Require specific Wi-Fi</string>
+    <!-- Option in dropdown menu, for selecting the Internet Protocol version to be used for hostname resolution by a shortcut. This option is used by default when no specific option is chosen. -->
+    <string name="option_ip_version_auto">Determine automatically</string>
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
     <string name="option_no_proxy">No proxy</string>
     <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
