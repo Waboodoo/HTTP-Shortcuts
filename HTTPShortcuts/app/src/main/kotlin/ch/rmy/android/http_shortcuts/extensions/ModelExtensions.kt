@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.extensions
 
 import android.content.Context
+import android.graphics.Color
 import ch.rmy.android.framework.extensions.fromHexString
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
@@ -13,6 +14,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.http.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin as CertificatePinModel
 
@@ -69,3 +71,6 @@ fun Shortcut.hasFileParameter(forImage: Boolean? = null): Boolean =
             }
         }
     }
+
+fun Widget.labelColorInt() =
+    labelColor?.let(Color::parseColor) ?: Color.WHITE

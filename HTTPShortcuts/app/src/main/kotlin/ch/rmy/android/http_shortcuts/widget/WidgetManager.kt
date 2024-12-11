@@ -4,7 +4,6 @@ import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.util.TypedValue.COMPLEX_UNIT_SP
 import android.view.View
 import android.widget.RemoteViews
@@ -15,6 +14,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Widget
+import ch.rmy.android.http_shortcuts.extensions.labelColorInt
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import javax.inject.Inject
 
@@ -63,7 +63,7 @@ constructor(
             if (widget.showLabel) {
                 views.setViewVisibility(R.id.widget_label, View.VISIBLE)
                 views.setTextViewText(R.id.widget_label, shortcut.name)
-                views.setTextColor(R.id.widget_label, widget.labelColor?.let(Color::parseColor) ?: Color.WHITE)
+                views.setTextColor(R.id.widget_label, widget.labelColorInt())
                 views.setTextViewTextSize(R.id.widget_label, COMPLEX_UNIT_SP, if (shortcut.name.length < 20) 18f else 12f)
             } else {
                 views.setViewVisibility(R.id.widget_label, View.GONE)

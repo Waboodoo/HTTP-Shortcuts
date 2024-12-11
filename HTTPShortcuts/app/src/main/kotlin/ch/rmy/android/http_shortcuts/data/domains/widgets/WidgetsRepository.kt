@@ -36,6 +36,9 @@ constructor(
         }
     }
 
+    suspend fun getWidgetById(widgetId: Int): Widget? =
+        getWidgetsByIds(listOf(widgetId)).firstOrNull()
+
     suspend fun getWidgetsByIds(widgetIds: List<Int>): List<Widget> =
         query {
             getWidgetsByIds(widgetIds)

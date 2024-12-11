@@ -5,9 +5,10 @@
     android:initialLayout="@layout/widget"
     android:minWidth="40dp"
     android:minHeight="40dp"
-    android:minResizeHeight="40dp"
     android:minResizeWidth="40dp"
+    android:minResizeHeight="40dp"
+    android:previewImage="@drawable/ic_launcher"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="0"
-    android:previewImage="@drawable/ic_launcher"
-    android:widgetCategory="home_screen" />
+    android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable" />

@@ -19,9 +19,10 @@ fun WidgetSettingsScreen(
     shortcutId: ShortcutId,
     shortcutName: String,
     shortcutIcon: ShortcutIcon,
+    widgetId: Int?,
 ) {
     val (viewModel, state) = bindViewModel<WidgetSettingsViewModel.InitData, WidgetSettingsViewState, WidgetSettingsViewModel>(
-        WidgetSettingsViewModel.InitData(shortcutId, shortcutName, shortcutIcon)
+        WidgetSettingsViewModel.InitData(shortcutId, shortcutName, shortcutIcon, widgetId)
     )
 
     SimpleScaffold(

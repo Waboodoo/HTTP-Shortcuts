@@ -408,6 +408,7 @@ sealed interface NavigationDestination {
         private const val ARG_SHORTCUT_ID = "shortcut_id"
         private const val ARG_SHORTCUT_NAME = "shortcut_name"
         private const val ARG_SHORTCUT_ICON = "shortcut_icon"
+        private const val ARG_WIDGET_ID = "widget_id"
 
         override val path = "widget"
 
@@ -416,12 +417,14 @@ sealed interface NavigationDestination {
                 stringArg(ARG_SHORTCUT_ID),
                 stringArg(ARG_SHORTCUT_NAME),
                 stringArg(ARG_SHORTCUT_ICON),
+                optionalIntArg(ARG_WIDGET_ID)
             )
 
-        fun buildRequest(shortcutId: ShortcutId, shortcutName: String, shortcutIcon: ShortcutIcon) = buildNavigationRequest {
+        fun buildRequest(shortcutId: ShortcutId, shortcutName: String, shortcutIcon: ShortcutIcon, widgetId: Int?) = buildNavigationRequest {
             pathPart(shortcutId)
             pathPart(shortcutName)
             pathPart(shortcutIcon)
+            parameter(ARG_WIDGET_ID, widgetId)
         }
 
         fun extractShortcutId(bundle: Bundle): ShortcutId =
@@ -432,6 +435,9 @@ sealed interface NavigationDestination {
 
         fun extractShortcutIcon(bundle: Bundle): ShortcutIcon =
             ShortcutIcon.fromName(bundle.getEncodedString(ARG_SHORTCUT_ICON))
+
+        fun extractWidgetId(bundle: Bundle): Int? =
+            bundle.getInt(ARG_WIDGET_ID, -1).takeUnless { it == -1 }
 
         data class Result(
             val shortcutId: ShortcutId,

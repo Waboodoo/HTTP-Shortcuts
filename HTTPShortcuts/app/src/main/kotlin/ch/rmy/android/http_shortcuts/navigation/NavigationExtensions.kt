@@ -167,6 +167,12 @@ fun optionalStringArg(key: String) =
         nullable = true
     }
 
+fun optionalIntArg(key: String) =
+    navArgument(key) {
+        type = NavType.IntType
+        defaultValue = -1
+    }
+
 fun optionalBooleanArg(key: String) =
     navArgument(key) {
         type = NavType.BoolType

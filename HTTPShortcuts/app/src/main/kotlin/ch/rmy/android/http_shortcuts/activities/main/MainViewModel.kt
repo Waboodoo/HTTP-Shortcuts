@@ -420,19 +420,20 @@ constructor(
     private suspend fun selectShortcut(shortcutId: ShortcutId) {
         when (selectionMode) {
             SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT -> returnForHomeScreenShortcutPlacement(shortcutId)
-            SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT -> openWidgetSettings(shortcutId)
+            SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT -> openWidgetSettings(shortcutId, initData.widgetId)
             SelectionMode.PLUGIN -> returnForPlugin(shortcutId)
             SelectionMode.NORMAL -> Unit
         }
     }
 
-    private suspend fun openWidgetSettings(shortcutId: ShortcutId) {
+    private suspend fun openWidgetSettings(shortcutId: ShortcutId, widgetId: Int?) {
         val shortcut = getShortcutById(shortcutId) ?: return
         navigate(
             NavigationDestination.Widget.buildRequest(
                 shortcutId = shortcut.id,
                 shortcutName = shortcut.name,
                 shortcutIcon = shortcut.icon,
+                widgetId = widgetId,
             ),
         )
     }

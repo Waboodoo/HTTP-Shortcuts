@@ -230,10 +230,12 @@ fun NavigationRoot() {
         }
 
         composable(NavigationDestination.Widget) { backStackEntry ->
+            val arguments = backStackEntry.arguments!!
             WidgetSettingsScreen(
-                shortcutId = NavigationDestination.Widget.extractShortcutId(backStackEntry.arguments!!),
-                shortcutName = NavigationDestination.Widget.extractShortcutName(backStackEntry.arguments!!),
-                shortcutIcon = NavigationDestination.Widget.extractShortcutIcon(backStackEntry.arguments!!),
+                shortcutId = NavigationDestination.Widget.extractShortcutId(arguments),
+                shortcutName = NavigationDestination.Widget.extractShortcutName(arguments),
+                shortcutIcon = NavigationDestination.Widget.extractShortcutIcon(arguments),
+                widgetId = NavigationDestination.Widget.extractWidgetId(arguments),
             )
         }
 
