@@ -45,7 +45,7 @@ fun ShortcutIcon(
         contentDescription = contentDescription,
         colorFilter = tint?.let { ColorFilter.tint(tint) },
         modifier = Modifier
-            .size(width = size, height = size)
+            .size(size)
             .then(modifier)
             .runIf(shortcutIcon.isCircular) {
                 clip(CircleShape)

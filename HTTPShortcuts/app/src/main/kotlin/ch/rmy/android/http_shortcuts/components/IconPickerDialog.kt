@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
@@ -365,17 +366,20 @@ private fun IconItem(
     icon: ShortcutIcon.BuiltInIcon,
     onIconClicked: () -> Unit,
 ) {
-    ShortcutIcon(
-        icon,
-        contentDescription = icon.plainName,
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = ripple(bounded = false),
-                onClick = onIconClicked,
-            ),
-    )
+    Box(
+        modifier = Modifier.size(44.dp),
+    ) {
+        ShortcutIcon(
+            icon,
+            contentDescription = icon.plainName,
+            modifier = Modifier
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = ripple(bounded = false),
+                    onClick = onIconClicked,
+                ),
+        )
+    }
 }
 
 private fun getColoredIcons(context: Context): List<ShortcutIcon.BuiltInIcon> =
