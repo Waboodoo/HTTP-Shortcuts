@@ -83,6 +83,8 @@ The *uuid* type will generate a random UUID (*U*niversally *U*nique *Id*entifier
 
 Variables of type *clipboard content* will resolve to the latest textual value that was copied to the clipboard. If there is no text in the clipboard or the last thing that was copied does not have a textual representation, the variable will have an empty value.
 
+> This variable type can not be used when executing shortcuts in the background, as the Android OS (starting from Android 10) does not allow apps in the background to access the clipboard. In this case the variable will just assume an empty string as its value.
+
 <a name="sharing"></a>
 ## Sharing Values into Variables
 In the advanced settings section of a variable you can mark it as *Allow Receiving Value from Share Dialog*. This makes it possible to provide the value of this variable through Android's *Share*-dialog, e.g., by sharing a URL or text snippet from another app. The variable will then assume the shared value during the execution of a shortcut.

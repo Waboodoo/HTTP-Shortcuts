@@ -900,6 +900,8 @@ The `getClipboardContent` function allows you to query the latest item in your d
 const clipboardValue = getClipboardContent();
 ```
 
+> This function can not be used when executing shortcuts in the background, as the Android OS (starting from Android 10) does not allow apps in the background to access the clipboard. In this case the function will return `null`.
+
 <a name="copy-to-clipboard"></a>
 ### Copy to the Clipboard
 
@@ -908,6 +910,8 @@ With the `copyToClipboard` function you can copy a value to the device's clipboa
 ```js
 copyToClipboard('Hello World');
 ```
+
+> This function can not be used when executing shortcuts in the background, as the Android OS (starting from Android 10) does not allow apps in the background to access the clipboard.
 
 <a name="share-text"></a>
 ### Share Text with Another App
