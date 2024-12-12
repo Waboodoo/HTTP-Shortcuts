@@ -8,12 +8,14 @@ import androidx.compose.ui.Modifier
 fun <T : Comparable<T>> OrderedOptionsSlider(
     options: Array<T>,
     value: T,
+    enabled: Boolean = true,
     onValueChange: (T) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Slider(
         modifier = modifier,
         valueRange = 0f..(options.lastIndex.toFloat()),
+        enabled = enabled,
         value = (
             options.indexOfFirst { it >= value }
                 .takeUnless { it == -1 }

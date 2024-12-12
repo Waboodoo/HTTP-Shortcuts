@@ -444,6 +444,7 @@ sealed interface NavigationDestination {
             val labelColor: String,
             val showLabel: Boolean,
             val showIcon: Boolean,
+            val iconScale: Float,
         ) : Serializable
 
         const val RESULT_WIDGET_SETTINGS_CANCELLED = "widget-settings-cancelled"

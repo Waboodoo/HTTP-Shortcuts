@@ -22,6 +22,7 @@ constructor(
         showLabel: Boolean,
         showIcon: Boolean,
         labelColor: String?,
+        iconScale: Float,
     ) {
         commitTransaction {
             copyOrUpdate(
@@ -31,6 +32,7 @@ constructor(
                     showLabel = showLabel,
                     showIcon = showIcon,
                     labelColor = labelColor,
+                    iconScale = iconScale,
                 )
             )
         }

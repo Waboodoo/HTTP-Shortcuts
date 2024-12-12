@@ -8,6 +8,7 @@ data class WidgetSettingsViewState(
     val showLabel: Boolean,
     val showIcon: Boolean,
     val labelColor: Int,
+    val iconScale: Float,
     val shortcutName: String,
     val shortcutIcon: ShortcutIcon,
     val colorDialogVisible: Boolean = false,

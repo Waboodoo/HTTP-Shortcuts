@@ -42,6 +42,7 @@ constructor(
             showLabel = widget?.showLabel != false,
             showIcon = widget?.showIcon != false,
             labelColor = widget?.labelColorInt() ?: Color.WHITE,
+            iconScale = widget?.iconScale ?: 1f,
             shortcutIcon = shortcutIcon,
             shortcutName = shortcutName,
         )
@@ -74,6 +75,12 @@ constructor(
         }
     }
 
+    fun onIconScaleChanged(scale: Float) = runAction {
+        updateViewState {
+            copy(iconScale = scale)
+        }
+    }
+
     fun onCreateButtonClicked() = runAction {
         closeScreen(
             result = NavigationDestination.Widget.Result(
@@ -81,6 +88,7 @@ constructor(
                 labelColor = viewState.labelColorFormatted,
                 showLabel = viewState.showLabel,
                 showIcon = viewState.showIcon,
+                iconScale = viewState.iconScale,
             ),
         )
     }

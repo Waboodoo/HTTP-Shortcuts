@@ -454,9 +454,10 @@ constructor(
         showLabel: Boolean,
         showIcon: Boolean,
         labelColor: String?,
+        iconScale: Float,
     ) {
         val widgetId = initData.widgetId ?: return
-        widgetManager.createWidget(widgetId, shortcutId, showLabel, showIcon, labelColor)
+        widgetManager.createWidget(widgetId, shortcutId, showLabel, showIcon, labelColor, iconScale)
         widgetManager.updateWidgets(context, shortcutId)
         finish(
             intent = WidgetManager.getIntent(widgetId),
@@ -514,9 +515,15 @@ constructor(
     private fun getShortcutById(shortcutId: ShortcutId): Shortcut? =
         categories.findShortcut(shortcutId)
 
-    fun onWidgetSettingsSubmitted(shortcutId: ShortcutId, showLabel: Boolean, showIcon: Boolean, labelColor: String?) = runAction {
+    fun onWidgetSettingsSubmitted(
+        shortcutId: ShortcutId,
+        showLabel: Boolean,
+        showIcon: Boolean,
+        labelColor: String?,
+        iconScale: Float,
+    ) = runAction {
         logInfo("Widget settings submitted")
-        returnForHomeScreenWidgetPlacement(shortcutId, showLabel, showIcon, labelColor)
+        returnForHomeScreenWidgetPlacement(shortcutId, showLabel, showIcon, labelColor, iconScale)
     }
 
     fun onShortcutEdited() = runAction {

@@ -75,6 +75,7 @@ fun MainScreen(
                     showLabel = result.showLabel,
                     showIcon = result.showIcon,
                     labelColor = result.labelColor,
+                    iconScale = result.iconScale,
                 )
             }
             RESULT_WIDGET_SETTINGS_CANCELLED -> {

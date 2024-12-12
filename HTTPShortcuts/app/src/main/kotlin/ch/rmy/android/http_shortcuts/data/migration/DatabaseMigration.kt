@@ -270,6 +270,12 @@ class DatabaseMigration : AutomaticSchemaMigration {
             }
         }
 
+        if (oldVersion < 84 && oldVersion >= 36) {
+            migrationContext.enumerate("Widget") { _, newWidget ->
+                newWidget?.set("iconScale", 1f)
+            }
+        }
+
         // update version number
         newRealm.query("Base")
             .first()
@@ -281,7 +287,7 @@ class DatabaseMigration : AutomaticSchemaMigration {
     }
 
     companion object {
-        const val VERSION = 83L
+        const val VERSION = 84L
         const val COMPATIBILITY_VERSION = 78L
     }
 }

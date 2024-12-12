@@ -42,11 +42,13 @@ fun WidgetSettingsScreen(
             showIcon = viewState.showIcon,
             labelColor = Color(viewState.labelColor),
             labelColorText = viewState.labelColorFormatted,
+            iconScale = viewState.iconScale,
             shortcutName = viewState.shortcutName,
             shortcutIcon = viewState.shortcutIcon,
             onShowLabelChanged = viewModel::onShowLabelChanged,
             onShowIconChanged = viewModel::onShowIconChanged,
             onLabelColorButtonClicked = viewModel::onLabelColorButtonClicked,
+            onIconScaleChanged = viewModel::onIconScaleChanged,
         )
     }
 

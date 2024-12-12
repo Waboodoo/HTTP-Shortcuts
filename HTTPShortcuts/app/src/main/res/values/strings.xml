@@ -1094,6 +1094,8 @@
     <string name="label_widget">Customizable Widget</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">Show Label</string>
+    <!-- Label: Shown when configuring a widget, above a slider, to choose the size of the widget's icon -->
+    <string name="label_widget_icon_size">Icon Size</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
     <string name="label_show_widget_icon">Show Icon</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->

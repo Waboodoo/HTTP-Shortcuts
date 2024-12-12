@@ -30,8 +30,9 @@ constructor(
         showLabel: Boolean,
         showIcon: Boolean,
         labelColor: String?,
+        iconScale: Float,
     ) {
-        widgetsRepository.createWidget(widgetId, shortcutId, showLabel, showIcon, labelColor)
+        widgetsRepository.createWidget(widgetId, shortcutId, showLabel, showIcon, labelColor, iconScale)
     }
 
     suspend fun updateWidgets(context: Context, widgetIds: List<Int>) {
@@ -73,6 +74,8 @@ constructor(
                     views.setInt(R.id.widget_label, "setLines", 2)
                 }
                 views.setImageViewIcon(R.id.widget_icon, IconUtil.getIcon(context, shortcut.icon, adaptive = false))
+                views.setFloat(R.id.widget_icon, "setScaleX", widget.iconScale)
+                views.setFloat(R.id.widget_icon, "setScaleY", widget.iconScale)
             } else {
                 views.setInt(R.id.widget_label, "setMaxLines", 4)
                 views.setViewVisibility(R.id.widget_icon, View.GONE)
