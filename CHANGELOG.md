@@ -1,7 +1,16 @@
 ## Version 3.21.0
 
 ### Improvements
+- Homescreen widgets can now be reconfigured without needing to be removed and re-added
+- The size of the icon on home screen widgets can now be reduced
 - It is now possible to select whether IPv4 or IPv6 should be used for a shortcut's hostname (thanks [menendezeldemente](https://github.com/menendezeldemente))
+- You can now send simple HTTP requests directly from Scripting with the newly added `sendHttpRequest` function
+
+### Bugfixes
+- The circle icon in the icon picker now has the correct aspect ratio
+
+### Miscellaneous
+- The size of the app has been reduced
 
 ## Version 3.20.0
 
@@ -91,7 +100,7 @@
 
 ### Bugfixes
 - Fixed a crash that would happen on some devices when deleting characters in Scripting fields or the cURL import
-- Homescreen shortcuts are now properly disabled when the respective shortcut is deleted
+- Home screen shortcuts are now properly disabled when the respective shortcut is deleted
 
 ## Version 3.13.0
 
@@ -329,7 +338,7 @@ A lot of things were added, changed and reworked in this version. It is very lik
 
 ### Removed
 - The app no longer supports different themes and instead just uses one default theme.
-- It is no longer possible to use the homescreen's wallpaper as the background for a category. This has the advantage that the app no longer requires the permission to access the file system.
+- It is no longer possible to use the home screen's wallpaper as the background for a category. This has the advantage that the app no longer requires the permission to access the file system.
 
 ## Version 2.31.0
 
@@ -1376,7 +1385,7 @@ as a call-to-action for translators. Help me translate everything!
 
 ## Version 1.10.1
 
-- Shortcuts are removed from homescreen when deleted in app
+- Shortcuts are removed from home screen when deleted in app
 - Fixed a crash when saving shortcuts
 
 ## Version 1.10.0

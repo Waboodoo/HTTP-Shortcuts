@@ -340,8 +340,15 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
 }
 
-fun generateHtmlFromMarkdown(inputFile: String, outputFile: String, templateFile: String, mutate: String.() -> String = { this }) {
+fun generateHtmlFromMarkdown(
+    inputFile: String,
+    outputFile: String,
+    templateFile: String,
+    processMarkdown: String.() -> String = { this },
+    processHtml: String.() -> String = { this },
+) {
     val changelogMarkdown = File("../$inputFile").readText()
+        .processMarkdown()
     val template = File(templateFile).readText()
     val flavour = GFMFlavourDescriptor()
     val parsedTree = MarkdownParser(flavour).buildMarkdownTreeFromString(changelogMarkdown)
@@ -349,7 +356,7 @@ fun generateHtmlFromMarkdown(inputFile: String, outputFile: String, templateFile
         .generateHtml()
         .removePrefix("<body>")
         .removeSuffix("</body>")
-        .mutate()
+        .processHtml()
     File("app/src/main/assets/$outputFile").writeText(
         template.replace("<!-- CONTENT -->", html)
     )
@@ -357,12 +364,25 @@ fun generateHtmlFromMarkdown(inputFile: String, outputFile: String, templateFile
 
 tasks.register("syncChangeLog") {
     description = "copies the CHANGELOG.md file's content into the app so it can be displayed"
+    val maxSections = 10
 
     doFirst {
         generateHtmlFromMarkdown(
             inputFile = "CHANGELOG.md",
             outputFile = "changelog.html",
             templateFile = "changelog_template.html",
+            processMarkdown = {
+                var sections = 0
+                lineSequence()
+                    .takeWhile { line ->
+                        if (line.startsWith("## ")) {
+                            sections++
+                        }
+                        sections <= maxSections
+                    }
+                    .joinToString(separator = "\n")
+                    .plus("\nFor older versions, check the [full changelog](https://github.com/Waboodoo/HTTP-Shortcuts/blob/develop/CHANGELOG.md).")
+            },
         )
     }
 }
@@ -392,9 +412,10 @@ tasks.register("syncDocumentation") {
                 inputFile = "docs/$fileName.md",
                 outputFile = "docs/$fileName.html",
                 templateFile = "documentation_template.html",
-            ) {
-                replace("src=\"../assets/documentation/", "src=\"file:///android_asset/docs/assets/")
-            }
+                processHtml = {
+                    replace("src=\"../assets/documentation/", "src=\"file:///android_asset/docs/assets/")
+                },
+            )
         }
     }
 }
