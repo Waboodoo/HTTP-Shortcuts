@@ -9,6 +9,6 @@ class ResponseFileStorageFactory
 constructor(
     private val context: Context,
 ) {
-    fun create(sessionId: String, storeDirectoryUri: Uri?): ResponseFileStorage =
+    fun create(sessionId: String, storeDirectoryUri: Uri? = null): ResponseFileStorage =
         ResponseFileStorage(context, sessionId, storeDirectoryUri)
 }

@@ -19,7 +19,7 @@ class ShortcutResponse internal constructor(
     val statusCode: Int,
     val contentFile: DocumentFile?,
     val timing: Duration,
-    private val charsetOverride: Charset?,
+    private val charsetOverride: Charset? = null,
 ) {
 
     val contentType: String?

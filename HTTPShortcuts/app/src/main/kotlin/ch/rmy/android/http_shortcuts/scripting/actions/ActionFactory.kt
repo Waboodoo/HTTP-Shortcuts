@@ -32,6 +32,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptTimeActionTyp
 import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ScanBarcodeActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SelectionActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.SendHttpRequestActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendIntentActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendMQTTMessagesActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendTCPPacketActionType
@@ -90,6 +91,7 @@ constructor(
     renameShortcutActionType: RenameShortcutActionType,
     scanBarcodeActionType: ScanBarcodeActionType,
     selectionActionType: SelectionActionType,
+    sendHttpRequestActionType: SendHttpRequestActionType,
     sendIntentActionType: SendIntentActionType,
     sendMQTTMessagesActionType: SendMQTTMessagesActionType,
     sendTCPPacketActionType: SendTCPPacketActionType,
@@ -153,6 +155,7 @@ constructor(
             renameShortcutActionType,
             scanBarcodeActionType,
             selectionActionType,
+            sendHttpRequestActionType,
             sendIntentActionType,
             sendMQTTMessagesActionType,
             sendTCPPacketActionType,

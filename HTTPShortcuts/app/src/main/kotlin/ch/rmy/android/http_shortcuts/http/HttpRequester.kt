@@ -240,10 +240,7 @@ constructor(
                     .use { okHttpResponse ->
                         logInfo("HTTP request completed")
                         val contentFile = if (shortcut.usesResponseBody) {
-                            responseFileStorage.store(
-                                okHttpResponse,
-                                finishNormallyOnTimeout = okHttpResponse.isStreaming() || okHttpResponse.isUnknownLength(),
-                            )
+                            responseFileStorage.store(okHttpResponse)
                         } else null
 
                         val isSuccess = okHttpResponse.code in 200..399

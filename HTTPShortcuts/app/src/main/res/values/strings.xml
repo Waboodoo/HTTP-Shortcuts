@@ -822,6 +822,8 @@
     <string name="action_type_send_udp_packet">Send UDP Packet</string>
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">Send TCP Packet</string>
+    <!-- Shortcut Action Title: Send an HTTP request -->
+    <string name="action_type_send_http_request">Send HTTP Request</string>
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">Send MQTT Message</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->

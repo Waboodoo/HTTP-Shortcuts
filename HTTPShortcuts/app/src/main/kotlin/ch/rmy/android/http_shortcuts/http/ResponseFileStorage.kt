@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.http_shortcuts.http.HttpRequester.Companion.isStreaming
+import ch.rmy.android.http_shortcuts.http.HttpRequester.Companion.isUnknownLength
 import okhttp3.Response
 import java.io.File
 import java.io.InputStream
@@ -15,7 +17,10 @@ class ResponseFileStorage(
     private val storeDirectoryUri: Uri?,
 ) {
 
-    fun store(response: Response, finishNormallyOnTimeout: Boolean): DocumentFile {
+    fun store(
+        response: Response,
+        finishNormallyOnTimeout: Boolean = response.isStreaming() || response.isUnknownLength(),
+    ): DocumentFile {
         val fileName = "response_$sessionId"
 
         val documentFile = storeDirectoryUri

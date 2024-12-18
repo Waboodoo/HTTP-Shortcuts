@@ -698,6 +698,32 @@ wakeOnLan('01-23-45-67-89-ab');
 wakeOnLan('01-23-45-67-89-ab', '255.255.255.255', 9);
 ```
 
+<a name="send-http-request"></a>
+### Send HTTP request
+
+The `sendHttpRequest` function allows you to send a simple HTTP request. The first parameter is the URL, the second (optional) parameter provides additional options. Currently, the only supported option is "method", which is used to set the HTTP method.
+
+The function returns an object which includes a `status` field, which has the value "success", "httpError" or "networkError". If it is "networkError", you can check the field `networkError` for details. Otherwise, you can check the `response` field for the HTTP response object. It includes fields `body`, `headers`, `cookies` and `statusCode`.
+
+> If you need more options, consider creating a dedicated HTTP Shortcut for your request and invoking it using [enqueueShortcut](#trigger-shortcut) or [executeShortcut](#execute-shortcut) instead.
+
+```js
+const result = sendHttpRequest(
+  "https://example.com",
+  {
+    method: "POST",
+  }
+);
+
+if (result.status == "success") {
+  alert(result.response.body);
+} else if (result.status == "httpError") {
+  alert("Failed with status code " + result.response.statusCode);
+} else {
+  alert("Failed with network error: " + result.networkError);
+}
+```
+
 <a name="send-mqtt-message"></a>
 ### Send MQTT message
 

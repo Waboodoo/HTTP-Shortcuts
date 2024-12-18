@@ -513,6 +513,16 @@ constructor(
                     insertText("wakeOnLan(\"", "\");\n")
                 }
                 item(
+                    R.string.action_type_send_http_request,
+                    docRef = "send-http-request",
+                    keywords = setOf("network", "fetch"),
+                ) {
+                    insertText(
+                        "sendHttpRequest(\"https://",
+                        "\", {\"method\": \"GET\"});\n",
+                    )
+                }
+                item(
                     R.string.action_type_send_mqtt_message,
                     docRef = "send-mqtt-message",
                     keywords = setOf("network", "client", "publish"),
