@@ -43,7 +43,7 @@ fun CertPinningContent(
             PinItem(
                 pin = pin,
                 modifier = Modifier
-                    .animateItemPlacement()
+                    .animateItem()
                     .clickable {
                         onPinClicked(pin.id)
                     },

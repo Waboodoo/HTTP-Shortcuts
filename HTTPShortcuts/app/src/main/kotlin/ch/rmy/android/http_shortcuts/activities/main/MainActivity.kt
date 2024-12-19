@@ -9,7 +9,6 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,8 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.LinkInteractionListener
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.core.view.WindowCompat
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
@@ -144,20 +147,22 @@ class MainActivity : BaseComposeActivity() {
                         append(stringResource(R.string.error_realm_unavailable))
                     }
                     append(" ")
-                    pushStringAnnotation(tag = "releases", annotation = RELEASES)
-                    withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+                    withLink(
+                        LinkAnnotation.Url(
+                            RELEASES,
+                            styles = TextLinkStyles(style = SpanStyle(color = MaterialTheme.colorScheme.primary)),
+                            linkInteractionListener = object : LinkInteractionListener {
+                                override fun onClick(link: LinkAnnotation) {
+                                    context.openURL(RELEASES)
+                                    onDismissed()
+                                }
+                            },
+                        )
+                    ) {
                         append(RELEASES)
                     }
-                    pop()
                 }
-                ClickableText(
-                    text,
-                    onClick = { offset ->
-                        text.getStringAnnotations(tag = "releases", start = offset, end = offset).firstOrNull()?.let {
-                            context.openURL(it.item)
-                        }
-                    },
-                )
+                Text(text)
             },
             confirmButton = {
                 TextButton(onClick = onDismissed) {

@@ -78,7 +78,7 @@ fun CodeSnippetPickerContent(
                         is ItemWrapper.CodeSnippet -> {
                             with(itemWrapper.codeSnippetItem) {
                                 CodeSnippetItem(
-                                    modifier = Modifier.animateItemPlacement(),
+                                    modifier = Modifier.animateItem(),
                                     title = title.localize(),
                                     description = description?.localize(),
                                     onDocumentationButtonClicked = docRef?.let {
@@ -94,7 +94,7 @@ fun CodeSnippetPickerContent(
                         }
                         is ItemWrapper.Section -> {
                             Section(
-                                modifier = Modifier.animateItemPlacement(),
+                                modifier = Modifier.animateItem(),
                                 title = itemWrapper.sectionItem.title.localize(),
                                 icon = itemWrapper.sectionItem.icon,
                                 expanded = itemWrapper.expanded,
