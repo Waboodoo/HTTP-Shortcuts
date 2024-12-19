@@ -49,7 +49,9 @@
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <string name="label_include_meta_information">Afficher les méta-informations</string>
     <!-- Label for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="label_enable_javascript_in_webview">Activer JavaScript (expérimental)</string>
     <!-- Subtitle for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="subtitle_enable_javascript_in_webview">Permet l\'utilisation de JavaScript dans le corps de réponse HTML affiché. Cela peut ne pas fonctionner pour certaines pages web.</string>
     <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
     <string name="label_monospace_response">Afficher le texte en utilisant une police monospaciale</string>
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
@@ -252,6 +254,7 @@ Cliquez sur le bouton + pour commencer.</string>
     <string name="import_in_progress">Importation …</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Délai d\'expiration (Timeout)</string>
+    <!-- Label, for dropdown picker, allowing to select the Internet Protocol version used for hostname resolution by a shortcut -->
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">Type de proxy</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
@@ -785,6 +788,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
     <string name="action_type_change_shortcut_hidden_title">Afficher/Masquer le raccourci</string>
     <!-- Shortcut Action Title: Change Category Visibility -->
+    <string name="action_type_change_category_hidden_title">Afficher/Cacher la Catégorie</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Déclencher Raccourci</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -825,6 +829,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <string name="action_type_send_udp_packet">Envoyer un paquet UDP</string>
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">Envoyer un paquet TCP</string>
+    <!-- Shortcut Action Title: Send an HTTP request -->
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">Envoyer un message MQTT</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -1099,6 +1104,8 @@ Vous pouvez activer cette fonctionnalité en modifiant un raccourci et en cochan
     <string name="label_widget">Widget personnalisable</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">Afficher l\'étiquette</string>
+    <!-- Label: Shown when configuring a widget, above a slider, to choose the size of the widget's icon -->
+    <string name="label_widget_icon_size">Taille d\'icône</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
     <string name="label_show_widget_icon">Afficher l\'icône</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
@@ -1487,6 +1494,8 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <string name="empty_state_custom_icons">Vous n\'avez pas d\'icônes personnalisées.</string>
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
     <string name="label_require_specific_wifi_ssid">Exiger un Wi-Fi spécifique</string>
+    <!-- Option in dropdown menu, for selecting the Internet Protocol version to be used for hostname resolution by a shortcut. This option is used by default when no specific option is chosen. -->
+    <string name="option_ip_version_auto">Déterminer automatiquement</string>
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
     <string name="option_no_proxy">Aucun proxy</string>
     <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->

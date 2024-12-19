@@ -49,7 +49,9 @@
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <string name="label_include_meta_information">Mostrar metainformación</string>
     <!-- Label for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="label_enable_javascript_in_webview">Activar JavaScript (experimental)</string>
     <!-- Subtitle for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="subtitle_enable_javascript_in_webview">Permite el uso de JavaScript en el cuerpo de respuesta HTML mostrado. Esto puede no funcionar en algunas páginas web.</string>
     <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
     <string name="label_monospace_response">Mostrar texto usando una fuente monoespaciada</string>
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
@@ -794,6 +796,7 @@ Consulte la documentación en la sección de variables para más información.</
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
     <string name="action_type_change_shortcut_hidden_title">Mostrar / Ocultar acceso directo</string>
     <!-- Shortcut Action Title: Change Category Visibility -->
+    <string name="action_type_change_category_hidden_title">Mostrar / Ocultar categoría</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Ejecutar acceso directo</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -834,6 +837,7 @@ Consulte la documentación en la sección de variables para más información.</
     <string name="action_type_send_udp_packet">Enviar paquete UDP</string>
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">Enviar paquete TCP</string>
+    <!-- Shortcut Action Title: Send an HTTP request -->
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">Enviar mensaje MQTT</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -1108,6 +1112,8 @@ Puede activar esta función editando un acceso directo y seleccionando la casill
     <string name="label_widget">Widget personalizable</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">Mostrar etiqueta</string>
+    <!-- Label: Shown when configuring a widget, above a slider, to choose the size of the widget's icon -->
+    <string name="label_widget_icon_size">Tamaño del icono</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
     <string name="label_show_widget_icon">Mostrar icono</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
@@ -1614,6 +1620,7 @@ Es posible que también deba excluir la aplicación de Optimizaciones de baterí
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
     <string name="icon_shape_round">Redondo</string>
     <!-- Warning message shown to user when an HTML page wants to open a URL in the external browser. %s is a placeholder for the URL. -->
+    <string name="warning_page_wants_to_open_url">La página quiere abrir la siguiente URL en un navegador:\n\n%s</string>
     <!-- Placeholder text shown in the text field for the search feature on the Documentation screen -->
     <string name="placeholder_documentation_search_query">Buscar en la página…</string>
     <!-- Label for dropdown in shortcut editor, for picking the font size in which the response should be displayed -->

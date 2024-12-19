@@ -45,7 +45,10 @@
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <string name="label_include_meta_information">نمایش اطلاعات متا</string>
     <!-- Label for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="label_enable_javascript_in_webview">فعال‌سازی جاوااسکریپت (آزمایشی)</string>
     <!-- Subtitle for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="subtitle_enable_javascript_in_webview">همیشه از جاوااسکریپت در نمایش محتوای پاسخ HTML استفاده کن 
+این ویژگی ممکن است در برخی از صفحات وب کار نکند.</string>
     <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
     <string name="label_monospace_response">نمایش متن با استفاده از فونت monospace</string>
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
@@ -85,6 +88,7 @@
 
 برای شروع روی دکمه + کلیک کنید یا در بخش اطلاعات، مستندات را بررسی کنید.</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
+    <string name="empty_state_no_shortcuts_in_category">هنوز هیچ میانبری در این دسته‌بندی وجود ندارد</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">شما هنوز هیچ میانبری برای راه اندازی اضافه نکرده اید.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
@@ -110,6 +114,7 @@
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">میان‌بر پیدا نشد. ممکن است مجبور شوید دوباره آن را به صفحه اصلی اضافه کنید.</string>
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
+    <string name="error_shortcut_deleted">این میانبر حذف شد.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">لطفاً نام خود را وارد کنید.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
@@ -179,6 +184,7 @@
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">تنظیمات پایه</string>
     <!-- Title of section in "Settings" screen: (Visual) Appearance of the app itself (e.g. themes, dark mode) -->
+    <string name="settings_appearance">ویژگی های نمایشی</string>
     <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
     <string name="settings_click_behavior">وقتی کلیک شد کدام میانبر اجرا شود</string>
     <!-- Name of setting that allows the user to change the app's language -->
@@ -220,7 +226,9 @@
     <!-- Button in settings page to start import of shortcuts from a url -->
     <string name="settings_import_from_url">وارد کردن از URL</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts into a file -->
+    <string name="settings_export_to_file">خروجی به صورت فایل</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
+    <string name="settings_export_via_share">اشتراگ گذاری خروجی</string>
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">ویرایش در کامپیوتر</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
@@ -248,6 +256,8 @@
     <string name="import_in_progress">در حال واردات…</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">تایم اوت</string>
+    <!-- Label, for dropdown picker, allowing to select the Internet Protocol version used for hostname resolution by a shortcut -->
+    <string name="label_ip_version">پروتکل ارتباطی اینترنت</string>
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">نوع پروکسی</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
@@ -267,6 +277,7 @@
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
     <string name="label_subtitle_client_cert_file_in_use">از فایل گواهی استفاده می‌کند. برای حذف کلیک کنید.</string>
     <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
+    <string name="label_subtitle_not_applicable_for_http">تنها زمانی تاثیر گذار هست که از HTTPS استفاده میکنید</string>
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">گواهی مشتری</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
@@ -467,7 +478,9 @@
     <string name="variable_type_toggle_description">هر بار هنگام استفاده به مقدار متفاوتی تغییر می کند</string>
     <!-- Type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
     <!-- Description for type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment_description">بیشتر کردن یک شماره در هر بار استفاده</string>
     <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid">UUID</string>
     <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
     <string name="variable_type_uuid_description">در هر اجرا یک UUID تصادفی جدید ایجاد می کند</string>
     <!-- Type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
@@ -808,6 +821,7 @@
     <string name="action_type_send_udp_packet">ارسال بسته UDP</string>
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">ارسال بسته TCP</string>
+    <!-- Shortcut Action Title: Send an HTTP request -->
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">ارسال پیام MQTT</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -968,7 +982,9 @@
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_id">دریافت شناسه میانبر</string>
     <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
+    <string name="dialog_code_snippet_read_from_file">خواندن از فایل</string>
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
+    <string name="dialog_code_snippet_write_to_file">نوشتن در فایل</string>
     <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">دریافت نام فایل انتخابی</string>
@@ -1045,6 +1061,7 @@
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">کد وضعیت</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
+    <string name="label_response_url">URL</string>
     <!-- Label: Response time, shows how long the HTTP request took -->
     <string name="label_response_timing">زمان پاسخ</string>
     <!-- Label: Shown above section that lists general information about the HTTP response, e.g. status code -->
@@ -1074,7 +1091,9 @@
     <string name="label_widget">ویجت قابل تنظیم</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">نمایش برچسب</string>
+    <!-- Label: Shown when configuring a widget, above a slider, to choose the size of the widget's icon -->
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
+    <string name="label_show_widget_icon">نمایش آیکن</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
     <string name="action_create_widget">ویجت ایجاد کنید</string>
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
@@ -1459,6 +1478,7 @@
     <string name="empty_state_custom_icons">شما هیچ آیکن سفارشی ندارید.</string>
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
     <string name="label_require_specific_wifi_ssid">نیاز به Wi-Fi خاصی دارد</string>
+    <!-- Option in dropdown menu, for selecting the Internet Protocol version to be used for hostname resolution by a shortcut. This option is used by default when no specific option is chosen. -->
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
     <string name="option_no_proxy">بدون پروکسی</string>
     <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->

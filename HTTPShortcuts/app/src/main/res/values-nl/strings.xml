@@ -253,6 +253,7 @@ Klik op de + knop om te beginnen.</string>
     <string name="import_in_progress">Importeren...</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Time-out</string>
+    <!-- Label, for dropdown picker, allowing to select the Internet Protocol version used for hostname resolution by a shortcut -->
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">Volmacht Type</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
@@ -830,6 +831,7 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <string name="action_type_send_udp_packet">UDP-pakket verzenden</string>
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">TCP-pakket verzenden</string>
+    <!-- Shortcut Action Title: Send an HTTP request -->
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">MQTT-bericht verzenden</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -1104,6 +1106,7 @@ U kunt deze functie inschakelen door een snelkoppeling te bewerken en het select
     <string name="label_widget">Aanpasbare Widget</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">Label tonen</string>
+    <!-- Label: Shown when configuring a widget, above a slider, to choose the size of the widget's icon -->
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
     <string name="label_show_widget_icon">Pictogram weergeven</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
@@ -1492,6 +1495,7 @@ Mogelijk moet je de app ook uitsluiten van Batterijoptimalisaties. Dit kun je vi
     <string name="empty_state_custom_icons">Je hebt geen aangepaste iconen.</string>
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
     <string name="label_require_specific_wifi_ssid">Vereist specifieke Wi-Fi</string>
+    <!-- Option in dropdown menu, for selecting the Internet Protocol version to be used for hostname resolution by a shortcut. This option is used by default when no specific option is chosen. -->
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
     <string name="option_no_proxy">Geen volmacht</string>
     <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->

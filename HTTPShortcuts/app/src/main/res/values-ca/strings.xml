@@ -238,6 +238,7 @@ Feu clic al botó + per afegir una variable.</string>
     <string name="import_in_progress">En curs d\'importació…</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Temps d\'espera</string>
+    <!-- Label, for dropdown picker, allowing to select the Internet Protocol version used for hostname resolution by a shortcut -->
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">Tipus de proxy</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
@@ -779,6 +780,7 @@ Per a més informació consulteu la documentació a la secció de variables.</st
     <string name="action_type_send_udp_packet">Enviar paquet UDP</string>
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">Enviar paquet TCP</string>
+    <!-- Shortcut Action Title: Send an HTTP request -->
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">Envia un missatge MQTT</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -1033,6 +1035,7 @@ Podeu activar aquesta funció editant una drecera i seleccionant la casella de s
     <string name="label_widget">Giny personalitzable</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">Mostra l\'etiqueta</string>
+    <!-- Label: Shown when configuring a widget, above a slider, to choose the size of the widget's icon -->
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
     <string name="action_create_widget">Crea un widget</string>
@@ -1347,6 +1350,7 @@ Suprimir de totes maneres?</string>
     <!-- Placeholder text shown when a toggle or multi-select variable option is just an empty string -->
     <!-- Empty state shown on the custom icons screen when the user has no icons set up -->
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
+    <!-- Option in dropdown menu, for selecting the Internet Protocol version to be used for hostname resolution by a shortcut. This option is used by default when no specific option is chosen. -->
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
     <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
     <!-- Error, shown in snackbar, when the user tries to format a custom request body, but it is invalid JSON syntax -->

@@ -263,6 +263,7 @@ Upewnij się, że masz zainstalowaną najnowszą wersję aplikacji.</string>
     <string name="import_in_progress">Importuję…</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Upłynął czas</string>
+    <!-- Label, for dropdown picker, allowing to select the Internet Protocol version used for hostname resolution by a shortcut -->
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">Typ proxy</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
@@ -850,6 +851,7 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych.</string>
     <string name="action_type_send_udp_packet">Wyślij pakiet UDP</string>
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">Wyślij pakiet TCP</string>
+    <!-- Shortcut Action Title: Send an HTTP request -->
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">Wyślij wiadomość MQTT</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -1128,6 +1130,7 @@ Możesz włączyć tę funkcję, edytując skrót i zaznaczając pole wyboru \"%
     <string name="label_widget">Konfiguracja widżetu</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">Pokaż etykietę</string>
+    <!-- Label: Shown when configuring a widget, above a slider, to choose the size of the widget's icon -->
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
     <string name="label_show_widget_icon">Pokaż ikonę</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
@@ -1524,6 +1527,7 @@ W przypadku certyfikatów z podpisem własnym sprawdź zamiast tego sekcję skr�
     <string name="empty_state_custom_icons">Nie masz żadnych niestandardowych ikon.</string>
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
     <string name="label_require_specific_wifi_ssid">Wymagaj specjalnego Wi-Fi</string>
+    <!-- Option in dropdown menu, for selecting the Internet Protocol version to be used for hostname resolution by a shortcut. This option is used by default when no specific option is chosen. -->
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
     <string name="option_no_proxy">Brak serwera proxy</string>
     <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
