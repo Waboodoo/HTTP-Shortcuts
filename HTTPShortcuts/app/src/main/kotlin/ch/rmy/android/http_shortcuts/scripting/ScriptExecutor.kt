@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.scripting
 
-import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.resume
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
@@ -13,9 +12,14 @@ import ch.rmy.android.http_shortcuts.exceptions.UserAbortException
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionFactory
 import ch.rmy.android.http_shortcuts.variables.VariableManager
+import ch.rmy.android.scripting.JsFunction
+import ch.rmy.android.scripting.JsFunctionArgs
+import ch.rmy.android.scripting.JsObject
+import ch.rmy.android.scripting.ScriptingEngine
+import ch.rmy.android.scripting.ScriptingEngineFactory
+import ch.rmy.android.scripting.ScriptingException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
@@ -23,24 +27,19 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import org.json.JSONException
-import org.liquidplayer.javascript.JSContext
-import org.liquidplayer.javascript.JSException
-import org.liquidplayer.javascript.JSFunction
-import org.liquidplayer.javascript.JSUint8Array
-import org.liquidplayer.javascript.JSValue
 import javax.inject.Inject
 import kotlin.coroutines.resumeWithException
 
 class ScriptExecutor
 @Inject
 constructor(
+    private val scriptingEngineFactory: ScriptingEngineFactory,
     private val actionFactory: ActionFactory,
     private val responseObjectFactory: ResponseObjectFactory,
     private val codeTransformer: CodeTransformer,
 ) {
-
-    internal val jsContext by lazy(LazyThreadSafetyMode.NONE) {
-        JSContext()
+    private val scriptingEngine: ScriptingEngine by lazy(LazyThreadSafetyMode.NONE) {
+        scriptingEngineFactory.create()
             .also {
                 registerActionAliases(it, actionFactory.getAliases())
                 registerAbort(it)
@@ -73,7 +72,7 @@ constructor(
                 continuation.invokeOnCancellation {
                     cleanupHandler.finally()
                 }
-                jsContext.setExceptionHandler { exception ->
+                scriptingEngine.setExceptionHandler { exception ->
                     if (continuation.isActive) {
                         continuation.resumeWithException(lastException ?: exception)
                     }
@@ -85,16 +84,10 @@ constructor(
             }
         } catch (e: CancellationException) {
             throw e
-        } catch (e: Exception) {
-            throw when (e) {
-                is JSException -> if (e.error.message() == "java.lang.reflect.InvocationTargetException") {
-                    JavaScriptException("Invalid function arguments", e)
-                } else {
-                    JavaScriptException(e)
-                }
-                is JSONException -> JavaScriptException(e)
-                else -> e
-            }
+        } catch (e: ScriptingException) {
+            throw JavaScriptException(e.message, e.lineNumber)
+        } catch (e: JSONException) {
+            throw JavaScriptException(e.message)
         } finally {
             cleanupHandler.finally()
         }
@@ -111,26 +104,31 @@ constructor(
         withContext(Dispatchers.Default) {
             ensureActive()
             runWithExceptionHandling {
+                if (response != null) {
+                    registerAbortAndTreatAsFailure()
+                }
                 registerResponse(response, error)
-                jsContext.evaluateScript(codeTransformer.transformForExecuting(script))
+                scriptingEngine.evaluateScript(codeTransformer.transformForExecuting(script))
             }
         }
     }
 
     private fun registerShortcut(shortcut: Shortcut, category: Category) {
-        jsContext.property(
+        scriptingEngine.registerObject(
             "shortcut",
-            mapOf(
-                "id" to shortcut.id,
-                "name" to shortcut.name,
-                "description" to shortcut.description,
-                "hidden" to shortcut.hidden,
-                "category" to mapOf(
-                    "id" to category.id,
-                    "name" to category.name,
-                ),
-            ),
-            READ_ONLY,
+            scriptingEngine.buildJsObject {
+                property("id", shortcut.id)
+                property("name", shortcut.name)
+                property("description", shortcut.description)
+                property("hidden", shortcut.hidden)
+                property(
+                    "category",
+                    scriptingEngine.buildJsObject {
+                        property("id", category.id)
+                        property("name", category.name)
+                    }
+                )
+            }
         )
     }
 
@@ -140,34 +138,41 @@ constructor(
         }
         (response ?: (error as? ErrorResponse)?.shortcutResponse)
             ?.let { responseObject ->
-                responseObjectFactory.create(jsContext, responseObject)
+                responseObjectFactory.create(scriptingEngine, responseObject)
             }
             .let {
-                jsContext.property("response", it, READ_ONLY)
+                scriptingEngine.registerObject("response", it)
             }
-        jsContext.property("networkError", error?.message, READ_ONLY)
+        scriptingEngine.registerString("networkError", error?.message)
     }
 
     private fun registerFiles(fileUploadResult: FileUploadManager.Result?) {
-        jsContext.property(
+        scriptingEngine.registerListOfObjects(
             "selectedFiles",
             fileUploadResult?.getFiles()
                 ?.map { file ->
-                    mapOf(
-                        "id" to file.id,
-                        "name" to file.fileName,
-                        "size" to file.fileSize,
-                        "type" to file.mimeType,
-                        "meta" to (file.metaData ?: emptyMap()),
-                    )
+                    scriptingEngine.buildJsObject {
+                        property("id", file.id)
+                        property("name", file.fileName)
+                        property("size", file.fileSize)
+                        property("type", file.mimeType)
+                        property(
+                            "meta",
+                            scriptingEngine.buildJsObject {
+                                file.metaData?.let {
+                                    property("orientation", it.orientation)
+                                    property("created", it.created)
+                                }
+                            }
+                        )
+                    }
                 }
-                ?: emptyList<Map<String, Any?>>(),
-            READ_ONLY,
+                ?: emptyList<JsObject>(),
         )
     }
 
-    private fun registerAbort(jsContext: JSContext) {
-        jsContext.evaluateScript(
+    private fun registerAbort(engine: ScriptingEngine) {
+        engine.evaluateScript(
             """
             function abort() {
                 __abort(0);
@@ -179,25 +184,25 @@ constructor(
             }
             """.trimIndent()
         )
-        jsContext.property(
+        engine.registerFunction(
             "__abort",
-            object : JSFunction(jsContext, "run") {
-                @Suppress("unused")
-                @Keep
-                fun run(abortType: Int, message: String?) {
+            object : JsFunction {
+                override fun invoke(args: JsFunctionArgs): Any? {
+                    val abortType = args.getInt(0)
+                    val message = args.getString(1)
                     lastException = when (abortType) {
                         2 -> TreatAsFailureException(message?.takeUnless { it == "undefined" })
                         1 -> UserAbortException(abortAll = true)
                         else -> UserAbortException(abortAll = false)
                     }
+                    return null
                 }
             },
-            READ_ONLY,
         )
     }
 
-    fun registerAbortAndTreatAsFailure() {
-        jsContext.evaluateScript(
+    private fun registerAbortAndTreatAsFailure() {
+        scriptingEngine.evaluateScript(
             """
             function abortAndTreatAsFailure(message) {
                 __abort(2, message);
@@ -214,41 +219,23 @@ constructor(
         dialogHandle: DialogHandle,
         recursionDepth: Int,
     ) {
-        jsContext.property(
+        scriptingEngine.registerFunction(
             "_runAction",
-            object : JSFunction(jsContext, "run") {
-                @Suppress("unused")
-                @Keep
-                fun run(actionTypeName: String, rawData: JSValue?): JSValue? {
+            object : JsFunction {
+                override fun invoke(args: JsFunctionArgs): Any? {
+                    val actionTypeName = args.getString(0)!!
+                    val data = args.getJsFunctionArgs(1)!!
                     logInfo("Running action of type: $actionTypeName")
 
-                    val data = when {
-                        rawData?.isArray == true -> {
-                            rawData
-                                .toJSArray()
-                                .toList()
-                                .map { it as? JSValue }
-                        }
-                        rawData?.isObject == true -> {
-                            // Legacy support
-                            rawData
-                                .toObject()
-                                .let { obj ->
-                                    obj.propertyNames()
-                                        .map(obj::property)
-                                }
-                        }
-                        else -> emptyList()
-                    }
                     val actionType = actionFactory.getType(actionTypeName)
                         ?: return null
-                    val runnable = actionType.getActionRunnable(ActionData(data))
+                    val runnable = actionType.getActionRunnable(data)
 
                     return try {
-                        val result = runBlocking {
+                        runBlocking {
                             runnable.run(
                                 ExecutionContext(
-                                    jsContext = jsContext,
+                                    scriptingEngine = scriptingEngine,
                                     shortcutId = shortcutId,
                                     variableManager = variableManager,
                                     resultHandler = resultHandler,
@@ -262,7 +249,7 @@ constructor(
                                 )
                             )
                         }
-                        convertResult(jsContext, result)
+                            ?: NO_RESULT
                     } catch (e: CancellationException) {
                         lastException = e
                         null
@@ -272,7 +259,6 @@ constructor(
                     }
                 }
             },
-            READ_ONLY
         )
     }
 
@@ -280,11 +266,8 @@ constructor(
 
         private const val NO_RESULT = "[[[no result]]]"
 
-        private const val READ_ONLY =
-            JSContext.JSPropertyAttributeReadOnly or JSContext.JSPropertyAttributeDontDelete
-
-        internal fun registerActionAliases(jsContext: JSContext, aliases: Map<String, ActionAlias>) {
-            jsContext.evaluateScript(
+        internal fun registerActionAliases(engine: ScriptingEngine, aliases: Map<String, ActionAlias>) {
+            engine.evaluateScript(
                 """
                 const _convertResult = (result) => {
                     if (result === null || result === undefined) {
@@ -300,7 +283,7 @@ constructor(
             aliases
                 .forEach { (actionName, alias) ->
                     val parameterNames = (0 until alias.parameters).map { "param$it" }
-                    jsContext.evaluateScript(
+                    engine.evaluateScript(
                         """
                         const ${alias.functionName} = (${parameterNames.joinToString()}) => {
                             const result = _runAction("$actionName", [
@@ -316,7 +299,7 @@ constructor(
                         """.trimIndent()
                     )
                     alias.functionNameAliases.forEach {
-                        jsContext.evaluateScript(
+                        engine.evaluateScript(
                             """
                             const $it = ${alias.functionName};
                             """.trimIndent()
@@ -324,16 +307,5 @@ constructor(
                     }
                 }
         }
-
-        internal fun convertResult(jsContext: JSContext, result: Any?): JSValue =
-            when (result) {
-                is ByteArray -> JSUint8Array(jsContext, result.size)
-                    .apply {
-                        result.forEachIndexed { index, byte ->
-                            set(index, byte)
-                        }
-                    }
-                else -> JSValue(jsContext, result ?: NO_RESULT)
-            }
     }
 }

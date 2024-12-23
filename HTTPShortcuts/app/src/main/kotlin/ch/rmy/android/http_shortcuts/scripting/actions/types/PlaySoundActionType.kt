@@ -3,8 +3,8 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import ch.rmy.android.scripting.JsFunctionArgs
 import javax.inject.Inject
 
 class PlaySoundActionType
@@ -14,11 +14,11 @@ constructor(
 ) : ActionType {
     override val type = TYPE
 
-    override fun getActionRunnable(actionDTO: ActionData) =
+    override fun getActionRunnable(args: JsFunctionArgs) =
         ActionRunnable(
             action = playSoundAction,
             params = PlaySoundAction.Params(
-                soundUri = actionDTO.getString(0)?.normalize()?.toUri(),
+                soundUri = args.getString(0)?.normalize()?.toUri(),
             ),
         )
 

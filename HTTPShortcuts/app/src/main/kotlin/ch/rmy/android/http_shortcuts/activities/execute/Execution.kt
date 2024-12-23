@@ -407,7 +407,6 @@ class Execution(
         }
 
         try {
-            scriptExecutor.registerAbortAndTreatAsFailure()
             scriptExecutor.execute(
                 script = shortcut.codeOnSuccess,
                 response = response,

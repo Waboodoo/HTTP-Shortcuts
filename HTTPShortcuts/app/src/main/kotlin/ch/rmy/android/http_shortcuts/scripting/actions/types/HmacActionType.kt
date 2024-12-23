@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import ch.rmy.android.scripting.JsFunctionArgs
 import javax.inject.Inject
 
 class HmacActionType
@@ -12,13 +12,13 @@ constructor(
 ) : ActionType {
     override val type = TYPE
 
-    override fun getActionRunnable(actionDTO: ActionData) =
+    override fun getActionRunnable(args: JsFunctionArgs) =
         ActionRunnable(
             action = hmacAction,
             params = HmacAction.Params(
-                algorithm = actionDTO.getString(0) ?: "",
-                key = actionDTO.getByteArray(1) ?: ByteArray(0),
-                message = actionDTO.getByteArray(2) ?: ByteArray(0),
+                algorithm = args.getString(0) ?: "",
+                key = args.getByteArray(1) ?: ByteArray(0),
+                message = args.getByteArray(2) ?: ByteArray(0),
             ),
         )
 

@@ -16,11 +16,11 @@ import ch.rmy.android.http_shortcuts.exceptions.UserAbortException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.scripting.ResponseObjectFactory
 import ch.rmy.android.http_shortcuts.variables.VariableManager
+import ch.rmy.android.scripting.JsObject
+import ch.rmy.android.scripting.ScriptingEngine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.withContext
-import org.liquidplayer.javascript.JSContext
-import org.liquidplayer.javascript.JSObject
 import javax.inject.Inject
 
 class ExecuteShortcutAction
@@ -30,7 +30,7 @@ constructor(
     private val shortcutRepository: ShortcutRepository,
     private val responseObjectFactory: ResponseObjectFactory,
 ) : Action<ExecuteShortcutAction.Params> {
-    override suspend fun Params.execute(executionContext: ExecutionContext): JSObject {
+    override suspend fun Params.execute(executionContext: ExecutionContext): JsObject {
         logInfo("Preparing to execute shortcut ($shortcutNameOrId)")
         if (executionContext.recursionDepth >= MAX_RECURSION_DEPTH) {
             logInfo("Not executing shortcut, reached maximum recursion depth")
@@ -70,7 +70,7 @@ constructor(
                 throw e
             } else {
                 return createResult(
-                    executionContext.jsContext,
+                    executionContext.scriptingEngine,
                     status = "aborted",
                     response = null,
                     error = null,
@@ -84,7 +84,7 @@ constructor(
         }
 
         return createResult(
-            executionContext.jsContext,
+            executionContext.scriptingEngine,
             status = when (finalStatus) {
                 is ExecutionStatus.CompletedSuccessfully -> "success"
                 is ExecutionStatus.CompletedWithError -> "failure"
@@ -92,7 +92,7 @@ constructor(
             },
             response = (finalStatus as? ExecutionStatus.WithResponse)
                 ?.response
-                ?.let { responseObjectFactory.create(executionContext.jsContext, it) },
+                ?.let { responseObjectFactory.create(executionContext.scriptingEngine, it) },
             error = (finalStatus as? ExecutionStatus.CompletedWithError)
                 ?.error
                 ?.message,
@@ -116,8 +116,8 @@ constructor(
             }
         }
 
-        internal fun createResult(jsContext: JSContext, status: String, response: JSObject?, error: String?, result: String?) =
-            JSObject(jsContext).apply {
+        internal fun createResult(scriptingEngine: ScriptingEngine, status: String, response: JsObject?, error: String?, result: String?) =
+            scriptingEngine.buildJsObject {
                 property("status", status)
                 property("response", response)
                 property("networkError", error)

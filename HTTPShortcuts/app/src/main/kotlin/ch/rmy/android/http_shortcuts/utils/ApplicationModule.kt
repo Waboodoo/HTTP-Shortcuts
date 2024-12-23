@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.RealmFactoryImpl
+import ch.rmy.android.scripting.ScriptingEngineFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,4 +29,8 @@ object ApplicationModule {
     @Provides
     fun providePlayServicesUtil(context: Context): PlayServicesUtil =
         PlayServicesUtilImpl(context)
+
+    @Provides
+    fun provideScriptingEngineFactory(): ScriptingEngineFactory =
+        ScriptingEngineFactory
 }

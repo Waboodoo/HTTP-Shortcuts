@@ -2,15 +2,13 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.content.Context
 import android.webkit.MimeTypeMap
-import androidx.annotation.Keep
 import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.scripting.JsObject
 import dagger.hilt.android.qualifiers.ApplicationContext
-import org.liquidplayer.javascript.JSObject
-import org.liquidplayer.javascript.JSValue
 import java.io.File
 import java.nio.charset.Charset
 import java.nio.charset.IllegalCharsetNameException
@@ -24,10 +22,10 @@ constructor(
     private val context: Context,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
 ) : Action<GetDirectoryAction.Params> {
-    override suspend fun Params.execute(executionContext: ExecutionContext): JSObject {
+    override suspend fun Params.execute(executionContext: ExecutionContext): JsObject {
         val workingDirectory = try {
             workingDirectoryRepository.getWorkingDirectoryByNameOrId(directoryNameOrId)
-        } catch (e: NoSuchElementException) {
+        } catch (_: NoSuchElementException) {
             throw ActionException {
                 "Directory \"${directoryNameOrId}\" not found"
             }
@@ -41,9 +39,10 @@ constructor(
         }
 
         val contentResolver = context.contentResolver
-
-        return object : JSObject(executionContext.jsContext, DirectoryHandle::class.java), DirectoryHandle {
-            override fun readFile(filePath: String, encoding: String?): String {
+        return executionContext.scriptingEngine.buildJsObject {
+            function("readFile") { args ->
+                val filePath = args.getString(0)!!
+                val encoding = args.getString(1)
                 val file = directory.findFileFromPath(filePath)
                     ?: executionContext.throwException(
                         ActionException {
@@ -53,13 +52,13 @@ constructor(
                 val charset = encoding?.let {
                     try {
                         Charset.forName(it)
-                    } catch (e: IllegalCharsetNameException) {
+                    } catch (_: IllegalCharsetNameException) {
                         executionContext.throwException(
                             ActionException {
                                 "Invalid charset: $it"
                             }
                         )
-                    } catch (e: UnsupportedCharsetException) {
+                    } catch (_: UnsupportedCharsetException) {
                         executionContext.throwException(
                             ActionException {
                                 "Unsupported charset: $it"
@@ -67,14 +66,14 @@ constructor(
                         )
                     }
                 } ?: Charsets.UTF_8
-                return contentResolver.openInputStream(file.uri)!!
+                contentResolver.openInputStream(file.uri)!!
                     .use {
                         it.reader(charset).readText()
                     }
             }
-
-            override fun writeFile(filePath: String, content: JSValue?) {
-                content ?: return
+            function("writeFile") { args ->
+                val filePath = args.getString(0)!!
+                val content = args.getByteArray(1) ?: return@function null
                 val file = directory.findOrCreateFileFromPath(filePath)
                     ?: executionContext.throwException(
                         ActionException {
@@ -83,18 +82,12 @@ constructor(
                     )
                 contentResolver.openOutputStream(file.uri, "wt")!!
                     .use { out ->
-                        out.write(content.toByteArray())
+                        out.write(content)
                     }
             }
-
-            private fun JSValue.toByteArray(): ByteArray =
-                when {
-                    isUint8Array || isInt8Array || isArray -> toJSArray().map { it.toString().toByte() }.toByteArray()
-                    else -> toString().toByteArray()
-                }
-
-            override fun appendFile(filePath: String, content: JSValue?) {
-                content ?: return
+            function("appendFile") { args ->
+                val filePath = args.getString(0)!!
+                val content = args.getByteArray(1) ?: return@function null
                 val file = directory.findOrCreateFileFromPath(filePath)
                     ?: executionContext.throwException(
                         ActionException {
@@ -103,7 +96,7 @@ constructor(
                     )
                 contentResolver.openOutputStream(file.uri, "wa")!!
                     .use { out ->
-                        out.write(content.toByteArray())
+                        out.write(content)
                     }
             }
         }
@@ -146,17 +139,6 @@ constructor(
             MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
         }
             ?: "text/plain"
-
-    interface DirectoryHandle {
-        @Keep
-        fun readFile(filePath: String, encoding: String?): String
-
-        @Keep
-        fun writeFile(filePath: String, content: JSValue?)
-
-        @Keep
-        fun appendFile(filePath: String, content: JSValue?)
-    }
 
     data class Params(
         val directoryNameOrId: String,

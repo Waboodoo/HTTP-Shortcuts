@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import ch.rmy.android.scripting.JsFunctionArgs
 import javax.inject.Inject
 
 class HashActionType
@@ -12,12 +12,12 @@ constructor(
 ) : ActionType {
     override val type = TYPE
 
-    override fun getActionRunnable(actionDTO: ActionData) =
+    override fun getActionRunnable(args: JsFunctionArgs) =
         ActionRunnable(
             action = hashAction,
             params = HashAction.Params(
-                algorithm = actionDTO.getString(0) ?: "",
-                text = actionDTO.getString(1) ?: "",
+                algorithm = args.getString(0) ?: "",
+                text = args.getString(1) ?: "",
             ),
         )
 

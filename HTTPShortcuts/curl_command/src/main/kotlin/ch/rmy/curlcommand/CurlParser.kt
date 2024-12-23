@@ -36,7 +36,6 @@ class CurlParser private constructor(arguments: List<String>) {
 
             wasNoParamArgument = false
 
-
             // arguments with 1 parameter
             if (iterator.hasNext()) {
                 when (argument) {

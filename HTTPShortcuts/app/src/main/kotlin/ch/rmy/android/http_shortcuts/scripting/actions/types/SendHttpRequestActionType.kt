@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import ch.rmy.android.scripting.JsFunctionArgs
 import javax.inject.Inject
 
 class SendHttpRequestActionType
@@ -12,12 +12,12 @@ constructor(
 ) : ActionType {
     override val type = TYPE
 
-    override fun getActionRunnable(actionDTO: ActionData): ActionRunnable<*> {
-        val options = actionDTO.getObject(1)
+    override fun getActionRunnable(args: JsFunctionArgs): ActionRunnable<*> {
+        val options = args.getObject(1)
         return ActionRunnable(
             action = sendHttpRequestAction,
             params = SendHttpRequestAction.Params(
-                url = actionDTO.getString(0) ?: "",
+                url = args.getString(0) ?: "",
                 method = (options?.get("method") as? String)?.uppercase() ?: "GET",
             ),
         )

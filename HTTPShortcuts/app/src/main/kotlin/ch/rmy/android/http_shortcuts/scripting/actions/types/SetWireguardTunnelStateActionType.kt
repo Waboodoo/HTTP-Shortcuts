@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import ch.rmy.android.scripting.JsFunctionArgs
 import javax.inject.Inject
 
 class SetWireguardTunnelStateActionType
@@ -12,12 +12,12 @@ constructor(
 ) : ActionType {
     override val type = TYPE
 
-    override fun getActionRunnable(actionDTO: ActionData) =
+    override fun getActionRunnable(args: JsFunctionArgs) =
         ActionRunnable(
             action = setWireguardTunnelStateAction,
             params = SetWireguardTunnelStateAction.Params(
-                tunnel = actionDTO.getString(0) ?: "",
-                state = actionDTO.getBoolean(1) != false,
+                tunnel = args.getString(0) ?: "",
+                state = args.getBoolean(1) != false,
             ),
         )
 
