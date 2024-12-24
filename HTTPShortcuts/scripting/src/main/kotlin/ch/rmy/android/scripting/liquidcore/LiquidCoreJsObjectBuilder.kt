@@ -29,7 +29,7 @@ internal class LiquidCoreJsObjectBuilder(
     }
 
     override fun property(name: String, value: JsObject?) {
-        jsObject.property(name, (value as LiquidCoreJsObject).toJSObject())
+        jsObject.property(name, (value as LiquidCoreJsObject?)?.toJSObject())
     }
 
     override fun property(name: String, value: JsFunction) {
