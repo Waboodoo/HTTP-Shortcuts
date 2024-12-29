@@ -14,4 +14,6 @@ interface ScriptingEngine {
     fun registerListOfObjects(name: String, list: List<JsObject>)
 
     fun buildJsObject(builder: JsObjectBuilder.() -> Unit): JsObject
+
+    fun destroy()
 }

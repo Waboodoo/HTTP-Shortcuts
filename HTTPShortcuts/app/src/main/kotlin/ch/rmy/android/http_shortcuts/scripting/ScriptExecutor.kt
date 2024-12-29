@@ -43,8 +43,10 @@ constructor(
             .also {
                 registerActionAliases(it, actionFactory.getAliases())
                 registerAbort(it)
+                destroyer = it::destroy
             }
     }
+    private var destroyer: (() -> Unit)? = null
 
     private val cleanupHandler = CleanupHandler()
 
@@ -260,6 +262,10 @@ constructor(
                 }
             },
         )
+    }
+
+    fun destroy() {
+        destroyer?.invoke()
     }
 
     companion object {

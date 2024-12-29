@@ -82,6 +82,10 @@ internal class LiquidCoreScriptingEngine : ScriptingEngine {
     internal fun JsObject.toJSObject(): JSObject =
         (this as LiquidCoreJsObject).toJSObject()
 
+    override fun destroy() {
+        // nothing to do, LiquidCore doesn't have a shutdown function
+    }
+
     companion object {
         private const val READ_ONLY =
             JSContext.JSPropertyAttributeReadOnly or JSContext.JSPropertyAttributeDontDelete

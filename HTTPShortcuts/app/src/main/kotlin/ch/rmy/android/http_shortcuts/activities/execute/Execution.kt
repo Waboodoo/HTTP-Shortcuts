@@ -91,6 +91,7 @@ import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
@@ -172,6 +173,7 @@ class Execution(
             }
             logException(e)
         } finally {
+            scriptExecutor.destroy()
             tryOrLog {
                 cacheFilesCleanupStarter()
                 historyCleanUpStarter()
@@ -179,6 +181,7 @@ class Execution(
             }
         }
     }
+        .flowOn(Dispatchers.Default)
         .onEach { status ->
             if (status is ExecutionStatus.WithResult) {
                 sessionMonitor.onResult(status.result)
