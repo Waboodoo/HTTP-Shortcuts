@@ -20,12 +20,16 @@ internal class LiquidCoreJSValueWrapper(
             else -> value.toString()
         }
 
-    override fun asObject(): Map<String, Any?>? {
+    override fun asObject(): Map<String, Any?>? =
+        value.toMap()
+
+    private fun JSValue?.toMap(): Map<String, Any?>? {
+        val self = this
         return when {
-            value == null || value.isNull || value.isUndefined -> null
-            value.isObject && !value.isArray -> try {
+            self == null || self.isNull || self.isUndefined -> null
+            self.isObject && !self.isArray -> try {
                 buildMap<String, Any?> {
-                    JSONObject(value.toJSON())
+                    JSONObject(self.toJSON())
                         .let { `object` ->
                             `object`.keys().forEach { key ->
                                 put(key, `object`[key])
@@ -52,7 +56,7 @@ internal class LiquidCoreJSValueWrapper(
         asList()?.map { it?.toString() ?: "" }
 
     override fun asListOfObjects(): List<Map<String, Any?>>? =
-        asList()?.map { emptyMap() }
+        asList()?.map { (it as? JSValue)?.toMap() ?: emptyMap() }
 
     override fun asJsFunctionArgs(): JsFunctionArgs? =
         value
