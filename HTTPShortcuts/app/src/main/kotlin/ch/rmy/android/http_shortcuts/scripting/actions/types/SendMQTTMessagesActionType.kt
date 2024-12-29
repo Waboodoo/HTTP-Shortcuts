@@ -1,10 +1,8 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
-import org.json.JSONObject
-import org.liquidplayer.javascript.JSValue
+import ch.rmy.android.scripting.JsFunctionArgs
 import javax.inject.Inject
 
 class SendMQTTMessagesActionType
@@ -14,30 +12,24 @@ constructor(
 ) : ActionType {
     override val type = TYPE
 
-    override fun getActionRunnable(actionDTO: ActionData): ActionRunnable<*> {
+    override fun getActionRunnable(args: JsFunctionArgs): ActionRunnable<*> {
         var optionsAvailable = true
         val messages = (
-            actionDTO.getList(2)
+            args.getListOfObjects(2)
                 ?: run {
                     optionsAvailable = false
-                    actionDTO.getList(1)
+                    args.getListOfObjects(1)
                 }
             )
             .orEmpty()
-            .mapNotNull {
-                when (it) {
-                    is JSValue -> {
-                        val obj = JSONObject(it.toJSON())
-                        SendMQTTMessagesAction.Message(
-                            topic = obj.getString("topic"),
-                            payload = obj.getString("payload").toByteArray(),
-                        )
-                    }
-                    else -> null
-                }
+            .mapNotNull { obj ->
+                SendMQTTMessagesAction.Message(
+                    topic = obj["topic"]?.toString() ?: return@mapNotNull null,
+                    payload = obj["payload"]?.toString()?.toByteArray() ?: return@mapNotNull null,
+                )
             }
         val options = if (optionsAvailable) {
-            actionDTO.getObject(1)
+            args.getObject(1)
         } else {
             null
         }
@@ -45,7 +37,7 @@ constructor(
         return ActionRunnable(
             action = sendMQTTMessagesAction,
             params = SendMQTTMessagesAction.Params(
-                serverUri = actionDTO.getString(0) ?: "",
+                serverUri = args.getString(0) ?: "",
                 username = options?.get("username") as? String,
                 password = options?.get("password") as? String,
                 messages = messages,

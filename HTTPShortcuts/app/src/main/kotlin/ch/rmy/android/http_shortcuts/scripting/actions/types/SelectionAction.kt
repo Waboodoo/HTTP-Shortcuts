@@ -26,13 +26,13 @@ constructor() : Action<SelectionAction.Params> {
         }
     }
 
-    private fun parseData(dataObject: Map<String, Any?>?, dataList: List<Any?>?): Map<String, String> =
+    private fun parseData(dataObject: Map<String, Any?>?, dataList: List<String>?): Map<String, String> =
         dataObject?.mapValues { it.value?.toString() ?: "" }
-            ?: dataList?.map { it?.toString() ?: "" }?.associateWith { it }
+            ?: dataList?.associateWith { it }
             ?: throw JavaScriptException("showSelection function expects object or array as argument")
 
     data class Params(
         val dataObject: Map<String, Any?>?,
-        val dataList: List<Any?>?,
+        val dataList: List<String>?,
     )
 }

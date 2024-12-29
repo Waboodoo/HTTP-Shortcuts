@@ -2,8 +2,8 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import ch.rmy.android.scripting.JsFunctionArgs
 import javax.inject.Inject
 
 class OpenURLActionType
@@ -13,12 +13,12 @@ constructor(
 ) : ActionType {
     override val type = TYPE
 
-    override fun getActionRunnable(actionDTO: ActionData) =
+    override fun getActionRunnable(args: JsFunctionArgs) =
         ActionRunnable(
             action = openURLAction,
             params = OpenURLAction.Params(
-                url = actionDTO.getString(0) ?: "",
-                targetBrowser = TargetBrowser.parse(actionDTO.getString(1) ?: ""),
+                url = args.getString(0) ?: "",
+                targetBrowser = TargetBrowser.parse(args.getString(1) ?: ""),
             ),
         )
 

@@ -303,7 +303,7 @@ dependencies {
     implementation(libs.taskerplugin)
 
     /* Scripting */
-    implementation(files("libs/LiquidCore-0.6.2.aar"))
+    implementation(project(path = ":scripting"))
 
     /* Location lookup (for Scripting) */
     debugImplementation(libs.playServices.location)

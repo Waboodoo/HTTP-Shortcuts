@@ -2,8 +2,8 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import ch.rmy.android.scripting.JsFunctionArgs
 import javax.inject.Inject
 
 class EnqueueShortcutActionType
@@ -13,13 +13,13 @@ constructor(
 ) : ActionType {
     override val type = TYPE
 
-    override fun getActionRunnable(actionDTO: ActionData) =
+    override fun getActionRunnable(args: JsFunctionArgs) =
         ActionRunnable(
             action = enqueueShortcutAction,
             params = EnqueueShortcutAction.Params(
-                shortcutNameOrId = actionDTO.getString(0)?.takeUnlessEmpty(),
-                variableValues = actionDTO.getObject(1),
-                delay = actionDTO.getInt(2)?.coerceIn(0, MAX_DELAY),
+                shortcutNameOrId = args.getString(0)?.takeUnlessEmpty(),
+                variableValues = args.getObject(1),
+                delay = args.getInt(2)?.coerceIn(0, MAX_DELAY),
             ),
         )
 

@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import ch.rmy.android.scripting.JsFunctionArgs
 import javax.inject.Inject
 
 class SelectionActionType
@@ -12,12 +12,12 @@ constructor(
 ) : ActionType {
     override val type = TYPE
 
-    override fun getActionRunnable(actionDTO: ActionData) =
+    override fun getActionRunnable(args: JsFunctionArgs) =
         ActionRunnable(
             action = selectionAction,
             params = SelectionAction.Params(
-                dataObject = actionDTO.getObject(0),
-                dataList = actionDTO.getList(0),
+                dataObject = args.getObject(0),
+                dataList = args.getListOfStrings(0),
             ),
         )
 

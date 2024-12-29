@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import ch.rmy.android.scripting.JsFunctionArgs
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -13,11 +13,11 @@ constructor(
 ) : ActionType {
     override val type = TYPE
 
-    override fun getActionRunnable(actionDTO: ActionData) =
+    override fun getActionRunnable(args: JsFunctionArgs) =
         ActionRunnable(
             action = waitAction,
             params = WaitAction.Params(
-                duration = (actionDTO.getInt(0)?.takeIf { it > 0 } ?: 0).milliseconds,
+                duration = (args.getInt(0)?.takeIf { it > 0 } ?: 0).milliseconds,
             ),
         )
 

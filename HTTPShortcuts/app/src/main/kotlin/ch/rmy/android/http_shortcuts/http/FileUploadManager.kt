@@ -133,7 +133,7 @@ class FileUploadManager internal constructor(
             null
         }
 
-    private fun getMetaData(file: Uri, type: String): Map<String, Any?>? {
+    private fun getMetaData(file: Uri, type: String): FileMetaData? {
         if (!type.startsWith("image/", ignoreCase = true)) {
             return null
         }
@@ -141,12 +141,12 @@ class FileUploadManager internal constructor(
             contentResolver.openInputStream(file)!!
                 .use(::ExifInterface)
                 .let { exifInterface ->
-                    mapOf(
-                        "orientation" to exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, 0),
-                        "created" to exifInterface.getAttribute(ExifInterface.TAG_DATETIME)?.formatDateTime(),
+                    FileMetaData(
+                        orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, 0),
+                        created = exifInterface.getAttribute(ExifInterface.TAG_DATETIME)?.formatDateTime(),
                     )
                 }
-        } catch (e: IOException) {
+        } catch (_: IOException) {
             null
         }
     }
@@ -168,7 +168,12 @@ class FileUploadManager internal constructor(
         val fileName: String,
         val data: Uri,
         val fileSize: Long?,
-        val metaData: Map<String, Any?>?,
+        val metaData: FileMetaData?,
+    )
+
+    data class FileMetaData(
+        val orientation: Int,
+        val created: String?,
     )
 
     data class Result(

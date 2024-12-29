@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
-import ch.rmy.android.http_shortcuts.scripting.actions.ActionData
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
+import ch.rmy.android.scripting.JsFunctionArgs
 import javax.inject.Inject
 
 class ParseHTMLActionType
@@ -12,12 +12,12 @@ constructor(
 ) : ActionType {
     override val type = TYPE
 
-    override fun getActionRunnable(actionDTO: ActionData) =
+    override fun getActionRunnable(args: JsFunctionArgs) =
         ActionRunnable(
             action = parseHTMLAction,
             params = ParseHTMLAction.Params(
-                htmlInput = actionDTO.getString(0) ?: "",
-                query = actionDTO.getString(1) ?: ":root",
+                htmlInput = args.getString(0) ?: "",
+                query = args.getString(1) ?: ":root",
             ),
         )
 

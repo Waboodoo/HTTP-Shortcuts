@@ -1,6 +1,7 @@
 include(":app")
 include(":curl_command")
 include(":favicon_grabber")
+include(":scripting")
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
