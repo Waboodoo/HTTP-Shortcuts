@@ -15,8 +15,18 @@ android {
     }
 
     buildTypes {
+        /* Used for F-Droid */
         release {
             isMinifyEnabled = true
+            ndk.debugSymbolLevel = "SYMBOL_TABLE"
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+
+        /* Used for Play Store & GitHub release page */
+        create("releaseFull") {
+            isMinifyEnabled = true
+            ndk.debugSymbolLevel = "SYMBOL_TABLE"
+
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
@@ -30,7 +40,6 @@ android {
 }
 
 dependencies {
-    implementation(files("libs/LiquidCore-0.6.2.aar"))
     implementation(libs.quickJsWrapper)
 
     implementation(libs.androidx.core)
