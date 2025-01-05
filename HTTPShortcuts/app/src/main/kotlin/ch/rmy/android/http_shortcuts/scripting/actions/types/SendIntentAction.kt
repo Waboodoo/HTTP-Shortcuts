@@ -104,13 +104,10 @@ constructor(
                     ?.let { category ->
                         addCategory(category)
                     }
-                /* // TODO
-                parameters.optJSONArray(KEY_CATEGORIES)
-                    ?.toListOfStrings()
-                    ?.forEach { category ->
+                parameters.optListOfStrings(KEY_CATEGORIES)
+                    .forEach { category ->
                         addCategory(category)
                     }
-                 */
                 parameters.optString(KEY_PACKAGE_NAME)
                     .takeUnlessEmpty()
                     ?.let { packageName ->
@@ -135,10 +132,8 @@ constructor(
                 if (parameters.optBoolean(KEY_FLAG_NO_HISTORY)) {
                     addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                 }
-                /* // TODO
-                parameters.optJSONArray(KEY_EXTRAS)
-                    ?.toListOfObjects()
-                    ?.forEach { extra ->
+                parameters.optListOfObjects(KEY_EXTRAS)
+                    .forEach { extra ->
                         val name = extra.optString(KEY_EXTRA_NAME)
                             .takeUnlessEmpty()
                             ?: return@forEach
@@ -147,23 +142,22 @@ constructor(
                                 putExtra(name, extra.optBoolean(KEY_EXTRA_VALUE))
                             }
                             EXTRA_TYPE_FLOAT -> {
-                                putExtra(name, extra.optDouble(KEY_EXTRA_VALUE).toFloat())
+                                putExtra(name, extra.optString(KEY_EXTRA_VALUE).toFloat())
                             }
                             EXTRA_TYPE_DOUBLE -> {
-                                putExtra(name, extra.optDouble(KEY_EXTRA_VALUE))
+                                putExtra(name, extra.optString(KEY_EXTRA_VALUE).toDouble())
                             }
                             EXTRA_TYPE_INT -> {
-                                putExtra(name, extra.optInt(KEY_EXTRA_VALUE))
+                                putExtra(name, extra.optString(KEY_EXTRA_VALUE).toInt())
                             }
                             EXTRA_TYPE_LONG -> {
-                                putExtra(name, extra.optLong(KEY_EXTRA_VALUE))
+                                putExtra(name, extra.optString(KEY_EXTRA_VALUE).toLong())
                             }
                             else -> {
                                 putExtra(name, extra.optString(KEY_EXTRA_VALUE))
                             }
                         }
                     }
-                 */
             }
 
         private fun Map<String, Any?>.optString(key: String): String =
@@ -175,9 +169,26 @@ constructor(
                 else -> true
             }
 
+        private fun Map<String, Any?>.optListOfStrings(key: String): List<String> =
+            getOrDefault(key, emptyList<String>())
+                .let { entry ->
+                    when (entry) {
+                        is List<*> -> entry.map { it?.toString().orEmpty() }
+                        else -> emptyList()
+                    }
+                }
+
+        private fun Map<String, Any?>.optListOfObjects(key: String): List<Map<String, Any?>> =
+            getOrDefault(key, emptyList<Map<String, Any?>>())
+                .let { entry ->
+                    when (entry) {
+                        is List<*> -> entry.mapNotNull { it as? Map<String, Any?> }
+                        else -> emptyList()
+                    }
+                }
+
         internal fun shouldLogException(e: Exception): Boolean =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && e is FileUriExposedException) {
-// TODO
                 false
             } else {
                 when (e) {
