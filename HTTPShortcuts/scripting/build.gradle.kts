@@ -8,7 +8,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        minSdk = 23
+        minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -31,6 +31,7 @@ android {
 
 dependencies {
     implementation(files("libs/LiquidCore-0.6.2.aar"))
+    implementation(libs.quickJsWrapper)
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)

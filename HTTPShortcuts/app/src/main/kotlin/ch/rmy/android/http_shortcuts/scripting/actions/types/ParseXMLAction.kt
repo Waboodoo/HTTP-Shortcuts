@@ -6,8 +6,8 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.SimpleXMLContentHandler
-import org.json.JSONArray
-import org.json.JSONObject
+import ch.rmy.android.scripting.JsObject
+import ch.rmy.android.scripting.ScriptingEngine
 import org.xml.sax.Attributes
 import java.util.Stack
 import javax.inject.Inject
@@ -15,19 +15,19 @@ import javax.inject.Inject
 class ParseXMLAction
 @Inject
 constructor() : Action<ParseXMLAction.Params> {
-    override suspend fun Params.execute(executionContext: ExecutionContext): JSONObject {
-        var root: JSONObject? = null
-        var activeElement: JSONObject? = null
-        val elementStack = Stack<JSONObject>()
+    override suspend fun Params.execute(executionContext: ExecutionContext): JsObject {
+        var root: Node? = null
+        var activeElement: Node? = null
+        val elementStack = Stack<Node>()
         try {
             Xml.parse(
                 xmlInput,
                 object : SimpleXMLContentHandler {
                     override fun startElement(uri: String?, localName: String, qName: String?, attributes: Attributes) {
-                        val element = createElement(localName, attributes)
+                        val element = Node(localName, attributes.parse())
                         activeElement
-                            ?.getJSONArray("children")
-                            ?.put(element)
+                            ?.children
+                            ?.add(element)
                             ?: run {
                                 root = element
                             }
@@ -42,8 +42,7 @@ constructor() : Action<ParseXMLAction.Params> {
 
                     override fun characters(characters: CharArray, start: Int, length: Int) {
                         val element = activeElement ?: return
-                        val text = element.optString("text") + characters.slice(start until (start + length)).joinToString(separator = "")
-                        element.put("text", text)
+                        element.text = element.text.orEmpty() + characters.slice(start until (start + length)).joinToString(separator = "")
                     }
                 },
             )
@@ -55,24 +54,41 @@ constructor() : Action<ParseXMLAction.Params> {
                 getString(R.string.error_invalid_xml, e.message)
             }
         }
-        return root!!
+        return root!!.toJsObject(executionContext.scriptingEngine)
     }
 
-    internal fun createElement(name: String, attributes: Attributes): JSONObject =
-        JSONObject()
-            .put("name", name)
-            .put("attributes", attributes.parse())
-            .put("children", JSONArray())
-
-    private fun Attributes.parse(): JSONObject {
-        val result = JSONObject()
-        for (i in 0 until length) {
-            val attributeName = getLocalName(i)
-            val attributeValue = getValue(i)
-            result.put(attributeName, attributeValue)
+    private fun Attributes.parse(): Map<String, String> =
+        buildMap {
+            for (i in 0 until length) {
+                val attributeName = getLocalName(i)
+                val attributeValue = getValue(i)
+                put(attributeName, attributeValue)
+            }
         }
-        return result
-    }
+
+    private fun Node.toJsObject(scriptingEngine: ScriptingEngine): JsObject =
+        scriptingEngine.buildJsObject {
+            property("name", name)
+            property(
+                "attributes",
+                scriptingEngine.buildJsObject {
+                    attributes.forEach { (key, value) ->
+                        property(key, value)
+                    }
+                },
+            )
+            if (text != null) {
+                property("text", text)
+            }
+            objectListProperty("children", children.map { it.toJsObject(scriptingEngine) })
+        }
+
+    private data class Node(
+        val name: String,
+        val attributes: Map<String, String>,
+        var text: String? = null,
+        val children: MutableList<Node> = mutableListOf(),
+    )
 
     data class Params(
         val xmlInput: String,

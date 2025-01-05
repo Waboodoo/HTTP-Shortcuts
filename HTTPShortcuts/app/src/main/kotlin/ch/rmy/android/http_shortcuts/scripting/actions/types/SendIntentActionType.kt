@@ -16,7 +16,7 @@ constructor(
         ActionRunnable(
             action = sendIntentAction,
             params = SendIntentAction.Params(
-                jsonData = args.getString(0) ?: "{}",
+                parameters = args.getObject(0) ?: emptyMap(),
             ),
         )
 

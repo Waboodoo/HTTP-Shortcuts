@@ -6,8 +6,9 @@ import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.LocationLookup
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
+import ch.rmy.android.scripting.JsObject
+import ch.rmy.android.scripting.ScriptingEngine
 import kotlinx.coroutines.CancellationException
-import org.json.JSONObject
 import javax.inject.Inject
 
 class GetLocationAction
@@ -16,9 +17,9 @@ constructor(
     private val locationLookup: LocationLookup,
     private val permissionManager: PermissionManager,
 ) : Action<Unit> {
-    override suspend fun Unit.execute(executionContext: ExecutionContext): JSONObject {
+    override suspend fun Unit.execute(executionContext: ExecutionContext): JsObject? {
         requestLocationPermissionIfNeeded()
-        return fetchLocation()
+        return fetchLocation()?.toResult(executionContext.scriptingEngine)
     }
 
     private suspend fun requestLocationPermissionIfNeeded() {
@@ -30,9 +31,9 @@ constructor(
         }
     }
 
-    private suspend fun fetchLocation(): JSONObject =
+    private suspend fun fetchLocation(): LocationLookup.LocationData? =
         try {
-            locationLookup.getLocation().toResult()
+            locationLookup.getLocation()
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
@@ -42,38 +43,14 @@ constructor(
             }
         }
 
-    companion object {
-        internal fun LocationLookup.LocationData?.toResult(): JSONObject =
-            when {
-                this != null -> {
-                    createJSONObject(
-                        status = "success",
-                        latitude = latitude,
-                        longitude = longitude,
-                        accuracy = accuracy,
-                    )
-                }
-                else -> {
-                    createJSONObject(
-                        status = "unknown",
-                    )
-                }
-            }
-
-        private fun createJSONObject(
-            status: String,
-            latitude: Double? = null,
-            longitude: Double? = null,
-            accuracy: Float? = null,
-        ): JSONObject =
-            JSONObject(
-                mapOf(
-                    "status" to status,
-                    "coordinates" to if (latitude != null && longitude != null) "$latitude,$longitude" else null,
-                    "latitude" to latitude,
-                    "longitude" to longitude,
-                    "accuracy" to accuracy,
-                )
-            )
+    internal fun LocationLookup.LocationData?.toResult(scriptingEngine: ScriptingEngine): JsObject {
+        val location = this
+        return scriptingEngine.buildJsObject {
+            property("status", if (location != null) "success" else "unknown")
+            property("coordinates", if (location?.latitude != null && location.longitude != null) "$latitude,$longitude" else null)
+            property("latitude", location?.latitude)
+            property("longitude", location?.longitude)
+            property("accuracy", location?.accuracy)
+        }
     }
 }
