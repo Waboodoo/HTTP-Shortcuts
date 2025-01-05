@@ -23,8 +23,8 @@ constructor(
                     ""
                 }
             )
-            property("headers", response.headersAsMultiMap.toJsObject(scriptingEngine))
-            property("cookies", response.cookiesAsMultiMap.toJsObject(scriptingEngine))
+            property("headers", response.headersAsMultiMap)
+            property("cookies", response.cookiesAsMultiMap)
             property("statusCode", response.statusCode)
             function("getHeader") { args ->
                 val headerName = args.getString(0) ?: ""
@@ -33,13 +33,6 @@ constructor(
             function("getCookie") { args ->
                 val cookieName = args.getString(0) ?: ""
                 response.cookiesAsMultiMap.getCaseInsensitive(cookieName)?.last()
-            }
-        }
-
-    private fun Map<String, List<String>>.toJsObject(scriptingEngine: ScriptingEngine): JsObject =
-        scriptingEngine.buildJsObject {
-            forEach { (key, values) ->
-                property(key, values)
             }
         }
 }

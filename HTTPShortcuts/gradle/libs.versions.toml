@@ -43,6 +43,7 @@ peko = "2.2.0"
 persistentCookieJar = "v1.0.1"
 playServicesLocation = "21.3.0"
 preference = "1.2.1"
+quickJsWrapper = "2.4.1"
 realm = "3.0.0"
 reorderable = "2.4.2"
 spotless = "6.4.2"
@@ -107,6 +108,7 @@ paho-mqtt = { module = "org.eclipse.paho:org.eclipse.paho.client.mqttv3", versio
 peko = { module = "com.markodevcic:peko", version.ref = "peko" }
 persistentCookieJar = { module = "com.github.franmontiel:PersistentCookieJar", version.ref = "persistentCookieJar" }
 playServices-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+quickJsWrapper = { module = "wang.harlon.quickjs:wrapper-android", version.ref = "quickJsWrapper" }
 realm = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
 reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
 taskerplugin = { module = "com.joaomgcd:taskerpluginlibrary", version.ref = "taskerplugin" }

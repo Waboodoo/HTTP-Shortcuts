@@ -63,9 +63,7 @@ internal class LiquidCoreJSValueWrapper(
             ?.toJSArray()
             ?.toList()
             ?.map { (it as? JSValue)?.let { LiquidCoreJSValueWrapper(it) } }
-            ?.let {
-                JsFunctionArgsImpl(it)
-            }
+            ?.let(::JsFunctionArgsImpl)
 
     private fun asList(): List<Any?>? {
         return when {

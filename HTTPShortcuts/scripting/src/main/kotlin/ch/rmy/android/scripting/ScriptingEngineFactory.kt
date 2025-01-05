@@ -1,8 +1,8 @@
 package ch.rmy.android.scripting
 
-import ch.rmy.android.scripting.liquidcore.LiquidCoreScriptingEngine
+import ch.rmy.android.scripting.quickjs.QuickJsScriptingEngine
 
 object ScriptingEngineFactory {
     fun create(): ScriptingEngine =
-        LiquidCoreScriptingEngine()
+        QuickJsScriptingEngine()
 }

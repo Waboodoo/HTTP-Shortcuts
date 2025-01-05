@@ -9,13 +9,10 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
-import ch.rmy.android.http_shortcuts.extensions.toListOfObjects
-import ch.rmy.android.http_shortcuts.extensions.toListOfStrings
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
 import javax.inject.Inject
 
 class SendIntentAction
@@ -24,7 +21,6 @@ constructor(
     private val activityProvider: ActivityProvider,
 ) : Action<SendIntentAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext) {
-        val parameters = JSONObject(jsonData)
         val intent = constructIntent(parameters)
         withContext(Dispatchers.Main) {
             activityProvider.withActivity { activity ->
@@ -53,7 +49,7 @@ constructor(
     }
 
     data class Params(
-        val jsonData: String,
+        val parameters: Map<String, Any?>,
     )
 
     companion object {
@@ -85,7 +81,7 @@ constructor(
         private const val TYPE_ACTIVITY = "activity"
         private const val TYPE_SERVICE = "service"
 
-        fun constructIntent(parameters: JSONObject): Intent =
+        fun constructIntent(parameters: Map<String, Any?>): Intent =
             Intent(parameters.optString(KEY_ACTION)).apply {
                 val data = parameters.optString(KEY_DATA_URI)
                     .takeUnlessEmpty()
@@ -108,11 +104,13 @@ constructor(
                     ?.let { category ->
                         addCategory(category)
                     }
+                /* // TODO
                 parameters.optJSONArray(KEY_CATEGORIES)
                     ?.toListOfStrings()
                     ?.forEach { category ->
                         addCategory(category)
                     }
+                 */
                 parameters.optString(KEY_PACKAGE_NAME)
                     .takeUnlessEmpty()
                     ?.let { packageName ->
@@ -137,6 +135,7 @@ constructor(
                 if (parameters.optBoolean(KEY_FLAG_NO_HISTORY)) {
                     addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                 }
+                /* // TODO
                 parameters.optJSONArray(KEY_EXTRAS)
                     ?.toListOfObjects()
                     ?.forEach { extra ->
@@ -164,10 +163,21 @@ constructor(
                             }
                         }
                     }
+                 */
+            }
+
+        private fun Map<String, Any?>.optString(key: String): String =
+            getOrDefault(key, "").toString()
+
+        private fun Map<String, Any?>.optBoolean(key: String): Boolean =
+            when (optString(key)) {
+                "null", "false", "", "0" -> false
+                else -> true
             }
 
         internal fun shouldLogException(e: Exception): Boolean =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && e is FileUriExposedException) {
+// TODO
                 false
             } else {
                 when (e) {

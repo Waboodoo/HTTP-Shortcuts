@@ -3,10 +3,12 @@ package ch.rmy.android.scripting.liquidcore
 import ch.rmy.android.scripting.JsFunction
 import ch.rmy.android.scripting.JsObject
 import ch.rmy.android.scripting.JsObjectBuilder
+import ch.rmy.android.scripting.ScriptingEngine
 import org.liquidplayer.javascript.JSContext
 import org.liquidplayer.javascript.JSObject
 
 internal class LiquidCoreJsObjectBuilder(
+    override val scriptingEngine: ScriptingEngine,
     jsContext: JSContext,
     private val functionConverter: LiquidCoreJsFunctionConverter,
 ) : JsObjectBuilder {
@@ -24,6 +26,14 @@ internal class LiquidCoreJsObjectBuilder(
         jsObject.property(name, value)
     }
 
+    override fun property(name: String, value: Float?) {
+        jsObject.property(name, value)
+    }
+
+    override fun property(name: String, value: Double?) {
+        jsObject.property(name, value)
+    }
+
     override fun property(name: String, value: Boolean?) {
         jsObject.property(name, value)
     }
@@ -36,8 +46,12 @@ internal class LiquidCoreJsObjectBuilder(
         jsObject.property(name, functionConverter.convert(value))
     }
 
-    override fun property(name: String, value: List<String>) {
+    override fun stringListProperty(name: String, value: List<String>) {
         jsObject.property(name, value)
+    }
+
+    override fun objectListProperty(name: String, value: List<JsObject>) {
+        jsObject.property(name, value.map { (it as LiquidCoreJsObject).toJSObject() })
     }
 
     fun build(): JsObject =

@@ -77,9 +77,9 @@ internal class LiquidCoreScriptingEngine : ScriptingEngine {
     }
 
     override fun buildJsObject(builder: JsObjectBuilder.() -> Unit): JsObject =
-        LiquidCoreJsObjectBuilder(jsContext, functionConverter).apply(builder).build()
+        LiquidCoreJsObjectBuilder(this, jsContext, functionConverter).apply(builder).build()
 
-    internal fun JsObject.toJSObject(): JSObject =
+    private fun JsObject.toJSObject(): JSObject =
         (this as LiquidCoreJsObject).toJSObject()
 
     override fun destroy() {

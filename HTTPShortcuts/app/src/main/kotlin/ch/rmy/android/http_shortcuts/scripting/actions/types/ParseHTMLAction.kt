@@ -2,8 +2,8 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import org.json.JSONArray
-import org.json.JSONObject
+import ch.rmy.android.scripting.JsObject
+import ch.rmy.android.scripting.ScriptingEngine
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Attributes
 import org.jsoup.nodes.DataNode
@@ -19,7 +19,7 @@ constructor() : Action<ParseHTMLAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext): Any {
         val results = try {
             Jsoup.parse(htmlInput).select(query).filterIsInstance<Element>().map { node ->
-                processNode(node)
+                processNode(executionContext.scriptingEngine, node)
             }
         } catch (e: SelectorParseException) {
             throw ActionException {
@@ -32,43 +32,39 @@ constructor() : Action<ParseHTMLAction.Params> {
         return results
     }
 
-    private fun processNode(node: Node): JSONObject {
-        val element = createElement(node.normalName(), node.attributes())
-        node.childNodes().forEach { childNode ->
-            when (childNode) {
-                is TextNode -> {
-                    val newText = childNode.text()
-                    val text = element.optString("text") + newText
-                    element.put("text", text)
-                }
-                is DataNode -> {
-                    val newText = childNode.wholeData
-                    val text = element.optString("text") + newText
-                    element.put("text", text)
-                }
-                is Element -> {
-                    element.getJSONArray("children").put(processNode(childNode))
+    private fun processNode(scriptingEngine: ScriptingEngine, node: Node): JsObject =
+        scriptingEngine.buildJsObject {
+            property("name", node.normalName())
+            property("attributes", node.attributes().parse(scriptingEngine))
+            val children = mutableListOf<JsObject>()
+            var text: String? = null
+            node.childNodes().forEach { childNode ->
+                when (childNode) {
+                    is TextNode -> {
+                        val newText = childNode.text()
+                        text = text.orEmpty() + newText
+                    }
+                    is DataNode -> {
+                        val newText = childNode.wholeData
+                        text = text.orEmpty() + newText
+                    }
+                    is Element -> {
+                        children.add(processNode(scriptingEngine, childNode))
+                    }
                 }
             }
+            if (text != null) {
+                property("text", text)
+            }
+            objectListProperty("children", children)
         }
-        return element
-    }
 
-    private fun createElement(name: String, attributes: Attributes): JSONObject =
-        JSONObject()
-            .put("name", name)
-            .put("attributes", attributes.parse())
-            .put("children", JSONArray())
-
-    private fun Attributes.parse(): JSONObject {
-        val result = JSONObject()
-        forEach { attribute ->
-            val attributeName = attribute.key
-            val attributeValue = attribute.value
-            result.put(attributeName, attributeValue)
+    private fun Attributes.parse(scriptingEngine: ScriptingEngine): JsObject =
+        scriptingEngine.buildJsObject {
+            forEach { attribute ->
+                property(attribute.key, attribute.value)
+            }
         }
-        return result
-    }
 
     data class Params(
         val htmlInput: String,

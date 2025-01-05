@@ -86,6 +86,7 @@ import dagger.hilt.components.SingletonComponent
 import io.realm.kotlin.ext.copyFromRealm
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
@@ -97,6 +98,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.net.UnknownHostException
+import java.util.concurrent.Executors
 import kotlin.math.pow
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
@@ -181,7 +183,7 @@ class Execution(
             }
         }
     }
-        .flowOn(Dispatchers.Default)
+        .flowOn(Executors.newSingleThreadExecutor().asCoroutineDispatcher())
         .onEach { status ->
             if (status is ExecutionStatus.WithResult) {
                 sessionMonitor.onResult(status.result)

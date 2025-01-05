@@ -21,11 +21,8 @@ import ch.rmy.android.scripting.ScriptingEngine
 import ch.rmy.android.scripting.ScriptingEngineFactory
 import ch.rmy.android.scripting.ScriptingException
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
 import org.json.JSONException
 import javax.inject.Inject
 import kotlin.coroutines.resumeWithException
@@ -69,6 +66,7 @@ constructor(
     }
 
     private suspend fun runWithExceptionHandling(block: () -> Unit) {
+        lastException = null
         try {
             suspendCancellableCoroutine<Unit> { continuation ->
                 continuation.invokeOnCancellation {
@@ -87,7 +85,7 @@ constructor(
         } catch (e: CancellationException) {
             throw e
         } catch (e: ScriptingException) {
-            throw JavaScriptException(e.message, e.lineNumber)
+            throw lastException ?: JavaScriptException(e.message, e.lineNumber)
         } catch (e: JSONException) {
             throw JavaScriptException(e.message)
         } finally {
@@ -103,15 +101,12 @@ constructor(
         if (script.isEmpty()) {
             return
         }
-        withContext(Dispatchers.Default) {
-            ensureActive()
-            runWithExceptionHandling {
-                if (response != null) {
-                    registerAbortAndTreatAsFailure()
-                }
-                registerResponse(response, error)
-                scriptingEngine.evaluateScript(codeTransformer.transformForExecuting(script))
+        runWithExceptionHandling {
+            if (response != null) {
+                registerAbortAndTreatAsFailure()
             }
+            registerResponse(response, error)
+            scriptingEngine.evaluateScript(codeTransformer.transformForExecuting(script))
         }
     }
 
@@ -257,7 +252,7 @@ constructor(
                         null
                     } catch (e: Throwable) {
                         lastException = if (e is RuntimeException && e.cause != null) e.cause else e
-                        null
+                        throw e
                     }
                 }
             },
