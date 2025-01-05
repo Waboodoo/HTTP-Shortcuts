@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.os.Build
 import android.os.FileUriExposedException
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.logException
@@ -188,7 +187,7 @@ constructor(
                 }
 
         internal fun shouldLogException(e: Exception): Boolean =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && e is FileUriExposedException) {
+            if (e is FileUriExposedException) {
                 false
             } else {
                 when (e) {

@@ -7,7 +7,6 @@ import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.extensions.hasFileParameter
 import ch.rmy.android.http_shortcuts.extensions.type
-import ch.rmy.android.http_shortcuts.tiles.QuickSettingsTileManager
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.BiometricUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
@@ -25,7 +24,6 @@ constructor(
     application: Application,
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
     private val launcherShortcutManager: LauncherShortcutManager,
-    private val quickSettingsTileManager: QuickSettingsTileManager,
     private val restrictionsUtil: RestrictionsUtil,
     private val appOverlayUtil: AppOverlayUtil,
     private val biometricUtil: BiometricUtil,
@@ -35,9 +33,7 @@ constructor(
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
         val isAppShortcut = shortcut.type == ShortcutExecutionType.APP
         return ExecutionSettingsViewState(
-            launcherShortcutOptionVisible = launcherShortcutManager.supportsLauncherShortcuts(),
             directShareOptionVisible = launcherShortcutManager.supportsDirectShare(),
-            quickSettingsTileShortcutOptionVisible = quickSettingsTileManager.supportsQuickSettingsTiles(),
             waitForConnection = shortcut.isWaitForNetwork,
             waitForConnectionOptionVisible = isAppShortcut,
             launcherShortcut = shortcut.launcherShortcut,

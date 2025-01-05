@@ -7,7 +7,6 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
-import ch.rmy.android.framework.extensions.safeRemoveIf
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -111,20 +110,20 @@ constructor(
         if (shortcutIds != null) {
             base.title = null
             base.categories.forEach { category ->
-                category.shortcuts.safeRemoveIf { shortcut ->
+                category.shortcuts.removeIf { shortcut ->
                     shortcut.id !in shortcutIds
                 }
             }
-            base.categories.safeRemoveIf { category ->
+            base.categories.removeIf { category ->
                 category.shortcuts.isEmpty()
             }
         }
         if (variableIds != null) {
-            base.variables.safeRemoveIf { it.id !in variableIds }
+            base.variables.removeIf { it.id !in variableIds }
         }
 
         getUsedWorkingDirectoryIds(base).let { workingDirectoryIds ->
-            base.workingDirectories.safeRemoveIf { it.id !in workingDirectoryIds }
+            base.workingDirectories.removeIf { it.id !in workingDirectoryIds }
         }
 
         return base

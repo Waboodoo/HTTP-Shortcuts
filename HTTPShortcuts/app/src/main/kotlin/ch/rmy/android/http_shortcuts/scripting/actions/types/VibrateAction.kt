@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
@@ -54,12 +53,7 @@ constructor(
                     override val duration = 1.seconds
 
                     override fun execute(vibrator: Vibrator) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE))
-                        } else {
-                            @Suppress("DEPRECATION")
-                            vibrator.vibrate(milliseconds)
-                        }
+                        vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE))
                     }
                 }
                 2 -> object : VibrationPattern {
@@ -67,24 +61,14 @@ constructor(
 
                     override fun execute(vibrator: Vibrator) {
                         val pattern = longArrayOf(200L, 200L, 200L, 200L, 200L, 200L)
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1))
-                        } else {
-                            @Suppress("DEPRECATION")
-                            vibrator.vibrate(pattern, -1)
-                        }
+                        vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1))
                     }
                 }
                 else -> object : VibrationPattern {
                     override val duration = 300.milliseconds
 
                     override fun execute(vibrator: Vibrator) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE))
-                        } else {
-                            @Suppress("DEPRECATION")
-                            vibrator.vibrate(milliseconds)
-                        }
+                        vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE))
                     }
                 }
             }

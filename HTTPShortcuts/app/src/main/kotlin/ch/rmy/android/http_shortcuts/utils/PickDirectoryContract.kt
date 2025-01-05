@@ -4,7 +4,6 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.provider.DocumentsContract
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.documentfile.provider.DocumentFile
@@ -15,12 +14,8 @@ object PickDirectoryContract : ActivityResultContract<Uri?, (ContentResolver) ->
         Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
             .addCategory(Intent.CATEGORY_DEFAULT)
             .runIfNotNull(input) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    runIfNotNull(DocumentFile.fromTreeUri(context, it)?.uri) { fileUri ->
-                        putExtra(DocumentsContract.EXTRA_INITIAL_URI, fileUri)
-                    }
-                } else {
-                    this
+                runIfNotNull(DocumentFile.fromTreeUri(context, it)?.uri) { fileUri ->
+                    putExtra(DocumentsContract.EXTRA_INITIAL_URI, fileUri)
                 }
             }
             .addFlags(

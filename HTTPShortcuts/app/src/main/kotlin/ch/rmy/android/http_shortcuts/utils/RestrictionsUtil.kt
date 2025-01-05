@@ -23,10 +23,8 @@ constructor(
             ?.isPowerSaveMode == true
 
     fun isDataSaverModeEnabled(): Boolean =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            context.getSystemService<ConnectivityManager>()
-                ?.run { isActiveNetworkMetered && restrictBackgroundStatus == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED } == true
-        } else false
+        context.getSystemService<ConnectivityManager>()
+            ?.run { isActiveNetworkMetered && restrictBackgroundStatus == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED } == true
 
     fun getRequestIgnoreBatteryOptimizationIntent(): Intent =
         Intent(ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, "package:$packageName".toUri())

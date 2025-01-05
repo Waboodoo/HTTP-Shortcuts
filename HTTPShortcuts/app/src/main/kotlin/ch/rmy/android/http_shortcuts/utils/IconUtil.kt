@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.Icon
-import android.os.Build
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.getSystemService
 import androidx.core.graphics.drawable.DrawableCompat
@@ -57,7 +56,7 @@ object IconUtil {
                 }
             }
             is ShortcutIcon.BuiltInIcon -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && adaptive) {
+                if (adaptive) {
                     val file = generateRasterizedIconForBuiltInIcon(context, icon, adaptive = true)
                     val bitmap = BitmapFactory.decodeFile(file.absolutePath)
                     Icon.createWithAdaptiveBitmap(bitmap)

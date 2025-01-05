@@ -1,7 +1,6 @@
 package ch.rmy.android.framework.extensions
 
 import androidx.annotation.CheckResult
-import androidx.core.util.Predicate
 
 inline fun consume(f: () -> Unit): Boolean {
     f()
@@ -31,20 +30,6 @@ inline fun <T, U> T.runFor(iterable: Iterable<U>, block: T.(U) -> T): T {
 
 fun <T> Map<String, T>.getCaseInsensitive(key: String): T? =
     entries.firstOrNull { it.key.equals(key, ignoreCase = true) }?.value
-
-fun <T> MutableCollection<T>.safeRemoveIf(predicate: Predicate<T>) {
-    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-        removeIf(predicate::test)
-    } else {
-        val iterator = iterator()
-        while (iterator.hasNext()) {
-            val item = iterator.next()
-            if (predicate.test(item)) {
-                iterator.remove()
-            }
-        }
-    }
-}
 
 fun <T> T.takeUnlessEmpty(): T? where T : Collection<*> =
     takeUnless { it.isEmpty() }

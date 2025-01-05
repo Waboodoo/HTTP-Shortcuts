@@ -29,11 +29,9 @@ fun ExecutionSettingsContent(
     waitForConnection: Boolean,
     waitForConnectionOptionVisible: Boolean,
     confirmationType: ConfirmationType?,
-    launcherShortcutOptionVisible: Boolean,
     directShareOptionVisible: Boolean,
     launcherShortcut: Boolean,
     secondaryLauncherShortcut: Boolean,
-    quickSettingsTileShortcutOptionVisible: Boolean,
     quickSettingsTileShortcut: Boolean,
     excludeFromHistory: Boolean,
     repetitionInterval: Int?,
@@ -54,18 +52,16 @@ fun ExecutionSettingsContent(
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
     ) {
-        if (launcherShortcutOptionVisible) {
-            Checkbox(
-                label = stringResource(R.string.label_launcher_shortcut),
-                subtitle = if (directShareOptionVisible) {
-                    stringResource(R.string.subtitle_launcher_shortcut_with_direct_share)
-                } else {
-                    stringResource(R.string.subtitle_launcher_shortcut)
-                },
-                checked = launcherShortcut,
-                onCheckedChange = onLauncherShortcutChanged,
-            )
-        }
+        Checkbox(
+            label = stringResource(R.string.label_launcher_shortcut),
+            subtitle = if (directShareOptionVisible) {
+                stringResource(R.string.subtitle_launcher_shortcut_with_direct_share)
+            } else {
+                stringResource(R.string.subtitle_launcher_shortcut)
+            },
+            checked = launcherShortcut,
+            onCheckedChange = onLauncherShortcutChanged,
+        )
 
         Checkbox(
             label = stringResource(R.string.label_secondary_launcher_shortcut),
@@ -74,13 +70,11 @@ fun ExecutionSettingsContent(
             onCheckedChange = onSecondaryLauncherShortcutChanged,
         )
 
-        if (quickSettingsTileShortcutOptionVisible) {
-            Checkbox(
-                label = stringResource(R.string.label_quick_tile_shortcut),
-                checked = quickSettingsTileShortcut,
-                onCheckedChange = onQuickSettingsTileShortcutChanged,
-            )
-        }
+        Checkbox(
+            label = stringResource(R.string.label_quick_tile_shortcut),
+            checked = quickSettingsTileShortcut,
+            onCheckedChange = onQuickSettingsTileShortcutChanged,
+        )
 
         if (canUseFiles) {
             Checkbox(

@@ -24,7 +24,6 @@ android {
 
         /* Used for Play Store & GitHub release page */
         create("releaseFull") {
-            isMinifyEnabled = true
             ndk.debugSymbolLevel = "SYMBOL_TABLE"
 
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")

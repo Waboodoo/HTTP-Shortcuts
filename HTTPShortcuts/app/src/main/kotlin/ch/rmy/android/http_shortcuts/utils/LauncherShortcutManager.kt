@@ -32,26 +32,18 @@ constructor(
     private val shortcutManager
         get() = context.getSystemService<ShortcutManager>()!!
 
-    fun supportsLauncherShortcuts() =
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1
-
     fun supportsDirectShare() =
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
 
     fun reportUse(shortcutId: ShortcutId) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            shortcutManager.reportShortcutUsed(createShortcutInfoId(shortcutId))
-        }
+        shortcutManager.reportShortcutUsed(createShortcutInfoId(shortcutId))
     }
 
     @WorkerThread
     fun updateAppShortcuts(shortcuts: Collection<LauncherShortcut>) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            update(shortcuts)
-        }
+        update(shortcuts)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun update(shortcuts: Collection<LauncherShortcut>) {
         try {
             val max = try {
@@ -133,54 +125,36 @@ constructor(
             .build()
     }
 
-    fun supportsPinning(): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (shortcutManager.isRequestPinShortcutSupported) {
-                return true
-            }
-        }
-        return false
-    }
+    fun supportsPinning(): Boolean =
+        shortcutManager.isRequestPinShortcutSupported
 
     fun pinShortcut(shortcut: LauncherShortcut) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            logInfo("Pinning shortcut")
-            val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
-            shortcutManager.requestPinShortcut(shortcutInfo, null)
-        }
+        logInfo("Pinning shortcut")
+        val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
+        shortcutManager.requestPinShortcut(shortcutInfo, null)
     }
 
     fun createShortcutPinIntent(shortcut: LauncherShortcut): Intent {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
-            return shortcutManager.createShortcutResultIntent(shortcutInfo)
-        }
-        throw RuntimeException()
+        val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
+        return shortcutManager.createShortcutResultIntent(shortcutInfo)
     }
 
     fun updatePinnedShortcut(shortcut: LauncherShortcut) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            logInfo("Updating pinned shortcut")
-            val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
-            shortcutManager.updateShortcuts(listOf(shortcutInfo))
-        }
+        logInfo("Updating pinned shortcut")
+        val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
+        shortcutManager.updateShortcuts(listOf(shortcutInfo))
     }
 
     fun pinCategory(categoryId: CategoryId, categoryName: String, shortcutIcon: ShortcutIcon) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutInfo = createCategoryShortcutInfo(categoryId, categoryName, shortcutIcon)
-            shortcutManager.requestPinShortcut(shortcutInfo, null)
-        }
+        val shortcutInfo = createCategoryShortcutInfo(categoryId, categoryName, shortcutIcon)
+        shortcutManager.requestPinShortcut(shortcutInfo, null)
     }
 
     fun updatePinnedCategoryShortcut(categoryId: CategoryId, categoryName: String, icon: ShortcutIcon) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutInfo = createCategoryShortcutInfo(categoryId, categoryName, icon)
-            shortcutManager.updateShortcuts(listOf(shortcutInfo))
-        }
+        val shortcutInfo = createCategoryShortcutInfo(categoryId, categoryName, icon)
+        shortcutManager.updateShortcuts(listOf(shortcutInfo))
     }
 
-    @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun createCategoryShortcutInfo(
         categoryId: CategoryId,
         categoryName: String,

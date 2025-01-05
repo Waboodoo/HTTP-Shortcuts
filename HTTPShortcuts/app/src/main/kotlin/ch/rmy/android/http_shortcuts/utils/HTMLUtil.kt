@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.utils
 
-import android.os.Build
 import android.text.Html
 import android.text.Spanned
 
@@ -15,11 +14,6 @@ object HTMLUtil {
     private fun String.convertNewlines() =
         removeSuffix("\n").replace("\n", "<br>")
 
-    @Suppress("DEPRECATION")
     private fun fromHTML(string: String): Spanned =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Html.fromHtml(string, 0, null, null)
-        } else {
-            Html.fromHtml(string, null, null)
-        }
+        Html.fromHtml(string, 0, null, null)
 }

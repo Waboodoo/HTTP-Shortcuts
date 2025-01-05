@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.annotation.UiThread
 import androidx.fragment.app.FragmentActivity
 import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.framework.extensions.safeRemoveIf
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.activities.misc.host.HostActivity
 import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
@@ -55,7 +54,7 @@ constructor(
 
         @UiThread
         fun deregisterActivity(activity: FragmentActivity) {
-            activeActivities.safeRemoveIf { reference -> reference.get().let { it == null || it == activity } }
+            activeActivities.removeIf { reference -> reference.get().let { it == null || it == activity } }
         }
     }
 }
