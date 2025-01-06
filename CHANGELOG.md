@@ -1,3 +1,8 @@
+## Version 3.22.0
+
+### Improvements
+- The JavaScript engine used for the Scripting feature was completely replaced. This reduces the size of the app, should improve performance and fix some more exotic bugs, and allow the app to build again for F-Droid. It likely also introduced new bugs, so please let me know if you find one.
+
 ## Version 3.21.0
 
 ### Improvements
