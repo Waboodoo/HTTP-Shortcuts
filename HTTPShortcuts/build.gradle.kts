@@ -8,6 +8,7 @@ buildscript {
         classpath(libs.android.gradle)
         classpath(libs.bugsnag.gradle)
         classpath(libs.jetbrains.markdown)
+        classpath(libs.minifyHtml)
         classpath(libs.unmock)
     }
 }

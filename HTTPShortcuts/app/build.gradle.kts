@@ -5,6 +5,8 @@ import org.intellij.markdown.parser.MarkdownParser
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariantOutput
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+import `in`.wilsonl.minifyhtml.Configuration
+import `in`.wilsonl.minifyhtml.MinifyHtml
 
 plugins {
     id("com.android.application")
@@ -357,8 +359,18 @@ fun generateHtmlFromMarkdown(
         .removePrefix("<body>")
         .removeSuffix("</body>")
         .processHtml()
+        .let { html ->
+            val config = Configuration.Builder()
+                .setRemoveBangs(true)
+                .setKeepHtmlAndHeadOpeningTags(true)
+                .setMinifyCss(true)
+                .build()
+            MinifyHtml.minify(html, config)
+                .replace("&LT", "&lt;")
+        }
     File("app/src/main/assets/$outputFile").writeText(
         template.replace("<!-- CONTENT -->", html)
+            .replace("<!-- .* -->\\s*".toRegex(), "")
     )
 }
 
