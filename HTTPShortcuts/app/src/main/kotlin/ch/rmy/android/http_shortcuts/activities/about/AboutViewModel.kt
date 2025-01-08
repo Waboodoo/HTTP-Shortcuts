@@ -24,7 +24,7 @@ constructor(
         AboutViewState(
             versionNumber = versionUtil.getVersionName(),
             fDroidVisible = !installUtil.isAppInstalledFromPlayStore(),
-            changeLogDialogPermanentlyHidden = !settings.isChangeLogPermanentlyHidden,
+            changeLogDialogPermanentlyHidden = settings.isChangeLogPermanentlyHidden,
         )
 
     fun onChangeLogDialogPermanentlyHiddenChanged(hidden: Boolean) = runAction {
