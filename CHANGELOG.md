@@ -1,7 +1,10 @@
 ## Version 3.22.0
 
 ### Improvements
-- The JavaScript engine used for the Scripting feature was completely replaced. This reduces the size of the app, should improve performance and fix some more exotic bugs, and allow the app to build again for F-Droid. It likely also introduced new bugs, so please let me know if you find one.
+- The JavaScript engine used for the Scripting feature was completely replaced. This reduces the size of the app, should improve performance and fix some more exotic bugs, and allow the app to build again for F-Droid. It likely also introduced new bugs, so please let me know if you find one (via "Contact Developer" on the "Information" screen).
+
+### Miscellaneous
+- The minimum supported Android version was raised to Android 8 (Oreo).
 
 ## Version 3.21.0
 
