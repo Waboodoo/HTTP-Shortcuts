@@ -3,6 +3,9 @@
 ### Improvements
 - The JavaScript engine used for the Scripting feature was completely replaced. This reduces the size of the app, should improve performance and fix some more exotic bugs, and allow the app to build again for F-Droid. It likely also introduced new bugs, so please let me know if you find one (via "Contact Developer" on the "Information" screen).
 
+### Bugfixes
+- The "Show at startup" checkbox in the Changelog now behaves correctly
+
 ### Miscellaneous
 - The minimum supported Android version was raised to Android 8 (Oreo).
 
