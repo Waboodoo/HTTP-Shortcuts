@@ -99,7 +99,7 @@ internal class QuickJsValueWrapper(
         }
 
     override fun asJsFunctionArgs(): JsFunctionArgs? =
-        getValueAsList()
+        (getValueAsList() ?: asObject()?.values)
             ?.map(::QuickJsValueWrapper)
             ?.let(::JsFunctionArgsImpl)
 }
