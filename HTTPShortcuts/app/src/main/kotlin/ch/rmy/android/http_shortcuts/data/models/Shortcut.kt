@@ -47,7 +47,8 @@ class Shortcut() : RealmObject {
 
     var name: String = ""
 
-    private var iconName: String? = icon.toString().takeUnlessEmpty()
+    var iconName: String? = icon.toString().takeUnlessEmpty()
+        private set
 
     var hidden: Boolean = false
 

@@ -210,6 +210,16 @@
                 android:value="true" />
         </service>
 
+        <service
+            android:name=".controls.ControlsService"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_CONTROLS">
+            <intent-filter>
+                <action android:name="android.service.controls.ControlsProviderService" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".plugin.PluginEditActivity"
             android:exported="true"

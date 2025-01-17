@@ -242,8 +242,9 @@ dependencies {
     implementation(libs.androidx.hilt.work)
     implementation(libs.hilt.navigation.compose)
 
-    /* Support libraries */
+    /* Android & Kotlin extensions */
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.jdk9)
     implementation(libs.androidx.core)
     implementation(libs.androidx.annotation)
     implementation(libs.androidx.appcompat)
