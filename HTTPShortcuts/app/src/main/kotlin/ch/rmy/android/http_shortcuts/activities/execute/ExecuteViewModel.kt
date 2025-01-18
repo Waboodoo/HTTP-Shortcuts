@@ -62,12 +62,12 @@ constructor(
                 when (status) {
                     is ExecutionStatus.InProgress -> {
                         updateViewState {
-                            copy(progressSpinnerVisible = true)
+                            copy(executionInProgress = true)
                         }
                     }
                     is ExecutionStatus.WrappingUp -> {
                         updateViewState {
-                            copy(progressSpinnerVisible = false)
+                            copy(executionInProgress = false)
                         }
                     }
                     else -> Unit
