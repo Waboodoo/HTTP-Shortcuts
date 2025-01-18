@@ -13,8 +13,9 @@ import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
-import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
+import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.jdk9.flowPublish
@@ -27,7 +28,7 @@ import javax.inject.Inject
 class ControlsService : ControlsProviderService() {
 
     @Inject
-    lateinit var shortcutRepository: ShortcutRepository
+    lateinit var categoryRepository: CategoryRepository
 
     @Inject
     lateinit var executionStarter: ExecutionStarter
@@ -36,23 +37,29 @@ class ControlsService : ControlsProviderService() {
         createPublisher()
 
     override fun createPublisherFor(controlIds: List<String?>): Flow.Publisher<Control?> =
-        createPublisher { shortcut ->
+        createPublisher { (_, shortcut) ->
             shortcut.id in controlIds
         }
 
-    private fun createPublisher(filter: ((Shortcut) -> Boolean)? = null): Flow.Publisher<Control?> =
+    private fun createPublisher(filter: ((Pair<Category, Shortcut>) -> Boolean)? = null): Flow.Publisher<Control?> =
         flowPublish<Control?> {
-            shortcutRepository.getShortcuts()
+            categoryRepository.getCategories()
+                .flatMap { category ->
+                    category.shortcuts.map { shortcut ->
+                        category to shortcut
+                    }
+                }
                 .runIfNotNull(filter) { predicate ->
                     filter(predicate)
                 }
-                .map { shortcut ->
+                .map { (category, shortcut) ->
                     Control.StatefulBuilder(shortcut.id, createPendingIntent())
                         .setTitle(shortcut.name)
                         .setSubtitle(shortcut.description)
                         .setDeviceType(shortcut.getDeviceType())
                         .setStatus(Control.STATUS_OK)
                         .setControlTemplate(StatelessTemplate(""))
+                        .setZone(category.name)
                         .run {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                                 setAuthRequired(false)
