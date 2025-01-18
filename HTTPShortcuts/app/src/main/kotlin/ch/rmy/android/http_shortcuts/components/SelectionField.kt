@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -48,9 +49,15 @@ fun <T> SelectionField(
     },
     enabled: Boolean = true,
 ) {
-    var expanded by remember(enabled) { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
     var dropdownWidth by remember { mutableIntStateOf(0) }
     val selectedValue = items.find { it.first == selectedKey }?.second ?: ""
+
+    LaunchedEffect(enabled) {
+        if (!enabled) {
+            expanded = false
+        }
+    }
 
     Box(
         Modifier
