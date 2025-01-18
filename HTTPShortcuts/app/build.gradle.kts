@@ -71,37 +71,37 @@ android {
         ndk {
             abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64"))
         }
+    }
 
-        resourceConfigurations.addAll(
-            setOf(
-                "en",
-                "en-rGB",
-                "ca",
-                "de",
-                "de-rCH",
-                "es",
-                "es-rMX",
-                "fr",
-                "in",
-                "it",
-                "hu",
-                "nb",
-                "pl",
-                "pt-rBR",
-                "ru",
-                "tr",
-                "zh-rCN",
-                "ja",
-                "ko",
-                "iw",
-                "ar",
-                "cs",
-                "el",
-                "fa",
-                "nl",
-                "pt",
-                "vi",
-            )
+    androidResources {
+        localeFilters += setOf(
+            "en",
+            "en-rGB",
+            "ca",
+            "de",
+            "de-rCH",
+            "es",
+            "es-rMX",
+            "fr",
+            "in",
+            "it",
+            "hu",
+            "nb",
+            "pl",
+            "pt-rBR",
+            "ru",
+            "tr",
+            "zh-rCN",
+            "ja",
+            "ko",
+            "iw",
+            "ar",
+            "cs",
+            "el",
+            "fa",
+            "nl",
+            "pt",
+            "vi",
         )
     }
 
