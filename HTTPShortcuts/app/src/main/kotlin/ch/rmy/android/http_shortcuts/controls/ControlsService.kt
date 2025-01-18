@@ -53,6 +53,13 @@ class ControlsService : ControlsProviderService() {
                         .setDeviceType(shortcut.getDeviceType())
                         .setStatus(Control.STATUS_OK)
                         .setControlTemplate(StatelessTemplate(""))
+                        .run {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                setAuthRequired(false)
+                            } else {
+                                this
+                            }
+                        }
                         .build()
                 }
                 .forEach { control ->
