@@ -71,6 +71,7 @@ internal class QuickJsValueWrapper(
     override fun asByteArray(): ByteArray? =
         when {
             value == null -> null
+            value == "" -> ByteArray(0)
             value is ByteArray -> value
             value is String && value.isDigitsOnly() -> ByteArray(1).apply { this[0] = value.toInt().toByte() }
             value is String -> value.toByteArray()
