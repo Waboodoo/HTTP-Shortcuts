@@ -1,3 +1,13 @@
+## Version 3.23.0
+
+### Improvements
+- There is now rudimentary support for the Quick Access Device Controls feature (on Android 11 and up)
+
+### Bugfixes
+- The "Display Type" dropdown field no longer fails to open after having been disabled and re-enabled
+- The progress spinner now no longer flickers up for really short-lived shortcut executions
+- Scripting functions no longer fail when an empty string is passed to them
+
 ## Version 3.22.0
 
 ### Improvements
