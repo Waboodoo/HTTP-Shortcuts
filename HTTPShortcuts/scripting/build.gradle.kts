@@ -17,7 +17,6 @@ android {
     buildTypes {
         /* Used for F-Droid */
         release {
-            isMinifyEnabled = true
             ndk.debugSymbolLevel = "SYMBOL_TABLE"
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
@@ -25,7 +24,6 @@ android {
         /* Used for Play Store & GitHub release page */
         create("releaseFull") {
             ndk.debugSymbolLevel = "SYMBOL_TABLE"
-
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
