@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.components
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,7 +36,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import ch.rmy.android.framework.extensions.consume
-import ch.rmy.android.framework.extensions.getActivity
 import ch.rmy.android.framework.utils.SnackbarManager
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.extensions.runIf
@@ -61,6 +61,7 @@ fun <T : Any> SimpleScaffold(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    val activity = LocalActivity.current
 
     val showSnackbar = remember(snackbarHostState, scope) {
         { message: String, long: Boolean ->
@@ -94,7 +95,7 @@ fun <T : Any> SimpleScaffold(
 
     EventHandler { event ->
         when (event) {
-            is ViewModelEvent.ShowSnackbar -> if (context.getActivity()?.isFinishing == true) {
+            is ViewModelEvent.ShowSnackbar -> if (activity?.isFinishing == true) {
                 false
             } else consume {
                 showSnackbar(event.message.localize(context).toString(), event.long)
@@ -137,7 +138,7 @@ fun <T : Any> SimpleScaffold(
                     }
                     IconButton(
                         onClick = {
-                            context.getActivity()?.onBackPressed()
+                            activity?.onBackPressed()
                         },
                     ) {
                         Icon(

@@ -1,10 +1,9 @@
 package ch.rmy.android.http_shortcuts.navigation
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import ch.rmy.android.framework.extensions.getActivity
 import ch.rmy.android.framework.extensions.getParcelable
 import ch.rmy.android.http_shortcuts.activities.about.AboutScreen
 import ch.rmy.android.http_shortcuts.activities.acknowledgment.AcknowledgmentScreen
@@ -54,7 +53,7 @@ fun NavigationRoot() {
         startDestination = NavigationDestination.Main.routePattern,
     ) {
         composable(NavigationDestination.Main) { backStackEntry ->
-            val intent = LocalContext.current.getActivity()!!.intent!!
+            val intent = LocalActivity.current!!.intent!!
             MainScreen(
                 savedStateHandle = backStackEntry.savedStateHandle,
                 selectionMode = MainActivity.determineMode(intent.action),
