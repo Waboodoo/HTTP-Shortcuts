@@ -38,6 +38,7 @@ Find more information and documentation on the [official website](https://http-s
 - Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)
 - Import & Export in JSON or cURL format
 - 3rd party integration support (e.g. Tasker, Macrodroid or Wireguard)
+- Invoke from home screen widgets, quick settings tiles, or quick access device controls
 - Dark Mode support
 - Easy remote editing on a computer via the web editor
 - Event history to see details about recently executed HTTP requests & responses
