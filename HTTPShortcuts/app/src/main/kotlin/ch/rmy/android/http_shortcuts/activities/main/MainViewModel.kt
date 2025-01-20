@@ -163,6 +163,7 @@ constructor(
             selectionMode = selectionMode,
             categoryItems = getCategoryTabItems(),
             activeCategoryId = initData.initialCategoryId ?: categories.first { !it.hidden }.id,
+            hasMultipleCategories = categories.size > 1,
             isLocked = appLock != null,
         )
     }

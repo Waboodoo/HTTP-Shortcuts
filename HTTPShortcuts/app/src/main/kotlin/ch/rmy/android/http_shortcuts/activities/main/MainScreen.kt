@@ -122,6 +122,7 @@ fun MainScreen(
     ) { viewState ->
         MainContent(
             categoryItems = viewState.categoryItems,
+            hasMultipleCategories = viewState.hasMultipleCategories,
             activeCategoryId = viewState.activeCategoryId,
             selectionMode = viewState.selectionMode,
             onActiveCategoryIdChanged = viewModel::onActiveCategoryChanged,

@@ -11,6 +11,7 @@ data class MainViewState(
     val toolbarTitle: String = "",
     val isLocked: Boolean,
     val categoryItems: List<CategoryItem>,
+    val hasMultipleCategories: Boolean,
     val selectionMode: SelectionMode,
     val activeCategoryId: CategoryId,
 ) {

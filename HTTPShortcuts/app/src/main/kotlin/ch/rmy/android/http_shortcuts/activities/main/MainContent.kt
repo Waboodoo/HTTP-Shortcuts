@@ -30,6 +30,7 @@ import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 @Composable
 fun MainContent(
     categoryItems: List<CategoryItem>,
+    hasMultipleCategories: Boolean,
     selectionMode: SelectionMode,
     activeCategoryId: CategoryId,
     onActiveCategoryIdChanged: (CategoryId) -> Unit,
@@ -85,7 +86,7 @@ fun MainContent(
         ) { index ->
             ShortcutListContent(
                 category = categoryItems[index],
-                hasMultipleCategories = categoryItems.size > 1,
+                hasMultipleCategories = hasMultipleCategories,
                 selectionMode = selectionMode,
                 isActive = index == pagerState.currentPage,
                 onPlaceShortcutOnHomeScreen = onPlaceShortcutOnHomeScreen,
