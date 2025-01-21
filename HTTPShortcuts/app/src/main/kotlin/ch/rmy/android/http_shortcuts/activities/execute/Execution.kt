@@ -27,6 +27,7 @@ import ch.rmy.android.http_shortcuts.activities.execute.usecases.OpenInBrowserUs
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.RequestBiometricConfirmationUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.RequestSimpleConfirmationUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.ShowResultDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.execute.usecases.ShowResultNotificationUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.ValidateRequestDataUseCase
 import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
 import ch.rmy.android.http_shortcuts.activities.response.models.ResponseData
@@ -40,6 +41,7 @@ import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
+import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
@@ -118,6 +120,7 @@ class Execution(
     private val variableResolver: VariableResolver = entryPoint.variableResolver()
     private val httpRequester: HttpRequester = entryPoint.httpRequester()
     private val showResultDialog: ShowResultDialogUseCase = entryPoint.showResultDialog()
+    private val showResultNotification: ShowResultNotificationUseCase = entryPoint.showResultNotification()
     private val executionScheduler: ExecutionScheduler = entryPoint.executionScheduler()
     private val launcherShortcutManager: LauncherShortcutManager = entryPoint.launcherShortcutManager()
     private val openInBrowser: OpenInBrowserUseCase = entryPoint.openInBrowser()
@@ -659,8 +662,8 @@ class Execution(
 
     private suspend fun displayResult(output: String?, response: ShortcutResponse? = null) {
         withContext(Dispatchers.Main) {
-            when (shortcut.responseHandling?.uiType) {
-                ResponseHandling.UI_TYPE_TOAST -> {
+            when (shortcut.responseHandling?.responseUiType ?: ResponseUiType.DIALOG) {
+                ResponseUiType.TOAST -> {
                     context.showToast(
                         (output ?: response?.getContentAsString(context) ?: "")
                             .truncate(maxLength = TOAST_MAX_LENGTH)
@@ -669,12 +672,13 @@ class Execution(
                         long = shortcut.responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE
                     )
                 }
-                ResponseHandling.UI_TYPE_DIALOG,
-                null,
-                -> {
+                ResponseUiType.NOTIFICATION -> {
+                    showResultNotification(shortcut, response, output)
+                }
+                ResponseUiType.DIALOG -> {
                     showResultDialog(shortcut, response, output, dialogHandle)
                 }
-                ResponseHandling.UI_TYPE_WINDOW -> {
+                ResponseUiType.WINDOW -> {
                     if (params.isNested) {
                         // When running in nested mode (i.e., the shortcut was invoked from another shortcut), we cannot open another activity
                         // because it would interrupt the execution. Therefore, we suppress it here.
@@ -709,7 +713,6 @@ class Execution(
                     DisplayResponseActivity.IntentBuilder(shortcutName, responseDataId)
                         .startActivity(context)
                 }
-                else -> Unit
             }
         }
     }
@@ -760,6 +763,7 @@ class Execution(
         fun variableResolver(): VariableResolver
         fun httpRequester(): HttpRequester
         fun showResultDialog(): ShowResultDialogUseCase
+        fun showResultNotification(): ShowResultNotificationUseCase
         fun executionScheduler(): ExecutionScheduler
         fun launcherShortcutManager(): LauncherShortcutManager
         fun openInBrowser(): OpenInBrowserUseCase

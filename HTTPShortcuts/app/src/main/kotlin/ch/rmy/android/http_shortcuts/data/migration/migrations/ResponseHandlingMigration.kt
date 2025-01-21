@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.migration.migrations
 
 import ch.rmy.android.framework.utils.UUIDUtils
+import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
 import ch.rmy.android.http_shortcuts.data.migration.getObjectArray
 import ch.rmy.android.http_shortcuts.data.migration.getString
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
@@ -16,56 +17,56 @@ class ResponseHandlingMigration : BaseMigration {
             }
             val responseHandling = when (oldShortcut.getString("feedback")) {
                 "simple_response" -> ResponseHandling(
-                    uiType = "toast",
+                    responseUiType = ResponseUiType.TOAST,
                     successOutput = "message",
                     failureOutput = "simple",
                     successMessage = "",
                     includeMetaInfo = false,
                 )
                 "simple_response_errors" -> ResponseHandling(
-                    uiType = "toast",
+                    responseUiType = ResponseUiType.TOAST,
                     successOutput = "none",
                     failureOutput = "simple",
                     successMessage = "",
                     includeMetaInfo = false,
                 )
                 "full_response" -> ResponseHandling(
-                    uiType = "toast",
+                    responseUiType = ResponseUiType.TOAST,
                     successOutput = "response",
                     failureOutput = "detailed",
                     successMessage = "",
                     includeMetaInfo = false,
                 )
                 "errors_only" -> ResponseHandling(
-                    uiType = "toast",
+                    responseUiType = ResponseUiType.TOAST,
                     successOutput = "none",
                     failureOutput = "detailed",
                     successMessage = "",
                     includeMetaInfo = false,
                 )
                 "dialog" -> ResponseHandling(
-                    uiType = "dialog",
+                    responseUiType = ResponseUiType.DIALOG,
                     successOutput = "response",
                     failureOutput = "detailed",
                     successMessage = "",
                     includeMetaInfo = false,
                 )
                 "activity" -> ResponseHandling(
-                    uiType = "window",
+                    responseUiType = ResponseUiType.WINDOW,
                     successOutput = "response",
                     failureOutput = "detailed",
                     successMessage = "",
                     includeMetaInfo = false,
                 )
                 "debug" -> ResponseHandling(
-                    uiType = "window",
+                    responseUiType = ResponseUiType.WINDOW,
                     successOutput = "response",
                     failureOutput = "detailed",
                     successMessage = "",
                     includeMetaInfo = true,
                 )
                 else -> ResponseHandling(
-                    uiType = "toast",
+                    responseUiType = ResponseUiType.TOAST,
                     successOutput = "none",
                     failureOutput = "none",
                     successMessage = "",

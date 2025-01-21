@@ -1141,6 +1141,8 @@
     <string name="label_dialog_action_dropdown">Dialog Action</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
     <string name="option_response_handling_type_toast">Toast Popup</string>
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a notification -->
+    <string name="option_response_handling_type_notification">Notification</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">Dialog Window</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
@@ -1693,6 +1695,9 @@
     <string name="warning_make_aware_of_response_handling">Make sure to also check out the \“%s\” section, where you can configure how or if the HTTP response should be displayed.</string>
     <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
     <string name="notification_channel_shortcut_execution_title">Shortcut Executions</string>
+    <!-- Title for notification channel, used for displaying responses or custom messages -->
+    <string name="notification_channel_shortcut_result_title">Shortcut Results</string>
+    <!-- Message shown in notification when a shortcut is being executed -->
     <plurals name="notification_shortcut_execution_text_multiple">
         <item quantity="one">Shortcut in progress…</item>
         <item quantity="other">%d shortcuts in progress…</item>

@@ -5,7 +5,7 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
+import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -34,7 +34,7 @@ constructor(
         }
 
         return ResponseDisplayViewState(
-            responseUiType = responseHandling.uiType,
+            responseUiType = responseHandling.responseUiType,
             responseSuccessOutput = responseHandling.successOutput,
             responseContentType = responseHandling.responseContentType,
             responseCharset = responseHandling.charsetOverride,
@@ -76,7 +76,7 @@ constructor(
     }
 
     fun onWindowActionsButtonClicked() = runAction {
-        if (viewState.responseUiType != ResponseHandling.UI_TYPE_WINDOW) {
+        if (viewState.responseUiType != ResponseUiType.WINDOW) {
             skipAction()
         }
         updateDialogState(
@@ -87,7 +87,7 @@ constructor(
     }
 
     fun onDialogActionChanged(action: ResponseDisplayAction?) = runAction {
-        if (viewState.responseUiType != ResponseHandling.UI_TYPE_DIALOG) {
+        if (viewState.responseUiType != ResponseUiType.DIALOG) {
             skipAction()
         }
         val actions = listOfNotNull(action)

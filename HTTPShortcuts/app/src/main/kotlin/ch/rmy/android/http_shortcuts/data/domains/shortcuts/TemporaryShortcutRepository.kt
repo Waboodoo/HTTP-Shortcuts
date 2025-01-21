@@ -20,6 +20,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
+import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
@@ -250,9 +251,9 @@ constructor(
         }
     }
 
-    suspend fun setResponseUiType(responseUiType: String) {
+    suspend fun setResponseUiType(responseUiType: ResponseUiType) {
         commitTransactionForResponseHandling { responseHandling ->
-            responseHandling.uiType = responseUiType
+            responseHandling.responseUiType = responseUiType
         }
     }
 

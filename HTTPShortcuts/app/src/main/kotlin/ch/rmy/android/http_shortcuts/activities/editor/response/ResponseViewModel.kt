@@ -7,6 +7,7 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
+import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,7 +38,7 @@ constructor(
 
         return ResponseViewState(
             successMessageHint = getSuccessMessageHint(shortcut),
-            responseUiType = responseHandling.uiType,
+            responseUiType = responseHandling.responseUiType,
             responseSuccessOutput = responseHandling.successOutput,
             responseFailureOutput = responseHandling.failureOutput,
             successMessage = responseHandling.successMessage,
@@ -56,7 +57,7 @@ constructor(
             },
         )
 
-    fun onResponseUiTypeChanged(responseUiType: String) = runAction {
+    fun onResponseUiTypeChanged(responseUiType: ResponseUiType) = runAction {
         updateViewState {
             copy(responseUiType = responseUiType)
         }

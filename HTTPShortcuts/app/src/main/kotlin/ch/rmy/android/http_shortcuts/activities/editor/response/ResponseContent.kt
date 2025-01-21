@@ -19,12 +19,13 @@ import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
+import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 
 @Composable
 fun ResponseContent(
     successMessageHint: String,
-    responseUiType: String,
+    responseUiType: ResponseUiType,
     responseSuccessOutput: String,
     responseFailureOutput: String,
     successMessage: String,
@@ -35,7 +36,7 @@ fun ResponseContent(
     onResponseSuccessOutputChanged: (String) -> Unit,
     onSuccessMessageChanged: (String) -> Unit,
     onResponseFailureOutputChanged: (String) -> Unit,
-    onResponseUiTypeChanged: (String) -> Unit,
+    onResponseUiTypeChanged: (ResponseUiType) -> Unit,
     onDisplaySettingsClicked: () -> Unit,
     onStoreResponseIntoFileChanged: (Boolean) -> Unit,
     onReplaceFileIfExistsChanged: (Boolean) -> Unit,
@@ -100,7 +101,7 @@ fun ResponseContent(
             onItemSelected = onResponseUiTypeChanged,
         )
 
-        AnimatedVisibility(visible = responseUiType == ResponseHandling.UI_TYPE_TOAST) {
+        AnimatedVisibility(visible = responseUiType == ResponseUiType.TOAST) {
             HelpText(
                 text = stringResource(R.string.message_response_handling_toast_limitations),
                 modifier = Modifier
@@ -114,7 +115,7 @@ fun ResponseContent(
         HorizontalDivider()
 
         SettingsButton(
-            enabled = hasOutput && responseUiType != ResponseHandling.UI_TYPE_TOAST,
+            enabled = hasOutput && (responseUiType == ResponseUiType.DIALOG || responseUiType == ResponseUiType.WINDOW),
             title = stringResource(R.string.button_display_settings),
             subtitle = if (hasOutput && responseSuccessOutput == ResponseHandling.SUCCESS_OUTPUT_NONE) {
                 stringResource(R.string.subtitle_display_settings_for_error)
@@ -172,9 +173,10 @@ fun ResponseContent(
 }
 
 private val UI_TYPES = listOf(
-    ResponseHandling.UI_TYPE_TOAST to R.string.option_response_handling_type_toast,
-    ResponseHandling.UI_TYPE_DIALOG to R.string.option_response_handling_type_dialog,
-    ResponseHandling.UI_TYPE_WINDOW to R.string.option_response_handling_type_window,
+    ResponseUiType.TOAST to R.string.option_response_handling_type_toast,
+    ResponseUiType.NOTIFICATION to R.string.option_response_handling_type_notification,
+    ResponseUiType.DIALOG to R.string.option_response_handling_type_dialog,
+    ResponseUiType.WINDOW to R.string.option_response_handling_type_window,
 )
 
 private val SUCCESS_OUTPUT_TYPES = listOf(

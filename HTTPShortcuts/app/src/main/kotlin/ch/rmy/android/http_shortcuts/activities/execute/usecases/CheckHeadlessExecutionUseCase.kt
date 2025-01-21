@@ -1,9 +1,9 @@
 package ch.rmy.android.http_shortcuts.activities.execute.usecases
 
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling.Companion.FAILURE_OUTPUT_NONE
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling.Companion.SUCCESS_OUTPUT_NONE
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandling.Companion.UI_TYPE_TOAST
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.hasFileParameter
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
@@ -19,7 +19,7 @@ constructor(
     operator fun invoke(shortcut: Shortcut, variableValuesByIds: Map<VariableId, String> = emptyMap()): Boolean {
         val responseHandling = shortcut.responseHandling ?: return false
         val usesNoOutput = responseHandling.successOutput == SUCCESS_OUTPUT_NONE && responseHandling.failureOutput == FAILURE_OUTPUT_NONE
-        val usesToastOutput = responseHandling.uiType == UI_TYPE_TOAST
+        val usesToastOutput = responseHandling.responseUiType == ResponseUiType.TOAST
         val usesCodeAfterExecution = shortcut.codeOnSuccess.isNotEmpty() || shortcut.codeOnFailure.isNotEmpty()
         val usesFiles = shortcut.usesGenericFileBody() || shortcut.hasFileParameter()
         val storesResponse = responseHandling.storeDirectoryId != null

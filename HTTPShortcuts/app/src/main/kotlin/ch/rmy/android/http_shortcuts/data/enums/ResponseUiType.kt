@@ -1,0 +1,17 @@
+package ch.rmy.android.http_shortcuts.data.enums
+
+enum class ResponseUiType(val type: String) {
+    TOAST("toast"),
+    NOTIFICATION("notification"),
+    DIALOG("dialog"),
+    WINDOW("window"),
+    ;
+
+    override fun toString() =
+        type
+
+    companion object {
+        fun parse(type: String?) =
+            ResponseUiType.entries.firstOrNull { it.type == type }
+    }
+}

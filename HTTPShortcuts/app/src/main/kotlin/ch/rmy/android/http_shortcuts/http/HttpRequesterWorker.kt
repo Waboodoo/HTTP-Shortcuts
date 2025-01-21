@@ -20,6 +20,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
+import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.UserException
@@ -137,7 +138,7 @@ constructor(
         Variables.rawPlaceholdersToResolvedValues(string, variableValues)
 
     private suspend fun displayResult(shortcut: Shortcut, output: String?, response: ShortcutResponse? = null) {
-        if (shortcut.responseHandling?.uiType != ResponseHandling.UI_TYPE_TOAST) {
+        if (shortcut.responseHandling?.responseUiType != ResponseUiType.TOAST) {
             return
         }
         withContext(Dispatchers.Main) {

@@ -22,12 +22,13 @@ import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
+import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import java.nio.charset.Charset
 
 @Composable
 fun ResponseDisplayContent(
-    responseUiType: String,
+    responseUiType: ResponseUiType,
     responseSuccessOutput: String,
     responseContentType: ResponseContentType?,
     responseCharset: Charset?,
@@ -85,7 +86,7 @@ fun ResponseDisplayContent(
         }
 
         when (responseUiType) {
-            ResponseHandling.UI_TYPE_DIALOG -> {
+            ResponseUiType.DIALOG -> {
                 SelectionField(
                     modifier = Modifier
                         .padding(top = Spacing.SMALL)
@@ -96,7 +97,7 @@ fun ResponseDisplayContent(
                     onItemSelected = onDialogActionChanged,
                 )
             }
-            ResponseHandling.UI_TYPE_WINDOW -> {
+            ResponseUiType.WINDOW -> {
                 SettingsButton(
                     title = stringResource(R.string.button_select_response_toolbar_buttons),
                     subtitle = pluralStringResource(
@@ -123,6 +124,7 @@ fun ResponseDisplayContent(
                     )
                 }
             }
+            ResponseUiType.TOAST, ResponseUiType.NOTIFICATION -> Unit
         }
 
         AnimatedVisibility(visible = responseContentType != ResponseContentType.HTML) {
@@ -140,7 +142,7 @@ fun ResponseDisplayContent(
             )
         }
 
-        if (responseUiType == ResponseHandling.UI_TYPE_WINDOW) {
+        if (responseUiType == ResponseUiType.WINDOW) {
             AnimatedVisibility(visible = responseContentType == ResponseContentType.JSON) {
                 Checkbox(
                     label = stringResource(R.string.label_json_array_as_table),

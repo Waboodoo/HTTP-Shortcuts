@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.data.models
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
+import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.types.EmbeddedRealmObject
 import io.realm.kotlin.types.RealmList
@@ -11,7 +12,7 @@ import java.nio.charset.Charset
 class ResponseHandling() : EmbeddedRealmObject {
 
     constructor(
-        uiType: String = UI_TYPE_WINDOW,
+        responseUiType: ResponseUiType = ResponseUiType.WINDOW,
         successOutput: String = SUCCESS_OUTPUT_RESPONSE,
         failureOutput: String = FAILURE_OUTPUT_DETAILED,
         successMessage: String = "",
@@ -22,7 +23,7 @@ class ResponseHandling() : EmbeddedRealmObject {
             ResponseDisplayAction.SAVE,
         ),
     ) : this() {
-        this.uiType = uiType
+        uiType = responseUiType.type
         this.successOutput = successOutput
         this.failureOutput = failureOutput
         this.successMessage = successMessage
@@ -34,7 +35,12 @@ class ResponseHandling() : EmbeddedRealmObject {
 
     private var actions: RealmList<String> = realmListOf()
 
-    var uiType: String = UI_TYPE_WINDOW
+    private var uiType: String = ResponseUiType.WINDOW.type
+    var responseUiType: ResponseUiType
+        get() = ResponseUiType.parse(uiType) ?: ResponseUiType.WINDOW
+        set(value) {
+            uiType = value.type
+        }
     var successOutput: String = SUCCESS_OUTPUT_RESPONSE
     var failureOutput: String = FAILURE_OUTPUT_DETAILED
     private var contentType: String? = null
@@ -62,7 +68,7 @@ class ResponseHandling() : EmbeddedRealmObject {
         get() = charset?.let {
             try {
                 Charset.forName(it)
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 null
             }
         }
@@ -75,7 +81,7 @@ class ResponseHandling() : EmbeddedRealmObject {
     var replaceFileIfExists: Boolean = false
 
     fun validate() {
-        require(uiType in setOf(UI_TYPE_WINDOW, UI_TYPE_DIALOG, UI_TYPE_TOAST)) {
+        require(ResponseUiType.parse(uiType) != null) {
             "Invalid response handling type: $uiType"
         }
         require(successOutput in setOf(SUCCESS_OUTPUT_MESSAGE, SUCCESS_OUTPUT_RESPONSE, SUCCESS_OUTPUT_NONE)) {
@@ -104,10 +110,6 @@ class ResponseHandling() : EmbeddedRealmObject {
             other.javaScriptEnabled == javaScriptEnabled
 
     companion object {
-
-        const val UI_TYPE_TOAST = "toast"
-        const val UI_TYPE_DIALOG = "dialog"
-        const val UI_TYPE_WINDOW = "window"
 
         const val SUCCESS_OUTPUT_RESPONSE = "response"
         const val SUCCESS_OUTPUT_MESSAGE = "message"
