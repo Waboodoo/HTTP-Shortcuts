@@ -321,6 +321,18 @@ const favoriteColor = showSelection({
 });
 ```
 
+<a name="show-notification"></a>
+### showNotification
+
+The `showNotification()` function allows you to display text in a notification. As the first parameter, pass the title of the notification and as an optional second parameter you can pass a message.
+
+> The first time this function is used, you will be prompted to grant the notification permission. If you decline, the function will not do anything. To enable it again, you need to go to the app's permissions settings and grant the notification permission manually.
+
+```js
+showNotification('Hello World');
+showNotification('Hello World', 'This is a notification');
+```
+
 <a name="play-sound"></a>
 ### playSound
 

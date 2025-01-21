@@ -69,6 +69,8 @@ const favoriteColor = showSelection({
   '#00ff00': 'Green',
   '#0000ff': 'Blue',
 });
+</code></pre><p><a name=show-notification></a><h3>showNotification</h3><p>The <code>showNotification()</code> function allows you to display text in a notification. As the first parameter, pass the title of the notification and as an optional second parameter you can pass a message.<blockquote><p>The first time this function is used, you will be prompted to grant the notification permission. If you decline, the function will not do anything. To enable it again, you need to go to the app's permissions settings and grant the notification permission manually.</blockquote><pre><code class=language-js>showNotification('Hello World');
+showNotification('Hello World', 'This is a notification');
 </code></pre><p><a name=play-sound></a><h3>playSound</h3><p>With this function you can play a notification sound. If no argument is passed, it will use the system's default notification sound. You can use the Code Snippet picker inside the app to select a different sound.<pre><code class=language-js>playSound();
 </code></pre><p><a name=speak></a><h3>speak</h3><p>With this function you can have a piece of text be read out loud, using the device's text-to-speech engine. Simply pass the text you want to read as the first parameter, and optionally a language identifier as the second parameter.<blockquote><p>Please note that only the first 400 characters will be read. Please also note that the second parameter is ignored if the language is not supported.</blockquote><pre><code class=language-js>speak('Hello World');
 

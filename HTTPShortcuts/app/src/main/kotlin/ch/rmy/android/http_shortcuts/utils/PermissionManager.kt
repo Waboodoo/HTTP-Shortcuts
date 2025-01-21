@@ -19,6 +19,13 @@ constructor(
     suspend fun requestLocationPermissionIfNeeded(): Boolean =
         requestPermissionIfNeeded(ACCESS_FINE_LOCATION)
 
+    suspend fun requestNotificationPermissionIfNeeded(): Boolean =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissionIfNeeded(POST_NOTIFICATIONS)
+        } else {
+            true
+        }
+
     suspend fun requestWireguardPermissionIfNeeded(): Boolean =
         requestPermissionIfNeeded(WIREGUARD_PERMISSION)
 

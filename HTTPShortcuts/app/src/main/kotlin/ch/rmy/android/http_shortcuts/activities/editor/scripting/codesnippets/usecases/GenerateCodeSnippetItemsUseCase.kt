@@ -258,6 +258,13 @@ constructor(
                     insertText("confirm(\"Message", "\")")
                 }
                 item(
+                    R.string.action_show_notification,
+                    docRef = "show-notification",
+                    keywords = setOf("push", "display"),
+                ) {
+                    insertText("showNotification(\"", "\");\n")
+                }
+                item(
                     R.string.action_play_sound,
                     docRef = "play-sound",
                     keywords = setOf("sound", "audio", "beep", "notification", "play", "alert", "ringtone"),
