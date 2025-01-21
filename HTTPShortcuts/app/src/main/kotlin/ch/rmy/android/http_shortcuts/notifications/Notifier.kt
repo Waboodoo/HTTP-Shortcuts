@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.core.app.NotificationCompat
 import androidx.core.content.getSystemService
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
@@ -35,6 +36,13 @@ constructor(
         showNotification {
             setContentTitle(title)
                 .setContentText(message)
+                .runIf((message?.length ?: 0) > BIG_TEXT_LIMIT) {
+                    setStyle(
+                        NotificationCompat.BigTextStyle()
+                            .setBigContentTitle(title)
+                            .bigText(message)
+                    )
+                }
         }
     }
 
@@ -81,5 +89,9 @@ constructor(
                     .build()
             )
         }
+    }
+
+    companion object {
+        private const val BIG_TEXT_LIMIT = 100
     }
 }
