@@ -6,6 +6,7 @@ import ch.rmy.android.framework.extensions.fromHexString
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
@@ -74,3 +75,11 @@ fun Shortcut.hasFileParameter(forImage: Boolean? = null): Boolean =
 
 fun Widget.labelColorInt() =
     labelColor?.let(Color::parseColor) ?: Color.WHITE
+
+suspend fun ShortcutRepository.shouldUseForegroundService(shortcutId: ShortcutId): Boolean =
+    try {
+        getShortcutById(shortcutId)
+            .runInForegroundService
+    } catch (_: NoSuchElementException) {
+        false
+    }

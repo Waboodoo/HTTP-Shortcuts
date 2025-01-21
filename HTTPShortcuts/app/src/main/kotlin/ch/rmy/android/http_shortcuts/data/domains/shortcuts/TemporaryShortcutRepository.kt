@@ -348,6 +348,12 @@ constructor(
         }
     }
 
+    suspend fun setRunInForegroundService(runInForegroundService: Boolean) {
+        commitTransactionForShortcut { shortcut ->
+            shortcut.runInForegroundService = runInForegroundService
+        }
+    }
+
     suspend fun setConfirmationType(confirmationType: ConfirmationType?) {
         commitTransactionForShortcut { shortcut ->
             shortcut.confirmationType = confirmationType

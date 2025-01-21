@@ -19,14 +19,17 @@ import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.getParcelableList
 import ch.rmy.android.framework.extensions.getSerializable
 import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
-import ch.rmy.android.http_shortcuts.activities.execute.ExecuteWorker
+import ch.rmy.android.http_shortcuts.activities.execute.ExecutionService
+import ch.rmy.android.http_shortcuts.activities.execute.StartServiceEvent
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.components.ProgressDialog
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
@@ -44,10 +47,10 @@ class ExecuteActivity : BaseComposeActivity() {
         get() = false
 
     @Inject
-    lateinit var pendingExecutionsRepository: PendingExecutionsRepository
+    lateinit var shortcutRepository: ShortcutRepository
 
     @Inject
-    lateinit var executeWorkerStarter: ExecuteWorker.Starter
+    lateinit var pendingExecutionsRepository: PendingExecutionsRepository
 
     @Inject
     lateinit var settings: Settings
@@ -70,23 +73,7 @@ class ExecuteActivity : BaseComposeActivity() {
 
     override fun onCreated(savedState: Bundle?) {
         super.onCreated(savedState)
-        val params = ExecutionParams(
-            shortcutId = intent.extractShortcutId(),
-            variableValues = intent.extractVariableValues(),
-            executionId = intent.extras?.getString(EXTRA_EXECUTION_SCHEDULE_ID),
-            tryNumber = intent.extras?.getInt(EXTRA_TRY_NUMBER) ?: 0,
-            recursionDepth = intent.extras?.getInt(EXTRA_RECURSION_DEPTH) ?: 0,
-            fileUris = intent.getParcelableList(EXTRA_FILES) ?: emptyList(),
-            trigger = ShortcutTriggerType.parse(intent.extras?.getString(EXTRA_TRIGGER)),
-        )
-
-        if (settings.useExperimentalExecutionMode) {
-            executeWorkerStarter.invoke(params)
-            finishWithoutAnimation()
-            return
-        }
-
-        viewModel.init(params)
+        viewModel.init(intent.toExecutionParams())
         initViewModelBindings()
     }
 
@@ -142,6 +129,17 @@ class ExecuteActivity : BaseComposeActivity() {
     private fun initViewModelBindings() {
         lifecycleScope.launch {
             viewModel.events.collect(::handleEvent)
+        }
+    }
+
+    override fun handleEvent(event: ViewModelEvent) {
+        if (event is StartServiceEvent) {
+            startForegroundService(
+                Intent(context, ExecutionService::class.java)
+                    .putExtras(intent)
+            )
+        } else {
+            super.handleEvent(event)
         }
     }
 
@@ -207,5 +205,16 @@ class ExecuteActivity : BaseComposeActivity() {
         fun Intent.extractVariableValues(): Map<VariableKey, String> =
             getSerializable<HashMap<VariableKey, String>>(EXTRA_VARIABLE_VALUES)
                 ?: emptyMap()
+
+        fun Intent.toExecutionParams(): ExecutionParams =
+            ExecutionParams(
+                shortcutId = extractShortcutId(),
+                variableValues = extractVariableValues(),
+                executionId = extras?.getString(EXTRA_EXECUTION_SCHEDULE_ID),
+                tryNumber = extras?.getInt(EXTRA_TRY_NUMBER) ?: 0,
+                recursionDepth = extras?.getInt(EXTRA_RECURSION_DEPTH) ?: 0,
+                fileUris = getParcelableList(EXTRA_FILES) ?: emptyList(),
+                trigger = ShortcutTriggerType.parse(extras?.getString(EXTRA_TRIGGER)),
+            )
     }
 }

@@ -24,7 +24,6 @@ fun SettingsScreen() {
             deviceId = viewState.deviceId,
             colorTheme = viewState.colorTheme,
             showHiddenShortcuts = viewState.showHiddenShortcuts,
-            experimentalExecutionModeEnabled = viewState.experimentalExecutionModeEnabled,
             onLanguageSelected = viewModel::onLanguageSelected,
             onDarkModeOptionSelected = viewModel::onDarkModeOptionSelected,
             onClickActionOptionSelected = viewModel::onClickActionOptionSelected,
@@ -38,8 +37,6 @@ fun SettingsScreen() {
             onDeviceIdButtonClicked = viewModel::onDeviceIdButtonClicked,
             onColorThemeChanged = viewModel::onColorThemeChanged,
             onShowHiddenShortcutsChanged = viewModel::onShowHiddenShortcutsChanged,
-            onExperimentalExecutionModeChanged = viewModel::onExperimentalExecutionModeChanged,
-            onExperimentalHelpTextClicked = viewModel::onExperimentalHelpTextClicked,
         )
     }
 

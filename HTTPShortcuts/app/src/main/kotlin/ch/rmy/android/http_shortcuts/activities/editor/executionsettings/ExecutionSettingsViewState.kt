@@ -7,6 +7,7 @@ import kotlin.time.Duration
 @Stable
 data class ExecutionSettingsViewState(
     val dialogState: ExecutionSettingsDialogState? = null,
+    val runInBackground: Boolean,
     val delay: Duration,
     val waitForConnection: Boolean,
     val waitForConnectionOptionVisible: Boolean,

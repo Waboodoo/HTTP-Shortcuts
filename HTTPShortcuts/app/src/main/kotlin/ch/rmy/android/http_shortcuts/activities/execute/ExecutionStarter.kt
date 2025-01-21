@@ -1,47 +1,52 @@
 package ch.rmy.android.http_shortcuts.activities.execute
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
-import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
-import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.extensions.shouldUseForegroundService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ExecutionStarter
 @Inject
 constructor(
     private val context: Context,
-    private val executeWorkerStarter: ExecuteWorker.Starter,
-    private val settings: Settings,
+    private val shortcutRepository: ShortcutRepository,
 ) {
+    private val scope = CoroutineScope(Dispatchers.Default)
+
     fun execute(
         shortcutId: ShortcutId,
         trigger: ShortcutTriggerType,
         variableValues: Map<VariableKey, String> = emptyMap(),
         fileUris: List<Uri> = emptyList(),
     ) {
-        if (settings.useExperimentalExecutionMode) {
-            executeWorkerStarter.invoke(
-                ExecutionParams(
-                    shortcutId = shortcutId,
-                    trigger = trigger,
-                    variableValues = variableValues,
-                    fileUris = fileUris,
-                )
-            )
-        } else {
-            ExecuteActivity.IntentBuilder(shortcutId)
+        scope.launch {
+            val intent = ExecuteActivity.IntentBuilder(shortcutId)
                 .runIfNotNull(trigger) {
                     trigger(it)
                 }
                 .variableValues(variableValues)
                 .files(fileUris)
-                .startActivity(context)
+                .build(context)
+
+            if (shortcutRepository.shouldUseForegroundService(shortcutId)) {
+                context.startForegroundService(
+                    Intent(context, ExecutionService::class.java)
+                        .putExtras(intent)
+                )
+            } else {
+                intent.startActivity(context)
+            }
         }
     }
 }

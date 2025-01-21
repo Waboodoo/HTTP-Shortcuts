@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.utils.localization.DurationLocalizable
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
+import ch.rmy.android.http_shortcuts.components.MessageDialog
 import ch.rmy.android.http_shortcuts.components.OrderedOptionsSlider
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.localize
@@ -34,6 +35,7 @@ fun ExecutionSettingsDialogs(
     dialogState: ExecutionSettingsDialogState?,
     onConfirmAppOverlay: () -> Unit,
     onConfirmDelay: (Duration) -> Unit,
+    onRunInBackgroundInfoDismissed: () -> Unit,
     onDismissed: () -> Unit,
 ) {
     when (dialogState) {
@@ -50,6 +52,12 @@ fun ExecutionSettingsDialogs(
                 initialDelay = dialogState.initialDelay,
                 onConfirmed = onConfirmDelay,
                 onDismissed = onDismissed,
+            )
+        }
+        is ExecutionSettingsDialogState.RunInBackgroundInfo -> {
+            MessageDialog(
+                message = stringResource(R.string.dialog_text_run_in_background),
+                onDismissRequest = onRunInBackgroundInfoDismissed,
             )
         }
         null -> Unit

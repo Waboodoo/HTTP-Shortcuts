@@ -25,6 +25,7 @@ import kotlin.time.Duration
 
 @Composable
 fun ExecutionSettingsContent(
+    runInBackground: Boolean,
     delay: Duration,
     waitForConnection: Boolean,
     waitForConnectionOptionVisible: Boolean,
@@ -39,6 +40,7 @@ fun ExecutionSettingsContent(
     excludeFromFileSharing: Boolean,
     canUseFiles: Boolean,
     usesFiles: Boolean,
+    onRunInBackgroundChanged: (Boolean) -> Unit,
     onLauncherShortcutChanged: (Boolean) -> Unit,
     onSecondaryLauncherShortcutChanged: (Boolean) -> Unit,
     onQuickSettingsTileShortcutChanged: (Boolean) -> Unit,
@@ -52,6 +54,29 @@ fun ExecutionSettingsContent(
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
     ) {
+        Column(
+            modifier = Modifier.padding(Spacing.MEDIUM),
+        ) {
+            SelectionField(
+                title = stringResource(R.string.settings_title_execution_mode),
+                selectedKey = runInBackground,
+                items = listOf(
+                    false to stringResource(R.string.option_execution_mode_run_in_foreground),
+                    true to stringResource(R.string.option_execution_mode_run_in_background),
+                ),
+                onItemSelected = onRunInBackgroundChanged,
+            )
+
+            AnimatedVisibility(visible = runInBackground) {
+                HelpText(
+                    text = stringResource(R.string.instructions_run_in_background),
+                    modifier = Modifier.padding(top = Spacing.SMALL),
+                )
+            }
+        }
+
+        HorizontalDivider()
+
         Checkbox(
             label = stringResource(R.string.label_launcher_shortcut),
             subtitle = if (directShareOptionVisible) {
@@ -134,7 +159,7 @@ fun ExecutionSettingsContent(
             AnimatedVisibility(visible = repetitionInterval != null) {
                 HelpText(
                     text = stringResource(R.string.instructions_repetitions),
-                    modifier = Modifier.padding(top = Spacing.TINY),
+                    modifier = Modifier.padding(top = Spacing.SMALL),
                 )
             }
         }

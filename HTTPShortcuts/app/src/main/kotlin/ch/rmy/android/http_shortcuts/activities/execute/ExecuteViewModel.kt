@@ -7,8 +7,12 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
+import ch.rmy.android.http_shortcuts.extensions.shouldUseForegroundService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -19,6 +23,7 @@ constructor(
     application: Application,
     private val executionFactory: ExecutionFactory,
     private val dialogHandler: ExecuteDialogHandler,
+    private val shortcutRepository: ShortcutRepository,
 ) : BaseViewModel<ExecutionParams, ExecuteViewState>(application) {
 
     private lateinit var execution: Execution
@@ -40,8 +45,14 @@ constructor(
                 }
             }
         }
+
         runAction {
-            execute()
+            if (shortcutRepository.shouldUseForegroundService(data.shortcutId)) {
+                emitEvent(StartServiceEvent)
+                finish(skipAnimation = true)
+            } else {
+                execute()
+            }
         }
         return ExecuteViewState()
     }

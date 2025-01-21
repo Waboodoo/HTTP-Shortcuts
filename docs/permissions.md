@@ -40,10 +40,7 @@ Used to perform cleanup tasks, such as deleting obsolete cache files after a sho
 Under some circumstances, this is needed for 3rd party integrations such as Tasker to work properly. Apart from that, the app works perfectly fine without this permission, so it does not need to be granted.
 
 ## show notifications
-Used for the following:
-
-- Displaying toast messages from a shortcut that is running in the background
-- Displaying a notification while a shortcut is running, triggered from Tasker
+Used for displaying a notification while a shortcut is running, or while the app is interacting with Tasker
 
 ## ask to ignore battery optimizations
 This is not needed for normal operation, but you might encounter problems with periodically running shortcuts not running reliably when it is not granted.
