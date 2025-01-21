@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 
 import android.app.Application
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.http_shortcuts.activities.editor.executionsettings.ExecutionSettingsEvent.RequestNotificationPermission
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
@@ -11,6 +12,7 @@ import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.BiometricUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
+import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlin.time.Duration
@@ -27,12 +29,14 @@ constructor(
     private val restrictionsUtil: RestrictionsUtil,
     private val appOverlayUtil: AppOverlayUtil,
     private val biometricUtil: BiometricUtil,
+    private val settings: Settings,
 ) : BaseViewModel<Unit, ExecutionSettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit): ExecutionSettingsViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
         val isAppShortcut = shortcut.type == ShortcutExecutionType.APP
         return ExecutionSettingsViewState(
+            runInBackground = shortcut.runInForegroundService,
             directShareOptionVisible = launcherShortcutManager.supportsDirectShare(),
             waitForConnection = shortcut.isWaitForNetwork,
             waitForConnectionOptionVisible = isAppShortcut,
@@ -65,6 +69,19 @@ constructor(
         }
         withProgressTracking {
             temporaryShortcutRepository.setExcludeFromHistory(excludeFromHistory)
+        }
+    }
+
+    fun onRunInBackgroundChanged(runInBackground: Boolean) = runAction {
+        if (runInBackground && !settings.isAwareOfRunningInBackgroundLimitations) {
+            settings.isAwareOfRunningInBackgroundLimitations = true
+            updateDialogState(ExecutionSettingsDialogState.RunInBackgroundInfo)
+        }
+        updateViewState {
+            copy(runInBackground = runInBackground)
+        }
+        withProgressTracking {
+            temporaryShortcutRepository.setRunInForegroundService(runInBackground)
         }
     }
 
@@ -105,6 +122,11 @@ constructor(
         withProgressTracking {
             temporaryShortcutRepository.setDelay(delay)
         }
+    }
+
+    fun onRunInBackgroundInfoDismissed() = runAction {
+        updateDialogState(null)
+        emitEvent(RequestNotificationPermission)
     }
 
     fun onConfirmationTypeChanged(confirmationType: ConfirmationType?) = runAction {

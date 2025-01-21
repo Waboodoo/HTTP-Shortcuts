@@ -1553,16 +1553,12 @@
     <string name="settings_option_show_hidden_shortcuts">Show hidden shortcuts</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
     <string name="settings_option_hide_hidden_shortcuts">Don\'t show hidden shortcuts</string>
-    <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
-    <string name="settings_title_experimental">Experimental</string>
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Execution Mode</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
-    <string name="option_execution_mode_foreground">Run shortcuts in foreground with loading indicator (default)</string>
+    <string name="option_execution_mode_run_in_foreground">Run in foreground</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
-    <string name="option_execution_mode_background">Run shortcuts in background without loading indicator (experimental)</string>
-    <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
-    <string name="instructions_experimental_section">"This section contains settings for experimental features, which are not yet finalized and may be unstable. Enable at your own risk. If you do enable them and encounter issues, please let me know by sending me an email or creating a GitHub issue to share your discoveries.</string>
+    <string name="option_execution_mode_run_in_background">Run in background (experimental)</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">Theme</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
@@ -1695,4 +1691,14 @@
     <string name="title_select_working_directory">Select Directory</string>
     <!-- Warning message shown to user when saving their first shortcut, but not having opened the Response Handling screen -->
     <string name="warning_make_aware_of_response_handling">Make sure to also check out the \“%s\” section, where you can configure how or if the HTTP response should be displayed.</string>
+    <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
+    <string name="notification_channel_shortcut_execution_title">Shortcut Executions</string>
+    <plurals name="notification_shortcut_execution_text_multiple">
+        <item quantity="one">Shortcut in progress…</item>
+        <item quantity="other">%d shortcuts in progress…</item>
+    </plurals>
+    <!-- Message shown in dialog which shows up when the user first selects the "Run in background" option for "Execution Mode" in the shortcuts editor. Informs the user of technical limitations and that the app will ask for permission to display notifications -->
+    <string name="dialog_text_run_in_background">Please note that running in the background is intended for simple shortcuts, as there are many technical limitations. You may find some features not working as expected.\n\nThe app will display a notification while a shortcut is running in the background.</string>
+    <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
+    <string name="instructions_run_in_background">Running in the background has some technical limitations. It may not work correctly in some situations, in particular when interacting with files, the clipboard or other apps, or when the execution takes longer than two minutes.</string>
 </resources>

@@ -1580,16 +1580,10 @@
     <string name="settings_option_show_hidden_shortcuts">Показать скрытые ярлыки</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
     <string name="settings_option_hide_hidden_shortcuts">Не показывать скрытые ярлыки</string>
-    <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
-    <string name="settings_title_experimental">Экспериментальная</string>
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Режим исполнения</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
-    <string name="option_execution_mode_foreground">Запуск ярлыков на переднем плане с индикатором загрузки (по умолчанию)</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
-    <string name="option_execution_mode_background">Запуск ярлыков в фоновом режиме без индикатора загрузки (экспериментально)</string>
-    <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
-    <string name="instructions_experimental_section">Данный раздел содержит настройки для экспериментальных функций, которые еще не доработаны и могут быть нестабильными. Включайте их на свой страх и риск. Если вы включите их и столкнетесь с проблемами, пожалуйста, сообщите мне об этом, отправив письмо или создав проблему на GitHub, чтобы поделиться своими открытиями.</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">Тема</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
@@ -1720,4 +1714,7 @@
     <string name="message_shortcut_visible">Ярлык больше не скрыт.</string>
     <!-- Title for dialog, when selecting a directory (to be used in Scripting) -->
     <!-- Warning message shown to user when saving their first shortcut, but not having opened the Response Handling screen -->
+    <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
+    <!-- Message shown in dialog which shows up when the user first selects the "Run in background" option for "Execution Mode" in the shortcuts editor. Informs the user of technical limitations and that the app will ask for permission to display notifications -->
+    <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
 </resources>

@@ -185,6 +185,8 @@ class Shortcut() : RealmObject {
 
     var excludeFromFileSharing: Boolean = false
 
+    var runInForegroundService: Boolean = false
+
     fun allowsBody(): Boolean =
         METHOD_POST == method ||
             METHOD_PUT == method ||
@@ -242,7 +244,8 @@ class Shortcut() : RealmObject {
             other.clientCert != clientCert ||
             other.browserPackageName != browserPackageName ||
             other.excludeFromHistory != excludeFromHistory ||
-            other.excludeFromFileSharing != excludeFromFileSharing
+            other.excludeFromFileSharing != excludeFromFileSharing ||
+            other.runInForegroundService != runInForegroundService
         ) {
             return false
         }

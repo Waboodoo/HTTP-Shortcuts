@@ -15,5 +15,4 @@ data class SettingsViewState(
     val deviceId: String,
     val colorTheme: String,
     val showHiddenShortcuts: Boolean,
-    val experimentalExecutionModeEnabled: Boolean,
 )

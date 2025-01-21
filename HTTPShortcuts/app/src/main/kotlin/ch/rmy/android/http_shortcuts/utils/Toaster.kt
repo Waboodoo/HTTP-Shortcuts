@@ -14,9 +14,9 @@ constructor(
     private val permissionManager: PermissionManager,
 ) {
 
-    suspend fun showToast(message: CharSequence, long: Boolean, isForeground: Boolean = false) {
+    suspend fun showToast(message: CharSequence, long: Boolean) {
         withContext(Dispatchers.Main) {
-            if (permissionManager.hasNotificationPermission() || isForeground) {
+            if (permissionManager.hasNotificationPermission()) {
                 context.showToast(message, long)
             } else {
                 activityProvider.withActivity {

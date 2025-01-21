@@ -15,5 +15,4 @@ data class TroubleShootingViewState(
     val selectedClickActionOption: ShortcutClickBehavior,
     val crashReportingAllowed: Boolean,
     val colorTheme: String,
-    val experimentalExecutionModeEnabled: Boolean,
 )

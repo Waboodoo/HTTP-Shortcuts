@@ -1573,16 +1573,10 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <string name="settings_option_show_hidden_shortcuts">Afficher les raccourcis cachés</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
     <string name="settings_option_hide_hidden_shortcuts">Ne pas afficher les raccourcis cachés</string>
-    <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
-    <string name="settings_title_experimental">Expérimental</string>
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Mode d\'exécution</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
-    <string name="option_execution_mode_foreground">Exécuter les raccourcis au premier plan avec un indicateur de chargement (par défaut)</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
-    <string name="option_execution_mode_background">Exécution de raccourcis en arrière-plan sans indicateur de chargement (expérimental)</string>
-    <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
-    <string name="instructions_experimental_section">Cette section contient des paramètres pour des fonctionnalités expérimentales, qui ne sont pas encore finalisées et peuvent être instables. Activez-les à vos risques et périls. Si vous les activez et que vous rencontrez des problèmes, veuillez m\'en informer en m\'envoyant un courriel ou en créant un problème GitHub pour partager vos découvertes.</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">Thème</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
@@ -1713,4 +1707,7 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <string name="message_shortcut_visible">Le raccourci n\'est plus caché.</string>
     <!-- Title for dialog, when selecting a directory (to be used in Scripting) -->
     <!-- Warning message shown to user when saving their first shortcut, but not having opened the Response Handling screen -->
+    <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
+    <!-- Message shown in dialog which shows up when the user first selects the "Run in background" option for "Execution Mode" in the shortcuts editor. Informs the user of technical limitations and that the app will ask for permission to display notifications -->
+    <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
 </resources>

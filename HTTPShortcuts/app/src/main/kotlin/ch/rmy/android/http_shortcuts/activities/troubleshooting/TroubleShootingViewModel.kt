@@ -38,7 +38,6 @@ constructor(
         colorTheme = settings.colorTheme,
         batteryOptimizationButtonVisible = !restrictionsUtil.isIgnoringBatteryOptimizations(),
         allowXiaomiOverlayButtonVisible = restrictionsUtil.hasPermissionEditor(),
-        experimentalExecutionModeEnabled = settings.useExperimentalExecutionMode,
     )
 
     fun onClearCookiesButtonClicked() = runAction {

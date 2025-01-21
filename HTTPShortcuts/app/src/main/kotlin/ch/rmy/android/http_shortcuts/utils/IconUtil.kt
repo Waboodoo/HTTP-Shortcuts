@@ -36,7 +36,7 @@ object IconUtil {
         "(${quote(CUSTOM_ICON_NAME_SUFFIX)}|${quote(CUSTOM_ICON_NAME_ALTERNATIVE_SUFFIX)})"
     private val CUSTOM_ICON_NAME_PATTERN = CUSTOM_ICON_NAME_REGEX.toPattern(Pattern.CASE_INSENSITIVE)
 
-    fun getIcon(context: Context, icon: ShortcutIcon, adaptive: Boolean): Icon? = try {
+    fun getIcon(context: Context, icon: ShortcutIcon, adaptive: Boolean = false): Icon? = try {
         when (icon) {
             is ShortcutIcon.NoIcon -> {
                 Icon.createWithResource(context.packageName, ShortcutIcon.NoIcon.iconResource)

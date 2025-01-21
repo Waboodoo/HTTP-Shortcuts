@@ -107,10 +107,6 @@ constructor(
         get() = getString(KEY_USER_AGENT)?.takeUnlessEmpty()
         set(value) = putString(KEY_USER_AGENT, value ?: "")
 
-    var useExperimentalExecutionMode: Boolean
-        get() = getBoolean(KEY_EXPERIMENTAL_EXECUTION_MODE)
-        set(value) = putBoolean(KEY_EXPERIMENTAL_EXECUTION_MODE, value)
-
     var colorTheme: String
         get() = getString(KEY_COLOR_THEME) ?: "default"
         set(value) {
@@ -126,6 +122,10 @@ constructor(
     var isAwareOfResponseHandling: Boolean
         get() = getBoolean(KEY_AWARE_ON_RESPONSE_HANDLING)
         set(value) = putBoolean(KEY_AWARE_ON_RESPONSE_HANDLING, value)
+
+    var isAwareOfRunningInBackgroundLimitations: Boolean
+        get() = getBoolean(KEY_AWARE_OF_RUN_IN_BACKGROUND_LIMITATIONS)
+        set(value) = putBoolean(KEY_AWARE_OF_RUN_IN_BACKGROUND_LIMITATIONS, value)
 
     private val _colorThemeFlow = MutableStateFlow(colorTheme)
     val colorThemeFlow = _colorThemeFlow.asStateFlow()
@@ -155,10 +155,10 @@ constructor(
         private const val KEY_DARK_THEME = "dark_theme"
         private const val KEY_PREVIOUS_ICON_COLOR = "previous_icon_color"
         private const val KEY_USER_AGENT = "user_agent"
-        private const val KEY_EXPERIMENTAL_EXECUTION_MODE = "experimental_execution_mode"
         private const val KEY_COLOR_THEME = "color_theme"
         private const val KEY_HISTORY_USE_RELATIVE_TIMES = "history_relative_times"
         private const val KEY_MALFORMED_JSON_WARNING_PERMANENTLY_HIDDEN = "malformed_json_warning_permanently_hidden"
+        private const val KEY_AWARE_OF_RUN_IN_BACKGROUND_LIMITATIONS = "aware_of_run_in_background_limitations"
         private const val KEY_AWARE_ON_RESPONSE_HANDLING = "aware_of_response_handling"
     }
 }

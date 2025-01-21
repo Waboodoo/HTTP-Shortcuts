@@ -12,4 +12,7 @@ sealed class ExecutionSettingsDialogState {
     data class DelayPicker(
         val initialDelay: Duration,
     ) : ExecutionSettingsDialogState()
+
+    @Stable
+    data object RunInBackgroundInfo : ExecutionSettingsDialogState()
 }
