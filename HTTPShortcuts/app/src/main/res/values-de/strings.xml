@@ -1587,16 +1587,12 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="settings_option_show_hidden_shortcuts">Verborgene Shortcuts anzeigen</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
     <string name="settings_option_hide_hidden_shortcuts">Verborgene Shortcuts nicht anzeigen</string>
-    <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
-    <string name="settings_title_experimental">Experimentelles</string>
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Ausführungsmodus</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
-    <string name="option_execution_mode_foreground">Shortcuts im Vordergrund ausführen (Standard)</string>
+    <string name="option_execution_mode_run_in_foreground">Im Vordergrund ausführen</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
-    <string name="option_execution_mode_background">Shortcuts im Hintergrund ausführen (experimentell)</string>
-    <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
-    <string name="instructions_experimental_section">Dieser Bereich enthält Einstellungen für experimentelle Features, welche noch nicht ausgereift sind und möglicherweise nicht stabil funktionieren. Verwende diese auf eigene Gefahr. Falls du diese ausprobieren möchtest, so schreib mir doch eine E-Mail oder erstelle ein GitHub-Issue falls du Probleme feststellst oder Verbesserungsvorschläge hast.</string>
+    <string name="option_execution_mode_run_in_background">Im Hintergrund ausführen (experimentell)</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">Farbschema</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
@@ -1729,4 +1725,14 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="title_select_working_directory">Verzeichnis auswählen</string>
     <!-- Warning message shown to user when saving their first shortcut, but not having opened the Response Handling screen -->
     <string name="warning_make_aware_of_response_handling">Schau dir auch die Optionen unter \“%s\” an. Dort kannst du konfigurieren, wie und ob die HTTP-Response angezeigt werden soll.</string>
+    <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
+    <string name="notification_channel_shortcut_execution_title">Shortcut-Ausführungen</string>
+    <plurals name="notification_shortcut_execution_text_multiple">
+        <item quantity="one">Shortcut wird ausgeführt…</item>
+        <item quantity="other">%d Shortcuts werden ausgeführt…</item>
+    </plurals>
+    <!-- Message shown in dialog which shows up when the user first selects the "Run in background" option for "Execution Mode" in the shortcuts editor. Informs the user of technical limitations and that the app will ask for permission to display notifications -->
+    <string name="dialog_text_run_in_background">Bitte beachte, dass das Ausführen im Hintergrund für einfache Shortcuts gedacht ist, da es viele technische Einschränkungen gibt. Möglicherweise funktionieren einige Funktionen nicht wie erwartet.\n\nDie App zeigt eine Benachrichtigung an, während ein Shortcut im Hintergrund läuft.</string>
+    <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
+    <string name="instructions_run_in_background">Shortcuts im Hintergrund auszuführen birgt einige technische Einschränkungen. Möglicherweise funktioniert dies in einigen Situationen nicht korrekt, insbesondere wenn bei der Interaktion mit Dateien, der Zwischenablage oder anderen Apps, oder wenn die Ausführung länger als zwei Minuten dauert.</string>
 </resources>

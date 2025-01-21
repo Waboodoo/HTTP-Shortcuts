@@ -1471,16 +1471,10 @@
     <!-- Option in settings, allows to set whether hidden shortcuts should be visible or not -->
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
-    <!-- Title of section in Settings screen, for section which contains experimental settings for new/unstable features -->
-    <string name="settings_title_experimental">Πειραματικό</string>
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Λειτουργία εκτέλεσης</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
-    <string name="option_execution_mode_foreground">Εκτέλεση συντομεύσεων στο προσκήνιο με ένδειξη φόρτωσης (προεπιλογή)</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
-    <string name="option_execution_mode_background">Εκτέλεση συντομεύσεων στο παρασκήνιο χωρίς ένδειξη φόρτωσης (πειραματικά)</string>
-    <!-- Instructions/help text displayed at the top of the Experimental section in the Settings screen, to explain the section and encourage users to provide feedback -->
-    <string name="instructions_experimental_section">Αυτή η ενότητα περιέχει ρυθμίσεις για πειραματικές λειτουργίες, οι οποίες δεν έχουν ακόμη οριστικοποιηθεί και ενδέχεται να είναι ασταθείς. Ενεργοποιήστε τις με δική σας ευθύνη. Αν τις ενεργοποιήσετε και αντιμετωπίσετε προβλήματα, ενημερώστε με στέλνοντάς μου ένα email ή δημιουργώντας ένα θέμα στο GitHub για να μοιραστείτε τις ανακαλύψεις σας.</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">Θέμα</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
@@ -1550,4 +1544,7 @@
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
     <!-- Title for dialog, when selecting a directory (to be used in Scripting) -->
     <!-- Warning message shown to user when saving their first shortcut, but not having opened the Response Handling screen -->
+    <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
+    <!-- Message shown in dialog which shows up when the user first selects the "Run in background" option for "Execution Mode" in the shortcuts editor. Informs the user of technical limitations and that the app will ask for permission to display notifications -->
+    <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
 </resources>
