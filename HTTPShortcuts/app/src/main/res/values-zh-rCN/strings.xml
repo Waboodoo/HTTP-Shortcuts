@@ -1561,7 +1561,9 @@
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">执行模式</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
+    <string name="option_execution_mode_run_in_foreground">在前台运行</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
+    <string name="option_execution_mode_run_in_background">后台运行(实验性)</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">主题</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
@@ -1695,6 +1697,12 @@
     <!-- Warning message shown to user when saving their first shortcut, but not having opened the Response Handling screen -->
     <string name="warning_make_aware_of_response_handling">请确保同时检查\"%s\"部分，您可以在那里配置如何或者是否应该显示 HTTP 响应。</string>
     <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
+    <string name="notification_channel_shortcut_execution_title">快捷方式执行</string>
+    <plurals name="notification_shortcut_execution_text_multiple">
+        <item quantity="other">%d 个快捷方式在执行中</item>
+    </plurals>
     <!-- Message shown in dialog which shows up when the user first selects the "Run in background" option for "Execution Mode" in the shortcuts editor. Informs the user of technical limitations and that the app will ask for permission to display notifications -->
+    <string name="dialog_text_run_in_background">请注意，后台运行适用于简单的快捷方式，因为有许多技术上的限制。 您可能发现一些功能无按预期正常工作。\n\n当快捷方式在后台运行时，本应用将展示一则通知。</string>
     <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
+    <string name="instructions_run_in_background">后台运行有一些技术上的限制。 在某些情况下，特别是在与文件、剪贴板或其他应用互动时，或者当执行时间超过两分钟时，它可能无法正常运转。</string>
 </resources>
