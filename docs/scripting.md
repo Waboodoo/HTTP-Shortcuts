@@ -234,6 +234,29 @@ showDialog('You can also use <b>basic</b> <i>HTML</i> for formatting the message
 
 > Please note that no dialog will be displayed if the string you pass is empty.
 
+<a name="show-window"></a>
+### showWindow
+
+With this function you can display arbitrary text in a fullscreen window, by passing in an object with the configuration for the screen.
+
+The config object supports the following fields:
+
+|Parameter|Description|Type / Values|
+|---|---|---|
+|title|Defines the title of the window|string|
+|text|The main content to display in the window. Must be non-empty|string|
+|mimeType|The type of the `text`, used to determine how to render it. Supported values are "text/plain" (default), "text/html", "text/xml", "text/yaml" and "application/json" |string|
+|monospace|Whether to use a monospace font for the text. Defaults to `false`|boolean|
+|fontSize|The font size for the text. Must be a value between 5 and 50.|int|
+
+```js
+showWindow({
+  title: 'This is a window',
+  text: 'Hello world',
+  fontSize: 18,
+});
+```
+
 <a name="prompt-confirm"></a>
 ### prompt, confirm
 

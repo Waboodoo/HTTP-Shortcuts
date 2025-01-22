@@ -202,6 +202,13 @@ constructor(
                     insertText("showDialog(\"Message\"", ", \"Title\");\n")
                 }
                 item(
+                    R.string.action_type_window_title,
+                    docRef = "show-window",
+                    keywords = setOf("window", "display", "show", "output", "fullscreen", "big", "text"),
+                ) {
+                    insertText("showWindow({\n  title: \"\",\n  text: \"", "\",\n});\n")
+                }
+                item(
                     R.string.action_type_selection_title,
                     docRef = "show-selection",
                     keywords = setOf("dialog", "display", "show", "options"),

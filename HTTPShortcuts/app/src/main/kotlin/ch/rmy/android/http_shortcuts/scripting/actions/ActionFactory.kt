@@ -55,6 +55,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.WaitActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WakeOnLanActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WifiIPActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.WifiSSIDActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.WindowActionType
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -115,6 +116,7 @@ constructor(
     wakeOnLanActionType: WakeOnLanActionType,
     wifiIPActionType: WifiIPActionType,
     wifiSSIDActionType: WifiSSIDActionType,
+    windowActionType: WindowActionType,
 ) {
     fun getType(actionType: String): ActionType? =
         types[actionType]
@@ -180,6 +182,7 @@ constructor(
             wakeOnLanActionType,
             wifiIPActionType,
             wifiSSIDActionType,
+            windowActionType,
         )
             .associateBy(ActionType::type)
 }

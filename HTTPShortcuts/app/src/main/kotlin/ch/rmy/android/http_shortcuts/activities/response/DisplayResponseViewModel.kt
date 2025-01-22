@@ -156,7 +156,7 @@ constructor(
                     .putExtra(Intent.EXTRA_STREAM, responseData.fileUri)
                     .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     .let {
-                        Intent.createChooser(it, responseData.shortcutName)
+                        Intent.createChooser(it, responseData.title)
                     }
             )
         }

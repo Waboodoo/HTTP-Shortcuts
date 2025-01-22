@@ -687,7 +687,7 @@ class Execution(
                     val responseHandling = shortcut.responseHandling
                     val responseData = ResponseData(
                         shortcutId = shortcut.id,
-                        shortcutName = shortcutName,
+                        title = shortcutName,
                         text = output,
                         mimeType = when (responseHandling?.responseContentType) {
                             ResponseContentType.PLAIN_TEXT -> FileTypeUtil.TYPE_PLAIN_TEXT

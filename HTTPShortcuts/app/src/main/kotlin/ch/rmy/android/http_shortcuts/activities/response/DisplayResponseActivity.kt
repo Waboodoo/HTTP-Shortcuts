@@ -36,7 +36,7 @@ class DisplayResponseActivity : BaseComposeActivity() {
     @Composable
     override fun Content() {
         DisplayResponseScreen(
-            shortcutName = intent?.extras?.getString(EXTRA_NAME) ?: "",
+            title = intent?.extras?.getString(EXTRA_TITLE) ?: "",
             responseDataId = responseDataId,
         )
     }
@@ -75,16 +75,16 @@ class DisplayResponseActivity : BaseComposeActivity() {
         finish()
     }
 
-    class IntentBuilder(name: String, responseDataId: NavigationArgStore.ArgStoreId) : BaseIntentBuilder(DisplayResponseActivity::class) {
+    class IntentBuilder(title: String, responseDataId: NavigationArgStore.ArgStoreId) : BaseIntentBuilder(DisplayResponseActivity::class) {
         init {
-            intent.putExtra(EXTRA_NAME, name)
+            intent.putExtra(EXTRA_TITLE, title)
             intent.putExtra(EXTRA_RESPONSE_DATA_ID, responseDataId.toString())
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
     }
 
     companion object {
-        private const val EXTRA_NAME = "name"
+        private const val EXTRA_TITLE = "title"
         private const val EXTRA_RESPONSE_DATA_ID = "response_data_id"
 
         private val FINISH_DELAY = 8.seconds

@@ -22,7 +22,7 @@ import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 
 @Composable
 fun DisplayResponseScreen(
-    shortcutName: String,
+    title: String,
     responseDataId: NavigationArgStore.ArgStoreId,
 ) {
     val (viewModel, state) = bindViewModel<DisplayResponseViewModel.InitData, DisplayResponseViewState, DisplayResponseViewModel>(
@@ -37,7 +37,7 @@ fun DisplayResponseScreen(
         when (event) {
             is DisplayResponseEvent.PickFileForSaving -> consume {
                 try {
-                    openFilePicker.launch(SaveFileContract.Params(type = event.mimeType, title = shortcutName))
+                    openFilePicker.launch(SaveFileContract.Params(type = event.mimeType, title = title))
                 } catch (e: ActivityNotFoundException) {
                     viewModel.onFilePickerFailed()
                 }
@@ -48,7 +48,7 @@ fun DisplayResponseScreen(
 
     SimpleScaffold(
         viewState = state,
-        title = shortcutName,
+        title = title,
         backButton = BackButton.CROSS,
         actions = { viewState ->
             viewState.actions.forEach { action ->
