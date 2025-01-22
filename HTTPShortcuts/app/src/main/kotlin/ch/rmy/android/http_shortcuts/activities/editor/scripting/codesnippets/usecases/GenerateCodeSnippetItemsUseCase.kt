@@ -355,13 +355,13 @@ constructor(
                     "if { }".toLocalizable(),
                     keywords = setOf("condition", "if", "control", "check", "predicate"),
                 ) {
-                    insertText("if () {\n    ", "\n}\n")
+                    insertText("if () {\n  ", "\n}\n")
                 }
                 item(
                     "if { } else { }".toLocalizable(),
                     keywords = setOf("condition", "if", "control", "check", "predicate"),
                 ) {
-                    insertText("if () {\n    ", "\n} else {\n    \n}\n")
+                    insertText("if () {\n  ", "\n} else {\n  \n}\n")
                 }
                 item(
                     R.string.action_type_wait,
@@ -533,7 +533,7 @@ constructor(
                 ) {
                     insertText(
                         "sendHttpRequest(\"https://",
-                        "\", {\"method\": \"GET\"});\n",
+                        "\", {\n  method: \"GET\",\n});\n",
                     )
                 }
                 item(
@@ -542,8 +542,8 @@ constructor(
                     keywords = setOf("network", "client", "publish"),
                 ) {
                     insertText(
-                        "sendMQTTMessages(\"tcp://broker:port\", {\"username\": \"\", \"password\": \"\"}, [\n    " +
-                            "{\"topic\": \"\", \"payload\": \"\"},\n]);\n",
+                        "sendMQTTMessages(\"tcp://broker:port\", {username: \"\", password: \"\"}, [\n" +
+                            "  {topic: \"\", payload: \"\"},\n]);\n",
                         "",
                     )
                 }

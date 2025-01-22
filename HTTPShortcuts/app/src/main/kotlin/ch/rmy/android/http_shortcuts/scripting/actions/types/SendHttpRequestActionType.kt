@@ -13,12 +13,16 @@ constructor(
     override val type = TYPE
 
     override fun getActionRunnable(args: JsFunctionArgs): ActionRunnable<*> {
-        val options = args.getObject(1)
+        val options = args.getObject(1) ?: emptyMap()
         return ActionRunnable(
             action = sendHttpRequestAction,
             params = SendHttpRequestAction.Params(
                 url = args.getString(0) ?: "",
-                method = (options?.get("method") as? String)?.uppercase() ?: "GET",
+                method = options["method"]?.toString()?.uppercase() ?: "GET",
+                body = options["body"]?.toString(),
+                headers = (options["headers"] as? Map<*, *>)
+                    ?.mapKeys { (key, _) -> key.toString() }
+                    ?.mapValues { (_, value) -> value.toString() },
             ),
         )
     }

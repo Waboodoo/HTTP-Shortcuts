@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.content.Context
+import ch.rmy.android.framework.extensions.runFor
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
@@ -37,6 +39,14 @@ constructor(
                 val response = client.newCall(
                     RequestBuilder(method, url)
                         .header(HttpHeaders.CONNECTION, "close")
+                        .runIfNotNull(body) { body ->
+                            body(body)
+                        }
+                        .runIfNotNull(headers?.entries) { headers ->
+                            runFor(headers) { header ->
+                                header(header.key, header.value)
+                            }
+                        }
                         .userAgent(UserAgentProvider.getUserAgent(context))
                         .build()
                 )
@@ -81,5 +91,7 @@ constructor(
     data class Params(
         val url: String,
         val method: String,
+        val body: String?,
+        val headers: Map<String, String>?,
     )
 }

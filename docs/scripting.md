@@ -739,7 +739,13 @@ wakeOnLan('01-23-45-67-89-ab', '255.255.255.255', 9);
 <a name="send-http-request"></a>
 ### Send HTTP request
 
-The `sendHttpRequest` function allows you to send a simple HTTP request. The first parameter is the URL, the second (optional) parameter provides additional options. Currently, the only supported option is "method", which is used to set the HTTP method.
+The `sendHttpRequest` function allows you to send a simple HTTP request. The first parameter is the URL, the second (optional) parameter provides an object with additional options. The following fields are supported in the options object:
+
+|Parameter|Description|Type / Values|
+|---|---|---|
+|method|Defines the HTTP method to use, e.g. "GET" or "POST". Defaults to "GET".|string|
+|body|The body to use in the request, for when you want to send data|string|
+|headers|Additional headers to add to the request, as key-value-pairs.|object|
 
 The function returns an object which includes a `status` field, which has the value "success", "httpError" or "networkError". If it is "networkError", you can check the field `networkError` for details. Otherwise, you can check the `response` field for the HTTP response object. It includes fields `body`, `headers`, `cookies` and `statusCode`.
 
@@ -750,7 +756,11 @@ const result = sendHttpRequest(
   "https://example.com",
   {
     method: "POST",
-  }
+    body: '{"data": 123}',
+    headers: {
+      "Content-Type": "application/json",
+    },
+  },
 );
 
 if (result.status == "success") {
