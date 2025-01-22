@@ -28,7 +28,7 @@ class VariableManager(
 
     init {
         val detachedVariables = variables.map { if (it.isManaged()) it.copyFromRealm() else it }
-        this.variables = variables
+        this.variables = detachedVariables
         variablesById = detachedVariables.associateBy { it.id }
         variablesByKey = detachedVariables.associateBy { it.key }
 
