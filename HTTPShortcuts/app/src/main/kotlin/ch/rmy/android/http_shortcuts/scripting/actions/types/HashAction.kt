@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import ch.rmy.android.framework.extensions.toHexString
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
@@ -11,6 +10,7 @@ import javax.inject.Inject
 class HashAction
 @Inject
 constructor() : Action<HashAction.Params> {
+    @OptIn(ExperimentalStdlibApi::class)
     override suspend fun Params.execute(executionContext: ExecutionContext): String {
         val algorithmName = SUPPORTED_ALGORITHMS[normalizeAlgorithm(algorithm)]
             ?: throwUnsupportedError()

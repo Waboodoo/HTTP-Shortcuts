@@ -16,12 +16,9 @@ fun String.replacePrefix(oldPrefix: String, newPrefix: String) =
 fun <T : CharSequence> T.takeUnlessEmpty(): T? =
     takeUnless { it.isEmpty() }
 
-fun ByteArray.toHexString() =
-    joinToString("") { "%02x".format(it) }
-
+@OptIn(ExperimentalStdlibApi::class)
 fun ByteArray.toChunkedHexString() =
-    toHexString()
-        .uppercase()
+    toHexString(HexFormat.UpperCase)
         .chunked(2)
         .joinToString(":")
 
