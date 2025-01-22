@@ -23,6 +23,7 @@ constructor() : Action<PromptTimeAction.Params> {
         try {
             val selectedTime = executionContext.dialogHandle.showDialog(
                 ExecuteDialogState.TimePicker(
+                    title = title,
                     initialTime = getInitialTime(),
                 )
             )
@@ -35,7 +36,7 @@ constructor() : Action<PromptTimeAction.Params> {
                     getString(R.string.error_invalid_time_format)
                 }
             }
-        } catch (e: DialogCancellationException) {
+        } catch (_: DialogCancellationException) {
             null
         }
 
@@ -54,6 +55,7 @@ constructor() : Action<PromptTimeAction.Params> {
     data class Params(
         val format: String?,
         val initialTime: String?,
+        val title: String?,
     )
 
     companion object {

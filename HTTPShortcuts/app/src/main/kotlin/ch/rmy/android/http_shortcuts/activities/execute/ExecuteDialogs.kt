@@ -222,7 +222,20 @@ private fun ExecuteDialog(
                     }
                 },
             ) {
-                DatePicker(state = state)
+                DatePicker(
+                    state = state,
+                    modifier = Modifier.padding(top = if (dialogState.title != null) 0.dp else Spacing.SMALL),
+                    title = dialogState.title?.let {
+                        {
+                            Text(
+                                text = it,
+                                fontSize = 20.sp,
+                                lineHeight = 24.sp,
+                                modifier = Modifier.padding(start = 24.dp, end = 12.dp, top = 16.dp)
+                            )
+                        }
+                    }
+                )
             }
         }
         is ExecuteDialogState.TimePicker -> {
@@ -243,6 +256,7 @@ private fun ExecuteDialog(
                         Text(stringResource(R.string.dialog_ok))
                     }
                 },
+                title = dialogState.title?.let { { Text(it) } },
                 text = {
                     TimePicker(state = state)
                 }

@@ -18,12 +18,13 @@ constructor(
             action = promptColorAction,
             params = PromptColorAction.Params(
                 initialColor = args.getString(0)?.takeUnlessEmpty(),
+                title = args.getString(1)?.takeUnlessEmpty(),
             ),
         )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = 1,
+        parameters = 2,
     )
 
     companion object {

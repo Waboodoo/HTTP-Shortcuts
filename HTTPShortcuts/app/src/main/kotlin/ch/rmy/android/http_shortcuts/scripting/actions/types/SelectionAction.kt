@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
+import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.exceptions.JavaScriptException
@@ -18,10 +19,11 @@ constructor() : Action<SelectionAction.Params> {
         return try {
             executionContext.dialogHandle.showDialog(
                 ExecuteDialogState.Selection(
+                    title = title?.toLocalizable(),
                     values = options.entries.map { (key, value) -> key to value },
                 )
             )
-        } catch (e: DialogCancellationException) {
+        } catch (_: DialogCancellationException) {
             null
         }
     }
@@ -34,5 +36,6 @@ constructor() : Action<SelectionAction.Params> {
     data class Params(
         val dataObject: Map<String, Any?>?,
         val dataList: List<String>?,
+        val title: String?,
     )
 }

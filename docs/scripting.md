@@ -277,37 +277,40 @@ const myPassword2 = promptPassword("Please enter your password:", "secret123");
 <a name="prompt-color"></a>
 ### promptColor
 
-The `promptColor()` function opens a color picker. The selected color is returned in hex RGB (e.g. FF0000 for red), or `null` if the picker is cancelled. As an optional parameter you can pass in the preselected color.
+The `promptColor()` function opens a color picker. The selected color is returned in hex RGB (e.g. FF0000 for red), or `null` if the picker is cancelled. As an optional first parameter you can pass in the pre-selected color. As an optional second parameter you can pass a title for the picker dialog.
 
 ```js
 const myColor = promptColor();
 const myColor2 = promptColor("#FF0000");
+const myColor3 = promptColor(null, "Pick a color");
 ```
 
 <a name="prompt-date"></a>
 ### promptDate
 
-The `promptDate()` function opens a date picker. The selected date is returned, or `null` if the picker is cancelled. As the first parameter, you may pass the date format that should be used for the return value (defaults to yyyy-MM-dd), and as a second parameter you may pass the preselected date (in yyyy-MM-dd format).
+The `promptDate()` function opens a date picker. The selected date is returned, or `null` if the picker is cancelled. As the first parameter, you may pass the date format that should be used for the return value (defaults to yyyy-MM-dd), and as a second parameter you may pass the preselected date (in yyyy-MM-dd format). As an optional third parameter you can pass a title for the picker dialog.
 
 ```js
 const myDate = promptDate();
 const myDate2 = promptDate("yyyy-MM-dd", "2050-12-31");
+const myDate3 = promptDate(null, null, "Pick a date");
 ```
 
 <a name="prompt-time"></a>
 ### promptTime
 
-The `promptTime()` function opens a time picker. The selected time is returned, or `null` if the picker is cancelled. As the first parameter, you may pass the time format that should be used for the return value (defaults to HH:mm), and as a second parameter you may pass the preselected time (in HH:mm format).
+The `promptTime()` function opens a time picker. The selected time is returned, or `null` if the picker is cancelled. As the first parameter, you may pass the time format that should be used for the return value (defaults to HH:mm), and as a second parameter you may pass the preselected time (in HH:mm format). As an optional third parameter you can pass a title for the picker dialog.
 
 ```js
 const myTime = promptTime();
 const myTime2 = promptTime("HH/mm", "13:37");
+const myTime3 = promptTime(null, null, "Pick a time");
 ```
 
 <a name="show-selection"></a>
 ### showSelection
 
-This function allows you to display a multiple-choice dialog from which an option can be picked. It takes one argument, which must be either an object consisting of key-value string pairs, or a list of strings. It returns the selected value as a string, or `null` if the dialog is closed without a selection (e.g. by pressing the back button).
+This function allows you to display a multiple-choice dialog from which an option can be picked. The first parameter must be either an object consisting of key-value string pairs, or a list of strings. As an optional second parameter you may pass a title for the dialog. The function returns the selected value as a string, or `null` if the dialog is closed without a selection (e.g. by pressing the back button).
 
 ```js
 // Using an array of strings
@@ -318,7 +321,7 @@ const favoriteColor = showSelection({
   '#ff0000': 'Red',
   '#00ff00': 'Green',
   '#0000ff': 'Blue',
-});
+}, 'Pick your favorite color');
 ```
 
 <a name="show-notification"></a>

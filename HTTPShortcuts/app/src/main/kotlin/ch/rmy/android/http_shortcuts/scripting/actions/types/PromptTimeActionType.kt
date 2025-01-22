@@ -19,12 +19,13 @@ constructor(
             params = PromptTimeAction.Params(
                 format = args.getString(0)?.takeUnlessEmpty(),
                 initialTime = args.getString(1),
+                title = args.getString(2)?.takeUnlessEmpty(),
             ),
         )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = 2,
+        parameters = 3,
     )
 
     companion object {

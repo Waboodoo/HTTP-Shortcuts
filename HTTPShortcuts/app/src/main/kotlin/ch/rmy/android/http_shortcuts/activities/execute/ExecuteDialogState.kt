@@ -76,11 +76,13 @@ sealed class ExecuteDialogState<T : Any> {
 
     @Stable
     data class DatePicker(
+        val title: String?,
         val initialDate: LocalDate,
     ) : ExecuteDialogState<LocalDate>()
 
     @Stable
     data class TimePicker(
+        val title: String?,
         val initialTime: LocalTime,
     ) : ExecuteDialogState<LocalTime>()
 

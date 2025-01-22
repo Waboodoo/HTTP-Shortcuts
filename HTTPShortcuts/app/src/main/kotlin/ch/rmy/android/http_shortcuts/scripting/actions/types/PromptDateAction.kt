@@ -22,18 +22,19 @@ constructor() : Action<PromptDateAction.Params> {
         try {
             val selectedDate = executionContext.dialogHandle.showDialog(
                 ExecuteDialogState.DatePicker(
+                    title = title,
                     initialDate = getInitialDate(),
                 )
             )
             try {
                 SimpleDateFormat(format ?: DEFAULT_FORMAT, Locale.getDefault())
                     .format(Date.from(selectedDate.atStartOfDay(ZoneId.systemDefault()).toInstant()))
-            } catch (e: IllegalArgumentException) {
+            } catch (_: IllegalArgumentException) {
                 throw UserException.create {
                     getString(R.string.error_invalid_date_format)
                 }
             }
-        } catch (e: DialogCancellationException) {
+        } catch (_: DialogCancellationException) {
             null
         }
 
@@ -43,7 +44,7 @@ constructor() : Action<PromptDateAction.Params> {
             ?.let { dateString ->
                 try {
                     LocalDate.parse(dateString, DateTimeFormatter.ofPattern(DEFAULT_FORMAT, Locale.US))
-                } catch (e: DateTimeParseException) {
+                } catch (_: DateTimeParseException) {
                     null
                 }
             }
@@ -52,6 +53,7 @@ constructor() : Action<PromptDateAction.Params> {
     data class Params(
         val format: String?,
         val initialDate: String?,
+        val title: String?,
     )
 
     companion object {

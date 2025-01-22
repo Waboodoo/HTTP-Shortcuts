@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
 import ch.rmy.android.scripting.JsFunctionArgs
@@ -18,12 +19,13 @@ constructor(
             params = SelectionAction.Params(
                 dataObject = args.getObject(0),
                 dataList = args.getListOfStrings(0),
+                title = args.getString(1)?.takeUnlessEmpty(),
             ),
         )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = 1,
+        parameters = 2,
     )
 
     companion object {
