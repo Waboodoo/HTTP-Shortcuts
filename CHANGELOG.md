@@ -1,3 +1,12 @@
+## Version 3.24.0
+
+### Improvements
+- The experimental setting for running all shortcuts in the background was removed and replaced with a revamped per-shortcut setting. It's still somewhat experimental, but should be more stable now.
+- In addition to toasts, dialogs and windows, shortcuts can now be configured to display their response (or custom message) in a notification
+- New Scripting functions `showNotification` and `showWindow` were added, which allow to display content in a notification or a fullscreen window
+- The Scripting functions `promptColor`, `promptDate`, `promptTime` and `showSelection` now support adding a title to the dialog. Similarly, variables of type "Date Input" and "Time Input" can now be configured to show a title on the picker dialog.
+- The Scripting function `sendHttpRequest` now also supports adding custom headers and a text-based body to the request
+
 ## Version 3.23.0
 
 ### Improvements
