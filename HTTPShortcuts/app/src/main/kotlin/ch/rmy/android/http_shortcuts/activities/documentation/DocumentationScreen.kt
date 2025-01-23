@@ -163,7 +163,7 @@ private fun SearchBar(
             .padding(Spacing.TINY)
             .shadow(elevation = 1.dp)
             .then(modifier),
-        horizontalArrangement = Arrangement.spacedBy(Spacing.SMALL),
+        horizontalArrangement = Arrangement.spacedBy(Spacing.TINY),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         TextField(
@@ -199,7 +199,7 @@ private fun SearchBar(
             val enabled = results?.second?.let { it > 1 } == true
             Icon(
                 Icons.Outlined.KeyboardArrowUp,
-                null,
+                contentDescription = stringResource(R.string.accessibility_search_go_to_previous),
                 modifier = Modifier
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
@@ -209,13 +209,14 @@ private fun SearchBar(
                             onNext(SearchDirection.PREVIOUS)
                         },
                     )
+                    .padding(horizontal = Spacing.SMALL)
                     .runIf(!enabled) {
                         alpha(0.3f)
                     },
             )
             Icon(
                 Icons.Outlined.KeyboardArrowDown,
-                null,
+                contentDescription = stringResource(R.string.accessibility_search_go_to_next),
                 modifier = Modifier
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
@@ -225,6 +226,7 @@ private fun SearchBar(
                             onNext(SearchDirection.NEXT)
                         },
                     )
+                    .padding(horizontal = Spacing.SMALL)
                     .runIf(!enabled) {
                         alpha(0.3f)
                     },

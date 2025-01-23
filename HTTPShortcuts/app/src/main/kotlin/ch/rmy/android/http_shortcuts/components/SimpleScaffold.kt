@@ -31,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -38,6 +39,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.utils.SnackbarManager
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.runIf
 import kotlinx.coroutines.launch
 
@@ -146,7 +148,10 @@ fun <T : Any> SimpleScaffold(
                                 BackButton.ARROW -> Icons.AutoMirrored.Filled.ArrowBack
                                 BackButton.CROSS -> Icons.Filled.Close
                             },
-                            contentDescription = null,
+                            contentDescription = when (backButton) {
+                                BackButton.ARROW -> stringResource(R.string.accessibility_label_go_back)
+                                BackButton.CROSS -> stringResource(R.string.accessibility_label_close)
+                            },
                         )
                     }
                 },

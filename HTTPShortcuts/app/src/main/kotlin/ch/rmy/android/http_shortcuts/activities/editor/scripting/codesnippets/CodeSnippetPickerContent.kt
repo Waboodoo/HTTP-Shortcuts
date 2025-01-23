@@ -204,7 +204,7 @@ private fun CodeSnippetItem(
             {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.HelpOutline,
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.accessibility_label_show_documentation),
                     modifier = Modifier
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },

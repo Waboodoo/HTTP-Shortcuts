@@ -1728,4 +1728,18 @@
     <string name="accessibility_label_add_icon_fab">Add new icon</string>
     <!-- Accessibility label for the floating action button, to add a certificate pinning -->
     <string name="accessibility_label_add_certificate_pinning_fab">Add certificate pinning</string>
+    <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
+    <string name="accessibility_label_show_documentation">Go to documentation</string>
+    <!-- Accessibility label for "Select all" button in exporter -->
+    <string name="accessibility_label_select_all_for_export">Select all</string>
+    <!-- Accessibility label for "Unselect all" button in exporter -->
+    <string name="accessibility_label_unselect_all_for_export">Unselect all</string>
+    <!-- Accessibility label for the generic "go back" arrow button in the nav bar -->
+    <string name="accessibility_label_go_back">Go back</string>
+    <!-- Accessibility label for the generic "close" cross button in the nav bar -->
+    <string name="accessibility_label_close">Close</string>
+    <!-- Accessibility label for the "go to next result" button in search bars -->
+    <string name="accessibility_search_go_to_next">Next</string>
+    <!-- Accessibility label for the "go to previous result" button in search bars -->
+    <string name="accessibility_search_go_to_previous">Previous</string>
 </resources>

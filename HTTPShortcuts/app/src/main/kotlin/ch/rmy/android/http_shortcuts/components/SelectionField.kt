@@ -96,7 +96,8 @@ fun <T> SelectionField(
             readOnly = true,
             trailingIcon = {
                 Icon(
-                    Icons.Outlined.ArrowDropDown, null,
+                    Icons.Outlined.ArrowDropDown,
+                    contentDescription = null,
                     modifier = Modifier
                         .padding(Spacing.SMALL)
                         .runIf(!enabled) {

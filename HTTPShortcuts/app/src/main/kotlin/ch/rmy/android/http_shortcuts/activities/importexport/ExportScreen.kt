@@ -49,13 +49,13 @@ fun ExportScreen(toFile: Boolean) {
             if (viewState.isSelectAllEnabled) {
                 ToolbarIcon(
                     Icons.Filled.SelectAll,
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.accessibility_label_select_all_for_export),
                     onClick = viewModel::onSelectAllButtonClicked,
                 )
             } else {
                 ToolbarIcon(
                     Icons.Filled.Deselect,
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.accessibility_label_unselect_all_for_export),
                     onClick = viewModel::onDeselectAllButtonClicked,
                 )
             }

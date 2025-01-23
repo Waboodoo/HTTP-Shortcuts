@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 @Composable
 fun ToolbarIcon(
     imageVector: ImageVector,
-    contentDescription: String? = null,
+    contentDescription: String,
     enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
