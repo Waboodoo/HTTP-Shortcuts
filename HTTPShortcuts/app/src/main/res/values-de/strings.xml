@@ -757,6 +757,8 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="action_type_toast_title">Toast anzeigen</string>
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">Dialog anzeigen</string>
+    <!-- Shortcut Action Title: Show fullscreen window -->
+    <string name="action_type_window_title">Fenster anzeigen</string>
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
     <string name="action_type_selection_title">Auswahl anzeigen (Multiple-Choice)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
@@ -781,6 +783,8 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="action_get_clipboard_content_title">Zwischenablage auslesen</string>
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
     <string name="action_tts">Sprechen (Text-to-Speech)</string>
+    <!-- Shortcut Action Title: Action that allows to display a notification -->
+    <string name="action_show_notification">Benachrichtigung anzeigen</string>
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
     <string name="action_play_sound">Ton abspielen</string>
     <!-- Shortcut Action Title: Vibrate -->
@@ -1161,6 +1165,8 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="label_dialog_action_dropdown">Dialog-Aktion</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
     <string name="option_response_handling_type_toast">Toast-Popup</string>
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a notification -->
+    <string name="option_response_handling_type_notification">Benachrichtigung</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">Dialogfenster</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
@@ -1727,6 +1733,9 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="warning_make_aware_of_response_handling">Schau dir auch die Optionen unter \“%s\” an. Dort kannst du konfigurieren, wie und ob die HTTP-Response angezeigt werden soll.</string>
     <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
     <string name="notification_channel_shortcut_execution_title">Shortcut-Ausführungen</string>
+    <!-- Title for notification channel, used for displaying responses or custom messages -->
+    <string name="notification_channel_shortcut_result_title">Shortcut-Ergebnisse</string>
+    <!-- Message shown in notification when a shortcut is being executed -->
     <plurals name="notification_shortcut_execution_text_multiple">
         <item quantity="one">Shortcut wird ausgeführt…</item>
         <item quantity="other">%d Shortcuts werden ausgeführt…</item>
@@ -1735,4 +1744,36 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="dialog_text_run_in_background">Bitte beachte, dass das Ausführen im Hintergrund für einfache Shortcuts gedacht ist, da es viele technische Einschränkungen gibt. Möglicherweise funktionieren einige Funktionen nicht wie erwartet.\n\nDie App zeigt eine Benachrichtigung an, während ein Shortcut im Hintergrund läuft.</string>
     <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
     <string name="instructions_run_in_background">Shortcuts im Hintergrund auszuführen birgt einige technische Einschränkungen. Möglicherweise funktioniert dies in einigen Situationen nicht korrekt, insbesondere wenn bei der Interaktion mit Dateien, der Zwischenablage oder anderen Apps, oder wenn die Ausführung länger als zwei Minuten dauert.</string>
+    <!-- Accessibility label for the floating action button on the main screen, to create new shortcuts -->
+    <string name="accessibility_label_create_shortcut_fab">Neuen Shortcut erstellen</string>
+    <!-- Accessibility label for the floating action button, to add shortcuts to a multi-shortcut -->
+    <string name="accessibility_label_add_shortcuts_to_trigger_fab">Shortcuts hinzufügen</string>
+    <!-- Accessibility label for the floating action button, to add a header -->
+    <string name="accessibility_label_add_header_fab">Header hinzufügen</string>
+    <!-- Accessibility label for the floating action button, to add a parameter -->
+    <string name="accessibility_label_add_parameter_fab">Parameter hinzufügen</string>
+    <!-- Accessibility label for the floating action button, to create new categories -->
+    <string name="accessibility_label_create_category_fab">Neue Kategorie erstellen</string>
+    <!-- Accessibility label for the floating action button, to create new variables -->
+    <string name="accessibility_label_create_variable_fab">Neue Variable erstellen</string>
+    <!-- Accessibility label for the floating action button, to mount a new working directory -->
+    <string name="accessibility_label_mount_working_directory_fab">Neues Verzeichnis einhängen</string>
+    <!-- Accessibility label for the floating action button, to add a new custom -->
+    <string name="accessibility_label_add_icon_fab">Neues Symbol hinzufügen</string>
+    <!-- Accessibility label for the floating action button, to add a certificate pinning -->
+    <string name="accessibility_label_add_certificate_pinning_fab">Zertifikat anpinnen</string>
+    <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
+    <string name="accessibility_label_show_documentation">Zur Dokumentation</string>
+    <!-- Accessibility label for "Select all" button in exporter -->
+    <string name="accessibility_label_select_all_for_export">Alle auswählen</string>
+    <!-- Accessibility label for "Unselect all" button in exporter -->
+    <string name="accessibility_label_unselect_all_for_export">Alle abwählen</string>
+    <!-- Accessibility label for the generic "go back" arrow button in the nav bar -->
+    <string name="accessibility_label_go_back">Zurück</string>
+    <!-- Accessibility label for the generic "close" cross button in the nav bar -->
+    <string name="accessibility_label_close">Schließen</string>
+    <!-- Accessibility label for the "go to next result" button in search bars -->
+    <string name="accessibility_search_go_to_next">Weiter</string>
+    <!-- Accessibility label for the "go to previous result" button in search bars -->
+    <string name="accessibility_search_go_to_previous">Zurück</string>
 </resources>

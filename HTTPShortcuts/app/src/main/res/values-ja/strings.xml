@@ -745,6 +745,8 @@
     <string name="action_type_toast_title">ポップアップメッセージを表示</string>
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">ダイアログを表示</string>
+    <!-- Shortcut Action Title: Show fullscreen window -->
+    <string name="action_type_window_title">ウィンドウを表示</string>
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
     <string name="action_type_selection_title">選択を表示(複数の選択)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
@@ -769,6 +771,8 @@
     <string name="action_get_clipboard_content_title">クリップボードの内容を取得</string>
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
     <string name="action_tts">読み上げ (Text-to-Speech)</string>
+    <!-- Shortcut Action Title: Action that allows to display a notification -->
+    <string name="action_show_notification">通知を表示</string>
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
     <string name="action_play_sound">サウンドを再生</string>
     <!-- Shortcut Action Title: Vibrate -->
@@ -1146,6 +1150,8 @@
     <string name="label_dialog_action_dropdown">ダイアログ アクション</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
     <string name="option_response_handling_type_toast">トースト(Toast)ポップアップ</string>
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a notification -->
+    <string name="option_response_handling_type_notification">通知</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">ダイアログ ウィンドウ</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
@@ -1709,6 +1715,9 @@
     <string name="warning_make_aware_of_response_handling">「%s」セクションも確認してください。ここでは、HTTP レスポンスが表示されるかどうか、または表示方法を設定できます。</string>
     <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
     <string name="notification_channel_shortcut_execution_title">ショートカット実行</string>
+    <!-- Title for notification channel, used for displaying responses or custom messages -->
+    <string name="notification_channel_shortcut_result_title">ショートカット結果</string>
+    <!-- Message shown in notification when a shortcut is being executed -->
     <plurals name="notification_shortcut_execution_text_multiple">
         <item quantity="other">%d 個のショートカットが実行中…</item>
     </plurals>
@@ -1716,4 +1725,36 @@
     <string name="dialog_text_run_in_background">注意：バックグラウンドの実行は、技術的な制限が多くあるため、簡単な動作のショートカット使用に適しています。 期待どおりに動作しない機能もあるでしょう。\n\nショートカットがバックグラウンドで実行されている間、アプリに通知が表示されます。</string>
     <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
     <string name="instructions_run_in_background">バックグラウンド実行は、技術的な制限があります。 一部のケースでは、正しく動作しないことがあります。特にファイルを操作、クリップボードや他のアプリ操作の場合、または実行に2分以上かかる場合、正しく動作しないことがあります。</string>
+    <!-- Accessibility label for the floating action button on the main screen, to create new shortcuts -->
+    <string name="accessibility_label_create_shortcut_fab">新しいショートカットを作成</string>
+    <!-- Accessibility label for the floating action button, to add shortcuts to a multi-shortcut -->
+    <string name="accessibility_label_add_shortcuts_to_trigger_fab">ショートカットを追加</string>
+    <!-- Accessibility label for the floating action button, to add a header -->
+    <string name="accessibility_label_add_header_fab">ヘッダーを追加</string>
+    <!-- Accessibility label for the floating action button, to add a parameter -->
+    <string name="accessibility_label_add_parameter_fab">パラメータを追加</string>
+    <!-- Accessibility label for the floating action button, to create new categories -->
+    <string name="accessibility_label_create_category_fab">新しいカテゴリを作成</string>
+    <!-- Accessibility label for the floating action button, to create new variables -->
+    <string name="accessibility_label_create_variable_fab">新しい変数を作成</string>
+    <!-- Accessibility label for the floating action button, to mount a new working directory -->
+    <string name="accessibility_label_mount_working_directory_fab">新しいディレクトリをマウント</string>
+    <!-- Accessibility label for the floating action button, to add a new custom -->
+    <string name="accessibility_label_add_icon_fab">新しいアイコンを追加</string>
+    <!-- Accessibility label for the floating action button, to add a certificate pinning -->
+    <string name="accessibility_label_add_certificate_pinning_fab">証明書のピン留めを追加</string>
+    <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
+    <string name="accessibility_label_show_documentation">ドキュメントに移動</string>
+    <!-- Accessibility label for "Select all" button in exporter -->
+    <string name="accessibility_label_select_all_for_export">すべてを選択</string>
+    <!-- Accessibility label for "Unselect all" button in exporter -->
+    <string name="accessibility_label_unselect_all_for_export">すべて選択解除</string>
+    <!-- Accessibility label for the generic "go back" arrow button in the nav bar -->
+    <string name="accessibility_label_go_back">戻る</string>
+    <!-- Accessibility label for the generic "close" cross button in the nav bar -->
+    <string name="accessibility_label_close">閉じる</string>
+    <!-- Accessibility label for the "go to next result" button in search bars -->
+    <string name="accessibility_search_go_to_next">次へ</string>
+    <!-- Accessibility label for the "go to previous result" button in search bars -->
+    <string name="accessibility_search_go_to_previous">前へ</string>
 </resources>

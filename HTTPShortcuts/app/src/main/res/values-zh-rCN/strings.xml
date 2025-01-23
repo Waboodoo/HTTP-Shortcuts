@@ -736,6 +736,7 @@
     <string name="action_type_toast_title">显示提示</string>
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">显示会话</string>
+    <!-- Shortcut Action Title: Show fullscreen window -->
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
     <string name="action_type_selection_title">显示选择 （多选）</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
@@ -760,6 +761,7 @@
     <string name="action_get_clipboard_content_title">获取剪贴板内容</string>
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
     <string name="action_tts">讲话 （文本转语音）</string>
+    <!-- Shortcut Action Title: Action that allows to display a notification -->
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
     <string name="action_play_sound">播放声音</string>
     <!-- Shortcut Action Title: Vibrate -->
@@ -1137,6 +1139,7 @@
     <string name="label_dialog_action_dropdown">对话框操作</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
     <string name="option_response_handling_type_toast">悬浮窗弹出窗口</string>
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a notification -->
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">对话框</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
@@ -1698,6 +1701,8 @@
     <string name="warning_make_aware_of_response_handling">请确保同时检查\"%s\"部分，您可以在那里配置如何或者是否应该显示 HTTP 响应。</string>
     <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
     <string name="notification_channel_shortcut_execution_title">快捷方式执行</string>
+    <!-- Title for notification channel, used for displaying responses or custom messages -->
+    <!-- Message shown in notification when a shortcut is being executed -->
     <plurals name="notification_shortcut_execution_text_multiple">
         <item quantity="other">%d 个快捷方式在执行中</item>
     </plurals>
@@ -1705,4 +1710,20 @@
     <string name="dialog_text_run_in_background">请注意，后台运行适用于简单的快捷方式，因为有许多技术上的限制。 您可能发现一些功能无按预期正常工作。\n\n当快捷方式在后台运行时，本应用将展示一则通知。</string>
     <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
     <string name="instructions_run_in_background">后台运行有一些技术上的限制。 在某些情况下，特别是在与文件、剪贴板或其他应用互动时，或者当执行时间超过两分钟时，它可能无法正常运转。</string>
+    <!-- Accessibility label for the floating action button on the main screen, to create new shortcuts -->
+    <!-- Accessibility label for the floating action button, to add shortcuts to a multi-shortcut -->
+    <!-- Accessibility label for the floating action button, to add a header -->
+    <!-- Accessibility label for the floating action button, to add a parameter -->
+    <!-- Accessibility label for the floating action button, to create new categories -->
+    <!-- Accessibility label for the floating action button, to create new variables -->
+    <!-- Accessibility label for the floating action button, to mount a new working directory -->
+    <!-- Accessibility label for the floating action button, to add a new custom -->
+    <!-- Accessibility label for the floating action button, to add a certificate pinning -->
+    <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
+    <!-- Accessibility label for "Select all" button in exporter -->
+    <!-- Accessibility label for "Unselect all" button in exporter -->
+    <!-- Accessibility label for the generic "go back" arrow button in the nav bar -->
+    <!-- Accessibility label for the generic "close" cross button in the nav bar -->
+    <!-- Accessibility label for the "go to next result" button in search bars -->
+    <!-- Accessibility label for the "go to previous result" button in search bars -->
 </resources>

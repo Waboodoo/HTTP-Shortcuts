@@ -723,6 +723,7 @@
     <string name="action_type_toast_title">Toast 팝업</string>
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">선택창 열기</string>
+    <!-- Shortcut Action Title: Show fullscreen window -->
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
     <string name="action_type_selection_title">객관식 옵션 제시</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
@@ -747,6 +748,7 @@
     <string name="action_get_clipboard_content_title">클립보드 내용 가져오기</string>
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
     <string name="action_tts">글자 읽어주기 (TTS)</string>
+    <!-- Shortcut Action Title: Action that allows to display a notification -->
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
     <string name="action_play_sound">소리 재생</string>
     <!-- Shortcut Action Title: Vibrate -->
@@ -1108,6 +1110,7 @@
     <string name="label_dialog_action_dropdown">선택창 동작</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
     <string name="option_response_handling_type_toast">Toast 팝업</string>
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a notification -->
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">선택창</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
@@ -1564,6 +1567,24 @@
     <!-- Title for dialog, when selecting a directory (to be used in Scripting) -->
     <!-- Warning message shown to user when saving their first shortcut, but not having opened the Response Handling screen -->
     <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
+    <!-- Title for notification channel, used for displaying responses or custom messages -->
+    <!-- Message shown in notification when a shortcut is being executed -->
     <!-- Message shown in dialog which shows up when the user first selects the "Run in background" option for "Execution Mode" in the shortcuts editor. Informs the user of technical limitations and that the app will ask for permission to display notifications -->
     <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
+    <!-- Accessibility label for the floating action button on the main screen, to create new shortcuts -->
+    <!-- Accessibility label for the floating action button, to add shortcuts to a multi-shortcut -->
+    <!-- Accessibility label for the floating action button, to add a header -->
+    <!-- Accessibility label for the floating action button, to add a parameter -->
+    <!-- Accessibility label for the floating action button, to create new categories -->
+    <!-- Accessibility label for the floating action button, to create new variables -->
+    <!-- Accessibility label for the floating action button, to mount a new working directory -->
+    <!-- Accessibility label for the floating action button, to add a new custom -->
+    <!-- Accessibility label for the floating action button, to add a certificate pinning -->
+    <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
+    <!-- Accessibility label for "Select all" button in exporter -->
+    <!-- Accessibility label for "Unselect all" button in exporter -->
+    <!-- Accessibility label for the generic "go back" arrow button in the nav bar -->
+    <!-- Accessibility label for the generic "close" cross button in the nav bar -->
+    <!-- Accessibility label for the "go to next result" button in search bars -->
+    <!-- Accessibility label for the "go to previous result" button in search bars -->
 </resources>

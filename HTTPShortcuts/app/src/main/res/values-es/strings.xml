@@ -755,6 +755,8 @@ Consulte la documentación en la sección de variables para más información.</
     <string name="action_type_toast_title">Mensaje emergente</string>
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">Mostrar diálogo</string>
+    <!-- Shortcut Action Title: Show fullscreen window -->
+    <string name="action_type_window_title">Mostrar ventana</string>
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
     <string name="action_type_selection_title">Mostrar selección (opción múltiple)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
@@ -779,6 +781,8 @@ Consulte la documentación en la sección de variables para más información.</
     <string name="action_get_clipboard_content_title">Obtener el contenido del portapapeles</string>
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
     <string name="action_tts">Hablar (texto a voz)</string>
+    <!-- Shortcut Action Title: Action that allows to display a notification -->
+    <string name="action_show_notification">Mostrar notificación</string>
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
     <string name="action_play_sound">Reproducir sonido</string>
     <!-- Shortcut Action Title: Vibrate -->
@@ -838,6 +842,7 @@ Consulte la documentación en la sección de variables para más información.</
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">Enviar paquete TCP</string>
     <!-- Shortcut Action Title: Send an HTTP request -->
+    <string name="action_type_send_http_request">Enviar Petición HTTP</string>
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">Enviar mensaje MQTT</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -1005,6 +1010,7 @@ Consulte la documentación en la sección de variables para más información.</
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
     <string name="dialog_code_snippet_write_to_file">Escribir a archivo</string>
     <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
+    <string name="dialog_code_snippet_append_to_file">Añadir al archivo</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Obtener el nombre del archivo seleccionado</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -1044,6 +1050,7 @@ Consulte la documentación en la sección de variables para más información.</
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_set_visible">No se pudo cambiar la visibilidad del acceso directo \“%1$s\” porque no existe.</string>
     <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
+    <string name="error_category_not_found_for_set_visible">No se pudo cambiar la visibilidad de la categoría \“%1$s\” porque no existe.</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">No se ha podido cambiar el icono del acceso directo \"%1$s\" porque no existe.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1157,6 +1164,8 @@ Puede activar esta función editando un acceso directo y seleccionando la casill
     <string name="label_dialog_action_dropdown">Acción de diálogo</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
     <string name="option_response_handling_type_toast">Tostada Popup</string>
+    <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a notification -->
+    <string name="option_response_handling_type_notification">Notificación</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">Ventana de diálogo</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
@@ -1584,7 +1593,9 @@ Es posible que también deba excluir la aplicación de Optimizaciones de baterí
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Modo de ejecución</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
+    <string name="option_execution_mode_run_in_foreground">Ejecutar en primer plano</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
+    <string name="option_execution_mode_run_in_background">Ejecutar en segundo plano (experimental)</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">Tema</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
@@ -1682,6 +1693,7 @@ Es posible que también deba excluir la aplicación de Optimizaciones de baterí
     <!-- Empty state, shown in list when there are no Directories yet -->
     <string name="empty_state_working_directories">Aún no has montado ningún directorio.</string>
     <!-- Empty state instructions, shown in list when there are no directories yet -->
+    <string name="empty_state_working_directories_instructions">Aquí puedes montar directorios desde el sistema de archivos de tu dispositivo, que permite a la aplicación acceder a sus contenidos y crear nuevos archivos dentro de ellos.\n\nHaga clic en el botón + para montar un directorio.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a directory was created/mounted -->
     <string name="message_working_directory_mounted">Directorio montado.</string>
     <!-- Message, shown in snackbar, confirming to user that a directory was deleted. %1$s is a placeholder for the directory's name -->
@@ -1713,8 +1725,51 @@ Es posible que también deba excluir la aplicación de Optimizaciones de baterí
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
     <string name="message_shortcut_visible">El acceso directo ya no está oculto.</string>
     <!-- Title for dialog, when selecting a directory (to be used in Scripting) -->
+    <string name="title_select_working_directory">Seleccionar directorio</string>
     <!-- Warning message shown to user when saving their first shortcut, but not having opened the Response Handling screen -->
+    <string name="warning_make_aware_of_response_handling">Asegúrese de revisar también la sección \“%s\”, donde puede configurar cómo o si la respuesta HTTP debe mostrarse.</string>
     <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
+    <string name="notification_channel_shortcut_execution_title">Ejecuciones de atajos</string>
+    <!-- Title for notification channel, used for displaying responses or custom messages -->
+    <string name="notification_channel_shortcut_result_title">Resultados del acceso directo</string>
+    <!-- Message shown in notification when a shortcut is being executed -->
+    <plurals name="notification_shortcut_execution_text_multiple">
+        <item quantity="one">Acceso directo en progreso…</item>
+        <item quantity="other">%d accesos directos en progreso…</item>
+    </plurals>
     <!-- Message shown in dialog which shows up when the user first selects the "Run in background" option for "Execution Mode" in the shortcuts editor. Informs the user of technical limitations and that the app will ask for permission to display notifications -->
     <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
+    <string name="instructions_run_in_background">Ejecutar en segundo plano tiene algunas limitaciones técnicas. Puede que no funcione correctamente en algunas situaciones, en particular cuando interactúa con archivos, el portapapeles u otras aplicaciones, o cuando la ejecución tarda más de dos minutos.</string>
+    <!-- Accessibility label for the floating action button on the main screen, to create new shortcuts -->
+    <string name="accessibility_label_create_shortcut_fab">Crear nuevo acceso directo</string>
+    <!-- Accessibility label for the floating action button, to add shortcuts to a multi-shortcut -->
+    <string name="accessibility_label_add_shortcuts_to_trigger_fab">Añadir accesos directos</string>
+    <!-- Accessibility label for the floating action button, to add a header -->
+    <string name="accessibility_label_add_header_fab">Añadir cabecera</string>
+    <!-- Accessibility label for the floating action button, to add a parameter -->
+    <string name="accessibility_label_add_parameter_fab">Añadir parámetro</string>
+    <!-- Accessibility label for the floating action button, to create new categories -->
+    <string name="accessibility_label_create_category_fab">Crear nueva categoría</string>
+    <!-- Accessibility label for the floating action button, to create new variables -->
+    <string name="accessibility_label_create_variable_fab">Crear nueva variable</string>
+    <!-- Accessibility label for the floating action button, to mount a new working directory -->
+    <string name="accessibility_label_mount_working_directory_fab">Montar nuevo directorio</string>
+    <!-- Accessibility label for the floating action button, to add a new custom -->
+    <string name="accessibility_label_add_icon_fab">Añadir nuevo icono</string>
+    <!-- Accessibility label for the floating action button, to add a certificate pinning -->
+    <string name="accessibility_label_add_certificate_pinning_fab">Añadir fijación de certificados</string>
+    <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
+    <string name="accessibility_label_show_documentation">Ir a la documentación</string>
+    <!-- Accessibility label for "Select all" button in exporter -->
+    <string name="accessibility_label_select_all_for_export">Seleccionar todo</string>
+    <!-- Accessibility label for "Unselect all" button in exporter -->
+    <string name="accessibility_label_unselect_all_for_export">Deseleccionar todo</string>
+    <!-- Accessibility label for the generic "go back" arrow button in the nav bar -->
+    <string name="accessibility_label_go_back">Volver</string>
+    <!-- Accessibility label for the generic "close" cross button in the nav bar -->
+    <string name="accessibility_label_close">Cerrar</string>
+    <!-- Accessibility label for the "go to next result" button in search bars -->
+    <string name="accessibility_search_go_to_next">Siguiente</string>
+    <!-- Accessibility label for the "go to previous result" button in search bars -->
+    <string name="accessibility_search_go_to_previous">Anterior</string>
 </resources>
