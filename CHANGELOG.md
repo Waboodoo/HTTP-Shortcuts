@@ -5,7 +5,11 @@
 - In addition to toasts, dialogs and windows, shortcuts can now be configured to display their response (or custom message) in a notification
 - New Scripting functions `showNotification` and `showWindow` were added, which allow to display content in a notification or a fullscreen window
 - The Scripting functions `promptColor`, `promptDate`, `promptTime` and `showSelection` now support adding a title to the dialog. Similarly, variables of type "Date Input" and "Time Input" can now be configured to show a title on the picker dialog.
-- The Scripting function `sendHttpRequest` now also supports adding custom headers and a text-based body to the request
+- The Scripting function `sendHttpRequest` now also supports adding custom headers, a text-based body and form data to the request
+- Improved accessibility in some places by adding content descriptions to some UI elements and increasing touch surfaces or font sizes
+
+### Bugfixes
+- The `parseHtml` function no longer fails when returning an array
 
 ## Version 3.23.0
 
