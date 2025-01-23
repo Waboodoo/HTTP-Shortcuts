@@ -13,7 +13,7 @@ import com.whl.quickjs.wrapper.QuickJSException
 internal class QuickJsScriptingEngine : ScriptingEngine {
 
     private val jsContext: QuickJSContext = createInstance()
-    private val functionConverter = QuickJsFunctionConverter()
+    private val functionConverter = QuickJsFunctionConverter(jsContext)
 
     override fun setExceptionHandler(onException: (ScriptingException) -> Unit) {
         // there is no support for an explicit exception handler
