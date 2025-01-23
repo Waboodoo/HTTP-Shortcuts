@@ -21,11 +21,16 @@ constructor(
                 method = options["method"]?.toString()?.uppercase() ?: "GET",
                 body = options["body"]?.toString(),
                 headers = (options["headers"] as? Map<*, *>)
-                    ?.mapKeys { (key, _) -> key.toString() }
-                    ?.mapValues { (_, value) -> value.toString() },
+                    ?.toStringMap(),
+                formData = (options["formData"] as? Map<*, *>)
+                    ?.toStringMap(),
             ),
         )
     }
+
+    private fun Map<*, *>.toStringMap(): Map<String, String> =
+        mapKeys { (key, _) -> key.toString() }
+            .mapValues { (_, value) -> value.toString() }
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,

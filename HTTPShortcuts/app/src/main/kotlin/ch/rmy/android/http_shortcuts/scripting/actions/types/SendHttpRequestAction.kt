@@ -1,15 +1,14 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.content.Context
-import ch.rmy.android.framework.extensions.runFor
-import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
-import ch.rmy.android.http_shortcuts.http.RequestBuilder
+import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.ResponseFileStorageFactory
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.http.buildRequest
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import ch.rmy.android.scripting.JsObject
@@ -36,20 +35,22 @@ constructor(
                     sessionId = "${executionContext.shortcutId}_${newUUID()}"
                 )
 
-                val response = client.newCall(
-                    RequestBuilder(method, url)
-                        .header(HttpHeaders.CONNECTION, "close")
-                        .runIfNotNull(body) { body ->
-                            body(body)
+                val request = buildRequest(method, url) {
+                    header(HttpHeaders.CONNECTION, "close")
+                    if (body != null) {
+                        body(body)
+                    } else if (formData != null) {
+                        contentType(FORM_URLENCODE_CONTENT_TYPE)
+                        formData.forEach { (key, value) ->
+                            parameter(key, value)
                         }
-                        .runIfNotNull(headers?.entries) { headers ->
-                            runFor(headers) { header ->
-                                header(header.key, header.value)
-                            }
-                        }
-                        .userAgent(UserAgentProvider.getUserAgent(context))
-                        .build()
-                )
+                    }
+                    headers?.forEach { (key, value) ->
+                        header(key, value)
+                    }
+                    userAgent(UserAgentProvider.getUserAgent(context))
+                }
+                val response = client.newCall(request)
                     .execute()
 
                 val contentFile = storage.store(response)
@@ -93,5 +94,6 @@ constructor(
         val method: String,
         val body: String?,
         val headers: Map<String, String>?,
+        val formData: Map<String, String>?,
     )
 }

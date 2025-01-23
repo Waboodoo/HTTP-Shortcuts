@@ -744,8 +744,9 @@ The `sendHttpRequest` function allows you to send a simple HTTP request. The fir
 |Parameter|Description|Type / Values|
 |---|---|---|
 |method|Defines the HTTP method to use, e.g. "GET" or "POST". Defaults to "GET".|string|
-|body|The body to use in the request, for when you want to send data|string|
 |headers|Additional headers to add to the request, as key-value-pairs.|object|
+|body|The body to use in the request, for when you want to send data|string|
+|formData|Form parameters to add to the request, as key-value-pairs. Can not be combined with `body`.|object|
 
 The function returns an object which includes a `status` field, which has the value "success", "httpError" or "networkError". If it is "networkError", you can check the field `networkError` for details. Otherwise, you can check the `response` field for the HTTP response object. It includes fields `body`, `headers`, `cookies` and `statusCode`.
 

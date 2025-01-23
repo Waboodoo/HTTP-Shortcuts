@@ -7,9 +7,6 @@ import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.fromHexString
 import ch.rmy.android.framework.extensions.logInfo
-import ch.rmy.android.framework.extensions.runFor
-import ch.rmy.android.framework.extensions.runIf
-import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
@@ -180,41 +177,39 @@ constructor(
                 hostVerificationConfig = getSSLConfig(shortcut),
             )
 
-            val request = RequestBuilder(shortcut.method, requestData.url)
-                .runIf(!shortcut.keepConnectionOpen) {
+            val request = buildRequest(shortcut.method, requestData.url) {
+                if (!shortcut.keepConnectionOpen) {
                     header(HttpHeaders.CONNECTION, "close")
                 }
-                .userAgent(UserAgentProvider.getUserAgent(context))
-                .runIf(shortcut.usesCustomBody()) {
+                userAgent(UserAgentProvider.getUserAgent(context))
+                if (shortcut.usesCustomBody()) {
                     contentType(requestData.contentType)
-                        .body(requestData.body)
+                    body(requestData.body)
                 }
-                .runIf(shortcut.usesGenericFileBody()) {
-                    val file = fileUploadResult?.getFile(0)
-                    runIfNotNull(file) {
-                        contentType(requestData.contentType ?: it.mimeType)
-                            .body(contentResolver.openInputStream(it.data)!!, length = it.fileSize)
-                    }
-                }
-                .runIf(shortcut.usesRequestParameters()) {
-                    contentType(requestData.contentType)
-                        .run {
-                            attachParameters(this, shortcut, variablesValues, fileUploadResult)
+                if (shortcut.usesGenericFileBody()) {
+                    fileUploadResult?.getFile(0)
+                        ?.let { file ->
+                            contentType(requestData.contentType ?: file.mimeType)
+                            body(contentResolver.openInputStream(file.data)!!, length = file.fileSize)
                         }
                 }
-                .runFor(shortcut.headers) { header ->
+                if (shortcut.usesRequestParameters()) {
+                    contentType(requestData.contentType)
+                    attachParameters(shortcut, variablesValues, fileUploadResult)
+                }
+                shortcut.headers.forEach { header ->
                     header(
                         Variables.rawPlaceholdersToResolvedValues(header.key, variablesValues),
                         Variables.rawPlaceholdersToResolvedValues(header.value, variablesValues)
                     )
                 }
-                .runIf(shortcut.authenticationType == ShortcutAuthenticationType.BASIC) {
+                if (shortcut.authenticationType == ShortcutAuthenticationType.BASIC) {
                     basicAuth(requestData.username, requestData.password)
                 }
-                .runIf(shortcut.authenticationType == ShortcutAuthenticationType.BEARER) {
+                if (shortcut.authenticationType == ShortcutAuthenticationType.BEARER) {
                     bearerAuth(requestData.authToken)
                 }
-                .build()
+            }
 
             if (shortcut.shouldIncludeInHistory()) {
                 historyEventLogger.logEvent(
@@ -295,41 +290,41 @@ constructor(
         return HostVerificationConfig.Default
     }
 
-    private fun attachParameters(
-        requestBuilder: RequestBuilder,
+    private fun RequestBuilder.attachParameters(
         shortcut: Shortcut,
         variables: Map<VariableId, String>,
         fileUploadResult: FileUploadManager.Result?,
-    ): RequestBuilder {
+    ) {
         var fileIndex = -1
-        return requestBuilder.runFor(shortcut.parameters) { parameter ->
+        shortcut.parameters.forEach { parameter ->
             val parameterName = Variables.rawPlaceholdersToResolvedValues(parameter.key, variables)
             when (parameter.parameterType) {
                 ParameterType.FILE,
-                -> {
-                    runIfNotNull(fileUploadResult) {
+                    -> {
+                    fileUploadResult?.let {
                         fileIndex++
                         if (parameter.fileUploadOptions?.type == FileUploadType.FILE_PICKER_MULTI) {
-                            val files = it.getFiles(fileIndex)
-                            runFor(files) { file ->
-                                fileParameter(
-                                    name = "$parameterName[]",
-                                    fileName = parameter.fileName.ifEmpty { file.fileName },
-                                    type = file.mimeType,
-                                    data = contentResolver.openInputStream(file.data)!!,
-                                    length = file.fileSize,
-                                )
-                            }
+                            fileUploadResult.getFiles(fileIndex)
+                                .forEach { file ->
+                                    fileParameter(
+                                        name = "$parameterName[]",
+                                        fileName = parameter.fileName.ifEmpty { file.fileName },
+                                        type = file.mimeType,
+                                        data = contentResolver.openInputStream(file.data)!!,
+                                        length = file.fileSize,
+                                    )
+                                }
                         } else {
-                            runIfNotNull(it.getFile(fileIndex)) { file ->
-                                fileParameter(
-                                    name = parameterName,
-                                    fileName = parameter.fileName.ifEmpty { file.fileName },
-                                    type = file.mimeType,
-                                    data = contentResolver.openInputStream(file.data)!!,
-                                    length = file.fileSize,
-                                )
-                            }
+                            fileUploadResult.getFile(fileIndex)
+                                ?.let { file ->
+                                    fileParameter(
+                                        name = parameterName,
+                                        fileName = parameter.fileName.ifEmpty { file.fileName },
+                                        type = file.mimeType,
+                                        data = contentResolver.openInputStream(file.data)!!,
+                                        length = file.fileSize,
+                                    )
+                                }
                         }
                     }
                 }
