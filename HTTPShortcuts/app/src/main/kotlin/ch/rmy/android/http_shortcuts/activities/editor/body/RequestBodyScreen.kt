@@ -67,7 +67,10 @@ fun RequestBodyScreen() {
                 enter = scaleIn(),
                 exit = scaleOut(),
             ) {
-                FloatingAddButton(onClick = viewModel::onAddParameterButtonClicked)
+                FloatingAddButton(
+                    onClick = viewModel::onAddParameterButtonClicked,
+                    contentDescription = stringResource(R.string.accessibility_label_add_parameter_fab),
+                )
             }
         },
     ) { viewState ->

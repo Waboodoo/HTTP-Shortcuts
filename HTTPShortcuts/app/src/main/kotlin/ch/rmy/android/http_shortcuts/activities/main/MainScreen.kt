@@ -116,7 +116,10 @@ fun MainScreen(
                 enter = scaleIn(),
                 exit = scaleOut(),
             ) {
-                FloatingAddButton(onClick = viewModel::onCreateShortcutButtonClicked)
+                FloatingAddButton(
+                    onClick = viewModel::onCreateShortcutButtonClicked,
+                    contentDescription = stringResource(R.string.accessibility_label_create_shortcut_fab),
+                )
             }
         },
     ) { viewState ->

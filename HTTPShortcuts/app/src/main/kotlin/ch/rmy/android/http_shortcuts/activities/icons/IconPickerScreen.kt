@@ -69,7 +69,10 @@ fun IconPickerScreen() {
             )
         },
         floatingActionButton = {
-            FloatingAddButton(onClick = viewModel::onAddIconButtonClicked)
+            FloatingAddButton(
+                onClick = viewModel::onAddIconButtonClicked,
+                contentDescription = stringResource(R.string.accessibility_label_add_icon_fab),
+            )
         },
     ) { viewState ->
         IconPickerContent(

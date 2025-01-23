@@ -57,7 +57,10 @@ fun WorkingDirectoriesScreen(
             )
         },
         floatingActionButton = {
-            FloatingAddButton(onClick = viewModel::onCreateButtonClicked)
+            FloatingAddButton(
+                onClick = viewModel::onCreateButtonClicked,
+                contentDescription = stringResource(R.string.accessibility_label_mount_working_directory_fab),
+            )
         },
     ) { viewState ->
         Column {

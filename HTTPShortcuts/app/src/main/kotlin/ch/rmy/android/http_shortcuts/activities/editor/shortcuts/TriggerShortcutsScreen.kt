@@ -20,7 +20,10 @@ fun TriggerShortcutsScreen(
         viewState = state,
         title = stringResource(R.string.label_trigger_shortcuts),
         floatingActionButton = {
-            FloatingAddButton(onClick = viewModel::onAddButtonClicked)
+            FloatingAddButton(
+                onClick = viewModel::onAddButtonClicked,
+                contentDescription = stringResource(R.string.accessibility_label_add_shortcuts_to_trigger_fab),
+            )
         },
     ) { viewState ->
         TriggerShortcutsContent(

@@ -1710,4 +1710,22 @@
     <string name="dialog_text_run_in_background">Please note that running in the background is intended for simple shortcuts, as there are many technical limitations. You may find some features not working as expected.\n\nThe app will display a notification while a shortcut is running in the background.</string>
     <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
     <string name="instructions_run_in_background">Running in the background has some technical limitations. It may not work correctly in some situations, in particular when interacting with files, the clipboard or other apps, or when the execution takes longer than two minutes.</string>
+    <!-- Accessibility label for the floating action button on the main screen, to create new shortcuts -->
+    <string name="accessibility_label_create_shortcut_fab">Create new shortcut</string>
+    <!-- Accessibility label for the floating action button, to add shortcuts to a multi-shortcut -->
+    <string name="accessibility_label_add_shortcuts_to_trigger_fab">Add shortcuts</string>
+    <!-- Accessibility label for the floating action button, to add a header -->
+    <string name="accessibility_label_add_header_fab">Add header</string>
+    <!-- Accessibility label for the floating action button, to add a parameter -->
+    <string name="accessibility_label_add_parameter_fab">Add parameter</string>
+    <!-- Accessibility label for the floating action button, to create new categories -->
+    <string name="accessibility_label_create_category_fab">Create new category</string>
+    <!-- Accessibility label for the floating action button, to create new variables -->
+    <string name="accessibility_label_create_variable_fab">Create new variable</string>
+    <!-- Accessibility label for the floating action button, to mount a new working directory -->
+    <string name="accessibility_label_mount_working_directory_fab">Mount new directory</string>
+    <!-- Accessibility label for the floating action button, to add a new custom -->
+    <string name="accessibility_label_add_icon_fab">Add new icon</string>
+    <!-- Accessibility label for the floating action button, to add a certificate pinning -->
+    <string name="accessibility_label_add_certificate_pinning_fab">Add certificate pinning</string>
 </resources>

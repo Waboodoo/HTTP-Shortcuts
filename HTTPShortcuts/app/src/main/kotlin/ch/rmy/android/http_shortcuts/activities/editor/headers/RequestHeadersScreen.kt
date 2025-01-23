@@ -20,7 +20,10 @@ fun RequestHeadersScreen() {
         viewState = state,
         title = stringResource(R.string.section_request_headers),
         floatingActionButton = {
-            FloatingAddButton(onClick = viewModel::onAddHeaderButtonClicked)
+            FloatingAddButton(
+                onClick = viewModel::onAddHeaderButtonClicked,
+                contentDescription = stringResource(R.string.accessibility_label_add_header_fab),
+            )
         },
     ) { viewState ->
         RequestHeadersContent(

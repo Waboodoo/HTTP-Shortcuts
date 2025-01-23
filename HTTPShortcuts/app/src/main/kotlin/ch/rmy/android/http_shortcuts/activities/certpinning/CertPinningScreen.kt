@@ -18,7 +18,10 @@ fun CertPinningScreen() {
         viewState = state,
         title = stringResource(R.string.title_certificate_pinning),
         floatingActionButton = {
-            FloatingAddButton(onClick = viewModel::onCreatePinButtonClicked)
+            FloatingAddButton(
+                onClick = viewModel::onCreatePinButtonClicked,
+                contentDescription = stringResource(R.string.accessibility_label_add_certificate_pinning_fab),
+            )
         },
         actions = {
             ToolbarIcon(

@@ -7,11 +7,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 
 @Composable
-fun FloatingAddButton(onClick: () -> Unit) {
+fun FloatingAddButton(
+    onClick: () -> Unit,
+    contentDescription: String,
+) {
     FloatingActionButton(onClick = onClick) {
         Icon(
             imageVector = Icons.Outlined.Add,
-            contentDescription = null,
+            contentDescription = contentDescription,
         )
     }
 }

@@ -37,7 +37,10 @@ fun VariablesScreen() {
             )
         },
         floatingActionButton = {
-            FloatingAddButton(onClick = viewModel::onCreateButtonClicked)
+            FloatingAddButton(
+                onClick = viewModel::onCreateButtonClicked,
+                contentDescription = stringResource(R.string.accessibility_label_create_variable_fab)
+            )
         },
     ) { viewState ->
         VariablesContent(

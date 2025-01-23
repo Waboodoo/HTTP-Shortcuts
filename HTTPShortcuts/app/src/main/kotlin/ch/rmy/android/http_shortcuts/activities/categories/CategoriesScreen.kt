@@ -45,7 +45,10 @@ fun CategoriesScreen(savedStateHandle: SavedStateHandle) {
             )
         },
         floatingActionButton = {
-            FloatingAddButton(onClick = viewModel::onCreateCategoryButtonClicked)
+            FloatingAddButton(
+                onClick = viewModel::onCreateCategoryButtonClicked,
+                stringResource(R.string.accessibility_label_create_category_fab),
+            )
         },
     ) { viewState ->
         CategoriesContent(
