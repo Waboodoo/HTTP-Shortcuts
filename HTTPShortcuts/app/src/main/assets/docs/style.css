@@ -1,136 +1,139 @@
 body {
-    padding-left: 16px;
-    padding-right: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 h1 {
-    display: none;
+  display: none;
 }
 h2 {
-    font-size: 1.2em;
-    border-bottom: 1px solid #999999;
-    padding-bottom: 0.2em;
+  font-size: 1.2em;
+  border-bottom: 1px solid #999999;
+  padding-bottom: 0.2em;
 }
 h3 {
-    font-size: 1.05em;
-    margin-bottom: 3px;
+  font-size: 1.05em;
+  margin-bottom: 3px;
 }
 h3 + p, h4 + p {
-    margin-top: 0;
-    padding-top: 0;
+  margin-top: 0;
+  padding-top: 0;
 }
 h4 {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 ul {
-    padding-left: 1em;
+  padding-left: 1em;
 }
 ul > li > a {
-    font-size: 1.07em;
+  font-size: 1.15em;
+  line-height: 1.2em;
+  display: block;
+  padding: 0.14em 0;
 }
 a {
-    color: #487092;
+  color: #487092;
 }
 p {
-    font-size: 1.05em;
+  font-size: 1.05em;
 }
 .dark * {
-    color: #FFFFFF;
+  color: #FFFFFF;
 }
 a, .dark a {
-    text-decoration: none;
-    color: #059df7;
+  text-decoration: none;
+  color: #059df7;
 }
 a:empty {
-    position: relative;
-    top: -8px;
+  position: relative;
+  top: -8px;
 }
 code {
-    margin: 0 0.1em;
-    padding: 0.1em 0.2em;
-    border: 1px solid #ccc;
-    border-radius: 0.3em;
-    background: #f0f0f0;
-    font-family: 'Droid Sans Mono', 'Courier New', 'Courier', monospace;
-    font-size: 0.9rem;
+  margin: 0 0.1em;
+  padding: 0.1em 0.2em;
+  border: 1px solid #ccc;
+  border-radius: 0.3em;
+  background: #f0f0f0;
+  font-family: 'Droid Sans Mono', 'Courier New', 'Courier', monospace;
+  font-size: 0.9rem;
 }
 pre code {
-    display: block;
-    margin: 0;
-    padding: 8px;
-    border: 0 none;
-    background: #f0f0f0;
-    overflow-x: auto;
+  display: block;
+  margin: 0;
+  padding: 8px;
+  border: 0 none;
+  background: #f0f0f0;
+  overflow-x: auto;
 }
 table code {
-    word-break: break-all;
+  word-break: break-all;
 }
 table th, table td, table code {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 table th, table td {
-    text-align: left;
-    vertical-align: top;
+  text-align: left;
+  vertical-align: top;
 }
 table { border-spacing: 0; }
 
 td, th {
-    padding: 0.4em 1em;
-    vertical-align: top;
+  padding: 0.4em 1em;
+  vertical-align: top;
 }
 th {
-    font-weight: bold;
-    text-align: left;
-    background: #f5f5f5;
-    color: #333;
+  font-weight: bold;
+  text-align: left;
+  background: #f5f5f5;
+  color: #333;
 }
 
 td, th {
-    border: solid 1px #ccc;
+  border: solid 1px #ccc;
 }
 tr:not(:last-child) td, tr:not(:last-child) th {
-    border-bottom: 0 none;
+  border-bottom: 0 none;
 }
 thead tr:last-child th {
-    border-bottom: 0 none;
+  border-bottom: 0 none;
 }
 td:not(:last-child), th:not(:last-child) {
-    border-right: 0 none;
+  border-right: 0 none;
 }
 
 tr:first-child td:first-child, tr:first-child th:first-child {
-    border-top-left-radius: 0.3em;
+  border-top-left-radius: 0.3em;
 }
 tr:first-child td:last-child, tr:first-child th:last-child {
-    border-top-right-radius: 0.3em;
+  border-top-right-radius: 0.3em;
 }
 tbody tr:last-child td:first-child {
-    border-bottom-left-radius: 0.3em;
+  border-bottom-left-radius: 0.3em;
 }
 tbody tr:last-child td:last-child {
-    border-bottom-right-radius: 0.3em;
+  border-bottom-right-radius: 0.3em;
 }
 table thead + tbody tr:first-child td {
-    border-radius: 0 !important;
+  border-radius: 0 !important;
 }
 
 blockquote {
-    border: 1px solid #059df7;
-    border-radius: 5px;
-    background: #f0f9ff;
-    margin: 0;
-    padding: 0px 16px;
+  border: 1px solid #059df7;
+  border-radius: 5px;
+  background: #f0f9ff;
+  margin: 0;
+  padding: 0px 16px;
 }
 
 .dark blockquote {
-    border: 1px solid #059df7;
-    background: #062a40;
+  border: 1px solid #059df7;
+  background: #062a40;
 }
 
 .dark code, .dark pre, .dark th {
-   background: #090909;
-   border-color: #202020;
+  background: #090909;
+  border-color: #202020;
 }
 .dark td {
-    border-color: #202020;
+  border-color: #202020;
 }
