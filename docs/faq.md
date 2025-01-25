@@ -77,6 +77,10 @@ If you use [executeShortcut](scripting.md#execute-shortcut) to call another shor
 
 See the guide on [integrating with Tasker](advanced.md#integrate-with-tasker).
 
+## I hid one of my shortcuts and now I can't access it anymore. How do I make it visible again?
+
+If you go to the app's Settings screen, you'll find an option in the "Appearance" section which lets you configure whether hidden shortcuts should be visible or not. By default, hidden shortcuts will not be shown, but if you change this setting, the shortcuts will instead be visible but appear partially opaque.
+
 <a name="debugging"></a>
 ## Something's not working with my requests. Can I get more detailed information for debugging?
 The easiest way to get more details about the shortcuts that you're executing in the app is by going to the *Event History* screen. You will find it in the app's main menu under *Troubleshooting*. The Event History shows all recently triggered shortcuts, the HTTP requests that were sent out and the HTTP responses that were received, as well as all the (network) errors that have occurred.
