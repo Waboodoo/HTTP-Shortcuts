@@ -4,6 +4,7 @@ import android.net.Uri
 
 sealed class RealmError {
     data object RealmNotFound : RealmError()
+    data object OutOfDiskSpace : RealmError()
     data object Downgrade : RealmError()
     data class ConfigurationError(
         val backupFile: Uri,

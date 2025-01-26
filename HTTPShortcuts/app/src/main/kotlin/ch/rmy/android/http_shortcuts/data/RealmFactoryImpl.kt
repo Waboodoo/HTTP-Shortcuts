@@ -82,6 +82,11 @@ class RealmFactoryImpl private constructor() : RealmFactory {
                     backupCacheFile.delete()
                     backupFile.copyTo(backupCacheFile)
                     RealmError.ConfigurationError(getUriFromFile(context, backupCacheFile))
+                } else if (
+                    e is IllegalStateException &&
+                    e.message?.contains("RLM_ERR_OUT_OF_DISK_SPACE") == true
+                ) {
+                    RealmError.OutOfDiskSpace
                 } else {
                     RealmError.RealmNotFound
                 }

@@ -81,11 +81,19 @@ class MainActivity : BaseComposeActivity() {
                 is RealmError.RealmNotFound -> RealmUnavailableDialog {
                     finishWithoutAnimation()
                 }
-                is RealmError.Downgrade -> RealmDowngradeDialog {
-                    finishWithoutAnimation()
-                }
+                is RealmError.OutOfDiskSpace -> GenericRealmErrorDialog(
+                    message = "No space left on device",
+                    onDismissed = {
+                        finishWithoutAnimation()
+                    },
+                )
+                is RealmError.Downgrade -> GenericRealmErrorDialog(
+                    message = "It looks like you tried to downgrade the app. This is unfortunately not possible without clearing the app's data.",
+                    onDismissed = {
+                        finishWithoutAnimation()
+                    },
+                )
             }
-
             return
         }
 
@@ -96,6 +104,27 @@ class MainActivity : BaseComposeActivity() {
         ) {
             NavigationRoot()
         }
+    }
+
+    @Composable
+    private fun GenericRealmErrorDialog(
+        message: String,
+        onDismissed: () -> Unit,
+    ) {
+        AlertDialog(
+            onDismissRequest = onDismissed,
+            title = { Text(stringResource(R.string.dialog_title_error)) },
+            text = {
+                Text(message)
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = onDismissed,
+                ) {
+                    Text(stringResource(R.string.dialog_ok))
+                }
+            },
+        )
     }
 
     @Composable
@@ -163,24 +192,6 @@ class MainActivity : BaseComposeActivity() {
                     }
                 }
                 Text(text)
-            },
-            confirmButton = {
-                TextButton(onClick = onDismissed) {
-                    Text(stringResource(R.string.dialog_ok))
-                }
-            },
-        )
-    }
-
-    @Composable
-    private fun RealmDowngradeDialog(
-        onDismissed: () -> Unit,
-    ) {
-        AlertDialog(
-            onDismissRequest = onDismissed,
-            title = { Text(stringResource(R.string.dialog_title_error)) },
-            text = {
-                Text("It looks like you tried to downgrade the app. This is unfortunately not possible without clearing the app's data.")
             },
             confirmButton = {
                 TextButton(onClick = onDismissed) {
