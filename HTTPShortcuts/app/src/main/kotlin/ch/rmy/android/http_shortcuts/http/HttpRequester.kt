@@ -300,7 +300,7 @@ constructor(
             val parameterName = Variables.rawPlaceholdersToResolvedValues(parameter.key, variables)
             when (parameter.parameterType) {
                 ParameterType.FILE,
-                    -> {
+                -> {
                     fileUploadResult?.let {
                         fileIndex++
                         if (parameter.fileUploadOptions?.type == FileUploadType.FILE_PICKER_MULTI) {

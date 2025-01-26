@@ -20,10 +20,10 @@ constructor(
     private val activityProvider: ActivityProvider,
 ) : Action<SendIntentAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext) {
-        val intent = constructIntent(parameters)
-        withContext(Dispatchers.Main) {
-            activityProvider.withActivity { activity ->
-                try {
+        try {
+            val intent = constructIntent(parameters)
+            withContext(Dispatchers.Main) {
+                activityProvider.withActivity { activity ->
                     when (parameters.optString(KEY_TYPE).lowercase()) {
                         TYPE_ACTIVITY -> {
                             activity.startActivity(intent)
@@ -35,14 +35,14 @@ constructor(
                             activity.sendBroadcast(intent)
                         }
                     }
-                } catch (e: Exception) {
-                    if (shouldLogException(e)) {
-                        logException(e)
-                    }
-                    throw ActionException {
-                        getString(R.string.error_action_type_send_intent_failed, e.message)
-                    }
                 }
+            }
+        } catch (e: Exception) {
+            if (shouldLogException(e)) {
+                logException(e)
+            }
+            throw ActionException {
+                getString(R.string.error_action_type_send_intent_failed, e.message)
             }
         }
     }
@@ -191,6 +191,7 @@ constructor(
                 false
             } else {
                 when (e) {
+                    is NumberFormatException,
                     is ActivityNotFoundException,
                     is SecurityException,
                     -> false
