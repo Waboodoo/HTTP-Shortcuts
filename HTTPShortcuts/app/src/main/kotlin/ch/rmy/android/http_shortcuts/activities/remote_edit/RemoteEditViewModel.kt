@@ -55,13 +55,7 @@ constructor(
         get() = getRemoteBaseUrl().toString().replace("https://", "")
 
     private val deviceId: String
-        get() = settings.remoteEditDeviceId
-            ?: run {
-                generateDeviceId()
-                    .also {
-                        settings.remoteEditDeviceId = it
-                    }
-            }
+        get() = settings.deviceId
 
     private var password: String
         get() = settings.remoteEditPassword ?: ""
@@ -218,15 +212,5 @@ constructor(
 
         private const val REMOTE_BASE_URL = "https://http-shortcuts.rmy.ch/editor"
         private const val REMOTE_API_PATH = "api/files/"
-
-        private const val DEVICE_ID_CHARACTERS = "abcdefghijklmnopqrstuvwxyz0123456789"
-        private const val DEVICE_ID_LENGTH = 8
-
-        internal fun generateDeviceId(): String =
-            (0 until DEVICE_ID_LENGTH)
-                .map {
-                    DEVICE_ID_CHARACTERS.random()
-                }
-                .joinToString(separator = "")
     }
 }

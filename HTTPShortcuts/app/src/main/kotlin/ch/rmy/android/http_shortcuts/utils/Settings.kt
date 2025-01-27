@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.PreferencesStore
-import ch.rmy.android.framework.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,10 +21,7 @@ constructor(
     val deviceId: String
         get() = getString(KEY_DEVICE_ID)
             ?: run {
-                UUIDUtils.newUUID()
-                    .uppercase()
-                    .replace("-", "")
-                    .take(20)
+                generateDeviceId()
                     .also {
                         putString(KEY_DEVICE_ID, it)
                     }
@@ -91,10 +87,6 @@ constructor(
         get() = getString(KEY_REMOTE_EDIT_SERVER)?.takeUnlessEmpty()
         set(value) = putString(KEY_REMOTE_EDIT_SERVER, value ?: "")
 
-    var remoteEditDeviceId: String?
-        get() = getString(KEY_REMOTE_EDIT_DEVICE_ID)?.takeUnlessEmpty()
-        set(value) = putString(KEY_REMOTE_EDIT_DEVICE_ID, value ?: "")
-
     var remoteEditPassword: String?
         get() = getString(KEY_REMOTE_EDIT_PASSWORD)?.takeUnlessEmpty()
         set(value) = putString(KEY_REMOTE_EDIT_PASSWORD, value ?: "")
@@ -138,7 +130,7 @@ constructor(
         const val DARK_THEME_OFF = "off"
         const val DARK_THEME_AUTO = "auto"
 
-        private const val KEY_DEVICE_ID = "device_id"
+        private const val KEY_DEVICE_ID = "device_id_v2"
         private const val KEY_FIRST_SEEN_VERSION_CODE = "first_version_code"
         private const val KEY_LANGUAGE = "language"
         private const val KEY_CLICK_BEHAVIOR = "click_behavior"
@@ -150,7 +142,6 @@ constructor(
         private const val KEY_NETWORK_RESTRICTION_PERMANENTLY_HIDDEN = "network_restriction_permanently_hidden"
         private const val KEY_EXTERNAL_URL_WARNING_PERMANENTLY_HIDDEN = "external_url_warning_permanently_hidden"
         private const val KEY_REMOTE_EDIT_SERVER = "remote_edit_server"
-        private const val KEY_REMOTE_EDIT_DEVICE_ID = "remote_edit_device_id"
         private const val KEY_REMOTE_EDIT_PASSWORD = "remote_edit_password"
         private const val KEY_DARK_THEME = "dark_theme"
         private const val KEY_PREVIOUS_ICON_COLOR = "previous_icon_color"
@@ -160,5 +151,12 @@ constructor(
         private const val KEY_MALFORMED_JSON_WARNING_PERMANENTLY_HIDDEN = "malformed_json_warning_permanently_hidden"
         private const val KEY_AWARE_OF_RUN_IN_BACKGROUND_LIMITATIONS = "aware_of_run_in_background_limitations"
         private const val KEY_AWARE_ON_RESPONSE_HANDLING = "aware_of_response_handling"
+
+        // Intentionally excluding I and O to avoid mixing them up with 1 and 0
+        private const val DEVICE_ID_CHARACTERS = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789"
+
+        private fun generateDeviceId(): String =
+            CharArray(10) { DEVICE_ID_CHARACTERS.random() }
+                .joinToString(separator = "")
     }
 }
