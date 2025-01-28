@@ -1,11 +1,11 @@
 package ch.rmy.android.http_shortcuts.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -45,10 +45,13 @@ fun HideableDialog(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            permanentlyHidden = !permanentlyHidden
-                            onHidden(permanentlyHidden)
-                        }
+                        .toggleable(
+                            value = permanentlyHidden,
+                            onValueChange = {
+                                permanentlyHidden = !permanentlyHidden
+                                onHidden(permanentlyHidden)
+                            },
+                        )
                         .padding(Spacing.TINY),
                     horizontalArrangement = Arrangement.spacedBy(Spacing.SMALL, Alignment.Start),
                     verticalAlignment = Alignment.CenterVertically,

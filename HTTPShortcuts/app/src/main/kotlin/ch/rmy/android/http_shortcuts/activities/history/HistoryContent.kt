@@ -25,7 +25,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.collapse
+import androidx.compose.ui.semantics.expand
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.EmptyState
 import ch.rmy.android.http_shortcuts.components.FontSize
@@ -60,12 +64,28 @@ fun HistoryContent(state: HistoryViewState, onLongPressed: (eventId: String) -> 
                 items = state.historyItems,
                 key = { it.id },
             ) { historyItem ->
+                val isExpanded = expanded.getOrDefault(historyItem.id, false)
                 HistoryListItemView(
-                    historyItem,
+                    modifier = Modifier.semantics {
+                        if (isExpanded) {
+                            collapse {
+                                consume {
+                                    expanded[historyItem.id] = false
+                                }
+                            }
+                        } else {
+                            expand {
+                                consume {
+                                    expanded[historyItem.id] = true
+                                }
+                            }
+                        }
+                    },
+                    historyItem = historyItem,
                     useRelativeTime = state.useRelativeTimes,
-                    expanded = expanded.getOrDefault(historyItem.id, false),
+                    expanded = isExpanded,
                     onClick = {
-                        expanded[historyItem.id] = !expanded.getOrDefault(historyItem.id, false)
+                        expanded[historyItem.id] = !isExpanded
                     },
                     onLongPress = {
                         onLongPressed(historyItem.id)
@@ -79,6 +99,7 @@ fun HistoryContent(state: HistoryViewState, onLongPressed: (eventId: String) -> 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun HistoryListItemView(
+    modifier: Modifier,
     historyItem: HistoryListItem,
     useRelativeTime: Boolean,
     expanded: Boolean,
@@ -88,7 +109,7 @@ private fun HistoryListItemView(
     val now = if (useRelativeTime) now() else 0L
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .combinedClickable(
                 onLongClick = {
                     onLongPress()

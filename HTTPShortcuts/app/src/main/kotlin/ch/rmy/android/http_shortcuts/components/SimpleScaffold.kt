@@ -32,6 +32,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.text
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -116,6 +119,15 @@ fun <T : Any> SimpleScaffold(
                     Column(
                         verticalArrangement = Arrangement.Center,
                         modifier = Modifier
+                            .clearAndSetSemantics {
+                                text = buildAnnotatedString {
+                                    append(title)
+                                    if (subtitle != null) {
+                                        append(": ")
+                                        append(subtitle)
+                                    }
+                                }
+                            }
                             .runIf(onTitleClicked != null) {
                                 clickable(onClick = onTitleClicked!!)
                             }

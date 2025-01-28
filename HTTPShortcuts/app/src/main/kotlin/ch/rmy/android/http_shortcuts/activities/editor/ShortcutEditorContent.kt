@@ -87,7 +87,7 @@ fun ShortcutEditorContent(
                 Box {
                     ShortcutIcon(
                         shortcutIcon = shortcutIcon,
-                        contentDescription = stringResource(R.string.icon_description),
+                        contentDescription = stringResource(R.string.change_icon),
                         modifier = Modifier
                             .alpha(if (iconLoading) 0.7f else 1f)
                             .clickable(

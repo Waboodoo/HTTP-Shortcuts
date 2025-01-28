@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
@@ -25,7 +26,7 @@ fun SettingsButton(
     SettingsButton(
         title,
         subtitle,
-        iconContent = { Icon(icon, contentDescription = title) },
+        iconContent = { Icon(icon, contentDescription = null) },
         enabled,
         onClick,
     )
@@ -42,7 +43,7 @@ fun SettingsButton(
     SettingsButton(
         title,
         subtitle,
-        iconContent = icon?.let { { Icon(icon, contentDescription = title) } },
+        iconContent = icon?.let { { Icon(icon, contentDescription = null) } },
         enabled,
         onClick,
     )
@@ -79,9 +80,11 @@ private fun SettingsButton(
             )
         },
         modifier = Modifier
-            .clickable(enabled) {
-                onClick()
-            }
+            .clickable(
+                enabled = enabled,
+                role = Role.Button,
+                onClick = onClick,
+            )
             .heightIn(min = 72.dp)
             .padding(vertical = 4.dp)
     )

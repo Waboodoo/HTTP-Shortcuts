@@ -26,6 +26,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import ch.rmy.android.http_shortcuts.R
@@ -109,6 +111,9 @@ private fun SectionTitle(text: String) {
     ProvideTextStyle(value = MaterialTheme.typography.headlineMedium.copy(color = MaterialTheme.colorScheme.primary)) {
         Text(
             modifier = Modifier
+                .semantics {
+                    heading()
+                }
                 .padding(horizontal = Spacing.MEDIUM)
                 .padding(bottom = Spacing.MEDIUM),
             text = text,

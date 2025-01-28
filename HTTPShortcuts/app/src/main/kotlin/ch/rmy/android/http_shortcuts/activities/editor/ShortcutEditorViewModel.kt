@@ -420,7 +420,7 @@ constructor(
         logInfo("Changes to shortcut discarded")
         waitForOperationsToFinish()
         cleanUpStarter()
-        closeScreen()
+        closeScreen(result = NavigationDestination.ShortcutEditor.ChangesDiscardedResult)
     }
 
     fun onBasicRequestSettingsButtonClicked() = runAction {

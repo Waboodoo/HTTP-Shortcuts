@@ -1171,6 +1171,8 @@
     <string name="message_cookies_cleared">Cookies deleted.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">Pending executions cancelled.</string>
+    <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut were discarded -->
+    <string name="message_shortcut_changes_discarded">Changes discarded.</string>
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">This feature allows you to edit your shortcuts on a computer, from the comfort of a browser. Please read the app\’s Privacy Policy before getting started, then follow these steps:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->

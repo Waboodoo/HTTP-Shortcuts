@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -12,7 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.extensions.runIf
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
@@ -29,8 +32,23 @@ fun SelectDialogEntry(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .runIf(enabled) {
-                clickable(onClick = onClick)
+            .runIfNotNull(checked) { checked ->
+                if (useRadios) {
+                    clickable(
+                        enabled = enabled,
+                        role = Role.RadioButton,
+                        onClick = onClick,
+                    )
+                } else {
+                    toggleable(
+                        value = checked,
+                        enabled = enabled,
+                        role = Role.Checkbox,
+                        onValueChange = {
+                            onClick()
+                        },
+                    )
+                }
             }
             .padding(vertical = Spacing.SMALL + Spacing.TINY),
         verticalAlignment = Alignment.CenterVertically,
@@ -63,9 +81,10 @@ fun SelectDialogEntry(
             )
         }
         Column(
-            modifier = Modifier.runIf(!enabled) {
-                alpha(0.3f)
-            }
+            modifier = Modifier
+                .runIf(!enabled) {
+                    alpha(0.3f)
+                }
         ) {
             Text(
                 label,

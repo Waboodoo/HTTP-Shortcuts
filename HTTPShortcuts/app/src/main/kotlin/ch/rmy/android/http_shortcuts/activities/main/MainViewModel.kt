@@ -534,6 +534,10 @@ constructor(
         updateLauncherSettings(categories)
     }
 
+    fun onChangesDiscarded() = runAction {
+        showSnackbar(R.string.message_shortcut_changes_discarded)
+    }
+
     fun onPlaceShortcutOnHomeScreen(shortcut: ShortcutPlaceholder) = runAction {
         placeShortcutOnHomeScreen(shortcut)
     }

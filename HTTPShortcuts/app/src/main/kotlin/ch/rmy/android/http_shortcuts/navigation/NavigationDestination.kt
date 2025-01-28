@@ -304,6 +304,8 @@ sealed interface NavigationDestination {
         data class ShortcutEditedResult(
             val shortcutId: ShortcutId,
         ) : Serializable
+
+        data object ChangesDiscardedResult : Serializable
     }
 
     object ShortcutEditorAdvancedSettings : NoArgNavigationDestination {
