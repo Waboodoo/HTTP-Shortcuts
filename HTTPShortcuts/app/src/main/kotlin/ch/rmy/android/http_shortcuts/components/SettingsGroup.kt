@@ -38,7 +38,7 @@ internal fun SettingsGroupTitle(title: String) {
             .fillMaxWidth()
             .padding(horizontal = Spacing.MEDIUM)
             .padding(top = Spacing.MEDIUM, bottom = Spacing.TINY)
-            .semantics {
+            .semantics(mergeDescendants = true) {
                 heading()
             },
         contentAlignment = Alignment.CenterStart,

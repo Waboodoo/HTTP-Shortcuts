@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import ch.rmy.android.http_shortcuts.R
@@ -98,6 +99,7 @@ private fun CategoryHeader(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .semantics(mergeDescendants = true) {}
             .toggleable(
                 value = checked,
                 onValueChange = onCheckedChanged,
@@ -130,6 +132,7 @@ private fun ShortcutListItem(
         ListItem(
             modifier = Modifier
                 .fillMaxWidth()
+                .semantics(mergeDescendants = true) {}
                 .toggleable(
                     value = checked,
                     onValueChange = onCheckedChanged,

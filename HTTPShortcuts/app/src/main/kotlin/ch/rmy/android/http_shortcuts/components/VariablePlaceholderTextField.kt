@@ -190,6 +190,7 @@ fun VariablePlaceholderTextField(
             )
         )
     }
+    var transformedText by remember { mutableStateOf(value) }
     DisposableEffect(value) {
         textFieldValue = textFieldValue.copy(text = value)
         onDispose { }
@@ -200,7 +201,7 @@ fun VariablePlaceholderTextField(
             .fillMaxWidth()
             .focusRequester(focusRequester)
             .semantics {
-                editableText = AnnotatedString(textFieldValue.text)
+                editableText = AnnotatedString(transformedText)
             }
             .then(modifier),
         label = label,
@@ -247,6 +248,9 @@ fun VariablePlaceholderTextField(
         } else null,
         visualTransformation = {
             transformVariablePlaceholders(it.text, placeholders, placeholderStyle, transformation)
+                .also {
+                    transformedText = it.text.text
+                }
         },
     )
 

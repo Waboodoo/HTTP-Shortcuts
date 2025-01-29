@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
@@ -13,6 +12,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.semantics
 
 @Composable
 fun Checkbox(
@@ -24,53 +24,48 @@ fun Checkbox(
     subtitle: String? = null,
     onCheckedChange: (Boolean) -> Unit = {},
 ) {
-    Surface {
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .toggleable(
+    ListItem(
+        modifier = modifier
+            .fillMaxWidth()
+            .semantics(mergeDescendants = true) {}
+            .toggleable(
+                enabled = enabled,
+                value = checked,
+                role = Role.Checkbox,
+                onValueChange = { onCheckedChange(!checked) }
+            ),
+        headlineContent = {
+            WithContentColor(enabled = enabled) {
+                Text(label)
+            }
+        },
+        supportingContent = subtitle?.let {
+            {
+                WithContentColor(enabled = enabled) {
+                    Text(it)
+                }
+            }
+        },
+        leadingContent = icon?.let {
+            {
+                WithContentColor(enabled = enabled) {
+                    icon()
+                }
+            }
+        },
+        trailingContent = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                androidx.compose.material3.Checkbox(
                     enabled = enabled,
-                    value = checked,
-                    role = Role.Checkbox,
-                    onValueChange = { onCheckedChange(!checked) }
-                ),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            ListItem(
-                headlineContent = {
-                    WithContentColor(enabled = enabled) {
-                        Text(label)
-                    }
-                },
-                supportingContent = subtitle?.let {
-                    {
-                        WithContentColor(enabled = enabled) {
-                            Text(it)
-                        }
-                    }
-                },
-                leadingContent = icon?.let {
-                    {
-                        WithContentColor(enabled = enabled) {
-                            icon()
-                        }
-                    }
-                },
-                trailingContent = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        androidx.compose.material3.Checkbox(
-                            enabled = enabled,
-                            checked = checked,
-                            onCheckedChange = null,
-                            modifier = Modifier.minimumInteractiveComponentSize(),
-                        )
-                    }
-                },
-            )
-        }
-    }
+                    checked = checked,
+                    onCheckedChange = null,
+                    modifier = Modifier.minimumInteractiveComponentSize(),
+                )
+            }
+        },
+    )
 }
 
 @Composable
