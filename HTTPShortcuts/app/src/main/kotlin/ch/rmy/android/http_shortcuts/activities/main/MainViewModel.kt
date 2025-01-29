@@ -535,7 +535,7 @@ constructor(
     }
 
     fun onChangesDiscarded() = runAction {
-        showSnackbar(R.string.message_shortcut_changes_discarded)
+        showSnackbar(R.string.message_changes_discarded)
     }
 
     fun onPlaceShortcutOnHomeScreen(shortcut: ShortcutPlaceholder) = runAction {

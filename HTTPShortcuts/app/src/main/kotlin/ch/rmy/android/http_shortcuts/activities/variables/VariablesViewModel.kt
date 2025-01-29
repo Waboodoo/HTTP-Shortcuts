@@ -212,4 +212,8 @@ constructor(
             copy(dialogState = dialogState)
         }
     }
+
+    fun onChangesDiscarded() = runAction {
+        showSnackbar(R.string.message_changes_discarded)
+    }
 }

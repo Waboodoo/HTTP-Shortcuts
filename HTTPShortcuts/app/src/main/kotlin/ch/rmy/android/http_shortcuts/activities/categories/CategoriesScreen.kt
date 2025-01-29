@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.components.bindViewModel
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.CategoryEditor.RESULT_CATEGORY_CREATED
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.CategoryEditor.RESULT_CATEGORY_EDITED
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Companion.RESULT_CHANGES_DISCARDED
 import ch.rmy.android.http_shortcuts.navigation.ResultHandler
 
 @Composable
@@ -24,6 +25,7 @@ fun CategoriesScreen(savedStateHandle: SavedStateHandle) {
         when (result) {
             RESULT_CATEGORY_CREATED -> viewModel.onCategoryCreated()
             RESULT_CATEGORY_EDITED -> viewModel.onCategoryEdited()
+            RESULT_CHANGES_DISCARDED -> viewModel.onChangesDiscarded()
             is NavigationDestination.IconPicker.Result -> {
                 viewModel.onCategoryIconSelected(result.icon)
             }

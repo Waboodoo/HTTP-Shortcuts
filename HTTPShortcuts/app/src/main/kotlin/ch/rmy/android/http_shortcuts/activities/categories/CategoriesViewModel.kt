@@ -194,6 +194,10 @@ constructor(
         navigate(NavigationDestination.IconPicker)
     }
 
+    fun onChangesDiscarded() = runAction {
+        showSnackbar(R.string.message_changes_discarded)
+    }
+
     companion object {
         private const val MAX_ICONS = 5
 

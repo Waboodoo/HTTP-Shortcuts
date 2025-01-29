@@ -6,18 +6,27 @@ import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.FloatingAddButton
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Companion.RESULT_CHANGES_DISCARDED
+import ch.rmy.android.http_shortcuts.navigation.ResultHandler
 
 @Composable
-fun VariablesScreen() {
+fun VariablesScreen(savedStateHandle: SavedStateHandle) {
     val (viewModel, state) = bindViewModel<VariablesViewState, VariablesViewModel>()
 
     BackHandler(state != null) {
         viewModel.onBackPressed()
+    }
+
+    ResultHandler(savedStateHandle) { result ->
+        when (result) {
+            RESULT_CHANGES_DISCARDED -> viewModel.onChangesDiscarded()
+        }
     }
 
     SimpleScaffold(

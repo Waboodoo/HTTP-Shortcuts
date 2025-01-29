@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.CategoryEditor.RESULT_CATEGORY_CREATED
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.CategoryEditor.RESULT_CATEGORY_EDITED
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
@@ -128,7 +129,7 @@ constructor(
 
     fun onDiscardConfirmed() = runAction {
         updateDialogState(null)
-        closeScreen()
+        closeScreen(result = NavigationDestination.RESULT_CHANGES_DISCARDED)
     }
 
     fun onDialogDismissalRequested() = runAction {

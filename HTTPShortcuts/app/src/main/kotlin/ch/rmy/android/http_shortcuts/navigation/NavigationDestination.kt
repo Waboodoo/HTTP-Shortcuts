@@ -304,8 +304,6 @@ sealed interface NavigationDestination {
         data class ShortcutEditedResult(
             val shortcutId: ShortcutId,
         ) : Serializable
-
-        data object ChangesDiscardedResult : Serializable
     }
 
     object ShortcutEditorAdvancedSettings : NoArgNavigationDestination {
@@ -473,6 +471,10 @@ sealed interface NavigationDestination {
             val workingDirectoryId: WorkingDirectoryId,
             val name: String,
         ) : Serializable
+    }
+
+    companion object {
+        const val RESULT_CHANGES_DISCARDED = "changes-discarded"
     }
 }
 

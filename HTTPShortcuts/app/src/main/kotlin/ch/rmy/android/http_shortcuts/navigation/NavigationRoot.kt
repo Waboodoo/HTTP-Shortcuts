@@ -217,8 +217,10 @@ fun NavigationRoot() {
             TroubleShootingScreen()
         }
 
-        composable(NavigationDestination.Variables) {
-            VariablesScreen()
+        composable(NavigationDestination.Variables) { backStackEntry ->
+            VariablesScreen(
+                savedStateHandle = backStackEntry.savedStateHandle,
+            )
         }
 
         composable(NavigationDestination.VariableEditor) { backStackEntry ->

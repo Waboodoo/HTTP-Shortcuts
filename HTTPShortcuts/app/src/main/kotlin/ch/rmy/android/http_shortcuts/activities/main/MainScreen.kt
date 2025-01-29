@@ -19,6 +19,7 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Categories.RESULT_CATEGORIES_CHANGED
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Companion.RESULT_CHANGES_DISCARDED
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.ImportExport.RESULT_CATEGORIES_CHANGED_FROM_IMPORT
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.MoveShortcuts.RESULT_SHORTCUTS_MOVED
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Settings.RESULT_APP_LOCKED
@@ -69,7 +70,7 @@ fun MainScreen(
             is NavigationDestination.ShortcutEditor.ShortcutEditedResult -> {
                 viewModel.onShortcutEdited()
             }
-            is NavigationDestination.ShortcutEditor.ChangesDiscardedResult -> {
+            RESULT_CHANGES_DISCARDED -> {
                 viewModel.onChangesDiscarded()
             }
             is NavigationDestination.Widget.Result -> {

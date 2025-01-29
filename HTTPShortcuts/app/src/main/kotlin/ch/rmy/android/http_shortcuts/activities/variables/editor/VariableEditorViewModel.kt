@@ -26,6 +26,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Companion.RESULT_CHANGES_DISCARDED
 import ch.rmy.android.http_shortcuts.variables.Variables
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
@@ -212,7 +213,7 @@ constructor(
 
     fun onDiscardDialogConfirmed() = runAction {
         updateDialogState(null)
-        closeScreen()
+        closeScreen(result = RESULT_CHANGES_DISCARDED)
     }
 
     fun onVariableKeyChanged(key: String) = runAction {
