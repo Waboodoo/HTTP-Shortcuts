@@ -34,7 +34,11 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.collapse
+import androidx.compose.ui.semantics.expand
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.models.ItemWrapper
 import ch.rmy.android.http_shortcuts.components.EmptyState
@@ -153,11 +157,23 @@ private fun Section(
     Column(modifier) {
         HorizontalDivider()
         ListItem(
-            modifier = Modifier.clickable(onClick = onClicked),
+            modifier = Modifier
+                .semantics {
+                    if (expanded) {
+                        collapse {
+                            consume(onClicked)
+                        }
+                    } else {
+                        expand {
+                            consume(onClicked)
+                        }
+                    }
+                }
+                .clickable(onClick = onClicked),
             leadingContent = {
                 Icon(
                     painter = painterResource(icon),
-                    contentDescription = title,
+                    contentDescription = null,
                     modifier = Modifier.size(20.dp)
                 )
             },
