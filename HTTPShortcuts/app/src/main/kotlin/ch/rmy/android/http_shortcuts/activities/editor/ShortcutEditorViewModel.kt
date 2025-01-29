@@ -402,7 +402,7 @@ constructor(
         if (hasChanges()) {
             showDiscardDialog()
         } else {
-            onDiscardDialogConfirmed()
+            onDiscardDialogConfirmed(hadChanges = false)
         }
     }
 
@@ -410,7 +410,7 @@ constructor(
         updateDialogState(ShortcutEditorDialogState.DiscardWarning)
     }
 
-    fun onDiscardDialogConfirmed() = runAction {
+    fun onDiscardDialogConfirmed(hadChanges: Boolean = true) = runAction {
         updateDialogState(null)
         logInfo("Beginning discarding changes to shortcut")
         isFinishing = true
@@ -420,7 +420,7 @@ constructor(
         logInfo("Changes to shortcut discarded")
         waitForOperationsToFinish()
         cleanUpStarter()
-        closeScreen(result = NavigationDestination.ShortcutEditor.ChangesDiscardedResult)
+        closeScreen(result = if (hadChanges) NavigationDestination.ShortcutEditor.ChangesDiscardedResult else null)
     }
 
     fun onBasicRequestSettingsButtonClicked() = runAction {

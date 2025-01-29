@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
-import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.extensions.runIf
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
@@ -32,14 +31,14 @@ fun SelectDialogEntry(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .runIfNotNull(checked) { checked ->
+            .run {
                 if (useRadios) {
                     clickable(
                         enabled = enabled,
                         role = Role.RadioButton,
                         onClick = onClick,
                     )
-                } else {
+                } else if (checked != null) {
                     toggleable(
                         value = checked,
                         enabled = enabled,
@@ -47,6 +46,11 @@ fun SelectDialogEntry(
                         onValueChange = {
                             onClick()
                         },
+                    )
+                } else {
+                    clickable(
+                        enabled = enabled,
+                        onClick = onClick,
                     )
                 }
             }
