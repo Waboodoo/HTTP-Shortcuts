@@ -32,9 +32,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CustomAccessibilityAction
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.collapse
+import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.expand
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
@@ -200,9 +204,21 @@ private fun CodeSnippetItem(
     onDocumentationButtonClicked: (() -> Unit)?,
     onClicked: () -> Unit,
 ) {
-
+    val resources = LocalContext.current.resources
     ListItem(
         modifier = Modifier
+            .semantics(mergeDescendants = true) {
+                onDocumentationButtonClicked?.let {
+                    customActions = listOf(
+                        CustomAccessibilityAction(
+                            label = resources.getString(R.string.accessibility_label_show_documentation),
+                            action = {
+                                consume { onDocumentationButtonClicked() }
+                            },
+                        )
+                    )
+                }
+            }
             .clickable(onClick = onClicked)
             .then(modifier),
         leadingContent = {
@@ -220,8 +236,9 @@ private fun CodeSnippetItem(
             {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.HelpOutline,
-                    contentDescription = stringResource(R.string.accessibility_label_show_documentation),
+                    contentDescription = null,
                     modifier = Modifier
+                        .clearAndSetSemantics { }
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = ripple(bounded = false),

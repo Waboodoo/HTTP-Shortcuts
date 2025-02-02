@@ -8,7 +8,9 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.editableText
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -40,7 +42,9 @@ fun CodeEditorField(
     }
 
     TextField(
-        modifier = modifier.clearAndSetSemantics { },
+        modifier = modifier.semantics {
+            editableText = AnnotatedString(value.text)
+        },
         colors = textFieldColors,
         value = value,
         onValueChange = onValueChange,
