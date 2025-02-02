@@ -1,6 +1,5 @@
 package ch.rmy.android.scripting.quickjs
 
-import androidx.core.text.isDigitsOnly
 import ch.rmy.android.scripting.JsFunctionArgs
 import ch.rmy.android.scripting.JsFunctionArgsImpl
 import ch.rmy.android.scripting.JsValue
@@ -33,17 +32,26 @@ internal class QuickJsValueWrapper(
         mapKeys { (key, _) -> key.toString() }
 
     override fun asByteArray(): ByteArray? =
-        when {
-            value == null -> null
-            value == "" -> ByteArray(0)
-            value is ByteArray -> value
-            value is String && value.isDigitsOnly() -> ByteArray(1).apply { this[0] = value.toInt().toByte() }
-            value is String -> value.toByteArray()
-            value is List<*> -> ByteArray(value.size) {
+        when (value) {
+            null -> null
+            "" -> ByteArray(0)
+            is ByteArray -> value
+            is String -> value.toByteArray()
+            is List<*> -> ByteArray(value.size) {
                 when (val entry = value[it]) {
                     is Int -> entry.toByte()
                     else -> 0
                 }
+            }
+            is QuickJSArray -> {
+                value.toArray(null, null, ::createObjectMap)
+                    .map { entry ->
+                        when (entry) {
+                            is Int -> entry.toByte()
+                            else -> 0
+                        }
+                    }
+                    .toByteArray()
             }
             else -> value.toString().toByteArray()
         }
