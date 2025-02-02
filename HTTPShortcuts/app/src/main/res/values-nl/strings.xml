@@ -1177,6 +1177,7 @@ U kunt deze functie inschakelen door een snelkoppeling te bewerken en het select
     <string name="message_cookies_cleared">Cookies verwijderd.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">Hangende executies geannuleerd.</string>
+    <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Met deze functie kunt u uw snelkoppelingen op een computer bewerken, vanuit het comfort van een browser. Lees het privacybeleid van de app voordat u aan de slag gaat en volg daarna deze stappen:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->

@@ -1178,6 +1178,7 @@
     <string name="message_cookies_cleared">Файлы cookie удалены.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">Отложенные исполнения отменены.</string>
+    <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Эта функция позволяет редактировать ярлыки на компьютере, не выходя из браузера. Перед началом работы ознакомьтесь с Политикой конфиденциальности приложения, а затем выполните следующие действия:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->

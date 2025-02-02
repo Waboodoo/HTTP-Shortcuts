@@ -1100,6 +1100,7 @@ Podeu activar aquesta funció editant una drecera i seleccionant la casella de s
     <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
     <string name="message_cookies_cleared">S\'han eliminat les galetes.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
+    <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Aquesta funció us permet editar les vostres dreceres en un ordinador, des de la comoditat d\'un navegador. Si us plau, llegiu la política de privadesa de l\'aplicació abans de començar i, a continuació, seguiu aquests passos:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->

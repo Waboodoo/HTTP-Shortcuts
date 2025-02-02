@@ -1094,6 +1094,7 @@ Tuto funkci můžete povolit úpravou zástupce a zaškrtnutím políčka \"%1$s
     <string name="message_cookies_cleared">Smazané soubory cookie.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">Probíhající exekuce zrušeny.</string>
+    <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Tato funkce umožňuje upravovat zástupce v počítači z pohodlí prohlížeče. Než začnete, přečtěte si Zásady ochrany osobních údajů aplikace a poté postupujte podle následujících kroků:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->

@@ -1125,6 +1125,7 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <string name="message_cookies_cleared">Sütik törölve.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">Függőben lévő végrehajtások törlésre kerültek.</string>
+    <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Ez a funkció lehetővé teszi a parancsikonok szerkesztését a számítógépen, a böngésző kényelméből. Kérjük, mielőtt elkezdené, olvassa el az alkalmazás adatvédelmi irányelveit, majd kövesse az alábbi lépéseket:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->

@@ -1203,6 +1203,7 @@ Możesz włączyć tę funkcję, edytując skrót i zaznaczając pole wyboru \"%
     <string name="message_cookies_cleared">Ciasteczka usunięte.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">Oczekujące wykonania anulowane.</string>
+    <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Ta funkcja umożliwia edycję skrótów na komputerze w przeglądarce internetowej.  Przed rozpoczęciem zapoznaj się z Polityką prywatności aplikacji, a następnie wykonaj następujące czynności:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->

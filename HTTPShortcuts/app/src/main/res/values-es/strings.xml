@@ -1190,6 +1190,7 @@ Puede activar esta función editando un acceso directo y seleccionando la casill
     <string name="message_cookies_cleared">Se han eliminado las cookies.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">Ejecuciones pendientes canceladas.</string>
+    <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Esta función te permite editar tus accesos directos en un ordenador, desde la comodidad de un navegador. Por favor, lee la Política de Privacidad de la app antes de empezar, y luego sigue estos pasos:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->

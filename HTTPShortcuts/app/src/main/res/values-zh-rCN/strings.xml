@@ -737,6 +737,7 @@
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">显示会话</string>
     <!-- Shortcut Action Title: Show fullscreen window -->
+    <string name="action_type_window_title">显示窗口</string>
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
     <string name="action_type_selection_title">显示选择 （多选）</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
@@ -762,6 +763,7 @@
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
     <string name="action_tts">讲话 （文本转语音）</string>
     <!-- Shortcut Action Title: Action that allows to display a notification -->
+    <string name="action_show_notification">显示通知</string>
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
     <string name="action_play_sound">播放声音</string>
     <!-- Shortcut Action Title: Vibrate -->
@@ -1140,6 +1142,7 @@
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
     <string name="option_response_handling_type_toast">悬浮窗弹出窗口</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a notification -->
+    <string name="option_response_handling_type_notification">通知</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">对话框</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
@@ -1164,6 +1167,7 @@
     <string name="message_cookies_cleared">已删除 Cookies</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">待执行项已被取消。</string>
+    <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">此功能允许你在电脑上浏览器舒适地编辑你的快捷方式。在开始前，请先阅读本应用的隐私政策，接着遵照下列步骤执行：</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
@@ -1702,6 +1706,7 @@
     <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
     <string name="notification_channel_shortcut_execution_title">快捷方式执行</string>
     <!-- Title for notification channel, used for displaying responses or custom messages -->
+    <string name="notification_channel_shortcut_result_title">快捷方式结果</string>
     <!-- Message shown in notification when a shortcut is being executed -->
     <plurals name="notification_shortcut_execution_text_multiple">
         <item quantity="other">%d 个快捷方式在执行中</item>
@@ -1711,19 +1716,35 @@
     <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
     <string name="instructions_run_in_background">后台运行有一些技术上的限制。 在某些情况下，特别是在与文件、剪贴板或其他应用互动时，或者当执行时间超过两分钟时，它可能无法正常运转。</string>
     <!-- Accessibility label for the floating action button on the main screen, to create new shortcuts -->
+    <string name="accessibility_label_create_shortcut_fab">创建新的快捷方式</string>
     <!-- Accessibility label for the floating action button, to add shortcuts to a multi-shortcut -->
+    <string name="accessibility_label_add_shortcuts_to_trigger_fab">添加快捷操作</string>
     <!-- Accessibility label for the floating action button, to add a header -->
+    <string name="accessibility_label_add_header_fab">添加Header</string>
     <!-- Accessibility label for the floating action button, to add a parameter -->
+    <string name="accessibility_label_add_parameter_fab">添加参数</string>
     <!-- Accessibility label for the floating action button, to create new categories -->
+    <string name="accessibility_label_create_category_fab">建立新类别</string>
     <!-- Accessibility label for the floating action button, to create new variables -->
+    <string name="accessibility_label_create_variable_fab">创建新变量</string>
     <!-- Accessibility label for the floating action button, to mount a new working directory -->
+    <string name="accessibility_label_mount_working_directory_fab">挂载新目录</string>
     <!-- Accessibility label for the floating action button, to add a new custom -->
+    <string name="accessibility_label_add_icon_fab">添加新图标</string>
     <!-- Accessibility label for the floating action button, to add a certificate pinning -->
+    <string name="accessibility_label_add_certificate_pinning_fab">添加证书固定</string>
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
+    <string name="accessibility_label_show_documentation">前往文档</string>
     <!-- Accessibility label for "Select all" button in exporter -->
+    <string name="accessibility_label_select_all_for_export">全选</string>
     <!-- Accessibility label for "Unselect all" button in exporter -->
+    <string name="accessibility_label_unselect_all_for_export">全不选</string>
     <!-- Accessibility label for the generic "go back" arrow button in the nav bar -->
+    <string name="accessibility_label_go_back">返回</string>
     <!-- Accessibility label for the generic "close" cross button in the nav bar -->
+    <string name="accessibility_label_close">关闭</string>
     <!-- Accessibility label for the "go to next result" button in search bars -->
+    <string name="accessibility_search_go_to_next">下一个</string>
     <!-- Accessibility label for the "go to previous result" button in search bars -->
+    <string name="accessibility_search_go_to_previous">上一个</string>
 </resources>

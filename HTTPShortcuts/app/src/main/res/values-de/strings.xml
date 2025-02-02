@@ -1191,6 +1191,8 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="message_cookies_cleared">Cookies gelöscht.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">Ausstehende Ausführungen abgebrochen.</string>
+    <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
+    <string name="message_changes_discarded">Änderungen verworfen.</string>
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Dieses Feature ermöglicht es dir deine Shortcuts von einem Computer aus im Browser zu bearbeiten. Bitte mache dich zuerst mit den Datenschutz-Bestimmungen der App vertraut, danach folge diesen Schritten:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->

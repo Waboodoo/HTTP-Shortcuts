@@ -1093,6 +1093,7 @@ Você pode habilitar este recurso editando um atalho e selecionando a caixa de s
     <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
     <string name="message_cookies_cleared">Biscoitos excluídos.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
+    <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Este recurso permite editar seus atalhos em um computador, a partir do conforto de um navegador. Por favor, leia a Política de Privacidade do aplicativo antes de começar, depois siga estes passos:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->

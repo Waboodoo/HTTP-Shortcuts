@@ -1176,6 +1176,8 @@
     <string name="message_cookies_cleared">クッキー(Cookies)を削除しました</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">保留中の実行をキャンセルしました</string>
+    <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
+    <string name="message_changes_discarded">変更を破棄しました</string>
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">この機能を使用すると、使いやすいコンピューター上のブラウザからショートカットを編集できます。 開始する前にプライバシーポリシーを読んで同意してから、次の手順に従ってください。</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->

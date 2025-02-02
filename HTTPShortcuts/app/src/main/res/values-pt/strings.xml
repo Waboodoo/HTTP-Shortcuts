@@ -1089,6 +1089,7 @@ Pode activar esta funcionalidade editando um atalho e seleccionando a caixa de v
     <string name="message_cookies_cleared">Biscoitos eliminados.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">As execuções pendentes foram canceladas.</string>
+    <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Esta funcionalidade permite-lhe editar os seus atalhos num computador, a partir do conforto de um navegador. Por favor leia a Política de Privacidade da aplicação antes de começar, depois siga estes passos:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->

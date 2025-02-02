@@ -1181,6 +1181,7 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <string name="message_cookies_cleared">Cookies cancellati</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">Esecuzioni in corso annullate.</string>
+    <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Questa funzionalità consente di modificare i collegamenti su un PC, da un comodo browser. Si prega di leggere l\'Informativa sulla privacy dell\'app prima di iniziare, quindi seguire questi passaggi:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
