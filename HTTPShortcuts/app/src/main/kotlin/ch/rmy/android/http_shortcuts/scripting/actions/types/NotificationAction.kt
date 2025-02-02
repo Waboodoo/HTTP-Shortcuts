@@ -12,7 +12,7 @@ constructor(
     private val permissionManager: PermissionManager,
 ) : Action<NotificationAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext) {
-        if (permissionManager.requestNotificationPermissionIfNeeded() && title.isNotEmpty() && !message.isNullOrEmpty()) {
+        if (permissionManager.requestNotificationPermissionIfNeeded() && title.isNotEmpty()) {
             notifier.showTextNotification(
                 title = title,
                 message = message,
