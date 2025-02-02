@@ -2,11 +2,11 @@
 
 ### Improvements
 - Various accessibility improvements
+- Added better error handling in some places
 
 ### Bugfixes
 - Scripting functions now work correctly when an integer, integer array, or byte array is used as a parameter (e.g. `hmac` or `writeFile`)
 - The `showNotification` function now also works when only a title but no message is provided
-- Added better error handling in some places
 
 ### Miscellaneous
 - The generation of the "Device ID", which is used for remote editing and crash logs, was unified and simplified
