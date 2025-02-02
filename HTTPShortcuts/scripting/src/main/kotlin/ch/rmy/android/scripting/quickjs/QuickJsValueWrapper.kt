@@ -39,6 +39,12 @@ internal class QuickJsValueWrapper(
             value is ByteArray -> value
             value is String && value.isDigitsOnly() -> ByteArray(1).apply { this[0] = value.toInt().toByte() }
             value is String -> value.toByteArray()
+            value is List<*> -> ByteArray(value.size) {
+                when (val entry = value[it]) {
+                    is Int -> entry.toByte()
+                    else -> 0
+                }
+            }
             else -> value.toString().toByteArray()
         }
 
