@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 import android.content.Context
 import android.webkit.MimeTypeMap
 import androidx.documentfile.provider.DocumentFile
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
@@ -41,6 +42,7 @@ constructor(
         val contentResolver = context.contentResolver
         return executionContext.scriptingEngine.buildJsObject {
             function("readFile") { args ->
+                logInfo("directory.readFile() called")
                 val filePath = args.getString(0)!!
                 val encoding = args.getString(1)
                 val file = directory.findFileFromPath(filePath)
@@ -72,6 +74,7 @@ constructor(
                     }
             }
             function("writeFile") { args ->
+                logInfo("directory.writeFile() called")
                 val filePath = args.getString(0)!!
                 val content = args.getByteArray(1) ?: return@function null
                 val file = directory.findOrCreateFileFromPath(filePath)
@@ -86,6 +89,7 @@ constructor(
                     }
             }
             function("appendFile") { args ->
+                logInfo("directory.appendFile() called")
                 val filePath = args.getString(0)!!
                 val content = args.getByteArray(1) ?: return@function null
                 val file = directory.findOrCreateFileFromPath(filePath)
