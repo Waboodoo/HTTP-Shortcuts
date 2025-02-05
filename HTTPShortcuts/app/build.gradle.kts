@@ -105,6 +105,15 @@ android {
         )
     }
 
+    signingConfigs {
+        create("development") {
+            keyAlias = "development"
+            keyPassword = "Password1"
+            storePassword = "Password1"
+            storeFile = file("../keystores/development.jks")
+        }
+    }
+
     buildTypes {
         /* Used for development & testing */
         getByName("debug") {
@@ -113,6 +122,7 @@ android {
 
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             applicationIdSuffix = ".debug"
+            signingConfig = signingConfigs["development"]
         }
 
         /* Used for F-Droid */
