@@ -92,6 +92,7 @@ constructor(
         get() = initData.selectionMode
 
     private var activeShortcutId: ShortcutId? = null
+    private var settingsRequestHandled: Boolean = false
 
     override suspend fun initialize(data: InitData): MainViewState {
         val categoriesFlow = categoryRepository.getObservableCategories()
@@ -582,6 +583,14 @@ constructor(
 
     fun onWidgetSettingsCancelled() = runAction {
         finish()
+    }
+
+    fun onApplicationSettingsRequested() = runAction {
+        if (appRepository.getLock() != null || settingsRequestHandled) {
+            skipAction()
+        }
+        settingsRequestHandled = true
+        navigate(NavigationDestination.Settings)
     }
 
     data class InitData(

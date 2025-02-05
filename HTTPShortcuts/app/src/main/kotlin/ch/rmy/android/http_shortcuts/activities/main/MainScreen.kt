@@ -1,13 +1,16 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
+import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
@@ -45,6 +48,13 @@ fun MainScreen(
             cancelPendingExecutions = cancelPendingExecutions,
         )
     )
+
+    val activity = LocalActivity.current!!
+    LaunchedEffect(Unit) {
+        if (activity.intent.action == Intent.ACTION_APPLICATION_PREFERENCES) {
+            viewModel.onApplicationSettingsRequested()
+        }
+    }
 
     BackHandler(state != null) {
         viewModel.onBackButtonPressed()
