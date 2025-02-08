@@ -119,6 +119,10 @@ constructor(
         get() = getBoolean(KEY_AWARE_OF_RUN_IN_BACKGROUND_LIMITATIONS)
         set(value) = putBoolean(KEY_AWARE_OF_RUN_IN_BACKGROUND_LIMITATIONS, value)
 
+    var isAwareOfShortcutUnhiding: Boolean
+        get() = getBoolean(KEY_AWARE_ON_SHORTCUT_UNHIDING)
+        set(value) = putBoolean(KEY_AWARE_ON_SHORTCUT_UNHIDING, value)
+
     private val _colorThemeFlow = MutableStateFlow(colorTheme)
     val colorThemeFlow = _colorThemeFlow.asStateFlow()
 
@@ -151,6 +155,7 @@ constructor(
         private const val KEY_MALFORMED_JSON_WARNING_PERMANENTLY_HIDDEN = "malformed_json_warning_permanently_hidden"
         private const val KEY_AWARE_OF_RUN_IN_BACKGROUND_LIMITATIONS = "aware_of_run_in_background_limitations"
         private const val KEY_AWARE_ON_RESPONSE_HANDLING = "aware_of_response_handling"
+        private const val KEY_AWARE_ON_SHORTCUT_UNHIDING = "aware_of_shortcut_unhiding"
 
         // Intentionally excluding I and O to avoid mixing them up with 1 and 0
         private const val DEVICE_ID_CHARACTERS = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789"

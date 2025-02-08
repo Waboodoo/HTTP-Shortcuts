@@ -42,4 +42,7 @@ sealed class ShortcutListDialogState {
 
     @Stable
     data object ExportProgress : ShortcutListDialogState()
+
+    @Stable
+    data object ShortcutUnhideInstructions : ShortcutListDialogState()
 }

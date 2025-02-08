@@ -1744,4 +1744,6 @@
     <string name="accessibility_search_go_to_next">Next</string>
     <!-- Accessibility label for the "go to previous result" button in search bars -->
     <string name="accessibility_search_go_to_previous">Previous</string>
+    <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
+    <string name="instructions_shortcut_unhiding">You can make hidden shortcuts visible again by going to the Settings screen and looking for the \“%s\” option.</string>
 </resources>

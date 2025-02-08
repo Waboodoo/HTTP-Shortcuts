@@ -301,7 +301,12 @@ constructor(
     }
 
     fun onHideSelected() = runAction {
-        updateDialogState(null)
+        if (settings.isAwareOfShortcutUnhiding) {
+            updateDialogState(null)
+        } else {
+            settings.isAwareOfShortcutUnhiding = true
+            updateDialogState(ShortcutListDialogState.ShortcutUnhideInstructions)
+        }
         val shortcutId = activeShortcutId ?: skipAction()
         shortcutRepository.setHidden(shortcutId, true)
         showSnackbar(R.string.message_shortcut_hidden)

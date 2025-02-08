@@ -117,6 +117,12 @@ fun ShortcutListDialogs(
                 onDismissRequest = onDismissed,
             )
         }
+        is ShortcutListDialogState.ShortcutUnhideInstructions -> {
+            MessageDialog(
+                message = stringResource(R.string.instructions_shortcut_unhiding, stringResource(R.string.settings_title_show_hidden_shortcuts)),
+                onDismissRequest = onDismissed,
+            )
+        }
         null -> Unit
     }
 }
