@@ -11,6 +11,7 @@ import org.json.JSONObject
 internal class QuickJsValueWrapper(
     private val value: Any?,
 ) : JsValue {
+    @OptIn(ExperimentalStdlibApi::class)
     override fun asString(): String? =
         when (value) {
             null -> null
@@ -18,6 +19,7 @@ internal class QuickJsValueWrapper(
             is Map<*, *> -> JSONObject(value).toString()
             is List<*> -> JSONArray(value).toString()
             is QuickJSObject -> value.stringify()
+            is ByteArray -> value.toHexString()
             else -> value.toString()
         }
 
@@ -46,6 +48,16 @@ internal class QuickJsValueWrapper(
             is QuickJSArray -> {
                 value.toArray(null, null, ::createObjectMap)
                     .map { entry ->
+                        when (entry) {
+                            is Int -> entry.toByte()
+                            else -> 0
+                        }
+                    }
+                    .toByteArray()
+            }
+            is Map<*, *> -> {
+                value.entries
+                    .map { (_, entry) ->
                         when (entry) {
                             is Int -> entry.toByte()
                             else -> 0
