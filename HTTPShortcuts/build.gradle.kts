@@ -22,12 +22,6 @@ plugins {
     alias(libs.plugins.compose.compiler) apply false
 }
 
-ext {
-    set("bugsnagAPIKey", System.getenv("HTTP_SHORTCUTS_BUGSNAG_API_KEY") ?: "")
-    set("autoBuildDocs", System.getenv("HTTP_SHORTCUTS_AUTO_BUILD_DOCS") == "true")
-    set("buildTimestamp", java.util.Date().time.toString())
-}
-
 allprojects {
     apply {
         plugin("com.diffplug.spotless")

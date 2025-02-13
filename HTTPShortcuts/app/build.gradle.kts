@@ -19,9 +19,10 @@ plugins {
     alias(libs.plugins.compose.compiler)
 }
 
-val bugsnagAPIKey: String by rootProject.ext
-val autoBuildDocs: Boolean by rootProject.ext
+val bugsnagAPIKey = System.getenv("HTTP_SHORTCUTS_BUGSNAG_API_KEY") ?: ""
+val autoBuildDocs = System.getenv("HTTP_SHORTCUTS_AUTO_BUILD_DOCS").toBoolean()
 val useBugsnag = bugsnagAPIKey.isNotEmpty()
+val buildTimestamp = System.currentTimeMillis()
 
 class OutputFileNameVariantAction : Action<ApplicationVariant> {
     override fun execute(variant: ApplicationVariant) {
@@ -62,7 +63,7 @@ android {
         versionCode = 1103260000
 
         buildConfigField("String", "BUGSNAG_API_KEY", "\"$bugsnagAPIKey\"")
-        buildConfigField("String", "BUILD_TIMESTAMP", "\"${rootProject.ext["buildTimestamp"]}\"")
+        buildConfigField("long", "BUILD_TIMESTAMP", buildTimestamp.toString())
 
         manifestPlaceholders["bugsnagAPIKey"] = bugsnagAPIKey
         testInstrumentationRunnerArguments["package"] = "ch.rmy.android.http_shortcuts"

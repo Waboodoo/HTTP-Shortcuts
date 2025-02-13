@@ -54,7 +54,7 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
             }
 
     private val isAppOutdated
-        get() = Instant.now() - Instant.ofEpochMilli(BuildConfig.BUILD_TIMESTAMP.toLong()) > MAX_APP_AGE
+        get() = Instant.now() - Instant.ofEpochMilli(BuildConfig.BUILD_TIMESTAMP) > MAX_APP_AGE
 
     @Suppress("MayBeConstant")
     val supportsCrashReporting: Boolean = true
