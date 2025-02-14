@@ -17,8 +17,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.HourglassEmpty
@@ -37,7 +35,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -45,20 +46,21 @@ import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.main.models.ShortcutItem
 import ch.rmy.android.http_shortcuts.components.DefaultTextShadow
 import ch.rmy.android.http_shortcuts.components.EmptyState
+import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.ShortcutIcon
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
+import ch.rmy.android.http_shortcuts.activities.main.models.ShortcutListItem as ShortcutListItemModel
 
 private const val HIDDEN_ALPHA = 0.4f
 
 @Composable
 fun ShortcutList(
     hasMultipleCategories: Boolean,
-    shortcuts: List<ShortcutItem>,
+    shortcutListItems: List<ShortcutListItemModel>,
     layoutType: CategoryLayoutType,
     textColor: Color?,
     useTextShadows: Boolean,
@@ -66,7 +68,7 @@ fun ShortcutList(
     onShortcutClicked: (ShortcutId) -> Unit,
     onShortcutLongClicked: (ShortcutId) -> Unit,
 ) {
-    if (shortcuts.isEmpty()) {
+    if (shortcutListItems.isEmpty()) {
         if (hasMultipleCategories) {
             EmptyState(
                 description = stringResource(R.string.empty_state_no_shortcuts_in_category),
@@ -83,7 +85,7 @@ fun ShortcutList(
 
     if (layoutType == CategoryLayoutType.LINEAR_LIST) {
         ShortcutLinearList(
-            shortcuts = shortcuts,
+            shortcutListItems = shortcutListItems,
             textColor = textColor,
             textStyle = textStyle,
             isLongClickingEnabled = isLongClickingEnabled,
@@ -92,7 +94,7 @@ fun ShortcutList(
         )
     } else {
         ShortcutGrid(
-            shortcuts = shortcuts,
+            shortcutListItems = shortcutListItems,
             minColumnWidth = when (layoutType) {
                 CategoryLayoutType.DENSE_GRID -> 78.dp
                 CategoryLayoutType.MEDIUM_GRID -> 120.dp
@@ -111,7 +113,7 @@ fun ShortcutList(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ShortcutLinearList(
-    shortcuts: List<ShortcutItem>,
+    shortcutListItems: List<ShortcutListItemModel>,
     textColor: Color?,
     textStyle: TextStyle,
     isLongClickingEnabled: Boolean,
@@ -121,28 +123,46 @@ private fun ShortcutLinearList(
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
     ) {
-        items(
-            items = shortcuts,
-            contentType = { "shortcut" },
-            key = { it.id },
-        ) { item ->
-            ShortcutListItem(
-                shortcut = item,
-                textColor = textColor,
-                textStyle = textStyle,
-                modifier = Modifier
-                    .animateItem()
-                    .combinedClickable(
-                        onLongClick = if (isLongClickingEnabled) {
-                            {
-                                onShortcutLongClicked(item.id)
-                            }
-                        } else null,
-                        onClick = {
-                            onShortcutClicked(item.id)
-                        },
-                    ),
-            )
+        shortcutListItems.forEachIndexed { index, item ->
+            when (item) {
+                is ShortcutListItemModel.Section -> item(
+                    key = "section_${item.id}",
+                    contentType = "section",
+                ) {
+                    Column {
+                        Section(
+                            modifier = Modifier.padding(
+                                top = Spacing.MEDIUM * if (index == 0) 1 else 2,
+                                bottom = Spacing.SMALL,
+                            ),
+                            section = item,
+                        )
+                        HorizontalDivider(color = DividerDefaults.color.copy(alpha = 0.3f))
+                    }
+                }
+                is ShortcutListItemModel.ShortcutItem -> item(
+                    key = item.id,
+                    contentType = "shortcut",
+                ) {
+                    ShortcutListItem(
+                        shortcut = item,
+                        textColor = textColor,
+                        textStyle = textStyle,
+                        modifier = Modifier
+                            .animateItem()
+                            .combinedClickable(
+                                onLongClick = if (isLongClickingEnabled) {
+                                    {
+                                        onShortcutLongClicked(item.id)
+                                    }
+                                } else null,
+                                onClick = {
+                                    onShortcutClicked(item.id)
+                                },
+                            ),
+                    )
+                }
+            }
         }
 
         item(
@@ -155,8 +175,28 @@ private fun ShortcutLinearList(
 }
 
 @Composable
+private fun Section(
+    modifier: Modifier,
+    section: ShortcutListItemModel.Section,
+) {
+    Text(
+        modifier = modifier
+            .semantics {
+                heading()
+            }
+            .padding(horizontal = Spacing.MEDIUM)
+            .fillMaxWidth(),
+        text = section.name,
+        fontSize = FontSize.BIG,
+        fontWeight = FontWeight.Bold,
+        maxLines = 3,
+        overflow = TextOverflow.Ellipsis,
+    )
+}
+
+@Composable
 private fun ShortcutListItem(
-    shortcut: ShortcutItem,
+    shortcut: ShortcutListItemModel.ShortcutItem,
     modifier: Modifier = Modifier,
     textColor: Color?,
     textStyle: TextStyle,
@@ -211,7 +251,7 @@ private fun ShortcutListItem(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ShortcutGrid(
-    shortcuts: List<ShortcutItem>,
+    shortcutListItems: List<ShortcutListItemModel>,
     minColumnWidth: Dp,
     textColor: Color?,
     textStyle: TextStyle,
@@ -227,31 +267,46 @@ private fun ShortcutGrid(
                 horizontal = 2.dp,
             ),
     ) {
-        items(
-            items = shortcuts,
-            contentType = { "shortcut" },
-            key = { it.id },
-        ) { item ->
-            ShortcutGridItem(
-                shortcut = item,
-                textColor = textColor,
-                textStyle = textStyle,
-                modifier = Modifier
-                    .animateItem()
-                    .combinedClickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = ripple(bounded = false, radius = 48.dp),
-                        onLongClick = if (isLongClickingEnabled) {
-                            {
-                                onShortcutLongClicked(item.id)
-                            }
-                        } else null,
-                        onClick = {
-                            onShortcutClicked(item.id)
-                        },
+        shortcutListItems.forEach { item ->
+            when (item) {
+                is ShortcutListItemModel.Section -> item(
+                    key = "section_${item.id}",
+                    contentType = "section",
+                    span = {
+                        GridItemSpan(maxLineSpan)
+                    },
+                ) {
+                    Section(
+                        modifier = Modifier.padding(top = Spacing.MEDIUM, bottom = Spacing.SMALL),
+                        section = item,
                     )
-                    .padding(Spacing.SMALL),
-            )
+                }
+                is ShortcutListItemModel.ShortcutItem -> item(
+                    key = item.id,
+                    contentType = "shortcut",
+                ) {
+                    ShortcutGridItem(
+                        shortcut = item,
+                        textColor = textColor,
+                        textStyle = textStyle,
+                        modifier = Modifier
+                            .animateItem()
+                            .combinedClickable(
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = ripple(bounded = false, radius = 48.dp),
+                                onLongClick = if (isLongClickingEnabled) {
+                                    {
+                                        onShortcutLongClicked(item.id)
+                                    }
+                                } else null,
+                                onClick = {
+                                    onShortcutClicked(item.id)
+                                },
+                            )
+                            .padding(Spacing.SMALL),
+                    )
+                }
+            }
         }
 
         item(
@@ -268,7 +323,7 @@ private fun ShortcutGrid(
 
 @Composable
 private fun ShortcutGridItem(
-    shortcut: ShortcutItem,
+    shortcut: ShortcutListItemModel.ShortcutItem,
     modifier: Modifier,
     textColor: Color?,
     textStyle: TextStyle,

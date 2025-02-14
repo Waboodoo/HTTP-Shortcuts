@@ -20,6 +20,7 @@ import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.data.models.Repetition
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
+import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
@@ -191,6 +192,7 @@ constructor(
             Option::class,
             Variable::class,
             Category::class,
+            Section::class,
             FileUploadOptions::class,
             ResponseHandling::class,
             Repetition::class,

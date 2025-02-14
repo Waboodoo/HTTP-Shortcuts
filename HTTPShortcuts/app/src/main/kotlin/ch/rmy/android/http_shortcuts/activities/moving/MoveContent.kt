@@ -33,12 +33,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.moving.models.CategoryItem
+import ch.rmy.android.http_shortcuts.activities.moving.models.CategorySectionItem
+import ch.rmy.android.http_shortcuts.activities.moving.models.CategorySectionItem.CategorySectionId
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.ScreenInstructionsHeaders
 import ch.rmy.android.http_shortcuts.components.ShortcutIcon
 import ch.rmy.android.http_shortcuts.components.Spacing
-import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import kotlinx.coroutines.delay
@@ -49,10 +49,10 @@ import kotlin.time.Duration.Companion.milliseconds
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MoveContent(
-    categories: List<CategoryItem>,
+    categorySections: List<CategorySectionItem>,
     initialShortcut: ShortcutId,
     onShortcutMovedToShortcut: (ShortcutId, ShortcutId) -> Unit,
-    onShortcutMovedToCategory: (ShortcutId, CategoryId) -> Unit,
+    onShortcutMovedToCategory: (ShortcutId, CategorySectionId) -> Unit,
     onMoveEnded: () -> Unit,
 ) {
     var scrolledToInitial by rememberSaveable {
@@ -62,11 +62,11 @@ fun MoveContent(
     val lazyListState = rememberLazyListState()
     val reorderableState = rememberReorderableLazyListState(lazyListState) { from, to ->
         val shortcutId = from.key as ShortcutId
-        val targetKey = to.key as String
+        val targetKey = to.key
         logInfo("MoveContent", "Moving shortcuts, from=$shortcutId, to=$targetKey")
-        if (targetKey.startsWith(CATEGORY_KEY_PREFIX)) {
-            onShortcutMovedToCategory(shortcutId, targetKey.removePrefix(CATEGORY_KEY_PREFIX))
-        } else {
+        if (targetKey is CategorySectionId) {
+            onShortcutMovedToCategory(shortcutId, targetKey)
+        } else if (targetKey is String) {
             onShortcutMovedToShortcut(shortcutId, targetKey)
         }
     }
@@ -74,7 +74,7 @@ fun MoveContent(
     if (!scrolledToInitial) {
         LaunchedEffect(Unit) {
             delay(300.milliseconds)
-            categories.findIndexOf(initialShortcut)
+            categorySections.findIndexOf(initialShortcut)
                 ?.takeIf { it > 5 }
                 ?.let { index ->
                     lazyListState.animateScrollToItem(index - 3)
@@ -95,14 +95,14 @@ fun MoveContent(
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
         ) {
-            categories.forEachIndexed { index, category ->
+            categorySections.forEachIndexed { index, categorySection ->
                 item(
-                    key = "$CATEGORY_KEY_PREFIX${category.id}",
-                    contentType = "category",
+                    key = categorySection.id,
+                    contentType = "category_section",
                 ) {
                     ReorderableItem(
                         reorderableState,
-                        key = "$CATEGORY_KEY_PREFIX${category.id}",
+                        key = categorySection.id,
                         enabled = true,
                     ) {
                         Column {
@@ -111,19 +111,20 @@ fun MoveContent(
                                     modifier = Modifier.height(Spacing.MEDIUM),
                                 )
                             }
-                            CategoryHeader(
-                                name = category.name,
+                            CategorySectionHeader(
+                                categoryName = categorySection.categoryName,
+                                sectionName = categorySection.sectionName,
                             )
 
-                            if (category.shortcuts.isEmpty()) {
-                                EmptyCategoryContent()
+                            if (categorySection.shortcuts.isEmpty()) {
+                                EmptyCategoryContent(isSection = categorySection.id.sectionId != null)
                             }
                         }
                     }
                 }
 
                 items(
-                    items = category.shortcuts,
+                    items = categorySection.shortcuts,
                     key = { it.id },
                     contentType = { "shortcut" },
                 ) { item ->
@@ -148,11 +149,11 @@ fun MoveContent(
     }
 }
 
-private fun List<CategoryItem>.findIndexOf(shortcutId: ShortcutId): Int? {
+private fun List<CategorySectionItem>.findIndexOf(shortcutId: ShortcutId): Int? {
     var i = 0
-    for (category in this) {
+    for (categorySection in this) {
         i++
-        for (shortcut in category.shortcuts) {
+        for (shortcut in categorySection.shortcuts) {
             if (shortcut.id == shortcutId) {
                 return i
             }
@@ -163,13 +164,18 @@ private fun List<CategoryItem>.findIndexOf(shortcutId: ShortcutId): Int? {
 }
 
 @Composable
-private fun CategoryHeader(
-    name: String,
+private fun CategorySectionHeader(
+    categoryName: String,
+    sectionName: String?,
 ) {
     Text(
         modifier = Modifier
             .padding(horizontal = Spacing.MEDIUM),
-        text = name,
+        text = if (sectionName != null) {
+            stringResource(R.string.category_section_header_pattern, categoryName, sectionName)
+        } else {
+            categoryName
+        },
         fontSize = FontSize.BIG,
         fontWeight = FontWeight.Bold,
     )
@@ -201,7 +207,7 @@ private fun ShortcutListItem(
 }
 
 @Composable
-private fun EmptyCategoryContent() {
+private fun EmptyCategoryContent(isSection: Boolean) {
     Column(
         modifier = Modifier.fillMaxWidth(),
     ) {
@@ -211,7 +217,11 @@ private fun EmptyCategoryContent() {
                 .alpha(0.8f),
             headlineContent = {
                 Text(
-                    text = stringResource(R.string.placeholder_empty_category_for_moving),
+                    text = if (isSection) {
+                        stringResource(R.string.placeholder_empty_category_section_for_moving)
+                    } else {
+                        stringResource(R.string.placeholder_empty_category_for_moving)
+                    },
                     fontStyle = FontStyle.Italic,
                     maxLines = 2,
                 )
@@ -220,5 +230,3 @@ private fun EmptyCategoryContent() {
         HorizontalDivider(color = DividerDefaults.color.copy(alpha = 0.3f))
     }
 }
-
-private const val CATEGORY_KEY_PREFIX = "category-"

@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.activities.about.AboutScreen
 import ch.rmy.android.http_shortcuts.activities.acknowledgment.AcknowledgmentScreen
 import ch.rmy.android.http_shortcuts.activities.categories.CategoriesScreen
 import ch.rmy.android.http_shortcuts.activities.categories.editor.CategoryEditorScreen
+import ch.rmy.android.http_shortcuts.activities.categories.sections.CategorySectionsScreen
 import ch.rmy.android.http_shortcuts.activities.certpinning.CertPinningScreen
 import ch.rmy.android.http_shortcuts.activities.contact.ContactScreen
 import ch.rmy.android.http_shortcuts.activities.curl_import.CurlImportScreen
@@ -79,6 +80,12 @@ fun NavigationRoot() {
         composable(NavigationDestination.CategoryEditor) { backStackEntry ->
             CategoryEditorScreen(
                 categoryId = NavigationDestination.CategoryEditor.extractCategoryId(backStackEntry.arguments!!),
+            )
+        }
+
+        composable(NavigationDestination.CategorySectionsEditor) { backStackEntry ->
+            CategorySectionsScreen(
+                categoryId = NavigationDestination.CategorySectionsEditor.extractCategoryId(backStackEntry.arguments!!)!!,
             )
         }
 

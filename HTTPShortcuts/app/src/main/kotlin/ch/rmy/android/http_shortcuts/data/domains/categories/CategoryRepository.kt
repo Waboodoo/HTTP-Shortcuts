@@ -2,15 +2,18 @@ package ch.rmy.android.http_shortcuts.data.domains.categories
 
 import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.data.RealmFactory
+import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getCategoryById
 import ch.rmy.android.http_shortcuts.data.domains.getCategoryByNameOrId
+import ch.rmy.android.http_shortcuts.data.domains.sections.SectionId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -70,10 +73,7 @@ constructor(
     }
 
     suspend fun deleteCategory(categoryId: CategoryId) {
-        commitTransaction {
-            val category = getCategoryById(categoryId)
-                .findFirst()
-                ?: return@commitTransaction
+        commitTransactionForCategory(categoryId) { category ->
             for (shortcut in category.shortcuts) {
                 shortcut.headers.deleteAll()
                 shortcut.parameters.deleteAll()
@@ -90,15 +90,11 @@ constructor(
         background: CategoryBackgroundType,
         clickBehavior: ShortcutClickBehavior?,
     ) {
-        commitTransaction {
-            getCategoryById(categoryId)
-                .findFirst()
-                ?.let { category ->
-                    category.name = name
-                    category.categoryLayoutType = layoutType
-                    category.categoryBackgroundType = background
-                    category.clickBehavior = clickBehavior
-                }
+        commitTransactionForCategory(categoryId) { category ->
+            category.name = name
+            category.categoryLayoutType = layoutType
+            category.categoryBackgroundType = background
+            category.clickBehavior = clickBehavior
         }
     }
 
@@ -127,10 +123,48 @@ constructor(
     }
 
     suspend fun setCategoryIcon(categoryId: CategoryId, icon: ShortcutIcon) {
+        commitTransactionForCategory(categoryId) { category ->
+            category.icon = icon
+        }
+    }
+
+    suspend fun addSection(categoryId: CategoryId, name: String): Section {
+        val section = Section(name = name.trim())
+        commitTransactionForCategory(categoryId) { category ->
+            category.sections.add(copy(section))
+        }
+        return section
+    }
+
+    suspend fun moveSection(categoryId: CategoryId, sectionId1: SectionId, sectionId2: SectionId) {
+        commitTransactionForCategory(categoryId) { category ->
+            category.sections.swap(sectionId1, sectionId2) { id }
+        }
+    }
+
+    suspend fun updateSection(categoryId: CategoryId, sectionId: SectionId, name: String) {
+        commitTransactionForCategory(categoryId) { category ->
+            category.sections
+                .find { it.id == sectionId }
+                ?.name = name.trim()
+        }
+    }
+
+    suspend fun removeSection(categoryId: CategoryId, sectionId: SectionId) {
+        commitTransactionForCategory(categoryId) { category ->
+            category.sections
+                .find { it.id == sectionId }
+                ?.delete()
+        }
+    }
+
+    private suspend fun commitTransactionForCategory(categoryId: CategoryId, transaction: RealmTransactionContext.(Category) -> Unit) {
         commitTransaction {
-            getCategoryById(categoryId)
-                .findFirst()
-                ?.icon = icon
+            transaction(
+                getCategoryById(categoryId)
+                    .findFirst()
+                    ?: return@commitTransaction
+            )
         }
     }
 }

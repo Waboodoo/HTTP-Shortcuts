@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.data.domains.getCategoryById
 import ch.rmy.android.http_shortcuts.data.domains.getShortcutById
 import ch.rmy.android.http_shortcuts.data.domains.getShortcutByNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
+import ch.rmy.android.http_shortcuts.data.domains.sections.SectionId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -58,14 +59,14 @@ constructor(
         }
             .shortcuts
 
-    suspend fun moveShortcuts(placement: Map<CategoryId, List<ShortcutId>>) {
+    suspend fun moveShortcuts(placement: Map<Pair<CategoryId, SectionId?>, List<ShortcutId>>) {
         commitTransaction {
             val base = getBase().findFirst() ?: return@commitTransaction
             val shortcutMap = base.shortcuts.associateBy { it.id }
             val categories = base.categories
 
             // Some sanity checking first
-            assert(categories.map { it.id }.toSet() == placement.keys) {
+            assert(categories.map { it.id }.toSet() == placement.keys.map { it.first }.toSet()) {
                 "Category IDs in placement did not match existing categories"
             }
             assert(placement.values.flatten().toSet() == base.shortcuts.map { it.id }.toSet()) {
@@ -73,9 +74,15 @@ constructor(
             }
 
             categories.forEach { category ->
-                category.shortcuts.apply {
-                    clear()
-                    addAll(placement[category.id]!!.map { shortcutId -> shortcutMap[shortcutId]!! })
+                category.shortcuts.clear()
+                (listOf(null) + category.sections.map { it.id }).forEach { sectionId ->
+                    category.shortcuts.apply {
+                        val shortcuts = placement[category.id to sectionId]!!.map { shortcutId -> shortcutMap[shortcutId]!! }
+                        shortcuts.forEach { shortcut ->
+                            shortcut.section = sectionId
+                        }
+                        addAll(shortcuts)
+                    }
                 }
             }
         }

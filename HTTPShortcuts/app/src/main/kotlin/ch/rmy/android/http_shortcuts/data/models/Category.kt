@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.models
 
+import ch.rmy.android.framework.extensions.hasDuplicatesBy
 import ch.rmy.android.framework.extensions.isInt
 import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
@@ -31,6 +32,7 @@ class Category() : RealmObject {
     var id: CategoryId = ""
     var name: String = ""
     var shortcuts: RealmList<Shortcut> = realmListOf()
+    var sections: RealmList<Section> = realmListOf()
 
     private var iconName: String? = null
 
@@ -79,6 +81,8 @@ class Category() : RealmObject {
             "Category name too long: $name"
         }
         shortcuts.forEach(Shortcut::validate)
+        sections.forEach(Section::validate)
+        require(!sections.hasDuplicatesBy { it.id }) { "Duplicate section IDs found" }
     }
 
     companion object {

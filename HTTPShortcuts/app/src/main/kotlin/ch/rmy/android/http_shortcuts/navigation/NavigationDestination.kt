@@ -61,6 +61,24 @@ sealed interface NavigationDestination {
         const val RESULT_CATEGORY_EDITED = "category-edited"
     }
 
+    object CategorySectionsEditor : NavigationDestination {
+        private const val ARG_CATEGORY_ID = "categoryId"
+
+        override val path = "categories/sections"
+
+        override val arguments =
+            listOf(
+                optionalStringArg(ARG_CATEGORY_ID),
+            )
+
+        fun buildRequest(categoryId: CategoryId?) = buildNavigationRequest {
+            parameter(ARG_CATEGORY_ID, categoryId)
+        }
+
+        fun extractCategoryId(bundle: Bundle): CategoryId? =
+            bundle.getEncodedString(ARG_CATEGORY_ID)
+    }
+
     object CertPinning : NoArgNavigationDestination {
         override val path = "certPinning"
     }

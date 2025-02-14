@@ -6,9 +6,10 @@ import ch.rmy.android.framework.extensions.indexOfFirstOrNull
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.http_shortcuts.activities.moving.models.CategoryItem
-import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
+import ch.rmy.android.http_shortcuts.activities.moving.models.CategorySectionItem
+import ch.rmy.android.http_shortcuts.activities.moving.models.CategorySectionItem.CategorySectionId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
+import ch.rmy.android.http_shortcuts.data.domains.sections.SectionId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.Category
@@ -30,8 +31,8 @@ constructor(
     private val shortcutRepository: ShortcutRepository,
 ) : BaseViewModel<Unit, Unit>(application) {
 
-    private val _categories = MutableStateFlow<List<CategoryItem>>(emptyList())
-    val categories = _categories.asStateFlow()
+    private val _categorySections = MutableStateFlow<List<CategorySectionItem>>(emptyList())
+    val categorySections = _categorySections.asStateFlow()
 
     private var hasChanged = false
 
@@ -39,86 +40,102 @@ constructor(
         logInfo("Initialized MoveViewModel")
         viewModelScope.launch {
             categoryRepository.getObservableCategories().collect {
-                _categories.value = it.toCategoryItems()
+                _categorySections.value = it.toCategorySectionItems()
             }
         }
     }
 
-    private fun List<Category>.toCategoryItems() =
-        map {
-            CategoryItem(
-                id = it.id,
-                name = it.name,
-                shortcuts = it.shortcuts.map(Shortcut::toShortcutPlaceholder)
-            )
+    private fun List<Category>.toCategorySectionItems(): List<CategorySectionItem> {
+        val categories = this
+        return buildList {
+            categories.forEach { category ->
+                val validSectionIds = category.sections.map { it.id }
+                val shortcutsBySectionId = mutableMapOf<SectionId?, MutableList<Shortcut>>()
+                category.shortcuts.forEach { shortcut ->
+                    val sectionId = shortcut.section?.takeIf { it in validSectionIds }
+                    shortcutsBySectionId.getOrPut(sectionId, ::mutableListOf).add(shortcut)
+                }
+
+                (listOf(null) + category.sections).forEach { section ->
+                    add(
+                        CategorySectionItem(
+                            id = CategorySectionId(category.id, section?.id),
+                            categoryName = category.name,
+                            sectionName = section?.name,
+                            shortcuts = shortcutsBySectionId[section?.id]?.map(Shortcut::toShortcutPlaceholder) ?: emptyList(),
+                        )
+                    )
+                }
+            }
         }
+    }
 
     fun onShortcutMovedToShortcut(shortcutId: ShortcutId, targetShortcutId: ShortcutId) {
-        val categories = _categories.value
+        val categorySections = _categorySections.value
 
-        val category1 = categories.firstOrNull { category -> category.contains(shortcutId) } ?: return
-        val shortcut1 = category1.shortcuts.find { it.id == shortcutId } ?: return
+        val categorySection1 = categorySections.firstOrNull { categorySection -> categorySection.contains(shortcutId) } ?: return
+        val shortcut1 = categorySection1.shortcuts.find { it.id == shortcutId } ?: return
 
         logInfo("Moving shortcut to target shortcut's location")
-        val category2 = categories.firstOrNull { category -> category.contains(targetShortcutId) } ?: return
-        val shortcut2Index = category2.shortcuts.indexOfFirstOrNull { it.id == targetShortcutId } ?: return
+        val categorySection2 = categorySections.firstOrNull { categorySection -> categorySection.contains(targetShortcutId) } ?: return
+        val shortcut2Index = categorySection2.shortcuts.indexOfFirstOrNull { it.id == targetShortcutId } ?: return
 
-        _categories.value = categories.map { category ->
-            if (category.id == category1.id && category.id == category2.id) {
-                logInfo("Shortcuts are in same category, swapping")
-                category.copy(
-                    shortcuts = category.shortcuts.swapped(shortcutId, targetShortcutId) { id }
+        _categorySections.value = categorySections.map { categorySection ->
+            if (categorySection.id == categorySection1.id && categorySection.id == categorySection2.id) {
+                logInfo("Shortcuts are in same category section, swapping")
+                categorySection.copy(
+                    shortcuts = categorySection.shortcuts.swapped(shortcutId, targetShortcutId) { id }
                 )
-            } else if (category.id == category1.id) {
-                logInfo("Removing shortcut from original category")
-                category.copy(
-                    shortcuts = category.shortcuts.filter { it.id != shortcutId }
+            } else if (categorySection.id == categorySection1.id) {
+                logInfo("Removing shortcut from original category section")
+                categorySection.copy(
+                    shortcuts = categorySection.shortcuts.filter { it.id != shortcutId }
                 )
-            } else if (category.id == category2.id) {
-                logInfo("Adding shortcut to target category")
-                category.copy(
-                    shortcuts = category.shortcuts.toMutableList()
+            } else if (categorySection.id == categorySection2.id) {
+                logInfo("Adding shortcut to target category section")
+                categorySection.copy(
+                    shortcuts = categorySection.shortcuts.toMutableList()
                         .apply {
                             add(shortcut2Index, shortcut1)
                         }
                 )
             } else {
-                category
+                categorySection
             }
         }
     }
 
-    fun onShortcutMovedToCategory(shortcutId: ShortcutId, targetCategoryId: CategoryId) {
-        val categories = _categories.value
+    fun onShortcutMovedToCategory(shortcutId: ShortcutId, target: CategorySectionId) {
+        val categorySections = _categorySections.value
 
-        val category1 = categories.firstOrNull { category -> category.contains(shortcutId) } ?: return
-        val shortcut1 = category1.shortcuts.find { it.id == shortcutId } ?: return
+        val categorySection1 = categorySections.firstOrNull { categorySection -> categorySection.contains(shortcutId) } ?: return
+        val shortcut1 = categorySection1.shortcuts.find { it.id == shortcutId } ?: return
 
-        logInfo("Moving shortcut to target category")
-        val category1index = categories.indexOfFirstOrNull { category -> category.contains(shortcutId) } ?: return
-        var category2index = categories.indexOfFirstOrNull { it.id == targetCategoryId } ?: return
+        logInfo("Moving shortcut to target category section")
+        val categorySection1index = categorySections.indexOfFirstOrNull { categorySection -> categorySection.contains(shortcutId) } ?: return
+        var categorySection2index = categorySections.indexOfFirstOrNull { it.id == target } ?: return
 
-        if (category1index == category2index) {
-            category2index--
-            if (category2index < 0) {
+        if (categorySection1index == categorySection2index) {
+            categorySection2index--
+            if (categorySection2index < 0) {
                 return
             }
         }
 
-        _categories.value = categories.mapIndexed { index, category ->
+        _categorySections.value = categorySections.mapIndexed { index, categorySection ->
             when (index) {
-                category1index -> {
-                    logInfo("Removing shortcut from original category")
-                    category.copy(
-                        shortcuts = category.shortcuts.filter { it.id != shortcutId }
+                categorySection1index -> {
+                    logInfo("Removing shortcut from original category section")
+                    categorySection.copy(
+                        shortcuts = categorySection.shortcuts.filter { it.id != shortcutId }
                     )
                 }
-                category2index -> {
-                    logInfo("Adding shortcut to target category")
-                    category.copy(
-                        shortcuts = category.shortcuts.toMutableList()
+                categorySection2index -> {
+                    logInfo("Adding shortcut to target category section")
+                    categorySection.copy(
+                        shortcuts = categorySection.shortcuts.toMutableList()
                             .apply {
-                                if (category1index < category2index) {
+                                if (categorySection1index < categorySection2index) {
                                     add(0, shortcut1)
                                 } else {
                                     add(shortcut1)
@@ -127,7 +144,7 @@ constructor(
                     )
                 }
                 else -> {
-                    category
+                    categorySection
                 }
             }
         }
@@ -137,13 +154,15 @@ constructor(
         logInfo("Shortcut moving has ended, applying changes")
         withProgressTracking {
             shortcutRepository.moveShortcuts(
-                _categories.value.associate { category -> category.id to category.shortcuts.map { it.id } }
+                _categorySections.value.associate { section ->
+                    section.id.run { categoryId to sectionId } to section.shortcuts.map { it.id }
+                }
             )
         }
         hasChanged = true
     }
 
-    private fun CategoryItem.contains(shortcutId: ShortcutId) =
+    private fun CategorySectionItem.contains(shortcutId: ShortcutId) =
         shortcuts.any { it.id == shortcutId }
 
     fun onBackPressed() = runAction {

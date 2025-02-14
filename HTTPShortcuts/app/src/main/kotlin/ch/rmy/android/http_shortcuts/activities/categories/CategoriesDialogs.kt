@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 fun CategoriesDialogs(
     dialogState: CategoriesDialogState?,
     onEditClicked: () -> Unit,
+    onManageSectionsClicked: () -> Unit,
     onVisibilityChangeRequested: (Boolean) -> Unit,
     onPlaceOnHomeScreenClicked: () -> Unit,
     onDeleteClicked: () -> Unit,
@@ -27,6 +28,7 @@ fun CategoriesDialogs(
             ContextMenuDialog(
                 dialogState,
                 onEditClicked,
+                onManageSectionsClicked,
                 onVisibilityChangeRequested,
                 onPlaceOnHomeScreenClicked,
                 onDeleteClicked,
@@ -58,6 +60,7 @@ fun CategoriesDialogs(
 private fun ContextMenuDialog(
     contextMenuState: CategoriesDialogState.ContextMenu,
     onEditClicked: () -> Unit,
+    onManageSectionsClicked: () -> Unit,
     onVisibilityChangeRequested: (Boolean) -> Unit,
     onPlaceOnHomeScreenClicked: () -> Unit,
     onDeleteClicked: () -> Unit,
@@ -70,6 +73,10 @@ private fun ContextMenuDialog(
         SelectDialogEntry(
             label = stringResource(R.string.action_edit),
             onClick = onEditClicked,
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.action_manage_sections),
+            onClick = onManageSectionsClicked,
         )
         if (contextMenuState.showOptionVisible) {
             SelectDialogEntry(

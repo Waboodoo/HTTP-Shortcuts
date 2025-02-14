@@ -62,8 +62,10 @@
     <string name="action_place_category">Place on Home Screen</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">Execute</string>
-    <!-- Shortcut dropdown option: Edit the shortcut -->
+    <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Edit</string>
+    <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
+    <string name="action_manage_sections">Manage Sections</string>
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">Duplicate</string>
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
@@ -414,6 +416,13 @@
         <item quantity="one">%d shortcut</item>
         <item quantity="other">%d shortcuts</item>
     </plurals>
+    <!-- Shows numerical count of sections, used to show how many sections are in a given category -->
+    <plurals name="section_count">
+        <item quantity="one">%d section</item>
+        <item quantity="other">%d sections</item>
+    </plurals>
+    <!-- Pattern used to determine the subtitle of a category in the categories screen. %1$s is a placeholder for the number of shortcuts, %2$s is a placeholder for the number of sections -->
+    <string name="shortcut_section_count_pattern">%1$s, %2$s</string>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">%s (hidden)</string>
     <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
@@ -1492,6 +1501,8 @@
     <string name="error_cannot_format_invalid_json">Invalid JSON syntax</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
     <string name="placeholder_empty_category_for_moving">no shortcuts in this category</string>
+    <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
+    <string name="placeholder_empty_category_section_for_moving">no shortcuts in this section</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <string name="label_file_upload_options_allow_image_editing">"Allow cropping and rotating images"</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
@@ -1730,6 +1741,8 @@
     <string name="accessibility_label_add_icon_fab">Add new icon</string>
     <!-- Accessibility label for the floating action button, to add a certificate pinning -->
     <string name="accessibility_label_add_certificate_pinning_fab">Add certificate pinning</string>
+    <!-- Accessibility label for the floating action button, to add a section to a category -->
+    <string name="accessibility_label_add_category_section">Add section</string>
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
     <string name="accessibility_label_show_documentation">Go to documentation</string>
     <!-- Accessibility label for "Select all" button in exporter -->
@@ -1746,4 +1759,18 @@
     <string name="accessibility_search_go_to_previous">Previous</string>
     <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
     <string name="instructions_shortcut_unhiding">You can make hidden shortcuts visible again by going to the Settings screen and looking for the \“%s\” option.</string>
+    <!-- Pattern used to construct the category / section headers on the "Move Shortcut" screen. %s$1 is a placeholder for a category name, %2$s is a placeholder for a section name -->
+    <string name="category_section_header_pattern">%1$s: %2$s</string>
+    <!-- Title of "Category Sections" screen, which lets the user manage sections within a category -->
+    <string name="screen_title_category_sections">Category Sections</string>
+    <!-- Title of dialog to edit a section within a category -->
+    <string name="title_category_section_edit">Edit Section</string>
+    <!-- Title of dialog to add a section within a category -->
+    <string name="title_category_section_add">Add Section</string>
+    <!-- Label of input field to provide name for a section within a category -->
+    <string name="label_category_section_name">Section Name</string>
+    <!-- Empty state, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections">This category doesn\'t have any sections yet.</string>
+    <!-- Empty state instructions, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections_instructions">Sections let you group shortcuts together within a category.\n\nClick the + button to add a new section.</string>
 </resources>

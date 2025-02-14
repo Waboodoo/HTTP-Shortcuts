@@ -169,6 +169,13 @@ constructor(
         navigate(NavigationDestination.CategoryEditor.buildRequest(categoryId))
     }
 
+    fun onManageSectionsClicked() = runAction {
+        val categoryId = activeCategoryId ?: skipAction()
+        updateDialogState(null)
+        hasChanged = true // I'm too lazy to implement this, let's just assume that there might be changes
+        navigate(NavigationDestination.CategorySectionsEditor.buildRequest(categoryId))
+    }
+
     fun onCategoryCreated() = runAction {
         hasChanged = true
         showSnackbar(R.string.message_category_created)
@@ -210,10 +217,24 @@ constructor(
                     } else {
                         category.name.toLocalizable()
                     },
-                    description = QuantityStringLocalizable(
-                        R.plurals.shortcut_count,
-                        count = category.shortcuts.size,
-                    ),
+                    description = if (category.sections.isNotEmpty()) {
+                        StringResLocalizable(
+                            R.string.shortcut_section_count_pattern,
+                            QuantityStringLocalizable(
+                                R.plurals.shortcut_count,
+                                count = category.shortcuts.size,
+                            ),
+                            QuantityStringLocalizable(
+                                R.plurals.section_count,
+                                count = category.sections.size,
+                            ),
+                        )
+                    } else {
+                        QuantityStringLocalizable(
+                            R.plurals.shortcut_count,
+                            count = category.shortcuts.size,
+                        )
+                    },
                     icons = category.shortcuts
                         .take(MAX_ICONS)
                         .map { shortcut ->

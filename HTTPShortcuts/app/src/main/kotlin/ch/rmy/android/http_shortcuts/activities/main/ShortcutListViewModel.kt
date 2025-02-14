@@ -20,13 +20,14 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogHandler
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
-import ch.rmy.android.http_shortcuts.activities.main.models.ShortcutItem
+import ch.rmy.android.http_shortcuts.activities.main.models.ShortcutListItem
 import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
+import ch.rmy.android.http_shortcuts.data.domains.sections.SectionId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
@@ -139,7 +140,7 @@ constructor(
         }
         return ShortcutListViewState(
             isAppLocked = isAppLocked,
-            shortcuts = mapShortcuts(),
+            shortcutListItems = mapShortcuts(),
             background = category.categoryBackgroundType,
         )
     }
@@ -150,26 +151,47 @@ constructor(
 
     private suspend fun recomputeShortcutList() {
         updateViewState {
-            copy(shortcuts = mapShortcuts())
+            copy(shortcutListItems = mapShortcuts())
         }
     }
 
-    private fun mapShortcuts(): List<ShortcutItem> {
+    private fun mapShortcuts(): List<ShortcutListItem> {
         val includeHidden = settings.showHiddenShortcuts
-        return category.shortcuts
-            .mapNotNull { shortcut ->
-                if (!includeHidden && shortcut.hidden) {
-                    return@mapNotNull null
-                }
-                ShortcutItem(
-                    id = shortcut.id,
-                    name = shortcut.name,
-                    description = shortcut.description,
-                    icon = shortcut.icon,
-                    isPending = pendingShortcuts.any { it.shortcutId == shortcut.id },
-                    isHidden = shortcut.hidden,
-                )
+
+        val validSectionIds = category.sections.map { it.id }
+        val shortcutsBySectionId = mutableMapOf<SectionId?, MutableList<Shortcut>>()
+
+        category.shortcuts.forEach { shortcut ->
+            if (includeHidden || !shortcut.hidden) {
+                val sectionId = shortcut.section?.takeIf { it in validSectionIds }
+                shortcutsBySectionId.getOrPut(sectionId, ::mutableListOf).add(shortcut)
             }
+        }
+
+        return buildList<ShortcutListItem> {
+            (listOf(null) + category.sections).forEach { section ->
+                if (section != null) {
+                    add(
+                        ShortcutListItem.Section(
+                            id = section.id,
+                            name = section.name,
+                        )
+                    )
+                }
+                shortcutsBySectionId[section?.id]?.forEach { shortcut ->
+                    add(
+                        ShortcutListItem.ShortcutItem(
+                            id = shortcut.id,
+                            name = shortcut.name,
+                            description = shortcut.description,
+                            icon = shortcut.icon,
+                            isPending = pendingShortcuts.any { it.shortcutId == shortcut.id },
+                            isHidden = shortcut.hidden,
+                        )
+                    )
+                }
+            }
+        }
     }
 
     private suspend fun updateLauncherSettings() {

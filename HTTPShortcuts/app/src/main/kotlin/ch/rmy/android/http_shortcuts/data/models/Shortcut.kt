@@ -4,6 +4,7 @@ import ch.rmy.android.framework.extensions.isInt
 import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
+import ch.rmy.android.http_shortcuts.data.domains.sections.SectionId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
@@ -63,6 +64,8 @@ class Shortcut() : RealmObject {
     var authToken: String = ""
 
     var description: String = ""
+
+    var section: SectionId? = null
 
     var bodyContent: String = ""
 

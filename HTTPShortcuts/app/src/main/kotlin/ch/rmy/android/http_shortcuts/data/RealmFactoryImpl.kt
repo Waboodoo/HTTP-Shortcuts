@@ -23,6 +23,7 @@ import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Repetition
 import ch.rmy.android.http_shortcuts.data.models.ResolvedVariable
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
+import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.Widget
@@ -111,6 +112,7 @@ class RealmFactoryImpl private constructor() : RealmFactory {
                     Repetition::class,
                     ResolvedVariable::class,
                     ResponseHandling::class,
+                    Section::class,
                     Shortcut::class,
                     Variable::class,
                     Widget::class,

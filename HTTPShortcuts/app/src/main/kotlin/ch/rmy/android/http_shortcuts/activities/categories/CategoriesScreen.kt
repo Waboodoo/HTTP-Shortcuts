@@ -63,6 +63,7 @@ fun CategoriesScreen(savedStateHandle: SavedStateHandle) {
     CategoriesDialogs(
         state?.dialogState,
         onEditClicked = viewModel::onEditCategoryOptionSelected,
+        onManageSectionsClicked = viewModel::onManageSectionsClicked,
         onVisibilityChangeRequested = viewModel::onCategoryVisibilityChanged,
         onPlaceOnHomeScreenClicked = viewModel::onPlaceOnHomeScreenClicked,
         onDeleteClicked = viewModel::onDeleteClicked,

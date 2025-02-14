@@ -89,7 +89,7 @@ fun ShortcutListContent(
     ) {
         ShortcutList(
             hasMultipleCategories = hasMultipleCategories,
-            shortcuts = state.shortcuts,
+            shortcutListItems = state.shortcutListItems,
             layoutType = category.layoutType,
             textColor = category.background.textColor(),
             useTextShadows = category.background.useTextShadow,

@@ -13,7 +13,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 @Composable
 fun MoveScreen(initialShortcut: ShortcutId) {
     val (viewModel, state) = bindViewModel<Unit, MoveViewModel>()
-    val categories by viewModel.categories.collectAsStateWithLifecycle()
+    val categorySections by viewModel.categorySections.collectAsStateWithLifecycle()
 
     BackHandler(state != null) {
         viewModel.onBackPressed()
@@ -24,7 +24,7 @@ fun MoveScreen(initialShortcut: ShortcutId) {
         title = stringResource(R.string.title_move_shortcuts),
     ) {
         MoveContent(
-            categories = categories,
+            categorySections = categorySections,
             initialShortcut = initialShortcut,
             onShortcutMovedToShortcut = viewModel::onShortcutMovedToShortcut,
             onShortcutMovedToCategory = viewModel::onShortcutMovedToCategory,
