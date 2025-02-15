@@ -57,7 +57,7 @@ fun TypePickerContent(
                 label = stringResource(R.string.button_create_from_scratch),
                 icon = Icons.Filled.AddCircleOutline,
                 onClick = {
-                    onShortcutTypeSelected(ShortcutExecutionType.APP)
+                    onShortcutTypeSelected(ShortcutExecutionType.HTTP)
                 },
             )
 

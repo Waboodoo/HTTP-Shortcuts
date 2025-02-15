@@ -159,7 +159,7 @@ constructor(
                 headers.forEach { header ->
                     header.id = newUUID()
                 }
-                if (executionType == ShortcutExecutionType.APP.type && responseHandling == null) {
+                if (executionType == ShortcutExecutionType.HTTP.type && responseHandling == null) {
                     responseHandling = ResponseHandling()
                 }
             }

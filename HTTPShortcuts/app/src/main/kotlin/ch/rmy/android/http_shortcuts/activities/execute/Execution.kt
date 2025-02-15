@@ -325,7 +325,7 @@ class Execution(
                 )
                 return
             }
-            ShortcutExecutionType.APP -> {
+            ShortcutExecutionType.HTTP -> {
                 // continue
             }
         }

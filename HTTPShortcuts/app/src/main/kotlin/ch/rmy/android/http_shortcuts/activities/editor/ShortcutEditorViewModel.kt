@@ -30,7 +30,11 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
+import ch.rmy.android.http_shortcuts.extensions.requiresHttpUrl
 import ch.rmy.android.http_shortcuts.extensions.type
+import ch.rmy.android.http_shortcuts.extensions.usesResponse
+import ch.rmy.android.http_shortcuts.extensions.usesTriggerShortcuts
+import ch.rmy.android.http_shortcuts.extensions.usesUrl
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
@@ -171,7 +175,7 @@ constructor(
 
     private fun canExecute() =
         when (shortcut.type) {
-            ShortcutExecutionType.APP -> isAcceptableHttpUrl(shortcut.url)
+            ShortcutExecutionType.HTTP -> isAcceptableHttpUrl(shortcut.url)
             ShortcutExecutionType.BROWSER -> isAcceptableUrl(shortcut.url)
             ShortcutExecutionType.SCRIPTING,
             ShortcutExecutionType.TRIGGER,
@@ -183,25 +187,31 @@ constructor(
             ShortcutExecutionType.BROWSER -> StringResLocalizable(R.string.subtitle_editor_toolbar_browser_shortcut)
             ShortcutExecutionType.SCRIPTING -> StringResLocalizable(R.string.subtitle_editor_toolbar_scripting_shortcut)
             ShortcutExecutionType.TRIGGER -> StringResLocalizable(R.string.subtitle_editor_toolbar_trigger_shortcut)
-            else -> null
+            ShortcutExecutionType.HTTP -> null
         }
 
     private fun getBasicSettingsSubtitle(): Localizable =
-        if (shortcut.type == ShortcutExecutionType.BROWSER) {
-            if (!hasUrl()) {
-                StringResLocalizable(R.string.subtitle_basic_request_settings_url_only_prompt)
-            } else {
-                shortcut.url.toLocalizable()
+        when (shortcut.type) {
+            ShortcutExecutionType.BROWSER -> {
+                if (!hasUrl()) {
+                    StringResLocalizable(R.string.subtitle_basic_request_settings_url_only_prompt)
+                } else {
+                    shortcut.url.toLocalizable()
+                }
             }
-        } else {
-            if (!hasUrl()) {
-                StringResLocalizable(R.string.subtitle_basic_request_settings_prompt)
-            } else {
-                StringResLocalizable(
-                    R.string.subtitle_basic_request_settings_pattern,
-                    shortcut.method,
-                    shortcut.url,
-                )
+            ShortcutExecutionType.HTTP,
+            ShortcutExecutionType.SCRIPTING,
+            ShortcutExecutionType.TRIGGER,
+            -> {
+                if (!hasUrl()) {
+                    StringResLocalizable(R.string.subtitle_basic_request_settings_prompt)
+                } else {
+                    StringResLocalizable(
+                        R.string.subtitle_basic_request_settings_pattern,
+                        shortcut.method,
+                        shortcut.url,
+                    )
+                }
             }
         }
 
@@ -270,12 +280,14 @@ constructor(
             when (shortcut.type) {
                 ShortcutExecutionType.SCRIPTING -> R.string.label_scripting_scripting_shortcuts_subtitle
                 ShortcutExecutionType.BROWSER -> R.string.label_scripting_browser_shortcuts_subtitle
-                else -> R.string.label_scripting_subtitle
+                ShortcutExecutionType.HTTP,
+                ShortcutExecutionType.TRIGGER,
+                -> R.string.label_scripting_subtitle
             }
         )
 
     private fun getTriggerShortcutsSubtitle(): Localizable {
-        if (shortcut.type != ShortcutExecutionType.TRIGGER) {
+        if (!shortcut.type.usesTriggerShortcuts) {
             return Localizable.EMPTY
         }
         val count = TriggerShortcutManager.getTriggeredShortcutIdsFromCode(shortcut.codeOnPrepare).size
@@ -338,7 +350,7 @@ constructor(
         if (!viewState.hasChanges) {
             skipAction()
         }
-        if (executionType == ShortcutExecutionType.APP && shortcutId == null && !settings.isAwareOfResponseHandling) {
+        if (executionType.usesResponse && shortcutId == null && !settings.isAwareOfResponseHandling) {
             settings.isAwareOfResponseHandling = true
             updateDialogState(ShortcutEditorDialogState.ResponseHandlingWarning)
             skipAction()

@@ -5,7 +5,8 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.executionsettings.ExecutionSettingsEvent.RequestNotificationPermission
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
-import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.extensions.canUseFiles
+import ch.rmy.android.http_shortcuts.extensions.canWaitForConnection
 import ch.rmy.android.http_shortcuts.extensions.hasFileParameter
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
@@ -34,12 +35,11 @@ constructor(
 
     override suspend fun initialize(data: Unit): ExecutionSettingsViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
-        val isAppShortcut = shortcut.type == ShortcutExecutionType.APP
         return ExecutionSettingsViewState(
             runInBackground = shortcut.runInForegroundService,
             directShareOptionVisible = launcherShortcutManager.supportsDirectShare(),
             waitForConnection = shortcut.isWaitForNetwork,
-            waitForConnectionOptionVisible = isAppShortcut,
+            waitForConnectionOptionVisible = shortcut.type.canWaitForConnection,
             launcherShortcut = shortcut.launcherShortcut,
             secondaryLauncherShortcut = shortcut.secondaryLauncherShortcut,
             quickSettingsTileShortcut = shortcut.quickSettingsTileShortcut,
@@ -49,7 +49,7 @@ constructor(
             repetitionInterval = shortcut.repetition?.interval,
             canUseBiometrics = biometricUtil.canUseBiometrics(),
             excludeFromFileSharing = shortcut.excludeFromFileSharing,
-            canUseFiles = isAppShortcut,
+            canUseFiles = shortcut.type.canUseFiles,
             usesFiles = shortcut.usesGenericFileBody() || shortcut.hasFileParameter(),
         )
     }

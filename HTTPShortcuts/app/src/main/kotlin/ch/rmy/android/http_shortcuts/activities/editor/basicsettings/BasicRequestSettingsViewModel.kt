@@ -5,8 +5,9 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.usecases.GetAvailableBrowserPackageNamesUseCase
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
-import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.extensions.type
+import ch.rmy.android.http_shortcuts.extensions.usesBrowserChoice
+import ch.rmy.android.http_shortcuts.extensions.usesMethod
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -22,12 +23,12 @@ constructor(
     override suspend fun initialize(data: Unit): BasicRequestSettingsViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
         return BasicRequestSettingsViewState(
-            methodVisible = shortcut.type == ShortcutExecutionType.APP,
-            targetBrowserChoiceVisible = shortcut.type == ShortcutExecutionType.BROWSER,
+            methodVisible = shortcut.type.usesMethod,
+            targetBrowserChoiceVisible = shortcut.type.usesBrowserChoice,
             method = shortcut.method,
             url = shortcut.url,
             targetBrowser = shortcut.targetBrowser,
-            browserPackageNameOptions = if (shortcut.type == ShortcutExecutionType.BROWSER) {
+            browserPackageNameOptions = if (shortcut.type.usesBrowserChoice) {
                 getAvailableBrowserPackageNames(shortcut.targetBrowser.packageName)
             } else {
                 emptyList()

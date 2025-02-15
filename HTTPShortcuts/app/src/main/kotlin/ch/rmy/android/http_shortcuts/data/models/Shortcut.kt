@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
 import ch.rmy.android.http_shortcuts.extensions.type
+import ch.rmy.android.http_shortcuts.extensions.usesResponse
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.types.RealmList
@@ -27,13 +28,13 @@ class Shortcut() : RealmObject {
     constructor(
         id: ShortcutId = "",
         icon: ShortcutIcon = ShortcutIcon.NoIcon,
-        executionType: ShortcutExecutionType = ShortcutExecutionType.APP,
+        executionType: ShortcutExecutionType = ShortcutExecutionType.HTTP,
         categoryId: CategoryId? = null
     ) : this() {
         this.id = id
         this.icon = icon
         this.executionType = executionType.type
-        if (executionType == ShortcutExecutionType.APP) {
+        if (executionType.usesResponse) {
             responseHandling = ResponseHandling()
         }
         this.categoryId = categoryId
@@ -41,7 +42,7 @@ class Shortcut() : RealmObject {
 
     @PrimaryKey
     var id: ShortcutId = ""
-    var executionType: String? = ShortcutExecutionType.APP.type
+    var executionType: String? = ShortcutExecutionType.HTTP.type
 
     // Only valid when id == TEMPORARY_ID
     var categoryId: CategoryId? = null

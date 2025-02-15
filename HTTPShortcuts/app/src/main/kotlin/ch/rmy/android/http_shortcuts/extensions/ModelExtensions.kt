@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.extensions
 
 import android.content.Context
 import android.graphics.Color
+import androidx.compose.runtime.Stable
 import ch.rmy.android.framework.extensions.fromHexString
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
@@ -82,4 +83,87 @@ suspend fun ShortcutRepository.shouldUseForegroundService(shortcutId: ShortcutId
             .runInForegroundService
     } catch (_: NoSuchElementException) {
         false
+    }
+
+@Stable
+val ShortcutExecutionType.usesUrl: Boolean
+    get() = when (this) {
+        ShortcutExecutionType.HTTP -> true
+        ShortcutExecutionType.BROWSER -> true
+        ShortcutExecutionType.SCRIPTING -> false
+        ShortcutExecutionType.TRIGGER -> false
+    }
+
+@Stable
+val ShortcutExecutionType.usesMethod: Boolean
+    get() = isHttpShortcut
+
+@Stable
+private val ShortcutExecutionType.isHttpShortcut: Boolean
+    get() = when (this) {
+        ShortcutExecutionType.HTTP -> true
+        ShortcutExecutionType.BROWSER,
+        ShortcutExecutionType.SCRIPTING,
+        ShortcutExecutionType.TRIGGER,
+        -> false
+    }
+
+@Stable
+val ShortcutExecutionType.usesBrowserChoice: Boolean
+    get() = when (this) {
+        ShortcutExecutionType.BROWSER -> true
+        ShortcutExecutionType.HTTP,
+        ShortcutExecutionType.SCRIPTING,
+        ShortcutExecutionType.TRIGGER,
+        -> false
+    }
+
+@Stable
+val ShortcutExecutionType.requiresHttpUrl: Boolean
+    get() = isHttpShortcut
+
+@Stable
+val ShortcutExecutionType.usesRequestOptions: Boolean
+    get() = isHttpShortcut
+
+@Stable
+val ShortcutExecutionType.usesResponse: Boolean
+    get() = isHttpShortcut
+
+@Stable
+val ShortcutExecutionType.canWaitForConnection: Boolean
+    get() = isHttpShortcut
+
+@Stable
+val ShortcutExecutionType.canUseFiles: Boolean
+    get() = isHttpShortcut
+
+@Stable
+val ShortcutExecutionType.usesScriptingEditor: Boolean
+    get() = when (this) {
+        ShortcutExecutionType.HTTP,
+        ShortcutExecutionType.BROWSER,
+        ShortcutExecutionType.SCRIPTING,
+        -> true
+        ShortcutExecutionType.TRIGGER -> false
+    }
+
+@Stable
+val ShortcutExecutionType.usesTriggerShortcuts: Boolean
+    get() = when (this) {
+        ShortcutExecutionType.TRIGGER -> true
+        ShortcutExecutionType.BROWSER,
+        ShortcutExecutionType.SCRIPTING,
+        ShortcutExecutionType.HTTP,
+        -> false
+    }
+
+@Stable
+val ShortcutExecutionType.usesScriptingTestButton: Boolean
+    get() = when (this) {
+        ShortcutExecutionType.SCRIPTING -> true
+        ShortcutExecutionType.BROWSER,
+        ShortcutExecutionType.TRIGGER,
+        ShortcutExecutionType.HTTP,
+        -> false
     }

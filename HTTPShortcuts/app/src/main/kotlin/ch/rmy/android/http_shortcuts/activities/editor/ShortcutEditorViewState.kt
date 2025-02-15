@@ -9,7 +9,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 data class ShortcutEditorViewState(
     val dialogState: ShortcutEditorDialogState? = null,
     val toolbarSubtitle: Localizable? = null,
-    val shortcutExecutionType: ShortcutExecutionType = ShortcutExecutionType.APP,
+    val shortcutExecutionType: ShortcutExecutionType = ShortcutExecutionType.HTTP,
     val shortcutIcon: ShortcutIcon = ShortcutIcon.NoIcon,
     val shortcutName: String = "",
     val shortcutDescription: String = "",

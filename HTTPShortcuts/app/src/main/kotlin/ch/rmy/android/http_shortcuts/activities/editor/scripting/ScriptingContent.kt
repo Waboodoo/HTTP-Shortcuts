@@ -48,15 +48,16 @@ fun ScriptingContent(
     onCodeOnFailureChanged: (String) -> Unit,
     onActiveFieldChanged: (CodeFieldType) -> Unit,
 ) {
+    val usesMultipleInputFields = shortcutExecutionType == ShortcutExecutionType.HTTP
     Column(
-        modifier = Modifier.runIf(shortcutExecutionType == ShortcutExecutionType.APP) {
+        modifier = Modifier.runIf(usesMultipleInputFields) {
             verticalScroll(rememberScrollState())
         },
         verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
     ) {
         CodeSection(
             modifier = Modifier
-                .runIf(shortcutExecutionType != ShortcutExecutionType.APP) {
+                .runIf(!usesMultipleInputFields) {
                     fillMaxSize()
                 },
             isFocused = activeFieldType == CodeFieldType.PREPARE,
@@ -69,17 +70,17 @@ fun ScriptingContent(
                     R.string.placeholder_javascript_code_before
                 }
             ),
-            label = if (shortcutExecutionType == ShortcutExecutionType.APP) {
+            label = if (usesMultipleInputFields) {
                 stringResource(R.string.label_pre_request_script)
             } else null,
-            minLines = if (shortcutExecutionType == ShortcutExecutionType.APP) 6 else 12,
+            minLines = if (usesMultipleInputFields) 6 else 12,
             onCodeChanged = onCodeOnPrepareChanged,
             onFocused = {
                 onActiveFieldChanged(CodeFieldType.PREPARE)
             },
         )
 
-        if (shortcutExecutionType == ShortcutExecutionType.APP) {
+        if (usesMultipleInputFields) {
             CodeSection(
                 isFocused = activeFieldType == CodeFieldType.SUCCESS,
                 code = codeOnSuccess,

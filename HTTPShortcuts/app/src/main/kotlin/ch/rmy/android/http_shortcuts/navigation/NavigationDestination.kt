@@ -286,7 +286,7 @@ sealed interface NavigationDestination {
         fun buildRequest(
             shortcutId: ShortcutId? = null,
             categoryId: CategoryId,
-            executionType: ShortcutExecutionType = ShortcutExecutionType.APP,
+            executionType: ShortcutExecutionType = ShortcutExecutionType.HTTP,
             curlCommandId: NavigationArgStore.ArgStoreId? = null,
             recoveryMode: Boolean = false,
         ) = buildNavigationRequest {
@@ -306,7 +306,7 @@ sealed interface NavigationDestination {
         fun extractExecutionType(bundle: Bundle): ShortcutExecutionType =
             bundle.getEncodedString(ARG_EXECUTION_TYPE)
                 ?.let(ShortcutExecutionType.Companion::get)
-                ?: ShortcutExecutionType.APP
+                ?: ShortcutExecutionType.HTTP
 
         fun extractCurlCommandId(bundle: Bundle): NavigationArgStore.ArgStoreId? =
             bundle.getEncodedString(ARG_CURL_COMMAND_ID)
