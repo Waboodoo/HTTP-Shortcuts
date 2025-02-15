@@ -2,6 +2,8 @@ package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -9,6 +11,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.utils.localization.DurationLocalizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
@@ -22,6 +25,7 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.extensions.localize
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun ExecutionSettingsContent(
@@ -115,12 +119,6 @@ fun ExecutionSettingsContent(
 
         HorizontalDivider()
 
-        Checkbox(
-            label = stringResource(R.string.label_exclude_from_history),
-            checked = excludeFromHistory,
-            onCheckedChange = onExcludeFromHistoryChanged,
-        )
-
         ConfirmationTypeSelection(
             modifier = Modifier.padding(Spacing.MEDIUM),
             canUseBiometrics = canUseBiometrics,
@@ -135,8 +133,6 @@ fun ExecutionSettingsContent(
                 onCheckedChange = onWaitForConnectionChanged,
             )
         }
-
-        HorizontalDivider()
 
         SettingsButton(
             title = stringResource(R.string.label_delay_execution),
@@ -165,6 +161,16 @@ fun ExecutionSettingsContent(
         }
 
         HorizontalDivider()
+
+        Checkbox(
+            label = stringResource(R.string.label_exclude_from_history),
+            checked = excludeFromHistory,
+            onCheckedChange = onExcludeFromHistoryChanged,
+        )
+
+        HorizontalDivider()
+
+        Spacer(modifier = Modifier.height(Spacing.MEDIUM))
     }
 }
 
@@ -203,3 +209,35 @@ private val REPETITION_TYPES = listOf(null to StringResLocalizable(R.string.labe
                 (it * 60) to QuantityStringLocalizable(R.plurals.label_repeat_every_x_hours, it, it)
             }
     )
+
+@Preview
+@Composable
+private fun ExecutionSettingsContent_Preview() {
+    ExecutionSettingsContent(
+        runInBackground = false,
+        delay = 0.seconds,
+        waitForConnection = false,
+        waitForConnectionOptionVisible = false,
+        confirmationType = null,
+        directShareOptionVisible = true,
+        launcherShortcut = true,
+        secondaryLauncherShortcut = false,
+        quickSettingsTileShortcut = false,
+        excludeFromHistory = false,
+        repetitionInterval = 0,
+        canUseBiometrics = false,
+        excludeFromFileSharing = false,
+        canUseFiles = true,
+        usesFiles = false,
+        onRunInBackgroundChanged = {},
+        onLauncherShortcutChanged = {},
+        onSecondaryLauncherShortcutChanged = {},
+        onQuickSettingsTileShortcutChanged = {},
+        onExcludeFromHistoryChanged = {},
+        onConfirmationTypeChanged = {},
+        onWaitForConnectionChanged = {},
+        onDelayButtonClicked = {},
+        onRepetitionIntervalChanged = {},
+        onExcludeFromFileSharingChanged = {},
+    )
+}
