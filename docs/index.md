@@ -26,7 +26,7 @@ If you find bugs, have questions or feature requests, feel free to [contact me](
   - read and write files
   - trigger other shortcuts to chain multiple HTTP requests 
   - interact with other devices and services by sending TCP or UDP packets, MQTT messages or using Wake-on-LAN
-- Keep everything organized by categorizing into different tabs
+- Keep everything organized by categorizing into different tabs and grouping into sections
 - Import & Export in JSON or cURL format
 - 3rd party integration (e.g. Tasker, Wireguard)
 - Configure it from your browser using the [Web Editor](https://http-shortcuts.rmy.ch/editor)

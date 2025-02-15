@@ -34,7 +34,7 @@ Find more information and documentation on the [official website](https://http-s
 - Use a built-in icon or a custom image
 - Display response as a toast, window or dialog, or run silently
 - Display response as HTML-formatted text, as image or as web page
-- Grouping into categories through tabs
+- Grouping into tabs and section
 - Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)
 - Import & Export in JSON or cURL format
 - 3rd party integration support (e.g. Tasker, Macrodroid or Wireguard)

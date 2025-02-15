@@ -14,6 +14,10 @@ A category's layout type defines how shortcuts within it are displayed. There ar
 
 You can change a category's background to either use the default color (i.e., white or black, depending on whether dark mode is enabled) or set it to a specific color.
 
+### Category Sections
+
+The shortcuts within a category can be grouped into sections. You can configure sections by going to the "Categories" screen, long-pressing on a category and selecting "Manage Sections". To move a shortcut into a section, long-press it and select "Move" in the menu that pops up.
+
 ### Hidden Categories
 
 A category can be set to be hidden. A hidden category will not show up as a tab in the app. This can be useful if you have shortcuts that you only want to access directly from the home screen (make sure to place them first before hiding the category) or that you only want to trigger from other shortcuts, using [Scripting](scripting.md#trigger-shortcut)
