@@ -62,11 +62,12 @@ fun MoveContent(
     val lazyListState = rememberLazyListState()
     val reorderableState = rememberReorderableLazyListState(lazyListState) { from, to ->
         val shortcutId = from.key as ShortcutId
-        val targetKey = to.key
+        val targetKey = to.key as String
         logInfo("MoveContent", "Moving shortcuts, from=$shortcutId, to=$targetKey")
-        if (targetKey is CategorySectionId) {
-            onShortcutMovedToCategory(shortcutId, targetKey)
-        } else if (targetKey is String) {
+        val categorySectionId = CategorySectionId.deserialize(targetKey)
+        if (categorySectionId != null) {
+            onShortcutMovedToCategory(shortcutId, categorySectionId)
+        } else {
             onShortcutMovedToShortcut(shortcutId, targetKey)
         }
     }
@@ -96,13 +97,14 @@ fun MoveContent(
             verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
         ) {
             categorySections.forEachIndexed { index, categorySection ->
+                val key = categorySection.id.serialize()
                 item(
-                    key = categorySection.id,
+                    key = key,
                     contentType = "category_section",
                 ) {
                     ReorderableItem(
                         reorderableState,
-                        key = categorySection.id,
+                        key = key,
                         enabled = true,
                     ) {
                         Column {
