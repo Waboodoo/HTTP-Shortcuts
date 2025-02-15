@@ -136,6 +136,7 @@ private fun ShortcutLinearList(
                                 top = Spacing.MEDIUM * if (index == 0) 1 else 2,
                                 bottom = Spacing.SMALL,
                             ),
+                            textColor = textColor,
                             section = item,
                         )
                         HorizontalDivider(color = DividerDefaults.color.copy(alpha = 0.3f))
@@ -145,7 +146,9 @@ private fun ShortcutLinearList(
                     key = "empty_${item.id}",
                     contentType = "empty-state",
                 ) {
-                    EmptySection()
+                    EmptySection(
+                        textColor = textColor,
+                    )
                 }
                 is ShortcutListItemModel.ShortcutItem -> item(
                     key = item.id,
@@ -185,6 +188,7 @@ private fun ShortcutLinearList(
 private fun Section(
     modifier: Modifier,
     section: ShortcutListItemModel.Section,
+    textColor: Color?,
 ) {
     Text(
         modifier = modifier
@@ -194,6 +198,7 @@ private fun Section(
             .padding(horizontal = Spacing.MEDIUM)
             .fillMaxWidth(),
         text = section.name,
+        color = textColor ?: Color.Unspecified,
         fontSize = FontSize.BIG,
         fontWeight = FontWeight.Bold,
         maxLines = 3,
@@ -202,16 +207,22 @@ private fun Section(
 }
 
 @Composable
-private fun EmptySection() {
+private fun EmptySection(
+    textColor: Color?,
+) {
     ListItem(
         modifier = Modifier
             .fillMaxWidth()
             .alpha(0.8f),
+        colors = ListItemDefaults.colors(
+            containerColor = Color.Transparent,
+        ),
         headlineContent = {
             Text(
                 text = stringResource(R.string.placeholder_empty_category_section_main_screen, stringResource(R.string.action_move)),
                 fontStyle = FontStyle.Italic,
                 fontSize = FontSize.SMALL,
+                color = textColor ?: Color.Unspecified,
             )
         },
     )
@@ -302,6 +313,7 @@ private fun ShortcutGrid(
                     Section(
                         modifier = Modifier.padding(top = Spacing.MEDIUM, bottom = Spacing.SMALL),
                         section = item,
+                        textColor = textColor,
                     )
                 }
                 is ShortcutListItemModel.EmptyState -> item(
@@ -311,7 +323,9 @@ private fun ShortcutGrid(
                         GridItemSpan(maxLineSpan)
                     },
                 ) {
-                    EmptySection()
+                    EmptySection(
+                        textColor = textColor,
+                    )
                 }
                 is ShortcutListItemModel.ShortcutItem -> item(
                     key = item.id,
