@@ -13,6 +13,11 @@ sealed class ShortcutListItem {
     ) : ShortcutListItem()
 
     @Stable
+    data class EmptyState(
+        val id: SectionId,
+    ) : ShortcutListItem()
+
+    @Stable
     data class ShortcutItem(
         val id: ShortcutId,
         val name: String,

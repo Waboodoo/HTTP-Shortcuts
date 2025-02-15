@@ -169,8 +169,10 @@ constructor(
         }
 
         return buildList<ShortcutListItem> {
+            var isSectionEmpty = false
             (listOf(null) + category.sections).forEach { section ->
                 if (section != null) {
+                    isSectionEmpty = true
                     add(
                         ShortcutListItem.Section(
                             id = section.id,
@@ -179,6 +181,7 @@ constructor(
                     )
                 }
                 shortcutsBySectionId[section?.id]?.forEach { shortcut ->
+                    isSectionEmpty = false
                     add(
                         ShortcutListItem.ShortcutItem(
                             id = shortcut.id,
@@ -188,6 +191,11 @@ constructor(
                             isPending = pendingShortcuts.any { it.shortcutId == shortcut.id },
                             isHidden = shortcut.hidden,
                         )
+                    )
+                }
+                if (isSectionEmpty && section != null) {
+                    add(
+                        ShortcutListItem.EmptyState(section.id)
                     )
                 }
             }

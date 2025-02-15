@@ -38,6 +38,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -140,6 +141,12 @@ private fun ShortcutLinearList(
                         HorizontalDivider(color = DividerDefaults.color.copy(alpha = 0.3f))
                     }
                 }
+                is ShortcutListItemModel.EmptyState -> item(
+                    key = "empty_${item.id}",
+                    contentType = "empty-state",
+                ) {
+                    EmptySection()
+                }
                 is ShortcutListItemModel.ShortcutItem -> item(
                     key = item.id,
                     contentType = "shortcut",
@@ -191,6 +198,22 @@ private fun Section(
         fontWeight = FontWeight.Bold,
         maxLines = 3,
         overflow = TextOverflow.Ellipsis,
+    )
+}
+
+@Composable
+private fun EmptySection() {
+    ListItem(
+        modifier = Modifier
+            .fillMaxWidth()
+            .alpha(0.8f),
+        headlineContent = {
+            Text(
+                text = stringResource(R.string.placeholder_empty_category_section_main_screen, stringResource(R.string.action_move)),
+                fontStyle = FontStyle.Italic,
+                fontSize = FontSize.SMALL,
+            )
+        },
     )
 }
 
@@ -280,6 +303,15 @@ private fun ShortcutGrid(
                         modifier = Modifier.padding(top = Spacing.MEDIUM, bottom = Spacing.SMALL),
                         section = item,
                     )
+                }
+                is ShortcutListItemModel.EmptyState -> item(
+                    key = "empty_${item.id}",
+                    contentType = "empty-state",
+                    span = {
+                        GridItemSpan(maxLineSpan)
+                    },
+                ) {
+                    EmptySection()
                 }
                 is ShortcutListItemModel.ShortcutItem -> item(
                     key = item.id,
