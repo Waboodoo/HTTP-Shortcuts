@@ -426,6 +426,7 @@ tasks.register("syncDocumentation") {
         "permissions",
         "privacy-policy",
         "scripting",
+        "scripting-examples",
         "shortcuts",
         "variables",
     )

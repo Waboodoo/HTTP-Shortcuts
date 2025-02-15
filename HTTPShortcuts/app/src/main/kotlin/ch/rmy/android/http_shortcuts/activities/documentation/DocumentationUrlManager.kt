@@ -20,6 +20,7 @@ object DocumentationUrlManager {
         "permissions",
         "privacy-policy",
         "scripting",
+        "scripting-examples",
         "shortcuts",
         "variables",
     )
