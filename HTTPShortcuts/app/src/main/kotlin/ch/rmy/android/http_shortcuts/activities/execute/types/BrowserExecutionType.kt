@@ -1,0 +1,48 @@
+package ch.rmy.android.http_shortcuts.activities.execute.types
+
+import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
+import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
+import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
+import ch.rmy.android.http_shortcuts.activities.execute.usecases.OpenInBrowserUseCase
+import ch.rmy.android.http_shortcuts.data.models.Base
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.http.FileUploadManager
+import ch.rmy.android.http_shortcuts.scripting.ResultHandler
+import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
+import ch.rmy.android.http_shortcuts.variables.VariableManager
+import ch.rmy.android.http_shortcuts.variables.Variables
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
+
+class BrowserExecutionType
+@Inject
+constructor(
+    private val openInBrowser: OpenInBrowserUseCase,
+) : ExecutionType {
+    override fun invoke(
+        params: ExecutionParams,
+        shortcut: Shortcut,
+        base: Base,
+        variableManager: VariableManager,
+        resultHandler: ResultHandler,
+        fileUploadResult: FileUploadManager.Result?,
+        dialogHandle: DialogHandle,
+        scriptExecutor: ScriptExecutor,
+    ): Flow<ExecutionStatus> =
+        flow {
+            emit(
+                ExecutionStatus.WrappingUp(
+                    variableManager.getVariableValuesByIds(),
+                    result = resultHandler.getResult(),
+                )
+            )
+            openInBrowser(
+                url = injectVariables(shortcut.url, variableManager),
+                targetBrowser = shortcut.targetBrowser,
+            )
+        }
+
+    private fun injectVariables(string: String, variableManager: VariableManager): String =
+        Variables.rawPlaceholdersToResolvedValues(string, variableManager.getVariableValuesByIds())
+}
