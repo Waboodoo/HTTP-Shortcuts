@@ -16,11 +16,6 @@ import javax.inject.Inject
 
 @HiltAndroidApp
 class Application : android.app.Application(), Configuration.Provider {
-
-    init {
-        instance = this
-    }
-
     private val context: Context
         get() = this
 
@@ -48,9 +43,5 @@ class Application : android.app.Application(), Configuration.Provider {
         RealmFactoryImpl.init(applicationContext)
 
         DarkThemeHelper.applyDarkThemeSettings(Settings(context).darkThemeSetting)
-    }
-
-    companion object {
-        lateinit var instance: Application
     }
 }

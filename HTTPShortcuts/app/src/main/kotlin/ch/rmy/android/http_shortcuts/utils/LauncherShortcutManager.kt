@@ -7,7 +7,6 @@ import android.content.pm.CapabilityParams
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
 import androidx.core.content.getSystemService
 import androidx.core.content.pm.ShortcutManagerCompat.EXTRA_SHORTCUT_ID
@@ -63,7 +62,6 @@ constructor(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun createLauncherShortcuts(shortcuts: Collection<LauncherShortcut>): List<ShortcutInfo> =
         shortcuts
             .mapIndexed { index, launcherShortcut ->
@@ -74,7 +72,6 @@ constructor(
                 )
             }
 
-    @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun createShortcutInfo(
         launcherShortcut: LauncherShortcut,
         rank: Int = 0,

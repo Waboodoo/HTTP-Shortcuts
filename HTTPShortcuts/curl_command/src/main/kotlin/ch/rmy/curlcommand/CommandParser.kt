@@ -63,7 +63,7 @@ object CommandParser {
                 continue
             }
             builder.append(currentToken)
-            if (currentToken == "\\" && previousToken == "\\") {
+            if (currentToken == "\\") {
                 currentToken = ""
             }
         }

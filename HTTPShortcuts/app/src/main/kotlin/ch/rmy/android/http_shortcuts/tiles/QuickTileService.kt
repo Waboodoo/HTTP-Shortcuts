@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.service.quicksettings.TileService
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
@@ -35,7 +34,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-@RequiresApi(Build.VERSION_CODES.N)
 @AndroidEntryPoint
 class QuickTileService : TileService() {
 
