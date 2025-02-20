@@ -39,7 +39,7 @@ It is also possible to pass additional values to that shortcut, to temporarily o
 http-shortcuts://f943652a-5f4b-47d9-a4dd-6588292e63dd?myVariable=Hello%20World
 ```
 
-Make sure to properly URL-encode the value.
+Make sure to properly URL-encode the value. You'll find tools online that help you achieve this.
 
 <a name="secondary-launcher"></a>
 ## Trigger shortcut via secondary launcher app
@@ -53,7 +53,7 @@ If you enable this for multiple shortcuts you'll be prompted to select the short
 Unfortunately, due to technical limitations on Android, it is not possible to change the name or icon of this secondary launcher app.
 
 <a name="quick-settings-tile"></a>
-## Trigger shortcut via Quick Settings Tile
+## Trigger shortcut via quick settings tile
 
 On most Android devices you can pull down the status bar to reveal the quick settings area, e.g. to quickly toggle Wi-Fi or enable "Do not disturb" mode. You can edit this area and choose the tiles that are relevant to you and rearrange them. When you do you'll notice that there's also an HTTP Shortcuts tile called "Trigger shortcut". This tile allows you to quickly trigger a shortcut from anywhere.
 
@@ -83,7 +83,7 @@ You can use the [setResult()](scripting.md#set-result) function (part of the [Sc
 See the [triggerTaskerTask documentation](scripting.md#trigger-tasker-task) for details about triggering a Tasker task.
 
 <a name="certificate-pinning"></a>
-## Certificate Pinning
+## Certificate pinning
 
 When you use HTTPS, your requests will be sent over a secure connection. "Secure" here mainly means that the connection is encrypted and that the app will check that the server it connects to has a valid SSL certificate. In some cases, you might want this check to be more restrictive, i.e., it should not only check that the certificate is valid but that it is a specific certificate. Most likely you will not need this, but if you think you do, I suggest you read more about the topic online first. Note that this is different from validating [self-signed certificates](#self-signed-certificates).
 
@@ -98,9 +98,9 @@ The fingerprint has to be either the SHA-1 or SHA-256 fingerprint of your server
 Once you have configured a certificate pinning this way, all HTTP shortcuts that connect to a domain that matches its pattern will verify that the server's certificate matches the specified fingerprint. If this check fails, and error is displayed instead. To ensure that your hostname pattern actually matches, you can just temporarily modify the fingerprint and verify that the request fails, then change it back and verify that it now succeeds.
 
 <a name="self-signed-certificates"></a>
-## Using Self-Signed Certificates
+## Using self-signed certificates
 
-By default, HTTP requests to a server that uses a self-signed certificate will fail, as the trust chain can not be verified. In order to make such requests work, edit your shortcut and look for the "Advanced Technical Settings" section at the bottom. In there you will find the "Host Verification" option. Change it from "Secure Default" to "Check Certificate Fingerprint" only and then copy the SHA-1 or SHA-256 fingerprint of your certificate into the text field below. This will disable the normal host verification and instead only check the fingerprint of the certificate presented by the server. In either case your connection will be encrypted.
+By default, HTTP requests to a server that uses a self-signed certificate will fail, as the trust chain can not be verified. In order to make such requests work, edit your shortcut and look for the "Advanced Technical Settings" section at the bottom. In there you will find the "Host Verification" option. Change it from "Secure Default" to "Check Certificate Fingerprint only" and then copy the SHA-1 or SHA-256 fingerprint of your certificate into the text field below. This will disable the normal host verification and instead only check the fingerprint of the certificate presented by the server. In either case your connection will be encrypted.
 
 <a name="tables"></a>
 ## Displaying responses as a table
