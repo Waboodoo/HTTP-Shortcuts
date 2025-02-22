@@ -36,6 +36,10 @@ A *multi-shortcut* combines multiple shortcuts into one. When the multi-shortcut
 
 A *browser shortcut* is similar to a regular HTTP shortcut in that it corresponds to a single URL, but instead of making an HTTP request directly to that URL inside the app, it will open the URL in your device's browser instead.
 
+<a name="wake-on-lan"></a>
+
+A *wake-on-lan shortcut can be used to wake up a computer or other device on your network. Check online whether your computer supports this, how to enable it and how to find out its MAC address.
+
 <a name="scripting-shortcut"></a>
 ### Scripting Shortcut
 
