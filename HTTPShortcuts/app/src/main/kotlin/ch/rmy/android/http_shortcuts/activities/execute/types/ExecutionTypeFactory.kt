@@ -19,6 +19,7 @@ constructor(
         when (shortcutExecutionType) {
             ShortcutExecutionType.HTTP -> entryPoint.httpExecutionType()
             ShortcutExecutionType.BROWSER -> entryPoint.browserExecutionType()
+            ShortcutExecutionType.WAKE_ON_LAN -> entryPoint.wakeOnLanExecutionType()
             ShortcutExecutionType.SCRIPTING,
             ShortcutExecutionType.TRIGGER,
             -> entryPoint.noopExecutionType()
@@ -30,5 +31,6 @@ constructor(
         fun browserExecutionType(): BrowserExecutionType
         fun httpExecutionType(): HttpExecutionType
         fun noopExecutionType(): NoopExecutionType
+        fun wakeOnLanExecutionType(): WakeOnLanExecutionType
     }
 }

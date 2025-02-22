@@ -9,10 +9,11 @@ import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.scripting.ResultHandler
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.variables.VariableManager
+import ch.rmy.android.http_shortcuts.variables.Variables
 import kotlinx.coroutines.flow.Flow
 
-interface ExecutionType {
-    operator fun invoke(
+abstract class ExecutionType {
+    abstract operator fun invoke(
         params: ExecutionParams,
         shortcut: Shortcut,
         base: Base,
@@ -22,4 +23,7 @@ interface ExecutionType {
         dialogHandle: DialogHandle,
         scriptExecutor: ScriptExecutor,
     ): Flow<ExecutionStatus>
+
+    protected fun injectVariables(string: String, variableManager: VariableManager): String =
+        Variables.rawPlaceholdersToResolvedValues(string, variableManager.getVariableValuesByIds())
 }

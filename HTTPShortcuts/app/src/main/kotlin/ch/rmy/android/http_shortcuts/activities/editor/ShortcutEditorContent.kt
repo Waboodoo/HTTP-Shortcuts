@@ -34,11 +34,12 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderText
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.extensions.isHttpShortcut
+import ch.rmy.android.http_shortcuts.extensions.usesBasicSettingsScreen
 import ch.rmy.android.http_shortcuts.extensions.usesRequestOptions
 import ch.rmy.android.http_shortcuts.extensions.usesResponse
 import ch.rmy.android.http_shortcuts.extensions.usesScriptingEditor
 import ch.rmy.android.http_shortcuts.extensions.usesTriggerShortcuts
-import ch.rmy.android.http_shortcuts.extensions.usesUrl
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @Composable
@@ -119,9 +120,17 @@ fun ShortcutEditorContent(
 
         HorizontalDivider(modifier = Modifier.padding(bottom = Spacing.SMALL))
 
-        if (shortcutExecutionType.usesUrl) {
+        if (shortcutExecutionType.usesBasicSettingsScreen) {
             ListItem(
-                headlineContent = { Text(stringResource(R.string.section_basic_request)) },
+                headlineContent = {
+                    Text(
+                        text = if (shortcutExecutionType.isHttpShortcut) {
+                            stringResource(R.string.section_basic_request)
+                        } else {
+                            stringResource(R.string.section_basic_settings)
+                        }
+                    )
+                },
                 supportingContent = { VariablePlaceholderText(basicSettingsSubtitle) },
                 modifier = Modifier
                     .clickable(onClick = onBasicRequestButtonClicked)

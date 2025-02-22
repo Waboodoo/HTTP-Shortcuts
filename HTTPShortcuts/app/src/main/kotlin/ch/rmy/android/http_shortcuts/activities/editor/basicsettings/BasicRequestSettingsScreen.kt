@@ -6,6 +6,8 @@ import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.bindViewModel
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.extensions.isHttpShortcut
 
 @Composable
 fun BasicRequestSettingsScreen() {
@@ -17,18 +19,38 @@ fun BasicRequestSettingsScreen() {
 
     SimpleScaffold(
         viewState = state,
-        title = stringResource(R.string.section_basic_request),
+        title = when (state?.shortcutExecutionType?.isHttpShortcut) {
+            true -> stringResource(R.string.section_basic_request)
+            false -> stringResource(R.string.section_basic_settings)
+            else -> ""
+        },
     ) { viewState ->
-        BasicRequestSettingsContent(
-            methodVisible = viewState.methodVisible,
-            method = viewState.method,
-            url = viewState.url,
-            targetBrowser = viewState.targetBrowser,
-            targetBrowserChoiceVisible = viewState.targetBrowserChoiceVisible,
-            browserPackageNameOptions = viewState.browserPackageNameOptions,
-            onMethodChanged = viewModel::onMethodChanged,
-            onUrlChanged = viewModel::onUrlChanged,
-            onTargetBrowserChanged = viewModel::onTargetBrowserChanged,
-        )
+        when (state?.shortcutExecutionType) {
+            ShortcutExecutionType.HTTP -> HttpSettingsContent(
+                method = viewState.method,
+                url = viewState.url,
+                onMethodChanged = viewModel::onMethodChanged,
+                onUrlChanged = viewModel::onUrlChanged,
+            )
+            ShortcutExecutionType.BROWSER -> BrowserSettingsContent(
+                url = viewState.url,
+                targetBrowser = viewState.targetBrowser,
+                browserPackageNameOptions = viewState.browserPackageNameOptions,
+                onUrlChanged = viewModel::onUrlChanged,
+                onTargetBrowserChanged = viewModel::onTargetBrowserChanged,
+            )
+            ShortcutExecutionType.WAKE_ON_LAN -> WakOnLanSettingsContent(
+                macAddress = viewState.wolMacAddress,
+                port = viewState.wolPort,
+                broadcastAddress = viewState.wolBroadcastAddress,
+                onMacAddressChanged = viewModel::onWolMacAddressChanged,
+                onPortChanged = viewModel::onWolPortChanged,
+                onBroadcastAddressChanged = viewModel::onWolBroadcastAddressChanged,
+            )
+            ShortcutExecutionType.SCRIPTING,
+            ShortcutExecutionType.TRIGGER,
+            null,
+            -> error("This should never happen")
+        }
     }
 }

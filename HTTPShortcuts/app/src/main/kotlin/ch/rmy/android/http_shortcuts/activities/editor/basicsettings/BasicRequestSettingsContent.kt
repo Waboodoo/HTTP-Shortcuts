@@ -8,6 +8,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,14 +24,29 @@ import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 
 @Composable
-fun BasicRequestSettingsContent(
-    methodVisible: Boolean,
+fun HttpSettingsContent(
     method: String,
     url: String,
-    targetBrowser: TargetBrowser,
-    targetBrowserChoiceVisible: Boolean,
-    browserPackageNameOptions: List<InstalledBrowser>,
     onMethodChanged: (String) -> Unit,
+    onUrlChanged: (String) -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .padding(Spacing.MEDIUM)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
+    ) {
+        MethodSelection(method, onMethodChanged)
+
+        UrlField(url, onUrlChanged)
+    }
+}
+
+@Composable
+fun BrowserSettingsContent(
+    url: String,
+    targetBrowser: TargetBrowser,
+    browserPackageNameOptions: List<InstalledBrowser>,
     onUrlChanged: (String) -> Unit,
     onTargetBrowserChanged: (TargetBrowser) -> Unit,
 ) {
@@ -40,19 +56,45 @@ fun BasicRequestSettingsContent(
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
     ) {
-        if (methodVisible) {
-            MethodSelection(method, onMethodChanged)
-        }
-
         UrlField(url, onUrlChanged)
 
-        if (targetBrowserChoiceVisible) {
-            TargetBrowserSelection(
-                targetBrowser = targetBrowser,
-                browserPackageNameOptions = browserPackageNameOptions,
-                onTargetBrowserChanged = onTargetBrowserChanged,
-            )
-        }
+        TargetBrowserSelection(
+            targetBrowser = targetBrowser,
+            browserPackageNameOptions = browserPackageNameOptions,
+            onTargetBrowserChanged = onTargetBrowserChanged,
+        )
+    }
+}
+
+@Composable
+fun WakOnLanSettingsContent(
+    macAddress: String,
+    port: String,
+    broadcastAddress: String,
+    onMacAddressChanged: (String) -> Unit,
+    onPortChanged: (String) -> Unit,
+    onBroadcastAddressChanged: (String) -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .padding(Spacing.MEDIUM)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
+    ) {
+        MacAddressField(
+            macAddress = macAddress,
+            onMacAddressChanged = onMacAddressChanged,
+        )
+
+        PortField(
+            port = port,
+            onPortChanged = onPortChanged,
+        )
+
+        BroadcastAddressField(
+            broadcastAddress = broadcastAddress,
+            onBroadcastAddressChanged = onBroadcastAddressChanged,
+        )
     }
 }
 
@@ -124,5 +166,69 @@ private fun TargetBrowserSelection(
                 )
             },
         onItemSelected = onTargetBrowserChanged,
+    )
+}
+
+@Composable
+private fun MacAddressField(
+    macAddress: String,
+    onMacAddressChanged: (String) -> Unit,
+) {
+    VariablePlaceholderTextField(
+        key = "mac-address-input",
+        modifier = Modifier.fillMaxWidth(),
+        label = {
+            Text(stringResource(R.string.label_mac_address))
+        },
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.None,
+            autoCorrectEnabled = false,
+        ),
+        value = macAddress,
+        onValueChange = onMacAddressChanged,
+        maxLines = 12,
+    )
+}
+
+@Composable
+private fun PortField(
+    port: String,
+    onPortChanged: (String) -> Unit,
+) {
+    TextField(
+        modifier = Modifier.fillMaxWidth(),
+        label = {
+            Text(stringResource(R.string.label_wake_on_lan_port))
+        },
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.None,
+            autoCorrectEnabled = false,
+            keyboardType = KeyboardType.Number,
+        ),
+        value = port,
+        onValueChange = { text ->
+            onPortChanged(text.filter { it.isDigit() }.take(6))
+        },
+        singleLine = true,
+    )
+}
+
+@Composable
+private fun BroadcastAddressField(
+    broadcastAddress: String,
+    onBroadcastAddressChanged: (String) -> Unit,
+) {
+    TextField(
+        modifier = Modifier.fillMaxWidth(),
+        label = {
+            Text(stringResource(R.string.label_broadcast_address))
+        },
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.None,
+            autoCorrectEnabled = false,
+        ),
+        value = broadcastAddress,
+        onValueChange = onBroadcastAddressChanged,
+        singleLine = true,
     )
 }

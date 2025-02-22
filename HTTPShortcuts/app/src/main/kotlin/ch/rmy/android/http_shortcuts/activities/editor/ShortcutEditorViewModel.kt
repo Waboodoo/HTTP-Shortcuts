@@ -180,6 +180,7 @@ constructor(
             ShortcutExecutionType.SCRIPTING,
             ShortcutExecutionType.TRIGGER,
             -> shortcut.codeOnPrepare.isNotEmpty()
+            ShortcutExecutionType.WAKE_ON_LAN -> shortcut.wolMacAddress.isNotEmpty()
         }
 
     private fun getToolbarSubtitle() =
@@ -187,21 +188,13 @@ constructor(
             ShortcutExecutionType.BROWSER -> StringResLocalizable(R.string.subtitle_editor_toolbar_browser_shortcut)
             ShortcutExecutionType.SCRIPTING -> StringResLocalizable(R.string.subtitle_editor_toolbar_scripting_shortcut)
             ShortcutExecutionType.TRIGGER -> StringResLocalizable(R.string.subtitle_editor_toolbar_trigger_shortcut)
+            ShortcutExecutionType.WAKE_ON_LAN -> StringResLocalizable(R.string.subtitle_editor_toolbar_wol_shortcut)
             ShortcutExecutionType.HTTP -> null
         }
 
     private fun getBasicSettingsSubtitle(): Localizable =
         when (shortcut.type) {
-            ShortcutExecutionType.BROWSER -> {
-                if (!hasUrl()) {
-                    StringResLocalizable(R.string.subtitle_basic_request_settings_url_only_prompt)
-                } else {
-                    shortcut.url.toLocalizable()
-                }
-            }
             ShortcutExecutionType.HTTP,
-            ShortcutExecutionType.SCRIPTING,
-            ShortcutExecutionType.TRIGGER,
             -> {
                 if (!hasUrl()) {
                     StringResLocalizable(R.string.subtitle_basic_request_settings_prompt)
@@ -213,6 +206,21 @@ constructor(
                     )
                 }
             }
+            ShortcutExecutionType.BROWSER -> {
+                if (!hasUrl()) {
+                    StringResLocalizable(R.string.subtitle_basic_request_settings_url_only_prompt)
+                } else {
+                    shortcut.url.toLocalizable()
+                }
+            }
+            ShortcutExecutionType.WAKE_ON_LAN -> if (shortcut.wolMacAddress.isEmpty()) {
+                StringResLocalizable(R.string.subtitle_basic_request_settings_prompt_for_wol)
+            } else {
+                shortcut.wolMacAddress.toLocalizable()
+            }
+            ShortcutExecutionType.SCRIPTING,
+            ShortcutExecutionType.TRIGGER,
+            -> Localizable.EMPTY
         }
 
     private fun hasUrl() =
@@ -279,7 +287,9 @@ constructor(
         StringResLocalizable(
             when (shortcut.type) {
                 ShortcutExecutionType.SCRIPTING -> R.string.label_scripting_scripting_shortcuts_subtitle
-                ShortcutExecutionType.BROWSER -> R.string.label_scripting_browser_shortcuts_subtitle
+                ShortcutExecutionType.BROWSER,
+                ShortcutExecutionType.WAKE_ON_LAN,
+                -> R.string.label_scripting_browser_shortcuts_subtitle
                 ShortcutExecutionType.HTTP,
                 ShortcutExecutionType.TRIGGER,
                 -> R.string.label_scripting_subtitle
@@ -372,6 +382,11 @@ constructor(
             (shortcut.type.usesUrl && !shortcut.type.requiresHttpUrl && !isAcceptableUrl(shortcut.url))
         ) {
             showSnackbar(R.string.validation_url_invalid, long = true)
+            isSaving = false
+            return
+        }
+        if (shortcut.type == ShortcutExecutionType.WAKE_ON_LAN && shortcut.wolMacAddress.isEmpty()) {
+            showSnackbar(R.string.validation_mac_address_invalid, long = true)
             isSaving = false
             return
         }

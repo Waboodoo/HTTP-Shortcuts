@@ -88,33 +88,35 @@ suspend fun ShortcutRepository.shouldUseForegroundService(shortcutId: ShortcutId
 @Stable
 val ShortcutExecutionType.usesUrl: Boolean
     get() = when (this) {
-        ShortcutExecutionType.HTTP -> true
-        ShortcutExecutionType.BROWSER -> true
-        ShortcutExecutionType.SCRIPTING -> false
-        ShortcutExecutionType.TRIGGER -> false
+        ShortcutExecutionType.HTTP,
+        ShortcutExecutionType.BROWSER,
+        -> true
+        ShortcutExecutionType.SCRIPTING,
+        ShortcutExecutionType.TRIGGER,
+        ShortcutExecutionType.WAKE_ON_LAN,
+        -> false
     }
 
 @Stable
-val ShortcutExecutionType.usesMethod: Boolean
-    get() = isHttpShortcut
-
-@Stable
-private val ShortcutExecutionType.isHttpShortcut: Boolean
+val ShortcutExecutionType.usesBasicSettingsScreen: Boolean
     get() = when (this) {
-        ShortcutExecutionType.HTTP -> true
+        ShortcutExecutionType.HTTP,
         ShortcutExecutionType.BROWSER,
+        ShortcutExecutionType.WAKE_ON_LAN,
+        -> true
         ShortcutExecutionType.SCRIPTING,
         ShortcutExecutionType.TRIGGER,
         -> false
     }
 
 @Stable
-val ShortcutExecutionType.usesBrowserChoice: Boolean
+val ShortcutExecutionType.isHttpShortcut: Boolean
     get() = when (this) {
-        ShortcutExecutionType.BROWSER -> true
-        ShortcutExecutionType.HTTP,
+        ShortcutExecutionType.HTTP -> true
+        ShortcutExecutionType.BROWSER,
         ShortcutExecutionType.SCRIPTING,
         ShortcutExecutionType.TRIGGER,
+        ShortcutExecutionType.WAKE_ON_LAN,
         -> false
     }
 
@@ -144,6 +146,7 @@ val ShortcutExecutionType.usesScriptingEditor: Boolean
         ShortcutExecutionType.HTTP,
         ShortcutExecutionType.BROWSER,
         ShortcutExecutionType.SCRIPTING,
+        ShortcutExecutionType.WAKE_ON_LAN,
         -> true
         ShortcutExecutionType.TRIGGER -> false
     }
@@ -155,6 +158,7 @@ val ShortcutExecutionType.usesTriggerShortcuts: Boolean
         ShortcutExecutionType.BROWSER,
         ShortcutExecutionType.SCRIPTING,
         ShortcutExecutionType.HTTP,
+        ShortcutExecutionType.WAKE_ON_LAN,
         -> false
     }
 
@@ -165,5 +169,6 @@ val ShortcutExecutionType.usesScriptingTestButton: Boolean
         ShortcutExecutionType.BROWSER,
         ShortcutExecutionType.TRIGGER,
         ShortcutExecutionType.HTTP,
+        ShortcutExecutionType.WAKE_ON_LAN,
         -> false
     }

@@ -7,10 +7,11 @@ enum class ShortcutExecutionType(
     val type: String,
 ) {
 
-    HTTP(type = "app"),
-    BROWSER(type = "browser"),
-    SCRIPTING(type = "scripting"),
-    TRIGGER(type = "trigger"), // AKA "Multi Shortcut"
+    HTTP("app"),
+    BROWSER("browser"),
+    SCRIPTING("scripting"),
+    TRIGGER("trigger"), // AKA "Multi Shortcut"
+    WAKE_ON_LAN("wol"),
     ;
 
     companion object {

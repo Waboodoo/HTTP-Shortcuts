@@ -191,6 +191,10 @@ class Shortcut() : RealmObject {
 
     var runInForegroundService: Boolean = false
 
+    var wolMacAddress: String = ""
+    var wolPort: Int = 9
+    var wolBroadcastAddress: String = "255.255.255.255"
+
     fun allowsBody(): Boolean =
         METHOD_POST == method ||
             METHOD_PUT == method ||
@@ -249,7 +253,10 @@ class Shortcut() : RealmObject {
             other.browserPackageName != browserPackageName ||
             other.excludeFromHistory != excludeFromHistory ||
             other.excludeFromFileSharing != excludeFromFileSharing ||
-            other.runInForegroundService != runInForegroundService
+            other.runInForegroundService != runInForegroundService ||
+            other.wolMacAddress != wolMacAddress ||
+            other.wolPort != wolPort ||
+            other.wolBroadcastAddress != wolBroadcastAddress
         ) {
             return false
         }

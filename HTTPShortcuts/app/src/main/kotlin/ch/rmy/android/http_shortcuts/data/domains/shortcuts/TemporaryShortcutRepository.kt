@@ -124,6 +124,24 @@ constructor(
         }
     }
 
+    suspend fun setWolMacAddress(macAddress: String) {
+        commitTransactionForShortcut { shortcut ->
+            shortcut.wolMacAddress = macAddress
+        }
+    }
+
+    suspend fun setWolPort(port: Int) {
+        commitTransactionForShortcut { shortcut ->
+            shortcut.wolPort = port
+        }
+    }
+
+    suspend fun setWolBroadcastAddress(broadcastAddress: String) {
+        commitTransactionForShortcut { shortcut ->
+            shortcut.wolBroadcastAddress = broadcastAddress
+        }
+    }
+
     suspend fun setAuthenticationType(authenticationType: ShortcutAuthenticationType) {
         commitTransactionForShortcut { shortcut ->
             shortcut.authenticationType = authenticationType

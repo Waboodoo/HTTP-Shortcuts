@@ -5,9 +5,8 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.usecases.GetAvailableBrowserPackageNamesUseCase
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.extensions.type
-import ch.rmy.android.http_shortcuts.extensions.usesBrowserChoice
-import ch.rmy.android.http_shortcuts.extensions.usesMethod
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -22,17 +21,20 @@ constructor(
 
     override suspend fun initialize(data: Unit): BasicRequestSettingsViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        val type = shortcut.type
         return BasicRequestSettingsViewState(
-            methodVisible = shortcut.type.usesMethod,
-            targetBrowserChoiceVisible = shortcut.type.usesBrowserChoice,
+            shortcutExecutionType = type,
             method = shortcut.method,
             url = shortcut.url,
             targetBrowser = shortcut.targetBrowser,
-            browserPackageNameOptions = if (shortcut.type.usesBrowserChoice) {
+            browserPackageNameOptions = if (type == ShortcutExecutionType.BROWSER) {
                 getAvailableBrowserPackageNames(shortcut.targetBrowser.packageName)
             } else {
                 emptyList()
             },
+            wolMacAddress = shortcut.wolMacAddress,
+            wolPort = shortcut.wolPort.toString(),
+            wolBroadcastAddress = shortcut.wolBroadcastAddress,
         )
     }
 
@@ -65,6 +67,33 @@ constructor(
         }
         withProgressTracking {
             temporaryShortcutRepository.setTargetBrowser(targetBrowser)
+        }
+    }
+
+    fun onWolMacAddressChanged(macAddress: String) = runAction {
+        updateViewState {
+            copy(wolMacAddress = macAddress)
+        }
+        withProgressTracking {
+            temporaryShortcutRepository.setWolMacAddress(macAddress)
+        }
+    }
+
+    fun onWolPortChanged(port: String) = runAction {
+        updateViewState {
+            copy(wolPort = port)
+        }
+        withProgressTracking {
+            temporaryShortcutRepository.setWolPort(port.toIntOrNull() ?: 9)
+        }
+    }
+
+    fun onWolBroadcastAddressChanged(broadcastAddress: String) = runAction {
+        updateViewState {
+            copy(wolBroadcastAddress = broadcastAddress)
+        }
+        withProgressTracking {
+            temporaryShortcutRepository.setWolBroadcastAddress(broadcastAddress)
         }
     }
 }

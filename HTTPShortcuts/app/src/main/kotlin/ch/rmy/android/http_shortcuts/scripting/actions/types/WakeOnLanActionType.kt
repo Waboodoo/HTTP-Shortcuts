@@ -18,8 +18,8 @@ constructor(
             action = wakeOnLanAction,
             params = WakeOnLanAction.Params(
                 macAddress = args.getString(0) ?: "",
-                ipAddress = args.getString(1)?.takeUnlessEmpty() ?: "255.255.255.255",
-                port = args.getInt(2) ?: 9,
+                ipAddress = args.getString(1)?.takeUnlessEmpty(),
+                port = args.getInt(2),
             ),
         )
 

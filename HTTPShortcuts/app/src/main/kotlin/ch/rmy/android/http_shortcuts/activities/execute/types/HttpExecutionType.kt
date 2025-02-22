@@ -75,7 +75,7 @@ constructor(
     private val showResultDialog: ShowResultDialogUseCase,
     private val showResultNotification: ShowResultNotificationUseCase,
     private val navigationArgStore: NavigationArgStore,
-) : ExecutionType {
+) : ExecutionType() {
 
     override fun invoke(
         params: ExecutionParams,
@@ -319,9 +319,6 @@ constructor(
             response = response,
         )
     }
-
-    private fun injectVariables(string: String, variableManager: VariableManager): String =
-        Variables.rawPlaceholdersToResolvedValues(string, variableManager.getVariableValuesByIds())
 
     private suspend fun displayResult(
         shortcut: Shortcut,

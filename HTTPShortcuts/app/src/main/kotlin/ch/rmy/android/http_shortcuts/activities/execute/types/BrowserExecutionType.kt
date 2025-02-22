@@ -10,7 +10,6 @@ import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.scripting.ResultHandler
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.variables.VariableManager
-import ch.rmy.android.http_shortcuts.variables.Variables
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -19,7 +18,7 @@ class BrowserExecutionType
 @Inject
 constructor(
     private val openInBrowser: OpenInBrowserUseCase,
-) : ExecutionType {
+) : ExecutionType() {
     override fun invoke(
         params: ExecutionParams,
         shortcut: Shortcut,
@@ -42,7 +41,4 @@ constructor(
                 targetBrowser = shortcut.targetBrowser,
             )
         }
-
-    private fun injectVariables(string: String, variableManager: VariableManager): String =
-        Variables.rawPlaceholdersToResolvedValues(string, variableManager.getVariableValuesByIds())
 }

@@ -16,6 +16,7 @@ import androidx.compose.material.icons.automirrored.filled.ListAlt
 import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.OpenInBrowser
+import androidx.compose.material.icons.filled.PowerSettingsNew
 import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -89,6 +90,17 @@ fun TypePickerContent(
                 icon = Icons.Filled.OpenInBrowser,
                 onClick = {
                     onShortcutTypeSelected(ShortcutExecutionType.BROWSER)
+                },
+            )
+
+            Spacer(modifier = Modifier.height(Spacing.SMALL))
+
+            Option(
+                label = stringResource(R.string.button_create_wol_shortcut),
+                description = stringResource(R.string.button_description_create_wol_shortcut),
+                icon = Icons.Filled.PowerSettingsNew,
+                onClick = {
+                    onShortcutTypeSelected(ShortcutExecutionType.WAKE_ON_LAN)
                 },
             )
 
