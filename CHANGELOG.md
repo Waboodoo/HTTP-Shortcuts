@@ -1,3 +1,16 @@
+## Version 3.26.0
+
+### Improvements
+- Categories can now be subdivided into sections, allowing for better structuring of your shortcuts
+- You can now create "Wake-on-LAN" shortcuts, which allow you to wake up computers on your network
+
+### Bugfixes
+- Fixed an issue where byte arrays were not properly handled in Scripting functions, such as `hmac`
+
+### Miscellaneous
+- Added a few useful hints here and there to better explain some features
+- The Scripting examples were moved out of the general Scripting documentation and into their own dedicated page
+
 ## Version 3.25.0
 
 ### Improvements
