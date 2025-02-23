@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.toLocalizable
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
@@ -100,6 +101,7 @@ constructor(
         get() = initData.executionType
 
     override suspend fun initialize(data: InitData): ShortcutEditorViewState {
+        logInfo("Shortcut editor opened (${data.shortcutId})")
         sessionInfoStore.editingShortcutId = data.shortcutId
         sessionInfoStore.editingShortcutCategoryId = data.categoryId
 
@@ -179,7 +181,7 @@ constructor(
             ShortcutExecutionType.BROWSER -> isAcceptableUrl(shortcut.url)
             ShortcutExecutionType.SCRIPTING,
             ShortcutExecutionType.TRIGGER,
-            -> shortcut.codeOnPrepare.isNotEmpty()
+                -> shortcut.codeOnPrepare.isNotEmpty()
             ShortcutExecutionType.WAKE_ON_LAN -> shortcut.wolMacAddress.isNotEmpty()
         }
 
@@ -195,7 +197,7 @@ constructor(
     private fun getBasicSettingsSubtitle(): Localizable =
         when (shortcut.type) {
             ShortcutExecutionType.HTTP,
-            -> {
+                -> {
                 if (!hasUrl()) {
                     StringResLocalizable(R.string.subtitle_basic_request_settings_prompt)
                 } else {
@@ -220,7 +222,7 @@ constructor(
             }
             ShortcutExecutionType.SCRIPTING,
             ShortcutExecutionType.TRIGGER,
-            -> Localizable.EMPTY
+                -> Localizable.EMPTY
         }
 
     private fun hasUrl() =
@@ -240,7 +242,7 @@ constructor(
             when (shortcut.bodyType) {
                 RequestBodyType.FORM_DATA,
                 RequestBodyType.X_WWW_FORM_URLENCODE,
-                -> {
+                    -> {
                     val count = shortcut.parameters.size
                     if (count == 0) {
                         StringResLocalizable(R.string.subtitle_request_body_params_none)
@@ -289,10 +291,10 @@ constructor(
                 ShortcutExecutionType.SCRIPTING -> R.string.label_scripting_scripting_shortcuts_subtitle
                 ShortcutExecutionType.BROWSER,
                 ShortcutExecutionType.WAKE_ON_LAN,
-                -> R.string.label_scripting_browser_shortcuts_subtitle
+                    -> R.string.label_scripting_browser_shortcuts_subtitle
                 ShortcutExecutionType.HTTP,
                 ShortcutExecutionType.TRIGGER,
-                -> R.string.label_scripting_subtitle
+                    -> R.string.label_scripting_subtitle
             }
         )
 
@@ -395,8 +397,8 @@ constructor(
     }
 
     private suspend fun ViewModelScope<*>.save() {
-        logInfo("Beginning saving changes to shortcut")
         val isNewShortcut = shortcutId == null
+        logInfo("Beginning saving changes to shortcut (isNew = $isNewShortcut)")
         val shortcutId = shortcutId ?: newUUID()
 
         try {
@@ -414,9 +416,11 @@ constructor(
     private suspend fun ViewModelScope<*>.onSaveSuccessful(shortcutId: ShortcutId) {
         logInfo("Shortcut saved successfully")
         isFinishing = true
-        launcherShortcutUpdater.updatePinnedShortcut(shortcutId)
-        withProgressTracking {
-            widgetManager.updateWidgets(context, shortcutId)
+        tryOrLog {
+            launcherShortcutUpdater.updatePinnedShortcut(shortcutId)
+            withProgressTracking {
+                widgetManager.updateWidgets(context, shortcutId)
+            }
         }
         waitForOperationsToFinish()
         cleanUpStarter()
