@@ -18,6 +18,8 @@
     <string name="label_description">描述</string>
     <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">URL</string>
+    <!-- Label above input field in editor, for wake-on-lan shortcut's MAC address -->
+    <!-- Label above input field in editor, for wake-on-lan shortcut's broadcast address -->
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">浏览器</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
@@ -62,8 +64,10 @@
     <string name="action_place_category">添加至桌面</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">执行</string>
-    <!-- Shortcut dropdown option: Edit the shortcut -->
+    <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">编辑</string>
+    <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
+    <string name="action_manage_sections">管理部分</string>
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">生成副本</string>
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
@@ -118,6 +122,7 @@
     <string name="validation_name_not_empty">请输入一个名称</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">请输入一个有效的 HTTP(s) 地址</string>
+    <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s 执行失败，状态码 %2$d (%3$s)</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -265,6 +270,7 @@
     <string name="label_proxy_username">代理用户名</string>
     <!-- Label, for option to set the proxy password for a shortcut -->
     <string name="label_proxy_password">代理密码</string>
+    <!-- Label, for option to set the UDP port for a wake-on-lan shortcut -->
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">客户端证书身份验证</string>
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
@@ -353,6 +359,7 @@
     <string name="dialog_delete">删除</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">基本设置</string>
+    <!-- Section title, shown in shortcut editor for non-HTTP shortcuts, for section containing basic settings (e.g. URL) -->
     <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">高级设置</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
@@ -411,6 +418,12 @@
     <plurals name="shortcut_count">
         <item quantity="other">%d 快捷方式</item>
     </plurals>
+    <!-- Shows numerical count of sections, used to show how many sections are in a given category -->
+    <plurals name="section_count">
+        <item quantity="other">%d 个部分</item>
+    </plurals>
+    <!-- Pattern used to determine the subtitle of a category in the categories screen. %1$s is a placeholder for the number of shortcuts, %2$s is a placeholder for the number of sections -->
+    <string name="shortcut_section_count_pattern">%1$s, %2$s</string>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">%s(已隐藏)</string>
     <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
@@ -609,8 +622,10 @@
     <string name="button_curl_import">从 cURL 命令创建</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">浏览器快捷方式</string>
+    <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">在浏览器中打开 URL</string>
+    <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">撰写快捷方式</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
@@ -888,8 +903,10 @@
     <string name="subtitle_editor_toolbar_scripting_shortcut">编写快捷方式</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">多快捷方式</string>
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">设置快捷方式的URL和HTTP方法</string>
+    <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">设置快捷方式的URL</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
@@ -1168,6 +1185,7 @@
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">待执行项已被取消。</string>
     <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
+    <string name="message_changes_discarded">已放弃更改。</string>
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">此功能允许你在电脑上浏览器舒适地编辑你的快捷方式。在开始前，请先阅读本应用的隐私政策，接着遵照下列步骤执行：</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
@@ -1497,6 +1515,8 @@
     <string name="error_cannot_format_invalid_json">无效的 JSON 语法</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
     <string name="placeholder_empty_category_for_moving">此类别中没有快捷方式</string>
+    <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
+    <string name="placeholder_empty_category_section_for_moving">此部分中没有快捷方式</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <string name="label_file_upload_options_allow_image_editing">"允许裁剪和旋转图片"</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
@@ -1733,6 +1753,8 @@
     <string name="accessibility_label_add_icon_fab">添加新图标</string>
     <!-- Accessibility label for the floating action button, to add a certificate pinning -->
     <string name="accessibility_label_add_certificate_pinning_fab">添加证书固定</string>
+    <!-- Accessibility label for the floating action button, to add a section to a category -->
+    <string name="accessibility_label_add_category_section">添加部分</string>
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
     <string name="accessibility_label_show_documentation">前往文档</string>
     <!-- Accessibility label for "Select all" button in exporter -->
@@ -1747,4 +1769,22 @@
     <string name="accessibility_search_go_to_next">下一个</string>
     <!-- Accessibility label for the "go to previous result" button in search bars -->
     <string name="accessibility_search_go_to_previous">上一个</string>
+    <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
+    <string name="instructions_shortcut_unhiding">要让隐藏的快捷方式再次变得可见，你可以转到设置屏寻找 \“%s\” 选项。</string>
+    <!-- Pattern used to construct the category / section headers on the "Move Shortcut" screen. %s$1 is a placeholder for a category name, %2$s is a placeholder for a section name -->
+    <string name="category_section_header_pattern">%1$s: %2$s</string>
+    <!-- Title of "Category Sections" screen, which lets the user manage sections within a category -->
+    <string name="screen_title_category_sections">同一类别中的部分</string>
+    <!-- Title of dialog to edit a section within a category -->
+    <string name="title_category_section_edit">编辑部分</string>
+    <!-- Title of dialog to add a section within a category -->
+    <string name="title_category_section_add">新增部分</string>
+    <!-- Label of input field to provide name for a section within a category -->
+    <string name="label_category_section_name">部分名称</string>
+    <!-- Empty state, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections">此类别尚无任何部分。</string>
+    <!-- Empty state instructions, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections_instructions">部分让你将快捷方式分组到一个类别中。\n\n单击 + 按钮添加新的部分。</string>
+    <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
+    <string name="placeholder_empty_category_section_main_screen">此部分为空。您可以长按快捷方式并选择 \“%s\” 将快捷方式移动到该部分。</string>
 </resources>

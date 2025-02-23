@@ -18,6 +18,8 @@
     <string name="label_description">الوصف</string>
     <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">الرابط</string>
+    <!-- Label above input field in editor, for wake-on-lan shortcut's MAC address -->
+    <!-- Label above input field in editor, for wake-on-lan shortcut's broadcast address -->
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">المستعرض</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
@@ -58,8 +60,9 @@
     <string name="action_place_category">ضع على الشاشة الرئيسية</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">تنفيذ</string>
-    <!-- Shortcut dropdown option: Edit the shortcut -->
+    <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">تعديل</string>
+    <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">إنشاء نسخة</string>
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
@@ -112,6 +115,7 @@
     <string name="validation_name_not_empty">الرجاء إدخال اسم</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">الرجاء إدخال رابط HTTP(S)</string>
+    <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s خطاء، حالة الرمز  %2$d (%3$s)</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -248,6 +252,7 @@
     <string name="label_proxy_username">اسم مستخدم الوكيل</string>
     <!-- Label, for option to set the proxy password for a shortcut -->
     <string name="label_proxy_password">كلمة مرور الوكيل</string>
+    <!-- Label, for option to set the UDP port for a wake-on-lan shortcut -->
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">مصادقة شهادة العميل</string>
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
@@ -325,6 +330,7 @@
     <string name="dialog_delete">حذف</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">إعدادات الطلب الأساسية</string>
+    <!-- Section title, shown in shortcut editor for non-HTTP shortcuts, for section containing basic settings (e.g. URL) -->
     <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">إعدادات متقدمة</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
@@ -382,6 +388,8 @@
     <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
     <string name="message_category_deleted">تم حذف الفئة.</string>
     <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
+    <!-- Shows numerical count of sections, used to show how many sections are in a given category -->
+    <!-- Pattern used to determine the subtitle of a category in the categories screen. %1$s is a placeholder for the number of shortcuts, %2$s is a placeholder for the number of sections -->
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">%s (مخفي)</string>
     <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
@@ -578,8 +586,10 @@
     <string name="button_curl_import">استيراد من أمر cURL</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">اختصار المتصفح</string>
+    <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">افتح عنوان URL في المتصفح</string>
+    <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">اختصار البرمجة</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
@@ -837,8 +847,10 @@
     <string name="subtitle_editor_toolbar_scripting_shortcut">اختصار البرمجة</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">متعدد الاختصارات</string>
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">قم بتعيين عنوان URL للاختصار وطريقة HTTP</string>
+    <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">قم بتعيين عنوان URL للاختصار</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
@@ -1372,6 +1384,7 @@
     <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
     <!-- Error, shown in snackbar, when the user tries to format a custom request body, but it is invalid JSON syntax -->
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
+    <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
@@ -1488,6 +1501,7 @@
     <!-- Accessibility label for the floating action button, to mount a new working directory -->
     <!-- Accessibility label for the floating action button, to add a new custom -->
     <!-- Accessibility label for the floating action button, to add a certificate pinning -->
+    <!-- Accessibility label for the floating action button, to add a section to a category -->
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
     <!-- Accessibility label for "Select all" button in exporter -->
     <!-- Accessibility label for "Unselect all" button in exporter -->
@@ -1495,4 +1509,13 @@
     <!-- Accessibility label for the generic "close" cross button in the nav bar -->
     <!-- Accessibility label for the "go to next result" button in search bars -->
     <!-- Accessibility label for the "go to previous result" button in search bars -->
+    <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
+    <!-- Pattern used to construct the category / section headers on the "Move Shortcut" screen. %s$1 is a placeholder for a category name, %2$s is a placeholder for a section name -->
+    <!-- Title of "Category Sections" screen, which lets the user manage sections within a category -->
+    <!-- Title of dialog to edit a section within a category -->
+    <!-- Title of dialog to add a section within a category -->
+    <!-- Label of input field to provide name for a section within a category -->
+    <!-- Empty state, shown in list when there are no category sections yet -->
+    <!-- Empty state instructions, shown in list when there are no category sections yet -->
+    <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
 </resources>

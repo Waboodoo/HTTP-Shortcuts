@@ -18,6 +18,10 @@
     <string name="label_description">説明</string>
     <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">URL</string>
+    <!-- Label above input field in editor, for wake-on-lan shortcut's MAC address -->
+    <string name="label_mac_address">MACアドレス</string>
+    <!-- Label above input field in editor, for wake-on-lan shortcut's broadcast address -->
+    <string name="label_broadcast_address">ブロードキャストアドレス</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">ブラウザ</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
@@ -62,8 +66,10 @@
     <string name="action_place_category">ホーム画面に配置</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">実行</string>
-    <!-- Shortcut dropdown option: Edit the shortcut -->
+    <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">変更</string>
+    <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
+    <string name="action_manage_sections">セクション管理</string>
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">複製</string>
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
@@ -120,6 +126,8 @@
     <string name="validation_name_not_empty">名前を入力してください</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">HTTP(S)のURLを入力してください</string>
+    <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
+    <string name="validation_mac_address_invalid">有効なMACアドレスを入力してください。</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s 失敗：ステータスコード %2$d (%3$s)</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -266,6 +274,8 @@
     <string name="label_proxy_username">プロキシ ユーザー名</string>
     <!-- Label, for option to set the proxy password for a shortcut -->
     <string name="label_proxy_password">プロキシ パスワード</string>
+    <!-- Label, for option to set the UDP port for a wake-on-lan shortcut -->
+    <string name="label_wake_on_lan_port">ポート</string>
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">クライアント証明認証</string>
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
@@ -354,6 +364,8 @@
     <string name="dialog_delete">削除</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">ベーシック リクエスト 設定</string>
+    <!-- Section title, shown in shortcut editor for non-HTTP shortcuts, for section containing basic settings (e.g. URL) -->
+    <string name="section_basic_settings">基本設定</string>
     <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">高度な設定</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
@@ -412,6 +424,12 @@
     <plurals name="shortcut_count">
         <item quantity="other">%d 個のショートカット</item>
     </plurals>
+    <!-- Shows numerical count of sections, used to show how many sections are in a given category -->
+    <plurals name="section_count">
+        <item quantity="other">%d 個のセクション</item>
+    </plurals>
+    <!-- Pattern used to determine the subtitle of a category in the categories screen. %1$s is a placeholder for the number of shortcuts, %2$s is a placeholder for the number of sections -->
+    <string name="shortcut_section_count_pattern">%1$s個, %2$s個</string>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">%s (非表示)</string>
     <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
@@ -618,8 +636,12 @@
     <string name="button_curl_import">cURLコマンドからインポート</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">ブラウザ ショートカット</string>
+    <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_create_wol_shortcut">Wake-on-LAN ショートカット</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">URLをブラウザで開く</string>
+    <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_description_create_wol_shortcut">ネットワーク上のコンピュータを起動</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">ショートカットのスクリプト</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
@@ -897,8 +919,12 @@
     <string name="subtitle_editor_toolbar_scripting_shortcut">スクリプト ショートカット</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">複数のショートカット</string>
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
+    <string name="subtitle_editor_toolbar_wol_shortcut">Wake-on-LAN ショートカット</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">ショートカットのURLとHTTPメソッドを設定</string>
+    <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
+    <string name="subtitle_basic_request_settings_prompt_for_wol">ショートカットのMACアドレスとポートを設定</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">ショートカットのURLを設定</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
@@ -1509,6 +1535,8 @@
     <string name="error_cannot_format_invalid_json">無効なJSON形式</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
     <string name="placeholder_empty_category_for_moving">このカテゴリーにショートカットなし</string>
+    <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
+    <string name="placeholder_empty_category_section_for_moving">このセクションにショートカットなし</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <string name="label_file_upload_options_allow_image_editing">"画像の切り取りや回転を許可"</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
@@ -1745,6 +1773,8 @@
     <string name="accessibility_label_add_icon_fab">新しいアイコンを追加</string>
     <!-- Accessibility label for the floating action button, to add a certificate pinning -->
     <string name="accessibility_label_add_certificate_pinning_fab">証明書のピン留めを追加</string>
+    <!-- Accessibility label for the floating action button, to add a section to a category -->
+    <string name="accessibility_label_add_category_section">セクションを追加</string>
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
     <string name="accessibility_label_show_documentation">ドキュメントに移動</string>
     <!-- Accessibility label for "Select all" button in exporter -->
@@ -1759,4 +1789,22 @@
     <string name="accessibility_search_go_to_next">次へ</string>
     <!-- Accessibility label for the "go to previous result" button in search bars -->
     <string name="accessibility_search_go_to_previous">前へ</string>
+    <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
+    <string name="instructions_shortcut_unhiding">設定画面の「%s」オプションで、隠しショートカットを再表示することができます。</string>
+    <!-- Pattern used to construct the category / section headers on the "Move Shortcut" screen. %s$1 is a placeholder for a category name, %2$s is a placeholder for a section name -->
+    <string name="category_section_header_pattern">%1$s： %2$s</string>
+    <!-- Title of "Category Sections" screen, which lets the user manage sections within a category -->
+    <string name="screen_title_category_sections">カテゴリーセクション</string>
+    <!-- Title of dialog to edit a section within a category -->
+    <string name="title_category_section_edit">セクションを編集</string>
+    <!-- Title of dialog to add a section within a category -->
+    <string name="title_category_section_add">セクションを追加</string>
+    <!-- Label of input field to provide name for a section within a category -->
+    <string name="label_category_section_name">セクション名</string>
+    <!-- Empty state, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections">このカテゴリにはまだセクションがありません。</string>
+    <!-- Empty state instructions, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections_instructions">セクションを使用すると、カテゴリ内のショートカットをグループ化できます。\n\n［＋］ボタンをクリックして新しいセクションを追加します。</string>
+    <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
+    <string name="placeholder_empty_category_section_main_screen">このセクションは空です。ショートカットを長押しして「%s」を選択するとショートカットを移動できます。</string>
 </resources>

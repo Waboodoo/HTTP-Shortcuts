@@ -18,6 +18,10 @@
     <string name="label_description">Beschreibung</string>
     <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">URL</string>
+    <!-- Label above input field in editor, for wake-on-lan shortcut's MAC address -->
+    <string name="label_mac_address">MAC-Adresse</string>
+    <!-- Label above input field in editor, for wake-on-lan shortcut's broadcast address -->
+    <string name="label_broadcast_address">Broadcast-Adresse</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">Browser</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
@@ -62,8 +66,10 @@
     <string name="action_place_category">Auf Homescreen platzieren</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">Ausführen</string>
-    <!-- Shortcut dropdown option: Edit the shortcut -->
+    <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Bearbeiten</string>
+    <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
+    <string name="action_manage_sections">Sektionen verwalten</string>
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">Duplizieren</string>
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
@@ -122,6 +128,8 @@ Drücke den + Knopf um eine Variable zu erstellen.</string>
     <string name="validation_name_not_empty">Bitte gib einen Namen ein.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">Bitte gib eine HTTP(S)-URL ein.</string>
+    <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
+    <string name="validation_mac_address_invalid">Bitte eine gültige MAC-Adresse eingeben.</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s ist mit Status-Code %2$d (%3$s) fehlgeschlagen.</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -271,6 +279,8 @@ Drücke den + Knopf um eine Variable zu erstellen.</string>
     <string name="label_proxy_username">Proxy-Benutzername</string>
     <!-- Label, for option to set the proxy password for a shortcut -->
     <string name="label_proxy_password">Proxy-Passwort</string>
+    <!-- Label, for option to set the UDP port for a wake-on-lan shortcut -->
+    <string name="label_wake_on_lan_port">Port</string>
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">Authentifizierung mit Client-Zertifikat</string>
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
@@ -362,6 +372,8 @@ Drücke den + Knopf um eine Variable zu erstellen.</string>
     <string name="dialog_delete">Löschen</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Allgemeine Einstellungen</string>
+    <!-- Section title, shown in shortcut editor for non-HTTP shortcuts, for section containing basic settings (e.g. URL) -->
+    <string name="section_basic_settings">Grundeinstellungen</string>
     <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Erweiterte Einstellungen</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
@@ -423,6 +435,13 @@ Alle darin enthaltenen Shortcuts werden gelöscht.</string>
         <item quantity="one">%d Shortcut</item>
         <item quantity="other">%d Shortcuts</item>
     </plurals>
+    <!-- Shows numerical count of sections, used to show how many sections are in a given category -->
+    <plurals name="section_count">
+        <item quantity="one">%d Sektion</item>
+        <item quantity="other">%d Sektionen</item>
+    </plurals>
+    <!-- Pattern used to determine the subtitle of a category in the categories screen. %1$s is a placeholder for the number of shortcuts, %2$s is a placeholder for the number of sections -->
+    <string name="shortcut_section_count_pattern">%1$s, %2$s</string>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">%s (verborgen)</string>
     <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
@@ -629,8 +648,12 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="button_curl_import">Aus cURL-Befehl erstellen</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Browsershortcut</string>
+    <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_create_wol_shortcut">Wake-on-LAN-Shortcut</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">Öffnet eine URL im Browser</string>
+    <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_description_create_wol_shortcut">Weckt einen Computer im Netzwerk auf</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">Scripting-Shortcut</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
@@ -909,8 +932,12 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="subtitle_editor_toolbar_scripting_shortcut">Scripting-Shortcut</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">Multi-Shortcut</string>
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
+    <string name="subtitle_editor_toolbar_wol_shortcut">Wake-on-LAN-Shortcut</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">Shortcut-URL und HTTP-Methode einstellen</string>
+    <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
+    <string name="subtitle_basic_request_settings_prompt_for_wol">Setze die MAC-Adresse und den Port des Shortcuts</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">Shortcut-URL einstellen</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
@@ -1011,7 +1038,7 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
     <string name="dialog_code_snippet_write_to_file">In Datei schreiben</string>
     <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
-    <string name="dialog_code_snippet_append_to_file">An Datei anfügen</string>
+    <string name="dialog_code_snippet_append_to_file">An Datei anhängen</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Name von ausgewählter Datei auslesen</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -1526,6 +1553,8 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="error_cannot_format_invalid_json">Ungültige JSON-Syntax</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
     <string name="placeholder_empty_category_for_moving">Keine Shortcuts in dieser Kategorie</string>
+    <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
+    <string name="placeholder_empty_category_section_for_moving">keine Shortcuts in dieser Sektion</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <string name="label_file_upload_options_allow_image_editing">"Drehen und Zuschneiden von Bildern erlauben"</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
@@ -1764,6 +1793,8 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="accessibility_label_add_icon_fab">Neues Symbol hinzufügen</string>
     <!-- Accessibility label for the floating action button, to add a certificate pinning -->
     <string name="accessibility_label_add_certificate_pinning_fab">Zertifikat anpinnen</string>
+    <!-- Accessibility label for the floating action button, to add a section to a category -->
+    <string name="accessibility_label_add_category_section">Sektion hinzufügen</string>
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
     <string name="accessibility_label_show_documentation">Zur Dokumentation</string>
     <!-- Accessibility label for "Select all" button in exporter -->
@@ -1778,4 +1809,22 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="accessibility_search_go_to_next">Weiter</string>
     <!-- Accessibility label for the "go to previous result" button in search bars -->
     <string name="accessibility_search_go_to_previous">Zurück</string>
+    <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
+    <string name="instructions_shortcut_unhiding">Du kannst versteckte Verknüpfungen wieder sichtbar machen, indem du in den Einstellungen nach der Option \“%s\” suchst.</string>
+    <!-- Pattern used to construct the category / section headers on the "Move Shortcut" screen. %s$1 is a placeholder for a category name, %2$s is a placeholder for a section name -->
+    <string name="category_section_header_pattern">%1$s: %2$s</string>
+    <!-- Title of "Category Sections" screen, which lets the user manage sections within a category -->
+    <string name="screen_title_category_sections">Kategoriesektionen</string>
+    <!-- Title of dialog to edit a section within a category -->
+    <string name="title_category_section_edit">Sektion bearbeiten</string>
+    <!-- Title of dialog to add a section within a category -->
+    <string name="title_category_section_add">Sektion hinzufügen</string>
+    <!-- Label of input field to provide name for a section within a category -->
+    <string name="label_category_section_name">Sektionsname</string>
+    <!-- Empty state, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections">Diese Kategorie hat noch keine Sektionen.</string>
+    <!-- Empty state instructions, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections_instructions">Sektionen erlauben es dir, Shortcuts innerhalb einer Kategorie zusammenzufassen.\n\nKlicke auf den + Knopf um eine neue Sektion hinzuzufügen.</string>
+    <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
+    <string name="placeholder_empty_category_section_main_screen">Diese Sektion ist leer. Du kannst Shortcuts hinein verschieben, indem du sie lange drückst und \“%s\” auswählst.</string>
 </resources>
