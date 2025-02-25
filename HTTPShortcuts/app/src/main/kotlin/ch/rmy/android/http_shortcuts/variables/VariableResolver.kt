@@ -3,9 +3,11 @@ package ch.rmy.android.http_shortcuts.variables
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
 import javax.inject.Inject
 
@@ -123,6 +125,10 @@ constructor(
 
                 shortcut.responseHandling?.storeFileName?.let {
                     addAll(Variables.extractVariableIds(it))
+                }
+
+                if (shortcut.type == ShortcutExecutionType.WAKE_ON_LAN) {
+                    addAll(Variables.extractVariableIds(shortcut.wolMacAddress))
                 }
             }
 
