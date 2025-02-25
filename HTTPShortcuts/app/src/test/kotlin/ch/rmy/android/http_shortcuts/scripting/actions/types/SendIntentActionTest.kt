@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.content.Intent
 import androidx.core.net.toUri
-import org.json.JSONObject
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -11,47 +10,44 @@ class SendIntentActionTest {
 
     @Test
     fun `intent construction`() {
-        val parameters = JSONObject(
-            """{
-            "action": "test",
-            "category": "foo",
-            "categories": ["foobar", "bla"],
-            "dataUri": "http://test-uri",
-            "dataType": "text/plain",
-            "packageName": "com.package.test",
-            "clearTask": true,
-            "excludeFromRecents": true,
-            "newTask": true,
-            "noHistory": true,
-            "extras": [
-                {
-                    "type": "string",
-                    "name": "stringExtra",
-                    "value": "my-string"
-                },
-                {
-                    "type": "boolean",
-                    "name": "booleanExtra",
-                    "value": true
-                },
-                {
-                    "type": "long",
-                    "name": "longExtra",
-                    "value": 1337
-                },
-                {
-                    "type": "double",
-                    "name": "doubleExtra",
-                    "value": 13.37
-                },
-                {
-                    "type": "float",
-                    "name": "floatExtra",
-                    "value": 13.37
-                }
-            ]
-        }
-            """.trimIndent()
+        val parameters = mapOf(
+            "action" to "test",
+            "category" to "foo",
+            "categories" to listOf("foobar", "bla"),
+            "dataUri" to "http://test-uri",
+            "dataType" to "text/plain",
+            "packageName" to "com.package.test",
+            "clearTask" to true,
+            "excludeFromRecents" to true,
+            "newTask" to true,
+            "noHistory" to true,
+            "extras" to listOf(
+                mapOf(
+                    "type" to "string",
+                    "name" to "stringExtra",
+                    "value" to "my-string"
+                ),
+                mapOf(
+                    "type" to "boolean",
+                    "name" to "booleanExtra",
+                    "value" to true
+                ),
+                mapOf(
+                    "type" to "long",
+                    "name" to "longExtra",
+                    "value" to 1337
+                ),
+                mapOf(
+                    "type" to "double",
+                    "name" to "doubleExtra",
+                    "value" to 13.37
+                ),
+                mapOf(
+                    "type" to "float",
+                    "name" to "floatExtra",
+                    "value" to 13.37
+                ),
+            )
         )
         val intent = SendIntentAction.constructIntent(parameters)
 

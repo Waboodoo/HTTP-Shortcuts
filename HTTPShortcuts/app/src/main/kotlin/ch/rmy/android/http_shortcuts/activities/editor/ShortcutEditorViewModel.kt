@@ -181,7 +181,7 @@ constructor(
             ShortcutExecutionType.BROWSER -> isAcceptableUrl(shortcut.url)
             ShortcutExecutionType.SCRIPTING,
             ShortcutExecutionType.TRIGGER,
-                -> shortcut.codeOnPrepare.isNotEmpty()
+            -> shortcut.codeOnPrepare.isNotEmpty()
             ShortcutExecutionType.WAKE_ON_LAN -> shortcut.wolMacAddress.isNotEmpty()
         }
 
@@ -197,7 +197,7 @@ constructor(
     private fun getBasicSettingsSubtitle(): Localizable =
         when (shortcut.type) {
             ShortcutExecutionType.HTTP,
-                -> {
+            -> {
                 if (!hasUrl()) {
                     StringResLocalizable(R.string.subtitle_basic_request_settings_prompt)
                 } else {
@@ -222,7 +222,7 @@ constructor(
             }
             ShortcutExecutionType.SCRIPTING,
             ShortcutExecutionType.TRIGGER,
-                -> Localizable.EMPTY
+            -> Localizable.EMPTY
         }
 
     private fun hasUrl() =
@@ -242,7 +242,7 @@ constructor(
             when (shortcut.bodyType) {
                 RequestBodyType.FORM_DATA,
                 RequestBodyType.X_WWW_FORM_URLENCODE,
-                    -> {
+                -> {
                     val count = shortcut.parameters.size
                     if (count == 0) {
                         StringResLocalizable(R.string.subtitle_request_body_params_none)
@@ -291,10 +291,10 @@ constructor(
                 ShortcutExecutionType.SCRIPTING -> R.string.label_scripting_scripting_shortcuts_subtitle
                 ShortcutExecutionType.BROWSER,
                 ShortcutExecutionType.WAKE_ON_LAN,
-                    -> R.string.label_scripting_browser_shortcuts_subtitle
+                -> R.string.label_scripting_browser_shortcuts_subtitle
                 ShortcutExecutionType.HTTP,
                 ShortcutExecutionType.TRIGGER,
-                    -> R.string.label_scripting_subtitle
+                -> R.string.label_scripting_subtitle
             }
         )
 
