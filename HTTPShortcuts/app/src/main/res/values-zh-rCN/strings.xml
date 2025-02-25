@@ -19,7 +19,9 @@
     <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">URL</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's MAC address -->
+    <string name="label_mac_address">MAC 地址</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's broadcast address -->
+    <string name="label_broadcast_address">广播地址</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">浏览器</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
@@ -123,6 +125,7 @@
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">请输入一个有效的 HTTP(s) 地址</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
+    <string name="validation_mac_address_invalid">请输入一个有效的MAC地址。</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s 执行失败，状态码 %2$d (%3$s)</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -271,6 +274,7 @@
     <!-- Label, for option to set the proxy password for a shortcut -->
     <string name="label_proxy_password">代理密码</string>
     <!-- Label, for option to set the UDP port for a wake-on-lan shortcut -->
+    <string name="label_wake_on_lan_port">端口</string>
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">客户端证书身份验证</string>
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
@@ -360,6 +364,7 @@
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">基本设置</string>
     <!-- Section title, shown in shortcut editor for non-HTTP shortcuts, for section containing basic settings (e.g. URL) -->
+    <string name="section_basic_settings">基本设置</string>
     <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">高级设置</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
@@ -623,9 +628,11 @@
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">浏览器快捷方式</string>
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_create_wol_shortcut">局域网唤醒快捷方式</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">在浏览器中打开 URL</string>
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_description_create_wol_shortcut">唤醒网络上的计算机</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">撰写快捷方式</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
@@ -904,9 +911,11 @@
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">多快捷方式</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
+    <string name="subtitle_editor_toolbar_wol_shortcut">局域网唤醒快捷方式</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">设置快捷方式的URL和HTTP方法</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
+    <string name="subtitle_basic_request_settings_prompt_for_wol">设置快捷方式的 MAC 地址和端口</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">设置快捷方式的URL</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
