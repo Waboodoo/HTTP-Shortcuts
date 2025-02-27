@@ -3,6 +3,7 @@
 ### Improvements
 - Categories can now be subdivided into sections, allowing for better structuring of your shortcuts
 - You can now create "Wake-on-LAN" shortcuts, which allow you to wake up computers on your network
+- Scripting functions `htmlEncode` and `htmlDecode` were added
 
 ### Bugfixes
 - Fixed an issue where byte arrays were not properly handled in Scripting functions, such as `hmac`

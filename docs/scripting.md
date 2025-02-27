@@ -524,6 +524,20 @@ const decoded = base64decode(encoded);
 
 The return type of `base64encode` is a string, the returned value of `base64decode` is a `Uint8Array`. You can use `toString()` to convert it to a string if needed.
 
+<a name="html-encode"></a>
+### htmlEncode and htmlDecode
+
+The `htmlEncode` function allows you to encode text such that it is HTML-safe, i.e., certain characters will be escaped such that the string can safely be embedded in HTML.
+The `htmlDecode` functions does the opposite, converting HTML encoded text into plain text. This will also strip any HTML tags and replace them with their inner text.
+
+> The transformations done by these functions is done on a best-effort basis.
+
+```js
+htmlEncode("<b>Hello</b>"); // returns &lt;b&gt;Hello&lt;/b&gt;
+htmlDecode("&lt;b&gt;Hello&lt;/b&gt"); // returns <b>Hello</b>
+htmlDecode("<b>Hello</b>"); // returns Hello
+```
+
 <a name="hash"></a>
 ### hash
 
