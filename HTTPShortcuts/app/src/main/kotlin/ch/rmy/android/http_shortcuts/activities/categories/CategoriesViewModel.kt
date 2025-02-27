@@ -67,13 +67,15 @@ constructor(
     private suspend fun showContextMenu(categoryId: CategoryId) {
         val category = getCategory(categoryId) ?: return
         activeCategoryId = categoryId
+        val hasEnoughUnhiddenCategories = categories.count { !it.hidden } > 1
         updateDialogState(
             CategoriesDialogState.ContextMenu(
                 title = category.name.toLocalizable(),
-                hideOptionVisible = !category.hidden && categories.count { !it.hidden } > 1,
+                hideOptionVisible = !category.hidden,
                 showOptionVisible = category.hidden,
                 placeOnHomeScreenOptionVisible = !category.hidden && launcherShortcutManager.supportsPinning(),
-                deleteOptionEnabled = category.hidden || categories.count { !it.hidden } > 1,
+                hideOptionEnabled = hasEnoughUnhiddenCategories,
+                deleteOptionEnabled = category.hidden || hasEnoughUnhiddenCategories,
             )
         )
     }

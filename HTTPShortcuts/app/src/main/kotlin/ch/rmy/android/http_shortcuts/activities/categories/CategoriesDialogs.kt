@@ -1,5 +1,12 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
@@ -72,15 +79,25 @@ private fun ContextMenuDialog(
     ) {
         SelectDialogEntry(
             label = stringResource(R.string.action_edit),
+            icon = Icons.Filled.Edit,
             onClick = onEditClicked,
         )
         SelectDialogEntry(
             label = stringResource(R.string.action_manage_sections),
+            icon = Icons.Filled.Menu,
             onClick = onManageSectionsClicked,
         )
+        if (contextMenuState.placeOnHomeScreenOptionVisible) {
+            SelectDialogEntry(
+                label = stringResource(R.string.action_place_category),
+                icon = Icons.Filled.Home,
+                onClick = onPlaceOnHomeScreenClicked,
+            )
+        }
         if (contextMenuState.showOptionVisible) {
             SelectDialogEntry(
                 label = stringResource(R.string.action_show_category),
+                icon = Icons.Filled.Visibility,
                 onClick = {
                     onVisibilityChangeRequested(true)
                 },
@@ -89,19 +106,16 @@ private fun ContextMenuDialog(
         if (contextMenuState.hideOptionVisible) {
             SelectDialogEntry(
                 label = stringResource(R.string.action_hide_category),
+                icon = Icons.Filled.VisibilityOff,
+                enabled = contextMenuState.hideOptionEnabled,
                 onClick = {
                     onVisibilityChangeRequested(false)
                 },
             )
         }
-        if (contextMenuState.placeOnHomeScreenOptionVisible) {
-            SelectDialogEntry(
-                label = stringResource(R.string.action_place_category),
-                onClick = onPlaceOnHomeScreenClicked,
-            )
-        }
         SelectDialogEntry(
             label = stringResource(R.string.action_delete),
+            icon = Icons.Filled.Delete,
             onClick = onDeleteClicked,
             enabled = contextMenuState.deleteOptionEnabled,
         )

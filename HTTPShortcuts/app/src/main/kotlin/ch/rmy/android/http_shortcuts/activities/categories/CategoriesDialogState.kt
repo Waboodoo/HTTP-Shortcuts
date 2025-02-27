@@ -11,6 +11,7 @@ sealed class CategoriesDialogState {
         val hideOptionVisible: Boolean,
         val showOptionVisible: Boolean,
         val placeOnHomeScreenOptionVisible: Boolean,
+        val hideOptionEnabled: Boolean,
         val deleteOptionEnabled: Boolean,
     ) : CategoriesDialogState()
 

@@ -59,7 +59,7 @@ fun <T : Any> MultiSelectDialog(
                     SelectDialogEntry(
                         label = entry.name,
                         checked = entry.key in selectedKeys,
-                        icon = entry.icon,
+                        shortcutIcon = entry.icon,
                         onClick = {
                             selectedKeys.addOrRemove(entry.key)
                         }

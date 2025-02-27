@@ -6,6 +6,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.DriveFileRenameOutline
+import androidx.compose.material.icons.filled.Link
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -91,14 +95,17 @@ private fun ContextMenuDialog(
     ) {
         SelectDialogEntry(
             label = stringResource(R.string.action_rename),
+            icon = Icons.Filled.DriveFileRenameOutline,
             onClick = onRenameClicked,
         )
         SelectDialogEntry(
             label = stringResource(R.string.button_mount_working_directory),
+            icon = Icons.Filled.Link,
             onClick = onMountClicked,
         )
         SelectDialogEntry(
             label = stringResource(R.string.action_delete),
+            icon = Icons.Filled.Delete,
             onClick = onDeleteClicked,
         )
     }

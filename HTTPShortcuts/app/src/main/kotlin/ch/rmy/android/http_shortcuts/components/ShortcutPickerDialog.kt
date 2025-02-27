@@ -43,7 +43,7 @@ fun ShortcutPickerDialog(
                 SelectDialogEntry(
                     label = shortcut.name,
                     description = shortcut.description,
-                    icon = shortcut.icon,
+                    shortcutIcon = shortcut.icon,
                     onClick = {
                         onShortcutSelected(shortcut.id)
                     }

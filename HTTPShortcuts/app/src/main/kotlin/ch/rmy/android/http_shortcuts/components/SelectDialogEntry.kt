@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
@@ -26,7 +28,8 @@ fun SelectDialogEntry(
     checked: Boolean? = null,
     enabled: Boolean = true,
     useRadios: Boolean = false,
-    icon: ShortcutIcon? = null,
+    shortcutIcon: ShortcutIcon? = null,
+    icon: ImageVector? = null,
     onClick: () -> Unit,
 ) {
     Row(
@@ -76,9 +79,19 @@ fun SelectDialogEntry(
                 )
             }
         }
-        if (icon != null) {
+        if (shortcutIcon != null) {
             ShortcutIcon(
-                icon,
+                shortcutIcon,
+                modifier = Modifier
+                    .padding(end = Spacing.SMALL + Spacing.TINY)
+                    .runIf(!enabled) {
+                        alpha(0.3f)
+                    }
+            )
+        } else if (icon != null) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
                 modifier = Modifier
                     .padding(end = Spacing.SMALL + Spacing.TINY)
                     .runIf(!enabled) {
