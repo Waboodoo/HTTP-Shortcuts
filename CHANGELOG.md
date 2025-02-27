@@ -9,6 +9,7 @@
 - Fixed an issue where byte arrays were not properly handled in Scripting functions, such as `hmac`
 
 ### Miscellaneous
+- Added icons to some of the menus
 - Added a few useful hints here and there to better explain some features
 - The Scripting examples were moved out of the general Scripting documentation and into their own dedicated page
 
