@@ -18,7 +18,6 @@ import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -41,6 +40,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.icons.IconFilterProvider
 import ch.rmy.android.http_shortcuts.icons.Icons
@@ -237,18 +238,18 @@ private fun BuiltInIconPicker(
         }
     }
 
-    AlertDialog(
-        modifier = Modifier
-            .padding(vertical = Spacing.MEDIUM),
+    Dialog(
         onDismissRequest = onDismissRequested,
+        properties = DialogProperties(usePlatformDefaultWidth = false),
     ) {
         Surface(
+            modifier = Modifier.padding(Spacing.MEDIUM),
             shape = AlertDialogDefaults.shape,
             tonalElevation = AlertDialogDefaults.TonalElevation,
             color = AlertDialogDefaults.containerColor,
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(
                     stringResource(R.string.title_choose_icon),
