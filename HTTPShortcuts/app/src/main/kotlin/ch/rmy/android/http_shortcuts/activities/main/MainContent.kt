@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.extensions.indexOfFirstOrNull
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.models.CategoryItem
 import ch.rmy.android.http_shortcuts.components.ScreenInstructionsHeaders
@@ -45,7 +46,9 @@ fun MainContent(
     }
 
     LaunchedEffect(activeCategoryId) {
-        pagerState.animateScrollToPage(categoryItems.indexOfFirstOrNull { it.categoryId == activeCategoryId } ?: 0)
+        tryOrLog {
+            pagerState.animateScrollToPage(categoryItems.indexOfFirstOrNull { it.categoryId == activeCategoryId } ?: 0)
+        }
     }
 
     LaunchedEffect(pagerState.settledPage) {
