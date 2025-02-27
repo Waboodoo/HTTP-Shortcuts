@@ -481,6 +481,22 @@ constructor(
                     insertText("base64decode(\"", "\")")
                 }
                 item(
+                    "HTML Encode".toLocalizable(),
+                    R.string.action_type_html_encode_description,
+                    docRef = "html-encode",
+                    keywords = setOf("html", "xml", "escape", "convert", "encode", "transform", "text"),
+                ) {
+                    insertText("htmlEncode(\"", "\")")
+                }
+                item(
+                    "HTML Decode".toLocalizable(),
+                    R.string.action_type_html_decode_description,
+                    docRef = "html-encode",
+                    keywords = setOf("html", "xml", "unescape", "convert", "decode", "transform", "text"),
+                ) {
+                    insertText("htmlDecode(\"", "\")")
+                }
+                item(
                     R.string.action_type_to_string,
                     R.string.action_type_to_string_description,
                     docRef = "to-string-to-hex-string",

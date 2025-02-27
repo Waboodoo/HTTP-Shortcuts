@@ -17,6 +17,8 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.GetLocationActionTy
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetVariableActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.HashActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.HmacActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.HtmlDecodeActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.HtmlEncodeActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.LogEventActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.NotificationActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenAppActionType
@@ -78,6 +80,8 @@ constructor(
     getVariableActionType: GetVariableActionType,
     hashActionType: HashActionType,
     hmacActionType: HmacActionType,
+    htmlDecodeActionType: HtmlDecodeActionType,
+    htmlEncodeActionType: HtmlEncodeActionType,
     logEventActionType: LogEventActionType,
     notificationActionType: NotificationActionType,
     openAppActionType: OpenAppActionType,
@@ -144,6 +148,8 @@ constructor(
             getVariableActionType,
             hashActionType,
             hmacActionType,
+            htmlDecodeActionType,
+            htmlEncodeActionType,
             logEventActionType,
             notificationActionType,
             openAppActionType,
