@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets
 import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.models.ItemWrapper
@@ -173,6 +174,7 @@ constructor(
     }
 
     private suspend fun returnResult(textBeforeCursor: String, textAfterCursor: String) {
+        logInfo("Closing code snippet picker, result selected: $textBeforeCursor / $textAfterCursor")
         closeScreen(result = NavigationDestination.CodeSnippetPicker.Result(textBeforeCursor, textAfterCursor))
     }
 
