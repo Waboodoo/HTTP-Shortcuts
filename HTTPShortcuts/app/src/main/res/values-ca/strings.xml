@@ -1216,6 +1216,8 @@ Podeu activar aquesta funció editant una drecera i seleccionant la casella de s
     <string name="action_type_base64decode_description">Converteix una cadena codificada en Base64 en un Unit8Array (matriu de bytes)</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">Converteix una cadena o Uint8Array (matriu de bytes) en una cadena codificada en Base64</string>
+    <!-- Description for htmlEncode function in scripting -->
+    <!-- Description for htmlDecode function in scripting -->
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">No s\'ha trobat cap aplicació que pugui obrir l\'URL %s.</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->

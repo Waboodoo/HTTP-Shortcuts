@@ -19,7 +19,9 @@
     <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">URL</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's MAC address -->
+    <string name="label_mac_address">Indirizzo MAC</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's broadcast address -->
+    <string name="label_broadcast_address">Indirizzo Di Trasmissione</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">Browser</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
@@ -51,7 +53,9 @@
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <string name="label_include_meta_information">Mostra Meta Informazioni</string>
     <!-- Label for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="label_enable_javascript_in_webview">Abilita JavaScript (sperimentale)</string>
     <!-- Subtitle for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="subtitle_enable_javascript_in_webview">Consente l\'uso di JavaScript nel corpo di risposta HTML visualizzato. Potrebbe non funzionare per alcune pagine web.</string>
     <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
     <string name="label_monospace_response">Visualizzare il testo utilizzando un carattere monospazio</string>
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
@@ -65,6 +69,7 @@
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Modifica</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
+    <string name="action_manage_sections">Gestisci Sezioni</string>
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">Duplica</string>
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
@@ -124,6 +129,7 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">Inserisci un url HTTP(S).</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
+    <string name="validation_mac_address_invalid">Inserisci un indirizzo MAC valido.</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s non riustito con codice di stato %2$d (%3$s).</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -262,6 +268,7 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Timeout</string>
     <!-- Label, for dropdown picker, allowing to select the Internet Protocol version used for hostname resolution by a shortcut -->
+    <string name="label_ip_version">Versione Protocollo Internet</string>
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">Tipo di proxy</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
@@ -273,6 +280,7 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <!-- Label, for option to set the proxy password for a shortcut -->
     <string name="label_proxy_password">Password proxy</string>
     <!-- Label, for option to set the UDP port for a wake-on-lan shortcut -->
+    <string name="label_wake_on_lan_port">Porta</string>
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">Autenticazione del certificato del cliente</string>
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
@@ -365,6 +373,7 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Impostazioni di base della Richiesta</string>
     <!-- Section title, shown in shortcut editor for non-HTTP shortcuts, for section containing basic settings (e.g. URL) -->
+    <string name="section_basic_settings">Impostazioni Di Base</string>
     <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Impostazioni avanzate</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
@@ -428,6 +437,7 @@ Tutte le scorciatoie contenute all\'interno verranno eliminate.</string>
     </plurals>
     <!-- Shows numerical count of sections, used to show how many sections are in a given category -->
     <!-- Pattern used to determine the subtitle of a category in the categories screen. %1$s is a placeholder for the number of shortcuts, %2$s is a placeholder for the number of sections -->
+    <string name="shortcut_section_count_pattern">%1$s, %2$s</string>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">%s (nascosto)</string>
     <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
@@ -635,9 +645,11 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Collegamento al Browser</string>
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_create_wol_shortcut">Scorciatoia Wake-on-LAN</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">Apri l\'URL nel browser</string>
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_description_create_wol_shortcut">Sveglia un computer sulla rete</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">Scorciatoia di Scripting</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
@@ -765,6 +777,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">Mostra finestra di dialogo</string>
     <!-- Shortcut Action Title: Show fullscreen window -->
+    <string name="action_type_window_title">Mostra Finestra</string>
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
     <string name="action_type_selection_title">Mostra la selezione (scelta multipla)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
@@ -790,6 +803,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
     <string name="action_tts">Parla (sintesi vocale)</string>
     <!-- Shortcut Action Title: Action that allows to display a notification -->
+    <string name="action_show_notification">Mostra Notifiche</string>
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
     <string name="action_play_sound">Riprodurre l\'audio</string>
     <!-- Shortcut Action Title: Vibrate -->
@@ -807,6 +821,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
     <string name="action_type_change_shortcut_hidden_title">Mostra/Nascondi Scorciatoia</string>
     <!-- Shortcut Action Title: Change Category Visibility -->
+    <string name="action_type_change_category_hidden_title">Mostra/Nascondi Categoria</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Attiva Scorciatoia</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -848,6 +863,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">Inviare un pacchetto TCP</string>
     <!-- Shortcut Action Title: Send an HTTP request -->
+    <string name="action_type_send_http_request">Invia Richiesta HTTP</string>
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">Inviare il messaggio MQTT</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -913,9 +929,11 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">Scorciatoia multipla</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
+    <string name="subtitle_editor_toolbar_wol_shortcut">Scorciatoia Wake-on-LAN</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">Imposta l\'URL e il metodo HTTP della scorciatoia</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
+    <string name="subtitle_basic_request_settings_prompt_for_wol">Imposta l\'indirizzo MAC e la porta della scorciatoia</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">Imposta l\'URL della scorciatoia</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
@@ -1017,6 +1035,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
     <string name="dialog_code_snippet_write_to_file">Scrivi su file</string>
     <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
+    <string name="dialog_code_snippet_append_to_file">Aggiungi al file</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Ottieni il nome del file selezionato</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -1056,6 +1075,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_set_visible">Impossibile cambiare la visibilità della scorciatoia \“%1$s\” perché non esiste.</string>
     <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
+    <string name="error_category_not_found_for_set_visible">Impossibile cambiare la visibilità della categoria \“%1$s\” perché non esiste.</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Impossibile modificare l\'icona della scorciatoia \"%1$s\" perché non esiste.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1125,6 +1145,7 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">Mostra etichetta</string>
     <!-- Label: Shown when configuring a widget, above a slider, to choose the size of the widget's icon -->
+    <string name="label_widget_icon_size">Dimensione Icona</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
     <string name="label_show_widget_icon">Mostra Icona</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
@@ -1169,6 +1190,7 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
     <string name="option_response_handling_type_toast">Popup Toast</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a notification -->
+    <string name="option_response_handling_type_notification">Notifica</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">Dialogo</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
@@ -1194,6 +1216,7 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">Esecuzioni in corso annullate.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
+    <string name="message_changes_discarded">Modifiche scartate.</string>
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Questa funzionalità consente di modificare i collegamenti su un PC, da un comodo browser. Si prega di leggere l\'Informativa sulla privacy dell\'app prima di iniziare, quindi seguire questi passaggi:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
@@ -1298,6 +1321,10 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <string name="action_type_base64decode_description">Converte una stringa codificata Base64 in un Unit8Array (byte array)</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">Converte una stringa o Uint8Array (byte array) in una stringa codificata Base64</string>
+    <!-- Description for htmlEncode function in scripting -->
+    <string name="action_type_html_encode_description">Codifica una stringa di testo semplice per renderla HTML-safe</string>
+    <!-- Description for htmlDecode function in scripting -->
+    <string name="action_type_html_decode_description">Decodisce una stringa HTML in testo semplice</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">Nessuna app trovata per aprire la URL %s.</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
@@ -1518,6 +1545,7 @@ Per i certificati autofirmati, controllare invece la sezione \"%s\" della scorci
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
     <string name="label_require_specific_wifi_ssid">Richiedono un Wi-Fi specifico</string>
     <!-- Option in dropdown menu, for selecting the Internet Protocol version to be used for hostname resolution by a shortcut. This option is used by default when no specific option is chosen. -->
+    <string name="option_ip_version_auto">Determina automaticamente</string>
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
     <string name="option_no_proxy">Nessuna delega</string>
     <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
@@ -1527,6 +1555,7 @@ Per i certificati autofirmati, controllare invece la sezione \"%s\" della scorci
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
     <string name="placeholder_empty_category_for_moving">nessuna scorciatoia in questa categoria</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
+    <string name="placeholder_empty_category_section_for_moving">nessuna scorciatoia in questa sezione</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <string name="label_file_upload_options_allow_image_editing">"Consente di ritagliare e ruotare le immagini"</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
@@ -1595,7 +1624,9 @@ Per i certificati autofirmati, controllare invece la sezione \"%s\" della scorci
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Modalità di esecuzione</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
+    <string name="option_execution_mode_run_in_foreground">Esegui in primo piano</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
+    <string name="option_execution_mode_run_in_background">Esegui in background (sperimentale)</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">Tema</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
@@ -1725,36 +1756,68 @@ Per i certificati autofirmati, controllare invece la sezione \"%s\" della scorci
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
     <string name="message_shortcut_visible">Scorciatoia non più nascosta.</string>
     <!-- Title for dialog, when selecting a directory (to be used in Scripting) -->
+    <string name="title_select_working_directory">Seleziona Cartella</string>
     <!-- Warning message shown to user when saving their first shortcut, but not having opened the Response Handling screen -->
+    <string name="warning_make_aware_of_response_handling">Assicurati di controllare anche la sezione \“%s\, dove è possibile configurare come o se la risposta HTTP dovrebbe essere visualizzata.</string>
     <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
+    <string name="notification_channel_shortcut_execution_title">Esecuzioni Scorciatoie</string>
     <!-- Title for notification channel, used for displaying responses or custom messages -->
+    <string name="notification_channel_shortcut_result_title">Risultati Scorciatoie</string>
     <!-- Message shown in notification when a shortcut is being executed -->
     <!-- Message shown in dialog which shows up when the user first selects the "Run in background" option for "Execution Mode" in the shortcuts editor. Informs the user of technical limitations and that the app will ask for permission to display notifications -->
+    <string name="dialog_text_run_in_background">Si prega di notare che l\'esecuzione in background è destinata a semplici scorciatoie, in quanto ci sono molte limitazioni tecniche. Potresti trovare alcune funzionalità che non funzionano come previsto.\n\nL\'applicazione visualizzerà una notifica mentre una scorciatoia è in esecuzione in background.</string>
     <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
+    <string name="instructions_run_in_background">L\'esecuzione in background ha alcune limitazioni tecniche. Potrebbe non funzionare correttamente in alcune situazioni, in particolare quando interagisce con i file, gli appunti o altre applicazioni, o quando l\'esecuzione richiede più di due minuti.</string>
     <!-- Accessibility label for the floating action button on the main screen, to create new shortcuts -->
+    <string name="accessibility_label_create_shortcut_fab">Crea nuova scorciatoia</string>
     <!-- Accessibility label for the floating action button, to add shortcuts to a multi-shortcut -->
+    <string name="accessibility_label_add_shortcuts_to_trigger_fab">Aggiungi scorciatoie</string>
     <!-- Accessibility label for the floating action button, to add a header -->
+    <string name="accessibility_label_add_header_fab">Aggiungi intestazione</string>
     <!-- Accessibility label for the floating action button, to add a parameter -->
+    <string name="accessibility_label_add_parameter_fab">Aggiungi parametro</string>
     <!-- Accessibility label for the floating action button, to create new categories -->
+    <string name="accessibility_label_create_category_fab">Crea nuova categoria</string>
     <!-- Accessibility label for the floating action button, to create new variables -->
+    <string name="accessibility_label_create_variable_fab">Crea nuova variabile</string>
     <!-- Accessibility label for the floating action button, to mount a new working directory -->
+    <string name="accessibility_label_mount_working_directory_fab">Monta nuova directory</string>
     <!-- Accessibility label for the floating action button, to add a new custom -->
+    <string name="accessibility_label_add_icon_fab">Aggiungi nuova icona</string>
     <!-- Accessibility label for the floating action button, to add a certificate pinning -->
+    <string name="accessibility_label_add_certificate_pinning_fab">Aggiungi blocco certificato</string>
     <!-- Accessibility label for the floating action button, to add a section to a category -->
+    <string name="accessibility_label_add_category_section">Aggiungi sezione</string>
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
+    <string name="accessibility_label_show_documentation">Vai alla documentazione</string>
     <!-- Accessibility label for "Select all" button in exporter -->
+    <string name="accessibility_label_select_all_for_export">Seleziona tutto</string>
     <!-- Accessibility label for "Unselect all" button in exporter -->
+    <string name="accessibility_label_unselect_all_for_export">Deseleziona tutto</string>
     <!-- Accessibility label for the generic "go back" arrow button in the nav bar -->
+    <string name="accessibility_label_go_back">Torna indietro</string>
     <!-- Accessibility label for the generic "close" cross button in the nav bar -->
+    <string name="accessibility_label_close">Chiudi</string>
     <!-- Accessibility label for the "go to next result" button in search bars -->
+    <string name="accessibility_search_go_to_next">Successivo</string>
     <!-- Accessibility label for the "go to previous result" button in search bars -->
+    <string name="accessibility_search_go_to_previous">Precedente</string>
     <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
+    <string name="instructions_shortcut_unhiding">Puoi rendere nuovamente visibili le scorciatoie nascoste andando alla schermata Impostazioni e cercando l\'opzione \“%s\.</string>
     <!-- Pattern used to construct the category / section headers on the "Move Shortcut" screen. %s$1 is a placeholder for a category name, %2$s is a placeholder for a section name -->
+    <string name="category_section_header_pattern">%1$s: %2$s</string>
     <!-- Title of "Category Sections" screen, which lets the user manage sections within a category -->
+    <string name="screen_title_category_sections">Sezioni Categoria</string>
     <!-- Title of dialog to edit a section within a category -->
+    <string name="title_category_section_edit">Modifica Sezione</string>
     <!-- Title of dialog to add a section within a category -->
+    <string name="title_category_section_add">Aggiungi Sezione</string>
     <!-- Label of input field to provide name for a section within a category -->
+    <string name="label_category_section_name">Nome Sezione</string>
     <!-- Empty state, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections">Questa categoria non ha ancora alcuna sezione.</string>
     <!-- Empty state instructions, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections_instructions">Le sezioni consentono di raggruppare le scorciatoie all\'interno di una categoria.\n\nFare clic sul pulsante + per aggiungere una nuova sezione.</string>
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
+    <string name="placeholder_empty_category_section_main_screen">Questa sezione è vuota. Puoi spostare le scorciatoie premendo a lungo una scorciatoia e selezionando \“%s\”.</string>
 </resources>

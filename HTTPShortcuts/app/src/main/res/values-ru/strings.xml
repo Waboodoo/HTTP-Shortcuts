@@ -19,7 +19,9 @@
     <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">URL</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's MAC address -->
+    <string name="label_mac_address">MAC адрес</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's broadcast address -->
+    <string name="label_broadcast_address">Адрес трансляции</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">Браузер</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
@@ -51,7 +53,9 @@
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <string name="label_include_meta_information">Показать метаинформацию</string>
     <!-- Label for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="label_enable_javascript_in_webview">Включить JavaScript (экспериментальный)</string>
     <!-- Subtitle for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="subtitle_enable_javascript_in_webview">Позволяет использовать JavaScript в HTML-тесте ответа. Это может не работать для некоторых веб-страниц.</string>
     <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
     <string name="label_monospace_response">Отображать текст моноширинным шрифтом.</string>
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
@@ -65,6 +69,7 @@
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Редактировать</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
+    <string name="action_manage_sections">Управление разделами</string>
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">Дублировать</string>
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
@@ -120,6 +125,7 @@
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">Пожалуйста, введите URL HTTP(S).</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
+    <string name="validation_mac_address_invalid">Пожалуйста, введите правильный MAC-адрес.</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">Ошибка %1$s. Код состояния %2$d (%3$s).</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -256,6 +262,7 @@
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Тайм-аут</string>
     <!-- Label, for dropdown picker, allowing to select the Internet Protocol version used for hostname resolution by a shortcut -->
+    <string name="label_ip_version">Версия Internet Protocol</string>
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">Тип прокси</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
@@ -267,6 +274,7 @@
     <!-- Label, for option to set the proxy password for a shortcut -->
     <string name="label_proxy_password">Пароль прокси-сервера</string>
     <!-- Label, for option to set the UDP port for a wake-on-lan shortcut -->
+    <string name="label_wake_on_lan_port">Порт</string>
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">Проверка подлинности сертификата клиента</string>
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
@@ -359,6 +367,7 @@
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Основные настройки запроса</string>
     <!-- Section title, shown in shortcut editor for non-HTTP shortcuts, for section containing basic settings (e.g. URL) -->
+    <string name="section_basic_settings">Основные настройки</string>
     <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Расширенные настройки</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
@@ -418,6 +427,7 @@
     <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
     <!-- Shows numerical count of sections, used to show how many sections are in a given category -->
     <!-- Pattern used to determine the subtitle of a category in the categories screen. %1$s is a placeholder for the number of shortcuts, %2$s is a placeholder for the number of sections -->
+    <string name="shortcut_section_count_pattern">%1$s, %2$s</string>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">%s (скрыто)</string>
     <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
@@ -624,9 +634,11 @@
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Ярлык браузера</string>
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_create_wol_shortcut">Ярлык Wake-on-LAN</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">Откройте URL-адрес в браузере</string>
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_description_create_wol_shortcut">Пробуждение компьютера в сети</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">Ярлык сценария</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
@@ -756,6 +768,7 @@
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">Показать диалог</string>
     <!-- Shortcut Action Title: Show fullscreen window -->
+    <string name="action_type_window_title">Показать окно</string>
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
     <string name="action_type_selection_title">Показать выбор (множественный выбор)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
@@ -781,6 +794,7 @@
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
     <string name="action_tts">Говори (преобразование текста в речь)</string>
     <!-- Shortcut Action Title: Action that allows to display a notification -->
+    <string name="action_show_notification">Показать уведомление</string>
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
     <string name="action_play_sound">Воспроизвести звук</string>
     <!-- Shortcut Action Title: Vibrate -->
@@ -798,6 +812,7 @@
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
     <string name="action_type_change_shortcut_hidden_title">Показать/скрыть ярлык</string>
     <!-- Shortcut Action Title: Change Category Visibility -->
+    <string name="action_type_change_category_hidden_title">Показать/скрыть категорию</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Запустить ярлык</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -839,6 +854,7 @@
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">Отправка пакета TCP</string>
     <!-- Shortcut Action Title: Send an HTTP request -->
+    <string name="action_type_send_http_request">Отправить HTTP-запрос</string>
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">Отправить сообщение MQTT</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -904,9 +920,11 @@
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">Мульти-ярлык</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
+    <string name="subtitle_editor_toolbar_wol_shortcut">Ярлык Wake-on-LAN</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">Установите URL ярлыка и метод HTTP</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
+    <string name="subtitle_basic_request_settings_prompt_for_wol">Установить MAC-адрес и порт ярлыка</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">Установите URL ярлыка</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
@@ -1012,6 +1030,7 @@
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
     <string name="dialog_code_snippet_write_to_file">Записать в файл</string>
     <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
+    <string name="dialog_code_snippet_append_to_file">Добавить в файл</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Получить имя выбранного файла</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -1051,6 +1070,7 @@
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_set_visible">Не удалось изменить видимость ярлыка \“%1$s\, потому что он не существует.</string>
     <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
+    <string name="error_category_not_found_for_set_visible">Не удалось изменить видимость категории \“%1$s\, потому что она не существует.</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Не удалось изменить значок ярлыка \"%1$s\", потому что он не существует.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1120,6 +1140,7 @@
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">Показать этикетку</string>
     <!-- Label: Shown when configuring a widget, above a slider, to choose the size of the widget's icon -->
+    <string name="label_widget_icon_size">Размер значка</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
     <string name="label_show_widget_icon">Показать иконку</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
@@ -1166,6 +1187,7 @@
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
     <string name="option_response_handling_type_toast">Всплывающее popup окно</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a notification -->
+    <string name="option_response_handling_type_notification">Уведомление</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">Диалоговое окно</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
@@ -1191,6 +1213,7 @@
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">Отложенные исполнения отменены.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
+    <string name="message_changes_discarded">Изменения отменены.</string>
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Эта функция позволяет редактировать ярлыки на компьютере, не выходя из браузера. Перед началом работы ознакомьтесь с Политикой конфиденциальности приложения, а затем выполните следующие действия:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
@@ -1295,6 +1318,10 @@
     <string name="action_type_base64decode_description">Преобразует строку в кодировке Base64 в Unit8Array (массив байтов).</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">Преобразует строку или Uint8Array (массив байтов) в строку в кодировке Base64</string>
+    <!-- Description for htmlEncode function in scripting -->
+    <string name="action_type_html_encode_description">Кодирует обычную текстовую строку, чтобы сделать её HTML-безопасной</string>
+    <!-- Description for htmlDecode function in scripting -->
+    <string name="action_type_html_decode_description">Декодирует HTML-строку в простой текст</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">Не найдено приложение, которое может открыть URL %s.</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
@@ -1517,6 +1544,7 @@
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
     <string name="label_require_specific_wifi_ssid">Требуются определенные Wi-Fi</string>
     <!-- Option in dropdown menu, for selecting the Internet Protocol version to be used for hostname resolution by a shortcut. This option is used by default when no specific option is chosen. -->
+    <string name="option_ip_version_auto">Определить автоматически</string>
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
     <string name="option_no_proxy">Нет прокси</string>
     <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
@@ -1526,6 +1554,7 @@
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
     <string name="placeholder_empty_category_for_moving">в этой категории нет коротких путей</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
+    <string name="placeholder_empty_category_section_for_moving">в этом разделе нет ярлыков</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <string name="label_file_upload_options_allow_image_editing">"Позволяет обрезать и поворачивать изображение"</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
@@ -1600,7 +1629,9 @@
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Режим исполнения</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
+    <string name="option_execution_mode_run_in_foreground">Запуск в переднем плане</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
+    <string name="option_execution_mode_run_in_background">Запуск в фоновом режиме (экспериментальный)</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">Тема</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
@@ -1730,36 +1761,73 @@
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
     <string name="message_shortcut_visible">Ярлык больше не скрыт.</string>
     <!-- Title for dialog, when selecting a directory (to be used in Scripting) -->
+    <string name="title_select_working_directory">Выберите папку</string>
     <!-- Warning message shown to user when saving their first shortcut, but not having opened the Response Handling screen -->
+    <string name="warning_make_aware_of_response_handling">Убедитесь, что также проверьте секцию \“%s\”, где вы можете настроить способ и время отображения ответа HTTP.</string>
     <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
+    <string name="notification_channel_shortcut_execution_title">Выполнение ярлыков</string>
     <!-- Title for notification channel, used for displaying responses or custom messages -->
+    <string name="notification_channel_shortcut_result_title">Результаты ярлыков</string>
     <!-- Message shown in notification when a shortcut is being executed -->
+    <plurals name="notification_shortcut_execution_text_multiple">
+        <item quantity="one">Ярлык в прогрессе…</item>
+        <item quantity="few">%d ярлыков в процессе…</item>
+        <item quantity="many">%d ярлыков в процессе…</item>
+        <item quantity="other">%d ярлыков в процессе…</item>
+    </plurals>
     <!-- Message shown in dialog which shows up when the user first selects the "Run in background" option for "Execution Mode" in the shortcuts editor. Informs the user of technical limitations and that the app will ask for permission to display notifications -->
+    <string name="dialog_text_run_in_background">Пожалуйста, обратите внимание, что запуск в фоновом режиме предназначен для простых сокращений, так как существует много технических ограничений. Вы можете найти некоторые функции, которые не работают, как ожидалось.\n\nВ приложении появится уведомление, когда ярлык запущен в фоновом режиме.</string>
     <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
+    <string name="instructions_run_in_background">Запуск в фоновом режиме имеет некоторые технические ограничения. В некоторых ситуациях он может работать неправильно, особенно при взаимодействии с файлами, буфер обмена или другие приложения, или когда выполнение занимает более двух минут.</string>
     <!-- Accessibility label for the floating action button on the main screen, to create new shortcuts -->
+    <string name="accessibility_label_create_shortcut_fab">Создать ярлык</string>
     <!-- Accessibility label for the floating action button, to add shortcuts to a multi-shortcut -->
+    <string name="accessibility_label_add_shortcuts_to_trigger_fab">Добавить ярлыки</string>
     <!-- Accessibility label for the floating action button, to add a header -->
+    <string name="accessibility_label_add_header_fab">Добавить заголовок</string>
     <!-- Accessibility label for the floating action button, to add a parameter -->
+    <string name="accessibility_label_add_parameter_fab">Добавить параметр</string>
     <!-- Accessibility label for the floating action button, to create new categories -->
+    <string name="accessibility_label_create_category_fab">Создать новую категорию</string>
     <!-- Accessibility label for the floating action button, to create new variables -->
+    <string name="accessibility_label_create_variable_fab">Создать новую переменную</string>
     <!-- Accessibility label for the floating action button, to mount a new working directory -->
+    <string name="accessibility_label_mount_working_directory_fab">Смонтировать новый каталог</string>
     <!-- Accessibility label for the floating action button, to add a new custom -->
+    <string name="accessibility_label_add_icon_fab">Добавить новую иконку</string>
     <!-- Accessibility label for the floating action button, to add a certificate pinning -->
+    <string name="accessibility_label_add_certificate_pinning_fab">Добавить закрепление сертификата</string>
     <!-- Accessibility label for the floating action button, to add a section to a category -->
+    <string name="accessibility_label_add_category_section">Добавить раздел</string>
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
+    <string name="accessibility_label_show_documentation">Перейти к документации</string>
     <!-- Accessibility label for "Select all" button in exporter -->
+    <string name="accessibility_label_select_all_for_export">Выбрать все</string>
     <!-- Accessibility label for "Unselect all" button in exporter -->
+    <string name="accessibility_label_unselect_all_for_export">Снять выделение</string>
     <!-- Accessibility label for the generic "go back" arrow button in the nav bar -->
+    <string name="accessibility_label_go_back">Вернуться</string>
     <!-- Accessibility label for the generic "close" cross button in the nav bar -->
+    <string name="accessibility_label_close">Закрыть</string>
     <!-- Accessibility label for the "go to next result" button in search bars -->
+    <string name="accessibility_search_go_to_next">Следующий</string>
     <!-- Accessibility label for the "go to previous result" button in search bars -->
+    <string name="accessibility_search_go_to_previous">Предыдущий</string>
     <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
+    <string name="instructions_shortcut_unhiding">Вы можете сделать скрытые ярлыки видимыми еще раз, перейдя на экран настроек и выбрав опцию \“%s\”.</string>
     <!-- Pattern used to construct the category / section headers on the "Move Shortcut" screen. %s$1 is a placeholder for a category name, %2$s is a placeholder for a section name -->
+    <string name="category_section_header_pattern">%1$s: %2$s</string>
     <!-- Title of "Category Sections" screen, which lets the user manage sections within a category -->
+    <string name="screen_title_category_sections">Разделы категорий</string>
     <!-- Title of dialog to edit a section within a category -->
+    <string name="title_category_section_edit">Изменить раздел</string>
     <!-- Title of dialog to add a section within a category -->
+    <string name="title_category_section_add">Добавить раздел</string>
     <!-- Label of input field to provide name for a section within a category -->
+    <string name="label_category_section_name">Название раздела</string>
     <!-- Empty state, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections">В этой категории еще нет разделов.</string>
     <!-- Empty state instructions, shown in list when there are no category sections yet -->
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
+    <string name="placeholder_empty_category_section_main_screen">Этот раздел пуст. Вы можете переместить ярлыки в него путем долгого нажатия и выбора \“%s\”.</string>
 </resources>

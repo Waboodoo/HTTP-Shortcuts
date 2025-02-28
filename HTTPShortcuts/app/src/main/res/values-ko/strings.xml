@@ -1252,6 +1252,8 @@
     <string name="action_type_base64decode_description">Base64 인코딩한 string을 Uint8Array(bytes형)로 변환</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">String이나 Uint8Array(bytes형)를 Base64 인코딩</string>
+    <!-- Description for htmlEncode function in scripting -->
+    <!-- Description for htmlDecode function in scripting -->
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">이 URL을 열 앱이 없습니다: %s</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->

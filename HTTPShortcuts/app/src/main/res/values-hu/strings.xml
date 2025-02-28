@@ -1239,6 +1239,8 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <string name="action_type_base64decode_description">Base64 kódolt karakterláncot alakít át Unit8Array (bájt tömb) -re.</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">Egy karakterláncot vagy Uint8Array-t (bájt tömb) Base64 kódolt karakterlánccá alakít át</string>
+    <!-- Description for htmlEncode function in scripting -->
+    <!-- Description for htmlDecode function in scripting -->
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">Nem találtunk olyan alkalmazást, amely meg tudná nyitni a %s URL-címet.</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->

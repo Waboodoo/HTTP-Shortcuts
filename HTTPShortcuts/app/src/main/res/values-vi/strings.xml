@@ -1240,6 +1240,8 @@ Bạn có thể bật tính năng này bằng cách chỉnh sửa phím tắt v�
     <string name="action_type_base64decode_description">Chuyển đổi chuỗi được mã hóa Base64 thành Unit8Array (mảng byte)</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">Chuyển đổi một chuỗi hoặc Uint8Array (mảng byte) thành chuỗi được mã hóa Base64</string>
+    <!-- Description for htmlEncode function in scripting -->
+    <!-- Description for htmlDecode function in scripting -->
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">Không tìm thấy ứng dụng nào có thể mở URL %s.</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->

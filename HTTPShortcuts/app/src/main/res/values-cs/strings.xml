@@ -17,17 +17,23 @@
     <!-- Label above input field in editor, for shortcut description -->
     <string name="label_description">Popis</string>
     <!-- Label above input field in editor, for shortcut URL -->
+    <string name="label_url">URL</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's MAC address -->
+    <string name="label_mac_address">MAC adresa</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's broadcast address -->
+    <string name="label_broadcast_address">Vysílací adresa</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">Prohlížeč</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">Použití výchozího prohlížeče</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
+    <string name="option_browser_custom_tab">Použít vlastní kartu</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
+    <string name="option_custom_browser_in_custom_tab">%s (Custom Tab)</string>
     <!-- Button to save changes made to shortcut/variable -->
     <string name="save_button">Uložit</string>
     <!-- Button to test changes made to shortcut -->
+    <string name="test_button">Zkouška</string>
     <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, …) -->
     <string name="label_method">Metoda</string>
     <!-- Label above input field in editor, for shortcut authentication username -->
@@ -35,16 +41,21 @@
     <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">Heslo</string>
     <!-- Label above input field in editor, for shortcut authentication token -->
+    <string name="label_auth_token">Token</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
     <string name="label_response_on_success">O úspěchu</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the response content should be treated as -->
+    <string name="label_response_type_selection">Typ odpovědi</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the custom message that they enter should be treated as -->
+    <string name="label_response_message_type_selection">Typ zprávy</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
     <string name="label_response_on_failure">O selhání</string>
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <string name="label_include_meta_information">Zobrazit metainformace</string>
     <!-- Label for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="label_enable_javascript_in_webview">Povolit JavaScript (experimentální)</string>
     <!-- Subtitle for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="subtitle_enable_javascript_in_webview">Umožňuje použití JavaScriptu v zobrazené části HTML odpovědi. Toto nemusí fungovat pro některé webové stránky.</string>
     <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
     <string name="label_monospace_response">Zobrazení textu pomocí monospace písma</string>
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
@@ -58,12 +69,15 @@
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Upravit</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
+    <string name="action_manage_sections">Správa sekcí</string>
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">Duplikovat</string>
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
     <string name="action_delete">Smazat</string>
     <!-- Shortcut dropdown option: export the shortcut -->
+    <string name="action_export">Exportovat</string>
     <!-- Menu button: Confirm exporting the selected shortcuts -->
+    <string name="dialog_button_export">Exportovat</string>
     <!-- Shortcut dropdown option: display information about the shortcut -->
     <string name="action_shortcut_information">Zobrazit informace</string>
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
@@ -83,6 +97,7 @@
 
 Chcete-li začít, klikněte na tlačítko + nebo se podívejte na dokumentaci v části O aplikaci.</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
+    <string name="empty_state_no_shortcuts_in_category">v této kategorii zatím nejsou žádné zkratky</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Zatím jste do spouštěče nepřidali žádné zkratky.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
@@ -108,11 +123,13 @@ Klepnutím na tlačítko + přidáte proměnnou.</string>
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">Zkratka nebyla nalezena. Možná ji budete muset znovu přidat na domovskou obrazovku.</string>
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
+    <string name="error_shortcut_deleted">Tato zkratka byla odstraněna.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Zadejte prosím jméno.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">Zadejte prosím url adresu HTTP(S).</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
+    <string name="validation_mac_address_invalid">Zadejte prosím platnou MAC adresu.</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s selhalo se stavovým kódem %2$d (%3$s).</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -128,6 +145,7 @@ Klepnutím na tlačítko + přidáte proměnnou.</string>
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
     <string name="choose_image">Vlastní obrázek</string>
     <!-- Option in "Change Icon" dialog, allows user to fetch the favicon of the shortcut's URL to use as a shortcut icon -->
+    <string name="choose_page_favicon">Načíst Oblíbenou stránku</string>
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
     <string name="choose_icon">Vestavěná ikona</string>
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
@@ -149,6 +167,7 @@ Klepnutím na tlačítko + přidáte proměnnou.</string>
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
     <string name="label_post_param_value">Hodnota</string>
     <!-- Generic dialog button: OK -->
+    <string name="dialog_ok">OK</string>
     <!-- Generic button: Cancel -->
     <string name="dialog_cancel">Zrušit</string>
     <!-- Generic button: remove -->
@@ -218,10 +237,18 @@ Klepnutím na tlačítko + přidáte proměnnou.</string>
     <!-- Button in settings page to start import of shortcuts from a url -->
     <string name="settings_import_from_url">Import z adresy URL</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts into a file -->
+    <string name="settings_export_to_file">Exportovat do souboru</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
+    <string name="settings_export_via_share">Exportovat přes sdílení Dialog</string>
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">Úpravy v počítači</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
+    <plurals name="shortcut_export_success">
+        <item quantity="one">1 zástupce exportován.</item>
+        <item quantity="few">%d zástupců exportováno.</item>
+        <item quantity="many">%d zástupců exportováno.</item>
+        <item quantity="other">%d zástupců exportováno.</item>
+    </plurals>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Exportování...</string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
@@ -234,11 +261,18 @@ Klepnutím na tlačítko + přidáte proměnnou.</string>
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
     <string name="import_failure_reason_data_version_mismatch">Vybraný soubor byl exportován novější verzí aplikace. Zkontrolujte, zda máte nainstalovanou nejnovější verzi aplikace.</string>
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
+    <plurals name="shortcut_import_success">
+        <item quantity="one">1 zástupce importován.</item>
+        <item quantity="few">%d zástupců importováno.</item>
+        <item quantity="many">%d zástupců importováno.</item>
+        <item quantity="other">%d zástupců importováno.</item>
+    </plurals>
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">Importování...</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Časový limit</string>
     <!-- Label, for dropdown picker, allowing to select the Internet Protocol version used for hostname resolution by a shortcut -->
+    <string name="label_ip_version">Verze internetového protokolu</string>
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">Typ proxy serveru</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
@@ -250,6 +284,7 @@ Klepnutím na tlačítko + přidáte proměnnou.</string>
     <!-- Label, for option to set the proxy password for a shortcut -->
     <string name="label_proxy_password">Heslo proxy serveru</string>
     <!-- Label, for option to set the UDP port for a wake-on-lan shortcut -->
+    <string name="label_wake_on_lan_port">Přístav</string>
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">Ověřování klientských certifikátů</string>
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
@@ -259,6 +294,7 @@ Klepnutím na tlačítko + přidáte proměnnou.</string>
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
     <string name="label_subtitle_client_cert_file_in_use">Použití souboru certifikátu. Klepnutím na tlačítko odstraníte.</string>
     <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
+    <string name="label_subtitle_not_applicable_for_http">Použitelné pouze při použití HTTPS</string>
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">Certifikát klienta</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
@@ -272,9 +308,28 @@ Klepnutím na tlačítko + přidáte proměnnou.</string>
     <!-- Title of dialog, for entering the password for a client cert file -->
     <string name="title_client_cert_file_password">Heslo</string>
     <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %d is a placeholder for the actual number. -->
+    <plurals name="seconds">
+        <item quantity="one">%d s</item>
+        <item quantity="few">%d sekund</item>
+        <item quantity="many">%d sekund</item>
+        <item quantity="other">%d sekund</item>
+    </plurals>
     <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %d is a placeholder for the actual number. -->
+    <plurals name="milliseconds">
+        <item quantity="one">%d milisekund</item>
+        <item quantity="few">%d milisekund</item>
+        <item quantity="many">%d milisekund</item>
+        <item quantity="other">%d milisekund</item>
+    </plurals>
     <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %d is a placeholder for the actual number. -->
+    <plurals name="minutes">
+        <item quantity="one">%d minuta</item>
+        <item quantity="few">%d minut</item>
+        <item quantity="many">%d minut</item>
+        <item quantity="other">%d minut</item>
+    </plurals>
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
+    <string name="pattern_minutes_seconds">%1$s, %2$s</string>
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">Řešení problémů</string>
     <!-- Title of option in settings to show change changelog of current and past versions -->
@@ -328,6 +383,7 @@ Klepnutím na tlačítko + přidáte proměnnou.</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Základní nastavení požadavku</string>
     <!-- Section title, shown in shortcut editor for non-HTTP shortcuts, for section containing basic settings (e.g. URL) -->
+    <string name="section_basic_settings">Základní nastavení</string>
     <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Rozšířená nastavení</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
@@ -385,8 +441,21 @@ Všechny zkratky v ní obsažené budou smazány.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
     <string name="message_category_deleted">Kategorie smazána.</string>
     <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
+    <plurals name="shortcut_count">
+        <item quantity="one">%d zástupce</item>
+        <item quantity="few">%d zástupců</item>
+        <item quantity="many">%d zástupců</item>
+        <item quantity="other">%d zástupců</item>
+    </plurals>
     <!-- Shows numerical count of sections, used to show how many sections are in a given category -->
+    <plurals name="section_count">
+        <item quantity="one">Sekce %d</item>
+        <item quantity="few">%d sekce</item>
+        <item quantity="many">%d sekce</item>
+        <item quantity="other">%d sekce</item>
+    </plurals>
     <!-- Pattern used to determine the subtitle of a category in the categories screen. %1$s is a placeholder for the number of shortcuts, %2$s is a placeholder for the number of sections -->
+    <string name="shortcut_section_count_pattern">%1$s, %2$s</string>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">%s (skryté)</string>
     <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
@@ -444,8 +513,11 @@ Všechny zkratky v ní obsažené budou smazány.</string>
     <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle_description">Při použití se pokaždé přepne na jinou hodnotu.</string>
     <!-- Type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment">Rozšiřující čítač</string>
     <!-- Description for type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment_description">Zvyšuje číslo při každém použití</string>
     <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid">UUID</string>
     <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
     <string name="variable_type_uuid_description">při každém spuštění vygeneruje nové náhodné UUID.</string>
     <!-- Type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
@@ -479,7 +551,9 @@ Všechny zkratky v ní obsažené budou smazány.</string>
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">Kódování JSON</string>
     <!-- Checkbox label, for option to enable/disable the exclusion of a variable's value in exports -->
+    <string name="label_exclude_variable_value_from_exports">Vyloučit uloženou hodnotu z exportu</string>
     <!-- Instructions shown below the "IExclude stored value from exports" checkbox in the variable editor -->
+    <string name="message_exclude_variable_value_from_exports_instructions">Povolte, pokud nechcete, aby byla uložená hodnota této proměnné (pokud existuje) zahrnuta do exportu.</string>
     <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">Základní nastavení</string>
     <!-- Error message, informing user that the entered variable name is empty -->
@@ -549,6 +623,7 @@ Zatím však nemáte žádné proměnné nakonfigurovány.</string>
     <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
     <string name="label_select_variable_multi_select">Umožnit výběr více možností</string>
     <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
+    <string name="label_multiline">Víceúčelové</string>
     <!-- Action, allows the user to cancel a pending shortcut execution -->
     <string name="action_cancel_pending">Zrušit čekající provedení</string>
     <!-- Message, shown in snackbar to confirm when the user cancelled a pending shortcut execution (%1$s is a placeholder for the shortcut name) -->
@@ -576,18 +651,23 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">Další aplikace (Sdílet)</string>
     <!-- Instruction text, shown at the top of the screen when creating a new shortcut, shows options below -->
+    <string name="instructions_create_new_shortcut_options_dialog">Vyberte typ zástupce, který chcete vytvořit.</string>
     <!-- Option in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <string name="button_create_new">Pravidelná zkratka HTTP</string>
     <!-- Button in shortcut creation screen, to select the type of shortcut: from scratch (i.e., start with a blank editor) -->
+    <string name="button_create_from_scratch">Vytvořit od začátku</string>
     <!-- Section title, shown on shortcut creation screen, above the section that lets the user pick advanced shortcut types -->
+    <string name="section_title_advanced_shortcut_types">Rozšířené typy</string>
     <!-- Option in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">Import z příkazu cURL</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Zkratka prohlížeče</string>
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_create_wol_shortcut">Zkratka probuzení na LAN</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">Otevření adresy URL v prohlížeči</string>
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_description_create_wol_shortcut">Probudit počítač v síti</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">Skriptovací zkratka</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
@@ -601,6 +681,7 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <!-- Instruction text for shortcut import from cURL format -->
     <string name="instructions_curl_import">Níže zadejte nebo vložte příkaz cURL a vytvořte z něj nového zástupce.</string>
     <!-- Text on button to start shortcut import from a cURL command -->
+    <string name="curl_import_button">Importovat</string>
     <!-- Dropdown option for "Authentication" of a shortcut: no authentication -->
     <string name="authentication_none">Žádné ověřování</string>
     <!-- Dropdown option for "Authentication" of a shortcut: "Basic Authentication", aka. BasicAuth (username & password) -->
@@ -612,12 +693,17 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">Zobrazení jako zástupce aplikace na spouštěči</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
+    <string name="subtitle_launcher_shortcut">Toto také umožní používat zástupce přes aplikace třetích stran, jako je Google Assistant nebo Bixby Routines.</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
+    <string name="subtitle_launcher_shortcut_with_direct_share">Toto také umožní používat zástupce přes Direct Share nebo aplikace třetích stran, jako je Google Assistant nebo Bixby Routines.</string>
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="label_secondary_launcher_shortcut">Povolení spouštění prostřednictvím sekundární aplikace spouštěče</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="subtitle_secondary_launcher_shortcut">To je užitečné zejména v případech, kdy nelze použít běžné widgety domovské obrazovky.</string>
     <!-- Label for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="label_shortcut_as_file_share_target">Povolit příjem souborů ze sdíleného dialogu</string>
     <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="subtitle_shortcut_as_file_share_target">Povolením této funkce můžete sdílet soubory z jiných aplikací a používat je pro parametr těla požadavku tohoto zástupce nebo formuláře.</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Povolení spouštění prostřednictvím dlaždice Rychlé nastavení</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
@@ -645,7 +731,9 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_summary">Změna názvu hlavní obrazovky aplikace</string>
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_min">Minimální</string>
     <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
+    <string name="label_variable_slider_max">Maximální množství</string>
     <!-- Label above input box, for step size (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_step">Velikost kroku</string>
     <!-- Label above input box, for prefix text displayed in front of the number in a number slider (input dialog) -->
@@ -671,6 +759,7 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <!-- Dropdown option for request body: file (i.e., user gets to pick a file which is used as the request body) -->
     <string name="request_body_option_file">Soubor (Picker)</string>
     <!-- Label above input box for Request Content-Type -->
+    <string name="label_content_type">Typ obsahu</string>
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
     <string name="button_copy_curl_export">Kopírovat</string>
     <!-- Section title in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
@@ -685,6 +774,12 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <string name="label_trigger_shortcuts">Zkratky</string>
     <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
     <string name="label_trigger_shortcuts_subtitle_none">Zatím nebyly vybrány žádné zkratky</string>
+    <plurals name="label_trigger_shortcuts_subtitle">
+        <item quantity="one">%d zástupce vybrán</item>
+        <item quantity="few">%d vybrány zkratky</item>
+        <item quantity="many">%d vybrány zkratky</item>
+        <item quantity="other">%d vybrány zkratky</item>
+    </plurals>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
     <string name="label_scripting_browser_shortcuts_subtitle">Spuštění kódu JavaScriptu před spuštěním</string>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
@@ -702,6 +797,7 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">Zobrazit dialogové okno</string>
     <!-- Shortcut Action Title: Show fullscreen window -->
+    <string name="action_type_window_title">Zobrazit okno</string>
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
     <string name="action_type_selection_title">Zobrazit výběr (výběr z více možností)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
@@ -727,6 +823,7 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
     <string name="action_tts">Mluvit (převod textu na řeč)</string>
     <!-- Shortcut Action Title: Action that allows to display a notification -->
+    <string name="action_show_notification">Zobrazit oznámení</string>
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
     <string name="action_play_sound">Přehrát zvuk</string>
     <!-- Shortcut Action Title: Vibrate -->
@@ -742,7 +839,9 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <string name="action_type_change_icon_description">Změnit zkratku Popis</string>
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
+    <string name="action_type_change_shortcut_hidden_title">Zobrazit/skrýt zástupce</string>
     <!-- Shortcut Action Title: Change Category Visibility -->
+    <string name="action_type_change_category_hidden_title">Zobrazit/skrýt kategorii</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Zkratka Enqueue</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -772,21 +871,25 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">Spouštěč Tasker Task</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
+    <string name="action_type_set_wireguard_tunnel_state_title">Povolit nebo zakázat Wireguard tunel</string>
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Získat aktuální polohu</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
     <string name="action_type_get_location_description">Dotaz na fyzickou polohu zařízení a její vrácení jako objektu</string>
     <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
+    <string name="action_type_wake_on_lan">Wake-on-LAN</string>
     <!-- Shortcut Action Title: Send a UDP packet to another device on the network -->
     <string name="action_type_send_udp_packet">Odeslání paketu UDP</string>
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">Odeslání paketu TCP</string>
     <!-- Shortcut Action Title: Send an HTTP request -->
+    <string name="action_type_send_http_request">Odeslat HTTP požadavek</string>
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">Odeslání zprávy MQTT</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">Přerušení provádění</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut and instead run the steps as if the request had failed -->
+    <string name="action_type_abort_and_treat_as_failure">Zrušit a přistupovat jako k nezdaru</string>
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
     <string name="action_type_wait">Počkejte</string>
     <!-- Shortcut Action Title: Get the IP Address of the current Wi-Fi -->
@@ -846,15 +949,24 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">Více zkratek</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
+    <string name="subtitle_editor_toolbar_wol_shortcut">Zkratka probuzení na LAN</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">Nastavení adresy URL a metody HTTP zástupce</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
+    <string name="subtitle_basic_request_settings_prompt_for_wol">Nastavte MAC adresu a port zástupce</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">Nastavení adresy URL zástupce</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
+    <string name="subtitle_basic_request_settings_pattern">%1$s %2$s</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
     <string name="subtitle_request_headers_none">Nejsou nastaveny žádné hlavičky</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
+    <plurals name="subtitle_request_headers_pattern">
+        <item quantity="one">%d sada záhlaví</item>
+        <item quantity="few">%d nastaveny záhlaví</item>
+        <item quantity="many">%d nastaveny záhlaví</item>
+        <item quantity="other">%d nastaveny záhlaví</item>
+    </plurals>
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
     <string name="subtitle_authentication_none">Žádné ověřování</string>
     <!-- Section subtitle, shown in shortcut editor when using a client certificate for authentication -->
@@ -891,6 +1003,7 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether cookies should be stored for the HTTP request -->
     <string name="label_accept_cookies">Ukládání souborů cookie</string>
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether the HTTP connection should be kept open after a request is made -->
+    <string name="label_keep_connection_open">Ponechat připojení otevřené po vyžádání</string>
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
     <string name="label_pre_request_script">Spustit před provedením</string>
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
@@ -936,8 +1049,11 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_id">Získat ID zkratky</string>
     <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
+    <string name="dialog_code_snippet_read_from_file">Číst ze souboru</string>
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
+    <string name="dialog_code_snippet_write_to_file">Zapsat do souboru</string>
     <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
+    <string name="dialog_code_snippet_append_to_file">Připojit k souboru</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Získat název vybraného souboru</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -975,7 +1091,9 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">Zástupce \"%1$s\" nelze přejmenovat, protože neexistuje.</string>
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_set_visible">Nelze změnit viditelnost zástupce \“%1$s\", protože neexistuje.</string>
     <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
+    <string name="error_category_not_found_for_set_visible">Viditelnost kategorie \“%1$s\" nelze změnit, protože neexistuje.</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Nelze změnit ikonu zástupce \"%1$s\", protože neexistuje.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1023,6 +1141,7 @@ Tuto funkci můžete povolit úpravou zástupce a zaškrtnutím políčka \"%1$s
     <!-- Dialog title: Shown in dialog when adding a new request parameter and user has to pick its type -->
     <string name="dialog_title_parameter_type">Typ parametru</string>
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
+    <string name="option_parameter_type_string">Text</string>
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
     <string name="option_parameter_type_file">Jednotlivý soubor</string>
     <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
@@ -1038,12 +1157,15 @@ Tuto funkci můžete povolit úpravou zástupce a zaškrtnutím políčka \"%1$s
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">Vyberte nebo vytvořte zástupce a umístěte jej na domovskou obrazovku.</string>
     <!-- Instructions: Shown in info text at the top of the screen to inform user that they should select or create a shortcut, which is then used as by the 3rd party app (e.g. Tasker) -->
+    <string name="instructions_select_shortcut_for_plugin">Vyberte nebo vytvořte zástupce, který by měl být spuštěn.</string>
     <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
     <string name="label_widget">Přizpůsobitelný widget</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">Zobrazit štítek</string>
     <!-- Label: Shown when configuring a widget, above a slider, to choose the size of the widget's icon -->
+    <string name="label_widget_icon_size">Velikost ikony</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
+    <string name="label_show_widget_icon">Zobrazit ikonu</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
     <string name="action_create_widget">Vytvořit widget</string>
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
@@ -1053,6 +1175,12 @@ Tuto funkci můžete povolit úpravou zástupce a zaškrtnutím políčka \"%1$s
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
     <string name="error_invalid_character">Neplatný znak: %s</string>
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
+    <plurals name="warning_variable_still_in_use_in_shortcuts">
+        <item quantity="one">Tato proměnná se stále používá v %2$d zástupce: %1$s</item>
+        <item quantity="few">Tato proměnná se stále používá v %2$d zástupcích: %1$s</item>
+        <item quantity="many">Tato proměnná se stále používá v %2$d zástupcích: %1$s</item>
+        <item quantity="other">Tato proměnná se stále používá v %2$d zástupcích: %1$s</item>
+    </plurals>
     <!-- Error: Shown when the text-to-speech action fails to speak a piece of text -->
     <string name="error_tts_failed">Nepodařilo se vyslovit text</string>
     <!-- Label: Option shown in Code Snippet Picker when inserting an action that targets a shortcut, allows to target the current shortcut -->
@@ -1082,6 +1210,7 @@ Tuto funkci můžete povolit úpravou zástupce a zaškrtnutím políčka \"%1$s
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
     <string name="option_response_handling_type_toast">Přípitek Popup</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a notification -->
+    <string name="option_response_handling_type_notification">Oznamování</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">Dialogové okno</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
@@ -1107,6 +1236,7 @@ Tuto funkci můžete povolit úpravou zástupce a zaškrtnutím políčka \"%1$s
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">Probíhající exekuce zrušeny.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
+    <string name="message_changes_discarded">Změny byly zrušeny.</string>
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Tato funkce umožňuje upravovat zástupce v počítači z pohodlí prohlížeče. Než začnete, přečtěte si Zásady ochrany osobních údajů aplikace a poté postupujte podle následujících kroků:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
@@ -1118,6 +1248,7 @@ Tuto funkci můžete povolit úpravou zástupce a zaškrtnutím políčka \"%1$s
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
     <string name="instructions_remote_edit_step_4">"Po dokončení úprav a uložení změn klikněte na tlačítko &lt;pre&gt;\"Pull Changes\"&lt;/pre&gt; níže a stáhněte změny zpět do aplikace."</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
+    <string name="button_remote_edit_upload">Push na server</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
     <string name="button_remote_edit_download">Vytáhnout změny</string>
     <!-- Label: Shown above a textfield with the device's ID, used to log in to edit server when editing shortcuts on a computer -->
@@ -1181,7 +1312,9 @@ Tuto funkci můžete povolit úpravou zástupce a zaškrtnutím políčka \"%1$s
     <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
     <string name="error_invalid_remote_edit_host_url">Neplatná adresa URL. Musí to být http(s).</string>
     <!-- Section title on import/export screen for options related to importing -->
+    <string name="settings_title_import">Importovat</string>
     <!-- Section title on import/export screen for options related to exporting -->
+    <string name="settings_title_export">Exportovat</string>
     <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
     <string name="settings_title_remote_edit">Vzdálené úpravy</string>
     <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
@@ -1208,6 +1341,10 @@ Tuto funkci můžete povolit úpravou zástupce a zaškrtnutím políčka \"%1$s
     <string name="action_type_base64decode_description">Převede řetězec zakódovaný v Base64 na pole Unit8Array (pole bajtů).</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">Převede řetězec nebo pole Uint8Array (pole bajtů) na řetězec v kódování Base64.</string>
+    <!-- Description for htmlEncode function in scripting -->
+    <string name="action_type_html_encode_description">Kóduje řetězec prostého textu, aby byl HTML-safe</string>
+    <!-- Description for htmlDecode function in scripting -->
+    <string name="action_type_html_decode_description">Dekóduje HTML řetězec do prostého textu</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">Nebyla nalezena žádná aplikace, která by mohla otevřít adresu URL %s.</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
@@ -1233,6 +1370,7 @@ Odstranit v každém případě?</string>
     <!-- Error message, shown in snackbar when the user tried to fetch a page's favicon but it failed -->
     <string name="error_failed_to_fetch_favicon">Nepodařilo se načíst ikonu. Tato webová stránka nemusí mít vhodnou ikonu.</string>
     <!-- Shortcut Action Title: Allows removing leading and trailing whitespace characters from a string -->
+    <string name="action_type_trim_string">Oříznout řetězec</string>
     <!-- Shortcut Action Description: Allows removing leading and trailing whitespace characters from a string -->
     <string name="action_type_trim_string_description">Odstranění počátečních a koncových bílých znaků</string>
     <!-- Label of dropdown menu, for selecting which type of data to receive from the share dialog to use as the value of a variable -->
@@ -1256,6 +1394,7 @@ Odstranit v každém případě?</string>
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
     <string name="action_type_parse_xml">Parsování XML</string>
     <!-- Title of an action in the code snippet picker: Parse an HTML string -->
+    <string name="action_type_parse_html">Parse HTML</string>
     <!-- Title of dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it -->
     <string name="title_unsaved_changes_detected">Nalezena neuložená zkratka</string>
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
@@ -1297,6 +1436,7 @@ Odstranit v každém případě?</string>
     <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <string name="error_failed_to_send_tcp">Nepodařilo se odeslat paket TCP: %s</string>
     <!-- Error message: Shown when the user tries to read a TCP response via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_receive_tcp">Nepodařilo se číst ze socketu TCP: %s</string>
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">Otevírání souborů pomocí funkce openUrl() není podporováno</string>
     <!-- Page title, for page showing all events that happened recently -->
@@ -1304,6 +1444,7 @@ Odstranit v každém případě?</string>
     <!-- Button in Event History screen, to clear all events and empty the history -->
     <string name="button_clear_history">Vymazat historii</string>
     <!-- Button in Event History screen, to switch between showing absolute times and relative times -->
+    <string name="button_history_toggle_time_mode">Přepnout režim času</string>
     <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
     <string name="message_history_cleared">Historie vyčištěna.</string>
     <!-- Empty state, shown in event history when there are no recent events -->
@@ -1344,6 +1485,7 @@ Jednotlivé zkratky můžete ze zobrazování vyloučit pomocí možnosti, ktero
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_legacy_shortcut">Dědičná zkratka</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_widget">Widget</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_scripting">Skriptování</string>
     <!-- Message shown in snackbar to let the user know that the details of a (selected) history event were copied to the clipboard -->
@@ -1375,7 +1517,19 @@ Možná bude také nutné vyloučit aplikaci z funkce Optimalizace baterie. Tuto
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
     <string name="label_no_repetition">Žádné opakování</string>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d minutes -->
+    <plurals name="label_repeat_every_x_minutes">
+        <item quantity="one">Každý %d minut</item>
+        <item quantity="few">Každý %d minut</item>
+        <item quantity="many">Každý %d minut</item>
+        <item quantity="other">Každý %d minut</item>
+    </plurals>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d hours -->
+    <plurals name="label_repeat_every_x_hours">
+        <item quantity="one">Každou hodinu</item>
+        <item quantity="few">Každý %d hodin</item>
+        <item quantity="many">Každý %d hodin</item>
+        <item quantity="other">Každý %d hodin</item>
+    </plurals>
     <!-- Title of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
     <string name="settings_ignore_battery_optimizations">Vyloučit z optimalizace baterie</string>
     <!-- Subtitle of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
@@ -1415,6 +1569,7 @@ V případě certifikátů podepsaných vlastním podpisem zkontrolujte místo t
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
     <string name="label_require_specific_wifi_ssid">Požadavek na konkrétní Wi-Fi</string>
     <!-- Option in dropdown menu, for selecting the Internet Protocol version to be used for hostname resolution by a shortcut. This option is used by default when no specific option is chosen. -->
+    <string name="option_ip_version_auto">Automaticky určit</string>
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
     <string name="option_no_proxy">Žádný zástupce</string>
     <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
@@ -1424,6 +1579,7 @@ V případě certifikátů podepsaných vlastním podpisem zkontrolujte místo t
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
     <string name="placeholder_empty_category_for_moving">žádné zkratky v této kategorii</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
+    <string name="placeholder_empty_category_section_for_moving">v této sekci nejsou žádné zkratky</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <string name="label_file_upload_options_allow_image_editing">"Povolení ořezávání a otáčení obrázků"</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
@@ -1483,13 +1639,24 @@ V případě certifikátů podepsaných vlastním podpisem zkontrolujte místo t
     <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
     <string name="title_select_response_toolbar_buttons">Výběr tlačítek panelu nástrojů</string>
     <!-- Subtitle on button, shown in Response settings of shortcut editor, shows how many buttons the user has selected to be shown in the response window toolbar -->
+    <plurals name="subtitle_response_toolbar_actions">
+        <item quantity="one">Vybráno 1 tlačítko</item>
+        <item quantity="few">%d tlačítka vybrána</item>
+        <item quantity="many">%d tlačítka vybrána</item>
+        <item quantity="other">%d tlačítka vybrána</item>
+    </plurals>
     <!-- Option in settings, allows to set whether hidden shortcuts should be visible or not -->
+    <string name="settings_title_show_hidden_shortcuts">Skryté zkratky</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
+    <string name="settings_option_show_hidden_shortcuts">Zobrazit skryté zkratky</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
+    <string name="settings_option_hide_hidden_shortcuts">Nezobrazovat skryté zkratky</string>
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Režim provádění</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
+    <string name="option_execution_mode_run_in_foreground">Spustit v popředí</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
+    <string name="option_execution_mode_run_in_background">Spustit na pozadí (experimentální)</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">Téma</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
@@ -1497,97 +1664,195 @@ V případě certifikátů podepsaných vlastním podpisem zkontrolujte místo t
     <!-- Option in "Theme" setting, to use Dynamic Color, i.e., use the same color scheme as the OS -->
     <string name="settings_dynamic_color_option_default_theme">Použití výchozího motivu</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This is the default option, i.e., determine the type automatically from the response headers -->
+    <string name="option_response_content_type_auto">Automaticky určit</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as plain text -->
+    <string name="option_response_content_type_plain_text">Prostý text</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as JSON -->
+    <string name="option_response_content_type_json">JSON</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as XML -->
+    <string name="option_response_content_type_xml">XML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as HTML -->
+    <string name="option_response_content_type_html">HTML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response charset. This is the default option, i.e., determine the charset automatically from the response headers -->
+    <string name="option_response_charset_auto">Automaticky určit</string>
     <!-- Label for dropdown in "Response Handling" settings, allows the user to choose which character set should be used to decode the HTTP response -->
+    <string name="label_response_charset">Znaková sada odpovědi</string>
     <!-- Warning message shown at the bottom of the cURL import screen when curl options have been detected that are not known to the app. The list of unsupported options is shown after this warning. -->
+    <string name="warning_unsupported_curl_options">Některé možnosti nejsou podporovány a budou ignorovány:</string>
     <!-- Dialog title for dialog that lets the user choose the shape of their custom icon: square or circular -->
+    <string name="dialog_title_select_icon_shape">Vybrat tvar ikony</string>
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_square">Čtverec</string>
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_round">Kolo</string>
     <!-- Warning message shown to user when an HTML page wants to open a URL in the external browser. %s is a placeholder for the URL. -->
+    <string name="warning_page_wants_to_open_url">Stránka chce otevřít následující URL v prohlížeči:\n\n%s</string>
     <!-- Placeholder text shown in the text field for the search feature on the Documentation screen -->
+    <string name="placeholder_documentation_search_query">Hledat na stránce…</string>
     <!-- Label for dropdown in shortcut editor, for picking the font size in which the response should be displayed -->
+    <string name="label_font_size">Font Size</string>
     <!-- Option in font size drop down: Tiny -->
+    <string name="font_size_tiny">Malý</string>
     <!-- Option in font size drop down: Very small -->
+    <string name="font_size_very_small">Velmi malé</string>
     <!-- Option in font size drop down: Small -->
+    <string name="font_size_small">Malá</string>
     <!-- Option in font size drop down: Regular -->
+    <string name="font_size_regular">Běžný</string>
     <!-- Option in font size drop down: Large -->
+    <string name="font_size_large">Velký</string>
     <!-- Option in font size drop down: Very large -->
+    <string name="font_size_very_large">Velmi velká</string>
     <!-- Option in font size drop down: Huge -->
+    <string name="font_size_huge">Obrovské</string>
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
+    <string name="wireguard_setup_instructions">Ujistěte se, že v aplikaci Wireguard také povolíte nastavení \"Povolit vzdálené ovládání\".</string>
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
+    <string name="wireguard_permission_not_granted">Povolení Wireguard nebylo uděleno.</string>
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
+    <string name="settings_device_id">ID zařízení</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
+    <string name="settings_device_id_summary">Zahrnout toto ID při hlášení chyb na GitHub:\n%s</string>
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
+    <string name="message_device_id_copied">ID zařízení zkopírováno do schránky.</string>
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
+    <string name="instructions_export">Vyberte, které zkratky mají být exportovány. Všechny požadované proměnné budou exportovány automaticky.</string>
     <!-- Title shown on Response screen which allows to expand a panel showing some meta information about the response -->
+    <string name="title_response_meta_information">Meta informace</string>
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute values (e.g. 13:37) -->
+    <string name="message_history_switched_to_absolute_times">Přepnuto na absolutní časy.</string>
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute relative (e.g. 42 sec ago) -->
+    <string name="message_history_switched_to_relative_times">Přepnuto na relativní časy.</string>
     <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
+    <string name="error_user_defined">Provedení bylo přerušeno a bylo považováno za selhání</string>
     <!-- Accessibility description for main menu button -->
+    <string name="accessibility_main_menu">Hlavní menu</string>
     <!-- Accessibility description for the variable button on the right of text input fields -->
+    <string name="accessibility_variable_field_button">Přidat proměnné</string>
     <!-- Label on button shown on the Response Handling screen, clicking it leads to a settings screen that lets the user configure how the response (or custom message) is displayed -->
+    <string name="button_display_settings">Nastavení zobrazení</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_response">Nakonfigurujte, jak je zobrazena odpověď</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_message">Konfigurovat způsob zobrazení zprávy</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_error">Konfigurovat jak se zobrazuje chybová zpráva</string>
     <!-- Title of screen that lets the user configure how the HTTP response is displayed -->
+    <string name="title_response_display">Zobrazení odpovědi</string>
     <!-- Title of screen that lets the user configure how their custom message is displayed -->
+    <string name="title_message_display">Zobrazení zprávy</string>
     <!-- Title of a generic warning dialog. The dialog may be used in various situations. -->
+    <string name="warning_dialog_title">Varování</string>
     <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
+    <string name="warning_message_malformed_json">Tělo Vašeho požadavku obsahuje neplatný JSON, což pravděpodobně způsobí selhání požadavku.\n\n%s</string>
     <!-- Label for checkbox in editor, to allow JSON responses to be displayed as a table instead of plain JSON -->
+    <string name="label_json_array_as_table">Zobrazit pole JSON jako tabulku</string>
     <!-- Screen title, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="title_working_directories">Připojené adresáře</string>
     <!-- Option in main screen's menu, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="menu_action_working_directories">Adresáře</string>
     <!-- Empty state, shown in list when there are no Directories yet -->
+    <string name="empty_state_working_directories">Zatím jste nepřipojili žádné adresáře.</string>
     <!-- Empty state instructions, shown in list when there are no directories yet -->
+    <string name="empty_state_working_directories_instructions">Zde můžete připojit adresáře ze souborového systému zařízení, který umožňuje aplikaci přistupovat k jejich obsahu a vytvářet v nich nové soubory.\n\nKlikněte na tlačítko + pro připojení adresáře.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a directory was created/mounted -->
+    <string name="message_working_directory_mounted">Adresář byl připojen.</string>
     <!-- Message, shown in snackbar, confirming to user that a directory was deleted. %1$s is a placeholder for the directory's name -->
+    <string name="working_directory_deleted">\“%1$s\” smazáno.</string>
     <!-- Action button label, shown in context menu of Directories screen, to allow re-mounting a directory, i.e., connecting it to a directory in the device's file system -->
+    <string name="button_mount_working_directory">Připojit</string>
     <!-- Generic action button label, shown in context menus, allows renaming things, e.g. directories -->
+    <string name="action_rename">Přejmenovat</string>
     <!-- Subtitle shown below directory name on Directories screen, when a directory is not mounted, i.e., it is disconnected from its counterpart on the device's file system -->
+    <string name="working_directory_unmounted_subtitle">Nepřipojeno</string>
     <!-- Subtitle shown below directory name on Directories screen, to indicate when this directory was last read from or written to -->
+    <string name="working_directory_last_accessed">Poslední přístup: %s</string>
     <!-- Subtitle shown below directory name on Directories screen, to indicate that this directory was never read from or written to -->
+    <string name="working_directory_never_accessed">Nikdy nepřístupný</string>
     <!-- Instructions: Shown at the top of the Directories screen when picking a directory that should be used for a specific feature -->
+    <string name="instructions_select_directory">Vyberte nebo připojte nový adresář, který aplikaci umožní číst a zapisovat do něj soubory.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a directory -->
+    <string name="confirm_delete_working_directory_message">Odstranit toto připojování adresáře? Aktuální adresář v souborovém systému nebude dojednán a žádné soubory nebudou smazány.</string>
     <!-- Title for the dialog window that lets the user rename a directory -->
+    <string name="title_rename_working_directory">Přejmenovat adresář</string>
     <!-- Error message, informing user that the entered directory name already exists -->
+    <string name="validation_directory_name_already_exists">Jiný adresář s tímto názvem již existuje.</string>
     <!-- Action, shown on dropdown when editing a shortcut, for allowing to hide a shortcut -->
+    <string name="action_hide_shortcut">Skrýt</string>
     <!-- Action, shown on dropdown when editing a shortcut, for allowing to show a hidden shortcut -->
+    <string name="action_show_shortcut">Zobrazit</string>
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut was hidden -->
+    <string name="message_shortcut_hidden">Shortcut hidden.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
+    <string name="message_shortcut_visible">Zkratka již není skryta.</string>
     <!-- Title for dialog, when selecting a directory (to be used in Scripting) -->
+    <string name="title_select_working_directory">Vybrat adresář</string>
     <!-- Warning message shown to user when saving their first shortcut, but not having opened the Response Handling screen -->
+    <string name="warning_make_aware_of_response_handling">Ujistěte se, že se podívejte také na sekci \“%s\, kde můžete nakonfigurovat jak nebo zda by měla být zobrazena odpověď HTTP.</string>
     <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
+    <string name="notification_channel_shortcut_execution_title">Provedení zástupců</string>
     <!-- Title for notification channel, used for displaying responses or custom messages -->
+    <string name="notification_channel_shortcut_result_title">Výsledky zkratek</string>
     <!-- Message shown in notification when a shortcut is being executed -->
+    <plurals name="notification_shortcut_execution_text_multiple">
+        <item quantity="one">Zkratka probíhá…</item>
+        <item quantity="few">%d Zkratky v průběhu…</item>
+        <item quantity="many">%d Zkratky v průběhu…</item>
+        <item quantity="other">%d Zkratky v průběhu…</item>
+    </plurals>
     <!-- Message shown in dialog which shows up when the user first selects the "Run in background" option for "Execution Mode" in the shortcuts editor. Informs the user of technical limitations and that the app will ask for permission to display notifications -->
+    <string name="dialog_text_run_in_background">Vezměte prosím na vědomí, že běh na pozadí je určen pro jednoduché zkratky, protože existuje mnoho technických omezení. Můžete najít některé funkce, které nefungují podle očekávání.\n\nAplikace zobrazí upozornění, zatímco na pozadí je spuštěn zástupce.</string>
     <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
+    <string name="instructions_run_in_background">Běh na pozadí má určitá technická omezení. V některých situacích nemusí fungovat správně, zejména při interakci se soubory, schránka nebo jiné aplikace, nebo pokud provedení trvá déle než dvě minuty.</string>
     <!-- Accessibility label for the floating action button on the main screen, to create new shortcuts -->
+    <string name="accessibility_label_create_shortcut_fab">Vytvořit nového zástupce</string>
     <!-- Accessibility label for the floating action button, to add shortcuts to a multi-shortcut -->
+    <string name="accessibility_label_add_shortcuts_to_trigger_fab">Přidat zástupce</string>
     <!-- Accessibility label for the floating action button, to add a header -->
+    <string name="accessibility_label_add_header_fab">Přidat záhlaví</string>
     <!-- Accessibility label for the floating action button, to add a parameter -->
+    <string name="accessibility_label_add_parameter_fab">Přidat parametr</string>
     <!-- Accessibility label for the floating action button, to create new categories -->
+    <string name="accessibility_label_create_category_fab">Vytvořit novou kategorii</string>
     <!-- Accessibility label for the floating action button, to create new variables -->
+    <string name="accessibility_label_create_variable_fab">Vytvořit novou proměnnou</string>
     <!-- Accessibility label for the floating action button, to mount a new working directory -->
+    <string name="accessibility_label_mount_working_directory_fab">Připojit nový adresář</string>
     <!-- Accessibility label for the floating action button, to add a new custom -->
+    <string name="accessibility_label_add_icon_fab">Přidat novou ikonu</string>
     <!-- Accessibility label for the floating action button, to add a certificate pinning -->
+    <string name="accessibility_label_add_certificate_pinning_fab">Přidat připnutí certifikátu</string>
     <!-- Accessibility label for the floating action button, to add a section to a category -->
+    <string name="accessibility_label_add_category_section">Přidat sekci</string>
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
+    <string name="accessibility_label_show_documentation">Přejít na dokumentaci</string>
     <!-- Accessibility label for "Select all" button in exporter -->
+    <string name="accessibility_label_select_all_for_export">Vybrat vše</string>
     <!-- Accessibility label for "Unselect all" button in exporter -->
+    <string name="accessibility_label_unselect_all_for_export">Odznačit vše</string>
     <!-- Accessibility label for the generic "go back" arrow button in the nav bar -->
+    <string name="accessibility_label_go_back">Vrátit se zpět</string>
     <!-- Accessibility label for the generic "close" cross button in the nav bar -->
+    <string name="accessibility_label_close">Zavřít</string>
     <!-- Accessibility label for the "go to next result" button in search bars -->
+    <string name="accessibility_search_go_to_next">Další</string>
     <!-- Accessibility label for the "go to previous result" button in search bars -->
+    <string name="accessibility_search_go_to_previous">Předchozí</string>
     <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
+    <string name="instructions_shortcut_unhiding">Skryté zkratky můžete znovu zviditelnit tak, že přejdete na obrazovku Nastavení a hledáte možnost \“%s\'.</string>
     <!-- Pattern used to construct the category / section headers on the "Move Shortcut" screen. %s$1 is a placeholder for a category name, %2$s is a placeholder for a section name -->
+    <string name="category_section_header_pattern">%1$s: %2$s</string>
     <!-- Title of "Category Sections" screen, which lets the user manage sections within a category -->
+    <string name="screen_title_category_sections">Sekce kategorie</string>
     <!-- Title of dialog to edit a section within a category -->
+    <string name="title_category_section_edit">Upravit oddíl</string>
     <!-- Title of dialog to add a section within a category -->
+    <string name="title_category_section_add">Přidat sekci</string>
     <!-- Label of input field to provide name for a section within a category -->
+    <string name="label_category_section_name">Název sekce</string>
     <!-- Empty state, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections">Tato kategorie zatím nemá žádné sekce.</string>
     <!-- Empty state instructions, shown in list when there are no category sections yet -->
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
+    <string name="placeholder_empty_category_section_main_screen">Tato sekce je prázdná. Zkratky do ní můžete přesunout dlouhým stiskem klávesy a výběrem \“%s\'.</string>
 </resources>

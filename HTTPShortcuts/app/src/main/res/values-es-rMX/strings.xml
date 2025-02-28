@@ -1014,6 +1014,8 @@ Todos los atajos dentro de esta se eliminaran también.</string>
     <!-- Shortcut Action Description: Allows converting a byte array into a string using the Scripting feature -->
     <!-- Description for Base64decode function in scripting -->
     <!-- Description for Base64encode function in scripting -->
+    <!-- Description for htmlEncode function in scripting -->
+    <!-- Description for htmlDecode function in scripting -->
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
     <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->

@@ -1266,6 +1266,8 @@
     <string name="action_type_base64decode_description">ממירה מחרוזת מקודדת Base64 ל-Unit8Array (מערך בתים)</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">ממירה מחרוזת או Uint8Array (מערך בתים) למחרוזת מקודדת Base64</string>
+    <!-- Description for htmlEncode function in scripting -->
+    <!-- Description for htmlDecode function in scripting -->
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">לא נמצאה אפליקציה שיכולה לפתוח את כתובת האתר %s.</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->

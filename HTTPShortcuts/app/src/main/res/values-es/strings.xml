@@ -19,7 +19,9 @@
     <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">URL</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's MAC address -->
+    <string name="label_mac_address">Dirección MAC</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's broadcast address -->
+    <string name="label_broadcast_address">Dirección de Broadcast</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">Navegador</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
@@ -67,6 +69,7 @@
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Editar</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
+    <string name="action_manage_sections">Administrar Secciones</string>
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">Duplicar</string>
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
@@ -126,6 +129,7 @@ Haga clic en el botón + para añadir una variable.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">Por favor escriba una url HTTP(S).</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
+    <string name="validation_mac_address_invalid">Por favor, introduzca una dirección MAC válida.</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s falló con el código de estado %2$d (%3$s).</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -276,6 +280,7 @@ Haga clic en el botón + para añadir una variable.</string>
     <!-- Label, for option to set the proxy password for a shortcut -->
     <string name="label_proxy_password">Contraseña del proxy</string>
     <!-- Label, for option to set the UDP port for a wake-on-lan shortcut -->
+    <string name="label_wake_on_lan_port">Puerto</string>
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">Autenticación de certificados de cliente</string>
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
@@ -368,6 +373,7 @@ Haga clic en el botón + para añadir una variable.</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Configuración de solicitud básica</string>
     <!-- Section title, shown in shortcut editor for non-HTTP shortcuts, for section containing basic settings (e.g. URL) -->
+    <string name="section_basic_settings">Ajustes básicos</string>
     <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Configuración avanzada</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
@@ -428,7 +434,12 @@ Haga clic en el botón + para añadir una variable.</string>
         <item quantity="other">%d accesos directos</item>
     </plurals>
     <!-- Shows numerical count of sections, used to show how many sections are in a given category -->
+    <plurals name="section_count">
+        <item quantity="one">Sección %d</item>
+        <item quantity="other">%d secciones</item>
+    </plurals>
     <!-- Pattern used to determine the subtitle of a category in the categories screen. %1$s is a placeholder for the number of shortcuts, %2$s is a placeholder for the number of sections -->
+    <string name="shortcut_section_count_pattern">%1$s, %2$s</string>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">%s (oculta)</string>
     <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
@@ -636,9 +647,11 @@ Consulte la documentación en la sección de variables para más información.</
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Atajo navegador</string>
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_create_wol_shortcut">Acceso directo Wake-on-LAN</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">Abrir la URL en el navegador</string>
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_description_create_wol_shortcut">Despierta un ordenador en la red</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">Acceso directo a la secuencia de comandos</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
@@ -918,9 +931,11 @@ Consulte la documentación en la sección de variables para más información.</
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">Atajo múltiple</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
+    <string name="subtitle_editor_toolbar_wol_shortcut">Acceso directo Wake-on-LAN</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">Establecer la URL y el método HTTP del acceso directo</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
+    <string name="subtitle_basic_request_settings_prompt_for_wol">Establecer la dirección y el puerto MAC del acceso directo</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">Establecer la URL del acceso directo</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
@@ -1203,6 +1218,7 @@ Puede activar esta función editando un acceso directo y seleccionando la casill
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">Ejecuciones pendientes canceladas.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
+    <string name="message_changes_discarded">Cambios descartados.</string>
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Esta función te permite editar tus accesos directos en un ordenador, desde la comodidad de un navegador. Por favor, lee la Política de Privacidad de la app antes de empezar, y luego sigue estos pasos:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
@@ -1307,6 +1323,10 @@ Puede activar esta función editando un acceso directo y seleccionando la casill
     <string name="action_type_base64decode_description">Convierte una cadena codificada en Base64 en un Unit8Array (matriz de bytes)</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">Convierte una cadena o Uint8Array (matriz de bytes) en una cadena codificada en Base64</string>
+    <!-- Description for htmlEncode function in scripting -->
+    <string name="action_type_html_encode_description">Codifica una cadena de texto plano para que sea segura en HTML</string>
+    <!-- Description for htmlDecode function in scripting -->
+    <string name="action_type_html_decode_description">Decodifica una cadena HTML en texto plano</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">No se ha encontrado ninguna aplicación que pueda abrir la URL %s.</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
@@ -1535,6 +1555,7 @@ Es posible que también deba excluir la aplicación de Optimizaciones de baterí
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
     <string name="placeholder_empty_category_for_moving">no hay atajos en esta categoría</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
+    <string name="placeholder_empty_category_section_for_moving">no hay accesos directos en esta sección</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <string name="label_file_upload_options_allow_image_editing">"Permite recortar y girar la imagen"</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
@@ -1773,6 +1794,7 @@ Es posible que también deba excluir la aplicación de Optimizaciones de baterí
     <!-- Accessibility label for the floating action button, to add a certificate pinning -->
     <string name="accessibility_label_add_certificate_pinning_fab">Añadir fijación de certificados</string>
     <!-- Accessibility label for the floating action button, to add a section to a category -->
+    <string name="accessibility_label_add_category_section">Añadir sección</string>
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
     <string name="accessibility_label_show_documentation">Ir a la documentación</string>
     <!-- Accessibility label for "Select all" button in exporter -->
@@ -1788,12 +1810,20 @@ Es posible que también deba excluir la aplicación de Optimizaciones de baterí
     <!-- Accessibility label for the "go to previous result" button in search bars -->
     <string name="accessibility_search_go_to_previous">Anterior</string>
     <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
+    <string name="instructions_shortcut_unhiding">Puede volver a hacer visibles los atajos ocultos yendo a la pantalla de ajustes y buscando la opción \“%s\”.</string>
     <!-- Pattern used to construct the category / section headers on the "Move Shortcut" screen. %s$1 is a placeholder for a category name, %2$s is a placeholder for a section name -->
     <!-- Title of "Category Sections" screen, which lets the user manage sections within a category -->
+    <string name="screen_title_category_sections">Secciones de categorías</string>
     <!-- Title of dialog to edit a section within a category -->
+    <string name="title_category_section_edit">Editar sección</string>
     <!-- Title of dialog to add a section within a category -->
+    <string name="title_category_section_add">Añadir sección</string>
     <!-- Label of input field to provide name for a section within a category -->
+    <string name="label_category_section_name">Nombre de sección</string>
     <!-- Empty state, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections">Esta categoría todavía no tiene ninguna sección.</string>
     <!-- Empty state instructions, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections_instructions">Las secciones te permiten agrupar accesos directos dentro de una categoría.\n\nHaz clic en el botón + para añadir una nueva sección.</string>
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
+    <string name="placeholder_empty_category_section_main_screen">Esta sección está vacía. Puede mover accesos directos a ella manteniendo presionado un atajo y seleccionando \“%s\”.</string>
 </resources>

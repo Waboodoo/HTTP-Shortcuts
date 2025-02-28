@@ -1308,6 +1308,10 @@
     <string name="action_type_base64decode_description">「Base64 」エンコードされた文字を「Unit8Array」(バイト配列) へ変換します</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">文字列または「Unit8Array」(バイト配列) をBase64でエンコードされた文字列に変換します</string>
+    <!-- Description for htmlEncode function in scripting -->
+    <string name="action_type_html_encode_description">プレーンテキスト文字をエンコードする（HTMLセーフ）</string>
+    <!-- Description for htmlDecode function in scripting -->
+    <string name="action_type_html_decode_description">HTML文字列をプレーンテキストに変換する</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">URL %s を開けるアプリが見つかりませんでした。</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->

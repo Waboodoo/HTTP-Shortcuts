@@ -19,7 +19,9 @@
     <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">الرابط</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's MAC address -->
+    <string name="label_mac_address">عنوان MAC</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's broadcast address -->
+    <string name="label_broadcast_address">عنوان البث</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">المستعرض</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
@@ -51,8 +53,11 @@
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <string name="label_include_meta_information">إظهار معلومات التعريف</string>
     <!-- Label for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="label_enable_javascript_in_webview">تمكين جافا سكريبت (تجريبي)</string>
     <!-- Subtitle for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="subtitle_enable_javascript_in_webview">يسمح باستخدام جافا سكريبت في هيئة استجابة HTML. قد لا يعمل هذا لبعض صفحات الويب.</string>
     <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
+    <string name="label_monospace_response">عرض النص باستخدام خط الفضاء الأحادي</string>
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">وضع على الشاشة الرئيسية</string>
@@ -63,6 +68,7 @@
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">تعديل</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
+    <string name="action_manage_sections">إدارة الأقسام</string>
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">إنشاء نسخة</string>
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
@@ -88,6 +94,7 @@
     <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts_instructions">اضغط على زر + لتبدأ</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
+    <string name="empty_state_no_shortcuts_in_category">لا توجد اختصارات بعد في هذه الفئة</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">لم تقم بإضافة أي اختصارات لتشغيلها حتى الآن.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
@@ -111,11 +118,13 @@
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">لم يتم العثور على الإختصار. قد يتوجب عليك إضافته مرة أخرى للشاشة الرئيسية.</string>
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
+    <string name="error_shortcut_deleted">تم حذف هذا الاختصار.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">الرجاء إدخال اسم</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">الرجاء إدخال رابط HTTP(S)</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
+    <string name="validation_mac_address_invalid">الرجاء إدخال عنوان MAC صالح.</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s خطاء، حالة الرمز  %2$d (%3$s)</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -189,6 +198,7 @@
     <!-- Name of button in settings screen that allows to clear all HTTP cookies -->
     <string name="settings_clear_cookies">حذف ملفات تعريف الارتباط</string>
     <!-- Name of button in settings screen that allows to cancel all scheduled shortcuts executions -->
+    <string name="settings_cancel_all_pending_executions">إلغاء جميع عمليات الإعدام المعلقة</string>
     <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay">السماح بالعرض فوق تطبيقات أخرى</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
@@ -210,6 +220,7 @@
     <!-- Section title on settings screen for privacy related settings -->
     <string name="settings_title_privacy">خصوصية</string>
     <!-- Section title on settings screen for options shared by all shortcuts -->
+    <string name="settings_title_global_shortcut_settings">إعدادات الاختصار العالمية</string>
     <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
     <string name="settings_crash_reporting">الإبلاغ عن الأعطال</string>
     <!-- Option for crash reporting opt in -->
@@ -221,10 +232,20 @@
     <!-- Button in settings page to start import of shortcuts from a url -->
     <string name="settings_import_from_url">استيراد من URL</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts into a file -->
+    <string name="settings_export_to_file">تصدير إلى ملف</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
+    <string name="settings_export_via_share">التصدير عبر حوار المشاركة</string>
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">تحرير على الكمبيوتر</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
+    <plurals name="shortcut_export_success">
+        <item quantity="zero">تم تصدير اختصارات %d.</item>
+        <item quantity="one">تم تصدير اختصار واحد.</item>
+        <item quantity="two">تم تصدير اختصارات %d.</item>
+        <item quantity="few">تم تصدير اختصارات %d.</item>
+        <item quantity="many">تم تصدير اختصارات %d.</item>
+        <item quantity="other">تم تصدير اختصارات %d.</item>
+    </plurals>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">التصدير </string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
@@ -237,11 +258,20 @@
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
     <string name="import_failure_reason_data_version_mismatch">تم تصدير الملف المحدد بواسطة إصدار أحدث من التطبيق. يرجى التأكد من تثبيت أحدث إصدار من التطبيق لديك.</string>
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
+    <plurals name="shortcut_import_success">
+        <item quantity="zero">تم استيراد اختصارات %d.</item>
+        <item quantity="one">تم استيراد اختصار واحد.</item>
+        <item quantity="two">تم استيراد اختصارات %d.</item>
+        <item quantity="few">تم استيراد اختصارات %d.</item>
+        <item quantity="many">تم استيراد اختصارات %d.</item>
+        <item quantity="other">تم استيراد اختصارات %d.</item>
+    </plurals>
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">استيراد</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">نفذ الوقت</string>
     <!-- Label, for dropdown picker, allowing to select the Internet Protocol version used for hostname resolution by a shortcut -->
+    <string name="label_ip_version">نسخة بروتوكول الإنترنت</string>
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">نوع الوكيل</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
@@ -253,6 +283,7 @@
     <!-- Label, for option to set the proxy password for a shortcut -->
     <string name="label_proxy_password">كلمة مرور الوكيل</string>
     <!-- Label, for option to set the UDP port for a wake-on-lan shortcut -->
+    <string name="label_wake_on_lan_port">المنفذ</string>
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">مصادقة شهادة العميل</string>
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
@@ -262,6 +293,7 @@
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
     <string name="label_subtitle_client_cert_file_in_use">باستخدام ملف الشهادة. انقر للإزالة.</string>
     <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
+    <string name="label_subtitle_not_applicable_for_http">تطبيق فقط عند استخدام HTTPS</string>
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">شهادة العميل</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
@@ -275,9 +307,34 @@
     <!-- Title of dialog, for entering the password for a client cert file -->
     <string name="title_client_cert_file_password">كلمة المرور</string>
     <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %d is a placeholder for the actual number. -->
+    <plurals name="seconds">
+        <item quantity="zero">%d ثواني</item>
+        <item quantity="one">%d ثانية</item>
+        <item quantity="two">%d ثواني</item>
+        <item quantity="few">%d ثواني</item>
+        <item quantity="many">%d ثواني</item>
+        <item quantity="other">%d ثواني</item>
+    </plurals>
     <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %d is a placeholder for the actual number. -->
+    <plurals name="milliseconds">
+        <item quantity="zero">%d مللي ثانية</item>
+        <item quantity="one">%d مللي ثانية</item>
+        <item quantity="two">%d مللي ثانية</item>
+        <item quantity="few">%d مللي ثانية</item>
+        <item quantity="many">%d مللي ثانية</item>
+        <item quantity="other">%d مللي ثانية</item>
+    </plurals>
     <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %d is a placeholder for the actual number. -->
+    <plurals name="minutes">
+        <item quantity="zero">%d دقيقة</item>
+        <item quantity="one">%d دقيقة</item>
+        <item quantity="two">%d دقيقة</item>
+        <item quantity="few">%d دقيقة</item>
+        <item quantity="many">%d دقيقة</item>
+        <item quantity="other">%d دقيقة</item>
+    </plurals>
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
+    <string name="pattern_minutes_seconds">%1$s، %2$s</string>
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">استكشاف الأخطاء وإصلاحها</string>
     <!-- Title of option in settings to show change changelog of current and past versions -->
@@ -331,6 +388,7 @@
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">إعدادات الطلب الأساسية</string>
     <!-- Section title, shown in shortcut editor for non-HTTP shortcuts, for section containing basic settings (e.g. URL) -->
+    <string name="section_basic_settings">الإعدادات الأساسية</string>
     <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">إعدادات متقدمة</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
@@ -388,8 +446,25 @@
     <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
     <string name="message_category_deleted">تم حذف الفئة.</string>
     <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
+    <plurals name="shortcut_count">
+        <item quantity="zero">اختصارات %d</item>
+        <item quantity="one">اختصار %d</item>
+        <item quantity="two">اختصارات %d</item>
+        <item quantity="few">اختصارات %d</item>
+        <item quantity="many">اختصارات %d</item>
+        <item quantity="other">اختصارات %d</item>
+    </plurals>
     <!-- Shows numerical count of sections, used to show how many sections are in a given category -->
+    <plurals name="section_count">
+        <item quantity="zero">أقسام %d</item>
+        <item quantity="one">قسم %d</item>
+        <item quantity="two">أقسام %d</item>
+        <item quantity="few">أقسام %d</item>
+        <item quantity="many">أقسام %d</item>
+        <item quantity="other">أقسام %d</item>
+    </plurals>
     <!-- Pattern used to determine the subtitle of a category in the categories screen. %1$s is a placeholder for the number of shortcuts, %2$s is a placeholder for the number of sections -->
+    <string name="shortcut_section_count_pattern">%1$s، %2$s</string>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">%s (مخفي)</string>
     <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
@@ -447,12 +522,17 @@
     <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle_description">ينتقل إلى قيمة مختلفة في كل مرة عند استخدامه</string>
     <!-- Type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment">زيادة العداد</string>
     <!-- Description for type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment_description">زيادة عدد في كل مرة عند الاستخدام</string>
     <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid">UUID</string>
     <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
     <string name="variable_type_uuid_description">يولد UUID عشوائي جديد في كل عملية تنفيذ</string>
     <!-- Type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp">الطابع الزمني</string>
     <!-- Description for type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp_description">التاريخ/الوقت الحالي باستخدام تنسيق محدد</string>
     <!-- Type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
     <string name="variable_type_clipboard">محتوى الحافظة</string>
     <!-- Description for type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
@@ -480,7 +560,9 @@
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">تشفير JSON</string>
     <!-- Checkbox label, for option to enable/disable the exclusion of a variable's value in exports -->
+    <string name="label_exclude_variable_value_from_exports">استبعاد القيمة المخزنة من الصادرات</string>
     <!-- Instructions shown below the "IExclude stored value from exports" checkbox in the variable editor -->
+    <string name="message_exclude_variable_value_from_exports_instructions">قم بتمكين هذا إذا كنت لا تريد إدراج القيمة المخزنة لهذا المتغير (إن وجدت) في الصادرات.</string>
     <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">الإعدادات الأساسية</string>
     <!-- Error message, informing user that the entered variable name is empty -->
@@ -578,18 +660,23 @@
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">تطبيق آخر (مشاركة)</string>
     <!-- Instruction text, shown at the top of the screen when creating a new shortcut, shows options below -->
+    <string name="instructions_create_new_shortcut_options_dialog">حدد نوع الاختصار الذي ترغب في إنشائه.</string>
     <!-- Option in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <string name="button_create_new">اختصار HTTP العادي</string>
     <!-- Button in shortcut creation screen, to select the type of shortcut: from scratch (i.e., start with a blank editor) -->
+    <string name="button_create_from_scratch">إنشاء من الصفر</string>
     <!-- Section title, shown on shortcut creation screen, above the section that lets the user pick advanced shortcut types -->
+    <string name="section_title_advanced_shortcut_types">أنواع متقدمة</string>
     <!-- Option in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">استيراد من أمر cURL</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">اختصار المتصفح</string>
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_create_wol_shortcut">اختصار الإيقاظ</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">افتح عنوان URL في المتصفح</string>
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_description_create_wol_shortcut">الحصول على جهاز كمبيوتر على الشبكة</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">اختصار البرمجة</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
@@ -615,11 +702,17 @@
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">إظهار كاختصار التطبيق على المشغل</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
+    <string name="subtitle_launcher_shortcut">سيؤدي هذا أيضا إلى تمكين استخدام الاختصار عن طريق تطبيقات أطراف ثالثة مثل مساعد جوجل أو بيكسبي روتينيس.</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
+    <string name="subtitle_launcher_shortcut_with_direct_share">سيؤدي هذا أيضا إلى تمكين استخدام الاختصار عن طريق المشاركة المباشرة أو تطبيقات أطراف ثالثة مثل مساعد جوجل أو روتين بيكسبي.</string>
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="label_secondary_launcher_shortcut">السماح بالتشغيل عبر تطبيق مشغل ثانوي</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="subtitle_secondary_launcher_shortcut">وهذا أمر مفيد بصفة رئيسية في الحالات التي لا يمكن فيها استخدام أدوات الشاشة الرئيسية العادية.</string>
     <!-- Label for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="label_shortcut_as_file_share_target">السماح باستلام الملفات من مربع حوار المشاركة</string>
     <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="subtitle_shortcut_as_file_share_target">تمكين هذا يسمح لك بمشاركة الملفات من التطبيقات الأخرى واستخدامها لجسم طلب هذا الاختصار أو معلمات النموذج.</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">السماح بالتشغيل عبر مربع الإعدادات السريعة</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
@@ -690,6 +783,14 @@
     <string name="label_trigger_shortcuts">الاختصارات</string>
     <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
     <string name="label_trigger_shortcuts_subtitle_none">لم يتم تحديد اختصارات حتى الآن</string>
+    <plurals name="label_trigger_shortcuts_subtitle">
+        <item quantity="zero">اختصارات %d المحددة</item>
+        <item quantity="one">تم تحديد اختصار %d</item>
+        <item quantity="two">اختصارات %d المحددة</item>
+        <item quantity="few">اختصارات %d المحددة</item>
+        <item quantity="many">اختصارات %d المحددة</item>
+        <item quantity="other">اختصارات %d المحددة</item>
+    </plurals>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
     <string name="label_scripting_browser_shortcuts_subtitle">قم بتشغيل كود JavaScript قبل التنفيذ</string>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
@@ -707,11 +808,13 @@
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">إظهار الحوار</string>
     <!-- Shortcut Action Title: Show fullscreen window -->
+    <string name="action_type_window_title">إظهار النافذة</string>
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
     <string name="action_type_selection_title">إظهار التحديد (الاختيار من متعدد)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
     <string name="action_type_prompt_title">موجه للنص</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
+    <string name="action_type_prompt_number_title">طلب الرقم</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
     <string name="action_type_prompt_date_title">موجه للتاريخ</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a time -->
@@ -725,11 +828,13 @@
     <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->
     <string name="action_copy_to_clipboard_title">نسخ إلى الحافظة</string>
     <!-- Shortcut Action Title: Action that allows to share text to another app -->
+    <string name="action_share_text_title">مشاركة النص</string>
     <!-- Shortcut Action Title: Action that allows to retrieve the latest item from the device's clipboard -->
     <string name="action_get_clipboard_content_title">احصل على محتوى الحافظة</string>
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
     <string name="action_tts">التحدث (تحويل النص إلى كلام)</string>
     <!-- Shortcut Action Title: Action that allows to display a notification -->
+    <string name="action_show_notification">إظهار الإشعارات</string>
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
     <string name="action_play_sound">تشغيل الصوت</string>
     <!-- Shortcut Action Title: Vibrate -->
@@ -745,13 +850,17 @@
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <string name="action_type_change_icon_description">تغيير وصف الاختصار</string>
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
+    <string name="action_type_change_shortcut_hidden_title">إظهار/إخفاء الاختصار</string>
     <!-- Shortcut Action Title: Change Category Visibility -->
+    <string name="action_type_change_category_hidden_title">إظهار/إخفاء الفئة</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">اختصارات قائمة الانتظار</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_title">تنفيذ الاختصار</string>
     <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
+    <string name="action_type_set_result_title">تعيين النتيجة</string>
     <!-- Shortcut Action Description: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
+    <string name="action_type_set_result_description">تعيين سلسلة مخصصة لإرجاعها إلى الاختصار الذي يسمى executeShortcut، أو إلى Tasker</string>
     <!-- Shortcut Action Title: generate a random UUID (Universal Unique Identifier, version 4) -->
     <string name="action_type_generate_uuid">إنشاء UUID عشوائي</string>
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
@@ -773,6 +882,7 @@
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">تاسكر الزناد المهمة</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
+    <string name="action_type_set_wireguard_tunnel_state_title">تمكين أو تعطيل نفق Wireguard</string>
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">احصل على الموقع الحالي</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -784,11 +894,13 @@
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">إرسال حزمة TCP</string>
     <!-- Shortcut Action Title: Send an HTTP request -->
+    <string name="action_type_send_http_request">إرسال طلب HTTP</string>
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">إرسال رسالة MQTT</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">إجهاض التنفيذ</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut and instead run the steps as if the request had failed -->
+    <string name="action_type_abort_and_treat_as_failure">الغاء و التعامل مع الفشل</string>
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
     <string name="action_type_wait">انتظر</string>
     <!-- Shortcut Action Title: Get the IP Address of the current Wi-Fi -->
@@ -848,15 +960,26 @@
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">متعدد الاختصارات</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
+    <string name="subtitle_editor_toolbar_wol_shortcut">اختصار الإيقاظ</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">قم بتعيين عنوان URL للاختصار وطريقة HTTP</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
+    <string name="subtitle_basic_request_settings_prompt_for_wol">تعيين عنوان ومنفذ MAC الخاص بالاختصار</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">قم بتعيين عنوان URL للاختصار</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
+    <string name="subtitle_basic_request_settings_pattern">%1$s %2$s</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
     <string name="subtitle_request_headers_none">لم يتم تعيين رؤوس</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
+    <plurals name="subtitle_request_headers_pattern">
+        <item quantity="zero">تم تعيين ترويسات %d</item>
+        <item quantity="one">تعيين ترويسة %d</item>
+        <item quantity="two">تم تعيين ترويسات %d</item>
+        <item quantity="few">تم تعيين ترويسات %d</item>
+        <item quantity="many">تم تعيين ترويسات %d</item>
+        <item quantity="other">تم تعيين ترويسات %d</item>
+    </plurals>
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
     <string name="subtitle_authentication_none">لا يوجد مصادقة</string>
     <!-- Section subtitle, shown in shortcut editor when using a client certificate for authentication -->
@@ -870,6 +993,14 @@
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">لم يتم تعيين معلمات</string>
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
+    <plurals name="subtitle_request_body_params_pattern">
+        <item quantity="zero">تم تعيين معلمات %d</item>
+        <item quantity="one">تم تعيين معلمة %d</item>
+        <item quantity="two">تم تعيين معلمات %d</item>
+        <item quantity="few">تم تعيين معلمات %d</item>
+        <item quantity="many">تم تعيين معلمات %d</item>
+        <item quantity="other">تم تعيين معلمات %d</item>
+    </plurals>
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
     <string name="subtitle_request_body_none">لم يتم تعيين نص الطلب</string>
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
@@ -893,6 +1024,7 @@
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether cookies should be stored for the HTTP request -->
     <string name="label_accept_cookies">تخزين ملفات تعريف الارتباط</string>
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether the HTTP connection should be kept open after a request is made -->
+    <string name="label_keep_connection_open">إبقاء الاتصال مفتوحاً بعد الطلب</string>
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
     <string name="label_pre_request_script">تشغيل قبل التنفيذ</string>
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
@@ -938,8 +1070,11 @@
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_id">احصل على معرّف الاختصار</string>
     <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
+    <string name="dialog_code_snippet_read_from_file">القراءة من ملف</string>
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
+    <string name="dialog_code_snippet_write_to_file">الكتابة إلى ملف</string>
     <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
+    <string name="dialog_code_snippet_append_to_file">إلحاق إلى ملف</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">احصل على اسم الملف المحدد</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -947,6 +1082,7 @@
     <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
     <string name="dialog_code_snippet_get_file_size">الحصول على حجم الملف المحدد (بالبايت)</string>
     <!-- Dialog option: shown in code snippet picker, option to get the meta data of a selected file -->
+    <string name="dialog_code_snippet_get_file_meta">الحصول على بيانات ميتا من الملف المحدد</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_name">احصل على اسم الاختصار</string>
     <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
@@ -976,7 +1112,9 @@
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">تعذرت إعادة تسمية الاختصار \"%1$s\" لأنه غير موجود.</string>
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_set_visible">لا يمكن تغيير وضوح الاختصار \"%1$s\" لأنه غير موجود.</string>
     <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
+    <string name="error_category_not_found_for_set_visible">لا يمكن تغيير رؤية الفئة \"%1$s\" لأنها غير موجودة.</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">تعذر تغيير رمز الاختصار \"%1$s\" لأنه غير موجود.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1014,6 +1152,7 @@
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">كود الحالة</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
+    <string name="label_response_url">الرابط</string>
     <!-- Label: Response time, shows how long the HTTP request took -->
     <string name="label_response_timing">وقت الاستجابة</string>
     <!-- Label: Shown above section that lists general information about the HTTP response, e.g. status code -->
@@ -1039,12 +1178,15 @@
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">حدد أو أنشئ اختصارًا لوضعه على الشاشة الرئيسية.</string>
     <!-- Instructions: Shown in info text at the top of the screen to inform user that they should select or create a shortcut, which is then used as by the 3rd party app (e.g. Tasker) -->
+    <string name="instructions_select_shortcut_for_plugin">حدد أو أنشأ اختصارا يجب تشغيله.</string>
     <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
     <string name="label_widget">القطعة القابلة للتخصيص</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">إظهار التسمية</string>
     <!-- Label: Shown when configuring a widget, above a slider, to choose the size of the widget's icon -->
+    <string name="label_widget_icon_size">حجم الأيقونة</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
+    <string name="label_show_widget_icon">إظهار الأيقونة</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
     <string name="action_create_widget">إنشاء القطعة</string>
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
@@ -1054,6 +1196,14 @@
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
     <string name="error_invalid_character">حرف غير صالح:%s</string>
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
+    <plurals name="warning_variable_still_in_use_in_shortcuts">
+        <item quantity="zero">لا يزال هذا المتغير قيد الاستخدام في اختصارات %2$d : %1$s</item>
+        <item quantity="one">لا يزال هذا المتغير قيد الاستخدام في اختصار %2$d : %1$s</item>
+        <item quantity="two">لا يزال هذا المتغير قيد الاستخدام في اختصارات %2$d : %1$s</item>
+        <item quantity="few">لا يزال هذا المتغير قيد الاستخدام في اختصارات %2$d : %1$s</item>
+        <item quantity="many">لا يزال هذا المتغير قيد الاستخدام في اختصارات %2$d : %1$s</item>
+        <item quantity="other">لا يزال هذا المتغير قيد الاستخدام في اختصارات %2$d : %1$s</item>
+    </plurals>
     <!-- Error: Shown when the text-to-speech action fails to speak a piece of text -->
     <string name="error_tts_failed">فشل في نطق النص</string>
     <!-- Label: Option shown in Code Snippet Picker when inserting an action that targets a shortcut, allows to target the current shortcut -->
@@ -1083,6 +1233,7 @@
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
     <string name="option_response_handling_type_toast">نخب منبثقة</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a notification -->
+    <string name="option_response_handling_type_notification">إشعار</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">نافذة الحوار</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
@@ -1106,7 +1257,9 @@
     <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
     <string name="message_cookies_cleared">تم حذف ملفات تعريف الارتباط.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
+    <string name="message_pending_executions_cancelled">تم إلغاء عمليات الإعدام المعلقة.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
+    <string name="message_changes_discarded">تم تجاهل التغييرات.</string>
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">تتيح لك هذه الميزة تحرير الاختصارات الخاصة بك على جهاز الكمبيوتر ، من المتصفح المريح. يرجى قراءة سياسة الخصوصية الخاصة بالتطبيق قبل البدء ، ثم اتباع الخطوات التالية:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
@@ -1148,6 +1301,7 @@
     <!-- Button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="settings_global_scripting">البرمجة العالمية</string>
     <!-- Button in settings page to open editor for configuring certificate pinning -->
+    <string name="settings_certificate_pinning">تثبيت الشهادة</string>
     <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="settings_global_scripting_summary">قم بتشغيل كود JavaScript قبل كل تنفيذ اختصار</string>
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
@@ -1210,6 +1364,10 @@
     <string name="action_type_base64decode_description">يحول سلسلة Base64 المشفرة إلى Unit8Array (مصفوفة بايت)</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">يحول سلسلة أو Uint8Array (مصفوفة بايت) إلى سلسلة مشفرة Base64</string>
+    <!-- Description for htmlEncode function in scripting -->
+    <string name="action_type_html_encode_description">ترميز سلسلة نص عادي لجعلها آمنة HTML-</string>
+    <!-- Description for htmlDecode function in scripting -->
+    <string name="action_type_html_decode_description">فك ترتيب سلسلة HTML إلى نص عادي</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">لم يتم العثور على تطبيق يمكنه فتح URL%s.</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
@@ -1259,6 +1417,7 @@
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
     <string name="action_type_parse_xml">تحليل XML</string>
     <!-- Title of an action in the code snippet picker: Parse an HTML string -->
+    <string name="action_type_parse_html">Parse HTML</string>
     <!-- Title of dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it -->
     <string name="title_unsaved_changes_detected">تم العثور على اختصار غير محفوظ</string>
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
@@ -1300,6 +1459,7 @@
     <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <string name="error_failed_to_send_tcp">فشل إرسال حزمة TCP:%s</string>
     <!-- Error message: Shown when the user tries to read a TCP response via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_receive_tcp">فشل القراءة من مقبس TCP : %s</string>
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">فتح الملفات باستخدام openUrl () غير مدعوم</string>
     <!-- Page title, for page showing all events that happened recently -->
@@ -1307,6 +1467,7 @@
     <!-- Button in Event History screen, to clear all events and empty the history -->
     <string name="button_clear_history">تاريخ واضح</string>
     <!-- Button in Event History screen, to switch between showing absolute times and relative times -->
+    <string name="button_history_toggle_time_mode">تبديل الوضع الزمني</string>
     <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
     <string name="message_history_cleared">تم مسح التاريخ.</string>
     <!-- Empty state, shown in event history when there are no recent events -->
@@ -1319,9 +1480,11 @@
     <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
     <string name="event_history_title_shortcut_triggered">تم تشغيل \"%s\"</string>
     <!-- Title of event history entry, which states that a shortcut was cancelled. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_shortcut_cancelled">تم إلغاء \"%s\"</string>
     <!-- Title of event history entry, which states that an HTTP request was sent. %s is a placeholder for the shortcut's name -->
     <string name="event_history_title_http_request_sent">تم إرسال طلب HTTP لـ \"%s\"</string>
     <!-- Title of event history entry, which states that an HTTP response was received. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the status code (e.g. "404 Not Found") -->
+    <string name="event_history_title_http_response_received">استلم رد HTTP ل \"%1$s\": %2$s</string>
     <!-- Title of event history entry, which states that a network error has occurred. %s is a placeholder for the shortcut's name -->
     <string name="event_history_title_network_error">خطأ في الشبكة لـ \"%s\"</string>
     <!-- Title of event history entry, which states that an execution error has occurred. %s is a placeholder for the shortcut's name -->
@@ -1349,173 +1512,369 @@
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_scripting">البرمجة النصية</string>
     <!-- Message shown in snackbar to let the user know that the details of a (selected) history event were copied to the clipboard -->
+    <string name="message_history_event_details_copied">تم نسخ تفاصيل الحدث.</string>
     <!-- Label/description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
+    <string name="label_plugin_result">النتيجة</string>
     <!-- Description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
+    <string name="label_plugin_result_detail">سلسلة بيانات مخصصة كما تم تعيينها بواسطة دالة `setResult()`</string>
     <!-- Generic dialog button: Configure (e.g. some settings) -->
+    <string name="dialog_configure">تكوين</string>
     <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_plugin_dialog_configure_app_overlay">من أجل أن تكون قادر على تشغيل اختصار من تطبيق آخر، تحتاج أولاً إلى السماح لتطبيق اختصارات HTTP بالسحب فوق التطبيقات الأخرى.\n\nاضغط على زر \"%s\" أدناه لتهيئة هذا الآن.</string>
     <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
+    <string name="title_activity_secondary_launcher_trigger">اختصار المشغل</string>
     <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
+    <string name="action_type_log_event">سجل الحدث</string>
     <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
+    <string name="label_run_repeatedly">تشغيل متكرر</string>
     <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">من أجل أن يكون الاختصار قادراً على العمل بصورة متكررة وبطريقة موثوقة، تحتاج أولاً إلى السماح لتطبيق اختصارات HTTP بالسحب فوق التطبيقات الأخرى.\n\nاضغط على زر \"%s\" أدناه لتهيئة هذا الآن.\n\nقد تحتاج أيضا إلى استبعاد التطبيق من تحسينات البطارية. يمكنك العثور على هذا في إعدادات التطبيق.</string>
     <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
+    <string name="instructions_repetitions">توقيت التكرار ليس دقيقاً ولكن يمكن أن يختلف ببضع دقائق، لأنه يخضع لتحسين قدرة أندرويد. يرجى ملاحظة أن استخدام هذه الميزة قد يزيد بشكل كبير من استخدام التطبيق\البطارية.</string>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
+    <string name="label_no_repetition">لا تكرار</string>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d minutes -->
+    <plurals name="label_repeat_every_x_minutes">
+        <item quantity="zero">كل %d دقيقة</item>
+        <item quantity="one">كل %d دقيقة</item>
+        <item quantity="two">كل %d دقيقة</item>
+        <item quantity="few">كل %d دقيقة</item>
+        <item quantity="many">كل %d دقيقة</item>
+        <item quantity="other">كل %d دقيقة</item>
+    </plurals>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d hours -->
+    <plurals name="label_repeat_every_x_hours">
+        <item quantity="zero">كل %d ساعة</item>
+        <item quantity="one">كل ساعة</item>
+        <item quantity="two">كل %d ساعة</item>
+        <item quantity="few">كل %d ساعة</item>
+        <item quantity="many">كل %d ساعة</item>
+        <item quantity="other">كل %d ساعة</item>
+    </plurals>
     <!-- Title of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
+    <string name="settings_ignore_battery_optimizations">استبعاد من تحسين البطارية</string>
     <!-- Subtitle of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
+    <string name="settings_ignore_battery_optimizations_summary">قم بتمكين هذا إذا كنت تواجه مشاكل في جدولة أو تكرار تنفيذ الاختصار.</string>
     <!-- Label for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen -->
+    <string name="label_store_response_into_file">تخزين الاستجابة في الملف</string>
     <!-- Subtitle for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen. The %s is a placeholder for the directory name. -->
+    <string name="subtitle_store_response_into_file_directory">تخزين في دليل \"%s\"</string>
     <!-- Label: Shown above text input field that lets the user pick the file name that should be used for storing the HTTP response into a file -->
+    <string name="label_store_response_file_name">اسم الملف</string>
     <!-- Label for checkbox which lets the user configure that when storing the HTTP response into a file, if the target file already exists whether the app is allowed to overwrite it -->
+    <string name="label_store_response_replace_file">استبدال الملف إذا كان موجودا</string>
     <!-- Title on dialog that lets the user choose an icon for a category -->
+    <string name="title_category_select_icon">حدد أيقونة الفئة</string>
     <!-- Title of editor for configuring certificate pinning -->
+    <string name="title_certificate_pinning">تثبيت الشهادة</string>
     <!-- Empty state instructions for certificate pinning screen -->
+    <string name="empty_state_certificate_pinning_instructions">إذا كنت بحاجة إلى أن تكون متأكدا من أن طلبات HTTP الخاصة بك يتم إرسالها عبر اتصال آمن، يمكنك تمكين تثبيت الشهادة للمضيفين المحددين عن طريق إضافة بصمة SHA-1 أو SHA-256 من شهادتهم هنا.\n\nللحصول على شهادات موقعة ذاتياً، راجع قسم الاختصار \"%s\" بدلاً من ذلك.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
+    <string name="message_certificate_pinning_deleted">تم حذف بصمة الشهادة.</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
+    <string name="confirm_delete_certificate_pinning_message">حذف بصمة الإصبع هذه؟</string>
     <!-- Label for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="label_certificate_pinning_hostname_pattern">Hostname Pattern</string>
     <!-- Hint text for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="hint_certificate_pinning_hostname_pattern">على سبيل المثال *.example.com </string>
     <!-- Label for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
+    <string name="label_certificate_pinning_fingerprint">بصمة الشهادة</string>
     <!-- Hint text for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
+    <string name="hint_certificate_pinning_fingerprint">أدخل بصمة SHA-1 أو SHA-256 المشفرة لشهادة الخادم الخاص بك</string>
     <!-- Placeholder text shown when a toggle or multi-select variable option is just an empty string -->
+    <string name="empty_option_placeholder">- فارغة -</string>
     <!-- Empty state shown on the custom icons screen when the user has no icons set up -->
+    <string name="empty_state_custom_icons">ليس لديك أي أيقونات مخصصة.</string>
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
+    <string name="label_require_specific_wifi_ssid">يتطلب شبكة Wi-Fi محددة</string>
     <!-- Option in dropdown menu, for selecting the Internet Protocol version to be used for hostname resolution by a shortcut. This option is used by default when no specific option is chosen. -->
+    <string name="option_ip_version_auto">تحديد تلقائياً</string>
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
+    <string name="option_no_proxy">لا يوجد وكيل</string>
     <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
+    <string name="button_format_json">التنسيق</string>
     <!-- Error, shown in snackbar, when the user tries to format a custom request body, but it is invalid JSON syntax -->
+    <string name="error_cannot_format_invalid_json">صيغة JSON غير صالحة</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
+    <string name="placeholder_empty_category_for_moving">لا توجد اختصارات في هذه الفئة</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
+    <string name="placeholder_empty_category_section_for_moving">لا توجد اختصارات في هذا القسم</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
+    <string name="label_file_upload_options_allow_image_editing">"السماح بقطع الصور وتدوير الصور"</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
+    <string name="label_host_verification">التحقق المضيف</string>
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
+    <string name="option_host_verification_default">إفتراضي آمن</string>
     <!-- Option in host verification dropdown, for only checking the server's certificate fingerprint without validating the trust chain -->
+    <string name="option_host_verification_self_signed">التحقق من بصمة الشهادة فقط</string>
     <!-- Option in host verification dropdown, for disabling any host verification, which is considered insecure and discouraged -->
+    <string name="option_host_verification_trust_all">لا يوجد تحقق (الثقة كلها، غير آمن)</string>
     <!-- Label for text input field in host verification settings, for specifying the fingerprint of the certificate -->
+    <string name="label_host_verification_certificate_fingerprint">بصمة الشهادة</string>
     <!-- Hint text for text input field in host verification settings, for specifying the fingerprint of the certificate -->
+    <string name="hint_host_verification_certificate_fingerprint">أدخل بصمة SHA-1 أو SHA-256 المشفرة لشهادة الخادم (الموقّعة)</string>
     <!-- Button label, for button shown in Scripting editor nav bar to allow the user to undo a recent change -->
+    <string name="button_undo">التراجع</string>
     <!-- Error message shown when biometric (e.g. fingerprint) execution confirmation fails. %s is a placeholder for a more detailed description of the error -->
+    <string name="error_biometric_confirmation_failed">فشل تأكيد القياسات الحيوية: %s</string>
     <!-- Subtitle shown on biometric confirmation dialog (e.g. asking for a fingerprint), for confirming the execution of a shortcut -->
+    <string name="subtitle_biometric_confirmation_prompt">تأكيد تنفيذ الاختصار</string>
     <!-- Option in dropdown to select the confirmation type for a shortcut: no confirmation -->
+    <string name="option_confirmation_none">لا يوجد تأكيد</string>
     <!-- Option in dropdown to select the confirmation type for a shortcut: simple confirmation, i.e., only asking the user to press a button -->
+    <string name="option_confirmation_simple">تأكيد بسيط</string>
     <!-- Option in dropdown to select the confirmation type for a shortcut: biometric confirmation, i.e., asking the user to authenticate by fingerprint or similar -->
+    <string name="option_confirmation_biometric">تأكيد القياسات الحيوية</string>
     <!-- Title of section in settings that allows user to change the "User-Agent" header that is sent by default with all shortcuts -->
+    <string name="settings_user_agent">تخصيص وكيل المستخدم</string>
     <!-- Message shown in snackbar as confirmation when the user changes the "User-Agent" header's value in the settings -->
+    <string name="message_user_agent_changed">وكيل المستخدم تغير.</string>
     <!-- Dialog title: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
+    <string name="title_set_user_agent">تغيير وكيل المستخدم</string>
     <!-- Dialog message: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
+    <string name="instructions_set_user_agent">تعيين وكيل مستخدم مخصص يستخدم لجميع طلبات HTTP، أو اتركه فارغاً لاستخدام الطلب الافتراضي.</string>
     <!-- Subtitle shown on biometric app unlock dialog (e.g. asking for a fingerprint) -->
+    <string name="subtitle_biometric_app_unlock_prompt">لا يمكن إدخال تغييرات على الاختصارات أو المتغيرات أو الإعدادات أثناء قفل التطبيق.</string>
     <!-- Button label, shown on negative button below biometric prompt for unlocking the app. clicking it allows the user to instead try unlocking the app with their password -->
+    <string name="button_app_unlock_use_password">استخدام كلمة المرور</string>
     <!-- Checkbox label, shown on dialog that lets the user lock the app -->
+    <string name="label_app_lock_use_biometrics">السماح بفتح مع القياسات الحيوية</string>
     <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown lets the user choose the source of the file data -->
+    <string name="label_file_options_file_data_source">مصدر بيانات الملف</string>
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker -->
+    <string name="option_file_data_source_file_picker">فتح منتقي الملفات</string>
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker for selecting multiple files -->
+    <string name="option_file_data_source_file_picker_multi">فتح منتقي الملفات (اختيار متعدد)</string>
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open camera to take a picture -->
+    <string name="option_file_data_source_camera">التقط صورة الكاميرا</string>
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a specific static file stored on the device -->
+    <string name="option_file_data_source_specific_file">استخدام ملف محدد</string>
     <!-- Button label, for choosing a file to use as a request body or parameter -->
+    <string name="label_file_data_source_choose_file">اختر ملف</string>
     <!-- Subtitle, shown on button for selecting a file to use as a request body or parameter. %s is a placeholder for the selected file's name -->
+    <string name="subtitle_file_data_source_choose_file">الملف \"%s\"</string>
     <!-- Label on button, shown in Response settings of shortcut editor, allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
+    <string name="button_select_response_toolbar_buttons">إظهار أزرار شريط الأدوات</string>
     <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
+    <string name="title_select_response_toolbar_buttons">حدد أزرار شريط الأدوات</string>
     <!-- Subtitle on button, shown in Response settings of shortcut editor, shows how many buttons the user has selected to be shown in the response window toolbar -->
+    <plurals name="subtitle_response_toolbar_actions">
+        <item quantity="zero">تم تحديد أزرار %d</item>
+        <item quantity="one">تم تحديد زر واحد</item>
+        <item quantity="two">تم تحديد أزرار %d</item>
+        <item quantity="few">تم تحديد أزرار %d</item>
+        <item quantity="many">تم تحديد أزرار %d</item>
+        <item quantity="other">تم تحديد أزرار %d</item>
+    </plurals>
     <!-- Option in settings, allows to set whether hidden shortcuts should be visible or not -->
+    <string name="settings_title_show_hidden_shortcuts">الاختصارات المخفية</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
+    <string name="settings_option_show_hidden_shortcuts">إظهار الاختصارات المخفية</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
+    <string name="settings_option_hide_hidden_shortcuts">لا تظهر الاختصارات المخفية</string>
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
+    <string name="settings_title_execution_mode">وضع التنفيذ</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
+    <string name="option_execution_mode_run_in_foreground">تشغيل في المقدمة</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
+    <string name="option_execution_mode_run_in_background">تشغيل في الخلفية (تجريبي)</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
+    <string name="settings_dynamic_color">السمة</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
+    <string name="settings_dynamic_color_option_dynamic_color">استخدام اللون الديناميكي</string>
     <!-- Option in "Theme" setting, to use Dynamic Color, i.e., use the same color scheme as the OS -->
+    <string name="settings_dynamic_color_option_default_theme">استخدام السمة الافتراضية</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This is the default option, i.e., determine the type automatically from the response headers -->
+    <string name="option_response_content_type_auto">تحديد تلقائياً</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as plain text -->
+    <string name="option_response_content_type_plain_text">نص عادي</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as JSON -->
+    <string name="option_response_content_type_json">JSON</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as XML -->
+    <string name="option_response_content_type_xml">XML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as HTML -->
+    <string name="option_response_content_type_html">HTML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response charset. This is the default option, i.e., determine the charset automatically from the response headers -->
+    <string name="option_response_charset_auto">تحديد تلقائياً</string>
     <!-- Label for dropdown in "Response Handling" settings, allows the user to choose which character set should be used to decode the HTTP response -->
+    <string name="label_response_charset">حرف الاستجابة</string>
     <!-- Warning message shown at the bottom of the cURL import screen when curl options have been detected that are not known to the app. The list of unsupported options is shown after this warning. -->
+    <string name="warning_unsupported_curl_options">بعض الخيارات غير مدعومة وسيتم تجاهلها:</string>
     <!-- Dialog title for dialog that lets the user choose the shape of their custom icon: square or circular -->
+    <string name="dialog_title_select_icon_shape">حدد شكل الأيقونة</string>
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_square">مربع</string>
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_round">تقريب</string>
     <!-- Warning message shown to user when an HTML page wants to open a URL in the external browser. %s is a placeholder for the URL. -->
+    <string name="warning_page_wants_to_open_url">تريد الصفحة فتح عنوان URL التالي في المتصفح:\n\n%s</string>
     <!-- Placeholder text shown in the text field for the search feature on the Documentation screen -->
+    <string name="placeholder_documentation_search_query">البحث في الصفحة…</string>
     <!-- Label for dropdown in shortcut editor, for picking the font size in which the response should be displayed -->
+    <string name="label_font_size">Font Size</string>
     <!-- Option in font size drop down: Tiny -->
+    <string name="font_size_tiny">صغير</string>
     <!-- Option in font size drop down: Very small -->
+    <string name="font_size_very_small">صغير جدا</string>
     <!-- Option in font size drop down: Small -->
+    <string name="font_size_small">صغير</string>
     <!-- Option in font size drop down: Regular -->
+    <string name="font_size_regular">عادي</string>
     <!-- Option in font size drop down: Large -->
+    <string name="font_size_large">كبير</string>
     <!-- Option in font size drop down: Very large -->
+    <string name="font_size_very_large">كبير جداً</string>
     <!-- Option in font size drop down: Huge -->
+    <string name="font_size_huge">ضخم</string>
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
+    <string name="wireguard_setup_instructions">تأكد أيضا من تمكين إعداد \"السماح بتطبيقات التحكم عن بعد\" في تطبيق Wireguard.</string>
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
+    <string name="wireguard_permission_not_granted">لم يتم منح إذن Wireguard.</string>
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
+    <string name="settings_device_id">معرف الجهاز</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
+    <string name="settings_device_id_summary">تضمين هذا المعرف عند الإبلاغ عن الأخطاء في GitHub:\n%s</string>
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
+    <string name="message_device_id_copied">تم نسخ معرف الجهاز إلى الحافظة.</string>
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
+    <string name="instructions_export">حدد الاختصارات التي يجب تصديرها. سيتم تصدير جميع المتغيرات المطلوبة تلقائياً.</string>
     <!-- Title shown on Response screen which allows to expand a panel showing some meta information about the response -->
+    <string name="title_response_meta_information">معلومات ميتا</string>
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute values (e.g. 13:37) -->
+    <string name="message_history_switched_to_absolute_times">تم التبديل إلى أوقات مطلقة.</string>
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute relative (e.g. 42 sec ago) -->
+    <string name="message_history_switched_to_relative_times">تم التبديل إلى الأوقات النسبية.</string>
     <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
+    <string name="error_user_defined">وقد أُلغي تنفيذ الحكم واعتبر فشلا</string>
     <!-- Accessibility description for main menu button -->
+    <string name="accessibility_main_menu">القائمة الرئيسية</string>
     <!-- Accessibility description for the variable button on the right of text input fields -->
+    <string name="accessibility_variable_field_button">إضافة متغيرات</string>
     <!-- Label on button shown on the Response Handling screen, clicking it leads to a settings screen that lets the user configure how the response (or custom message) is displayed -->
+    <string name="button_display_settings">اعدادات العرض</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_response">تكوين كيفية عرض الاستجابة</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_message">تكوين كيفية عرض الرسالة</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_error">تكوين كيفية عرض رسالة الخطأ</string>
     <!-- Title of screen that lets the user configure how the HTTP response is displayed -->
+    <string name="title_response_display">عرض الاستجابة</string>
     <!-- Title of screen that lets the user configure how their custom message is displayed -->
+    <string name="title_message_display">عرض الرسالة</string>
     <!-- Title of a generic warning dialog. The dialog may be used in various situations. -->
+    <string name="warning_dialog_title">تحذير</string>
     <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
+    <string name="warning_message_malformed_json">يحتوي طلب جهازك على JSON غير صالح، والذي من المحتمل أن يؤدي إلى فشل الطلب.\n\n%s</string>
     <!-- Label for checkbox in editor, to allow JSON responses to be displayed as a table instead of plain JSON -->
+    <string name="label_json_array_as_table">عرض مصفوفة JSON كجدول</string>
     <!-- Screen title, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="title_working_directories">مجلدات موصولة</string>
     <!-- Option in main screen's menu, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="menu_action_working_directories">المجلدات</string>
     <!-- Empty state, shown in list when there are no Directories yet -->
+    <string name="empty_state_working_directories">لم تقم بتحميل أي أدلة حتى الآن.</string>
     <!-- Empty state instructions, shown in list when there are no directories yet -->
+    <string name="empty_state_working_directories_instructions">هنا يمكنك تحميل الدلائل من نظام ملفات جهازك، مما يتيح للتطبيق الوصول إلى محتوياتها وإنشاء ملفات جديدة داخلها.\n\nانقر فوق الزر + لتحميل الدليل.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a directory was created/mounted -->
+    <string name="message_working_directory_mounted">تم تحميل الدليل.</string>
     <!-- Message, shown in snackbar, confirming to user that a directory was deleted. %1$s is a placeholder for the directory's name -->
+    <string name="working_directory_deleted">\"%1$s\" حذف.</string>
     <!-- Action button label, shown in context menu of Directories screen, to allow re-mounting a directory, i.e., connecting it to a directory in the device's file system -->
+    <string name="button_mount_working_directory">تحميل</string>
     <!-- Generic action button label, shown in context menus, allows renaming things, e.g. directories -->
+    <string name="action_rename">إعادة تسمية</string>
     <!-- Subtitle shown below directory name on Directories screen, when a directory is not mounted, i.e., it is disconnected from its counterpart on the device's file system -->
+    <string name="working_directory_unmounted_subtitle">غير مثبتة</string>
     <!-- Subtitle shown below directory name on Directories screen, to indicate when this directory was last read from or written to -->
+    <string name="working_directory_last_accessed">آخر وصول: %s</string>
     <!-- Subtitle shown below directory name on Directories screen, to indicate that this directory was never read from or written to -->
+    <string name="working_directory_never_accessed">عدم الوصول مطلقاً</string>
     <!-- Instructions: Shown at the top of the Directories screen when picking a directory that should be used for a specific feature -->
+    <string name="instructions_select_directory">حدد أو قم بتحميل دليل جديد للسماح للتطبيق بقراءة وكتابة الملفات فيه.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a directory -->
+    <string name="confirm_delete_working_directory_message">حذف تركيب هذا الدليل؟ لن يتم لمس الدليل الفعلي على نظام الملفات ولن يتم حذف أي ملفات.</string>
     <!-- Title for the dialog window that lets the user rename a directory -->
+    <string name="title_rename_working_directory">إعادة تسمية الدليل</string>
     <!-- Error message, informing user that the entered directory name already exists -->
+    <string name="validation_directory_name_already_exists">يوجد بالفعل دليل آخر بهذا الاسم.</string>
     <!-- Action, shown on dropdown when editing a shortcut, for allowing to hide a shortcut -->
+    <string name="action_hide_shortcut">إخفاء</string>
     <!-- Action, shown on dropdown when editing a shortcut, for allowing to show a hidden shortcut -->
+    <string name="action_show_shortcut">إظهار</string>
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut was hidden -->
+    <string name="message_shortcut_hidden">Shortcut hidden.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
+    <string name="message_shortcut_visible">الاختصار لم يعد مخفيا.</string>
     <!-- Title for dialog, when selecting a directory (to be used in Scripting) -->
+    <string name="title_select_working_directory">حدد الدليل</string>
     <!-- Warning message shown to user when saving their first shortcut, but not having opened the Response Handling screen -->
+    <string name="warning_make_aware_of_response_handling">تأكد أيضا من التحقق من قسم \"%s\"، حيث يمكنك تكوين كيف أو إذا كان يجب عرض استجابة HTTP.</string>
     <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
+    <string name="notification_channel_shortcut_execution_title">عمليات إعدام الاختصار</string>
     <!-- Title for notification channel, used for displaying responses or custom messages -->
+    <string name="notification_channel_shortcut_result_title">نتائج الاختصار</string>
     <!-- Message shown in notification when a shortcut is being executed -->
+    <plurals name="notification_shortcut_execution_text_multiple">
+        <item quantity="zero">%d اختصارات قيد التقدم…</item>
+        <item quantity="one">اختصار في التقدم…</item>
+        <item quantity="two">%d اختصارات قيد التقدم…</item>
+        <item quantity="few">%d اختصارات قيد التقدم…</item>
+        <item quantity="many">%d اختصارات قيد التقدم…</item>
+        <item quantity="other">%d اختصارات قيد التقدم…</item>
+    </plurals>
     <!-- Message shown in dialog which shows up when the user first selects the "Run in background" option for "Execution Mode" in the shortcuts editor. Informs the user of technical limitations and that the app will ask for permission to display notifications -->
+    <string name="dialog_text_run_in_background">يرجى ملاحظة أن التشغيل في الخلفية مخصص للاختصارات البسيطة، حيث أن هناك العديد من القيود التقنية. قد تجد بعض الميزات لا تعمل كما هو متوقع.\n\nسيقوم التطبيق بعرض إشعار أثناء تشغيل الاختصار في الخلفية.</string>
     <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
+    <string name="instructions_run_in_background">وللتشغيل في الخلفية بعض القيود التقنية. وقد لا يعمل بشكل صحيح في بعض الحالات، ولا سيما عند التفاعل مع الملفات، الحافظة أو التطبيقات الأخرى، أو عندما يستغرق التنفيذ أكثر من دقيقتين.</string>
     <!-- Accessibility label for the floating action button on the main screen, to create new shortcuts -->
+    <string name="accessibility_label_create_shortcut_fab">إنشاء اختصار جديد</string>
     <!-- Accessibility label for the floating action button, to add shortcuts to a multi-shortcut -->
+    <string name="accessibility_label_add_shortcuts_to_trigger_fab">إضافة اختصارات</string>
     <!-- Accessibility label for the floating action button, to add a header -->
+    <string name="accessibility_label_add_header_fab">إضافة رأس</string>
     <!-- Accessibility label for the floating action button, to add a parameter -->
+    <string name="accessibility_label_add_parameter_fab">إضافة معلمة</string>
     <!-- Accessibility label for the floating action button, to create new categories -->
+    <string name="accessibility_label_create_category_fab">إنشاء فئة جديدة</string>
     <!-- Accessibility label for the floating action button, to create new variables -->
+    <string name="accessibility_label_create_variable_fab">إنشاء متغير جديد</string>
     <!-- Accessibility label for the floating action button, to mount a new working directory -->
+    <string name="accessibility_label_mount_working_directory_fab">تحميل الدليل الجديد</string>
     <!-- Accessibility label for the floating action button, to add a new custom -->
+    <string name="accessibility_label_add_icon_fab">إضافة أيقونة جديدة</string>
     <!-- Accessibility label for the floating action button, to add a certificate pinning -->
+    <string name="accessibility_label_add_certificate_pinning_fab">إضافة تثبيت الشهادة</string>
     <!-- Accessibility label for the floating action button, to add a section to a category -->
+    <string name="accessibility_label_add_category_section">إضافة قسم</string>
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
+    <string name="accessibility_label_show_documentation">الذهاب إلى الوثائق</string>
     <!-- Accessibility label for "Select all" button in exporter -->
+    <string name="accessibility_label_select_all_for_export">حدد الكل</string>
     <!-- Accessibility label for "Unselect all" button in exporter -->
+    <string name="accessibility_label_unselect_all_for_export">إلغاء تحديد الكل</string>
     <!-- Accessibility label for the generic "go back" arrow button in the nav bar -->
+    <string name="accessibility_label_go_back">العودة إلى الوراء</string>
     <!-- Accessibility label for the generic "close" cross button in the nav bar -->
+    <string name="accessibility_label_close">أغلق</string>
     <!-- Accessibility label for the "go to next result" button in search bars -->
+    <string name="accessibility_search_go_to_next">التالي</string>
     <!-- Accessibility label for the "go to previous result" button in search bars -->
+    <string name="accessibility_search_go_to_previous">السابق</string>
     <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
+    <string name="instructions_shortcut_unhiding">يمكنك جعل الاختصارات المخفية مرئية مرة أخرى عن طريق الذهاب إلى شاشة الإعدادات والبحث عن خيار \"%s\".</string>
     <!-- Pattern used to construct the category / section headers on the "Move Shortcut" screen. %s$1 is a placeholder for a category name, %2$s is a placeholder for a section name -->
     <!-- Title of "Category Sections" screen, which lets the user manage sections within a category -->
+    <string name="screen_title_category_sections">أقسام الفئة</string>
     <!-- Title of dialog to edit a section within a category -->
+    <string name="title_category_section_edit">تحرير القسم</string>
     <!-- Title of dialog to add a section within a category -->
+    <string name="title_category_section_add">إضافة قسم</string>
     <!-- Label of input field to provide name for a section within a category -->
+    <string name="label_category_section_name">اسم القسم</string>
     <!-- Empty state, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections">هذه الفئة لا تحتوي على أي أقسام بعد.</string>
     <!-- Empty state instructions, shown in list when there are no category sections yet -->
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
+    <string name="placeholder_empty_category_section_main_screen">هذا القسم فارغ. يمكنك نقل الاختصارات إليه عن طريق الضغط المطول على الاختصار واختيار \"%s\".</string>
 </resources>

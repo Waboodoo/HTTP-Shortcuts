@@ -1259,6 +1259,8 @@ Bu özelliği, bir kısayolu düzenleyerek ve \"%2$s\" içinde bulunan \"%1$s\" 
     <string name="action_type_base64decode_description">Base64 ile kodlanmış bir dizgeyi Unit8Array\'e (bayt dizisi) dönüştürür</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">Bir dizgeyi veya Uint8Array\'i (bayt dizisi) Base64 ile kodlanmış bir dizgeye dönüştürür</string>
+    <!-- Description for htmlEncode function in scripting -->
+    <!-- Description for htmlDecode function in scripting -->
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">%s URL\'i açmak için uygulama bulunamadı.</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->

@@ -19,7 +19,9 @@
     <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">URL</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's MAC address -->
+    <string name="label_mac_address">Adresse MAC</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's broadcast address -->
+    <string name="label_broadcast_address">Adresse de diffusion</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">Navigateur</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
@@ -67,6 +69,7 @@
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Éditer</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
+    <string name="action_manage_sections">Gérer les sections</string>
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">Dupliquer</string>
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
@@ -122,6 +125,7 @@ Cliquez sur le bouton + pour commencer.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">Veuillez entrer une url HTTP(S).</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
+    <string name="validation_mac_address_invalid">Veuillez entrer une adresse MAC valide.</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s échoué avec le code d\'état %2$d (%3$s)</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -259,6 +263,7 @@ Cliquez sur le bouton + pour commencer.</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Délai d\'expiration (Timeout)</string>
     <!-- Label, for dropdown picker, allowing to select the Internet Protocol version used for hostname resolution by a shortcut -->
+    <string name="label_ip_version">Version du protocole Internet</string>
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">Type de proxy</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
@@ -270,6 +275,7 @@ Cliquez sur le bouton + pour commencer.</string>
     <!-- Label, for option to set the proxy password for a shortcut -->
     <string name="label_proxy_password">Mot de passe du Proxy</string>
     <!-- Label, for option to set the UDP port for a wake-on-lan shortcut -->
+    <string name="label_wake_on_lan_port">Port</string>
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">Authentification du certificat du client</string>
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
@@ -358,6 +364,7 @@ Cliquez sur le bouton + pour commencer.</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Paramètres de la requête basique</string>
     <!-- Section title, shown in shortcut editor for non-HTTP shortcuts, for section containing basic settings (e.g. URL) -->
+    <string name="section_basic_settings">Paramètres de base</string>
     <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Paramètres Avancés</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
@@ -421,6 +428,7 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés.</string>
     </plurals>
     <!-- Shows numerical count of sections, used to show how many sections are in a given category -->
     <!-- Pattern used to determine the subtitle of a category in the categories screen. %1$s is a placeholder for the number of shortcuts, %2$s is a placeholder for the number of sections -->
+    <string name="shortcut_section_count_pattern">%1$s, %2$s</string>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">%s (caché)</string>
     <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
@@ -628,9 +636,11 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Raccourci de navigateur</string>
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_create_wol_shortcut">Raccourci Wake-on-LAN</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">Ouvrir l\'URL dans le navigateur</string>
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_description_create_wol_shortcut">Réveille un ordinateur sur le réseau</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">Raccourci de script</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
@@ -758,6 +768,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">Afficher une boîte de dialogue</string>
     <!-- Shortcut Action Title: Show fullscreen window -->
+    <string name="action_type_window_title">Afficher la fenêtre</string>
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
     <string name="action_type_selection_title">Sélection des spectacles (choix multiple)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
@@ -783,6 +794,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
     <string name="action_tts">Parler (Text-to-Speech)</string>
     <!-- Shortcut Action Title: Action that allows to display a notification -->
+    <string name="action_show_notification">Afficher la notification</string>
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
     <string name="action_play_sound">Jouer un son</string>
     <!-- Shortcut Action Title: Vibrate -->
@@ -842,6 +854,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">Envoyer un paquet TCP</string>
     <!-- Shortcut Action Title: Send an HTTP request -->
+    <string name="action_type_send_http_request">Envoyer une requête HTTP</string>
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">Envoyer un message MQTT</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -907,9 +920,11 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">Multi-Raccourci</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
+    <string name="subtitle_editor_toolbar_wol_shortcut">Raccourci Wake-on-LAN</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">Définir l\'URL et la méthode HTTP du raccourci</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
+    <string name="subtitle_basic_request_settings_prompt_for_wol">Définir l\'adresse MAC et le port du raccourci</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">Définir l\'URL du raccourci</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
@@ -1011,6 +1026,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
     <string name="dialog_code_snippet_write_to_file">Écrire dans le fichier</string>
     <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
+    <string name="dialog_code_snippet_append_to_file">Ajouter au fichier</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Obtenir le nom du fichier sélectionné</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -1050,6 +1066,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_set_visible">Impossible de modifier la visibilité du raccourci \“%1$s\” car il n\'existe pas.</string>
     <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
+    <string name="error_category_not_found_for_set_visible">Impossible de modifier la visibilité de la catégorie \“%1$s\” car elle n\'existe pas.</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Impossible de modifier le raccourci \"%1$s\" car il n\'existe pas.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1164,6 +1181,7 @@ Vous pouvez activer cette fonctionnalité en modifiant un raccourci et en cochan
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
     <string name="option_response_handling_type_toast">Bulle de notification</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a notification -->
+    <string name="option_response_handling_type_notification">Notification</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">Boîte de dialogue</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
@@ -1189,6 +1207,7 @@ Vous pouvez activer cette fonctionnalité en modifiant un raccourci et en cochan
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">Les exécutions en cours sont annulées.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
+    <string name="message_changes_discarded">Changements annulés.</string>
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Cette fonctionnalité vous permet de modifier vos raccourcis sur un ordinateur, depuis le confort d\'un navigateur. Veuillez lire la politique de confidentialité de l\'application avant de commencer, puis suivez les étapes suivantes :</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
@@ -1293,6 +1312,10 @@ Vous pouvez activer cette fonctionnalité en modifiant un raccourci et en cochan
     <string name="action_type_base64decode_description">Convertit une chaîne de caractères encodée en Base64 en un Unit8Array (tableau d\'octets).</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">Convertit une chaîne de caractères ou un tableau d\'octets (Uint8Array) en une chaîne de caractères codée en Base64.</string>
+    <!-- Description for htmlEncode function in scripting -->
+    <string name="action_type_html_encode_description">Encode une chaîne en texte brut pour la rendre sécurisée au format HTML</string>
+    <!-- Description for htmlDecode function in scripting -->
+    <string name="action_type_html_decode_description">Décode une chaîne HTML en texte brut</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">Aucune application n\'a été trouvée qui puisse ouvrir l\'URL %s.</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
@@ -1521,6 +1544,7 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
     <string name="placeholder_empty_category_for_moving">pas de raccourcis dans cette catégorie</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
+    <string name="placeholder_empty_category_section_for_moving">aucun raccourci dans cette section</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <string name="label_file_upload_options_allow_image_editing">"Permettre le recadrage et la rotation de l'image"</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
@@ -1593,7 +1617,9 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Mode d\'exécution</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
+    <string name="option_execution_mode_run_in_foreground">Exécuter au premier plan</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
+    <string name="option_execution_mode_run_in_background">Exécuter en arrière-plan (expérimental)</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">Thème</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
@@ -1723,36 +1749,71 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
     <string name="message_shortcut_visible">Le raccourci n\'est plus caché.</string>
     <!-- Title for dialog, when selecting a directory (to be used in Scripting) -->
+    <string name="title_select_working_directory">Sélectionner un répertoire</string>
     <!-- Warning message shown to user when saving their first shortcut, but not having opened the Response Handling screen -->
+    <string name="warning_make_aware_of_response_handling">Vérifiez également la section \“%s\” où vous pouvez configurer comment ou si la réponse HTTP doit être affichée.</string>
     <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
+    <string name="notification_channel_shortcut_execution_title">Exécutions de raccourcis</string>
     <!-- Title for notification channel, used for displaying responses or custom messages -->
+    <string name="notification_channel_shortcut_result_title">Résultats des raccourcis</string>
     <!-- Message shown in notification when a shortcut is being executed -->
+    <plurals name="notification_shortcut_execution_text_multiple">
+        <item quantity="one">Raccourci en cours…</item>
+        <item quantity="other">Raccourcis %d en cours…</item>
+    </plurals>
     <!-- Message shown in dialog which shows up when the user first selects the "Run in background" option for "Execution Mode" in the shortcuts editor. Informs the user of technical limitations and that the app will ask for permission to display notifications -->
+    <string name="dialog_text_run_in_background">Veuillez noter que l\'exécution en arrière-plan est destinée à des raccourcis simples, car il y a de nombreuses limitations techniques. Il se peut que certaines fonctionnalités ne fonctionnent pas comme prévu.\n\nL\'application affichera une notification pendant qu\'un raccourci est en cours d\'exécution en arrière-plan.</string>
     <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
+    <string name="instructions_run_in_background">Exécuter en arrière-plan a quelques limitations techniques. Cela peut ne pas fonctionner correctement dans certaines situations, en particulier lorsque vous interagissez avec des fichiers, le presse-papiers ou d\'autres applications, ou lorsque l\'exécution prend plus de deux minutes.</string>
     <!-- Accessibility label for the floating action button on the main screen, to create new shortcuts -->
+    <string name="accessibility_label_create_shortcut_fab">Créer un nouveau raccourci</string>
     <!-- Accessibility label for the floating action button, to add shortcuts to a multi-shortcut -->
+    <string name="accessibility_label_add_shortcuts_to_trigger_fab">Ajouter des raccourcis</string>
     <!-- Accessibility label for the floating action button, to add a header -->
+    <string name="accessibility_label_add_header_fab">Ajouter un en-tête</string>
     <!-- Accessibility label for the floating action button, to add a parameter -->
+    <string name="accessibility_label_add_parameter_fab">Ajouter un paramètre</string>
     <!-- Accessibility label for the floating action button, to create new categories -->
+    <string name="accessibility_label_create_category_fab">Créer une nouvelle catégorie</string>
     <!-- Accessibility label for the floating action button, to create new variables -->
+    <string name="accessibility_label_create_variable_fab">Créer une nouvelle variable</string>
     <!-- Accessibility label for the floating action button, to mount a new working directory -->
+    <string name="accessibility_label_mount_working_directory_fab">Monter un nouveau répertoire</string>
     <!-- Accessibility label for the floating action button, to add a new custom -->
+    <string name="accessibility_label_add_icon_fab">Ajouter une nouvelle icône</string>
     <!-- Accessibility label for the floating action button, to add a certificate pinning -->
+    <string name="accessibility_label_add_certificate_pinning_fab">Ajouter épinglage de certificat</string>
     <!-- Accessibility label for the floating action button, to add a section to a category -->
+    <string name="accessibility_label_add_category_section">Ajouter une section</string>
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
+    <string name="accessibility_label_show_documentation">Aller à la documentation</string>
     <!-- Accessibility label for "Select all" button in exporter -->
+    <string name="accessibility_label_select_all_for_export">Tout sélectionner</string>
     <!-- Accessibility label for "Unselect all" button in exporter -->
+    <string name="accessibility_label_unselect_all_for_export">Désélectionner tout</string>
     <!-- Accessibility label for the generic "go back" arrow button in the nav bar -->
+    <string name="accessibility_label_go_back">Revenir en arrière</string>
     <!-- Accessibility label for the generic "close" cross button in the nav bar -->
+    <string name="accessibility_label_close">Fermer</string>
     <!-- Accessibility label for the "go to next result" button in search bars -->
+    <string name="accessibility_search_go_to_next">Suivant</string>
     <!-- Accessibility label for the "go to previous result" button in search bars -->
+    <string name="accessibility_search_go_to_previous">Précédent</string>
     <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
+    <string name="instructions_shortcut_unhiding">Vous pouvez rendre les raccourcis cachés visibles à nouveau en vous rendant sur l\'écran Paramètres et en recherchant l\'option \“%s\”.</string>
     <!-- Pattern used to construct the category / section headers on the "Move Shortcut" screen. %s$1 is a placeholder for a category name, %2$s is a placeholder for a section name -->
     <!-- Title of "Category Sections" screen, which lets the user manage sections within a category -->
+    <string name="screen_title_category_sections">Sections de la catégorie</string>
     <!-- Title of dialog to edit a section within a category -->
+    <string name="title_category_section_edit">Modifier la section</string>
     <!-- Title of dialog to add a section within a category -->
+    <string name="title_category_section_add">Ajouter une section</string>
     <!-- Label of input field to provide name for a section within a category -->
+    <string name="label_category_section_name">Nom de la section</string>
     <!-- Empty state, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections">Cette catégorie n\'a pas encore de sections.</string>
     <!-- Empty state instructions, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections_instructions">Les sections vous permettent de regrouper les raccourcis dans une catégorie.\n\nCliquez sur le bouton + pour ajouter une nouvelle section.</string>
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
+    <string name="placeholder_empty_category_section_main_screen">Cette section est vide. Vous pouvez y déplacer des raccourcis en appuyant longuement sur un raccourci et en sélectionnant \“%s\”.</string>
 </resources>

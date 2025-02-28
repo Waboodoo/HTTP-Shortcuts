@@ -1279,6 +1279,8 @@
     <string name="action_type_base64decode_description">یک رشته رمزگذاری شده Base64 را به Unit8Array (آرایه بایت) تبدیل می کند</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">یک رشته یا Uint8Array (آرایه بایت) را به یک رشته رمزگذاری شده Base64 تبدیل می کند</string>
+    <!-- Description for htmlEncode function in scripting -->
+    <!-- Description for htmlDecode function in scripting -->
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">هیچ برنامه ای یافت نشد که بتواند URL %s را باز کند.</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->

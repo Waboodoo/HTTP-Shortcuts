@@ -19,7 +19,9 @@
     <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">URL</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's MAC address -->
+    <string name="label_mac_address">MAC Adres</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's broadcast address -->
+    <string name="label_broadcast_address">Adres uitzenden</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">browser</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
@@ -51,7 +53,9 @@
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <string name="label_include_meta_information">Meta-informatie tonen</string>
     <!-- Label for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="label_enable_javascript_in_webview">JavaScript inschakelen (experimenteel)</string>
     <!-- Subtitle for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="subtitle_enable_javascript_in_webview">Staat het gebruik van JavaScript toe in de weergegeven HTML-reactietekst. Dit werkt mogelijk niet voor sommige webpagina\'s.</string>
     <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
     <string name="label_monospace_response">Tekst weergeven met een monospace lettertype</string>
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
@@ -65,6 +69,7 @@
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Bewerken</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
+    <string name="action_manage_sections">Secties beheren</string>
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">Dupliceren</string>
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
@@ -120,6 +125,7 @@ Klik op de + knop om te beginnen.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">Voer een HTTP(s) url in.</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
+    <string name="validation_mac_address_invalid">Voer een MAC-adres in.</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s mislukt met status code %2$d (%3$s).</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -258,6 +264,7 @@ Klik op de + knop om te beginnen.</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Time-out</string>
     <!-- Label, for dropdown picker, allowing to select the Internet Protocol version used for hostname resolution by a shortcut -->
+    <string name="label_ip_version">Versie internet Protocol</string>
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">Volmacht Type</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
@@ -269,6 +276,7 @@ Klik op de + knop om te beginnen.</string>
     <!-- Label, for option to set the proxy password for a shortcut -->
     <string name="label_proxy_password">Proxy wachtwoord</string>
     <!-- Label, for option to set the UDP port for a wake-on-lan shortcut -->
+    <string name="label_wake_on_lan_port">Poort</string>
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">Verificatie van cliëntcertificaten</string>
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
@@ -361,6 +369,7 @@ Klik op de + knop om te beginnen.</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Basisinstellingen Request</string>
     <!-- Section title, shown in shortcut editor for non-HTTP shortcuts, for section containing basic settings (e.g. URL) -->
+    <string name="section_basic_settings">Standaard instellingen</string>
     <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Geavanceerde Instellingen</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
@@ -423,7 +432,12 @@ Alle snelkoppelingen erin zullen verwijderd worden.</string>
         <item quantity="other">%d snelkoppelingen</item>
     </plurals>
     <!-- Shows numerical count of sections, used to show how many sections are in a given category -->
+    <plurals name="section_count">
+        <item quantity="one">%d sectie</item>
+        <item quantity="other">%d secties</item>
+    </plurals>
     <!-- Pattern used to determine the subtitle of a category in the categories screen. %1$s is a placeholder for the number of shortcuts, %2$s is a placeholder for the number of sections -->
+    <string name="shortcut_section_count_pattern">%1$s, %2$s</string>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">%s (verborgen)</string>
     <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
@@ -631,9 +645,11 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Browsersnelkoppeling</string>
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_create_wol_shortcut">Wake-on-LAN snelkoppeling</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">Open de URL in de browser</string>
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_description_create_wol_shortcut">Maakt een computer op het netwerk wakker</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">Scripting Snelkoppeling</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
@@ -761,6 +777,7 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">Toon Dialoog</string>
     <!-- Shortcut Action Title: Show fullscreen window -->
+    <string name="action_type_window_title">Toon venster</string>
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
     <string name="action_type_selection_title">Toon selectie (meerkeuze)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
@@ -786,6 +803,7 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
     <string name="action_tts">Spreek (tekst-naar-spraak)</string>
     <!-- Shortcut Action Title: Action that allows to display a notification -->
+    <string name="action_show_notification">Toon melding</string>
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
     <string name="action_play_sound">Geluid afspelen</string>
     <!-- Shortcut Action Title: Vibrate -->
@@ -803,6 +821,7 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
     <string name="action_type_change_shortcut_hidden_title">Sneltoets weergeven/verbergen</string>
     <!-- Shortcut Action Title: Change Category Visibility -->
+    <string name="action_type_change_category_hidden_title">Categorie tonen/verbergen</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Enqueue snelkoppeling</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -844,6 +863,7 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">TCP-pakket verzenden</string>
     <!-- Shortcut Action Title: Send an HTTP request -->
+    <string name="action_type_send_http_request">HTTP request verzenden</string>
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">MQTT-bericht verzenden</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -909,9 +929,11 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">Multi-snelkoppeling</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
+    <string name="subtitle_editor_toolbar_wol_shortcut">Wake-on-LAN snelkoppeling</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">Stel de URL en de HTTP-methode van de snelkoppeling in</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
+    <string name="subtitle_basic_request_settings_prompt_for_wol">Stel het MAC-adres en poort van snelkoppeling in</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">Stel de URL van de snelkoppeling in</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
@@ -1013,6 +1035,7 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
     <string name="dialog_code_snippet_write_to_file">Schrijf naar bestand</string>
     <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
+    <string name="dialog_code_snippet_append_to_file">Toevoegen aan bestand</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Naam van geselecteerd bestand opvragen</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -1052,6 +1075,7 @@ Klik op de helpknop in de variabelensectie voor meer informatie.</string>
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_set_visible">Kon de zichtbaarheid van snelkoppeling \"%1$s\" niet wijzigen omdat deze niet bestaat.</string>
     <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
+    <string name="error_category_not_found_for_set_visible">Kon de zichtbaarheid van categorie \"%1$s\" niet wijzigen omdat deze niet bestaat.</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Kan icoontje van snelkoppeling \"%1$s\" niet wijzigen omdat het niet bestaat.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1121,6 +1145,7 @@ U kunt deze functie inschakelen door een snelkoppeling te bewerken en het select
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">Label tonen</string>
     <!-- Label: Shown when configuring a widget, above a slider, to choose the size of the widget's icon -->
+    <string name="label_widget_icon_size">Pictogram grootte</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
     <string name="label_show_widget_icon">Pictogram weergeven</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
@@ -1165,6 +1190,7 @@ U kunt deze functie inschakelen door een snelkoppeling te bewerken en het select
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
     <string name="option_response_handling_type_toast">Toast popup</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a notification -->
+    <string name="option_response_handling_type_notification">Notificatie</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">Dialoogvenster</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
@@ -1190,6 +1216,7 @@ U kunt deze functie inschakelen door een snelkoppeling te bewerken en het select
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">Hangende executies geannuleerd.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
+    <string name="message_changes_discarded">Wijzigingen zijn ongedaan gemaakt.</string>
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Met deze functie kunt u uw snelkoppelingen op een computer bewerken, vanuit het comfort van een browser. Lees het privacybeleid van de app voordat u aan de slag gaat en volg daarna deze stappen:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
@@ -1294,6 +1321,10 @@ U kunt deze functie inschakelen door een snelkoppeling te bewerken en het select
     <string name="action_type_base64decode_description">Converteert een Base64-gecodeerde string in een Unit8Array (byte array).</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">Converteert een string of Uint8Array (byte array) in een Base64-gecodeerde string.</string>
+    <!-- Description for htmlEncode function in scripting -->
+    <string name="action_type_html_encode_description">Codeer een platte tekst om deze HTML-veilig te maken</string>
+    <!-- Description for htmlDecode function in scripting -->
+    <string name="action_type_html_decode_description">Decodeert een HTML string in platte tekst</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">Er is geen app gevonden die de URL %s kan openen.</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
@@ -1512,6 +1543,7 @@ Mogelijk moet je de app ook uitsluiten van Batterijoptimalisaties. Dit kun je vi
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
     <string name="label_require_specific_wifi_ssid">Vereist specifieke Wi-Fi</string>
     <!-- Option in dropdown menu, for selecting the Internet Protocol version to be used for hostname resolution by a shortcut. This option is used by default when no specific option is chosen. -->
+    <string name="option_ip_version_auto">Bepaal automatisch</string>
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
     <string name="option_no_proxy">Geen volmacht</string>
     <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
@@ -1521,6 +1553,7 @@ Mogelijk moet je de app ook uitsluiten van Batterijoptimalisaties. Dit kun je vi
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
     <string name="placeholder_empty_category_for_moving">geen snelkoppelingen in deze categorie</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
+    <string name="placeholder_empty_category_section_for_moving">geen snelkoppelingen in deze sectie</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <string name="label_file_upload_options_allow_image_editing">"Beeld bijsnijden en roteren toestaan"</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
@@ -1593,7 +1626,9 @@ Mogelijk moet je de app ook uitsluiten van Batterijoptimalisaties. Dit kun je vi
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Uitvoeringsmodus</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
+    <string name="option_execution_mode_run_in_foreground">Uitvoeren op de voorgrond</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
+    <string name="option_execution_mode_run_in_background">Op de achtergrond uitvoeren (experimenteel)</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">Thema</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
@@ -1722,36 +1757,68 @@ Mogelijk moet je de app ook uitsluiten van Batterijoptimalisaties. Dit kun je vi
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
     <string name="message_shortcut_visible">Snelkoppeling niet langer verborgen.</string>
     <!-- Title for dialog, when selecting a directory (to be used in Scripting) -->
+    <string name="title_select_working_directory">Selecteer map</string>
     <!-- Warning message shown to user when saving their first shortcut, but not having opened the Response Handling screen -->
+    <string name="warning_make_aware_of_response_handling">Controleer ook de \"%s\" sectie, waar u kunt instellen hoe en of het HTTP-antwoord moet worden weergegeven.</string>
     <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
+    <string name="notification_channel_shortcut_execution_title">Snelkoppeling Uitvoeringen</string>
     <!-- Title for notification channel, used for displaying responses or custom messages -->
+    <string name="notification_channel_shortcut_result_title">Snelkoppeling resultaten</string>
     <!-- Message shown in notification when a shortcut is being executed -->
     <!-- Message shown in dialog which shows up when the user first selects the "Run in background" option for "Execution Mode" in the shortcuts editor. Informs the user of technical limitations and that the app will ask for permission to display notifications -->
+    <string name="dialog_text_run_in_background">Houd er rekening mee dat op de achtergrond uitvoeren is bedoeld voor eenvoudige snelkoppelingen, aangezien er veel technische beperkingen zijn. Mogelijk werkt sommige functies niet zoals verwacht.\n\nDe app geeft een melding weer wanneer een snelkoppeling op de achtergrond wordt uitgevoerd.</string>
     <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
+    <string name="instructions_run_in_background">Het op de achtergrond uitvoeren heeft enkele technische beperkingen. Het kan in sommige situaties niet correct werken, met name wanneer er interactie is met de bestanden. het klembord of andere apps, of wanneer de uitvoering langer dan twee minuten duurt.</string>
     <!-- Accessibility label for the floating action button on the main screen, to create new shortcuts -->
+    <string name="accessibility_label_create_shortcut_fab">Maak een nieuwe snelkoppeling</string>
     <!-- Accessibility label for the floating action button, to add shortcuts to a multi-shortcut -->
+    <string name="accessibility_label_add_shortcuts_to_trigger_fab">Snelkoppelingen toevoegen</string>
     <!-- Accessibility label for the floating action button, to add a header -->
+    <string name="accessibility_label_add_header_fab">Koptekst toevoegen</string>
     <!-- Accessibility label for the floating action button, to add a parameter -->
+    <string name="accessibility_label_add_parameter_fab">Parameter toevoegen</string>
     <!-- Accessibility label for the floating action button, to create new categories -->
+    <string name="accessibility_label_create_category_fab">Nieuwe categorie aanmaken</string>
     <!-- Accessibility label for the floating action button, to create new variables -->
+    <string name="accessibility_label_create_variable_fab">Maak een nieuwe variabele</string>
     <!-- Accessibility label for the floating action button, to mount a new working directory -->
+    <string name="accessibility_label_mount_working_directory_fab">Koppel nieuwe map</string>
     <!-- Accessibility label for the floating action button, to add a new custom -->
+    <string name="accessibility_label_add_icon_fab">Nieuw pictogram toevoegen</string>
     <!-- Accessibility label for the floating action button, to add a certificate pinning -->
+    <string name="accessibility_label_add_certificate_pinning_fab">Certificaat vastzetten toevoegen</string>
     <!-- Accessibility label for the floating action button, to add a section to a category -->
+    <string name="accessibility_label_add_category_section">Sectie toevoegen</string>
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
+    <string name="accessibility_label_show_documentation">Ga naar documentatie</string>
     <!-- Accessibility label for "Select all" button in exporter -->
+    <string name="accessibility_label_select_all_for_export">Alles selecteren</string>
     <!-- Accessibility label for "Unselect all" button in exporter -->
+    <string name="accessibility_label_unselect_all_for_export">Selectie ongedaan maken</string>
     <!-- Accessibility label for the generic "go back" arrow button in the nav bar -->
+    <string name="accessibility_label_go_back">Ga terug</string>
     <!-- Accessibility label for the generic "close" cross button in the nav bar -->
+    <string name="accessibility_label_close">Afsluiten</string>
     <!-- Accessibility label for the "go to next result" button in search bars -->
+    <string name="accessibility_search_go_to_next">Volgende</string>
     <!-- Accessibility label for the "go to previous result" button in search bars -->
+    <string name="accessibility_search_go_to_previous">named@@0</string>
     <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
+    <string name="instructions_shortcut_unhiding">U kunt verborgen snelkoppelingen weer zichtbaar maken door naar het Instellingen scherm te gaan en te zoeken naar de optie \"%s\".</string>
     <!-- Pattern used to construct the category / section headers on the "Move Shortcut" screen. %s$1 is a placeholder for a category name, %2$s is a placeholder for a section name -->
+    <string name="category_section_header_pattern">%1$s: %2$s</string>
     <!-- Title of "Category Sections" screen, which lets the user manage sections within a category -->
+    <string name="screen_title_category_sections">Categorie secties</string>
     <!-- Title of dialog to edit a section within a category -->
+    <string name="title_category_section_edit">Sectie bewerken</string>
     <!-- Title of dialog to add a section within a category -->
+    <string name="title_category_section_add">Sectie toevoegen</string>
     <!-- Label of input field to provide name for a section within a category -->
+    <string name="label_category_section_name">Sectie naam</string>
     <!-- Empty state, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections">Deze categorie heeft nog geen secties</string>
     <!-- Empty state instructions, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections_instructions">Met secties kunt u snelkoppelingen groeperen binnen een categorie.\n\nKlik op de + knop om een nieuwe sectie toe te voegen.</string>
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
+    <string name="placeholder_empty_category_section_main_screen">Deze sectie is leeg. Je kunt snelkoppelingen naar deze sectie verplaatsen door lang op een snelkoppeling te drukken en \"%s \” te selecteren.</string>
 </resources>

@@ -1324,6 +1324,10 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <string name="action_type_base64decode_description">Wandelt einen Base64-codierten String in ein Uint8Array (Byte-Array) um</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">Wandelt einen String oder ein Uint8Array (Byte-Array) in einen Base64-codierten String um</string>
+    <!-- Description for htmlEncode function in scripting -->
+    <string name="action_type_html_encode_description">Kodiert Text um ihn HTML-sicher zu machen</string>
+    <!-- Description for htmlDecode function in scripting -->
+    <string name="action_type_html_decode_description">Dekodiert einen HTML-String in Klartext</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">Es wurde keine App gefunden welche die URL %s öffnen kann.</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->

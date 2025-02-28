@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- The name of the app -->
+    <string name="app_name">Atalhos HTTP</string>
     <!-- The name of the default category -->
     <string name="shortcuts">Atalhos</string>
     <!-- The name used as a fallback for shortcuts without a name -->
@@ -10,18 +11,25 @@
     <!-- Title in editor when creating a new shortcut -->
     <string name="create_shortcut">Criar atalho</string>
     <!-- Content description of icon image, accessibility information -->
+    <string name="icon_description">Ícone</string>
     <!-- Label above input field in editor, for shortcut name -->
     <string name="label_name">Nome do Atalho</string>
     <!-- Label above input field in editor, for shortcut description -->
     <string name="label_description">Descrição</string>
     <!-- Label above input field in editor, for shortcut URL -->
+    <string name="label_url">URL:</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's MAC address -->
+    <string name="label_mac_address">Endereço MAC</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's broadcast address -->
+    <string name="label_broadcast_address">Endereço de Transmissão</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
+    <string name="label_browser_package_name">Navegador</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">Use o navegador padrão</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
+    <string name="option_browser_custom_tab">Usar aba personalizada</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
+    <string name="option_custom_browser_in_custom_tab">%s (aba personalizada)</string>
     <!-- Button to save changes made to shortcut/variable -->
     <string name="save_button">Gravar</string>
     <!-- Button to test changes made to shortcut -->
@@ -29,18 +37,25 @@
     <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, …) -->
     <string name="label_method">Método</string>
     <!-- Label above input field in editor, for shortcut authentication username -->
+    <string name="label_username">Usuário:</string>
     <!-- Label above input field in editor, for shortcut authentication password -->
+    <string name="label_password">Palavra-passe</string>
     <!-- Label above input field in editor, for shortcut authentication token -->
+    <string name="label_auth_token">Identificador</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
     <string name="label_response_on_success">Sobre o Sucesso</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the response content should be treated as -->
+    <string name="label_response_type_selection">Tipo de resposta</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the custom message that they enter should be treated as -->
+    <string name="label_response_message_type_selection">Tipo de mensagem</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
     <string name="label_response_on_failure">Sobre o fracasso</string>
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <string name="label_include_meta_information">Mostrar Meta-Informação</string>
     <!-- Label for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="label_enable_javascript_in_webview">Ativar JavaScript (experimental)</string>
     <!-- Subtitle for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="subtitle_enable_javascript_in_webview">Permite o uso de JavaScript no corpo de resposta HTML exibido. Isto pode não funcionar em algumas páginas web.</string>
     <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
     <string name="label_monospace_response">Apresentar texto utilizando um tipo de letra monospace</string>
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
@@ -54,6 +69,7 @@
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Editar</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
+    <string name="action_manage_sections">Gerenciar seções</string>
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">Duplicar</string>
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
@@ -81,6 +97,7 @@
 
 Clique no botão + para começar, ou consulte a Documentação na secção Sobre.</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
+    <string name="empty_state_no_shortcuts_in_category">sem atalhos ainda nesta categoria</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Ainda não acrescentou nenhum atalho para activar.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
@@ -106,11 +123,13 @@ Clique no botão + para adicionar uma variável.</string>
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">Atalho não encontrado. Poderá ter de o readicionar no ecrã inicial.</string>
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
+    <string name="error_shortcut_deleted">Este atalho foi excluído.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Por favor insira um nome</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">Por favor, introduza uma url HTTP(S).</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
+    <string name="validation_mac_address_invalid">Por favor, insira um endereço MAC válido.</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s falhou com o código de status %2$d (%3$s).</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -148,6 +167,7 @@ Clique no botão + para adicionar uma variável.</string>
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
     <string name="label_post_param_value">Valor</string>
     <!-- Generic dialog button: OK -->
+    <string name="dialog_ok">Certo</string>
     <!-- Generic button: Cancel -->
     <string name="dialog_cancel">Cancelar</string>
     <!-- Generic button: remove -->
@@ -217,10 +237,16 @@ Clique no botão + para adicionar uma variável.</string>
     <!-- Button in settings page to start import of shortcuts from a url -->
     <string name="settings_import_from_url">Importar do URL</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts into a file -->
+    <string name="settings_export_to_file">Exportar para Arquivo</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
+    <string name="settings_export_via_share">Exportar via diálogo de compartilhamento</string>
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">Editar no computador</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
+    <plurals name="shortcut_export_success">
+        <item quantity="one">1 atalho exportado.</item>
+        <item quantity="other">Atalhos %d exportados.</item>
+    </plurals>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">A exportação...</string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
@@ -233,11 +259,16 @@ Clique no botão + para adicionar uma variável.</string>
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
     <string name="import_failure_reason_data_version_mismatch">O ficheiro seleccionado foi exportado por uma versão mais recente da aplicação. Por favor, certifique-se de que tem instalada a última versão da aplicação.</string>
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
+    <plurals name="shortcut_import_success">
+        <item quantity="one">1 atalho importado.</item>
+        <item quantity="other">Atalhos %d importados.</item>
+    </plurals>
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">A importação...</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Desconto de tempo</string>
     <!-- Label, for dropdown picker, allowing to select the Internet Protocol version used for hostname resolution by a shortcut -->
+    <string name="label_ip_version">Versão do Protocolo Internet</string>
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">Tipo de Proxy</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
@@ -249,6 +280,7 @@ Clique no botão + para adicionar uma variável.</string>
     <!-- Label, for option to set the proxy password for a shortcut -->
     <string name="label_proxy_password">Senha de Proxy</string>
     <!-- Label, for option to set the UDP port for a wake-on-lan shortcut -->
+    <string name="label_wake_on_lan_port">Porta</string>
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">Autenticação de Certificado de Cliente</string>
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
@@ -258,6 +290,7 @@ Clique no botão + para adicionar uma variável.</string>
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
     <string name="label_subtitle_client_cert_file_in_use">Usando ficheiro de certificado. Clique para remover.</string>
     <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
+    <string name="label_subtitle_not_applicable_for_http">Aplicável somente ao usar HTTPS</string>
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">Certificado de cliente</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
@@ -272,11 +305,17 @@ Clique no botão + para adicionar uma variável.</string>
     <string name="title_client_cert_file_password">Senha</string>
     <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %d is a placeholder for the actual number. -->
     <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %d is a placeholder for the actual number. -->
+    <plurals name="milliseconds">
+        <item quantity="one">%d milissegundo</item>
+        <item quantity="other">%d milissegundos</item>
+    </plurals>
     <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %d is a placeholder for the actual number. -->
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
+    <string name="pattern_minutes_seconds">%1$s, %2$s</string>
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">Resolução de problemas</string>
     <!-- Title of option in settings to show change changelog of current and past versions -->
+    <string name="settings_changelog">Mudanças</string>
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
     <string name="settings_changelog_summary">Versão %1$s</string>
     <!-- Button title, for option to contact the app developer (via email) -->
@@ -294,6 +333,7 @@ Clique no botão + para adicionar uma variável.</string>
     <!-- Dialog title, for changelog, shown when a new version of the app is released -->
     <string name="changelog_title_whats_new">O que há de novo?</string>
     <!-- Dialog title, for changelog, showing what's new in a release -->
+    <string name="changelog_title">Mudanças</string>
     <!-- Checkbox label, shown on Changelog dialog, allowing user to enable that the dialog shows when the app is started -->
     <string name="changelog_checkbox_show_at_startup">Mostrar no arranque</string>
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
@@ -325,6 +365,7 @@ Clique no botão + para adicionar uma variável.</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Configurações básicas de pedido</string>
     <!-- Section title, shown in shortcut editor for non-HTTP shortcuts, for section containing basic settings (e.g. URL) -->
+    <string name="section_basic_settings">Configurações Básicas</string>
     <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Configurações avançadas</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
@@ -382,8 +423,17 @@ Todos os atalhos contidos no interior serão eliminados.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
     <string name="message_category_deleted">Categoria eliminada.</string>
     <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
+    <plurals name="shortcut_count">
+        <item quantity="one">Atalho %d</item>
+        <item quantity="other">Atalhos %d</item>
+    </plurals>
     <!-- Shows numerical count of sections, used to show how many sections are in a given category -->
+    <plurals name="section_count">
+        <item quantity="one">Seção %d</item>
+        <item quantity="other">%d seções</item>
+    </plurals>
     <!-- Pattern used to determine the subtitle of a category in the categories screen. %1$s is a placeholder for the number of shortcuts, %2$s is a placeholder for the number of sections -->
+    <string name="shortcut_section_count_pattern">%1$s, %2$s</string>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">%s (oculto)</string>
     <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
@@ -393,6 +443,7 @@ Todos os atalhos contidos no interior serão eliminados.</string>
     <!-- Button/page title, for viewing list of variables -->
     <string name="title_variables">Variáveis</string>
     <!-- Button, to edit a variable -->
+    <string name="edit_variable">Editar Variável</string>
     <!-- Button, to create a new variable -->
     <string name="create_variable">Criar Variável</string>
     <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
@@ -436,11 +487,15 @@ Todos os atalhos contidos no interior serão eliminados.</string>
     <!-- Description for type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
     <string name="variable_type_select_description">Mostra um diálogo de selecção para escolher um ou vários valores</string>
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
+    <string name="variable_type_toggle">Alternador</string>
     <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle_description">Muda para um valor diferente cada vez que é utilizado</string>
     <!-- Type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment">Contador Aumentado</string>
     <!-- Description for type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment_description">Aumenta um número toda vez que for utilizado</string>
     <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid">UUID</string>
     <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
     <string name="variable_type_uuid_description">Gera uma nova UUID aleatória em cada execução</string>
     <!-- Type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
@@ -474,7 +529,9 @@ Todos os atalhos contidos no interior serão eliminados.</string>
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">Codificação JSON</string>
     <!-- Checkbox label, for option to enable/disable the exclusion of a variable's value in exports -->
+    <string name="label_exclude_variable_value_from_exports">Excluir o valor armazenado das exportações</string>
     <!-- Instructions shown below the "IExclude stored value from exports" checkbox in the variable editor -->
+    <string name="message_exclude_variable_value_from_exports_instructions">Ative isso se você não quiser que o valor armazenado desta variável (se houver) seja incluído nas exportações.</string>
     <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">Configurações básicas</string>
     <!-- Error message, informing user that the entered variable name is empty -->
@@ -534,6 +591,7 @@ No entanto, ainda não tem nenhuma variável configurada.</string>
     <!-- Title on Share dialog -->
     <string name="share_title">Partilhar...</string>
     <!-- Menu button shown on response window, allows the user to execute the current shortcut again -->
+    <string name="action_rerun_shortcut">Rerun</string>
     <!-- Menu button shown on response window, allows the user to copy the response into the clipboard -->
     <string name="action_copy_response">Cópia</string>
     <!-- Menu button, allows saving a response as a file -->
@@ -543,6 +601,7 @@ No entanto, ainda não tem nenhuma variável configurada.</string>
     <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
     <string name="label_select_variable_multi_select">Permitir a selecção de múltiplas opções</string>
     <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
+    <string name="label_multiline">Multilinha</string>
     <!-- Action, allows the user to cancel a pending shortcut execution -->
     <string name="action_cancel_pending">Cancelar Execução Pendente</string>
     <!-- Message, shown in snackbar to confirm when the user cancelled a pending shortcut execution (%1$s is a placeholder for the shortcut name) -->
@@ -570,23 +629,29 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">Outra aplicação (Partilhar)</string>
     <!-- Instruction text, shown at the top of the screen when creating a new shortcut, shows options below -->
+    <string name="instructions_create_new_shortcut_options_dialog">Selecione o tipo de atalho que deseja criar.</string>
     <!-- Option in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <string name="button_create_new">Atalho HTTP regular</string>
     <!-- Button in shortcut creation screen, to select the type of shortcut: from scratch (i.e., start with a blank editor) -->
+    <string name="button_create_from_scratch">Criar a partir do zero</string>
     <!-- Section title, shown on shortcut creation screen, above the section that lets the user pick advanced shortcut types -->
+    <string name="section_title_advanced_shortcut_types">Tipos Avançados</string>
     <!-- Option in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">Importação do Comando cURL</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Atalho de Navegador</string>
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_create_wol_shortcut">Atalho Wake-on-LAN</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">Abrir o URL no browser</string>
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_description_create_wol_shortcut">Envolve um computador na rede</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">Atalho de scripting</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_description_create_scripting_shortcut">Escrever código JavaScript para fluxos de trabalho avançados</string>
     <!-- Option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
+    <string name="button_create_trigger_shortcut">Atalho Multiplo</string>
     <!-- Description for option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
     <string name="button_description_create_trigger_shortcut">Accionar múltiplos atalhos de uma só vez</string>
     <!-- Window title for cURL import -->
@@ -606,12 +671,17 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">Mostrar como atalho de aplicação no lançador</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
+    <string name="subtitle_launcher_shortcut">Isso também permitirá o uso do atalho através de aplicativos de terceiros, como Google Assistant ou Bixby Routines.</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
+    <string name="subtitle_launcher_shortcut_with_direct_share">Isso também permitirá o uso do atalho através de apps de compartilhamento direto ou de terceiros, como Google Assistant ou Bixby Routines.</string>
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
     <string name="label_secondary_launcher_shortcut">Permitir o acionamento através da aplicação secundária do lançador</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="subtitle_secondary_launcher_shortcut">Isso é principalmente útil nos casos em que widgets normais da tela inicial não podem ser usados.</string>
     <!-- Label for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="label_shortcut_as_file_share_target">Permitir receber arquivos de diálogo de compartilhamento</string>
     <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="subtitle_shortcut_as_file_share_target">Ativar isso permite que você compartilhe arquivos de outros aplicativos e os use para o corpo da solicitação deste atalho ou para parâmetros de formulário.</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Permitir o accionamento via Quick Settings Tile</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
@@ -667,6 +737,7 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <!-- Dropdown option for request body: file (i.e., user gets to pick a file which is used as the request body) -->
     <string name="request_body_option_file">Ficheiro (Picker)</string>
     <!-- Label above input box for Request Content-Type -->
+    <string name="label_content_type">Tipo-Conteúdo</string>
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
     <string name="button_copy_curl_export">Cópia</string>
     <!-- Section title in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
@@ -681,6 +752,10 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <string name="label_trigger_shortcuts">Atalhos</string>
     <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
     <string name="label_trigger_shortcuts_subtitle_none">Ainda não foram seleccionados atalhos</string>
+    <plurals name="label_trigger_shortcuts_subtitle">
+        <item quantity="one">%d atalho selecionado</item>
+        <item quantity="other">Atalhos %d selecionados</item>
+    </plurals>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
     <string name="label_scripting_browser_shortcuts_subtitle">Executar código JavaScript antes da execução</string>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
@@ -698,6 +773,7 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">Mostrar Diálogo</string>
     <!-- Shortcut Action Title: Show fullscreen window -->
+    <string name="action_type_window_title">Mostrar Janela</string>
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
     <string name="action_type_selection_title">Mostrar selecção (Escolha múltipla)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
@@ -723,6 +799,7 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
     <string name="action_tts">Discurso (Text-to-Speech)</string>
     <!-- Shortcut Action Title: Action that allows to display a notification -->
+    <string name="action_show_notification">Mostrar notificação</string>
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
     <string name="action_play_sound">Reproduzir som</string>
     <!-- Shortcut Action Title: Vibrate -->
@@ -738,7 +815,9 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <string name="action_type_change_icon_description">Alterar Atalho Descrição</string>
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
+    <string name="action_type_change_shortcut_hidden_title">Mostrar/ocultar atalho</string>
     <!-- Shortcut Action Title: Change Category Visibility -->
+    <string name="action_type_change_category_hidden_title">Mostrar/Ocultar Categoria</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Atalho de Enqueue</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
@@ -768,21 +847,25 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">Tarefa Tasker do gatilho</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
+    <string name="action_type_set_wireguard_tunnel_state_title">Ativar ou desativar Túnel do Wireguard</string>
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Obter Localização Actual</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
     <string name="action_type_get_location_description">Consulta a localização física do dispositivo e devolve-o como um objecto</string>
     <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
+    <string name="action_type_wake_on_lan">Wake-on-LAN</string>
     <!-- Shortcut Action Title: Send a UDP packet to another device on the network -->
     <string name="action_type_send_udp_packet">Enviar Pacote UDP</string>
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
     <string name="action_type_send_tcp_packet">Enviar Pacote TCP</string>
     <!-- Shortcut Action Title: Send an HTTP request -->
+    <string name="action_type_send_http_request">Enviar Requisição HTTP</string>
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">Enviar mensagem MQTT</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">Abortar a execução</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut and instead run the steps as if the request had failed -->
+    <string name="action_type_abort_and_treat_as_failure">Abortar e Tratar como Falha</string>
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
     <string name="action_type_wait">Espere</string>
     <!-- Shortcut Action Title: Get the IP Address of the current Wi-Fi -->
@@ -840,16 +923,24 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Scripting Shortcut", i.e., one that only allows JavaScript for execution and doesn't actually make an HTTP request -->
     <string name="subtitle_editor_toolbar_scripting_shortcut">Atalho de scripting</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
+    <string name="subtitle_editor_toolbar_trigger_shortcut">Atalho Multiplo</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
+    <string name="subtitle_editor_toolbar_wol_shortcut">Atalho Wake-on-LAN</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">Definir o URL do atalho e o método HTTP</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
+    <string name="subtitle_basic_request_settings_prompt_for_wol">Definir o endereço MAC e porta do atalho</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">Definir o URL do atalho</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
+    <string name="subtitle_basic_request_settings_pattern">%1$s %2$s</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
     <string name="subtitle_request_headers_none">Nenhum conjunto de cabeçalhos</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
+    <plurals name="subtitle_request_headers_pattern">
+        <item quantity="one">Conjunto de cabeçalho %d</item>
+        <item quantity="other">%d headers definidos</item>
+    </plurals>
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
     <string name="subtitle_authentication_none">Sem autenticação</string>
     <!-- Section subtitle, shown in shortcut editor when using a client certificate for authentication -->
@@ -863,6 +954,10 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">Sem parâmetros definidos</string>
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
+    <plurals name="subtitle_request_body_params_pattern">
+        <item quantity="one">Parâmetro %d definido</item>
+        <item quantity="other">Parâmetros %d definidos</item>
+    </plurals>
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
     <string name="subtitle_request_body_none">Nenhum conjunto de organismos de pedido</string>
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
@@ -886,6 +981,7 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether cookies should be stored for the HTTP request -->
     <string name="label_accept_cookies">Armazenar cookies</string>
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether the HTTP connection should be kept open after a request is made -->
+    <string name="label_keep_connection_open">Manter a conexão aberta após solicitação</string>
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
     <string name="label_pre_request_script">Executar antes da execução</string>
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
@@ -931,8 +1027,11 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_id">Obter identificação por atalho</string>
     <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
+    <string name="dialog_code_snippet_read_from_file">Ler do Arquivo</string>
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
+    <string name="dialog_code_snippet_write_to_file">Escrever para Arquivo</string>
     <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
+    <string name="dialog_code_snippet_append_to_file">Anexar ao Arquivo</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">Obter nome do ficheiro seleccionado</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -970,7 +1069,9 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">Não foi possível renomear o atalho \"%1$s\" porque ele não existe.</string>
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_set_visible">Não foi possível alterar a visibilidade do atalho \“%1$s\", porque ele não existe.</string>
     <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
+    <string name="error_category_not_found_for_set_visible">Não foi possível alterar a visibilidade da categoria \“%1$s\” porque ela não existe.</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Não foi possível alterar o ícone do atalho \"%1$s\" porque ele não existe.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1008,6 +1109,7 @@ Pode activar esta funcionalidade editando um atalho e seleccionando a caixa de v
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">Código de estado</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
+    <string name="label_response_url">URL:</string>
     <!-- Label: Response time, shows how long the HTTP request took -->
     <string name="label_response_timing">Tempo de resposta</string>
     <!-- Label: Shown above section that lists general information about the HTTP response, e.g. status code -->
@@ -1033,12 +1135,15 @@ Pode activar esta funcionalidade editando um atalho e seleccionando a caixa de v
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">Seleccionar ou criar um atalho para o colocar no ecrã inicial.</string>
     <!-- Instructions: Shown in info text at the top of the screen to inform user that they should select or create a shortcut, which is then used as by the 3rd party app (e.g. Tasker) -->
+    <string name="instructions_select_shortcut_for_plugin">Selecione ou crie um atalho que deve ser acionado.</string>
     <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
     <string name="label_widget">Widget personalizável</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">Mostrar Etiqueta</string>
     <!-- Label: Shown when configuring a widget, above a slider, to choose the size of the widget's icon -->
+    <string name="label_widget_icon_size">Tamanho do ícone</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
+    <string name="label_show_widget_icon">Mostrar ícone</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
     <string name="action_create_widget">Criar Widget</string>
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
@@ -1048,6 +1153,10 @@ Pode activar esta funcionalidade editando um atalho e seleccionando a caixa de v
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
     <string name="error_invalid_character">Carácter inválido: %s</string>
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
+    <plurals name="warning_variable_still_in_use_in_shortcuts">
+        <item quantity="one">Esta variável ainda está em uso no atalho %2$d : %1$s</item>
+        <item quantity="other">Essa variável ainda está em uso nos atalhos %2$d : %1$s</item>
+    </plurals>
     <!-- Error: Shown when the text-to-speech action fails to speak a piece of text -->
     <string name="error_tts_failed">Falha no texto</string>
     <!-- Label: Option shown in Code Snippet Picker when inserting an action that targets a shortcut, allows to target the current shortcut -->
@@ -1077,6 +1186,7 @@ Pode activar esta funcionalidade editando um atalho e seleccionando a caixa de v
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
     <string name="option_response_handling_type_toast">Torradas Popup</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a notification -->
+    <string name="option_response_handling_type_notification">notificação</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">Janela de Diálogo</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
@@ -1102,6 +1212,7 @@ Pode activar esta funcionalidade editando um atalho e seleccionando a caixa de v
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <string name="message_pending_executions_cancelled">As execuções pendentes foram canceladas.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
+    <string name="message_changes_discarded">Alterações descartadas.</string>
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">Esta funcionalidade permite-lhe editar os seus atalhos num computador, a partir do conforto de um navegador. Por favor leia a Política de Privacidade da aplicação antes de começar, depois siga estes passos:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
@@ -1113,6 +1224,7 @@ Pode activar esta funcionalidade editando um atalho e seleccionando a caixa de v
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
     <string name="instructions_remote_edit_step_4">"Uma vez terminada a edição e guardadas as suas alterações clique no botão &lt;pre&gt;\"Pull Changes\"&lt;/pre&gt; abaixo para descarregar as suas alterações de volta para a aplicação."</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
+    <string name="button_remote_edit_upload">Enviar para o Servidor</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
     <string name="button_remote_edit_download">Mudanças de Puxar</string>
     <!-- Label: Shown above a textfield with the device's ID, used to log in to edit server when editing shortcuts on a computer -->
@@ -1205,6 +1317,10 @@ Pode activar esta funcionalidade editando um atalho e seleccionando a caixa de v
     <string name="action_type_base64decode_description">Converte uma cadeia codificada Base64 numa Unit8Array (matriz de bytes)</string>
     <!-- Description for Base64encode function in scripting -->
     <string name="action_type_base64encode_description">Converte uma corda ou Uint8Array (matriz de bytes) numa corda codificada Base64</string>
+    <!-- Description for htmlEncode function in scripting -->
+    <string name="action_type_html_encode_description">Codifica uma string de texto simples para torná-lo seguro em HTML</string>
+    <!-- Description for htmlDecode function in scripting -->
+    <string name="action_type_html_decode_description">Decodifica uma cadeia de caracteres HTML em texto simples</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">Não foi encontrada nenhuma aplicação que possa abrir o URL %s.</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
@@ -1250,8 +1366,11 @@ Eliminar de qualquer maneira?</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
     <string name="description_customizable_widget">Escolha a cor da etiqueta do seu atalho, ou se deve esconder completamente a etiqueta.</string>
     <!-- Title of an action in the code snippet picker: Parse a JSON string -->
+    <string name="action_type_parse_json">Parse JSON</string>
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
+    <string name="action_type_parse_xml">Parse XML</string>
     <!-- Title of an action in the code snippet picker: Parse an HTML string -->
+    <string name="action_type_parse_html">Parse HTML</string>
     <!-- Title of dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it -->
     <string name="title_unsaved_changes_detected">Atalho não guardado encontrado</string>
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
@@ -1293,6 +1412,7 @@ Eliminar de qualquer maneira?</string>
     <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <string name="error_failed_to_send_tcp">Falha no envio de pacotes TCP: %s</string>
     <!-- Error message: Shown when the user tries to read a TCP response via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <string name="error_failed_to_receive_tcp">Falha ao ler do soquete TCP: %s</string>
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">A abertura de ficheiros usando o openUrl() não é suportada</string>
     <!-- Page title, for page showing all events that happened recently -->
@@ -1300,6 +1420,7 @@ Eliminar de qualquer maneira?</string>
     <!-- Button in Event History screen, to clear all events and empty the history -->
     <string name="button_clear_history">História clara</string>
     <!-- Button in Event History screen, to switch between showing absolute times and relative times -->
+    <string name="button_history_toggle_time_mode">Alternar Modo de Tempo</string>
     <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
     <string name="message_history_cleared">História apagada.</string>
     <!-- Empty state, shown in event history when there are no recent events -->
@@ -1340,6 +1461,7 @@ Pode excluir atalhos individuais de aparecerem aqui através de uma opção enco
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_legacy_shortcut">Atalho de legado</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_widget">Widget</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_scripting">Roteiro</string>
     <!-- Message shown in snackbar to let the user know that the details of a (selected) history event were copied to the clipboard -->
@@ -1371,7 +1493,15 @@ Também pode ser necessário excluir a aplicação das Optimizações da bateria
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
     <string name="label_no_repetition">Sem repetição</string>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d minutes -->
+    <plurals name="label_repeat_every_x_minutes">
+        <item quantity="one">A cada %d minutos</item>
+        <item quantity="other">A cada %d minutos</item>
+    </plurals>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d hours -->
+    <plurals name="label_repeat_every_x_hours">
+        <item quantity="one">Toda hora</item>
+        <item quantity="other">A cada %d horas</item>
+    </plurals>
     <!-- Title of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
     <string name="settings_ignore_battery_optimizations">Excluir da otimização da bateria</string>
     <!-- Subtitle of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
@@ -1411,6 +1541,7 @@ Para certificados auto-assinados, verifique a secção \"%s\" do atalho.</string
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
     <string name="label_require_specific_wifi_ssid">Exigir uma ligação Wi-Fi específica</string>
     <!-- Option in dropdown menu, for selecting the Internet Protocol version to be used for hostname resolution by a shortcut. This option is used by default when no specific option is chosen. -->
+    <string name="option_ip_version_auto">Determinar automaticamente</string>
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
     <string name="option_no_proxy">Sem procuração</string>
     <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
@@ -1420,6 +1551,7 @@ Para certificados auto-assinados, verifique a secção \"%s\" do atalho.</string
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
     <string name="placeholder_empty_category_for_moving">não há atalhos nesta categoria</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
+    <string name="placeholder_empty_category_section_for_moving">sem atalhos nesta seção</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <string name="label_file_upload_options_allow_image_editing">"Permitir o corte e a rotação de imagens"</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
@@ -1479,13 +1611,22 @@ Para certificados auto-assinados, verifique a secção \"%s\" do atalho.</string
     <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
     <string name="title_select_response_toolbar_buttons">Selecionar botões da barra de ferramentas</string>
     <!-- Subtitle on button, shown in Response settings of shortcut editor, shows how many buttons the user has selected to be shown in the response window toolbar -->
+    <plurals name="subtitle_response_toolbar_actions">
+        <item quantity="one">1 botão selecionado</item>
+        <item quantity="other">Botões %d selecionados</item>
+    </plurals>
     <!-- Option in settings, allows to set whether hidden shortcuts should be visible or not -->
+    <string name="settings_title_show_hidden_shortcuts">Atalhos ocultos</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
+    <string name="settings_option_show_hidden_shortcuts">Mostrar atalhos ocultos</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
+    <string name="settings_option_hide_hidden_shortcuts">Não exibir atalhos ocultos</string>
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Modo de execução</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
+    <string name="option_execution_mode_run_in_foreground">Executar em primeiro plano</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
+    <string name="option_execution_mode_run_in_background">Executar em segundo plano (experimental)</string>
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
     <string name="settings_dynamic_color">Tema</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
@@ -1493,97 +1634,193 @@ Para certificados auto-assinados, verifique a secção \"%s\" do atalho.</string
     <!-- Option in "Theme" setting, to use Dynamic Color, i.e., use the same color scheme as the OS -->
     <string name="settings_dynamic_color_option_default_theme">Utilizar o tema predefinido</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This is the default option, i.e., determine the type automatically from the response headers -->
+    <string name="option_response_content_type_auto">Determinar automaticamente</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as plain text -->
+    <string name="option_response_content_type_plain_text">Texto sem formatação</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as JSON -->
+    <string name="option_response_content_type_json">JSON</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as XML -->
+    <string name="option_response_content_type_xml">XML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as HTML -->
+    <string name="option_response_content_type_html">HTML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response charset. This is the default option, i.e., determine the charset automatically from the response headers -->
+    <string name="option_response_charset_auto">Determinar automaticamente</string>
     <!-- Label for dropdown in "Response Handling" settings, allows the user to choose which character set should be used to decode the HTTP response -->
+    <string name="label_response_charset">Charset de Resposta</string>
     <!-- Warning message shown at the bottom of the cURL import screen when curl options have been detected that are not known to the app. The list of unsupported options is shown after this warning. -->
+    <string name="warning_unsupported_curl_options">Algumas opções não são suportadas e serão ignoradas:</string>
     <!-- Dialog title for dialog that lets the user choose the shape of their custom icon: square or circular -->
+    <string name="dialog_title_select_icon_shape">Selecionar forma de ícone</string>
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_square">Quadrado</string>
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
+    <string name="icon_shape_round">RODADA</string>
     <!-- Warning message shown to user when an HTML page wants to open a URL in the external browser. %s is a placeholder for the URL. -->
+    <string name="warning_page_wants_to_open_url">A página quer abrir o seguinte URL em um navegador:\n\n%s</string>
     <!-- Placeholder text shown in the text field for the search feature on the Documentation screen -->
+    <string name="placeholder_documentation_search_query">Pesquisar na página…</string>
     <!-- Label for dropdown in shortcut editor, for picking the font size in which the response should be displayed -->
+    <string name="label_font_size">Font Size</string>
     <!-- Option in font size drop down: Tiny -->
+    <string name="font_size_tiny">Minúsculo</string>
     <!-- Option in font size drop down: Very small -->
+    <string name="font_size_very_small">Muito pequena</string>
     <!-- Option in font size drop down: Small -->
+    <string name="font_size_small">Pequeno</string>
     <!-- Option in font size drop down: Regular -->
+    <string name="font_size_regular">Padrão</string>
     <!-- Option in font size drop down: Large -->
+    <string name="font_size_large">grande</string>
     <!-- Option in font size drop down: Very large -->
+    <string name="font_size_very_large">Muito grande</string>
     <!-- Option in font size drop down: Huge -->
+    <string name="font_size_huge">Gigante</string>
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
+    <string name="wireguard_setup_instructions">Certifique-se também de ativar a configuração \"Permitir aplicativos de controle remoto\" no aplicativo WireGuard.</string>
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
+    <string name="wireguard_permission_not_granted">A permissão do Wireguard não foi concedida.</string>
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
+    <string name="settings_device_id">ID do dispositivo</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
+    <string name="settings_device_id_summary">Inclua este ID quando reportar bugs no GitHub:\n%s</string>
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
+    <string name="message_device_id_copied">ID do dispositivo copiado para área de transferência.</string>
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
+    <string name="instructions_export">Selecione quais atalhos devem ser exportados. Todas as variáveis necessárias serão exportadas automaticamente.</string>
     <!-- Title shown on Response screen which allows to expand a panel showing some meta information about the response -->
+    <string name="title_response_meta_information">Meta Informação</string>
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute values (e.g. 13:37) -->
+    <string name="message_history_switched_to_absolute_times">Mudou para os tempos absolutos.</string>
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute relative (e.g. 42 sec ago) -->
+    <string name="message_history_switched_to_relative_times">Trocou para tempos relativos.</string>
     <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
+    <string name="error_user_defined">A execução foi abortada e tratada como falha</string>
     <!-- Accessibility description for main menu button -->
+    <string name="accessibility_main_menu">Menu principal</string>
     <!-- Accessibility description for the variable button on the right of text input fields -->
+    <string name="accessibility_variable_field_button">Adicionar variáveis</string>
     <!-- Label on button shown on the Response Handling screen, clicking it leads to a settings screen that lets the user configure how the response (or custom message) is displayed -->
+    <string name="button_display_settings">Configurações de exibição</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_response">Configure como a resposta é exibida</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_message">Configure como a mensagem é exibida</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_error">Configure como a mensagem de erro é exibida</string>
     <!-- Title of screen that lets the user configure how the HTTP response is displayed -->
+    <string name="title_response_display">Exibição de Resposta</string>
     <!-- Title of screen that lets the user configure how their custom message is displayed -->
+    <string name="title_message_display">Exibição da Mensagem</string>
     <!-- Title of a generic warning dialog. The dialog may be used in various situations. -->
+    <string name="warning_dialog_title">ATENÇÃO</string>
     <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
+    <string name="warning_message_malformed_json">Seu corpo de solicitação contém JSON inválido, o que provavelmente causará falha na solicitação.\n\n%s</string>
     <!-- Label for checkbox in editor, to allow JSON responses to be displayed as a table instead of plain JSON -->
+    <string name="label_json_array_as_table">Exibir matriz JSON como tabela</string>
     <!-- Screen title, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="title_working_directories">Diretórios Montados</string>
     <!-- Option in main screen's menu, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="menu_action_working_directories">Diretórios</string>
     <!-- Empty state, shown in list when there are no Directories yet -->
+    <string name="empty_state_working_directories">Você ainda não montou nenhum diretório.</string>
     <!-- Empty state instructions, shown in list when there are no directories yet -->
     <!-- Message, shown in snackbar, to confirm to the user that a directory was created/mounted -->
+    <string name="message_working_directory_mounted">Diretório montado.</string>
     <!-- Message, shown in snackbar, confirming to user that a directory was deleted. %1$s is a placeholder for the directory's name -->
+    <string name="working_directory_deleted">\“%1$s\” excluído.</string>
     <!-- Action button label, shown in context menu of Directories screen, to allow re-mounting a directory, i.e., connecting it to a directory in the device's file system -->
+    <string name="button_mount_working_directory">Montar</string>
     <!-- Generic action button label, shown in context menus, allows renaming things, e.g. directories -->
+    <string name="action_rename">Renomear</string>
     <!-- Subtitle shown below directory name on Directories screen, when a directory is not mounted, i.e., it is disconnected from its counterpart on the device's file system -->
+    <string name="working_directory_unmounted_subtitle">Desmontado</string>
     <!-- Subtitle shown below directory name on Directories screen, to indicate when this directory was last read from or written to -->
+    <string name="working_directory_last_accessed">Último acesso: %s</string>
     <!-- Subtitle shown below directory name on Directories screen, to indicate that this directory was never read from or written to -->
+    <string name="working_directory_never_accessed">Nunca acessado</string>
     <!-- Instructions: Shown at the top of the Directories screen when picking a directory that should be used for a specific feature -->
+    <string name="instructions_select_directory">Selecione ou monte um novo diretório para permitir que o app leia e escreva arquivos nele.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a directory -->
+    <string name="confirm_delete_working_directory_message">Excluir este diretório de montagem? O diretório atual do sistema de arquivos não será tocado e nenhum arquivo será excluído.</string>
     <!-- Title for the dialog window that lets the user rename a directory -->
+    <string name="title_rename_working_directory">Renomear diretório</string>
     <!-- Error message, informing user that the entered directory name already exists -->
+    <string name="validation_directory_name_already_exists">Outro diretório com este nome já existe.</string>
     <!-- Action, shown on dropdown when editing a shortcut, for allowing to hide a shortcut -->
+    <string name="action_hide_shortcut">Esconder</string>
     <!-- Action, shown on dropdown when editing a shortcut, for allowing to show a hidden shortcut -->
+    <string name="action_show_shortcut">Apresentar</string>
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut was hidden -->
+    <string name="message_shortcut_hidden">Shortcut hidden.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
+    <string name="message_shortcut_visible">O atalho não está mais oculto.</string>
     <!-- Title for dialog, when selecting a directory (to be used in Scripting) -->
+    <string name="title_select_working_directory">Selecione o diretório</string>
     <!-- Warning message shown to user when saving their first shortcut, but not having opened the Response Handling screen -->
+    <string name="warning_make_aware_of_response_handling">Certifique-se de também verificar a seção \“%s\", onde você pode configurar como ou se a resposta HTTP deve ser exibida.</string>
     <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
+    <string name="notification_channel_shortcut_execution_title">Execuções de atalho</string>
     <!-- Title for notification channel, used for displaying responses or custom messages -->
+    <string name="notification_channel_shortcut_result_title">Resultados do Atalho</string>
     <!-- Message shown in notification when a shortcut is being executed -->
+    <plurals name="notification_shortcut_execution_text_multiple">
+        <item quantity="one">Atalho em progresso…</item>
+        <item quantity="other">Atalhos %d em progresso…</item>
+    </plurals>
     <!-- Message shown in dialog which shows up when the user first selects the "Run in background" option for "Execution Mode" in the shortcuts editor. Informs the user of technical limitations and that the app will ask for permission to display notifications -->
+    <string name="dialog_text_run_in_background">Por favor, note que a execução em segundo plano se destina a atalhos simples, pois existem muitas limitações técnicas. Você pode encontrar alguns recursos que não funcionam como esperado.\n\nO aplicativo irá exibir uma notificação quando um atalho estiver sendo executado em segundo plano.</string>
     <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
+    <string name="instructions_run_in_background">A execução em segundo plano tem algumas limitações técnicas. Pode não funcionar corretamente em algumas situações, em particular quando interage com arquivos, a área de transferência ou outros aplicativos, ou quando a execução demora mais de dois minutos.</string>
     <!-- Accessibility label for the floating action button on the main screen, to create new shortcuts -->
+    <string name="accessibility_label_create_shortcut_fab">Criar novo atalho</string>
     <!-- Accessibility label for the floating action button, to add shortcuts to a multi-shortcut -->
+    <string name="accessibility_label_add_shortcuts_to_trigger_fab">Adicionar atalhos</string>
     <!-- Accessibility label for the floating action button, to add a header -->
+    <string name="accessibility_label_add_header_fab">Adicionar cabeçalho</string>
     <!-- Accessibility label for the floating action button, to add a parameter -->
+    <string name="accessibility_label_add_parameter_fab">Adicionar parâmetro</string>
     <!-- Accessibility label for the floating action button, to create new categories -->
+    <string name="accessibility_label_create_category_fab">Criar nova categoria</string>
     <!-- Accessibility label for the floating action button, to create new variables -->
+    <string name="accessibility_label_create_variable_fab">Criar nova variável</string>
     <!-- Accessibility label for the floating action button, to mount a new working directory -->
+    <string name="accessibility_label_mount_working_directory_fab">Montar novo diretório</string>
     <!-- Accessibility label for the floating action button, to add a new custom -->
+    <string name="accessibility_label_add_icon_fab">Adicionar novo ícone</string>
     <!-- Accessibility label for the floating action button, to add a certificate pinning -->
+    <string name="accessibility_label_add_certificate_pinning_fab">Adicionar certificado fixado</string>
     <!-- Accessibility label for the floating action button, to add a section to a category -->
+    <string name="accessibility_label_add_category_section">Adicionar seção</string>
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
+    <string name="accessibility_label_show_documentation">Ir para a documentação</string>
     <!-- Accessibility label for "Select all" button in exporter -->
+    <string name="accessibility_label_select_all_for_export">Selecionar todos</string>
     <!-- Accessibility label for "Unselect all" button in exporter -->
+    <string name="accessibility_label_unselect_all_for_export">Desmarcar todos</string>
     <!-- Accessibility label for the generic "go back" arrow button in the nav bar -->
+    <string name="accessibility_label_go_back">Voltar atrás</string>
     <!-- Accessibility label for the generic "close" cross button in the nav bar -->
+    <string name="accessibility_label_close">FECHAR</string>
     <!-- Accessibility label for the "go to next result" button in search bars -->
+    <string name="accessibility_search_go_to_next">Próximo</string>
     <!-- Accessibility label for the "go to previous result" button in search bars -->
+    <string name="accessibility_search_go_to_previous">Anterior</string>
     <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
+    <string name="instructions_shortcut_unhiding">Você pode tornar os atalhos ocultos visíveis novamente, indo para a tela de Configurações e procurando a opção \“%s\".</string>
     <!-- Pattern used to construct the category / section headers on the "Move Shortcut" screen. %s$1 is a placeholder for a category name, %2$s is a placeholder for a section name -->
+    <string name="category_section_header_pattern">%1$s: %2$s</string>
     <!-- Title of "Category Sections" screen, which lets the user manage sections within a category -->
+    <string name="screen_title_category_sections">Seções de Categorias</string>
     <!-- Title of dialog to edit a section within a category -->
+    <string name="title_category_section_edit">Editar seção</string>
     <!-- Title of dialog to add a section within a category -->
+    <string name="title_category_section_add">Adicionar seção</string>
     <!-- Label of input field to provide name for a section within a category -->
+    <string name="label_category_section_name">Nome da Seção</string>
     <!-- Empty state, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections">Esta categoria ainda não tem nenhuma seção.</string>
     <!-- Empty state instructions, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections_instructions">As seções deixam você agrupar atalhos juntos dentro de uma categoria.\n\nclique no botão + para adicionar uma nova seção.</string>
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
+    <string name="placeholder_empty_category_section_main_screen">Esta seção está vazia. Você pode mover os atalhos para ela pressionando por um longo atalho e selecionando \“%s\".</string>
 </resources>
