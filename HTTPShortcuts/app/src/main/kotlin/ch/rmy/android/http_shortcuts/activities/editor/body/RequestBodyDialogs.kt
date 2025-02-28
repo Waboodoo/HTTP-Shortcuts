@@ -3,9 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.body
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -26,6 +24,7 @@ import ch.rmy.android.http_shortcuts.components.SelectDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
+import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 
@@ -202,7 +201,7 @@ private fun EditParameterDialog(
                 }
 
                 if (type == ParameterType.FILE) {
-                    Spacer(modifier = Modifier.height(Spacing.SMALL))
+                    VerticalSpacer(Spacing.SMALL)
                     FileOptions(
                         allowMultiple = true,
                         useHorizontalPadding = false,

@@ -7,10 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -39,6 +37,7 @@ import ch.rmy.android.framework.extensions.move
 import ch.rmy.android.http_shortcuts.activities.categories.models.CategoryListItem
 import ch.rmy.android.http_shortcuts.components.ShortcutIcon
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.extensions.localize
@@ -88,7 +87,7 @@ fun CategoriesContent(
             key = "spacer",
             contentType = "spacer",
         ) {
-            Spacer(modifier = Modifier.height(Spacing.HUGE))
+            VerticalSpacer(Spacing.HUGE)
         }
     }
 }

@@ -2,8 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -22,6 +20,7 @@ import ch.rmy.android.http_shortcuts.components.HelpText
 import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.extensions.localize
 import kotlin.time.Duration
@@ -170,7 +169,7 @@ fun ExecutionSettingsContent(
 
         HorizontalDivider()
 
-        Spacer(modifier = Modifier.height(Spacing.MEDIUM))
+        VerticalSpacer(Spacing.MEDIUM)
     }
 }
 

@@ -4,9 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.rememberScrollState
@@ -30,6 +28,7 @@ import ch.rmy.android.http_shortcuts.components.OrderedOptionsSlider
 import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.ShortcutIcon
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon as ShortcutIconModel
 
 private val ICON_SCALE_OPTIONS = arrayOf(0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1f)
@@ -97,7 +96,7 @@ fun WidgetSettingsContent(
                 },
             )
 
-            Spacer(modifier = Modifier.height(Spacing.TINY))
+            VerticalSpacer(Spacing.TINY)
         }
 
         HorizontalDivider()
@@ -142,7 +141,7 @@ private fun WidgetPreview(
                 shortcutIcon,
                 size = 44.dp * iconScale,
             )
-            Spacer(modifier = Modifier.height(22.dp * (1f - iconScale)))
+            VerticalSpacer(22.dp * (1f - iconScale))
         }
 
         if (showLabel) {

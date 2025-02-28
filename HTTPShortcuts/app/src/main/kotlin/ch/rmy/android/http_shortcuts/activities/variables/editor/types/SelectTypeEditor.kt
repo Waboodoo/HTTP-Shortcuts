@@ -9,9 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
@@ -49,6 +47,7 @@ import ch.rmy.android.http_shortcuts.components.SettingsGroup
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderText
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
+import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 
@@ -136,7 +135,7 @@ fun SelectTypeEditor(
         }
 
         if (viewState.options.isNotEmpty() || viewState.tooFewOptionsError) {
-            Spacer(modifier = Modifier.height(Spacing.SMALL))
+            VerticalSpacer(Spacing.SMALL)
         }
 
         Button(

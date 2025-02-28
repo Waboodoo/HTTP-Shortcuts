@@ -3,9 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.authentication
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -21,6 +19,7 @@ import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
+import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 
@@ -53,7 +52,7 @@ fun AuthenticationContent(
 
         AnimatedVisibility(visible = authenticationType.usesUsernameAndPassword) {
             Column {
-                Spacer(modifier = Modifier.height(Spacing.SMALL))
+                VerticalSpacer(Spacing.SMALL)
                 Column(
                     verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
                 ) {
@@ -78,7 +77,7 @@ fun AuthenticationContent(
 
         AnimatedVisibility(visible = authenticationType.usesToken) {
             Column {
-                Spacer(modifier = Modifier.height(Spacing.SMALL))
+                VerticalSpacer(Spacing.SMALL)
                 TokenField(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -89,7 +88,7 @@ fun AuthenticationContent(
             }
         }
 
-        Spacer(modifier = Modifier.height(Spacing.SMALL))
+        VerticalSpacer(Spacing.SMALL)
 
         Column(
             modifier = Modifier.padding(top = Spacing.MEDIUM)

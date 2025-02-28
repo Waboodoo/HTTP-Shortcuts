@@ -2,9 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.response
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -20,6 +18,7 @@ import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
@@ -70,7 +69,7 @@ fun ResponseDisplayContent(
         )
 
         if (responseSuccessOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE) {
-            Spacer(modifier = Modifier.height(Spacing.SMALL))
+            VerticalSpacer(Spacing.SMALL)
 
             SelectionField(
                 modifier = Modifier.padding(horizontal = Spacing.MEDIUM),

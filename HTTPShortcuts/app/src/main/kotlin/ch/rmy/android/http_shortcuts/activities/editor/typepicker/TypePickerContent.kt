@@ -4,10 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -35,6 +33,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.ScreenInstructionsHeaders
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 
 @Composable
@@ -62,7 +61,7 @@ fun TypePickerContent(
                 },
             )
 
-            Spacer(modifier = Modifier.height(Spacing.SMALL))
+            VerticalSpacer(Spacing.SMALL)
 
             Option(
                 label = stringResource(R.string.button_curl_import),
@@ -82,7 +81,7 @@ fun TypePickerContent(
                 },
             )
 
-            Spacer(modifier = Modifier.height(Spacing.SMALL))
+            VerticalSpacer(Spacing.SMALL)
 
             Option(
                 label = stringResource(R.string.button_create_browser_shortcut),
@@ -93,7 +92,7 @@ fun TypePickerContent(
                 },
             )
 
-            Spacer(modifier = Modifier.height(Spacing.SMALL))
+            VerticalSpacer(Spacing.SMALL)
 
             Option(
                 label = stringResource(R.string.button_create_wol_shortcut),
@@ -104,7 +103,7 @@ fun TypePickerContent(
                 },
             )
 
-            Spacer(modifier = Modifier.height(Spacing.SMALL))
+            VerticalSpacer(Spacing.SMALL)
 
             Option(
                 label = stringResource(R.string.button_create_scripting_shortcut),
