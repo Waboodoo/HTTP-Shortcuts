@@ -38,7 +38,7 @@ A *browser shortcut* is similar to a regular HTTP shortcut in that it correspond
 
 <a name="wake-on-lan"></a>
 
-A *wake-on-lan shortcut can be used to wake up a computer or other device on your network. Check online whether your computer supports this, how to enable it and how to find out its MAC address.
+A *wake-on-lan shortcut* can be used to wake up a computer or other device on your network. Check online whether your computer supports this, how to enable it and how to find out its MAC address.
 
 <a name="scripting-shortcut"></a>
 ### Scripting Shortcut
