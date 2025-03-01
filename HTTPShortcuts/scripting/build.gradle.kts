@@ -9,8 +9,6 @@ android {
 
     defaultConfig {
         minSdk = 26
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -38,7 +36,4 @@ android {
 
 dependencies {
     implementation(libs.quickJsWrapper)
-
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.appcompat)
 }
