@@ -1,3 +1,14 @@
+## Version 3.27.0
+
+### Improvements
+- You can now create "MQTT Shortcuts", which let you send MQTT messages without resorting to the `sendMqttMessages` Scripting function
+
+### Bugfixes
+WIP
+
+### Miscellaneous
+WIP
+
 ## Version 3.26.0
 
 ### Improvements
