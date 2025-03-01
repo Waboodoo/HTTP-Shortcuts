@@ -36,9 +36,19 @@ A *multi-shortcut* combines multiple shortcuts into one. When the multi-shortcut
 
 A *browser shortcut* is similar to a regular HTTP shortcut in that it corresponds to a single URL, but instead of making an HTTP request directly to that URL inside the app, it will open the URL in your device's browser instead.
 
-<a name="wake-on-lan"></a>
+<a name="mqtt-shortcut"></a>
+### MQTT Shortcut
 
-A *wake-on-lan shortcut* can be used to wake up a computer or other device on your network. Check online whether your computer supports this, how to enable it and how to find out its MAC address.
+An *MQTT shortcut* lets you send one or multiple messages to an MQTT server, using the [MQTT protocol](https://en.wikipedia.org/wiki/MQTT). Each message consists of the topic that the message should be published to, and its payload.
+
+You'll need to know the MQTT server's URL, which is specified using the "tcp://"-Scheme, so, if your server is running on 192.168.0.42 at port 1234, then the URL you'd use is "tcp://192.168.0.42:1234".
+
+Optionally, you can also configure a username and password if the server requires authentication.
+
+<a name="wake-on-lan"></a>
+### Wake-on-LAN Shortcut
+
+A *wake-on-lan shortcut* can be used to wake up a computer or other device on your network. Check online whether your computer (and specifically its network card) supports this, how to enable it and how to find out its MAC address.
 
 <a name="scripting-shortcut"></a>
 ### Scripting Shortcut

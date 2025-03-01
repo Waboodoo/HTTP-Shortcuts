@@ -20,7 +20,7 @@ If you like this app, please consider [supporting my work](https://http-shortcut
 - Big set of colorful built-in icons, support for custom icons
 - Dark Mode support
 - Value injection through [global variables](variables.md) with dynamically determined values (e.g., text, numbers, passwords, selections, colors, dates, …)
-- Run arbitrary [JavaScript](https://http-shortcuts.rmy.ch/scripting) before & after execution, which allows for lots of customization with features such as:
+- Run arbitrary [JavaScript](scripting.md) before & after execution, which allows for lots of customization with features such as:
   - compute values such as timestamps, random numbers, UUIDs, hashes, HMACs, base64, etc.
   - parse JSON, HTML or XML and extract data from it
   - show toast message or message dialogs
@@ -28,7 +28,12 @@ If you like this app, please consider [supporting my work](https://http-shortcut
   - read and write files
   - trigger other shortcuts to chain multiple HTTP requests 
   - interact with other devices and services by sending TCP or UDP packets, MQTT messages or using Wake-on-LAN
-- Keep everything organized by categorizing into different tabs and grouping into sections
+- Support for non-HTTP use-cases:
+  - [Browser Shortcuts](shortcuts.md#browser-shortcut) allow opening a URL in a browser
+  - [MQTT Shortcuts](shortcuts.md#mqtt-shortcut) allow sending MQTT messages
+  - [Wake-on-LAN Shortcuts](shortcuts.md#wake-on-lan) allow waking up a device on the network
+  - [Scripting Shortcuts](shortcuts.md#scripting-shortcut) allow defining custom logic using JavaScript code
+- Keep everything organized by categorizing into different [tabs and grouping into sections](categories.md)
 - Import & Export in JSON or cURL format
 - 3rd party integration (e.g. Tasker, Wireguard)
 - Configure it from your browser using the [Web Editor](https://http-shortcuts.rmy.ch/editor)

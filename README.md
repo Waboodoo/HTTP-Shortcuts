@@ -34,13 +34,13 @@ Find more information and documentation on the [official website](https://http-s
 - Use a built-in icon or a custom image
 - Display response as a toast, window or dialog, or run silently
 - Display response as HTML-formatted text, as image or as web page
-- Grouping into tabs and section
+- [Grouping into tabs and section](https://http-shortcuts.rmy.ch/categories)
 - Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)
-- Import & Export in JSON or cURL format
+- [Import & Export](https://http-shortcuts.rmy.ch/import-export) in JSON or cURL format
 - 3rd party integration support (e.g. Tasker, Macrodroid or Wireguard)
 - Invoke from home screen widgets, quick settings tiles, or quick access device controls
 - Dark Mode support
-- Easy remote editing on a computer via the web editor
+- Easy remote editing on a computer via the [web editor](https://http-shortcuts.rmy.ch/import-export#remote-edit)
 - Event history to see details about recently executed HTTP requests & responses
 - Run arbitrary [JavaScript](https://http-shortcuts.rmy.ch/scripting) before & after execution, which allows for lots of customization with features such as:
   - compute values such as timestamps, random numbers, UUIDs, hashes, HMACs, base64, etc.
@@ -49,6 +49,11 @@ Find more information and documentation on the [official website](https://http-s
   - vibrate or play notification sounds
   - trigger other shortcuts to chain multiple HTTP requests 
   - interact with other devices and services by sending TCP or UDP packets, MQTT messages or using Wake-on-LAN
+- Support for non-HTTP use-cases:
+  - [Browser Shortcuts](https://http-shortcuts.rmy.ch/shortcuts#browser-shortcut) allow opening a URL in a browser
+  - [MQTT Shortcuts](https://http-shortcuts.rmy.ch/shortcuts#mqtt-shortcut) allow sending MQTT messages
+  - [Wake-on-LAN Shortcuts](https://http-shortcuts.rmy.ch/shortcuts#wake-on-lan) allow waking up a device on the network
+  - [Scripting Shortcuts](https://http-shortcuts.rmy.ch/shortcuts#scripting-shortcut) allow defining custom logic using JavaScript code
 
 See also the [Changelog](CHANGELOG.md) for the latest additions and updates.
 
