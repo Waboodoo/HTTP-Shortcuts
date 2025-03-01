@@ -3,9 +3,11 @@ package ch.rmy.android.http_shortcuts.activities.editor.authentication
 import androidx.compose.runtime.Stable
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 
 @Stable
 data class AuthenticationViewState(
+    val shortcutExecutionType: ShortcutExecutionType,
     val dialogState: AuthenticationDialogState? = null,
     val authenticationType: ShortcutAuthenticationType = ShortcutAuthenticationType.NONE,
     val username: String = "",

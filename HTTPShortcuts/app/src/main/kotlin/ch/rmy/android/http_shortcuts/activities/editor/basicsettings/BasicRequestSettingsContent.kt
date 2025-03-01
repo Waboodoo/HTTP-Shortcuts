@@ -67,6 +67,24 @@ fun BrowserSettingsContent(
 }
 
 @Composable
+fun MqttSettingsContent(
+    url: String,
+    onUrlChanged: (String) -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .padding(Spacing.MEDIUM)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
+    ) {
+        UrlField(
+            url = url,
+            onUrlChanged = onUrlChanged,
+        )
+    }
+}
+
+@Composable
 fun WakOnLanSettingsContent(
     macAddress: String,
     port: String,

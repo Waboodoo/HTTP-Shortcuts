@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ListAlt
 import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.filled.OpenInBrowser
 import androidx.compose.material.icons.filled.PowerSettingsNew
 import androidx.compose.material.icons.filled.Terminal
@@ -89,6 +90,17 @@ fun TypePickerContent(
                 icon = Icons.Filled.OpenInBrowser,
                 onClick = {
                     onShortcutTypeSelected(ShortcutExecutionType.BROWSER)
+                },
+            )
+
+            VerticalSpacer(Spacing.SMALL)
+
+            Option(
+                label = stringResource(R.string.button_create_mqtt_shortcut),
+                description = stringResource(R.string.button_description_create_mqtt_shortcut),
+                icon = Icons.Filled.MailOutline,
+                onClick = {
+                    onShortcutTypeSelected(ShortcutExecutionType.MQTT)
                 },
             )
 

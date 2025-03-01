@@ -19,6 +19,7 @@ data class ShortcutEditorViewState(
     val basicSettingsSubtitle: Localizable = Localizable.EMPTY,
     val headersSubtitle: Localizable = Localizable.EMPTY,
     val requestBodySubtitle: Localizable = Localizable.EMPTY,
+    val mqttMessagesSubtitle: Localizable = Localizable.EMPTY,
     val authenticationSettingsSubtitle: Localizable = Localizable.EMPTY,
     val scriptingSubtitle: Localizable = Localizable.EMPTY,
     val triggerShortcutsSubtitle: Localizable = Localizable.EMPTY,

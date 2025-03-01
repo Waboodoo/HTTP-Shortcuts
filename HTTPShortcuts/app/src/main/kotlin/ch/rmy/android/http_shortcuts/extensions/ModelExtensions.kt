@@ -93,6 +93,7 @@ val ShortcutExecutionType.usesUrl: Boolean
         -> true
         ShortcutExecutionType.SCRIPTING,
         ShortcutExecutionType.TRIGGER,
+        ShortcutExecutionType.MQTT,
         ShortcutExecutionType.WAKE_ON_LAN,
         -> false
     }
@@ -102,6 +103,7 @@ val ShortcutExecutionType.usesBasicSettingsScreen: Boolean
     get() = when (this) {
         ShortcutExecutionType.HTTP,
         ShortcutExecutionType.BROWSER,
+        ShortcutExecutionType.MQTT,
         ShortcutExecutionType.WAKE_ON_LAN,
         -> true
         ShortcutExecutionType.SCRIPTING,
@@ -116,17 +118,10 @@ val ShortcutExecutionType.isHttpShortcut: Boolean
         ShortcutExecutionType.BROWSER,
         ShortcutExecutionType.SCRIPTING,
         ShortcutExecutionType.TRIGGER,
+        ShortcutExecutionType.MQTT,
         ShortcutExecutionType.WAKE_ON_LAN,
         -> false
     }
-
-@Stable
-val ShortcutExecutionType.requiresHttpUrl: Boolean
-    get() = isHttpShortcut
-
-@Stable
-val ShortcutExecutionType.usesRequestOptions: Boolean
-    get() = isHttpShortcut
 
 @Stable
 val ShortcutExecutionType.usesResponse: Boolean
@@ -146,6 +141,7 @@ val ShortcutExecutionType.usesScriptingEditor: Boolean
         ShortcutExecutionType.HTTP,
         ShortcutExecutionType.BROWSER,
         ShortcutExecutionType.SCRIPTING,
+        ShortcutExecutionType.MQTT,
         ShortcutExecutionType.WAKE_ON_LAN,
         -> true
         ShortcutExecutionType.TRIGGER -> false
@@ -158,6 +154,7 @@ val ShortcutExecutionType.usesTriggerShortcuts: Boolean
         ShortcutExecutionType.BROWSER,
         ShortcutExecutionType.SCRIPTING,
         ShortcutExecutionType.HTTP,
+        ShortcutExecutionType.MQTT,
         ShortcutExecutionType.WAKE_ON_LAN,
         -> false
     }
@@ -169,6 +166,7 @@ val ShortcutExecutionType.usesScriptingTestButton: Boolean
         ShortcutExecutionType.BROWSER,
         ShortcutExecutionType.TRIGGER,
         ShortcutExecutionType.HTTP,
+        ShortcutExecutionType.MQTT,
         ShortcutExecutionType.WAKE_ON_LAN,
         -> false
     }

@@ -19,6 +19,7 @@ constructor(
         when (shortcutExecutionType) {
             ShortcutExecutionType.HTTP -> entryPoint.httpExecutionType()
             ShortcutExecutionType.BROWSER -> entryPoint.browserExecutionType()
+            ShortcutExecutionType.MQTT -> entryPoint.mqttExecutionType()
             ShortcutExecutionType.WAKE_ON_LAN -> entryPoint.wakeOnLanExecutionType()
             ShortcutExecutionType.SCRIPTING,
             ShortcutExecutionType.TRIGGER,
@@ -28,9 +29,10 @@ constructor(
     @EntryPoint
     @InstallIn(SingletonComponent::class)
     interface ExecutionTypeFactoryEntryPoint {
-        fun browserExecutionType(): BrowserExecutionType
         fun httpExecutionType(): HttpExecutionType
-        fun noopExecutionType(): NoopExecutionType
+        fun browserExecutionType(): BrowserExecutionType
+        fun mqttExecutionType(): MqttExecutionType
         fun wakeOnLanExecutionType(): WakeOnLanExecutionType
+        fun noopExecutionType(): NoopExecutionType
     }
 }

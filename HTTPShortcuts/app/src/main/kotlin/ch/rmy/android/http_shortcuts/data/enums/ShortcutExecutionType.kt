@@ -11,6 +11,7 @@ enum class ShortcutExecutionType(
     BROWSER("browser"),
     SCRIPTING("scripting"),
     TRIGGER("trigger"), // AKA "Multi Shortcut"
+    MQTT("mqtt"),
     WAKE_ON_LAN("wol"),
     ;
 

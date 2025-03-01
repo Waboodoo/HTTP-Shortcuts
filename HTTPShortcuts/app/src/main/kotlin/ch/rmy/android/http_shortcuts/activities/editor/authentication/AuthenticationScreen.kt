@@ -27,6 +27,7 @@ fun AuthenticationScreen() {
         title = stringResource(R.string.section_authentication),
     ) { viewState ->
         AuthenticationContent(
+            shortcutExecutionType = viewState.shortcutExecutionType,
             authenticationType = viewState.authenticationType,
             username = viewState.username,
             password = viewState.password,

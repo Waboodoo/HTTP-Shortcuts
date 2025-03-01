@@ -344,6 +344,10 @@ sealed interface NavigationDestination {
         override val path = "shortcutEditor/requestBody"
     }
 
+    object ShortcutEditorMqttMessages : NoArgNavigationDestination {
+        override val path = "shortcutEditor/mqttMessages"
+    }
+
     object ShortcutEditorRequestHeaders : NoArgNavigationDestination {
         override val path = "shortcutEditor/requestHeaders"
     }

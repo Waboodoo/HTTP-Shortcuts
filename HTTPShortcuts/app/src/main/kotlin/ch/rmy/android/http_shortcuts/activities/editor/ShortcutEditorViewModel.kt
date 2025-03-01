@@ -31,17 +31,16 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
-import ch.rmy.android.http_shortcuts.extensions.requiresHttpUrl
 import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.extensions.usesResponse
 import ch.rmy.android.http_shortcuts.extensions.usesTriggerShortcuts
-import ch.rmy.android.http_shortcuts.extensions.usesUrl
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
+import ch.rmy.android.http_shortcuts.utils.MqttUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableHttpUrl
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableUrl
@@ -147,6 +146,7 @@ constructor(
                             basicSettingsSubtitle = getBasicSettingsSubtitle(),
                             headersSubtitle = getHeadersSubtitle(),
                             requestBodySubtitle = getRequestBodySubtitle(),
+                            mqttMessagesSubtitle = getMqttMessagesSubtitle(),
                             authenticationSettingsSubtitle = getAuthenticationSubtitle(),
                             scriptingSubtitle = getScriptingSubtitle(),
                             triggerShortcutsSubtitle = getTriggerShortcutsSubtitle(),
@@ -166,6 +166,7 @@ constructor(
             basicSettingsSubtitle = getBasicSettingsSubtitle(),
             headersSubtitle = getHeadersSubtitle(),
             requestBodySubtitle = getRequestBodySubtitle(),
+            mqttMessagesSubtitle = getMqttMessagesSubtitle(),
             authenticationSettingsSubtitle = getAuthenticationSubtitle(),
             scriptingSubtitle = getScriptingSubtitle(),
             triggerShortcutsSubtitle = getTriggerShortcutsSubtitle(),
@@ -182,6 +183,7 @@ constructor(
             ShortcutExecutionType.SCRIPTING,
             ShortcutExecutionType.TRIGGER,
             -> shortcut.codeOnPrepare.isNotEmpty()
+            ShortcutExecutionType.MQTT -> hasUrl()
             ShortcutExecutionType.WAKE_ON_LAN -> shortcut.wolMacAddress.isNotEmpty()
         }
 
@@ -190,6 +192,7 @@ constructor(
             ShortcutExecutionType.BROWSER -> StringResLocalizable(R.string.subtitle_editor_toolbar_browser_shortcut)
             ShortcutExecutionType.SCRIPTING -> StringResLocalizable(R.string.subtitle_editor_toolbar_scripting_shortcut)
             ShortcutExecutionType.TRIGGER -> StringResLocalizable(R.string.subtitle_editor_toolbar_trigger_shortcut)
+            ShortcutExecutionType.MQTT -> StringResLocalizable(R.string.subtitle_editor_toolbar_mqtt_shortcut)
             ShortcutExecutionType.WAKE_ON_LAN -> StringResLocalizable(R.string.subtitle_editor_toolbar_wol_shortcut)
             ShortcutExecutionType.HTTP -> null
         }
@@ -215,6 +218,11 @@ constructor(
                     shortcut.url.toLocalizable()
                 }
             }
+            ShortcutExecutionType.MQTT -> if (!hasUrl()) {
+                StringResLocalizable(R.string.subtitle_basic_request_settings_prompt_for_mqtt)
+            } else {
+                shortcut.url.toLocalizable()
+            }
             ShortcutExecutionType.WAKE_ON_LAN -> if (shortcut.wolMacAddress.isEmpty()) {
                 StringResLocalizable(R.string.subtitle_basic_request_settings_prompt_for_wol)
             } else {
@@ -226,7 +234,7 @@ constructor(
         }
 
     private fun hasUrl() =
-        shortcut.url.let { it.isNotEmpty() && it != "http://" && it != "https://" }
+        shortcut.url.let { it.isNotEmpty() && it != "http://" && it != "https://" && it != "tcp://" }
 
     private fun getHeadersSubtitle(): Localizable {
         val count = shortcut.headers.size
@@ -271,25 +279,46 @@ constructor(
             StringResLocalizable(R.string.subtitle_request_body_not_available, shortcut.method)
         }
 
+    private fun getMqttMessagesSubtitle(): Localizable =
+        if (shortcut.type == ShortcutExecutionType.MQTT) {
+            QuantityStringLocalizable(
+                R.plurals.subtitle_mqtt_messages,
+                MqttUtil.countMessagesInBody(shortcut.bodyContent),
+            )
+        } else {
+            Localizable.EMPTY
+        }
+
     private fun getAuthenticationSubtitle(): Localizable =
-        StringResLocalizable(
-            when (shortcut.authenticationType) {
-                ShortcutAuthenticationType.BASIC -> R.string.subtitle_authentication_basic
-                ShortcutAuthenticationType.DIGEST -> R.string.subtitle_authentication_digest
-                ShortcutAuthenticationType.BEARER -> R.string.subtitle_authentication_bearer
-                ShortcutAuthenticationType.NONE -> if (shortcut.clientCertParams != null && !shortcut.acceptAllCertificates) {
-                    R.string.subtitle_authentication_client_cert
-                } else {
+        if (shortcut.type == ShortcutExecutionType.MQTT) {
+            StringResLocalizable(
+                if (shortcut.username.isEmpty() && shortcut.password.isEmpty()) {
                     R.string.subtitle_authentication_none
+                } else {
+                    R.string.subtitle_authentication_username_and_password_set
+                },
+            )
+        } else {
+            StringResLocalizable(
+                when (shortcut.authenticationType) {
+                    ShortcutAuthenticationType.BASIC -> R.string.subtitle_authentication_basic
+                    ShortcutAuthenticationType.DIGEST -> R.string.subtitle_authentication_digest
+                    ShortcutAuthenticationType.BEARER -> R.string.subtitle_authentication_bearer
+                    ShortcutAuthenticationType.NONE -> if (shortcut.clientCertParams != null && !shortcut.acceptAllCertificates) {
+                        R.string.subtitle_authentication_client_cert
+                    } else {
+                        R.string.subtitle_authentication_none
+                    }
                 }
-            }
-        )
+            )
+        }
 
     private fun getScriptingSubtitle(): Localizable =
         StringResLocalizable(
             when (shortcut.type) {
                 ShortcutExecutionType.SCRIPTING -> R.string.label_scripting_scripting_shortcuts_subtitle
                 ShortcutExecutionType.BROWSER,
+                ShortcutExecutionType.MQTT,
                 ShortcutExecutionType.WAKE_ON_LAN,
                 -> R.string.label_scripting_browser_shortcuts_subtitle
                 ShortcutExecutionType.HTTP,
@@ -379,18 +408,30 @@ constructor(
             isSaving = false
             return
         }
-        if (
-            (shortcut.type.requiresHttpUrl && !isAcceptableHttpUrl(shortcut.url)) ||
-            (shortcut.type.usesUrl && !shortcut.type.requiresHttpUrl && !isAcceptableUrl(shortcut.url))
-        ) {
-            showSnackbar(R.string.validation_url_invalid, long = true)
-            isSaving = false
-            return
-        }
-        if (shortcut.type == ShortcutExecutionType.WAKE_ON_LAN && shortcut.wolMacAddress.isEmpty()) {
-            showSnackbar(R.string.validation_mac_address_invalid, long = true)
-            isSaving = false
-            return
+        when (shortcut.type) {
+            ShortcutExecutionType.HTTP -> if (!isAcceptableHttpUrl(shortcut.url)) {
+                showSnackbar(R.string.validation_url_invalid, long = true)
+                isSaving = false
+                return
+            }
+            ShortcutExecutionType.BROWSER -> if (!isAcceptableUrl(shortcut.url)) {
+                showSnackbar(R.string.validation_url_invalid, long = true)
+                isSaving = false
+                return
+            }
+            ShortcutExecutionType.MQTT -> if (!hasUrl()) {
+                showSnackbar(R.string.validation_mqtt_server_url_invalid, long = true)
+                isSaving = false
+                return
+            }
+            ShortcutExecutionType.WAKE_ON_LAN -> if (shortcut.wolMacAddress.isEmpty()) {
+                showSnackbar(R.string.validation_mac_address_invalid, long = true)
+                isSaving = false
+                return
+            }
+            ShortcutExecutionType.SCRIPTING,
+            ShortcutExecutionType.TRIGGER,
+            -> Unit
         }
 
         save()
@@ -470,6 +511,12 @@ constructor(
         skipIfBusy()
         logInfo("Request body settings button clicked")
         navigate(NavigationDestination.ShortcutEditorRequestBody)
+    }
+
+    fun onMqttMessagesButtonClicked() = runAction {
+        skipIfBusy()
+        logInfo("MQTT messages button clicked")
+        navigate(NavigationDestination.ShortcutEditorMqttMessages)
     }
 
     fun onAuthenticationButtonClicked() = runAction {

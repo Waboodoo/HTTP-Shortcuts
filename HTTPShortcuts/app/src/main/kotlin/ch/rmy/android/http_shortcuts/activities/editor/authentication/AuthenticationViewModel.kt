@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.authentication.usecases.C
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
+import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.ClientCertUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,6 +30,7 @@ constructor(
     override suspend fun initialize(data: Unit): AuthenticationViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
         return AuthenticationViewState(
+            shortcutExecutionType = shortcut.type,
             authenticationType = shortcut.authenticationType,
             username = shortcut.username,
             password = shortcut.password,

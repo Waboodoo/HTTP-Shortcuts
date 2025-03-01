@@ -39,6 +39,10 @@ fun BasicRequestSettingsScreen() {
                 onUrlChanged = viewModel::onUrlChanged,
                 onTargetBrowserChanged = viewModel::onTargetBrowserChanged,
             )
+            ShortcutExecutionType.MQTT -> MqttSettingsContent(
+                url = viewState.url,
+                onUrlChanged = viewModel::onUrlChanged,
+            )
             ShortcutExecutionType.WAKE_ON_LAN -> WakOnLanSettingsContent(
                 macAddress = viewState.wolMacAddress,
                 port = viewState.wolPort,

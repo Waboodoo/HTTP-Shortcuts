@@ -37,6 +37,9 @@ class Shortcut() : RealmObject {
         if (executionType.usesResponse) {
             responseHandling = ResponseHandling()
         }
+        if (executionType == ShortcutExecutionType.MQTT) {
+            url = "tcp://"
+        }
         this.categoryId = categoryId
     }
 

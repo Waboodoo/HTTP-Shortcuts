@@ -36,7 +36,6 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.isHttpShortcut
 import ch.rmy.android.http_shortcuts.extensions.usesBasicSettingsScreen
-import ch.rmy.android.http_shortcuts.extensions.usesRequestOptions
 import ch.rmy.android.http_shortcuts.extensions.usesResponse
 import ch.rmy.android.http_shortcuts.extensions.usesScriptingEditor
 import ch.rmy.android.http_shortcuts.extensions.usesTriggerShortcuts
@@ -51,6 +50,7 @@ fun ShortcutEditorContent(
     basicSettingsSubtitle: String,
     headersSubtitle: String,
     requestBodySubtitle: String,
+    mqttMessagesSubtitle: String,
     authenticationSettingsSubtitle: String,
     scriptingSubtitle: String,
     triggerShortcutsSubtitle: String,
@@ -62,6 +62,7 @@ fun ShortcutEditorContent(
     onBasicRequestButtonClicked: () -> Unit,
     onHeadersButtonClicked: () -> Unit,
     onRequestBodyButtonClicked: () -> Unit,
+    onMqttMessagesButtonClicked: () -> Unit,
     onAuthenticationButtonClicked: () -> Unit,
     onResponseHandlingButtonClicked: () -> Unit,
     onScriptingButtonClicked: () -> Unit,
@@ -137,7 +138,7 @@ fun ShortcutEditorContent(
             )
         }
 
-        if (shortcutExecutionType.usesRequestOptions) {
+        if (shortcutExecutionType == ShortcutExecutionType.HTTP) {
             SettingsButton(
                 title = stringResource(R.string.section_request_headers),
                 subtitle = headersSubtitle,
@@ -150,7 +151,15 @@ fun ShortcutEditorContent(
                 enabled = requestBodyButtonEnabled,
                 onClick = onRequestBodyButtonClicked,
             )
+        } else if (shortcutExecutionType == ShortcutExecutionType.MQTT) {
+            SettingsButton(
+                title = stringResource(R.string.section_mqtt_messages),
+                subtitle = mqttMessagesSubtitle,
+                onClick = onMqttMessagesButtonClicked,
+            )
+        }
 
+        if (shortcutExecutionType == ShortcutExecutionType.HTTP || shortcutExecutionType == ShortcutExecutionType.MQTT) {
             SettingsButton(
                 title = stringResource(R.string.section_authentication),
                 subtitle = authenticationSettingsSubtitle,
@@ -188,7 +197,7 @@ fun ShortcutEditorContent(
             onClick = onExecutionSettingsButtonClicked,
         )
 
-        if (shortcutExecutionType.usesRequestOptions) {
+        if (shortcutExecutionType == ShortcutExecutionType.HTTP) {
             SettingsButton(
                 title = stringResource(R.string.label_advanced_technical_settings),
                 subtitle = stringResource(R.string.label_advanced_technical_settings_subtitle),

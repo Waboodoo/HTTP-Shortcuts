@@ -22,9 +22,11 @@ import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
 import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 
 @Composable
 fun AuthenticationContent(
+    shortcutExecutionType: ShortcutExecutionType,
     authenticationType: ShortcutAuthenticationType,
     username: String,
     password: String,
@@ -42,17 +44,21 @@ fun AuthenticationContent(
             .padding(vertical = Spacing.MEDIUM)
             .verticalScroll(rememberScrollState()),
     ) {
-        AuthenticationTypeSelection(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = Spacing.MEDIUM),
-            authenticationType = authenticationType,
-            onAuthenticationTypeChanged = onAuthenticationTypeChanged,
-        )
+        if (shortcutExecutionType == ShortcutExecutionType.HTTP) {
+            AuthenticationTypeSelection(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Spacing.MEDIUM),
+                authenticationType = authenticationType,
+                onAuthenticationTypeChanged = onAuthenticationTypeChanged,
+            )
+        }
 
-        AnimatedVisibility(visible = authenticationType.usesUsernameAndPassword) {
+        AnimatedVisibility(visible = authenticationType.usesUsernameAndPassword || shortcutExecutionType == ShortcutExecutionType.MQTT) {
             Column {
-                VerticalSpacer(Spacing.SMALL)
+                if (shortcutExecutionType == ShortcutExecutionType.HTTP) {
+                    VerticalSpacer(Spacing.SMALL)
+                }
                 Column(
                     verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
                 ) {
@@ -88,18 +94,20 @@ fun AuthenticationContent(
             }
         }
 
-        VerticalSpacer(Spacing.SMALL)
+        if (shortcutExecutionType == ShortcutExecutionType.HTTP) {
+            VerticalSpacer(Spacing.SMALL)
 
-        Column(
-            modifier = Modifier.padding(top = Spacing.MEDIUM)
-        ) {
-            HorizontalDivider()
+            Column(
+                modifier = Modifier.padding(top = Spacing.MEDIUM)
+            ) {
+                HorizontalDivider()
 
-            ClientCertButton(
-                clientCertParams = clientCertParams,
-                enabled = isClientCertButtonEnabled,
-                onClientCertButtonClicked = onClientCertButtonClicked,
-            )
+                ClientCertButton(
+                    clientCertParams = clientCertParams,
+                    enabled = isClientCertButtonEnabled,
+                    onClientCertButtonClicked = onClientCertButtonClicked,
+                )
+            }
         }
     }
 }

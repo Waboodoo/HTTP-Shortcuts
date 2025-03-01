@@ -87,7 +87,7 @@ constructor(
                 if (shortcut.authenticationType == ShortcutAuthenticationType.BEARER) {
                     addAll(Variables.extractVariableIds(shortcut.authToken))
                 }
-                if (shortcut.usesCustomBody()) {
+                if (shortcut.usesCustomBody() || shortcut.type == ShortcutExecutionType.MQTT) {
                     addAll(Variables.extractVariableIds(shortcut.bodyContent))
                 }
                 if (shortcut.usesRequestParameters()) {
