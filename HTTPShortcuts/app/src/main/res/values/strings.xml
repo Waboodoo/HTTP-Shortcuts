@@ -187,7 +187,7 @@
     <!-- Label of input field to provide topic of MQTT message, for MQTT shortcut -->
     <string name="label_mqtt_topic">Topic</string>
     <!-- Label of input field to provide payload of MQTT message, for MQTT shortcut -->
-    <string name="label_mqtt_payload">Topic</string>
+    <string name="label_mqtt_payload">Payload</string>
     <!-- Title of dialog to edit an MQTT message of an MQTT shortcut -->
     <string name="title_mqtt_message_edit">Edit Message</string>
     <!-- Title of dialog to add an MQTT message to an MQTT shortcut -->
