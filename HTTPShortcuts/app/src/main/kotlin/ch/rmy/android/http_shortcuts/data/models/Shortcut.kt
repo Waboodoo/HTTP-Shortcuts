@@ -48,6 +48,7 @@ class Shortcut() : RealmObject {
     var executionType: String? = ShortcutExecutionType.HTTP.type
 
     // Only valid when id == TEMPORARY_ID
+    @ExcludedFromExport
     var categoryId: CategoryId? = null
 
     var name: String = ""

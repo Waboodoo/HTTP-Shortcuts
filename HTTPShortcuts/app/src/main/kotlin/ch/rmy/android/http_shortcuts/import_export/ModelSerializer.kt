@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.import_export
 
+import ch.rmy.android.http_shortcuts.data.models.ExcludedFromExport
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -22,7 +23,7 @@ class ModelSerializer : JsonSerializer<Any> {
                 field.isAccessible = true
                 val value = field.get(src)
                 val defaultValue = field.get(instance)
-                if (value != defaultValue) {
+                if (value != defaultValue && !field.isAnnotationPresent(ExcludedFromExport::class.java)) {
                     when (value) {
                         is String -> {
                             output.addProperty(fieldName, value)
