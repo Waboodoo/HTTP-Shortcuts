@@ -77,6 +77,20 @@ If you use [executeShortcut](scripting.md#execute-shortcut) to call another shor
 
 See the guide on [integrating with Tasker](advanced.md#integrate-with-tasker).
 
+## In what order are variables resolved? Can I change the variable resolution order?
+
+Primarily, variables are resolved in the order in which they appear on the Variables screen. You can change this order by rearranging the variables there. If this is not sufficient, e.g. because you use the same variables in multiple shortcuts but want a different order per shortcut, there is a workaround you can do:
+
+1. In the shortcut editor, click on "Scripting"
+2. In the "Run before Execution" field, add a line like the following, one for each variable that you want to use, in the desired order:
+
+```js
+getVariable("my_variable2");
+getVariable("my_variable1");
+```
+
+This will essentially override the resolution order.
+
 ## I hid one of my shortcuts and now I can't access it anymore. How do I make it visible again?
 
 If you go to the app's Settings screen, you'll find an option in the "Appearance" section which lets you configure whether hidden shortcuts should be visible or not. By default, hidden shortcuts will not be shown, but if you change this setting, the shortcuts will instead be visible but appear partially opaque.
