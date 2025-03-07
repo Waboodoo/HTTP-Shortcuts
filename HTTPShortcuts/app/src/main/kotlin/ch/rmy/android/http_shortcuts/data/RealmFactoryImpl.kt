@@ -16,7 +16,6 @@ import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
 import ch.rmy.android.http_shortcuts.data.models.Header
-import ch.rmy.android.http_shortcuts.data.models.HistoryEvent
 import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
@@ -105,7 +104,6 @@ class RealmFactoryImpl private constructor() : RealmFactory {
                     CertificatePin::class,
                     FileUploadOptions::class,
                     Header::class,
-                    HistoryEvent::class,
                     Option::class,
                     Parameter::class,
                     PendingExecution::class,

@@ -50,7 +50,7 @@ constructor(
         }
     }
 
-    fun onHistoryEventLongPressed(id: String) = runAction {
+    fun onHistoryEventLongPressed(id: Int) = runAction {
         val item = viewState.historyItems
             .find { it.id == id }
             ?: skipAction()

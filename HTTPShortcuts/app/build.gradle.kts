@@ -264,7 +264,10 @@ dependencies {
     implementation(libs.androidx.splashscreen)
 
     /* Database */
-    implementation(libs.realm)
+    implementation(libs.realm) // doomed, to be phased out 💔
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
 
     /* Color picker */
     implementation(libs.colorpickerview)

@@ -46,7 +46,8 @@ persistentCookieJar = "v1.0.1"
 playServicesLocation = "21.3.0"
 preference = "1.2.1"
 quickJsWrapper = "3.1.0"
-realm = "3.0.0"
+realm = "3.0.0"  # longer being actively developed, time to phase it out
+room = "2.6.1"
 reorderable = "2.4.3"
 taskerplugin = "0.4.10"
 ucrop = "2.2.8"
@@ -114,6 +115,9 @@ playServices-location = { module = "com.google.android.gms:play-services-locatio
 quickJsWrapper = { module = "wang.harlon.quickjs:wrapper-android", version.ref = "quickJsWrapper" }
 realm = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
 reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 taskerplugin = { module = "com.joaomgcd:taskerpluginlibrary", version.ref = "taskerplugin" }
 ucrop = { module = "com.github.yalantis:ucrop", version.ref = "ucrop" }
 unmock = { module = "com.github.bjoernq:unmockplugin", version.ref = "unmockplugin" }

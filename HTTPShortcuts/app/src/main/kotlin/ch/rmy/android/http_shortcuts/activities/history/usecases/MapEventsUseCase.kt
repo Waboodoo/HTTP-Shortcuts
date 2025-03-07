@@ -26,8 +26,8 @@ constructor() {
             val event = eventModel.getEvent() ?: return@mapNotNull null
             HistoryListItem(
                 id = eventModel.id,
-                time = LocalDateTime.ofInstant(eventModel.eventTime, ZoneId.systemDefault()),
-                epochMillis = eventModel.eventTime.toEpochMilli(),
+                time = LocalDateTime.ofInstant(eventModel.time, ZoneId.systemDefault()),
+                epochMillis = eventModel.time.toEpochMilli(),
                 title = event.getTitle(),
                 detail = event.getDetail(),
                 displayType = event.getDisplayType(),
@@ -35,7 +35,7 @@ constructor() {
         }
 
     private fun HistoryEventModel.getEvent(): HistoryEvent? =
-        when (eventType) {
+        when (type) {
             HistoryEventType.SHORTCUT_TRIGGERED -> getEventData<HistoryEvent.ShortcutTriggered>()
             HistoryEventType.SHORTCUT_CANCELLED -> getEventData<HistoryEvent.ShortcutCancelled>()
             HistoryEventType.HTTP_REQUEST_SENT -> getEventData<HistoryEvent.HttpRequestSent>()
