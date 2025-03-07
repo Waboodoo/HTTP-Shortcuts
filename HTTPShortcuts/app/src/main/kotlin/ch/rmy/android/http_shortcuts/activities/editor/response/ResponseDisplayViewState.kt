@@ -4,7 +4,6 @@ import androidx.compose.runtime.Stable
 import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
-import java.nio.charset.Charset
 
 @Stable
 data class ResponseDisplayViewState(
@@ -12,8 +11,6 @@ data class ResponseDisplayViewState(
     val responseUiType: ResponseUiType,
     val responseSuccessOutput: String,
     val responseContentType: ResponseContentType?,
-    val responseCharset: Charset?,
-    val availableCharsets: List<Charset>,
     val useMonospaceFont: Boolean,
     val fontSize: Int?,
     val includeMetaInformation: Boolean,

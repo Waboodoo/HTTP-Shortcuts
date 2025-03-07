@@ -11,6 +11,8 @@ data class ResponseViewState(
     val responseSuccessOutput: String,
     val responseFailureOutput: String,
     val successMessage: String,
+    val responseCharset: String?,
+    val availableCharsets: List<String>,
     val storeResponseIntoFile: Boolean,
     val storeDirectoryName: String?,
     val storeFileName: String,

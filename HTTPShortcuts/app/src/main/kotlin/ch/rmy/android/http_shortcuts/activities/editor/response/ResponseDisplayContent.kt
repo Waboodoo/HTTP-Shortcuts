@@ -18,20 +18,16 @@ import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.Spacing
-import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
-import java.nio.charset.Charset
 
 @Composable
 fun ResponseDisplayContent(
     responseUiType: ResponseUiType,
     responseSuccessOutput: String,
     responseContentType: ResponseContentType?,
-    responseCharset: Charset?,
-    availableCharsets: List<Charset>,
     includeMetaInformation: Boolean,
     responseDisplayActions: List<ResponseDisplayAction>,
     useMonospaceFont: Boolean,
@@ -39,7 +35,6 @@ fun ResponseDisplayContent(
     jsonArrayAsTable: Boolean,
     javaScriptEnabled: Boolean,
     onResponseContentTypeChanged: (ResponseContentType?) -> Unit,
-    onResponseCharsetChanged: (Charset?) -> Unit,
     onDialogActionChanged: (ResponseDisplayAction?) -> Unit,
     onIncludeMetaInformationChanged: (Boolean) -> Unit,
     onWindowActionsButtonClicked: () -> Unit,
@@ -67,22 +62,6 @@ fun ResponseDisplayContent(
             items = RESPONSE_CONTENT_TYPES.toItems(),
             onItemSelected = onResponseContentTypeChanged,
         )
-
-        if (responseSuccessOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE) {
-            VerticalSpacer(Spacing.SMALL)
-
-            SelectionField(
-                modifier = Modifier.padding(horizontal = Spacing.MEDIUM),
-                title = stringResource(R.string.label_response_charset),
-                selectedKey = responseCharset,
-                items = listOf(
-                    null to stringResource(R.string.option_response_charset_auto),
-                ) + availableCharsets.map {
-                    it to it.name()
-                },
-                onItemSelected = onResponseCharsetChanged,
-            )
-        }
 
         when (responseUiType) {
             ResponseUiType.DIALOG -> {

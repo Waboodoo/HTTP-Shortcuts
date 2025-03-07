@@ -28,6 +28,8 @@ fun ResponseContent(
     responseSuccessOutput: String,
     responseFailureOutput: String,
     successMessage: String,
+    responseCharset: String?,
+    availableCharsets: List<String>,
     storeResponseIntoFile: Boolean,
     storeDirectoryName: String?,
     storeFileName: String,
@@ -37,6 +39,7 @@ fun ResponseContent(
     onResponseFailureOutputChanged: (String) -> Unit,
     onResponseUiTypeChanged: (ResponseUiType) -> Unit,
     onDisplaySettingsClicked: () -> Unit,
+    onResponseCharsetChanged: (String?) -> Unit,
     onStoreResponseIntoFileChanged: (Boolean) -> Unit,
     onReplaceFileIfExistsChanged: (Boolean) -> Unit,
     onStoreFileNameChanged: (String) -> Unit,
@@ -125,6 +128,22 @@ fun ResponseContent(
             },
             onClick = onDisplaySettingsClicked,
         )
+
+        HorizontalDivider()
+
+        VerticalSpacer(Spacing.SMALL)
+
+        SelectionField(
+            modifier = Modifier.padding(horizontal = Spacing.MEDIUM),
+            title = stringResource(R.string.label_response_charset),
+            selectedKey = responseCharset,
+            items = listOf(
+                null to stringResource(R.string.option_response_charset_auto),
+            ) + availableCharsets.map { it to it },
+            onItemSelected = onResponseCharsetChanged,
+        )
+
+        VerticalSpacer(Spacing.SMALL)
 
         HorizontalDivider()
 

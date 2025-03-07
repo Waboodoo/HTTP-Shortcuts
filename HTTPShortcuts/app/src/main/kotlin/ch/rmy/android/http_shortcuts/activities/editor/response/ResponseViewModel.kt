@@ -11,7 +11,10 @@ import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.nio.charset.Charset
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class ResponseViewModel
@@ -32,8 +35,17 @@ constructor(
                     workingDirectoryRepository.getWorkingDirectoryById(id)
                 }
                 ?.name
-        } catch (e: NoSuchElementException) {
+        } catch (_: NoSuchElementException) {
             "???"
+        }
+
+        runAction {
+            val charsets = withContext(Dispatchers.Default) {
+                Charset.availableCharsets().values.toList()
+            }
+            updateViewState {
+                copy(availableCharsets = charsets.map { it.name() })
+            }
         }
 
         return ResponseViewState(
@@ -42,6 +54,8 @@ constructor(
             responseSuccessOutput = responseHandling.successOutput,
             responseFailureOutput = responseHandling.failureOutput,
             successMessage = responseHandling.successMessage,
+            responseCharset = responseHandling.charsetOverride?.name(),
+            availableCharsets = emptyList(),
             storeResponseIntoFile = responseHandling.storeDirectoryId != null,
             storeDirectoryName = storeDirectoryName,
             storeFileName = responseHandling.storeFileName.orEmpty(),
@@ -95,6 +109,23 @@ constructor(
 
     fun onDisplaySettingsClicked() = runAction {
         navigate(NavigationDestination.ShortcutEditorResponseDisplay)
+    }
+
+    fun onResponseCharsetChanged(charset: String?) = runAction {
+        updateViewState {
+            copy(responseCharset = charset)
+        }
+        withProgressTracking {
+            temporaryShortcutRepository.setCharsetOverride(
+                charset?.let {
+                    try {
+                        Charset.forName(it)
+                    } catch (_: Exception) {
+                        null
+                    }
+                },
+            )
+        }
     }
 
     fun onStoreIntoFileCheckboxChanged(enabled: Boolean) = runAction {

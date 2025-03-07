@@ -49,6 +49,8 @@ fun ResponseScreen(savedStateHandle: SavedStateHandle) {
             responseSuccessOutput = viewState.responseSuccessOutput,
             responseFailureOutput = viewState.responseFailureOutput,
             successMessage = viewState.successMessage,
+            responseCharset = viewState.responseCharset,
+            availableCharsets = viewState.availableCharsets,
             storeResponseIntoFile = viewState.storeResponseIntoFile,
             storeDirectoryName = viewState.storeDirectoryName,
             storeFileName = viewState.storeFileName,
@@ -64,6 +66,7 @@ fun ResponseScreen(savedStateHandle: SavedStateHandle) {
                 }
             },
             onDisplaySettingsClicked = viewModel::onDisplaySettingsClicked,
+            onResponseCharsetChanged = viewModel::onResponseCharsetChanged,
             onStoreResponseIntoFileChanged = viewModel::onStoreIntoFileCheckboxChanged,
             onReplaceFileIfExistsChanged = viewModel::onStoreFileOverwriteChanged,
             onStoreFileNameChanged = viewModel::onStoreFileNameChanged,
