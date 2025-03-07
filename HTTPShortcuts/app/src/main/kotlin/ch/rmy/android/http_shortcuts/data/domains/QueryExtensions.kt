@@ -13,16 +13,12 @@ import ch.rmy.android.http_shortcuts.data.models.AppLock
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
-import ch.rmy.android.http_shortcuts.data.models.HistoryEvent
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import io.realm.kotlin.query.RealmQuery
-import io.realm.kotlin.query.Sort
-import io.realm.kotlin.types.RealmInstant
-import kotlin.time.Duration
 
 fun RealmContext.getBase(): RealmQuery<Base> =
     get()
@@ -85,18 +81,6 @@ fun RealmContext.getDeadWidgets(): RealmQuery<Widget> =
 
 fun RealmContext.getWidgetsForShortcut(shortcutId: ShortcutId): RealmQuery<Widget> =
     get("${Widget.FIELD_SHORTCUT}.${Shortcut.FIELD_ID} == $0", shortcutId)
-
-fun RealmContext.getHistoryEvents(): RealmQuery<HistoryEvent> =
-    get<HistoryEvent>()
-        .sort(HistoryEvent.FIELD_TIME, Sort.DESCENDING)
-
-fun RealmContext.getHistoryEventsOlderThan(age: Duration): RealmQuery<HistoryEvent> =
-    get<HistoryEvent>("${HistoryEvent.FIELD_TIME} < $0", RealmInstant.from(RealmInstant.now().epochSeconds - age.inWholeSeconds, 0))
-        .sort(HistoryEvent.FIELD_TIME, Sort.DESCENDING)
-
-fun RealmContext.getHistoryEventsNewerThan(age: Duration): RealmQuery<HistoryEvent> =
-    get<HistoryEvent>("${HistoryEvent.FIELD_TIME} > $0", RealmInstant.from(RealmInstant.now().epochSeconds - age.inWholeSeconds, 0))
-        .sort(HistoryEvent.FIELD_TIME, Sort.DESCENDING)
 
 fun RealmContext.getCertificatePinById(pinId: String): RealmQuery<CertificatePin> =
     get("${CertificatePin.FIELD_ID} == $0", pinId)

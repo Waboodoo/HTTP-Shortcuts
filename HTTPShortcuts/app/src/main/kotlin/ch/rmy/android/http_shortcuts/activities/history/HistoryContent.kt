@@ -43,7 +43,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 
 @Composable
-fun HistoryContent(state: HistoryViewState, onLongPressed: (eventId: String) -> Unit) {
+fun HistoryContent(state: HistoryViewState, onLongPressed: (eventId: Int) -> Unit) {
     if (state.historyItems.isEmpty()) {
         EmptyState(
             title = stringResource(R.string.empty_state_history),
@@ -53,7 +53,7 @@ fun HistoryContent(state: HistoryViewState, onLongPressed: (eventId: String) -> 
     }
 
     val expanded = remember {
-        mutableStateMapOf<String, Boolean>()
+        mutableStateMapOf<Int, Boolean>()
     }
 
     LazyColumn(
