@@ -32,11 +32,11 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.curlcommand.CurlCommand
-import kotlinx.coroutines.flow.Flow
 import java.net.URLDecoder
 import java.nio.charset.Charset
 import javax.inject.Inject
 import kotlin.time.Duration
+import kotlinx.coroutines.flow.Flow
 
 class TemporaryShortcutRepository
 @Inject
@@ -57,7 +57,7 @@ constructor(
                     icon = initialIcon,
                     executionType = executionType,
                     categoryId = categoryId,
-                )
+                ),
             )
         }
     }
@@ -178,7 +178,7 @@ constructor(
         )
         commitTransactionForShortcut { shortcut ->
             shortcut.headers.add(
-                copy(header)
+                copy(header),
             )
         }
         return header
@@ -231,7 +231,7 @@ constructor(
         )
         commitTransactionForShortcut { shortcut ->
             shortcut.parameters.add(
-                copy(parameter)
+                copy(parameter),
             )
         }
         return parameter
@@ -609,7 +609,7 @@ constructor(
             transaction(
                 getTemporaryShortcut()
                     .findFirst()
-                    ?: return@commitTransaction
+                    ?: return@commitTransaction,
             )
         }
     }

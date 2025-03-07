@@ -21,10 +21,10 @@ import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.ImportExpo
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class ImportExportViewModel
@@ -128,7 +128,7 @@ constructor(
                         R.plurals.shortcut_import_success,
                         status.importedShortcuts,
                         status.importedShortcuts,
-                    )
+                    ),
                 )
                 categoriesChanged = true
             } catch (e: CancellationException) {

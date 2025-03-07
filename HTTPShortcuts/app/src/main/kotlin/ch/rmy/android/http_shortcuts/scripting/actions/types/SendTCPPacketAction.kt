@@ -4,17 +4,17 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import java.io.StringWriter
+import java.net.InetAddress
+import java.net.Socket
+import java.nio.charset.Charset
+import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.internal.closeQuietly
-import java.io.StringWriter
-import java.net.InetAddress
-import java.net.Socket
-import java.nio.charset.Charset
-import javax.inject.Inject
 
 class SendTCPPacketAction
 @Inject

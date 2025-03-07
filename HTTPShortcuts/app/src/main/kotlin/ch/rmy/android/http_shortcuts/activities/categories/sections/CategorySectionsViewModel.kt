@@ -87,7 +87,7 @@ constructor(
                     } else {
                         section
                     }
-                }
+                },
         )
         withProgressTracking {
             categoryRepository.updateSection(categoryId, sectionId, name)
@@ -100,7 +100,7 @@ constructor(
         updateSections(
             sections.filter { section ->
                 section.id != sectionId
-            }
+            },
         )
         withProgressTracking {
             categoryRepository.removeSection(categoryId, sectionId)
@@ -117,7 +117,7 @@ constructor(
                     CategorySectionsDialogState.EditSection(
                         id = section.id,
                         name = section.name,
-                    )
+                    ),
                 )
             }
     }

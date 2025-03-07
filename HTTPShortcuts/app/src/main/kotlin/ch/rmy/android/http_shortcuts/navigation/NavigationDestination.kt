@@ -144,7 +144,7 @@ sealed interface NavigationDestination {
 
         override val arguments =
             listOf(
-                stringArg(ARG_URL)
+                stringArg(ARG_URL),
             )
 
         fun buildRequest(url: Uri) = buildNavigationRequest {
@@ -199,7 +199,7 @@ sealed interface NavigationDestination {
 
         override val arguments =
             listOf(
-                optionalBooleanArg(ARG_TO_FILE)
+                optionalBooleanArg(ARG_TO_FILE),
             )
 
         fun buildRequest(toFile: Boolean) =
@@ -383,7 +383,7 @@ sealed interface NavigationDestination {
 
         override val arguments =
             listOf(
-                optionalStringArg(ARG_SHORTCUT_ID)
+                optionalStringArg(ARG_SHORTCUT_ID),
             )
 
         fun buildRequest(shortcutId: ShortcutId?) = buildNavigationRequest {
@@ -439,7 +439,7 @@ sealed interface NavigationDestination {
                 stringArg(ARG_SHORTCUT_ID),
                 stringArg(ARG_SHORTCUT_NAME),
                 stringArg(ARG_SHORTCUT_ICON),
-                optionalIntArg(ARG_WIDGET_ID)
+                optionalIntArg(ARG_WIDGET_ID),
             )
 
         fun buildRequest(shortcutId: ShortcutId, shortcutName: String, shortcutIcon: ShortcutIcon, widgetId: Int?) = buildNavigationRequest {

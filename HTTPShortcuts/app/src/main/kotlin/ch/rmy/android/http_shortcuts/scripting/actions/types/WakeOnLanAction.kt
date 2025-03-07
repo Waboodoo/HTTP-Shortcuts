@@ -5,8 +5,8 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.WakeOnLanUtil
-import kotlinx.coroutines.CancellationException
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 
 class WakeOnLanAction
 @Inject

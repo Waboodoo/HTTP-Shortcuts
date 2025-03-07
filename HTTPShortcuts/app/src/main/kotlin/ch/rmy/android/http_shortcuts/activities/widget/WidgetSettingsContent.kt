@@ -50,7 +50,7 @@ fun WidgetSettingsContent(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(rememberScrollState()),
     ) {
         Box(
             modifier = Modifier
@@ -134,7 +134,7 @@ private fun WidgetPreview(
             .sizeIn(minWidth = 100.dp, minHeight = 120.dp)
             .padding(Spacing.SMALL),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(Spacing.SMALL, Alignment.CenterVertically)
+        verticalArrangement = Arrangement.spacedBy(Spacing.SMALL, Alignment.CenterVertically),
     ) {
         if (showIcon) {
             ShortcutIcon(

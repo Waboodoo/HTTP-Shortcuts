@@ -18,10 +18,10 @@ import ch.rmy.android.http_shortcuts.scripting.ResponseObjectFactory
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.scripting.JsObject
 import ch.rmy.android.scripting.ScriptingEngine
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class ExecuteShortcutAction
 @Inject
@@ -97,7 +97,7 @@ constructor(
                 ?.error
                 ?.message,
             result = (finalStatus as? ExecutionStatus.WithResult)
-                ?.result
+                ?.result,
         )
     }
 

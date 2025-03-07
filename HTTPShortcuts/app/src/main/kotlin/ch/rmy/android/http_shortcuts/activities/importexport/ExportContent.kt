@@ -64,7 +64,7 @@ fun ExportContent(
                                 checked = item.checked,
                                 onCheckedChanged = { checked ->
                                     onCategoryCheckedChanged(item.categoryId, checked)
-                                }
+                                },
                             )
                         }
                     }
@@ -79,7 +79,7 @@ fun ExportContent(
                                 checked = item.checked,
                                 onCheckedChanged = { checked ->
                                     onShortcutCheckedChanged(item.shortcutId, checked)
-                                }
+                                },
                             )
                         }
                     }

@@ -24,10 +24,10 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class ExportViewModel
@@ -55,7 +55,7 @@ constructor(
                                 categoryId = category.id,
                                 name = category.name,
                                 checked = true,
-                            )
+                            ),
                         )
                         category.shortcuts.forEach { shortcut ->
                             add(
@@ -65,7 +65,7 @@ constructor(
                                     name = shortcut.name,
                                     icon = shortcut.icon,
                                     checked = true,
-                                )
+                                ),
                             )
                         }
                     }
@@ -116,7 +116,7 @@ constructor(
                     R.plurals.shortcut_export_success,
                     status.exportedShortcuts,
                     status.exportedShortcuts,
-                )
+                ),
             )
         } catch (e: CancellationException) {
             throw e
@@ -165,7 +165,9 @@ constructor(
     private suspend fun getVariableIdsForExport(shortcutIds: Collection<ShortcutId>?): Set<VariableId>? =
         if (shortcutIds != null) {
             getUsedVariableIds(shortcutIds)
-        } else null
+        } else {
+            null
+        }
 
     fun onDialogDismissalRequested() = runAction {
         currentJob?.cancel()
@@ -241,7 +243,7 @@ constructor(
                             item
                         }
                     }
-                }
+                },
             )
         }
     }
@@ -254,7 +256,7 @@ constructor(
                         is ExportItem.Category -> item.copy(checked = true)
                         is ExportItem.Shortcut -> item.copy(checked = true)
                     }
-                }
+                },
             )
         }
     }
@@ -267,7 +269,7 @@ constructor(
                         is ExportItem.Category -> item.copy(checked = false)
                         is ExportItem.Shortcut -> item.copy(checked = false)
                     }
-                }
+                },
             )
         }
     }

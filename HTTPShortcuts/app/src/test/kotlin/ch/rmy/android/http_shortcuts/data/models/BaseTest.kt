@@ -4,8 +4,8 @@ import ch.rmy.android.http_shortcuts.test.createBase
 import ch.rmy.android.http_shortcuts.test.createCategory
 import ch.rmy.android.http_shortcuts.test.createHeader
 import ch.rmy.android.http_shortcuts.test.createShortcut
-import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
+import org.junit.jupiter.api.assertThrows
 
 class BaseTest {
 
@@ -39,12 +39,12 @@ class BaseTest {
                 createCategory(
                     shortcuts = listOf(
                         createShortcut(id = ID1),
-                    )
+                    ),
                 ),
                 createCategory(
                     shortcuts = listOf(
                         createShortcut(id = ID2),
-                    )
+                    ),
                 ),
             ),
         )
@@ -73,12 +73,12 @@ class BaseTest {
                 createCategory(
                     shortcuts = listOf(
                         createShortcut(id = ID1),
-                    )
+                    ),
                 ),
                 createCategory(
                     shortcuts = listOf(
                         createShortcut(id = ID1),
-                    )
+                    ),
                 ),
             ),
         )
@@ -97,18 +97,18 @@ class BaseTest {
                         createShortcut(
                             headers = listOf(
                                 createHeader(id = ID1),
-                            )
+                            ),
                         ),
-                    )
+                    ),
                 ),
                 createCategory(
                     shortcuts = listOf(
                         createShortcut(
                             headers = listOf(
                                 createHeader(id = ID1),
-                            )
+                            ),
                         ),
-                    )
+                    ),
                 ),
             ),
         )

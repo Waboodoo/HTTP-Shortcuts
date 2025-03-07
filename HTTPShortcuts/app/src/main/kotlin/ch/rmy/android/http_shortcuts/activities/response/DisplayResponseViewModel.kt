@@ -30,12 +30,12 @@ import ch.rmy.android.http_shortcuts.utils.SizeLimitedReader
 import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 @HiltViewModel
 class DisplayResponseViewModel
@@ -90,7 +90,9 @@ constructor(
                         val json = JsonParser.parseString(responseText)
                         val table = if (responseData.jsonArrayAsTable) {
                             getTableData(json)
-                        } else null
+                        } else {
+                            null
+                        }
                         updateViewState {
                             if (table != null) {
                                 copy(tableData = table, processing = false)
@@ -117,7 +119,9 @@ constructor(
                     headers = responseData.headers.entries.flatMap { (key, values) -> values.map { key to it } },
                 )
                     .takeUnless { !it.hasGeneralInfo && it.headers.isEmpty() }
-            } else null,
+            } else {
+                null
+            },
             monospace = responseData.monospace,
             fontSize = responseData.fontSize,
             text = responseText,
@@ -157,7 +161,7 @@ constructor(
                     .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     .let {
                         Intent.createChooser(it, responseData.title)
-                    }
+                    },
             )
         }
     }

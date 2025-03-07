@@ -1,14 +1,14 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import ch.rmy.android.framework.extensions.logException
+import java.net.UnknownHostException
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.eclipse.paho.client.mqttv3.MqttClient
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
 import org.eclipse.paho.client.mqttv3.MqttException
 import org.eclipse.paho.client.mqttv3.MqttMessage
-import java.net.UnknownHostException
-import javax.inject.Inject
 
 class MqttUtil
 @Inject

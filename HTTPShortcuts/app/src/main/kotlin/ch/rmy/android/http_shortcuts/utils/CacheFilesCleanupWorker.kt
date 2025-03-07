@@ -12,12 +12,12 @@ import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.extensions.context
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @HiltWorker
 class CacheFilesCleanupWorker
@@ -53,9 +53,9 @@ constructor(
                         .setConstraints(
                             Constraints.Builder()
                                 .setRequiresBatteryNotLow(true)
-                                .build()
+                                .build(),
                         )
-                        .build()
+                        .build(),
                 )
             }
         }

@@ -29,7 +29,7 @@ fun ImportExportScreen(
     val context = LocalContext.current
 
     val (viewModel, state) = bindViewModel<ImportExportViewModel.InitData, ImportExportViewState, ImportExportViewModel>(
-        ImportExportViewModel.InitData(importUrl)
+        ImportExportViewModel.InitData(importUrl),
     )
 
     BackHandler(state != null) {

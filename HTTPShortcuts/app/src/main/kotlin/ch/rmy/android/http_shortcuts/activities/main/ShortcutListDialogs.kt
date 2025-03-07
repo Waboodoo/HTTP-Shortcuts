@@ -190,7 +190,7 @@ private fun ShortcutInfoDialog(
         },
         text = {
             Column(
-                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL)
+                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
             ) {
                 TextField(
                     modifier = Modifier
@@ -331,7 +331,7 @@ private fun ContextMenuDialog(
             )
         }
         HorizontalDivider(
-            modifier = Modifier.padding(vertical = Spacing.MEDIUM)
+            modifier = Modifier.padding(vertical = Spacing.MEDIUM),
         )
         SelectDialogEntry(
             label = stringResource(R.string.action_edit),
@@ -367,7 +367,7 @@ private fun ContextMenuDialog(
             onClick = onDeleteOptionSelected,
         )
         HorizontalDivider(
-            modifier = Modifier.padding(vertical = Spacing.MEDIUM)
+            modifier = Modifier.padding(vertical = Spacing.MEDIUM),
         )
         SelectDialogEntry(
             label = stringResource(R.string.action_shortcut_information),

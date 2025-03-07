@@ -29,7 +29,7 @@ class CropImageContract(
                     if (input.circle) {
                         setCircleDimmedLayer(true)
                     }
-                }
+                },
             )
             .runIf(enforceSquare) {
                 withAspectRatio(1f, 1f)

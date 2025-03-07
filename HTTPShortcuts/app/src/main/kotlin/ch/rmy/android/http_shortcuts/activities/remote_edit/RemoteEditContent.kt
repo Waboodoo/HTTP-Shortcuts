@@ -135,7 +135,7 @@ private fun Instructions(hostAddress: String) {
             append(intro)
             append("\n")
             appendOrderedList(line1, line2, line3, line4)
-        }
+        },
     )
 }
 

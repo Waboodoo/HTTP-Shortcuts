@@ -14,9 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import ch.rmy.android.http_shortcuts.activities.documentation.models.SearchDirection
 import ch.rmy.android.http_shortcuts.components.LoadingIndicator
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun DocumentationContent(

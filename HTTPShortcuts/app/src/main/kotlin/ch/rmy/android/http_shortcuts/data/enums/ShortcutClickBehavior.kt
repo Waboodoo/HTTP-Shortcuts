@@ -6,7 +6,8 @@ import androidx.compose.runtime.Stable
 enum class ShortcutClickBehavior(val type: String) {
     RUN("run"),
     EDIT("edit"),
-    MENU("menu");
+    MENU("menu"),
+    ;
 
     override fun toString() =
         type

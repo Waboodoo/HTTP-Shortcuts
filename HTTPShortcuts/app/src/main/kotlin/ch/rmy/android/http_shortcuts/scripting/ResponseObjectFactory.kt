@@ -21,7 +21,7 @@ constructor(
                     response.getContentAsString(this@ResponseObjectFactory.context)
                 } catch (_: ResponseTooLargeException) {
                     ""
-                }
+                },
             )
             property("headers", response.headersAsMultiMap)
             property("cookies", response.cookiesAsMultiMap)

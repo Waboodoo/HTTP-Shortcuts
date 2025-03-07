@@ -29,7 +29,7 @@ class Shortcut() : RealmObject {
         id: ShortcutId = "",
         icon: ShortcutIcon = ShortcutIcon.NoIcon,
         executionType: ShortcutExecutionType = ShortcutExecutionType.HTTP,
-        categoryId: CategoryId? = null
+        categoryId: CategoryId? = null,
     ) : this() {
         this.id = id
         this.icon = icon

@@ -5,9 +5,9 @@ import com.franmontiel.persistentcookiejar.PersistentCookieJar
 import com.franmontiel.persistentcookiejar.cache.CookieCache
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
-import okhttp3.CookieJar
 import javax.inject.Inject
 import javax.inject.Singleton
+import okhttp3.CookieJar
 
 @Singleton
 class CookieManager

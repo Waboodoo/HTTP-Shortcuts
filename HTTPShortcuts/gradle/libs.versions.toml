@@ -29,6 +29,7 @@ hiltNavigationCompose = "1.2.0"
 hiltWork = "1.2.0"
 jbcrypt = "0.4"
 jsoup = "1.18.3"
+ktlint = "12.2.0"
 kotlin = "2.0.21"
 kotlinxCoroutines = "1.10.1"
 ksp = "2.0.21-1.0.27"  # must be kept in sync with kotlin version, see https://github.com/google/ksp/releases
@@ -47,7 +48,6 @@ preference = "1.2.1"
 quickJsWrapper = "2.4.4"
 realm = "3.0.0"
 reorderable = "2.4.3"
-spotless = "6.4.2"
 taskerplugin = "0.4.10"
 ucrop = "2.2.8"
 unmockplugin = "0.7.9"
@@ -122,7 +122,7 @@ zoomable = { module = "net.engawapg.lib:zoomable", version.ref = "zoomable" }
 [plugins]
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 realm = { id = "io.realm.kotlin", version.ref = "realm" }
-spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

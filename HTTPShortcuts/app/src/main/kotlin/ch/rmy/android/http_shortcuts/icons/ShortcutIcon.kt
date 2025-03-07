@@ -60,7 +60,7 @@ sealed interface ShortcutIcon {
                             "freepik_minus",
                             "freepik_cancel",
                             "freepik_heart",
-                            "freepik_rate"
+                            "freepik_rate",
                         )
                         )
             }
@@ -92,7 +92,9 @@ sealed interface ShortcutIcon {
                 .run {
                     if (startsWith(LEGACY_COLOR_PREFIX)) {
                         "black_circle"
-                    } else this
+                    } else {
+                        this
+                    }
                 }
         }
 

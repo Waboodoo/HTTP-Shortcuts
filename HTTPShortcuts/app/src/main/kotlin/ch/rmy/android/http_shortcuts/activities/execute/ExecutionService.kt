@@ -23,15 +23,15 @@ import ch.rmy.android.http_shortcuts.notifications.NotificationChannelIds
 import ch.rmy.android.http_shortcuts.notifications.NotificationChannelManager
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.atomic.AtomicInteger
+import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.atomic.AtomicInteger
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ExecutionService : Service() {

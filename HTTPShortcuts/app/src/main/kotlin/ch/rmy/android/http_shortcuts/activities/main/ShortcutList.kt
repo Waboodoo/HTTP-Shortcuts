@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.main.models.ShortcutListItem as ShortcutListItemModel
 import ch.rmy.android.http_shortcuts.components.DefaultTextShadow
 import ch.rmy.android.http_shortcuts.components.EmptyState
 import ch.rmy.android.http_shortcuts.components.FontSize
@@ -53,7 +54,6 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
-import ch.rmy.android.http_shortcuts.activities.main.models.ShortcutListItem as ShortcutListItemModel
 
 private const val HIDDEN_ALPHA = 0.4f
 
@@ -164,7 +164,9 @@ private fun ShortcutLinearList(
                                     {
                                         onShortcutLongClicked(item.id)
                                     }
-                                } else null,
+                                } else {
+                                    null
+                                },
                                 onClick = {
                                     onShortcutClicked(item.id)
                                 },
@@ -275,7 +277,9 @@ private fun ShortcutListItem(
                     // TODO: Animate in & out
                     Icon(Icons.Outlined.HourglassEmpty, null)
                 }
-            } else null,
+            } else {
+                null
+            },
         )
         HorizontalDivider(color = DividerDefaults.color.copy(alpha = 0.3f))
     }
@@ -343,7 +347,9 @@ private fun ShortcutGrid(
                                     {
                                         onShortcutLongClicked(item.id)
                                     }
-                                } else null,
+                                } else {
+                                    null
+                                },
                                 onClick = {
                                     onShortcutClicked(item.id)
                                 },
@@ -379,7 +385,7 @@ private fun ShortcutGridItem(
                 alpha(HIDDEN_ALPHA)
             },
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(Spacing.SMALL, Alignment.CenterVertically)
+        verticalArrangement = Arrangement.spacedBy(Spacing.SMALL, Alignment.CenterVertically),
     ) {
         Box {
             ShortcutIcon(shortcut.icon)
@@ -397,7 +403,7 @@ private fun ShortcutGridItem(
                             shape = CircleShape,
                         )
                         .padding(2.dp)
-                        .align(Alignment.BottomEnd)
+                        .align(Alignment.BottomEnd),
                 )
             }
         }

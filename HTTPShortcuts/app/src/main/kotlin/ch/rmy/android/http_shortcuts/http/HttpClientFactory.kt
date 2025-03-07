@@ -14,12 +14,6 @@ import ch.rmy.android.http_shortcuts.exceptions.ClientCertException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidProxyException
 import ch.rmy.android.http_shortcuts.exceptions.NoIpAddressException
 import com.burgstaller.okhttp.digest.Credentials
-import okhttp3.CertificatePinner
-import okhttp3.ConnectionSpec
-import okhttp3.CookieJar
-import okhttp3.Dns
-import okhttp3.OkHttpClient
-import org.conscrypt.Conscrypt
 import java.net.Authenticator
 import java.net.Inet4Address
 import java.net.Inet6Address
@@ -32,6 +26,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import javax.net.ssl.KeyManagerFactory
 import javax.net.ssl.SSLContext
+import okhttp3.CertificatePinner
+import okhttp3.ConnectionSpec
+import okhttp3.CookieJar
+import okhttp3.Dns
+import okhttp3.OkHttpClient
+import org.conscrypt.Conscrypt
 
 @Singleton
 class HttpClientFactory
@@ -74,7 +74,7 @@ constructor() {
                         val prefix = if (pin.isSha256) "sha256" else "sha1"
                         add(pin.pattern, "$prefix/$hash")
                     }
-                    .build()
+                    .build(),
             )
         }
         .runIfNotNull(cookieJar) {
@@ -97,7 +97,7 @@ constructor() {
                             ProxyType.SOCKS -> Proxy.Type.SOCKS
                         },
                         InetSocketAddress(it.host, it.port),
-                    )
+                    ),
                 )
             } catch (e: IllegalArgumentException) {
                 throw InvalidProxyException(e.message!!)

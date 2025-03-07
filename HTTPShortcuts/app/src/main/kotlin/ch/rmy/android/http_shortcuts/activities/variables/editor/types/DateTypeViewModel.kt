@@ -16,7 +16,7 @@ class DateTypeViewModel : BaseTypeViewModel() {
     override suspend fun save(temporaryVariableRepository: TemporaryVariableRepository, viewState: VariableTypeViewState) {
         viewState as DateTypeViewState
         temporaryVariableRepository.setDataForType(
-            mapOf(DateType.KEY_FORMAT to viewState.dateFormat)
+            mapOf(DateType.KEY_FORMAT to viewState.dateFormat),
         )
         temporaryVariableRepository.setRememberValue(viewState.rememberValue)
     }

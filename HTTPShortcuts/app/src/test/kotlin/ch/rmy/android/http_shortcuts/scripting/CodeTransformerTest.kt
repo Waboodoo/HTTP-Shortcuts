@@ -11,12 +11,12 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.extension.ExtendWith
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.extension.ExtendWith
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(MockKExtension::class)
@@ -50,7 +50,7 @@ class CodeTransformerTest {
             """
             const x = getVariable(/*[variable]*/"$ID1"/*[/variable]*/);
             setVariable(/*[variable]*/"$ID1"/*[/variable]*/, "foo");
-            """.trimIndent()
+            """.trimIndent(),
         )
         assertEquals(
             """
@@ -67,7 +67,7 @@ class CodeTransformerTest {
             """
             const x = getVariable(/*[variable]*/"$ID2"/*[/variable]*/);
             setVariable(/*[variable]*/"$ID3"/*[/variable]*/, "foo");
-            """.trimIndent()
+            """.trimIndent(),
         )
         assertEquals(
             """
@@ -86,7 +86,7 @@ class CodeTransformerTest {
             setVariable("my_variable", "foo");
             const y = getVariable('my_variable');
             setVariable('my_variable', 'foo');
-            """.trimIndent()
+            """.trimIndent(),
         )
         assertEquals(
             """
@@ -106,7 +106,7 @@ class CodeTransformerTest {
             const x = getVariable("my_variable2");
             setVariable("my_Variable", "foo");
             setVariable("my_variable" + "", "foo");
-            """.trimIndent()
+            """.trimIndent(),
         )
         assertEquals(
             """
@@ -126,7 +126,7 @@ class CodeTransformerTest {
                 renameShortcut(/*[shortcut]*/"$ID2"/*[/shortcut]*/, "Test");
                 changeIcon(/*[shortcut]*/"$ID3"/*[/shortcut]*/, "new_icon");
                 changeDescription(/*[shortcut]*/"$ID4"/*[/shortcut]*/, "...");
-            """.trimIndent()
+            """.trimIndent(),
         )
         assertEquals(
             """
@@ -147,7 +147,7 @@ class CodeTransformerTest {
                 renameShortcut(/*[shortcut]*/"$ID5"/*[/shortcut]*/, "Test");
                 changeIcon(/*[shortcut]*/"$ID5"/*[/shortcut]*/, "new_icon");
                 changeDescription(/*[shortcut]*/"$ID5"/*[/shortcut]*/, "...");
-            """.trimIndent()
+            """.trimIndent(),
         )
         assertEquals(
             """
@@ -172,7 +172,7 @@ class CodeTransformerTest {
                 renameShortcut('My "Shortcut"', 'Test');
                 changeIcon('My \'Shortcut\'', 'new_icon');
                 changeDescription('My \\"Shortcut\\"', '...');
-            """.trimIndent()
+            """.trimIndent(),
         )
         assertEquals(
             """
@@ -198,7 +198,7 @@ class CodeTransformerTest {
                 renameShortcut("My  \"Shortcut\"", "Test");
                 changeIcon('My \'shortcut\'', 'new_icon');
                 changeDescription('My \\"Shortcut\\"2', '...');
-            """.trimIndent()
+            """.trimIndent(),
         )
         assertEquals(
             """
@@ -220,7 +220,7 @@ class CodeTransformerTest {
            /* setVariable(/*[variable]*/"$ID1"/*[/variable]*/, "foo"); */
            /* my comment */
            renameShortcut(/*[shortcut]*/"$ID2"/*[/shortcut]*/, "new name");
-            """.trimIndent()
+            """.trimIndent(),
         )
         assertEquals(
             """

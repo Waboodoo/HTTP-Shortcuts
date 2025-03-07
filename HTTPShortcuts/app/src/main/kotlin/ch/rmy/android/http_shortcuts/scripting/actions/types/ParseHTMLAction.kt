@@ -4,6 +4,7 @@ import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.scripting.JsObject
 import ch.rmy.android.scripting.ScriptingEngine
+import javax.inject.Inject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Attributes
 import org.jsoup.nodes.DataNode
@@ -11,7 +12,6 @@ import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
 import org.jsoup.nodes.TextNode
 import org.jsoup.select.Selector.SelectorParseException
-import javax.inject.Inject
 
 class ParseHTMLAction
 @Inject

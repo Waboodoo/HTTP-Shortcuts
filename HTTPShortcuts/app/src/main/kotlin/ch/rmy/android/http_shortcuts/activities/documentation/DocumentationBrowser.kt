@@ -13,9 +13,9 @@ import androidx.compose.ui.viewinterop.NoOpUpdate
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ch.rmy.android.http_shortcuts.activities.documentation.models.SearchDirection
 import ch.rmy.android.http_shortcuts.extensions.rememberWebView
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlin.time.Duration.Companion.milliseconds
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable

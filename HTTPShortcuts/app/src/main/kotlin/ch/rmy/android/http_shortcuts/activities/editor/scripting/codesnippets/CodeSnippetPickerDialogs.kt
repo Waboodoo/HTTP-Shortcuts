@@ -50,7 +50,7 @@ fun CodeSnippetPickerDialogs(
                     message = stringResource(R.string.help_text_code_snippet_get_variable_no_variable),
                     confirmButton = stringResource(R.string.button_create_first_variable),
                     onConfirmRequest = onVariableEditorButtonClicked,
-                    onDismissRequest = onDismissRequested
+                    onDismissRequest = onDismissRequested,
                 )
             } else {
                 VariablePickerDialog(
@@ -67,7 +67,7 @@ fun CodeSnippetPickerDialogs(
                     message = stringResource(R.string.help_text_code_snippet_set_variable_no_variable),
                     confirmButton = stringResource(R.string.button_create_first_variable),
                     onConfirmRequest = onVariableEditorButtonClicked,
-                    onDismissRequest = onDismissRequested
+                    onDismissRequest = onDismissRequested,
                 )
             } else {
                 VariablePickerDialog(

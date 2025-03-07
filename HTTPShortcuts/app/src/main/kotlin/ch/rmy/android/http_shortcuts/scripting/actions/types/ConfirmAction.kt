@@ -22,7 +22,7 @@ constructor() : Action<ConfirmAction.Params> {
 
         return try {
             executionContext.dialogHandle.showDialog(
-                ExecuteDialogState.GenericConfirm(finalMessage.toLocalizable())
+                ExecuteDialogState.GenericConfirm(finalMessage.toLocalizable()),
             )
             true
         } catch (e: DialogCancellationException) {

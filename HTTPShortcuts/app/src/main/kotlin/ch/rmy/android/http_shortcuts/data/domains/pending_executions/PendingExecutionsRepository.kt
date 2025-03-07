@@ -9,11 +9,11 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
-import kotlinx.coroutines.flow.Flow
 import java.time.Instant
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.flow.Flow
 
 class PendingExecutionsRepository
 @Inject
@@ -59,7 +59,7 @@ constructor(
                     recursionDepth,
                     type,
                     requestCode = (maxRequestCode ?: 0) + 1,
-                )
+                ),
             )
         }
     }

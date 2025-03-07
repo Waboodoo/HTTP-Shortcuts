@@ -21,7 +21,7 @@ constructor() : Action<SelectionAction.Params> {
                 ExecuteDialogState.Selection(
                     title = title?.toLocalizable(),
                     values = options.entries.map { (key, value) -> key to value },
-                )
+                ),
             )
         } catch (_: DialogCancellationException) {
             null

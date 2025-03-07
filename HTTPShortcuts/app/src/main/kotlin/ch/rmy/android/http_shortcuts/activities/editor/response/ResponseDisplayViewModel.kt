@@ -7,10 +7,10 @@ import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.nio.charset.Charset
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class ResponseDisplayViewModel

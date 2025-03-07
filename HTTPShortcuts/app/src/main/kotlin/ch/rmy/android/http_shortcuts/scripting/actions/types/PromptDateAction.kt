@@ -24,7 +24,7 @@ constructor() : Action<PromptDateAction.Params> {
                 ExecuteDialogState.DatePicker(
                     title = title,
                     initialDate = getInitialDate(),
-                )
+                ),
             )
             try {
                 SimpleDateFormat(format ?: DEFAULT_FORMAT, Locale.getDefault())

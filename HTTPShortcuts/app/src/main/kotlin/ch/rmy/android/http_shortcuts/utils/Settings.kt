@@ -6,10 +6,10 @@ import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.PreferencesStore
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 @Singleton
 class Settings

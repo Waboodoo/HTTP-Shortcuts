@@ -4,10 +4,10 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class WidgetProvider : AppWidgetProvider() {

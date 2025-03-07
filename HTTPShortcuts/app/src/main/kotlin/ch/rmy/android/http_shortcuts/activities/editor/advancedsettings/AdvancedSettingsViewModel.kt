@@ -67,7 +67,7 @@ constructor(
                     HostVerificationType.TRUST_ALL,
                     -> ""
                     HostVerificationType.SELF_SIGNED -> certificateFingerprint
-                }
+                },
             )
         }
         withProgressTracking {
@@ -200,7 +200,7 @@ constructor(
 
     fun onTimeoutButtonClicked() = runAction {
         updateDialogState(
-            AdvancedSettingsDialogState.TimeoutPicker(viewState.timeout)
+            AdvancedSettingsDialogState.TimeoutPicker(viewState.timeout),
         )
     }
 

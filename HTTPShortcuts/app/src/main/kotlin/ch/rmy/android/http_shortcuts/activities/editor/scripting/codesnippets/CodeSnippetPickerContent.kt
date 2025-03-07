@@ -178,7 +178,7 @@ private fun Section(
                 Icon(
                     painter = painterResource(icon),
                     contentDescription = null,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(20.dp),
                 )
             },
             headlineContent = {
@@ -191,7 +191,7 @@ private fun Section(
                     modifier = Modifier
                         .rotate(rotationDegrees),
                 )
-            }
+            },
         )
     }
 }
@@ -215,7 +215,7 @@ private fun CodeSnippetItem(
                             action = {
                                 consume { onDocumentationButtonClicked() }
                             },
-                        )
+                        ),
                     )
                 }
             }
@@ -249,6 +249,6 @@ private fun CodeSnippetItem(
                         .padding(4.dp),
                 )
             }
-        }
+        },
     )
 }

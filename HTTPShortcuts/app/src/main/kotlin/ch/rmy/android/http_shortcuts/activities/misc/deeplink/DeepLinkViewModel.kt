@@ -31,7 +31,7 @@ constructor(
         if (deepLinkUrl.isCancelExecutions()) {
             sendIntent(
                 MainActivity.IntentBuilder()
-                    .cancelPendingExecutions()
+                    .cancelPendingExecutions(),
             )
             terminateInitialization()
         }
@@ -40,7 +40,7 @@ constructor(
         if (importUrl != null) {
             sendIntent(
                 MainActivity.IntentBuilder()
-                    .importUrl(importUrl)
+                    .importUrl(importUrl),
             )
             terminateInitialization()
         }

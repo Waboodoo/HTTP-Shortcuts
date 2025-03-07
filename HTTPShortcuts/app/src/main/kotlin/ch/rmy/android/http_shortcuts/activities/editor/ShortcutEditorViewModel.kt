@@ -47,11 +47,11 @@ import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableUrl
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class ShortcutEditorViewModel
@@ -309,7 +309,7 @@ constructor(
                     } else {
                         R.string.subtitle_authentication_none
                     }
-                }
+                },
             )
         }
 
@@ -324,7 +324,7 @@ constructor(
                 ShortcutExecutionType.HTTP,
                 ShortcutExecutionType.TRIGGER,
                 -> R.string.label_scripting_subtitle
-            }
+            },
         )
 
     private fun getTriggerShortcutsSubtitle(): Localizable {

@@ -35,10 +35,10 @@ import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ExecuteActivity : BaseComposeActivity() {
@@ -136,7 +136,7 @@ class ExecuteActivity : BaseComposeActivity() {
         if (event is StartServiceEvent) {
             startForegroundService(
                 Intent(context, ExecutionService::class.java)
-                    .putExtras(intent)
+                    .putExtras(intent),
             )
         } else {
             super.handleEvent(event)
@@ -171,7 +171,7 @@ class ExecuteActivity : BaseComposeActivity() {
             if (files.isNotEmpty()) {
                 intent.putParcelableArrayListExtra(
                     EXTRA_FILES,
-                    ArrayList<Uri>().apply { addAll(files) }
+                    ArrayList<Uri>().apply { addAll(files) },
                 )
             }
         }

@@ -17,7 +17,7 @@ constructor() : Action<PromptColorAction.Params> {
                 ExecuteDialogState.ColorPicker(
                     title = title?.toLocalizable(),
                     initialColor = initialColor?.trimStart('#')?.hexStringToColorInt(),
-                )
+                ),
             )
                 .colorIntToHexString()
         } catch (_: DialogCancellationException) {

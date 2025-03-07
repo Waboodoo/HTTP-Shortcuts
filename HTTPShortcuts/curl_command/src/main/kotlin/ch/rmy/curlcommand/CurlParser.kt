@@ -206,7 +206,7 @@ class CurlParser private constructor(arguments: List<String>) {
             "-4",
             "--ipv4",
             "-6",
-            "--ipv6"
+            "--ipv6",
         )
     }
 }

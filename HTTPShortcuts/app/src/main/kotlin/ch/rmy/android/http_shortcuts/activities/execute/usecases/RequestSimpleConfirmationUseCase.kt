@@ -15,7 +15,7 @@ constructor() {
             ExecuteDialogState.GenericConfirm(
                 title = shortcutName.toLocalizable(),
                 message = StringResLocalizable(R.string.dialog_message_confirm_shortcut_execution),
-            )
+            ),
         )
     }
 }

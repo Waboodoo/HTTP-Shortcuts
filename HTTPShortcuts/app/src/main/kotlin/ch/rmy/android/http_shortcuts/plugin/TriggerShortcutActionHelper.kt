@@ -21,7 +21,7 @@ class TriggerShortcutActionHelper(config: TaskerPluginConfig<Input>) : TaskerPlu
             context.getString(
                 R.string.plugin_blurb_execute_task,
                 input.regular.shortcutName,
-            )
+            ),
         )
     }
 }

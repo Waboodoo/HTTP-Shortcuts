@@ -19,11 +19,11 @@ import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.mindrot.jbcrypt.BCrypt
-import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel
@@ -128,7 +128,7 @@ constructor(
 
     fun onUserAgentButtonClicked() = runAction {
         updateDialogState(
-            SettingsDialogState.ChangeUserAgent(settings.userAgent ?: "")
+            SettingsDialogState.ChangeUserAgent(settings.userAgent ?: ""),
         )
     }
 

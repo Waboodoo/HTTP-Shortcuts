@@ -9,12 +9,12 @@ import ch.rmy.android.http_shortcuts.activities.editor.mqttmessages.models.MqttM
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.utils.MqttUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class MqttMessagesViewModel
@@ -76,7 +76,7 @@ constructor(
                     } else {
                         message
                     }
-                }
+                },
         )
     }
 
@@ -86,7 +86,7 @@ constructor(
         updateMessages(
             viewState.messageItems.filter { message ->
                 message.id != messageId
-            }
+            },
         )
     }
 
@@ -101,7 +101,7 @@ constructor(
                         id = message.id,
                         topic = message.topic,
                         payload = message.payload,
-                    )
+                    ),
                 )
             }
     }
@@ -136,7 +136,7 @@ constructor(
             delay(300.milliseconds)
             with(getCurrentViewState()) {
                 temporaryShortcutRepository.setBodyContent(
-                    MqttUtil.getBodyFromMessages(messageItems.map { MqttUtil.Message(it.topic, it.payload.toByteArray()) })
+                    MqttUtil.getBodyFromMessages(messageItems.map { MqttUtil.Message(it.topic, it.payload.toByteArray()) }),
                 )
             }
         }

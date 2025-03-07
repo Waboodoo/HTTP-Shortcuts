@@ -40,7 +40,7 @@ constructor(
                                 onHidden = {
                                     settings.isMalformedJsonWarningPermanentlyHidden = it
                                 },
-                            )
+                            ),
                         )
                     } catch (e: DialogCancellationException) {
                         // Continue as normal

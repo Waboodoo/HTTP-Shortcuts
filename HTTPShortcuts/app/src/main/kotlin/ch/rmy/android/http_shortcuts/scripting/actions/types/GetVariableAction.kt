@@ -7,9 +7,9 @@ import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class GetVariableAction
 @Inject

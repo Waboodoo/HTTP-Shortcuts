@@ -200,13 +200,13 @@ private val REPETITION_TYPES = listOf(null to StringResLocalizable(R.string.labe
         listOf(10, 15, 20, 30)
             .map {
                 it to QuantityStringLocalizable(R.plurals.label_repeat_every_x_minutes, it, it)
-            }
+            },
     )
     .plus(
         listOf(1, 2, 3, 4, 6, 8, 12, 18, 24, 48)
             .map {
                 (it * 60) to QuantityStringLocalizable(R.plurals.label_repeat_every_x_hours, it, it)
-            }
+            },
     )
 
 @Preview

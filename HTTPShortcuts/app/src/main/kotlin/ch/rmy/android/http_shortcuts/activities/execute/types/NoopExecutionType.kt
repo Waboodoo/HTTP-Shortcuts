@@ -9,9 +9,9 @@ import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.scripting.ResultHandler
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
 import ch.rmy.android.http_shortcuts.variables.VariableManager
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import javax.inject.Inject
 
 class NoopExecutionType
 @Inject
@@ -31,7 +31,7 @@ constructor() : ExecutionType() {
                 ExecutionStatus.WrappingUp(
                     variableManager.getVariableValuesByIds(),
                     result = resultHandler.getResult(),
-                )
+                ),
             )
         }
 }

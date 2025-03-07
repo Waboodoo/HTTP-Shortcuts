@@ -28,15 +28,15 @@ import ch.rmy.android.http_shortcuts.usecases.GetUsedCustomIconsUseCase
 import ch.rmy.android.http_shortcuts.usecases.GetUsedWorkingDirectoryIdsUseCase
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import io.realm.kotlin.ext.copyFromRealm
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileInputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.withContext
 
 class Exporter
 @Inject

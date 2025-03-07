@@ -4,13 +4,13 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.VibrationUtil
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
 class VibrateAction
 @Inject

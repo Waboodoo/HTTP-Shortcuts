@@ -31,7 +31,7 @@ constructor(
             NavigationDestination.ShortcutEditor.buildRequest(
                 categoryId = initData.categoryId,
                 executionType = executionType,
-            )
+            ),
         )
     }
 

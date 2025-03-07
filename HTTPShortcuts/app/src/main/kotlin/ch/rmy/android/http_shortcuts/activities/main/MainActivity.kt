@@ -139,7 +139,7 @@ class MainActivity : BaseComposeActivity() {
             text = {
                 Text(
                     "There was an unexpected issue while trying to load your data. Please contact the developer at android@rmy.ch.\n\n" +
-                        "You can export a dump of your local database using the button below."
+                        "You can export a dump of your local database using the button below.",
                 )
             },
             confirmButton = {
@@ -186,7 +186,7 @@ class MainActivity : BaseComposeActivity() {
                                     onDismissed()
                                 }
                             },
-                        )
+                        ),
                     ) {
                         append(RELEASES)
                     }
@@ -233,7 +233,9 @@ class MainActivity : BaseComposeActivity() {
                     shortcutId = intent.getStringExtra(EXTRA_SELECTION_ID)!!,
                     shortcutName = intent.getStringExtra(EXTRA_SELECTION_NAME)!!,
                 )
-            } else null
+            } else {
+                null
+            }
 
         data class Result(val shortcutId: ShortcutId, val shortcutName: String)
     }

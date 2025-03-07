@@ -20,11 +20,11 @@ import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Categories
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 @HiltViewModel
 class CategoriesViewModel
@@ -76,7 +76,7 @@ constructor(
                 placeOnHomeScreenOptionVisible = !category.hidden && launcherShortcutManager.supportsPinning(),
                 hideOptionEnabled = hasEnoughUnhiddenCategories,
                 deleteOptionEnabled = category.hidden || hasEnoughUnhiddenCategories,
-            )
+            ),
         )
     }
 
@@ -144,7 +144,7 @@ constructor(
                 currentIcon = (category.icon as? ShortcutIcon.BuiltInIcon)
                     ?: ShortcutIcon.BuiltInIcon.fromDrawableResource(context, R.drawable.flat_grey_folder),
                 suggestionBase = category.name,
-            )
+            ),
         )
     }
 

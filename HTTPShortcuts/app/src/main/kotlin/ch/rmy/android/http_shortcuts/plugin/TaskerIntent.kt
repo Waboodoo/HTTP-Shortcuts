@@ -70,7 +70,7 @@ class TaskerIntent(taskName: String) : Intent(ACTION_TASK) {
                 .setFlags(
                     FLAG_ACTIVITY_NO_USER_ACTION or
                         FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS or
-                        FLAG_ACTIVITY_NO_HISTORY
+                        FLAG_ACTIVITY_NO_HISTORY,
                 )
 
         internal fun getRandomString() =

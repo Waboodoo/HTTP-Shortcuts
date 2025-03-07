@@ -147,7 +147,7 @@ fun NavigationRoot() {
 
         composable(NavigationDestination.MoveShortcuts) { backStackEntry ->
             MoveScreen(
-                initialShortcut = NavigationDestination.MoveShortcuts.extractShortcutId(backStackEntry.arguments!!)
+                initialShortcut = NavigationDestination.MoveShortcuts.extractShortcutId(backStackEntry.arguments!!),
             )
         }
 

@@ -4,8 +4,8 @@ import android.content.Context
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.utils.BiometricUtil
-import kotlinx.coroutines.CancellationException
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 
 class RequestBiometricConfirmationUseCase
 @Inject

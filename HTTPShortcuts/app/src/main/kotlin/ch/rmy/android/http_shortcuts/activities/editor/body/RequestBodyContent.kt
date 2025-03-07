@@ -153,7 +153,7 @@ private fun ColumnScope.BodyTextEditor(
         verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
     ) {
         Box(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             var hasFocus by remember {
                 mutableStateOf(false)
@@ -215,7 +215,7 @@ private fun ColumnScope.BodyTextEditor(
                     {
                         Text(it)
                     }
-                }
+                },
             )
 
             AnimatedVisibility(visible = contentType == FileTypeUtil.TYPE_JSON) {

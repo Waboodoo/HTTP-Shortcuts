@@ -28,7 +28,7 @@ fun TimestampTypeEditor(
                 viewState.copy(
                     timeFormat = it.take(100),
                     invalidFormat = false,
-                )
+                ),
             )
         },
         isError = viewState.invalidFormat,
@@ -36,7 +36,9 @@ fun TimestampTypeEditor(
             {
                 Text(stringResource(R.string.error_invalid_time_format))
             }
-        } else null,
+        } else {
+            null
+        },
         singleLine = true,
     )
 }

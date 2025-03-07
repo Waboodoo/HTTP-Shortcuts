@@ -30,7 +30,7 @@ class UnsafeTrustManager(private val expectedFingerprint: ByteArray? = null) : X
         if (!fingerprint.contentEquals(expectedFingerprint)) {
             throw CertificateException(
                 "Provided certificate did not match expected $algorithm fingerprint.\n" +
-                    "Expected ${expectedFingerprint.toChunkedHexString()}\nbut was ${fingerprint.toChunkedHexString()}"
+                    "Expected ${expectedFingerprint.toChunkedHexString()}\nbut was ${fingerprint.toChunkedHexString()}",
             )
         }
     }

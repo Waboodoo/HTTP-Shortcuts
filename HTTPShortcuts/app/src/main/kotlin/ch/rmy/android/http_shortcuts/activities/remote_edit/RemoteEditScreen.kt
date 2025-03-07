@@ -27,7 +27,7 @@ fun RemoteEditScreen() {
                 contentDescription = stringResource(R.string.button_change_remote_server),
                 onClick = viewModel::onChangeRemoteHostButtonClicked,
             )
-        }
+        },
     ) { viewState ->
         RemoteEditContent(
             viewState,

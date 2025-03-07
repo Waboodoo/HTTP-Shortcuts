@@ -19,7 +19,7 @@ class ManifestGrabber(
 
         val iconUrls = getManifestIcons(pageUrl, pageContent)
             ?.sortedWith(
-                createComparator(preferredSize) { size }
+                createComparator(preferredSize) { size },
             )
             ?.mapNotNull { icon ->
                 pageUrl.resolve(icon.src)

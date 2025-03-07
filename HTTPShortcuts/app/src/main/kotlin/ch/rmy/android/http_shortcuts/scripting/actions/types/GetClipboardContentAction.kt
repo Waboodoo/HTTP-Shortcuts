@@ -4,9 +4,9 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class GetClipboardContentAction
 @Inject

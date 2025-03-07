@@ -6,10 +6,10 @@ import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.http.HttpRequester.Companion.isStreaming
 import ch.rmy.android.http_shortcuts.http.HttpRequester.Companion.isUnknownLength
-import okhttp3.Response
 import java.io.File
 import java.io.InputStream
 import java.net.SocketTimeoutException
+import okhttp3.Response
 
 class ResponseFileStorage(
     private val context: Context,

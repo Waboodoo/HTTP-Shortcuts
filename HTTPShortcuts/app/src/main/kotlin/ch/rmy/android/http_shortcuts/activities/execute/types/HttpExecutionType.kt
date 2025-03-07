@@ -48,15 +48,15 @@ import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.Variables
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.net.UnknownHostException
 import javax.inject.Inject
 import kotlin.math.pow
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 
 class HttpExecutionType
 @Inject
@@ -235,7 +235,7 @@ constructor(
             ExecutionStatus.WrappingUp(
                 variableManager.getVariableValuesByIds(),
                 result = resultHandler.getResult(),
-            )
+            ),
         )
         handleDisplayingOfResult(
             shortcut = shortcut,
@@ -250,7 +250,7 @@ constructor(
                 response = response,
                 variableValues = variableManager.getVariableValuesByIds(),
                 result = resultHandler.getResult(),
-            )
+            ),
         )
     }
 
@@ -335,7 +335,7 @@ constructor(
                             .truncate(maxLength = TOAST_MAX_LENGTH)
                             .let(HTMLUtil::toSpanned)
                             .ifBlank { context.getString(R.string.message_blank_response) },
-                        long = shortcut.responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE
+                        long = shortcut.responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE,
                     )
                 }
                 ResponseUiType.NOTIFICATION -> {
@@ -419,7 +419,7 @@ constructor(
             HistoryEvent.Error(
                 shortcutName = shortcut.getSafeName(context),
                 error = message,
-            )
+            ),
         )
     }
 

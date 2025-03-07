@@ -5,9 +5,9 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.variables.Variables.VARIABLE_KEY_REGEX
+import javax.inject.Inject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import javax.inject.Inject
 
 class CodeTransformer
 @Inject

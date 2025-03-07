@@ -142,10 +142,11 @@ private fun DeletionDialog(
                 .plus("\n\n")
                 .plus(
                     pluralStringResource(
-                        R.plurals.warning_variable_still_in_use_in_shortcuts, shortcutNames.size,
+                        R.plurals.warning_variable_still_in_use_in_shortcuts,
+                        shortcutNames.size,
                         shortcutNames.joinToString(),
                         shortcutNames.size,
-                    )
+                    ),
                 )
         },
         confirmButton = stringResource(R.string.dialog_delete),

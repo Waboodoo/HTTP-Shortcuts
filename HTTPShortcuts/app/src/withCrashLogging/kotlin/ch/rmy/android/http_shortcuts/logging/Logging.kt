@@ -10,11 +10,11 @@ import com.bugsnag.android.Bugsnag
 import com.bugsnag.android.Configuration
 import com.bugsnag.android.ErrorTypes
 import com.bugsnag.android.ThreadSendPolicy
-import kotlinx.coroutines.CancellationException
 import java.io.IOException
 import java.time.Instant
 import kotlin.time.Duration.Companion.days
 import kotlin.time.times
+import kotlinx.coroutines.CancellationException
 
 object Logging : ch.rmy.android.framework.extensions.Logging {
 

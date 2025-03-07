@@ -14,8 +14,8 @@ import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.ClientCertUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CancellationException
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 
 @HiltViewModel
 class AuthenticationViewModel
@@ -93,7 +93,7 @@ constructor(
                 ClientCertUtil.promptForAlias(activity) { alias ->
                     runAction {
                         onClientCertParamsChanged(
-                            ClientCertParams.Alias(alias)
+                            ClientCertParams.Alias(alias),
                         )
                     }
                 }
@@ -107,7 +107,7 @@ constructor(
         withProgressTracking {
             try {
                 updateDialogState(
-                    AuthenticationDialogState.PasswordPromptForCertFile(fileName = copyCertificateFile(file))
+                    AuthenticationDialogState.PasswordPromptForCertFile(fileName = copyCertificateFile(file)),
                 )
             } catch (e: CancellationException) {
                 throw e
@@ -122,7 +122,7 @@ constructor(
             ?: skipAction()
         updateDialogState(null)
         onClientCertParamsChanged(
-            ClientCertParams.File(fileName, password)
+            ClientCertParams.File(fileName, password),
         )
     }
 

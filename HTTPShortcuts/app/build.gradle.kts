@@ -1,12 +1,12 @@
-import com.android.build.gradle.internal.tasks.factory.dependsOn
-import org.intellij.markdown.flavours.gfm.GFMFlavourDescriptor
-import org.intellij.markdown.html.HtmlGenerator
-import org.intellij.markdown.parser.MarkdownParser
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariantOutput
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+import com.android.build.gradle.internal.tasks.factory.dependsOn
 import `in`.wilsonl.minifyhtml.Configuration
 import `in`.wilsonl.minifyhtml.MinifyHtml
+import org.intellij.markdown.flavours.gfm.GFMFlavourDescriptor
+import org.intellij.markdown.html.HtmlGenerator
+import org.intellij.markdown.parser.MarkdownParser
 
 plugins {
     id("com.android.application")
@@ -382,7 +382,7 @@ fun generateHtmlFromMarkdown(
         }
     File("app/src/main/assets/$outputFile").writeText(
         template.replace("<!-- CONTENT -->", html)
-            .replace("<!-- .* -->\\s*".toRegex(), "")
+            .replace("<!-- .* -->\\s*".toRegex(), ""),
     )
 }
 

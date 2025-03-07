@@ -51,9 +51,9 @@ constructor(
                             Constraints.Builder()
                                 .setRequiresBatteryNotLow(true)
                                 .setRequiresStorageNotLow(true)
-                                .build()
+                                .build(),
                         )
-                        .build()
+                        .build(),
                 )
             }
         }

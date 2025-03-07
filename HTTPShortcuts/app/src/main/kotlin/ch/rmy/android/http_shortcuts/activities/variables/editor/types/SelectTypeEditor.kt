@@ -83,7 +83,7 @@ fun SelectTypeEditor(
                 onViewStateChanged(
                     viewState.copy(
                         separator = it.take(20),
-                    )
+                    ),
                 )
             },
             singleLine = true,
@@ -118,7 +118,7 @@ fun SelectTypeEditor(
                 onViewStateChanged(
                     currentViewState.copy(
                         options = currentViewState.options.swapped(optionId1, optionId2) { id },
-                    )
+                    ),
                 )
             },
         )
@@ -182,11 +182,11 @@ fun SelectTypeEditor(
                                     id = UUIDUtils.newUUID(),
                                     label = dialogOptionLabel,
                                     text = dialogOptionValue,
-                                )
+                                ),
                             )
                         },
                         tooFewOptionsError = false,
-                    )
+                    ),
                 )
                 dialogVisible = false
             },
@@ -197,7 +197,7 @@ fun SelectTypeEditor(
                             it.id != dialogOptionId
                         },
                         tooFewOptionsError = false,
-                    )
+                    ),
                 )
                 dialogVisible = false
             },
@@ -293,7 +293,7 @@ private fun EditDialog(
         },
         text = {
             Column(
-                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL)
+                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
             ) {
                 TextField(
                     modifier = Modifier

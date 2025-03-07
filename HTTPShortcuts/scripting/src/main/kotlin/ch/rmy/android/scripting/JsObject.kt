@@ -19,7 +19,7 @@ interface JsObjectBuilder {
             object : JsFunction {
                 override fun invoke(args: JsFunctionArgs): Any? =
                     function(args)
-            }
+            },
         )
     }
 

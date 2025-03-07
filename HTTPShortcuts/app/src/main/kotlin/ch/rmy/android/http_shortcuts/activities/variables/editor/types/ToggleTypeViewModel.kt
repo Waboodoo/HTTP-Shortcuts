@@ -15,7 +15,7 @@ class ToggleTypeViewModel : BaseTypeViewModel() {
         temporaryVariableRepository.setOptions(
             viewState.options.map {
                 Option(id = it.id, value = it.text)
-            }
+            },
         )
     }
 

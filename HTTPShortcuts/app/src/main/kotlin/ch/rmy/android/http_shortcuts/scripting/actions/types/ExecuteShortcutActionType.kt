@@ -19,7 +19,7 @@ constructor(
             params = ExecuteShortcutAction.Params(
                 shortcutNameOrId = args.getString(0)?.takeUnlessEmpty(),
                 variableValues = args.getObject(1),
-            )
+            ),
         )
 
     override fun getAlias() = ActionAlias(

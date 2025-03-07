@@ -12,14 +12,14 @@ import androidx.core.content.getSystemService
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.scale
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.InputStream
 import java.time.Instant
 import java.util.regex.Pattern
 import java.util.regex.Pattern.quote
 import kotlin.math.max
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object IconUtil {
 
@@ -163,7 +163,7 @@ object IconUtil {
         if (iconSizeCached == null) {
             iconSizeCached = max(
                 context.resources.getDimensionPixelSize(android.R.dimen.app_icon_size),
-                context.getSystemService<ActivityManager>()!!.launcherLargeIconSize
+                context.getSystemService<ActivityManager>()!!.launcherLargeIconSize,
             )
         }
         return if (scaled) {

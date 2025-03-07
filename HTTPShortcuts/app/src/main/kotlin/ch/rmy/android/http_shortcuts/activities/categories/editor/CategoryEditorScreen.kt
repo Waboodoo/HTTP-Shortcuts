@@ -15,7 +15,7 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 @Composable
 fun CategoryEditorScreen(categoryId: CategoryId?) {
     val (viewModel, state) = bindViewModel<CategoryEditorViewModel.InitData, CategoryEditorViewState, CategoryEditorViewModel>(
-        CategoryEditorViewModel.InitData(categoryId)
+        CategoryEditorViewModel.InitData(categoryId),
     )
 
     BackHandler(enabled = state?.hasChanges == true) {

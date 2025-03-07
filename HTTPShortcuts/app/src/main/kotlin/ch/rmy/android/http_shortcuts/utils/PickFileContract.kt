@@ -13,7 +13,7 @@ object PickFileContract : ActivityResultContract<Unit?, (ContentResolver) -> Uri
             .addFlags(
                 Intent.FLAG_GRANT_READ_URI_PERMISSION
                     or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
-                    or Intent.FLAG_GRANT_PREFIX_URI_PERMISSION
+                    or Intent.FLAG_GRANT_PREFIX_URI_PERMISSION,
             )
 
     override fun parseResult(resultCode: Int, intent: Intent?): (ContentResolver) -> Uri? =

@@ -16,9 +16,9 @@ import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import io.realm.kotlin.ext.copyFromRealm
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 class ShortcutRepository
 @Inject

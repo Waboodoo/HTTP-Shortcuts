@@ -24,7 +24,7 @@ constructor() : Action<DialogAction.Params> {
                 ExecuteDialogState.RichTextDisplay(
                     title = title.takeUnlessEmpty(),
                     message = finalMessage,
-                )
+                ),
             )
         } catch (e: DialogCancellationException) {
             // proceed as normal

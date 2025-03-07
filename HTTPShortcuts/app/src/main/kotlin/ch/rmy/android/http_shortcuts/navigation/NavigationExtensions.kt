@@ -57,9 +57,13 @@ fun NavigationEventHandler(navController: NavController) {
             }
             is ViewModelEvent.OpenURL -> {
                 val uri = event.url.toUri()
-                if (DocumentationUrlManager.canHandle(uri)) consume {
-                    navController.navigate(route = NavigationDestination.Documentation.buildRequest(uri).route)
-                } else false
+                if (DocumentationUrlManager.canHandle(uri)) {
+                    consume {
+                        navController.navigate(route = NavigationDestination.Documentation.buildRequest(uri).route)
+                    }
+                } else {
+                    false
+                }
             }
             is ViewModelEvent.CloseScreen -> {
                 focusManager.clearFocus()
@@ -136,7 +140,7 @@ class RouteBuilder(
                         optionalArguments
                             .joinToString(separator = "&") { (key, value) ->
                                 "$key=${Uri.encode(value)}"
-                            }
+                            },
                     )
                 }
             }
@@ -202,7 +206,7 @@ fun getRoute(path: String, arguments: List<NamedNavArgument>) =
                     append(
                         parameters.joinToString(separator = "&") {
                             "${it.name}={${it.name}}"
-                        }
+                        },
                     )
                 }
         }

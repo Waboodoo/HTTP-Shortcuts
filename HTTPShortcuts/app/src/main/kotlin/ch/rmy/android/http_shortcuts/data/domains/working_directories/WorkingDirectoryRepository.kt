@@ -8,9 +8,9 @@ import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getWorkingDirectory
 import ch.rmy.android.http_shortcuts.data.domains.getWorkingDirectoryByNameOrId
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 class WorkingDirectoryRepository
 @Inject

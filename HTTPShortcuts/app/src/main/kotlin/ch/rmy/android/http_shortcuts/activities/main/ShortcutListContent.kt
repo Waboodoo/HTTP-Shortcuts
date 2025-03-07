@@ -60,7 +60,7 @@ fun ShortcutListContent(
             is ShortcutListEvent.OpenFilePickerForExport -> consume {
                 try {
                     openFilePickerForExport.launch(
-                        OpenFilePickerForExportContract.Params(single = true)
+                        OpenFilePickerForExportContract.Params(single = true),
                     )
                 } catch (e: ActivityNotFoundException) {
                     logException("ShortcutListContent", e)

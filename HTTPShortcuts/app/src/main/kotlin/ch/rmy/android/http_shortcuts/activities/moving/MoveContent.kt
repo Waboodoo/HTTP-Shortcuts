@@ -40,10 +40,10 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
-import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

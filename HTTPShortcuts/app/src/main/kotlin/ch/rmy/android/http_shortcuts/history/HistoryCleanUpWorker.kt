@@ -44,7 +44,7 @@ constructor(
                     OneTimeWorkRequestBuilder<HistoryCleanUpWorker>()
                         .addTag(TAG)
                         .setInitialDelay(15, TimeUnit.SECONDS)
-                        .build()
+                        .build(),
                 )
             }
         }

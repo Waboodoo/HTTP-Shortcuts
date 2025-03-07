@@ -29,7 +29,7 @@ fun CertPinningScreen() {
                 contentDescription = stringResource(R.string.button_show_help),
                 onClick = viewModel::onHelpButtonClicked,
             )
-        }
+        },
     ) { viewState ->
         CertPinningContent(
             pins = viewState.pins,

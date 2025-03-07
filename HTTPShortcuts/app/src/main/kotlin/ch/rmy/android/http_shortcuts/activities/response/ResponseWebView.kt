@@ -28,8 +28,8 @@ import ch.rmy.android.framework.extensions.tryOrIgnore
 import ch.rmy.android.http_shortcuts.components.LoadingIndicator
 import ch.rmy.android.http_shortcuts.extensions.rememberWebView
 import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
-import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.delay
 
 @Composable
 fun ResponseBrowser(

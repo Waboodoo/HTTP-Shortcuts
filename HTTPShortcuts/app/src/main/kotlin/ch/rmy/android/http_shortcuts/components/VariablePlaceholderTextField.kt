@@ -50,10 +50,10 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.variables.Variables.BROKEN_RAW_PLACEHOLDER_REGEX
 import ch.rmy.android.http_shortcuts.variables.Variables.RAW_PLACEHOLDER_REGEX
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class VariablePlaceholderViewModel
@@ -141,7 +141,7 @@ private fun transformVariablePlaceholders(
                 }
                 return offset + shift
             }
-        }
+        },
     )
 }
 
@@ -187,7 +187,7 @@ fun VariablePlaceholderTextField(
         mutableStateOf(
             TextFieldValue(
                 text = value,
-            )
+            ),
         )
     }
     var transformedText by remember { mutableStateOf(value) }
@@ -245,7 +245,9 @@ fun VariablePlaceholderTextField(
                     )
                 }
             }
-        } else null,
+        } else {
+            null
+        },
         visualTransformation = {
             transformVariablePlaceholders(it.text, placeholders, placeholderStyle, transformation)
                 .also {

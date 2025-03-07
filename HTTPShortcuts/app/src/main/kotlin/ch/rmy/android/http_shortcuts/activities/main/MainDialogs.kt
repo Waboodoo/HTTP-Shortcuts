@@ -119,7 +119,7 @@ private fun RecoverShortcutDialog(
                     stringResource(R.string.message_unsaved_changes_detected, recoveryInfo.shortcutName)
                 } else {
                     stringResource(R.string.message_unsaved_changes_detected_no_name)
-                }
+                },
             )
         },
         confirmButton = {

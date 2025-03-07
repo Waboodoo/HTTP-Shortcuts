@@ -7,7 +7,8 @@ enum class ResponseDisplayAction(val key: String) {
     RERUN("rerun"),
     SHARE("share"),
     COPY("copy"),
-    SAVE("save");
+    SAVE("save"),
+    ;
 
     companion object {
         fun parse(key: String) =

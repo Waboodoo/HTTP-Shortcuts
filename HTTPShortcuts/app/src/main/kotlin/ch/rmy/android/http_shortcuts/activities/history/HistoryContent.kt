@@ -37,10 +37,10 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.formatMediumTime
 import ch.rmy.android.http_shortcuts.extensions.formatShortTime
 import ch.rmy.android.http_shortcuts.extensions.localize
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
 import java.time.Instant
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 
 @Composable
 fun HistoryContent(state: HistoryViewState, onLongPressed: (eventId: String) -> Unit) {
@@ -92,7 +92,7 @@ fun HistoryContent(state: HistoryViewState, onLongPressed: (eventId: String) -> 
                     },
                 )
             }
-        }
+        },
     )
 }
 
@@ -117,13 +117,13 @@ private fun HistoryListItemView(
                 onClick = {
                     onClick()
                 },
-            )
+            ),
     ) {
         Column(
             modifier = Modifier
                 .padding(horizontal = Spacing.MEDIUM, vertical = Spacing.SMALL)
                 .animateContentSize(),
-            verticalArrangement = Arrangement.spacedBy(Spacing.SMALL)
+            verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
         ) {
             Row(
                 modifier = Modifier
@@ -133,7 +133,7 @@ private fun HistoryListItemView(
                 Title(
                     historyItem,
                     modifier = Modifier
-                        .weight(1f, fill = true)
+                        .weight(1f, fill = true),
                 )
 
                 if (useRelativeTime) {

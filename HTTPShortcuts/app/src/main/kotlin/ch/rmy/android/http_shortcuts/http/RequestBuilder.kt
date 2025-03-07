@@ -8,14 +8,14 @@ import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYP
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.encode
 import ch.rmy.android.http_shortcuts.http.RequestUtil.getMediaType
+import java.io.InputStream
+import java.net.URISyntaxException
+import java.nio.charset.StandardCharsets.UTF_8
 import okhttp3.Credentials
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.internal.http.HttpMethod
-import java.io.InputStream
-import java.net.URISyntaxException
-import java.nio.charset.StandardCharsets.UTF_8
 
 class RequestBuilder(private val method: String, url: String) {
 
@@ -25,7 +25,7 @@ class RequestBuilder(private val method: String, url: String) {
                 it.url(url)
             } catch (e: IllegalArgumentException) {
                 throw InvalidUrlException(url, e.message)
-            } catch (e: URISyntaxException) {
+            } catch (_: URISyntaxException) {
                 throw InvalidUrlException(url)
             }
         }
@@ -76,7 +76,7 @@ class RequestBuilder(private val method: String, url: String) {
                 type,
                 data,
                 length,
-            )
+            ),
         )
     }
 
@@ -110,7 +110,9 @@ class RequestBuilder(private val method: String, url: String) {
                 method,
                 if (HttpMethod.permitsRequestBody(method)) {
                     getBody()
-                } else null,
+                } else {
+                    null
+                },
             )
         }
         .runIfNotNull(userAgent) {
@@ -137,7 +139,7 @@ class RequestBuilder(private val method: String, url: String) {
         contentType == FORM_MULTIPART_CONTENT_TYPE -> FormMultipartRequestBody(parameters)
         contentType?.startsWith(FORM_URLENCODE_CONTENT_TYPE, ignoreCase = true) == true -> constructBodyFromString(
             constructFormUrlEncodedBody()
-                .ifEmpty { body ?: "" }
+                .ifEmpty { body ?: "" },
         )
         bodyStream != null -> constructBodyFromStream(bodyStream!!, bodyLength)
         else -> constructBodyFromString(body ?: "")

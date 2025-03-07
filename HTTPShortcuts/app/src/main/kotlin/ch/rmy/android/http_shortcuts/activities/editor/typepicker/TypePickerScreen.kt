@@ -16,7 +16,7 @@ fun TypePickerScreen(
     categoryId: CategoryId,
 ) {
     val (viewModel, _) = bindViewModel<TypePickerViewModel.InitData, Unit, TypePickerViewModel>(
-        TypePickerViewModel.InitData(categoryId)
+        TypePickerViewModel.InitData(categoryId),
     )
 
     SimpleScaffold(

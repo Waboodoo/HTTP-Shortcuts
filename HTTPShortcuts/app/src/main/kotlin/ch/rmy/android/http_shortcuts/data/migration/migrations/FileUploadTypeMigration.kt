@@ -22,7 +22,7 @@ class FileUploadTypeMigration : BaseMigration {
                         "fileUploadOptions",
                         FileUploadOptions().apply {
                             this.type = FileUploadType.CAMERA
-                        }
+                        },
                     )
                 }
             }
@@ -40,7 +40,7 @@ class FileUploadTypeMigration : BaseMigration {
                         "fileUploadOptions",
                         FileUploadOptions().apply {
                             this.type = FileUploadType.CAMERA
-                        }
+                        },
                     )
                 }
             } else if (oldParameter.getString("type") == "files") {
@@ -53,7 +53,7 @@ class FileUploadTypeMigration : BaseMigration {
                         "fileUploadOptions",
                         FileUploadOptions().apply {
                             this.type = FileUploadType.FILE_PICKER_MULTI
-                        }
+                        },
                     )
                 }
             }

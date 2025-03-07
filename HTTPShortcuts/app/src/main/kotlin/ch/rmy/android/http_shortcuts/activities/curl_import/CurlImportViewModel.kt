@@ -6,14 +6,14 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.curlcommand.CommandParser
 import ch.rmy.curlcommand.CurlParser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class CurlImportViewModel

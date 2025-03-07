@@ -24,7 +24,7 @@ constructor(
             ExecuteDialogState.DatePicker(
                 title = variable.title.takeUnlessEmpty(),
                 initialDate = getInitialDate(variable.value.takeIf { variable.rememberValue }),
-            )
+            ),
         )
 
         if (variable.rememberValue) {

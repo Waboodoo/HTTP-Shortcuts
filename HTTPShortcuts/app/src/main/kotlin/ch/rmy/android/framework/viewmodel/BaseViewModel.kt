@@ -15,6 +15,7 @@ import ch.rmy.android.framework.navigation.NavigationRequest
 import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -25,7 +26,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Application) : AndroidViewModel(application) {
 
@@ -164,7 +164,7 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
                 resultCode = if (okResultCode) Activity.RESULT_OK else null,
                 skipAnimation = skipAnimation,
                 intent = intent,
-            )
+            ),
         )
     }
 
@@ -193,7 +193,7 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
             ViewModelEvent.SendIntent(object : IntentBuilder {
                 override fun build(context: Context): Intent =
                     intent
-            })
+            }),
         )
     }
 

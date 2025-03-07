@@ -1,10 +1,10 @@
 package ch.rmy.android.http_shortcuts.activities.execute
 
 import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
+import javax.inject.Inject
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import javax.inject.Inject
 
 class ExecuteDialogHandler
 @Inject

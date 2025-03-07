@@ -117,7 +117,7 @@ class RealmFactoryImpl private constructor() : RealmFactory {
                     Variable::class,
                     Widget::class,
                     WorkingDirectory::class,
-                )
+                ),
             )
                 .schemaVersion(DatabaseMigration.VERSION)
                 .migration(DatabaseMigration())

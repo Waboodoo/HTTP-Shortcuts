@@ -11,7 +11,7 @@ fun DeepLinkScreen(
     val (viewModel, state) = bindViewModel<DeepLinkViewModel.InitData, DeepLinkViewState, DeepLinkViewModel>(
         DeepLinkViewModel.InitData(
             url = url,
-        )
+        ),
     )
 
     DeepLinkDialogs(

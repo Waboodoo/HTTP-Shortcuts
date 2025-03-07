@@ -759,7 +759,7 @@ constructor(
                 items.add(
                     CodeSnippetItem(title, description?.let(::StringResLocalizable), docRef, combinedKeywords) {
                         actionContext.action()
-                    }
+                    },
                 )
             }
 
@@ -775,7 +775,7 @@ constructor(
                 sendEvent(
                     Event.PickShortcut(title) {
                         action(it)
-                    }
+                    },
                 )
             }
 
@@ -783,7 +783,7 @@ constructor(
                 sendEvent(
                     Event.PickWorkingDirectory {
                         action(it)
-                    }
+                    },
                 )
             }
         }

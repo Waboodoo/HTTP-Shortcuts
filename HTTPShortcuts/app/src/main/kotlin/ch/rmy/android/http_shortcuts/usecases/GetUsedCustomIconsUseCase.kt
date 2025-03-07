@@ -9,9 +9,9 @@ import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class GetUsedCustomIconsUseCase
 @Inject
@@ -55,7 +55,7 @@ constructor(
                 getReferencedIconNames(base, temporaryShortcut)
                     .map { fileName ->
                         ShortcutIcon.CustomIcon(fileName)
-                    }
+                    },
             )
             .distinct()
             .toList()
@@ -65,7 +65,7 @@ constructor(
             .plus(
                 base.shortcuts
                     .runIfNotNull(temporaryShortcut, List<Shortcut>::plus)
-                    .flatMap(::getReferencedIconNames)
+                    .flatMap(::getReferencedIconNames),
             )
 
     private fun getReferencedIconNames(shortcut: Shortcut): Set<String> =

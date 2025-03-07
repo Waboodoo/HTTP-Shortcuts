@@ -1,10 +1,10 @@
 package ch.rmy.android.http_shortcuts.plugin
 
-import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.withTimeout
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.time.Duration
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.withTimeout
 
 @Singleton
 class SessionMonitor

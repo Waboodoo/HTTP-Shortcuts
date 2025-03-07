@@ -48,7 +48,7 @@ constructor(
                 shortcutName,
                 error.shortcutResponse.statusCode,
                 HttpStatus.getMessage(error.shortcutResponse.statusCode),
-            )
+            ),
         )
 
         if (includeBody) {

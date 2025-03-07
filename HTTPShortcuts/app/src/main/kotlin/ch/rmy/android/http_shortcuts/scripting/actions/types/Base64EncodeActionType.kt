@@ -17,7 +17,7 @@ constructor(
             action = base64EncodeAction,
             params = Base64EncodeAction.Params(
                 text = args.getByteArray(0) ?: ByteArray(0),
-            )
+            ),
         )
 
     override fun getAlias() = ActionAlias(

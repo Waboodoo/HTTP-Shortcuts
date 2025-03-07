@@ -22,9 +22,9 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager.getCodeFromTriggeredShortcutIds
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager.getTriggeredShortcutIdsFromCode
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class TriggerShortcutsViewModel
@@ -111,7 +111,7 @@ constructor(
                 shortcuts = shortcuts
                     .filter { it.id != currentShortcutId }
                     .map(Shortcut::toShortcutPlaceholder),
-            )
+            ),
         )
     }
 
@@ -120,7 +120,7 @@ constructor(
         shortcutIdsInUse = shortcutIdsInUse.plus(
             shortcutIds.map { shortcutId ->
                 ShortcutListItemId(shortcutId, newUUID())
-            }
+            },
         )
     }
 
@@ -135,7 +135,7 @@ constructor(
             TriggerShortcutsDialogState.DeleteShortcut(
                 id = id,
                 name = shortcuts.firstOrNull { it.id == id.shortcutId }?.name,
-            )
+            ),
         )
     }
 

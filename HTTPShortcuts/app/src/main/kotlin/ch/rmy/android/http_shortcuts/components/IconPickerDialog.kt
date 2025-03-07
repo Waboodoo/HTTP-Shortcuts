@@ -46,10 +46,10 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.icons.IconFilterProvider
 import ch.rmy.android.http_shortcuts.icons.Icons
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import kotlin.time.Duration.Companion.milliseconds
 
 private const val STATE_BUILT_IN = "built-in"
 private const val STATE_COLOR_PICKER = "color-picker"

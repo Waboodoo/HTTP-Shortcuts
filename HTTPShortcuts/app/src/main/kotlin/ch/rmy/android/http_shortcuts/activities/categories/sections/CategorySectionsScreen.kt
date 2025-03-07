@@ -12,7 +12,7 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 @Composable
 fun CategorySectionsScreen(categoryId: CategoryId) {
     val (viewModel, state) = bindViewModel<CategorySectionsViewModel.InitData, CategorySectionsViewState, CategorySectionsViewModel>(
-        CategorySectionsViewModel.InitData(categoryId)
+        CategorySectionsViewModel.InitData(categoryId),
     )
 
     BackHandler(state != null) {

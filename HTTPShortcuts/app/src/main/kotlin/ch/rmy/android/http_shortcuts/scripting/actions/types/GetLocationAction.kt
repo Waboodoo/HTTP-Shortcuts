@@ -8,8 +8,8 @@ import ch.rmy.android.http_shortcuts.utils.LocationLookup
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
 import ch.rmy.android.scripting.JsObject
 import ch.rmy.android.scripting.ScriptingEngine
-import kotlinx.coroutines.CancellationException
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 
 class GetLocationAction
 @Inject

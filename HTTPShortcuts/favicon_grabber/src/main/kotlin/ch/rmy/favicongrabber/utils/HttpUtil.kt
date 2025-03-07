@@ -1,5 +1,7 @@
 package ch.rmy.favicongrabber.utils
 
+import java.io.File
+import java.io.IOException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
@@ -7,8 +9,6 @@ import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.ResponseBody
-import java.io.File
-import java.io.IOException
 
 class HttpUtil(
     private val client: OkHttpClient,
@@ -65,7 +65,7 @@ class HttpUtil(
             Request.Builder()
                 .url(url)
                 .header(HEADER_USER_AGENT, userAgent)
-                .build()
+                .build(),
         )
             .execute()
             .takeIf { it.isSuccessful }

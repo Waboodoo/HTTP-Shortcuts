@@ -9,9 +9,9 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import io.realm.kotlin.ext.copyFromRealm
 import io.realm.kotlin.ext.isManaged
-import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
+import org.json.JSONObject
 
 class VariableManager(
     variables: List<Variable>,

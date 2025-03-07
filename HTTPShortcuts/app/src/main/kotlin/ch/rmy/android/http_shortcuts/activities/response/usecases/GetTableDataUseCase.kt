@@ -40,7 +40,7 @@ constructor() {
             rows.add(
                 row.entrySet().associate { (key, element) ->
                     key to element.toSimpleString()
-                }
+                },
             )
         }
         return TableData(columns, rows)

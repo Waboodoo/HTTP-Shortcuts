@@ -29,6 +29,6 @@ fun ShortcutsPickerDialog(
                 name = shortcut.name,
                 icon = shortcut.icon,
             )
-        }
+        },
     )
 }

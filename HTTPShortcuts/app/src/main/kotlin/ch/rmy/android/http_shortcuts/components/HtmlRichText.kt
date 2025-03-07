@@ -79,7 +79,7 @@ fun HtmlRichText(
     }
 
     BoxWithConstraints(
-        Modifier.fillMaxWidth()
+        Modifier.fillMaxWidth(),
     ) {
         maxWidth = with(LocalDensity.current) {
             this@BoxWithConstraints.maxWidth.toPx()
@@ -256,7 +256,7 @@ private suspend fun loadImage(context: Context, source: String): Image? {
             ImageRequest.Builder(context)
                 .addHeader(HttpHeaders.USER_AGENT, UserAgentProvider.getUserAgent(context))
                 .data(transformedSource)
-                .build()
+                .build(),
         )
     return Image(
         source,

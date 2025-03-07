@@ -26,7 +26,7 @@ fun DisplayResponseScreen(
     responseDataId: NavigationArgStore.ArgStoreId,
 ) {
     val (viewModel, state) = bindViewModel<DisplayResponseViewModel.InitData, DisplayResponseViewState, DisplayResponseViewModel>(
-        DisplayResponseViewModel.InitData(responseDataId)
+        DisplayResponseViewModel.InitData(responseDataId),
     )
 
     val openFilePicker = rememberLauncherForActivityResult(SaveFileContract) { file ->

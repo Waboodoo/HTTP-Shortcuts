@@ -14,12 +14,12 @@ import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.favicongrabber.FaviconGrabber
 import ch.rmy.favicongrabber.models.IconResult
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.io.File
 import java.lang.Exception
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class FetchFaviconUseCase
 @Inject

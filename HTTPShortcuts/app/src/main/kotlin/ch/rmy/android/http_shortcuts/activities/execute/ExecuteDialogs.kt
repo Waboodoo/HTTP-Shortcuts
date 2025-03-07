@@ -53,12 +53,12 @@ import ch.rmy.android.http_shortcuts.components.models.MenuEntry
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.extensions.localize
 import coil.compose.AsyncImage
-import kotlinx.coroutines.delay
 import java.time.Instant
 import java.time.LocalTime
 import java.time.ZoneId
 import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.delay
 
 @Composable
 fun ExecuteDialogs(
@@ -147,7 +147,7 @@ private fun ExecuteDialog(
                             value
                                 .runIf(dialogState.type == ExecuteDialogState.TextInput.Type.NUMBER) {
                                     sanitizeNumber(this)
-                                }
+                                },
                         )
                     } else {
                         onDismissed()
@@ -231,10 +231,10 @@ private fun ExecuteDialog(
                                 text = it,
                                 fontSize = 20.sp,
                                 lineHeight = 24.sp,
-                                modifier = Modifier.padding(start = 24.dp, end = 12.dp, top = 16.dp)
+                                modifier = Modifier.padding(start = 24.dp, end = 12.dp, top = 16.dp),
                             )
                         }
-                    }
+                    },
                 )
             }
         }
@@ -259,7 +259,7 @@ private fun ExecuteDialog(
                 title = dialogState.title?.let { { Text(it) } },
                 text = {
                     TimePicker(state = state)
-                }
+                },
             )
         }
         is ExecuteDialogState.RichTextDisplay -> {
@@ -369,7 +369,7 @@ private fun RichTextDisplayDialog(
         text = {
             Column(
                 modifier = Modifier
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(rememberScrollState()),
             ) {
                 SelectionContainer {
                     HtmlRichText(text = message)
@@ -442,11 +442,11 @@ private fun ShowResultDialog(
                             ResponseDisplayAction.SHARE -> stringResource(R.string.share_button)
                             ResponseDisplayAction.COPY -> stringResource(R.string.action_copy_response)
                             ResponseDisplayAction.SAVE -> ""
-                        }
+                        },
                     )
                 }
             }
-        }
+        },
     )
 }
 

@@ -59,7 +59,7 @@ constructor(
                     .build(context)
                     .let { intent ->
                         PendingIntent.getActivity(context, widget.widgetId, intent, PendingIntent.FLAG_IMMUTABLE)
-                    }
+                    },
             )
             if (widget.showLabel) {
                 views.setViewVisibility(R.id.widget_label, View.VISIBLE)

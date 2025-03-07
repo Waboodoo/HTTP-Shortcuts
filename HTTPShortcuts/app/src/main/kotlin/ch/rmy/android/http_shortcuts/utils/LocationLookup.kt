@@ -9,15 +9,15 @@ import android.os.Build
 import android.os.CancellationSignal
 import androidx.core.content.getSystemService
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeoutOrNull
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 
 class LocationLookup
 @Inject

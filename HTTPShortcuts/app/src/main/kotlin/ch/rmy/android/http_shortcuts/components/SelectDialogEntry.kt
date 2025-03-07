@@ -86,7 +86,7 @@ fun SelectDialogEntry(
                     .padding(end = Spacing.SMALL + Spacing.TINY)
                     .runIf(!enabled) {
                         alpha(0.3f)
-                    }
+                    },
             )
         } else if (icon != null) {
             Icon(
@@ -96,14 +96,14 @@ fun SelectDialogEntry(
                     .padding(end = Spacing.SMALL + Spacing.TINY)
                     .runIf(!enabled) {
                         alpha(0.3f)
-                    }
+                    },
             )
         }
         Column(
             modifier = Modifier
                 .runIf(!enabled) {
                     alpha(0.3f)
-                }
+                },
         ) {
             Text(
                 label,

@@ -6,9 +6,9 @@ import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.utils.SearchUtil
+import java.util.zip.GZIPInputStream
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.zip.GZIPInputStream
 
 class IconFilterProvider(private val context: Context) {
 

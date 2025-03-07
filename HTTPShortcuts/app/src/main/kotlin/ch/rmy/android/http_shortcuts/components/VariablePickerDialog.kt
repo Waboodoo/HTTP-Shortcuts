@@ -40,8 +40,8 @@ fun VariablePickerDialog(
                             R.string.help_text_variable_button
                         } else {
                             R.string.help_text_variable_button_for_variables
-                        }
-                    )
+                        },
+                    ),
                 )
             },
             confirmButton = {
@@ -55,7 +55,9 @@ fun VariablePickerDialog(
                         Text(stringResource(R.string.button_create_first_variable))
                     }
                 }
-            } else null,
+            } else {
+                null
+            },
         )
         return
     }
@@ -70,11 +72,13 @@ fun VariablePickerDialog(
                     Text(stringResource(R.string.label_edit_variables))
                 }
             }
-        } else null
+        } else {
+            null
+        },
     ) {
         LazyColumn(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
         ) {
             items(
                 items = variables,
@@ -85,7 +89,7 @@ fun VariablePickerDialog(
                     description = stringResource(variable.variableType.getTypeName()),
                     onClick = {
                         onVariableSelected(variable.variableId)
-                    }
+                    },
                 )
             }
         }

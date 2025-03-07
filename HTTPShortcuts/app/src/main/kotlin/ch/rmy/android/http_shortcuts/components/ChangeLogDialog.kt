@@ -48,7 +48,7 @@ fun ChangeLogDialog(
             ) {
                 SinglePageBrowser(
                     CHANGELOG_ASSET_URL,
-                    modifier = Modifier.weight(1f, fill = true)
+                    modifier = Modifier.weight(1f, fill = true),
                 )
                 Row(
                     modifier = Modifier

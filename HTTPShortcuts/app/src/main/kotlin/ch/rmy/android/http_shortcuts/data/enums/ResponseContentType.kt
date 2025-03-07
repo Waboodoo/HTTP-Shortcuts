@@ -7,7 +7,8 @@ enum class ResponseContentType(val key: String) {
     PLAIN_TEXT("plain_text"),
     JSON("json"),
     XML("xml"),
-    HTML("html");
+    HTML("html"),
+    ;
 
     companion object {
         fun parse(key: String) =

@@ -51,7 +51,7 @@ fun ResponseDisplayContent(
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
-            .padding(vertical = Spacing.MEDIUM)
+            .padding(vertical = Spacing.MEDIUM),
     ) {
         SelectionField(
             modifier = Modifier
@@ -76,7 +76,7 @@ fun ResponseDisplayContent(
                 title = stringResource(R.string.label_response_charset),
                 selectedKey = responseCharset,
                 items = listOf(
-                    null to stringResource(R.string.option_response_charset_auto)
+                    null to stringResource(R.string.option_response_charset_auto),
                 ) + availableCharsets.map {
                     it to it.name()
                 },

@@ -46,7 +46,7 @@ fun MainScreen(
             widgetId = widgetId,
             importUrl = importUrl,
             cancelPendingExecutions = cancelPendingExecutions,
-        )
+        ),
     )
 
     val activity = LocalActivity.current!!
@@ -123,7 +123,9 @@ fun MainScreen(
         },
         onTitleClicked = if (state?.isLocked == false) {
             viewModel::onToolbarTitleClicked
-        } else null,
+        } else {
+            null
+        },
         floatingActionButton = {
             AnimatedVisibility(
                 visible = state?.isCreateButtonVisible == true,

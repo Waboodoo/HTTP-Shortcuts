@@ -57,6 +57,7 @@ import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import ch.rmy.curlcommand.CurlConstructor
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -64,7 +65,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 @HiltViewModel
 class ShortcutListViewModel
@@ -178,7 +178,7 @@ constructor(
                         ShortcutListItem.Section(
                             id = section.id,
                             name = section.name,
-                        )
+                        ),
                     )
                 }
                 shortcutsBySectionId[section?.id]?.forEach { shortcut ->
@@ -191,12 +191,12 @@ constructor(
                             icon = shortcut.icon,
                             isPending = pendingShortcuts.any { it.shortcutId == shortcut.id },
                             isHidden = shortcut.hidden,
-                        )
+                        ),
                     )
                 }
                 if (isSectionEmpty && section != null) {
                     add(
-                        ShortcutListItem.EmptyState(section.id)
+                        ShortcutListItem.EmptyState(section.id),
                     )
                 }
             }
@@ -246,7 +246,7 @@ constructor(
             NavigationDestination.ShortcutEditor.buildRequest(
                 shortcutId = shortcutId,
                 categoryId = category.id,
-            )
+            ),
         )
     }
 
@@ -258,7 +258,7 @@ constructor(
                 shortcutName = shortcut.name,
                 isPending = pendingShortcuts.any { it.shortcutId == shortcut.id },
                 isHidden = shortcut.hidden,
-            )
+            ),
         )
     }
 
@@ -373,7 +373,7 @@ constructor(
         updateDialogState(
             ShortcutListDialogState.Deletion(
                 shortcutName = shortcut.name,
-            )
+            ),
         )
     }
 
@@ -388,7 +388,7 @@ constructor(
             ShortcutListDialogState.ShortcutInfo(
                 shortcutId = shortcut.id,
                 shortcutName = shortcut.name,
-            )
+            ),
         )
     }
 
@@ -418,7 +418,7 @@ constructor(
             val command = curlExporter.generateCommand(shortcut, dialogHandler)
                 .let(CurlConstructor::toCurlCommandString)
             updateDialogState(
-                ShortcutListDialogState.CurlExport(shortcut.name, command)
+                ShortcutListDialogState.CurlExport(shortcut.name, command),
             )
         } catch (e: CancellationException) {
             throw e
@@ -484,7 +484,7 @@ constructor(
                         R.plurals.shortcut_export_success,
                         status.exportedShortcuts,
                         status.exportedShortcuts,
-                    )
+                    ),
                 )
             } catch (e: CancellationException) {
                 throw e
@@ -492,8 +492,8 @@ constructor(
                 logException(e)
                 updateDialogState(
                     ShortcutListDialogState.ExportError(
-                        e.message.orEmpty()
-                    )
+                        e.message.orEmpty(),
+                    ),
                 )
             }
         }

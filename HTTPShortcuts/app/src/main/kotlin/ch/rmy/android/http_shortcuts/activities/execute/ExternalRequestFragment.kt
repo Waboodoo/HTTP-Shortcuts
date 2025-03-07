@@ -38,7 +38,7 @@ class ExternalRequestFragment : Fragment() {
             when (result) {
                 is CropImageContract.Result.Success -> ExternalResult.File(fileUri = getUriFromFile(requireContext(), result.imageFile))
                 else -> ExternalResult.Cancelled
-            }
+            },
         )
     }
     private val scanBarcode = registerForActivityResult(BarcodeScannerContract) { result ->
@@ -47,7 +47,7 @@ class ExternalRequestFragment : Fragment() {
                 ExternalResult.BarcodeScanned(result)
             } else {
                 ExternalResult.Cancelled
-            }
+            },
         )
     }
 

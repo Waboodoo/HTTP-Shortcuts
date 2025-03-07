@@ -30,7 +30,7 @@ class FileUploadManager internal constructor(
                     sharedFiles.asSequence().toList().map(::uriToFile)
                 } else {
                     listOf(sharedFiles.next().let(::uriToFile))
-                }
+                },
             )
         }
     }
@@ -45,7 +45,7 @@ class FileUploadManager internal constructor(
                     forwardedFiles.asSequence().toList().mapNotNull(::getFileById)
                 } else {
                     forwardedFiles.next().let(::getFileById)?.let(::listOf) ?: emptyList()
-                }
+                },
             )
         }
     }
@@ -71,7 +71,7 @@ class FileUploadManager internal constructor(
     suspend fun fulfillFileRequest(fileRequest: FileRequest, fileUris: List<Uri>) {
         registerFiles(
             fileRequest,
-            fileUris.map(::uriToFile)
+            fileUris.map(::uriToFile),
         )
     }
 

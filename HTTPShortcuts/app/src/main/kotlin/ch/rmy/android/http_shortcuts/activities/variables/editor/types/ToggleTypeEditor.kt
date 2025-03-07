@@ -79,8 +79,8 @@ fun ToggleTypeEditor(
             onOptionMoved = { optionId1, optionId2 ->
                 onViewStateChanged(
                     currentViewState.copy(
-                        options = currentViewState.options.swapped(optionId1, optionId2) { id }
-                    )
+                        options = currentViewState.options.swapped(optionId1, optionId2) { id },
+                    ),
                 )
             },
         )
@@ -132,11 +132,11 @@ fun ToggleTypeEditor(
                             }
                         } else {
                             currentViewState.options.plus(
-                                ToggleTypeViewState.OptionItem(id = UUIDUtils.newUUID(), text = dialogOptionValue)
+                                ToggleTypeViewState.OptionItem(id = UUIDUtils.newUUID(), text = dialogOptionValue),
                             )
                         },
                         tooFewOptionsError = false,
-                    )
+                    ),
                 )
                 dialogVisible = false
             },
@@ -147,7 +147,7 @@ fun ToggleTypeEditor(
                             it.id != dialogOptionId
                         },
                         tooFewOptionsError = false,
-                    )
+                    ),
                 )
                 dialogVisible = false
             },
@@ -241,7 +241,7 @@ private fun EditDialog(
         },
         text = {
             Column(
-                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL)
+                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
             ) {
                 VariablePlaceholderTextField(
                     modifier = Modifier

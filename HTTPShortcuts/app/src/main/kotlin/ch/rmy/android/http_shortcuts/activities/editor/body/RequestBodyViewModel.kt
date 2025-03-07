@@ -18,9 +18,9 @@ import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import com.google.gson.JsonParseException
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 @HiltViewModel
 class RequestBodyViewModel
@@ -106,7 +106,7 @@ constructor(
                             } else {
                                 parameter
                             }
-                        }
+                        },
                 )
                 withProgressTracking {
                     temporaryShortcutRepository.updateParameter(parameterId, key, value, fileName, fileUploadOptions)
@@ -128,7 +128,7 @@ constructor(
             parameters
                 .filter { parameter ->
                     parameter.id != parameterId
-                }
+                },
         )
         withProgressTracking {
             temporaryShortcutRepository.removeParameter(parameterId)
@@ -151,7 +151,7 @@ constructor(
                 value = "",
                 fileName = "",
                 type = type,
-            )
+            ),
         )
     }
 
@@ -171,7 +171,7 @@ constructor(
                         fileUploadType = parameter.fileUploadOptions?.type ?: FileUploadType.FILE_PICKER,
                         sourceFile = parameter.fileUploadOptions?.file?.toUri(),
                         sourceFileName = parameter.fileUploadOptions?.file?.toUri()?.getFileName(),
-                    )
+                    ),
                 )
             }
     }
@@ -262,7 +262,7 @@ constructor(
                     sourceFile = fileUri,
                     sourceFileName = fileUri.getFileName(),
                     fileUploadType = FileUploadType.FILE,
-                )
+                ),
             )
         }
     }
@@ -296,7 +296,7 @@ constructor(
             copy(
                 dialogState = (dialogState as? RequestBodyDialogState.ParameterEditor)?.copy(
                     fileUploadType = fileUploadType,
-                )
+                ),
             )
         }
     }

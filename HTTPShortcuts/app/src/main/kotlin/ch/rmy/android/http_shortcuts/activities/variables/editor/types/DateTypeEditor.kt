@@ -29,7 +29,7 @@ fun DateTypeEditor(
                 viewState.copy(
                     dateFormat = it.take(100),
                     invalidFormat = false,
-                )
+                ),
             )
         },
         isError = viewState.invalidFormat,
@@ -37,7 +37,9 @@ fun DateTypeEditor(
             {
                 Text(stringResource(R.string.error_invalid_date_format))
             }
-        } else null,
+        } else {
+            null
+        },
         singleLine = true,
     )
 

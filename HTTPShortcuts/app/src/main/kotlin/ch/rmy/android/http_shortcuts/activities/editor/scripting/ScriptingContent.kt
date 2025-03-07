@@ -68,11 +68,13 @@ fun ScriptingContent(
                     R.string.placeholder_javascript_code_generic
                 } else {
                     R.string.placeholder_javascript_code_before
-                }
+                },
             ),
             label = if (usesMultipleInputFields) {
                 stringResource(R.string.label_pre_request_script)
-            } else null,
+            } else {
+                null
+            },
             minLines = if (usesMultipleInputFields) 6 else 12,
             onCodeChanged = onCodeOnPrepareChanged,
             onFocused = {
@@ -133,7 +135,7 @@ private fun CodeSection(
             TextFieldValue(
                 text = code,
                 selection = TextRange(selectionStart, selectionEnd),
-            )
+            ),
         )
     }
 

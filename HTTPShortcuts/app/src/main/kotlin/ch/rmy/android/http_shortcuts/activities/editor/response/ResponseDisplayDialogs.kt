@@ -29,7 +29,6 @@ private fun SelectActionsDialog(
     onResult: (List<ResponseDisplayAction>) -> Unit,
     onDismissed: () -> Unit,
 ) {
-
     MultiSelectDialog(
         title = stringResource(R.string.title_select_response_toolbar_buttons),
         entries = listOf(

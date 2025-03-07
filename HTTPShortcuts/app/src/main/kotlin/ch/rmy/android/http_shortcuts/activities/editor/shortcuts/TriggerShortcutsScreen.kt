@@ -13,7 +13,7 @@ fun TriggerShortcutsScreen(
     currentShortcutId: ShortcutId?,
 ) {
     val (viewModel, state) = bindViewModel<TriggerShortcutsViewModel.InitData, TriggerShortcutsViewState, TriggerShortcutsViewModel>(
-        TriggerShortcutsViewModel.InitData(currentShortcutId)
+        TriggerShortcutsViewModel.InitData(currentShortcutId),
     )
 
     SimpleScaffold(

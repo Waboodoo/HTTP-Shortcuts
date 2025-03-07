@@ -11,8 +11,8 @@ import ch.rmy.android.http_shortcuts.data.domains.getVariableById
 import ch.rmy.android.http_shortcuts.data.domains.getVariableByKeyOrId
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import io.realm.kotlin.ext.copyFromRealm
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
 class VariableRepository
 @Inject

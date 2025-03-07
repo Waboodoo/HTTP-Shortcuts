@@ -15,7 +15,7 @@ class PageMetaGrabber(
 
         val candidates = findLinkTags(pageContent, ICON_REL_VALUES)
             .sortedWith(
-                createComparator(preferredSize) { size }
+                createComparator(preferredSize) { size },
             )
 
         val results = mutableListOf<IconResult>()

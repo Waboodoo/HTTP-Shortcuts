@@ -10,7 +10,8 @@ enum class CategoryLayoutType(
     LINEAR_LIST("linear_list"),
     DENSE_GRID("dense_grid", legacyAlias = "grid"),
     MEDIUM_GRID("medium_grid"),
-    WIDE_GRID("wide_grid");
+    WIDE_GRID("wide_grid"),
+    ;
 
     override fun toString() =
         type

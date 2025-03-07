@@ -9,7 +9,8 @@ enum class ShortcutAuthenticationType(
     NONE("none"),
     BASIC("basic", usesUsernameAndPassword = true),
     DIGEST("digest", usesUsernameAndPassword = true),
-    BEARER("bearer", usesToken = true);
+    BEARER("bearer", usesToken = true),
+    ;
 
     override fun toString() =
         type

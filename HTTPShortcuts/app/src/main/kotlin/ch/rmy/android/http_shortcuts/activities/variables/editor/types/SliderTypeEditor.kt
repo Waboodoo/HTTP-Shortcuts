@@ -31,7 +31,7 @@ fun SliderTypeEditor(
             onViewStateChanged(
                 viewState.copy(
                     minValueText = it.take(10),
-                )
+                ),
             )
         },
         keyboardOptions = KeyboardOptions(
@@ -53,7 +53,7 @@ fun SliderTypeEditor(
             onViewStateChanged(
                 viewState.copy(
                     maxValueText = it.take(10),
-                )
+                ),
             )
         },
         keyboardOptions = KeyboardOptions(
@@ -65,7 +65,9 @@ fun SliderTypeEditor(
             {
                 Text(stringResource(R.string.error_slider_max_not_greater_than_min))
             }
-        } else null,
+        } else {
+            null
+        },
         singleLine = true,
     )
 
@@ -81,7 +83,7 @@ fun SliderTypeEditor(
             onViewStateChanged(
                 viewState.copy(
                     stepSizeText = it.take(10),
-                )
+                ),
             )
         },
         keyboardOptions = KeyboardOptions(
@@ -93,7 +95,9 @@ fun SliderTypeEditor(
             {
                 Text(stringResource(R.string.error_slider_step_size_must_be_positive))
             }
-        } else null,
+        } else {
+            null
+        },
         singleLine = true,
     )
 
@@ -110,7 +114,7 @@ fun SliderTypeEditor(
             onViewStateChanged(
                 viewState.copy(
                     prefix = it.take(100),
-                )
+                ),
             )
         },
         singleLine = true,
@@ -128,7 +132,7 @@ fun SliderTypeEditor(
             onViewStateChanged(
                 viewState.copy(
                     suffix = it.take(100),
-                )
+                ),
             )
         },
         singleLine = true,

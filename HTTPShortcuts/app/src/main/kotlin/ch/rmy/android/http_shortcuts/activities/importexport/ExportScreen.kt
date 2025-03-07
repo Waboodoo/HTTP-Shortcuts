@@ -32,7 +32,7 @@ fun ExportScreen(toFile: Boolean) {
             is ExportEvent.OpenFilePickerForExport -> consume {
                 try {
                     openFilePickerForExport.launch(
-                        OpenFilePickerForExportContract.Params()
+                        OpenFilePickerForExportContract.Params(),
                     )
                 } catch (e: ActivityNotFoundException) {
                     context.showToast(R.string.error_not_supported)

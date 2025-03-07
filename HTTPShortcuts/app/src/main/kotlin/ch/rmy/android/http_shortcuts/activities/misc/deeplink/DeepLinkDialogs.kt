@@ -29,7 +29,7 @@ fun DeepLinkDialogs(
                             append(text)
                             val start = text.indexOf(exampleUrl)
                             addStyle(SpanStyle(fontWeight = FontWeight.Bold), start + prefix.length, start + exampleUrl.length)
-                        }
+                        },
                     )
                 },
                 confirmButton = {

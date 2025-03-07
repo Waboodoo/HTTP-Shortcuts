@@ -50,7 +50,7 @@ fun <T : Any> MultiSelectDialog(
         text = {
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             ) {
                 items(
                     items = entries,
@@ -62,7 +62,7 @@ fun <T : Any> MultiSelectDialog(
                         shortcutIcon = entry.icon,
                         onClick = {
                             selectedKeys.addOrRemove(entry.key)
-                        }
+                        },
                     )
                 }
             }
@@ -88,7 +88,7 @@ private fun MultiSelectDialog_Preview() {
         title = "Multi-Select",
         entries = listOf(
             MenuEntry(0, "Entry 1", ShortcutIcon.NoIcon),
-            MenuEntry(0, "Entry 2", ShortcutIcon.NoIcon)
+            MenuEntry(0, "Entry 2", ShortcutIcon.NoIcon),
         ),
         onDismissRequest = {},
     )

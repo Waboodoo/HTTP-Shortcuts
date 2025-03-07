@@ -13,9 +13,9 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.runBlocking
-import kotlin.time.Duration.Companion.seconds
 
 class TriggerShortcutActionRunner : TaskerPluginRunnerAction<Input, Output>() {
 

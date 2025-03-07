@@ -18,10 +18,10 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.jdk9.flowPublish
 import java.util.concurrent.Flow
 import java.util.function.Consumer
 import javax.inject.Inject
+import kotlinx.coroutines.jdk9.flowPublish
 
 @RequiresApi(Build.VERSION_CODES.R)
 @AndroidEntryPoint

@@ -66,7 +66,7 @@ constructor(
             .runFor(shortcut.headers) { header ->
                 header(
                     rawPlaceholdersToResolvedValues(header.key, variableValues),
-                    rawPlaceholdersToResolvedValues(header.value, variableValues)
+                    rawPlaceholdersToResolvedValues(header.value, variableValues),
                 )
             }
             .runIf(shortcut.usesGenericFileBody()) {
@@ -110,7 +110,7 @@ constructor(
             .runIf(
                 shortcut.responseHandling?.run {
                     successOutput == ResponseHandling.SUCCESS_OUTPUT_NONE && failureOutput == ResponseHandling.FAILURE_OUTPUT_NONE
-                } == true
+                } == true,
             ) {
                 silent()
             }

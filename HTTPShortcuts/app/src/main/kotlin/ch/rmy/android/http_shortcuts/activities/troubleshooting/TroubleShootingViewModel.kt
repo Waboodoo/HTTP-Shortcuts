@@ -12,9 +12,9 @@ import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class TroubleShootingViewModel

@@ -33,9 +33,9 @@ import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.SettingsGroup
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.localize
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -195,7 +195,7 @@ private fun VariableKey(
             {
                 Text(it)
             }
-        }
+        },
     )
 }
 

@@ -58,7 +58,7 @@ object GsonUtil {
                         }
                         return realmListOf(*output)
                     }
-                }
+                },
             )
             .create()
             .fromJson(data, Base::class.java)

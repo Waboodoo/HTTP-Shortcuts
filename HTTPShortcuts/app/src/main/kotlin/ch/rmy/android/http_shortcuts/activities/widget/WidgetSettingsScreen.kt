@@ -22,7 +22,7 @@ fun WidgetSettingsScreen(
     widgetId: Int?,
 ) {
     val (viewModel, state) = bindViewModel<WidgetSettingsViewModel.InitData, WidgetSettingsViewState, WidgetSettingsViewModel>(
-        WidgetSettingsViewModel.InitData(shortcutId, shortcutName, shortcutIcon, widgetId)
+        WidgetSettingsViewModel.InitData(shortcutId, shortcutName, shortcutIcon, widgetId),
     )
 
     SimpleScaffold(
@@ -35,7 +35,7 @@ fun WidgetSettingsScreen(
                 contentDescription = stringResource(R.string.action_create_widget),
                 onClick = viewModel::onCreateButtonClicked,
             )
-        }
+        },
     ) { viewState ->
         WidgetSettingsContent(
             showLabel = viewState.showLabel,

@@ -17,13 +17,13 @@ import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.LocalDateTime
+import java.time.ZoneId
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.ZoneId
-import javax.inject.Inject
 
 @HiltViewModel
 class WorkingDirectoriesViewModel
@@ -88,7 +88,7 @@ constructor(
                 WorkingDirectoriesDialogState.ContextMenu(
                     title = workingDirectory.name,
                     workingDirectoryId = workingDirectoryId,
-                )
+                ),
             )
         }
     }
@@ -101,7 +101,7 @@ constructor(
             result = NavigationDestination.WorkingDirectories.WorkingDirectoryPickerResult(
                 workingDirectoryId = workingDirectoryId,
                 name = name,
-            )
+            ),
         )
     }
 
@@ -142,7 +142,7 @@ constructor(
                 workingDirectoryId = workingDirectoryId,
                 oldName = workingDirectory.name,
                 existingNames = workingDirectories.map { it.name }.minus(workingDirectory.name).toSet(),
-            )
+            ),
         )
     }
 
@@ -171,7 +171,7 @@ constructor(
             WorkingDirectoriesDialogState.Delete(
                 title = workingDirectory.name,
                 workingDirectoryId = workingDirectoryId,
-            )
+            ),
         )
     }
 

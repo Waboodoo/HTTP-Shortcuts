@@ -49,7 +49,7 @@ constructor(
                     ?: executionContext.throwException(
                         ActionException {
                             "File \"$filePath\" not found in directory \"${workingDirectory.name}\""
-                        }
+                        },
                     )
                 val charset = encoding?.let {
                     try {
@@ -58,13 +58,13 @@ constructor(
                         executionContext.throwException(
                             ActionException {
                                 "Invalid charset: $it"
-                            }
+                            },
                         )
                     } catch (_: UnsupportedCharsetException) {
                         executionContext.throwException(
                             ActionException {
                                 "Unsupported charset: $it"
-                            }
+                            },
                         )
                     }
                 } ?: Charsets.UTF_8
@@ -81,7 +81,7 @@ constructor(
                     ?: executionContext.throwException(
                         ActionException {
                             "File \"$filePath\" not found in directory \"${workingDirectory.name}\""
-                        }
+                        },
                     )
                 contentResolver.openOutputStream(file.uri, "wt")!!
                     .use { out ->
@@ -96,7 +96,7 @@ constructor(
                     ?: executionContext.throwException(
                         ActionException {
                             "File \"$filePath\" not found in directory \"${workingDirectory.name}\""
-                        }
+                        },
                     )
                 contentResolver.openOutputStream(file.uri, "wa")!!
                     .use { out ->
@@ -129,7 +129,7 @@ constructor(
                     } else {
                         fileHandle.createFile(
                             determineMimeType(fileName),
-                            fileName
+                            fileName,
                         )
                     }
                     )

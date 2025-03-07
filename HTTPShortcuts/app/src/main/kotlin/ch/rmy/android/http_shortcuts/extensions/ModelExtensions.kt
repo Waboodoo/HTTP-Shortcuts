@@ -14,11 +14,11 @@ import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.CertificatePin as CertificatePinModel
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.http.CertificatePin
-import ch.rmy.android.http_shortcuts.data.models.CertificatePin as CertificatePinModel
 
 val Shortcut.type: ShortcutExecutionType
     get() = ShortcutExecutionType.get(executionType!!)

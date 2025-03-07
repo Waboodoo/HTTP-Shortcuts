@@ -50,7 +50,7 @@ fun SuggestionDropdown(
                         text = suggestion,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .align(Alignment.Start)
+                            .align(Alignment.Start),
                     )
                 },
             )

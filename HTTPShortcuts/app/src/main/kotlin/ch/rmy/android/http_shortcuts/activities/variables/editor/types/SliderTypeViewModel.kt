@@ -30,7 +30,7 @@ class SliderTypeViewModel : BaseTypeViewModel() {
                 stepValue = viewState.stepSize,
                 prefix = viewState.prefix,
                 suffix = viewState.suffix,
-            )
+            ),
         )
     }
 

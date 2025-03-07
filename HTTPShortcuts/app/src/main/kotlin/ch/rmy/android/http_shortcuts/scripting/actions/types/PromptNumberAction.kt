@@ -26,7 +26,7 @@ constructor() : Action<PromptNumberAction.Params> {
                     message = finalMessage.toLocalizable(),
                     type = ExecuteDialogState.TextInput.Type.NUMBER,
                     initialValue = prefill,
-                )
+                ),
             )
                 .toDoubleOrNull()
                 ?: Double.NaN

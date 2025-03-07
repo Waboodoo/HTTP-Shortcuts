@@ -12,9 +12,9 @@ import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class WifiSSIDAction
 @Inject
@@ -37,7 +37,7 @@ constructor(
                     ExecuteDialogState.GenericConfirm(
                         title = StringResLocalizable(R.string.title_permission_dialog),
                         message = StringResLocalizable(R.string.message_permission_rational),
-                    )
+                    ),
                 )
             }
             requestLocationPermissionIfNeeded()

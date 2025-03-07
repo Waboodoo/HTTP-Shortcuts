@@ -30,7 +30,7 @@ fun HistoryScreen() {
                 enabled = viewState.isClearButtonEnabled,
                 onClick = viewModel::onClearHistoryButtonClicked,
             )
-        }
+        },
     ) { viewState ->
         HistoryContent(
             viewState,

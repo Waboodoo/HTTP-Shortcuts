@@ -39,8 +39,8 @@ import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.SelectDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.Spacing
-import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.delay
 
 @Composable
 fun WorkingDirectoriesDialogs(
@@ -146,7 +146,7 @@ private fun RenameDialog(
         },
         text = {
             Column(
-                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL)
+                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
             ) {
                 val focusRequester = remember { FocusRequester() }
                 val keyboard = LocalSoftwareKeyboardController.current

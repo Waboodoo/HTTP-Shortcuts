@@ -26,7 +26,7 @@ object FileUtil {
             File(context.cacheDir, file)
                 .applyIf(deleteIfExists) {
                     delete()
-                }
+                },
         )
 
     fun getCacheFileIfValid(context: Context, file: String): Uri? =

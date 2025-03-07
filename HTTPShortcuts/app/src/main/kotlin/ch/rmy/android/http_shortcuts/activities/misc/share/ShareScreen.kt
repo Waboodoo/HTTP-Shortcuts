@@ -18,7 +18,7 @@ fun ShareScreen(
             title = title,
             fileUris = fileUris,
             shortcutId = shortcutId,
-        )
+        ),
     )
 
     ShareDialogs(

@@ -17,6 +17,8 @@ import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.RemoteEdit
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.Validation
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -24,8 +26,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class RemoteEditViewModel
@@ -84,7 +84,7 @@ constructor(
             copy(
                 dialogState = RemoteEditDialogState.EditServerUrl(
                     currentServerAddress = serverUrl,
-                )
+                ),
             )
         }
     }
@@ -179,7 +179,9 @@ constructor(
         updateViewState {
             if (dialogState is RemoteEditDialogState.Progress) {
                 copy(dialogState = null)
-            } else this
+            } else {
+                this
+            }
         }
     }
 

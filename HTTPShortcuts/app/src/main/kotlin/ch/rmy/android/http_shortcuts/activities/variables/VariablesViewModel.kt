@@ -21,11 +21,11 @@ import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 @HiltViewModel
 class VariablesViewModel
@@ -70,7 +70,7 @@ constructor(
                 }
         }
         return VariablesViewState(
-            variables = mapVariables(variables)
+            variables = mapVariables(variables),
         )
     }
 
@@ -113,7 +113,7 @@ constructor(
         updateDialogState(
             VariablesDialogState.ContextMenu(
                 variableKey = variable.key,
-            )
+            ),
         )
     }
 
@@ -154,7 +154,7 @@ constructor(
             VariablesDialogState.Delete(
                 variableKey = variable.key,
                 shortcutNames = shortcutNames,
-            )
+            ),
         )
     }
 

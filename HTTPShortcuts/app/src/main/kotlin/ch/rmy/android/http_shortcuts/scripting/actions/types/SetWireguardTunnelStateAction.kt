@@ -9,9 +9,9 @@ import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class SetWireguardTunnelStateAction
 @Inject
@@ -26,8 +26,8 @@ constructor(
             try {
                 executionContext.dialogHandle.showDialog(
                     ExecuteDialogState.GenericMessage(
-                        message = StringResLocalizable(R.string.wireguard_setup_instructions)
-                    )
+                        message = StringResLocalizable(R.string.wireguard_setup_instructions),
+                    ),
                 )
             } catch (e: DialogCancellationException) {
                 // Ignore cancellation and continue

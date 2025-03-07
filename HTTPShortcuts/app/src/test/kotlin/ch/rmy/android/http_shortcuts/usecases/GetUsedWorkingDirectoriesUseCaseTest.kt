@@ -10,10 +10,10 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
-import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.extension.ExtendWith
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(MockKExtension::class)
 class GetUsedWorkingDirectoriesUseCaseTest {
@@ -65,7 +65,7 @@ class GetUsedWorkingDirectoriesUseCaseTest {
                         getDirectory("x");
                     """
                 },
-            )
+            ),
         )
         base.categories.add(category)
 
@@ -75,7 +75,7 @@ class GetUsedWorkingDirectoriesUseCaseTest {
                 "b",
                 "c",
                 "d",
-                "e"
+                "e",
             ),
             useCase.invoke(base),
         )

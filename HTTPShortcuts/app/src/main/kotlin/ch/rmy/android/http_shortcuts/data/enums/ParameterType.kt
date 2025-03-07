@@ -5,7 +5,8 @@ import androidx.compose.runtime.Stable
 @Stable
 enum class ParameterType(val type: String) {
     STRING("string"),
-    FILE("file");
+    FILE("file"),
+    ;
 
     override fun toString() =
         type

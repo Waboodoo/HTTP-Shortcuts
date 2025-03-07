@@ -29,11 +29,11 @@ import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import ch.rmy.android.http_shortcuts.variables.VariableLookup
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 @HiltViewModel
 class ShareViewModel
@@ -160,7 +160,7 @@ constructor(
         updateDialogState(
             ShareDialogState.PickShortcut(
                 shortcuts.map { it.toShortcutPlaceholder() },
-            )
+            ),
         )
     }
 

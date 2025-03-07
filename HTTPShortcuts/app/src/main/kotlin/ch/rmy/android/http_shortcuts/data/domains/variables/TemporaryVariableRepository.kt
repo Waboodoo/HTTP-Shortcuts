@@ -8,8 +8,8 @@ import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import io.realm.kotlin.ext.realmListOf
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
 class TemporaryVariableRepository
 @Inject
@@ -28,7 +28,7 @@ constructor(
                 Variable(
                     id = Variable.TEMPORARY_ID,
                     variableType = type,
-                )
+                ),
             )
         }
     }
@@ -105,7 +105,7 @@ constructor(
             transaction(
                 getTemporaryVariable()
                     .findFirst()
-                    ?: return@commitTransaction
+                    ?: return@commitTransaction,
             )
         }
     }

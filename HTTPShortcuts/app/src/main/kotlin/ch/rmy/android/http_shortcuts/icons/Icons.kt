@@ -16,7 +16,7 @@ object Icons {
         TINTABLE_ICONS.toList()
             .plus(
                 COLORED_TINTABLE_ICONS.toList()
-                    .minus(UNWANTED_COLORED_TINTABLE_ICONS.toSet())
+                    .minus(UNWANTED_COLORED_TINTABLE_ICONS.toSet()),
             )
 
     private val INITIAL_ICONS = intArrayOf(

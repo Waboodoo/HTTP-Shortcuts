@@ -11,7 +11,7 @@ class NoIpAddressException(val hostname: String, val ipVersion: IpVersion) : IOE
                 when (ipVersion) {
                     IpVersion.V4 -> "IPv4"
                     IpVersion.V6 -> "IPv6"
-                }
+                },
             )
             append(" address found for ")
             append(hostname)

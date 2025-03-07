@@ -19,7 +19,7 @@ constructor(
             params = ChangeDescriptionAction.Params(
                 shortcutNameOrId = args.getString(0)?.takeUnlessEmpty(),
                 description = args.getString(1) ?: "",
-            )
+            ),
         )
 
     override fun getAlias() = ActionAlias(

@@ -1,11 +1,11 @@
 package ch.rmy.android.http_shortcuts.http
 
 import ch.rmy.android.http_shortcuts.http.RequestUtil.getMediaType
+import java.io.InputStream
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okio.BufferedSink
 import okio.source
-import java.io.InputStream
 
 class StreamRequestBody(
     private val contentType: String?,

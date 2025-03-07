@@ -17,7 +17,6 @@ constructor(
         showPasswordDialog: () -> Unit,
         onSuccess: () -> Unit,
     ) {
-
         val lock = appRepository.getLock() ?: return
         if (lock.useBiometrics) {
             try {

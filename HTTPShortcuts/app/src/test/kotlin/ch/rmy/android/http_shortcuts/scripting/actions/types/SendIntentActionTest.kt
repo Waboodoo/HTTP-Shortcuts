@@ -25,29 +25,29 @@ class SendIntentActionTest {
                 mapOf(
                     "type" to "string",
                     "name" to "stringExtra",
-                    "value" to "my-string"
+                    "value" to "my-string",
                 ),
                 mapOf(
                     "type" to "boolean",
                     "name" to "booleanExtra",
-                    "value" to true
+                    "value" to true,
                 ),
                 mapOf(
                     "type" to "long",
                     "name" to "longExtra",
-                    "value" to 1337
+                    "value" to 1337,
                 ),
                 mapOf(
                     "type" to "double",
                     "name" to "doubleExtra",
-                    "value" to 13.37
+                    "value" to 13.37,
                 ),
                 mapOf(
                     "type" to "float",
                     "name" to "floatExtra",
-                    "value" to 13.37
+                    "value" to 13.37,
                 ),
-            )
+            ),
         )
         val intent = SendIntentAction.constructIntent(parameters)
 

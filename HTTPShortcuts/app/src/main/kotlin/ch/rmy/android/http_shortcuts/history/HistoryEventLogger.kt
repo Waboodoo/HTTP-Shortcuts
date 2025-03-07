@@ -3,10 +3,10 @@ package ch.rmy.android.http_shortcuts.history
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.data.domains.history.HistoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.HistoryEventType
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class HistoryEventLogger
 @Inject

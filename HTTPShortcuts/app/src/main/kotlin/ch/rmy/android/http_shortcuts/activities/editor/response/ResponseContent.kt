@@ -46,7 +46,7 @@ fun ResponseContent(
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
-            .padding(vertical = Spacing.MEDIUM)
+            .padding(vertical = Spacing.MEDIUM),
     ) {
         SelectionField(
             modifier = Modifier.padding(horizontal = Spacing.MEDIUM),
@@ -139,7 +139,7 @@ fun ResponseContent(
 
         AnimatedVisibility(visible = storeResponseIntoFile) {
             Column(
-                modifier = Modifier.padding(bottom = Spacing.MEDIUM)
+                modifier = Modifier.padding(bottom = Spacing.MEDIUM),
             ) {
                 Checkbox(
                     label = stringResource(R.string.label_store_response_replace_file),

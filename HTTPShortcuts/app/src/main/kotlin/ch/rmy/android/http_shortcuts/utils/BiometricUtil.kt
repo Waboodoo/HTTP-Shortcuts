@@ -4,12 +4,12 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 
 class BiometricUtil
 @Inject
@@ -26,7 +26,8 @@ constructor(
                 suspendCancellableCoroutine { continuation ->
                     val executor = ContextCompat.getMainExecutor(activity)
                     val biometricPrompt = BiometricPrompt(
-                        activity, executor,
+                        activity,
+                        executor,
                         object : BiometricPrompt.AuthenticationCallback() {
                             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                                 super.onAuthenticationError(errorCode, errString)
@@ -47,7 +48,7 @@ constructor(
                                 super.onAuthenticationSucceeded(result)
                                 continuation.resume(Result.SUCCESS)
                             }
-                        }
+                        },
                     )
 
                     biometricPrompt.authenticate(
@@ -57,7 +58,7 @@ constructor(
                             .setConfirmationRequired(false)
                             .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
                             .setNegativeButtonText(negativeButtonText)
-                            .build()
+                            .build(),
                     )
                 }
             }

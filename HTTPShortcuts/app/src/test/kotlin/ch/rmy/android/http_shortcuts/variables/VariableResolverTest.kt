@@ -9,12 +9,12 @@ import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.extension.ExtendWith
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.extension.ExtendWith
 
 @ExperimentalCoroutinesApi
 @ExtendWith(MockKExtension::class)
@@ -43,8 +43,8 @@ class VariableResolverTest {
     fun `test variable resolution of static variables`() = runTest {
         val variableManager = VariableManager(
             listOf(
-                Variable(id = "1234", key = "myVariable", value = "Hello World")
-            )
+                Variable(id = "1234", key = "myVariable", value = "Hello World"),
+            ),
         )
         VariableResolver(variableTypeFactory)
             .resolve(
@@ -78,8 +78,8 @@ class VariableResolverTest {
         val variableManager = VariableManager(
             listOf(
                 Variable(id = "1234", key = "myVariable1", value = "Hello {{5678}}"),
-                Variable(id = "5678", key = "myVariable2", value = "World")
-            )
+                Variable(id = "5678", key = "myVariable2", value = "World"),
+            ),
         )
         VariableResolver(variableTypeFactory)
             .resolve(
@@ -131,7 +131,7 @@ class VariableResolverTest {
             content = """
             const foo = getVariable(/*[variable]*/"1234"/*[/variable]*/);
             getVariable("my_variable");
-            """.trimIndent()
+            """.trimIndent(),
         )
         val variableLookup = object : VariableLookup {
             override fun getVariableById(id: String): Variable? =
@@ -163,7 +163,7 @@ class VariableResolverTest {
                 Variable(id = "123", key = "myVariable1", value = "Hello {{789}}"),
                 Variable(id = "456", key = "myVariable2", value = "!!!"),
                 Variable(id = "789", key = "myVariable2", value = "World"),
-            )
+            ),
         )
         VariableResolver(variableTypeFactory)
             .resolve(
@@ -193,7 +193,7 @@ class VariableResolverTest {
                 Variable(id = "123", key = "myVariable1", value = "Hello {{456}}"),
                 Variable(id = "456", key = "myVariable2", value = "World{{789}}"),
                 Variable(id = "789", key = "myVariable2", value = "!!!"),
-            )
+            ),
         )
         VariableResolver(variableTypeFactory)
             .resolve(
@@ -217,7 +217,7 @@ class VariableResolverTest {
         val variableManager = VariableManager(
             listOf(
                 Variable(id = "123", key = "myVariable1", value = "Hello {{123}}"),
-            )
+            ),
         )
         VariableResolver(variableTypeFactory)
             .resolve(

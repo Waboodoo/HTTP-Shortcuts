@@ -26,7 +26,7 @@ fun ShortcutPickerDialog(
     ) {
         LazyColumn(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
         ) {
             if (includeCurrentShortcutOption) {
                 item(key = "current") {
@@ -46,7 +46,7 @@ fun ShortcutPickerDialog(
                     shortcutIcon = shortcut.icon,
                     onClick = {
                         onShortcutSelected(shortcut.id)
-                    }
+                    },
                 )
             }
         }

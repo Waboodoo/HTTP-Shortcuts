@@ -36,8 +36,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.DialogProperties
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.R
-import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.delay
 
 @Composable
 fun TextInputDialog(
@@ -81,7 +81,7 @@ fun TextInputDialog(
         text = {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL)
+                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
             ) {
                 if (message != null) {
                     Text(message)

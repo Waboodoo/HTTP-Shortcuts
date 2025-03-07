@@ -6,13 +6,13 @@ import ch.rmy.favicongrabber.grabbers.ManifestGrabber
 import ch.rmy.favicongrabber.grabbers.PageMetaGrabber
 import ch.rmy.favicongrabber.models.IconResult
 import ch.rmy.favicongrabber.utils.HttpUtil
+import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
-import java.io.File
 
 class FaviconGrabber(
     private val client: OkHttpClient,

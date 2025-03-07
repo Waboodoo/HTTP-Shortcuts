@@ -28,7 +28,9 @@ constructor(
                 shortcutId = shortcutId,
                 categoryId = categoryId,
             )
-        } else null
+        } else {
+            null
+        }
     }
 
     private fun Shortcut.hasChanges() =
@@ -36,6 +38,6 @@ constructor(
             Shortcut(
                 icon = icon.takeIf { it is ShortcutIcon.BuiltInIcon } ?: ShortcutIcon.NoIcon,
                 executionType = type,
-            )
+            ),
         )
 }

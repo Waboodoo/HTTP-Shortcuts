@@ -129,12 +129,12 @@ fun ShortcutEditorContent(
                             stringResource(R.string.section_basic_request)
                         } else {
                             stringResource(R.string.section_basic_settings)
-                        }
+                        },
                     )
                 },
                 supportingContent = { VariablePlaceholderText(basicSettingsSubtitle) },
                 modifier = Modifier
-                    .clickable(onClick = onBasicRequestButtonClicked)
+                    .clickable(onClick = onBasicRequestButtonClicked),
             )
         }
 

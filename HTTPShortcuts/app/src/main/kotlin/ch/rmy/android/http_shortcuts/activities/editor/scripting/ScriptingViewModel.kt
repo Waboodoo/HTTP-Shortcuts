@@ -15,14 +15,14 @@ import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scripting.CodeTransformer
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.LinkedList
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.LinkedList
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class ScriptingViewModel
@@ -155,7 +155,7 @@ constructor(
             ScriptingEvent.InsertCodeSnippet(
                 textBeforeCursor = textBeforeCursor,
                 textAfterCursor = textAfterCursor,
-            )
+            ),
         )
     }
 
@@ -204,7 +204,7 @@ constructor(
                     includeResponseOptions = true,
                     includeNetworkErrorOption = true,
                 )
-            }
+            },
         )
     }
 

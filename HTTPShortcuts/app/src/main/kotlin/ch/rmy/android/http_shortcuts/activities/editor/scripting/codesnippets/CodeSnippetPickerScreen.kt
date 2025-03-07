@@ -38,7 +38,7 @@ fun CodeSnippetPickerScreen(
             includeSuccessOptions,
             includeResponseOptions,
             includeNetworkErrorOption,
-        )
+        ),
     )
 
     val pickRingtone = rememberLauncherForActivityResult(RingtonePickerContract) { ringtone ->
@@ -100,7 +100,7 @@ fun CodeSnippetPickerScreen(
             onQueryChanged = viewModel::onSearchQueryChanged,
             onSectionClicked = viewModel::onSectionClicked,
             onCodeSnippetItemClicked = viewModel::onCodeSnippetClicked,
-            onDocumentationButtonClicked = viewModel::onCodeSnippetDocRefButtonClicked
+            onDocumentationButtonClicked = viewModel::onCodeSnippetDocRefButtonClicked,
         )
     }
 

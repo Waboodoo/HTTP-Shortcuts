@@ -32,7 +32,7 @@ fun IconPickerScreen() {
             title = stringResource(R.string.title_edit_custom_icon),
             enforceSquare = true,
             maxSize = IconUtil.getIconSize(context),
-        )
+        ),
     ) { result ->
         when (result) {
             is CropImageContract.Result.Success -> viewModel.onIconCreated(result.imageFile)

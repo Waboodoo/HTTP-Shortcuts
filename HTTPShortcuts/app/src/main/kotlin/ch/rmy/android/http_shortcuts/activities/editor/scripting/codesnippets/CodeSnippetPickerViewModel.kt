@@ -23,10 +23,10 @@ import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs.getScriptingDocumentation
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 @HiltViewModel
 class CodeSnippetPickerViewModel
@@ -117,7 +117,7 @@ constructor(
             CodeSnippetPickerDialogState.SelectShortcut(
                 title = StringResLocalizable(title),
                 shortcuts = placeholders,
-            )
+            ),
         )
     }
 

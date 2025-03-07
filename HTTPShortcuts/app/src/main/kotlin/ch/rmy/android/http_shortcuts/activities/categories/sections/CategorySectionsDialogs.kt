@@ -72,7 +72,7 @@ private fun EditSectionDialog(
                 verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
             ) {
                 Box(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     var hasFocus by remember {
                         mutableStateOf(false)

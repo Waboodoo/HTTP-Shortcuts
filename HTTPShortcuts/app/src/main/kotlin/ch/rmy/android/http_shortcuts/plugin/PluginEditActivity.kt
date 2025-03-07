@@ -10,8 +10,8 @@ import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInputInfo
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInputInfos
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input> {
@@ -58,7 +58,7 @@ class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input> {
                             description = null,
                             ignoreInStringBlurb = false,
                             value = "%$variableKey",
-                        )
+                        ),
                     )
                 }
         }

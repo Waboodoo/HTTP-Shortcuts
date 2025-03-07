@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
+import ch.rmy.android.http_shortcuts.data.models.CertificatePin as CertificatePinModel
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.shouldIncludeInHistory
 import ch.rmy.android.http_shortcuts.extensions.toCertificatePin
@@ -27,12 +28,6 @@ import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYP
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
-import okhttp3.CookieJar
-import okhttp3.Response
 import java.io.IOException
 import java.net.UnknownHostException
 import java.nio.charset.Charset
@@ -40,7 +35,12 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.time.Duration.Companion.milliseconds
-import ch.rmy.android.http_shortcuts.data.models.CertificatePin as CertificatePinModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
+import okhttp3.CookieJar
+import okhttp3.Response
 
 class HttpRequester
 @Inject
@@ -105,9 +105,9 @@ constructor(
                                 .buildUpon()
                                 .encodedAuthority("${newHost.address}:${newHost.port}")
                                 .build()
-                                .toString()
+                                .toString(),
                         )
-                    } catch (discoveryError: ServiceDiscoveryHelper.ServiceLookupTimeoutException) {
+                    } catch (_: ServiceDiscoveryHelper.ServiceLookupTimeoutException) {
                         requestData
                     }
                     makeRequest(
@@ -200,7 +200,7 @@ constructor(
                 shortcut.headers.forEach { header ->
                     header(
                         Variables.rawPlaceholdersToResolvedValues(header.key, variablesValues),
-                        Variables.rawPlaceholdersToResolvedValues(header.value, variablesValues)
+                        Variables.rawPlaceholdersToResolvedValues(header.value, variablesValues),
                     )
                 }
                 if (shortcut.authenticationType == ShortcutAuthenticationType.BASIC) {
@@ -218,7 +218,7 @@ constructor(
                         url = request.url.toString().toUri(),
                         method = request.method,
                         headers = request.headers.toMultimap(),
-                    )
+                    ),
                 )
             }
 
@@ -236,7 +236,9 @@ constructor(
                         logInfo("HTTP request completed")
                         val contentFile = if (shortcut.usesResponseBody) {
                             responseFileStorage.store(okHttpResponse)
-                        } else null
+                        } else {
+                            null
+                        }
 
                         val isSuccess = okHttpResponse.code in 200..399
 
@@ -247,7 +249,7 @@ constructor(
                                     responseCode = okHttpResponse.code,
                                     headers = okHttpResponse.headers.toMultimap(),
                                     isSuccess = isSuccess,
-                                )
+                                ),
                             )
                         }
 
@@ -269,7 +271,7 @@ constructor(
                         HistoryEvent.NetworkError(
                             shortcutName = shortcut.name,
                             error = errorFormatter.getErrorMessage(e),
-                        )
+                        ),
                     )
                 }
                 throw e

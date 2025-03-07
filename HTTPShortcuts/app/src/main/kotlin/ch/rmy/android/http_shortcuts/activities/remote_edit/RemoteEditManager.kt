@@ -7,6 +7,8 @@ import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.Importer
+import java.io.File
+import java.io.IOException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.Credentials
@@ -18,8 +20,6 @@ import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import okio.BufferedSink
 import okio.source
-import java.io.File
-import java.io.IOException
 
 class RemoteEditManager(
     private val context: Context,
@@ -62,7 +62,7 @@ class RemoteEditManager(
                                     file.length()
                             },
                         )
-                        .build()
+                        .build(),
                 )
             } finally {
                 file.delete()
@@ -74,7 +74,7 @@ class RemoteEditManager(
         withContext(Dispatchers.IO) {
             processRequest(
                 newRequestBuilder(deviceId, password)
-                    .build()
+                    .build(),
             )
                 .byteStream().use { inputStream ->
                     importer.importFromJSON(inputStream, importMode = Importer.ImportMode.REPLACE)

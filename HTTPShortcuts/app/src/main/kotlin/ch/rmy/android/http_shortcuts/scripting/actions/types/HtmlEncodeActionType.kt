@@ -17,7 +17,7 @@ constructor(
             action = htmlEncodeAction,
             params = HtmlEncodeAction.Params(
                 text = args.getString(0) ?: "",
-            )
+            ),
         )
 
     override fun getAlias() = ActionAlias(

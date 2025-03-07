@@ -6,8 +6,8 @@ import android.content.Intent
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class ExecutionBroadcastReceiver : BroadcastReceiver() {

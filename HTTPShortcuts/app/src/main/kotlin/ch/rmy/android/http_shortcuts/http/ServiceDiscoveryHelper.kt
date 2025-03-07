@@ -6,12 +6,12 @@ import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo
 import androidx.core.content.getSystemService
 import ch.rmy.android.framework.extensions.logInfo
-import kotlinx.coroutines.TimeoutCancellationException
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withTimeout
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withTimeout
 
 object ServiceDiscoveryHelper {
 
@@ -75,7 +75,7 @@ object ServiceDiscoveryHelper {
                                         ServiceInfo(
                                             address = serviceInfo.host.hostAddress!!,
                                             port = serviceInfo.port,
-                                        )
+                                        ),
                                     )
                                 }
                             }

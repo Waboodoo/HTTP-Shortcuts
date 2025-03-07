@@ -8,10 +8,10 @@ import com.google.android.gms.common.GoogleApiAvailabilityLight
 import com.google.android.gms.location.CurrentLocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationTokenSource
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 class PlayServicesUtilImpl(
     private val context: Context,

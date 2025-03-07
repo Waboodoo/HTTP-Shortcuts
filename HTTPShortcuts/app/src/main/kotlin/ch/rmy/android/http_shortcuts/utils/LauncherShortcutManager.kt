@@ -86,7 +86,7 @@ constructor(
             .setIntent(
                 ExecuteActivity.IntentBuilder(launcherShortcut.id)
                     .trigger(trigger)
-                    .build(context)
+                    .build(context),
             )
             .runIfNotNull(icon) {
                 setIcon(it)
@@ -99,14 +99,14 @@ constructor(
                     if (launcherShortcut.isFileShareTarget) {
                         add("ch.rmy.android.http_shortcuts.directshare.category.FILE_SHARE_TARGET")
                     }
-                }
+                },
             )
             .run {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     addCapabilityBinding(
                         Capability.Builder("custom.actions.intent.RUN_SHORTCUT").build(),
                         CapabilityParams.Builder("shortcutName", label)
-                            .build()
+                            .build(),
                     )
                 } else {
                     this
@@ -164,7 +164,7 @@ constructor(
             .setIntent(
                 MainActivity.IntentBuilder()
                     .categoryId(categoryId)
-                    .build(context)
+                    .build(context),
             )
             .runIfNotNull(IconUtil.getIcon(context, icon, adaptive = true)) {
                 setIcon(it)

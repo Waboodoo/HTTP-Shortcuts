@@ -12,9 +12,9 @@ import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class OpenURLAction
 @Inject

@@ -34,8 +34,12 @@ fun ShortcutEditorScreen(
 ) {
     val (viewModel, state) = bindViewModel<ShortcutEditorViewModel.InitData, ShortcutEditorViewState, ShortcutEditorViewModel>(
         ShortcutEditorViewModel.InitData(
-            categoryId, shortcutId, curlCommandId, executionType, recoveryMode,
-        )
+            categoryId,
+            shortcutId,
+            curlCommandId,
+            executionType,
+            recoveryMode,
+        ),
     )
 
     ResultHandler(savedStateHandle) { result ->

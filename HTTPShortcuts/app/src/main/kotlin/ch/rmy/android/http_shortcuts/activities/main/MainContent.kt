@@ -124,7 +124,7 @@ private fun TabBar(
                     },
                     text = {
                         Text(category.name)
-                    }
+                    },
                 )
             }
         }

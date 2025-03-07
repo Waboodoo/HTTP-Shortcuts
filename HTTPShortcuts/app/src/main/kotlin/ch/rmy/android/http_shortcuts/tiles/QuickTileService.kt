@@ -24,6 +24,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +33,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class QuickTileService : TileService() {
@@ -79,7 +79,7 @@ class QuickTileService : TileService() {
                             .setItems(shortcuts.map { it.name }.toTypedArray()) { _, index ->
                                 executeShortcut(shortcuts[index])
                             }
-                            .create()
+                            .create(),
                     )
                 } else {
                     QuickSettingsTileActivity.IntentBuilder()

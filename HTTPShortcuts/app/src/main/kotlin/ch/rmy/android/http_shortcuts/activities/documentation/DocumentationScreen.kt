@@ -51,15 +51,15 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.runIf
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
-import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun DocumentationScreen(url: Uri?) {
     val (viewModel, state) = bindViewModel<DocumentationViewModel.InitData, DocumentationViewState, DocumentationViewModel>(
-        DocumentationViewModel.InitData(url)
+        DocumentationViewModel.InitData(url),
     )
 
     val context = LocalContext.current
@@ -118,7 +118,7 @@ fun DocumentationScreen(url: Uri?) {
                 onExternalUrl = viewModel::onExternalUrl,
                 onSearchResults = { current, total ->
                     searchResults = Pair(current, total)
-                }
+                },
             )
 
             searchQuery?.let {
@@ -184,7 +184,7 @@ private fun SearchBar(
             ),
             keyboardActions = KeyboardActions {
                 onQueryChanged(null)
-            }
+            },
         )
 
         results?.takeIf { query.isNotEmpty() }?.let { (current, total) ->

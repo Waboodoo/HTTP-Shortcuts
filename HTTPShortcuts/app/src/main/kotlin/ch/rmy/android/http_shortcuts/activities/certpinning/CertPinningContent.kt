@@ -34,7 +34,7 @@ fun CertPinningContent(
     }
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
     ) {
         items(
             items = pins,

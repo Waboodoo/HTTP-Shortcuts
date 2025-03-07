@@ -10,9 +10,9 @@ import ch.rmy.android.http_shortcuts.data.domains.history.HistoryRepository
 import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
 import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.hours
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class HistoryViewModel

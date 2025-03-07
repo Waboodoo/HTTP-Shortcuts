@@ -11,10 +11,10 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.extensions.shouldUseForegroundService
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class ExecutionStarter
 @Inject
@@ -42,7 +42,7 @@ constructor(
             if (shortcutRepository.shouldUseForegroundService(shortcutId)) {
                 context.startForegroundService(
                     Intent(context, ExecutionService::class.java)
-                        .putExtras(intent)
+                        .putExtras(intent),
                 )
             } else {
                 intent.startActivity(context)

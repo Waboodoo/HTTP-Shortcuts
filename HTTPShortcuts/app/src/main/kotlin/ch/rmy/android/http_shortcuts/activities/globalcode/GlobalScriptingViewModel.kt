@@ -8,9 +8,9 @@ import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scripting.CodeTransformer
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 @HiltViewModel
 class GlobalScriptingViewModel
@@ -58,7 +58,7 @@ constructor(
                     ?.let {
                         codeTransformer.transformForStoring(it)
                     }
-            }
+            },
         )
         closeScreen()
     }
@@ -74,7 +74,7 @@ constructor(
 
     fun onCodeSnippetPicked(textBeforeCursor: String, textAfterCursor: String) = runAction {
         emitEvent(
-            GlobalScriptingEvent.InsertCodeSnippet(textBeforeCursor, textAfterCursor)
+            GlobalScriptingEvent.InsertCodeSnippet(textBeforeCursor, textAfterCursor),
         )
     }
 

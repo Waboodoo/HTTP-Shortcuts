@@ -44,7 +44,7 @@ constructor(
                             setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
                         }
                         .addTag(TAG)
-                        .build()
+                        .build(),
                 )
             }
         }

@@ -21,11 +21,11 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.time.Duration
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @HiltWorker
 class ExecutionWorker
@@ -71,7 +71,7 @@ constructor(
                         .setInputData(
                             Data.Builder()
                                 .putString(INPUT_EXECUTION_ID, pendingExecutionId)
-                                .build()
+                                .build(),
                         )
                         .runIfNotNull(delay) {
                             setInitialDelay(it.inWholeMilliseconds, TimeUnit.MILLISECONDS)
@@ -80,10 +80,10 @@ constructor(
                             setConstraints(
                                 Constraints.Builder()
                                     .setRequiredNetworkType(NetworkType.CONNECTED)
-                                    .build()
+                                    .build(),
                             )
                         }
-                        .build()
+                        .build(),
                 )
             }
         }
@@ -98,7 +98,7 @@ constructor(
             ExecuteActivity.IntentBuilder(shortcutId = pendingExecution.shortcutId)
                 .variableValues(
                     pendingExecution.resolvedVariables
-                        .associate { variable -> variable.key to variable.value }
+                        .associate { variable -> variable.key to variable.value },
                 )
                 .tryNumber(pendingExecution.tryNumber)
                 .recursionDepth(pendingExecution.recursionDepth)

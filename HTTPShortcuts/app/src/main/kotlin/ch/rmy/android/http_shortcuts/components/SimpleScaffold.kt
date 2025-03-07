@@ -102,8 +102,10 @@ fun <T : Any> SimpleScaffold(
         when (event) {
             is ViewModelEvent.ShowSnackbar -> if (activity?.isFinishing == true) {
                 false
-            } else consume {
-                showSnackbar(event.message.localize(context).toString(), event.long)
+            } else {
+                consume {
+                    showSnackbar(event.message.localize(context).toString(), event.long)
+                }
             }
             else -> false
         }
@@ -130,7 +132,7 @@ fun <T : Any> SimpleScaffold(
                             }
                             .runIf(onTitleClicked != null) {
                                 clickable(onClick = onTitleClicked!!)
-                            }
+                            },
                     ) {
                         Text(
                             // due to some bug(?) in Compose (I guess?), I need to transform the title to trigger a recomposition

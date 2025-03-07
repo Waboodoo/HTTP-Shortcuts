@@ -29,7 +29,7 @@ sealed class TargetBrowser {
                 CustomTabs(
                     string.removePrefix(CUSTOM_TABS_PACKAGE_NAME)
                         .trim('(', ')')
-                        .takeUnlessEmpty()
+                        .takeUnlessEmpty(),
                 )
             } else {
                 Browser(string.takeUnlessEmpty())

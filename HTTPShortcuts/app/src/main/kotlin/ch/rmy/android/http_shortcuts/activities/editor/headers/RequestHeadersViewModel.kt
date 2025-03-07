@@ -83,7 +83,7 @@ constructor(
                     } else {
                         header
                     }
-                }
+                },
         )
         withProgressTracking {
             temporaryShortcutRepository.updateHeader(headerId, key, value)
@@ -96,7 +96,7 @@ constructor(
         updateHeaders(
             headers.filter { header ->
                 header.id != headerId
-            }
+            },
         )
         withProgressTracking {
             temporaryShortcutRepository.removeHeader(headerId)
@@ -114,7 +114,7 @@ constructor(
                         id = header.id,
                         key = header.key,
                         value = header.value,
-                    )
+                    ),
                 )
             }
     }

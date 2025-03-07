@@ -1,10 +1,10 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import com.google.gson.JsonSyntaxException
-import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.fail
+import org.junit.jupiter.api.assertThrows
 
 class GsonUtilTest {
 
@@ -34,7 +34,8 @@ class GsonUtilTest {
             GsonUtil.prettyPrintOrThrow(
                 """{
                 |"test": 123,
-                |}""".trimMargin()
+                |}
+                """.trimMargin(),
             )
             fail()
         } catch (e: JsonSyntaxException) {
@@ -49,7 +50,7 @@ class GsonUtilTest {
     fun `pretty print error message 2`() {
         try {
             GsonUtil.prettyPrintOrThrow(
-                """"test": 123""".trimMargin()
+                """"test": 123""".trimMargin(),
             )
             fail()
         } catch (e: JsonSyntaxException) {
@@ -66,7 +67,8 @@ class GsonUtilTest {
             GsonUtil.prettyPrintOrThrow(
                 """{
                 |"test": 123
-                |""".trimMargin()
+                |
+                """.trimMargin(),
             )
             fail()
         } catch (e: JsonSyntaxException) {

@@ -29,8 +29,8 @@ class WorkingDirectoryMigration : BaseMigration {
                         "name" to getDirectoryName(storeDirectoryUri, counter),
                         "directory" to storeDirectoryUri,
                         "accessed" to null,
-                    )
-                )
+                    ),
+                ),
             )
             workingDirectories.add(workingDirectory)
 
@@ -53,7 +53,7 @@ class WorkingDirectoryMigration : BaseMigration {
                             addProperty("id", id)
                             addProperty("name", getDirectoryName(storeDirectoryUri, counter))
                             addProperty("directory", storeDirectoryUri)
-                        }
+                        },
                 )
                 responseHandlingObject.addProperty("storeDirectoryId", id)
                 counter++

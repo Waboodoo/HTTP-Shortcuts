@@ -7,7 +7,7 @@ object CommandParser {
     private enum class State {
         INIT,
         SINGLE_QUOTE,
-        DOUBLE_QUOTE
+        DOUBLE_QUOTE,
     }
 
     fun parseCommand(command: String): List<String> {

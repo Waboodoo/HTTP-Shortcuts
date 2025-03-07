@@ -134,7 +134,7 @@ private fun DeleteIconDialog(
                 R.string.confirm_delete_custom_icon_still_in_use_message
             } else {
                 R.string.confirm_delete_custom_icon_message
-            }
+            },
         ),
         confirmButton = stringResource(R.string.dialog_delete),
         onConfirmRequest = onConfirm,

@@ -15,8 +15,8 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
 class CategoryRepository
 @Inject
@@ -163,7 +163,7 @@ constructor(
             transaction(
                 getCategoryById(categoryId)
                     .findFirst()
-                    ?: return@commitTransaction
+                    ?: return@commitTransaction,
             )
         }
     }

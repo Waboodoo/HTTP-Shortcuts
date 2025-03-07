@@ -64,6 +64,8 @@ fun CodeEditorField(
             {
                 Text(label)
             }
-        } else null,
+        } else {
+            null
+        },
     )
 }

@@ -15,7 +15,7 @@ class MqttUtilTest {
                 MqttUtil.Message("my-topic", "Some päyload".toByteArray()),
                 MqttUtil.Message("my-other-topic", "Newline\nCharacters\n".toByteArray()),
             ),
-            actual
+            actual,
         )
     }
 

@@ -16,7 +16,7 @@ constructor() : Action<PromptPasswordAction.Params> {
                     message = message.toLocalizable(),
                     type = ExecuteDialogState.TextInput.Type.PASSWORD,
                     initialValue = prefill,
-                )
+                ),
             )
         } catch (e: DialogCancellationException) {
             null

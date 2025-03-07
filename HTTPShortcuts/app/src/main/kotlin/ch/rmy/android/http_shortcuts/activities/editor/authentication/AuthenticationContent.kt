@@ -98,7 +98,7 @@ fun AuthenticationContent(
             VerticalSpacer(Spacing.SMALL)
 
             Column(
-                modifier = Modifier.padding(top = Spacing.MEDIUM)
+                modifier = Modifier.padding(top = Spacing.MEDIUM),
             ) {
                 HorizontalDivider()
 

@@ -3,9 +3,9 @@ package ch.rmy.android.http_shortcuts.variables.types
 import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class ClipboardType
 @Inject

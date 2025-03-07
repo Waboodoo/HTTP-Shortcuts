@@ -13,11 +13,11 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.io.File
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
-import javax.inject.Inject
 
 @HiltViewModel
 class IconPickerViewModel

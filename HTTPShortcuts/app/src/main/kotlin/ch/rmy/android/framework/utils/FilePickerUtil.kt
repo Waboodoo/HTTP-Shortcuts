@@ -18,7 +18,9 @@ object FilePickerUtil {
         override fun parseResult(resultCode: Int, intent: Intent?): Uri? =
             if (resultCode == AppCompatActivity.RESULT_OK) {
                 intent?.data
-            } else null
+            } else {
+                null
+            }
     }
 
     object PickFiles : ActivityResultContract<Boolean, List<Uri>?>() {
@@ -28,7 +30,9 @@ object FilePickerUtil {
         override fun parseResult(resultCode: Int, intent: Intent?): List<Uri>? =
             if (resultCode == AppCompatActivity.RESULT_OK) {
                 intent?.let(::extractUris)
-            } else null
+            } else {
+                null
+            }
 
         private fun extractUris(intent: Intent): List<Uri>? =
             intent.clipData

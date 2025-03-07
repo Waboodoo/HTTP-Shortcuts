@@ -4,9 +4,9 @@ import android.content.Context
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import ch.rmy.android.framework.utils.UUIDUtils
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class CopyCertificateFileUseCase
 @Inject

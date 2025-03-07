@@ -24,13 +24,13 @@ class SelectTypeViewModel : BaseTypeViewModel() {
         temporaryVariableRepository.setOptions(
             viewState.options.map {
                 Option(id = it.id, value = it.text, label = it.label)
-            }
+            },
         )
         temporaryVariableRepository.setDataForType(
             mapOf(
                 SelectType.KEY_MULTI_SELECT to viewState.isMultiSelect.toString(),
                 SelectType.KEY_SEPARATOR to viewState.separator,
-            )
+            ),
         )
     }
 

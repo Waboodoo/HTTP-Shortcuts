@@ -82,7 +82,7 @@ private fun EditHeaderDialog(
                 verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
             ) {
                 Box(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     var hasFocus by remember {
                         mutableStateOf(false)
@@ -119,7 +119,7 @@ private fun EditHeaderDialog(
                         options = SUGGESTED_KEYS,
                         onSuggestionSelected = {
                             key = it
-                        }
+                        },
                     )
                 }
 

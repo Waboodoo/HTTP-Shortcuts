@@ -1,9 +1,9 @@
 package ch.rmy.android.http_shortcuts.http
 
 import ch.rmy.android.http_shortcuts.exceptions.InvalidContentTypeException
+import java.net.URLEncoder
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
-import java.net.URLEncoder
 
 object RequestUtil {
 

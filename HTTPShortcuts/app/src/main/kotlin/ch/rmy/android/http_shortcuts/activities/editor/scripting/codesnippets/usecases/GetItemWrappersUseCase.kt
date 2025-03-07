@@ -24,7 +24,7 @@ constructor() {
                         id = id,
                         sectionItem = item,
                         expanded = expanded,
-                    )
+                    ),
                 )
                     .runIf(expanded) {
                         plus(
@@ -39,7 +39,7 @@ constructor() {
                                     filter { codeSnippetItemWrapper ->
                                         codeSnippetItemWrapper.codeSnippetItem.matches(queryTerms!!)
                                     }
-                                }
+                                },
                         )
                     }
                     .takeIf { queryTerms == null || it.size > 1 }

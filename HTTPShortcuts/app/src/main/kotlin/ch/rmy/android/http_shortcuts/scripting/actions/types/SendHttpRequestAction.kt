@@ -13,12 +13,12 @@ import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import ch.rmy.android.scripting.JsObject
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.nio.charset.Charset
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class SendHttpRequestAction
 @Inject
@@ -33,7 +33,7 @@ constructor(
             val (response, shortcutResponse) = withContext(Dispatchers.IO) {
                 val client = httpClientFactory.getClient(context)
                 val storage = responseFileStorageFactory.create(
-                    sessionId = "${executionContext.shortcutId}_${newUUID()}"
+                    sessionId = "${executionContext.shortcutId}_${newUUID()}",
                 )
 
                 val request = buildRequest(method, url) {
@@ -82,7 +82,7 @@ constructor(
                             shortcutResponse.getContentAsString(context)
                         } catch (_: ResponseTooLargeException) {
                             ""
-                        }
+                        },
                     )
                     property("headers", shortcutResponse.headersAsMultiMap)
                     property("cookies", shortcutResponse.cookiesAsMultiMap)

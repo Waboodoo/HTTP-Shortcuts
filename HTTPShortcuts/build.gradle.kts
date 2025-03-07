@@ -14,7 +14,7 @@ buildscript {
 }
 
 plugins {
-    alias(libs.plugins.spotless)
+    alias(libs.plugins.ktlint)
     alias(libs.plugins.kotlinJvm) apply false
     alias(libs.plugins.realm) apply false
     alias(libs.plugins.hiltAndroid) apply false
@@ -24,19 +24,6 @@ plugins {
 
 allprojects {
     apply {
-        plugin("com.diffplug.spotless")
-    }
-
-    spotless {
-        kotlin {
-            target(fileTree(".") {
-                include("**/*.kt")
-            })
-            ktlint("0.43.2").userData(mapOf(
-                "max_line_length" to "150",
-                "indent_size" to "4",
-                "insert_final_newline" to "true",
-            ))
-        }
+        plugin("org.jlleitschuh.gradle.ktlint")
     }
 }

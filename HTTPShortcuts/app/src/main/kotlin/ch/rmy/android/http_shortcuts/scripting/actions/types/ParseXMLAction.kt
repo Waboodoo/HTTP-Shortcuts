@@ -8,9 +8,9 @@ import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.SimpleXMLContentHandler
 import ch.rmy.android.scripting.JsObject
 import ch.rmy.android.scripting.ScriptingEngine
-import org.xml.sax.Attributes
 import java.util.Stack
 import javax.inject.Inject
+import org.xml.sax.Attributes
 
 class ParseXMLAction
 @Inject

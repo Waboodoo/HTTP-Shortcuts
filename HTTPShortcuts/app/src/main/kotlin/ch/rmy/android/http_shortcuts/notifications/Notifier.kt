@@ -11,11 +11,11 @@ import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Singleton
 class Notifier
@@ -40,7 +40,7 @@ constructor(
                     setStyle(
                         NotificationCompat.BigTextStyle()
                             .setBigContentTitle(title)
-                            .bigText(message)
+                            .bigText(message),
                     )
                 }
         }
@@ -62,7 +62,7 @@ constructor(
                     .setStyle(
                         NotificationCompat.BigPictureStyle()
                             .bigPicture(bitmap)
-                            .setBigContentTitle(title)
+                            .setBigContentTitle(title),
                     )
             }
         } finally {
@@ -86,7 +86,7 @@ constructor(
                                 PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
                             },
                     )
-                    .build()
+                    .build(),
             )
         }
     }

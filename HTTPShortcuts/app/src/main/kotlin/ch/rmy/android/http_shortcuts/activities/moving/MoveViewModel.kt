@@ -17,10 +17,10 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.MoveShortcuts.RESULT_SHORTCUTS_MOVED
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class MoveViewModel
@@ -63,7 +63,7 @@ constructor(
                             categoryName = category.name,
                             sectionName = section?.name,
                             shortcuts = shortcutsBySectionId[section?.id]?.map(Shortcut::toShortcutPlaceholder) ?: emptyList(),
-                        )
+                        ),
                     )
                 }
             }
@@ -84,12 +84,12 @@ constructor(
             if (categorySection.id == categorySection1.id && categorySection.id == categorySection2.id) {
                 logInfo("Shortcuts are in same category section, swapping")
                 categorySection.copy(
-                    shortcuts = categorySection.shortcuts.swapped(shortcutId, targetShortcutId) { id }
+                    shortcuts = categorySection.shortcuts.swapped(shortcutId, targetShortcutId) { id },
                 )
             } else if (categorySection.id == categorySection1.id) {
                 logInfo("Removing shortcut from original category section")
                 categorySection.copy(
-                    shortcuts = categorySection.shortcuts.filter { it.id != shortcutId }
+                    shortcuts = categorySection.shortcuts.filter { it.id != shortcutId },
                 )
             } else if (categorySection.id == categorySection2.id) {
                 logInfo("Adding shortcut to target category section")
@@ -97,7 +97,7 @@ constructor(
                     shortcuts = categorySection.shortcuts.toMutableList()
                         .apply {
                             add(shortcut2Index, shortcut1)
-                        }
+                        },
                 )
             } else {
                 categorySection
@@ -127,7 +127,7 @@ constructor(
                 categorySection1index -> {
                     logInfo("Removing shortcut from original category section")
                     categorySection.copy(
-                        shortcuts = categorySection.shortcuts.filter { it.id != shortcutId }
+                        shortcuts = categorySection.shortcuts.filter { it.id != shortcutId },
                     )
                 }
                 categorySection2index -> {
@@ -140,7 +140,7 @@ constructor(
                                 } else {
                                     add(shortcut1)
                                 }
-                            }
+                            },
                     )
                 }
                 else -> {
@@ -156,7 +156,7 @@ constructor(
             shortcutRepository.moveShortcuts(
                 _categorySections.value.associate { section ->
                     section.id.run { categoryId to sectionId } to section.shortcuts.map { it.id }
-                }
+                },
             )
         }
         hasChanged = true

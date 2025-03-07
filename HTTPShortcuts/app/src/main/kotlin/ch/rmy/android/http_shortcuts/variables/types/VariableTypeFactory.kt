@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
-import javax.inject.Inject
 import ch.rmy.android.http_shortcuts.data.enums.VariableType as VariableTypeEnum
+import javax.inject.Inject
 
 class VariableTypeFactory
 @Inject

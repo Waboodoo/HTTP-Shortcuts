@@ -1,8 +1,8 @@
 package ch.rmy.curlcommand
 
-import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import org.junit.jupiter.api.assertThrows
 
 class CommandLineBuilderTest {
 

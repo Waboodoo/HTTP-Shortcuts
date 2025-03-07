@@ -8,9 +8,9 @@ import ch.rmy.android.http_shortcuts.data.domains.getHistoryEventsNewerThan
 import ch.rmy.android.http_shortcuts.data.domains.getHistoryEventsOlderThan
 import ch.rmy.android.http_shortcuts.data.enums.HistoryEventType
 import ch.rmy.android.http_shortcuts.data.models.HistoryEvent
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import kotlin.time.Duration
+import kotlinx.coroutines.flow.Flow
 
 class HistoryRepository
 @Inject
@@ -38,7 +38,7 @@ constructor(
     suspend fun storeHistoryEvent(type: HistoryEventType, data: Any?) {
         commitTransaction {
             copy(
-                HistoryEvent(id = newUUID(), eventType = type, eventData = data)
+                HistoryEvent(id = newUUID(), eventType = type, eventData = data),
             )
         }
     }

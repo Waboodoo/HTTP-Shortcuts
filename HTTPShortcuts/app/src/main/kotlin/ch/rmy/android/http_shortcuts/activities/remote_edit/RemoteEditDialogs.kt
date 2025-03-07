@@ -29,7 +29,7 @@ fun RemoteEditDialog(dialogState: RemoteEditDialogState?, onDismissRequest: () -
                     } else {
                         onDismissRequest()
                     }
-                }
+                },
             )
         }
         null -> Unit

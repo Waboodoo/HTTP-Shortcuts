@@ -30,7 +30,7 @@ fun GlobalScriptingContent(
             TextFieldValue(
                 text = globalCode,
                 selection = TextRange(globalCode.length),
-            )
+            ),
         )
     }
 

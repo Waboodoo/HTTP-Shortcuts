@@ -24,8 +24,8 @@ import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.http_shortcuts.extensions.rememberWebView
-import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.delay
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable

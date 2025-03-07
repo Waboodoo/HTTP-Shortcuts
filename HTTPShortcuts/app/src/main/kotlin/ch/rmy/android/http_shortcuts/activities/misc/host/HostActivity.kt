@@ -103,7 +103,7 @@ class HostActivity : BaseComposeActivity() {
         private fun startActivity(context: Context) {
             context.startActivity(
                 Intent(context, HostActivity::class.java)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP),
             )
         }
     }

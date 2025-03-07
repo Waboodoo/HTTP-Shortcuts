@@ -69,7 +69,9 @@ private fun SettingsButton(
                 )
             }
         },
-        colors = if (enabled) ListItemDefaults.colors() else {
+        colors = if (enabled) {
+            ListItemDefaults.colors()
+        } else {
             val disabledColor = ListItemDefaults.contentColor.copy(alpha = 0.38f)
             ListItemDefaults.colors(
                 leadingIconColor = disabledColor,
@@ -86,6 +88,6 @@ private fun SettingsButton(
                 onClick = onClick,
             )
             .heightIn(min = 72.dp)
-            .padding(vertical = 4.dp)
+            .padding(vertical = 4.dp),
     )
 }

@@ -65,7 +65,7 @@ fun <T> SelectionField(
             .then(modifier)
             .onGloballyPositioned { layoutCoordinates ->
                 dropdownWidth = layoutCoordinates.size.width
-            }
+            },
     ) {
         TextField(
             modifier = Modifier
@@ -104,14 +104,14 @@ fun <T> SelectionField(
                             alpha(0.4f)
                         },
                 )
-            }
+            },
         )
 
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
             modifier = Modifier
-                .width(with(LocalDensity.current) { dropdownWidth.toDp() })
+                .width(with(LocalDensity.current) { dropdownWidth.toDp() }),
         ) {
             val sizeOfOneItem = 50.dp
             val configuration = LocalConfiguration.current
@@ -125,7 +125,7 @@ fun <T> SelectionField(
             LazyColumn(
                 modifier = Modifier
                     .width(500.dp)
-                    .height(height)
+                    .height(height),
             ) {
                 items(items) { (key, value) ->
                     DropdownMenuItem(

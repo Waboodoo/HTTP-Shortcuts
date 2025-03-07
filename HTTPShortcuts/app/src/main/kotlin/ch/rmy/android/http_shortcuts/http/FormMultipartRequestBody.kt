@@ -2,11 +2,11 @@ package ch.rmy.android.http_shortcuts.http
 
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.sanitize
+import java.io.InputStream
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okio.BufferedSink
 import okio.source
-import java.io.InputStream
 
 class FormMultipartRequestBody(private val parameters: List<RequestBuilder.Parameter>) : RequestBody() {
 
@@ -17,11 +17,12 @@ class FormMultipartRequestBody(private val parameters: List<RequestBuilder.Param
         try {
             var computedLength = 0L
             process(
-                { string ->
+                writeString = { string ->
                     computedLength += string.toByteArray().size
-                }, { _, length ->
-                computedLength += length ?: throw UnknownLength()
-            }
+                },
+                writeStream = { _, length ->
+                    computedLength += length ?: throw UnknownLength()
+                },
             )
             computedLength
         } catch (t: UnknownLength) {
@@ -33,12 +34,12 @@ class FormMultipartRequestBody(private val parameters: List<RequestBuilder.Param
 
     override fun writeTo(sink: BufferedSink) {
         process(
-            { string ->
+            writeString = { string ->
                 sink.writeUtf8(string)
             },
-            { stream, _ ->
+            writeStream = { stream, _ ->
                 sink.writeAll(stream.source())
-            }
+            },
         )
     }
 

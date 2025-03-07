@@ -19,7 +19,7 @@ constructor(
             params = ChangeIconAction.Params(
                 shortcutNameOrId = args.getString(0)?.takeUnlessEmpty(),
                 iconName = args.getString(1) ?: "",
-            )
+            ),
         )
 
     override fun getAlias() = ActionAlias(

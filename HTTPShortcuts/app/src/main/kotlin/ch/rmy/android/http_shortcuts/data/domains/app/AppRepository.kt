@@ -22,9 +22,9 @@ import ch.rmy.android.http_shortcuts.data.models.ResolvedVariable
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.import_export.Importer
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 class AppRepository
 @Inject

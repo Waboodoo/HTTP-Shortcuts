@@ -33,7 +33,7 @@ constructor(
                     showIcon = showIcon,
                     labelColor = labelColor,
                     iconScale = iconScale,
-                )
+                ),
             )
         }
     }

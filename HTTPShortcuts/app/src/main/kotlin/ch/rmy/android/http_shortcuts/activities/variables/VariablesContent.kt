@@ -111,7 +111,7 @@ private fun VariableItem(
                 if (variable.isUnused) {
                     Text(stringResource(R.string.label_variable_unused))
                 }
-            }
+            },
         )
         HorizontalDivider()
     }

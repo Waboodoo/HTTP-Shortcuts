@@ -46,6 +46,10 @@ import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
 import ch.rmy.curlcommand.CurlCommand
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import kotlin.random.Random
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.drop
@@ -54,10 +58,6 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.mindrot.jbcrypt.BCrypt
-import javax.inject.Inject
-import kotlin.random.Random
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class MainViewModel
@@ -115,7 +115,7 @@ constructor(
                 updateViewState {
                     copy(
                         categoryItems = getCategoryTabItems(),
-                        activeCategoryId = (categories.find { it.id == activeCategoryId && !it.hidden } ?: categories.first { !it.hidden }).id
+                        activeCategoryId = (categories.find { it.id == activeCategoryId && !it.hidden } ?: categories.first { !it.hidden }).id,
                     )
                 }
             }
@@ -195,7 +195,7 @@ constructor(
                 updateDialogState(
                     MainDialogState.RecoverShortcut(
                         recoveryInfo = recoveryInfo,
-                    )
+                    ),
                 )
             } else if (shouldShowChangeLogDialog()) {
                 updateDialogState(
@@ -226,7 +226,7 @@ constructor(
                 shortcutId = recoveryInfo.shortcutId,
                 categoryId = recoveryInfo.categoryId,
                 recoveryMode = true,
-            )
+            ),
         )
     }
 
@@ -346,7 +346,7 @@ constructor(
     fun onCreateShortcutButtonClicked() = runAction {
         logInfo("Shortcut creation FAB clicked")
         navigate(
-            NavigationDestination.TypePicker.buildRequest(viewState.activeCategoryId)
+            NavigationDestination.TypePicker.buildRequest(viewState.activeCategoryId),
         )
     }
 
@@ -395,8 +395,10 @@ constructor(
         withProgressTracking {
             val lock = appRepository.getLock()
             val passwordHash = lock?.passwordHash
-            val isUnlocked = if (passwordHash != null && BCrypt.checkpw(password, passwordHash)) consume {
-                appRepository.removeLock()
+            val isUnlocked = if (passwordHash != null && BCrypt.checkpw(password, passwordHash)) {
+                consume {
+                    appRepository.removeLock()
+                }
             } else {
                 passwordHash == null
             }
@@ -510,7 +512,7 @@ constructor(
             NavigationDestination.ShortcutEditor.buildRequest(
                 categoryId = viewState.activeCategoryId,
                 curlCommandId = curlCommandId,
-            )
+            ),
         )
     }
 

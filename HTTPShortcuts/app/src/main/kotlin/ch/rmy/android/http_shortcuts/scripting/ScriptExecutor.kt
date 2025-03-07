@@ -20,12 +20,12 @@ import ch.rmy.android.scripting.JsObject
 import ch.rmy.android.scripting.ScriptingEngine
 import ch.rmy.android.scripting.ScriptingEngineFactory
 import ch.rmy.android.scripting.ScriptingException
+import javax.inject.Inject
+import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.json.JSONException
-import javax.inject.Inject
-import kotlin.coroutines.resumeWithException
 
 class ScriptExecutor
 @Inject
@@ -123,9 +123,9 @@ constructor(
                     scriptingEngine.buildJsObject {
                         property("id", category.id)
                         property("name", category.name)
-                    }
+                    },
                 )
-            }
+            },
         )
     }
 
@@ -160,7 +160,7 @@ constructor(
                                     property("orientation", it.orientation)
                                     property("created", it.created)
                                 }
-                            }
+                            },
                         )
                     }
                 }
@@ -179,7 +179,7 @@ constructor(
                 __abort(1);
                 throw "Abort";
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
         engine.registerFunction(
             "__abort",
@@ -205,7 +205,7 @@ constructor(
                 __abort(2, message);
                 throw "Abort";
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
     }
 
@@ -242,8 +242,8 @@ constructor(
                                     onException = { e ->
                                         lastException = e
                                         throw e
-                                    }
-                                )
+                                    },
+                                ),
                             )
                         }
                             ?: NO_RESULT
@@ -279,7 +279,7 @@ constructor(
                         return result;
                     }
                 };
-                """.trimIndent()
+                """.trimIndent(),
             )
             aliases
                 .forEach { (actionName, alias) ->
@@ -289,21 +289,21 @@ constructor(
                         const ${alias.functionName} = (${parameterNames.joinToString()}) => {
                             const result = _runAction("$actionName", [
                                 ${
-                        parameterNames.joinToString { parameter ->
-                            // Cast numbers to strings to avoid rounding errors
-                            "typeof($parameter) === 'number' ? `\${$parameter}` : $parameter"
-                        }
+                            parameterNames.joinToString { parameter ->
+                                // Cast numbers to strings to avoid rounding errors
+                                "typeof($parameter) === 'number' ? `\${$parameter}` : $parameter"
+                            }
                         }
                             ]);
                             return _convertResult(result);
                         };
-                        """.trimIndent()
+                        """.trimIndent(),
                     )
                     alias.functionNameAliases.forEach {
                         engine.evaluateScript(
                             """
                             const $it = ${alias.functionName};
-                            """.trimIndent()
+                            """.trimIndent(),
                         )
                     }
                 }

@@ -131,7 +131,7 @@ private fun EditorDialog(
         onDismissRequest = onDismissed,
         text = {
             Column(
-                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL)
+                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
             ) {
                 TextField(
                     modifier = Modifier

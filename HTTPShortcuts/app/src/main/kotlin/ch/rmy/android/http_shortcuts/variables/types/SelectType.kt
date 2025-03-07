@@ -21,7 +21,7 @@ constructor(
                     values = variable.options!!.map { option ->
                         option.id to option.labelOrValue
                     },
-                )
+                ),
             )
                 .mapNotNull { optionId ->
                     variable.options!!.find { it.id == optionId }
@@ -36,7 +36,7 @@ constructor(
                     values = variable.options!!.map { option ->
                         option.value to option.labelOrValue
                     },
-                )
+                ),
             )
         }
 

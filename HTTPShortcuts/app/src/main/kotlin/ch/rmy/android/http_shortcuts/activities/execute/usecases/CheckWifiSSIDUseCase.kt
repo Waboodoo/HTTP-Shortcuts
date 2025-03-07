@@ -8,8 +8,8 @@ import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.exceptions.MissingLocationPermissionException
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
-import kotlinx.coroutines.CancellationException
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 
 class CheckWifiSSIDUseCase
 @Inject
@@ -35,7 +35,7 @@ constructor(
                 ExecuteDialogState.GenericConfirm(
                     title = StringResLocalizable(R.string.title_permission_dialog),
                     message = StringResLocalizable(R.string.message_permission_rational),
-                )
+                ),
             )
         }
     }
@@ -53,7 +53,7 @@ constructor(
                 title = shortcutName.toLocalizable(),
                 message = StringResLocalizable(R.string.message_wrong_wifi_network, wifiSSID),
                 confirmButton = StringResLocalizable(R.string.action_label_select),
-            )
+            ),
         )
         networkUtil.showWifiPicker()
     }

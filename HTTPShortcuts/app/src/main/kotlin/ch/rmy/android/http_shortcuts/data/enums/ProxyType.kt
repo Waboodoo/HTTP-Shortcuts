@@ -6,7 +6,8 @@ enum class ProxyType(
 ) {
 
     HTTP("HTTP", supportsAuthentication = false),
-    SOCKS("SOCKS", supportsAuthentication = true);
+    SOCKS("SOCKS", supportsAuthentication = true),
+    ;
 
     override fun toString() =
         type

@@ -27,7 +27,7 @@ constructor(
                 compareBy<IconPickerListItem> {
                     if (it.isUnused) 1 else 0
                 }
-                    .thenBy { it.icon.fileName }
+                    .thenBy { it.icon.fileName },
             )
     }
 }

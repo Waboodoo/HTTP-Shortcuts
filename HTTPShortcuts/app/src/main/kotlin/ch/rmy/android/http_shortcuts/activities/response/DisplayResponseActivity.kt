@@ -11,10 +11,10 @@ import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
 import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.time.Duration.Companion.seconds
 
 @AndroidEntryPoint
 class DisplayResponseActivity : BaseComposeActivity() {

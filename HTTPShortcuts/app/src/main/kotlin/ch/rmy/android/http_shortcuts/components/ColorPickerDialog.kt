@@ -93,7 +93,7 @@ fun ColorPickerDialog(
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = Spacing.SMALL),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(Spacing.MEDIUM)
+                verticalArrangement = Arrangement.spacedBy(Spacing.MEDIUM),
             ) {
                 ColorPicker(
                     color = color,
@@ -160,7 +160,7 @@ private fun colorTextTransformation(annotatedString: AnnotatedString): Transform
 
             override fun transformedToOriginal(offset: Int): Int =
                 (offset - 1).coerceAtLeast(0)
-        }
+        },
     )
 
 @HiltViewModel

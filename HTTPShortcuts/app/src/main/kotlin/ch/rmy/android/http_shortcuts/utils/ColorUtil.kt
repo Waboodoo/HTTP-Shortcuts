@@ -9,7 +9,9 @@ object ColorUtil {
         if (length == 6) {
             val color = toIntOrNull(16) ?: Color.WHITE
             color + 0xff000000.toInt()
-        } else Color.WHITE
+        } else {
+            Color.WHITE
+        }
 
     fun Int.colorIntToHexString(): String =
         String.format("%06x", this and 0xffffff).uppercase()

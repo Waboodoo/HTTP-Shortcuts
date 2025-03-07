@@ -25,7 +25,7 @@ constructor() : Action<PromptTimeAction.Params> {
                 ExecuteDialogState.TimePicker(
                     title = title,
                     initialTime = getInitialTime(),
-                )
+                ),
             )
             val pattern = format ?: DEFAULT_FORMAT
             try {

@@ -57,6 +57,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import io.realm.kotlin.ext.copyFromRealm
+import java.util.concurrent.Executors
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -69,9 +72,6 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
-import java.util.concurrent.Executors
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.minutes
 
 class Execution(
     private val context: Context,
@@ -138,7 +138,7 @@ class Execution(
                 historyEventLogger.logEvent(
                     HistoryEvent.ShortcutCancelled(
                         shortcutName = shortcut.name,
-                    )
+                    ),
                 )
             }
             throw e
@@ -179,7 +179,7 @@ class Execution(
                     ExecuteDialogState.GenericMessage(
                         title = StringResLocalizable(R.string.dialog_title_error),
                         message = message.toLocalizable(),
-                    )
+                    ),
                 )
             } catch (_: NoActivityAvailableException) {
                 context.showToast(message, long = true)
@@ -199,7 +199,7 @@ class Execution(
                 ExecuteDialogState.GenericMessage(
                     title = StringResLocalizable(R.string.dialog_title_error),
                     message = StringResLocalizable(R.string.shortcut_not_found),
-                )
+                ),
             )
             throw CancellationException("Cancelling because shortcut was not found")
         }
@@ -211,7 +211,7 @@ class Execution(
                 HistoryEvent.ShortcutTriggered(
                     shortcutName = shortcut.name,
                     trigger = params.trigger,
-                )
+                ),
             )
         }
 
@@ -416,7 +416,7 @@ class Execution(
             HistoryEvent.Error(
                 shortcutName = if (::shortcut.isInitialized) shortcut.name else "???",
                 error = message,
-            )
+            ),
         )
     }
 

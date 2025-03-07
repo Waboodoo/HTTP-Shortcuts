@@ -27,7 +27,7 @@ constructor(
                 stepSize = variable.findStep(),
                 prefix = variable.findPrefix(),
                 suffix = variable.findSuffix(),
-            )
+            ),
         )
             .toString()
             .runIf(variable.isIntsOnly()) {

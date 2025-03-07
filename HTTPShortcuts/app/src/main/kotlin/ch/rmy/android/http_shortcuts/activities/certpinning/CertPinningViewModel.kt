@@ -9,9 +9,9 @@ import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class CertPinningViewModel
@@ -38,7 +38,7 @@ constructor(
                                 pattern = it.pattern,
                                 hash = it.hash,
                             )
-                        }
+                        },
                     )
                 }
             }
@@ -53,7 +53,7 @@ constructor(
             CertPinningDialogState.Editor(
                 initialPattern = "",
                 initialHash = "",
-            )
+            ),
         )
     }
 
@@ -69,7 +69,7 @@ constructor(
             CertPinningDialogState.Editor(
                 initialPattern = pin.pattern,
                 initialHash = pin.hash,
-            )
+            ),
         )
     }
 

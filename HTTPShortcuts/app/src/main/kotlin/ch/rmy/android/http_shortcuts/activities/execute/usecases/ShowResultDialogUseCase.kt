@@ -20,8 +20,8 @@ import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
-import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
+import kotlinx.coroutines.coroutineScope
 
 class ShowResultDialogUseCase
 @Inject
@@ -64,7 +64,7 @@ constructor(
                     },
                     monospace = responseHandling?.monospace == true,
                     fontSize = responseHandling?.fontSize,
-                )
+                ),
             )
         } catch (e: DialogCancellationException) {
             return@coroutineScope

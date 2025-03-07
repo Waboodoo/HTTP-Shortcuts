@@ -25,7 +25,7 @@ constructor(
             ExecuteDialogState.TimePicker(
                 title = variable.title.takeUnlessEmpty(),
                 initialTime = getInitialTime(variable.value.takeIf { variable.rememberValue }),
-            )
+            ),
         )
         if (variable.rememberValue) {
             variablesRepository.setVariableValue(variable.id, TIME_FORMAT.format(selectedTime))

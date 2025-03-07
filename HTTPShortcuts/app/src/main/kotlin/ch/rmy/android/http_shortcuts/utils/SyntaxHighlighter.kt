@@ -18,6 +18,7 @@ import com.wakaztahir.codeeditor.highlight.prettify.PrettifyParser
 import com.wakaztahir.codeeditor.highlight.theme.CodeTheme
 import com.wakaztahir.codeeditor.highlight.theme.DefaultTheme
 import com.wakaztahir.codeeditor.highlight.theme.SyntaxColors
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +26,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlin.time.Duration.Companion.milliseconds
 
 class SyntaxHighlighter(
     private val language: String,

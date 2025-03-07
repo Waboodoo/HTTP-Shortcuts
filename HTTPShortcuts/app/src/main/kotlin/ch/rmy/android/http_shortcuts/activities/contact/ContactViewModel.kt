@@ -18,10 +18,10 @@ import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.VersionUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.util.Locale
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class ContactViewModel

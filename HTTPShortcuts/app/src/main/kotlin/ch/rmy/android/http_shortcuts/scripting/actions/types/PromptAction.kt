@@ -26,7 +26,7 @@ constructor() : Action<PromptAction.Params> {
                     message = finalMessage.toLocalizable(),
                     type = ExecuteDialogState.TextInput.Type.TEXT,
                     initialValue = prefill,
-                )
+                ),
             )
         } catch (e: DialogCancellationException) {
             null

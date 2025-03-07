@@ -19,7 +19,8 @@ enum class ShortcutTriggerType {
     LEGACY_SHORTCUT,
     WIDGET,
     SCRIPTING,
-    QUICK_ACCESS_DEVICE_CONTROLS;
+    QUICK_ACCESS_DEVICE_CONTROLS,
+    ;
 
     companion object {
         fun parse(name: String?) =

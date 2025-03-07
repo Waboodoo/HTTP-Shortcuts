@@ -118,7 +118,7 @@ fun DisplayResponseContent(
         }
 
         Box(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         ) {
             ResponseDisplay(
                 text = text,
@@ -172,7 +172,7 @@ private fun DetailsHeader(
                     modifier = Modifier
                         .rotate(rotationDegrees),
                 )
-            }
+            },
         )
     }
 }
@@ -220,7 +220,7 @@ private fun DetailInfoCards(
                                 R.plurals.milliseconds,
                                 milliseconds,
                                 milliseconds,
-                            )
+                            ),
                         )
                     }
                 }
@@ -334,7 +334,7 @@ private fun ResponseDisplay(
                             context.showToast("Missing permission, can't open URL")
                         }
                     }
-                }
+                },
             )
             externalUrl?.let {
                 OpenExternalUrlDialog(
@@ -346,7 +346,7 @@ private fun ResponseDisplay(
                     onDoNotShowAgain = onExternalUrlWarningHidden,
                     onDismissed = {
                         externalUrl = null
-                    }
+                    },
                 )
             }
         }
@@ -378,7 +378,7 @@ private fun PlainText(text: String, monospace: Boolean = false, italic: Boolean 
     Box(modifier = Modifier.verticalScroll(rememberScrollState())) {
         SelectionContainer {
             Column(
-                modifier = Modifier.padding(Spacing.MEDIUM)
+                modifier = Modifier.padding(Spacing.MEDIUM),
             ) {
                 // Somehow, verticalScroll starts falling apart and crashing when the text
                 // composable is too big, so we split it up into smaller chunks
@@ -543,6 +543,6 @@ private fun OpenExternalUrlDialog(
             TextButton(onClick = onDismissed) {
                 Text(stringResource(R.string.dialog_cancel))
             }
-        }
+        },
     )
 }

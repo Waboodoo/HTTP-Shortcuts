@@ -100,7 +100,7 @@ private fun ShortcutItem(
             },
             leadingContent = {
                 ShortcutIcon(shortcut.icon)
-            }
+            },
         )
         HorizontalDivider()
     }

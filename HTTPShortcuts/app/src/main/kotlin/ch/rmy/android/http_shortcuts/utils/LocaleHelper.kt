@@ -41,7 +41,7 @@ constructor(
 
     private fun setLocale(locale: Locale?) {
         AppCompatDelegate.setApplicationLocales(
-            if (locale != null) LocaleListCompat.create(locale) else LocaleListCompat.getEmptyLocaleList()
+            if (locale != null) LocaleListCompat.create(locale) else LocaleListCompat.getEmptyLocaleList(),
         )
     }
 

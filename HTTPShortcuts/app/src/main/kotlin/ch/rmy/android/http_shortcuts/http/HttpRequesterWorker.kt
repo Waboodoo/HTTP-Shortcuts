@@ -32,10 +32,10 @@ import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.variables.Variables
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.io.IOException
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @HiltWorker
 class HttpRequesterWorker
@@ -147,7 +147,7 @@ constructor(
                     .truncate(maxLength = TOAST_MAX_LENGTH)
                     .let(HTMLUtil::toSpanned)
                     .ifBlank { context.getString(R.string.message_blank_response) },
-                long = shortcut.responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE
+                long = shortcut.responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE,
             )
         }
     }
@@ -183,9 +183,9 @@ constructor(
                         .setInputData(
                             Data.Builder()
                                 .putString(DATA_SERIALIZED_PARAMS, GsonUtil.gson.toJson(params))
-                                .build()
+                                .build(),
                         )
-                        .build()
+                        .build(),
                 )
             }
         }

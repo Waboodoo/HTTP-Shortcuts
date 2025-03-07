@@ -132,7 +132,7 @@ private fun EditParameterDialog(
                     when (type) {
                         ParameterType.STRING -> if (isEdit) R.string.title_post_param_edit else R.string.title_post_param_add
                         ParameterType.FILE -> if (isEdit) R.string.title_post_param_edit_file else R.string.title_post_param_add_file
-                    }
+                    },
                 ),
             )
         },
@@ -142,7 +142,7 @@ private fun EditParameterDialog(
                 modifier = Modifier.verticalScroll(rememberScrollState()),
             ) {
                 Box(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     VariablePlaceholderTextField(
                         modifier = Modifier

@@ -141,7 +141,7 @@ constructor(
                     Variables.extractVariableKeysFromJS(code)
                         .map { variableKey ->
                             variableLookup.getVariableByKey(variableKey)?.id ?: variableKey
-                        }
+                        },
                 )
     }
 }

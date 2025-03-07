@@ -29,10 +29,10 @@ import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Companion.RESULT_CHANGES_DISCARDED
 import ch.rmy.android.http_shortcuts.variables.Variables
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class VariableEditorViewModel

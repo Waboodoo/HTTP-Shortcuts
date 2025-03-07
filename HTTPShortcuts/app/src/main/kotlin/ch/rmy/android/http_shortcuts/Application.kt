@@ -10,9 +10,9 @@ import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.HiltAndroidApp
-import org.conscrypt.Conscrypt
 import java.security.Security
 import javax.inject.Inject
+import org.conscrypt.Conscrypt
 
 @HiltAndroidApp
 class Application : android.app.Application(), Configuration.Provider {

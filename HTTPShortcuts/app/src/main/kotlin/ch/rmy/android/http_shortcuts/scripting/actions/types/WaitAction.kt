@@ -1,9 +1,9 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 import kotlin.time.Duration
+import kotlinx.coroutines.delay
 
 class WaitAction
 @Inject

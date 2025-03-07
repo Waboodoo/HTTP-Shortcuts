@@ -34,7 +34,7 @@ fun Checkbox(
                 enabled = enabled,
                 value = checked,
                 role = Role.Checkbox,
-                onValueChange = { onCheckedChange(!checked) }
+                onValueChange = { onCheckedChange(!checked) },
             ),
         headlineContent = {
             WithContentColor(enabled = enabled) {
@@ -57,7 +57,7 @@ fun Checkbox(
         },
         trailingContent = {
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 androidx.compose.material3.Checkbox(
                     enabled = enabled,
