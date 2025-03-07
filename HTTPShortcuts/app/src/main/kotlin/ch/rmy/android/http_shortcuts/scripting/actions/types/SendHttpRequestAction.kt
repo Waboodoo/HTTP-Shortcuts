@@ -16,6 +16,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
+import java.nio.charset.Charset
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -61,6 +62,13 @@ constructor(
                     statusCode = response.code,
                     contentFile = contentFile,
                     timing = (response.receivedResponseAtMillis - response.sentRequestAtMillis).milliseconds,
+                    charsetOverride = charsetOverride?.let {
+                        try {
+                            Charset.forName(it)
+                        } catch (_: Exception) {
+                            null
+                        }
+                    },
                 )
                 (response to shortcutResponse)
             }
@@ -95,5 +103,6 @@ constructor(
         val body: String?,
         val headers: Map<String, String>?,
         val formData: Map<String, String>?,
+        val charsetOverride: String?,
     )
 }

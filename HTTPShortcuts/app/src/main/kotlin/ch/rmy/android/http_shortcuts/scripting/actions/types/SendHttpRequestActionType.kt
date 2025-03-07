@@ -24,6 +24,7 @@ constructor(
                     ?.toStringMap(),
                 formData = (options["formData"] as? Map<*, *>)
                     ?.toStringMap(),
+                charsetOverride = options["charset"] as? String,
             ),
         )
     }
