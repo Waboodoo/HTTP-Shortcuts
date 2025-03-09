@@ -1,16 +1,17 @@
 package ch.rmy.android.http_shortcuts.data.domains.app
 
-import ch.rmy.android.framework.data.BaseRepository
+import ch.rmy.android.framework.data.BaseRealmRepository
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIfNotNull
-import ch.rmy.android.http_shortcuts.data.domains.getAppLock
+import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getCertificatePinById
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
 import ch.rmy.android.http_shortcuts.data.models.AppLock
+import ch.rmy.android.http_shortcuts.data.models.AppLockModel
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
@@ -24,14 +25,16 @@ import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 class AppRepository
 @Inject
 constructor(
+    database: Database,
     realmFactory: RealmFactory,
-) : BaseRepository(realmFactory) {
-
+) : BaseRealmRepository(database, realmFactory) {
     suspend fun getBase(): Base =
         queryItem {
             getBase()
@@ -82,29 +85,38 @@ constructor(
     }
 
     suspend fun getLock(): AppLock? =
-        query {
-            getAppLock()
-        }
-            .firstOrNull()
+        get(Database::appLockDao)
+            .getAppLock()
+            ?.toAppLock()
+
+    private fun AppLockModel.toAppLock() =
+        AppLock(
+            passwordHash = passwordHash,
+            useBiometrics = useBiometrics,
+        )
 
     fun getObservableLock(): Flow<AppLock?> =
-        observeQuery {
-            getAppLock()
+        flow {
+            get(Database::appLockDao)
+                .observeAppLock()
+                .distinctUntilChanged()
+                .collect {
+                    emit(it?.toAppLock())
+                }
         }
-            .map {
-                it.firstOrNull()
-            }
 
     suspend fun setLock(passwordHash: String, useBiometrics: Boolean) {
-        commitTransaction {
-            copyOrUpdate(AppLock(passwordHash, useBiometrics))
-        }
+        get(Database::appLockDao)
+            .insert(
+                AppLockModel(
+                    passwordHash = passwordHash,
+                    useBiometrics = useBiometrics,
+                ),
+            )
     }
 
     suspend fun removeLock() {
-        commitTransaction {
-            getAppLock().deleteAll()
-        }
+        get(Database::appLockDao).deleteAppLock()
     }
 
     fun getObservableCertificatePins(): Flow<List<CertificatePin>> =

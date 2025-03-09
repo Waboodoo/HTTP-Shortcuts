@@ -1,8 +1,9 @@
 package ch.rmy.android.http_shortcuts.data.domains.pending_executions
 
-import ch.rmy.android.framework.data.BaseRepository
+import ch.rmy.android.framework.data.BaseRealmRepository
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.extensions.plus
+import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.getPendingExecution
 import ch.rmy.android.http_shortcuts.data.domains.getPendingExecutions
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -18,8 +19,9 @@ import kotlinx.coroutines.flow.Flow
 class PendingExecutionsRepository
 @Inject
 constructor(
+    database: Database,
     realmFactory: RealmFactory,
-) : BaseRepository(realmFactory) {
+) : BaseRealmRepository(database, realmFactory) {
 
     suspend fun getPendingExecution(id: ExecutionId): PendingExecution =
         queryItem {

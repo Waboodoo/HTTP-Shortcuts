@@ -1,12 +1,13 @@
 package ch.rmy.android.http_shortcuts.data.domains.shortcuts
 
 import android.net.Uri
-import ch.rmy.android.framework.data.BaseRepository
+import ch.rmy.android.framework.data.BaseRealmRepository
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.extensions.getCaseInsensitive
 import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
@@ -41,8 +42,9 @@ import kotlinx.coroutines.flow.Flow
 class TemporaryShortcutRepository
 @Inject
 constructor(
+    database: Database,
     realmFactory: RealmFactory,
-) : BaseRepository(realmFactory) {
+) : BaseRealmRepository(database, realmFactory) {
 
     fun getObservableTemporaryShortcut(): Flow<Shortcut> =
         observeItem {
