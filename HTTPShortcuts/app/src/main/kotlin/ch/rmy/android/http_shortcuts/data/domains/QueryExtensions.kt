@@ -9,7 +9,6 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
-import ch.rmy.android.http_shortcuts.data.models.AppLock
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
@@ -68,9 +67,6 @@ fun RealmContext.getPendingExecutions(shortcutId: ShortcutId? = null, waitForNet
 
 fun RealmContext.getPendingExecution(id: ExecutionId): RealmQuery<PendingExecution> =
     get("${PendingExecution.FIELD_ID} == $0", id)
-
-fun RealmContext.getAppLock(): RealmQuery<AppLock> =
-    get()
 
 fun RealmContext.getCertificatePinById(pinId: String): RealmQuery<CertificatePin> =
     get("${CertificatePin.FIELD_ID} == $0", pinId)

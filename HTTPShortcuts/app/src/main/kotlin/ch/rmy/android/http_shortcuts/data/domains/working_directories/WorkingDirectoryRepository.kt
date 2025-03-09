@@ -1,9 +1,10 @@
 package ch.rmy.android.http_shortcuts.data.domains.working_directories
 
 import android.net.Uri
-import ch.rmy.android.framework.data.BaseRepository
+import ch.rmy.android.framework.data.BaseRealmRepository
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
+import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getWorkingDirectory
 import ch.rmy.android.http_shortcuts.data.domains.getWorkingDirectoryByNameOrId
@@ -15,8 +16,9 @@ import kotlinx.coroutines.flow.map
 class WorkingDirectoryRepository
 @Inject
 constructor(
+    database: Database,
     realmFactory: RealmFactory,
-) : BaseRepository(realmFactory) {
+) : BaseRealmRepository(database, realmFactory) {
     fun getObservableWorkingDirectories(): Flow<List<WorkingDirectory>> =
         observeList {
             getBase().findFirst()!!.workingDirectories

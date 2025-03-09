@@ -1,10 +1,8 @@
 package ch.rmy.android.http_shortcuts.data.domains.widgets
 
-import ch.rmy.android.framework.data.BaseRepository
+import ch.rmy.android.framework.data.BaseRealmRepository
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.Database
-import ch.rmy.android.http_shortcuts.data.RealmToRoomMigration
-import ch.rmy.android.http_shortcuts.data.dao.WidgetDao
 import ch.rmy.android.http_shortcuts.data.domains.getShortcutById
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.Widget
@@ -14,16 +12,9 @@ import javax.inject.Inject
 class WidgetsRepository
 @Inject
 constructor(
-    realmFactory: RealmFactory,
     database: Database,
-) : BaseRepository(realmFactory) {
-    private val widgetDaoField = database.widgetDao()
-
-    private suspend fun getWidgetDao(): WidgetDao {
-        RealmToRoomMigration.migrationDone.await()
-        return widgetDaoField
-    }
-
+    realmFactory: RealmFactory,
+) : BaseRealmRepository(database, realmFactory) {
     suspend fun createWidget(
         widgetId: Int,
         shortcutId: ShortcutId,
@@ -32,7 +23,7 @@ constructor(
         labelColor: String?,
         iconScale: Float,
     ) {
-        getWidgetDao().insert(
+        get(Database::widgetDao).insert(
             WidgetModel(
                 widgetId = widgetId,
                 shortcutId = shortcutId,
@@ -45,7 +36,7 @@ constructor(
     }
 
     suspend fun getWidgetById(widgetId: Int): Widget? =
-        getWidgetDao().getWidget(widgetId)
+        get(Database::widgetDao).getWidget(widgetId)
             ?.let { widget ->
                 val shortcut = query { getShortcutById(widget.shortcutId) }.firstOrNull()
                 Widget(
@@ -59,7 +50,7 @@ constructor(
             }
 
     suspend fun getWidgetsByIds(widgetIds: List<Int>): List<Widget> =
-        getWidgetDao().getWidgets(widgetIds)
+        get(Database::widgetDao).getWidgets(widgetIds)
             .map { widget ->
                 val shortcut = query { getShortcutById(widget.shortcutId) }.firstOrNull()
                 Widget(
@@ -73,7 +64,7 @@ constructor(
             }
 
     suspend fun getWidgetsByShortcutId(shortcutId: ShortcutId): List<Widget> =
-        getWidgetDao().getWidgetsByShortcutId(shortcutId)
+        get(Database::widgetDao).getWidgetsByShortcutId(shortcutId)
             .let { widgets ->
                 val shortcut = query { getShortcutById(shortcutId) }.firstOrNull()
                 widgets.map { widget ->
@@ -89,7 +80,7 @@ constructor(
             }
 
     suspend fun deleteDeadWidgets() {
-        val widgetDao = getWidgetDao()
+        val widgetDao = get(Database::widgetDao)
         widgetDao.getWidgets()
             .mapNotNull { widget ->
                 val shortcutExists = query { getShortcutById(widget.shortcutId) }.firstOrNull() != null
@@ -101,6 +92,6 @@ constructor(
     }
 
     suspend fun deleteWidgets(widgetIds: List<Int>) {
-        getWidgetDao().deleteWidgets(widgetIds)
+        get(Database::widgetDao).deleteWidgets(widgetIds)
     }
 }

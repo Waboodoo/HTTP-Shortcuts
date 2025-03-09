@@ -1,9 +1,10 @@
 package ch.rmy.android.http_shortcuts.data.domains.shortcuts
 
-import ch.rmy.android.framework.data.BaseRepository
+import ch.rmy.android.framework.data.BaseRealmRepository
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
+import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getCategoryById
@@ -23,8 +24,9 @@ import kotlinx.coroutines.flow.map
 class ShortcutRepository
 @Inject
 constructor(
+    database: Database,
     realmFactory: RealmFactory,
-) : BaseRepository(realmFactory) {
+) : BaseRealmRepository(database, realmFactory) {
 
     suspend fun getShortcutById(shortcutId: ShortcutId): Shortcut =
         query {

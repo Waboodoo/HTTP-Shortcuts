@@ -1,8 +1,9 @@
 package ch.rmy.android.http_shortcuts.data.domains.variables
 
-import ch.rmy.android.framework.data.BaseRepository
+import ch.rmy.android.framework.data.BaseRealmRepository
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
+import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.Option
@@ -14,8 +15,9 @@ import kotlinx.coroutines.flow.Flow
 class TemporaryVariableRepository
 @Inject
 constructor(
+    database: Database,
     realmFactory: RealmFactory,
-) : BaseRepository(realmFactory) {
+) : BaseRealmRepository(database, realmFactory) {
 
     fun getObservableTemporaryVariable(): Flow<Variable> =
         observeItem {
