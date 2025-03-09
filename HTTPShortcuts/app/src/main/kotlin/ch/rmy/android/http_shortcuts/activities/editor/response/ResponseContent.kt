@@ -94,6 +94,10 @@ fun ResponseContent(
 
         VerticalSpacer(Spacing.MEDIUM)
 
+        HorizontalDivider()
+
+        VerticalSpacer(Spacing.MEDIUM)
+
         SelectionField(
             modifier = Modifier.padding(horizontal = Spacing.MEDIUM),
             title = stringResource(R.string.label_response_handling_type),
@@ -112,10 +116,6 @@ fun ResponseContent(
             )
         }
 
-        VerticalSpacer(Spacing.MEDIUM)
-
-        HorizontalDivider()
-
         SettingsButton(
             enabled = hasOutput && (responseUiType == ResponseUiType.DIALOG || responseUiType == ResponseUiType.WINDOW),
             title = stringResource(R.string.button_display_settings),
@@ -131,7 +131,7 @@ fun ResponseContent(
 
         HorizontalDivider()
 
-        VerticalSpacer(Spacing.SMALL)
+        VerticalSpacer(Spacing.MEDIUM)
 
         SelectionField(
             modifier = Modifier.padding(horizontal = Spacing.MEDIUM),
@@ -143,7 +143,7 @@ fun ResponseContent(
             onItemSelected = onResponseCharsetChanged,
         )
 
-        VerticalSpacer(Spacing.SMALL)
+        VerticalSpacer(Spacing.MEDIUM)
 
         HorizontalDivider()
 
