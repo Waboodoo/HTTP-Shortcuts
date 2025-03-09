@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface HistoryEventDao {
     @Query("SELECT * FROM history_event WHERE time > :threshold ORDER BY time DESC")
-    fun getAll(threshold: Long): Flow<List<HistoryEventModel>>
+    fun observeNewerThan(threshold: Long): Flow<List<HistoryEventModel>>
 
     @Insert
     suspend fun insert(historyEvent: HistoryEventModel)

@@ -357,6 +357,11 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
 }
 
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+    arg("room.incremental", "true")
+}
+
 fun generateHtmlFromMarkdown(
     inputFile: String,
     outputFile: String,
