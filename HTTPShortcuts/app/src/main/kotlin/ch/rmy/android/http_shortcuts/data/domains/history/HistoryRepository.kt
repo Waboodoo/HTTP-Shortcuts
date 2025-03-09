@@ -22,7 +22,8 @@ constructor(
     private val eventHistoryDao = database.historyEventDao()
 
     fun getObservableHistory(maxAge: Duration): Flow<List<HistoryEvent>> =
-        eventHistoryDao.getAll(Instant.now().toEpochMilli() - maxAge.inWholeMilliseconds)
+        eventHistoryDao.observeNewerThan(Instant.now().toEpochMilli() - maxAge.inWholeMilliseconds)
+            .distinctUntilChanged()
             .map { events ->
                 events.map { event ->
                     HistoryEvent(
@@ -33,7 +34,6 @@ constructor(
                     )
                 }
             }
-            .distinctUntilChanged()
 
     suspend fun deleteHistory() {
         eventHistoryDao.deleteAll()

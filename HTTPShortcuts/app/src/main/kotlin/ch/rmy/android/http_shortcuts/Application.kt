@@ -5,6 +5,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import ch.rmy.android.framework.extensions.GlobalLogger
 import ch.rmy.android.http_shortcuts.data.RealmFactoryImpl
+import ch.rmy.android.http_shortcuts.data.RealmToRoomMigration
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
@@ -12,6 +13,9 @@ import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.HiltAndroidApp
 import java.security.Security
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.conscrypt.Conscrypt
 
 @HiltAndroidApp
@@ -24,6 +28,9 @@ class Application : android.app.Application(), Configuration.Provider {
 
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
+
+    @Inject
+    lateinit var realmToRoomMigration: RealmToRoomMigration
 
     override val workManagerConfiguration: Configuration by lazy {
         Configuration.Builder()
@@ -41,6 +48,9 @@ class Application : android.app.Application(), Configuration.Provider {
         GlobalLogger.registerLogging(Logging)
 
         RealmFactoryImpl.init(applicationContext)
+        CoroutineScope(Dispatchers.IO).launch {
+            realmToRoomMigration.migrateIfNeeded()
+        }
 
         DarkThemeHelper.applyDarkThemeSettings(Settings(context).darkThemeSetting)
     }

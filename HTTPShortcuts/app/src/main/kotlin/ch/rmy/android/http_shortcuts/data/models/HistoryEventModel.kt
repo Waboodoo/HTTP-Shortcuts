@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "history_event")
 data class HistoryEventModel(
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     val id: Int = 0,
     @ColumnInfo(name = "type")
     val type: String = "",

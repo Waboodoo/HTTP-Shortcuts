@@ -16,7 +16,6 @@ import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import io.realm.kotlin.query.RealmQuery
 
@@ -72,15 +71,6 @@ fun RealmContext.getPendingExecution(id: ExecutionId): RealmQuery<PendingExecuti
 
 fun RealmContext.getAppLock(): RealmQuery<AppLock> =
     get()
-
-fun RealmContext.getWidgetsByIds(widgetIds: List<Int>): RealmQuery<Widget> =
-    get("${Widget.FIELD_WIDGET_ID} IN {${widgetIds.joinToString()}}") // TODO: Figure out how to pass widgetIds as a parameter
-
-fun RealmContext.getDeadWidgets(): RealmQuery<Widget> =
-    get("${Widget.FIELD_SHORTCUT} == nil")
-
-fun RealmContext.getWidgetsForShortcut(shortcutId: ShortcutId): RealmQuery<Widget> =
-    get("${Widget.FIELD_SHORTCUT}.${Shortcut.FIELD_ID} == $0", shortcutId)
 
 fun RealmContext.getCertificatePinById(pinId: String): RealmQuery<CertificatePin> =
     get("${CertificatePin.FIELD_ID} == $0", pinId)
