@@ -105,6 +105,7 @@
             android:exported="true"
             android:label="@string/title_activity_execute"
             android:launchMode="singleInstance"
+            android:showWhenLocked="true"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="ch.rmy.android.http_shortcuts.execute" />
@@ -116,6 +117,7 @@
             android:configChanges="orientation|screenSize"
             android:exported="true"
             android:launchMode="singleInstance"
+            android:showWhenLocked="true"
             android:theme="@style/Theme.Transparent" />
 
         <activity
@@ -130,6 +132,7 @@
             android:label="@string/action_send_to"
             android:launchMode="singleInstance"
             android:noHistory="true"
+            android:showWhenLocked="true"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -151,6 +154,7 @@
             android:label="@string/title_activity_execute"
             android:launchMode="singleInstance"
             android:noHistory="true"
+            android:showWhenLocked="true"
             android:theme="@style/Theme.Transparent">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
@@ -188,6 +192,7 @@
             android:label="@string/title_activity_secondary_launcher_trigger"
             android:launchMode="singleInstance"
             android:noHistory="true"
+            android:showWhenLocked="true"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -199,6 +204,7 @@
             android:name=".activities.misc.quick_settings_tile.QuickSettingsTileActivity"
             android:excludeFromRecents="true"
             android:noHistory="true"
+            android:showWhenLocked="true"
             android:theme="@style/Theme.Transparent" />
 
         <service
@@ -250,6 +256,7 @@
             android:label="@string/title_activity_execute"
             android:launchMode="singleInstance"
             android:noHistory="true"
+            android:showWhenLocked="true"
             android:targetActivity=".activities.ExecuteActivity"
             android:theme="@style/Theme.Transparent">
             <intent-filter>
