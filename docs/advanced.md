@@ -5,7 +5,7 @@ This page is a collection of some less commonly used or more advanced use cases,
 <a name="share-text"></a>
 ## Share text into a shortcut
 
-You might want to be able to share a piece of text (e.g. the URL of the current page in a browser) from an app and use it as part of an HTTP request. You can do this with the use of [variables](#variables.md).
+You might want to be able to share a piece of text (e.g. the URL of the current page in a browser) from an app and use it as part of an HTTP request. You can do this with the use of [variables](variables.md).
 
 When you create or edit a variable, you'll find a checkbox labelled "Allow Receiving Value from Share Dialog". Enable this and save your changes. From now on you can share text from another app into the HTTP Shortcuts app, and it will use the shared text as the value of that variable, in whatever place you used the variable.
 
@@ -15,7 +15,7 @@ If you are on Android 11 or newer, you can enhance this by enabling a shortcut a
 
 Note that the value that you share will not be stored into that variable, but will only be used temporarily for the execution of the shortcut, meaning that the next time you execute the shortcut that variable will still have its previous value.
 
-See also the [variables documentation](#variables.md#sharing) for more information.
+See also the [variables documentation](variables.md#sharing) for more information.
 
 <a name="share-files"></a>
 ## Share files into a shortcut
