@@ -40,9 +40,9 @@ constructor(
 
     override suspend fun doWork(): Result {
         try {
-            val executionId = inputData.getString(INPUT_EXECUTION_ID) ?: return Result.failure()
+            val executionId = inputData.getInt(INPUT_EXECUTION_ID, 0)
             runPendingExecution(context, executionId)
-        } catch (e: NoSuchElementException) {
+        } catch (_: NoSuchElementException) {
             // Nothing to do here
         } catch (e: Exception) {
             logException(e)
@@ -50,7 +50,7 @@ constructor(
         return Result.success()
     }
 
-    private suspend fun runPendingExecution(context: Context, id: String) {
+    private suspend fun runPendingExecution(context: Context, id: ExecutionId) {
         val pendingExecution = pendingExecutionsRepository.getPendingExecution(id)
         withContext(Dispatchers.Main) {
             runPendingExecution(context, pendingExecution)
@@ -70,7 +70,7 @@ constructor(
                         .addTag(TAG)
                         .setInputData(
                             Data.Builder()
-                                .putString(INPUT_EXECUTION_ID, pendingExecutionId)
+                                .putInt(INPUT_EXECUTION_ID, pendingExecutionId)
                                 .build(),
                         )
                         .runIfNotNull(delay) {
@@ -96,10 +96,7 @@ constructor(
 
         fun runPendingExecution(context: Context, pendingExecution: PendingExecution) {
             ExecuteActivity.IntentBuilder(shortcutId = pendingExecution.shortcutId)
-                .variableValues(
-                    pendingExecution.resolvedVariables
-                        .associate { variable -> variable.key to variable.value },
-                )
+                .variableValues(pendingExecution.resolvedVariables)
                 .tryNumber(pendingExecution.tryNumber)
                 .recursionDepth(pendingExecution.recursionDepth)
                 .executionId(pendingExecution.id)

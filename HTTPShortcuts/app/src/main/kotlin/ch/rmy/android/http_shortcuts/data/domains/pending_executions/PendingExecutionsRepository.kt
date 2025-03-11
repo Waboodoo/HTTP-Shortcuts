@@ -4,17 +4,21 @@ import ch.rmy.android.framework.data.BaseRealmRepository
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.extensions.plus
 import ch.rmy.android.http_shortcuts.data.Database
-import ch.rmy.android.http_shortcuts.data.domains.getPendingExecution
-import ch.rmy.android.http_shortcuts.data.domains.getPendingExecutions
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
+import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
+import ch.rmy.android.http_shortcuts.data.models.PendingExecutionWithVariablesModel
 import java.time.Instant
 import javax.inject.Inject
+import kotlin.random.Random
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 class PendingExecutionsRepository
 @Inject
@@ -24,19 +28,41 @@ constructor(
 ) : BaseRealmRepository(database, realmFactory) {
 
     suspend fun getPendingExecution(id: ExecutionId): PendingExecution =
-        queryItem {
-            getPendingExecution(id)
-        }
+        get(Database::pendingExecutionDao)
+            .getPendingExecution(id)
+            .first()
+            .toPendingExecution()
+
+    private fun PendingExecutionWithVariablesModel.toPendingExecution() =
+        PendingExecution(
+            id = pendingExecution.id,
+            shortcutId = pendingExecution.shortcutId,
+            tryNumber = pendingExecution.tryNumber,
+            delayUntil = pendingExecution.delayUntil,
+            waitForNetwork = pendingExecution.waitForNetwork,
+            recursionDepth = pendingExecution.recursionDepth,
+            resolvedVariables = resolvedVariables.associate { it.key to it.value },
+            requestCode = pendingExecution.requestCode,
+            type = PendingExecutionType.parse(pendingExecution.type),
+        )
 
     fun getObservablePendingExecutions(): Flow<List<PendingExecution>> =
-        observeQuery {
-            getPendingExecutions()
+        flow {
+            get(Database::pendingExecutionDao)
+                .observePendingExecutions()
+                .distinctUntilChanged()
+                .map { pendingExecutions ->
+                    pendingExecutions.map { it.toPendingExecution() }
+                }
+                .collect(this)
         }
 
     suspend fun getPendingExecutionsForShortcut(shortcutId: ShortcutId): List<PendingExecution> =
-        query {
-            getPendingExecutions(shortcutId)
-        }
+        get(Database::pendingExecutionDao)
+            .getPendingExecutionsForShortcut(shortcutId)
+            .map {
+                it.toPendingExecution()
+            }
 
     suspend fun createPendingExecution(
         shortcutId: ShortcutId,
@@ -47,23 +73,20 @@ constructor(
         recursionDepth: Int = 0,
         type: PendingExecutionType,
     ) {
-        commitTransaction {
-            val maxRequestCode = getPendingExecutions()
-                .find()
-                .maxOfOrNull { it.requestCode }
-            copy(
-                PendingExecution.createNew(
-                    shortcutId,
-                    resolvedVariables,
-                    tryNumber,
-                    calculateInstant(delay),
-                    requiresNetwork,
-                    recursionDepth,
-                    type,
-                    requestCode = (maxRequestCode ?: 0) + 1,
+        get(Database::pendingExecutionDao)
+            .insert(
+                PendingExecutionModel(
+                    shortcutId = shortcutId,
+                    tryNumber = tryNumber,
+                    delayUntil = calculateInstant(delay),
+                    waitForNetwork = requiresNetwork,
+                    recursionDepth = recursionDepth,
+                    type = type.name,
+                    requestCode = Random.nextInt(10_000),
+                    enqueuedAt = Instant.now(),
                 ),
+                resolvedVariables,
             )
-        }
     }
 
     private fun calculateInstant(delay: Duration?): Instant? {
@@ -74,25 +97,27 @@ constructor(
     }
 
     suspend fun removePendingExecution(executionId: ExecutionId) {
-        commitTransaction {
-            getPendingExecution(executionId).deleteAll()
-        }
+        get(Database::pendingExecutionDao)
+            .delete(executionId)
     }
 
     suspend fun removePendingExecutionsForShortcut(shortcutId: ShortcutId) =
-        commitTransaction {
-            getPendingExecutions(shortcutId).deleteAll()
-        }
+        get(Database::pendingExecutionDao)
+            .deleteForShortcut(shortcutId)
 
     suspend fun getNextPendingExecution(withNetworkConstraints: Boolean): PendingExecution? =
-        query {
-            getPendingExecutions(waitForNetwork = withNetworkConstraints)
-        }
-            .firstOrNull()
+        get(Database::pendingExecutionDao)
+            .run {
+                if (withNetworkConstraints) {
+                    getNextPendingExecutionWaitingForNetwork()
+                } else {
+                    getNextPendingExecution()
+                }
+            }
+            ?.toPendingExecution()
 
     suspend fun removeAllPendingExecutions() {
-        commitTransaction {
-            getPendingExecutions().deleteAll()
-        }
+        get(Database::pendingExecutionDao)
+            .deleteAll()
     }
 }

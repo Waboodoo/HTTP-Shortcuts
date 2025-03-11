@@ -17,9 +17,7 @@ import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Parameter
-import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Repetition
-import ch.rmy.android.http_shortcuts.data.models.ResolvedVariable
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -106,9 +104,7 @@ class RealmFactoryImpl private constructor() : RealmFactory {
                     Header::class,
                     Option::class,
                     Parameter::class,
-                    PendingExecution::class,
                     Repetition::class,
-                    ResolvedVariable::class,
                     ResponseHandling::class,
                     Section::class,
                     Shortcut::class,
