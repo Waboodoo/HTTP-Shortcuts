@@ -31,7 +31,7 @@ constructor(
                         HistoryEvent(
                             id = event.id,
                             type = HistoryEventType.parse(event.type),
-                            time = Instant.ofEpochMilli(event.time),
+                            time = event.time,
                             data = event.data,
                         )
                     }
@@ -54,7 +54,7 @@ constructor(
                 data = withContext(Dispatchers.Default) {
                     GsonUtil.toJson(data)
                 },
-                time = Instant.now().toEpochMilli(),
+                time = Instant.now(),
             ),
         )
     }

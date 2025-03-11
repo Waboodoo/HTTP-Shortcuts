@@ -210,7 +210,7 @@ class ExecuteActivity : BaseComposeActivity() {
             ExecutionParams(
                 shortcutId = extractShortcutId(),
                 variableValues = extractVariableValues(),
-                executionId = extras?.getString(EXTRA_EXECUTION_SCHEDULE_ID),
+                executionId = extras?.getInt(EXTRA_EXECUTION_SCHEDULE_ID),
                 tryNumber = extras?.getInt(EXTRA_TRY_NUMBER) ?: 0,
                 recursionDepth = extras?.getInt(EXTRA_RECURSION_DEPTH) ?: 0,
                 fileUris = getParcelableList(EXTRA_FILES) ?: emptyList(),

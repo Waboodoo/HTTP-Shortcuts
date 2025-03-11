@@ -29,9 +29,6 @@ constructor(
             if (version < 1) {
                 migrateToVersion1(realmContext)
             }
-            if (version < 2) {
-                migrateToVersion2(realmContext)
-            }
             preferences.edit {
                 putInt(MIGRATION_VERSION_KEY, MIGRATION_VERSION)
             }
@@ -59,9 +56,7 @@ constructor(
                     )
                 }
             }
-    }
 
-    private suspend fun migrateToVersion2(realmContext: RealmContext) {
         val appLock = realmContext.get<AppLock>()
             .find()
             .firstOrNull()
@@ -76,9 +71,9 @@ constructor(
     }
 
     companion object {
-        private const val PREFERENCES_NAME = "realm_to_room_preferences"
+        private const val PREFERENCES_NAME = "http_shortcuts.realm_to_room_preferences"
         private const val MIGRATION_VERSION_KEY = "migration_version"
-        private const val MIGRATION_VERSION = 2
+        private const val MIGRATION_VERSION = 1
 
         val migrationDone = CompletableDeferred<Unit>()
     }

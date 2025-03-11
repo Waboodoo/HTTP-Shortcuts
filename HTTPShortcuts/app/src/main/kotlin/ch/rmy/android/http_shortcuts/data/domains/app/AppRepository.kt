@@ -18,8 +18,6 @@ import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Parameter
-import ch.rmy.android.http_shortcuts.data.models.PendingExecution
-import ch.rmy.android.http_shortcuts.data.models.ResolvedVariable
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.import_export.Importer
@@ -311,19 +309,6 @@ constructor(
                 .filter {
                     // TODO: Use RealmQL for this
                     it.id !in usedOptionIds
-                }
-                .deleteAll()
-
-            // Delete orphaned resolved variables
-            val usedResolvedVariableIds = get<PendingExecution>()
-                .find()
-                .flatMap { it.resolvedVariables }
-                .map { it.id }
-            get<ResolvedVariable>()
-                .find()
-                .filter {
-                    // TODO: Use RealmQL for this
-                    it.id !in usedResolvedVariableIds
                 }
                 .deleteAll()
 

@@ -1,9 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.domains
 
 import ch.rmy.android.framework.data.RealmContext
-import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
-import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
@@ -12,7 +10,6 @@ import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDir
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
-import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
@@ -50,23 +47,6 @@ fun RealmContext.getWorkingDirectory(workingDirectoryId: WorkingDirectoryId): Re
 
 fun RealmContext.getWorkingDirectoryByNameOrId(workingDirectoryNameOrId: String): RealmQuery<WorkingDirectory> =
     get("${WorkingDirectory.FIELD_ID} == $0 OR ${WorkingDirectory.FIELD_NAME} ==[c] $1", workingDirectoryNameOrId, workingDirectoryNameOrId)
-
-fun RealmContext.getPendingExecutions(shortcutId: ShortcutId? = null, waitForNetwork: Boolean? = null): RealmQuery<PendingExecution> {
-    logInfo("getPendingExecution for shortcutId=$shortcutId, waitForNetwork=$waitForNetwork")
-    return if (shortcutId != null && waitForNetwork != null) {
-        get("${PendingExecution.FIELD_SHORTCUT_ID} == $0 AND ${PendingExecution.FIELD_WAIT_FOR_NETWORK} == $1", shortcutId, waitForNetwork)
-    } else if (shortcutId != null) {
-        get("${PendingExecution.FIELD_SHORTCUT_ID} == $0", shortcutId)
-    } else if (waitForNetwork != null) {
-        get("${PendingExecution.FIELD_WAIT_FOR_NETWORK} == $0", waitForNetwork)
-    } else {
-        get<PendingExecution>()
-    }
-        .sort(PendingExecution.FIELD_ENQUEUED_AT)
-}
-
-fun RealmContext.getPendingExecution(id: ExecutionId): RealmQuery<PendingExecution> =
-    get("${PendingExecution.FIELD_ID} == $0", id)
 
 fun RealmContext.getCertificatePinById(pinId: String): RealmQuery<CertificatePin> =
     get("${CertificatePin.FIELD_ID} == $0", pinId)

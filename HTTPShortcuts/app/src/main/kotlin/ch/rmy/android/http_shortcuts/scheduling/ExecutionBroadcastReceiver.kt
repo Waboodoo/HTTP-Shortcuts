@@ -31,7 +31,7 @@ class ExecutionBroadcastReceiver : BroadcastReceiver() {
     }
 
     private fun Intent.extractId(): ExecutionId =
-        getStringExtra(EXTRA_EXECUTION_ID)!!
+        getIntExtra(EXTRA_EXECUTION_ID, 0)
 
     private fun Intent.extractRequestCode(): Int =
         getIntExtra(EXTRA_REQUEST_CODE, 0)
