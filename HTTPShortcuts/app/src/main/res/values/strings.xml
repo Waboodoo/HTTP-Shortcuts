@@ -698,7 +698,7 @@
     <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
     <string name="error_browser_not_found">Browser with package name “%s” not found</string>
     <!-- Generic error shown when something went wrong and there is no better error message available -->
-    <string name="error_generic">Something went wrong…</string>
+    <string name="error_generic">An unexpected error has occurred.</string>
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
     <string name="settings_privacy_policy">Privacy Policy</string>
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
