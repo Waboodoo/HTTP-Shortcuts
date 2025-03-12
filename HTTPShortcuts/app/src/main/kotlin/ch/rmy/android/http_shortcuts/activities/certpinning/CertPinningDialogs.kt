@@ -33,7 +33,9 @@ import ch.rmy.android.http_shortcuts.components.SelectDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
+import java.lang.AssertionError
 import kotlinx.coroutines.delay
+import okhttp3.internal.toCanonicalHost
 
 @Composable
 fun CertPinningDialogs(
@@ -121,10 +123,14 @@ private fun EditorDialog(
     var hashValue by rememberSaveable(key = "hash") {
         mutableStateOf(initialHash)
     }
-
+    val isValidPattern by remember {
+        derivedStateOf {
+            patternValue.isValidPattern()
+        }
+    }
     val confirmButtonEnabled by remember {
         derivedStateOf {
-            patternValue.isValidPattern() && hashValue.isValidCertificateFingerprint()
+            isValidPattern && hashValue.isValidCertificateFingerprint()
         }
     }
     AlertDialog(
@@ -152,6 +158,7 @@ private fun EditorDialog(
                         fontSize = FontSize.SMALL,
                         fontFamily = FontFamily.Monospace,
                     ),
+                    isError = !isValidPattern,
                 )
 
                 CertificateFingerprintTextField(
@@ -188,7 +195,11 @@ private val PATTERN_REGEX = """^(\*{1,2}\.)?([A-Za-z0-9_\-]+\.)*[A-Za-z0-9_\-]+$
 private val UNSUPPORTED_PATTERN_SYMBOLS_REGEX = "[\\s,;]".toRegex()
 
 private fun String.isValidPattern(): Boolean =
-    matches(PATTERN_REGEX)
+    matches(PATTERN_REGEX) && try {
+        toCanonicalHost() != null
+    } catch (_: AssertionError) {
+        false
+    }
 
 private fun sanitizePattern(input: String): String =
     input.lowercase()
