@@ -2,9 +2,11 @@
 
 ### Improvements
 - You can now create "MQTT Shortcuts", which let you send MQTT messages without resorting to the `sendMqttMessages` Scripting function
+- You can now define a custom charset for the response in the `sendHttpRequest` function
 
 ### Bugfixes
-WIP
+- The charset for the response can now also be configured even when the response is not displayed, e.g. for the use in Scripting.
+- It is now no longer possible to create certificate pinnings with invalid hostname patterns
 
 ### Miscellaneous
 WIP
@@ -63,7 +65,7 @@ WIP
 ## Version 3.22.0
 
 ### Improvements
-- The JavaScript engine used for the Scripting feature was completely replaced. This reduces the size of the app, should improve performance and fix some more exotic bugs, and allow the app to build again for F-Droid. It likely also introduced new bugs, so please let me know if you find one (via "Contact Developer" on the "Information" screen).
+- The JavaScript engine used for the Scripting feature was completely replaced. This reduces the size of the app, should improve performance and fix some more exotic bugs, and allow the app to build again for F-Droid.
 
 ### Bugfixes
 - The "Show at startup" checkbox in the Changelog now behaves correctly
@@ -382,8 +384,6 @@ WIP
 - Calling `executeShortcut` no longer gets stuck on an endless loading spinner if the called shortcut makes use of dialog windows
 
 ## Version 3.0.0
-
-A lot of things were added, changed and reworked in this version. It is very likely that new bugs were introduced or that things no longer work the same way they did before. If you encounter any issue, please let me know, either by contacting me (see the "Contact Developer" option on the Information screen) or by opening a GitHub issue.
 
 ### Improvements
 - The app's UI was migrated to Material Design 3
