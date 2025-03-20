@@ -32,8 +32,16 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
     implementation(libs.quickJsWrapper)
+
+    testImplementation(libs.kotlin.test.junit5)
 }

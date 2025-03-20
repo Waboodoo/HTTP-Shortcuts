@@ -3,6 +3,7 @@ package ch.rmy.android.scripting.quickjs
 import ch.rmy.android.scripting.JsFunctionArgs
 import ch.rmy.android.scripting.JsFunctionArgsImpl
 import ch.rmy.android.scripting.JsValue
+import ch.rmy.android.scripting.utils.withoutCycles
 import com.whl.quickjs.wrapper.QuickJSArray
 import com.whl.quickjs.wrapper.QuickJSObject
 import org.json.JSONArray
@@ -16,8 +17,8 @@ internal class QuickJsValueWrapper(
         when (value) {
             null -> null
             is String -> value
-            is Map<*, *> -> JSONObject(value).toString()
-            is List<*> -> JSONArray(value).toString()
+            is Map<*, *> -> JSONObject((value as Map<Any?, Any?>).withoutCycles()).toString()
+            is List<*> -> JSONArray((value as List<Any?>).withoutCycles()).toString()
             is QuickJSObject -> value.stringify()
             is ByteArray -> value.toHexString()
             else -> value.toString()
