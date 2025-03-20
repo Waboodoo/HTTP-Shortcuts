@@ -304,6 +304,32 @@
 
         <receiver android:name=".scheduling.ExecutionBroadcastReceiver" />
 
+        <!-- Override the Tasker plugin's services to set canBind to false, to address an issue introduced in Tasker 6.4.15 -->
+        <service
+            android:name="com.joaomgcd.taskerpluginlibrary.action.IntentServiceAction"
+            android:exported="true"
+            tools:ignore="ExportedService">
+            <meta-data
+                android:name="canBind"
+                android:value="false"
+                tools:replace="android:value" />
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.joaomgcd.taskerpluginlibrary.condition.IntentServiceCondition"
+            android:exported="true"
+            tools:ignore="ExportedService">
+            <meta-data
+                android:name="canBind"
+                android:value="false"
+                tools:replace="android:value" />
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.QUERY_CONDITION" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
