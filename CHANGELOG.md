@@ -7,9 +7,13 @@
 ### Bugfixes
 - The charset for the response can now also be configured even when the response is not displayed, e.g. for the use in Scripting.
 - It is now no longer possible to create certificate pinnings with invalid hostname patterns
+- Having cyclical references in Scripting function parameters no longer crashes the app
+- Very long responses are now truncated when displayed to avoid crashing the app
 
 ### Miscellaneous
-WIP
+- When an unexpected error occurs, a more meaningful toast message is displayed
+- Implemented a workaround for a crash caused by a recent Tasker update
+- Lots of big changes in the underlying database. Hopefully everything still works.
 
 ## Version 3.26.0
 
