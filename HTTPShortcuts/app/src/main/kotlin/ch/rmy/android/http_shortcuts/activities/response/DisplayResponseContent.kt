@@ -65,6 +65,7 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.framework.extensions.showToast
+import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.response.models.DetailInfo
 import ch.rmy.android.http_shortcuts.activities.response.models.TableData
@@ -382,7 +383,9 @@ private fun PlainText(text: String, monospace: Boolean = false, italic: Boolean 
             ) {
                 // Somehow, verticalScroll starts falling apart and crashing when the text
                 // composable is too big, so we split it up into smaller chunks
-                text.split("\n")
+                text
+                    .truncate(120_000)
+                    .split("\n")
                     .chunked(1000)
                     .map { it.joinToString(separator = "\n") }
                     .forEach {
@@ -402,6 +405,7 @@ private fun PlainText(text: String, monospace: Boolean = false, italic: Boolean 
 
 @Composable
 private fun SyntaxHighlightedText(text: String, language: String, fontSize: TextUnit) {
+    val limitedText = text.truncate(120_000)
     var wrapLines by rememberSaveable(key = "wrap-lines") {
         mutableStateOf(true)
     }
@@ -409,14 +413,14 @@ private fun SyntaxHighlightedText(text: String, language: String, fontSize: Text
 
     val syntaxHighlighter = rememberSyntaxHighlighter(language)
     var formattedText by remember {
-        mutableStateOf(AnnotatedString(text))
+        mutableStateOf(AnnotatedString(limitedText))
     }
     val coroutineScope = rememberCoroutineScope()
-    DisposableEffect(syntaxHighlighter, text) {
+    DisposableEffect(syntaxHighlighter, limitedText) {
         val job = coroutineScope.launch(Dispatchers.Default) {
             formattedText = buildAnnotatedString {
-                append(text)
-                syntaxHighlighter.applyFormatting(this, text)
+                append(limitedText)
+                syntaxHighlighter.applyFormatting(this, limitedText)
             }
         }
         onDispose {
