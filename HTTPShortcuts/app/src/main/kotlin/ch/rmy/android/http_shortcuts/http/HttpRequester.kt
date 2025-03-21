@@ -15,7 +15,6 @@ import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
-import ch.rmy.android.http_shortcuts.data.models.CertificatePin as CertificatePinModel
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.shouldIncludeInHistory
 import ch.rmy.android.http_shortcuts.extensions.toCertificatePin
@@ -64,7 +63,7 @@ constructor(
         variableValues: Map<VariableId, String>,
         fileUploadResult: FileUploadManager.Result? = null,
         useCookieJar: Boolean = false,
-        certificatePins: List<CertificatePinModel>,
+        certificatePins: List<CertificatePin>,
         validateRequestData: suspend (RequestData) -> Unit = {},
     ): ShortcutResponse =
         withContext(Dispatchers.IO) {
@@ -159,7 +158,7 @@ constructor(
         responseFileStorage: ResponseFileStorage,
         fileUploadResult: FileUploadManager.Result? = null,
         cookieJar: CookieJar? = null,
-        certificatePins: List<CertificatePinModel>,
+        certificatePins: List<CertificatePin>,
     ): ShortcutResponse =
         suspendCancellableCoroutine { continuation ->
             val useDigestAuth = shortcut.authenticationType == ShortcutAuthenticationType.DIGEST

@@ -6,7 +6,6 @@ import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmObject
 
 class Base : RealmObject {
-
     var version: Long = 4
     var compatibilityVersion: Long = 0
     var categories: RealmList<Category> = realmListOf()
@@ -17,7 +16,6 @@ class Base : RealmObject {
         private set
     var title: String? = null
     var globalCode: String? = null
-    var certificatePins: RealmList<CertificatePin> = realmListOf()
 
     val shortcuts: List<Shortcut>
         get() = categories.flatMap { it.shortcuts }
@@ -26,15 +24,11 @@ class Base : RealmObject {
         categories.forEach(Category::validate)
         variables.forEach(Variable::validate)
         workingDirectories.forEach(WorkingDirectory::validate)
-        certificatePins.forEach(CertificatePin::validate)
         require(!categories.hasDuplicatesBy { it.id }) {
             "Duplicate category IDs"
         }
         require(!variables.hasDuplicatesBy { it.id }) {
             "Duplicate variable IDs"
-        }
-        require(!certificatePins.hasDuplicatesBy { it.id }) {
-            "Duplicate certificate pin IDs"
         }
         require(!variables.flatMap { it.options ?: emptyList() }.hasDuplicatesBy { it.id }) {
             "Duplicate variable option IDs"

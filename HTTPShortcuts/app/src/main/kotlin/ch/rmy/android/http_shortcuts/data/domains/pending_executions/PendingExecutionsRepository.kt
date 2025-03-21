@@ -47,14 +47,12 @@ constructor(
         )
 
     fun getObservablePendingExecutions(): Flow<List<PendingExecution>> =
-        flow {
-            get(Database::pendingExecutionDao)
-                .observePendingExecutions()
+        flow(Database::pendingExecutionDao) {
+            observePendingExecutions()
                 .distinctUntilChanged()
                 .map { pendingExecutions ->
                     pendingExecutions.map { it.toPendingExecution() }
                 }
-                .collect(this)
         }
 
     suspend fun getPendingExecutionsForShortcut(shortcutId: ShortcutId): List<PendingExecution> =

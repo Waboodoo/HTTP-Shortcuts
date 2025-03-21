@@ -1,10 +1,11 @@
 package ch.rmy.android.http_shortcuts.activities.certpinning.models
 
 import androidx.compose.runtime.Stable
+import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinId
 
 @Stable
 data class Pin(
-    val id: String,
+    val id: CertificatePinId,
     val pattern: String,
     val hash: String,
 ) {

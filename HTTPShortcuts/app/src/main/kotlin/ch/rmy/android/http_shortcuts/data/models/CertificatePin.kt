@@ -1,36 +1,20 @@
 package ch.rmy.android.http_shortcuts.data.models
 
-import ch.rmy.android.framework.utils.UUIDUtils.newUUID
-import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
-import io.realm.kotlin.types.RealmObject
-import io.realm.kotlin.types.annotations.PrimaryKey
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinId
 
-class CertificatePin() : RealmObject {
-
-    constructor(pattern: String, hash: String) : this() {
-        this.pattern = pattern
-        this.hash = hash
-    }
-
+@Entity(tableName = "certificate_pin")
+data class CertificatePin(
     @PrimaryKey
-    var id: String = newUUID()
-    var pattern: String = ""
-
+    @ColumnInfo(name = "id")
+    val id: CertificatePinId = "",
+    @ColumnInfo(name = "pattern")
+    val pattern: String = "",
     /**
      * Hex-encoded hash, either SHA-1 or SHA-256.
      */
-    var hash: String = ""
-
-    fun validate() {
-        require(pattern.isNotEmpty()) {
-            "Certificate pin without host pattern found"
-        }
-        require(hash.isValidCertificateFingerprint()) {
-            "Invalid certificate fingerprint found: $hash"
-        }
-    }
-
-    companion object {
-        const val FIELD_ID = "id"
-    }
-}
+    @ColumnInfo(name = "hash")
+    val hash: String = "",
+)

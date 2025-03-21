@@ -7,6 +7,7 @@ import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinRepository
 import ch.rmy.android.http_shortcuts.data.migration.ImportMigrator
 import ch.rmy.android.http_shortcuts.data.migration.ImportVersionMismatchException
 import ch.rmy.android.http_shortcuts.data.migration.InvalidFileException
@@ -36,6 +37,7 @@ class Importer
 constructor(
     private val context: Context,
     private val appRepository: AppRepository,
+    private val certificatePinRepository: CertificatePinRepository,
 ) {
 
     suspend fun importFromUri(uri: Uri, importMode: ImportMode): ImportStatus =
@@ -96,12 +98,14 @@ constructor(
             val migratedImportData = ImportMigrator.migrate(importData)
             val newBase = GsonUtil.importData(migratedImportData)
             try {
+                newBase.validate()
                 appRepository.importBase(newBase, importMode)
+                certificatePinRepository.importPins(newBase.certificatePins, importMode)
             } catch (e: IllegalArgumentException) {
                 throw ImportException(e.message!!)
             }
             ImportStatus(
-                importedShortcuts = newBase.shortcuts.size,
+                importedShortcuts = newBase.categories.sumOf { it.shortcuts.size },
             )
         }
 

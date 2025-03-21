@@ -7,23 +7,21 @@ import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.getBase
-import ch.rmy.android.http_shortcuts.data.domains.getCertificatePinById
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
 import ch.rmy.android.http_shortcuts.data.models.AppLock
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
-import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.import_export.ImportExportBase
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 class AppRepository
@@ -86,11 +84,9 @@ constructor(
             .getAppLock()
 
     fun getObservableLock(): Flow<AppLock?> =
-        flow {
-            get(Database::appLockDao)
-                .observeAppLock()
+        flow(Database::appLockDao) {
+            observeAppLock()
                 .distinctUntilChanged()
-                .collect(this)
         }
 
     suspend fun setLock(passwordHash: String, useBiometrics: Boolean) {
@@ -107,37 +103,7 @@ constructor(
         get(Database::appLockDao).deleteAppLock()
     }
 
-    fun getObservableCertificatePins(): Flow<List<CertificatePin>> =
-        observeList {
-            getBase().findFirst()!!.certificatePins
-        }
-
-    suspend fun createCertificatePin(pattern: String, hash: String) {
-        commitTransaction {
-            getBase().findFirst()
-                ?.certificatePins
-                ?.add(copy(CertificatePin(pattern, hash)))
-        }
-    }
-
-    suspend fun updateCertificatePin(id: String, pattern: String, hash: String) {
-        commitTransaction {
-            getCertificatePinById(id)
-                .findFirst()
-                ?.apply {
-                    this.pattern = pattern
-                    this.hash = hash
-                }
-        }
-    }
-
-    suspend fun deleteCertificatePinning(id: String) {
-        commitTransaction {
-            getCertificatePinById(id).deleteAll()
-        }
-    }
-
-    suspend fun importBase(base: Base, importMode: Importer.ImportMode) {
+    suspend fun importBase(base: ImportExportBase, importMode: Importer.ImportMode) {
         commitTransaction {
             logInfo("Importing base ($importMode)")
             val oldBase = getBase().findFirst()!!
@@ -154,11 +120,6 @@ constructor(
                         oldBase.categories.singleOrNull()?.delete()
                         oldBase.categories.clear()
                     }
-
-                    val persistedCertificatePins = copyOrUpdate(base.certificatePins)
-                    val persistedCertificatePinIds = persistedCertificatePins.map { it.id }
-                    oldBase.certificatePins.removeIf { it.id in persistedCertificatePinIds }
-                    oldBase.certificatePins.addAll(persistedCertificatePins)
 
                     base.categories.forEach { category ->
                         importCategory(oldBase, category)
@@ -187,9 +148,6 @@ constructor(
 
                     oldBase.variables.clear()
                     oldBase.variables.addAll(copyOrUpdate(base.variables))
-
-                    oldBase.certificatePins.clear()
-                    oldBase.certificatePins.addAll(copyOrUpdate(base.certificatePins))
 
                     oldBase.workingDirectories.clear()
                     oldBase.workingDirectories.addAll(copyOrUpdate(base.workingDirectories))

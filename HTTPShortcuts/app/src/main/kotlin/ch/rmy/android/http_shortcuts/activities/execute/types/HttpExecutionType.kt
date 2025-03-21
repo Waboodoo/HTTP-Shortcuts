@@ -21,6 +21,7 @@ import ch.rmy.android.http_shortcuts.activities.execute.usecases.ShowResultNotif
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.ValidateRequestDataUseCase
 import ch.rmy.android.http_shortcuts.activities.response.DisplayResponseActivity
 import ch.rmy.android.http_shortcuts.activities.response.models.ResponseData
+import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
@@ -66,6 +67,7 @@ constructor(
     private val httpRequesterStarter: HttpRequesterWorker.Starter,
     private val executionScheduler: ExecutionScheduler,
     private val checkHeadlessExecution: CheckHeadlessExecutionUseCase,
+    private val certificatePinRepository: CertificatePinRepository,
     private val pendingExecutionsRepository: PendingExecutionsRepository,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
     private val validateRequestData: ValidateRequestDataUseCase,
@@ -118,7 +120,7 @@ constructor(
                         variableValues = variableManager.getVariableValuesByIds(),
                         fileUploadResult = fileUploadResult,
                         useCookieJar = shortcut.acceptCookies,
-                        certificatePins = base.certificatePins,
+                        certificatePins = certificatePinRepository.getCertificatePins(),
                         validateRequestData = { requestData ->
                             validateRequestData(dialogHandle, shortcut, requestData)
                         },

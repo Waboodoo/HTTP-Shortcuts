@@ -16,12 +16,13 @@ import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.certpinning.models.Pin
 import ch.rmy.android.http_shortcuts.components.EmptyState
+import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinId
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CertPinningContent(
     pins: List<Pin>,
-    onPinClicked: (String) -> Unit,
+    onPinClicked: (CertificatePinId) -> Unit,
 ) {
     if (pins.isEmpty()) {
         EmptyState(

@@ -5,8 +5,10 @@ import androidx.core.content.edit
 import ch.rmy.android.framework.data.RealmContext
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.models.AppLock
+import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.data.realm.AppLock as AppLockRealmModel
+import ch.rmy.android.http_shortcuts.data.realm.CertificatePin as CertificatePinRealmModel
 import ch.rmy.android.http_shortcuts.data.realm.Widget as WidgetRealmModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -28,6 +30,9 @@ constructor(
             val realmContext = realmFactory.getRealmContext()
             if (version < 1) {
                 migrateToVersion1(realmContext)
+            }
+            if (version < 2) {
+                migrateToVersion2(realmContext)
             }
             preferences.edit {
                 putInt(MIGRATION_VERSION_KEY, MIGRATION_VERSION)
@@ -70,10 +75,26 @@ constructor(
         }
     }
 
+    private suspend fun migrateToVersion2(realmContext: RealmContext) {
+        val certificatePinDao = database.certificatePinDao()
+        realmContext
+            .get<CertificatePinRealmModel>()
+            .find()
+            .forEach { certificatePin ->
+                certificatePinDao.insert(
+                    CertificatePin(
+                        id = certificatePin.id,
+                        pattern = certificatePin.pattern,
+                        hash = certificatePin.hash,
+                    ),
+                )
+            }
+    }
+
     companion object {
         private const val PREFERENCES_NAME = "http_shortcuts.realm_to_room_preferences"
         private const val MIGRATION_VERSION_KEY = "migration_version"
-        private const val MIGRATION_VERSION = 1
+        private const val MIGRATION_VERSION = 2
 
         val migrationDone = CompletableDeferred<Unit>()
     }
