@@ -18,7 +18,7 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLo
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkRestrictionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowRecoveryDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.UnlockAppUseCase
-import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.lock.LockRepository
@@ -66,7 +66,7 @@ class MainViewModel
 constructor(
     application: Application,
     private val categoryRepository: CategoryRepository,
-    private val appRepository: AppRepository,
+    private val appConfigRepository: AppConfigRepository,
     private val lockRepository: LockRepository,
     private val secondaryLauncherMapper: SecondaryLauncherMapperUseCase,
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
@@ -285,7 +285,7 @@ constructor(
 
     private fun observeToolbarTitle() {
         viewModelScope.launch {
-            appRepository.observeToolbarTitle().collect { toolbarTitle ->
+            appConfigRepository.observeToolbarTitle().collect { toolbarTitle ->
                 updateViewState {
                     copy(toolbarTitle = toolbarTitle)
                 }
@@ -355,7 +355,7 @@ constructor(
     fun onToolbarTitleChangeSubmitted(newTitle: String) = runAction {
         updateDialogState(null)
         withProgressTracking {
-            appRepository.setToolbarTitle(newTitle)
+            appConfigRepository.setToolbarTitle(newTitle)
         }
         showSnackbar(R.string.message_title_changed)
     }

@@ -12,11 +12,15 @@ class Base : RealmObject {
         private set
     var variables: RealmList<Variable> = realmListOf()
         private set
-    var title: String? = null
-    var globalCode: String? = null
 
     val shortcuts: List<Shortcut>
         get() = categories.flatMap { it.shortcuts }
+
+    @Deprecated("Only used in Realm-to-Room migration")
+    var title: String? = null
+
+    @Deprecated("Only used in Realm-to-Room migration")
+    var globalCode: String? = null
 
     fun validate() {
         categories.forEach(Category::validate)

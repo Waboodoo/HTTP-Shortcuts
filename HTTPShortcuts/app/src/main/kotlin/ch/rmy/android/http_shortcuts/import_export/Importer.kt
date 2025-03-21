@@ -7,6 +7,7 @@ import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinRepository
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.migration.ImportMigrator
@@ -38,6 +39,7 @@ class Importer
 constructor(
     private val context: Context,
     private val appRepository: AppRepository,
+    private val appConfigRepository: AppConfigRepository,
     private val certificatePinRepository: CertificatePinRepository,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
 ) {
@@ -102,6 +104,7 @@ constructor(
             try {
                 newBase.validate()
                 appRepository.import(newBase, importMode)
+                appConfigRepository.import(newBase, importMode)
                 certificatePinRepository.import(newBase.certificatePins, importMode)
                 workingDirectoryRepository.import(newBase.workingDirectories, importMode)
             } catch (e: IllegalArgumentException) {
