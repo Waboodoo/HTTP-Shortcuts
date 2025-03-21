@@ -1,0 +1,15 @@
+package ch.rmy.android.http_shortcuts.data.realm
+
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
+import io.realm.kotlin.types.RealmInstant
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
+
+@Deprecated("Only used in Realm-to-Room migration")
+class WorkingDirectory : RealmObject {
+    @PrimaryKey
+    var id: WorkingDirectoryId = ""
+    var name: String = ""
+    var directory: String = ""
+    var accessed: RealmInstant? = null
+}

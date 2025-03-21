@@ -32,7 +32,7 @@ constructor(
             }
         }
         workingDirectoryRepository.touchWorkingDirectory(workingDirectory.id)
-        val directory = DocumentFile.fromTreeUri(context, workingDirectory.directoryUri)!!
+        val directory = DocumentFile.fromTreeUri(context, workingDirectory.directory)!!
         if (!directory.isDirectory) {
             throw ActionException {
                 "Directory \"${workingDirectory.name}\" is not mounted"

@@ -77,7 +77,7 @@ constructor(
         }
     }
 
-    suspend fun importBase(base: ImportExportBase, importMode: Importer.ImportMode) {
+    suspend fun import(base: ImportExportBase, importMode: Importer.ImportMode) {
         commitTransaction {
             logInfo("Importing base ($importMode)")
             val oldBase = getBase().findFirst()!!
@@ -103,11 +103,6 @@ constructor(
                     val persistedVariablesIds = persistedVariables.map { it.id }
                     oldBase.variables.removeIf { it.id in persistedVariablesIds }
                     oldBase.variables.addAll(persistedVariables)
-
-                    val persistedWorkingDirectories = copyOrUpdate(base.workingDirectories)
-                    val persistedWorkingDirectoryIds = persistedWorkingDirectories.map { it.id }
-                    oldBase.workingDirectories.removeIf { it.id in persistedWorkingDirectoryIds }
-                    oldBase.workingDirectories.addAll(persistedWorkingDirectories)
                 }
                 Importer.ImportMode.REPLACE -> {
                     if (base.title != null) {
@@ -122,9 +117,6 @@ constructor(
 
                     oldBase.variables.clear()
                     oldBase.variables.addAll(copyOrUpdate(base.variables))
-
-                    oldBase.workingDirectories.clear()
-                    oldBase.workingDirectories.addAll(copyOrUpdate(base.workingDirectories))
                 }
             }
             oldBase.validate()
@@ -175,7 +167,6 @@ constructor(
             get<Category>()
                 .find()
                 .filter {
-                    // TODO: Use RealmQL for this
                     it.id !in usedCategoryIds
                 }
                 .deleteAll()
@@ -185,7 +176,6 @@ constructor(
             get<Shortcut>("${Shortcut.FIELD_ID} != $0", Shortcut.TEMPORARY_ID)
                 .find()
                 .filter {
-                    // TODO: Use RealmQL for this
                     it.id !in usedShortcutIds
                 }
                 .deleteAll()
@@ -197,7 +187,6 @@ constructor(
             get<Header>()
                 .find()
                 .filter {
-                    // TODO: Use RealmQL for this
                     it.id !in usedHeaderIds
                 }
                 .deleteAll()
@@ -209,7 +198,6 @@ constructor(
             get<Parameter>()
                 .find()
                 .filter {
-                    // TODO: Use RealmQL for this
                     it.id !in usedParameterIds
                 }
                 .deleteAll()
@@ -219,7 +207,6 @@ constructor(
             get<Variable>("${Variable.FIELD_ID} != $0", Variable.TEMPORARY_ID)
                 .find()
                 .filter {
-                    // TODO: Use RealmQL for this
                     it.id !in usedVariableIds
                 }
                 .deleteAll()
@@ -229,12 +216,9 @@ constructor(
             get<Option>()
                 .find()
                 .filter {
-                    // TODO: Use RealmQL for this
                     it.id !in usedOptionIds
                 }
                 .deleteAll()
-
-            // TODO: Delete orphaned certificate pins
         }
     }
 }

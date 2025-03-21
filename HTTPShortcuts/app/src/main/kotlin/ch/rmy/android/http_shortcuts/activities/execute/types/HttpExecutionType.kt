@@ -106,7 +106,11 @@ constructor(
         }
 
         val workingDirectory = shortcut.responseHandling?.storeDirectoryId?.let { workingDirectoryId ->
-            base.workingDirectories.find { it.id == workingDirectoryId }
+            try {
+                workingDirectoryRepository.getWorkingDirectoryById(workingDirectoryId)
+            } catch (_: NoSuchElementException) {
+                null
+            }
         }
 
         val response = try {
@@ -115,7 +119,7 @@ constructor(
                     .executeShortcut(
                         context,
                         shortcut = shortcut,
-                        storeDirectoryUri = workingDirectory?.directoryUri,
+                        storeDirectoryUri = workingDirectory?.directory,
                         sessionId = sessionId,
                         variableValues = variableManager.getVariableValuesByIds(),
                         fileUploadResult = fileUploadResult,
@@ -227,7 +231,7 @@ constructor(
         if (shortcut.responseHandling?.storeDirectoryId != null && response.contentFile != null) {
             workingDirectoryRepository.touchWorkingDirectory(shortcut.responseHandling!!.storeDirectoryId!!)
             withContext(Dispatchers.IO) {
-                workingDirectory?.directoryUri?.let {
+                workingDirectory?.directory?.let {
                     renameResponseFile(shortcut, response, variableManager, it)
                 }
             }

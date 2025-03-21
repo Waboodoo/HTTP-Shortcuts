@@ -1,92 +1,87 @@
 package ch.rmy.android.http_shortcuts.data.domains.working_directories
 
 import android.net.Uri
-import ch.rmy.android.framework.data.BaseRealmRepository
-import ch.rmy.android.framework.data.RealmFactory
+import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.Database
-import ch.rmy.android.http_shortcuts.data.domains.getBase
-import ch.rmy.android.http_shortcuts.data.domains.getWorkingDirectory
-import ch.rmy.android.http_shortcuts.data.domains.getWorkingDirectoryByNameOrId
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
+import ch.rmy.android.http_shortcuts.import_export.Importer
+import java.time.Instant.now
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 class WorkingDirectoryRepository
 @Inject
 constructor(
     database: Database,
-    realmFactory: RealmFactory,
-) : BaseRealmRepository(database, realmFactory) {
+) : BaseRepository(database) {
     fun observeWorkingDirectories(): Flow<List<WorkingDirectory>> =
-        observeList {
-            getBase().findFirst()!!.workingDirectories
+        flow(Database::workingDirectoryDao) {
+            observe()
+                .distinctUntilChanged()
         }
-            .map { workingDirectories ->
-                workingDirectories.sortedBy { it.name.lowercase() }
-            }
 
     suspend fun getWorkingDirectories(): List<WorkingDirectory> =
-        queryItem {
-            getBase()
-        }
-            .workingDirectories
-            .sortedBy { it.name.lowercase() }
+        get(Database::workingDirectoryDao).get()
 
     suspend fun getWorkingDirectoryById(id: WorkingDirectoryId): WorkingDirectory =
-        queryItem {
-            getWorkingDirectory(id)
-        }
+        get(Database::workingDirectoryDao).getById(id).first()
 
     suspend fun getWorkingDirectoryByNameOrId(nameOrId: String): WorkingDirectory =
-        queryItem {
-            this.getWorkingDirectoryByNameOrId(nameOrId)
-        }
+        get(Database::workingDirectoryDao).getByNameOrId(nameOrId).first()
 
     suspend fun createWorkingDirectory(name: String, directoryUri: Uri): WorkingDirectory {
-        val workingDirectory = WorkingDirectory()
-        commitTransaction {
-            val base = getBase()
-                .findFirst()
-                ?: return@commitTransaction
+        val dao = get(Database::workingDirectoryDao)
+        val workingDirectories = dao.get()
 
-            var finalName = name
-            var counter = 2
-            while (base.workingDirectories.any { it.name == finalName }) {
-                finalName = "$name $counter"
-                counter++
-            }
-
-            workingDirectory.id = newUUID()
-            workingDirectory.name = finalName
-            workingDirectory.directoryUri = directoryUri
-            base.workingDirectories.add(copy(workingDirectory))
+        var finalName = name
+        var counter = 2
+        while (workingDirectories.any { it.name == finalName }) {
+            finalName = "$name $counter"
+            counter++
         }
-        return workingDirectory
+
+        val newWorkingDirectory = WorkingDirectory(
+            id = newUUID(),
+            name = finalName,
+            directory = directoryUri,
+        )
+        dao.insert(newWorkingDirectory)
+        return newWorkingDirectory
     }
 
     suspend fun setDirectoryUri(id: WorkingDirectoryId, directoryUri: Uri) {
-        commitTransaction {
-            getWorkingDirectory(id).findFirst()?.directoryUri = directoryUri
-        }
+        get(Database::workingDirectoryDao)
+            .update(id) {
+                it.copy(directory = directoryUri)
+            }
     }
 
     suspend fun touchWorkingDirectory(id: WorkingDirectoryId) {
-        commitTransaction {
-            getWorkingDirectory(id).findFirst()?.touch()
-        }
+        get(Database::workingDirectoryDao)
+            .update(id) {
+                it.copy(accessed = now())
+            }
     }
 
     suspend fun renameWorkingDirectory(id: WorkingDirectoryId, newName: String) {
-        commitTransaction {
-            getWorkingDirectory(id).findFirst()?.name = newName
-        }
+        get(Database::workingDirectoryDao)
+            .update(id) {
+                it.copy(name = newName)
+            }
     }
 
-    suspend fun deleteWorkingDirectory(workingDirectoryId: WorkingDirectoryId) {
-        commitTransaction {
-            getWorkingDirectory(workingDirectoryId).findFirst()?.delete()
+    suspend fun deleteWorkingDirectory(id: WorkingDirectoryId) {
+        get(Database::workingDirectoryDao).delete(id)
+    }
+
+    suspend fun import(workingDirectories: List<WorkingDirectory>, mode: Importer.ImportMode) {
+        with(get(Database::workingDirectoryDao)) {
+            when (mode) {
+                Importer.ImportMode.MERGE -> insert(workingDirectories)
+                Importer.ImportMode.REPLACE -> replace(workingDirectories)
+            }
         }
     }
 }

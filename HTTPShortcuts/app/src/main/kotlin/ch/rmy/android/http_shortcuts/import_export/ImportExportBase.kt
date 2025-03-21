@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.import_export
 
 import ch.rmy.android.framework.extensions.hasDuplicatesBy
+import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.Variable
@@ -23,7 +24,7 @@ data class ImportExportBase(
         }
         categories.forEach(Category::validate)
         variables.forEach(Variable::validate)
-        workingDirectories.forEach(WorkingDirectory::validate)
+        workingDirectories.forEach { it.validate() }
         certificatePins.forEach { it.validate() }
         require(!categories.hasDuplicatesBy { it.id }) {
             "Duplicate category IDs"
@@ -50,11 +51,26 @@ data class ImportExportBase(
     }
 
     private fun CertificatePin.validate() {
+        require(id.isUUID()) {
+            "Invalid certificate pin ID found, must be UUID: $id"
+        }
         require(pattern.isNotEmpty()) {
             "Certificate pin without host pattern found"
         }
         require(hash.isValidCertificateFingerprint()) {
             "Invalid certificate fingerprint found: $hash"
+        }
+    }
+
+    private fun WorkingDirectory.validate() {
+        require(id.isUUID()) {
+            "Invalid directory ID found, must be UUID: $id"
+        }
+        require(name.isNotEmpty()) {
+            "Invalid directory name for working directory"
+        }
+        require(directory.scheme?.equals("content", ignoreCase = true) == true) {
+            "Invalid directory URI for working directory"
         }
     }
 }

@@ -1,15 +1,16 @@
 package ch.rmy.android.http_shortcuts.import_export
 
+import android.net.Uri
 import ch.rmy.android.http_shortcuts.data.models.ExcludedFromExport
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
-import io.realm.kotlin.types.RealmList
-import io.realm.kotlin.types.TypedRealmObject
 import java.lang.reflect.Type
+import java.time.Instant
 
+// TODO: Rethink this whole class, maybe migrate it to a TypeAdapter, or move away from GSON entirely
 class ModelSerializer : JsonSerializer<Any> {
     private val classMap = mutableMapOf<Class<out Any>, Any>()
     override fun serialize(src: Any, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
@@ -37,7 +38,7 @@ class ModelSerializer : JsonSerializer<Any> {
                         is Char -> {
                             output.addProperty(fieldName, value)
                         }
-                        is RealmList<*> -> {
+                        is List<*> -> {
                             if (value.isNotEmpty()) {
                                 val array = JsonArray()
                                 value.forEach {
@@ -46,7 +47,13 @@ class ModelSerializer : JsonSerializer<Any> {
                                 output.add(fieldName, array)
                             }
                         }
-                        is TypedRealmObject -> {
+                        is Instant -> {
+                            output.addProperty(fieldName, value.toEpochMilli())
+                        }
+                        is Uri -> {
+                            output.addProperty(fieldName, value.toString())
+                        }
+                        else -> {
                             output.add(fieldName, context.serialize(value))
                         }
                     }

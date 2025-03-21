@@ -66,7 +66,7 @@ constructor(
                     storeDirectoryUri = shortcut.responseHandling?.storeDirectoryId
                         ?.let { workingDirectoryId ->
                             try {
-                                workingDirectoryRepository.getWorkingDirectoryById(workingDirectoryId).directoryUri
+                                workingDirectoryRepository.getWorkingDirectoryById(workingDirectoryId).directory
                             } catch (_: NoSuchElementException) {
                                 null
                             }
