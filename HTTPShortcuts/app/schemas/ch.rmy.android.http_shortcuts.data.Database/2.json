@@ -2,8 +2,40 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "d5c897ec856a455d7591d9bf6b07508e",
+    "identityHash": "0c6f4a57d29474828deffa230b575a73",
     "entities": [
+      {
+        "tableName": "app_config",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `global_code` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "globalCode",
+            "columnName": "global_code",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
       {
         "tableName": "app_lock",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `password_hash` TEXT NOT NULL, `use_biometrics` INTEGER NOT NULL, PRIMARY KEY(`id`))",
@@ -304,7 +336,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd5c897ec856a455d7591d9bf6b07508e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0c6f4a57d29474828deffa230b575a73')"
     ]
   }
 }

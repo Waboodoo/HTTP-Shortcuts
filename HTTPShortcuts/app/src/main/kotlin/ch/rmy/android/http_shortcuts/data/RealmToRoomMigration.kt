@@ -6,7 +6,9 @@ import androidx.core.net.toUri
 import ch.rmy.android.framework.data.RealmContext
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.extensions.toInstant
+import ch.rmy.android.http_shortcuts.data.models.AppConfig
 import ch.rmy.android.http_shortcuts.data.models.AppLock
+import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
@@ -105,6 +107,20 @@ constructor(
                         name = workingDirectory.name,
                         directory = workingDirectory.directory.toUri(),
                         accessed = workingDirectory.accessed?.toInstant(),
+                    ),
+                )
+            }
+
+        val appConfigDao = database.appConfigDao()
+        realmContext
+            .get<Base>()
+            .find()
+            .firstOrNull()
+            ?.let { base ->
+                appConfigDao.insert(
+                    AppConfig(
+                        title = base.title.orEmpty(),
+                        globalCode = base.globalCode.orEmpty(),
                     ),
                 )
             }

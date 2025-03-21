@@ -4,12 +4,14 @@ import androidx.room.AutoMigration
 import androidx.room.Database as DatabaseAnnotation
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import ch.rmy.android.http_shortcuts.data.dao.AppConfigDao
 import ch.rmy.android.http_shortcuts.data.dao.AppLockDao
 import ch.rmy.android.http_shortcuts.data.dao.CertificatePinDao
 import ch.rmy.android.http_shortcuts.data.dao.HistoryEventDao
 import ch.rmy.android.http_shortcuts.data.dao.PendingExecutionDao
 import ch.rmy.android.http_shortcuts.data.dao.WidgetDao
 import ch.rmy.android.http_shortcuts.data.dao.WorkingDirectoryDao
+import ch.rmy.android.http_shortcuts.data.models.AppConfig
 import ch.rmy.android.http_shortcuts.data.models.AppLock
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.HistoryEvent
@@ -20,6 +22,7 @@ import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 
 @DatabaseAnnotation(
     entities = [
+        AppConfig::class,
         AppLock::class,
         CertificatePin::class,
         HistoryEvent::class,
@@ -36,6 +39,7 @@ import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 )
 @TypeConverters(Converters::class)
 abstract class Database : RoomDatabase() {
+    abstract fun appConfigDao(): AppConfigDao
     abstract fun appLockDao(): AppLockDao
     abstract fun certificatePinDao(): CertificatePinDao
     abstract fun historyEventDao(): HistoryEventDao

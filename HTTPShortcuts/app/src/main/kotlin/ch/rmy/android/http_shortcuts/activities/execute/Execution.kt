@@ -21,6 +21,7 @@ import ch.rmy.android.http_shortcuts.activities.execute.usecases.ExtractFileIdsF
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.RequestBiometricConfirmationUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.RequestSimpleConfirmationUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
@@ -92,6 +93,8 @@ class Execution(
         get() = entryPoint.shortcutRepository()
     private val appRepository: AppRepository
         get() = entryPoint.appRepository()
+    private val appConfigRepository: AppConfigRepository
+        get() = entryPoint.appConfigRepository()
     private val variableResolver: VariableResolver
         get() = entryPoint.variableResolver()
     private val launcherShortcutManager: LauncherShortcutManager
@@ -116,6 +119,7 @@ class Execution(
         get() = entryPoint.executionTypeFactory()
 
     private lateinit var base: Base
+    private lateinit var globalCode: String
     private lateinit var category: Category
     private lateinit var shortcut: Shortcut
 
@@ -265,7 +269,7 @@ class Execution(
         }
 
         if ((params.tryNumber == 0 || (params.tryNumber == 1 && shortcut.delay > 0)) && usesScripting) {
-            scriptExecutor.execute(base.globalCode ?: "")
+            scriptExecutor.execute(globalCode)
             scriptExecutor.execute(shortcut.codeOnPrepare)
         }
 
@@ -294,6 +298,7 @@ class Execution(
 
     private suspend fun loadData() {
         base = appRepository.getBase()
+        globalCode = appConfigRepository.getGlobalCode()
         if (params.shortcutId == Shortcut.TEMPORARY_ID) {
             shortcut = shortcutRepository.getShortcutById(Shortcut.TEMPORARY_ID)
             category = if (shortcut.categoryId == null) {
@@ -409,7 +414,7 @@ class Execution(
         shortcut.codeOnPrepare.isNotEmpty() ||
             shortcut.codeOnSuccess.isNotEmpty() ||
             shortcut.codeOnFailure.isNotEmpty() ||
-            !base.globalCode.isNullOrEmpty()
+            globalCode.isNotEmpty()
 
     private fun logError(message: String) {
         historyEventLogger.logEvent(
@@ -426,6 +431,7 @@ class Execution(
         fun shortcutRepository(): ShortcutRepository
         fun pendingExecutionsRepository(): PendingExecutionsRepository
         fun appRepository(): AppRepository
+        fun appConfigRepository(): AppConfigRepository
         fun variableResolver(): VariableResolver
         fun launcherShortcutManager(): LauncherShortcutManager
         fun requestSimpleConfirmation(): RequestSimpleConfirmationUseCase

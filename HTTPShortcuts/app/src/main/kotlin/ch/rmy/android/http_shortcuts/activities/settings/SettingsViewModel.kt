@@ -7,7 +7,7 @@ import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.settings.usecases.CreateQuickSettingsTileUseCase
-import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.data.domains.lock.LockRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.http.CookieManager
@@ -32,7 +32,7 @@ class SettingsViewModel
 constructor(
     application: Application,
     private val settings: Settings,
-    private val appRepository: AppRepository,
+    private val appConfigRepository: AppConfigRepository,
     private val lockRepository: LockRepository,
     private val localeHelper: LocaleHelper,
     private val cookieManager: CookieManager,
@@ -83,7 +83,7 @@ constructor(
 
     fun onTitleChangeConfirmed(newTitle: String) = runAction {
         updateDialogState(null)
-        appRepository.setToolbarTitle(newTitle)
+        appConfigRepository.setToolbarTitle(newTitle)
         showSnackbar(R.string.message_title_changed)
     }
 
@@ -124,7 +124,7 @@ constructor(
     }
 
     fun onChangeTitleButtonClicked() = runAction {
-        val oldTitle = appRepository.getToolbarTitle()
+        val oldTitle = appConfigRepository.getToolbarTitle()
         updateDialogState(SettingsDialogState.ChangeTitle(oldTitle))
     }
 

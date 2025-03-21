@@ -19,8 +19,6 @@ import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.import_export.ImportExportBase
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import javax.inject.Inject
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class AppRepository
 @Inject
@@ -33,63 +31,12 @@ constructor(
             getBase()
         }
 
-    suspend fun getGlobalCode(): String =
-        query {
-            getBase()
-        }
-            .firstOrNull()
-            ?.globalCode
-            .orEmpty()
-
-    suspend fun getToolbarTitle(): String =
-        queryItem {
-            getBase()
-        }
-            .title
-            ?.takeUnless { it.isBlank() }
-            .orEmpty()
-
-    fun observeToolbarTitle(): Flow<String> =
-        observeItem {
-            getBase()
-        }
-            .map { base ->
-                base.title
-                    ?.takeUnless { it.isBlank() }
-                    .orEmpty()
-            }
-
-    suspend fun setToolbarTitle(title: String) {
+    suspend fun import(base: ImportExportBase, mode: Importer.ImportMode) {
         commitTransaction {
-            getBase()
-                .findFirst()
-                ?.title = title
-        }
-    }
-
-    suspend fun setGlobalCode(globalCode: String?) {
-        commitTransaction {
-            getBase()
-                .findFirst()
-                ?.let { base ->
-                    base.globalCode = globalCode
-                }
-        }
-    }
-
-    suspend fun import(base: ImportExportBase, importMode: Importer.ImportMode) {
-        commitTransaction {
-            logInfo("Importing base ($importMode)")
+            logInfo("Importing base ($mode)")
             val oldBase = getBase().findFirst()!!
-            when (importMode) {
+            when (mode) {
                 Importer.ImportMode.MERGE -> {
-                    if (base.title != null && oldBase.title.isNullOrEmpty()) {
-                        oldBase.title = base.title
-                    }
-                    if (base.globalCode != null && oldBase.globalCode.isNullOrEmpty()) {
-                        oldBase.globalCode = base.globalCode
-                    }
-
                     if (oldBase.categories.singleOrNull()?.shortcuts?.isEmpty() == true) {
                         oldBase.categories.singleOrNull()?.delete()
                         oldBase.categories.clear()
@@ -105,13 +52,6 @@ constructor(
                     oldBase.variables.addAll(persistedVariables)
                 }
                 Importer.ImportMode.REPLACE -> {
-                    if (base.title != null) {
-                        oldBase.title = base.title
-                    }
-                    if (base.globalCode != null) {
-                        oldBase.globalCode = base.globalCode
-                    }
-
                     oldBase.categories.clear()
                     oldBase.categories.addAll(copyOrUpdate(base.categories))
 

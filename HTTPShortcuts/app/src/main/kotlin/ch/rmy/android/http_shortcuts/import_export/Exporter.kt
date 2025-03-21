@@ -9,6 +9,7 @@ import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
@@ -46,6 +47,7 @@ class Exporter
 constructor(
     private val context: Context,
     private val appRepository: AppRepository,
+    private val appConfigRepository: AppConfigRepository,
     private val certificatePinRepository: CertificatePinRepository,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
     private val getUsedCustomIcons: GetUsedCustomIconsUseCase,
@@ -114,7 +116,6 @@ constructor(
     ): ImportExportBase {
         val realmBase = appRepository.getBase().copyFromRealm()
         if (shortcutIds != null) {
-            realmBase.title = null
             realmBase.categories.forEach { category ->
                 category.shortcuts.removeIf { shortcut ->
                     shortcut.id !in shortcutIds
@@ -128,7 +129,8 @@ constructor(
             realmBase.variables.removeIf { it.id !in variableIds }
         }
 
-        val relevantWorkingDirectoryIds = getUsedWorkingDirectoryIds(realmBase)
+        val appConfig = appConfigRepository.getAppConfig()
+        val relevantWorkingDirectoryIds = getUsedWorkingDirectoryIds(realmBase, appConfig)
 
         return ImportExportBase(
             version = realmBase.version,
@@ -139,8 +141,8 @@ constructor(
             workingDirectories = workingDirectoryRepository.getWorkingDirectories().filter {
                 it.id in relevantWorkingDirectoryIds
             },
-            title = realmBase.title,
-            globalCode = realmBase.globalCode,
+            title = appConfig.title,
+            globalCode = appConfig.globalCode,
         )
     }
 
