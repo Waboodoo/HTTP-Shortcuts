@@ -18,7 +18,7 @@ constructor(
     suspend fun getCertificatePins(): List<CertificatePin> =
         get(Database::certificatePinDao).get()
 
-    fun getObservableCertificatePins(): Flow<List<CertificatePin>> =
+    fun observeCertificatePins(): Flow<List<CertificatePin>> =
         flow(Database::certificatePinDao) {
             observe()
                 .distinctUntilChanged()

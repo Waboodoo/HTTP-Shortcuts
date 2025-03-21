@@ -19,7 +19,7 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRealmRepository(database, realmFactory) {
 
-    fun getObservableTemporaryVariable(): Flow<Variable> =
+    fun observeTemporaryVariable(): Flow<Variable> =
         observeItem {
             getTemporaryVariable()
         }

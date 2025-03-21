@@ -18,7 +18,7 @@ class HistoryRepository
 constructor(
     database: Database,
 ) : BaseRepository(database) {
-    fun getObservableHistory(maxAge: Duration): Flow<List<HistoryEvent>> =
+    fun observeHistory(maxAge: Duration): Flow<List<HistoryEvent>> =
         flow(Database::historyEventDao) {
             observeNewerThan(Instant.now().toEpochMilli() - maxAge.inWholeMilliseconds)
                 .distinctUntilChanged()

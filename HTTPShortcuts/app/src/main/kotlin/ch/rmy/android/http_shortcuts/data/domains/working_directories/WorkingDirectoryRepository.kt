@@ -19,7 +19,7 @@ constructor(
     database: Database,
     realmFactory: RealmFactory,
 ) : BaseRealmRepository(database, realmFactory) {
-    fun getObservableWorkingDirectories(): Flow<List<WorkingDirectory>> =
+    fun observeWorkingDirectories(): Flow<List<WorkingDirectory>> =
         observeList {
             getBase().findFirst()!!.workingDirectories
         }

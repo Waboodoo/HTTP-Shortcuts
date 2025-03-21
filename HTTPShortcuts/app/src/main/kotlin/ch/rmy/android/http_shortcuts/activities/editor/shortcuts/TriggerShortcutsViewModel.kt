@@ -63,7 +63,7 @@ constructor(
         }
 
     override suspend fun initialize(data: InitData): TriggerShortcutsViewState {
-        val shortcutsFlow = shortcutRepository.getObservableShortcuts()
+        val shortcutsFlow = shortcutRepository.observeShortcuts()
         this.shortcuts = shortcutsFlow.first()
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
         shortcutIdsInUse = getTriggeredShortcutIdsFromCode(shortcut.codeOnPrepare)

@@ -28,7 +28,7 @@ constructor(
 
     override suspend fun initialize(data: Unit): HistoryViewState {
         viewModelScope.launch {
-            historyRepository.getObservableHistory(MAX_AGE).collect { events ->
+            historyRepository.observeHistory(MAX_AGE).collect { events ->
                 updateViewState {
                     copy(historyItems = mapEvents(events))
                 }

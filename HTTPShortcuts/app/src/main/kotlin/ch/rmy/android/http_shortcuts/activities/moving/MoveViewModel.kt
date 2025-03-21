@@ -39,7 +39,7 @@ constructor(
     override suspend fun initialize(data: Unit) {
         logInfo("Initialized MoveViewModel")
         viewModelScope.launch {
-            categoryRepository.getObservableCategories().collect {
+            categoryRepository.observeCategories().collect {
                 _categorySections.value = it.toCategorySectionItems()
             }
         }

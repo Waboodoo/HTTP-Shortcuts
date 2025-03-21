@@ -32,7 +32,7 @@ constructor(
         }
             .categories
 
-    fun getObservableCategories(): Flow<List<Category>> =
+    fun observeCategories(): Flow<List<Category>> =
         observeList {
             getBase().findFirst()!!.categories
         }
@@ -47,7 +47,7 @@ constructor(
             this.getCategoryByNameOrId(categoryNameOrId)
         }
 
-    fun getObservableCategory(categoryId: CategoryId): Flow<Category> =
+    fun observeCategory(categoryId: CategoryId): Flow<Category> =
         observeItem {
             getCategoryById(categoryId)
         }

@@ -69,7 +69,7 @@ constructor(
 
     init {
         viewModelScope.launch {
-            variableRepository.getObservableVariables().collect { variables ->
+            variableRepository.observeVariables().collect { variables ->
                 variablePlaceholderProvider.applyVariables(variables)
                 _variablePlaceholders.value = variablePlaceholderProvider.placeholders
             }

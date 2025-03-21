@@ -45,7 +45,7 @@ constructor(
             getShortcutByNameOrId(shortcutNameOrId)
         }
 
-    fun getObservableShortcuts(): Flow<List<Shortcut>> =
+    fun observeShortcuts(): Flow<List<Shortcut>> =
         observeList {
             getBase().findFirst()!!.categories
         }

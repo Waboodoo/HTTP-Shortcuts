@@ -21,6 +21,7 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.UnlockAppUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
+import ch.rmy.android.http_shortcuts.data.domains.lock.LockRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
@@ -66,6 +67,7 @@ constructor(
     application: Application,
     private val categoryRepository: CategoryRepository,
     private val appRepository: AppRepository,
+    private val lockRepository: LockRepository,
     private val secondaryLauncherMapper: SecondaryLauncherMapperUseCase,
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
     private val shouldShowRecoveryDialog: ShouldShowRecoveryDialogUseCase,
@@ -95,7 +97,7 @@ constructor(
     private var settingsRequestHandled: Boolean = false
 
     override suspend fun initialize(data: InitData): MainViewState {
-        val categoriesFlow = categoryRepository.getObservableCategories()
+        val categoriesFlow = categoryRepository.observeCategories()
         this.categories = categoriesFlow.first()
 
         viewModelScope.launch(Dispatchers.Default) {
@@ -121,7 +123,7 @@ constructor(
             }
         }
 
-        val appLockObservable = appRepository.getObservableLock()
+        val appLockObservable = lockRepository.observeLock()
         val appLock = appLockObservable.firstOrNull()
 
         observeToolbarTitle()
@@ -283,7 +285,7 @@ constructor(
 
     private fun observeToolbarTitle() {
         viewModelScope.launch {
-            appRepository.getObservableToolbarTitle().collect { toolbarTitle ->
+            appRepository.observeToolbarTitle().collect { toolbarTitle ->
                 updateViewState {
                     copy(toolbarTitle = toolbarTitle)
                 }
@@ -378,7 +380,7 @@ constructor(
                 onSuccess = {
                     runAction {
                         withProgressTracking {
-                            appRepository.removeLock()
+                            lockRepository.removeLock()
                             showSnackbar(R.string.message_app_unlocked)
                         }
                     }
@@ -393,11 +395,11 @@ constructor(
 
     fun onUnlockDialogSubmitted(password: String) = runAction {
         withProgressTracking {
-            val lock = appRepository.getLock()
+            val lock = lockRepository.getLock()
             val passwordHash = lock?.passwordHash
             val isUnlocked = if (passwordHash != null && BCrypt.checkpw(password, passwordHash)) {
                 consume {
-                    appRepository.removeLock()
+                    lockRepository.removeLock()
                 }
             } else {
                 passwordHash == null
@@ -588,7 +590,7 @@ constructor(
     }
 
     fun onApplicationSettingsRequested() = runAction {
-        if (appRepository.getLock() != null || settingsRequestHandled) {
+        if (lockRepository.getLock() != null || settingsRequestHandled) {
             skipAction()
         }
         settingsRequestHandled = true

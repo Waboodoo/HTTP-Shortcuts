@@ -55,7 +55,7 @@ constructor(
         }
 
         viewModelScope.launch {
-            shortcutRepository.getObservableShortcuts().collect {
+            shortcutRepository.observeShortcuts().collect {
                 updateViewState {
                     copy(exportEnabled = it.isNotEmpty())
                 }

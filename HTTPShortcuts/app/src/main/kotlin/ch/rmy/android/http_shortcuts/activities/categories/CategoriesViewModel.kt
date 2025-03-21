@@ -40,7 +40,7 @@ constructor(
     private var activeCategoryId: CategoryId? = null
 
     override suspend fun initialize(data: Unit): CategoriesViewState {
-        val categoriesFlow = categoryRepository.getObservableCategories()
+        val categoriesFlow = categoryRepository.observeCategories()
         categories = categoriesFlow.first()
         viewModelScope.launch {
             categoriesFlow.collect { categories ->

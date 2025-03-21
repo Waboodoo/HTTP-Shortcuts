@@ -59,11 +59,11 @@ constructor(
             }
         }
         viewModelScope.launch {
-            variableRepository.getObservableVariables()
+            variableRepository.observeVariables()
                 .collect(variablePlaceholderProvider::applyVariables)
         }
         viewModelScope.launch {
-            shortcutRepository.getObservableShortcuts()
+            shortcutRepository.observeShortcuts()
                 .collect(shortcutPlaceholderProvider::applyShortcuts)
         }
         return CodeSnippetPickerViewState(
