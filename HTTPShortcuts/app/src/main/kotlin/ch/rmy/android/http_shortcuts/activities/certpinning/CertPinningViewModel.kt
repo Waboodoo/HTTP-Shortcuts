@@ -5,7 +5,8 @@ import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.certpinning.models.Pin
-import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinId
+import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinRepository
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,14 +19,14 @@ class CertPinningViewModel
 @Inject
 constructor(
     application: Application,
-    private val appRepository: AppRepository,
+    private val certificatePinRepository: CertificatePinRepository,
 ) : BaseViewModel<Unit, CertPinningViewState>(application) {
 
     private lateinit var pins: List<CertificatePin>
-    private var activePinId: String? = null
+    private var activePinId: CertificatePinId? = null
 
     override suspend fun initialize(data: Unit): CertPinningViewState {
-        val pinsFlow = appRepository.getObservableCertificatePins()
+        val pinsFlow = certificatePinRepository.getObservableCertificatePins()
         pins = pinsFlow.first()
         viewModelScope.launch {
             pinsFlow.collect { pins ->
@@ -57,7 +58,7 @@ constructor(
         )
     }
 
-    fun onPinClicked(id: String) = runAction {
+    fun onPinClicked(id: CertificatePinId) = runAction {
         activePinId = id
         updateDialogState(CertPinningDialogState.ContextMenu)
     }
@@ -78,9 +79,9 @@ constructor(
         val pinId = activePinId
         withProgressTracking {
             if (pinId == null) {
-                appRepository.createCertificatePin(pattern, hash)
+                certificatePinRepository.createCertificatePin(pattern, hash)
             } else {
-                appRepository.updateCertificatePin(pinId, pattern, hash)
+                certificatePinRepository.updateCertificatePin(pinId, pattern, hash)
             }
         }
     }
@@ -93,7 +94,7 @@ constructor(
         val id = activePinId ?: skipAction()
         updateDialogState(null)
         withProgressTracking {
-            appRepository.deleteCertificatePinning(id)
+            certificatePinRepository.deleteCertificatePinning(id)
             showSnackbar(R.string.message_certificate_pinning_deleted)
         }
     }

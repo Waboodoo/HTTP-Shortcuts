@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.net.Uri
 import androidx.core.net.toUri
-import ch.rmy.android.http_shortcuts.data.models.Base
+import ch.rmy.android.http_shortcuts.import_export.ImportExportBase
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
@@ -43,7 +43,7 @@ object GsonUtil {
             ?.replaceFirstChar { it.uppercaseChar() }
             ?: (e.cause as? EOFException)?.message
 
-    fun importData(data: JsonElement): Base =
+    fun importData(data: JsonElement): ImportExportBase =
         gson
             .newBuilder()
             .registerTypeAdapter(
@@ -61,7 +61,7 @@ object GsonUtil {
                 },
             )
             .create()
-            .fromJson(data, Base::class.java)
+            .fromJson(data, ImportExportBase::class.java)
 
     inline fun <reified T> fromJsonObject(jsonObject: String?): Map<String, T> {
         if (jsonObject == null) {

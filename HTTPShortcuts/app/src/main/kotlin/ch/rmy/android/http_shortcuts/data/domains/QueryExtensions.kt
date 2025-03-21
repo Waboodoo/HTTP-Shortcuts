@@ -9,7 +9,6 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
-import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
@@ -47,6 +46,3 @@ fun RealmContext.getWorkingDirectory(workingDirectoryId: WorkingDirectoryId): Re
 
 fun RealmContext.getWorkingDirectoryByNameOrId(workingDirectoryNameOrId: String): RealmQuery<WorkingDirectory> =
     get("${WorkingDirectory.FIELD_ID} == $0 OR ${WorkingDirectory.FIELD_NAME} ==[c] $1", workingDirectoryNameOrId, workingDirectoryNameOrId)
-
-fun RealmContext.getCertificatePinById(pinId: String): RealmQuery<CertificatePin> =
-    get("${CertificatePin.FIELD_ID} == $0", pinId)

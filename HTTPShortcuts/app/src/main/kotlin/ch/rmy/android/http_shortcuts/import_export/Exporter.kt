@@ -9,11 +9,13 @@ import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
 import ch.rmy.android.http_shortcuts.data.models.Header
 import ch.rmy.android.http_shortcuts.data.models.Option
@@ -43,6 +45,7 @@ class Exporter
 constructor(
     private val context: Context,
     private val appRepository: AppRepository,
+    private val certificatePinRepository: CertificatePinRepository,
     private val getUsedCustomIcons: GetUsedCustomIconsUseCase,
     private val getUsedWorkingDirectoryIds: GetUsedWorkingDirectoryIdsUseCase,
 ) {
@@ -96,41 +99,50 @@ constructor(
 
     private suspend fun export(
         writer: Appendable,
-        base: Base,
+        base: ImportExportBase,
         excludeDefaults: Boolean = false,
     ): ExportStatus {
         exportData(base, writer, excludeDefaults)
-        return ExportStatus(exportedShortcuts = base.shortcuts.size)
+        return ExportStatus(exportedShortcuts = base.categories.sumOf { it.shortcuts.size })
     }
 
     private suspend fun getBase(
         shortcutIds: Collection<ShortcutId>?,
         variableIds: Collection<VariableId>?,
-    ): Base {
-        val base = appRepository.getBase().copyFromRealm()
+    ): ImportExportBase {
+        val realmBase = appRepository.getBase().copyFromRealm()
         if (shortcutIds != null) {
-            base.title = null
-            base.categories.forEach { category ->
+            realmBase.title = null
+            realmBase.categories.forEach { category ->
                 category.shortcuts.removeIf { shortcut ->
                     shortcut.id !in shortcutIds
                 }
             }
-            base.categories.removeIf { category ->
+            realmBase.categories.removeIf { category ->
                 category.shortcuts.isEmpty()
             }
         }
         if (variableIds != null) {
-            base.variables.removeIf { it.id !in variableIds }
+            realmBase.variables.removeIf { it.id !in variableIds }
         }
 
-        getUsedWorkingDirectoryIds(base).let { workingDirectoryIds ->
-            base.workingDirectories.removeIf { it.id !in workingDirectoryIds }
+        getUsedWorkingDirectoryIds(realmBase).let { workingDirectoryIds ->
+            realmBase.workingDirectories.removeIf { it.id !in workingDirectoryIds }
         }
 
-        return base
+        return ImportExportBase(
+            version = realmBase.version,
+            compatibilityVersion = realmBase.compatibilityVersion,
+            categories = realmBase.categories,
+            variables = realmBase.variables,
+            certificatePins = certificatePinRepository.getCertificatePins(),
+            workingDirectories = realmBase.workingDirectories,
+            title = realmBase.title,
+            globalCode = realmBase.globalCode,
+        )
     }
 
-    private suspend fun exportData(base: Base, writer: Appendable, excludeDefaults: Boolean = false) {
+    private suspend fun exportData(base: ImportExportBase, writer: Appendable, excludeDefaults: Boolean = false) {
         withContext(Dispatchers.IO) {
             try {
                 val serializer = ModelSerializer()
@@ -159,7 +171,7 @@ constructor(
         }
     }
 
-    private suspend fun getFilesToExport(context: Context, base: Base, shortcutIds: Collection<ShortcutId>?): List<File> =
+    private suspend fun getFilesToExport(context: Context, base: ImportExportBase, shortcutIds: Collection<ShortcutId>?): List<File> =
         getShortcutIconFiles(context, shortcutIds)
             .plus(getClientCertFiles(context, base, shortcutIds))
             .filter { it.exists() }
@@ -171,8 +183,10 @@ constructor(
                 it.getFile(context)
             }
 
-    private fun getClientCertFiles(context: Context, base: Base, shortcutIds: Collection<ShortcutId>?) =
-        base.shortcuts.asSequence()
+    private fun getClientCertFiles(context: Context, base: ImportExportBase, shortcutIds: Collection<ShortcutId>?) =
+        base.categories
+            .flatMap { it.shortcuts }
+            .asSequence()
             .runIfNotNull(shortcutIds) { ids ->
                 filter { shortcut -> shortcut.id in ids }
             }
@@ -196,6 +210,7 @@ constructor(
             FileUploadOptions::class,
             ResponseHandling::class,
             Repetition::class,
+            CertificatePin::class,
             WorkingDirectory::class,
         )
     }

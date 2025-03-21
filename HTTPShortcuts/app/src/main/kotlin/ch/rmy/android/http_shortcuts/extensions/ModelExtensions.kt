@@ -18,7 +18,7 @@ import ch.rmy.android.http_shortcuts.data.models.CertificatePin as CertificatePi
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.Widget
-import ch.rmy.android.http_shortcuts.http.CertificatePin
+import ch.rmy.android.http_shortcuts.http.CertificatePin as HttpCertificatePin
 
 val Shortcut.type: ShortcutExecutionType
     get() = ShortcutExecutionType.get(executionType!!)
@@ -47,8 +47,8 @@ fun Variable.toVariablePlaceholder() =
         variableType = variableType,
     )
 
-fun CertificatePinModel.toCertificatePin(): CertificatePin =
-    CertificatePin(
+fun CertificatePinModel.toCertificatePin(): HttpCertificatePin =
+    HttpCertificatePin(
         pattern = pattern,
         hash = hash.fromHexString(),
     )

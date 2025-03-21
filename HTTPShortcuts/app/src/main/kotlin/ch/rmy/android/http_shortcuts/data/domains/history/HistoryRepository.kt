@@ -11,7 +11,6 @@ import kotlin.time.Duration
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 
 class HistoryRepository
@@ -20,11 +19,9 @@ constructor(
     database: Database,
 ) : BaseRepository(database) {
     fun getObservableHistory(maxAge: Duration): Flow<List<HistoryEvent>> =
-        flow {
-            get(Database::historyEventDao)
-                .observeNewerThan(Instant.now().toEpochMilli() - maxAge.inWholeMilliseconds)
+        flow(Database::historyEventDao) {
+            observeNewerThan(Instant.now().toEpochMilli() - maxAge.inWholeMilliseconds)
                 .distinctUntilChanged()
-                .collect(this)
         }
 
     suspend fun deleteHistory() {

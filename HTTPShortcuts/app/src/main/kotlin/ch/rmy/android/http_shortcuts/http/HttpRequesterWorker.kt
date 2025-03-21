@@ -15,7 +15,7 @@ import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
+import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
@@ -43,8 +43,8 @@ class HttpRequesterWorker
 constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val appRepository: AppRepository,
     private val shortcutRepository: ShortcutRepository,
+    private val certificatePinRepository: CertificatePinRepository,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
     private val httpRequester: HttpRequester,
     private val errorFormatter: ErrorFormatter,
@@ -54,10 +54,9 @@ constructor(
         val params = getParams()
         val shortcut = try {
             shortcutRepository.getShortcutById(params.shortcutId)
-        } catch (e: NoSuchElementException) {
+        } catch (_: NoSuchElementException) {
             return Result.failure()
         }
-        val base = appRepository.getBase()
 
         val response = try {
             httpRequester
@@ -68,7 +67,7 @@ constructor(
                         ?.let { workingDirectoryId ->
                             try {
                                 workingDirectoryRepository.getWorkingDirectoryById(workingDirectoryId).directoryUri
-                            } catch (e: NoSuchElementException) {
+                            } catch (_: NoSuchElementException) {
                                 null
                             }
                         },
@@ -76,7 +75,7 @@ constructor(
                     variableValues = params.variableValues,
                     fileUploadResult = params.fileUploadResult,
                     useCookieJar = shortcut.acceptCookies,
-                    certificatePins = base.certificatePins,
+                    certificatePins = certificatePinRepository.getCertificatePins(),
                 )
         } catch (e: Exception) {
             when (val failureOutput = shortcut.responseHandling?.failureOutput) {
