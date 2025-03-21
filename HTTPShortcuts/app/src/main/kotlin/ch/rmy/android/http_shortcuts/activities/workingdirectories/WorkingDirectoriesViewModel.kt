@@ -38,7 +38,7 @@ constructor(
     private var workingDirectoryIdForPicker: WorkingDirectoryId? = null
 
     override suspend fun initialize(data: InitData): WorkingDirectoriesViewState {
-        val workingDirectoriesFlow = workingDirectoryRepository.getObservableWorkingDirectories()
+        val workingDirectoriesFlow = workingDirectoryRepository.observeWorkingDirectories()
         workingDirectories = workingDirectoriesFlow.first()
 
         viewModelScope.launch(Dispatchers.IO) {

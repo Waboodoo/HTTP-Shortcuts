@@ -17,7 +17,6 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 class PendingExecutionsRepository
@@ -46,7 +45,7 @@ constructor(
             type = PendingExecutionType.parse(pendingExecution.type),
         )
 
-    fun getObservablePendingExecutions(): Flow<List<PendingExecution>> =
+    fun observePendingExecutions(): Flow<List<PendingExecution>> =
         flow(Database::pendingExecutionDao) {
             observePendingExecutions()
                 .distinctUntilChanged()

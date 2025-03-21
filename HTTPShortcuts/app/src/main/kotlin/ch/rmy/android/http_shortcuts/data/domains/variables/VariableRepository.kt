@@ -27,7 +27,7 @@ constructor(
             getVariableByKeyOrId(keyOrId)
         }
 
-    fun getObservableVariables(): Flow<List<Variable>> =
+    fun observeVariables(): Flow<List<Variable>> =
         observeList {
             getBase().findFirst()!!.variables
         }

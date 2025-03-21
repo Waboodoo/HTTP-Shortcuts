@@ -9,7 +9,6 @@ import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
-import ch.rmy.android.http_shortcuts.data.models.AppLock
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Header
@@ -21,7 +20,6 @@ import ch.rmy.android.http_shortcuts.import_export.ImportExportBase
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
 class AppRepository
@@ -51,7 +49,7 @@ constructor(
             ?.takeUnless { it.isBlank() }
             .orEmpty()
 
-    fun getObservableToolbarTitle(): Flow<String> =
+    fun observeToolbarTitle(): Flow<String> =
         observeItem {
             getBase()
         }
@@ -77,30 +75,6 @@ constructor(
                     base.globalCode = globalCode
                 }
         }
-    }
-
-    suspend fun getLock(): AppLock? =
-        get(Database::appLockDao)
-            .getAppLock()
-
-    fun getObservableLock(): Flow<AppLock?> =
-        flow(Database::appLockDao) {
-            observeAppLock()
-                .distinctUntilChanged()
-        }
-
-    suspend fun setLock(passwordHash: String, useBiometrics: Boolean) {
-        get(Database::appLockDao)
-            .insert(
-                AppLock(
-                    passwordHash = passwordHash,
-                    useBiometrics = useBiometrics,
-                ),
-            )
-    }
-
-    suspend fun removeLock() {
-        get(Database::appLockDao).deleteAppLock()
     }
 
     suspend fun importBase(base: ImportExportBase, importMode: Importer.ImportMode) {

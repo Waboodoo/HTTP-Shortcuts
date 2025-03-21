@@ -97,7 +97,7 @@ constructor(
         }
 
         viewModelScope.launch {
-            variableRepository.getObservableVariables()
+            variableRepository.observeVariables()
                 .collect { variables ->
                     variableKeysInUse = variables
                         .filter { variable ->
@@ -109,7 +109,7 @@ constructor(
                 }
         }
 
-        val variableFlow = temporaryVariableRepository.getObservableTemporaryVariable()
+        val variableFlow = temporaryVariableRepository.observeTemporaryVariable()
         variable = variableFlow.first()
         oldVariable = variable
 

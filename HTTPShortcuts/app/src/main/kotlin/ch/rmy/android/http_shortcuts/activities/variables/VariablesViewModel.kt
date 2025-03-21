@@ -58,7 +58,7 @@ constructor(
         }
 
     override suspend fun initialize(data: Unit): VariablesViewState {
-        val variablesFlow = variableRepository.getObservableVariables()
+        val variablesFlow = variableRepository.observeVariables()
         variables = variablesFlow.first()
 
         viewModelScope.launch {

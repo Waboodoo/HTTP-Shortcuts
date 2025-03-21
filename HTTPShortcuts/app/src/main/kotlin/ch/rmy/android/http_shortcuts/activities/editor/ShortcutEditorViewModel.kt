@@ -125,7 +125,7 @@ constructor(
                 temporaryShortcutRepository.importFromCurl(curlCommand)
             }
 
-        val shortcutFlow = temporaryShortcutRepository.getObservableTemporaryShortcut()
+        val shortcutFlow = temporaryShortcutRepository.observeTemporaryShortcut()
         this.shortcut = shortcutFlow.first()
         oldShortcut = this.shortcut
 

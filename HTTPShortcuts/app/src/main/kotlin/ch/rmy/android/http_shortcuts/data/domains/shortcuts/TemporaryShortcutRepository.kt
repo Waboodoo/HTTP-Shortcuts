@@ -46,7 +46,7 @@ constructor(
     realmFactory: RealmFactory,
 ) : BaseRealmRepository(database, realmFactory) {
 
-    fun getObservableTemporaryShortcut(): Flow<Shortcut> =
+    fun observeTemporaryShortcut(): Flow<Shortcut> =
         observeItem {
             getTemporaryShortcut()
         }

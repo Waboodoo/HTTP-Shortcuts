@@ -26,7 +26,7 @@ constructor(
     private var activePinId: CertificatePinId? = null
 
     override suspend fun initialize(data: Unit): CertPinningViewState {
-        val pinsFlow = certificatePinRepository.getObservableCertificatePins()
+        val pinsFlow = certificatePinRepository.observeCertificatePins()
         pins = pinsFlow.first()
         viewModelScope.launch {
             pinsFlow.collect { pins ->

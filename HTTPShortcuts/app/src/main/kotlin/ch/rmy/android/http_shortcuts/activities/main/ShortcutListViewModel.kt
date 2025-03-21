@@ -23,9 +23,9 @@ import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.activities.main.models.ShortcutListItem
 import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
-import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
+import ch.rmy.android.http_shortcuts.data.domains.lock.LockRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.sections.SectionId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -71,7 +71,7 @@ class ShortcutListViewModel
 @Inject
 constructor(
     application: Application,
-    private val appRepository: AppRepository,
+    private val lockRepository: LockRepository,
     private val shortcutRepository: ShortcutRepository,
     private val categoryRepository: CategoryRepository,
     private val variableRepository: VariableRepository,
@@ -107,7 +107,7 @@ constructor(
         }
 
     override suspend fun initialize(data: InitData): ShortcutListViewState {
-        val categoriesFlow = categoryRepository.getObservableCategory(data.categoryId)
+        val categoriesFlow = categoryRepository.observeCategory(data.categoryId)
         category = categoriesFlow.first()
 
         viewModelScope.launch {
@@ -117,20 +117,20 @@ constructor(
             }
         }
         viewModelScope.launch {
-            variableRepository.getObservableVariables()
+            variableRepository.observeVariables()
                 .collect { variables ->
                     this@ShortcutListViewModel.variables = variables
                 }
         }
         viewModelScope.launch {
-            pendingExecutionsRepository.getObservablePendingExecutions()
+            pendingExecutionsRepository.observePendingExecutions()
                 .collect { pendingShortcuts ->
                     this@ShortcutListViewModel.pendingShortcuts = pendingShortcuts
                     recomputeShortcutList()
                 }
         }
 
-        val appLockFlow = appRepository.getObservableLock()
+        val appLockFlow = lockRepository.observeLock()
         val isAppLocked = appLockFlow.first() != null
         viewModelScope.launch {
             appLockFlow.collect { appLock ->
