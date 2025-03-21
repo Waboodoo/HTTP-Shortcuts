@@ -6,12 +6,10 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
-import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import io.realm.kotlin.query.RealmQuery
 
 fun RealmContext.getBase(): RealmQuery<Base> =
@@ -40,9 +38,3 @@ fun RealmContext.getVariableByKeyOrId(keyOrId: VariableKeyOrId): RealmQuery<Vari
 
 fun RealmContext.getTemporaryVariable(): RealmQuery<Variable> =
     get("${Variable.FIELD_ID} == $0", Variable.TEMPORARY_ID)
-
-fun RealmContext.getWorkingDirectory(workingDirectoryId: WorkingDirectoryId): RealmQuery<WorkingDirectory> =
-    get("${WorkingDirectory.FIELD_ID} == $0", workingDirectoryId)
-
-fun RealmContext.getWorkingDirectoryByNameOrId(workingDirectoryNameOrId: String): RealmQuery<WorkingDirectory> =
-    get("${WorkingDirectory.FIELD_ID} == $0 OR ${WorkingDirectory.FIELD_NAME} ==[c] $1", workingDirectoryNameOrId, workingDirectoryNameOrId)

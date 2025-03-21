@@ -9,12 +9,14 @@ import ch.rmy.android.http_shortcuts.data.dao.CertificatePinDao
 import ch.rmy.android.http_shortcuts.data.dao.HistoryEventDao
 import ch.rmy.android.http_shortcuts.data.dao.PendingExecutionDao
 import ch.rmy.android.http_shortcuts.data.dao.WidgetDao
+import ch.rmy.android.http_shortcuts.data.dao.WorkingDirectoryDao
 import ch.rmy.android.http_shortcuts.data.models.AppLock
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.HistoryEvent
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import ch.rmy.android.http_shortcuts.data.models.ResolvedVariableModel
 import ch.rmy.android.http_shortcuts.data.models.Widget
+import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 
 @DatabaseAnnotation(
     entities = [
@@ -24,6 +26,7 @@ import ch.rmy.android.http_shortcuts.data.models.Widget
         PendingExecutionModel::class,
         ResolvedVariableModel::class,
         Widget::class,
+        WorkingDirectory::class,
     ],
     version = 2,
     autoMigrations = [
@@ -38,4 +41,5 @@ abstract class Database : RoomDatabase() {
     abstract fun historyEventDao(): HistoryEventDao
     abstract fun pendingExecutionDao(): PendingExecutionDao
     abstract fun widgetDao(): WidgetDao
+    abstract fun workingDirectoryDao(): WorkingDirectoryDao
 }

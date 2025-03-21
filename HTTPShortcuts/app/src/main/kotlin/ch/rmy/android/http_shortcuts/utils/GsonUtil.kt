@@ -21,6 +21,7 @@ import io.realm.kotlin.types.RealmList
 import java.io.EOFException
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
+import java.time.Instant
 
 object GsonUtil {
 
@@ -79,6 +80,7 @@ object GsonUtil {
         GsonBuilder()
             .registerTypeAdapter(Uri::class.java, UriSerializer)
             .registerTypeAdapter(RealmInstant::class.java, RealmInstantSerializer)
+            .registerTypeAdapter(InstantSerializer::class.java, InstantSerializer)
             .create()
     }
 
@@ -96,5 +98,13 @@ object GsonUtil {
 
         override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): RealmInstant? =
             json?.asLong?.let { RealmInstant.from(it, 0) }
+    }
+
+    object InstantSerializer : JsonSerializer<Instant>, JsonDeserializer<Instant> {
+        override fun serialize(src: Instant, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement =
+            JsonPrimitive(src.toEpochMilli())
+
+        override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Instant? =
+            json?.asLong?.let { Instant.ofEpochMilli(it) }
     }
 }

@@ -6,7 +6,7 @@ import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
-import ch.rmy.android.framework.extensions.tryOrLog
+import ch.rmy.android.framework.extensions.tryOrIgnore
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
@@ -63,10 +63,14 @@ constructor(
         WorkingDirectoryListItem(
             id = id,
             name = name,
-            lastAccessed = lastAccessed?.let {
+            lastAccessed = accessed?.let {
                 LocalDateTime.ofInstant(it, ZoneId.systemDefault())
             },
-            unmounted = DocumentFile.fromTreeUri(context, directoryUri)?.isDirectory != true,
+            unmounted = try {
+                DocumentFile.fromTreeUri(context, directory)?.isDirectory != true
+            } catch (_: IllegalArgumentException) {
+                true
+            },
         )
 
     fun onHelpButtonClicked() = runAction {
@@ -111,8 +115,8 @@ constructor(
         withProgressTracking {
             if (workingDirectoryId != null) {
                 findWorkingDirectory(workingDirectoryId)?.let { workingDirectory ->
-                    if (workingDirectory.directoryUri != directoryUri) {
-                        revokeAccess(workingDirectory.directoryUri)
+                    if (workingDirectory.directory != directoryUri) {
+                        revokeAccess(workingDirectory.directory)
                     }
                 }
                 workingDirectoryRepository.setDirectoryUri(workingDirectoryId, directoryUri)
@@ -127,6 +131,10 @@ constructor(
                 } else {
                     showSnackbar(R.string.message_working_directory_mounted)
                 }
+            }
+
+            updateViewState {
+                copy(workingDirectories = this@WorkingDirectoriesViewModel.workingDirectories.map { it.toListItem() })
             }
         }
     }
@@ -161,7 +169,7 @@ constructor(
         val workingDirectoryId = viewState.getWorkingDirectoryIdFromContextMenu() ?: return@runAction
         workingDirectoryIdForPicker = workingDirectoryId
         updateDialogState(null)
-        emitEvent(WorkingDirectoriesEvent.OpenDirectoryPicker(initialDirectory = findWorkingDirectory(workingDirectoryId)?.directoryUri))
+        emitEvent(WorkingDirectoriesEvent.OpenDirectoryPicker(initialDirectory = findWorkingDirectory(workingDirectoryId)?.directory))
     }
 
     fun onDeleteClicked() = runAction {
@@ -180,7 +188,7 @@ constructor(
         updateDialogState(null)
         withProgressTracking {
             findWorkingDirectory(workingDirectoryId)?.let { workingDirectory ->
-                revokeAccess(workingDirectory.directoryUri)
+                revokeAccess(workingDirectory.directory)
             }
             workingDirectoryRepository.deleteWorkingDirectory(workingDirectoryId)
         }
@@ -191,7 +199,7 @@ constructor(
     }
 
     private fun revokeAccess(directoryUri: Uri) {
-        tryOrLog {
+        tryOrIgnore {
             if (context.contentResolver.persistedUriPermissions.isNotEmpty()) {
                 context.contentResolver.releasePersistableUriPermission(
                     directoryUri,

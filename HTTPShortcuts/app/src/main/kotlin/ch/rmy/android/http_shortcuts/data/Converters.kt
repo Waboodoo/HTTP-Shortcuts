@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.data
 
+import android.net.Uri
 import androidx.room.TypeConverter
 import ch.rmy.android.http_shortcuts.data.enums.HistoryEventType
 import java.time.Instant
@@ -20,4 +21,12 @@ class Converters {
     @TypeConverter
     fun serializeHistoryEventType(historyEventType: HistoryEventType?): String? =
         historyEventType?.type
+
+    @TypeConverter
+    fun deserializeUri(value: String?): Uri? =
+        value?.let(Uri::parse)
+
+    @TypeConverter
+    fun serializeUri(uri: Uri?): String? =
+        uri?.toString()
 }

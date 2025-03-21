@@ -14,7 +14,13 @@ object PickDirectoryContract : ActivityResultContract<Uri?, (ContentResolver) ->
         Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
             .addCategory(Intent.CATEGORY_DEFAULT)
             .runIfNotNull(input) {
-                runIfNotNull(DocumentFile.fromTreeUri(context, it)?.uri) { fileUri ->
+                runIfNotNull(
+                    try {
+                        DocumentFile.fromTreeUri(context, it)?.uri
+                    } catch (_: IllegalArgumentException) {
+                        null
+                    },
+                ) { fileUri ->
                     putExtra(DocumentsContract.EXTRA_INITIAL_URI, fileUri)
                 }
             }

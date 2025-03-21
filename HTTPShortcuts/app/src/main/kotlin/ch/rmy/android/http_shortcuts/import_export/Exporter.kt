@@ -12,6 +12,7 @@ import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
@@ -46,6 +47,7 @@ constructor(
     private val context: Context,
     private val appRepository: AppRepository,
     private val certificatePinRepository: CertificatePinRepository,
+    private val workingDirectoryRepository: WorkingDirectoryRepository,
     private val getUsedCustomIcons: GetUsedCustomIconsUseCase,
     private val getUsedWorkingDirectoryIds: GetUsedWorkingDirectoryIdsUseCase,
 ) {
@@ -126,9 +128,7 @@ constructor(
             realmBase.variables.removeIf { it.id !in variableIds }
         }
 
-        getUsedWorkingDirectoryIds(realmBase).let { workingDirectoryIds ->
-            realmBase.workingDirectories.removeIf { it.id !in workingDirectoryIds }
-        }
+        val relevantWorkingDirectoryIds = getUsedWorkingDirectoryIds(realmBase)
 
         return ImportExportBase(
             version = realmBase.version,
@@ -136,7 +136,9 @@ constructor(
             categories = realmBase.categories,
             variables = realmBase.variables,
             certificatePins = certificatePinRepository.getCertificatePins(),
-            workingDirectories = realmBase.workingDirectories,
+            workingDirectories = workingDirectoryRepository.getWorkingDirectories().filter {
+                it.id in relevantWorkingDirectoryIds
+            },
             title = realmBase.title,
             globalCode = realmBase.globalCode,
         )

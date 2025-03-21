@@ -2,14 +2,18 @@ package ch.rmy.android.http_shortcuts.data
 
 import android.content.Context
 import androidx.core.content.edit
+import androidx.core.net.toUri
 import ch.rmy.android.framework.data.RealmContext
 import ch.rmy.android.framework.data.RealmFactory
+import ch.rmy.android.framework.extensions.toInstant
 import ch.rmy.android.http_shortcuts.data.models.AppLock
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.Widget
+import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import ch.rmy.android.http_shortcuts.data.realm.AppLock as AppLockRealmModel
 import ch.rmy.android.http_shortcuts.data.realm.CertificatePin as CertificatePinRealmModel
 import ch.rmy.android.http_shortcuts.data.realm.Widget as WidgetRealmModel
+import ch.rmy.android.http_shortcuts.data.realm.WorkingDirectory as WorkingDirectoryRealmModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlinx.coroutines.CompletableDeferred
@@ -86,6 +90,21 @@ constructor(
                         id = certificatePin.id,
                         pattern = certificatePin.pattern,
                         hash = certificatePin.hash,
+                    ),
+                )
+            }
+
+        val workingDirectoryDao = database.workingDirectoryDao()
+        realmContext
+            .get<WorkingDirectoryRealmModel>()
+            .find()
+            .forEach { workingDirectory ->
+                workingDirectoryDao.insert(
+                    WorkingDirectory(
+                        id = workingDirectory.id,
+                        name = workingDirectory.name,
+                        directory = workingDirectory.directory.toUri(),
+                        accessed = workingDirectory.accessed?.toInstant(),
                     ),
                 )
             }

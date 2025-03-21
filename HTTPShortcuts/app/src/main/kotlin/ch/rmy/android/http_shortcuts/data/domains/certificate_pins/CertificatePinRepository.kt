@@ -58,7 +58,7 @@ constructor(
         get(Database::certificatePinDao).delete(id)
     }
 
-    suspend fun importPins(pins: List<CertificatePin>, mode: Importer.ImportMode) {
+    suspend fun import(pins: List<CertificatePin>, mode: Importer.ImportMode) {
         with(get(Database::certificatePinDao)) {
             when (mode) {
                 Importer.ImportMode.MERGE -> insert(pins)
