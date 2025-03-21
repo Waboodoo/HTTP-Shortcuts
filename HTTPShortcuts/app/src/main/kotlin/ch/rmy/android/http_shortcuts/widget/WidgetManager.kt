@@ -11,8 +11,10 @@ import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.extensions.labelColorInt
 import ch.rmy.android.http_shortcuts.utils.IconUtil
@@ -22,6 +24,7 @@ class WidgetManager
 @Inject
 constructor(
     private val widgetsRepository: WidgetsRepository,
+    private val shortcutRepository: ShortcutRepository,
 ) {
 
     suspend fun createWidget(
@@ -36,21 +39,29 @@ constructor(
     }
 
     suspend fun updateWidgets(context: Context, widgetIds: List<Int>) {
-        widgetsRepository.getWidgetsByIds(widgetIds)
-            .forEach { widget ->
-                updateWidget(context, widget)
-            }
+        updateWidgets(context, widgetsRepository.getWidgetsByIds(widgetIds))
     }
 
     suspend fun updateWidgets(context: Context, shortcutId: ShortcutId) {
-        widgetsRepository.getWidgetsByShortcutId(shortcutId)
-            .forEach { widget ->
-                updateWidget(context, widget)
-            }
+        updateWidgets(context, widgetsRepository.getWidgetsByShortcutId(shortcutId))
     }
 
-    private fun updateWidget(context: Context, widget: Widget) {
-        val shortcut = widget.shortcut ?: return
+    @JvmName(name = "_updateWidgets")
+    private suspend fun updateWidgets(context: Context, widgets: List<Widget>) {
+        widgets.forEach { widget ->
+            try {
+                updateWidget(
+                    context,
+                    widget,
+                    shortcut = shortcutRepository.getShortcutById(widget.shortcutId),
+                )
+            } catch (_: NoSuchElementException) {
+                // skip the widget
+            }
+        }
+    }
+
+    private fun updateWidget(context: Context, widget: Widget, shortcut: Shortcut) {
         RemoteViews(context.packageName, R.layout.widget).also { views ->
             views.setOnClickPendingIntent(
                 R.id.widget_base,

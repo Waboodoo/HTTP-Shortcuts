@@ -7,19 +7,19 @@ import ch.rmy.android.http_shortcuts.data.dao.AppLockDao
 import ch.rmy.android.http_shortcuts.data.dao.HistoryEventDao
 import ch.rmy.android.http_shortcuts.data.dao.PendingExecutionDao
 import ch.rmy.android.http_shortcuts.data.dao.WidgetDao
-import ch.rmy.android.http_shortcuts.data.models.AppLockModel
-import ch.rmy.android.http_shortcuts.data.models.HistoryEventModel
+import ch.rmy.android.http_shortcuts.data.models.AppLock
+import ch.rmy.android.http_shortcuts.data.models.HistoryEvent
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import ch.rmy.android.http_shortcuts.data.models.ResolvedVariableModel
-import ch.rmy.android.http_shortcuts.data.models.WidgetModel
+import ch.rmy.android.http_shortcuts.data.models.Widget
 
 @DatabaseAnnotation(
     entities = [
-        AppLockModel::class,
-        HistoryEventModel::class,
+        AppLock::class,
+        HistoryEvent::class,
         PendingExecutionModel::class,
         ResolvedVariableModel::class,
-        WidgetModel::class,
+        Widget::class,
     ],
     version = 1,
 )

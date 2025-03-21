@@ -5,24 +5,24 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.models.WidgetModel
+import ch.rmy.android.http_shortcuts.data.models.Widget
 
 @Dao
 interface WidgetDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(widget: WidgetModel)
+    suspend fun insert(widget: Widget)
 
     @Query("SELECT * FROM widget WHERE widget_id = :widgetId")
-    suspend fun getWidget(widgetId: Int): WidgetModel?
+    suspend fun getWidget(widgetId: Int): Widget?
 
     @Query("SELECT * FROM widget")
-    suspend fun getWidgets(): List<WidgetModel>
+    suspend fun getWidgets(): List<Widget>
 
     @Query("SELECT * FROM widget WHERE widget_id IN (:widgetIds)")
-    suspend fun getWidgets(widgetIds: List<Int>): List<WidgetModel>
+    suspend fun getWidgets(widgetIds: List<Int>): List<Widget>
 
     @Query("SELECT * FROM widget WHERE shortcut_id = :shortcutId")
-    suspend fun getWidgetsByShortcutId(shortcutId: ShortcutId): List<WidgetModel>
+    suspend fun getWidgetsByShortcutId(shortcutId: ShortcutId): List<Widget>
 
     @Query("DELETE FROM widget WHERE widget_id IN (:widgetIds)")
     suspend fun deleteWidgets(widgetIds: List<Int>)

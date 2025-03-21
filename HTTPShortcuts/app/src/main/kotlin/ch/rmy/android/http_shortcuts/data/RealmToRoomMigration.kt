@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.core.content.edit
 import ch.rmy.android.framework.data.RealmContext
 import ch.rmy.android.framework.data.RealmFactory
-import ch.rmy.android.http_shortcuts.data.models.AppLockModel
-import ch.rmy.android.http_shortcuts.data.models.WidgetModel
-import ch.rmy.android.http_shortcuts.data.realm.AppLock
-import ch.rmy.android.http_shortcuts.data.realm.Widget
+import ch.rmy.android.http_shortcuts.data.models.AppLock
+import ch.rmy.android.http_shortcuts.data.models.Widget
+import ch.rmy.android.http_shortcuts.data.realm.AppLock as AppLockRealmModel
+import ch.rmy.android.http_shortcuts.data.realm.Widget as WidgetRealmModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlinx.coroutines.CompletableDeferred
@@ -39,13 +39,13 @@ constructor(
     private suspend fun migrateToVersion1(realmContext: RealmContext) {
         val widgetDao = database.widgetDao()
         realmContext
-            .get<Widget>()
+            .get<WidgetRealmModel>()
             .find()
             .forEach { widget ->
                 val shortcutId = widget.shortcut?.id
                 if (shortcutId != null) {
                     widgetDao.insert(
-                        WidgetModel(
+                        Widget(
                             widgetId = widget.widgetId,
                             shortcutId = shortcutId,
                             showLabel = widget.showLabel,
@@ -57,12 +57,12 @@ constructor(
                 }
             }
 
-        val appLock = realmContext.get<AppLock>()
+        val appLock = realmContext.get<AppLockRealmModel>()
             .find()
             .firstOrNull()
         if (appLock != null) {
             database.appLockDao().insert(
-                AppLockModel(
+                AppLock(
                     passwordHash = appLock.passwordHash,
                     useBiometrics = appLock.useBiometrics,
                 ),

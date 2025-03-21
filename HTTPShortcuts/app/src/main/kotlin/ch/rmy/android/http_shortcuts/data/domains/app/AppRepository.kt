@@ -11,7 +11,6 @@ import ch.rmy.android.http_shortcuts.data.domains.getCertificatePinById
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
 import ch.rmy.android.http_shortcuts.data.models.AppLock
-import ch.rmy.android.http_shortcuts.data.models.AppLockModel
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
@@ -85,28 +84,19 @@ constructor(
     suspend fun getLock(): AppLock? =
         get(Database::appLockDao)
             .getAppLock()
-            ?.toAppLock()
-
-    private fun AppLockModel.toAppLock() =
-        AppLock(
-            passwordHash = passwordHash,
-            useBiometrics = useBiometrics,
-        )
 
     fun getObservableLock(): Flow<AppLock?> =
         flow {
             get(Database::appLockDao)
                 .observeAppLock()
                 .distinctUntilChanged()
-                .collect {
-                    emit(it?.toAppLock())
-                }
+                .collect(this)
         }
 
     suspend fun setLock(passwordHash: String, useBiometrics: Boolean) {
         get(Database::appLockDao)
             .insert(
-                AppLockModel(
+                AppLock(
                     passwordHash = passwordHash,
                     useBiometrics = useBiometrics,
                 ),

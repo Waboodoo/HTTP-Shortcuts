@@ -6,7 +6,6 @@ import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.getShortcutById
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.Widget
-import ch.rmy.android.http_shortcuts.data.models.WidgetModel
 import javax.inject.Inject
 
 class WidgetsRepository
@@ -24,7 +23,7 @@ constructor(
         iconScale: Float,
     ) {
         get(Database::widgetDao).insert(
-            WidgetModel(
+            Widget(
                 widgetId = widgetId,
                 shortcutId = shortcutId,
                 showLabel = showLabel,
@@ -37,47 +36,12 @@ constructor(
 
     suspend fun getWidgetById(widgetId: Int): Widget? =
         get(Database::widgetDao).getWidget(widgetId)
-            ?.let { widget ->
-                val shortcut = query { getShortcutById(widget.shortcutId) }.firstOrNull()
-                Widget(
-                    widgetId = widget.widgetId,
-                    shortcut = shortcut,
-                    showLabel = widget.showLabel,
-                    showIcon = widget.showIcon,
-                    labelColor = widget.labelColor,
-                    iconScale = widget.iconScale,
-                )
-            }
 
     suspend fun getWidgetsByIds(widgetIds: List<Int>): List<Widget> =
         get(Database::widgetDao).getWidgets(widgetIds)
-            .map { widget ->
-                val shortcut = query { getShortcutById(widget.shortcutId) }.firstOrNull()
-                Widget(
-                    widgetId = widget.widgetId,
-                    shortcut = shortcut,
-                    showLabel = widget.showLabel,
-                    showIcon = widget.showIcon,
-                    labelColor = widget.labelColor,
-                    iconScale = widget.iconScale,
-                )
-            }
 
     suspend fun getWidgetsByShortcutId(shortcutId: ShortcutId): List<Widget> =
         get(Database::widgetDao).getWidgetsByShortcutId(shortcutId)
-            .let { widgets ->
-                val shortcut = query { getShortcutById(shortcutId) }.firstOrNull()
-                widgets.map { widget ->
-                    Widget(
-                        widgetId = widget.widgetId,
-                        shortcut = shortcut,
-                        showLabel = widget.showLabel,
-                        showIcon = widget.showIcon,
-                        labelColor = widget.labelColor,
-                        iconScale = widget.iconScale,
-                    )
-                }
-            }
 
     suspend fun deleteDeadWidgets() {
         val widgetDao = get(Database::widgetDao)
