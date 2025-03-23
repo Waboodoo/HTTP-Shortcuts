@@ -37,8 +37,15 @@ class Shortcut() : RealmObject {
         if (executionType.usesResponse) {
             responseHandling = ResponseHandling()
         }
-        if (executionType == ShortcutExecutionType.MQTT) {
-            url = "tcp://"
+        when (executionType) {
+            ShortcutExecutionType.MQTT -> {
+                url = "tcp://"
+            }
+            ShortcutExecutionType.WAKE_ON_LAN -> {
+                wolBroadcastAddress = "255.255.255.255"
+                wolPort = 9
+            }
+            else -> Unit
         }
         this.categoryId = categoryId
     }
@@ -196,8 +203,8 @@ class Shortcut() : RealmObject {
     var runInForegroundService: Boolean = false
 
     var wolMacAddress: String = ""
-    var wolPort: Int = 9
-    var wolBroadcastAddress: String = "255.255.255.255"
+    var wolPort: Int = 0
+    var wolBroadcastAddress: String = ""
 
     fun allowsBody(): Boolean =
         METHOD_POST == method ||
