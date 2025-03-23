@@ -1,24 +1,25 @@
-package ch.rmy.android.http_shortcuts.data.migration
+package ch.rmy.android.http_shortcuts.data.realm
 
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
-import ch.rmy.android.http_shortcuts.data.migration.migrations.CategoryBackgroundMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.CategoryLayoutMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.FileUploadTypeMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.ParameterTypeMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.RemoveLegacyActionsMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.RequireConfirmationMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseActionMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseHandlingMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.UniqueIdsMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.WorkingDirectoryMigration
+import ch.rmy.android.http_shortcuts.data.DatabaseSchema
+import ch.rmy.android.http_shortcuts.data.migration.CategoryBackgroundMigration
+import ch.rmy.android.http_shortcuts.data.migration.CategoryLayoutMigration
+import ch.rmy.android.http_shortcuts.data.migration.FileUploadTypeMigration
+import ch.rmy.android.http_shortcuts.data.migration.ParameterTypeMigration
+import ch.rmy.android.http_shortcuts.data.migration.RemoveLegacyActionsMigration
+import ch.rmy.android.http_shortcuts.data.migration.ReplaceActionsWithScriptsMigration
+import ch.rmy.android.http_shortcuts.data.migration.ReplaceVariableKeysWithIdsMigration
+import ch.rmy.android.http_shortcuts.data.migration.RequireConfirmationMigration
+import ch.rmy.android.http_shortcuts.data.migration.ResponseActionMigration
+import ch.rmy.android.http_shortcuts.data.migration.ResponseHandlingMigration
+import ch.rmy.android.http_shortcuts.data.migration.UniqueIdsMigration
+import ch.rmy.android.http_shortcuts.data.migration.WorkingDirectoryMigration
 import io.realm.kotlin.dynamic.getNullableValue
 import io.realm.kotlin.dynamic.getValue
 import io.realm.kotlin.migration.AutomaticSchemaMigration
 
-class DatabaseMigration : AutomaticSchemaMigration {
+class RealmDatabaseMigration : AutomaticSchemaMigration {
 
     override fun migrate(migrationContext: AutomaticSchemaMigration.MigrationContext) {
         val oldRealm = migrationContext.oldRealm
@@ -281,13 +282,8 @@ class DatabaseMigration : AutomaticSchemaMigration {
             .first()
             .find()
             ?.run {
-                set("version", VERSION)
-                set("compatibilityVersion", COMPATIBILITY_VERSION)
+                set("version", DatabaseSchema.VERSION)
+                set("compatibilityVersion", DatabaseSchema.COMPATIBILITY_VERSION)
             }
-    }
-
-    companion object {
-        const val VERSION = 89L
-        const val COMPATIBILITY_VERSION = 89L
     }
 }

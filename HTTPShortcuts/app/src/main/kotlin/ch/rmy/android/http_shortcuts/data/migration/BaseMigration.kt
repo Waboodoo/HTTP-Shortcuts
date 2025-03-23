@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.data.migration.migrations
+package ch.rmy.android.http_shortcuts.data.migration
 
 import com.google.gson.JsonObject
 import io.realm.kotlin.migration.AutomaticSchemaMigration

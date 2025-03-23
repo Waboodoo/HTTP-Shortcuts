@@ -1,7 +1,7 @@
 package ch.rmy.android.framework.data
 
 import ch.rmy.android.http_shortcuts.data.Database
-import ch.rmy.android.http_shortcuts.data.RealmToRoomMigration
+import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigration
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

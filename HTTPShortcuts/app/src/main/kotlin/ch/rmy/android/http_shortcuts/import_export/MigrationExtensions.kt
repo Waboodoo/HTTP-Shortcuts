@@ -1,21 +1,7 @@
-package ch.rmy.android.http_shortcuts.data.migration
+package ch.rmy.android.http_shortcuts.import_export
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import io.realm.kotlin.dynamic.DynamicRealmObject
-import io.realm.kotlin.dynamic.getNullableValue
-import io.realm.kotlin.dynamic.getValue
-
-fun DynamicRealmObject.getString(key: String): String? =
-    try {
-        getValue(key)
-    } catch (e: IllegalArgumentException) {
-        try {
-            getNullableValue(key)
-        } catch (e: IllegalArgumentException) {
-            null
-        }
-    }
 
 fun JsonObject.getArray(key: String): JsonArray =
     get(key)?.asJsonArray ?: JsonArray()

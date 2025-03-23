@@ -5,7 +5,7 @@ import android.content.Context
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.DatabaseProvider
-import ch.rmy.android.http_shortcuts.data.RealmFactoryImpl
+import ch.rmy.android.http_shortcuts.data.realm.RealmFactoryImpl
 import ch.rmy.android.scripting.ScriptingEngineFactory
 import dagger.Module
 import dagger.Provides

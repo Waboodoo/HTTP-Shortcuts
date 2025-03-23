@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.data.realm
+package ch.rmy.android.http_shortcuts.data.realm.models
 
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey

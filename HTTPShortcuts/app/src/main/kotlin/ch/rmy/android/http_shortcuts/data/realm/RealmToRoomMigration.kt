@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.data
+package ch.rmy.android.http_shortcuts.data.realm
 
 import android.content.Context
 import androidx.core.content.edit
@@ -6,6 +6,7 @@ import androidx.core.net.toUri
 import ch.rmy.android.framework.data.RealmContext
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.AppConfig
 import ch.rmy.android.http_shortcuts.data.models.AppLock
@@ -14,10 +15,10 @@ import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
-import ch.rmy.android.http_shortcuts.data.realm.AppLock as AppLockRealmModel
-import ch.rmy.android.http_shortcuts.data.realm.CertificatePin as CertificatePinRealmModel
-import ch.rmy.android.http_shortcuts.data.realm.Widget as WidgetRealmModel
-import ch.rmy.android.http_shortcuts.data.realm.WorkingDirectory as WorkingDirectoryRealmModel
+import ch.rmy.android.http_shortcuts.data.realm.models.AppLock as AppLockRealmModel
+import ch.rmy.android.http_shortcuts.data.realm.models.CertificatePin as CertificatePinRealmModel
+import ch.rmy.android.http_shortcuts.data.realm.models.Widget as WidgetRealmModel
+import ch.rmy.android.http_shortcuts.data.realm.models.WorkingDirectory as WorkingDirectoryRealmModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.realm.kotlin.types.RealmInstant
 import java.time.Instant

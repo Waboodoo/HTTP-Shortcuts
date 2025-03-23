@@ -1,14 +1,12 @@
 package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.framework.extensions.hasDuplicatesBy
-import ch.rmy.android.http_shortcuts.data.realm.Variable as VariableRealmModel
+import ch.rmy.android.http_shortcuts.data.realm.models.Variable as VariableRealmModel
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmObject
 
 class Base : RealmObject {
-    var version: Long = 4
-    var compatibilityVersion: Long = 0
     var categories: RealmList<Category> = realmListOf()
         private set
 

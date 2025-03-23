@@ -1,7 +1,8 @@
-package ch.rmy.android.http_shortcuts.data.migration.migrations
+package ch.rmy.android.http_shortcuts.data.migration
 
-import ch.rmy.android.http_shortcuts.data.migration.getObjectArray
-import ch.rmy.android.http_shortcuts.data.migration.getString
+import ch.rmy.android.http_shortcuts.data.realm.getString
+import ch.rmy.android.http_shortcuts.import_export.getObjectArray
+import ch.rmy.android.http_shortcuts.import_export.getString
 import com.google.gson.JsonObject
 import io.realm.kotlin.dynamic.DynamicMutableRealmObject
 import io.realm.kotlin.dynamic.DynamicRealmObject

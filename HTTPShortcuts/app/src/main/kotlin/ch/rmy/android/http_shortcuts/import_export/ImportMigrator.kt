@@ -1,17 +1,18 @@
-package ch.rmy.android.http_shortcuts.data.migration
+package ch.rmy.android.http_shortcuts.import_export
 
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
-import ch.rmy.android.http_shortcuts.data.migration.migrations.CategoryBackgroundMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.CategoryLayoutMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.FileUploadTypeMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.ParameterTypeMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.RemoveLegacyActionsMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceActionsWithScriptsMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.ReplaceVariableKeysWithIdsMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.RequireConfirmationMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseActionMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseHandlingMigration
-import ch.rmy.android.http_shortcuts.data.migration.migrations.WorkingDirectoryMigration
+import ch.rmy.android.http_shortcuts.data.DatabaseSchema
+import ch.rmy.android.http_shortcuts.data.migration.CategoryBackgroundMigration
+import ch.rmy.android.http_shortcuts.data.migration.CategoryLayoutMigration
+import ch.rmy.android.http_shortcuts.data.migration.FileUploadTypeMigration
+import ch.rmy.android.http_shortcuts.data.migration.ParameterTypeMigration
+import ch.rmy.android.http_shortcuts.data.migration.RemoveLegacyActionsMigration
+import ch.rmy.android.http_shortcuts.data.migration.ReplaceActionsWithScriptsMigration
+import ch.rmy.android.http_shortcuts.data.migration.ReplaceVariableKeysWithIdsMigration
+import ch.rmy.android.http_shortcuts.data.migration.RequireConfirmationMigration
+import ch.rmy.android.http_shortcuts.data.migration.ResponseActionMigration
+import ch.rmy.android.http_shortcuts.data.migration.ResponseHandlingMigration
+import ch.rmy.android.http_shortcuts.data.migration.WorkingDirectoryMigration
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import org.json.JSONArray
@@ -25,15 +26,15 @@ internal object ImportMigrator {
         val fromVersion = base["version"]?.takeUnless { it.isJsonNull }
             ?.asLong
             ?: throw InvalidFileException()
-        if (fromVersion > DatabaseMigration.VERSION) {
+        if (fromVersion > DatabaseSchema.VERSION) {
             val compatibilityVersion = base["compatibilityVersion"]?.takeUnless { it.isJsonNull }?.asLong?.takeUnless { it == 0L }
-            if (compatibilityVersion == null || compatibilityVersion > DatabaseMigration.VERSION) {
+            if (compatibilityVersion == null || compatibilityVersion > DatabaseSchema.VERSION) {
                 throw ImportVersionMismatchException()
             }
         }
         require(base.has("categories")) { "Import data doesn't have any categories" }
 
-        for (version in fromVersion + 1..DatabaseMigration.VERSION) {
+        for (version in fromVersion + 1..DatabaseSchema.VERSION) {
             migrate(base, version)
             base.addProperty("version", version)
         }

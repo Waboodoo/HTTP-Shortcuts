@@ -34,11 +34,11 @@ import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
-import ch.rmy.android.http_shortcuts.data.RealmError
-import ch.rmy.android.http_shortcuts.data.RealmFactoryImpl
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
+import ch.rmy.android.http_shortcuts.data.realm.RealmError
+import ch.rmy.android.http_shortcuts.data.realm.RealmFactoryImpl
 import ch.rmy.android.http_shortcuts.navigation.NavigationRoot
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs.RELEASES

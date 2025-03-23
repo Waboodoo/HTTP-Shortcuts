@@ -9,6 +9,7 @@ import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.FileUtil
+import ch.rmy.android.http_shortcuts.data.DatabaseSchema
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinRepository
@@ -139,8 +140,8 @@ constructor(
         val relevantWorkingDirectoryIds = getUsedWorkingDirectoryIds(realmBase, appConfig)
 
         return ImportExportBase(
-            version = realmBase.version,
-            compatibilityVersion = realmBase.compatibilityVersion,
+            version = DatabaseSchema.VERSION,
+            compatibilityVersion = DatabaseSchema.COMPATIBILITY_VERSION,
             categories = realmBase.categories,
             variables = variables,
             certificatePins = certificatePinRepository.getCertificatePins(),
