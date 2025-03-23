@@ -1,7 +1,7 @@
 [versions]
 accompanist = "0.34.0"
 activity = "1.10.1"
-androidGradle = "8.9.0"
+androidGradle = "8.8.2" # 8.9.0 has made me waste 2 hours of my life debugging a useless error message
 androidXCore = "1.15.0"
 androidXNavigation = "2.8.9"
 androidxHiltCompiler = "1.2.0"
