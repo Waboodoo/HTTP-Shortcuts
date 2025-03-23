@@ -130,6 +130,7 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <string name="validation_url_invalid">Inserisci un url HTTP(S).</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
     <string name="validation_mac_address_invalid">Inserisci un indirizzo MAC valido.</string>
+    <!-- Validation error, shown when user tries to save an MQTT shortcut without a valid MQTT server URL set -->
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s non riustito con codice di stato %2$d (%3$s).</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -174,6 +175,8 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <string name="dialog_remove">Rimuovi</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
     <string name="section_request_headers">Intestazione della Richiesta</string>
+    <!-- Section title in shortcut editor, for section that contains options to specify the messages sent by an MQTT shortcut -->
+    <string name="section_mqtt_messages">Messaggi</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
     <string name="section_request_body">Corpo della Richiesta / Parametri</string>
     <!-- Title of dialog to edit a custom header of a shortcut -->
@@ -186,6 +189,14 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <string name="label_custom_header_value">Valore</string>
     <!-- Label of input field to provide request body of a shortcut -->
     <string name="label_custom_body">Corpo della Richiesta</string>
+    <!-- Label of input field to provide topic of MQTT message, for MQTT shortcut -->
+    <string name="label_mqtt_topic">Argomento</string>
+    <!-- Label of input field to provide payload of MQTT message, for MQTT shortcut -->
+    <string name="label_mqtt_payload">Contenuto</string>
+    <!-- Title of dialog to edit an MQTT message of an MQTT shortcut -->
+    <string name="title_mqtt_message_edit">Modifica messaggio</string>
+    <!-- Title of dialog to add an MQTT message to an MQTT shortcut -->
+    <string name="title_mqtt_message_add">Aggiungi messaggio</string>
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">Impostazioni</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
@@ -436,6 +447,10 @@ Tutte le scorciatoie contenute all\'interno verranno eliminate.</string>
         <item quantity="other">%d scorciatoie</item>
     </plurals>
     <!-- Shows numerical count of sections, used to show how many sections are in a given category -->
+    <plurals name="section_count">
+        <item quantity="one">Sezione %d</item>
+        <item quantity="other">%d sezioni</item>
+    </plurals>
     <!-- Pattern used to determine the subtitle of a category in the categories screen. %1$s is a placeholder for the number of shortcuts, %2$s is a placeholder for the number of sections -->
     <string name="shortcut_section_count_pattern">%1$s, %2$s</string>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
@@ -644,10 +659,13 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <string name="button_curl_import">Importa da Comando cURL</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Collegamento al Browser</string>
+    <!-- Option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <string name="button_create_wol_shortcut">Scorciatoia Wake-on-LAN</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">Apri l\'URL nel browser</string>
+    <!-- Description for option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
+    <string name="button_description_create_mqtt_shortcut">Invia messaggio MQTT</string>
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <string name="button_description_create_wol_shortcut">Sveglia un computer sulla rete</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
@@ -928,10 +946,12 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <string name="subtitle_editor_toolbar_scripting_shortcut">Scorciatoia di Scripting</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">Scorciatoia multipla</string>
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is an "MQTT Shortcut" -->
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
     <string name="subtitle_editor_toolbar_wol_shortcut">Scorciatoia Wake-on-LAN</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">Imposta l\'URL e il metodo HTTP della scorciatoia</string>
+    <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no mqtt server set yet for an MQTT shortcut -->
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
     <string name="subtitle_basic_request_settings_prompt_for_wol">Imposta l\'indirizzo MAC e la porta della scorciatoia</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
@@ -955,6 +975,8 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <string name="subtitle_authentication_digest">Autenticazione Digest con nome utente e password</string>
     <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
     <string name="subtitle_authentication_bearer">Bearer authentication con token</string>
+    <!-- Section subtitle, shown in shortcut editor when a username and password was set (used for MQTT shortcuts only) -->
+    <string name="subtitle_authentication_username_and_password_set">Imposta utente e password</string>
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">Nessun parametro impostato</string>
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
@@ -962,6 +984,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
         <item quantity="one">%d parametro impostato</item>
         <item quantity="other">%d parametri impostati</item>
     </plurals>
+    <!-- Section subtitle, shown in shortcut editor for MQTT shortcuts, to indicate how many MQTT messages are configured -->
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
     <string name="subtitle_request_body_none">Corpo della richiesta non impostato</string>
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
@@ -974,8 +997,11 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <string name="subtitle_request_body_not_available">Non applicabile a %1$s</string>
     <!-- Empty state, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers">nessuna intestazione impostata</string>
+    <!-- Empty state, shown in list when there are no MQTT messages yet, for an MQTT shortcut -->
+    <string name="empty_state_mqtt_messages">nessun messaggio impostato</string>
     <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers_instructions">Fai clic sul pulsante + per aggiungere un\'intestazione della richiesta.</string>
+    <!-- Empty state instructions, shown in list when there are no MQTT messages yet, for an MQTT shortcut -->
     <!-- Empty state, shown in list when there are no request parameters yet -->
     <string name="empty_state_request_parameters">nessun parametro impostato</string>
     <!-- Empty state instructions, shown in list when there are no parameters yet -->
@@ -1615,6 +1641,10 @@ Per i certificati autofirmati, controllare invece la sezione \"%s\" della scorci
     <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
     <string name="title_select_response_toolbar_buttons">Selezionare i pulsanti della barra degli strumenti</string>
     <!-- Subtitle on button, shown in Response settings of shortcut editor, shows how many buttons the user has selected to be shown in the response window toolbar -->
+    <plurals name="subtitle_response_toolbar_actions">
+        <item quantity="one">1 pulsante selezionato</item>
+        <item quantity="other">%d pulsanti selezionati</item>
+    </plurals>
     <!-- Option in settings, allows to set whether hidden shortcuts should be visible or not -->
     <string name="settings_title_show_hidden_shortcuts">Scorciatoie Nascoste</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
@@ -1764,6 +1794,10 @@ Per i certificati autofirmati, controllare invece la sezione \"%s\" della scorci
     <!-- Title for notification channel, used for displaying responses or custom messages -->
     <string name="notification_channel_shortcut_result_title">Risultati Scorciatoie</string>
     <!-- Message shown in notification when a shortcut is being executed -->
+    <plurals name="notification_shortcut_execution_text_multiple">
+        <item quantity="one">Scorciatoia in corso…</item>
+        <item quantity="other">%d scorciatoie in corso…</item>
+    </plurals>
     <!-- Message shown in dialog which shows up when the user first selects the "Run in background" option for "Execution Mode" in the shortcuts editor. Informs the user of technical limitations and that the app will ask for permission to display notifications -->
     <string name="dialog_text_run_in_background">Si prega di notare che l\'esecuzione in background è destinata a semplici scorciatoie, in quanto ci sono molte limitazioni tecniche. Potresti trovare alcune funzionalità che non funzionano come previsto.\n\nL\'applicazione visualizzerà una notifica mentre una scorciatoia è in esecuzione in background.</string>
     <!-- Help text shown below dropdown field for selecting "Execution Mode" in shortcut editor, to inform user of some of the limitations of the "Run in Background" option -->
@@ -1774,6 +1808,8 @@ Per i certificati autofirmati, controllare invece la sezione \"%s\" della scorci
     <string name="accessibility_label_add_shortcuts_to_trigger_fab">Aggiungi scorciatoie</string>
     <!-- Accessibility label for the floating action button, to add a header -->
     <string name="accessibility_label_add_header_fab">Aggiungi intestazione</string>
+    <!-- Accessibility label for the floating action button, to add an MQTT message to an MQTT shortcut -->
+    <string name="accessibility_label_add_mqtt_message_fab">Aggiungi messaggio</string>
     <!-- Accessibility label for the floating action button, to add a parameter -->
     <string name="accessibility_label_add_parameter_fab">Aggiungi parametro</string>
     <!-- Accessibility label for the floating action button, to create new categories -->

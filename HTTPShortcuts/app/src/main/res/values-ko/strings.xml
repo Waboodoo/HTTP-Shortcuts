@@ -118,6 +118,7 @@
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">HTTP(S) URL을 입력해 주세요.</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
+    <!-- Validation error, shown when user tries to save an MQTT shortcut without a valid MQTT server URL set -->
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s 실패: 상태코드 %2$d (%3$s)</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -162,6 +163,7 @@
     <string name="dialog_remove">삭제</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
     <string name="section_request_headers">요청 헤더</string>
+    <!-- Section title in shortcut editor, for section that contains options to specify the messages sent by an MQTT shortcut -->
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
     <string name="section_request_body">요청 Body · 파라미터</string>
     <!-- Title of dialog to edit a custom header of a shortcut -->
@@ -174,6 +176,10 @@
     <string name="label_custom_header_value">값</string>
     <!-- Label of input field to provide request body of a shortcut -->
     <string name="label_custom_body">요청 Body</string>
+    <!-- Label of input field to provide topic of MQTT message, for MQTT shortcut -->
+    <!-- Label of input field to provide payload of MQTT message, for MQTT shortcut -->
+    <!-- Title of dialog to edit an MQTT message of an MQTT shortcut -->
+    <!-- Title of dialog to add an MQTT message to an MQTT shortcut -->
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">설정</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
@@ -610,9 +616,11 @@
     <string name="button_curl_import">cURL 명령어 변환하기</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">브라우저 바로가기</string>
+    <!-- Option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">브라우저에서 열기</string>
+    <!-- Description for option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">스크립트 바로가기</string>
@@ -877,9 +885,11 @@
     <string name="subtitle_editor_toolbar_scripting_shortcut">스크립트 바로가기</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">멀티 바로가기</string>
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is an "MQTT Shortcut" -->
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">바로가기 URL과 HTTP 메소드 설정</string>
+    <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no mqtt server set yet for an MQTT shortcut -->
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">바로가기 URL 설정</string>
@@ -900,12 +910,14 @@
     <string name="subtitle_authentication_digest">사용자명과 패스워드로 Digest 인증</string>
     <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
     <string name="subtitle_authentication_bearer">토큰으로 Bearer 인증</string>
+    <!-- Section subtitle, shown in shortcut editor when a username and password was set (used for MQTT shortcuts only) -->
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">파라미터를 설정하지 않았습니다</string>
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
     <plurals name="subtitle_request_body_params_pattern">
         <item quantity="other">현재 설정: 파라미터(%d개) 전송</item>
     </plurals>
+    <!-- Section subtitle, shown in shortcut editor for MQTT shortcuts, to indicate how many MQTT messages are configured -->
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
     <string name="subtitle_request_body_none">요청 Body 내용이 없습니다</string>
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
@@ -918,8 +930,10 @@
     <string name="subtitle_request_body_not_available">%1$s 메소드에 해당 없음</string>
     <!-- Empty state, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers">추가한 헤더가 없습니다</string>
+    <!-- Empty state, shown in list when there are no MQTT messages yet, for an MQTT shortcut -->
     <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers_instructions">🞣 버튼을 눌러 요청 헤더를 추가할 수 있습니다.</string>
+    <!-- Empty state instructions, shown in list when there are no MQTT messages yet, for an MQTT shortcut -->
     <!-- Empty state, shown in list when there are no request parameters yet -->
     <string name="empty_state_request_parameters">설정한 파라미터가 없습니다</string>
     <!-- Empty state instructions, shown in list when there are no parameters yet -->
@@ -1590,6 +1604,7 @@
     <!-- Accessibility label for the floating action button on the main screen, to create new shortcuts -->
     <!-- Accessibility label for the floating action button, to add shortcuts to a multi-shortcut -->
     <!-- Accessibility label for the floating action button, to add a header -->
+    <!-- Accessibility label for the floating action button, to add an MQTT message to an MQTT shortcut -->
     <!-- Accessibility label for the floating action button, to add a parameter -->
     <!-- Accessibility label for the floating action button, to create new categories -->
     <!-- Accessibility label for the floating action button, to create new variables -->

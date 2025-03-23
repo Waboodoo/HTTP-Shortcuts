@@ -126,6 +126,7 @@
     <string name="validation_url_invalid">Пожалуйста, введите URL HTTP(S).</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
     <string name="validation_mac_address_invalid">Пожалуйста, введите правильный MAC-адрес.</string>
+    <!-- Validation error, shown when user tries to save an MQTT shortcut without a valid MQTT server URL set -->
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">Ошибка %1$s. Код состояния %2$d (%3$s).</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -170,6 +171,7 @@
     <string name="dialog_remove">Удалить</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
     <string name="section_request_headers">Заголовки запроса</string>
+    <!-- Section title in shortcut editor, for section that contains options to specify the messages sent by an MQTT shortcut -->
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
     <string name="section_request_body">Тело запроса / Параметры</string>
     <!-- Title of dialog to edit a custom header of a shortcut -->
@@ -182,6 +184,10 @@
     <string name="label_custom_header_value">Значение</string>
     <!-- Label of input field to provide request body of a shortcut -->
     <string name="label_custom_body">Тело запроса</string>
+    <!-- Label of input field to provide topic of MQTT message, for MQTT shortcut -->
+    <!-- Label of input field to provide payload of MQTT message, for MQTT shortcut -->
+    <!-- Title of dialog to edit an MQTT message of an MQTT shortcut -->
+    <!-- Title of dialog to add an MQTT message to an MQTT shortcut -->
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">Настройки</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
@@ -633,10 +639,12 @@
     <string name="button_curl_import">Из команды cURL</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Ярлык браузера</string>
+    <!-- Option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <string name="button_create_wol_shortcut">Ярлык Wake-on-LAN</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">Откройте URL-адрес в браузере</string>
+    <!-- Description for option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <string name="button_description_create_wol_shortcut">Пробуждение компьютера в сети</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
@@ -919,10 +927,12 @@
     <string name="subtitle_editor_toolbar_scripting_shortcut">Ярлык сценария</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">Мульти-ярлык</string>
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is an "MQTT Shortcut" -->
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
     <string name="subtitle_editor_toolbar_wol_shortcut">Ярлык Wake-on-LAN</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">Установите URL ярлыка и метод HTTP</string>
+    <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no mqtt server set yet for an MQTT shortcut -->
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
     <string name="subtitle_basic_request_settings_prompt_for_wol">Установить MAC-адрес и порт ярлыка</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
@@ -948,6 +958,7 @@
     <string name="subtitle_authentication_digest">Дайджест-аутентификация с именем пользователя и паролем</string>
     <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
     <string name="subtitle_authentication_bearer">Аутентификация на предъявителя с токеном</string>
+    <!-- Section subtitle, shown in shortcut editor when a username and password was set (used for MQTT shortcuts only) -->
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">Параметры не заданы</string>
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
@@ -957,6 +968,7 @@
         <item quantity="many">Параметры %d установлены</item>
         <item quantity="other">Параметры %d установлены</item>
     </plurals>
+    <!-- Section subtitle, shown in shortcut editor for MQTT shortcuts, to indicate how many MQTT messages are configured -->
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
     <string name="subtitle_request_body_none">Тело запроса не установлено</string>
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
@@ -969,8 +981,10 @@
     <string name="subtitle_request_body_not_available">Не применимо для %1$s</string>
     <!-- Empty state, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers">Заголовки не установлены</string>
+    <!-- Empty state, shown in list when there are no MQTT messages yet, for an MQTT shortcut -->
     <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers_instructions">Нажмите кнопку +, чтобы добавить заголовок запроса.</string>
+    <!-- Empty state instructions, shown in list when there are no MQTT messages yet, for an MQTT shortcut -->
     <!-- Empty state, shown in list when there are no request parameters yet -->
     <string name="empty_state_request_parameters">Параметры не установлены</string>
     <!-- Empty state instructions, shown in list when there are no parameters yet -->
@@ -1785,6 +1799,7 @@
     <string name="accessibility_label_add_shortcuts_to_trigger_fab">Добавить ярлыки</string>
     <!-- Accessibility label for the floating action button, to add a header -->
     <string name="accessibility_label_add_header_fab">Добавить заголовок</string>
+    <!-- Accessibility label for the floating action button, to add an MQTT message to an MQTT shortcut -->
     <!-- Accessibility label for the floating action button, to add a parameter -->
     <string name="accessibility_label_add_parameter_fab">Добавить параметр</string>
     <!-- Accessibility label for the floating action button, to create new categories -->

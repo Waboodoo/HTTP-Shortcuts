@@ -128,6 +128,8 @@
     <string name="validation_url_invalid">HTTP(S)のURLを入力してください</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
     <string name="validation_mac_address_invalid">有効なMACアドレスを入力してください。</string>
+    <!-- Validation error, shown when user tries to save an MQTT shortcut without a valid MQTT server URL set -->
+    <string name="validation_mqtt_server_url_invalid">有効な MQTT サーバー URL を入力してください。</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s 失敗：ステータスコード %2$d (%3$s)</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -172,6 +174,8 @@
     <string name="dialog_remove">削除</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
     <string name="section_request_headers">リクエスト ヘッダー</string>
+    <!-- Section title in shortcut editor, for section that contains options to specify the messages sent by an MQTT shortcut -->
+    <string name="section_mqtt_messages">メッセージ</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
     <string name="section_request_body">リクエスト ボディ／パラメーター</string>
     <!-- Title of dialog to edit a custom header of a shortcut -->
@@ -184,6 +188,14 @@
     <string name="label_custom_header_value">値</string>
     <!-- Label of input field to provide request body of a shortcut -->
     <string name="label_custom_body">リクエスト ボディ</string>
+    <!-- Label of input field to provide topic of MQTT message, for MQTT shortcut -->
+    <string name="label_mqtt_topic">トピック</string>
+    <!-- Label of input field to provide payload of MQTT message, for MQTT shortcut -->
+    <string name="label_mqtt_payload">ペイロード</string>
+    <!-- Title of dialog to edit an MQTT message of an MQTT shortcut -->
+    <string name="title_mqtt_message_edit">メッセージを編集</string>
+    <!-- Title of dialog to add an MQTT message to an MQTT shortcut -->
+    <string name="title_mqtt_message_add">メッセージを追加</string>
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">設定</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
@@ -636,10 +648,14 @@
     <string name="button_curl_import">cURLコマンドからインポート</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">ブラウザ ショートカット</string>
+    <!-- Option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
+    <string name="button_create_mqtt_shortcut">MQTT ショートカット</string>
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <string name="button_create_wol_shortcut">Wake-on-LAN ショートカット</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">URLをブラウザで開く</string>
+    <!-- Description for option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
+    <string name="button_description_create_mqtt_shortcut">MQTTメッセージを送信</string>
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <string name="button_description_create_wol_shortcut">ネットワーク上のコンピュータを起動</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
@@ -919,10 +935,14 @@
     <string name="subtitle_editor_toolbar_scripting_shortcut">スクリプト ショートカット</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">複数のショートカット</string>
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is an "MQTT Shortcut" -->
+    <string name="subtitle_editor_toolbar_mqtt_shortcut">MQTT ショートカット</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
     <string name="subtitle_editor_toolbar_wol_shortcut">Wake-on-LAN ショートカット</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">ショートカットのURLとHTTPメソッドを設定</string>
+    <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no mqtt server set yet for an MQTT shortcut -->
+    <string name="subtitle_basic_request_settings_prompt_for_mqtt">MQTTサーバーのアドレスを設定</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
     <string name="subtitle_basic_request_settings_prompt_for_wol">ショートカットのMACアドレスとポートを設定</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
@@ -945,11 +965,17 @@
     <string name="subtitle_authentication_digest">ユーザー名とパスワードのダイジェスト(Digest)認証</string>
     <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
     <string name="subtitle_authentication_bearer">トークン(Token)のベアラー(Bearer)認証</string>
+    <!-- Section subtitle, shown in shortcut editor when a username and password was set (used for MQTT shortcuts only) -->
+    <string name="subtitle_authentication_username_and_password_set">ユーザー名とパスワードを設定</string>
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">パラメーターなし</string>
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
     <plurals name="subtitle_request_body_params_pattern">
         <item quantity="other">%d つのパラメーター設定</item>
+    </plurals>
+    <!-- Section subtitle, shown in shortcut editor for MQTT shortcuts, to indicate how many MQTT messages are configured -->
+    <plurals name="subtitle_mqtt_messages">
+        <item quantity="other">%d 件のメッセージ設定</item>
     </plurals>
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
     <string name="subtitle_request_body_none">リクエスト ボディの設定なし</string>
@@ -963,8 +989,12 @@
     <string name="subtitle_request_body_not_available">%1$s に適用できません</string>
     <!-- Empty state, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers">ヘッダー設定なし</string>
+    <!-- Empty state, shown in list when there are no MQTT messages yet, for an MQTT shortcut -->
+    <string name="empty_state_mqtt_messages">メッセージ設定なし</string>
     <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers_instructions">リクエスト ヘッダーを追加するには［＋］ボタンをクリック</string>
+    <!-- Empty state instructions, shown in list when there are no MQTT messages yet, for an MQTT shortcut -->
+    <string name="empty_state_mqtt_messages_instructions">[+] ボタンをクリックして MQTT メッセージを追加</string>
     <!-- Empty state, shown in list when there are no request parameters yet -->
     <string name="empty_state_request_parameters">パラメーター設定なし</string>
     <!-- Empty state instructions, shown in list when there are no parameters yet -->
@@ -1765,6 +1795,8 @@
     <string name="accessibility_label_add_shortcuts_to_trigger_fab">ショートカットを追加</string>
     <!-- Accessibility label for the floating action button, to add a header -->
     <string name="accessibility_label_add_header_fab">ヘッダーを追加</string>
+    <!-- Accessibility label for the floating action button, to add an MQTT message to an MQTT shortcut -->
+    <string name="accessibility_label_add_mqtt_message_fab">メッセージを追加</string>
     <!-- Accessibility label for the floating action button, to add a parameter -->
     <string name="accessibility_label_add_parameter_fab">パラメータを追加</string>
     <!-- Accessibility label for the floating action button, to create new categories -->

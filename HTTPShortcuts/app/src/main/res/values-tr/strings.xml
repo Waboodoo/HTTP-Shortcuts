@@ -116,6 +116,7 @@ Bir değişken eklemek için + düğmesine tıklayın.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">Lütfen bir HTTP(S) url\'si girin.</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
+    <!-- Validation error, shown when user tries to save an MQTT shortcut without a valid MQTT server URL set -->
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s, %2$d (%3$s) durum koduyla başarısız oldu.</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -160,6 +161,7 @@ Bir değişken eklemek için + düğmesine tıklayın.</string>
     <string name="dialog_remove">Kaldır</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
     <string name="section_request_headers">İstek Üstbilgisi</string>
+    <!-- Section title in shortcut editor, for section that contains options to specify the messages sent by an MQTT shortcut -->
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
     <string name="section_request_body">İstek Gövdesi / Parametreler</string>
     <!-- Title of dialog to edit a custom header of a shortcut -->
@@ -172,6 +174,10 @@ Bir değişken eklemek için + düğmesine tıklayın.</string>
     <string name="label_custom_header_value">Değer</string>
     <!-- Label of input field to provide request body of a shortcut -->
     <string name="label_custom_body">İstek Gövdesi</string>
+    <!-- Label of input field to provide topic of MQTT message, for MQTT shortcut -->
+    <!-- Label of input field to provide payload of MQTT message, for MQTT shortcut -->
+    <!-- Title of dialog to edit an MQTT message of an MQTT shortcut -->
+    <!-- Title of dialog to add an MQTT message to an MQTT shortcut -->
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">Ayarlar</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
@@ -614,9 +620,11 @@ Daha fazla bilgi için değişken bölümündeki yardım düğmesine tıklayın.
     <string name="button_curl_import">cURL Komutundan içe aktar</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Tarayıcı Kısayolu</string>
+    <!-- Option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">URL\'yi tarayıcıda açın</string>
+    <!-- Description for option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">Komut Dosyası Kısayolu</string>
@@ -883,9 +891,11 @@ Daha fazla bilgi için değişken bölümündeki yardım düğmesine tıklayın.
     <string name="subtitle_editor_toolbar_scripting_shortcut">Komut Dosyası Kısayolu</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">Çoklu Kısayol</string>
+    <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is an "MQTT Shortcut" -->
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">Kısayolun URL\'sini ve HTTP yöntemini ayarlayın</string>
+    <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no mqtt server set yet for an MQTT shortcut -->
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">Kısayolun URL\'sini ayarlayın</string>
@@ -907,6 +917,7 @@ Daha fazla bilgi için değişken bölümündeki yardım düğmesine tıklayın.
     <string name="subtitle_authentication_digest">Kullanıcı adı ve şifre ile özet kimlik doğrulama</string>
     <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
     <string name="subtitle_authentication_bearer">Token ile taşıyıcı kimlik doğrulaması</string>
+    <!-- Section subtitle, shown in shortcut editor when a username and password was set (used for MQTT shortcuts only) -->
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">Ayarlanmış parametre yok</string>
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
@@ -914,6 +925,7 @@ Daha fazla bilgi için değişken bölümündeki yardım düğmesine tıklayın.
         <item quantity="one">%d parametre seti</item>
         <item quantity="other">%d parametre seti</item>
     </plurals>
+    <!-- Section subtitle, shown in shortcut editor for MQTT shortcuts, to indicate how many MQTT messages are configured -->
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
     <string name="subtitle_request_body_none">İstek gövdesi ayarlanmadı</string>
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
@@ -926,8 +938,10 @@ Daha fazla bilgi için değişken bölümündeki yardım düğmesine tıklayın.
     <string name="subtitle_request_body_not_available">%1$s için geçerli değil</string>
     <!-- Empty state, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers">üstbilgi ayarlanmadı</string>
+    <!-- Empty state, shown in list when there are no MQTT messages yet, for an MQTT shortcut -->
     <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers_instructions">İsteğe bir üstbilgi eklemek için + düğmesini tıklayın.</string>
+    <!-- Empty state instructions, shown in list when there are no MQTT messages yet, for an MQTT shortcut -->
     <!-- Empty state, shown in list when there are no request parameters yet -->
     <string name="empty_state_request_parameters">parametre ayarlanmadı</string>
     <!-- Empty state instructions, shown in list when there are no parameters yet -->
@@ -1620,6 +1634,7 @@ Kendinden imzalı sertifikalar için bunun yerine kısayolun \"%s\" bölümünü
     <!-- Accessibility label for the floating action button on the main screen, to create new shortcuts -->
     <!-- Accessibility label for the floating action button, to add shortcuts to a multi-shortcut -->
     <!-- Accessibility label for the floating action button, to add a header -->
+    <!-- Accessibility label for the floating action button, to add an MQTT message to an MQTT shortcut -->
     <!-- Accessibility label for the floating action button, to add a parameter -->
     <!-- Accessibility label for the floating action button, to create new categories -->
     <!-- Accessibility label for the floating action button, to create new variables -->
