@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.data.realm
+package ch.rmy.android.http_shortcuts.data.realm.models
 
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import io.realm.kotlin.types.RealmInstant

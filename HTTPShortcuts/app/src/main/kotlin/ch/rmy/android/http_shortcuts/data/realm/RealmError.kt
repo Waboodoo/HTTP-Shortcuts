@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.data
+package ch.rmy.android.http_shortcuts.data.realm
 
 import android.net.Uri
 

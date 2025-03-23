@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import ch.rmy.android.framework.extensions.GlobalLogger
-import ch.rmy.android.http_shortcuts.data.RealmFactoryImpl
-import ch.rmy.android.http_shortcuts.data.RealmToRoomMigration
+import ch.rmy.android.http_shortcuts.data.realm.RealmFactoryImpl
+import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigration
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper

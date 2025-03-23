@@ -11,9 +11,6 @@ import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
-import ch.rmy.android.http_shortcuts.data.migration.ImportMigrator
-import ch.rmy.android.http_shortcuts.data.migration.ImportVersionMismatchException
-import ch.rmy.android.http_shortcuts.data.migration.InvalidFileException
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.NoCloseInputStream

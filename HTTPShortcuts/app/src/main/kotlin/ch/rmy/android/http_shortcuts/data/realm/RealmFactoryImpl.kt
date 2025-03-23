@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.data
+package ch.rmy.android.http_shortcuts.data.realm
 
 import android.content.Context
 import ch.rmy.android.framework.data.RealmContext
@@ -9,7 +9,7 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.FileUtil.getUriFromFile
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.migration.DatabaseMigration
+import ch.rmy.android.http_shortcuts.data.DatabaseSchema
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
@@ -19,12 +19,12 @@ import ch.rmy.android.http_shortcuts.data.models.Repetition
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.realm.AppLock
-import ch.rmy.android.http_shortcuts.data.realm.CertificatePin
-import ch.rmy.android.http_shortcuts.data.realm.Option
-import ch.rmy.android.http_shortcuts.data.realm.Variable
-import ch.rmy.android.http_shortcuts.data.realm.Widget
-import ch.rmy.android.http_shortcuts.data.realm.WorkingDirectory
+import ch.rmy.android.http_shortcuts.data.realm.models.AppLock
+import ch.rmy.android.http_shortcuts.data.realm.models.CertificatePin
+import ch.rmy.android.http_shortcuts.data.realm.models.Option
+import ch.rmy.android.http_shortcuts.data.realm.models.Variable
+import ch.rmy.android.http_shortcuts.data.realm.models.Widget
+import ch.rmy.android.http_shortcuts.data.realm.models.WorkingDirectory
 import io.realm.kotlin.MutableRealm
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
@@ -113,8 +113,8 @@ class RealmFactoryImpl private constructor() : RealmFactory {
                     WorkingDirectory::class,
                 ),
             )
-                .schemaVersion(DatabaseMigration.VERSION)
-                .migration(DatabaseMigration())
+                .schemaVersion(DatabaseSchema.VERSION)
+                .migration(RealmDatabaseMigration())
                 .initialData {
                     setupBase(context)
                 }
@@ -129,8 +129,6 @@ class RealmFactoryImpl private constructor() : RealmFactory {
 
             val newBase = Base().apply {
                 categories.add(defaultCategory)
-                version = DatabaseMigration.VERSION
-                compatibilityVersion = DatabaseMigration.COMPATIBILITY_VERSION
             }
             copyToRealm(newBase)
         }

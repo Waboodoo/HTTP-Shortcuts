@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.data.realm
+package ch.rmy.android.http_shortcuts.data.realm.models
 
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
