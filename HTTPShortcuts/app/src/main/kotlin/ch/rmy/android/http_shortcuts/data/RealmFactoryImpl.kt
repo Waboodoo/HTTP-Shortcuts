@@ -14,15 +14,15 @@ import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
 import ch.rmy.android.http_shortcuts.data.models.Header
-import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.data.models.Repetition
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.realm.AppLock
 import ch.rmy.android.http_shortcuts.data.realm.CertificatePin
+import ch.rmy.android.http_shortcuts.data.realm.Option
+import ch.rmy.android.http_shortcuts.data.realm.Variable
 import ch.rmy.android.http_shortcuts.data.realm.Widget
 import ch.rmy.android.http_shortcuts.data.realm.WorkingDirectory
 import io.realm.kotlin.MutableRealm

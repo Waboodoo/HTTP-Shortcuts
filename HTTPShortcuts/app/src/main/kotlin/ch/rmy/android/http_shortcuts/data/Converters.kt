@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.data
 import android.net.Uri
 import androidx.room.TypeConverter
 import ch.rmy.android.http_shortcuts.data.enums.HistoryEventType
+import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import java.time.Instant
 
 class Converters {
@@ -29,4 +30,12 @@ class Converters {
     @TypeConverter
     fun serializeUri(uri: Uri?): String? =
         uri?.toString()
+
+    @TypeConverter
+    fun deserializeVariableType(value: String?): VariableType? =
+        value?.let { VariableType.parse(it) }
+
+    @TypeConverter
+    fun serializeVariableType(variableType: VariableType): String =
+        variableType.type
 }

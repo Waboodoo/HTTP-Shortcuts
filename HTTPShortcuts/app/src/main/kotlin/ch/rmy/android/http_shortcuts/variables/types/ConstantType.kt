@@ -8,5 +8,5 @@ class ConstantType
 @Inject
 constructor() : VariableType {
     override suspend fun resolve(variable: Variable, dialogHandle: DialogHandle) =
-        variable.value.orEmpty()
+        variable.realValue.orEmpty()
 }

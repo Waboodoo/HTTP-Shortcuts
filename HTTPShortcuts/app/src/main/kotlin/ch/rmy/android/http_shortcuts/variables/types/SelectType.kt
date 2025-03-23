@@ -18,23 +18,28 @@ constructor(
             dialogHandle.showDialog(
                 ExecuteDialogState.MultiSelection(
                     title = variable.title.takeUnlessEmpty()?.toLocalizable(),
-                    values = variable.options!!.map { option ->
-                        option.id to option.labelOrValue
+                    values = run {
+                        val labels = variable.getStringListData(KEY_LABELS) ?: emptyList()
+                        val values = variable.getStringListData(KEY_VALUES) ?: emptyList()
+                        values.mapIndexed { index, value ->
+                            value to (labels[index].ifEmpty { value }.ifEmpty { "-" })
+                        }
                     },
                 ),
             )
-                .mapNotNull { optionId ->
-                    variable.options!!.find { it.id == optionId }
-                }
-                .joinToString(getSeparator(variable)) { option ->
-                    option.value
+                .joinToString(getSeparator(variable)) { value ->
+                    value
                 }
         } else {
             dialogHandle.showDialog(
                 ExecuteDialogState.Selection(
                     title = variable.title.takeUnlessEmpty()?.toLocalizable(),
-                    values = variable.options!!.map { option ->
-                        option.value to option.labelOrValue
+                    values = run {
+                        val labels = variable.getStringListData(KEY_LABELS) ?: emptyList()
+                        val values = variable.getStringListData(KEY_VALUES) ?: emptyList()
+                        values.mapIndexed { index, value ->
+                            value to (labels[index].ifEmpty { value }.ifEmpty { "-" })
+                        }
                     },
                 ),
             )
@@ -47,13 +52,15 @@ constructor(
     }
 
     companion object {
+        const val KEY_LABELS = "labels"
+        const val KEY_VALUES = "values"
         const val KEY_MULTI_SELECT = "multi_select"
         const val KEY_SEPARATOR = "separator"
 
         fun isMultiSelect(variable: Variable) =
-            variable.dataForType[KEY_MULTI_SELECT]?.toBoolean() == true
+            variable.getBooleanData(KEY_MULTI_SELECT) == true
 
         fun getSeparator(variable: Variable) =
-            variable.dataForType[KEY_SEPARATOR] ?: ","
+            variable.getStringData(KEY_SEPARATOR) ?: ","
     }
 }

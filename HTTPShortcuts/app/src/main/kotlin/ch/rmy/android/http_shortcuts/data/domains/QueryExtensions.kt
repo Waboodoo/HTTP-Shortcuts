@@ -4,12 +4,9 @@ import ch.rmy.android.framework.data.RealmContext
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
 import io.realm.kotlin.query.RealmQuery
 
 fun RealmContext.getBase(): RealmQuery<Base> =
@@ -29,12 +26,3 @@ fun RealmContext.getTemporaryShortcut(): RealmQuery<Shortcut> =
 
 fun RealmContext.getShortcutByNameOrId(shortcutNameOrId: ShortcutNameOrId): RealmQuery<Shortcut> =
     get("${Shortcut.FIELD_ID} == $0 OR ${Shortcut.FIELD_NAME} ==[c] $1", shortcutNameOrId, shortcutNameOrId)
-
-fun RealmContext.getVariableById(variableId: VariableId): RealmQuery<Variable> =
-    get("${Variable.FIELD_ID} == $0", variableId)
-
-fun RealmContext.getVariableByKeyOrId(keyOrId: VariableKeyOrId): RealmQuery<Variable> =
-    get("(${Variable.FIELD_KEY} == $0 AND ${Variable.FIELD_ID} != $1) OR ${Variable.FIELD_ID} == $0", keyOrId, Variable.TEMPORARY_ID)
-
-fun RealmContext.getTemporaryVariable(): RealmQuery<Variable> =
-    get("${Variable.FIELD_ID} == $0", Variable.TEMPORARY_ID)

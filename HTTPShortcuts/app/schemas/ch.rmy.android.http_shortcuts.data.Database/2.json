@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "0c6f4a57d29474828deffa230b575a73",
+    "identityHash": "ffaa892899a62df6af7fac7d8c8216da",
     "entities": [
       {
         "tableName": "app_config",
@@ -208,7 +208,7 @@
       },
       {
         "tableName": "resolved_variable",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `pending_execution_id` INTEGER NOT NULL, `key` TEXT NOT NULL, `value` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `pending_execution_id` INTEGER NOT NULL, `key` TEXT NOT NULL, `value` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -232,6 +232,110 @@
             "fieldPath": "value",
             "columnName": "value",
             "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "variable",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `key` TEXT NOT NULL, `variable_type` TEXT NOT NULL, `value` TEXT, `data` TEXT, `remember_value` INTEGER NOT NULL, `url_encode` INTEGER NOT NULL, `json_encode` INTEGER NOT NULL, `title` TEXT NOT NULL, `message` TEXT NOT NULL, `share_text` INTEGER NOT NULL, `share_title` INTEGER NOT NULL, `multiline` INTEGER NOT NULL, `exclude_from_export` INTEGER NOT NULL, `sorting_order` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "key",
+            "columnName": "key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "variableType",
+            "columnName": "variable_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "data",
+            "columnName": "data",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rememberValue",
+            "columnName": "remember_value",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "urlEncode",
+            "columnName": "url_encode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "jsonEncode",
+            "columnName": "json_encode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "message",
+            "columnName": "message",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isShareText",
+            "columnName": "share_text",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isShareTitle",
+            "columnName": "share_title",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isMultiline",
+            "columnName": "multiline",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isExcludeValueFromExport",
+            "columnName": "exclude_from_export",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sortingOrder",
+            "columnName": "sorting_order",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -336,7 +440,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0c6f4a57d29474828deffa230b575a73')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ffaa892899a62df6af7fac7d8c8216da')"
     ]
   }
 }

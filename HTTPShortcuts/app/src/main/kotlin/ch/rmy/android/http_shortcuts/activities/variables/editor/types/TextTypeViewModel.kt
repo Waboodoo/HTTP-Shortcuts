@@ -9,7 +9,7 @@ class TextTypeViewModel : BaseTypeViewModel() {
     override fun createViewState(variable: Variable) = TextTypeViewState(
         rememberValue = variable.rememberValue,
         isMultiline = variable.isMultiline,
-        isMultilineCheckboxVisible = variable.variableType == VariableType.TEXT,
+        isMultilineCheckboxVisible = variable.type == VariableType.TEXT,
     )
 
     override suspend fun save(temporaryVariableRepository: TemporaryVariableRepository, viewState: VariableTypeViewState) {

@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.net.Uri
 import androidx.core.net.toUri
+import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.import_export.ImportExportBase
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -80,7 +81,8 @@ object GsonUtil {
         GsonBuilder()
             .registerTypeAdapter(Uri::class.java, UriSerializer)
             .registerTypeAdapter(RealmInstant::class.java, RealmInstantSerializer)
-            .registerTypeAdapter(InstantSerializer::class.java, InstantSerializer)
+            .registerTypeAdapter(Instant::class.java, InstantSerializer)
+            .registerTypeAdapter(VariableType::class.java, VariableTypeSerializer)
             .create()
     }
 
@@ -106,5 +108,13 @@ object GsonUtil {
 
         override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Instant? =
             json?.asLong?.let { Instant.ofEpochMilli(it) }
+    }
+
+    object VariableTypeSerializer : JsonSerializer<VariableType>, JsonDeserializer<VariableType> {
+        override fun serialize(src: VariableType, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement =
+            JsonPrimitive(src.type)
+
+        override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): VariableType? =
+            json?.asString?.let { VariableType.parse(it) }
     }
 }

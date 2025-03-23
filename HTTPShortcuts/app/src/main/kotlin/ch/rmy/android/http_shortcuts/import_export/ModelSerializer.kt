@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.import_export
 
 import android.net.Uri
+import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.ExcludedFromExport
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
@@ -52,6 +53,9 @@ class ModelSerializer : JsonSerializer<Any> {
                         }
                         is Uri -> {
                             output.addProperty(fieldName, value.toString())
+                        }
+                        is VariableType -> {
+                            output.addProperty(fieldName, value.type)
                         }
                         else -> {
                             output.add(fieldName, context.serialize(value))

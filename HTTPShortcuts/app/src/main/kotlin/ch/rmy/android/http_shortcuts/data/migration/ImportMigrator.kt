@@ -14,6 +14,9 @@ import ch.rmy.android.http_shortcuts.data.migration.migrations.ResponseHandlingM
 import ch.rmy.android.http_shortcuts.data.migration.migrations.WorkingDirectoryMigration
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 
 internal object ImportMigrator {
 
@@ -168,6 +171,35 @@ internal object ImportMigrator {
             }
             78L -> { // 3.15.0
                 WorkingDirectoryMigration().migrateImport(base)
+            }
+            89L -> { // 3.27.0
+                for (variable in base.getObjectArray("variables")) {
+                    val type = variable.getString("type") ?: "constant"
+                    val data = try {
+                        JSONObject(variable.getString("data") ?: "{}")
+                            .getJSONObject(type)
+                    } catch (_: JSONException) {
+                        JSONObject()
+                    }
+                    if (type == "select" || type == "toggle") {
+                        val options = variable.getAsJsonArray("options")
+                        if (options != null) {
+                            data.put("values", JSONArray(options.map { it.asJsonObject.getString("value") }))
+                            if (type == "select") {
+                                data.put("labels", JSONArray(options.map { it.asJsonObject.getString("label") }))
+                            }
+                        }
+                    }
+                    variable.addProperty("data", data.toString().takeUnless { it == "{}" })
+
+                    variable.getInt("flags")
+                        ?.let { flags ->
+                            variable.addProperty("isShareText", flags and 0x1 != 0)
+                            variable.addProperty("isShareTitle", flags and 0x4 != 0)
+                            variable.addProperty("isMultiline", flags and 0x2 != 0)
+                            variable.addProperty("isExcludeValueFromExport", flags and 0x8 != 0)
+                        }
+                }
             }
         }
     }

@@ -8,14 +8,11 @@ import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.getBase
 import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
-import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Header
-import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.import_export.ImportExportBase
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import javax.inject.Inject
@@ -45,18 +42,10 @@ constructor(
                     base.categories.forEach { category ->
                         importCategory(oldBase, category)
                     }
-
-                    val persistedVariables = copyOrUpdate(base.variables.distinctBy { it.id })
-                    val persistedVariablesIds = persistedVariables.map { it.id }
-                    oldBase.variables.removeIf { it.id in persistedVariablesIds }
-                    oldBase.variables.addAll(persistedVariables)
                 }
                 Importer.ImportMode.REPLACE -> {
                     oldBase.categories.clear()
                     oldBase.categories.addAll(copyOrUpdate(base.categories))
-
-                    oldBase.variables.clear()
-                    oldBase.variables.addAll(copyOrUpdate(base.variables))
                 }
             }
             oldBase.validate()
@@ -91,14 +80,9 @@ constructor(
         commitTransaction {
             val base = getBase().findFirst() ?: return@commitTransaction
             val temporaryShortcut = getTemporaryShortcut().findFirst()
-            val temporaryVariable = getTemporaryVariable().findFirst()
             val categories = base.categories
             val shortcuts = base.shortcuts
                 .runIfNotNull(temporaryShortcut) {
-                    plus(it)
-                }
-            val variables = base.variables.toList()
-                .runIfNotNull(temporaryVariable) {
                     plus(it)
                 }
 
@@ -139,24 +123,6 @@ constructor(
                 .find()
                 .filter {
                     it.id !in usedParameterIds
-                }
-                .deleteAll()
-
-            // Delete orphaned variables
-            val usedVariableIds = variables.map { it.id }
-            get<Variable>("${Variable.FIELD_ID} != $0", Variable.TEMPORARY_ID)
-                .find()
-                .filter {
-                    it.id !in usedVariableIds
-                }
-                .deleteAll()
-
-            // Delete orphaned options
-            val usedOptionIds = variables.flatMap { it.options ?: emptyList() }.map { it.id }
-            get<Option>()
-                .find()
-                .filter {
-                    it.id !in usedOptionIds
                 }
                 .deleteAll()
         }

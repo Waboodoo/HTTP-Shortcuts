@@ -21,6 +21,6 @@ constructor() : VariableType {
         private const val DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss"
 
         fun getTimeFormat(variable: Variable) =
-            variable.dataForType[DateType.KEY_FORMAT] ?: DEFAULT_FORMAT
+            variable.getStringData(DateType.KEY_FORMAT) ?: DEFAULT_FORMAT
     }
 }

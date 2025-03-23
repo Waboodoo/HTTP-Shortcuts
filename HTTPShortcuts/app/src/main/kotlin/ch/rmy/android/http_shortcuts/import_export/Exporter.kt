@@ -7,20 +7,20 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
-import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
 import ch.rmy.android.http_shortcuts.data.models.Header
-import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Parameter
 import ch.rmy.android.http_shortcuts.data.models.Repetition
 import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
@@ -48,6 +48,7 @@ constructor(
     private val context: Context,
     private val appRepository: AppRepository,
     private val appConfigRepository: AppConfigRepository,
+    private val variableRepository: VariableRepository,
     private val certificatePinRepository: CertificatePinRepository,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
     private val getUsedCustomIcons: GetUsedCustomIconsUseCase,
@@ -65,11 +66,15 @@ constructor(
         val base = withContext(Dispatchers.Default) {
             getBase(shortcutIds, variableIds)
                 .applyIf(excludeVariableValuesIfNeeded) {
-                    variables.forEach { variable ->
-                        if (variable.isExcludeValueFromExport) {
-                            variable.value = ""
-                        }
-                    }
+                    copy(
+                        variables = variables.map { variable ->
+                            if (variable.isExcludeValueFromExport) {
+                                variable.copy(value = "")
+                            } else {
+                                variable
+                            }
+                        },
+                    )
                 }
         }
         return withContext(Dispatchers.IO) {
@@ -125,9 +130,10 @@ constructor(
                 category.shortcuts.isEmpty()
             }
         }
-        if (variableIds != null) {
-            realmBase.variables.removeIf { it.id !in variableIds }
-        }
+        val variables = variableRepository.getVariables()
+            .runIfNotNull(variableIds) { variableIds ->
+                filter { it.id in variableIds }
+            }
 
         val appConfig = appConfigRepository.getAppConfig()
         val relevantWorkingDirectoryIds = getUsedWorkingDirectoryIds(realmBase, appConfig)
@@ -136,13 +142,13 @@ constructor(
             version = realmBase.version,
             compatibilityVersion = realmBase.compatibilityVersion,
             categories = realmBase.categories,
-            variables = realmBase.variables,
+            variables = variables,
             certificatePins = certificatePinRepository.getCertificatePins(),
             workingDirectories = workingDirectoryRepository.getWorkingDirectories().filter {
                 it.id in relevantWorkingDirectoryIds
             },
-            title = appConfig.title,
-            globalCode = appConfig.globalCode,
+            title = appConfig.title.takeUnlessEmpty(),
+            globalCode = appConfig.globalCode.takeUnlessEmpty(),
         )
     }
 
@@ -203,11 +209,10 @@ constructor(
         const val JSON_FILE = "shortcuts.json"
 
         private val MODEL_CLASSES = setOf(
-            Base::class,
+            ImportExportBase::class,
             Header::class,
             Parameter::class,
             Shortcut::class,
-            Option::class,
             Variable::class,
             Category::class,
             Section::class,

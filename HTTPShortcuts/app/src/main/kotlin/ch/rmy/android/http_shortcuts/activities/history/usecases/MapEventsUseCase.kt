@@ -43,7 +43,6 @@ constructor() {
             HistoryEventType.NETWORK_ERROR -> getEventData<HistoryEvent.NetworkError>()
             HistoryEventType.ERROR -> getEventData<HistoryEvent.Error>()
             HistoryEventType.CUSTOM_EVENT -> getEventData<HistoryEvent.CustomEvent>()
-            null -> null
         }
 
     private fun HistoryEvent.getTitle(): Localizable =

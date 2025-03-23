@@ -18,7 +18,7 @@ constructor(
             ExecuteDialogState.TextInput(
                 title = variable.title.takeUnlessEmpty()?.toLocalizable(),
                 message = variable.message.takeUnlessEmpty()?.toLocalizable(),
-                initialValue = variable.value?.takeIf { variable.rememberValue } ?: "",
+                initialValue = variable.realValue?.takeIf { variable.rememberValue } ?: "",
                 type = if (variable.isMultiline) {
                     ExecuteDialogState.TextInput.Type.MULTILINE_TEXT
                 } else {

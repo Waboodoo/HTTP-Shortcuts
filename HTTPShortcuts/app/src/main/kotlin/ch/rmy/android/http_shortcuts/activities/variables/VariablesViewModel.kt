@@ -85,7 +85,7 @@ constructor(
             VariableListItem(
                 id = variable.id,
                 key = variable.key,
-                type = StringResLocalizable(variable.variableType.getTypeName()),
+                type = StringResLocalizable(variable.type.getTypeName()),
                 isUnused = usedVariableIds?.contains(variable.id) == false,
             )
         }
@@ -129,7 +129,7 @@ constructor(
         updateDialogState(null)
         val variableId = activeVariableId ?: skipAction()
         val variable = getVariable(variableId) ?: skipAction()
-        navigate(NavigationDestination.VariableEditor.buildRequest(variable.variableType, variableId))
+        navigate(NavigationDestination.VariableEditor.buildRequest(variable.type, variableId))
     }
 
     fun onDuplicateOptionSelected() = runAction {
