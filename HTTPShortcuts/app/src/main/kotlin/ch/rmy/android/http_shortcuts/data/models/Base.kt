@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.models
 
+import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.hasDuplicatesBy
 import ch.rmy.android.http_shortcuts.data.realm.models.Variable as VariableRealmModel
 import io.realm.kotlin.ext.realmListOf
@@ -7,6 +8,12 @@ import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmObject
 
 class Base : RealmObject {
+    @Deprecated("Only used for backwards compatibility")
+    @Keep
+    var version: Long = 0
+    @Deprecated("Only used for backwards compatibility")
+    @Keep
+    var compatibilityVersion: Long = 0
     var categories: RealmList<Category> = realmListOf()
         private set
 

@@ -6,6 +6,7 @@ import androidx.core.net.toUri
 import ch.rmy.android.framework.data.RealmContext
 import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.AppConfig
@@ -40,14 +41,17 @@ constructor(
 
     suspend fun migrateIfNeeded() {
         val version = preferences.getInt(MIGRATION_VERSION_KEY, 0)
+        logInfo("Room migration starting at version $version")
         if (version != MIGRATION_VERSION) {
             val realmContext = realmFactory.getRealmContext()
             if (version < 1) {
                 migrateToVersion1(realmContext)
             }
+            logInfo("Room migration to version 1 complete")
             if (version < 2) {
                 migrateToVersion2(realmContext)
             }
+            logInfo("Room migration to version 2 complete")
             preferences.edit {
                 putInt(MIGRATION_VERSION_KEY, MIGRATION_VERSION)
             }
@@ -57,6 +61,7 @@ constructor(
 
     private suspend fun migrateToVersion1(realmContext: RealmContext) {
         val widgetDao = database.widgetDao()
+        logInfo("Migrating widgets")
         realmContext
             .get<WidgetRealmModel>()
             .find()
@@ -76,6 +81,7 @@ constructor(
                 }
             }
 
+        logInfo("Migrating app lock")
         val appLock = realmContext.get<AppLockRealmModel>()
             .find()
             .firstOrNull()
@@ -90,6 +96,7 @@ constructor(
     }
 
     private suspend fun migrateToVersion2(realmContext: RealmContext) {
+        logInfo("Migrating certificate pins")
         val certificatePinDao = database.certificatePinDao()
         realmContext
             .get<CertificatePinRealmModel>()
@@ -104,6 +111,7 @@ constructor(
                 )
             }
 
+        logInfo("Migrating working directories")
         val workingDirectoryDao = database.workingDirectoryDao()
         realmContext
             .get<WorkingDirectoryRealmModel>()
@@ -119,6 +127,7 @@ constructor(
                 )
             }
 
+        logInfo("Migrating app config")
         val appConfigDao = database.appConfigDao()
         realmContext
             .get<Base>()
@@ -133,6 +142,7 @@ constructor(
                 )
             }
 
+        logInfo("Migrating variables")
         val variableDao = database.variableDao()
         realmContext
             .get<Base>()

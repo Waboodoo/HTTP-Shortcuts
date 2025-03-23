@@ -6,6 +6,7 @@ import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.data.RealmUnavailableException
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.utils.FileUtil.getUriFromFile
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.R
@@ -52,9 +53,11 @@ class RealmFactoryImpl private constructor() : RealmFactory {
 
         fun init(context: Context) {
             if (instance != null) {
+                logInfo("RealmFactoryImpl.init called unnecessarily")
                 return
             }
 
+            logInfo("initializing Realm")
             var backupFile: File? = null
             try {
                 val configuration = createConfiguration(context)
@@ -62,9 +65,13 @@ class RealmFactoryImpl private constructor() : RealmFactory {
                 if (!backupFile.exists()) {
                     File(configuration.path).takeIf { it.exists() }?.copyTo(backupFile)
                 }
+                logInfo("Creating RealmFactoryImpl instance")
                 instance = RealmFactoryImpl()
+                logInfo("Creating Realm instance")
                 realmInstance = Realm.open(configuration)
+                logInfo("Realm initialized")
             } catch (e: Exception) {
+                logInfo("Failed to initialize Realm: $e")
                 logException(e)
                 realmError = if (
                     e is IllegalStateException &&

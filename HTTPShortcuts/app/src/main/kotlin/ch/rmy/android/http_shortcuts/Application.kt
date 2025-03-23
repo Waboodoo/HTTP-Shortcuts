@@ -48,8 +48,10 @@ class Application : android.app.Application(), Configuration.Provider {
         GlobalLogger.registerLogging(Logging)
 
         RealmFactoryImpl.init(applicationContext)
-        CoroutineScope(Dispatchers.IO).launch {
-            realmToRoomMigration.migrateIfNeeded()
+        if (RealmFactoryImpl.realmError == null) {
+            CoroutineScope(Dispatchers.IO).launch {
+                realmToRoomMigration.migrateIfNeeded()
+            }
         }
 
         DarkThemeHelper.applyDarkThemeSettings(Settings(context).darkThemeSetting)
