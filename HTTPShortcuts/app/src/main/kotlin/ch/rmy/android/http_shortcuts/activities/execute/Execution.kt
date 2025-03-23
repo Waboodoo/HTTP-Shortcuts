@@ -24,6 +24,7 @@ import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
@@ -57,7 +58,6 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import io.realm.kotlin.ext.copyFromRealm
 import java.util.concurrent.Executors
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
@@ -95,6 +95,8 @@ class Execution(
         get() = entryPoint.appRepository()
     private val appConfigRepository: AppConfigRepository
         get() = entryPoint.appConfigRepository()
+    private val variableRepository: VariableRepository
+        get() = entryPoint.variableRepository()
     private val variableResolver: VariableResolver
         get() = entryPoint.variableResolver()
     private val launcherShortcutManager: LauncherShortcutManager
@@ -229,7 +231,7 @@ class Execution(
         checkWifiSSID(shortcutName, shortcut.wifiSsid, dialogHandle)
 
         val variableManager = VariableManager(
-            variables = base.variables.map { it.copyFromRealm() },
+            variables = variableRepository.getVariables(),
             preResolvedValues = params.variableValues,
         )
 
@@ -432,6 +434,7 @@ class Execution(
         fun pendingExecutionsRepository(): PendingExecutionsRepository
         fun appRepository(): AppRepository
         fun appConfigRepository(): AppConfigRepository
+        fun variableRepository(): VariableRepository
         fun variableResolver(): VariableResolver
         fun launcherShortcutManager(): LauncherShortcutManager
         fun requestSimpleConfirmation(): RequestSimpleConfirmationUseCase

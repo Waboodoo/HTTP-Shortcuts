@@ -44,7 +44,7 @@ fun Variable.toVariablePlaceholder() =
     VariablePlaceholder(
         variableId = id,
         variableKey = key,
-        variableType = variableType,
+        variableType = type,
     )
 
 fun CertificatePinModel.toCertificatePin(): HttpCertificatePin =

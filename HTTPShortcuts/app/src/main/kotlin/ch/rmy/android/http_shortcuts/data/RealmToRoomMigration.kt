@@ -5,11 +5,13 @@ import androidx.core.content.edit
 import androidx.core.net.toUri
 import ch.rmy.android.framework.data.RealmContext
 import ch.rmy.android.framework.data.RealmFactory
-import ch.rmy.android.framework.extensions.toInstant
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.AppConfig
 import ch.rmy.android.http_shortcuts.data.models.AppLock
 import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import ch.rmy.android.http_shortcuts.data.realm.AppLock as AppLockRealmModel
@@ -17,8 +19,13 @@ import ch.rmy.android.http_shortcuts.data.realm.CertificatePin as CertificatePin
 import ch.rmy.android.http_shortcuts.data.realm.Widget as WidgetRealmModel
 import ch.rmy.android.http_shortcuts.data.realm.WorkingDirectory as WorkingDirectoryRealmModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import io.realm.kotlin.types.RealmInstant
+import java.time.Instant
 import javax.inject.Inject
 import kotlinx.coroutines.CompletableDeferred
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 
 class RealmToRoomMigration
 @Inject
@@ -124,7 +131,56 @@ constructor(
                     ),
                 )
             }
+
+        val variableDao = database.variableDao()
+        realmContext
+            .get<Base>()
+            .find()
+            .firstOrNull()
+            ?.variables
+            ?.mapIndexed { index, variable ->
+                Variable(
+                    id = variable.id,
+                    key = variable.key,
+                    type = VariableType.parse(variable.type),
+                    value = variable.value,
+                    data = run {
+                        val data = variable.data?.let { json ->
+                            try {
+                                JSONObject(json).getJSONObject(variable.type)
+                            } catch (e: JSONException) {
+                                logException(e)
+                                null
+                            }
+                        }
+                            ?: JSONObject()
+                        if (variable.options != null && (variable.type == "select" || variable.type == "toggle")) {
+                            if (variable.type == "select") {
+                                data.put("labels", JSONArray(variable.options!!.map { it.label }))
+                            }
+                            data.put("values", JSONArray(variable.options!!.map { it.value }))
+                        }
+                        data.toString().takeUnless { it == "{}" }
+                    },
+                    rememberValue = variable.rememberValue,
+                    urlEncode = variable.urlEncode,
+                    jsonEncode = variable.jsonEncode,
+                    title = variable.title,
+                    message = variable.message,
+                    isShareText = variable.flags and 0x1 != 0,
+                    isShareTitle = variable.flags and 0x4 != 0,
+                    isMultiline = variable.flags and 0x2 != 0,
+                    isExcludeValueFromExport = variable.flags and 0x8 != 0,
+                    sortingOrder = index,
+                )
+            }
+            ?.let { variables ->
+                variableDao.insertAll(variables)
+            }
     }
+
+    private fun RealmInstant.toInstant(): Instant =
+        Instant.ofEpochSecond(epochSeconds, nanosecondsOfSecond.toLong())
 
     companion object {
         private const val PREFERENCES_NAME = "http_shortcuts.realm_to_room_preferences"

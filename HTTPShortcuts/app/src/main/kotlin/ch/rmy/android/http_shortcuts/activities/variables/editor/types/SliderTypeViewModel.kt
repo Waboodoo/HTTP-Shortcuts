@@ -23,7 +23,7 @@ class SliderTypeViewModel : BaseTypeViewModel() {
     override suspend fun save(temporaryVariableRepository: TemporaryVariableRepository, viewState: VariableTypeViewState) {
         viewState as SliderTypeViewState
         temporaryVariableRepository.setRememberValue(viewState.rememberValue)
-        temporaryVariableRepository.setDataForType(
+        temporaryVariableRepository.setData(
             SliderType.getData(
                 maxValue = viewState.maxValue,
                 minValue = viewState.minValue,

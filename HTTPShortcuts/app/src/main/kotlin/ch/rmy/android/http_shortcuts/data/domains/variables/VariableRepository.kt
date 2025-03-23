@@ -1,132 +1,79 @@
 package ch.rmy.android.http_shortcuts.data.domains.variables
 
-import ch.rmy.android.framework.data.BaseRealmRepository
-import ch.rmy.android.framework.data.RealmFactory
-import ch.rmy.android.framework.data.RealmTransactionContext
-import ch.rmy.android.framework.extensions.swap
-import ch.rmy.android.framework.utils.UUIDUtils.newUUID
+import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.http_shortcuts.data.Database
-import ch.rmy.android.http_shortcuts.data.domains.getBase
-import ch.rmy.android.http_shortcuts.data.domains.getTemporaryVariable
-import ch.rmy.android.http_shortcuts.data.domains.getVariableById
-import ch.rmy.android.http_shortcuts.data.domains.getVariableByKeyOrId
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import io.realm.kotlin.ext.copyFromRealm
+import ch.rmy.android.http_shortcuts.import_export.Importer
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 class VariableRepository
 @Inject
 constructor(
     database: Database,
-    realmFactory: RealmFactory,
-) : BaseRealmRepository(database, realmFactory) {
+) : BaseRepository(database) {
 
     suspend fun getVariableByKeyOrId(keyOrId: VariableKeyOrId): Variable =
-        queryItem {
-            getVariableByKeyOrId(keyOrId)
-        }
+        get(Database::variableDao)
+            .getByKeyOrId(keyOrId)
+            .first()
 
     fun observeVariables(): Flow<List<Variable>> =
-        observeList {
-            getBase().findFirst()!!.variables
+        flow(Database::variableDao) {
+            observe()
+                .distinctUntilChanged()
         }
 
     suspend fun getVariables(): List<Variable> =
-        queryItem {
-            getBase()
-        }
-            .variables
+        get(Database::variableDao).get()
 
     suspend fun setVariableValue(variableId: VariableId, value: String) {
-        commitTransaction {
-            getVariableById(variableId)
-                .findFirst()
-                ?.value = value
-        }
+        get(Database::variableDao)
+            .update(variableId) {
+                it.copy(
+                    value = value,
+                )
+            }
     }
 
     suspend fun moveVariable(variableId1: VariableId, variableId2: VariableId) {
-        commitTransaction {
-            getBase()
-                .findFirst()
-                ?.variables
-                ?.swap(variableId1, variableId2) { id }
-        }
+        get(Database::variableDao).swap(variableId1, variableId2)
     }
 
     suspend fun duplicateVariable(variableId: VariableId, newKey: String) {
-        commitTransaction {
-            val oldVariable = getVariableById(variableId)
-                .findFirst()
-                ?: return@commitTransaction
-            val newVariable = oldVariable.copyFromRealm()
-            newVariable.id = newUUID()
-            newVariable.key = newKey
-            newVariable.options?.forEach {
-                it.id = newUUID()
-            }
-
-            val base = getBase()
-                .findFirst()
-                ?: return@commitTransaction
-            val oldPosition = base.variables.indexOfFirst { it.id == oldVariable.id }
-            val newPersistedVariable = copyOrUpdate(newVariable)
-            base.variables.add(oldPosition + 1, newPersistedVariable)
-        }
+        get(Database::variableDao)
+            .duplicate(variableId, newKey)
     }
 
     suspend fun deleteVariable(variableId: VariableId) {
-        commitTransaction {
-            getVariableById(variableId)
-                .findFirst()
-                ?.apply {
-                    options?.deleteAll()
-                    delete()
-                }
-        }
+        get(Database::variableDao)
+            .delete(variableId)
     }
 
     suspend fun createTemporaryVariableFromVariable(variableId: VariableId) {
-        commitTransaction {
-            val variable = getVariableById(variableId)
-                .findFirst()!!
-            copyVariable(variable, Variable.TEMPORARY_ID)
-        }
+        get(Database::variableDao)
+            .update(variableId) {
+                it.copy(id = Variable.TEMPORARY_ID)
+            }
     }
 
     suspend fun copyTemporaryVariableToVariable(variableId: VariableId) {
-        commitTransaction {
-            val temporaryVariable = getTemporaryVariable()
-                .findFirst() ?: return@commitTransaction
-            val variable = copyVariable(temporaryVariable, variableId)
-            val base = getBase()
-                .findFirst() ?: return@commitTransaction
-            if (base.variables.none { it.id == variableId }) {
-                base.variables.add(variable)
-            }
-        }
+        get(Database::variableDao)
+            .saveTemporaryVariable(variableId)
     }
 
-    private fun RealmTransactionContext.copyVariable(sourceVariable: Variable, targetVariableId: VariableId): Variable =
-        sourceVariable.copyFromRealm()
-            .apply {
-                id = targetVariableId
-                options?.forEach { option ->
-                    option.id = newUUID()
-                }
-            }
-            .let(::copyOrUpdate)
-
     suspend fun sortVariablesAlphabetically() {
-        commitTransaction {
-            val base = getBase()
-                .findFirst()
-                ?: return@commitTransaction
+        get(Database::variableDao)
+            .sortAlphabetically()
+    }
 
-            val sortedVariables = base.variables.sortedBy { it.key.lowercase() }
-            base.variables.clear()
-            base.variables.addAll(sortedVariables)
+    suspend fun import(variables: List<Variable>, mode: Importer.ImportMode) {
+        with(get(Database::variableDao)) {
+            when (mode) {
+                Importer.ImportMode.MERGE -> mergeAll(variables)
+                Importer.ImportMode.REPLACE -> replaceAll(variables)
+            }
         }
     }
 }

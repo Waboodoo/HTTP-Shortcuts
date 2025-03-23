@@ -24,7 +24,7 @@ constructor(
         val selectedTime = dialogHandle.showDialog(
             ExecuteDialogState.TimePicker(
                 title = variable.title.takeUnlessEmpty(),
-                initialTime = getInitialTime(variable.value.takeIf { variable.rememberValue }),
+                initialTime = getInitialTime(variable.realValue.takeIf { variable.rememberValue }),
             ),
         )
         if (variable.rememberValue) {
@@ -53,6 +53,6 @@ constructor(
         private val TIME_FORMAT = DateTimeFormatter.ofPattern("HH-mm", Locale.US)
 
         fun getTimeFormat(variable: Variable) =
-            variable.dataForType[DateType.KEY_FORMAT] ?: DEFAULT_FORMAT
+            variable.getStringData(DateType.KEY_FORMAT) ?: DEFAULT_FORMAT
     }
 }

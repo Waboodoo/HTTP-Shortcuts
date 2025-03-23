@@ -10,6 +10,8 @@ import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
+import ch.rmy.android.http_shortcuts.variables.types.SelectType
+import ch.rmy.android.http_shortcuts.variables.types.ToggleType
 import javax.inject.Inject
 
 class GetUsedVariableIdsUseCase
@@ -46,18 +48,23 @@ constructor(
         variables.flatMap(::getVariablesInUseInVariable)
 
     private fun getVariablesInUseInVariable(variable: Variable): Set<VariableId> =
-        when (variable.variableType) {
-            VariableType.CONSTANT -> variable.value?.let(Variables::extractVariableIds) ?: emptySet()
-            VariableType.SELECT,
-            VariableType.TOGGLE,
-            -> {
-                variable.options
-                    ?.flatMap { option ->
-                        Variables.extractVariableIds(option.value)
+        when (variable.type) {
+            VariableType.CONSTANT -> variable.value?.let(Variables::extractVariableIds)
+            VariableType.SELECT -> {
+                variable.getStringListData(SelectType.KEY_VALUES)
+                    ?.flatMap { value ->
+                        Variables.extractVariableIds(value)
                     }
                     ?.toSet()
-                    ?: emptySet()
             }
-            else -> emptySet()
+            VariableType.TOGGLE -> {
+                variable.getStringListData(ToggleType.KEY_VALUES)
+                    ?.flatMap { value ->
+                        Variables.extractVariableIds(value)
+                    }
+                    ?.toSet()
+            }
+            else -> null
         }
+            ?: emptySet()
 }

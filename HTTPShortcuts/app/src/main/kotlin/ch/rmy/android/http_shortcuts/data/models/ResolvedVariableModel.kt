@@ -8,7 +8,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 
 @Entity(tableName = "resolved_variable")
 data class ResolvedVariableModel(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Int = 0,
     @ColumnInfo(name = "pending_execution_id")

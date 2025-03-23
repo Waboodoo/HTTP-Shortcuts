@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.migration.ImportMigrator
 import ch.rmy.android.http_shortcuts.data.migration.ImportVersionMismatchException
@@ -40,6 +41,7 @@ constructor(
     private val context: Context,
     private val appRepository: AppRepository,
     private val appConfigRepository: AppConfigRepository,
+    private val variableRepository: VariableRepository,
     private val certificatePinRepository: CertificatePinRepository,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
 ) {
@@ -105,6 +107,7 @@ constructor(
                 newBase.validate()
                 appRepository.import(newBase, importMode)
                 appConfigRepository.import(newBase, importMode)
+                variableRepository.import(newBase.variables, importMode)
                 certificatePinRepository.import(newBase.certificatePins, importMode)
                 workingDirectoryRepository.import(newBase.workingDirectories, importMode)
             } catch (e: IllegalArgumentException) {

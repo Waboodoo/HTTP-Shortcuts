@@ -23,7 +23,7 @@ constructor(
         val selectedDate = dialogHandle.showDialog(
             ExecuteDialogState.DatePicker(
                 title = variable.title.takeUnlessEmpty(),
-                initialDate = getInitialDate(variable.value.takeIf { variable.rememberValue }),
+                initialDate = getInitialDate(variable.realValue.takeIf { variable.rememberValue }),
             ),
         )
 
@@ -53,6 +53,6 @@ constructor(
         internal val DATE_FORMAT: DateTimeFormatter = DateTimeFormatter.ofPattern(DEFAULT_FORMAT, Locale.US)
 
         fun getDateFormat(variable: Variable) =
-            variable.dataForType[KEY_FORMAT] ?: DEFAULT_FORMAT
+            variable.getStringData(KEY_FORMAT) ?: DEFAULT_FORMAT
     }
 }

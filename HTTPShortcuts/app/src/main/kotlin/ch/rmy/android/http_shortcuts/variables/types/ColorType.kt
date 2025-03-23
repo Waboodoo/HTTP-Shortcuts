@@ -30,6 +30,6 @@ constructor(
     }
 
     private fun getInitialColor(variable: Variable): Int =
-        variable.takeIf { it.rememberValue }?.value?.hexStringToColorInt()
+        variable.takeIf { it.rememberValue }?.realValue?.hexStringToColorInt()
             ?: Color.WHITE
 }

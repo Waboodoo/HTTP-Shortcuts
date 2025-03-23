@@ -1,37 +1,25 @@
 package ch.rmy.android.http_shortcuts.variables
 
-import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIf
-import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import io.realm.kotlin.ext.copyFromRealm
-import io.realm.kotlin.ext.isManaged
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 import org.json.JSONObject
 
 class VariableManager(
-    variables: List<Variable>,
+    val variables: List<Variable>,
     preResolvedValues: Map<VariableKey, String> = emptyMap(),
 ) : VariableLookup {
+    private val variablesById: Map<VariableId, Variable> = variables.associateBy { it.id }
 
-    val variables: List<Variable>
-
-    private val variablesById: Map<VariableId, Variable>
-
-    private val variablesByKey: Map<VariableKey, Variable>
+    private val variablesByKey: Map<VariableKey, Variable> = variables.associateBy { it.key }
 
     private val variableValuesById = mutableMapOf<String, String>()
 
     init {
-        val detachedVariables = variables.map { if (it.isManaged()) it.copyFromRealm() else it }
-        this.variables = detachedVariables
-        variablesById = detachedVariables.associateBy { it.id }
-        variablesByKey = detachedVariables.associateBy { it.key }
-
         preResolvedValues.forEach { (variableKeyOrId, value) ->
             val variable = getVariableByKeyOrId(variableKeyOrId) ?: return@forEach
             variableValuesById[variable.id] = encodeValue(variable, value)
@@ -67,10 +55,7 @@ class VariableManager(
             }
 
     fun setVariableValue(variable: Variable, value: String, storeOnly: Boolean = false) {
-        tryOrLog {
-            logInfo("Updating variable in-memory, managed = ${variable.isManaged()}")
-            variable.value = value
-        }
+        variable.valueOverride = value
         if (!storeOnly) {
             variableValuesById[variable.id] = encodeValue(variable, value)
         }

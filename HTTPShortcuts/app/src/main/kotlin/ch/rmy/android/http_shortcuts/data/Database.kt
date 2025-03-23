@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.data.dao.AppLockDao
 import ch.rmy.android.http_shortcuts.data.dao.CertificatePinDao
 import ch.rmy.android.http_shortcuts.data.dao.HistoryEventDao
 import ch.rmy.android.http_shortcuts.data.dao.PendingExecutionDao
+import ch.rmy.android.http_shortcuts.data.dao.VariableDao
 import ch.rmy.android.http_shortcuts.data.dao.WidgetDao
 import ch.rmy.android.http_shortcuts.data.dao.WorkingDirectoryDao
 import ch.rmy.android.http_shortcuts.data.models.AppConfig
@@ -17,6 +18,7 @@ import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.HistoryEvent
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import ch.rmy.android.http_shortcuts.data.models.ResolvedVariableModel
+import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 
@@ -28,6 +30,7 @@ import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
         HistoryEvent::class,
         PendingExecutionModel::class,
         ResolvedVariableModel::class,
+        Variable::class,
         Widget::class,
         WorkingDirectory::class,
     ],
@@ -44,6 +47,7 @@ abstract class Database : RoomDatabase() {
     abstract fun certificatePinDao(): CertificatePinDao
     abstract fun historyEventDao(): HistoryEventDao
     abstract fun pendingExecutionDao(): PendingExecutionDao
+    abstract fun variableDao(): VariableDao
     abstract fun widgetDao(): WidgetDao
     abstract fun workingDirectoryDao(): WorkingDirectoryDao
 }

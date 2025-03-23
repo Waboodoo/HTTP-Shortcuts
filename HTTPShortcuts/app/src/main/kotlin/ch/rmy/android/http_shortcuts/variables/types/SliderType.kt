@@ -21,7 +21,7 @@ constructor(
             ExecuteDialogState.NumberSlider(
                 title = variable.title.takeUnlessEmpty()?.toLocalizable(),
                 message = variable.message.takeUnlessEmpty()?.toLocalizable(),
-                initialValue = variable.value?.takeIf { variable.rememberValue }?.toFloatOrNull(),
+                initialValue = variable.realValue?.takeIf { variable.rememberValue }?.toFloatOrNull(),
                 min = variable.findMin(),
                 max = variable.findMax(),
                 stepSize = variable.findStep(),
@@ -53,22 +53,22 @@ constructor(
         const val DEFAULT_STEP = 1.0f
 
         fun Variable.findMax(): Float =
-            dataForType[KEY_MAX]?.toFloatOrNull() ?: DEFAULT_MAX
+            getStringData(KEY_MAX)?.toFloatOrNull() ?: DEFAULT_MAX
 
         fun Variable.findMin(): Float =
-            dataForType[KEY_MIN]?.toFloatOrNull() ?: DEFAULT_MIN
+            getStringData(KEY_MIN)?.toFloatOrNull() ?: DEFAULT_MIN
 
         fun Variable.findStep(): Float =
-            dataForType[KEY_STEP]?.toFloatOrNull() ?: DEFAULT_STEP
+            getStringData(KEY_STEP)?.toFloatOrNull() ?: DEFAULT_STEP
 
         fun Variable.isIntsOnly() =
             findMin().toString().endsWith(".0") && findMax().toString().endsWith(".0") && findStep().toString().endsWith(".0")
 
         fun Variable.findPrefix(): String =
-            dataForType[KEY_PREFIX] ?: ""
+            getStringData(KEY_PREFIX) ?: ""
 
         fun Variable.findSuffix(): String =
-            dataForType[KEY_SUFFIX] ?: ""
+            getStringData(KEY_SUFFIX) ?: ""
 
         fun getData(maxValue: Float, minValue: Float, stepValue: Float, prefix: String, suffix: String) = mapOf(
             KEY_MAX to maxValue.toString(),

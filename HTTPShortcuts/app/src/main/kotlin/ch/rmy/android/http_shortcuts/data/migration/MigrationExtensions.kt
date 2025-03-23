@@ -26,6 +26,9 @@ fun JsonObject.getObjectArray(key: String): Iterable<JsonObject> =
 fun JsonObject.getString(key: String): String? =
     get(key)?.takeIf { it.isJsonPrimitive }?.asString
 
+fun JsonObject.getInt(key: String): Int? =
+    get(key)?.takeIf { it.isJsonPrimitive }?.asInt
+
 fun JsonObject.getObject(key: String): JsonObject? =
     get(key)?.takeIf { it.isJsonObject }?.asJsonObject
 

@@ -1,21 +1,22 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor.types
 
+import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryVariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Option
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.variables.types.ToggleType
 
 class ToggleTypeViewModel : BaseTypeViewModel() {
 
     override fun createViewState(variable: Variable) = ToggleTypeViewState(
-        options = variable.options?.map { ToggleTypeViewState.OptionItem(it.id, it.value) } ?: emptyList(),
+        options = variable.getStringListData(ToggleType.KEY_VALUES)?.map { ToggleTypeViewState.OptionItem(newUUID(), it) } ?: emptyList(),
     )
 
     override suspend fun save(temporaryVariableRepository: TemporaryVariableRepository, viewState: VariableTypeViewState) {
         viewState as ToggleTypeViewState
-        temporaryVariableRepository.setOptions(
-            viewState.options.map {
-                Option(id = it.id, value = it.text)
-            },
+        temporaryVariableRepository.setData(
+            mapOf(
+                ToggleType.KEY_VALUES to viewState.options.map { it.text },
+            ),
         )
     }
 

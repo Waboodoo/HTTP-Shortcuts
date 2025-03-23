@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.models
 
 import ch.rmy.android.framework.extensions.hasDuplicatesBy
+import ch.rmy.android.http_shortcuts.data.realm.Variable as VariableRealmModel
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmObject
@@ -10,7 +11,9 @@ class Base : RealmObject {
     var compatibilityVersion: Long = 0
     var categories: RealmList<Category> = realmListOf()
         private set
-    var variables: RealmList<Variable> = realmListOf()
+
+    @Deprecated("Only used in Realm-to-Room migration")
+    var variables: RealmList<VariableRealmModel> = realmListOf()
         private set
 
     val shortcuts: List<Shortcut>
@@ -24,18 +27,8 @@ class Base : RealmObject {
 
     fun validate() {
         categories.forEach(Category::validate)
-        variables.forEach(Variable::validate)
         require(!categories.hasDuplicatesBy { it.id }) {
             "Duplicate category IDs"
-        }
-        require(!variables.hasDuplicatesBy { it.id }) {
-            "Duplicate variable IDs"
-        }
-        require(!variables.flatMap { it.options ?: emptyList() }.hasDuplicatesBy { it.id }) {
-            "Duplicate variable option IDs"
-        }
-        require(!variables.hasDuplicatesBy { it.key }) {
-            "Duplicate variable keys"
         }
         require(!shortcuts.hasDuplicatesBy { it.id }) {
             "Duplicate shortcut IDs"

@@ -49,7 +49,7 @@ constructor(
             return
         }
 
-        val variableType = variableTypeFactory.getType(variable.variableType)
+        val variableType = variableTypeFactory.getType(variable.type)
         val rawValue = variableType.resolve(variable, dialogHandle)
 
         Variables.extractVariableIds(rawValue)
