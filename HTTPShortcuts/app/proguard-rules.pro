@@ -1,4 +1,6 @@
+-keep class ch.rmy.android.http_shortcuts.import_export.ImportExportBase { *; }
 -keep class ch.rmy.android.http_shortcuts.data.models.** { *; }
+-keep class ch.rmy.android.http_shortcuts.data.realm.models.** { *; }
 -keep class ch.rmy.android.http_shortcuts.activities.contact.MetaData { *; }
 -keep class ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams { *; }
 -keep class ch.rmy.android.http_shortcuts.http.FileUploadManager$Result { *; }
@@ -24,3 +26,9 @@
 -dontwarn org.openjsse.javax.net.ssl.SSLParameters
 -dontwarn org.openjsse.javax.net.ssl.SSLSocket
 -dontwarn org.openjsse.net.ssl.OpenJSSE
+
+-keep class androidx.room.RoomDatabase { *; }
+-keep class androidx.room.Room { *; }
+-keep class android.arch.** { *; }
+-keep @androidx.room.Entity class *
+-dontwarn androidx.room.paging.**
