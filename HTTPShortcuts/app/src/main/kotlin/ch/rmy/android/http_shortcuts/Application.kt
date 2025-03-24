@@ -47,10 +47,10 @@ class Application : android.app.Application(), Configuration.Provider {
         Logging.initCrashReporting(context)
         GlobalLogger.registerLogging(Logging)
 
-        RealmFactoryImpl.init(applicationContext)
-        if (RealmFactoryImpl.realmError == null) {
+        val realm = RealmFactoryImpl.init(applicationContext)
+        if (realm != null) {
             CoroutineScope(Dispatchers.IO).launch {
-                realmToRoomMigration.migrateIfNeeded()
+                realmToRoomMigration.migrateIfNeeded(realm)
             }
         }
 

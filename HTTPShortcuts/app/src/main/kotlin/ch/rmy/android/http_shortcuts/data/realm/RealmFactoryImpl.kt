@@ -7,7 +7,6 @@ import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.data.RealmUnavailableException
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
-import ch.rmy.android.framework.utils.FileUtil.getUriFromFile
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.DatabaseSchema
@@ -29,7 +28,6 @@ import ch.rmy.android.http_shortcuts.data.realm.models.WorkingDirectory
 import io.realm.kotlin.MutableRealm
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
-import java.io.File
 
 class RealmFactoryImpl private constructor() : RealmFactory {
 
@@ -51,26 +49,22 @@ class RealmFactoryImpl private constructor() : RealmFactory {
         var realmError: RealmError? = null
             private set
 
-        fun init(context: Context) {
+        fun init(context: Context): Realm? {
             if (instance != null) {
                 logInfo("RealmFactoryImpl.init called unnecessarily")
-                return
+                return realmInstance
             }
 
             logInfo("initializing Realm")
-            var backupFile: File? = null
             try {
                 val configuration = createConfiguration(context)
-                backupFile = File("${configuration.path}.backup-copy")
-                if (!backupFile.exists()) {
-                    File(configuration.path).takeIf { it.exists() }?.copyTo(backupFile)
-                }
                 logInfo("Creating RealmFactoryImpl instance")
                 instance = RealmFactoryImpl()
                 logInfo("Creating Realm instance")
                 realmInstance = Realm.open(configuration)
                 logInfo("Realm initialized")
             } catch (e: Exception) {
+                instance = null
                 logInfo("Failed to initialize Realm: $e")
                 logException(e)
                 realmError = if (
@@ -80,15 +74,6 @@ class RealmFactoryImpl private constructor() : RealmFactory {
                     RealmError.Downgrade
                 } else if (
                     e is IllegalStateException &&
-                    e.message?.startsWith("Could not open Realm with the given configuration") == true &&
-                    backupFile != null
-                ) {
-                    val backupCacheFile = File(context.cacheDir, "db_backup")
-                    backupCacheFile.delete()
-                    backupFile.copyTo(backupCacheFile)
-                    RealmError.ConfigurationError(getUriFromFile(context, backupCacheFile))
-                } else if (
-                    e is IllegalStateException &&
                     e.message?.contains("RLM_ERR_OUT_OF_DISK_SPACE") == true
                 ) {
                     RealmError.OutOfDiskSpace
@@ -96,6 +81,7 @@ class RealmFactoryImpl private constructor() : RealmFactory {
                     RealmError.RealmNotFound
                 }
             }
+            return realmInstance
         }
 
         fun getInstance(): RealmFactory = instance!!

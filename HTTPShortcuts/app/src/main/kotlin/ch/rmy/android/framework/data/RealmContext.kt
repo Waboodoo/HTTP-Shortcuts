@@ -9,6 +9,7 @@ import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.TypedRealmObject
 import kotlin.reflect.KClass
 
+@Deprecated("Use Room instead")
 open class RealmContext(private val realmInstance: TypedRealm) {
 
     inline fun <reified T : RealmObject> get(query: String = TRUE_PREDICATE, vararg args: Any?): RealmQuery<T> =
@@ -21,6 +22,7 @@ open class RealmContext(private val realmInstance: TypedRealm) {
         first().find()
 }
 
+@Deprecated("Use Room instead")
 class RealmTransactionContext(private val realmInstance: MutableRealm) : RealmContext(realmInstance) {
 
     fun <T : RealmObject> copy(`object`: T): T =
@@ -45,9 +47,5 @@ class RealmTransactionContext(private val realmInstance: MutableRealm) : RealmCo
             .forEach {
                 it.delete()
             }
-    }
-
-    fun <T : TypedRealmObject> RealmQuery<T>.deleteAll() {
-        find().deleteAll()
     }
 }

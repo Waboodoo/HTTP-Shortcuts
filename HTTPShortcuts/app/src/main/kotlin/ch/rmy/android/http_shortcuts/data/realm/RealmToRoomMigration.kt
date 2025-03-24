@@ -3,8 +3,6 @@ package ch.rmy.android.http_shortcuts.data.realm
 import android.content.Context
 import androidx.core.content.edit
 import androidx.core.net.toUri
-import ch.rmy.android.framework.data.RealmContext
-import ch.rmy.android.framework.data.RealmFactory
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.http_shortcuts.data.Database
@@ -21,6 +19,8 @@ import ch.rmy.android.http_shortcuts.data.realm.models.CertificatePin as Certifi
 import ch.rmy.android.http_shortcuts.data.realm.models.Widget as WidgetRealmModel
 import ch.rmy.android.http_shortcuts.data.realm.models.WorkingDirectory as WorkingDirectoryRealmModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import io.realm.kotlin.Realm
+import io.realm.kotlin.ext.query
 import io.realm.kotlin.types.RealmInstant
 import java.time.Instant
 import javax.inject.Inject
@@ -34,22 +34,20 @@ class RealmToRoomMigration
 constructor(
     @ApplicationContext
     private val context: Context,
-    private val realmFactory: RealmFactory,
     private val database: Database,
 ) {
     private val preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
 
-    suspend fun migrateIfNeeded() {
+    suspend fun migrateIfNeeded(realm: Realm) {
         val version = preferences.getInt(MIGRATION_VERSION_KEY, 0)
         logInfo("Room migration starting at version $version")
         if (version != MIGRATION_VERSION) {
-            val realmContext = realmFactory.getRealmContext()
             if (version < 1) {
-                migrateToVersion1(realmContext)
+                migrateToVersion1(realm)
             }
             logInfo("Room migration to version 1 complete")
             if (version < 2) {
-                migrateToVersion2(realmContext)
+                migrateToVersion2(realm)
             }
             logInfo("Room migration to version 2 complete")
             preferences.edit {
@@ -59,11 +57,11 @@ constructor(
         migrationDone.complete(Unit)
     }
 
-    private suspend fun migrateToVersion1(realmContext: RealmContext) {
+    private suspend fun migrateToVersion1(realm: Realm) {
         val widgetDao = database.widgetDao()
         logInfo("Migrating widgets")
-        realmContext
-            .get<WidgetRealmModel>()
+
+        realm.query<WidgetRealmModel>()
             .find()
             .forEach { widget ->
                 val shortcutId = widget.shortcut?.id
@@ -82,7 +80,7 @@ constructor(
             }
 
         logInfo("Migrating app lock")
-        val appLock = realmContext.get<AppLockRealmModel>()
+        val appLock = realm.query<AppLockRealmModel>()
             .find()
             .firstOrNull()
         if (appLock != null) {
@@ -95,11 +93,10 @@ constructor(
         }
     }
 
-    private suspend fun migrateToVersion2(realmContext: RealmContext) {
+    private suspend fun migrateToVersion2(realm: Realm) {
         logInfo("Migrating certificate pins")
         val certificatePinDao = database.certificatePinDao()
-        realmContext
-            .get<CertificatePinRealmModel>()
+        realm.query<CertificatePinRealmModel>()
             .find()
             .forEach { certificatePin ->
                 certificatePinDao.insert(
@@ -113,8 +110,7 @@ constructor(
 
         logInfo("Migrating working directories")
         val workingDirectoryDao = database.workingDirectoryDao()
-        realmContext
-            .get<WorkingDirectoryRealmModel>()
+        realm.query<WorkingDirectoryRealmModel>()
             .find()
             .forEach { workingDirectory ->
                 workingDirectoryDao.insert(
@@ -129,8 +125,7 @@ constructor(
 
         logInfo("Migrating app config")
         val appConfigDao = database.appConfigDao()
-        realmContext
-            .get<Base>()
+        realm.query<Base>()
             .find()
             .firstOrNull()
             ?.let { base ->
@@ -144,8 +139,7 @@ constructor(
 
         logInfo("Migrating variables")
         val variableDao = database.variableDao()
-        realmContext
-            .get<Base>()
+        realm.query<Base>()
             .find()
             .firstOrNull()
             ?.variables

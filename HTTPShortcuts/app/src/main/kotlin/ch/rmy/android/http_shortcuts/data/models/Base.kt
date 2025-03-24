@@ -11,6 +11,7 @@ class Base : RealmObject {
     @Deprecated("Only used for backwards compatibility")
     @Keep
     var version: Long = 0
+
     @Deprecated("Only used for backwards compatibility")
     @Keep
     var compatibilityVersion: Long = 0

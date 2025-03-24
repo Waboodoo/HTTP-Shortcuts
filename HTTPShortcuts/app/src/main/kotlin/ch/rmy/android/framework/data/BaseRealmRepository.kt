@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
+@Deprecated("Use Room instead")
 abstract class BaseRealmRepository(
     database: Database,
     private val realmFactory: RealmFactory,
