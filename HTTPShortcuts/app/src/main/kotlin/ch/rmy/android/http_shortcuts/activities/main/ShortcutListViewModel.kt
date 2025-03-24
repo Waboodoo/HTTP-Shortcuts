@@ -415,8 +415,10 @@ constructor(
         val shortcutId = activeShortcutId ?: skipAction()
         val shortcut = getShortcutById(shortcutId) ?: skipAction()
         try {
-            val command = curlExporter.generateCommand(shortcut, dialogHandler)
-                .let(CurlConstructor::toCurlCommandString)
+            val command = withContext(Dispatchers.Default) {
+                curlExporter.generateCommand(shortcut, dialogHandler)
+                    .let(CurlConstructor::toCurlCommandString)
+            }
             updateDialogState(
                 ShortcutListDialogState.CurlExport(shortcut.name, command),
             )
@@ -514,16 +516,18 @@ constructor(
                     variableIds = getUsedVariableIds(shortcut.id),
                 )
 
-                sendIntent(object : IntentBuilder {
-                    override fun build(context: Context) =
-                        Intent(Intent.ACTION_SEND)
-                            .setType(ExportFormat.ZIP.fileTypeForSharing)
-                            .putExtra(Intent.EXTRA_STREAM, cacheFile)
-                            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            .let {
-                                Intent.createChooser(it, context.getString(R.string.title_export))
-                            }
-                })
+                sendIntent(
+                    object : IntentBuilder {
+                        override fun build(context: Context) =
+                            Intent(Intent.ACTION_SEND)
+                                .setType(ExportFormat.ZIP.fileTypeForSharing)
+                                .putExtra(Intent.EXTRA_STREAM, cacheFile)
+                                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                .let {
+                                    Intent.createChooser(it, context.getString(R.string.title_export))
+                                }
+                    },
+                )
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
