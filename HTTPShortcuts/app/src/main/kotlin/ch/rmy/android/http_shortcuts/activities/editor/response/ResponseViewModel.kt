@@ -1,12 +1,15 @@
 package ch.rmy.android.http_shortcuts.activities.editor.response
 
 import android.app.Application
+import ch.rmy.android.framework.extensions.toCharset
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
+import ch.rmy.android.http_shortcuts.data.enums.ResponseFailureOutput
+import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
 import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
@@ -27,10 +30,8 @@ constructor(
 
     override suspend fun initialize(data: Unit): ResponseViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
-        val responseHandling = shortcut.responseHandling!!
-
         val storeDirectoryName = try {
-            responseHandling.storeDirectoryId
+            shortcut.responseStoreDirectoryId
                 ?.let { id ->
                     workingDirectoryRepository.getWorkingDirectoryById(id)
                 }
@@ -50,16 +51,16 @@ constructor(
 
         return ResponseViewState(
             successMessageHint = getSuccessMessageHint(shortcut),
-            responseUiType = responseHandling.responseUiType,
-            responseSuccessOutput = responseHandling.successOutput,
-            responseFailureOutput = responseHandling.failureOutput,
-            successMessage = responseHandling.successMessage,
-            responseCharset = responseHandling.charsetOverride?.name(),
+            responseUiType = shortcut.responseUiType,
+            responseSuccessOutput = shortcut.responseSuccessOutput,
+            responseFailureOutput = shortcut.responseFailureOutput,
+            successMessage = shortcut.responseSuccessMessage,
+            responseCharset = shortcut.responseCharset?.name(),
             availableCharsets = emptyList(),
-            storeResponseIntoFile = responseHandling.storeDirectoryId != null,
+            storeResponseIntoFile = shortcut.responseStoreDirectoryId != null,
             storeDirectoryName = storeDirectoryName,
-            storeFileName = responseHandling.storeFileName.orEmpty(),
-            replaceFileIfExists = responseHandling.replaceFileIfExists,
+            storeFileName = shortcut.responseStoreFileName.orEmpty(),
+            replaceFileIfExists = shortcut.responseReplaceFileIfExists,
         )
     }
 
@@ -80,7 +81,7 @@ constructor(
         }
     }
 
-    fun onResponseSuccessOutputChanged(responseSuccessOutput: String) = runAction {
+    fun onResponseSuccessOutputChanged(responseSuccessOutput: ResponseSuccessOutput) = runAction {
         updateViewState {
             copy(responseSuccessOutput = responseSuccessOutput)
         }
@@ -89,7 +90,7 @@ constructor(
         }
     }
 
-    fun onResponseFailureOutputChanged(responseFailureOutput: String) = runAction {
+    fun onResponseFailureOutputChanged(responseFailureOutput: ResponseFailureOutput) = runAction {
         updateViewState {
             copy(responseFailureOutput = responseFailureOutput)
         }
@@ -117,13 +118,7 @@ constructor(
         }
         withProgressTracking {
             temporaryShortcutRepository.setCharsetOverride(
-                charset?.let {
-                    try {
-                        Charset.forName(it)
-                    } catch (_: Exception) {
-                        null
-                    }
-                },
+                charset?.toCharset(),
             )
         }
     }

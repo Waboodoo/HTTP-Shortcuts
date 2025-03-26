@@ -16,7 +16,7 @@ data class HistoryEvent(
     val type: HistoryEventType,
     @ColumnInfo(name = "data")
     val data: String,
-    @ColumnInfo(name = "time")
+    @ColumnInfo(name = "time", index = true)
     val time: Instant,
 ) {
     fun <T> getEventData(dataClass: Class<T>): T =

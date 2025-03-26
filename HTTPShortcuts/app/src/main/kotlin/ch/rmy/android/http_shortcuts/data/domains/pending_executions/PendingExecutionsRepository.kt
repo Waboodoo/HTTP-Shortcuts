@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.data.domains.pending_executions
 
-import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.extensions.plus
 import ch.rmy.android.http_shortcuts.data.Database
+import ch.rmy.android.http_shortcuts.data.domains.BaseRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
@@ -24,11 +24,12 @@ constructor(
     database: Database,
 ) : BaseRepository(database) {
 
-    suspend fun getPendingExecution(id: ExecutionId): PendingExecution =
-        get(Database::pendingExecutionDao)
+    suspend fun getPendingExecution(id: ExecutionId): PendingExecution = query {
+        pendingExecutionDao()
             .getPendingExecution(id)
             .first()
             .toPendingExecution()
+    }
 
     private fun PendingExecutionWithVariablesModel.toPendingExecution() =
         PendingExecution(
@@ -40,24 +41,25 @@ constructor(
             recursionDepth = pendingExecution.recursionDepth,
             resolvedVariables = resolvedVariables.associate { it.key to it.value },
             requestCode = pendingExecution.requestCode,
-            type = PendingExecutionType.parse(pendingExecution.type),
+            type = PendingExecutionType.parse(pendingExecution.type) ?: PendingExecutionType.UNKNOWN,
         )
 
-    fun observePendingExecutions(): Flow<List<PendingExecution>> =
-        flow(Database::pendingExecutionDao) {
-            observePendingExecutions()
-                .distinctUntilChanged()
-                .map { pendingExecutions ->
-                    pendingExecutions.map { it.toPendingExecution() }
-                }
-        }
+    fun observePendingExecutions(): Flow<List<PendingExecution>> = queryFlow {
+        pendingExecutionDao()
+            .observePendingExecutions()
+            .distinctUntilChanged()
+            .map { pendingExecutions ->
+                pendingExecutions.map { it.toPendingExecution() }
+            }
+    }
 
-    suspend fun getPendingExecutionsForShortcut(shortcutId: ShortcutId): List<PendingExecution> =
-        get(Database::pendingExecutionDao)
+    suspend fun getPendingExecutionsForShortcut(shortcutId: ShortcutId): List<PendingExecution> = query {
+        pendingExecutionDao()
             .getPendingExecutionsForShortcut(shortcutId)
             .map {
                 it.toPendingExecution()
             }
+    }
 
     suspend fun createPendingExecution(
         shortcutId: ShortcutId,
@@ -67,8 +69,8 @@ constructor(
         requiresNetwork: Boolean = false,
         recursionDepth: Int = 0,
         type: PendingExecutionType,
-    ) {
-        get(Database::pendingExecutionDao)
+    ) = query {
+        pendingExecutionDao()
             .insert(
                 PendingExecutionModel(
                     shortcutId = shortcutId,
@@ -91,17 +93,16 @@ constructor(
         return Instant.now() + delay
     }
 
-    suspend fun removePendingExecution(executionId: ExecutionId) {
-        get(Database::pendingExecutionDao)
-            .delete(executionId)
+    suspend fun removePendingExecution(executionId: ExecutionId) = query {
+        pendingExecutionDao().delete(executionId)
     }
 
-    suspend fun removePendingExecutionsForShortcut(shortcutId: ShortcutId) =
-        get(Database::pendingExecutionDao)
-            .deleteForShortcut(shortcutId)
+    suspend fun removePendingExecutionsForShortcut(shortcutId: ShortcutId) = query {
+        pendingExecutionDao().deleteForShortcut(shortcutId)
+    }
 
-    suspend fun getNextPendingExecution(withNetworkConstraints: Boolean): PendingExecution? =
-        get(Database::pendingExecutionDao)
+    suspend fun getNextPendingExecution(withNetworkConstraints: Boolean): PendingExecution? = query {
+        pendingExecutionDao()
             .run {
                 if (withNetworkConstraints) {
                     getNextPendingExecutionWaitingForNetwork()
@@ -110,9 +111,9 @@ constructor(
                 }
             }
             ?.toPendingExecution()
+    }
 
-    suspend fun removeAllPendingExecutions() {
-        get(Database::pendingExecutionDao)
-            .deleteAll()
+    suspend fun removeAllPendingExecutions() = query {
+        pendingExecutionDao().deleteAll()
     }
 }

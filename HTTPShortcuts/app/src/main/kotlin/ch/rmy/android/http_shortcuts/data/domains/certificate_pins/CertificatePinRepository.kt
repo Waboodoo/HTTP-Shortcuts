@@ -1,10 +1,9 @@
 package ch.rmy.android.http_shortcuts.data.domains.certificate_pins
 
-import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.framework.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.data.Database
+import ch.rmy.android.http_shortcuts.data.domains.BaseRepository
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
-import ch.rmy.android.http_shortcuts.import_export.Importer
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -15,12 +14,14 @@ class CertificatePinRepository
 constructor(
     database: Database,
 ) : BaseRepository(database) {
-    suspend fun getCertificatePins(): List<CertificatePin> =
-        get(Database::certificatePinDao).get()
+    suspend fun getCertificatePins(): List<CertificatePin> = query {
+        certificatePinDao().getCertificatePins()
+    }
 
     fun observeCertificatePins(): Flow<List<CertificatePin>> =
-        flow(Database::certificatePinDao) {
-            observe()
+        queryFlow {
+            certificatePinDao()
+                .observeCertificatePins()
                 .distinctUntilChanged()
                 .map { certificatePins ->
                     certificatePins.map { certificatePin ->
@@ -33,9 +34,9 @@ constructor(
                 }
         }
 
-    suspend fun createCertificatePin(pattern: String, hash: String) {
-        get(Database::certificatePinDao)
-            .insert(
+    suspend fun createCertificatePin(pattern: String, hash: String) = query {
+        certificatePinDao()
+            .insertCertificatePin(
                 CertificatePin(
                     id = UUIDUtils.newUUID(),
                     pattern = pattern,
@@ -44,26 +45,18 @@ constructor(
             )
     }
 
-    suspend fun updateCertificatePin(id: CertificatePinId, pattern: String, hash: String) {
-        get(Database::certificatePinDao).insert(
-            CertificatePin(
-                id = id,
-                pattern = pattern,
-                hash = hash,
-            ),
-        )
+    suspend fun updateCertificatePin(id: CertificatePinId, pattern: String, hash: String) = query {
+        certificatePinDao()
+            .insertCertificatePin(
+                CertificatePin(
+                    id = id,
+                    pattern = pattern,
+                    hash = hash,
+                ),
+            )
     }
 
-    suspend fun deleteCertificatePinning(id: CertificatePinId) {
-        get(Database::certificatePinDao).delete(id)
-    }
-
-    suspend fun import(pins: List<CertificatePin>, mode: Importer.ImportMode) {
-        with(get(Database::certificatePinDao)) {
-            when (mode) {
-                Importer.ImportMode.MERGE -> insert(pins)
-                Importer.ImportMode.REPLACE -> replace(pins)
-            }
-        }
+    suspend fun deleteCertificatePinning(id: CertificatePinId) = query {
+        certificatePinDao().deleteCertificatePin(id)
     }
 }

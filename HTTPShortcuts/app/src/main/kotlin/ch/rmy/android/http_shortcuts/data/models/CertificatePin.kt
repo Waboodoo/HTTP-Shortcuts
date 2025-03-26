@@ -9,12 +9,12 @@ import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePi
 data class CertificatePin(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    val id: CertificatePinId = "",
+    val id: CertificatePinId,
     @ColumnInfo(name = "pattern")
-    val pattern: String = "",
+    val pattern: String,
     /**
      * Hex-encoded hash, either SHA-1 or SHA-256.
      */
     @ColumnInfo(name = "hash")
-    val hash: String = "",
+    val hash: String,
 )

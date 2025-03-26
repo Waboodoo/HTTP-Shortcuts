@@ -12,7 +12,7 @@ sealed interface CategoryBackgroundType {
     val useTextShadow: Boolean
 
     data object Default : CategoryBackgroundType {
-        private const val VALUE = "default"
+        const val VALUE = "default"
 
         override fun serialize() = VALUE
 
@@ -45,12 +45,13 @@ sealed interface CategoryBackgroundType {
     }
 
     companion object {
-        fun parse(type: String?): CategoryBackgroundType =
+        fun parse(type: String): CategoryBackgroundType? =
             when {
-                type?.startsWith(Color.PREFIX) == true -> {
-                    Color.deserialize(type) ?: Default
+                type.startsWith(Color.PREFIX) -> {
+                    Color.deserialize(type)
                 }
-                else -> Default
+                type == Default.VALUE -> Default
+                else -> null
             }
     }
 }

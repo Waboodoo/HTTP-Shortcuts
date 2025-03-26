@@ -36,7 +36,7 @@ constructor(
         set(value) = putString(KEY_LANGUAGE, value ?: LANGUAGE_DEFAULT)
 
     var clickBehavior: ShortcutClickBehavior
-        get() = ShortcutClickBehavior.parse(getString(KEY_CLICK_BEHAVIOR))
+        get() = getString(KEY_CLICK_BEHAVIOR)?.let { ShortcutClickBehavior.parse(it) } ?: ShortcutClickBehavior.RUN
         set(value) {
             putString(KEY_CLICK_BEHAVIOR, value.type)
         }

@@ -11,7 +11,7 @@ enum class ConfirmationType(
         type
 
     companion object {
-        fun parse(type: String?) =
-            entries.firstOrNull { it.type == type }
+        fun parse(type: String): ConfirmationType? =
+            entries.find { it.type == type }
     }
 }

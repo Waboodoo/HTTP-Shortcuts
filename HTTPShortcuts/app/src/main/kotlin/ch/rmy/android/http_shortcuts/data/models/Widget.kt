@@ -10,14 +10,14 @@ data class Widget(
     @PrimaryKey
     @ColumnInfo(name = "widget_id")
     val widgetId: Int,
-    @ColumnInfo(name = "shortcut_id")
+    @ColumnInfo(name = "shortcut_id", index = true)
     val shortcutId: ShortcutId,
     @ColumnInfo(name = "label_color")
-    val labelColor: String? = null,
+    val labelColor: String?,
     @ColumnInfo(name = "show_label")
-    val showLabel: Boolean = true,
+    val showLabel: Boolean,
     @ColumnInfo(name = "show_icon")
-    val showIcon: Boolean = true,
+    val showIcon: Boolean,
     @ColumnInfo(name = "icon_scale")
-    val iconScale: Float = 1f,
+    val iconScale: Float,
 )

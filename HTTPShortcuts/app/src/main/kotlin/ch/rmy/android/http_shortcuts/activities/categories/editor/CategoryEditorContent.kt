@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import ch.rmy.android.http_shortcuts.Constants
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.categories.editor.models.CategoryBackground
 import ch.rmy.android.http_shortcuts.components.FontSize
@@ -98,7 +99,7 @@ private fun CategoryName(name: String, onNameChanged: (String) -> Unit) {
         },
         value = name,
         onValueChange = {
-            onNameChanged(it.take(50))
+            onNameChanged(it.take(Constants.CATEGORY_NAME_MAX_LENGTH))
         },
         singleLine = true,
     )

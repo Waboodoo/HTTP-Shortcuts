@@ -305,7 +305,7 @@ sealed interface NavigationDestination {
 
         fun extractExecutionType(bundle: Bundle): ShortcutExecutionType =
             bundle.getEncodedString(ARG_EXECUTION_TYPE)
-                ?.let(ShortcutExecutionType.Companion::get)
+                ?.let(ShortcutExecutionType.Companion::parse)
                 ?: ShortcutExecutionType.HTTP
 
         fun extractCurlCommandId(bundle: Bundle): NavigationArgStore.ArgStoreId? =
@@ -420,7 +420,7 @@ sealed interface NavigationDestination {
         }
 
         fun extractVariableType(bundle: Bundle): VariableType =
-            VariableType.parse(bundle.getEncodedString(ARG_VARIABLE_TYPE))
+            VariableType.parse(bundle.getEncodedString(ARG_VARIABLE_TYPE)!!)!!
 
         fun extractVariableId(bundle: Bundle): VariableId? =
             bundle.getEncodedString(ARG_VARIABLE_ID)

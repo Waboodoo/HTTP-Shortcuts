@@ -5,8 +5,10 @@ import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.activities.editor.headers.models.HeaderListItem
-import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.models.Header
+import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderId
+import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderRepository
+import ch.rmy.android.http_shortcuts.data.models.RequestHeader
+import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -15,12 +17,12 @@ class RequestHeadersViewModel
 @Inject
 constructor(
     application: Application,
-    private val temporaryShortcutRepository: TemporaryShortcutRepository,
+    private val requestHeaderRepository: RequestHeaderRepository,
 ) : BaseViewModel<Unit, RequestHeadersViewState>(application) {
 
-    private var headers: List<Header> = emptyList()
+    private var headers: List<RequestHeader> = emptyList()
 
-    private suspend fun updateHeaders(headers: List<Header>) {
+    private suspend fun updateHeaders(headers: List<RequestHeader>) {
         this.headers = headers
         updateViewState {
             copy(
@@ -30,14 +32,13 @@ constructor(
     }
 
     override suspend fun initialize(data: Unit): RequestHeadersViewState {
-        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
-        headers = shortcut.headers
+        headers = requestHeaderRepository.getRequestHeadersByShortcutId(TEMPORARY_ID)
         return RequestHeadersViewState(
-            headerItems = shortcut.headers.toHeaderItems(),
+            headerItems = headers.toHeaderItems(),
         )
     }
 
-    private fun List<Header>.toHeaderItems() =
+    private fun List<RequestHeader>.toHeaderItems() =
         map { header ->
             HeaderListItem(
                 id = header.id,
@@ -46,10 +47,10 @@ constructor(
             )
         }
 
-    fun onHeaderMoved(headerId1: String, headerId2: String) = runAction {
+    fun onHeaderMoved(headerId1: RequestHeaderId, headerId2: RequestHeaderId) = runAction {
         updateHeaders(headers.swapped(headerId1, headerId2) { id })
         withProgressTracking {
-            temporaryShortcutRepository.moveHeader(headerId1, headerId2)
+            requestHeaderRepository.moveRequestHeader(headerId1, headerId2)
         }
     }
 
@@ -68,25 +69,30 @@ constructor(
     private suspend fun ViewModelScope<*>.onAddHeaderDialogConfirmed(key: String, value: String) {
         updateDialogState(null)
         withProgressTracking {
-            val newHeader = temporaryShortcutRepository.addHeader(key, value)
+            val newHeader = requestHeaderRepository.insertRequestHeader(key, value)
             updateHeaders(headers.plus(newHeader))
         }
     }
 
-    private suspend fun ViewModelScope<*>.onEditHeaderDialogConfirmed(headerId: String, key: String, value: String) {
+    private suspend fun ViewModelScope<*>.onEditHeaderDialogConfirmed(headerId: RequestHeaderId, key: String, value: String) {
         updateDialogState(null)
         updateHeaders(
             headers
                 .map { header ->
                     if (header.id == headerId) {
-                        Header(headerId, key, value)
+                        RequestHeader(
+                            id = headerId,
+                            shortcutId = TEMPORARY_ID,
+                            key = key,
+                            value = value,
+                        )
                     } else {
                         header
                     }
                 },
         )
         withProgressTracking {
-            temporaryShortcutRepository.updateHeader(headerId, key, value)
+            requestHeaderRepository.updateRequestHeader(headerId, key, value)
         }
     }
 
@@ -99,11 +105,11 @@ constructor(
             },
         )
         withProgressTracking {
-            temporaryShortcutRepository.removeHeader(headerId)
+            requestHeaderRepository.deleteRequestHeader(headerId)
         }
     }
 
-    fun onHeaderClicked(id: String) = runAction {
+    fun onHeaderClicked(id: RequestHeaderId) = runAction {
         headers
             .firstOrNull { header ->
                 header.id == id

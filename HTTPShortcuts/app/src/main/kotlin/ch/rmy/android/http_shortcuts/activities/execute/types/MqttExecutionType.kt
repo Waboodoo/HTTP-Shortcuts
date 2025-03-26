@@ -4,7 +4,8 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
-import ch.rmy.android.http_shortcuts.data.models.Base
+import ch.rmy.android.http_shortcuts.data.models.RequestHeader
+import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
@@ -24,7 +25,8 @@ constructor(
     override fun invoke(
         params: ExecutionParams,
         shortcut: Shortcut,
-        base: Base,
+        requestHeaders: List<RequestHeader>,
+        requestParameters: List<RequestParameter>,
         variableManager: VariableManager,
         resultHandler: ResultHandler,
         fileUploadResult: FileUploadManager.Result?,
@@ -32,8 +34,8 @@ constructor(
         scriptExecutor: ScriptExecutor,
     ): Flow<ExecutionStatus> =
         flow {
-            val username = injectVariables(shortcut.username, variableManager)
-            val password = injectVariables(shortcut.password, variableManager)
+            val username = injectVariables(shortcut.authUsername, variableManager)
+            val password = injectVariables(shortcut.authPassword, variableManager)
             val useAuthentication = username.isNotEmpty() || password.isNotEmpty()
             try {
                 mqttUtil.sendMessages(

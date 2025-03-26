@@ -27,13 +27,13 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 @Composable
 fun AuthenticationContent(
     shortcutExecutionType: ShortcutExecutionType,
-    authenticationType: ShortcutAuthenticationType,
+    authenticationType: ShortcutAuthenticationType?,
     username: String,
     password: String,
     token: String,
     clientCertParams: ClientCertParams?,
     isClientCertButtonEnabled: Boolean,
-    onAuthenticationTypeChanged: (ShortcutAuthenticationType) -> Unit,
+    onAuthenticationTypeChanged: (ShortcutAuthenticationType?) -> Unit,
     onUsernameChanged: (String) -> Unit,
     onPasswordChanged: (String) -> Unit,
     onTokenChanged: (String) -> Unit,
@@ -54,7 +54,7 @@ fun AuthenticationContent(
             )
         }
 
-        AnimatedVisibility(visible = authenticationType.usesUsernameAndPassword || shortcutExecutionType == ShortcutExecutionType.MQTT) {
+        AnimatedVisibility(visible = authenticationType?.usesUsernameAndPassword == true || shortcutExecutionType == ShortcutExecutionType.MQTT) {
             Column {
                 if (shortcutExecutionType == ShortcutExecutionType.HTTP) {
                     VerticalSpacer(Spacing.SMALL)
@@ -81,7 +81,7 @@ fun AuthenticationContent(
             }
         }
 
-        AnimatedVisibility(visible = authenticationType.usesToken) {
+        AnimatedVisibility(visible = authenticationType?.usesToken == true) {
             Column {
                 VerticalSpacer(Spacing.SMALL)
                 TokenField(
@@ -115,15 +115,15 @@ fun AuthenticationContent(
 @Composable
 private fun AuthenticationTypeSelection(
     modifier: Modifier,
-    authenticationType: ShortcutAuthenticationType,
-    onAuthenticationTypeChanged: (ShortcutAuthenticationType) -> Unit,
+    authenticationType: ShortcutAuthenticationType?,
+    onAuthenticationTypeChanged: (ShortcutAuthenticationType?) -> Unit,
 ) {
     SelectionField(
         modifier = modifier,
         title = stringResource(R.string.label_authentication_method),
         selectedKey = authenticationType,
         items = listOf(
-            ShortcutAuthenticationType.NONE to stringResource(R.string.authentication_none),
+            null to stringResource(R.string.authentication_none),
             ShortcutAuthenticationType.BASIC to stringResource(R.string.authentication_basic),
             ShortcutAuthenticationType.DIGEST to stringResource(R.string.authentication_digest),
             ShortcutAuthenticationType.BEARER to stringResource(R.string.authentication_bearer),

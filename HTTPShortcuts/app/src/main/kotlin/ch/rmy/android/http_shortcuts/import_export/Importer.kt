@@ -6,12 +6,9 @@ import ch.rmy.android.framework.extensions.isWebUrl
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
-import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
-import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
-import ch.rmy.android.http_shortcuts.utils.GsonUtil
+import ch.rmy.android.http_shortcuts.data.domains.import_export.ImportRepository
+import ch.rmy.android.http_shortcuts.import_export.models.ImportExportBase
+import ch.rmy.android.http_shortcuts.utils.GsonUtil.gson
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.NoCloseInputStream
 import com.google.gson.JsonParseException
@@ -36,13 +33,10 @@ class Importer
 @Inject
 constructor(
     private val context: Context,
-    private val appRepository: AppRepository,
-    private val appConfigRepository: AppConfigRepository,
-    private val variableRepository: VariableRepository,
-    private val certificatePinRepository: CertificatePinRepository,
-    private val workingDirectoryRepository: WorkingDirectoryRepository,
+    private val importMigrator: ImportMigrator,
+    private val importRepository: ImportRepository,
+    private val importExportDefaultsProvider: ImportExportDefaultsProvider,
 ) {
-
     suspend fun importFromUri(uri: Uri, importMode: ImportMode): ImportStatus =
         try {
             withContext(Dispatchers.IO) {
@@ -58,7 +52,7 @@ constructor(
                     context.contentResolver.openInputStream(cacheFile)!!.use { stream ->
                         importFromZIP(stream, importMode)
                     }
-                } catch (e: ZipException) {
+                } catch (_: ZipException) {
                     context.contentResolver.openInputStream(cacheFile)!!.use { stream ->
                         importFromJSON(stream, importMode)
                     }
@@ -97,21 +91,17 @@ constructor(
             val importData = BufferedReader(InputStreamReader(inputStream)).use { reader ->
                 JsonParser.parseReader(reader)
             }
-            logInfo("Importing from v${importData.asJsonObject.get("version") ?: "?"}: ${importData.asJsonObject.keySet()}")
-            val migratedImportData = ImportMigrator.migrate(importData)
-            val newBase = GsonUtil.importData(migratedImportData)
+            logInfo("Starting import")
+            val migratedImportData = importMigrator.migrate(importData)
+            val importBase = importExportDefaultsProvider.applyDefaults(gson.fromJson(migratedImportData, ImportExportBase::class.java))
             try {
-                newBase.validate()
-                appRepository.import(newBase, importMode)
-                appConfigRepository.import(newBase, importMode)
-                variableRepository.import(newBase.variables, importMode)
-                certificatePinRepository.import(newBase.certificatePins, importMode)
-                workingDirectoryRepository.import(newBase.workingDirectories, importMode)
+                importBase.validate()
+                importRepository.import(importBase, importMode)
             } catch (e: IllegalArgumentException) {
                 throw ImportException(e.message!!)
             }
             ImportStatus(
-                importedShortcuts = newBase.categories.sumOf { it.shortcuts.size },
+                importedShortcuts = importBase.categories?.sumOf { it.shortcuts?.size ?: 0 } ?: 0,
             )
         }
 
@@ -157,11 +147,6 @@ constructor(
     }
 
     data class ImportStatus(val importedShortcuts: Int)
-
-    enum class ImportMode {
-        MERGE,
-        REPLACE,
-    }
 
     companion object {
         private const val IMPORT_TEMP_FILE = "import"

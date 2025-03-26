@@ -1,20 +1,12 @@
 package ch.rmy.android.http_shortcuts.data.domains.categories
 
-import ch.rmy.android.framework.data.BaseRealmRepository
-import ch.rmy.android.framework.data.RealmFactory
-import ch.rmy.android.framework.data.RealmTransactionContext
-import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.Database
-import ch.rmy.android.http_shortcuts.data.domains.getBase
-import ch.rmy.android.http_shortcuts.data.domains.getCategoryById
-import ch.rmy.android.http_shortcuts.data.domains.getCategoryByNameOrId
-import ch.rmy.android.http_shortcuts.data.domains.sections.SectionId
+import ch.rmy.android.http_shortcuts.data.domains.BaseRepository
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.models.Category
-import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -23,33 +15,31 @@ class CategoryRepository
 @Inject
 constructor(
     database: Database,
-    realmFactory: RealmFactory,
-) : BaseRealmRepository(database, realmFactory) {
+) : BaseRepository(database) {
 
-    suspend fun getCategories(): List<Category> =
-        queryItem {
-            getBase()
-        }
-            .categories
+    suspend fun getCategories(): List<Category> = query {
+        categoryDao().getCategories()
+    }
 
-    fun observeCategories(): Flow<List<Category>> =
-        observeList {
-            getBase().findFirst()!!.categories
-        }
+    suspend fun getCategoryIds(): List<CategoryId> = query {
+        categoryDao().getCategoryIds()
+    }
 
-    suspend fun getCategory(categoryId: CategoryId): Category =
-        queryItem {
-            getCategoryById(categoryId)
-        }
+    suspend fun getCategoryById(categoryId: CategoryId): Category = query {
+        categoryDao().getCategoryById(categoryId).first()
+    }
 
-    suspend fun getCategoryByNameOrId(categoryNameOrId: String): Category =
-        queryItem {
-            this.getCategoryByNameOrId(categoryNameOrId)
-        }
+    fun observeCategories(): Flow<List<Category>> = queryFlow {
+        categoryDao().observeCategories()
+    }
+
+    suspend fun getCategoryByNameOrId(categoryNameOrId: String): Category = query {
+        categoryDao().getCategoryByNameOrId(categoryNameOrId).first()
+    }
 
     fun observeCategory(categoryId: CategoryId): Flow<Category> =
-        observeItem {
-            getCategoryById(categoryId)
+        queryFlow {
+            categoryDao().observeCategory(categoryId)
         }
 
     suspend fun createCategory(
@@ -59,30 +49,36 @@ constructor(
         clickBehavior: ShortcutClickBehavior?,
     ) {
         commitTransaction {
-            val base = getBase()
-                .findFirst()
-                ?: return@commitTransaction
-            val categories = base.categories
+            val categoryDao = categoryDao()
             val category = Category(
+                id = newUUID(),
                 name = name,
-                categoryLayoutType = layoutType,
-                categoryBackgroundType = background,
-                clickBehavior = clickBehavior,
+                layoutType = layoutType,
+                background = background,
+                shortcutClickBehavior = clickBehavior,
+                icon = null,
+                hidden = false,
+                sortingOrder = categoryDao.getCategoryCount(),
             )
-            category.id = newUUID()
-            categories.add(copy(category))
+            categoryDao.insertOrUpdateCategory(category)
         }
     }
 
-    suspend fun deleteCategory(categoryId: CategoryId) {
-        commitTransactionForCategory(categoryId) { category ->
-            for (shortcut in category.shortcuts) {
-                shortcut.headers.deleteAll()
-                shortcut.parameters.deleteAll()
-            }
-            category.shortcuts.deleteAll()
-            category.delete()
-        }
+    suspend fun deleteCategory(categoryId: CategoryId) = commitTransaction {
+        val categoryDao = categoryDao()
+        val category = categoryDao.getCategoryById(categoryId).firstOrNull()
+            ?: return@commitTransaction
+        categoryDao.deleteCategory(categoryId)
+        categoryDao.updateSortingOrder(
+            from = category.sortingOrder,
+            until = Int.MAX_VALUE,
+            diff = -1,
+        )
+        val shortcutIds = shortcutDao().getShortcutIdsByCategoryId(categoryId)
+        shortcutDao().deleteShortcutsByCategoryId(categoryId)
+        sectionDao().deleteSectionsByCategoryId(categoryId)
+        requestHeaderDao().deleteRequestHeadersByShortcutIds(shortcutIds)
+        requestParameterDao().deleteRequestParametersByShortcutIds(shortcutIds)
     }
 
     suspend fun updateCategory(
@@ -93,78 +89,74 @@ constructor(
         clickBehavior: ShortcutClickBehavior?,
     ) {
         commitTransactionForCategory(categoryId) { category ->
-            category.name = name
-            category.categoryLayoutType = layoutType
-            category.categoryBackgroundType = background
-            category.clickBehavior = clickBehavior
+            categoryDao().insertOrUpdateCategory(
+                category.copy(
+                    name = name,
+                    layoutType = layoutType,
+                    background = background,
+                    shortcutClickBehavior = clickBehavior,
+                ),
+            )
         }
     }
 
     suspend fun setCategoryHidden(categoryId: CategoryId, hidden: Boolean) {
         commitTransaction {
+            val categoryDao = categoryDao()
             if (hidden) {
-                val categories = getBase().findFirst()!!.categories
+                val categories = categoryDao.getCategories()
                 if (categories.all { it.hidden || it.id == categoryId }) {
                     // Disallow hiding the last non-hidden category
                     return@commitTransaction
                 }
             }
 
-            getCategoryById(categoryId)
-                .findFirst()
-                ?.hidden = hidden
+            val category = categoryDao.getCategoryById(categoryId)
+                .firstOrNull()
+                ?: return@commitTransaction
+            categoryDao.insertOrUpdateCategory(
+                category.copy(
+                    hidden = hidden,
+                ),
+            )
         }
     }
 
-    suspend fun moveCategory(categoryId1: CategoryId, categoryId2: CategoryId) {
-        commitTransaction {
-            getBase().findFirst()
-                ?.categories
-                ?.swap(categoryId1, categoryId2) { id }
+    suspend fun moveCategory(categoryId1: CategoryId, categoryId2: CategoryId) = commitTransaction {
+        val categoryDao = categoryDao()
+        val category1 = categoryDao.getCategoryById(categoryId1).firstOrNull() ?: return@commitTransaction
+        val category2 = categoryDao.getCategoryById(categoryId2).firstOrNull() ?: return@commitTransaction
+        if (category1.sortingOrder < category2.sortingOrder) {
+            categoryDao.updateSortingOrder(
+                from = category1.sortingOrder + 1,
+                until = category2.sortingOrder,
+                diff = -1,
+            )
+        } else {
+            categoryDao.updateSortingOrder(
+                from = category2.sortingOrder,
+                until = category1.sortingOrder - 1,
+                diff = 1,
+            )
         }
+        categoryDao.insertOrUpdateCategory(category1.copy(sortingOrder = category2.sortingOrder))
     }
 
     suspend fun setCategoryIcon(categoryId: CategoryId, icon: ShortcutIcon) {
         commitTransactionForCategory(categoryId) { category ->
-            category.icon = icon
+            categoryDao().insertOrUpdateCategory(
+                category.copy(
+                    icon = icon,
+                ),
+            )
         }
     }
 
-    suspend fun addSection(categoryId: CategoryId, name: String): Section {
-        val section = Section(name = name.trim())
-        commitTransactionForCategory(categoryId) { category ->
-            category.sections.add(copy(section))
-        }
-        return section
-    }
-
-    suspend fun moveSection(categoryId: CategoryId, sectionId1: SectionId, sectionId2: SectionId) {
-        commitTransactionForCategory(categoryId) { category ->
-            category.sections.swap(sectionId1, sectionId2) { id }
-        }
-    }
-
-    suspend fun updateSection(categoryId: CategoryId, sectionId: SectionId, name: String) {
-        commitTransactionForCategory(categoryId) { category ->
-            category.sections
-                .find { it.id == sectionId }
-                ?.name = name.trim()
-        }
-    }
-
-    suspend fun removeSection(categoryId: CategoryId, sectionId: SectionId) {
-        commitTransactionForCategory(categoryId) { category ->
-            category.sections
-                .find { it.id == sectionId }
-                ?.delete()
-        }
-    }
-
-    private suspend fun commitTransactionForCategory(categoryId: CategoryId, transaction: RealmTransactionContext.(Category) -> Unit) {
+    private suspend fun commitTransactionForCategory(categoryId: CategoryId, transaction: suspend Database.(Category) -> Unit) {
         commitTransaction {
             transaction(
-                getCategoryById(categoryId)
-                    .findFirst()
+                categoryDao().getCategoryById(categoryId)
+                    .firstOrNull()
                     ?: return@commitTransaction,
             )
         }

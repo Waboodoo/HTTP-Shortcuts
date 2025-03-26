@@ -21,13 +21,13 @@ import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.enums.HttpMethod
 
 @Composable
 fun HttpSettingsContent(
-    method: String,
+    method: HttpMethod,
     url: String,
-    onMethodChanged: (String) -> Unit,
+    onMethodChanged: (HttpMethod) -> Unit,
     onUrlChanged: (String) -> Unit,
 ) {
     Column(
@@ -118,27 +118,16 @@ fun WakOnLanSettingsContent(
 
 @Composable
 private fun MethodSelection(
-    method: String,
-    onMethodSelected: (String) -> Unit,
+    method: HttpMethod,
+    onMethodSelected: (HttpMethod) -> Unit,
 ) {
     SelectionField(
         title = stringResource(R.string.label_method),
         selectedKey = method,
-        items = METHODS.map { it to it },
+        items = HttpMethod.entries.map { it to it.method },
         onItemSelected = onMethodSelected,
     )
 }
-
-private val METHODS = listOf(
-    Shortcut.METHOD_GET,
-    Shortcut.METHOD_POST,
-    Shortcut.METHOD_PUT,
-    Shortcut.METHOD_DELETE,
-    Shortcut.METHOD_PATCH,
-    Shortcut.METHOD_HEAD,
-    Shortcut.METHOD_OPTIONS,
-    Shortcut.METHOD_TRACE,
-)
 
 @Composable
 private fun UrlField(url: String, onUrlChanged: (String) -> Unit) {

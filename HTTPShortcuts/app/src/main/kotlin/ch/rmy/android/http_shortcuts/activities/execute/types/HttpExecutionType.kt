@@ -26,9 +26,11 @@ import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExec
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
+import ch.rmy.android.http_shortcuts.data.enums.ResponseFailureOutput
+import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
 import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
-import ch.rmy.android.http_shortcuts.data.models.Base
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
+import ch.rmy.android.http_shortcuts.data.models.RequestHeader
+import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.TreatAsFailureException
 import ch.rmy.android.http_shortcuts.extensions.getSafeName
@@ -82,7 +84,8 @@ constructor(
     override fun invoke(
         params: ExecutionParams,
         shortcut: Shortcut,
-        base: Base,
+        requestHeaders: List<RequestHeader>,
+        requestParameters: List<RequestParameter>,
         variableManager: VariableManager,
         resultHandler: ResultHandler,
         fileUploadResult: FileUploadManager.Result?,
@@ -90,7 +93,7 @@ constructor(
         scriptExecutor: ScriptExecutor,
     ): Flow<ExecutionStatus> = flow {
         val sessionId = "${shortcut.id}_${newUUID()}"
-        if (params.recursionDepth == 0 && checkHeadlessExecution(shortcut, variableManager.getVariableValuesByIds())) {
+        if (params.recursionDepth == 0 && checkHeadlessExecution(shortcut, requestParameters, variableManager.getVariableValuesByIds())) {
             logInfo("Preparing to execute HTTP request in headless mode")
             try {
                 httpRequesterStarter.invoke(
@@ -105,7 +108,7 @@ constructor(
             }
         }
 
-        val workingDirectory = shortcut.responseHandling?.storeDirectoryId?.let { workingDirectoryId ->
+        val workingDirectory = shortcut.responseStoreDirectoryId?.let { workingDirectoryId ->
             try {
                 workingDirectoryRepository.getWorkingDirectoryById(workingDirectoryId)
             } catch (_: NoSuchElementException) {
@@ -119,6 +122,8 @@ constructor(
                     .executeShortcut(
                         context,
                         shortcut = shortcut,
+                        headers = requestHeaders,
+                        parameters = requestParameters,
                         storeDirectoryUri = workingDirectory?.directory,
                         sessionId = sessionId,
                         variableValues = variableManager.getVariableValuesByIds(),
@@ -131,7 +136,7 @@ constructor(
                     )
             } catch (e: UnknownHostException) {
                 if (shouldReschedule(shortcut, e)) {
-                    if (shortcut.responseHandling?.successOutput != ResponseHandling.SUCCESS_OUTPUT_NONE && params.tryNumber == 0) {
+                    if (shortcut.responseSuccessOutput != ResponseSuccessOutput.NONE && params.tryNumber == 0) {
                         withContext(Dispatchers.Main) {
                             context.showToast(
                                 String.format(
@@ -155,9 +160,9 @@ constructor(
                     error = e,
                 )
 
-                when (val failureOutput = shortcut.responseHandling?.failureOutput) {
-                    ResponseHandling.FAILURE_OUTPUT_DETAILED,
-                    ResponseHandling.FAILURE_OUTPUT_SIMPLE,
+                when (val failureOutput = shortcut.responseFailureOutput) {
+                    ResponseFailureOutput.DETAILED,
+                    ResponseFailureOutput.SIMPLE,
                     -> {
                         displayResult(
                             shortcut = shortcut,
@@ -166,7 +171,7 @@ constructor(
                             output = generateOutputFromError(
                                 shortcut = shortcut,
                                 error = e,
-                                simple = failureOutput == ResponseHandling.FAILURE_OUTPUT_SIMPLE,
+                                simple = failureOutput == ResponseFailureOutput.SIMPLE,
                             ),
                             response = (e as? ErrorResponse)?.shortcutResponse,
                         )
@@ -198,9 +203,9 @@ constructor(
                 error = ErrorResponse(response),
             )
 
-            when (val failureOutput = shortcut.responseHandling?.failureOutput) {
-                ResponseHandling.FAILURE_OUTPUT_DETAILED,
-                ResponseHandling.FAILURE_OUTPUT_SIMPLE,
+            when (val failureOutput = shortcut.responseFailureOutput) {
+                ResponseFailureOutput.DETAILED,
+                ResponseFailureOutput.SIMPLE,
                 -> {
                     displayResult(
                         params = params,
@@ -209,7 +214,7 @@ constructor(
                         output = generateOutputFromError(
                             shortcut = shortcut,
                             error = e,
-                            simple = failureOutput == ResponseHandling.FAILURE_OUTPUT_SIMPLE,
+                            simple = failureOutput == ResponseFailureOutput.SIMPLE,
                         ),
                         response = response,
                     )
@@ -228,8 +233,8 @@ constructor(
             return@flow
         }
 
-        if (shortcut.responseHandling?.storeDirectoryId != null && response.contentFile != null) {
-            workingDirectoryRepository.touchWorkingDirectory(shortcut.responseHandling!!.storeDirectoryId!!)
+        if (shortcut.responseStoreDirectoryId != null && response.contentFile != null) {
+            workingDirectoryRepository.touchWorkingDirectory(shortcut.responseStoreDirectoryId)
             withContext(Dispatchers.IO) {
                 workingDirectory?.directory?.let {
                     renameResponseFile(shortcut, response, variableManager, it)
@@ -304,17 +309,16 @@ constructor(
         response: ShortcutResponse,
         variableManager: VariableManager,
     ) {
-        val output = when (shortcut.responseHandling?.successOutput) {
-            ResponseHandling.SUCCESS_OUTPUT_MESSAGE -> {
-                shortcut.responseHandling
-                    ?.successMessage
-                    ?.takeUnlessEmpty()
+        val output = when (shortcut.responseSuccessOutput) {
+            ResponseSuccessOutput.MESSAGE -> {
+                shortcut.responseSuccessMessage
+                    .takeUnlessEmpty()
                     ?.let {
                         injectVariables(it, variableManager)
                     }
                     ?: context.getString(R.string.executed, shortcut.getSafeName(context))
             }
-            ResponseHandling.SUCCESS_OUTPUT_RESPONSE -> null
+            ResponseSuccessOutput.RESPONSE -> null
             else -> return
         }
         displayResult(
@@ -334,14 +338,14 @@ constructor(
         response: ShortcutResponse? = null,
     ) {
         withContext(Dispatchers.Main) {
-            when (shortcut.responseHandling?.responseUiType ?: ResponseUiType.DIALOG) {
+            when (shortcut.responseUiType) {
                 ResponseUiType.TOAST -> {
                     context.showToast(
                         (output ?: response?.getContentAsString(context) ?: "")
                             .truncate(maxLength = TOAST_MAX_LENGTH)
                             .let(HTMLUtil::toSpanned)
                             .ifBlank { context.getString(R.string.message_blank_response) },
-                        long = shortcut.responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE,
+                        long = shortcut.responseSuccessOutput == ResponseSuccessOutput.RESPONSE,
                     )
                 }
                 ResponseUiType.NOTIFICATION -> {
@@ -356,12 +360,11 @@ constructor(
                         // because it would interrupt the execution. Therefore, we suppress it here.
                         return@withContext
                     }
-                    val responseHandling = shortcut.responseHandling
                     val responseData = ResponseData(
                         shortcutId = shortcut.id,
                         title = shortcut.getSafeName(context),
                         text = output,
-                        mimeType = when (responseHandling?.responseContentType) {
+                        mimeType = when (shortcut.responseContentType) {
                             ResponseContentType.PLAIN_TEXT -> FileTypeUtil.TYPE_PLAIN_TEXT
                             ResponseContentType.JSON -> FileTypeUtil.TYPE_JSON
                             ResponseContentType.XML -> FileTypeUtil.TYPE_XML
@@ -374,12 +377,12 @@ constructor(
                         statusCode = response?.statusCode,
                         headers = response?.headers?.toMultiMap() ?: emptyMap(),
                         timing = response?.timing,
-                        showDetails = responseHandling?.includeMetaInfo == true,
-                        monospace = responseHandling?.monospace == true,
-                        fontSize = responseHandling?.fontSize,
-                        actions = responseHandling?.displayActions ?: emptyList(),
-                        jsonArrayAsTable = responseHandling?.jsonArrayAsTable == true,
-                        javaScriptEnabled = responseHandling?.javaScriptEnabled == true,
+                        showDetails = shortcut.responseIncludeMetaInfo,
+                        monospace = shortcut.responseMonospace,
+                        fontSize = shortcut.responseFontSize,
+                        actions = shortcut.responseDisplayActions,
+                        jsonArrayAsTable = shortcut.responseJsonArrayAsTable,
+                        javaScriptEnabled = shortcut.responseJavaScriptEnabled,
                     )
                     val responseDataId = navigationArgStore.storeArg(responseData)
                     DisplayResponseActivity.IntentBuilder(title = shortcut.getSafeName(context), responseDataId)
@@ -396,9 +399,8 @@ constructor(
         directoryUri: Uri,
     ) {
         try {
-            val responseHandling = shortcut.responseHandling!!
             val directory = DocumentFile.fromTreeUri(context, directoryUri)
-            val fileName = responseHandling.storeFileName
+            val fileName = shortcut.responseStoreFileName
                 ?.takeUnlessEmpty()
                 ?.let {
                     Variables.rawPlaceholdersToResolvedValues(it, variableManager.getVariableValuesByIds())
@@ -409,7 +411,7 @@ constructor(
                 ?: response.url.toUri().lastPathSegment
                 ?: "http-response" // TODO: Better fallback
 
-            if (responseHandling.replaceFileIfExists) {
+            if (shortcut.responseReplaceFileIfExists) {
                 directory?.findFile(fileName)?.delete()
             }
 

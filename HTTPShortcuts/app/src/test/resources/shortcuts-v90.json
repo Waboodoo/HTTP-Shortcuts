@@ -1,0 +1,94 @@
+{
+  "categories": [
+    {
+      "background": "color\u003d#FF0A11",
+      "id": "a2f1bb79-167c-49a6-9dc7-6c57d15a31a2",
+      "layoutType": "medium_grid",
+      "name": "Shortcuts",
+      "sections": [
+        {
+          "id": "ae5b6c9b-2cee-488f-9eb6-78c1446420c0",
+          "name": "Section 1"
+        }
+      ],
+      "shortcuts": [
+        {
+          "authentication": "basic",
+          "bodyContent": "hello",
+          "codeOnSuccess": "alert(\"success\")",
+          "confirmation": "simple",
+          "contentType": "text/plain",
+          "headers": [
+            {
+              "key": "User-Agent",
+              "value": "foo"
+            }
+          ],
+          "iconName": "flat_color_rocket",
+          "id": "beae9b20-af4a-4dea-991e-532683452923",
+          "method": "POST",
+          "name": "HTTP",
+          "password": "password",
+          "responseHandling": {
+            "actions": [
+              "rerun",
+              "share"
+            ],
+            "failureOutput": "simple",
+            "storeDirectoryId": "ab85cc28-d159-4223-9c3f-634fc9d2f8c0",
+            "storeFileName": "foo"
+          },
+          "url": "https://example.com/post?data\u003d{{a2252411-cf14-4420-b79b-efe71cc59280}}",
+          "username": "username"
+        },
+        {
+          "browserPackageName": "custom-tabs(com.android.chrome)",
+          "excludeFromHistory": true,
+          "executionType": "browser",
+          "iconName": "flat_color_star",
+          "id": "38caa0c5-9230-403f-a7a2-23b490527562",
+          "name": "Browser",
+          "quickSettingsTileShortcut": true,
+          "url": "https://example.com"
+        },
+        {
+          "codeOnPrepare": ";",
+          "description": "description",
+          "executionType": "scripting",
+          "iconName": "flat_color_lightbulb_3",
+          "id": "d30a31ba-1e13-41ee-a8c5-41a99b12b749",
+          "launcherShortcut": false,
+          "name": "Scripting",
+          "section": "ae5b6c9b-2cee-488f-9eb6-78c1446420c0"
+        }
+      ]
+    }
+  ],
+  "certificatePins": [
+    {
+      "hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "id": "46bdc6dc-dcb8-479b-aa2e-379cf8c71a72",
+      "pattern": "example.com"
+    }
+  ],
+  "compatibilityVersion": 90,
+  "globalCode": ";;;",
+  "title": "title",
+  "variables": [
+    {
+      "data": "{\"labels\":[\"A\",\"B\"],\"values\":[\"a\",\"b\"],\"multi_select\":\"false\",\"separator\":\",\"}",
+      "id": "a2252411-cf14-4420-b79b-efe71cc59280",
+      "key": "Select",
+      "type": "select",
+      "urlEncode": true
+    }
+  ],
+  "version": 90,
+  "workingDirectories": [
+    {
+      "directory": "content://com.android.externalstorage.documents/tree/primary%3ASync",
+      "id": "ab85cc28-d159-4223-9c3f-634fc9d2f8c0",
+      "name": "Sync"
+    }
+  ]
+}

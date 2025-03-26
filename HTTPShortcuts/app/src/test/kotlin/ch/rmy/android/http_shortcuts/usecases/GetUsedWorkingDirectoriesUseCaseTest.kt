@@ -1,12 +1,10 @@
 package ch.rmy.android.http_shortcuts.usecases
 
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.models.AppConfig
-import ch.rmy.android.http_shortcuts.data.models.Base
-import ch.rmy.android.http_shortcuts.data.models.Category
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
+import ch.rmy.android.http_shortcuts.utils.DefaultModels
 import io.mockk.coEvery
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK
@@ -28,49 +26,41 @@ class GetUsedWorkingDirectoriesUseCaseTest {
     @Test
     fun `get working directories`() = runTest {
         coEvery { workingDirectoryRepository.getWorkingDirectories() } returns listOf(
-            WorkingDirectory(id = "a", name = "dir 1"),
-            WorkingDirectory(id = "b", name = "dir2"),
-            WorkingDirectory(id = "c", name = "dir 3"),
-            WorkingDirectory(id = "d", name = "dir 4"),
-            WorkingDirectory(id = "e", name = "dir 5"),
-            WorkingDirectory(id = "f", name = "dir 6"),
+            workingDirectory(id = "a", name = "dir 1"),
+            workingDirectory(id = "b", name = "dir2"),
+            workingDirectory(id = "c", name = "dir 3"),
+            workingDirectory(id = "d", name = "dir 4"),
+            workingDirectory(id = "e", name = "dir 5"),
+            workingDirectory(id = "f", name = "dir 6"),
         )
 
-        val base = Base()
         val appConfig = AppConfig(
+            title = "",
             globalCode = """
                 const foo = getDirectory('dir 1');
                 const bar = getDirectory("dir2");
             """,
         )
-        val category = Category()
-        category.shortcuts.addAll(
-            listOf(
-                Shortcut()
-                    .apply {
-                        responseHandling = ResponseHandling()
-                            .apply {
-                                storeDirectoryId = "c"
-                            }
-                    },
-                Shortcut().apply {
-                    codeOnPrepare = """
-                        getDirectory("Dir 4");
-                    """
-                },
-                Shortcut().apply {
-                    codeOnSuccess = """
-                        getDirectory("e");
-                    """
-                },
-                Shortcut().apply {
-                    codeOnSuccess = """
-                        getDirectory("x");
-                    """
-                },
+        val shortcuts = listOf(
+            DefaultModels.shortcut.copy(
+                responseStoreDirectoryId = "c",
+            ),
+            DefaultModels.shortcut.copy(
+                codeOnPrepare = """
+                    getDirectory("Dir 4");
+                """,
+            ),
+            DefaultModels.shortcut.copy(
+                codeOnSuccess = """
+                    getDirectory("e");
+                """,
+            ),
+            DefaultModels.shortcut.copy(
+                codeOnFailure = """
+                    getDirectory("x");
+                """,
             ),
         )
-        base.categories.add(category)
 
         assertEquals(
             setOf(
@@ -80,7 +70,15 @@ class GetUsedWorkingDirectoriesUseCaseTest {
                 "d",
                 "e",
             ),
-            useCase.invoke(base, appConfig),
+            useCase.invoke(shortcuts, appConfig),
         )
+    }
+
+    companion object {
+        private fun workingDirectory(id: WorkingDirectoryId, name: String): WorkingDirectory =
+            DefaultModels.workingDirectory.copy(
+                id = id,
+                name = name,
+            )
     }
 }

@@ -214,7 +214,7 @@ class ExecuteActivity : BaseComposeActivity() {
                 tryNumber = extras?.getInt(EXTRA_TRY_NUMBER) ?: 0,
                 recursionDepth = extras?.getInt(EXTRA_RECURSION_DEPTH) ?: 0,
                 fileUris = getParcelableList(EXTRA_FILES) ?: emptyList(),
-                trigger = ShortcutTriggerType.parse(extras?.getString(EXTRA_TRIGGER)),
+                trigger = extras?.getString(EXTRA_TRIGGER)?.let { ShortcutTriggerType.parse(it) },
             )
     }
 }

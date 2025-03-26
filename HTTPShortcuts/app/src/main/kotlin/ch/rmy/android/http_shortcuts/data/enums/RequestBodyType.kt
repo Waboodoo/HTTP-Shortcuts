@@ -11,8 +11,7 @@ enum class RequestBodyType(val type: String) {
         type
 
     companion object {
-        fun parse(type: String?) =
-            entries.firstOrNull { it.type == type }
-                ?: CUSTOM_TEXT
+        fun parse(type: String): RequestBodyType? =
+            entries.find { it.type == type }
     }
 }

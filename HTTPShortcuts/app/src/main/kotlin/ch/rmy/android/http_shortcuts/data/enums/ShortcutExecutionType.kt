@@ -16,8 +16,7 @@ enum class ShortcutExecutionType(
     ;
 
     companion object {
-
-        fun get(type: String) =
-            entries.first { it.type == type }
+        fun parse(type: String): ShortcutExecutionType? =
+            entries.find { it.type == type }
     }
 }

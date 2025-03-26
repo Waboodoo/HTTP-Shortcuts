@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.import_export
 
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
-import ch.rmy.android.http_shortcuts.data.DatabaseSchema
 import ch.rmy.android.http_shortcuts.import_export.migration.CategoryBackgroundMigration
 import ch.rmy.android.http_shortcuts.import_export.migration.CategoryLayoutMigration
 import ch.rmy.android.http_shortcuts.import_export.migration.FileUploadTypeMigration
@@ -15,26 +14,29 @@ import ch.rmy.android.http_shortcuts.import_export.migration.ResponseHandlingMig
 import ch.rmy.android.http_shortcuts.import_export.migration.WorkingDirectoryMigration
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import javax.inject.Inject
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-internal object ImportMigrator {
+class ImportMigrator
+@Inject
+constructor() {
 
     fun migrate(importData: JsonElement): JsonElement {
         val base = importData.asJsonObject
         val fromVersion = base["version"]?.takeUnless { it.isJsonNull }
             ?.asLong
             ?: throw InvalidFileException()
-        if (fromVersion > DatabaseSchema.VERSION) {
+        if (fromVersion > VERSION) {
             val compatibilityVersion = base["compatibilityVersion"]?.takeUnless { it.isJsonNull }?.asLong?.takeUnless { it == 0L }
-            if (compatibilityVersion == null || compatibilityVersion > DatabaseSchema.VERSION) {
+            if (compatibilityVersion == null || compatibilityVersion > VERSION) {
                 throw ImportVersionMismatchException()
             }
         }
         require(base.has("categories")) { "Import data doesn't have any categories" }
 
-        for (version in fromVersion + 1..DatabaseSchema.VERSION) {
+        for (version in fromVersion + 1..VERSION) {
             migrate(base, version)
             base.addProperty("version", version)
         }
@@ -202,6 +204,29 @@ internal object ImportMigrator {
                         }
                 }
             }
+            90L -> { // 3.28.0
+                for (category in base.getObjectArray("categories")) {
+                    if (category.getString("layoutType") == "grid") {
+                        category.addProperty("layoutType", "dense_grid")
+                    }
+
+                    for (shortcut in category.getObjectArray("shortcuts")) {
+                        val repetitionInterval = shortcut.getAsJsonObject("repetition")?.getInt("interval")
+                        if (repetitionInterval != null) {
+                            shortcut.addProperty("repetitionInterval", repetitionInterval)
+                        }
+
+                        if (shortcut.getString("retryPolicy") == "wait_for_internet") {
+                            shortcut.addProperty("waitForInternet", true)
+                        }
+                    }
+                }
+            }
         }
+    }
+
+    companion object {
+        const val VERSION = 90L
+        const val COMPATIBILITY_VERSION = 90L
     }
 }

@@ -11,7 +11,7 @@ enum class ResponseContentType(val key: String) {
     ;
 
     companion object {
-        fun parse(key: String) =
-            entries.firstOrNull { it.key == key }
+        fun parse(key: String): ResponseContentType? =
+            entries.find { it.key == key }
     }
 }

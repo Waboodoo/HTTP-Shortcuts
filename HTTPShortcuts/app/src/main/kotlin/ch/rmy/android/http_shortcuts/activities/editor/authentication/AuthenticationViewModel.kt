@@ -10,7 +10,6 @@ import ch.rmy.android.http_shortcuts.activities.editor.authentication.usecases.C
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
-import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.ClientCertUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,17 +29,17 @@ constructor(
     override suspend fun initialize(data: Unit): AuthenticationViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
         return AuthenticationViewState(
-            shortcutExecutionType = shortcut.type,
+            shortcutExecutionType = shortcut.executionType,
             authenticationType = shortcut.authenticationType,
-            username = shortcut.username,
-            password = shortcut.password,
+            username = shortcut.authUsername,
+            password = shortcut.authPassword,
             token = shortcut.authToken,
             clientCertParams = shortcut.clientCertParams,
             isClientCertButtonEnabled = !shortcut.url.startsWith("http://", ignoreCase = true),
         )
     }
 
-    fun onAuthenticationTypeChanged(authenticationType: ShortcutAuthenticationType) = runAction {
+    fun onAuthenticationTypeChanged(authenticationType: ShortcutAuthenticationType?) = runAction {
         updateViewState {
             copy(
                 authenticationType = authenticationType,

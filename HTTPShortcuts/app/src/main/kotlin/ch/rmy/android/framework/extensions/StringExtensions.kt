@@ -39,6 +39,6 @@ fun String.isInt() =
 fun String.toCharset(): Charset? =
     try {
         Charset.forName(this)
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         null
     }

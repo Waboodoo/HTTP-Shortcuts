@@ -11,11 +11,15 @@ import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings.g
 import ch.rmy.android.http_shortcuts.activities.variables.models.VariableListItem
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GenerateVariableKeyUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
+import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderRepository
+import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.extensions.getRequestParametersForShortcuts
+import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.variables.VariableManager
@@ -34,6 +38,8 @@ constructor(
     application: Application,
     private val variableRepository: VariableRepository,
     private val shortcutRepository: ShortcutRepository,
+    private val requestHeaderRepository: RequestHeaderRepository,
+    private val requestParameterRepository: RequestParameterRepository,
     private val getUsedVariableIdsUseCase: GetUsedVariableIdsUseCase,
     private val generateVariableKey: GenerateVariableKeyUseCase,
 ) : BaseViewModel<Unit, VariablesViewState>(application) {
@@ -161,9 +167,19 @@ constructor(
     private suspend fun getShortcutNamesWhereVariableIsInUse(variableId: VariableId): List<String> {
         val variableLookup = VariableManager(variables)
         // TODO: Also check if the variable is used inside another variable
-        return shortcutRepository.getShortcuts()
+
+        val shortcuts = shortcutRepository.getShortcuts()
+        val headersByShortcutId = requestHeaderRepository.getRequestHeadersByShortcutIds(shortcuts.ids())
+        val parametersByShortcutId = requestParameterRepository.getRequestParametersForShortcuts(shortcuts)
+
+        return shortcuts
             .filter { shortcut ->
-                VariableResolver.extractVariableIdsIncludingScripting(shortcut, variableLookup)
+                VariableResolver.extractVariableIdsIncludingScripting(
+                    shortcut = shortcut,
+                    headers = headersByShortcutId[shortcut.id] ?: emptyList(),
+                    parameters = parametersByShortcutId[shortcut.id] ?: emptyList(),
+                    variableLookup = variableLookup,
+                )
                     .contains(variableId)
             }
             .map { shortcut ->

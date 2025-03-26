@@ -65,3 +65,9 @@ inline fun <T> Collection<T>.indexOfFirstOrNull(predicate: (T) -> Boolean): Int?
 
 inline fun <T> Collection<T>.hasDuplicatesBy(getKey: (T) -> Any?): Boolean =
     distinctBy(getKey).size != size
+
+fun Boolean.trueOrNull(): Boolean? =
+    if (this) true else null
+
+fun Boolean.falseOrNull(): Boolean? =
+    if (!this) false else null

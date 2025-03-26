@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import ch.rmy.android.framework.extensions.GlobalLogger
-import ch.rmy.android.http_shortcuts.data.realm.RealmFactoryImpl
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigration
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
@@ -47,13 +47,21 @@ class Application : android.app.Application(), Configuration.Provider {
         Logging.initCrashReporting(context)
         GlobalLogger.registerLogging(Logging)
 
-        val realm = RealmFactoryImpl.init(applicationContext)
-        if (realm != null) {
+        if (realmToRoomMigration.needsMigration()) {
             CoroutineScope(Dispatchers.IO).launch {
-                realmToRoomMigration.migrateIfNeeded(realm)
+                try {
+                    realmToRoomMigration.migrate()
+                } catch (e: Exception) {
+                    logException(e)
+                    startupError = e.message ?: e.toString()
+                }
             }
         }
 
         DarkThemeHelper.applyDarkThemeSettings(Settings(context).darkThemeSetting)
+    }
+
+    companion object {
+        var startupError: String? = null
     }
 }

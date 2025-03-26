@@ -20,6 +20,7 @@ import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariab
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
@@ -35,6 +36,7 @@ class ExportViewModel
 constructor(
     application: Application,
     private val categoryRepository: CategoryRepository,
+    private val shortcutRepository: ShortcutRepository,
     private val getUsedVariableIds: GetUsedVariableIdsUseCase,
     private val exporter: Exporter,
 ) : BaseViewModel<ExportViewModel.InitData, ExportViewState>(application) {
@@ -47,29 +49,30 @@ constructor(
 
     override suspend fun initialize(data: InitData): ExportViewState {
         val items = buildList {
-            categoryRepository.getCategories()
-                .forEach { category ->
-                    if (category.shortcuts.isNotEmpty()) {
+            val shortcutsByCategoryId = shortcutRepository.getShortcuts().groupBy { it.categoryId }
+            categoryRepository.getCategories().forEach { category ->
+                val shortcuts = shortcutsByCategoryId[category.id] ?: emptyList()
+                if (shortcuts.isNotEmpty()) {
+                    add(
+                        ExportItem.Category(
+                            categoryId = category.id,
+                            name = category.name,
+                            checked = true,
+                        ),
+                    )
+                    shortcuts.forEach { shortcut ->
                         add(
-                            ExportItem.Category(
+                            ExportItem.Shortcut(
+                                shortcutId = shortcut.id,
                                 categoryId = category.id,
-                                name = category.name,
+                                name = shortcut.name,
+                                icon = shortcut.icon,
                                 checked = true,
                             ),
                         )
-                        category.shortcuts.forEach { shortcut ->
-                            add(
-                                ExportItem.Shortcut(
-                                    shortcutId = shortcut.id,
-                                    categoryId = category.id,
-                                    name = shortcut.name,
-                                    icon = shortcut.icon,
-                                    checked = true,
-                                ),
-                            )
-                        }
                     }
                 }
+            }
         }
 
         return ExportViewState(
@@ -143,16 +146,18 @@ constructor(
                     excludeDefaults = true,
                 )
 
-            sendIntent(object : IntentBuilder {
-                override fun build(context: Context) =
-                    Intent(Intent.ACTION_SEND)
-                        .setType(ExportFormat.ZIP.fileTypeForSharing)
-                        .putExtra(Intent.EXTRA_STREAM, cacheFile)
-                        .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        .let {
-                            Intent.createChooser(it, context.getString(R.string.title_export))
-                        }
-            })
+            sendIntent(
+                object : IntentBuilder {
+                    override fun build(context: Context) =
+                        Intent(Intent.ACTION_SEND)
+                            .setType(ExportFormat.ZIP.fileTypeForSharing)
+                            .putExtra(Intent.EXTRA_STREAM, cacheFile)
+                            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            .let {
+                                Intent.createChooser(it, context.getString(R.string.title_export))
+                            }
+                },
+            )
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {

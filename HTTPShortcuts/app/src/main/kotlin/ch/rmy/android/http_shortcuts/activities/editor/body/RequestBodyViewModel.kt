@@ -9,12 +9,14 @@ import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.body.models.ParameterListItem
+import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterId
+import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
-import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
-import ch.rmy.android.http_shortcuts.data.models.Parameter
+import ch.rmy.android.http_shortcuts.data.models.RequestParameter
+import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import com.google.gson.JsonParseException
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,28 +30,40 @@ class RequestBodyViewModel
 constructor(
     application: Application,
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
+    private val requestParameterRepository: RequestParameterRepository,
 ) : BaseViewModel<Unit, RequestBodyViewState>(application) {
 
-    private var parameters: List<Parameter> = emptyList()
+    private var parameters: List<RequestParameter> = emptyList()
 
     override suspend fun initialize(data: Unit): RequestBodyViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
-        parameters = shortcut.parameters
+        parameters = requestParameterRepository.getRequestParametersByShortcutId(TEMPORARY_ID)
         return RequestBodyViewState(
-            requestBodyType = shortcut.bodyType,
-            fileUploadType = shortcut.fileUploadOptions?.type ?: FileUploadType.FILE_PICKER,
+            requestBodyType = shortcut.requestBodyType,
+            fileUploadType = shortcut.fileUploadType ?: FileUploadType.FILE_PICKER,
             bodyContent = shortcut.bodyContent,
             contentType = shortcut.contentType,
-            parameters = mapParameters(shortcut.parameters),
-            useImageEditor = shortcut.fileUploadOptions?.useImageEditor == true,
-            fileName = shortcut.fileUploadOptions?.file?.toUri()?.getFileName(),
+            parameters = mapParameters(parameters),
+            useImageEditor = shortcut.fileUploadUseImageEditor,
+            fileName = shortcut.fileUploadSourceFile?.toUri()?.getFileName(),
         )
     }
 
     fun onRequestBodyTypeChanged(type: RequestBodyType) = runAction {
         if (type == RequestBodyType.X_WWW_FORM_URLENCODE) {
-            val parameters = parameters.filter { it.isStringParameter }
-            this@RequestBodyViewModel.parameters = parameters
+            parameters = parameters.map { parameter ->
+                if (parameter.parameterType != ParameterType.STRING) {
+                    parameter.copy(
+                        parameterType = ParameterType.STRING,
+                        fileUploadType = null,
+                        fileUploadFileName = null,
+                        fileUploadSourceFile = null,
+                        fileUploadUseImageEditor = false,
+                    )
+                } else {
+                    parameter
+                }
+            }
         }
         updateViewState {
             copy(
@@ -62,7 +76,7 @@ constructor(
         }
     }
 
-    private suspend fun updateParameters(parameters: List<Parameter>) {
+    private suspend fun updateParameters(parameters: List<RequestParameter>) {
         this.parameters = parameters
         updateViewState {
             copy(
@@ -71,10 +85,10 @@ constructor(
         }
     }
 
-    fun onParameterMoved(parameterId1: String, parameterId2: String) = runAction {
+    fun onParameterMoved(parameterId1: RequestParameterId, parameterId2: RequestParameterId) = runAction {
         updateParameters(parameters.swapped(parameterId1, parameterId2) { id })
         withProgressTracking {
-            temporaryShortcutRepository.moveParameter(parameterId1, parameterId2)
+            requestParameterRepository.moveRequestParameter(parameterId1, parameterId2)
         }
     }
 
@@ -83,25 +97,19 @@ constructor(
             val dialogState = (viewState.dialogState as? RequestBodyDialogState.ParameterEditor ?: skipAction())
             val parameterId = dialogState.id
             updateDialogState(null)
-            val fileUploadOptions = FileUploadOptions()
-                .apply {
-                    this.useImageEditor = useImageEditor
-                    this.type = dialogState.fileUploadType
-                    this.file = dialogState.sourceFile?.toString()
-                }
-
             if (parameterId != null) {
                 updateParameters(
                     parameters
                         .map { parameter ->
                             if (parameter.id == parameterId) {
-                                Parameter(
+                                parameter.copy(
                                     id = parameterId,
                                     key = key,
                                     value = value,
-                                    parameterType = parameter.parameterType,
-                                    fileName = parameter.fileName,
-                                    fileUploadOptions = fileUploadOptions,
+                                    fileUploadType = dialogState.fileUploadType,
+                                    fileUploadFileName = fileName,
+                                    fileUploadSourceFile = dialogState.sourceFile?.toString(),
+                                    fileUploadUseImageEditor = useImageEditor,
                                 )
                             } else {
                                 parameter
@@ -109,12 +117,27 @@ constructor(
                         },
                 )
                 withProgressTracking {
-                    temporaryShortcutRepository.updateParameter(parameterId, key, value, fileName, fileUploadOptions)
+                    requestParameterRepository.updateRequestParameter(
+                        parameterId = parameterId,
+                        key = key,
+                        value = value,
+                        fileUploadType = dialogState.fileUploadType,
+                        fileUploadFileName = fileName,
+                        fileUploadSourceFile = dialogState.sourceFile?.toString(),
+                        fileUploadUseImageEditor = useImageEditor,
+                    )
                 }
             } else {
-                val type = dialogState.type
                 withProgressTracking {
-                    val newParameter = temporaryShortcutRepository.addParameter(type, key, value, fileName, fileUploadOptions)
+                    val newParameter = requestParameterRepository.insertRequestParameter(
+                        key = key,
+                        value = value,
+                        parameterType = dialogState.type,
+                        fileUploadType = dialogState.fileUploadType,
+                        fileUploadFileName = fileName,
+                        fileUploadSourceFile = dialogState.sourceFile?.toString(),
+                        fileUploadUseImageEditor = useImageEditor,
+                    )
                     updateParameters(parameters.plus(newParameter))
                 }
             }
@@ -131,7 +154,7 @@ constructor(
                 },
         )
         withProgressTracking {
-            temporaryShortcutRepository.removeParameter(parameterId)
+            requestParameterRepository.deleteRequestParameter(parameterId)
         }
     }
 
@@ -155,7 +178,7 @@ constructor(
         )
     }
 
-    fun onParameterClicked(id: String) = runAction {
+    fun onParameterClicked(id: RequestParameterId) = runAction {
         parameters.firstOrNull { parameter ->
             parameter.id == id
         }
@@ -165,12 +188,12 @@ constructor(
                         id = parameter.id,
                         key = parameter.key,
                         value = parameter.value,
-                        fileName = parameter.fileName,
+                        fileName = parameter.fileUploadFileName ?: "",
                         type = parameter.parameterType,
-                        useImageEditor = parameter.fileUploadOptions?.useImageEditor == true,
-                        fileUploadType = parameter.fileUploadOptions?.type ?: FileUploadType.FILE_PICKER,
-                        sourceFile = parameter.fileUploadOptions?.file?.toUri(),
-                        sourceFileName = parameter.fileUploadOptions?.file?.toUri()?.getFileName(),
+                        useImageEditor = parameter.fileUploadUseImageEditor,
+                        fileUploadType = parameter.fileUploadType ?: FileUploadType.FILE_PICKER,
+                        sourceFile = parameter.fileUploadSourceFile?.toUri(),
+                        sourceFileName = parameter.fileUploadSourceFile?.toUri()?.getFileName(),
                     ),
                 )
             }
@@ -306,14 +329,14 @@ constructor(
     }
 
     companion object {
-        internal fun mapParameters(parameters: List<Parameter>): List<ParameterListItem> =
+        internal fun mapParameters(parameters: List<RequestParameter>): List<ParameterListItem> =
             parameters.map { parameter ->
                 ParameterListItem(
                     id = parameter.id,
                     key = parameter.key,
                     value = parameter.value,
                     type = parameter.parameterType,
-                    fileUploadType = parameter.fileUploadOptions?.type,
+                    fileUploadType = parameter.fileUploadType,
                 )
             }
 

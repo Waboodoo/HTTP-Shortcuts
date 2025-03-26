@@ -13,7 +13,11 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.categories.models.CategoryListItem
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
+import ch.rmy.android.http_shortcuts.data.domains.sections.SectionRepository
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.Section
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Categories.RESULT_CATEGORIES_CHANGED
@@ -32,14 +36,20 @@ class CategoriesViewModel
 constructor(
     application: Application,
     private val categoryRepository: CategoryRepository,
+    private val sectionRepository: SectionRepository,
+    private val shortcutRepository: ShortcutRepository,
     private val launcherShortcutManager: LauncherShortcutManager,
 ) : BaseViewModel<Unit, CategoriesViewState>(application) {
 
     private lateinit var categories: List<Category>
     private var hasChanged = false
     private var activeCategoryId: CategoryId? = null
+    private lateinit var sectionsByCategoryId: Map<CategoryId, List<Section>>
+    private lateinit var shortcutsByCategoryId: Map<CategoryId, List<Shortcut>>
 
     override suspend fun initialize(data: Unit): CategoriesViewState {
+        sectionsByCategoryId = sectionRepository.getSections().groupBy { it.categoryId }
+        shortcutsByCategoryId = shortcutRepository.getShortcuts().groupBy { it.categoryId }
         val categoriesFlow = categoryRepository.observeCategories()
         categories = categoriesFlow.first()
         viewModelScope.launch {
@@ -129,7 +139,7 @@ constructor(
         val categoryId = activeCategoryId ?: skipAction()
         val category = getCategory(categoryId) ?: skipAction()
         updateDialogState(null)
-        if (category.shortcuts.isEmpty()) {
+        if (shortcutsByCategoryId[categoryId].isNullOrEmpty()) {
             deleteCategory(categoryId)
         } else {
             updateDialogState(CategoriesDialogState.Deletion(category.name))
@@ -207,44 +217,46 @@ constructor(
         showSnackbar(R.string.message_changes_discarded)
     }
 
-    companion object {
-        private const val MAX_ICONS = 5
-
-        internal fun mapCategories(categories: List<Category>): List<CategoryListItem> =
-            categories.map { category ->
-                CategoryListItem(
-                    id = category.id,
-                    name = if (category.hidden) {
-                        StringResLocalizable(R.string.label_category_hidden, category.name)
-                    } else {
-                        category.name.toLocalizable()
-                    },
-                    description = if (category.sections.isNotEmpty()) {
-                        StringResLocalizable(
-                            R.string.shortcut_section_count_pattern,
-                            QuantityStringLocalizable(
-                                R.plurals.shortcut_count,
-                                count = category.shortcuts.size,
-                            ),
-                            QuantityStringLocalizable(
-                                R.plurals.section_count,
-                                count = category.sections.size,
-                            ),
-                        )
-                    } else {
+    private fun mapCategories(categories: List<Category>): List<CategoryListItem> =
+        categories.map { category ->
+            val sections = sectionsByCategoryId[category.id] ?: emptyList()
+            val shortcuts = shortcutsByCategoryId[category.id] ?: emptyList()
+            CategoryListItem(
+                id = category.id,
+                name = if (category.hidden) {
+                    StringResLocalizable(R.string.label_category_hidden, category.name)
+                } else {
+                    category.name.toLocalizable()
+                },
+                description = if (sections.isNotEmpty()) {
+                    StringResLocalizable(
+                        R.string.shortcut_section_count_pattern,
                         QuantityStringLocalizable(
                             R.plurals.shortcut_count,
-                            count = category.shortcuts.size,
-                        )
+                            count = shortcuts.size,
+                        ),
+                        QuantityStringLocalizable(
+                            R.plurals.section_count,
+                            count = sections.size,
+                        ),
+                    )
+                } else {
+                    QuantityStringLocalizable(
+                        R.plurals.shortcut_count,
+                        count = shortcuts.size,
+                    )
+                },
+                icons = shortcuts
+                    .take(MAX_ICONS)
+                    .map { shortcut ->
+                        shortcut.icon
                     },
-                    icons = category.shortcuts
-                        .take(MAX_ICONS)
-                        .map { shortcut ->
-                            shortcut.icon
-                        },
-                    layoutType = category.categoryLayoutType.takeUnless { category.hidden },
-                    hidden = category.hidden,
-                )
-            }
+                layoutType = category.layoutType.takeUnless { category.hidden },
+                hidden = category.hidden,
+            )
+        }
+
+    companion object {
+        private const val MAX_ICONS = 5
     }
 }

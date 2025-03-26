@@ -6,7 +6,6 @@ enum class ShortcutAuthenticationType(
     val usesToken: Boolean = false,
 ) {
 
-    NONE("none"),
     BASIC("basic", usesUsernameAndPassword = true),
     DIGEST("digest", usesUsernameAndPassword = true),
     BEARER("bearer", usesToken = true),
@@ -16,8 +15,7 @@ enum class ShortcutAuthenticationType(
         type
 
     companion object {
-        fun parse(type: String?) =
-            entries.firstOrNull { it.type == type }
-                ?: NONE
+        fun parse(type: String): ShortcutAuthenticationType? =
+            entries.find { it.type == type }
     }
 }

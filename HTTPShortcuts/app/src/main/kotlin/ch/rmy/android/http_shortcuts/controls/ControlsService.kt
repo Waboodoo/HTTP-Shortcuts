@@ -14,6 +14,7 @@ import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -31,6 +32,9 @@ class ControlsService : ControlsProviderService() {
     lateinit var categoryRepository: CategoryRepository
 
     @Inject
+    lateinit var shortcutRepository: ShortcutRepository
+
+    @Inject
     lateinit var executionStarter: ExecutionStarter
 
     override fun createPublisherForAllAvailable(): Flow.Publisher<Control?> =
@@ -43,12 +47,16 @@ class ControlsService : ControlsProviderService() {
 
     private fun createPublisher(filter: ((Pair<Category, Shortcut>) -> Boolean)? = null): Flow.Publisher<Control?> =
         flowPublish<Control?> {
-            categoryRepository.getCategories()
-                .flatMap { category ->
-                    category.shortcuts.map { shortcut ->
+            val categories = categoryRepository.getCategories()
+            val shortcutsByCategoryId = shortcutRepository.getShortcuts()
+                .groupBy { it.categoryId }
+
+            categories.flatMap { category ->
+                (shortcutsByCategoryId[category.id] ?: emptyList())
+                    .map { shortcut ->
                         category to shortcut
                     }
-                }
+            }
                 .runIfNotNull(filter) { predicate ->
                     filter(predicate)
                 }
@@ -75,7 +83,7 @@ class ControlsService : ControlsProviderService() {
         }
 
     private fun Shortcut.getDeviceType(): Int {
-        val name = iconName ?: ""
+        val name = icon.toString()
         if (name.contains("light") || name.contains("bright")) {
             return DeviceTypes.TYPE_LIGHT
         }

@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.categories.editor
 
 import android.app.Application
+import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.categories.editor.models.CategoryBackground
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
@@ -33,20 +34,24 @@ constructor(
 
     override suspend fun initialize(data: InitData): CategoryEditorViewState {
         category = if (data.categoryId != null) {
-            categoryRepository.getCategory(data.categoryId)
+            categoryRepository.getCategoryById(data.categoryId)
         } else {
-            Category()
+            Category(
+                id = newUUID(),
+                name = "",
+                icon = null,
+                layoutType = CategoryLayoutType.LINEAR_LIST,
+                background = CategoryBackgroundType.Default,
+                hidden = false,
+                shortcutClickBehavior = null,
+            )
         }
 
         return CategoryEditorViewState(
             categoryName = category.name,
-            categoryLayoutType = category.categoryLayoutType,
-            categoryBackgroundType = category.categoryBackgroundType,
-            categoryClickBehavior = category.clickBehavior,
-            originalCategoryName = category.name,
-            originalCategoryLayoutType = category.categoryLayoutType,
-            originalCategoryBackgroundType = category.categoryBackgroundType,
-            originalCategoryClickBehavior = category.clickBehavior,
+            categoryLayoutType = category.layoutType,
+            categoryBackgroundType = category.background,
+            categoryClickBehavior = category.shortcutClickBehavior,
         )
     }
 

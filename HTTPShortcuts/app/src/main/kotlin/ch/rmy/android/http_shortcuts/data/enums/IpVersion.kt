@@ -9,8 +9,7 @@ enum class IpVersion(val version: String) {
         version
 
     companion object {
-        fun parse(version: String) =
-            IpVersion.entries.firstOrNull { it.version == version }
-                ?: V6
+        fun parse(version: String): IpVersion? =
+            entries.find { it.version == version }
     }
 }

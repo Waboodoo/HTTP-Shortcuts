@@ -3,12 +3,13 @@ package ch.rmy.android.http_shortcuts.activities.editor.executionsettings
 import android.app.Application
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.executionsettings.ExecutionSettingsEvent.RequestNotificationPermission
+import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
+import ch.rmy.android.http_shortcuts.data.enums.ParameterType
+import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.extensions.canUseFiles
 import ch.rmy.android.http_shortcuts.extensions.canWaitForConnection
-import ch.rmy.android.http_shortcuts.extensions.hasFileParameter
-import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.BiometricUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
@@ -26,6 +27,7 @@ class ExecutionSettingsViewModel
 constructor(
     application: Application,
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
+    private val requestParameterRepository: RequestParameterRepository,
     private val launcherShortcutManager: LauncherShortcutManager,
     private val restrictionsUtil: RestrictionsUtil,
     private val appOverlayUtil: AppOverlayUtil,
@@ -35,22 +37,28 @@ constructor(
 
     override suspend fun initialize(data: Unit): ExecutionSettingsViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        val hasFileParameter = if (shortcut.usesRequestParameters()) {
+            requestParameterRepository.getRequestParametersByShortcutId(TEMPORARY_ID)
+                .any { it.parameterType == ParameterType.FILE }
+        } else {
+            false
+        }
         return ExecutionSettingsViewState(
             runInBackground = shortcut.runInForegroundService,
             directShareOptionVisible = launcherShortcutManager.supportsDirectShare(),
             waitForConnection = shortcut.isWaitForNetwork,
-            waitForConnectionOptionVisible = shortcut.type.canWaitForConnection,
+            waitForConnectionOptionVisible = shortcut.executionType.canWaitForConnection,
             launcherShortcut = shortcut.launcherShortcut,
             secondaryLauncherShortcut = shortcut.secondaryLauncherShortcut,
             quickSettingsTileShortcut = shortcut.quickSettingsTileShortcut,
             delay = shortcut.delay.milliseconds,
             confirmationType = shortcut.confirmationType,
             excludeFromHistory = shortcut.excludeFromHistory,
-            repetitionInterval = shortcut.repetition?.interval,
+            repetitionInterval = shortcut.repetitionInterval,
             canUseBiometrics = biometricUtil.canUseBiometrics(),
             excludeFromFileSharing = shortcut.excludeFromFileSharing,
-            canUseFiles = shortcut.type.canUseFiles,
-            usesFiles = shortcut.usesGenericFileBody() || shortcut.hasFileParameter(),
+            canUseFiles = shortcut.executionType.canUseFiles,
+            usesFiles = shortcut.usesGenericFileBody() || hasFileParameter,
         )
     }
 

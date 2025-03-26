@@ -13,8 +13,7 @@ enum class ShortcutClickBehavior(val type: String) {
         type
 
     companion object {
-        fun parse(type: String?) =
-            entries.firstOrNull { it.type == type }
-                ?: RUN
+        fun parse(type: String): ShortcutClickBehavior? =
+            entries.find { it.type == type }
     }
 }

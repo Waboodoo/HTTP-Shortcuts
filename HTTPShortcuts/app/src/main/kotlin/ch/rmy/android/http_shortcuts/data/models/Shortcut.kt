@@ -1,380 +1,199 @@
 package ch.rmy.android.http_shortcuts.data.models
 
-import ch.rmy.android.framework.extensions.isInt
-import ch.rmy.android.framework.extensions.isUUID
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.sections.SectionId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
+import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
+import ch.rmy.android.http_shortcuts.data.enums.HttpMethod
 import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
+import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
+import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
+import ch.rmy.android.http_shortcuts.data.enums.ResponseFailureOutput
+import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
+import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
+import ch.rmy.android.http_shortcuts.data.enums.SecurityPolicy
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
-import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.extensions.usesResponse
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import io.realm.kotlin.ext.realmListOf
-import io.realm.kotlin.types.RealmList
-import io.realm.kotlin.types.RealmObject
-import io.realm.kotlin.types.annotations.PrimaryKey
+import java.nio.charset.Charset
 
-class Shortcut() : RealmObject {
-
-    constructor(
-        id: ShortcutId = "",
-        icon: ShortcutIcon = ShortcutIcon.NoIcon,
-        executionType: ShortcutExecutionType = ShortcutExecutionType.HTTP,
-        categoryId: CategoryId? = null,
-    ) : this() {
-        this.id = id
-        this.icon = icon
-        this.executionType = executionType.type
-        if (executionType.usesResponse) {
-            responseHandling = ResponseHandling()
-        }
-        when (executionType) {
-            ShortcutExecutionType.MQTT -> {
-                url = "tcp://"
-            }
-            ShortcutExecutionType.WAKE_ON_LAN -> {
-                wolBroadcastAddress = "255.255.255.255"
-                wolPort = 9
-            }
-            else -> Unit
-        }
-        this.categoryId = categoryId
-    }
-
+@Entity(tableName = "shortcut")
+data class Shortcut(
     @PrimaryKey
-    var id: ShortcutId = ""
-    var executionType: String? = ShortcutExecutionType.HTTP.type
-
-    // Only valid when id == TEMPORARY_ID
-    @ExcludedFromExport
-    var categoryId: CategoryId? = null
-
-    var name: String = ""
-
-    var iconName: String? = icon.toString().takeUnlessEmpty()
-        private set
-
-    var hidden: Boolean = false
-
-    var method = METHOD_GET
-
-    var url: String = "https://"
-
-    var username: String = ""
-
-    var password: String = ""
-
-    var authToken: String = ""
-
-    var description: String = ""
-
-    var section: SectionId? = null
-
-    var bodyContent: String = ""
-
-    var timeout: Int = 10000
-
-    private var retryPolicy: String = RETRY_POLICY_NONE
-
-    var headers: RealmList<Header> = realmListOf()
-
-    var parameters: RealmList<Parameter> = realmListOf()
-
-    var acceptAllCertificates: Boolean = false
-
-    /**
-     * Hex-encoded SHA-1 or SHA-256 fingerprint of expected (self-signed) server certificate, or empty string if not used
-     */
-    var certificateFingerprint: String = ""
-
-    private var authentication: String? = ShortcutAuthenticationType.NONE.type
-
-    var launcherShortcut: Boolean = true
-
-    var secondaryLauncherShortcut: Boolean = false
-
-    var quickSettingsTileShortcut: Boolean = false
-
-    var delay: Int = 0
-
-    private var requestBodyType: String = RequestBodyType.CUSTOM_TEXT.type
-
-    var contentType: String = ""
-
-    var responseHandling: ResponseHandling? = null
-
-    var fileUploadOptions: FileUploadOptions? = null
-
-    private var confirmation: String? = null
-
-    var confirmationType: ConfirmationType?
-        get() = ConfirmationType.parse(confirmation)
-        set(value) {
-            confirmation = value?.type
-        }
-
-    var followRedirects: Boolean = true
-
-    var acceptCookies: Boolean = true
-
-    var keepConnectionOpen: Boolean = false
-
-    private var protocolVersion: String? = null
-
-    private var proxy: String = "HTTP"
-
-    var proxyHost: String? = null
-
-    var proxyPort: Int? = null
-
-    var proxyUsername: String? = null
-
-    var proxyPassword: String? = null
-
-    var wifiSsid: String = ""
-
-    var clientCert: String = ""
-
-    var codeOnPrepare: String = ""
-
-    var codeOnSuccess: String = ""
-
-    var codeOnFailure: String = ""
-
-    private var browserPackageName: String = ""
-
-    var targetBrowser: TargetBrowser
-        get() = TargetBrowser.parse(browserPackageName)
-        set(value) {
-            browserPackageName = value.serialize()
-        }
-
-    var excludeFromHistory: Boolean = false
-
-    var repetition: Repetition? = null
-
-    var icon: ShortcutIcon
-        get() = ShortcutIcon.fromName(iconName)
-        set(value) {
-            iconName = value.toString().takeUnlessEmpty()
-        }
-
-    var clientCertParams: ClientCertParams?
-        get() = ClientCertParams.fromString(clientCert)
-        set(value) {
-            clientCert = value?.toString() ?: ""
-        }
-
-    var bodyType: RequestBodyType
-        get() = RequestBodyType.parse(requestBodyType)
-        set(value) {
-            requestBodyType = value.type
-        }
-
-    var authenticationType: ShortcutAuthenticationType
-        get() = ShortcutAuthenticationType.parse(authentication)
-        set(value) {
-            authentication = value.type
-        }
-
-    var ipVersion: IpVersion?
-        get() = protocolVersion?.let { IpVersion.parse(it) }
-        set(value) {
-            protocolVersion = value?.version
-        }
-
-    var proxyType: ProxyType
-        get() = ProxyType.parse(proxy)
-        set(value) {
-            proxy = value.type
-        }
-
-    var excludeFromFileSharing: Boolean = false
-
-    var runInForegroundService: Boolean = false
-
-    var wolMacAddress: String = ""
-    var wolPort: Int = 0
-    var wolBroadcastAddress: String = ""
-
+    @ColumnInfo(name = "id")
+    val id: ShortcutId,
+    @ColumnInfo(name = "execution_type")
+    val executionType: ShortcutExecutionType,
+    @ColumnInfo(name = "category_id", index = true)
+    val categoryId: CategoryId,
+    @ColumnInfo(name = "name")
+    val name: String,
+    @ColumnInfo(name = "description")
+    val description: String,
+    @ColumnInfo(name = "icon")
+    val icon: ShortcutIcon,
+    @ColumnInfo(name = "hidden")
+    val hidden: Boolean,
+    @ColumnInfo(name = "method")
+    val method: HttpMethod,
+    @ColumnInfo(name = "url")
+    val url: String,
+    @ColumnInfo(name = "authentication_type")
+    val authenticationType: ShortcutAuthenticationType?,
+    @ColumnInfo(name = "auth_username")
+    val authUsername: String,
+    @ColumnInfo(name = "auth_password")
+    val authPassword: String,
+    @ColumnInfo(name = "auth_token")
+    val authToken: String,
+    @ColumnInfo(name = "section_id")
+    val sectionId: SectionId?,
+    @ColumnInfo(name = "body_content")
+    val bodyContent: String,
+    @ColumnInfo(name = "timeout")
+    val timeout: Int,
+    @ColumnInfo(name = "wait_for_network")
+    val isWaitForNetwork: Boolean,
+    @ColumnInfo(name = "host_verification_policy")
+    val securityPolicy: SecurityPolicy?,
+    @ColumnInfo(name = "launcher_shortcut")
+    val launcherShortcut: Boolean,
+    @ColumnInfo(name = "secondary_launcher_shortcut")
+    val secondaryLauncherShortcut: Boolean,
+    @ColumnInfo(name = "quick_settings_tile_shortcut")
+    val quickSettingsTileShortcut: Boolean,
+    @ColumnInfo(name = "delay")
+    val delay: Int,
+    @ColumnInfo(name = "repetition_interval")
+    val repetitionInterval: Int?,
+    @ColumnInfo(name = "content_type")
+    val contentType: String,
+    @ColumnInfo(name = "file_upload_type")
+    val fileUploadType: FileUploadType?,
+    @ColumnInfo(name = "file_upload_source_file")
+    val fileUploadSourceFile: String?,
+    @ColumnInfo(name = "file_upload_use_image_editor")
+    val fileUploadUseImageEditor: Boolean,
+    @ColumnInfo(name = "confirmation_type")
+    val confirmationType: ConfirmationType?,
+    @ColumnInfo(name = "follow_redirects")
+    val followRedirects: Boolean,
+    @ColumnInfo(name = "accept_cookies")
+    val acceptCookies: Boolean,
+    @ColumnInfo(name = "keep_connection_open")
+    val keepConnectionOpen: Boolean,
+    @ColumnInfo(name = "wifi_ssid")
+    val wifiSsid: String?,
+    @ColumnInfo(name = "code_on_prepare")
+    val codeOnPrepare: String,
+    @ColumnInfo(name = "code_on_success")
+    val codeOnSuccess: String,
+    @ColumnInfo(name = "code_on_failure")
+    val codeOnFailure: String,
+    @ColumnInfo(name = "target_browser")
+    val targetBrowser: TargetBrowser,
+    @ColumnInfo(name = "exclude_from_history")
+    val excludeFromHistory: Boolean,
+    @ColumnInfo(name = "client_cert_params")
+    val clientCertParams: ClientCertParams?,
+    @ColumnInfo(name = "request_body_type")
+    val requestBodyType: RequestBodyType,
+    @ColumnInfo(name = "ip_version")
+    val ipVersion: IpVersion?,
+    @ColumnInfo(name = "proxy_type")
+    val proxyType: ProxyType?,
+    @ColumnInfo(name = "proxy_host")
+    val proxyHost: String?,
+    @ColumnInfo(name = "proxy_port")
+    val proxyPort: Int?,
+    @ColumnInfo(name = "proxy_username")
+    val proxyUsername: String?,
+    @ColumnInfo(name = "proxy_password")
+    val proxyPassword: String?,
+    @ColumnInfo(name = "exclude_from_file_sharing")
+    val excludeFromFileSharing: Boolean,
+    @ColumnInfo(name = "run_in_foreground_service")
+    val runInForegroundService: Boolean,
+    @ColumnInfo(name = "wol_mac_address")
+    val wolMacAddress: String,
+    @ColumnInfo(name = "wol_port")
+    val wolPort: Int,
+    @ColumnInfo(name = "wol_broadcast_address")
+    val wolBroadcastAddress: String,
+    @ColumnInfo(name = "response_actions")
+    val responseActions: String,
+    @ColumnInfo(name = "response_ui_type")
+    val responseUiType: ResponseUiType,
+    @ColumnInfo(name = "response_success_output")
+    val responseSuccessOutput: ResponseSuccessOutput,
+    @ColumnInfo(name = "response_failure_output")
+    val responseFailureOutput: ResponseFailureOutput,
+    @ColumnInfo(name = "response_content_type")
+    val responseContentType: ResponseContentType?,
+    @ColumnInfo(name = "response_charset")
+    val responseCharset: Charset?,
+    @ColumnInfo(name = "response_success_message")
+    val responseSuccessMessage: String,
+    @ColumnInfo(name = "response_include_meta_info")
+    val responseIncludeMetaInfo: Boolean,
+    @ColumnInfo(name = "response_json_array_as_table")
+    val responseJsonArrayAsTable: Boolean,
+    @ColumnInfo(name = "response_monospace")
+    val responseMonospace: Boolean,
+    @ColumnInfo(name = "response_font_size")
+    val responseFontSize: Int?,
+    @ColumnInfo(name = "response_java_script_enabled")
+    val responseJavaScriptEnabled: Boolean,
+    @ColumnInfo(name = "response_store_directory_id")
+    val responseStoreDirectoryId: WorkingDirectoryId?,
+    @ColumnInfo(name = "response_store_file_name")
+    val responseStoreFileName: String?,
+    @ColumnInfo(name = "response_replace_file_if_exists")
+    val responseReplaceFileIfExists: Boolean,
+    @ColumnInfo(name = "sorting_order", index = true)
+    val sortingOrder: Int = 0,
+) {
     fun allowsBody(): Boolean =
-        METHOD_POST == method ||
-            METHOD_PUT == method ||
-            METHOD_DELETE == method ||
-            METHOD_PATCH == method ||
-            METHOD_OPTIONS == method
+        method == HttpMethod.POST ||
+            method == HttpMethod.PUT ||
+            method == HttpMethod.DELETE ||
+            method == HttpMethod.PATCH ||
+            method == HttpMethod.OPTIONS
 
     fun usesRequestParameters() =
-        allowsBody() &&
-            (bodyType.let { it == RequestBodyType.FORM_DATA || it == RequestBodyType.X_WWW_FORM_URLENCODE })
+        executionType == ShortcutExecutionType.HTTP &&
+            allowsBody() &&
+            (requestBodyType == RequestBodyType.FORM_DATA || requestBodyType == RequestBodyType.X_WWW_FORM_URLENCODE)
 
-    fun usesCustomBody() = allowsBody() && bodyType == RequestBodyType.CUSTOM_TEXT
+    fun usesCustomBody() =
+        allowsBody() && requestBodyType == RequestBodyType.CUSTOM_TEXT
 
     fun usesGenericFileBody() =
-        allowsBody() && bodyType == RequestBodyType.FILE
+        allowsBody() && requestBodyType == RequestBodyType.FILE
 
-    fun isSameAs(other: Shortcut): Boolean {
-        if (other.name != name ||
-            other.bodyContent != bodyContent ||
-            other.description != description ||
-            other.iconName != iconName ||
-            other.hidden != hidden ||
-            other.method != method ||
-            other.password != password ||
-            other.authToken != authToken ||
-            other.retryPolicy != retryPolicy ||
-            other.timeout != timeout ||
-            other.ipVersion != ipVersion ||
-            other.url != url ||
-            other.username != username ||
-            other.authentication != authentication ||
-            other.launcherShortcut != launcherShortcut ||
-            other.secondaryLauncherShortcut != secondaryLauncherShortcut ||
-            other.quickSettingsTileShortcut != quickSettingsTileShortcut ||
-            other.acceptAllCertificates != acceptAllCertificates ||
-            other.certificateFingerprint != certificateFingerprint ||
-            other.delay != delay ||
-            other.parameters.size != parameters.size ||
-            other.headers.size != headers.size ||
-            other.requestBodyType != requestBodyType ||
-            other.contentType != contentType ||
-            other.codeOnPrepare != codeOnPrepare ||
-            other.codeOnSuccess != codeOnSuccess ||
-            other.codeOnFailure != codeOnFailure ||
-            other.followRedirects != followRedirects ||
-            other.confirmation != confirmation ||
-            other.acceptCookies != acceptCookies ||
-            other.keepConnectionOpen != keepConnectionOpen ||
-            other.proxyType != proxyType ||
-            other.proxyHost != proxyHost ||
-            other.proxyPort != proxyPort ||
-            other.proxyUsername != proxyUsername ||
-            other.proxyPassword != proxyPassword ||
-            other.wifiSsid != wifiSsid ||
-            other.clientCert != clientCert ||
-            other.browserPackageName != browserPackageName ||
-            other.excludeFromHistory != excludeFromHistory ||
-            other.excludeFromFileSharing != excludeFromFileSharing ||
-            other.runInForegroundService != runInForegroundService ||
-            other.wolMacAddress != wolMacAddress ||
-            other.wolPort != wolPort ||
-            other.wolBroadcastAddress != wolBroadcastAddress
-        ) {
-            return false
-        }
-        if (other.parameters.indices.any { !parameters[it].isSameAs(other.parameters[it]) }) {
-            return false
-        }
-        if (other.headers.indices.any { !headers[it].isSameAs(other.headers[it]) }) {
-            return false
-        }
-        if ((other.responseHandling == null) != (responseHandling == null)) {
-            return false
-        }
-        if (other.responseHandling?.isSameAs(responseHandling!!) == false) {
-            return false
-        }
-        if ((other.fileUploadOptions == null) != (fileUploadOptions == null)) {
-            return false
-        }
-        if (other.fileUploadOptions?.isSameAs(fileUploadOptions!!) == false) {
-            return false
-        }
-        if ((other.repetition == null) != (repetition == null)) {
-            return false
-        }
-        if (other.repetition?.isSameAs(repetition!!) == false) {
-            return false
-        }
-        return true
-    }
-
-    var isWaitForNetwork
-        get() = retryPolicy == RETRY_POLICY_WAIT_FOR_INTERNET
-        set(value) {
-            retryPolicy = if (value) RETRY_POLICY_WAIT_FOR_INTERNET else RETRY_POLICY_NONE
-        }
-
-    val usesResponseBody: Boolean
-        get() = type.usesResponse &&
+    fun usesResponseBody(): Boolean =
+        executionType.usesResponse &&
             (
-                (
-                    responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE ||
-                        responseHandling?.failureOutput == ResponseHandling.FAILURE_OUTPUT_DETAILED
-                    ) ||
+                (responseSuccessOutput == ResponseSuccessOutput.RESPONSE || responseFailureOutput == ResponseFailureOutput.DETAILED) ||
                     codeOnSuccess.isNotEmpty() || codeOnFailure.isNotEmpty()
                 )
 
-    fun validate() {
-        require(id.isUUID() || id.isInt()) {
-            "Invalid shortcut ID found, must be UUID: $id"
-        }
-        require(name.length <= NAME_MAX_LENGTH) {
-            "Shortcut name too long: $name"
-        }
-        require(name.isNotBlank()) {
-            "Shortcut must have a name"
-        }
-        require(method in setOf(METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_PATCH, METHOD_DELETE, METHOD_HEAD, METHOD_OPTIONS, METHOD_TRACE)) {
-            "Invalid method: $method"
-        }
-        require(ShortcutExecutionType.entries.any { it.type == executionType }) {
-            "Invalid shortcut executionType: $executionType"
-        }
-        require(retryPolicy in setOf(RETRY_POLICY_NONE, RETRY_POLICY_WAIT_FOR_INTERNET)) {
-            "Invalid retry policy: $retryPolicy"
-        }
-        require(RequestBodyType.entries.any { it.type == requestBodyType }) {
-            "Invalid request body type: $requestBodyType"
-        }
-        require(ShortcutAuthenticationType.entries.any { it.type == authentication }) {
-            "Invalid authentication: $authentication"
-        }
-        require(timeout >= 0) {
-            "Invalid timeout: $timeout"
-        }
-        require(delay >= 0) {
-            "Invalid delay: $delay"
-        }
-        require(certificateFingerprint.isEmpty() || certificateFingerprint.isValidCertificateFingerprint()) {
-            "Invalid self-signed certificate fingerprint found: $certificateFingerprint"
-        }
-        headers.forEach(Header::validate)
-        parameters.forEach(Parameter::validate)
-        responseHandling?.validate()
-        repetition?.validate()
-    }
+    val responseDisplayActions: List<ResponseDisplayAction>
+        get() = responseActions.takeUnlessEmpty()?.split(",")?.mapNotNull(ResponseDisplayAction::parse) ?: emptyList()
 
     companion object {
-
         const val TEMPORARY_ID: ShortcutId = "0"
-        const val NAME_MAX_LENGTH = 50
-        const val DESCRIPTION_MAX_LENGTH = 200
-
-        const val FIELD_ID = "id"
-        const val FIELD_NAME = "name"
-
-        const val METHOD_GET = "GET"
-        const val METHOD_POST = "POST"
-        const val METHOD_PUT = "PUT"
-        const val METHOD_DELETE = "DELETE"
-        const val METHOD_PATCH = "PATCH"
-        const val METHOD_HEAD = "HEAD"
-        const val METHOD_OPTIONS = "OPTIONS"
-        const val METHOD_TRACE = "TRACE"
-
-        private const val RETRY_POLICY_NONE = "none"
-        private const val RETRY_POLICY_WAIT_FOR_INTERNET = "wait_for_internet"
-
         const val DEFAULT_CONTENT_TYPE = "text/plain"
     }
 }

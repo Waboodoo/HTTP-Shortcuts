@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.domains.variables
 
-import ch.rmy.android.framework.data.BaseRepository
 import ch.rmy.android.http_shortcuts.data.Database
+import ch.rmy.android.http_shortcuts.data.domains.BaseRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import javax.inject.Inject
@@ -16,19 +16,31 @@ constructor(
     database: Database,
 ) : BaseRepository(database) {
 
-    fun observeTemporaryVariable(): Flow<Variable> =
-        flow(Database::variableDao) {
-            observeTemporaryVariable()
-                .filterNotNull()
-                .distinctUntilChanged()
-        }
+    fun observeTemporaryVariable(): Flow<Variable> = queryFlow {
+        variableDao()
+            .observeTemporaryVariable()
+            .filterNotNull()
+            .distinctUntilChanged()
+    }
 
-    suspend fun createNewTemporaryVariable(type: VariableType) {
-        get(Database::variableDao)
-            .insert(
+    suspend fun createNewTemporaryVariable(type: VariableType) = query {
+        variableDao()
+            .insertOrUpdateVariable(
                 Variable(
                     id = Variable.TEMPORARY_ID,
                     type = type,
+                    key = "",
+                    value = "",
+                    data = null,
+                    rememberValue = false,
+                    urlEncode = false,
+                    jsonEncode = false,
+                    title = "",
+                    message = "",
+                    isShareText = false,
+                    isShareTitle = false,
+                    isMultiline = false,
+                    isExcludeValueFromExport = false,
                 ),
             )
     }
@@ -102,8 +114,7 @@ constructor(
         }
     }
 
-    private suspend fun update(transform: (Variable) -> Variable) {
-        get(Database::variableDao)
-            .update(Variable.TEMPORARY_ID, transform)
+    private suspend fun update(transform: (Variable) -> Variable) = query {
+        variableDao().update(Variable.TEMPORARY_ID, transform)
     }
 }

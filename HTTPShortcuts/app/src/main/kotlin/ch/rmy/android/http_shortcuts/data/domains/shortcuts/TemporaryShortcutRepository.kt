@@ -1,646 +1,647 @@
 package ch.rmy.android.http_shortcuts.data.domains.shortcuts
 
 import android.net.Uri
-import ch.rmy.android.framework.data.BaseRealmRepository
-import ch.rmy.android.framework.data.RealmFactory
-import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.extensions.getCaseInsensitive
-import ch.rmy.android.framework.extensions.swap
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.Database
+import ch.rmy.android.http_shortcuts.data.domains.BaseRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
-import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
+import ch.rmy.android.http_shortcuts.data.enums.HttpMethod
 import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
+import ch.rmy.android.http_shortcuts.data.enums.ResponseFailureOutput
+import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
 import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
+import ch.rmy.android.http_shortcuts.data.enums.SecurityPolicy
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
-import ch.rmy.android.http_shortcuts.data.models.Header
-import ch.rmy.android.http_shortcuts.data.models.Parameter
-import ch.rmy.android.http_shortcuts.data.models.Repetition
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
+import ch.rmy.android.http_shortcuts.data.models.RequestHeader
+import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
+import ch.rmy.android.http_shortcuts.utils.Validation
 import ch.rmy.curlcommand.CurlCommand
 import java.net.URLDecoder
 import java.nio.charset.Charset
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.mapNotNull
 
 class TemporaryShortcutRepository
 @Inject
 constructor(
     database: Database,
-    realmFactory: RealmFactory,
-) : BaseRealmRepository(database, realmFactory) {
+) : BaseRepository(database) {
 
-    fun observeTemporaryShortcut(): Flow<Shortcut> =
-        observeItem {
-            getTemporaryShortcut()
-        }
-
-    suspend fun createNewTemporaryShortcut(initialIcon: ShortcutIcon, executionType: ShortcutExecutionType, categoryId: CategoryId) {
-        commitTransaction {
-            copyOrUpdate(
-                Shortcut(
-                    id = Shortcut.TEMPORARY_ID,
-                    icon = initialIcon,
-                    executionType = executionType,
-                    categoryId = categoryId,
-                ),
-            )
-        }
+    fun observeTemporaryShortcut(): Flow<Shortcut> = queryFlow {
+        shortcutDao().observeShortcutById(TEMPORARY_ID)
+            .mapNotNull { it.firstOrNull() }
     }
 
-    suspend fun getTemporaryShortcut(): Shortcut =
-        queryItem {
-            getTemporaryShortcut()
-        }
+    suspend fun createNewTemporaryShortcut(initialIcon: ShortcutIcon, executionType: ShortcutExecutionType, categoryId: CategoryId) = query {
+        shortcutDao().insertOrUpdateShortcut(
+            Shortcut(
+                id = TEMPORARY_ID,
+                icon = initialIcon,
+                executionType = executionType,
+                categoryId = categoryId,
+                name = "",
+                description = "",
+                hidden = false,
+                method = HttpMethod.GET,
+                url = when (executionType) {
+                    ShortcutExecutionType.HTTP,
+                    ShortcutExecutionType.BROWSER,
+                    -> "https://"
+                    ShortcutExecutionType.MQTT -> "tcp://"
+                    else -> ""
+                },
+                authenticationType = null,
+                authUsername = "",
+                authPassword = "",
+                authToken = "",
+                sectionId = null,
+                bodyContent = "",
+                timeout = 10_000,
+                isWaitForNetwork = false,
+                securityPolicy = null,
+                launcherShortcut = true,
+                secondaryLauncherShortcut = false,
+                quickSettingsTileShortcut = false,
+                delay = 0,
+                repetitionInterval = null,
+                contentType = "",
+                fileUploadType = null,
+                fileUploadSourceFile = null,
+                fileUploadUseImageEditor = false,
+                confirmationType = null,
+                followRedirects = true,
+                acceptCookies = true,
+                keepConnectionOpen = false,
+                wifiSsid = null,
+                codeOnPrepare = "",
+                codeOnSuccess = "",
+                codeOnFailure = "",
+                targetBrowser = TargetBrowser.Browser(packageName = null),
+                excludeFromHistory = false,
+                clientCertParams = null,
+                requestBodyType = RequestBodyType.CUSTOM_TEXT,
+                ipVersion = null,
+                proxyType = null,
+                proxyHost = null,
+                proxyPort = null,
+                proxyUsername = null,
+                proxyPassword = null,
+                excludeFromFileSharing = false,
+                runInForegroundService = false,
+                wolMacAddress = "",
+                wolPort = if (executionType == ShortcutExecutionType.WAKE_ON_LAN) 9 else 0,
+                wolBroadcastAddress = if (executionType == ShortcutExecutionType.WAKE_ON_LAN) "255.255.255.255" else "",
+                responseActions = if (executionType == ShortcutExecutionType.HTTP) {
+                    listOf(
+                        ResponseDisplayAction.RERUN,
+                        ResponseDisplayAction.SHARE,
+                        ResponseDisplayAction.SAVE,
+                    )
+                        .joinToString(separator = ",") { it.key }
+                } else {
+                    ""
+                },
+                responseUiType = ResponseUiType.WINDOW,
+                responseSuccessOutput = ResponseSuccessOutput.RESPONSE,
+                responseFailureOutput = ResponseFailureOutput.DETAILED,
+                responseContentType = null,
+                responseCharset = null,
+                responseSuccessMessage = "",
+                responseIncludeMetaInfo = false,
+                responseJsonArrayAsTable = true,
+                responseMonospace = false,
+                responseFontSize = null,
+                responseJavaScriptEnabled = false,
+                responseStoreDirectoryId = null,
+                responseStoreFileName = null,
+                responseReplaceFileIfExists = false,
+                sortingOrder = -1,
+            ),
+        )
+    }
+
+    suspend fun getTemporaryShortcut(): Shortcut = query {
+        shortcutDao().getShortcutById(TEMPORARY_ID).first()
+    }
 
     suspend fun setIcon(icon: ShortcutIcon) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.icon = icon
+        updateShortcut {
+            copy(icon = icon)
         }
     }
 
     suspend fun setName(name: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.name = name
+        updateShortcut {
+            copy(name = name)
         }
     }
 
     suspend fun setDescription(description: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.description = description
+        updateShortcut {
+            copy(description = description)
         }
     }
 
     suspend fun setRepetitionInterval(interval: Duration? = null) {
-        commitTransactionForShortcut { shortcut ->
-            if (interval == null) {
-                shortcut.repetition?.delete()
-                shortcut.repetition = null
-            } else {
-                if (shortcut.repetition == null) {
-                    shortcut.repetition = Repetition(interval = interval.inWholeMinutes.toInt())
-                } else {
-                    shortcut.repetition?.interval = interval.inWholeMinutes.toInt()
-                }
-            }
+        updateShortcut {
+            copy(repetitionInterval = interval?.inWholeMinutes?.toInt())
         }
     }
 
     suspend fun setExcludeFromFileSharingChanged(exclude: Boolean) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.excludeFromFileSharing = exclude
+        updateShortcut {
+            copy(excludeFromFileSharing = exclude)
         }
     }
 
-    suspend fun setMethod(method: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.method = method
+    suspend fun setMethod(method: HttpMethod) {
+        updateShortcut {
+            copy(method = method)
         }
     }
 
     suspend fun setUrl(url: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.url = url.trim()
+        updateShortcut {
+            copy(url = url.trim())
         }
     }
 
     suspend fun setTargetBrowser(targetBrowser: TargetBrowser) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.targetBrowser = targetBrowser
+        updateShortcut {
+            copy(targetBrowser = targetBrowser)
         }
     }
 
     suspend fun setWolMacAddress(macAddress: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.wolMacAddress = macAddress
+        updateShortcut {
+            copy(wolMacAddress = macAddress)
         }
     }
 
     suspend fun setWolPort(port: Int) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.wolPort = port
+        updateShortcut {
+            copy(wolPort = port)
         }
     }
 
     suspend fun setWolBroadcastAddress(broadcastAddress: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.wolBroadcastAddress = broadcastAddress
+        updateShortcut {
+            copy(wolBroadcastAddress = broadcastAddress)
         }
     }
 
-    suspend fun setAuthenticationType(authenticationType: ShortcutAuthenticationType) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.authenticationType = authenticationType
+    suspend fun setAuthenticationType(authenticationType: ShortcutAuthenticationType?) {
+        updateShortcut {
+            copy(authenticationType = authenticationType)
         }
     }
 
     suspend fun setUsername(username: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.username = username
+        updateShortcut {
+            copy(authUsername = username)
         }
     }
 
     suspend fun setPassword(password: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.password = password
+        updateShortcut {
+            copy(authPassword = password)
         }
     }
 
     suspend fun setToken(token: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.authToken = token
-        }
-    }
-
-    suspend fun moveHeader(headerId1: String, headerId2: String) =
-        commitTransactionForShortcut { shortcut ->
-            shortcut.headers.swap(headerId1, headerId2) { id }
-        }
-
-    suspend fun addHeader(key: String, value: String): Header {
-        val header = Header(
-            key = key.trim(),
-            value = value,
-        )
-        commitTransactionForShortcut { shortcut ->
-            shortcut.headers.add(
-                copy(header),
-            )
-        }
-        return header
-    }
-
-    suspend fun updateHeader(headerId: String, key: String, value: String) {
-        commitTransactionForShortcut { shortcut ->
-            val header = shortcut.headers
-                .find { it.id == headerId }
-                ?: return@commitTransactionForShortcut
-            header.key = key.trim()
-            header.value = value
-        }
-    }
-
-    suspend fun removeHeader(headerId: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.headers
-                .find { it.id == headerId }
-                ?.delete()
+        updateShortcut {
+            copy(authToken = token)
         }
     }
 
     suspend fun setRequestBodyType(type: RequestBodyType) {
         commitTransactionForShortcut { shortcut ->
-            shortcut.bodyType = type
+            shortcutDao().insertOrUpdateShortcut(
+                shortcut.copy(
+                    requestBodyType = type,
+                ),
+            )
+
             if (type != RequestBodyType.FORM_DATA) {
-                shortcut.parameters
-                    .filterNot { it.isStringParameter }
+                val requestParameterDao = requestParameterDao()
+                requestParameterDao.getRequestParametersByShortcutId(TEMPORARY_ID)
                     .forEach { parameter ->
-                        parameter.delete()
+                        if (parameter.parameterType != ParameterType.STRING) {
+                            requestParameterDao.insertOrUpdateRequestParameter(
+                                parameter.copy(
+                                    parameterType = ParameterType.STRING,
+                                    fileUploadType = null,
+                                    fileUploadFileName = null,
+                                    fileUploadSourceFile = null,
+                                    fileUploadUseImageEditor = false,
+                                ),
+                            )
+                        }
                     }
             }
         }
     }
 
-    suspend fun moveParameter(parameterId1: String, parameterId2: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.parameters.swap(parameterId1, parameterId2) { id }
-        }
-    }
-
-    suspend fun addParameter(type: ParameterType, key: String, value: String, fileName: String, fileUploadOptions: FileUploadOptions): Parameter {
-        val parameter = Parameter(
-            parameterType = type,
-            key = key.trim(),
-            value = value,
-            fileName = fileName,
-            fileUploadOptions = fileUploadOptions,
-        )
-        commitTransactionForShortcut { shortcut ->
-            shortcut.parameters.add(
-                copy(parameter),
-            )
-        }
-        return parameter
-    }
-
-    suspend fun updateParameter(parameterId: String, key: String, value: String = "", fileName: String = "", fileUploadOptions: FileUploadOptions) {
-        commitTransactionForShortcut { shortcut ->
-            val parameter = shortcut.parameters
-                .find { it.id == parameterId }
-                ?: return@commitTransactionForShortcut
-            parameter.key = key.trim()
-            parameter.value = value
-            parameter.fileName = fileName
-            parameter.fileUploadOptions = fileUploadOptions
-        }
-    }
-
-    suspend fun removeParameter(parameterId: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.parameters
-                .find { it.id == parameterId }
-                ?.delete()
-        }
-    }
-
     suspend fun setContentType(contentType: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.contentType = contentType.trim()
+        updateShortcut {
+            copy(contentType = contentType.trim())
         }
     }
 
     suspend fun setBodyContent(bodyContent: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.bodyContent = bodyContent
+        updateShortcut {
+            copy(bodyContent = bodyContent)
         }
     }
 
     suspend fun setResponseUiType(responseUiType: ResponseUiType) {
-        commitTransactionForResponseHandling { responseHandling ->
-            responseHandling.responseUiType = responseUiType
+        updateShortcut {
+            copy(responseUiType = responseUiType)
         }
     }
 
     suspend fun setResponseContentType(responseContentType: ResponseContentType?) {
-        commitTransactionForResponseHandling { responseHandling ->
-            responseHandling.responseContentType = responseContentType
+        updateShortcut {
+            copy(responseContentType = responseContentType)
         }
     }
 
     suspend fun setCharsetOverride(charset: Charset?) {
-        commitTransactionForResponseHandling { responseHandling ->
-            responseHandling.charsetOverride = charset
+        updateShortcut {
+            copy(responseCharset = charset)
         }
     }
 
-    suspend fun setResponseSuccessOutput(responseSuccessOutput: String) {
-        commitTransactionForResponseHandling { responseHandling ->
-            responseHandling.successOutput = responseSuccessOutput
+    suspend fun setResponseSuccessOutput(responseSuccessOutput: ResponseSuccessOutput) {
+        updateShortcut {
+            copy(responseSuccessOutput = responseSuccessOutput)
         }
     }
 
-    suspend fun setResponseFailureOutput(responseFailureOutput: String) {
-        commitTransactionForResponseHandling { responseHandling ->
-            responseHandling.failureOutput = responseFailureOutput
+    suspend fun setResponseFailureOutput(responseFailureOutput: ResponseFailureOutput) {
+        updateShortcut {
+            copy(responseFailureOutput = responseFailureOutput)
         }
     }
 
     suspend fun setResponseSuccessMessage(responseSuccessMessage: String) {
-        commitTransactionForResponseHandling { responseHandling ->
-            responseHandling.successMessage = responseSuccessMessage
+        updateShortcut {
+            copy(responseSuccessMessage = responseSuccessMessage)
         }
     }
 
     suspend fun setStoreFileName(fileName: String) {
-        commitTransactionForResponseHandling { responseHandling ->
-            responseHandling.storeFileName = fileName.takeUnlessEmpty()
+        updateShortcut {
+            copy(responseStoreFileName = fileName.takeUnlessEmpty())
         }
     }
 
     suspend fun setStoreDirectory(workingDirectoryId: WorkingDirectoryId?) {
-        commitTransactionForResponseHandling { responseHandling ->
-            responseHandling.storeDirectoryId = workingDirectoryId
+        updateShortcut {
+            copy(responseStoreDirectoryId = workingDirectoryId)
         }
     }
 
     suspend fun setStoreReplaceIfExists(enabled: Boolean) {
-        commitTransactionForResponseHandling { responseHandling ->
-            responseHandling.replaceFileIfExists = enabled
+        updateShortcut {
+            copy(responseReplaceFileIfExists = enabled)
         }
     }
 
     suspend fun setUseMonospaceFont(enabled: Boolean) {
-        commitTransactionForResponseHandling { responseHandling ->
-            responseHandling.monospace = enabled
+        updateShortcut {
+            copy(responseMonospace = enabled)
         }
     }
 
     suspend fun setFontSize(fontSize: Int?) {
-        commitTransactionForResponseHandling { responseHandling ->
-            responseHandling.fontSize = fontSize
+        updateShortcut {
+            copy(responseFontSize = fontSize)
         }
     }
 
     suspend fun setResponseIncludeMetaInfo(includeMetaInfo: Boolean) {
-        commitTransactionForResponseHandling { responseHandling ->
-            responseHandling.includeMetaInfo = includeMetaInfo
+        updateShortcut {
+            copy(responseIncludeMetaInfo = includeMetaInfo)
         }
     }
 
     suspend fun setDisplayActions(actions: List<ResponseDisplayAction>) {
-        commitTransactionForResponseHandling { responseHandling ->
-            responseHandling.displayActions = actions
+        updateShortcut {
+            copy(responseActions = actions.joinToString(",") { it.key })
         }
     }
 
     suspend fun setCode(onPrepare: String, onSuccess: String, onFailure: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.codeOnPrepare = onPrepare
-            shortcut.codeOnSuccess = onSuccess
-            shortcut.codeOnFailure = onFailure
+        updateShortcut {
+            copy(
+                codeOnPrepare = onPrepare,
+                codeOnSuccess = onSuccess,
+                codeOnFailure = onFailure,
+            )
         }
     }
 
     suspend fun setWaitForConnection(waitForConnection: Boolean) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.isWaitForNetwork = waitForConnection
+        updateShortcut {
+            copy(isWaitForNetwork = waitForConnection)
         }
     }
 
     suspend fun setExcludeFromHistory(excludeFromHistory: Boolean) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.excludeFromHistory = excludeFromHistory
+        updateShortcut {
+            copy(excludeFromHistory = excludeFromHistory)
         }
     }
 
     suspend fun setRunInForegroundService(runInForegroundService: Boolean) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.runInForegroundService = runInForegroundService
+        updateShortcut {
+            copy(runInForegroundService = runInForegroundService)
         }
     }
 
     suspend fun setConfirmationType(confirmationType: ConfirmationType?) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.confirmationType = confirmationType
+        updateShortcut {
+            copy(confirmationType = confirmationType)
         }
     }
 
     suspend fun setLauncherShortcut(launcherShortcut: Boolean) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.launcherShortcut = launcherShortcut
+        updateShortcut {
+            copy(launcherShortcut = launcherShortcut)
         }
     }
 
     suspend fun setSecondaryLauncherShortcut(secondaryLauncherShortcut: Boolean) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.secondaryLauncherShortcut = secondaryLauncherShortcut
+        updateShortcut {
+            copy(secondaryLauncherShortcut = secondaryLauncherShortcut)
         }
     }
 
     suspend fun setQuickSettingsTileShortcut(quickSettingsTileShortcut: Boolean) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.quickSettingsTileShortcut = quickSettingsTileShortcut
+        updateShortcut {
+            copy(quickSettingsTileShortcut = quickSettingsTileShortcut)
         }
     }
 
     suspend fun setDelay(delay: Duration) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.delay = delay.inWholeMilliseconds.toInt()
+        updateShortcut {
+            copy(delay = delay.inWholeMilliseconds.toInt())
         }
     }
 
     suspend fun setFollowRedirects(followRedirects: Boolean) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.followRedirects = followRedirects
+        updateShortcut {
+            copy(followRedirects = followRedirects)
         }
     }
 
-    suspend fun setAcceptAllCertificates(acceptAllCertificates: Boolean) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.acceptAllCertificates = acceptAllCertificates
-        }
-    }
-
-    suspend fun setCertificateFingerprint(certificateFingerprint: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.certificateFingerprint = certificateFingerprint
+    suspend fun setSecurityPolicy(securityPolicy: SecurityPolicy?) {
+        updateShortcut {
+            copy(securityPolicy = securityPolicy)
         }
     }
 
     suspend fun setAcceptCookies(acceptCookies: Boolean) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.acceptCookies = acceptCookies
+        updateShortcut {
+            copy(acceptCookies = acceptCookies)
         }
     }
 
     suspend fun setKeepConnectionOpen(keepConnectionOpen: Boolean) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.keepConnectionOpen = keepConnectionOpen
+        updateShortcut {
+            copy(keepConnectionOpen = keepConnectionOpen)
         }
     }
 
     suspend fun setTimeout(timeout: Duration) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.timeout = timeout.inWholeMilliseconds.toInt()
+        updateShortcut {
+            copy(timeout = timeout.inWholeMilliseconds.toInt())
         }
     }
 
     suspend fun setIpVersion(ipVersion: IpVersion?) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.ipVersion = ipVersion
+        updateShortcut {
+            copy(ipVersion = ipVersion)
         }
     }
 
     suspend fun setProxyType(proxyType: ProxyType) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.proxyType = proxyType
+        updateShortcut {
+            copy(proxyType = proxyType)
         }
     }
 
     suspend fun setProxyHost(host: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.proxyHost = host.trim().takeUnless { it.isEmpty() }
+        updateShortcut {
+            copy(proxyHost = host.trim().takeUnlessEmpty())
         }
     }
 
     suspend fun setProxyPort(port: Int?) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.proxyPort = port
+        updateShortcut {
+            copy(proxyPort = port)
         }
     }
 
     suspend fun setProxyUsername(username: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.proxyUsername = username.takeUnless { it.isEmpty() }
+        updateShortcut {
+            copy(proxyUsername = username.takeUnlessEmpty())
         }
     }
 
     suspend fun setProxyPassword(password: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.proxyPassword = password.takeUnless { it.isEmpty() }
+        updateShortcut {
+            copy(proxyPassword = password.takeUnlessEmpty())
         }
     }
 
     suspend fun setWifiSsid(ssid: String) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.wifiSsid = ssid.trim()
+        updateShortcut {
+            copy(wifiSsid = ssid.trim())
         }
     }
 
     suspend fun setClientCertParams(clientCertParams: ClientCertParams?) {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.clientCertParams = clientCertParams
+        updateShortcut {
+            copy(clientCertParams = clientCertParams)
         }
     }
 
     suspend fun setUseImageEditor(useImageEditor: Boolean) {
-        commitTransactionForFileUploadOptions { fileUploadOptions ->
-            fileUploadOptions.useImageEditor = useImageEditor
+        updateShortcut {
+            copy(fileUploadUseImageEditor = useImageEditor)
         }
     }
 
     suspend fun setFileUploadType(fileUploadType: FileUploadType) {
-        commitTransactionForFileUploadOptions { fileUploadOptions ->
-            fileUploadOptions.type = fileUploadType
+        updateShortcut {
+            copy(fileUploadType = fileUploadType)
         }
     }
 
     suspend fun setFileUploadUri(fileUploadUri: Uri?) {
-        commitTransactionForFileUploadOptions { fileUploadOptions ->
-            fileUploadOptions.file = fileUploadUri?.toString()
-            if (fileUploadUri != null) {
-                fileUploadOptions.type = FileUploadType.FILE
-            }
+        updateShortcut {
+            copy(
+                fileUploadSourceFile = fileUploadUri?.toString(),
+                fileUploadType = if (fileUploadUri != null) {
+                    FileUploadType.FILE
+                } else {
+                    fileUploadType
+                },
+            )
         }
     }
 
     suspend fun setJsonArrayAsTable(jsonArrayAsTable: Boolean) {
-        commitTransactionForResponseHandling { responseHandling ->
-            responseHandling.jsonArrayAsTable = jsonArrayAsTable
+        updateShortcut {
+            copy(responseJsonArrayAsTable = jsonArrayAsTable)
         }
     }
 
     suspend fun setJavaScriptEnabled(javaScriptEnabled: Boolean) {
-        commitTransactionForResponseHandling { responseHandling ->
-            responseHandling.javaScriptEnabled = javaScriptEnabled
+        updateShortcut {
+            copy(responseJavaScriptEnabled = javaScriptEnabled)
         }
     }
 
     suspend fun importFromCurl(curlCommand: CurlCommand) {
         commitTransactionForShortcut { shortcut ->
-            shortcut.method = curlCommand.method
-            shortcut.url = curlCommand.url
-            shortcut.username = curlCommand.username
-            shortcut.password = curlCommand.password
-            if (curlCommand.username.isNotEmpty() || curlCommand.password.isNotEmpty()) {
-                shortcut.authenticationType = if (curlCommand.isDigestAuth) {
-                    ShortcutAuthenticationType.DIGEST
-                } else {
-                    ShortcutAuthenticationType.BASIC
-                }
-            }
-            shortcut.timeout = curlCommand.timeout
-
-            if (curlCommand.ipVersion4) {
-                shortcut.ipVersion = IpVersion.V4
-            } else if (curlCommand.ipVersion6) {
-                shortcut.ipVersion = IpVersion.V6
-            }
-
-            if (curlCommand.usesBinaryData) {
-                shortcut.bodyType = RequestBodyType.FILE
+            val requestBodyType = if (curlCommand.usesBinaryData) {
+                RequestBodyType.FILE
             } else if (curlCommand.isFormData || curlCommand.data.all { data -> data.count { it == '=' } == 1 }) {
-                shortcut.bodyType = if (curlCommand.isFormData) {
+                if (curlCommand.isFormData) {
                     RequestBodyType.FORM_DATA
                 } else {
                     RequestBodyType.X_WWW_FORM_URLENCODE
                 }
-                prepareParameters(curlCommand, shortcut)
             } else {
-                shortcut.bodyContent = curlCommand.data.joinToString(separator = "&")
-                shortcut.bodyType = RequestBodyType.CUSTOM_TEXT
+                RequestBodyType.CUSTOM_TEXT
             }
-            curlCommand.headers.getCaseInsensitive(HttpHeaders.CONTENT_TYPE)
-                ?.let {
-                    shortcut.contentType = it
-                }
+
+            val usesProxy = curlCommand.proxyHost.isNotEmpty() && curlCommand.proxyPort != 0
+
+            val newShortcut = shortcut.copy(
+                method = HttpMethod.parse(curlCommand.method) ?: HttpMethod.GET,
+                url = curlCommand.url,
+                authUsername = curlCommand.username,
+                authPassword = curlCommand.password,
+                authenticationType = if (curlCommand.username.isNotEmpty() || curlCommand.password.isNotEmpty()) {
+                    if (curlCommand.isDigestAuth) {
+                        ShortcutAuthenticationType.DIGEST
+                    } else {
+                        ShortcutAuthenticationType.BASIC
+                    }
+                } else {
+                    null
+                },
+                timeout = curlCommand.timeout.coerceIn(5000, 10 * 60 * 1000),
+                ipVersion = when {
+                    curlCommand.ipVersion4 -> IpVersion.V4
+                    curlCommand.ipVersion6 -> IpVersion.V6
+                    else -> null
+                },
+                requestBodyType = requestBodyType,
+                bodyContent = if (requestBodyType == RequestBodyType.CUSTOM_TEXT) {
+                    curlCommand.data.joinToString(separator = "&")
+                } else {
+                    ""
+                },
+                contentType = curlCommand.headers.getCaseInsensitive(HttpHeaders.CONTENT_TYPE) ?: "",
+                proxyType = if (usesProxy) ProxyType.HTTP else null,
+                proxyHost = if (usesProxy) curlCommand.proxyHost else null,
+                proxyPort = if (usesProxy) curlCommand.proxyPort else null,
+                securityPolicy = if (curlCommand.insecure) SecurityPolicy.AcceptAll else null,
+                responseSuccessOutput = if (curlCommand.silent) ResponseSuccessOutput.NONE else shortcut.responseSuccessOutput,
+                responseFailureOutput = if (curlCommand.silent) ResponseFailureOutput.NONE else shortcut.responseFailureOutput,
+            )
+
+            shortcutDao().insertOrUpdateShortcut(newShortcut)
+
+            val requestHeaderDao = requestHeaderDao()
+            var headerSortingOrder = 0
             curlCommand.headers.forEach { (key, value) ->
                 if (!key.equals(HttpHeaders.CONTENT_TYPE, ignoreCase = true)) {
-                    shortcut.headers.add(copy(Header(key = key, value = value)))
+                    requestHeaderDao.insertOrUpdateRequestHeader(
+                        RequestHeader(
+                            shortcutId = TEMPORARY_ID,
+                            key = key.filter { Validation.isValidInHeaderName(it) },
+                            value = value.filter { Validation.isValidInHeaderValue(it) },
+                            sortingOrder = headerSortingOrder,
+                        ),
+                    )
+                    headerSortingOrder++
                 }
             }
 
-            if (curlCommand.proxyHost.isNotEmpty() && curlCommand.proxyPort != 0) {
-                shortcut.proxyType = ProxyType.HTTP
-                shortcut.proxyHost = curlCommand.proxyHost
-                shortcut.proxyPort = curlCommand.proxyPort
-            }
-
-            if (curlCommand.insecure) {
-                shortcut.acceptAllCertificates = true
-            }
-
-            if (curlCommand.silent) {
-                shortcut.responseHandling?.successOutput = ResponseHandling.SUCCESS_OUTPUT_NONE
-                shortcut.responseHandling?.failureOutput = ResponseHandling.FAILURE_OUTPUT_NONE
+            if (requestBodyType == RequestBodyType.FORM_DATA || requestBodyType == RequestBodyType.X_WWW_FORM_URLENCODE) {
+                val requestParameterDao = requestParameterDao()
+                var parameterSortingOrder = 0
+                curlCommand.data.forEach { potentialParameter ->
+                    potentialParameter.split("=")
+                        .takeIf { it.size == 2 }
+                        ?.let { parameterParts ->
+                            val key = parameterParts[0]
+                            val value = parameterParts[1]
+                            val isFileParameter = value.startsWith("@") && curlCommand.isFormData
+                            val parameter = RequestParameter(
+                                key = decode(key),
+                                value = if (!isFileParameter) decode(value) else "",
+                                shortcutId = TEMPORARY_ID,
+                                parameterType = if (isFileParameter) ParameterType.FILE else ParameterType.STRING,
+                                fileUploadType = null,
+                                fileUploadFileName = null,
+                                fileUploadSourceFile = null,
+                                fileUploadUseImageEditor = false,
+                                sortingOrder = parameterSortingOrder,
+                            )
+                            requestParameterDao.insertOrUpdateRequestParameter(parameter)
+                            parameterSortingOrder++
+                        }
+                }
             }
         }
     }
 
-    private fun RealmTransactionContext.prepareParameters(curlCommand: CurlCommand, shortcut: Shortcut) {
-        curlCommand.data.forEach { potentialParameter ->
-            potentialParameter.split("=")
-                .takeIf { it.size == 2 }
-                ?.let { parameterParts ->
-                    val key = parameterParts[0]
-                    val value = parameterParts[1]
-                    val parameter = if (value.startsWith("@") && curlCommand.isFormData) {
-                        Parameter(
-                            key = decode(key),
-                            parameterType = ParameterType.FILE,
-                        )
-                    } else {
-                        Parameter(
-                            key = decode(key),
-                            value = decode(value),
-                        )
-                    }
-                    shortcut.parameters.add(copy(parameter))
-                }
-        }
-    }
-
-    private suspend fun commitTransactionForShortcut(transaction: RealmTransactionContext.(Shortcut) -> Unit) {
+    private suspend fun commitTransactionForShortcut(transaction: suspend Database.(Shortcut) -> Unit) {
         commitTransaction {
             transaction(
-                getTemporaryShortcut()
-                    .findFirst()
+                shortcutDao().getShortcutById(TEMPORARY_ID)
+                    .firstOrNull()
                     ?: return@commitTransaction,
             )
         }
     }
 
-    private suspend fun commitTransactionForResponseHandling(
-        transaction: RealmTransactionContext.(ResponseHandling) -> Unit,
-    ) {
+    private suspend fun updateShortcut(transformation: Shortcut.() -> Shortcut) {
         commitTransactionForShortcut { shortcut ->
-            shortcut.responseHandling
-                ?.let { responseHandling ->
-                    transaction(responseHandling)
-                }
-        }
-    }
-
-    private suspend fun commitTransactionForFileUploadOptions(
-        transaction: RealmTransactionContext.(FileUploadOptions) -> Unit,
-    ) {
-        commitTransactionForShortcut { shortcut ->
-            if (shortcut.fileUploadOptions == null) {
-                shortcut.fileUploadOptions = FileUploadOptions()
-            }
-            transaction(shortcut.fileUploadOptions!!)
+            shortcutDao().insertOrUpdateShortcut(shortcut.transformation())
         }
     }
 
     suspend fun deleteTemporaryShortcut() {
-        commitTransactionForShortcut { shortcut ->
-            shortcut.delete()
+        commitTransaction {
+            shortcutDao().deleteShortcutById(TEMPORARY_ID)
+            requestHeaderDao().deleteRequestHeaderByShortcutId(TEMPORARY_ID)
+            requestParameterDao().deleteRequestParametersByShortcutId(TEMPORARY_ID)
         }
     }
 

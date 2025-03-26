@@ -16,15 +16,20 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinRepository
+import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderRepository
+import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
+import ch.rmy.android.http_shortcuts.data.enums.ResponseFailureOutput
+import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
 import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.extensions.context
+import ch.rmy.android.http_shortcuts.extensions.getRequestHeadersForShortcut
+import ch.rmy.android.http_shortcuts.extensions.getRequestParametersForShortcut
 import ch.rmy.android.http_shortcuts.extensions.getSafeName
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
@@ -44,6 +49,8 @@ constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     private val shortcutRepository: ShortcutRepository,
+    private val requestHeaderRepository: RequestHeaderRepository,
+    private val requestParameterRepository: RequestParameterRepository,
     private val certificatePinRepository: CertificatePinRepository,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
     private val httpRequester: HttpRequester,
@@ -63,7 +70,9 @@ constructor(
                 .executeShortcut(
                     context,
                     shortcut = shortcut,
-                    storeDirectoryUri = shortcut.responseHandling?.storeDirectoryId
+                    headers = requestHeaderRepository.getRequestHeadersForShortcut(shortcut),
+                    parameters = requestParameterRepository.getRequestParametersForShortcut(shortcut),
+                    storeDirectoryUri = shortcut.responseStoreDirectoryId
                         ?.let { workingDirectoryId ->
                             try {
                                 workingDirectoryRepository.getWorkingDirectoryById(workingDirectoryId).directory
@@ -78,16 +87,16 @@ constructor(
                     certificatePins = certificatePinRepository.getCertificatePins(),
                 )
         } catch (e: Exception) {
-            when (val failureOutput = shortcut.responseHandling?.failureOutput) {
-                ResponseHandling.FAILURE_OUTPUT_DETAILED,
-                ResponseHandling.FAILURE_OUTPUT_SIMPLE,
+            when (val failureOutput = shortcut.responseFailureOutput) {
+                ResponseFailureOutput.DETAILED,
+                ResponseFailureOutput.SIMPLE,
                 -> {
                     displayResult(
                         shortcut,
                         generateOutputFromError(
                             e,
                             shortcut.getSafeName(context),
-                            simple = failureOutput == ResponseHandling.FAILURE_OUTPUT_SIMPLE,
+                            simple = failureOutput == ResponseFailureOutput.SIMPLE,
                         ),
                         response = (e as? ErrorResponse)?.shortcutResponse,
                     )
@@ -114,13 +123,12 @@ constructor(
             }
 
     private suspend fun handleDisplayingOfResult(shortcut: Shortcut, response: ShortcutResponse, variableValues: Map<VariableId, String>) {
-        when (shortcut.responseHandling!!.successOutput) {
-            ResponseHandling.SUCCESS_OUTPUT_MESSAGE -> {
+        when (shortcut.responseSuccessOutput) {
+            ResponseSuccessOutput.MESSAGE -> {
                 displayResult(
                     shortcut,
-                    output = shortcut.responseHandling
-                        ?.successMessage
-                        ?.takeUnlessEmpty()
+                    output = shortcut.responseSuccessMessage
+                        .takeUnlessEmpty()
                         ?.let {
                             injectVariables(it, variableValues)
                         }
@@ -128,8 +136,8 @@ constructor(
                     response = response,
                 )
             }
-            ResponseHandling.SUCCESS_OUTPUT_RESPONSE -> displayResult(shortcut, output = null, response)
-            ResponseHandling.SUCCESS_OUTPUT_NONE -> Unit
+            ResponseSuccessOutput.RESPONSE -> displayResult(shortcut, output = null, response)
+            ResponseSuccessOutput.NONE -> Unit
         }
     }
 
@@ -137,7 +145,7 @@ constructor(
         Variables.rawPlaceholdersToResolvedValues(string, variableValues)
 
     private suspend fun displayResult(shortcut: Shortcut, output: String?, response: ShortcutResponse? = null) {
-        if (shortcut.responseHandling?.responseUiType != ResponseUiType.TOAST) {
+        if (shortcut.responseUiType != ResponseUiType.TOAST) {
             return
         }
         withContext(Dispatchers.Main) {
@@ -146,7 +154,7 @@ constructor(
                     .truncate(maxLength = TOAST_MAX_LENGTH)
                     .let(HTMLUtil::toSpanned)
                     .ifBlank { context.getString(R.string.message_blank_response) },
-                long = shortcut.responseHandling?.successOutput == ResponseHandling.SUCCESS_OUTPUT_RESPONSE,
+                long = shortcut.responseSuccessOutput == ResponseSuccessOutput.RESPONSE,
             )
         }
     }

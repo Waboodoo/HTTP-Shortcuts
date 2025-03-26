@@ -19,19 +19,22 @@ import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.data.SessionInfoStore
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
+import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderRepository
+import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
+import ch.rmy.android.http_shortcuts.data.enums.SecurityPolicy
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
-import ch.rmy.android.http_shortcuts.data.maintenance.CleanUpWorker
+import ch.rmy.android.http_shortcuts.data.models.RequestHeader
+import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
-import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.extensions.usesResponse
 import ch.rmy.android.http_shortcuts.extensions.usesTriggerShortcuts
 import ch.rmy.android.http_shortcuts.icons.Icons
@@ -50,6 +53,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -60,11 +65,12 @@ constructor(
     application: Application,
     private val shortcutRepository: ShortcutRepository,
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
+    private val requestHeaderRepository: RequestHeaderRepository,
+    private val requestParameterRepository: RequestParameterRepository,
     private val variableRepository: VariableRepository,
     private val widgetManager: WidgetManager,
     private val fetchFavicon: FetchFaviconUseCase,
     private val sessionInfoStore: SessionInfoStore,
-    private val cleanUpStarter: CleanUpWorker.Starter,
     private val dialogHandler: ExecuteDialogHandler,
     private val launcherShortcutUpdater: LauncherShortcutUpdater,
     private val executionStarter: ExecutionStarter,
@@ -86,12 +92,12 @@ constructor(
 
     private var isFinishing = false
 
-    private var oldShortcut: Shortcut? = null
-
     private lateinit var shortcut: Shortcut
-
-    private val categoryId
-        get() = initData.categoryId
+    private lateinit var headers: List<RequestHeader>
+    private lateinit var parameters: List<RequestParameter>
+    private lateinit var oldShortcut: Shortcut
+    private lateinit var oldHeaders: List<RequestHeader>
+    private lateinit var oldParameters: List<RequestParameter>
 
     private val shortcutId
         get() = initData.shortcutId
@@ -114,7 +120,7 @@ constructor(
                 )
             }
             else -> {
-                shortcutRepository.createTemporaryShortcutFromShortcut(data.shortcutId, data.categoryId)
+                shortcutRepository.createTemporaryShortcutFromShortcut(data.shortcutId)
             }
         }
         data.curlCommandId
@@ -129,30 +135,40 @@ constructor(
         this.shortcut = shortcutFlow.first()
         oldShortcut = this.shortcut
 
+        val headersFlow = requestHeaderRepository.observeRequestHeaders(TEMPORARY_ID)
+        this.headers = headersFlow.first()
+        oldHeaders = this.headers
+
+        val parametersFlow = requestParameterRepository.observeRequestParameters(TEMPORARY_ID)
+        this.parameters = parametersFlow.first()
+        oldParameters = this.parameters
+
         viewModelScope.launch {
-            shortcutFlow
-                .collect { shortcut ->
-                    this@ShortcutEditorViewModel.shortcut = shortcut
-                    updateViewState {
-                        copy(
-                            toolbarSubtitle = getToolbarSubtitle(),
-                            shortcutExecutionType = shortcut.type,
-                            shortcutIcon = shortcut.icon,
-                            shortcutName = shortcut.name,
-                            shortcutDescription = shortcut.description,
-                            isExecutable = canExecute(),
-                            hasChanges = hasChanges(),
-                            requestBodyButtonEnabled = shortcut.allowsBody(),
-                            basicSettingsSubtitle = getBasicSettingsSubtitle(),
-                            headersSubtitle = getHeadersSubtitle(),
-                            requestBodySubtitle = getRequestBodySubtitle(),
-                            mqttMessagesSubtitle = getMqttMessagesSubtitle(),
-                            authenticationSettingsSubtitle = getAuthenticationSubtitle(),
-                            scriptingSubtitle = getScriptingSubtitle(),
-                            triggerShortcutsSubtitle = getTriggerShortcutsSubtitle(),
-                        )
-                    }
+            combine(shortcutFlow, headersFlow, parametersFlow) { shortcut, headers, parameters ->
+                this@ShortcutEditorViewModel.shortcut = shortcut
+                this@ShortcutEditorViewModel.headers = headers
+                this@ShortcutEditorViewModel.parameters = parameters
+                updateViewState {
+                    copy(
+                        toolbarSubtitle = getToolbarSubtitle(),
+                        shortcutExecutionType = shortcut.executionType,
+                        shortcutIcon = shortcut.icon,
+                        shortcutName = shortcut.name,
+                        shortcutDescription = shortcut.description,
+                        isExecutable = canExecute(),
+                        hasChanges = hasChanges(),
+                        requestBodyButtonEnabled = shortcut.allowsBody(),
+                        basicSettingsSubtitle = getBasicSettingsSubtitle(),
+                        headersSubtitle = getHeadersSubtitle(),
+                        requestBodySubtitle = getRequestBodySubtitle(),
+                        mqttMessagesSubtitle = getMqttMessagesSubtitle(),
+                        authenticationSettingsSubtitle = getAuthenticationSubtitle(),
+                        scriptingSubtitle = getScriptingSubtitle(),
+                        triggerShortcutsSubtitle = getTriggerShortcutsSubtitle(),
+                    )
                 }
+            }
+                .collect()
         }
         return ShortcutEditorViewState(
             shortcutExecutionType = executionType,
@@ -174,10 +190,10 @@ constructor(
     }
 
     private fun hasChanges() =
-        initData.recoveryMode || oldShortcut?.isSameAs(shortcut) == false || initData.curlCommandId != null
+        initData.recoveryMode || initData.curlCommandId != null || shortcut != oldShortcut || headers != oldHeaders || parameters != oldParameters
 
     private fun canExecute() =
-        when (shortcut.type) {
+        when (shortcut.executionType) {
             ShortcutExecutionType.HTTP -> isAcceptableHttpUrl(shortcut.url)
             ShortcutExecutionType.BROWSER -> isAcceptableUrl(shortcut.url)
             ShortcutExecutionType.SCRIPTING,
@@ -188,7 +204,7 @@ constructor(
         }
 
     private fun getToolbarSubtitle() =
-        when (shortcut.type) {
+        when (shortcut.executionType) {
             ShortcutExecutionType.BROWSER -> StringResLocalizable(R.string.subtitle_editor_toolbar_browser_shortcut)
             ShortcutExecutionType.SCRIPTING -> StringResLocalizable(R.string.subtitle_editor_toolbar_scripting_shortcut)
             ShortcutExecutionType.TRIGGER -> StringResLocalizable(R.string.subtitle_editor_toolbar_trigger_shortcut)
@@ -198,7 +214,7 @@ constructor(
         }
 
     private fun getBasicSettingsSubtitle(): Localizable =
-        when (shortcut.type) {
+        when (shortcut.executionType) {
             ShortcutExecutionType.HTTP,
             -> {
                 if (!hasUrl()) {
@@ -206,7 +222,7 @@ constructor(
                 } else {
                     StringResLocalizable(
                         R.string.subtitle_basic_request_settings_pattern,
-                        shortcut.method,
+                        shortcut.method.method,
                         shortcut.url,
                     )
                 }
@@ -237,7 +253,7 @@ constructor(
         shortcut.url.let { it.isNotEmpty() && it != "http://" && it != "https://" && it != "tcp://" }
 
     private fun getHeadersSubtitle(): Localizable {
-        val count = shortcut.headers.size
+        val count = headers.size
         return if (count == 0) {
             StringResLocalizable(R.string.subtitle_request_headers_none)
         } else {
@@ -247,11 +263,11 @@ constructor(
 
     private fun getRequestBodySubtitle(): Localizable =
         if (shortcut.allowsBody()) {
-            when (shortcut.bodyType) {
+            when (shortcut.requestBodyType) {
                 RequestBodyType.FORM_DATA,
                 RequestBodyType.X_WWW_FORM_URLENCODE,
                 -> {
-                    val count = shortcut.parameters.size
+                    val count = parameters.size
                     if (count == 0) {
                         StringResLocalizable(R.string.subtitle_request_body_params_none)
                     } else {
@@ -259,7 +275,7 @@ constructor(
                     }
                 }
                 RequestBodyType.FILE -> {
-                    if (shortcut.fileUploadOptions?.type == FileUploadType.CAMERA) {
+                    if (shortcut.fileUploadType == FileUploadType.CAMERA) {
                         StringResLocalizable(R.string.subtitle_request_body_image)
                     } else {
                         StringResLocalizable(R.string.subtitle_request_body_file)
@@ -276,11 +292,11 @@ constructor(
                 }
             }
         } else {
-            StringResLocalizable(R.string.subtitle_request_body_not_available, shortcut.method)
+            StringResLocalizable(R.string.subtitle_request_body_not_available, shortcut.method.method)
         }
 
     private fun getMqttMessagesSubtitle(): Localizable =
-        if (shortcut.type == ShortcutExecutionType.MQTT) {
+        if (shortcut.executionType == ShortcutExecutionType.MQTT) {
             QuantityStringLocalizable(
                 R.plurals.subtitle_mqtt_messages,
                 MqttUtil.countMessagesInBody(shortcut.bodyContent),
@@ -290,9 +306,9 @@ constructor(
         }
 
     private fun getAuthenticationSubtitle(): Localizable =
-        if (shortcut.type == ShortcutExecutionType.MQTT) {
+        if (shortcut.executionType == ShortcutExecutionType.MQTT) {
             StringResLocalizable(
-                if (shortcut.username.isEmpty() && shortcut.password.isEmpty()) {
+                if (shortcut.authUsername.isEmpty() && shortcut.authPassword.isEmpty()) {
                     R.string.subtitle_authentication_none
                 } else {
                     R.string.subtitle_authentication_username_and_password_set
@@ -304,7 +320,7 @@ constructor(
                     ShortcutAuthenticationType.BASIC -> R.string.subtitle_authentication_basic
                     ShortcutAuthenticationType.DIGEST -> R.string.subtitle_authentication_digest
                     ShortcutAuthenticationType.BEARER -> R.string.subtitle_authentication_bearer
-                    ShortcutAuthenticationType.NONE -> if (shortcut.clientCertParams != null && !shortcut.acceptAllCertificates) {
+                    null -> if (shortcut.clientCertParams != null && shortcut.securityPolicy != SecurityPolicy.AcceptAll) {
                         R.string.subtitle_authentication_client_cert
                     } else {
                         R.string.subtitle_authentication_none
@@ -315,7 +331,7 @@ constructor(
 
     private fun getScriptingSubtitle(): Localizable =
         StringResLocalizable(
-            when (shortcut.type) {
+            when (shortcut.executionType) {
                 ShortcutExecutionType.SCRIPTING -> R.string.label_scripting_scripting_shortcuts_subtitle
                 ShortcutExecutionType.BROWSER,
                 ShortcutExecutionType.MQTT,
@@ -328,7 +344,7 @@ constructor(
         )
 
     private fun getTriggerShortcutsSubtitle(): Localizable {
-        if (!shortcut.type.usesTriggerShortcuts) {
+        if (!shortcut.executionType.usesTriggerShortcuts) {
             return Localizable.EMPTY
         }
         val count = TriggerShortcutManager.getTriggeredShortcutIdsFromCode(shortcut.codeOnPrepare).size
@@ -408,7 +424,7 @@ constructor(
             isSaving = false
             return
         }
-        when (shortcut.type) {
+        when (shortcut.executionType) {
             ShortcutExecutionType.HTTP -> if (!isAcceptableHttpUrl(shortcut.url)) {
                 showSnackbar(R.string.validation_url_invalid, long = true)
                 isSaving = false
@@ -444,7 +460,7 @@ constructor(
 
         try {
             withProgressTracking {
-                shortcutRepository.copyTemporaryShortcutToShortcut(shortcutId, categoryId.takeIf { isNewShortcut })
+                shortcutRepository.copyTemporaryShortcutToShortcut(shortcutId)
                 temporaryShortcutRepository.deleteTemporaryShortcut()
             }
             onSaveSuccessful(shortcutId)
@@ -464,7 +480,6 @@ constructor(
             }
         }
         waitForOperationsToFinish()
-        cleanUpStarter()
         closeScreen(result = NavigationDestination.ShortcutEditor.ShortcutCreatedResult(shortcutId))
     }
 
@@ -491,7 +506,6 @@ constructor(
         }
         logInfo("Changes to shortcut discarded")
         waitForOperationsToFinish()
-        cleanUpStarter()
         closeScreen(result = if (hadChanges) NavigationDestination.RESULT_CHANGES_DISCARDED else null)
     }
 

@@ -10,8 +10,7 @@ enum class PendingExecutionType {
     ;
 
     companion object {
-        fun parse(name: String?) =
-            entries.firstOrNull { it.name == name }
-                ?: UNKNOWN
+        fun parse(name: String): PendingExecutionType? =
+            entries.find { it.name == name }
     }
 }

@@ -20,26 +20,29 @@ import ch.rmy.android.http_shortcuts.activities.execute.usecases.CheckWifiSSIDUs
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.ExtractFileIdsFromVariableValuesUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.RequestBiometricConfirmationUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.RequestSimpleConfirmationUseCase
-import ch.rmy.android.http_shortcuts.data.domains.app.AppRepository
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
+import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderRepository
+import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
-import ch.rmy.android.http_shortcuts.data.models.Base
 import ch.rmy.android.http_shortcuts.data.models.Category
-import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
+import ch.rmy.android.http_shortcuts.data.models.RequestHeader
+import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
+import ch.rmy.android.http_shortcuts.extensions.getRequestHeadersForShortcut
+import ch.rmy.android.http_shortcuts.extensions.getRequestParametersForShortcut
 import ch.rmy.android.http_shortcuts.extensions.getSafeName
 import ch.rmy.android.http_shortcuts.extensions.isTemporaryShortcut
 import ch.rmy.android.http_shortcuts.extensions.resolve
 import ch.rmy.android.http_shortcuts.extensions.shouldIncludeInHistory
-import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
 import ch.rmy.android.http_shortcuts.history.HistoryEvent
 import ch.rmy.android.http_shortcuts.history.HistoryEventLogger
@@ -91,8 +94,12 @@ class Execution(
     // Objects which are only accessed once or not at all are created lazily and no reference is kept
     private val shortcutRepository: ShortcutRepository
         get() = entryPoint.shortcutRepository()
-    private val appRepository: AppRepository
-        get() = entryPoint.appRepository()
+    private val categoryRepository: CategoryRepository
+        get() = entryPoint.categoryRepository()
+    private val requestHeaderRepository: RequestHeaderRepository
+        get() = entryPoint.requestHeaderRepository()
+    private val requestParameterRepository: RequestParameterRepository
+        get() = entryPoint.requestParameterRepository()
     private val appConfigRepository: AppConfigRepository
         get() = entryPoint.appConfigRepository()
     private val variableRepository: VariableRepository
@@ -120,10 +127,11 @@ class Execution(
     private val executionTypeFactory: ExecutionTypeFactory
         get() = entryPoint.executionTypeFactory()
 
-    private lateinit var base: Base
     private lateinit var globalCode: String
     private lateinit var category: Category
     private lateinit var shortcut: Shortcut
+    private var requestHeaders: List<RequestHeader> = emptyList()
+    private var requestParameters: List<RequestParameter> = emptyList()
 
     private val shortcutName by lazy {
         shortcut.getSafeName(context)
@@ -228,7 +236,9 @@ class Execution(
             ConfirmationType.BIOMETRIC -> requestBiometricConfirmation(shortcutName)
             null -> Unit
         }
-        checkWifiSSID(shortcutName, shortcut.wifiSsid, dialogHandle)
+        shortcut.wifiSsid?.let { wifiSsid ->
+            checkWifiSSID(shortcutName, wifiSsid, dialogHandle)
+        }
 
         val variableManager = VariableManager(
             variables = variableRepository.getVariables(),
@@ -276,12 +286,19 @@ class Execution(
         }
 
         logInfo("Resolving variables")
-        variableResolver.resolve(variableManager, shortcut, dialogHandle)
+        variableResolver.resolve(
+            variableManager = variableManager,
+            shortcut = shortcut,
+            headers = requestHeaders,
+            parameters = requestParameters,
+            dialogHandle = dialogHandle,
+        )
 
-        executionTypeFactory.createExecutionType(shortcut.type)
+        executionTypeFactory.createExecutionType(shortcut.executionType)
             .invoke(
                 shortcut = shortcut,
-                base = base,
+                requestHeaders = requestHeaders,
+                requestParameters = requestParameters,
                 variableManager = variableManager,
                 resultHandler = resultHandler,
                 params = params,
@@ -299,47 +316,23 @@ class Execution(
         shortcut.delay > 0 && params.tryNumber == 0
 
     private suspend fun loadData() {
-        base = appRepository.getBase()
         globalCode = appConfigRepository.getGlobalCode()
-        if (params.shortcutId == Shortcut.TEMPORARY_ID) {
-            shortcut = shortcutRepository.getShortcutById(Shortcut.TEMPORARY_ID)
-            category = if (shortcut.categoryId == null) {
-                logException(IllegalStateException("categoryId was not set in temporary shortcut"))
-                null
-            } else {
-                base.categories.firstOrNull { it.id == shortcut.categoryId!! }
-                    .also {
-                        if (it == null) {
-                            logException(IllegalStateException("Temporary shortcut's category not found"))
-                        }
-                    }
-            }
-                ?: Category().apply { id = "unknown" }
-            return
-        }
-        for (category in base.categories) {
-            for (shortcut in category.shortcuts) {
-                if (shortcut.id == params.shortcutId) {
-                    this@Execution.category = category
-                    this@Execution.shortcut = shortcut
-                    logInfo("Shortcut loaded: type=${shortcut.type}")
-                    return
-                }
-            }
-        }
-        throw NoSuchElementException()
+        shortcut = shortcutRepository.getShortcutById(params.shortcutId)
+        category = categoryRepository.getCategoryById(shortcut.categoryId)
+        requestHeaders = requestHeaderRepository.getRequestHeadersForShortcut(shortcut)
+        requestParameters = requestParameterRepository.getRequestParametersForShortcut(shortcut)
     }
 
     private suspend fun scheduleRepetitionIfNeeded() {
         if (shortcut.isTemporaryShortcut) {
             return
         }
-        val repetition = shortcut.repetition ?: return
+        val repetitionInterval = shortcut.repetitionInterval ?: return
         pendingExecutionsRepository.removePendingExecutionsForShortcut(shortcut.id)
         pendingExecutionsRepository
             .createPendingExecution(
                 shortcutId = shortcut.id,
-                delay = repetition.interval.minutes,
+                delay = repetitionInterval.minutes,
                 requiresNetwork = false,
                 type = PendingExecutionType.REPEAT,
             )
@@ -352,12 +345,30 @@ class Execution(
 
         val fileUploadManager = FileUploadManager.Builder(context.contentResolver)
             .runIf(shortcut.usesGenericFileBody()) {
-                addFileRequest(shortcut.fileUploadOptions)
+                addFileRequest(
+                    multiple = shortcut.fileUploadType == FileUploadType.FILE_PICKER_MULTI,
+                    withImageEditor = shortcut.fileUploadUseImageEditor,
+                    fromFile = if (shortcut.fileUploadType == FileUploadType.FILE) {
+                        shortcut.fileUploadSourceFile?.toUri()
+                    } else {
+                        null
+                    },
+                    fromCamera = shortcut.fileUploadType == FileUploadType.CAMERA,
+                )
             }
-            .runFor(shortcut.parameters) { parameter ->
+            .runFor(requestParameters) { parameter ->
                 when (parameter.parameterType) {
                     ParameterType.STRING -> this
-                    ParameterType.FILE -> addFileRequest(parameter.fileUploadOptions)
+                    ParameterType.FILE -> addFileRequest(
+                        multiple = parameter.fileUploadType == FileUploadType.FILE_PICKER_MULTI,
+                        withImageEditor = parameter.fileUploadUseImageEditor,
+                        fromFile = if (parameter.fileUploadType == FileUploadType.FILE) {
+                            parameter.fileUploadSourceFile?.toUri()
+                        } else {
+                            null
+                        },
+                        fromCamera = parameter.fileUploadType == FileUploadType.CAMERA,
+                    )
                 }
             }
             .withMetaData(loadMetaData)
@@ -389,14 +400,6 @@ class Execution(
 
         fileUploadManager.getResult()
     }
-
-    private fun FileUploadManager.Builder.addFileRequest(fileUploadOptions: FileUploadOptions?): FileUploadManager.Builder =
-        addFileRequest(
-            multiple = fileUploadOptions?.type == FileUploadType.FILE_PICKER_MULTI,
-            withImageEditor = fileUploadOptions?.useImageEditor == true,
-            fromFile = fileUploadOptions?.takeIf { it.type == FileUploadType.FILE }?.file?.toUri(),
-            fromCamera = fileUploadOptions?.type == FileUploadType.CAMERA,
-        )
 
     private suspend fun processFileIfNeeded(fileRequest: FileUploadManager.FileRequest, uri: Uri, mimeType: String): Uri? {
         if (fileRequest.withImageEditor && FileTypeUtil.isImage(mimeType)) {
@@ -432,7 +435,9 @@ class Execution(
     interface ExecutionEntryPoint {
         fun shortcutRepository(): ShortcutRepository
         fun pendingExecutionsRepository(): PendingExecutionsRepository
-        fun appRepository(): AppRepository
+        fun categoryRepository(): CategoryRepository
+        fun requestHeaderRepository(): RequestHeaderRepository
+        fun requestParameterRepository(): RequestParameterRepository
         fun appConfigRepository(): AppConfigRepository
         fun variableRepository(): VariableRepository
         fun variableResolver(): VariableResolver

@@ -13,8 +13,7 @@ enum class ProxyType(
         type
 
     companion object {
-        fun parse(type: String?) =
-            entries.firstOrNull { it.type == type }
-                ?: HTTP
+        fun parse(type: String): ProxyType? =
+            entries.find { it.type == type }
     }
 }

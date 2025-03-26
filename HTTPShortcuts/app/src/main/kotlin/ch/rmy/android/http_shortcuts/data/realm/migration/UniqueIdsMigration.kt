@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.realm.migration
 
 import ch.rmy.android.framework.utils.UUIDUtils
-import ch.rmy.android.http_shortcuts.data.realm.getString
 import io.realm.kotlin.dynamic.DynamicMutableRealm
 import io.realm.kotlin.dynamic.DynamicMutableRealmObject
 import io.realm.kotlin.migration.AutomaticSchemaMigration

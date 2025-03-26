@@ -29,9 +29,7 @@ enum class VariableType(
         type
 
     companion object {
-        fun parse(type: String?) =
-            entries
-                .firstOrNull { it.type == type }
-                ?: CONSTANT
+        fun parse(type: String): VariableType? =
+            entries.find { it.type == type }
     }
 }

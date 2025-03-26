@@ -10,7 +10,7 @@ data class AppConfig(
     @ColumnInfo(name = "id")
     val id: Int = 1,
     @ColumnInfo(name = "title")
-    val title: String = "",
+    val title: String,
     @ColumnInfo(name = "global_code")
-    val globalCode: String = "",
+    val globalCode: String,
 )

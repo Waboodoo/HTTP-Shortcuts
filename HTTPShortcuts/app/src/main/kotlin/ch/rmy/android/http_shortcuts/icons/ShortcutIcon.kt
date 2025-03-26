@@ -239,7 +239,7 @@ sealed interface ShortcutIcon {
     companion object {
         fun fromName(iconName: String?): ShortcutIcon =
             when {
-                iconName == null -> NoIcon
+                iconName.isNullOrEmpty() -> NoIcon
                 iconName.startsWith("android.resource://") -> ExternalResourceIcon(iconName.toUri())
                 iconName.endsWith(".png", ignoreCase = true) || iconName.endsWith(".jpg", ignoreCase = true) -> CustomIcon(iconName)
                 else -> BuiltInIcon(iconName)

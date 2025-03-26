@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.content.Context
+import ch.rmy.android.framework.extensions.toCharset
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
@@ -14,7 +15,6 @@ import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import ch.rmy.android.scripting.JsObject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.IOException
-import java.nio.charset.Charset
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.Dispatchers
@@ -62,13 +62,7 @@ constructor(
                     statusCode = response.code,
                     contentFile = contentFile,
                     timing = (response.receivedResponseAtMillis - response.sentRequestAtMillis).milliseconds,
-                    charsetOverride = charsetOverride?.let {
-                        try {
-                            Charset.forName(it)
-                        } catch (_: Exception) {
-                            null
-                        }
-                    },
+                    charsetOverride = charsetOverride?.toCharset(),
                 )
                 (response to shortcutResponse)
             }

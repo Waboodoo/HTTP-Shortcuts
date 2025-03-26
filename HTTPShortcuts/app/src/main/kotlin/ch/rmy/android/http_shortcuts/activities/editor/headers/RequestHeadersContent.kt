@@ -28,6 +28,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.headers.models.HeaderListItem
 import ch.rmy.android.http_shortcuts.components.EmptyState
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderText
+import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderId
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 
@@ -35,8 +36,8 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 @Composable
 fun RequestHeadersContent(
     headers: List<HeaderListItem>,
-    onHeaderClicked: (String) -> Unit,
-    onHeaderMoved: (String, String) -> Unit,
+    onHeaderClicked: (RequestHeaderId) -> Unit,
+    onHeaderMoved: (RequestHeaderId, RequestHeaderId) -> Unit,
 ) {
     if (headers.isEmpty()) {
         EmptyState(
@@ -50,7 +51,7 @@ fun RequestHeadersContent(
     val lazyListState = rememberLazyListState()
     val reorderableState = rememberReorderableLazyListState(lazyListState) { from, to ->
         localHeaders = localHeaders.move(from.index, to.index)
-        onHeaderMoved(from.key as String, to.key as String)
+        onHeaderMoved(from.key as RequestHeaderId, to.key as RequestHeaderId)
     }
 
     LazyColumn(

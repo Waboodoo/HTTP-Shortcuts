@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.usecases
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.models.AppConfig
-import ch.rmy.android.http_shortcuts.data.models.Base
+import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import javax.inject.Inject
 
@@ -12,12 +12,11 @@ class GetUsedWorkingDirectoryIdsUseCase
 constructor(
     private val workingDirectoryRepository: WorkingDirectoryRepository,
 ) {
-    suspend operator fun invoke(base: Base, appConfig: AppConfig): Set<WorkingDirectoryId> =
+    suspend operator fun invoke(shortcuts: List<Shortcut>, appConfig: AppConfig): Set<WorkingDirectoryId> =
         buildSet {
             val workingDirectories = workingDirectoryRepository.getWorkingDirectories()
-            base.shortcuts.forEach { shortcut ->
-                shortcut.responseHandling?.storeDirectoryId
-                    ?.let(::add)
+            shortcuts.forEach { shortcut ->
+                shortcut.responseStoreDirectoryId?.let(::add)
                 addAll(extractFromCode(shortcut.codeOnPrepare, workingDirectories))
                 addAll(extractFromCode(shortcut.codeOnSuccess, workingDirectories))
                 addAll(extractFromCode(shortcut.codeOnFailure, workingDirectories))

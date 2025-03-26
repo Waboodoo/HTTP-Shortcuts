@@ -16,18 +16,19 @@ import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
+import ch.rmy.android.http_shortcuts.Constants
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogHandler
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.activities.main.models.ShortcutListItem
-import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.lock.LockRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.sections.SectionId
+import ch.rmy.android.http_shortcuts.data.domains.sections.SectionRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
@@ -38,10 +39,11 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
+import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
-import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.extensions.usesUrl
 import ch.rmy.android.http_shortcuts.import_export.CurlExporter
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
@@ -62,6 +64,8 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -74,6 +78,7 @@ constructor(
     private val lockRepository: LockRepository,
     private val shortcutRepository: ShortcutRepository,
     private val categoryRepository: CategoryRepository,
+    private val sectionRepository: SectionRepository,
     private val variableRepository: VariableRepository,
     private val pendingExecutionsRepository: PendingExecutionsRepository,
     private val widgetsRepository: WidgetsRepository,
@@ -84,7 +89,6 @@ constructor(
     private val getUsedVariableIds: GetUsedVariableIdsUseCase,
     private val launcherShortcutManager: LauncherShortcutManager,
     private val launcherShortcutUpdater: LauncherShortcutUpdater,
-    private val secondaryLauncherMapper: SecondaryLauncherMapperUseCase,
     private val secondaryLauncherManager: SecondaryLauncherManager,
     private val alarmScheduler: AlarmScheduler,
     private val activityProvider: ActivityProvider,
@@ -95,6 +99,8 @@ constructor(
 ) : BaseViewModel<ShortcutListViewModel.InitData, ShortcutListViewState>(application) {
 
     private lateinit var category: Category
+    private lateinit var sections: List<Section>
+    private lateinit var shortcuts: List<Shortcut>
     private var variables: List<Variable> = emptyList()
     private var pendingShortcuts: List<PendingExecution> = emptyList()
 
@@ -107,14 +113,21 @@ constructor(
         }
 
     override suspend fun initialize(data: InitData): ShortcutListViewState {
-        val categoriesFlow = categoryRepository.observeCategory(data.categoryId)
-        category = categoriesFlow.first()
+        val categoryFlow = categoryRepository.observeCategory(data.categoryId)
+        category = categoryFlow.first()
+        val sectionsFlow = sectionRepository.observeSections(data.categoryId)
+        sections = sectionsFlow.first()
+        val shortcutsFlow = shortcutRepository.observeShortcutsByCategoryId(data.categoryId)
+        shortcuts = shortcutsFlow.first()
 
         viewModelScope.launch {
-            categoriesFlow.collect {
-                category = it
+            combine(categoryFlow, sectionsFlow, shortcutsFlow) { category, sections, shortcuts ->
+                this@ShortcutListViewModel.category = category
+                this@ShortcutListViewModel.sections = sections
+                this@ShortcutListViewModel.shortcuts = shortcuts
                 recomputeShortcutList()
             }
+                .collect()
         }
         viewModelScope.launch {
             variableRepository.observeVariables()
@@ -142,7 +155,7 @@ constructor(
         return ShortcutListViewState(
             isAppLocked = isAppLocked,
             shortcutListItems = mapShortcuts(),
-            background = category.categoryBackgroundType,
+            background = category.background,
         )
     }
 
@@ -159,19 +172,19 @@ constructor(
     private fun mapShortcuts(): List<ShortcutListItem> {
         val includeHidden = settings.showHiddenShortcuts
 
-        val validSectionIds = category.sections.map { it.id }
+        val validSectionIds = sections.ids()
         val shortcutsBySectionId = mutableMapOf<SectionId?, MutableList<Shortcut>>()
 
-        category.shortcuts.forEach { shortcut ->
+        shortcuts.forEach { shortcut ->
             if (includeHidden || !shortcut.hidden) {
-                val sectionId = shortcut.section?.takeIf { it in validSectionIds }
+                val sectionId = shortcut.sectionId?.takeIf { it in validSectionIds }
                 shortcutsBySectionId.getOrPut(sectionId, ::mutableListOf).add(shortcut)
             }
         }
 
         return buildList<ShortcutListItem> {
             var isSectionEmpty = false
-            (listOf(null) + category.sections).forEach { section ->
+            (listOf(null) + sections).forEach { section ->
                 if (section != null) {
                     isSectionEmpty = true
                     add(
@@ -206,8 +219,9 @@ constructor(
     private suspend fun updateLauncherSettings() {
         withContext(Dispatchers.Default) {
             launcherShortcutUpdater.updateAppShortcuts()
-            val categories = categoryRepository.getCategories()
-            secondaryLauncherManager.setSecondaryLauncherVisibility(secondaryLauncherMapper(categories))
+            secondaryLauncherManager.setSecondaryLauncherVisibility(
+                shortcutRepository.hasSecondaryLauncherShortcuts(),
+            )
         }
     }
 
@@ -221,7 +235,7 @@ constructor(
             executeShortcut(shortcutId)
             skipAction()
         }
-        when (category.clickBehavior ?: settings.clickBehavior) {
+        when (category.shortcutClickBehavior ?: settings.clickBehavior) {
             ShortcutClickBehavior.RUN -> executeShortcut(shortcutId)
             ShortcutClickBehavior.EDIT -> editShortcut(shortcutId)
             ShortcutClickBehavior.MENU -> showContextMenu(shortcutId)
@@ -269,7 +283,7 @@ constructor(
     }
 
     private fun getShortcutById(shortcutId: ShortcutId): Shortcut? =
-        category.shortcuts.firstOrNull { it.id == shortcutId }
+        shortcuts.firstOrNull { it.id == shortcutId }
 
     fun onPlaceOnHomeScreenOptionSelected() = runAction {
         updateDialogState(null)
@@ -346,17 +360,10 @@ constructor(
     private suspend fun ViewModelScope<*>.duplicateShortcut(shortcutId: ShortcutId) {
         val shortcut = getShortcutById(shortcutId) ?: return
         val name = shortcut.name
-        val newName = context.getString(R.string.template_shortcut_name_copy, shortcut.name)
-            .truncate(Shortcut.NAME_MAX_LENGTH)
-        val categoryId = category.id
-
-        val newPosition = category.shortcuts
-            .indexOfFirst { it.id == shortcut.id }
-            .takeIf { it != -1 }
-            ?.let { it + 1 }
+        val newName = context.getString(R.string.template_shortcut_name_copy, shortcut.name).truncate(Constants.SHORTCUT_NAME_MAX_LENGTH)
 
         withProgressTracking {
-            shortcutRepository.duplicateShortcut(shortcutId, newName, newPosition, categoryId)
+            shortcutRepository.duplicateShortcut(shortcutId, newName)
             updateLauncherSettings()
             showSnackbar(StringResLocalizable(R.string.shortcut_duplicated, name))
         }
@@ -396,7 +403,7 @@ constructor(
         val shortcutId = activeShortcutId ?: skipAction()
         val shortcut = getShortcutById(shortcutId) ?: skipAction()
 
-        if (shortcut.type.usesUrl) {
+        if (shortcut.executionType.usesUrl) {
             showExportOptionsDialog(shortcutId)
         } else {
             showFileExportDialog()

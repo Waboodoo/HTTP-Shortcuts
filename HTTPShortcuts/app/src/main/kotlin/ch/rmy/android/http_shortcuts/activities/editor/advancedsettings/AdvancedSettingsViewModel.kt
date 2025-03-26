@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.models.H
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
+import ch.rmy.android.http_shortcuts.data.enums.SecurityPolicy
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +26,7 @@ constructor(
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
         return AdvancedSettingsViewState(
             followRedirects = shortcut.followRedirects,
-            certificateFingerprint = shortcut.certificateFingerprint,
+            certificateFingerprint = (shortcut.securityPolicy as? SecurityPolicy.FingerprintOnly)?.certificateFingerprint.orEmpty(),
             hostVerificationEnabled = !shortcut.url.startsWith("http:", ignoreCase = true),
             hostVerificationType = shortcut.getHostVerificationType(),
             acceptCookies = shortcut.acceptCookies,
@@ -37,15 +38,15 @@ constructor(
             proxyPort = shortcut.proxyPort?.toString() ?: "",
             proxyUsername = shortcut.proxyUsername ?: "",
             proxyPassword = shortcut.proxyPassword ?: "",
-            requireSpecificWifi = shortcut.wifiSsid.isNotEmpty(),
-            wifiSsid = shortcut.wifiSsid,
+            requireSpecificWifi = !shortcut.wifiSsid.isNullOrEmpty(),
+            wifiSsid = shortcut.wifiSsid.orEmpty(),
         )
     }
 
     private fun Shortcut.getHostVerificationType() =
-        when {
-            acceptAllCertificates -> HostVerificationType.TRUST_ALL
-            certificateFingerprint.isNotEmpty() -> HostVerificationType.SELF_SIGNED
+        when (securityPolicy) {
+            SecurityPolicy.AcceptAll -> HostVerificationType.TRUST_ALL
+            SecurityPolicy.FingerprintOnly -> HostVerificationType.SELF_SIGNED
             else -> HostVerificationType.DEFAULT
         }
 
@@ -71,10 +72,20 @@ constructor(
             )
         }
         withProgressTracking {
-            if (hostVerificationType != HostVerificationType.SELF_SIGNED) {
-                temporaryShortcutRepository.setCertificateFingerprint("")
-            }
-            temporaryShortcutRepository.setAcceptAllCertificates(hostVerificationType == HostVerificationType.TRUST_ALL)
+            temporaryShortcutRepository.setSecurityPolicy(
+                when (hostVerificationType) {
+                    HostVerificationType.DEFAULT -> null
+                    HostVerificationType.SELF_SIGNED -> run {
+                        val fingerprint = getCurrentViewState().certificateFingerprint
+                        if (fingerprint.isValidCertificateFingerprint()) {
+                            SecurityPolicy.FingerprintOnly(fingerprint)
+                        } else {
+                            null
+                        }
+                    }
+                    HostVerificationType.TRUST_ALL -> SecurityPolicy.AcceptAll
+                },
+            )
         }
     }
 
@@ -84,7 +95,7 @@ constructor(
         }
         if (certificateFingerprint.isEmpty() || certificateFingerprint.isValidCertificateFingerprint()) {
             withProgressTracking {
-                temporaryShortcutRepository.setCertificateFingerprint(certificateFingerprint)
+                temporaryShortcutRepository.setSecurityPolicy(SecurityPolicy.FingerprintOnly(certificateFingerprint))
             }
         }
     }
