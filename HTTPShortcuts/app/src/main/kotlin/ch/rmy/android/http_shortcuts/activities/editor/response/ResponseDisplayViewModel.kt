@@ -19,18 +19,16 @@ constructor(
 
     override suspend fun initialize(data: Unit): ResponseDisplayViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
-        val responseHandling = shortcut.responseHandling!!
-
         return ResponseDisplayViewState(
-            responseUiType = responseHandling.responseUiType,
-            responseSuccessOutput = responseHandling.successOutput,
-            responseContentType = responseHandling.responseContentType,
-            includeMetaInformation = responseHandling.includeMetaInfo,
-            responseDisplayActions = responseHandling.displayActions,
-            useMonospaceFont = responseHandling.monospace,
-            fontSize = responseHandling.fontSize,
-            jsonArrayAsTable = responseHandling.jsonArrayAsTable,
-            javaScriptEnabled = responseHandling.javaScriptEnabled,
+            responseUiType = shortcut.responseUiType,
+            responseSuccessOutput = shortcut.responseSuccessOutput,
+            responseContentType = shortcut.responseContentType,
+            includeMetaInformation = shortcut.responseIncludeMetaInfo,
+            responseDisplayActions = shortcut.responseDisplayActions,
+            useMonospaceFont = shortcut.responseMonospace,
+            fontSize = shortcut.responseFontSize,
+            jsonArrayAsTable = shortcut.responseJsonArrayAsTable,
+            javaScriptEnabled = shortcut.responseJavaScriptEnabled,
         )
     }
 

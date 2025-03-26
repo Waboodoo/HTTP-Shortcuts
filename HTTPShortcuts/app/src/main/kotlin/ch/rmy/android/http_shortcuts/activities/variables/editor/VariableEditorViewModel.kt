@@ -205,7 +205,7 @@ constructor(
     }
 
     private fun hasChanges() =
-        !oldVariable.isSameAs(variable)
+        variable != oldVariable
 
     private suspend fun showDiscardDialog() {
         updateDialogState(VariableEditorDialogState.DiscardWarning)

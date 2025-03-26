@@ -11,8 +11,7 @@ enum class FileUploadType(val type: String) {
         type
 
     companion object {
-        fun parse(type: String?) =
-            entries.firstOrNull { it.type == type }
-                ?: FILE_PICKER
+        fun parse(type: String): FileUploadType? =
+            entries.find { it.type == type }
     }
 }

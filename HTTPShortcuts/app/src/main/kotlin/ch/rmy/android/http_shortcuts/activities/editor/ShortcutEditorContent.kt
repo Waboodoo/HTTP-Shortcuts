@@ -26,6 +26,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.http_shortcuts.Constants
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.SettingsButton
@@ -33,7 +34,6 @@ import ch.rmy.android.http_shortcuts.components.ShortcutIcon
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderText
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.isHttpShortcut
 import ch.rmy.android.http_shortcuts.extensions.usesBasicSettingsScreen
 import ch.rmy.android.http_shortcuts.extensions.usesResponse
@@ -234,7 +234,7 @@ private fun ShortcutNameField(
         },
         value = name,
         onValueChange = {
-            onNameChanged(it.take(Shortcut.NAME_MAX_LENGTH))
+            onNameChanged(it.take(Constants.SHORTCUT_NAME_MAX_LENGTH))
         },
         singleLine = true,
     )
@@ -253,7 +253,7 @@ private fun ShortcutDescriptionField(
         },
         value = description,
         onValueChange = {
-            onDescriptionChanged(it.take(200))
+            onDescriptionChanged(it.take(Constants.SHORTCUT_DESCRIPTION_MAX_LENGTH))
         },
     )
 }

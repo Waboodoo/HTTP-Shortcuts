@@ -1,8 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.realm.migration
 
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
-import ch.rmy.android.http_shortcuts.data.models.FileUploadOptions
-import ch.rmy.android.http_shortcuts.data.realm.getString
+import ch.rmy.android.http_shortcuts.data.realm.models.RealmFileUploadOptions
 import io.realm.kotlin.migration.AutomaticSchemaMigration
 
 class FileUploadTypeMigration : RealmMigration {
@@ -17,8 +16,8 @@ class FileUploadTypeMigration : RealmMigration {
                 } else {
                     newShortcut.set(
                         "fileUploadOptions",
-                        FileUploadOptions().apply {
-                            this.type = FileUploadType.CAMERA
+                        RealmFileUploadOptions().apply {
+                            this.fileUploadType = FileUploadType.CAMERA.type
                         },
                     )
                 }
@@ -35,8 +34,8 @@ class FileUploadTypeMigration : RealmMigration {
                 } else {
                     newParameter.set(
                         "fileUploadOptions",
-                        FileUploadOptions().apply {
-                            this.type = FileUploadType.CAMERA
+                        RealmFileUploadOptions().apply {
+                            this.fileUploadType = FileUploadType.CAMERA.type
                         },
                     )
                 }
@@ -48,8 +47,8 @@ class FileUploadTypeMigration : RealmMigration {
                 } else {
                     newParameter.set(
                         "fileUploadOptions",
-                        FileUploadOptions().apply {
-                            this.type = FileUploadType.FILE_PICKER_MULTI
+                        RealmFileUploadOptions().apply {
+                            this.fileUploadType = FileUploadType.FILE_PICKER_MULTI.type
                         },
                     )
                 }

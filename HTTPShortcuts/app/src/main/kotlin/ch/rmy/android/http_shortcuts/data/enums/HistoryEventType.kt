@@ -16,7 +16,7 @@ enum class HistoryEventType(
         type
 
     companion object {
-        fun parse(type: String?) =
-            entries.firstOrNull { it.type == type }
+        fun parse(type: String): HistoryEventType? =
+            entries.find { it.type == type }
     }
 }

@@ -11,11 +11,11 @@ import java.time.Instant
 data class WorkingDirectory(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    val id: WorkingDirectoryId = "",
+    val id: WorkingDirectoryId,
     @ColumnInfo(name = "name")
-    val name: String = "",
+    val name: String,
     @ColumnInfo(name = "directory")
-    val directory: Uri = Uri.EMPTY,
+    val directory: Uri,
     @ColumnInfo(name = "accessed")
-    val accessed: Instant? = null,
+    val accessed: Instant?,
 )

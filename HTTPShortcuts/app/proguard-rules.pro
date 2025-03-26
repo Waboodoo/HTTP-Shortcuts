@@ -1,6 +1,6 @@
--keep class ch.rmy.android.http_shortcuts.import_export.ImportExportBase { *; }
 -keep class ch.rmy.android.http_shortcuts.data.models.** { *; }
 -keep class ch.rmy.android.http_shortcuts.data.realm.models.** { *; }
+-keep class ch.rmy.android.http_shortcuts.import_export.models.** { *; }
 -keep class ch.rmy.android.http_shortcuts.activities.contact.MetaData { *; }
 -keep class ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams { *; }
 -keep class ch.rmy.android.http_shortcuts.http.FileUploadManager$Result { *; }

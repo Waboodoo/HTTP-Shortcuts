@@ -23,7 +23,7 @@ enum class ShortcutTriggerType {
     ;
 
     companion object {
-        fun parse(name: String?) =
-            entries.firstOrNull { it.name == name }
+        fun parse(name: String): ShortcutTriggerType? =
+            entries.find { it.name == name }
     }
 }

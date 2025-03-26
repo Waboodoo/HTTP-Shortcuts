@@ -6,7 +6,7 @@ import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.bindViewModel
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
+import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
 
 @Composable
 fun ResponseDisplayScreen() {
@@ -19,8 +19,8 @@ fun ResponseDisplayScreen() {
     SimpleScaffold(
         viewState = state,
         title = when (state?.responseSuccessOutput) {
-            ResponseHandling.SUCCESS_OUTPUT_RESPONSE -> stringResource(R.string.title_response_display)
-            ResponseHandling.SUCCESS_OUTPUT_MESSAGE -> stringResource(R.string.title_message_display)
+            ResponseSuccessOutput.RESPONSE -> stringResource(R.string.title_response_display)
+            ResponseSuccessOutput.MESSAGE -> stringResource(R.string.title_message_display)
             else -> ""
         },
     ) { viewState ->

@@ -1,11 +1,12 @@
 package ch.rmy.android.http_shortcuts.activities.execute.usecases
 
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.enums.ParameterType.FILE
+import ch.rmy.android.http_shortcuts.data.enums.ResponseFailureOutput
+import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
 import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandling.Companion.FAILURE_OUTPUT_NONE
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandling.Companion.SUCCESS_OUTPUT_NONE
+import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.extensions.hasFileParameter
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
 import javax.inject.Inject
@@ -16,19 +17,23 @@ constructor(
     private val permissionManager: PermissionManager,
     private val networkUtil: NetworkUtil,
 ) {
-    operator fun invoke(shortcut: Shortcut, variableValuesByIds: Map<VariableId, String> = emptyMap()): Boolean {
-        val responseHandling = shortcut.responseHandling ?: return false
-        val usesNoOutput = responseHandling.successOutput == SUCCESS_OUTPUT_NONE && responseHandling.failureOutput == FAILURE_OUTPUT_NONE
-        val usesToastOutput = responseHandling.responseUiType == ResponseUiType.TOAST
+    operator fun invoke(
+        shortcut: Shortcut,
+        requestParameters: List<RequestParameter>,
+        variableValuesByIds: Map<VariableId, String> = emptyMap(),
+    ): Boolean {
+        val usesNoOutput = shortcut.responseSuccessOutput == ResponseSuccessOutput.NONE &&
+            shortcut.responseFailureOutput == ResponseFailureOutput.NONE
+        val usesToastOutput = shortcut.responseUiType == ResponseUiType.TOAST
         val usesCodeAfterExecution = shortcut.codeOnSuccess.isNotEmpty() || shortcut.codeOnFailure.isNotEmpty()
-        val usesFiles = shortcut.usesGenericFileBody() || shortcut.hasFileParameter()
-        val storesResponse = responseHandling.storeDirectoryId != null
+        val usesFiles = shortcut.usesGenericFileBody() || (shortcut.usesRequestParameters() && requestParameters.any { it.parameterType == FILE })
+        val storesResponse = shortcut.responseStoreDirectoryId != null
         return (usesNoOutput || (usesToastOutput && permissionManager.hasNotificationPermission())) &&
             !usesCodeAfterExecution &&
             !usesFiles &&
             !storesResponse &&
             !shortcut.isWaitForNetwork &&
-            shortcut.wifiSsid.isEmpty() &&
+            shortcut.wifiSsid.isNullOrEmpty() &&
             !networkUtil.isNetworkPerformanceRestricted() &&
             computeVariablesSize(variableValuesByIds) < MAX_VARIABLES_SIZE
     }

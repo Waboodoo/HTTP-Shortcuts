@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.data.realm.migration
 
-import ch.rmy.android.http_shortcuts.data.realm.getString
 import io.realm.kotlin.dynamic.DynamicMutableRealmObject
 import io.realm.kotlin.dynamic.DynamicRealmObject
 import io.realm.kotlin.dynamic.getNullableValue

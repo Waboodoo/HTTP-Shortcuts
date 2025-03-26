@@ -18,15 +18,16 @@ import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
 import ch.rmy.android.http_shortcuts.components.VerticalSpacer
+import ch.rmy.android.http_shortcuts.data.enums.ResponseFailureOutput
+import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
 import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 
 @Composable
 fun ResponseContent(
     successMessageHint: String,
     responseUiType: ResponseUiType,
-    responseSuccessOutput: String,
-    responseFailureOutput: String,
+    responseSuccessOutput: ResponseSuccessOutput,
+    responseFailureOutput: ResponseFailureOutput,
     successMessage: String,
     responseCharset: String?,
     availableCharsets: List<String>,
@@ -34,9 +35,9 @@ fun ResponseContent(
     storeDirectoryName: String?,
     storeFileName: String,
     replaceFileIfExists: Boolean,
-    onResponseSuccessOutputChanged: (String) -> Unit,
+    onResponseSuccessOutputChanged: (ResponseSuccessOutput) -> Unit,
     onSuccessMessageChanged: (String) -> Unit,
-    onResponseFailureOutputChanged: (String) -> Unit,
+    onResponseFailureOutputChanged: (ResponseFailureOutput) -> Unit,
     onResponseUiTypeChanged: (ResponseUiType) -> Unit,
     onDisplaySettingsClicked: () -> Unit,
     onResponseCharsetChanged: (String?) -> Unit,
@@ -44,7 +45,7 @@ fun ResponseContent(
     onReplaceFileIfExistsChanged: (Boolean) -> Unit,
     onStoreFileNameChanged: (String) -> Unit,
 ) {
-    val hasOutput = responseSuccessOutput != ResponseHandling.SUCCESS_OUTPUT_NONE || responseFailureOutput != ResponseHandling.FAILURE_OUTPUT_NONE
+    val hasOutput = responseSuccessOutput != ResponseSuccessOutput.NONE || responseFailureOutput != ResponseFailureOutput.NONE
 
     Column(
         modifier = Modifier
@@ -60,7 +61,7 @@ fun ResponseContent(
         )
 
         AnimatedVisibility(
-            visible = responseSuccessOutput == ResponseHandling.SUCCESS_OUTPUT_MESSAGE,
+            visible = responseSuccessOutput == ResponseSuccessOutput.MESSAGE,
         ) {
             Column {
                 VariablePlaceholderTextField(
@@ -119,9 +120,9 @@ fun ResponseContent(
         SettingsButton(
             enabled = hasOutput && (responseUiType == ResponseUiType.DIALOG || responseUiType == ResponseUiType.WINDOW),
             title = stringResource(R.string.button_display_settings),
-            subtitle = if (hasOutput && responseSuccessOutput == ResponseHandling.SUCCESS_OUTPUT_NONE) {
+            subtitle = if (hasOutput && responseSuccessOutput == ResponseSuccessOutput.NONE) {
                 stringResource(R.string.subtitle_display_settings_for_error)
-            } else if (responseSuccessOutput == ResponseHandling.SUCCESS_OUTPUT_MESSAGE) {
+            } else if (responseSuccessOutput == ResponseSuccessOutput.MESSAGE) {
                 stringResource(R.string.subtitle_display_settings_for_message)
             } else {
                 stringResource(R.string.subtitle_display_settings_for_response)
@@ -198,15 +199,15 @@ private val UI_TYPES = listOf(
 )
 
 private val SUCCESS_OUTPUT_TYPES = listOf(
-    ResponseHandling.SUCCESS_OUTPUT_RESPONSE to R.string.option_response_handling_success_output_response,
-    ResponseHandling.SUCCESS_OUTPUT_MESSAGE to R.string.option_response_handling_success_output_message,
-    ResponseHandling.SUCCESS_OUTPUT_NONE to R.string.option_response_handling_success_output_none,
+    ResponseSuccessOutput.RESPONSE to R.string.option_response_handling_success_output_response,
+    ResponseSuccessOutput.MESSAGE to R.string.option_response_handling_success_output_message,
+    ResponseSuccessOutput.NONE to R.string.option_response_handling_success_output_none,
 )
 
 private val FAILURE_OUTPUT_TYPES = listOf(
-    ResponseHandling.FAILURE_OUTPUT_DETAILED to R.string.option_response_handling_failure_output_detailed,
-    ResponseHandling.FAILURE_OUTPUT_SIMPLE to R.string.option_response_handling_failure_output_simple,
-    ResponseHandling.FAILURE_OUTPUT_NONE to R.string.option_response_handling_failure_output_none,
+    ResponseFailureOutput.DETAILED to R.string.option_response_handling_failure_output_detailed,
+    ResponseFailureOutput.SIMPLE to R.string.option_response_handling_failure_output_simple,
+    ResponseFailureOutput.NONE to R.string.option_response_handling_failure_output_none,
 )
 
 @Composable

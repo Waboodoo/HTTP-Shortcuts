@@ -12,8 +12,7 @@ enum class ParameterType(val type: String) {
         type
 
     companion object {
-        fun parse(type: String?) =
-            entries.firstOrNull { it.type == type }
-                ?: STRING
+        fun parse(type: String): ParameterType? =
+            entries.find { it.type == type }
     }
 }

@@ -6,8 +6,8 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.activities.categories.sections.models.CategorySectionListItem
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
-import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.sections.SectionId
+import ch.rmy.android.http_shortcuts.data.domains.sections.SectionRepository
 import ch.rmy.android.http_shortcuts.data.models.Section
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -17,7 +17,7 @@ class CategorySectionsViewModel
 @Inject
 constructor(
     application: Application,
-    private val categoryRepository: CategoryRepository,
+    private val sectionRepository: SectionRepository,
 ) : BaseViewModel<CategorySectionsViewModel.InitData, CategorySectionsViewState>(application) {
 
     private val categoryId: CategoryId
@@ -35,8 +35,7 @@ constructor(
     }
 
     override suspend fun initialize(data: InitData): CategorySectionsViewState {
-        val category = categoryRepository.getCategory(categoryId)
-        sections = category.sections
+        sections = sectionRepository.getSections(categoryId)
         return CategorySectionsViewState(
             sectionItems = sections.toSectionItem(),
         )
@@ -53,7 +52,7 @@ constructor(
     fun onSectionMoved(sectionId1: SectionId, sectionId2: SectionId) = runAction {
         updateSections(sections.swapped(sectionId1, sectionId2) { id })
         withProgressTracking {
-            categoryRepository.moveSection(categoryId, sectionId1, sectionId2)
+            sectionRepository.moveSection(sectionId1, sectionId2)
         }
     }
 
@@ -72,7 +71,7 @@ constructor(
     private suspend fun ViewModelScope<*>.onAddSectionDialogConfirmed(name: String) {
         updateDialogState(null)
         withProgressTracking {
-            val newSection = categoryRepository.addSection(categoryId, name)
+            val newSection = sectionRepository.addSection(categoryId, name)
             updateSections(sections.plus(newSection))
         }
     }
@@ -83,14 +82,14 @@ constructor(
             sections
                 .map { section ->
                     if (section.id == sectionId) {
-                        Section(id = sectionId, name = name)
+                        section.copy(name = name)
                     } else {
                         section
                     }
                 },
         )
         withProgressTracking {
-            categoryRepository.updateSection(categoryId, sectionId, name)
+            sectionRepository.updateSection(sectionId, name)
         }
     }
 
@@ -103,7 +102,7 @@ constructor(
             },
         )
         withProgressTracking {
-            categoryRepository.removeSection(categoryId, sectionId)
+            sectionRepository.removeSection(sectionId)
         }
     }
 

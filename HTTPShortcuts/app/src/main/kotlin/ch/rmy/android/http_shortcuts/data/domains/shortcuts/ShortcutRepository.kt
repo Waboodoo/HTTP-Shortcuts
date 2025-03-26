@@ -1,214 +1,247 @@
 package ch.rmy.android.http_shortcuts.data.domains.shortcuts
 
-import ch.rmy.android.framework.data.BaseRealmRepository
-import ch.rmy.android.framework.data.RealmFactory
-import ch.rmy.android.framework.data.RealmTransactionContext
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.Database
+import ch.rmy.android.http_shortcuts.data.domains.BaseRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
-import ch.rmy.android.http_shortcuts.data.domains.getBase
-import ch.rmy.android.http_shortcuts.data.domains.getCategoryById
-import ch.rmy.android.http_shortcuts.data.domains.getShortcutById
-import ch.rmy.android.http_shortcuts.data.domains.getShortcutByNameOrId
-import ch.rmy.android.http_shortcuts.data.domains.getTemporaryShortcut
 import ch.rmy.android.http_shortcuts.data.domains.sections.SectionId
-import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
+import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import io.realm.kotlin.ext.copyFromRealm
 import javax.inject.Inject
+import kotlin.collections.forEach
+import kotlin.collections.map
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class ShortcutRepository
 @Inject
 constructor(
     database: Database,
-    realmFactory: RealmFactory,
-) : BaseRealmRepository(database, realmFactory) {
+) : BaseRepository(database) {
 
-    suspend fun getShortcutById(shortcutId: ShortcutId): Shortcut =
-        query {
-            getShortcutById(shortcutId)
-        }
-            .first()
+    suspend fun getShortcutById(shortcutId: ShortcutId): Shortcut = query {
+        shortcutDao().getShortcutById(shortcutId).first()
+    }
 
-    suspend fun getShortcutsByIds(shortcutIds: Collection<ShortcutId>): List<Shortcut> =
-        queryItem {
-            getBase()
-        }
-            .shortcuts.filter { it.id in shortcutIds }
+    suspend fun getShortcutsByIds(shortcutIds: Collection<ShortcutId>): List<Shortcut> = query {
+        shortcutDao().getShortcutsByIds(shortcutIds)
+    }
 
-    suspend fun getShortcutByNameOrId(shortcutNameOrId: ShortcutNameOrId): Shortcut =
-        queryItem {
-            getShortcutByNameOrId(shortcutNameOrId)
-        }
+    suspend fun getShortcutByNameOrId(shortcutNameOrId: ShortcutNameOrId): Shortcut = query {
+        shortcutDao().getShortcutByNameOrId(shortcutNameOrId).first()
+    }
 
-    fun observeShortcuts(): Flow<List<Shortcut>> =
-        observeList {
-            getBase().findFirst()!!.categories
-        }
-            .map { categories ->
-                categories.flatMap { category ->
-                    category.shortcuts
-                }
-            }
+    fun observeShortcuts(): Flow<List<Shortcut>> = queryFlow {
+        shortcutDao().observeShortcuts()
+    }
 
-    suspend fun getShortcuts(): List<Shortcut> =
-        queryItem {
-            getBase()
-        }
-            .shortcuts
+    fun observeShortcutsByCategoryId(categoryId: CategoryId): Flow<List<Shortcut>> = queryFlow {
+        shortcutDao().observeShortcutsByCategoryId(categoryId)
+    }
+
+    suspend fun getShortcuts(): List<Shortcut> = query {
+        shortcutDao().getShortcuts()
+    }
+
+    suspend fun getQuickSettingsShortcuts(): List<Shortcut> = query {
+        shortcutDao().getQuickSettingsShortcuts()
+    }
+
+    suspend fun hasSecondaryLauncherShortcuts(): Boolean = query {
+        shortcutDao().countSecondaryLauncherShortcuts() != 0
+    }
 
     suspend fun moveShortcuts(placement: Map<Pair<CategoryId, SectionId?>, List<ShortcutId>>) {
         commitTransaction {
-            val base = getBase().findFirst() ?: return@commitTransaction
-            val shortcutMap = base.shortcuts.associateBy { it.id }
-            val categories = base.categories
+            val shortcutDao = shortcutDao()
+            val categories = categoryDao().getCategories()
+            val sectionsByCategoryId = sectionDao().getSections().groupBy { it.categoryId }
 
             // Some sanity checking first
-            assert(categories.map { it.id }.toSet() == placement.keys.map { it.first }.toSet()) {
+            assert(categories.ids().toSet() == placement.keys.map { it.first }.toSet()) {
                 "Category IDs in placement did not match existing categories"
             }
-            assert(placement.values.flatten().toSet() == base.shortcuts.map { it.id }.toSet()) {
+            assert(placement.values.flatten().toSet() == shortcutDao.getShortcuts().ids().toSet()) {
                 "Shortcut IDs in placement did not match existing shortcuts"
             }
 
             categories.forEach { category ->
-                category.shortcuts.clear()
-                (listOf(null) + category.sections.map { it.id }).forEach { sectionId ->
-                    category.shortcuts.apply {
-                        val shortcuts = placement[category.id to sectionId]!!.map { shortcutId -> shortcutMap[shortcutId]!! }
-                        shortcuts.forEach { shortcut ->
-                            shortcut.section = sectionId
-                        }
-                        addAll(shortcuts)
+                var sortingOrder = 0
+                (listOf(null) + (sectionsByCategoryId[category.id]?.ids() ?: emptyList())).forEach { sectionId ->
+                    placement[category.id to sectionId]?.forEach { shortcutId ->
+                        shortcutDao.moveShortcut(
+                            shortcutId = shortcutId,
+                            categoryId = category.id,
+                            sectionId = sectionId,
+                            sortingOrder = sortingOrder,
+                        )
+                        sortingOrder++
                     }
                 }
             }
         }
     }
 
-    private fun RealmTransactionContext.moveShortcut(shortcutId: ShortcutId, targetPosition: Int? = null, targetCategoryId: CategoryId? = null) {
-        val shortcut = getShortcutById(shortcutId)
-            .findFirst() ?: return
-        val categories = getBase()
-            .findFirst()
-            ?.categories ?: return
-        val targetCategory = if (targetCategoryId != null) {
-            getCategoryById(targetCategoryId)
-                .findFirst()
-        } else {
-            categories.first { category -> category.shortcuts.any { it.id == shortcutId } }
-        } ?: return
-
-        for (category in categories) {
-            category.shortcuts.remove(shortcut)
-        }
-        if (targetPosition != null) {
-            targetCategory.shortcuts.add(targetPosition, shortcut)
-        } else {
-            targetCategory.shortcuts.add(shortcut)
-        }
-    }
-
-    suspend fun duplicateShortcut(shortcutId: ShortcutId, newName: String, newPosition: Int?, categoryId: CategoryId) {
+    suspend fun duplicateShortcut(shortcutId: ShortcutId, newName: String) {
         commitTransaction {
-            val shortcut = getShortcutById(shortcutId)
-                .findFirst()
+            val shortcutDao = shortcutDao()
+            val shortcut = shortcutDao.getShortcutById(shortcutId)
+                .firstOrNull()
                 ?: return@commitTransaction
-            val newShortcut = copyShortcut(shortcut, newUUID())
-            newShortcut.name = newName
-            moveShortcut(newShortcut.id, newPosition, categoryId)
+            val newShortcut = shortcut.copy(
+                id = newUUID(),
+                name = newName,
+                sortingOrder = shortcut.sortingOrder + 1,
+            )
+            shortcutDao.updateSortingOrder(
+                categoryId = shortcut.categoryId,
+                from = shortcut.sortingOrder + 1,
+                until = Int.MAX_VALUE,
+                diff = 1,
+            )
+            shortcutDao.insertOrUpdateShortcut(newShortcut)
+            copyRequestHeaders(sourceShortcutId = shortcutId, targetShortcutId = newShortcut.id)
+            copyRequestParameters(sourceShortcutId = shortcutId, targetShortcutId = newShortcut.id)
         }
     }
 
-    suspend fun createTemporaryShortcutFromShortcut(shortcutId: ShortcutId, categoryId: CategoryId) {
-        commitTransaction {
-            val shortcut = getShortcutById(shortcutId)
-                .findFirst()!!
-            copyShortcut(shortcut, Shortcut.TEMPORARY_ID)
-                .apply {
-                    this.categoryId = categoryId
-                }
-        }
-    }
-
-    suspend fun copyTemporaryShortcutToShortcut(shortcutId: ShortcutId, categoryId: CategoryId?) {
-        commitTransaction {
-            val temporaryShortcut = getTemporaryShortcut()
-                .findFirst() ?: return@commitTransaction
-            val shortcut = copyShortcut(temporaryShortcut, shortcutId)
-            if (categoryId != null) {
-                val category = getCategoryById(categoryId)
-                    .findFirst()
-                    ?: return@commitTransaction
-                if (category.shortcuts.none { it.id == shortcutId }) {
-                    category.shortcuts.add(shortcut)
-                }
+    private suspend fun Database.copyRequestHeaders(sourceShortcutId: ShortcutId, targetShortcutId: ShortcutId) {
+        val requestHeaderDao = requestHeaderDao()
+        requestHeaderDao.getRequestHeadersByShortcutId(sourceShortcutId)
+            .map { header ->
+                header.copy(
+                    id = 0,
+                    shortcutId = targetShortcutId,
+                )
             }
+            .forEach { header ->
+                requestHeaderDao.insertOrUpdateRequestHeader(header)
+            }
+    }
+
+    private suspend fun Database.copyRequestParameters(sourceShortcutId: ShortcutId, targetShortcutId: ShortcutId) {
+        val requestParameterDao = requestParameterDao()
+        requestParameterDao.getRequestParametersByShortcutId(sourceShortcutId)
+            .map { parameter ->
+                parameter.copy(
+                    id = 0,
+                    shortcutId = targetShortcutId,
+                )
+            }
+            .forEach { parameter ->
+                requestParameterDao.insertOrUpdateRequestParameter(parameter)
+            }
+    }
+
+    suspend fun createTemporaryShortcutFromShortcut(shortcutId: ShortcutId) {
+        commitTransaction {
+            val shortcutDao = shortcutDao()
+            val shortcut = shortcutDao.getShortcutById(shortcutId)
+                .firstOrNull()
+                ?: return@commitTransaction
+            shortcutDao.insertOrUpdateShortcut(
+                shortcut.copy(
+                    id = TEMPORARY_ID,
+                ),
+            )
+            requestHeaderDao().deleteRequestHeaderByShortcutId(TEMPORARY_ID)
+            copyRequestHeaders(sourceShortcutId = shortcutId, targetShortcutId = TEMPORARY_ID)
+            requestParameterDao().deleteRequestParametersByShortcutId(TEMPORARY_ID)
+            copyRequestParameters(sourceShortcutId = shortcutId, targetShortcutId = TEMPORARY_ID)
         }
     }
 
-    private fun RealmTransactionContext.copyShortcut(sourceShortcut: Shortcut, targetShortcutId: ShortcutId): Shortcut =
-        sourceShortcut.copyFromRealm()
-            .apply {
-                id = targetShortcutId
-                parameters.forEach { parameter ->
-                    parameter.id = newUUID()
-                }
-                headers.forEach { header ->
-                    header.id = newUUID()
-                }
-                if (executionType == ShortcutExecutionType.HTTP.type && responseHandling == null) {
-                    responseHandling = ResponseHandling()
-                }
+    suspend fun copyTemporaryShortcutToShortcut(shortcutId: ShortcutId) {
+        commitTransaction {
+            val shortcutDao = shortcutDao()
+            val temporaryShortcut = shortcutDao.getShortcutById(TEMPORARY_ID)
+                .firstOrNull()
+                ?: return@commitTransaction
+            val oldShortcut = shortcutDao.getShortcutById(shortcutId)
+                .firstOrNull()
+
+            val newShortcut = if (oldShortcut != null) {
+                // If the old shortcut exists, i.e., we were editing an existing shortcut, we need to preserve its position,
+                // as there is the (slim) chance that it was moved in between the creation of the temporary shortcut and now.
+                temporaryShortcut.copy(
+                    id = shortcutId,
+                    categoryId = oldShortcut.categoryId,
+                    sectionId = oldShortcut.sectionId,
+                    sortingOrder = oldShortcut.sortingOrder,
+                )
+            } else {
+                // If the old shortcut does not exist, i.e., we were editing a new not-yet-persisted shortcut, we need to determine
+                // its position within the category
+                temporaryShortcut.copy(
+                    id = shortcutId,
+                    sortingOrder = shortcutDao.getShortcutCountByCategoryId(temporaryShortcut.categoryId),
+                )
             }
-            .let(::copyOrUpdate)
+            shortcutDao.insertOrUpdateShortcut(newShortcut)
+
+            if (oldShortcut != null) {
+                requestHeaderDao().deleteRequestHeaderByShortcutId(shortcutId)
+                requestParameterDao().deleteRequestParametersByShortcutId(shortcutId)
+            }
+            copyRequestHeaders(sourceShortcutId = TEMPORARY_ID, targetShortcutId = shortcutId)
+            if (newShortcut.usesRequestParameters()) {
+                copyRequestParameters(sourceShortcutId = TEMPORARY_ID, targetShortcutId = shortcutId)
+            }
+
+            shortcutDao.deleteShortcutById(TEMPORARY_ID)
+            requestHeaderDao().deleteRequestHeaderByShortcutId(TEMPORARY_ID)
+            requestParameterDao().deleteRequestParametersByShortcutId(TEMPORARY_ID)
+        }
+    }
 
     suspend fun deleteShortcut(shortcutId: ShortcutId) {
         commitTransaction {
-            getShortcutById(shortcutId)
-                .findFirst()
-                ?.apply {
-                    headers.deleteAll()
-                    parameters.deleteAll()
-                    responseHandling?.delete()
-                    delete()
-                }
+            shortcutDao().deleteShortcutById(shortcutId)
+            requestHeaderDao().deleteRequestHeaderByShortcutId(shortcutId)
+            requestParameterDao().deleteRequestParametersByShortcutId(shortcutId)
         }
     }
 
     suspend fun setIcon(shortcutId: ShortcutId, icon: ShortcutIcon) {
-        commitTransaction {
-            getShortcutById(shortcutId)
-                .findFirst()
-                ?.icon = icon
+        commitTransactionForShortcut(shortcutId) { shortcut ->
+            shortcutDao().insertOrUpdateShortcut(
+                shortcut.copy(icon = icon),
+            )
         }
     }
 
     suspend fun setName(shortcutId: ShortcutId, name: String) {
-        commitTransaction {
-            getShortcutById(shortcutId)
-                .findFirst()
-                ?.name = name
+        commitTransactionForShortcut(shortcutId) { shortcut ->
+            shortcutDao().insertOrUpdateShortcut(
+                shortcut.copy(name = name),
+            )
         }
     }
 
     suspend fun setDescription(shortcutId: ShortcutId, description: String) {
-        commitTransaction {
-            getShortcutById(shortcutId)
-                .findFirst()
-                ?.description = description
+        commitTransactionForShortcut(shortcutId) { shortcut ->
+            shortcutDao().insertOrUpdateShortcut(
+                shortcut.copy(description = description),
+            )
         }
     }
 
     suspend fun setHidden(shortcutId: ShortcutId, hidden: Boolean) {
+        commitTransactionForShortcut(shortcutId) { shortcut ->
+            shortcutDao().insertOrUpdateShortcut(
+                shortcut.copy(hidden = hidden),
+            )
+        }
+    }
+
+    private suspend fun commitTransactionForShortcut(shortcutId: ShortcutId, transaction: suspend Database.(Shortcut) -> Unit) {
         commitTransaction {
-            getShortcutById(shortcutId)
-                .findFirst()
-                ?.hidden = hidden
+            transaction(
+                shortcutDao().getShortcutById(shortcutId)
+                    .firstOrNull()
+                    ?: return@commitTransaction,
+            )
         }
     }
 }

@@ -14,10 +14,10 @@ data class CategoryEditorViewState(
     val categoryLayoutType: CategoryLayoutType,
     val categoryBackgroundType: CategoryBackgroundType,
     val categoryClickBehavior: ShortcutClickBehavior?,
-    private val originalCategoryName: String,
-    private val originalCategoryLayoutType: CategoryLayoutType,
-    private val originalCategoryBackgroundType: CategoryBackgroundType,
-    private val originalCategoryClickBehavior: ShortcutClickBehavior?,
+    private val originalCategoryName: String = categoryName,
+    private val originalCategoryLayoutType: CategoryLayoutType = categoryLayoutType,
+    private val originalCategoryBackgroundType: CategoryBackgroundType = categoryBackgroundType,
+    private val originalCategoryClickBehavior: ShortcutClickBehavior? = categoryClickBehavior,
 ) {
     val hasChanges: Boolean =
         categoryName != originalCategoryName ||

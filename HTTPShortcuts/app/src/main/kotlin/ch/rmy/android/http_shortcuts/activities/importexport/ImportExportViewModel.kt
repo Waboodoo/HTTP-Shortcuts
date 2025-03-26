@@ -15,6 +15,7 @@ import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.import_export.ImportException
+import ch.rmy.android.http_shortcuts.import_export.ImportMode
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.ImportExport.RESULT_CATEGORIES_CHANGED_FROM_IMPORT
@@ -121,7 +122,7 @@ constructor(
         currentJob = launch {
             try {
                 showProgressDialog(R.string.import_in_progress)
-                val status = importer.importFromUri(uri, importMode = Importer.ImportMode.MERGE)
+                val status = importer.importFromUri(uri, importMode = ImportMode.MERGE)
 
                 showSnackbar(
                     QuantityStringLocalizable(

@@ -17,7 +17,7 @@ sealed interface ClientCertParams {
     }
 
     companion object {
-        fun fromString(string: String) =
+        fun parse(string: String) =
             when {
                 string.startsWith(CLIENT_CERT_ALIAS_PREFIX) ->
                     Alias(string.removePrefix(CLIENT_CERT_ALIAS_PREFIX))

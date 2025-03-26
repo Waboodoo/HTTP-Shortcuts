@@ -45,6 +45,7 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.SuggestionDropdown
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderText
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
+import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterId
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
@@ -76,8 +77,8 @@ fun RequestBodyContent(
     onContentTypeChanged: (String) -> Unit,
     onBodyContentChanged: (String) -> Unit,
     onFormatButtonClicked: () -> Unit,
-    onParameterClicked: (String) -> Unit,
-    onParameterMoved: (String, String) -> Unit,
+    onParameterClicked: (RequestParameterId) -> Unit,
+    onParameterMoved: (RequestParameterId, RequestParameterId) -> Unit,
     onUseImageEditorChanged: (Boolean) -> Unit,
 ) {
     Column(
@@ -233,8 +234,8 @@ private fun ColumnScope.BodyTextEditor(
 @Composable
 private fun ColumnScope.ParameterList(
     parameters: List<ParameterListItem>,
-    onParameterClicked: (String) -> Unit,
-    onParameterMoved: (String, String) -> Unit,
+    onParameterClicked: (RequestParameterId) -> Unit,
+    onParameterMoved: (RequestParameterId, RequestParameterId) -> Unit,
 ) {
     if (parameters.isEmpty()) {
         EmptyState(
@@ -248,7 +249,7 @@ private fun ColumnScope.ParameterList(
     val lazyListState = rememberLazyListState()
     val reorderableState = rememberReorderableLazyListState(lazyListState) { from, to ->
         localParameters = localParameters.move(from.index, to.index)
-        onParameterMoved(from.key as String, to.key as String)
+        onParameterMoved(from.key as RequestParameterId, to.key as RequestParameterId)
     }
 
     LazyColumn(

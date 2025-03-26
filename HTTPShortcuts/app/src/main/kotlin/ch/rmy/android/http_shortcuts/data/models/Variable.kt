@@ -14,48 +14,43 @@ import org.json.JSONObject
 data class Variable(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    val id: VariableId = "",
+    val id: VariableId,
     @ColumnInfo(name = "key")
-    val key: VariableKey = "",
+    val key: VariableKey,
     @ColumnInfo(name = "variable_type")
-    val type: VariableType = VariableType.CONSTANT,
+    val type: VariableType,
     @ColumnInfo(name = "value")
-    val value: String? = "",
+    val value: String?,
     @ColumnInfo(name = "data")
-    val data: String? = null,
+    val data: String?,
     @ColumnInfo(name = "remember_value")
-    val rememberValue: Boolean = false,
+    val rememberValue: Boolean,
     @ColumnInfo(name = "url_encode")
-    val urlEncode: Boolean = false,
+    val urlEncode: Boolean,
     @ColumnInfo(name = "json_encode")
-    val jsonEncode: Boolean = false,
+    val jsonEncode: Boolean,
     @ColumnInfo(name = "title")
-    val title: String = "",
+    val title: String,
     @ColumnInfo(name = "message")
-    val message: String = "",
+    val message: String,
     @ColumnInfo(name = "share_text")
-    val isShareText: Boolean = false,
+    val isShareText: Boolean,
     @ColumnInfo(name = "share_title")
-    val isShareTitle: Boolean = false,
+    val isShareTitle: Boolean,
     @ColumnInfo(name = "multiline")
-    val isMultiline: Boolean = false,
+    val isMultiline: Boolean,
     @ColumnInfo(name = "exclude_from_export")
-    val isExcludeValueFromExport: Boolean = false,
-    @ExcludedFromExport
-    @ColumnInfo(name = "sorting_order")
+    val isExcludeValueFromExport: Boolean,
+    @ColumnInfo(name = "sorting_order", index = true)
     val sortingOrder: Int = 0,
 ) {
-
+    // TODO(room): Find a better way to store values changed during execution
     @Ignore
     var valueOverride: String? = null
 
     val realValue: String?
         get() = valueOverride ?: value
 
-    fun isSameAs(other: Variable): Boolean =
-        this == other.copy(id = id)
-
-    @delegate:ExcludedFromExport
     private val dataCache: JSONObject by lazy(LazyThreadSafetyMode.NONE) {
         try {
             JSONObject(data ?: "{}")

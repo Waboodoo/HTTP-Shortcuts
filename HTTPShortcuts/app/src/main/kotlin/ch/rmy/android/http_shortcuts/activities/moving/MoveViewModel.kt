@@ -8,18 +8,25 @@ import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.moving.models.CategorySectionItem
 import ch.rmy.android.http_shortcuts.activities.moving.models.CategorySectionItem.CategorySectionId
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.sections.SectionId
+import ch.rmy.android.http_shortcuts.data.domains.sections.SectionRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.MoveShortcuts.RESULT_SHORTCUTS_MOVED
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -28,6 +35,7 @@ class MoveViewModel
 constructor(
     application: Application,
     private val categoryRepository: CategoryRepository,
+    private val sectionRepository: SectionRepository,
     private val shortcutRepository: ShortcutRepository,
 ) : BaseViewModel<Unit, Unit>(application) {
 
@@ -39,24 +47,36 @@ constructor(
     override suspend fun initialize(data: Unit) {
         logInfo("Initialized MoveViewModel")
         viewModelScope.launch {
-            categoryRepository.observeCategories().collect {
-                _categorySections.value = it.toCategorySectionItems()
+            combine(
+                categoryRepository.observeCategories(),
+                sectionRepository.observeSections()
+                    .map { sections -> sections.groupBy { it.categoryId } },
+                shortcutRepository.observeShortcuts()
+                    .map { shortcuts -> shortcuts.groupBy { it.categoryId } },
+            ) { categories, sectionsByCategoryId, shortcutsByCategoryId ->
+                _categorySections.value = toCategorySectionItems(categories, sectionsByCategoryId, shortcutsByCategoryId)
             }
+                .collect()
         }
     }
 
-    private fun List<Category>.toCategorySectionItems(): List<CategorySectionItem> {
-        val categories = this
+    private fun toCategorySectionItems(
+        categories: List<Category>,
+        sectionsByCategoryId: Map<CategoryId, List<Section>>,
+        shortcutsByCategoryId: Map<CategoryId, List<Shortcut>>,
+    ): List<CategorySectionItem> {
         return buildList {
             categories.forEach { category ->
-                val validSectionIds = category.sections.map { it.id }
+                val sections = sectionsByCategoryId[category.id] ?: emptyList()
+                val shortcuts = shortcutsByCategoryId[category.id] ?: emptyList()
+                val validSectionIds = sections.ids()
                 val shortcutsBySectionId = mutableMapOf<SectionId?, MutableList<Shortcut>>()
-                category.shortcuts.forEach { shortcut ->
-                    val sectionId = shortcut.section?.takeIf { it in validSectionIds }
+                shortcuts.forEach { shortcut ->
+                    val sectionId = shortcut.sectionId?.takeIf { it in validSectionIds }
                     shortcutsBySectionId.getOrPut(sectionId, ::mutableListOf).add(shortcut)
                 }
 
-                (listOf(null) + category.sections).forEach { section ->
+                (listOf(null) + sections).forEach { section ->
                     add(
                         CategorySectionItem(
                             id = CategorySectionId(category.id, section?.id),

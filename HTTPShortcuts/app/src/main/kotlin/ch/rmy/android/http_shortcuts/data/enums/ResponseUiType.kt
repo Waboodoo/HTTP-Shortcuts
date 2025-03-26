@@ -14,7 +14,7 @@ enum class ResponseUiType(val type: String) {
         type
 
     companion object {
-        fun parse(type: String?) =
-            ResponseUiType.entries.firstOrNull { it.type == type }
+        fun parse(type: String): ResponseUiType? =
+            entries.find { it.type == type }
     }
 }

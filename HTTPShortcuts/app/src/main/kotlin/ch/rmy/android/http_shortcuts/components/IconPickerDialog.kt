@@ -71,7 +71,11 @@ fun IconPickerDialog(
         mutableStateOf("")
     }
     val icon = remember(persistedIcon) {
-        ShortcutIcon.fromName(persistedIcon) as ShortcutIcon.BuiltInIcon
+        if (persistedIcon.isNotEmpty()) {
+            ShortcutIcon.fromName(persistedIcon) as? ShortcutIcon.BuiltInIcon
+        } else {
+            null
+        }
     }
 
     when (state) {
@@ -99,7 +103,7 @@ fun IconPickerDialog(
                         contentAlignment = Alignment.Center,
                     ) {
                         ShortcutIcon(
-                            icon.withTint(color),
+                            icon?.withTint(color) ?: ShortcutIcon.NoIcon,
                         )
                     }
                 },

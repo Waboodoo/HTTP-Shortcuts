@@ -1,8 +1,9 @@
 package ch.rmy.android.http_shortcuts.variables
 
-import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
+import ch.rmy.android.http_shortcuts.data.enums.HttpMethod
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.utils.DefaultModels
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
 import io.mockk.coEvery
 import io.mockk.every
@@ -43,14 +44,16 @@ class VariableResolverTest {
     fun `test variable resolution of static variables`() = runTest {
         val variableManager = VariableManager(
             listOf(
-                Variable(id = "1234", key = "myVariable", value = "Hello World"),
+                variable(id = "1234", key = "myVariable", value = "Hello World"),
             ),
         )
         VariableResolver(variableTypeFactory)
             .resolve(
                 variableManager = variableManager,
                 requiredVariableIds = VariableResolver.extractVariableIdsExcludingScripting(
-                    withContent("{{1234}}"),
+                    shortcutWithContent("{{1234}}"),
+                    headers = emptyList(),
+                    parameters = emptyList(),
                 ),
                 dialogHandle = mockk(),
             )
@@ -77,15 +80,17 @@ class VariableResolverTest {
     fun `test variable resolution of static variables referencing other static variables`() = runTest {
         val variableManager = VariableManager(
             listOf(
-                Variable(id = "1234", key = "myVariable1", value = "Hello {{5678}}"),
-                Variable(id = "5678", key = "myVariable2", value = "World"),
+                variable(id = "1234", key = "myVariable1", value = "Hello {{5678}}"),
+                variable(id = "5678", key = "myVariable2", value = "World"),
             ),
         )
         VariableResolver(variableTypeFactory)
             .resolve(
                 variableManager = variableManager,
                 requiredVariableIds = VariableResolver.extractVariableIdsExcludingScripting(
-                    withContent("{{1234}}"),
+                    shortcutWithContent("{{1234}}"),
+                    headers = emptyList(),
+                    parameters = emptyList(),
                 ),
                 dialogHandle = mockk(),
             )
@@ -127,7 +132,7 @@ class VariableResolverTest {
 
     @Test
     fun `test variable resolution of static variable references in JS code`() {
-        val shortcut = withJSContent(
+        val shortcut = shortcutWithJSContent(
             content = """
             const foo = getVariable(/*[variable]*/"1234"/*[/variable]*/);
             getVariable("my_variable");
@@ -148,7 +153,12 @@ class VariableResolverTest {
                     else -> null
                 }
         }
-        val variableIds = VariableResolver.extractVariableIdsIncludingScripting(shortcut, variableLookup)
+        val variableIds = VariableResolver.extractVariableIdsIncludingScripting(
+            shortcut,
+            headers = emptyList(),
+            parameters = emptyList(),
+            variableLookup = variableLookup,
+        )
 
         assertEquals(
             setOf("1234", "5678"),
@@ -160,9 +170,9 @@ class VariableResolverTest {
     fun `test variable resolution order`() = runTest {
         val variableManager = VariableManager(
             listOf(
-                Variable(id = "123", key = "myVariable1", value = "Hello {{789}}"),
-                Variable(id = "456", key = "myVariable2", value = "!!!"),
-                Variable(id = "789", key = "myVariable2", value = "World"),
+                variable(id = "123", key = "myVariable1", value = "Hello {{789}}"),
+                variable(id = "456", key = "myVariable2", value = "!!!"),
+                variable(id = "789", key = "myVariable2", value = "World"),
             ),
         )
         VariableResolver(variableTypeFactory)
@@ -190,9 +200,9 @@ class VariableResolverTest {
     fun `test multi-level recursion variable`() = runTest {
         val variableManager = VariableManager(
             listOf(
-                Variable(id = "123", key = "myVariable1", value = "Hello {{456}}"),
-                Variable(id = "456", key = "myVariable2", value = "World{{789}}"),
-                Variable(id = "789", key = "myVariable2", value = "!!!"),
+                variable(id = "123", key = "myVariable1", value = "Hello {{456}}"),
+                variable(id = "456", key = "myVariable2", value = "World{{789}}"),
+                variable(id = "789", key = "myVariable2", value = "!!!"),
             ),
         )
         VariableResolver(variableTypeFactory)
@@ -216,7 +226,7 @@ class VariableResolverTest {
     fun `test self-referential variable`() = runTest {
         val variableManager = VariableManager(
             listOf(
-                Variable(id = "123", key = "myVariable1", value = "Hello {{123}}"),
+                variable(id = "123", key = "myVariable1", value = "Hello {{123}}"),
             ),
         )
         VariableResolver(variableTypeFactory)
@@ -236,16 +246,23 @@ class VariableResolverTest {
 
     companion object {
 
-        private fun withContent(content: String) =
-            Shortcut().apply {
-                method = Shortcut.METHOD_POST
-                bodyType = RequestBodyType.CUSTOM_TEXT
-                bodyContent = content
-            }
+        private fun variable(id: String, key: String, value: String): Variable =
+            DefaultModels.variable.copy(
+                id = id,
+                key = key,
+                value = value,
+            )
 
-        private fun withJSContent(content: String) =
-            Shortcut().apply {
-                codeOnSuccess = content
-            }
+        private fun shortcutWithContent(content: String): Shortcut =
+            DefaultModels.shortcut.copy(
+                method = HttpMethod.POST,
+                bodyContent = content,
+            )
+
+        private fun shortcutWithJSContent(content: String): Shortcut =
+            DefaultModels.shortcut.copy(
+                method = HttpMethod.POST,
+                codeOnSuccess = content,
+            )
     }
 }

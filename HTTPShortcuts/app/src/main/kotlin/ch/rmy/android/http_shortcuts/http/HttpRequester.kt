@@ -13,8 +13,11 @@ import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.HostVerificationConfig
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
+import ch.rmy.android.http_shortcuts.data.enums.SecurityPolicy
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
+import ch.rmy.android.http_shortcuts.data.models.RequestHeader
+import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.shouldIncludeInHistory
 import ch.rmy.android.http_shortcuts.extensions.toCertificatePin
@@ -58,6 +61,8 @@ constructor(
     suspend fun executeShortcut(
         context: Context,
         shortcut: Shortcut,
+        headers: List<RequestHeader>,
+        parameters: List<RequestParameter>,
         storeDirectoryUri: Uri?,
         sessionId: String,
         variableValues: Map<VariableId, String>,
@@ -70,8 +75,8 @@ constructor(
             val responseFileStorage = responseFileStorageFactory.create(sessionId, storeDirectoryUri)
             val requestData = RequestData(
                 url = Variables.rawPlaceholdersToResolvedValues(shortcut.url, variableValues).trim(),
-                username = Variables.rawPlaceholdersToResolvedValues(shortcut.username, variableValues),
-                password = Variables.rawPlaceholdersToResolvedValues(shortcut.password, variableValues),
+                username = Variables.rawPlaceholdersToResolvedValues(shortcut.authUsername, variableValues),
+                password = Variables.rawPlaceholdersToResolvedValues(shortcut.authPassword, variableValues),
                 authToken = Variables.rawPlaceholdersToResolvedValues(shortcut.authToken, variableValues),
                 body = if (shortcut.usesCustomBody()) Variables.rawPlaceholdersToResolvedValues(shortcut.bodyContent, variableValues) else "",
                 proxy = getProxyParams(shortcut, variableValues),
@@ -86,6 +91,8 @@ constructor(
                 makeRequest(
                     context = context,
                     shortcut = shortcut,
+                    headers = headers,
+                    parameters = parameters,
                     variablesValues = variableValues,
                     requestData = requestData,
                     responseFileStorage = responseFileStorage,
@@ -110,14 +117,16 @@ constructor(
                         requestData
                     }
                     makeRequest(
-                        context,
-                        shortcut,
-                        variableValues,
-                        newRequestData,
-                        responseFileStorage,
-                        fileUploadResult,
-                        cookieJar,
-                        certificatePins,
+                        context = context,
+                        shortcut = shortcut,
+                        headers = headers,
+                        parameters = parameters,
+                        variablesValues = variableValues,
+                        requestData = newRequestData,
+                        responseFileStorage = responseFileStorage,
+                        fileUploadResult = fileUploadResult,
+                        cookieJar = cookieJar,
+                        certificatePins = certificatePins,
                     )
                 } else {
                     throw e
@@ -142,7 +151,7 @@ constructor(
             }
 
         return ProxyParams(
-            type = shortcut.proxyType,
+            type = shortcut.proxyType ?: return null,
             host = host,
             port = shortcut.proxyPort ?: return null,
             username = username.orEmpty(),
@@ -153,6 +162,8 @@ constructor(
     private suspend fun makeRequest(
         context: Context,
         shortcut: Shortcut,
+        headers: List<RequestHeader>,
+        parameters: List<RequestParameter>,
         variablesValues: Map<VariableId, String>,
         requestData: RequestData,
         responseFileStorage: ResponseFileStorage,
@@ -176,7 +187,7 @@ constructor(
                 hostVerificationConfig = getSSLConfig(shortcut),
             )
 
-            val request = buildRequest(shortcut.method, requestData.url) {
+            val request = buildRequest(shortcut.method.method, requestData.url) {
                 if (!shortcut.keepConnectionOpen) {
                     header(HttpHeaders.CONNECTION, "close")
                 }
@@ -194,9 +205,9 @@ constructor(
                 }
                 if (shortcut.usesRequestParameters()) {
                     contentType(requestData.contentType)
-                    attachParameters(shortcut, variablesValues, fileUploadResult)
+                    attachParameters(parameters, variablesValues, fileUploadResult)
                 }
-                shortcut.headers.forEach { header ->
+                headers.forEach { header ->
                     header(
                         Variables.rawPlaceholdersToResolvedValues(header.key, variablesValues),
                         Variables.rawPlaceholdersToResolvedValues(header.value, variablesValues),
@@ -233,7 +244,7 @@ constructor(
                     .execute()
                     .use { okHttpResponse ->
                         logInfo("HTTP request completed")
-                        val contentFile = if (shortcut.usesResponseBody) {
+                        val contentFile = if (shortcut.usesResponseBody()) {
                             responseFileStorage.store(okHttpResponse)
                         } else {
                             null
@@ -256,7 +267,7 @@ constructor(
                             url = requestData.url,
                             response = okHttpResponse,
                             contentFile = contentFile,
-                            charsetOverride = shortcut.responseHandling?.charsetOverride,
+                            charsetOverride = shortcut.responseCharset,
                         )
                         if (isSuccess) {
                             continuation.resume(shortcutResponse)
@@ -277,39 +288,32 @@ constructor(
             }
         }
 
-    private fun getSSLConfig(shortcut: Shortcut): HostVerificationConfig {
-        if (shortcut.acceptAllCertificates) {
-            return HostVerificationConfig.TrustAll
+    private fun getSSLConfig(shortcut: Shortcut): HostVerificationConfig =
+        when (val securityPolicy = shortcut.securityPolicy) {
+            SecurityPolicy.AcceptAll -> HostVerificationConfig.TrustAll
+            is SecurityPolicy.FingerprintOnly -> HostVerificationConfig.SelfSigned(securityPolicy.certificateFingerprint.fromHexString())
+            null -> HostVerificationConfig.Default
         }
-        shortcut.certificateFingerprint
-            .takeUnlessEmpty()
-            ?.fromHexString()
-            ?.let { expectedFingerprint ->
-                return HostVerificationConfig.SelfSigned(expectedFingerprint)
-            }
-
-        return HostVerificationConfig.Default
-    }
 
     private fun RequestBuilder.attachParameters(
-        shortcut: Shortcut,
+        parameters: List<RequestParameter>,
         variables: Map<VariableId, String>,
         fileUploadResult: FileUploadManager.Result?,
     ) {
         var fileIndex = -1
-        shortcut.parameters.forEach { parameter ->
+        parameters.forEach { parameter ->
             val parameterName = Variables.rawPlaceholdersToResolvedValues(parameter.key, variables)
             when (parameter.parameterType) {
                 ParameterType.FILE,
                 -> {
                     fileUploadResult?.let {
                         fileIndex++
-                        if (parameter.fileUploadOptions?.type == FileUploadType.FILE_PICKER_MULTI) {
+                        if (parameter.fileUploadType == FileUploadType.FILE_PICKER_MULTI) {
                             fileUploadResult.getFiles(fileIndex)
                                 .forEach { file ->
                                     fileParameter(
                                         name = "$parameterName[]",
-                                        fileName = parameter.fileName.ifEmpty { file.fileName },
+                                        fileName = parameter.fileUploadFileName?.takeUnlessEmpty() ?: file.fileName,
                                         type = file.mimeType,
                                         data = contentResolver.openInputStream(file.data)!!,
                                         length = file.fileSize,
@@ -320,7 +324,7 @@ constructor(
                                 ?.let { file ->
                                     fileParameter(
                                         name = parameterName,
-                                        fileName = parameter.fileName.ifEmpty { file.fileName },
+                                        fileName = parameter.fileUploadFileName?.takeUnlessEmpty() ?: file.fileName,
                                         type = file.mimeType,
                                         data = contentResolver.openInputStream(file.data)!!,
                                         length = file.fileSize,
@@ -352,7 +356,7 @@ constructor(
             )
 
         internal fun determineContentType(shortcut: Shortcut): String? =
-            when (shortcut.bodyType) {
+            when (shortcut.requestBodyType) {
                 RequestBodyType.FORM_DATA -> FORM_MULTIPART_CONTENT_TYPE
                 RequestBodyType.X_WWW_FORM_URLENCODE -> FORM_URLENCODE_CONTENT_TYPE_WITH_CHARSET
                 else -> shortcut.contentType.takeUnlessEmpty()

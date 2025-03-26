@@ -9,7 +9,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 data class AuthenticationViewState(
     val shortcutExecutionType: ShortcutExecutionType,
     val dialogState: AuthenticationDialogState? = null,
-    val authenticationType: ShortcutAuthenticationType = ShortcutAuthenticationType.NONE,
+    val authenticationType: ShortcutAuthenticationType? = null,
     val username: String = "",
     val password: String = "",
     val token: String = "",

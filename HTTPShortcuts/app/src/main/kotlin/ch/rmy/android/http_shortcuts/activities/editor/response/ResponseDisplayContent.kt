@@ -20,13 +20,13 @@ import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
+import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
 import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
 
 @Composable
 fun ResponseDisplayContent(
     responseUiType: ResponseUiType,
-    responseSuccessOutput: String,
+    responseSuccessOutput: ResponseSuccessOutput,
     responseContentType: ResponseContentType?,
     includeMetaInformation: Boolean,
     responseDisplayActions: List<ResponseDisplayAction>,
@@ -53,7 +53,7 @@ fun ResponseDisplayContent(
                 .padding(
                     horizontal = Spacing.MEDIUM,
                 ),
-            title = if (responseSuccessOutput == ResponseHandling.SUCCESS_OUTPUT_MESSAGE) {
+            title = if (responseSuccessOutput == ResponseSuccessOutput.MESSAGE) {
                 stringResource(R.string.label_response_message_type_selection)
             } else {
                 stringResource(R.string.label_response_type_selection)

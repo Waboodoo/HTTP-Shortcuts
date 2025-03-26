@@ -6,6 +6,7 @@ import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
+import ch.rmy.android.http_shortcuts.import_export.ImportMode
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import java.io.File
@@ -37,6 +38,7 @@ class RemoteEditManager(
                 FileUtil.getUriFromFile(context, file),
                 format = ExportFormat.LEGACY_JSON,
                 excludeVariableValuesIfNeeded = false,
+                excludeDefaults = false,
             )
             pushToServer(deviceId, password, file)
         }
@@ -78,7 +80,7 @@ class RemoteEditManager(
                     .build(),
             )
                 .byteStream().use { inputStream ->
-                    importer.importFromJSON(inputStream, importMode = Importer.ImportMode.REPLACE)
+                    importer.importFromJSON(inputStream, importMode = ImportMode.REPLACE)
                 }
         }
 

@@ -15,7 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.LinkInteractionListener
@@ -29,19 +28,17 @@ import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.framework.extensions.restartWithoutAnimation
-import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
+import ch.rmy.android.http_shortcuts.Application
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
-import ch.rmy.android.http_shortcuts.data.realm.RealmError
-import ch.rmy.android.http_shortcuts.data.realm.RealmFactoryImpl
 import ch.rmy.android.http_shortcuts.navigation.NavigationRoot
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
-import ch.rmy.android.http_shortcuts.utils.ExternalURLs.RELEASES
+import ch.rmy.android.http_shortcuts.utils.ExternalURLs.CONTACT_PAGE
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -71,29 +68,13 @@ class MainActivity : BaseComposeActivity() {
 
     @Composable
     override fun Content() {
-        RealmFactoryImpl.realmError?.let { error ->
-            when (error) {
-                is RealmError.ConfigurationError -> RealmConfigurationErrorDialog(
-                    error.backupFile,
-                ) {
+        Application.startupError?.let { error ->
+            StartupErrorDialog(
+                message = error,
+                onDismissed = {
                     finishWithoutAnimation()
-                }
-                is RealmError.RealmNotFound -> RealmUnavailableDialog {
-                    finishWithoutAnimation()
-                }
-                is RealmError.OutOfDiskSpace -> GenericRealmErrorDialog(
-                    message = "No space left on device",
-                    onDismissed = {
-                        finishWithoutAnimation()
-                    },
-                )
-                is RealmError.Downgrade -> GenericRealmErrorDialog(
-                    message = "It looks like you tried to downgrade the app. This is unfortunately not possible without clearing the app's data.",
-                    onDismissed = {
-                        finishWithoutAnimation()
-                    },
-                )
-            }
+                },
+            )
             return
         }
 
@@ -107,7 +88,7 @@ class MainActivity : BaseComposeActivity() {
     }
 
     @Composable
-    private fun GenericRealmErrorDialog(
+    private fun StartupErrorDialog(
         message: String,
         onDismissed: () -> Unit,
     ) {
@@ -115,86 +96,35 @@ class MainActivity : BaseComposeActivity() {
             onDismissRequest = onDismissed,
             title = { Text(stringResource(R.string.dialog_title_error)) },
             text = {
-                Text(message)
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = onDismissed,
-                ) {
-                    Text(stringResource(R.string.dialog_ok))
-                }
-            },
-        )
-    }
-
-    @Composable
-    private fun RealmConfigurationErrorDialog(
-        backupFile: Uri,
-        onDismissed: () -> Unit,
-    ) {
-        val context = LocalContext.current
-        AlertDialog(
-            onDismissRequest = onDismissed,
-            title = { Text(stringResource(R.string.dialog_title_error)) },
-            text = {
-                Text(
-                    "There was an unexpected issue while trying to load your data. Please contact the developer at android@rmy.ch.\n\n" +
-                        "You can export a dump of your local database using the button below.",
-                )
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        Intent(Intent.ACTION_SEND)
-                            .setType("application/octet-stream")
-                            .putExtra(Intent.EXTRA_STREAM, backupFile)
-                            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            .let {
-                                Intent.createChooser(it, context.getString(R.string.title_export))
-                            }
-                            .startActivity(this)
-                        onDismissed()
-                    },
-                ) {
-                    Text(stringResource(R.string.dialog_button_export))
-                }
-            },
-        )
-    }
-
-    @Composable
-    private fun RealmUnavailableDialog(
-        onDismissed: () -> Unit,
-    ) {
-        val context = LocalContext.current
-        AlertDialog(
-            onDismissRequest = onDismissed,
-            title = { Text(stringResource(R.string.dialog_title_error)) },
-            text = {
                 val text = buildAnnotatedString {
                     withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onSurface)) {
-                        append(stringResource(R.string.error_realm_unavailable))
+                        append(message)
                     }
-                    append(" ")
+                    appendLine()
+                    appendLine()
+                    append("Please ")
                     withLink(
                         LinkAnnotation.Url(
-                            RELEASES,
+                            CONTACT_PAGE,
                             styles = TextLinkStyles(style = SpanStyle(color = MaterialTheme.colorScheme.primary)),
                             linkInteractionListener = object : LinkInteractionListener {
                                 override fun onClick(link: LinkAnnotation) {
-                                    context.openURL(RELEASES)
+                                    context.openURL(CONTACT_PAGE)
                                     onDismissed()
                                 }
                             },
                         ),
                     ) {
-                        append(RELEASES)
+                        append("contact")
                     }
+                    append(" the developer for help.")
                 }
                 Text(text)
             },
             confirmButton = {
-                TextButton(onClick = onDismissed) {
+                TextButton(
+                    onClick = onDismissed,
+                ) {
                     Text(stringResource(R.string.dialog_ok))
                 }
             },

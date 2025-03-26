@@ -2,12 +2,13 @@ package ch.rmy.android.http_shortcuts.variables
 
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
-import ch.rmy.android.http_shortcuts.data.models.ResponseHandling
+import ch.rmy.android.http_shortcuts.data.models.RequestHeader
+import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
 import javax.inject.Inject
 
@@ -71,39 +72,66 @@ constructor(
 
         private const val MAX_RECURSION_DEPTH = 3
 
-        fun extractVariableIdsIncludingScripting(shortcut: Shortcut, variableLookup: VariableLookup): Set<VariableId> =
-            extractVariableIds(shortcut, variableLookup = variableLookup, includeScripting = true)
+        fun extractVariableIdsIncludingScripting(
+            shortcut: Shortcut,
+            headers: List<RequestHeader>,
+            parameters: List<RequestParameter>,
+            variableLookup: VariableLookup,
+        ): Set<VariableId> =
+            extractVariableIds(
+                shortcut = shortcut,
+                headers = headers,
+                parameters = parameters,
+                variableLookup = variableLookup,
+                includeScripting = true,
+            )
 
-        fun extractVariableIdsExcludingScripting(shortcut: Shortcut): Set<VariableId> =
-            extractVariableIds(shortcut, variableLookup = null, includeScripting = false)
+        fun extractVariableIdsExcludingScripting(
+            shortcut: Shortcut,
+            headers: List<RequestHeader>,
+            parameters: List<RequestParameter>,
+        ): Set<VariableId> =
+            extractVariableIds(
+                shortcut = shortcut,
+                headers = headers,
+                parameters = parameters,
+                variableLookup = null,
+                includeScripting = false,
+            )
 
-        private fun extractVariableIds(shortcut: Shortcut, variableLookup: VariableLookup?, includeScripting: Boolean): Set<VariableId> =
+        private fun extractVariableIds(
+            shortcut: Shortcut,
+            headers: List<RequestHeader>,
+            parameters: List<RequestParameter>,
+            variableLookup: VariableLookup?,
+            includeScripting: Boolean,
+        ): Set<VariableId> =
             buildSet {
                 addAll(Variables.extractVariableIds(shortcut.url))
-                if (shortcut.authenticationType.usesUsernameAndPassword) {
-                    addAll(Variables.extractVariableIds(shortcut.username))
-                    addAll(Variables.extractVariableIds(shortcut.password))
+                if (shortcut.authenticationType?.usesUsernameAndPassword == true) {
+                    addAll(Variables.extractVariableIds(shortcut.authUsername))
+                    addAll(Variables.extractVariableIds(shortcut.authPassword))
                 }
                 if (shortcut.authenticationType == ShortcutAuthenticationType.BEARER) {
                     addAll(Variables.extractVariableIds(shortcut.authToken))
                 }
-                if (shortcut.usesCustomBody() || shortcut.type == ShortcutExecutionType.MQTT) {
+                if (shortcut.usesCustomBody() || shortcut.executionType == ShortcutExecutionType.MQTT) {
                     addAll(Variables.extractVariableIds(shortcut.bodyContent))
                 }
                 if (shortcut.usesRequestParameters()) {
-                    for (parameter in shortcut.parameters) {
+                    for (parameter in parameters) {
                         addAll(Variables.extractVariableIds(parameter.key))
                         addAll(Variables.extractVariableIds(parameter.value))
                     }
                 }
-                for (header in shortcut.headers) {
+                for (header in headers) {
                     addAll(Variables.extractVariableIds(header.key))
                     addAll(Variables.extractVariableIds(header.value))
                 }
 
                 if (shortcut.proxyHost != null) {
-                    addAll(Variables.extractVariableIds(shortcut.proxyHost!!))
-                    if (shortcut.proxyType.supportsAuthentication) {
+                    addAll(Variables.extractVariableIds(shortcut.proxyHost))
+                    if (shortcut.proxyType?.supportsAuthentication == true) {
                         shortcut.proxyUsername?.let { addAll(Variables.extractVariableIds(it)) }
                         shortcut.proxyPassword?.let { addAll(Variables.extractVariableIds(it)) }
                     }
@@ -119,15 +147,15 @@ constructor(
                     addAll(Variables.extractVariableIds(shortcut.codeOnFailure))
                 }
 
-                if (shortcut.responseHandling != null && shortcut.responseHandling!!.successOutput == ResponseHandling.SUCCESS_OUTPUT_MESSAGE) {
-                    addAll(Variables.extractVariableIds(shortcut.responseHandling!!.successMessage))
+                if (shortcut.responseSuccessOutput == ResponseSuccessOutput.MESSAGE) {
+                    addAll(Variables.extractVariableIds(shortcut.responseSuccessMessage))
                 }
 
-                shortcut.responseHandling?.storeFileName?.let {
+                shortcut.responseStoreFileName?.let {
                     addAll(Variables.extractVariableIds(it))
                 }
 
-                if (shortcut.type == ShortcutExecutionType.WAKE_ON_LAN) {
+                if (shortcut.executionType == ShortcutExecutionType.WAKE_ON_LAN) {
                     addAll(Variables.extractVariableIds(shortcut.wolMacAddress))
                 }
             }

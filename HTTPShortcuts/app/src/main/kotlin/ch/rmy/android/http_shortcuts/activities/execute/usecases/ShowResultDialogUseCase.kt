@@ -34,10 +34,9 @@ constructor(
 ) {
 
     suspend operator fun invoke(shortcut: Shortcut, response: ShortcutResponse?, output: String?, dialogHandle: DialogHandle) = coroutineScope {
-        val responseHandling = shortcut.responseHandling
         val shortcutName = shortcut.getSafeName(context)
         val text = output ?: response?.getContentAsString(context) ?: ""
-        val action = responseHandling?.displayActions?.firstOrNull()
+        val action = shortcut.responseDisplayActions.firstOrNull()
             ?.takeIf {
                 when (it) {
                     ResponseDisplayAction.RERUN -> true
@@ -51,7 +50,7 @@ constructor(
                 ExecuteDialogState.ShowResult(
                     title = shortcutName,
                     action = action,
-                    content = if (output == null && responseHandling?.responseContentType == null && FileTypeUtil.isImage(response?.contentType)) {
+                    content = if (output == null && shortcut.responseContentType == null && FileTypeUtil.isImage(response?.contentType)) {
                         ExecuteDialogState.ShowResult.Content.Image(
                             response!!.getContentUri(context)!!,
                         )
@@ -59,11 +58,11 @@ constructor(
                         ExecuteDialogState.ShowResult.Content.Text(
                             text = (output ?: response?.getContentAsString(context) ?: "")
                                 .ifBlank { context.getString(R.string.message_blank_response) },
-                            allowHtml = responseHandling?.responseContentType == ResponseContentType.HTML,
+                            allowHtml = shortcut.responseContentType == ResponseContentType.HTML,
                         )
                     },
-                    monospace = responseHandling?.monospace == true,
-                    fontSize = responseHandling?.fontSize,
+                    monospace = shortcut.responseMonospace,
+                    fontSize = shortcut.responseFontSize,
                 ),
             )
         } catch (e: DialogCancellationException) {

@@ -10,7 +10,6 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRep
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.extensions.type
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scripting.CodeTransformer
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
@@ -60,7 +59,7 @@ constructor(
             )
         }
         history.push(historyState)
-        shortcutExecutionType = shortcut.type
+        shortcutExecutionType = shortcut.executionType
         return ScriptingViewState(
             codeOnPrepare = historyState.codeOnPrepare,
             codeOnSuccess = historyState.codeOnSuccess,

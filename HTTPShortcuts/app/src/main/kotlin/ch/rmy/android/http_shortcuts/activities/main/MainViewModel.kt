@@ -13,7 +13,6 @@ import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.models.CategoryItem
-import ch.rmy.android.http_shortcuts.activities.main.usecases.SecondaryLauncherMapperUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLogDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkRestrictionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowRecoveryDialogUseCase
@@ -24,13 +23,13 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.lock.LockRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.extensions.findShortcut
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
@@ -66,9 +65,9 @@ class MainViewModel
 constructor(
     application: Application,
     private val categoryRepository: CategoryRepository,
+    private val shortcutRepository: ShortcutRepository,
     private val appConfigRepository: AppConfigRepository,
     private val lockRepository: LockRepository,
-    private val secondaryLauncherMapper: SecondaryLauncherMapperUseCase,
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
     private val shouldShowRecoveryDialog: ShouldShowRecoveryDialogUseCase,
     private val shouldShowChangeLogDialog: ShouldShowChangeLogDialogUseCase,
@@ -180,8 +179,8 @@ constructor(
                 CategoryItem(
                     categoryId = category.id,
                     name = category.name,
-                    layoutType = category.categoryLayoutType,
-                    background = category.categoryBackgroundType,
+                    layoutType = category.layoutType,
+                    background = category.background,
                 )
             }
 
@@ -264,7 +263,7 @@ constructor(
     private suspend fun updateLauncherSettings(categories: List<Category>) {
         withContext(Dispatchers.Default) {
             launcherShortcutUpdater.updateAppShortcuts()
-            secondaryLauncherManager.setSecondaryLauncherVisibility(secondaryLauncherMapper(categories))
+            secondaryLauncherManager.setSecondaryLauncherVisibility(shortcutRepository.hasSecondaryLauncherShortcuts())
         }
     }
 
@@ -518,8 +517,12 @@ constructor(
         )
     }
 
-    private fun getShortcutById(shortcutId: ShortcutId): Shortcut? =
-        categories.findShortcut(shortcutId)
+    private suspend fun getShortcutById(shortcutId: ShortcutId): Shortcut? =
+        try {
+            shortcutRepository.getShortcutById(shortcutId)
+        } catch (e: NoSuchElementException) {
+            null
+        }
 
     fun onWidgetSettingsSubmitted(
         shortcutId: ShortcutId,

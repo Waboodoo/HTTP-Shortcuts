@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.utils.DefaultModels
 import io.mockk.coEvery
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK
@@ -242,9 +243,15 @@ class CodeTransformerTest {
         private const val ID5 = "98c8ddfa-dd18-41ec-997d-87a058e78da7"
 
         private fun mockShortcut(id: ShortcutId, name: String): Shortcut =
-            Shortcut(id).apply { this.name = name }
+            DefaultModels.shortcut.copy(
+                id = id,
+                name = name,
+            )
 
         private fun mockVariable(id: VariableId, key: VariableKey): Variable =
-            Variable(id = id, key = key)
+            DefaultModels.variable.copy(
+                id = id,
+                key = key,
+            )
     }
 }

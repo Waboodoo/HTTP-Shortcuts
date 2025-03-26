@@ -1,12 +1,18 @@
 package ch.rmy.android.http_shortcuts.activities.variables.usecases
 
+import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderRepository
+import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
+import ch.rmy.android.http_shortcuts.data.models.RequestHeader
+import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.extensions.getRequestParametersForShortcuts
+import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -18,6 +24,8 @@ class GetUsedVariableIdsUseCase
 @Inject
 constructor(
     private val shortcutRepository: ShortcutRepository,
+    private val requestHeaderRepository: RequestHeaderRepository,
+    private val requestParameterRepository: RequestParameterRepository,
     private val variableRepository: VariableRepository,
 ) {
 
@@ -25,20 +33,34 @@ constructor(
         invoke(shortcutId?.let(::setOf))
 
     suspend operator fun invoke(shortcutIds: Collection<ShortcutId>? = null): Set<VariableId> {
-        val variables = variableRepository.getVariables()
         val shortcuts = if (shortcutIds != null) {
             shortcutRepository.getShortcutsByIds(shortcutIds)
         } else {
             shortcutRepository.getShortcuts()
         }
-        return determineVariablesInUse(variables, shortcuts)
+        return determineVariablesInUse(
+            variables = variableRepository.getVariables(),
+            shortcuts = shortcuts,
+            headersByShortcutId = requestHeaderRepository.getRequestHeadersByShortcutIds(shortcuts.ids()),
+            parametersByShortcutId = requestParameterRepository.getRequestParametersForShortcuts(shortcuts),
+        )
     }
 
-    private fun determineVariablesInUse(variables: List<Variable>, shortcuts: List<Shortcut>): Set<VariableId> {
+    private fun determineVariablesInUse(
+        variables: List<Variable>,
+        shortcuts: List<Shortcut>,
+        headersByShortcutId: Map<ShortcutId, List<RequestHeader>>,
+        parametersByShortcutId: Map<ShortcutId, List<RequestParameter>>,
+    ): Set<VariableId> {
         val variableManager = VariableManager(variables)
         return shortcuts
             .flatMap { shortcut ->
-                VariableResolver.extractVariableIdsIncludingScripting(shortcut, variableManager)
+                VariableResolver.extractVariableIdsIncludingScripting(
+                    shortcut = shortcut,
+                    headers = headersByShortcutId[shortcut.id] ?: emptyList(),
+                    parameters = parametersByShortcutId[shortcut.id] ?: emptyList(),
+                    variableLookup = variableManager,
+                )
             }
             .plus(getVariablesInUseInVariables(variables))
             .toSet()
