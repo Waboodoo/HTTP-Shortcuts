@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState.RichTextDisplay.ButtonResult
 import ch.rmy.android.http_shortcuts.components.ColorPickerDialog
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.FontSize
@@ -266,6 +267,10 @@ private fun ExecuteDialog(
             RichTextDisplayDialog(
                 title = dialogState.title,
                 message = dialogState.message,
+                buttons = dialogState.buttons?.take(2)?.reversed(),
+                onButtonClicked = { button ->
+                    onResult(button)
+                },
                 onDismissed = onDismissed,
             )
         }
@@ -355,6 +360,8 @@ private fun NumberSliderDialog(
 private fun RichTextDisplayDialog(
     title: String?,
     message: String,
+    buttons: List<String>?,
+    onButtonClicked: (ButtonResult) -> Unit,
     onDismissed: () -> Unit,
 ) {
     AlertDialog(
@@ -376,11 +383,37 @@ private fun RichTextDisplayDialog(
                 }
             }
         },
+        dismissButton = buttons?.getOrNull(1)?.let { label ->
+            {
+                TextButton(
+                    onClick = {
+                        onButtonClicked(
+                            ButtonResult.BUTTON1,
+                        )
+                    },
+                ) {
+                    Text(label)
+                }
+            }
+        },
         confirmButton = {
+            val customButtonLabel = buttons?.getOrNull(0)
             TextButton(
-                onClick = onDismissed,
+                onClick = {
+                    onButtonClicked(
+                        if (customButtonLabel != null) {
+                            if (buttons.size == 2) {
+                                ButtonResult.BUTTON2
+                            } else {
+                                ButtonResult.BUTTON1
+                            }
+                        } else {
+                            ButtonResult.OK
+                        },
+                    )
+                },
             ) {
-                Text(stringResource(R.string.dialog_ok))
+                Text(customButtonLabel ?: stringResource(R.string.dialog_ok))
             }
         },
     )

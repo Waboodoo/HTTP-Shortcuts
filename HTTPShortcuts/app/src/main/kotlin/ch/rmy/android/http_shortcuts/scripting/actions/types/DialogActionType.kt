@@ -18,13 +18,14 @@ constructor(
             params = DialogAction.Params(
                 message = args.getString(0) ?: "",
                 title = args.getString(1) ?: "",
+                buttons = (args.getObject(2)?.getValue("buttons") as? List<Any?>)?.map { it.toString() },
             ),
         )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
         functionNameAliases = setOf(FUNCTION_NAME_ALIAS),
-        parameters = 2,
+        parameters = 3,
     )
 
     companion object {

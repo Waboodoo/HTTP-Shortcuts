@@ -234,6 +234,17 @@ showDialog('You can also use <b>basic</b> <i>HTML</i> for formatting the message
 
 > Please note that no dialog will be displayed if the string you pass is empty.
 
+As an optional third parameter, you can pass an object with additional options. Currently, the only supported option is `buttons`, which is an array of 1-2 strings to customize the buttons displayed on the dialog.
+
+The function returns an object with a `result` field in it, which resolves to either "ok" (if no custom buttons were defined and the default OK button was clicked), "button1" (if the first custom button was clicked), "button2" (if the second custom button was clicked), or "cancelled" (if the dialog was cancelled).
+
+```js
+const dialogResult = showDialog('My Message', 'My Title', {buttons: ['Yay', 'Oh no']});
+if (dialogResult.result == 'button1') {
+  alert("Yay!");
+}
+```
+
 <a name="show-window"></a>
 ### showWindow
 

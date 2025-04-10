@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.execute
 import android.net.Uri
 import androidx.compose.runtime.Stable
 import ch.rmy.android.framework.utils.localization.Localizable
+import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState.RichTextDisplay.ButtonResult
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import java.time.LocalDate
 import java.time.LocalTime
@@ -90,7 +91,14 @@ sealed class ExecuteDialogState<T : Any> {
     data class RichTextDisplay(
         val message: String,
         val title: String?,
-    ) : ExecuteDialogState<Unit>()
+        val buttons: List<String>?,
+    ) : ExecuteDialogState<ButtonResult>() {
+        enum class ButtonResult {
+            OK,
+            BUTTON1,
+            BUTTON2,
+        }
+    }
 
     @Stable
     data class ShowResult(
