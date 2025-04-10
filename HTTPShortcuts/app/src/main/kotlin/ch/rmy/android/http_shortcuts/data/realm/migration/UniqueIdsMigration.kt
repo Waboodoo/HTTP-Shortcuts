@@ -1,14 +1,12 @@
-package ch.rmy.android.http_shortcuts.data.migration
+package ch.rmy.android.http_shortcuts.data.realm.migration
 
 import ch.rmy.android.framework.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.data.realm.getString
-import ch.rmy.android.http_shortcuts.import_export.getString
 import io.realm.kotlin.dynamic.DynamicMutableRealm
 import io.realm.kotlin.dynamic.DynamicMutableRealmObject
 import io.realm.kotlin.migration.AutomaticSchemaMigration
 
-class UniqueIdsMigration : BaseMigration {
-
+class UniqueIdsMigration : RealmMigration {
     override fun migrateRealm(migrationContext: AutomaticSchemaMigration.MigrationContext) {
         val newRealm = migrationContext.newRealm
         listOf("Shortcut", "Category", "Variable", "Option", "Header", "Parameter").forEach {

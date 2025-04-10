@@ -1,18 +1,9 @@
-package ch.rmy.android.http_shortcuts.data.migration
+package ch.rmy.android.http_shortcuts.import_export.migration
 
 import ch.rmy.android.http_shortcuts.import_export.getObjectArray
 import com.google.gson.JsonObject
-import io.realm.kotlin.migration.AutomaticSchemaMigration
 
-class ParameterTypeMigration : BaseMigration {
-
-    override fun migrateRealm(migrationContext: AutomaticSchemaMigration.MigrationContext) {
-        migrationContext.enumerate("Parameter") { _, newParameter ->
-            newParameter?.set("type", "string")
-            newParameter?.set("fileName", "")
-        }
-    }
-
+class ParameterTypeMigration : ImportMigration {
     override fun migrateImport(base: JsonObject) {
         for (category in base.getObjectArray("categories")) {
             for (shortcut in category.getObjectArray("shortcuts")) {

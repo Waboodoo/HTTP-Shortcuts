@@ -1,8 +1,7 @@
-package ch.rmy.android.http_shortcuts.data.migration
+package ch.rmy.android.http_shortcuts.data.realm.migration
 
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.data.realm.getString
-import ch.rmy.android.http_shortcuts.import_export.getObjectArray
 import ch.rmy.android.http_shortcuts.import_export.getString
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -10,7 +9,7 @@ import io.realm.kotlin.dynamic.DynamicMutableRealmObject
 import io.realm.kotlin.dynamic.DynamicRealmObject
 import io.realm.kotlin.migration.AutomaticSchemaMigration
 
-class RemoveLegacyActionsMigration : BaseMigration {
+class RemoveLegacyActionsMigration : RealmMigration {
     private val pattern = "_runAction\\(\"([a-z_]+)\", (\\{.+\\})\\); /\\* built-in \\*/".toPattern()
 
     override fun migrateRealm(migrationContext: AutomaticSchemaMigration.MigrationContext) {
@@ -24,21 +23,6 @@ class RemoveLegacyActionsMigration : BaseMigration {
     private fun migrateField(oldShortcut: DynamicRealmObject, newShortcut: DynamicMutableRealmObject?, fieldName: String) {
         val script = oldShortcut.getString(fieldName) ?: ""
         newShortcut?.set(fieldName, migrateScript(script))
-    }
-
-    override fun migrateImport(base: JsonObject) {
-        base.getObjectArray("categories")
-            .flatMap { it.getObjectArray("shortcuts") }
-            .forEach { shortcut ->
-                migrateField(shortcut, "codeOnPrepare")
-                migrateField(shortcut, "codeOnSuccess")
-                migrateField(shortcut, "codeOnFailure")
-            }
-    }
-
-    private fun migrateField(obj: JsonObject, field: String) {
-        val value = obj.getString(field) ?: return
-        obj.addProperty(field, migrateScript(value))
     }
 
     private fun migrateScript(script: String): String {

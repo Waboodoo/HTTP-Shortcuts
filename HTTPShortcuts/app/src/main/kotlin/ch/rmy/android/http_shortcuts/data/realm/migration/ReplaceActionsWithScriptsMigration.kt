@@ -1,14 +1,10 @@
-package ch.rmy.android.http_shortcuts.data.migration
+package ch.rmy.android.http_shortcuts.data.realm.migration
 
 import ch.rmy.android.http_shortcuts.data.realm.getString
-import ch.rmy.android.http_shortcuts.import_export.getObjectArray
-import ch.rmy.android.http_shortcuts.import_export.getString
-import com.google.gson.JsonObject
 import io.realm.kotlin.migration.AutomaticSchemaMigration
 import org.json.JSONArray
 
-class ReplaceActionsWithScriptsMigration : BaseMigration {
-
+class ReplaceActionsWithScriptsMigration : RealmMigration {
     override fun migrateRealm(migrationContext: AutomaticSchemaMigration.MigrationContext) {
         migrationContext.enumerate("Shortcut") { oldShortcut, newShortcut ->
             newShortcut?.set("codeOnPrepare", jsonActionListToJsCode(oldShortcut.getString("serializedBeforeActions") ?: ""))
@@ -29,15 +25,5 @@ class ReplaceActionsWithScriptsMigration : BaseMigration {
             codeBuilder.append("); /* built-in */\n")
         }
         return codeBuilder.toString()
-    }
-
-    override fun migrateImport(base: JsonObject) {
-        for (category in base.getObjectArray("categories")) {
-            for (shortcut in category.getObjectArray("shortcuts")) {
-                shortcut.addProperty("codeOnPrepare", jsonActionListToJsCode(shortcut.getString("serializedBeforeActions")))
-                shortcut.addProperty("codeOnSuccess", jsonActionListToJsCode(shortcut.getString("serializedSuccessActions")))
-                shortcut.addProperty("codeOnFailure", jsonActionListToJsCode(shortcut.getString("serializedFailureActions")))
-            }
-        }
     }
 }
