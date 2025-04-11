@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.Importer
+import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import java.io.File
 import java.io.IOException
 import kotlinx.coroutines.Dispatchers
@@ -85,6 +86,7 @@ class RemoteEditManager(
         Request.Builder()
             .url(baseUrl.toString())
             .addHeader(HttpHeaders.AUTHORIZATION, Credentials.basic(deviceId, password))
+            .addHeader(HttpHeaders.USER_AGENT, UserAgentProvider.getUserAgent(context))
 
     private fun processRequest(request: Request): ResponseBody =
         client.newCall(request)
