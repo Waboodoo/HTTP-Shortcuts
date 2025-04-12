@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
 
 class CategoryRepository
 @Inject
@@ -39,7 +40,9 @@ constructor(
 
     fun observeCategory(categoryId: CategoryId): Flow<Category> =
         queryFlow {
-            categoryDao().observeCategory(categoryId)
+            categoryDao()
+                .observeCategory(categoryId)
+                .filterNotNull()
         }
 
     suspend fun createCategory(

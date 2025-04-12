@@ -25,7 +25,7 @@ interface CategoryDao {
     fun observeCategories(): Flow<List<Category>>
 
     @Query("SELECT * FROM category WHERE id = :categoryId LIMIT 1")
-    fun observeCategory(categoryId: CategoryId): Flow<Category>
+    fun observeCategory(categoryId: CategoryId): Flow<Category?>
 
     @Query("SELECT COUNT(*) FROM category")
     suspend fun getCategoryCount(): Int
