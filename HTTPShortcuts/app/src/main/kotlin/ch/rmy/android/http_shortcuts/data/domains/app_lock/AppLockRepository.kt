@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.data.domains.lock
+package ch.rmy.android.http_shortcuts.data.domains.app_lock
 
 import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.BaseRepository
@@ -6,7 +6,7 @@ import ch.rmy.android.http_shortcuts.data.models.AppLock
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
-class LockRepository
+class AppLockRepository
 @Inject
 constructor(
     database: Database,

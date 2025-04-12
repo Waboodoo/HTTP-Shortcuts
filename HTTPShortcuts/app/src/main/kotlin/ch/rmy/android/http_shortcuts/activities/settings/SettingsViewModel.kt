@@ -8,7 +8,7 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.settings.usecases.CreateQuickSettingsTileUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
-import ch.rmy.android.http_shortcuts.data.domains.lock.LockRepository
+import ch.rmy.android.http_shortcuts.data.domains.app_lock.AppLockRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.logging.Logging
@@ -33,7 +33,7 @@ constructor(
     application: Application,
     private val settings: Settings,
     private val appConfigRepository: AppConfigRepository,
-    private val lockRepository: LockRepository,
+    private val appLockRepository: AppLockRepository,
     private val localeHelper: LocaleHelper,
     private val cookieManager: CookieManager,
     private val restrictionsUtil: RestrictionsUtil,
@@ -62,7 +62,7 @@ constructor(
         updateDialogState(null)
         withProgressTracking {
             try {
-                lockRepository.setLock(BCrypt.hashpw(password, BCrypt.gensalt()), useBiometrics)
+                appLockRepository.setLock(BCrypt.hashpw(password, BCrypt.gensalt()), useBiometrics)
                 closeScreen(result = RESULT_APP_LOCKED)
             } catch (e: CancellationException) {
                 throw e

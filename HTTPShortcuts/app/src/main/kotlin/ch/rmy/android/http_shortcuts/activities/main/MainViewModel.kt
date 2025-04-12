@@ -18,9 +18,9 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkR
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowRecoveryDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.UnlockAppUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
+import ch.rmy.android.http_shortcuts.data.domains.app_lock.AppLockRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
-import ch.rmy.android.http_shortcuts.data.domains.lock.LockRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
@@ -67,7 +67,7 @@ constructor(
     private val categoryRepository: CategoryRepository,
     private val shortcutRepository: ShortcutRepository,
     private val appConfigRepository: AppConfigRepository,
-    private val lockRepository: LockRepository,
+    private val appLockRepository: AppLockRepository,
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
     private val shouldShowRecoveryDialog: ShouldShowRecoveryDialogUseCase,
     private val shouldShowChangeLogDialog: ShouldShowChangeLogDialogUseCase,
@@ -122,7 +122,7 @@ constructor(
             }
         }
 
-        val appLockObservable = lockRepository.observeLock()
+        val appLockObservable = appLockRepository.observeLock()
         val appLock = appLockObservable.firstOrNull()
 
         observeToolbarTitle()
@@ -380,7 +380,7 @@ constructor(
                 onSuccess = {
                     runAction {
                         withProgressTracking {
-                            lockRepository.removeLock()
+                            appLockRepository.removeLock()
                             showSnackbar(R.string.message_app_unlocked)
                         }
                     }
@@ -395,11 +395,11 @@ constructor(
 
     fun onUnlockDialogSubmitted(password: String) = runAction {
         withProgressTracking {
-            val lock = lockRepository.getLock()
+            val lock = appLockRepository.getLock()
             val passwordHash = lock?.passwordHash
             val isUnlocked = if (passwordHash != null && BCrypt.checkpw(password, passwordHash)) {
                 consume {
-                    lockRepository.removeLock()
+                    appLockRepository.removeLock()
                 }
             } else {
                 passwordHash == null
@@ -594,7 +594,7 @@ constructor(
     }
 
     fun onApplicationSettingsRequested() = runAction {
-        if (lockRepository.getLock() != null || settingsRequestHandled) {
+        if (appLockRepository.getLock() != null || settingsRequestHandled) {
             skipAction()
         }
         settingsRequestHandled = true

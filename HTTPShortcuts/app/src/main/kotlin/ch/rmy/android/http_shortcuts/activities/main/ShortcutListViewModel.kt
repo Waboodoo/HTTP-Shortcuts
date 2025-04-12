@@ -23,9 +23,9 @@ import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.activities.main.models.ShortcutListItem
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
+import ch.rmy.android.http_shortcuts.data.domains.app_lock.AppLockRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
-import ch.rmy.android.http_shortcuts.data.domains.lock.LockRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.sections.SectionId
 import ch.rmy.android.http_shortcuts.data.domains.sections.SectionRepository
@@ -75,7 +75,7 @@ class ShortcutListViewModel
 @Inject
 constructor(
     application: Application,
-    private val lockRepository: LockRepository,
+    private val appLockRepository: AppLockRepository,
     private val shortcutRepository: ShortcutRepository,
     private val categoryRepository: CategoryRepository,
     private val sectionRepository: SectionRepository,
@@ -143,7 +143,7 @@ constructor(
                 }
         }
 
-        val appLockFlow = lockRepository.observeLock()
+        val appLockFlow = appLockRepository.observeLock()
         val isAppLocked = appLockFlow.first() != null
         viewModelScope.launch {
             appLockFlow.collect { appLock ->
