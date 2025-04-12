@@ -138,7 +138,7 @@ constructor(
 
     fun onVariableEditorButtonClicked() = runAction {
         updateDialogState(null)
-        navigate(NavigationDestination.Variables)
+        navigate(NavigationDestination.Variables.buildRequest(asPicker = true))
     }
 
     fun onVariableSelected(variableId: VariableId) = runAction {

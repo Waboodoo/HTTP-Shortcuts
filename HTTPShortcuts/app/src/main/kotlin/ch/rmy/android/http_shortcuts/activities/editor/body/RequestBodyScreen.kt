@@ -9,6 +9,7 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.launch
 import ch.rmy.android.framework.extensions.showToast
@@ -21,7 +22,9 @@ import ch.rmy.android.http_shortcuts.logging.Logging.logException
 import ch.rmy.android.http_shortcuts.utils.PickFileContract
 
 @Composable
-fun RequestBodyScreen() {
+fun RequestBodyScreen(
+    savedStateHandle: SavedStateHandle,
+) {
     val (viewModel, state) = bindViewModel<RequestBodyViewState, RequestBodyViewModel>()
 
     val context = LocalContext.current
@@ -75,6 +78,7 @@ fun RequestBodyScreen() {
         },
     ) { viewState ->
         RequestBodyContent(
+            savedStateHandle = savedStateHandle,
             requestBodyType = viewState.requestBodyType,
             fileUploadType = viewState.fileUploadType,
             fileName = viewState.fileName,
@@ -98,6 +102,7 @@ fun RequestBodyScreen() {
 
     RequestBodyDialogs(
         dialogState = state?.dialogState,
+        savedStateHandle = savedStateHandle,
         onParameterTypeSelected = viewModel::onParameterTypeSelected,
         onParameterEdited = viewModel::onEditParameterDialogConfirmed,
         onParameterDeleted = viewModel::onRemoveParameterButtonClicked,

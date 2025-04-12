@@ -174,32 +174,44 @@ fun NavigationRoot() {
             )
         }
 
-        composable(NavigationDestination.ShortcutEditorAdvancedSettings) {
-            AdvancedSettingsScreen()
+        composable(NavigationDestination.ShortcutEditorAdvancedSettings) { backStackEntry ->
+            AdvancedSettingsScreen(
+                backStackEntry.savedStateHandle,
+            )
         }
 
-        composable(NavigationDestination.ShortcutEditorAuthentication) {
-            AuthenticationScreen()
+        composable(NavigationDestination.ShortcutEditorAuthentication) { backStackEntry ->
+            AuthenticationScreen(
+                backStackEntry.savedStateHandle,
+            )
         }
 
-        composable(NavigationDestination.ShortcutEditorBasicRequestSettings) {
-            BasicRequestSettingsScreen()
+        composable(NavigationDestination.ShortcutEditorBasicRequestSettings) { backStackEntry ->
+            BasicRequestSettingsScreen(
+                backStackEntry.savedStateHandle,
+            )
         }
 
         composable(NavigationDestination.ShortcutEditorExecutionSettings) {
             ExecutionSettingsScreen()
         }
 
-        composable(NavigationDestination.ShortcutEditorRequestBody) {
-            RequestBodyScreen()
+        composable(NavigationDestination.ShortcutEditorRequestBody) { backStackEntry ->
+            RequestBodyScreen(
+                backStackEntry.savedStateHandle,
+            )
         }
 
-        composable(NavigationDestination.ShortcutEditorRequestHeaders) {
-            RequestHeadersScreen()
+        composable(NavigationDestination.ShortcutEditorRequestHeaders) { backStackEntry ->
+            RequestHeadersScreen(
+                backStackEntry.savedStateHandle,
+            )
         }
 
-        composable(NavigationDestination.ShortcutEditorMqttMessages) {
-            MqttMessagesScreen()
+        composable(NavigationDestination.ShortcutEditorMqttMessages) { backStackEntry ->
+            MqttMessagesScreen(
+                backStackEntry.savedStateHandle,
+            )
         }
 
         composable(NavigationDestination.ShortcutEditorResponse) { backStackEntry ->
@@ -232,11 +244,13 @@ fun NavigationRoot() {
         composable(NavigationDestination.Variables) { backStackEntry ->
             VariablesScreen(
                 savedStateHandle = backStackEntry.savedStateHandle,
+                asPicker = NavigationDestination.Variables.extractAsPicker(backStackEntry.arguments!!),
             )
         }
 
         composable(NavigationDestination.VariableEditor) { backStackEntry ->
             VariableEditorScreen(
+                savedStateHandle = backStackEntry.savedStateHandle,
                 variableId = NavigationDestination.VariableEditor.extractVariableId(backStackEntry.arguments!!),
                 variableType = NavigationDestination.VariableEditor.extractVariableType(backStackEntry.arguments!!),
             )

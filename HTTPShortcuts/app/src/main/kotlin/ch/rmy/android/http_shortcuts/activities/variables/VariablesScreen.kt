@@ -12,12 +12,18 @@ import ch.rmy.android.http_shortcuts.components.FloatingAddButton
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Companion.RESULT_CHANGES_DISCARDED
 import ch.rmy.android.http_shortcuts.navigation.ResultHandler
 
 @Composable
-fun VariablesScreen(savedStateHandle: SavedStateHandle) {
-    val (viewModel, state) = bindViewModel<VariablesViewState, VariablesViewModel>()
+fun VariablesScreen(
+    savedStateHandle: SavedStateHandle,
+    asPicker: Boolean,
+) {
+    val (viewModel, state) = bindViewModel<VariablesViewModel.InitData, VariablesViewState, VariablesViewModel>(
+        VariablesViewModel.InitData(asPicker),
+    )
 
     BackHandler(state != null) {
         viewModel.onBackPressed()
@@ -26,6 +32,7 @@ fun VariablesScreen(savedStateHandle: SavedStateHandle) {
     ResultHandler(savedStateHandle) { result ->
         when (result) {
             RESULT_CHANGES_DISCARDED -> viewModel.onChangesDiscarded()
+            is NavigationDestination.VariableEditor.VariableCreatedResult -> viewModel.onVariableCreated(result.variableId)
         }
     }
 
@@ -61,6 +68,7 @@ fun VariablesScreen(savedStateHandle: SavedStateHandle) {
 
     VariablesDialogs(
         state?.dialogState,
+        onUseClicked = viewModel::onUseSelected,
         onVariableTypeSelected = viewModel::onCreationDialogVariableTypeSelected,
         onEditClicked = viewModel::onEditOptionSelected,
         onDuplicateClicked = viewModel::onDuplicateOptionSelected,

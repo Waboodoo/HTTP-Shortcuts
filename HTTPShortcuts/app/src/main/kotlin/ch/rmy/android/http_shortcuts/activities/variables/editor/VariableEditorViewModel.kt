@@ -27,6 +27,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Companion.RESULT_CHANGES_DISCARDED
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.VariableEditor.VariableCreatedResult
 import ch.rmy.android.http_shortcuts.variables.Variables
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -157,8 +158,17 @@ constructor(
 
     private suspend fun save() {
         try {
-            variableRepository.copyTemporaryVariableToVariable(variableId ?: newUUID())
-            closeScreen()
+            val id = variableId ?: newUUID()
+            variableRepository.copyTemporaryVariableToVariable(id)
+            closeScreen(
+                result = if (variableId == null) {
+                    VariableCreatedResult(
+                        variableId = id,
+                    )
+                } else {
+                    null
+                },
+            )
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {

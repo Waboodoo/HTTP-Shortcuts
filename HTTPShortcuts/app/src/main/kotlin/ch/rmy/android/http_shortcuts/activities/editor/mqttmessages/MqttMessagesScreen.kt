@@ -3,13 +3,16 @@ package ch.rmy.android.http_shortcuts.activities.editor.mqttmessages
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.FloatingAddButton
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 
 @Composable
-fun MqttMessagesScreen() {
+fun MqttMessagesScreen(
+    savedStateHandle: SavedStateHandle,
+) {
     val (viewModel, state) = bindViewModel<MqttMessagesViewState, MqttMessagesViewModel>()
 
     BackHandler(state != null) {
@@ -35,6 +38,7 @@ fun MqttMessagesScreen() {
 
     MqttMessagesDialogs(
         dialogState = state?.dialogState,
+        savedStateHandle = savedStateHandle,
         onConfirmed = viewModel::onDialogConfirmed,
         onDelete = viewModel::onRemoveMessageButtonClicked,
         onDismissed = viewModel::onDismissDialog,

@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings.getTypeName
 import ch.rmy.android.http_shortcuts.components.BackButton
@@ -16,6 +17,7 @@ import ch.rmy.android.http_shortcuts.data.enums.VariableType
 
 @Composable
 fun VariableEditorScreen(
+    savedStateHandle: SavedStateHandle,
     variableId: VariableId?,
     variableType: VariableType,
 ) {
@@ -64,6 +66,7 @@ fun VariableEditorScreen(
             onExcludeValueFromExportsChanged = viewModel::onExcludeValueFromExportsChanged,
         ) {
             VariableTypeSpecificContent(
+                savedStateHandle,
                 viewState.variableTypeViewState,
                 onViewStateChanged = viewModel::onVariableTypeViewStateChanged,
             )

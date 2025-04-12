@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.SelectDialog
@@ -31,6 +32,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 @Composable
 fun RequestBodyDialogs(
     dialogState: RequestBodyDialogState?,
+    savedStateHandle: SavedStateHandle,
     onParameterTypeSelected: (ParameterType) -> Unit,
     onParameterEdited: (key: String, value: String, fileName: String, useImageEditor: Boolean) -> Unit,
     onParameterDeleted: () -> Unit,
@@ -47,6 +49,7 @@ fun RequestBodyDialogs(
         }
         is RequestBodyDialogState.ParameterEditor -> {
             EditParameterDialog(
+                savedStateHandle = savedStateHandle,
                 isEdit = dialogState.id != null,
                 type = dialogState.type,
                 fileUploadType = dialogState.fileUploadType,
@@ -92,6 +95,7 @@ private fun ParameterTypePickerDialog(
 
 @Composable
 private fun EditParameterDialog(
+    savedStateHandle: SavedStateHandle,
     isEdit: Boolean,
     type: ParameterType,
     fileUploadType: FileUploadType,
@@ -145,6 +149,7 @@ private fun EditParameterDialog(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     VariablePlaceholderTextField(
+                        savedStateHandle = savedStateHandle,
                         modifier = Modifier
                             .fillMaxWidth(),
                         key = "parameter-edit-key",
@@ -164,6 +169,7 @@ private fun EditParameterDialog(
 
                 if (type == ParameterType.STRING) {
                     VariablePlaceholderTextField(
+                        savedStateHandle = savedStateHandle,
                         modifier = Modifier
                             .fillMaxWidth(),
                         key = "parameter-edit-value",

@@ -37,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.framework.extensions.move
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.utils.UUIDUtils
@@ -53,6 +54,7 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 
 @Composable
 fun SelectTypeEditor(
+    savedStateHandle: SavedStateHandle,
     viewState: SelectTypeViewState,
     onViewStateChanged: (SelectTypeViewState) -> Unit,
 ) {
@@ -153,6 +155,7 @@ fun SelectTypeEditor(
 
     if (dialogVisible) {
         EditDialog(
+            savedStateHandle = savedStateHandle,
             isEdit = dialogOptionId != null,
             label = dialogOptionLabel,
             value = dialogOptionValue,
@@ -277,6 +280,7 @@ private fun OptionListItem(
 
 @Composable
 private fun EditDialog(
+    savedStateHandle: SavedStateHandle,
     isEdit: Boolean,
     label: String,
     value: String,
@@ -310,6 +314,7 @@ private fun EditDialog(
                 )
 
                 VariablePlaceholderTextField(
+                    savedStateHandle = savedStateHandle,
                     modifier = Modifier
                         .fillMaxWidth(),
                     key = "select-option-text",

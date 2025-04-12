@@ -34,6 +34,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.framework.extensions.move
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
@@ -62,6 +63,7 @@ private const val SYNTAX_HIGHLIGHTING_MAX_LENGTH = 4_000
 
 @Composable
 fun RequestBodyContent(
+    savedStateHandle: SavedStateHandle,
     requestBodyType: RequestBodyType,
     fileUploadType: FileUploadType,
     fileName: String?,
@@ -103,6 +105,7 @@ fun RequestBodyContent(
         when (requestBodyType) {
             RequestBodyType.CUSTOM_TEXT -> {
                 BodyTextEditor(
+                    savedStateHandle = savedStateHandle,
                     contentType = contentType,
                     bodyContent = bodyContent,
                     bodyContentError = bodyContentError,
@@ -139,6 +142,7 @@ fun RequestBodyContent(
 
 @Composable
 private fun ColumnScope.BodyTextEditor(
+    savedStateHandle: SavedStateHandle,
     contentType: String,
     bodyContent: String,
     bodyContentError: String,
@@ -192,6 +196,7 @@ private fun ColumnScope.BodyTextEditor(
                 rememberSyntaxHighlighter(it)
             }
             VariablePlaceholderTextField(
+                savedStateHandle = savedStateHandle,
                 modifier = Modifier.weight(1f),
                 key = "body-content",
                 value = bodyContent,

@@ -36,6 +36,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.framework.extensions.move
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.utils.UUIDUtils
@@ -51,6 +52,7 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 
 @Composable
 fun ToggleTypeEditor(
+    savedStateHandle: SavedStateHandle,
     viewState: ToggleTypeViewState,
     onViewStateChanged: (ToggleTypeViewState) -> Unit,
 ) {
@@ -114,6 +116,7 @@ fun ToggleTypeEditor(
 
     if (dialogVisible) {
         EditDialog(
+            savedStateHandle = savedStateHandle,
             isEdit = dialogOptionId != null,
             value = dialogOptionValue,
             onValueChanged = {
@@ -227,6 +230,7 @@ private fun OptionListItem(
 
 @Composable
 private fun EditDialog(
+    savedStateHandle: SavedStateHandle,
     isEdit: Boolean,
     value: String,
     onValueChanged: (String) -> Unit,
@@ -244,6 +248,7 @@ private fun EditDialog(
                 verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
             ) {
                 VariablePlaceholderTextField(
+                    savedStateHandle = savedStateHandle,
                     modifier = Modifier
                         .fillMaxWidth(),
                     key = "toggle-option-text",

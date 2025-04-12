@@ -10,6 +10,7 @@ sealed class VariablesDialogState {
 
     @Stable
     data class ContextMenu(
+        val showUse: Boolean,
         val variableKey: VariableKey,
     ) : VariablesDialogState()
 

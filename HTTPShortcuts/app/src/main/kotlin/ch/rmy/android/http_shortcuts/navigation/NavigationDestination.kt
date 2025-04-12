@@ -398,8 +398,25 @@ sealed interface NavigationDestination {
         override val path = "troubleShooting"
     }
 
-    object Variables : NoArgNavigationDestination {
+    object Variables : NavigationDestination {
+        private const val ARG_AS_PICKER = "asPicker"
         override val path = "variables"
+
+        override val arguments: List<NamedNavArgument> =
+            listOf(
+                optionalBooleanArg(ARG_AS_PICKER),
+            )
+
+        fun buildRequest(asPicker: Boolean = false) = buildNavigationRequest {
+            parameter(ARG_AS_PICKER, asPicker)
+        }
+
+        fun extractAsPicker(bundle: Bundle): Boolean =
+            bundle.getBoolean(ARG_AS_PICKER)
+
+        data class VariableSelectedResult(
+            val variableId: VariableId,
+        ) : Serializable
     }
 
     object VariableEditor : NavigationDestination {
@@ -424,6 +441,10 @@ sealed interface NavigationDestination {
 
         fun extractVariableId(bundle: Bundle): VariableId? =
             bundle.getEncodedString(ARG_VARIABLE_ID)
+
+        data class VariableCreatedResult(
+            val variableId: VariableId,
+        ) : Serializable
     }
 
     object Widget : NavigationDestination {

@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.Spacing
@@ -27,6 +28,7 @@ import ch.rmy.android.http_shortcuts.utils.Validation
 @Composable
 fun RequestHeadersDialogs(
     dialogState: RequestHeadersDialogState?,
+    savedStateHandle: SavedStateHandle,
     onConfirmed: (key: String, value: String) -> Unit,
     onDelete: () -> Unit,
     onDismissed: () -> Unit,
@@ -34,6 +36,7 @@ fun RequestHeadersDialogs(
     when (dialogState) {
         is RequestHeadersDialogState.AddHeader -> {
             EditHeaderDialog(
+                savedStateHandle = savedStateHandle,
                 isEdit = false,
                 onConfirmed = onConfirmed,
                 onDismissed = onDismissed,
@@ -41,6 +44,7 @@ fun RequestHeadersDialogs(
         }
         is RequestHeadersDialogState.EditHeader -> {
             EditHeaderDialog(
+                savedStateHandle = savedStateHandle,
                 isEdit = true,
                 initialKey = dialogState.key,
                 initialValue = dialogState.value,
@@ -55,6 +59,7 @@ fun RequestHeadersDialogs(
 
 @Composable
 private fun EditHeaderDialog(
+    savedStateHandle: SavedStateHandle,
     isEdit: Boolean,
     initialKey: String = "",
     initialValue: String = "",
@@ -88,6 +93,7 @@ private fun EditHeaderDialog(
                         mutableStateOf(false)
                     }
                     VariablePlaceholderTextField(
+                        savedStateHandle = savedStateHandle,
                         modifier = Modifier
                             .onFocusChanged {
                                 hasFocus = it.isFocused
@@ -124,6 +130,7 @@ private fun EditHeaderDialog(
                 }
 
                 VariablePlaceholderTextField(
+                    savedStateHandle = savedStateHandle,
                     modifier = Modifier
                         .fillMaxWidth(),
                     key = "header-edit-value",

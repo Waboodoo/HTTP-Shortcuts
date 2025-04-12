@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.IconPickerDialog
@@ -18,6 +19,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 @Composable
 fun CodeSnippetPickerDialogs(
     dialogState: CodeSnippetPickerDialogState?,
+    savedStateHandle: SavedStateHandle,
     onShortcutSelected: (ShortcutId) -> Unit,
     onCurrentShortcutSelected: () -> Unit,
     onIconSelected: (ShortcutIcon) -> Unit,
@@ -54,6 +56,7 @@ fun CodeSnippetPickerDialogs(
                 )
             } else {
                 VariablePickerDialog(
+                    savedStateHandle = savedStateHandle,
                     title = stringResource(R.string.title_variables),
                     variables = dialogState.variables,
                     onVariableSelected = onVariableSelected,
@@ -71,6 +74,7 @@ fun CodeSnippetPickerDialogs(
                 )
             } else {
                 VariablePickerDialog(
+                    savedStateHandle = savedStateHandle,
                     title = stringResource(R.string.title_variables),
                     variables = dialogState.variables,
                     onVariableSelected = onVariableSelected,

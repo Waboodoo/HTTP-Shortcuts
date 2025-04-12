@@ -8,6 +8,7 @@ import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings.getTypeName
+import ch.rmy.android.http_shortcuts.activities.variables.VariablesViewModel.InitData
 import ch.rmy.android.http_shortcuts.activities.variables.models.VariableListItem
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GenerateVariableKeyUseCase
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
@@ -42,7 +43,7 @@ constructor(
     private val requestParameterRepository: RequestParameterRepository,
     private val getUsedVariableIdsUseCase: GetUsedVariableIdsUseCase,
     private val generateVariableKey: GenerateVariableKeyUseCase,
-) : BaseViewModel<Unit, VariablesViewState>(application) {
+) : BaseViewModel<InitData, VariablesViewState>(application) {
 
     private var activeVariableId: VariableId? = null
     private var variablesInitialized = false
@@ -63,7 +64,7 @@ constructor(
             }
         }
 
-    override suspend fun initialize(data: Unit): VariablesViewState {
+    override suspend fun initialize(data: InitData): VariablesViewState {
         val variablesFlow = variableRepository.observeVariables()
         variables = variablesFlow.first()
 
@@ -118,6 +119,7 @@ constructor(
         activeVariableId = variableId
         updateDialogState(
             VariablesDialogState.ContextMenu(
+                showUse = initData.asPicker,
                 variableKey = variable.key,
             ),
         )
@@ -129,6 +131,12 @@ constructor(
     fun onCreationDialogVariableTypeSelected(variableType: VariableType) = runAction {
         updateDialogState(null)
         navigate(NavigationDestination.VariableEditor.buildRequest(variableType))
+    }
+
+    fun onUseSelected() = runAction {
+        updateDialogState(null)
+        val variableId = activeVariableId ?: skipAction()
+        closeScreen(result = NavigationDestination.Variables.VariableSelectedResult(variableId))
     }
 
     fun onEditOptionSelected() = runAction {
@@ -232,4 +240,14 @@ constructor(
     fun onChangesDiscarded() = runAction {
         showSnackbar(R.string.message_changes_discarded)
     }
+
+    fun onVariableCreated(variableId: VariableId) = runAction {
+        if (initData.asPicker) {
+            closeScreen(result = NavigationDestination.Variables.VariableSelectedResult(variableId))
+        }
+    }
+
+    data class InitData(
+        val asPicker: Boolean,
+    )
 }

@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.models.HostVerificationType
 import ch.rmy.android.http_shortcuts.components.CertificateFingerprintTextField
@@ -29,6 +30,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 
 @Composable
 fun AdvancedSettingsContent(
+    savedStateHandle: SavedStateHandle,
     followRedirects: Boolean,
     storeCookies: Boolean,
     keepConnectionOpen: Boolean,
@@ -158,6 +160,7 @@ fun AdvancedSettingsContent(
                     verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
                 ) {
                     ProxyHostField(
+                        savedStateHandle = savedStateHandle,
                         host = proxyHost,
                         onHostChanged = onProxyHostChanged,
                     )
@@ -175,11 +178,13 @@ fun AdvancedSettingsContent(
                     verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
                 ) {
                     ProxyUsernameField(
+                        savedStateHandle = savedStateHandle,
                         username = proxyUsername,
                         onUsernameChanged = onProxyUsernameChanged,
                     )
 
                     ProxyPasswordField(
+                        savedStateHandle = savedStateHandle,
                         password = proxyPassword,
                         onPasswordChanged = onProxyPasswordChanged,
                     )
@@ -237,10 +242,12 @@ private fun HostVerificationTypeSelection(
 @Composable
 private fun ProxyHostField(
     modifier: Modifier = Modifier,
+    savedStateHandle: SavedStateHandle,
     host: String,
     onHostChanged: (String) -> Unit,
 ) {
     VariablePlaceholderTextField(
+        savedStateHandle = savedStateHandle,
         key = "proxy-host-input",
         modifier = modifier,
         label = {
@@ -282,11 +289,13 @@ private fun ProxyPortField(
 
 @Composable
 private fun ProxyUsernameField(
+    savedStateHandle: SavedStateHandle,
     modifier: Modifier = Modifier,
     username: String,
     onUsernameChanged: (String) -> Unit,
 ) {
     VariablePlaceholderTextField(
+        savedStateHandle = savedStateHandle,
         key = "proxy-username-input",
         modifier = modifier,
         label = {
@@ -304,11 +313,13 @@ private fun ProxyUsernameField(
 
 @Composable
 private fun ProxyPasswordField(
+    savedStateHandle: SavedStateHandle,
     modifier: Modifier = Modifier,
     password: String,
     onPasswordChanged: (String) -> Unit,
 ) {
     VariablePlaceholderTextField(
+        savedStateHandle = savedStateHandle,
         key = "proxy-password-input",
         modifier = modifier,
         label = {

@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.models.InstalledBrowser
 import ch.rmy.android.http_shortcuts.components.SelectionField
@@ -25,6 +26,7 @@ import ch.rmy.android.http_shortcuts.data.enums.HttpMethod
 
 @Composable
 fun HttpSettingsContent(
+    savedStateHandle: SavedStateHandle,
     method: HttpMethod,
     url: String,
     onMethodChanged: (HttpMethod) -> Unit,
@@ -38,12 +40,13 @@ fun HttpSettingsContent(
     ) {
         MethodSelection(method, onMethodChanged)
 
-        UrlField(url, onUrlChanged)
+        UrlField(savedStateHandle, url, onUrlChanged)
     }
 }
 
 @Composable
 fun BrowserSettingsContent(
+    savedStateHandle: SavedStateHandle,
     url: String,
     targetBrowser: TargetBrowser,
     browserPackageNameOptions: List<InstalledBrowser>,
@@ -56,7 +59,7 @@ fun BrowserSettingsContent(
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
     ) {
-        UrlField(url, onUrlChanged)
+        UrlField(savedStateHandle, url, onUrlChanged)
 
         TargetBrowserSelection(
             targetBrowser = targetBrowser,
@@ -68,6 +71,7 @@ fun BrowserSettingsContent(
 
 @Composable
 fun MqttSettingsContent(
+    savedStateHandle: SavedStateHandle,
     url: String,
     onUrlChanged: (String) -> Unit,
 ) {
@@ -78,6 +82,7 @@ fun MqttSettingsContent(
         verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
     ) {
         UrlField(
+            savedStateHandle = savedStateHandle,
             url = url,
             onUrlChanged = onUrlChanged,
         )
@@ -86,6 +91,7 @@ fun MqttSettingsContent(
 
 @Composable
 fun WakOnLanSettingsContent(
+    savedStateHandle: SavedStateHandle,
     macAddress: String,
     port: String,
     broadcastAddress: String,
@@ -100,6 +106,7 @@ fun WakOnLanSettingsContent(
         verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
     ) {
         MacAddressField(
+            savedStateHandle = savedStateHandle,
             macAddress = macAddress,
             onMacAddressChanged = onMacAddressChanged,
         )
@@ -130,8 +137,13 @@ private fun MethodSelection(
 }
 
 @Composable
-private fun UrlField(url: String, onUrlChanged: (String) -> Unit) {
+private fun UrlField(
+    savedStateHandle: SavedStateHandle,
+    url: String,
+    onUrlChanged: (String) -> Unit,
+) {
     VariablePlaceholderTextField(
+        savedStateHandle = savedStateHandle,
         key = "url-input",
         modifier = Modifier
             .fillMaxWidth(),
@@ -178,10 +190,12 @@ private fun TargetBrowserSelection(
 
 @Composable
 private fun MacAddressField(
+    savedStateHandle: SavedStateHandle,
     macAddress: String,
     onMacAddressChanged: (String) -> Unit,
 ) {
     VariablePlaceholderTextField(
+        savedStateHandle = savedStateHandle,
         key = "mac-address-input",
         modifier = Modifier.fillMaxWidth(),
         label = {

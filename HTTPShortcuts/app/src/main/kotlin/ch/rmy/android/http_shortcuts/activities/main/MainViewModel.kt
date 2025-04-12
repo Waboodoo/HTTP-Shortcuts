@@ -324,7 +324,7 @@ constructor(
 
     fun onVariablesButtonClicked() = runAction {
         logInfo("Variables button clicked")
-        navigate(NavigationDestination.Variables)
+        navigate(NavigationDestination.Variables.buildRequest())
     }
 
     fun onWorkingDirectoriesClicked() = runAction {

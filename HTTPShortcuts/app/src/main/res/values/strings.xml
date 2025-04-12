@@ -66,6 +66,8 @@
     <string name="action_place_category">Place on Home Screen</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">Execute</string>
+    <!-- Generic dropdown option: Use/select the variable/..., used in pickers that let the user select which variable/... to use for a specific purpose -->
+    <string name="action_select">Select</string>
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Edit</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->

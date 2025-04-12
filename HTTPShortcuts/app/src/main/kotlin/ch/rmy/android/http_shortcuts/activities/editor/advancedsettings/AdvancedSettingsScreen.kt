@@ -3,13 +3,16 @@ package ch.rmy.android.http_shortcuts.activities.editor.advancedsettings
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 import ch.rmy.android.http_shortcuts.extensions.localize
 
 @Composable
-fun AdvancedSettingsScreen() {
+fun AdvancedSettingsScreen(
+    savedStateHandle: SavedStateHandle,
+) {
     val (viewModel, state) = bindViewModel<AdvancedSettingsViewState, AdvancedSettingsViewModel>()
 
     BackHandler(state != null) {
@@ -21,6 +24,7 @@ fun AdvancedSettingsScreen() {
         title = stringResource(R.string.label_advanced_technical_settings),
     ) { viewState ->
         AdvancedSettingsContent(
+            savedStateHandle = savedStateHandle,
             followRedirects = viewState.followRedirects,
             storeCookies = viewState.acceptCookies,
             keepConnectionOpen = viewState.keepConnectionOpen,

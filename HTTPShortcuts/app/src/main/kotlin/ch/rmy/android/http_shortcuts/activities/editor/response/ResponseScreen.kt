@@ -44,6 +44,7 @@ fun ResponseScreen(savedStateHandle: SavedStateHandle) {
         title = stringResource(R.string.label_response_handling),
     ) { viewState ->
         ResponseContent(
+            savedStateHandle = savedStateHandle,
             successMessageHint = viewState.successMessageHint.localize(),
             responseUiType = viewState.responseUiType,
             responseSuccessOutput = viewState.responseSuccessOutput,

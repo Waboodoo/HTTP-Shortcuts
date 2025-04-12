@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.ColorTypeEditor
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.ColorTypeViewState
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.ConstantTypeEditor
@@ -25,20 +26,21 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.types.VariableT
 
 @Composable
 fun VariableTypeSpecificContent(
+    savedStateHandle: SavedStateHandle,
     viewState: VariableTypeViewState?,
     onViewStateChanged: (VariableTypeViewState) -> Unit,
 ) {
     when (viewState) {
         is ColorTypeViewState -> ColorTypeEditor(viewState, onViewStateChanged)
-        is ConstantTypeViewState -> ConstantTypeEditor(viewState, onViewStateChanged)
+        is ConstantTypeViewState -> ConstantTypeEditor(savedStateHandle, viewState, onViewStateChanged)
         is DateTypeViewState -> DateTypeEditor(viewState, onViewStateChanged)
-        is SelectTypeViewState -> SelectTypeEditor(viewState, onViewStateChanged)
+        is SelectTypeViewState -> SelectTypeEditor(savedStateHandle, viewState, onViewStateChanged)
         is SliderTypeViewState -> SliderTypeEditor(viewState, onViewStateChanged)
         is TextTypeViewState -> TextTypeEditor(viewState, onViewStateChanged)
         is TimeTypeViewState -> TimeTypeEditor(viewState, onViewStateChanged)
         is TimestampTypeViewState -> TimestampTypeEditor(viewState, onViewStateChanged)
-        is ToggleTypeViewState -> ToggleTypeEditor(viewState, onViewStateChanged)
-        is IncrementTypeViewState -> IncrementTypeEditor(viewState, onViewStateChanged)
+        is ToggleTypeViewState -> ToggleTypeEditor(savedStateHandle, viewState, onViewStateChanged)
+        is IncrementTypeViewState -> IncrementTypeEditor(savedStateHandle, viewState, onViewStateChanged)
         null -> Unit
     }
 }

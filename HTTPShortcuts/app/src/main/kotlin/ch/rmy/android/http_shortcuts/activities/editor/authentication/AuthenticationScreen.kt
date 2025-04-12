@@ -5,13 +5,16 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.bindViewModel
 
 @Composable
-fun AuthenticationScreen() {
+fun AuthenticationScreen(
+    savedStateHandle: SavedStateHandle,
+) {
     val (viewModel, state) = bindViewModel<AuthenticationViewState, AuthenticationViewModel>()
 
     val openFilePickerForCertificate = rememberLauncherForActivityResult(FilePickerUtil.PickFile) { fileUri ->
@@ -27,6 +30,7 @@ fun AuthenticationScreen() {
         title = stringResource(R.string.section_authentication),
     ) { viewState ->
         AuthenticationContent(
+            savedStateHandle = savedStateHandle,
             shortcutExecutionType = viewState.shortcutExecutionType,
             authenticationType = viewState.authenticationType,
             username = viewState.username,

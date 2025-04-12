@@ -14,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.Spacing
@@ -22,6 +23,7 @@ import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
 @Composable
 fun MqttMessagesDialogs(
     dialogState: MqttMessagesDialogState?,
+    savedStateHandle: SavedStateHandle,
     onConfirmed: (topic: String, payload: String) -> Unit,
     onDelete: () -> Unit,
     onDismissed: () -> Unit,
@@ -29,6 +31,7 @@ fun MqttMessagesDialogs(
     when (dialogState) {
         is MqttMessagesDialogState.AddMessage -> {
             EditMqttMessageDialog(
+                savedStateHandle = savedStateHandle,
                 isEdit = false,
                 onConfirmed = onConfirmed,
                 onDismissed = onDismissed,
@@ -36,6 +39,7 @@ fun MqttMessagesDialogs(
         }
         is MqttMessagesDialogState.EditMessage -> {
             EditMqttMessageDialog(
+                savedStateHandle = savedStateHandle,
                 isEdit = true,
                 initialTopic = dialogState.topic,
                 initialPayload = dialogState.payload,
@@ -50,6 +54,7 @@ fun MqttMessagesDialogs(
 
 @Composable
 private fun EditMqttMessageDialog(
+    savedStateHandle: SavedStateHandle,
     isEdit: Boolean,
     initialTopic: String = "",
     initialPayload: String = "",
@@ -74,6 +79,7 @@ private fun EditMqttMessageDialog(
                 verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
             ) {
                 VariablePlaceholderTextField(
+                    savedStateHandle = savedStateHandle,
                     modifier = Modifier
                         .fillMaxWidth(),
                     key = "message-edit-topic",
@@ -91,6 +97,7 @@ private fun EditMqttMessageDialog(
                 )
 
                 VariablePlaceholderTextField(
+                    savedStateHandle = savedStateHandle,
                     modifier = Modifier
                         .fillMaxWidth(),
                     key = "message-edit-payload",

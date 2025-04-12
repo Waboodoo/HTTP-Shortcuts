@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.HelpText
@@ -24,6 +25,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
 
 @Composable
 fun ResponseContent(
+    savedStateHandle: SavedStateHandle,
     successMessageHint: String,
     responseUiType: ResponseUiType,
     responseSuccessOutput: ResponseSuccessOutput,
@@ -65,6 +67,7 @@ fun ResponseContent(
         ) {
             Column {
                 VariablePlaceholderTextField(
+                    savedStateHandle = savedStateHandle,
                     modifier = Modifier.padding(
                         horizontal = Spacing.MEDIUM,
                         vertical = Spacing.SMALL,
@@ -168,6 +171,7 @@ fun ResponseContent(
                 )
 
                 VariablePlaceholderTextField(
+                    savedStateHandle = savedStateHandle,
                     modifier = Modifier.padding(horizontal = Spacing.MEDIUM),
                     key = "store-file-name",
                     label = {

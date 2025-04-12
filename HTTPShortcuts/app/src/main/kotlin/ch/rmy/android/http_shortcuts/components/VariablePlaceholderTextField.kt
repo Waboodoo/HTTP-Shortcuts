@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -38,6 +39,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.showToast
@@ -147,6 +149,7 @@ private fun transformVariablePlaceholders(
 
 @Composable
 fun VariablePlaceholderTextField(
+    savedStateHandle: SavedStateHandle,
     key: String,
     value: String,
     onValueChange: (String) -> Unit,
@@ -183,10 +186,14 @@ fun VariablePlaceholderTextField(
         mutableStateOf(false)
     }
 
+    var textSelection by rememberSaveable {
+        mutableIntStateOf(0)
+    }
     var textFieldValue by remember {
         mutableStateOf(
             TextFieldValue(
                 text = value,
+                selection = TextRange(textSelection),
             ),
         )
     }
@@ -219,6 +226,7 @@ fun VariablePlaceholderTextField(
             val textChanged = newText != textFieldValue.text
             textFieldValue = newValue.copy(text = newText, selection = selection)
             if (textChanged) {
+                textSelection = selection.start
                 onValueChange(newText)
             }
         },
@@ -260,6 +268,7 @@ fun VariablePlaceholderTextField(
         val context = LocalContext.current
         val keyboard = LocalSoftwareKeyboardController.current
         VariablePickerDialog(
+            savedStateHandle = savedStateHandle,
             title = stringResource(R.string.dialog_title_variable_selection),
             variables = placeholders,
             onVariableSelected = {

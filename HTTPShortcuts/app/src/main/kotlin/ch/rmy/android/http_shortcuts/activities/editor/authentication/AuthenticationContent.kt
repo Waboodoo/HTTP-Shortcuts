@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.SettingsButton
@@ -26,6 +27,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 
 @Composable
 fun AuthenticationContent(
+    savedStateHandle: SavedStateHandle,
     shortcutExecutionType: ShortcutExecutionType,
     authenticationType: ShortcutAuthenticationType?,
     username: String,
@@ -63,6 +65,7 @@ fun AuthenticationContent(
                     verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
                 ) {
                     UsernameField(
+                        savedStateHandle = savedStateHandle,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = Spacing.MEDIUM),
@@ -71,6 +74,7 @@ fun AuthenticationContent(
                     )
 
                     PasswordField(
+                        savedStateHandle = savedStateHandle,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = Spacing.MEDIUM),
@@ -85,6 +89,7 @@ fun AuthenticationContent(
             Column {
                 VerticalSpacer(Spacing.SMALL)
                 TokenField(
+                    savedStateHandle = savedStateHandle,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = Spacing.MEDIUM),
@@ -134,11 +139,13 @@ private fun AuthenticationTypeSelection(
 
 @Composable
 private fun UsernameField(
+    savedStateHandle: SavedStateHandle,
     modifier: Modifier,
     username: String,
     onUsernameChanged: (String) -> Unit,
 ) {
     VariablePlaceholderTextField(
+        savedStateHandle = savedStateHandle,
         key = "username-input",
         modifier = modifier,
         label = {
@@ -156,11 +163,13 @@ private fun UsernameField(
 
 @Composable
 private fun PasswordField(
+    savedStateHandle: SavedStateHandle,
     modifier: Modifier,
     password: String,
     onPasswordChanged: (String) -> Unit,
 ) {
     VariablePlaceholderTextField(
+        savedStateHandle = savedStateHandle,
         key = "password-input",
         modifier = modifier,
         label = {
@@ -178,11 +187,13 @@ private fun PasswordField(
 
 @Composable
 private fun TokenField(
+    savedStateHandle: SavedStateHandle,
     modifier: Modifier,
     token: String,
     onTokenChanged: (String) -> Unit,
 ) {
     VariablePlaceholderTextField(
+        savedStateHandle = savedStateHandle,
         key = "token-input",
         modifier = modifier,
         label = {

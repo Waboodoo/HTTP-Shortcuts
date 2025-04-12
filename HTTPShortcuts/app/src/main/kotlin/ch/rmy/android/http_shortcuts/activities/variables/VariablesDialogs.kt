@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.variables
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.CopyAll
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -19,6 +20,7 @@ import ch.rmy.android.http_shortcuts.data.enums.VariableType
 @Composable
 fun VariablesDialogs(
     dialogState: VariablesDialogState?,
+    onUseClicked: () -> Unit,
     onVariableTypeSelected: (VariableType) -> Unit,
     onEditClicked: () -> Unit,
     onDuplicateClicked: () -> Unit,
@@ -30,6 +32,8 @@ fun VariablesDialogs(
         is VariablesDialogState.ContextMenu -> {
             ContextMenuDialog(
                 title = dialogState.variableKey,
+                showUse = dialogState.showUse,
+                onUseClicked = onUseClicked,
                 onEditClicked = onEditClicked,
                 onDuplicateClicked = onDuplicateClicked,
                 onDeleteClicked = onDeleteClicked,
@@ -57,6 +61,8 @@ fun VariablesDialogs(
 @Composable
 private fun ContextMenuDialog(
     title: String,
+    showUse: Boolean,
+    onUseClicked: () -> Unit,
     onEditClicked: () -> Unit,
     onDuplicateClicked: () -> Unit,
     onDeleteClicked: () -> Unit,
@@ -66,6 +72,13 @@ private fun ContextMenuDialog(
         title = title,
         onDismissRequest = onDismissed,
     ) {
+        if (showUse) {
+            SelectDialogEntry(
+                label = stringResource(R.string.action_select),
+                icon = Icons.Filled.Check,
+                onClick = onUseClicked,
+            )
+        }
         SelectDialogEntry(
             label = stringResource(R.string.action_edit),
             icon = Icons.Filled.Edit,

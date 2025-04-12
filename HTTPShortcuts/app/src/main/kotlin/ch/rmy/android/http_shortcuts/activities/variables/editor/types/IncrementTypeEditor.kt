@@ -7,16 +7,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
 
 @Composable
 fun IncrementTypeEditor(
+    savedStateHandle: SavedStateHandle,
     viewState: IncrementTypeViewState,
     onViewStateChanged: (IncrementTypeViewState) -> Unit,
 ) {
     VariablePlaceholderTextField(
+        savedStateHandle = savedStateHandle,
         modifier = Modifier
             .padding(horizontal = Spacing.MEDIUM),
         key = "increment-value-field",

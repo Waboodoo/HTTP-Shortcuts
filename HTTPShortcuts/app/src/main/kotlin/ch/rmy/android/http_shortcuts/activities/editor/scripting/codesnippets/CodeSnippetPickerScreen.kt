@@ -106,6 +106,7 @@ fun CodeSnippetPickerScreen(
 
     CodeSnippetPickerDialogs(
         state?.dialogState,
+        savedStateHandle = savedStateHandle,
         onShortcutSelected = viewModel::onShortcutSelected,
         onCurrentShortcutSelected = viewModel::onCurrentShortcutSelected,
         onIconSelected = viewModel::onIconSelected,
