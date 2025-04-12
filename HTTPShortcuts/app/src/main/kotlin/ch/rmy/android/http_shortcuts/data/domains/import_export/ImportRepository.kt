@@ -116,6 +116,7 @@ constructor(
                 layoutType = category.layoutType?.let { CategoryLayoutType.parse(it) } ?: CategoryLayoutType.LINEAR_LIST,
                 background = category.background?.let { CategoryBackgroundType.parse(it) } ?: CategoryBackgroundType.Default,
                 hidden = category.hidden == true,
+                scale = category.scale?.coerceIn(0.5f, 4f) ?: 1f,
                 shortcutClickBehavior = category.shortcutClickBehavior?.let { ShortcutClickBehavior.parse(it) },
                 sortingOrder = index,
             )

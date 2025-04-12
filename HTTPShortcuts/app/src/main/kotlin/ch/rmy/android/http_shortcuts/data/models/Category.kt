@@ -24,6 +24,8 @@ data class Category(
     val background: CategoryBackgroundType,
     @ColumnInfo(name = "hidden")
     val hidden: Boolean,
+    @ColumnInfo(name = "scale")
+    val scale: Float,
     @ColumnInfo(name = "shortcut_click_behavior")
     val shortcutClickBehavior: ShortcutClickBehavior?,
     @ColumnInfo(name = "sorting_order", index = true)

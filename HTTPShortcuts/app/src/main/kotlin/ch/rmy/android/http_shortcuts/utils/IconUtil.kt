@@ -9,7 +9,9 @@ import android.graphics.Color
 import android.graphics.drawable.Icon
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.getSystemService
+import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.graphics.get
 import androidx.core.graphics.scale
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import java.io.File
@@ -23,7 +25,7 @@ import kotlinx.coroutines.withContext
 
 object IconUtil {
 
-    private const val ICON_SCALING_FACTOR = 2
+    private const val ICON_SCALING_FACTOR = 4
 
     private const val CUSTOM_ICON_NAME_PREFIX = "custom-icon_"
     private const val CUSTOM_ICON_NAME_SUFFIX = ".png"
@@ -67,7 +69,7 @@ object IconUtil {
                 }
             }
         }
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         null
     }
 
@@ -101,7 +103,7 @@ object IconUtil {
     private fun getBitmapFromVectorDrawable(context: Context, drawableId: Int, tint: Int?): Bitmap {
         val drawable = AppCompatResources.getDrawable(context, drawableId)!!
         val iconSize = getIconSize(context)
-        val bitmap = Bitmap.createBitmap(iconSize, iconSize, Bitmap.Config.ARGB_8888)
+        val bitmap = createBitmap(iconSize, iconSize)
         val canvas = Canvas(bitmap)
         drawable.setBounds(0, 0, iconSize, iconSize)
         if (tint != null) {
@@ -117,7 +119,7 @@ object IconUtil {
         val outerSize = (108 * density).toInt()
         val innerSize = ((if (inferBackground) 64 else 54) * density).toInt()
         val offset = (outerSize - innerSize) / 2
-        val bitmap = Bitmap.createBitmap(outerSize, outerSize, Bitmap.Config.ARGB_8888)
+        val bitmap = createBitmap(outerSize, outerSize)
         val canvas = Canvas(bitmap)
         drawable.setBounds(offset, offset, innerSize + offset, innerSize + offset)
         if (tint != null) {
@@ -125,7 +127,7 @@ object IconUtil {
         }
         val backgroundColor = if (inferBackground) {
             drawable.draw(canvas)
-            bitmap.getPixel(offset + 3, outerSize / 2)
+            bitmap[offset + 3, outerSize / 2]
                 .takeUnless { Color.alpha(it) != 0xFF }
         } else {
             null

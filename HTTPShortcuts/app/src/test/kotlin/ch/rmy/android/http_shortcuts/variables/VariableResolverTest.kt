@@ -3,8 +3,8 @@ package ch.rmy.android.http_shortcuts.variables
 import ch.rmy.android.http_shortcuts.data.enums.HttpMethod
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.utils.DefaultModels
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
+import ch.rmy.android.testutils.DefaultModels
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK

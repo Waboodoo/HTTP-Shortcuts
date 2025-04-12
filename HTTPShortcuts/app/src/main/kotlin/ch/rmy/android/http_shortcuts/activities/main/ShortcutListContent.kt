@@ -93,6 +93,7 @@ fun ShortcutListContent(
             layoutType = category.layoutType,
             textColor = category.background.textColor(),
             useTextShadows = category.background.useTextShadow,
+            scale = category.scale,
             isLongClickingEnabled = state.isLongClickingEnabled,
             onShortcutClicked = viewModel::onShortcutClicked,
             onShortcutLongClicked = viewModel::onShortcutLongClicked,

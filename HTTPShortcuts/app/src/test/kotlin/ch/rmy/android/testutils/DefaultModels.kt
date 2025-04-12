@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.utils
+package ch.rmy.android.testutils
 
 import android.net.Uri
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser

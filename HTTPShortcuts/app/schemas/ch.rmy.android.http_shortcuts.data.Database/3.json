@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "85780c50ce1506f49d4f0e42d5ce1afc",
+    "identityHash": "20763f6a0d0e6cd79453bda7a0f76610",
     "entities": [
       {
         "tableName": "app_config",
@@ -32,9 +32,7 @@
           "columnNames": [
             "id"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "app_lock",
@@ -64,13 +62,11 @@
           "columnNames": [
             "id"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "category",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `icon` TEXT, `layout_type` TEXT NOT NULL, `background` TEXT NOT NULL, `hidden` INTEGER NOT NULL, `shortcut_click_behavior` TEXT, `sorting_order` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `icon` TEXT, `layout_type` TEXT NOT NULL, `background` TEXT NOT NULL, `hidden` INTEGER NOT NULL, `scale` REAL NOT NULL, `shortcut_click_behavior` TEXT, `sorting_order` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -87,8 +83,7 @@
           {
             "fieldPath": "icon",
             "columnName": "icon",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "layoutType",
@@ -109,10 +104,15 @@
             "notNull": true
           },
           {
+            "fieldPath": "scale",
+            "columnName": "scale",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
             "fieldPath": "shortcutClickBehavior",
             "columnName": "shortcut_click_behavior",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "sortingOrder",
@@ -137,8 +137,7 @@
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_category_sorting_order` ON `${TABLE_NAME}` (`sorting_order`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "certificate_pin",
@@ -168,9 +167,7 @@
           "columnNames": [
             "id"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "history_event",
@@ -217,8 +214,7 @@
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_history_event_time` ON `${TABLE_NAME}` (`time`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "pending_execution",
@@ -245,8 +241,7 @@
           {
             "fieldPath": "delayUntil",
             "columnName": "delay_until",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "waitForNetwork",
@@ -284,9 +279,7 @@
           "columnNames": [
             "id"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "request_header",
@@ -348,8 +341,7 @@
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_request_header_sorting_order` ON `${TABLE_NAME}` (`sorting_order`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "request_parameter",
@@ -388,20 +380,17 @@
           {
             "fieldPath": "fileUploadType",
             "columnName": "file_upload_type",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "fileUploadFileName",
             "columnName": "file_upload_file_name",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "fileUploadSourceFile",
             "columnName": "file_upload_source_file",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "fileUploadUseImageEditor",
@@ -441,8 +430,7 @@
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_request_parameter_sorting_order` ON `${TABLE_NAME}` (`sorting_order`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "resolved_variable",
@@ -478,9 +466,7 @@
           "columnNames": [
             "id"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "section",
@@ -536,8 +522,7 @@
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_section_sorting_order` ON `${TABLE_NAME}` (`sorting_order`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "shortcut",
@@ -600,8 +585,7 @@
           {
             "fieldPath": "authenticationType",
             "columnName": "authentication_type",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "authUsername",
@@ -624,8 +608,7 @@
           {
             "fieldPath": "sectionId",
             "columnName": "section_id",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "bodyContent",
@@ -648,8 +631,7 @@
           {
             "fieldPath": "securityPolicy",
             "columnName": "host_verification_policy",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "launcherShortcut",
@@ -678,8 +660,7 @@
           {
             "fieldPath": "repetitionInterval",
             "columnName": "repetition_interval",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "contentType",
@@ -690,14 +671,12 @@
           {
             "fieldPath": "fileUploadType",
             "columnName": "file_upload_type",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "fileUploadSourceFile",
             "columnName": "file_upload_source_file",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "fileUploadUseImageEditor",
@@ -708,8 +687,7 @@
           {
             "fieldPath": "confirmationType",
             "columnName": "confirmation_type",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "followRedirects",
@@ -732,8 +710,7 @@
           {
             "fieldPath": "wifiSsid",
             "columnName": "wifi_ssid",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "codeOnPrepare",
@@ -768,8 +745,7 @@
           {
             "fieldPath": "clientCertParams",
             "columnName": "client_cert_params",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "requestBodyType",
@@ -780,38 +756,32 @@
           {
             "fieldPath": "ipVersion",
             "columnName": "ip_version",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "proxyType",
             "columnName": "proxy_type",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "proxyHost",
             "columnName": "proxy_host",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "proxyPort",
             "columnName": "proxy_port",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "proxyUsername",
             "columnName": "proxy_username",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "proxyPassword",
             "columnName": "proxy_password",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "excludeFromFileSharing",
@@ -870,14 +840,12 @@
           {
             "fieldPath": "responseContentType",
             "columnName": "response_content_type",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "responseCharset",
             "columnName": "response_charset",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "responseSuccessMessage",
@@ -906,8 +874,7 @@
           {
             "fieldPath": "responseFontSize",
             "columnName": "response_font_size",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "responseJavaScriptEnabled",
@@ -918,14 +885,12 @@
           {
             "fieldPath": "responseStoreDirectoryId",
             "columnName": "response_store_directory_id",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "responseStoreFileName",
             "columnName": "response_store_file_name",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "responseReplaceFileIfExists",
@@ -965,8 +930,7 @@
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_shortcut_sorting_order` ON `${TABLE_NAME}` (`sorting_order`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "variable",
@@ -993,14 +957,12 @@
           {
             "fieldPath": "value",
             "columnName": "value",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "data",
             "columnName": "data",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "rememberValue",
@@ -1079,8 +1041,7 @@
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_variable_sorting_order` ON `${TABLE_NAME}` (`sorting_order`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "widget",
@@ -1101,8 +1062,7 @@
           {
             "fieldPath": "labelColor",
             "columnName": "label_color",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "showLabel",
@@ -1139,8 +1099,7 @@
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_widget_shortcut_id` ON `${TABLE_NAME}` (`shortcut_id`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "working_directory",
@@ -1167,8 +1126,7 @@
           {
             "fieldPath": "accessed",
             "columnName": "accessed",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           }
         ],
         "primaryKey": {
@@ -1176,15 +1134,12 @@
           "columnNames": [
             "id"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       }
     ],
-    "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '85780c50ce1506f49d4f0e42d5ce1afc')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '20763f6a0d0e6cd79453bda7a0f76610')"
     ]
   }
 }

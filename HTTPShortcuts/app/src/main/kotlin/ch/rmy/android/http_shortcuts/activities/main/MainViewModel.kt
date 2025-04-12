@@ -181,6 +181,7 @@ constructor(
                     name = category.name,
                     layoutType = category.layoutType,
                     background = category.background,
+                    scale = category.scale,
                 )
             }
 

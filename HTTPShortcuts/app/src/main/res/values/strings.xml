@@ -1375,6 +1375,8 @@
     <string name="label_category_name">Category Name</string>
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
     <string name="label_category_layout_type">Layout Type</string>
+    <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
+    <string name="label_category_scale">Scaling Factor</string>
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">Background</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->

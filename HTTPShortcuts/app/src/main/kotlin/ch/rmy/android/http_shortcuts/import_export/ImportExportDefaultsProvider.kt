@@ -22,6 +22,7 @@ constructor() {
                 category.copy(
                     layoutType = category.layoutType ?: CategoryLayoutType.LINEAR_LIST.type,
                     background = category.background ?: CategoryBackgroundType.Default.serialize(),
+                    scale = category.scale ?: 1f,
                     sections = category.sections ?: emptyList(),
                     shortcuts = category.shortcuts?.map { shortcut ->
                         shortcut.copy(

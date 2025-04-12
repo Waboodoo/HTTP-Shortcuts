@@ -4,7 +4,7 @@ import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDir
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.models.AppConfig
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
-import ch.rmy.android.http_shortcuts.utils.DefaultModels
+import ch.rmy.android.testutils.DefaultModels
 import io.mockk.coEvery
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK

@@ -43,6 +43,7 @@ constructor(
                 layoutType = CategoryLayoutType.LINEAR_LIST,
                 background = CategoryBackgroundType.Default,
                 hidden = false,
+                scale = 1f,
                 shortcutClickBehavior = null,
             )
         }
@@ -52,6 +53,7 @@ constructor(
             categoryLayoutType = category.layoutType,
             categoryBackgroundType = category.background,
             categoryClickBehavior = category.shortcutClickBehavior,
+            scale = category.scale,
         )
     }
 
@@ -96,6 +98,12 @@ constructor(
         }
     }
 
+    fun onScaleChanged(scale: Float) = runAction {
+        updateViewState {
+            copy(scale = scale)
+        }
+    }
+
     fun onSaveButtonClicked() = runAction {
         if (!viewState.hasChanges) {
             skipAction()
@@ -111,6 +119,7 @@ constructor(
                 layoutType = viewState.categoryLayoutType,
                 background = viewState.categoryBackgroundType,
                 clickBehavior = viewState.categoryClickBehavior,
+                scale = viewState.scale,
             )
         } else {
             categoryRepository.updateCategory(
@@ -119,6 +128,7 @@ constructor(
                 layoutType = viewState.categoryLayoutType,
                 background = viewState.categoryBackgroundType,
                 clickBehavior = viewState.categoryClickBehavior,
+                scale = viewState.scale,
             )
             launcherShortcutManager.updatePinnedCategoryShortcut(
                 category.id,

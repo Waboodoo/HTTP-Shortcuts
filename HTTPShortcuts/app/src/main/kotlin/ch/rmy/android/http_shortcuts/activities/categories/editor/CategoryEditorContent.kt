@@ -38,11 +38,13 @@ fun CategoryEditorContent(
     backgroundColor: Int,
     backgroundColorAsText: String,
     selectedClickActionOption: ShortcutClickBehavior?,
+    scale: Float,
     onCategoryNameChanged: (String) -> Unit,
     onLayoutTypeSelected: (CategoryLayoutType) -> Unit,
     onBackgroundTypeSelected: (CategoryBackground) -> Unit,
     onColorButtonClicked: () -> Unit,
     onClickActionOptionSelected: (ShortcutClickBehavior?) -> Unit,
+    onScaleChanged: (Float) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -59,6 +61,11 @@ fun CategoryEditorContent(
         CategoryLayoutTypeSelection(
             categoryLayoutType,
             onLayoutTypeSelected,
+        )
+
+        CategoryScaleSelection(
+            scale,
+            onScaleChanged,
         )
 
         Column(
@@ -120,6 +127,30 @@ private fun CategoryLayoutTypeSelection(
             CategoryLayoutType.WIDE_GRID to stringResource(R.string.layout_type_wide_grid),
         ),
         onItemSelected = onLayoutTypeSelected,
+    )
+}
+
+@Composable
+private fun CategoryScaleSelection(
+    scale: Float,
+    onScaleChanged: (Float) -> Unit,
+) {
+    SelectionField(
+        title = stringResource(R.string.label_category_scale),
+        selectedKey = scale,
+        items = listOf(
+            0.5f to "0.5x",
+            0.75f to "0.75x",
+            1f to "1x",
+            1.25f to "1.25x",
+            1.5f to "1.5x",
+            2f to "2x",
+            2.5f to "2.5x",
+            3f to "3x",
+            3.5f to "3.5x",
+            4f to "4x",
+        ),
+        onItemSelected = onScaleChanged,
     )
 }
 

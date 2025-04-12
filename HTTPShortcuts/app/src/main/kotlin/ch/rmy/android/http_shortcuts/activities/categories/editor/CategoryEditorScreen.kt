@@ -43,11 +43,13 @@ fun CategoryEditorScreen(categoryId: CategoryId?) {
             backgroundColor = viewState.backgroundColor,
             backgroundColorAsText = viewState.backgroundColorAsText,
             selectedClickActionOption = viewState.categoryClickBehavior,
+            scale = viewState.scale,
             onCategoryNameChanged = viewModel::onCategoryNameChanged,
             onLayoutTypeSelected = viewModel::onLayoutTypeChanged,
             onBackgroundTypeSelected = viewModel::onBackgroundChanged,
             onColorButtonClicked = viewModel::onColorButtonClicked,
             onClickActionOptionSelected = viewModel::onClickBehaviorChanged,
+            onScaleChanged = viewModel::onScaleChanged,
         )
     }
 

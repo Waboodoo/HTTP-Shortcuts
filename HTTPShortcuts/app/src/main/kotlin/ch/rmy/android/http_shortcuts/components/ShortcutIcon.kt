@@ -2,7 +2,8 @@ package ch.rmy.android.http_shortcuts.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -44,7 +45,8 @@ fun ShortcutIcon(
     }
 
     val modifier = Modifier
-        .size(size)
+        .width(size)
+        .aspectRatio(1f)
         .then(modifier)
         .runIf(shortcutIcon.isCircular) {
             clip(CircleShape)

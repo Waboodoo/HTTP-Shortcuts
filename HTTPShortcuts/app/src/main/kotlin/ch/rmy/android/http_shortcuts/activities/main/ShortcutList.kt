@@ -64,6 +64,7 @@ fun ShortcutList(
     layoutType: CategoryLayoutType,
     textColor: Color?,
     useTextShadows: Boolean,
+    scale: Float,
     isLongClickingEnabled: Boolean,
     onShortcutClicked: (ShortcutId) -> Unit,
     onShortcutLongClicked: (ShortcutId) -> Unit,
@@ -81,13 +82,16 @@ fun ShortcutList(
         }
     }
 
-    val textStyle = TextStyle.Default.runIf(useTextShadows) { copy(shadow = DefaultTextShadow) }
+    val textStyle = TextStyle.Default
+        .copy(fontSize = FontSize.SMALL * ((scale - 1f) / 2 + 1f))
+        .runIf(useTextShadows) { copy(shadow = DefaultTextShadow) }
 
     if (layoutType == CategoryLayoutType.LINEAR_LIST) {
         ShortcutLinearList(
             shortcutListItems = shortcutListItems,
             textColor = textColor,
             textStyle = textStyle,
+            scale = scale,
             isLongClickingEnabled = isLongClickingEnabled,
             onShortcutClicked = onShortcutClicked,
             onShortcutLongClicked = onShortcutLongClicked,
@@ -100,9 +104,10 @@ fun ShortcutList(
                 CategoryLayoutType.MEDIUM_GRID -> 120.dp
                 CategoryLayoutType.WIDE_GRID -> 180.dp
                 else -> error("This can not be reached, but the compiler is not smart enough to understand that")
-            },
+            } * ((scale - 1f) / 2 + 1f),
             textColor = textColor,
             textStyle = textStyle,
+            scale = scale,
             isLongClickingEnabled = isLongClickingEnabled,
             onShortcutClicked = onShortcutClicked,
             onShortcutLongClicked = onShortcutLongClicked,
@@ -116,6 +121,7 @@ private fun ShortcutLinearList(
     shortcutListItems: List<ShortcutListItemModel>,
     textColor: Color?,
     textStyle: TextStyle,
+    scale: Float,
     isLongClickingEnabled: Boolean,
     onShortcutClicked: (ShortcutId) -> Unit,
     onShortcutLongClicked: (ShortcutId) -> Unit,
@@ -136,6 +142,7 @@ private fun ShortcutLinearList(
                                 bottom = Spacing.SMALL,
                             ),
                             textColor = textColor,
+                            scale = scale,
                             section = item,
                         )
                         HorizontalDivider(color = DividerDefaults.color.copy(alpha = 0.3f))
@@ -157,6 +164,7 @@ private fun ShortcutLinearList(
                         shortcut = item,
                         textColor = textColor,
                         textStyle = textStyle,
+                        scale = scale,
                         modifier = Modifier
                             .animateItem()
                             .combinedClickable(
@@ -190,7 +198,9 @@ private fun Section(
     modifier: Modifier,
     section: ShortcutListItemModel.Section,
     textColor: Color?,
+    scale: Float,
 ) {
+    val fontSize = FontSize.BIG * ((scale - 1f) / 2 + 1f)
     Text(
         modifier = modifier
             .semantics {
@@ -200,7 +210,8 @@ private fun Section(
             .fillMaxWidth(),
         text = section.name,
         color = textColor ?: Color.Unspecified,
-        fontSize = FontSize.BIG,
+        fontSize = fontSize,
+        lineHeight = fontSize * 0.8f,
         fontWeight = FontWeight.Bold,
         maxLines = 3,
         overflow = TextOverflow.Ellipsis,
@@ -235,6 +246,7 @@ private fun ShortcutListItem(
     modifier: Modifier = Modifier,
     textColor: Color?,
     textStyle: TextStyle,
+    scale: Float,
 ) {
     Column(
         modifier,
@@ -269,7 +281,10 @@ private fun ShortcutListItem(
                 }
             },
             leadingContent = {
-                ShortcutIcon(shortcut.icon)
+                ShortcutIcon(
+                    shortcut.icon,
+                    size = 44.dp * scale,
+                )
             },
             trailingContent = if (shortcut.isPending) {
                 {
@@ -292,6 +307,7 @@ private fun ShortcutGrid(
     minColumnWidth: Dp,
     textColor: Color?,
     textStyle: TextStyle,
+    scale: Float,
     isLongClickingEnabled: Boolean,
     onShortcutClicked: (ShortcutId) -> Unit,
     onShortcutLongClicked: (ShortcutId) -> Unit,
@@ -317,6 +333,7 @@ private fun ShortcutGrid(
                         modifier = Modifier.padding(top = Spacing.MEDIUM, bottom = Spacing.SMALL),
                         section = item,
                         textColor = textColor,
+                        scale = scale,
                     )
                 }
                 is ShortcutListItemModel.EmptyState -> item(
@@ -338,6 +355,7 @@ private fun ShortcutGrid(
                         shortcut = item,
                         textColor = textColor,
                         textStyle = textStyle,
+                        scale = scale,
                         modifier = Modifier
                             .animateItem()
                             .combinedClickable(
@@ -378,6 +396,7 @@ private fun ShortcutGridItem(
     modifier: Modifier,
     textColor: Color?,
     textStyle: TextStyle,
+    scale: Float,
 ) {
     Column(
         modifier = modifier
@@ -388,7 +407,10 @@ private fun ShortcutGridItem(
         verticalArrangement = Arrangement.spacedBy(Spacing.SMALL, Alignment.CenterVertically),
     ) {
         Box {
-            ShortcutIcon(shortcut.icon)
+            ShortcutIcon(
+                shortcut.icon,
+                size = 44.dp * scale,
+            )
             if (shortcut.isPending) {
                 // TODO: Add background / shadow if needed
                 // TODO: Animate in & out
