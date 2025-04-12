@@ -100,7 +100,19 @@ constructor(
                 .tryNumber(pendingExecution.tryNumber)
                 .recursionDepth(pendingExecution.recursionDepth)
                 .executionId(pendingExecution.id)
-                .trigger(if (pendingExecution.type == PendingExecutionType.REPEAT) ShortcutTriggerType.REPETITION else ShortcutTriggerType.SCHEDULE)
+                .trigger(
+                    when (pendingExecution.type) {
+                        PendingExecutionType.EXPLICITLY_SCHEDULED -> if (
+                            pendingExecution.delayUntil == null && pendingExecution.waitForNetwork == false
+                        ) {
+                            ShortcutTriggerType.SCHEDULE_IMMEDIATELY
+                        } else {
+                            ShortcutTriggerType.SCHEDULE
+                        }
+                        PendingExecutionType.REPEAT -> ShortcutTriggerType.REPETITION
+                        else -> ShortcutTriggerType.SCHEDULE
+                    },
+                )
                 .startActivity(context)
         }
     }

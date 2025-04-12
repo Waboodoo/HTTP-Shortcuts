@@ -29,6 +29,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseFailureOutput
 import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
 import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType.SCHEDULE_IMMEDIATELY
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -93,7 +94,12 @@ constructor(
         scriptExecutor: ScriptExecutor,
     ): Flow<ExecutionStatus> = flow {
         val sessionId = "${shortcut.id}_${newUUID()}"
-        if (params.recursionDepth == 0 && checkHeadlessExecution(shortcut, requestParameters, variableManager.getVariableValuesByIds())) {
+        if ((params.recursionDepth == 0 || params.trigger == SCHEDULE_IMMEDIATELY) && checkHeadlessExecution(
+                shortcut,
+                requestParameters,
+                variableManager.getVariableValuesByIds(),
+            )
+        ) {
             logInfo("Preparing to execute HTTP request in headless mode")
             try {
                 httpRequesterStarter.invoke(
