@@ -1,3 +1,14 @@
+## Version 3.28.0
+
+### Improvements
+- You can now customize the buttons of the dialog window when using the `showDialog` function in Scripting
+- The size of shortcut icons and text can now be increased, via the "Scaling Factor" option in the Category settings
+- When opening the Variables screen from the variable picker dialog, you can now directly select a variable without first having to navigate back to the dialog
+- Shortcuts triggered from a Multi-Shortcut can now also benefit from ["Headless Mode"](https://http-shortcuts.rmy.ch/advanced#headless-mode)
+
+### Miscellaneous
+- The entire internal database was migrated and refactored. This should not have any noticeable impact, but might have introduced new bugs. As always, if you find something, please [report it](https://http-shortcuts.rmy.ch/contact).
+
 ## Version 3.27.0
 
 ### Improvements

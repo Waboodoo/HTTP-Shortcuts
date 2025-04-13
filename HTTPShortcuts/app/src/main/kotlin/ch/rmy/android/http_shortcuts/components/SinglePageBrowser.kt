@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.components
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.net.Uri
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -23,7 +24,11 @@ import androidx.compose.ui.viewinterop.NoOpUpdate
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.framework.extensions.openURL
+import ch.rmy.android.framework.navigation.NavigationRequest
+import ch.rmy.android.framework.viewmodel.ViewModelEvent
+import ch.rmy.android.http_shortcuts.activities.documentation.DocumentationUrlManager
 import ch.rmy.android.http_shortcuts.extensions.rememberWebView
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 
@@ -33,8 +38,12 @@ fun SinglePageBrowser(
     url: String,
     modifier: Modifier = Modifier,
 ) {
+    val eventinator = LocalEventinator.current
+    val onNavigationRequest = { request: NavigationRequest ->
+        eventinator.onEvent(ViewModelEvent.Navigate(request))
+    }
     val webView = rememberWebView(key = url) { context, isRestore ->
-        SinglePageWebView(context, url, isRestore)
+        SinglePageWebView(context, url, isRestore, onNavigationRequest)
     }
 
     var loadingSpinnerVisible by remember {
@@ -78,7 +87,12 @@ fun SinglePageBrowser(
 }
 
 @SuppressLint("SetJavaScriptEnabled", "ViewConstructor")
-private class SinglePageWebView(context: Context, url: String, isRestore: Boolean) : WebView(context) {
+private class SinglePageWebView(
+    context: Context,
+    url: String,
+    isRestore: Boolean,
+    onNavigationRequest: (NavigationRequest) -> Unit,
+) : WebView(context) {
     var onLoaded: () -> Unit = {}
 
     init {
@@ -100,7 +114,11 @@ private class SinglePageWebView(context: Context, url: String, isRestore: Boolea
             }
 
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest) = consume {
-                context.openURL(request.url)
+                if (DocumentationUrlManager.canHandle(request.url)) {
+                    onNavigationRequest(NavigationDestination.Documentation.buildRequest(request.url))
+                } else {
+                    context.openURL(request.url)
+                }
             }
         }
 
