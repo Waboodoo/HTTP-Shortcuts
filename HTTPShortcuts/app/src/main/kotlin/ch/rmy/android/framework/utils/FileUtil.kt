@@ -29,6 +29,10 @@ object FileUtil {
                 },
         )
 
+    fun deleteCacheFile(context: Context, file: String) {
+        File(context.cacheDir, file).delete()
+    }
+
     fun getCacheFileIfValid(context: Context, file: String): Uri? =
         File(context.cacheDir, file)
             .takeIf { it.isFile && it.length() > 0 }

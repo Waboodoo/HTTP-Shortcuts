@@ -346,6 +346,9 @@ dependencies {
     /* JSON serialization & deserialization */
     implementation(libs.gson)
 
+    /* Reading & writing zip files for Import & Export */
+    implementation(libs.zip4j)
+
     /* Google Assistant integration */
     "releaseFullImplementation"(libs.androidx.googleShortcuts)
 

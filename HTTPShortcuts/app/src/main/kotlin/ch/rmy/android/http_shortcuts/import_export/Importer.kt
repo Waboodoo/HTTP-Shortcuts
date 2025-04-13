@@ -7,6 +7,7 @@ import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.import_export.ImportRepository
+import ch.rmy.android.http_shortcuts.import_export.ImportExport.JSON_FILE
 import ch.rmy.android.http_shortcuts.import_export.models.ImportExportBase
 import ch.rmy.android.http_shortcuts.utils.GsonUtil.gson
 import ch.rmy.android.http_shortcuts.utils.IconUtil
@@ -21,13 +22,13 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.URISyntaxException
 import java.net.URL
-import java.util.zip.ZipException
-import java.util.zip.ZipInputStream
 import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
+import net.lingala.zip4j.exception.ZipException
+import net.lingala.zip4j.io.inputstream.ZipInputStream
 
 class Importer
 @Inject
@@ -37,9 +38,9 @@ constructor(
     private val importRepository: ImportRepository,
     private val importExportDefaultsProvider: ImportExportDefaultsProvider,
 ) {
-    suspend fun importFromUri(uri: Uri, importMode: ImportMode): ImportStatus =
-        try {
-            withContext(Dispatchers.IO) {
+    suspend fun importFromUri(uri: Uri, importMode: ImportMode, password: String? = null): ImportStatus =
+        withContext(Dispatchers.IO) {
+            try {
                 val cacheFile = FileUtil.createCacheFile(context, IMPORT_TEMP_FILE)
                 getStream(context, uri).use { inStream ->
                     FileUtil.getOutputStream(context, cacheFile).use { outStream ->
@@ -50,36 +51,48 @@ constructor(
 
                 try {
                     context.contentResolver.openInputStream(cacheFile)!!.use { stream ->
-                        importFromZIP(stream, importMode)
+                        importFromZIP(stream, importMode, password)
                     }
-                } catch (_: ZipException) {
-                    context.contentResolver.openInputStream(cacheFile)!!.use { stream ->
-                        importFromJSON(stream, importMode)
-                    }
-                }
-            }
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Exception) {
-            throw handleError(e)
-        }
-
-    private suspend fun importFromZIP(inputStream: InputStream, importMode: ImportMode): ImportStatus =
-        withContext(Dispatchers.IO) {
-            var importStatus: ImportStatus? = null
-            ZipInputStream(inputStream).use { stream ->
-                while (true) {
-                    val entry = stream.nextEntry ?: break
-                    when {
-                        entry.name == Exporter.JSON_FILE -> {
-                            importStatus = importFromJSON(NoCloseInputStream(stream), importMode)
+                } catch (zipException: ZipException) {
+                    when (zipException.type) {
+                        ZipException.Type.WRONG_PASSWORD -> {
+                            throw ImportException("Password protected ZIP files are not yet supported")
                         }
-                        IconUtil.isCustomIconName(entry.name) -> {
-                            NoCloseInputStream(stream).copyTo(FileOutputStream(File(context.filesDir, entry.name)))
+                        ZipException.Type.UNKNOWN -> {
+                            context.contentResolver.openInputStream(cacheFile)!!.use { stream ->
+                                importFromJSON(stream, importMode)
+                            }
                         }
                         else -> {
-                            stream.closeEntry()
+                            throw zipException
                         }
+                    }
+                }
+            } catch (e: ImportException) {
+                throw e
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                throw handleError(e)
+            } finally {
+                FileUtil.deleteCacheFile(context, IMPORT_TEMP_FILE)
+            }
+        }
+
+    private suspend fun importFromZIP(inputStream: InputStream, importMode: ImportMode, password: String? = null): ImportStatus =
+        withContext(Dispatchers.IO) {
+            var importStatus: ImportStatus? = null
+            ZipInputStream(inputStream, password?.toCharArray()).use { stream ->
+                while (true) {
+                    val entry = stream.getNextEntry(null, true) ?: break
+                    when {
+                        entry.fileName == JSON_FILE -> {
+                            importStatus = importFromJSON(NoCloseInputStream(stream), importMode)
+                        }
+                        IconUtil.isCustomIconName(entry.fileName) -> {
+                            NoCloseInputStream(stream).copyTo(FileOutputStream(File(context.filesDir, entry.fileName)))
+                        }
+                        else -> Unit
                     }
                 }
             }

@@ -33,6 +33,8 @@ import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.extensions.getRequestHeadersForShortcuts
 import ch.rmy.android.http_shortcuts.extensions.getRequestParametersForShortcuts
 import ch.rmy.android.http_shortcuts.extensions.usesUrl
+import ch.rmy.android.http_shortcuts.import_export.ImportExport.COMPATIBILITY_VERSION
+import ch.rmy.android.http_shortcuts.import_export.ImportExport.VERSION
 import ch.rmy.android.http_shortcuts.import_export.models.ExportBase
 import ch.rmy.android.http_shortcuts.import_export.models.ExportCategory
 import ch.rmy.android.http_shortcuts.import_export.models.ExportCertificatePin
@@ -96,8 +98,8 @@ constructor(
         val requestParametersByShortcutId = requestParameterRepository.getRequestParametersForShortcuts(shortcuts)
 
         return ExportBase(
-            version = ImportMigrator.VERSION,
-            compatibilityVersion = ImportMigrator.COMPATIBILITY_VERSION,
+            version = VERSION,
+            compatibilityVersion = COMPATIBILITY_VERSION,
             categories = categories.map { category ->
                 ExportCategory(
                     id = category.id,

@@ -52,6 +52,7 @@ taskerplugin = "0.4.10"
 ucrop = "2.2.8"
 unmockplugin = "0.7.9"
 workRuntime = "2.10.0"
+zip4j = "2.11.5"
 zoomable = "1.6.2"
 
 [libraries]
@@ -119,6 +120,7 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 taskerplugin = { module = "com.joaomgcd:taskerpluginlibrary", version.ref = "taskerplugin" }
 ucrop = { module = "com.github.yalantis:ucrop", version.ref = "ucrop" }
 unmock = { module = "com.github.bjoernq:unmockplugin", version.ref = "unmockplugin" }
+zip4j = { module = "net.lingala.zip4j:zip4j", version.ref = "zip4j" }
 zoomable = { module = "net.engawapg.lib:zoomable", version.ref = "zoomable" }
 
 [plugins]

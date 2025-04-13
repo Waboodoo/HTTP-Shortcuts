@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.import_export
 
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
+import ch.rmy.android.http_shortcuts.import_export.ImportExport.VERSION
 import ch.rmy.android.http_shortcuts.import_export.migration.CategoryBackgroundMigration
 import ch.rmy.android.http_shortcuts.import_export.migration.CategoryLayoutMigration
 import ch.rmy.android.http_shortcuts.import_export.migration.FileUploadTypeMigration
@@ -223,10 +224,5 @@ constructor() {
                 }
             }
         }
-    }
-
-    companion object {
-        const val VERSION = 90L
-        const val COMPATIBILITY_VERSION = 90L
     }
 }

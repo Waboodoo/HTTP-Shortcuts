@@ -8,17 +8,21 @@ import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
+import ch.rmy.android.http_shortcuts.import_export.ImportExport.JSON_FILE
 import ch.rmy.android.http_shortcuts.import_export.models.ExportBase
 import ch.rmy.android.http_shortcuts.usecases.GetUsedCustomIconsUseCase
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import java.io.File
 import java.io.FileInputStream
-import java.util.zip.ZipEntry
-import java.util.zip.ZipOutputStream
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
+import net.lingala.zip4j.io.outputstream.ZipOutputStream
+import net.lingala.zip4j.model.ZipParameters
+import net.lingala.zip4j.model.enums.AesKeyStrength
+import net.lingala.zip4j.model.enums.CompressionMethod
+import net.lingala.zip4j.model.enums.EncryptionMethod
 
 class Exporter
 @Inject
@@ -31,6 +35,7 @@ constructor(
     suspend fun exportToUri(
         uri: Uri,
         format: ExportFormat = ExportFormat.ZIP,
+        password: String? = null,
         shortcutIds: Collection<ShortcutId>? = null,
         variableIds: Collection<VariableId>? = null,
         excludeDefaults: Boolean,
@@ -42,8 +47,18 @@ constructor(
         return withContext(Dispatchers.IO) {
             when (format) {
                 ExportFormat.ZIP -> {
-                    ZipOutputStream(FileUtil.getOutputStream(context, uri)).use { out ->
-                        out.putNextEntry(ZipEntry(JSON_FILE))
+                    ZipOutputStream(FileUtil.getOutputStream(context, uri), password?.toCharArray()).use { out ->
+                        val zipParameters = ZipParameters().apply {
+                            compressionMethod = CompressionMethod.DEFLATE
+                            if (password != null) {
+                                isEncryptFiles = true
+                                encryptionMethod = EncryptionMethod.AES
+                                aesKeyStrength = AesKeyStrength.KEY_STRENGTH_256
+                            }
+                        }
+                        zipParameters.fileNameInZip = JSON_FILE
+                        out.putNextEntry(zipParameters)
+
                         val writer = out.bufferedWriter()
                         val exportStatus = export(writer, base, excludeDefaults)
                         writer.flush()
@@ -51,7 +66,8 @@ constructor(
 
                         getFilesToExport(context, base, shortcutIds).forEach { file ->
                             ensureActive()
-                            out.putNextEntry(ZipEntry(file.name))
+                            zipParameters.fileNameInZip = file.name
+                            out.putNextEntry(zipParameters)
                             FileInputStream(file).copyTo(out)
                             writer.flush()
                             out.closeEntry()
@@ -116,8 +132,4 @@ constructor(
             .map { it.getFile(context) }
 
     data class ExportStatus(val exportedShortcuts: Int)
-
-    companion object {
-        const val JSON_FILE = "shortcuts.json"
-    }
 }
