@@ -15,6 +15,7 @@ import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.execute.usecases.ShowResultNotificationUseCase
 import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinRepository
 import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderRepository
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
@@ -55,6 +56,7 @@ constructor(
     private val workingDirectoryRepository: WorkingDirectoryRepository,
     private val httpRequester: HttpRequester,
     private val errorFormatter: ErrorFormatter,
+    private val showResultNotification: ShowResultNotificationUseCase,
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
@@ -145,17 +147,22 @@ constructor(
         Variables.rawPlaceholdersToResolvedValues(string, variableValues)
 
     private suspend fun displayResult(shortcut: Shortcut, output: String?, response: ShortcutResponse? = null) {
-        if (shortcut.responseUiType != ResponseUiType.TOAST) {
-            return
-        }
-        withContext(Dispatchers.Main) {
-            context.showToast(
-                (output ?: response?.getContentAsString(context) ?: "")
-                    .truncate(maxLength = TOAST_MAX_LENGTH)
-                    .let(HTMLUtil::toSpanned)
-                    .ifBlank { context.getString(R.string.message_blank_response) },
-                long = shortcut.responseSuccessOutput == ResponseSuccessOutput.RESPONSE,
-            )
+        when (shortcut.responseUiType) {
+            ResponseUiType.TOAST -> {
+                withContext(Dispatchers.Main) {
+                    context.showToast(
+                        (output ?: response?.getContentAsString(context) ?: "")
+                            .truncate(maxLength = TOAST_MAX_LENGTH)
+                            .let(HTMLUtil::toSpanned)
+                            .ifBlank { context.getString(R.string.message_blank_response) },
+                        long = shortcut.responseSuccessOutput == ResponseSuccessOutput.RESPONSE,
+                    )
+                }
+            }
+            ResponseUiType.NOTIFICATION -> {
+                showResultNotification(shortcut, response, output)
+            }
+            else -> Unit
         }
     }
 

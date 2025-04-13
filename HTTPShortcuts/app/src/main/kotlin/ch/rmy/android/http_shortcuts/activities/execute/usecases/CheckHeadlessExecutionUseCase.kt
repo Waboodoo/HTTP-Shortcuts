@@ -4,7 +4,8 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType.FILE
 import ch.rmy.android.http_shortcuts.data.enums.ResponseFailureOutput
 import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
-import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
+import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType.NOTIFICATION
+import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType.TOAST
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
@@ -24,11 +25,10 @@ constructor(
     ): Boolean {
         val usesNoOutput = shortcut.responseSuccessOutput == ResponseSuccessOutput.NONE &&
             shortcut.responseFailureOutput == ResponseFailureOutput.NONE
-        val usesToastOutput = shortcut.responseUiType == ResponseUiType.TOAST
         val usesCodeAfterExecution = shortcut.codeOnSuccess.isNotEmpty() || shortcut.codeOnFailure.isNotEmpty()
         val usesFiles = shortcut.usesGenericFileBody() || (shortcut.usesRequestParameters() && requestParameters.any { it.parameterType == FILE })
         val storesResponse = shortcut.responseStoreDirectoryId != null
-        return (usesNoOutput || (usesToastOutput && permissionManager.hasNotificationPermission())) &&
+        return (usesNoOutput || (shortcut.responseUiType in setOf(TOAST, NOTIFICATION) && permissionManager.hasNotificationPermission())) &&
             !usesCodeAfterExecution &&
             !usesFiles &&
             !storesResponse &&

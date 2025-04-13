@@ -2,6 +2,20 @@
 
 This page is a collection of some less commonly used or more advanced use cases, as well as some of the app's more hidden features.
 
+<a name="headless-mode"></a>
+## Run shortcuts in "headless mode"
+
+Normally, executing an HTTP shortcut consists of sending a request, waiting for the response, and then processing the response. However, in some cases, the response isn't all that important, e.g., if you already know that it will be empty. In these cases, you can configure your shortcut to run in a fire-and-forget manner, called "headless mode", meaning that the shortcut will not wait for the response and finish immediately after sending the HTTP request.
+
+Headless mode is automatically enabled for a shortcut if all of the following conditions are met:
+- In the "Response Handling" settings, both "On Success" and "On Failure" are set to "Show nothing (run silently)", or the "Display Type" is set to "Toast Popup" or "Notification", which requires the app to have the Notification permission
+- In the "Scripting" settings, the "Run on Success" and "Run on Failure" fields are empty
+- The shortcut does not make use of file parameters of file request bodies
+- The "Wait for connection when offline" checkbox is not ticked
+- The "Require specific Wi-Fi" checkbox is not ticket
+- Battery Saver and Data Saver modes are disabled, or the app is excluded from them
+- The shortcut does not use any variables with large values (i.e., multiple KB)
+
 <a name="share-text"></a>
 ## Share text into a shortcut
 
