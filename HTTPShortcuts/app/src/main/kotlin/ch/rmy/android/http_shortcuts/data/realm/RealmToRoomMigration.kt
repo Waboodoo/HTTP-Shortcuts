@@ -99,6 +99,7 @@ constructor(
                     }
                     logInfo("Room migration to version 3 complete")
                 }
+                realm.close()
             } else {
                 createInitialState()
             }
