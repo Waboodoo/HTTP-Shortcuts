@@ -45,8 +45,8 @@ constructor(
 
     private fun Shortcut.getHostVerificationType() =
         when (securityPolicy) {
-            SecurityPolicy.AcceptAll -> HostVerificationType.TRUST_ALL
-            SecurityPolicy.FingerprintOnly -> HostVerificationType.SELF_SIGNED
+            is SecurityPolicy.AcceptAll -> HostVerificationType.TRUST_ALL
+            is SecurityPolicy.FingerprintOnly -> HostVerificationType.SELF_SIGNED
             else -> HostVerificationType.DEFAULT
         }
 
