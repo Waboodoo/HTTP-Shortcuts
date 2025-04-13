@@ -285,7 +285,6 @@ dependencies {
     implementation(libs.reorderable)
     implementation(libs.composeCodeEditor)
     implementation(libs.composableTable)
-    implementation(libs.accompanist.systemuicontroller)
 
     /* Image cropping */
     implementation(libs.ucrop)

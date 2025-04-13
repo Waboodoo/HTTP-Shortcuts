@@ -1,5 +1,4 @@
 [versions]
-accompanist = "0.34.0"
 activity = "1.10.1"
 androidGradle = "8.8.2" # 8.9.0 has made me waste 2 hours of my life debugging a useless error message
 androidXCore = "1.15.0"
@@ -56,7 +55,6 @@ workRuntime = "2.10.0"
 zoomable = "1.6.2"
 
 [libraries]
-accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 android-gradle = { module = "com.android.tools.build:gradle", version.ref = "androidGradle" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }

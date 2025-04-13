@@ -23,7 +23,6 @@ import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
-import androidx.core.view.WindowCompat
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.openURL
@@ -46,7 +45,6 @@ class MainActivity : BaseComposeActivity() {
 
     override fun onCreated(savedState: Bundle?) {
         fixTabMinWidth()
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreated(savedState)
     }
 
