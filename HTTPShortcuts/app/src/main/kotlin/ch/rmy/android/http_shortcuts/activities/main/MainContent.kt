@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.extensions.indexOfFirstOrNull
-import ch.rmy.android.framework.extensions.tryOrLog
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.models.CategoryItem
 import ch.rmy.android.http_shortcuts.components.ScreenInstructionsHeaders
@@ -27,6 +27,7 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
+import kotlinx.coroutines.CancellationException
 
 @Composable
 fun MainContent(
@@ -46,8 +47,12 @@ fun MainContent(
     }
 
     LaunchedEffect(activeCategoryId) {
-        tryOrLog {
+        try {
             pagerState.animateScrollToPage(categoryItems.indexOfFirstOrNull { it.categoryId == activeCategoryId } ?: 0)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            logException(e)
         }
     }
 
