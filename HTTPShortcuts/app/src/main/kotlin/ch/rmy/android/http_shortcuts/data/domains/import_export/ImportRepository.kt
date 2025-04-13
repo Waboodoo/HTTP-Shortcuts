@@ -126,6 +126,20 @@ constructor(
         when (mode) {
             ImportMode.MERGE -> {
                 val existingCategories = categoryDao.getCategories()
+
+                val singleCategory = existingCategories.singleOrNull()
+                if (
+                    singleCategory != null &&
+                    sectionDao().getSectionByCategoryId(singleCategory.id).isEmpty() &&
+                    shortcutDao().getShortcutsByCategoryId(singleCategory.id).isEmpty()
+                ) {
+                    categoryDao.deleteCategory(singleCategory.id)
+                    categories.forEach { category ->
+                        categoryDao.insertOrUpdateCategory(category)
+                    }
+                    return
+                }
+
                 val newCategoriesById = categories.associateBy { it.id }
 
                 existingCategories.forEach { category ->
