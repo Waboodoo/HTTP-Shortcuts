@@ -36,7 +36,7 @@ internal class QuickJsScriptingEngine : ScriptingEngine {
     private val QuickJSException.lineNumber: Int?
         get() = message
             ?.trimEnd('\n')
-            ?.split("(unknown.js:")
+            ?.split("unknown.js:")
             ?.getOrNull(1)
             ?.dropLastWhile { !it.isDigit() }
             ?.toIntOrNull()
