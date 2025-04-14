@@ -225,6 +225,10 @@ android {
     }
 }
 
+composeCompiler {
+    stabilityConfigurationFile = rootProject.layout.projectDirectory.file("stability_config.conf")
+}
+
 unMock {
     keep("android.net.Uri")
     keep("android.os.Bundle")
