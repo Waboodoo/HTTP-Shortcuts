@@ -82,8 +82,10 @@ fun ShortcutList(
         }
     }
 
+    val lesserScale = ((scale - 1f) / 2 + 1f)
+
     val textStyle = TextStyle.Default
-        .copy(fontSize = FontSize.SMALL * ((scale - 1f) / 2 + 1f))
+        .copy(fontSize = FontSize.SMALL * lesserScale)
         .runIf(useTextShadows) { copy(shadow = DefaultTextShadow) }
 
     if (layoutType == CategoryLayoutType.LINEAR_LIST) {
@@ -92,6 +94,7 @@ fun ShortcutList(
             textColor = textColor,
             textStyle = textStyle,
             scale = scale,
+            lesserScale = lesserScale,
             isLongClickingEnabled = isLongClickingEnabled,
             onShortcutClicked = onShortcutClicked,
             onShortcutLongClicked = onShortcutLongClicked,
@@ -104,10 +107,11 @@ fun ShortcutList(
                 CategoryLayoutType.MEDIUM_GRID -> 120.dp
                 CategoryLayoutType.WIDE_GRID -> 180.dp
                 else -> error("This can not be reached, but the compiler is not smart enough to understand that")
-            } * ((scale - 1f) / 2 + 1f),
+            } * lesserScale,
             textColor = textColor,
             textStyle = textStyle,
             scale = scale,
+            lesserScale = lesserScale,
             isLongClickingEnabled = isLongClickingEnabled,
             onShortcutClicked = onShortcutClicked,
             onShortcutLongClicked = onShortcutLongClicked,
@@ -122,6 +126,7 @@ private fun ShortcutLinearList(
     textColor: Color?,
     textStyle: TextStyle,
     scale: Float,
+    lesserScale: Float,
     isLongClickingEnabled: Boolean,
     onShortcutClicked: (ShortcutId) -> Unit,
     onShortcutLongClicked: (ShortcutId) -> Unit,
@@ -142,7 +147,7 @@ private fun ShortcutLinearList(
                                 bottom = Spacing.SMALL,
                             ),
                             textColor = textColor,
-                            scale = scale,
+                            lesserScale = lesserScale,
                             section = item,
                         )
                         HorizontalDivider(color = DividerDefaults.color.copy(alpha = 0.3f))
@@ -198,9 +203,9 @@ private fun Section(
     modifier: Modifier,
     section: ShortcutListItemModel.Section,
     textColor: Color?,
-    scale: Float,
+    lesserScale: Float,
 ) {
-    val fontSize = FontSize.BIG * ((scale - 1f) / 2 + 1f)
+    val fontSize = FontSize.BIG * lesserScale
     Text(
         modifier = modifier
             .semantics {
@@ -308,6 +313,7 @@ private fun ShortcutGrid(
     textColor: Color?,
     textStyle: TextStyle,
     scale: Float,
+    lesserScale: Float,
     isLongClickingEnabled: Boolean,
     onShortcutClicked: (ShortcutId) -> Unit,
     onShortcutLongClicked: (ShortcutId) -> Unit,
@@ -317,7 +323,7 @@ private fun ShortcutGrid(
         modifier = Modifier
             .fillMaxSize()
             .padding(
-                horizontal = 2.dp,
+                horizontal = 2.dp * lesserScale,
             ),
     ) {
         shortcutListItems.forEach { item ->
@@ -330,10 +336,10 @@ private fun ShortcutGrid(
                     },
                 ) {
                     Section(
-                        modifier = Modifier.padding(top = Spacing.MEDIUM, bottom = Spacing.SMALL),
+                        modifier = Modifier.padding(top = Spacing.MEDIUM * lesserScale, bottom = Spacing.SMALL * lesserScale),
                         section = item,
                         textColor = textColor,
-                        scale = scale,
+                        lesserScale = lesserScale,
                     )
                 }
                 is ShortcutListItemModel.EmptyState -> item(
@@ -372,7 +378,7 @@ private fun ShortcutGrid(
                                     onShortcutClicked(item.id)
                                 },
                             )
-                            .padding(Spacing.SMALL),
+                            .padding(Spacing.SMALL * lesserScale),
                     )
                 }
             }
@@ -419,7 +425,7 @@ private fun ShortcutGridItem(
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSecondary,
                     modifier = Modifier
-                        .size(16.dp)
+                        .size(16.dp * scale)
                         .background(
                             color = MaterialTheme.colorScheme.secondary,
                             shape = CircleShape,
