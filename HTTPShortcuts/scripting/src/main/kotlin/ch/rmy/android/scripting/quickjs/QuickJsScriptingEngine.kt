@@ -29,15 +29,16 @@ internal class QuickJsScriptingEngine : ScriptingEngine {
 
     private val QuickJSException.simplifiedMessage
         get() = message
-            ?.split("at unknown.js:")
+            ?.split("    at ")
             ?.getOrNull(0)
             ?.trimEnd()
 
     private val QuickJSException.lineNumber: Int?
         get() = message
             ?.trimEnd('\n')
-            ?.split("at unknown.js:")
+            ?.split("(unknown.js:")
             ?.getOrNull(1)
+            ?.dropLastWhile { !it.isDigit() }
             ?.toIntOrNull()
 
     override fun registerFunction(name: String, function: JsFunction) {
