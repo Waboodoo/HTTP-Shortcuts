@@ -9,6 +9,7 @@ import org.eclipse.paho.client.mqttv3.MqttClient
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
 import org.eclipse.paho.client.mqttv3.MqttException
 import org.eclipse.paho.client.mqttv3.MqttMessage
+import org.eclipse.paho.client.mqttv3.MqttSecurityException
 
 class MqttUtil
 @Inject
@@ -36,7 +37,9 @@ constructor() {
                 val message = if (e.cause is UnknownHostException) {
                     "Could not find host at $serverUri"
                 } else {
-                    logException(e)
+                    if (e !is MqttSecurityException) {
+                        logException(e)
+                    }
                     e.message
                         ?.takeUnless { it == "MqttException" }
                         ?: (e.cause?.toString())
