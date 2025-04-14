@@ -307,7 +307,9 @@ constructor(
                         type = variable.type
                             .takeIf { it != VariableType.CONSTANT }
                             ?.type,
-                        value = variable.value?.takeUnlessEmpty()?.takeUnless { excludeVariableValuesIfNeeded },
+                        value = variable.value
+                            ?.takeUnlessEmpty()
+                            ?.takeUnless { excludeVariableValuesIfNeeded && variable.isExcludeValueFromExport },
                         data = variable.data?.takeUnless { it.isEmpty() || it == "{}" },
                         rememberValue = variable.rememberValue.trueOrNull(),
                         urlEncode = variable.urlEncode.trueOrNull(),
