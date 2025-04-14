@@ -66,6 +66,7 @@
     <string name="action_place_category">Posiziona nella schermata principale</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">Esegui</string>
+    <!-- Generic dropdown option: Use/select the variable/..., used in pickers that let the user select which variable/... to use for a specific purpose -->
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Modifica</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
@@ -131,6 +132,7 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
     <string name="validation_mac_address_invalid">Inserisci un indirizzo MAC valido.</string>
     <!-- Validation error, shown when user tries to save an MQTT shortcut without a valid MQTT server URL set -->
+    <string name="validation_mqtt_server_url_invalid">Inserisci un URL valido del server MQTT.</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s non riustito con codice di stato %2$d (%3$s).</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -660,6 +662,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Collegamento al Browser</string>
     <!-- Option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
+    <string name="button_create_mqtt_shortcut">Scorciatoia MQTT</string>
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <string name="button_create_wol_shortcut">Scorciatoia Wake-on-LAN</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
@@ -947,11 +950,13 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">Scorciatoia multipla</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is an "MQTT Shortcut" -->
+    <string name="subtitle_editor_toolbar_mqtt_shortcut">Scorciatoia MQTT</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
     <string name="subtitle_editor_toolbar_wol_shortcut">Scorciatoia Wake-on-LAN</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">Imposta l\'URL e il metodo HTTP della scorciatoia</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no mqtt server set yet for an MQTT shortcut -->
+    <string name="subtitle_basic_request_settings_prompt_for_mqtt">Imposta l\'indirizzo del server MQTT</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
     <string name="subtitle_basic_request_settings_prompt_for_wol">Imposta l\'indirizzo MAC e la porta della scorciatoia</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
@@ -985,6 +990,10 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
         <item quantity="other">%d parametri impostati</item>
     </plurals>
     <!-- Section subtitle, shown in shortcut editor for MQTT shortcuts, to indicate how many MQTT messages are configured -->
+    <plurals name="subtitle_mqtt_messages">
+        <item quantity="one">Messaggio impostato per %d</item>
+        <item quantity="other">Imposta messaggi %d</item>
+    </plurals>
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
     <string name="subtitle_request_body_none">Corpo della richiesta non impostato</string>
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
@@ -1391,6 +1400,7 @@ Eliminare comunque?</string>
     <string name="label_category_name">Nome della categoria</string>
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
     <string name="label_category_layout_type">Tipo di layout</string>
+    <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">Sfondo</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->

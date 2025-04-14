@@ -66,6 +66,7 @@
     <string name="action_place_category">Lugar no ecrã inicial</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">Executar</string>
+    <!-- Generic dropdown option: Use/select the variable/..., used in pickers that let the user select which variable/... to use for a specific purpose -->
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Editar</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
@@ -1375,6 +1376,7 @@ Eliminar de qualquer maneira?</string>
     <string name="label_category_name">Nome da categoria</string>
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
     <string name="label_category_layout_type">Tipo de layout</string>
+    <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">Antecedentes</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->

@@ -66,6 +66,8 @@
     <string name="action_place_category">ホーム画面に配置</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">実行</string>
+    <!-- Generic dropdown option: Use/select the variable/..., used in pickers that let the user select which variable/... to use for a specific purpose -->
+    <string name="action_select">選択する</string>
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">変更</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
@@ -1382,6 +1384,8 @@
     <string name="label_category_name">カテゴリー名</string>
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
     <string name="label_category_layout_type">レイアウト タイプ</string>
+    <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
+    <string name="label_category_scale">倍率</string>
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">バックグラウンド</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->

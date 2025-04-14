@@ -57,6 +57,7 @@
     <string name="action_place_category">홈 화면에 추가</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">실행</string>
+    <!-- Generic dropdown option: Use/select the variable/..., used in pickers that let the user select which variable/... to use for a specific purpose -->
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">수정</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
@@ -1308,6 +1309,7 @@
     <string name="label_category_name">카테고리 이름</string>
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
     <string name="label_category_layout_type">레이아웃 종류</string>
+    <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">배경색</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->

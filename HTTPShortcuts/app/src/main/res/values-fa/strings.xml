@@ -61,6 +61,7 @@
     <string name="action_place_category">در صفحه اصلی قرار دهید</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">اجرا</string>
+    <!-- Generic dropdown option: Use/select the variable/..., used in pickers that let the user select which variable/... to use for a specific purpose -->
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">ویرایش</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
@@ -1335,6 +1336,7 @@
     <string name="label_category_name">نام دسته</string>
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
     <string name="label_category_layout_type">نوع چیدمان</string>
+    <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">زمینه</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->

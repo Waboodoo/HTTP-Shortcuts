@@ -66,6 +66,8 @@
     <string name="action_place_category">Auf Homescreen platzieren</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">Ausführen</string>
+    <!-- Generic dropdown option: Use/select the variable/..., used in pickers that let the user select which variable/... to use for a specific purpose -->
+    <string name="action_select">Auswählen</string>
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Bearbeiten</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
@@ -1399,6 +1401,8 @@ Trotzdem löschen?</string>
     <string name="label_category_name">Kategorienname</string>
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
     <string name="label_category_layout_type">Layouttyp</string>
+    <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
+    <string name="label_category_scale">Skalierungsfaktor</string>
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">Hintergrund</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->

@@ -66,6 +66,8 @@
     <string name="action_place_category">Colocar en la pantalla de inicio</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">Ejecutar</string>
+    <!-- Generic dropdown option: Use/select the variable/..., used in pickers that let the user select which variable/... to use for a specific purpose -->
+    <string name="action_select">Seleccionar</string>
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Editar</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
@@ -176,6 +178,7 @@ Haga clic en el botón + para añadir una variable.</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
     <string name="section_request_headers">Encabezados de solicitud</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the messages sent by an MQTT shortcut -->
+    <string name="section_mqtt_messages">Mensajes</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
     <string name="section_request_body">Cuerpo de solicitud</string>
     <!-- Title of dialog to edit a custom header of a shortcut -->
@@ -192,6 +195,7 @@ Haga clic en el botón + para añadir una variable.</string>
     <!-- Label of input field to provide payload of MQTT message, for MQTT shortcut -->
     <!-- Title of dialog to edit an MQTT message of an MQTT shortcut -->
     <!-- Title of dialog to add an MQTT message to an MQTT shortcut -->
+    <string name="title_mqtt_message_add">Añadir Mensaje</string>
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">Configuración</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
@@ -989,9 +993,11 @@ Consulte la documentación en la sección de variables para más información.</
     <!-- Empty state, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers">no hay cabeceras establecidas</string>
     <!-- Empty state, shown in list when there are no MQTT messages yet, for an MQTT shortcut -->
+    <string name="empty_state_mqtt_messages">aún no tiene mensajes</string>
     <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers_instructions">Haga clic en el botón + para añadir una cabecera de solicitud.</string>
     <!-- Empty state instructions, shown in list when there are no MQTT messages yet, for an MQTT shortcut -->
+    <string name="empty_state_mqtt_messages_instructions">Haga clic en el botón + para añadir un mensaje MQTT.</string>
     <!-- Empty state, shown in list when there are no request parameters yet -->
     <string name="empty_state_request_parameters">no hay parámetros establecidos</string>
     <!-- Empty state instructions, shown in list when there are no parameters yet -->
@@ -1381,6 +1387,8 @@ Puede activar esta función editando un acceso directo y seleccionando la casill
     <string name="label_category_name">Nombre de la categoría</string>
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
     <string name="label_category_layout_type">Tipo de diseño</string>
+    <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
+    <string name="label_category_scale">Factor de escalado</string>
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">Antecedentes</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
@@ -1796,6 +1804,7 @@ Es posible que también deba excluir la aplicación de Optimizaciones de baterí
     <!-- Accessibility label for the floating action button, to add a header -->
     <string name="accessibility_label_add_header_fab">Añadir cabecera</string>
     <!-- Accessibility label for the floating action button, to add an MQTT message to an MQTT shortcut -->
+    <string name="accessibility_label_add_mqtt_message_fab">Añadir mensaje</string>
     <!-- Accessibility label for the floating action button, to add a parameter -->
     <string name="accessibility_label_add_parameter_fab">Añadir parámetro</string>
     <!-- Accessibility label for the floating action button, to create new categories -->
@@ -1827,6 +1836,7 @@ Es posible que también deba excluir la aplicación de Optimizaciones de baterí
     <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
     <string name="instructions_shortcut_unhiding">Puede volver a hacer visibles los atajos ocultos yendo a la pantalla de ajustes y buscando la opción \“%s\”.</string>
     <!-- Pattern used to construct the category / section headers on the "Move Shortcut" screen. %s$1 is a placeholder for a category name, %2$s is a placeholder for a section name -->
+    <string name="category_section_header_pattern">%1$s: %2$s</string>
     <!-- Title of "Category Sections" screen, which lets the user manage sections within a category -->
     <string name="screen_title_category_sections">Secciones de categorías</string>
     <!-- Title of dialog to edit a section within a category -->

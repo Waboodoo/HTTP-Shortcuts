@@ -66,6 +66,8 @@
     <string name="action_place_category">Placer sur l\'écran d\'accueil</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">Exécuter</string>
+    <!-- Generic dropdown option: Use/select the variable/..., used in pickers that let the user select which variable/... to use for a specific purpose -->
+    <string name="action_select">Sélectionner</string>
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Éditer</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
@@ -172,6 +174,7 @@ Cliquez sur le bouton + pour commencer.</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
     <string name="section_request_headers">Requête: Headers</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the messages sent by an MQTT shortcut -->
+    <string name="section_mqtt_messages">Messages</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
     <string name="section_request_body">Requête: Body</string>
     <!-- Title of dialog to edit a custom header of a shortcut -->
@@ -187,7 +190,9 @@ Cliquez sur le bouton + pour commencer.</string>
     <!-- Label of input field to provide topic of MQTT message, for MQTT shortcut -->
     <!-- Label of input field to provide payload of MQTT message, for MQTT shortcut -->
     <!-- Title of dialog to edit an MQTT message of an MQTT shortcut -->
+    <string name="title_mqtt_message_edit">Éditer le message</string>
     <!-- Title of dialog to add an MQTT message to an MQTT shortcut -->
+    <string name="title_mqtt_message_add">Ajouter un message</string>
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">Réglages</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
@@ -957,6 +962,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
     <string name="subtitle_authentication_bearer">Authentification au porteur avec jeton</string>
     <!-- Section subtitle, shown in shortcut editor when a username and password was set (used for MQTT shortcuts only) -->
+    <string name="subtitle_authentication_username_and_password_set">Nom d\'utilisateur et mot de passe définis</string>
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">Aucun paramètre défini</string>
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
@@ -978,6 +984,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Empty state, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers">pas d\'en-têtes définis</string>
     <!-- Empty state, shown in list when there are no MQTT messages yet, for an MQTT shortcut -->
+    <string name="empty_state_mqtt_messages">aucun message défini</string>
     <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers_instructions">Cliquez sur le bouton + pour ajouter un en-tête.</string>
     <!-- Empty state instructions, shown in list when there are no MQTT messages yet, for an MQTT shortcut -->
@@ -1370,6 +1377,8 @@ Supprimer quand même ?</string>
     <string name="label_category_name">Nom de la catégorie</string>
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
     <string name="label_category_layout_type">Type de mise en page</string>
+    <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
+    <string name="label_category_scale">Facteur d\'échelle</string>
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">Contexte</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
@@ -1786,6 +1795,7 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <!-- Accessibility label for the floating action button, to add a header -->
     <string name="accessibility_label_add_header_fab">Ajouter un en-tête</string>
     <!-- Accessibility label for the floating action button, to add an MQTT message to an MQTT shortcut -->
+    <string name="accessibility_label_add_mqtt_message_fab">Ajouter un message</string>
     <!-- Accessibility label for the floating action button, to add a parameter -->
     <string name="accessibility_label_add_parameter_fab">Ajouter un paramètre</string>
     <!-- Accessibility label for the floating action button, to create new categories -->
@@ -1817,6 +1827,7 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
     <string name="instructions_shortcut_unhiding">Vous pouvez rendre les raccourcis cachés visibles à nouveau en vous rendant sur l\'écran Paramètres et en recherchant l\'option \“%s\”.</string>
     <!-- Pattern used to construct the category / section headers on the "Move Shortcut" screen. %s$1 is a placeholder for a category name, %2$s is a placeholder for a section name -->
+    <string name="category_section_header_pattern">%1$s : %2$s</string>
     <!-- Title of "Category Sections" screen, which lets the user manage sections within a category -->
     <string name="screen_title_category_sections">Sections de la catégorie</string>
     <!-- Title of dialog to edit a section within a category -->

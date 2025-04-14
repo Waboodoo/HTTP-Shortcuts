@@ -66,6 +66,7 @@
     <string name="action_place_category">Umieść na ekranie głównym</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">Uruchom</string>
+    <!-- Generic dropdown option: Use/select the variable/..., used in pickers that let the user select which variable/... to use for a specific purpose -->
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Edytuj</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
@@ -1407,6 +1408,7 @@ Usunąć mimo to?</string>
     <string name="label_category_name">Nazwa kategorii</string>
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
     <string name="label_category_layout_type">Układ</string>
+    <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">Tło</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
