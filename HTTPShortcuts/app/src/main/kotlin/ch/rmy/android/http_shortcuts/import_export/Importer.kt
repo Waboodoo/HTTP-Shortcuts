@@ -40,6 +40,7 @@ constructor(
 ) {
     suspend fun importFromUri(uri: Uri, importMode: ImportMode, password: String? = null): ImportStatus =
         withContext(Dispatchers.IO) {
+            logInfo("Importing from URI, using $importMode")
             try {
                 val cacheFile = FileUtil.createCacheFile(context, IMPORT_TEMP_FILE)
                 getStream(context, uri).use { inStream ->
@@ -81,6 +82,7 @@ constructor(
 
     private suspend fun importFromZIP(inputStream: InputStream, importMode: ImportMode, password: String? = null): ImportStatus =
         withContext(Dispatchers.IO) {
+            logInfo("Importing from ZIP, using $importMode")
             var importStatus: ImportStatus? = null
             ZipInputStream(inputStream, password?.toCharArray()).use { stream ->
                 while (true) {
@@ -109,10 +111,13 @@ constructor(
             val importBase = importExportDefaultsProvider.applyDefaults(gson.fromJson(migratedImportData, ImportExportBase::class.java))
             try {
                 importBase.validate()
+                logInfo("Import validation passed")
                 importRepository.import(importBase, importMode)
             } catch (e: IllegalArgumentException) {
+                logInfo("Import failed, ${e.message}")
                 throw ImportException(e.message!!)
             }
+            logInfo("Import validation complete")
             ImportStatus(
                 importedShortcuts = importBase.categories?.sumOf { it.shortcuts?.size ?: 0 } ?: 0,
             )

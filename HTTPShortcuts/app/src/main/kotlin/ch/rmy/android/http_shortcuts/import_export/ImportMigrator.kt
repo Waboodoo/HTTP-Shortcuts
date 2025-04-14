@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.import_export
 
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.import_export.ImportExport.VERSION
 import ch.rmy.android.http_shortcuts.import_export.migration.CategoryBackgroundMigration
@@ -29,6 +30,7 @@ constructor() {
         val fromVersion = base["version"]?.takeUnless { it.isJsonNull }
             ?.asLong
             ?: throw InvalidFileException()
+        logInfo("Import version detected as $fromVersion")
         if (fromVersion > VERSION) {
             val compatibilityVersion = base["compatibilityVersion"]?.takeUnless { it.isJsonNull }?.asLong?.takeUnless { it == 0L }
             if (compatibilityVersion == null || compatibilityVersion > VERSION) {

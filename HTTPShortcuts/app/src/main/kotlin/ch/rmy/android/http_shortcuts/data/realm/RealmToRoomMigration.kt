@@ -74,6 +74,7 @@ constructor(
 
     fun needsMigration(): Boolean {
         val needsMigration = version < MIGRATION_VERSION
+        logInfo("Detected version $version, needsMigration=$needsMigration")
         if (!needsMigration) {
             migrationDone.complete(Unit)
         }
@@ -387,6 +388,7 @@ constructor(
     }
 
     private suspend fun createInitialState() {
+        logInfo("Creating initial state")
         database.realmToRoomMigrationDao()
             .insertCategory(
                 Category(
