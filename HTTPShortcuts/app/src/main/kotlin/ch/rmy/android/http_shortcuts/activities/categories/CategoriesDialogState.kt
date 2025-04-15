@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @Stable
 sealed class CategoriesDialogState {
+    @Stable
     data class ContextMenu(
         val title: Localizable,
         val hideOptionVisible: Boolean,
@@ -15,10 +16,12 @@ sealed class CategoriesDialogState {
         val deleteOptionEnabled: Boolean,
     ) : CategoriesDialogState()
 
+    @Stable
     data class Deletion(
         val title: String,
     ) : CategoriesDialogState()
 
+    @Stable
     data class IconPicker(
         val currentIcon: ShortcutIcon.BuiltInIcon?,
         val suggestionBase: String?,

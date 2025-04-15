@@ -95,6 +95,9 @@ fun MainScreen(
             RESULT_WIDGET_SETTINGS_CANCELLED -> {
                 viewModel.onWidgetSettingsCancelled()
             }
+            is NavigationDestination.IconPicker.Result -> {
+                viewModel.onCategoryIconSelected(result.icon)
+            }
         }
     }
 
@@ -148,6 +151,7 @@ fun MainScreen(
             onPlaceShortcutOnHomeScreen = viewModel::onPlaceShortcutOnHomeScreen,
             onRemoveShortcutFromHomeScreen = viewModel::onRemoveShortcutFromHomeScreen,
             onSelectShortcut = viewModel::onSelectShortcut,
+            onLongPress = viewModel::onLongPress,
         )
     }
 
@@ -161,6 +165,11 @@ fun MainScreen(
         onShortcutPlacementConfirmed = viewModel::onShortcutPlacementConfirmed,
         onNetworkRestrictionsWarningHidden = viewModel::onNetworkRestrictionsWarningHidden,
         onUnlockDialogSubmitted = viewModel::onUnlockDialogSubmitted,
+        onEditCategoryClicked = viewModel::onEditCategoryClicked,
+        onManageSectionsClicked = viewModel::onManageSectionsClicked,
+        onPlaceCategoryOnHomeScreenClicked = viewModel::onPlaceCategoryOnHomeScreenClicked,
+        onCategoryIconSelected = viewModel::onCategoryIconSelected,
+        onCustomCategoryIconOptionSelected = viewModel::onCustomCategoryIconOptionSelected,
         onDismissed = viewModel::onDialogDismissed,
     )
 }

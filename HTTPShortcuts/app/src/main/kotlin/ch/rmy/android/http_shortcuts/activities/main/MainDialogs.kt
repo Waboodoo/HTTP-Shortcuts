@@ -1,5 +1,9 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -13,8 +17,12 @@ import ch.rmy.android.http_shortcuts.components.ChangeLogDialog
 import ch.rmy.android.http_shortcuts.components.ChangeTitleDialog
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.HideableDialog
+import ch.rmy.android.http_shortcuts.components.IconPickerDialog
 import ch.rmy.android.http_shortcuts.components.ProgressDialog
+import ch.rmy.android.http_shortcuts.components.SelectDialog
+import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.TextInputDialog
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @Composable
 fun MainDialogs(
@@ -27,6 +35,11 @@ fun MainDialogs(
     onShortcutPlacementConfirmed: (useLegacy: Boolean) -> Unit,
     onNetworkRestrictionsWarningHidden: (Boolean) -> Unit,
     onUnlockDialogSubmitted: (String) -> Unit,
+    onEditCategoryClicked: () -> Unit,
+    onManageSectionsClicked: () -> Unit,
+    onPlaceCategoryOnHomeScreenClicked: () -> Unit,
+    onCategoryIconSelected: (ShortcutIcon) -> Unit,
+    onCustomCategoryIconOptionSelected: () -> Unit,
     onDismissed: () -> Unit,
 ) {
     when (dialogState) {
@@ -83,6 +96,26 @@ fun MainDialogs(
         is MainDialogState.Progress -> {
             ProgressDialog(
                 onDismissRequest = {},
+            )
+        }
+        is MainDialogState.CategoryMenu -> {
+            CategoryMenuDialog(
+                title = dialogState.title,
+                placeOnHomeScreenOptionVisible = dialogState.placeOnHomeScreenOptionVisible,
+                onEditClicked = onEditCategoryClicked,
+                onManageSectionsClicked = onManageSectionsClicked,
+                onPlaceOnHomeScreenClicked = onPlaceCategoryOnHomeScreenClicked,
+                onDismissRequested = onDismissed,
+            )
+        }
+        is MainDialogState.CategoryIconPicker -> {
+            IconPickerDialog(
+                currentIcon = dialogState.currentIcon,
+                suggestionBase = dialogState.suggestionBase,
+                title = stringResource(R.string.title_category_select_icon),
+                onCustomIconOptionSelected = onCustomCategoryIconOptionSelected,
+                onIconSelected = onCategoryIconSelected,
+                onDismissRequested = onDismissed,
             )
         }
         null -> Unit
@@ -193,4 +226,37 @@ private fun UnlockDialog(
         },
         keyboardType = KeyboardType.Password,
     )
+}
+
+@Composable
+private fun CategoryMenuDialog(
+    title: String,
+    placeOnHomeScreenOptionVisible: Boolean,
+    onEditClicked: () -> Unit,
+    onManageSectionsClicked: () -> Unit,
+    onPlaceOnHomeScreenClicked: () -> Unit,
+    onDismissRequested: () -> Unit,
+) {
+    SelectDialog(
+        title = title,
+        onDismissRequest = onDismissRequested,
+    ) {
+        SelectDialogEntry(
+            label = stringResource(R.string.action_edit),
+            icon = Icons.Filled.Edit,
+            onClick = onEditClicked,
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.action_manage_sections),
+            icon = Icons.Filled.Menu,
+            onClick = onManageSectionsClicked,
+        )
+        if (placeOnHomeScreenOptionVisible) {
+            SelectDialogEntry(
+                label = stringResource(R.string.action_place_category),
+                icon = Icons.Filled.Home,
+                onClick = onPlaceOnHomeScreenClicked,
+            )
+        }
+    }
 }

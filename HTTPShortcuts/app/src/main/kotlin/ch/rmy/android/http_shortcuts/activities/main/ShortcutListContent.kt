@@ -2,7 +2,9 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import android.content.ActivityNotFoundException
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -28,6 +30,7 @@ import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.import_export.OpenFilePickerForExportContract
 import ch.rmy.android.http_shortcuts.logging.Logging.logException
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ShortcutListContent(
     category: CategoryItem,
@@ -37,6 +40,7 @@ fun ShortcutListContent(
     onPlaceShortcutOnHomeScreen: (ShortcutPlaceholder) -> Unit,
     onRemoveShortcutFromHomeScreen: (ShortcutPlaceholder) -> Unit,
     onSelectShortcut: (ShortcutId) -> Unit,
+    onLongPress: () -> Unit,
 ) {
     val (viewModel, state) = bindViewModel<ShortcutListViewModel.InitData, ShortcutListViewState, ShortcutListViewModel>(
         ShortcutListViewModel.InitData(
@@ -85,7 +89,13 @@ fun ShortcutListContent(
             .fillMaxSize()
             .runIfNotNull(category.background as? CategoryBackgroundType.Color) {
                 background(Color(it.color))
-            },
+            }
+            .combinedClickable(
+                interactionSource = null,
+                indication = null,
+                onLongClick = onLongPress,
+                onClick = {},
+            ),
     ) {
         ShortcutList(
             hasMultipleCategories = hasMultipleCategories,

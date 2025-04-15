@@ -39,6 +39,7 @@ fun MainContent(
     onPlaceShortcutOnHomeScreen: (ShortcutPlaceholder) -> Unit,
     onRemoveShortcutFromHomeScreen: (ShortcutPlaceholder) -> Unit,
     onSelectShortcut: (ShortcutId) -> Unit,
+    onLongPress: () -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = categoryItems.indexOfFirstOrNull { it.categoryId == activeCategoryId } ?: 0,
@@ -100,6 +101,7 @@ fun MainContent(
                 onPlaceShortcutOnHomeScreen = onPlaceShortcutOnHomeScreen,
                 onRemoveShortcutFromHomeScreen = onRemoveShortcutFromHomeScreen,
                 onSelectShortcut = onSelectShortcut,
+                onLongPress = onLongPress,
             )
         }
     }

@@ -11,6 +11,7 @@ import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.models.CategoryItem
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLogDialogUseCase
@@ -31,6 +32,7 @@ import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
@@ -599,6 +601,61 @@ constructor(
         }
         settingsRequestHandled = true
         navigate(NavigationDestination.Settings)
+    }
+
+    fun onLongPress() = runAction {
+        if (viewState.isLocked) {
+            skipAction()
+        }
+        val category = getActiveCategory() ?: skipAction()
+        updateDialogState(
+            MainDialogState.CategoryMenu(
+                title = category.name,
+                placeOnHomeScreenOptionVisible = launcherShortcutManager.supportsPinning(),
+            ),
+        )
+    }
+
+    private suspend fun ViewModelScope<MainViewState>.getActiveCategory(): Category? =
+        categories.find { it.id == viewState.activeCategoryId }
+
+    fun onEditCategoryClicked() = runAction {
+        updateDialogState(null)
+        navigate(NavigationDestination.CategoryEditor.buildRequest(viewState.activeCategoryId))
+    }
+
+    fun onManageSectionsClicked() = runAction {
+        updateDialogState(null)
+        navigate(NavigationDestination.CategorySectionsEditor.buildRequest(viewState.activeCategoryId))
+    }
+
+    fun onPlaceCategoryOnHomeScreenClicked() = runAction {
+        updateDialogState(null)
+        val category = getActiveCategory() ?: skipAction()
+        updateDialogState(
+            MainDialogState.CategoryIconPicker(
+                currentIcon = (category.icon as? ShortcutIcon.BuiltInIcon)
+                    ?: ShortcutIcon.BuiltInIcon.fromDrawableResource(context, R.drawable.flat_grey_folder),
+                suggestionBase = category.name,
+            ),
+        )
+    }
+
+    fun onCategoryIconSelected(icon: ShortcutIcon) = runAction {
+        updateDialogState(null)
+        val category = getActiveCategory() ?: skipAction()
+        withProgressTracking {
+            categoryRepository.setCategoryIcon(category.id, icon)
+            withContext(Dispatchers.Default) {
+                launcherShortcutManager.updatePinnedCategoryShortcut(category.id, category.name, icon)
+                launcherShortcutManager.pinCategory(category.id, category.name, icon)
+            }
+        }
+    }
+
+    fun onCustomCategoryIconOptionSelected() = runAction {
+        updateDialogState(null)
+        navigate(NavigationDestination.IconPicker)
     }
 
     data class InitData(

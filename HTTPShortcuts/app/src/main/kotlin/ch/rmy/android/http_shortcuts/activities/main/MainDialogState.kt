@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import androidx.compose.runtime.Stable
 import ch.rmy.android.http_shortcuts.activities.main.models.RecoveryInfo
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @Stable
 sealed class MainDialogState {
@@ -35,4 +36,16 @@ sealed class MainDialogState {
 
     @Stable
     data object Progress : MainDialogState()
+
+    @Stable
+    data class CategoryMenu(
+        val title: String,
+        val placeOnHomeScreenOptionVisible: Boolean,
+    ) : MainDialogState()
+
+    @Stable
+    data class CategoryIconPicker(
+        val currentIcon: ShortcutIcon.BuiltInIcon?,
+        val suggestionBase: String?,
+    ) : MainDialogState()
 }
