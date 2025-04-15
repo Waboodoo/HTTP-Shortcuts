@@ -26,7 +26,6 @@ import androidx.compose.ui.text.withStyle
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.openURL
-import ch.rmy.android.framework.extensions.restartWithoutAnimation
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.Application
@@ -131,8 +130,13 @@ class MainActivity : BaseComposeActivity() {
 
     override fun handleEvent(event: ViewModelEvent) {
         when (event) {
-            MainEvent.Restart -> {
-                restartWithoutAnimation()
+            is MainEvent.Restart -> {
+                finish()
+                startActivity(
+                    IntentBuilder()
+                        .categoryId(event.activeCategoryId)
+                        .build(context),
+                )
             }
             else -> super.handleEvent(event)
         }

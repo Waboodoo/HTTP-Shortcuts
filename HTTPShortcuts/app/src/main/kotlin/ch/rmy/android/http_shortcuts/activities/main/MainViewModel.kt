@@ -586,7 +586,7 @@ constructor(
 
     fun onShortcutsOrCategoriesChanged() = runAction {
         launcherShortcutUpdater.updateAppShortcuts()
-        emitEvent(MainEvent.Restart)
+        emitEvent(MainEvent.Restart(viewState.activeCategoryId))
     }
 
     fun onWidgetSettingsCancelled() = runAction {
