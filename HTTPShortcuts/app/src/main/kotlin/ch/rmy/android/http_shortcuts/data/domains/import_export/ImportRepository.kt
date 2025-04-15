@@ -434,6 +434,15 @@ constructor(
                         newVariablesById[variable.id]?.let { newVariable ->
                             insertOrUpdateVariable(
                                 newVariable.copy(
+                                    value = if (
+                                        variable.isExcludeValueFromExport &&
+                                        newVariable.isExcludeValueFromExport &&
+                                        newVariable.value.isNullOrEmpty()
+                                    ) {
+                                        variable.value
+                                    } else {
+                                        newVariable.value
+                                    },
                                     sortingOrder = variable.sortingOrder,
                                 ),
                             )
