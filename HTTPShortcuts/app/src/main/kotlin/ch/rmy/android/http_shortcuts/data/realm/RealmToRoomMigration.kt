@@ -81,6 +81,28 @@ constructor(
         return needsMigration
     }
 
+    suspend fun forceMigration(): Int {
+        val realm = RealmFactory.createRealm()
+        if (realm != null) {
+            database.withTransaction {
+                require(
+                    database.categoryDao().getCategories().size == 1 &&
+                        database.shortcutDao().getShortcuts().isEmpty() &&
+                        database.sectionDao().getSections().isEmpty() &&
+                        database.variableDao().getVariables().isEmpty(),
+                ) {
+                    "Can only import legacy file into a fresh app installation"
+                }
+                database.categoryDao().deleteAllCategories()
+                migrateToVersion1(realm)
+                migrateToVersion2(realm)
+                migrateToVersion3(realm)
+            }
+            realm.close()
+        }
+        return database.shortcutDao().getShortcuts().size
+    }
+
     suspend fun migrate() {
         logInfo("Room migration starting at version $version")
         if (version != MIGRATION_VERSION) {
