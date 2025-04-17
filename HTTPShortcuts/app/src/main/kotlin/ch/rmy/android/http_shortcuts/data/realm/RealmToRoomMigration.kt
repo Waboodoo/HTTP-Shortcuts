@@ -99,6 +99,9 @@ constructor(
                 migrateToVersion3(realm)
             }
             realm.close()
+            preferences.edit {
+                putInt(MIGRATION_VERSION_KEY, MIGRATION_VERSION)
+            }
         }
         return database.shortcutDao().getShortcuts().size
     }
