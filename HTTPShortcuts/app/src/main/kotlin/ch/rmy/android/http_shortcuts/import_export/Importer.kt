@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.import_export.models.ImportExportBase
 import ch.rmy.android.http_shortcuts.utils.GsonUtil.gson
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.NoCloseInputStream
+import ch.rmy.android.http_shortcuts.utils.Settings
 import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
 import java.io.BufferedReader
@@ -40,6 +41,7 @@ constructor(
     private val importRepository: ImportRepository,
     private val importExportDefaultsProvider: ImportExportDefaultsProvider,
     private val realmToRoomMigration: RealmToRoomMigration,
+    private val settings: Settings,
 ) {
     suspend fun importFromUri(uri: Uri, importMode: ImportMode, password: String? = null): ImportStatus =
         withContext(Dispatchers.IO) {
@@ -81,6 +83,9 @@ constructor(
             } finally {
                 FileUtil.deleteCacheFile(context, IMPORT_TEMP_FILE)
             }
+                .also {
+                    settings.isAwareOfResponseHandling = true
+                }
         }
 
     private suspend fun importFromZIP(inputStream: InputStream, importMode: ImportMode, password: String? = null): ImportStatus =
