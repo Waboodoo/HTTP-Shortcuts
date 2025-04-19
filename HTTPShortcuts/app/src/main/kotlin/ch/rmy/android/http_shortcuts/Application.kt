@@ -15,6 +15,8 @@ import java.security.Security
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.conscrypt.Conscrypt
 
@@ -53,7 +55,7 @@ class Application : android.app.Application(), Configuration.Provider {
                     realmToRoomMigration.migrate()
                 } catch (e: Exception) {
                     logException(e)
-                    startupError = e.message ?: e.toString()
+                    _startupError.value = e.message ?: e.toString()
                 }
             }
         }
@@ -62,6 +64,7 @@ class Application : android.app.Application(), Configuration.Provider {
     }
 
     companion object {
-        var startupError: String? = null
+        private val _startupError = MutableStateFlow<String?>(null)
+        val startupError = _startupError.asStateFlow()
     }
 }
