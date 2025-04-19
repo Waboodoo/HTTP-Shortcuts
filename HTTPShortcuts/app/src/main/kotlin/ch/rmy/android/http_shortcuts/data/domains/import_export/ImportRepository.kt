@@ -51,12 +51,14 @@ import ch.rmy.android.http_shortcuts.import_export.models.ImportSection
 import ch.rmy.android.http_shortcuts.import_export.models.ImportShortcut
 import ch.rmy.android.http_shortcuts.import_export.models.ImportVariable
 import ch.rmy.android.http_shortcuts.import_export.models.ImportWorkingDirectory
+import ch.rmy.android.http_shortcuts.utils.Settings
 import javax.inject.Inject
 
 class ImportRepository
 @Inject
 constructor(
     database: Database,
+    private val settings: Settings,
 ) : BaseRepository(database) {
     suspend fun import(base: ImportBase, mode: ImportMode) = commitTransaction {
         if (mode == ImportMode.REPLACE) {
@@ -72,8 +74,8 @@ constructor(
         importAppConfig(base, mode)
         importCategories(base.categories ?: emptyList(), mode)
         importVariables(base.variables ?: emptyList(), mode)
-        importCertificatePins(base.certificatePins ?: emptyList(), mode)
-        importWorkingDirectories(base.workingDirectories ?: emptyList(), mode)
+        importCertificatePins(base.certificatePins ?: emptyList())
+        importWorkingDirectories(base.workingDirectories ?: emptyList(), fromSameDevice = base.originDeviceId == settings.deviceId)
         validate()
     }
 
@@ -471,7 +473,7 @@ constructor(
         }
     }
 
-    private suspend fun Database.importCertificatePins(importPins: List<ImportCertificatePin>, mode: ImportMode) {
+    private suspend fun Database.importCertificatePins(importPins: List<ImportCertificatePin>) {
         val pins = importPins.map { pin ->
             CertificatePin(
                 id = pin.id ?: newUUID(),
@@ -486,15 +488,20 @@ constructor(
         }
     }
 
-    private suspend fun Database.importWorkingDirectories(importWorkingDirectories: List<ImportWorkingDirectory>, mode: ImportMode) {
+    private suspend fun Database.importWorkingDirectories(importWorkingDirectories: List<ImportWorkingDirectory>, fromSameDevice: Boolean) {
         val workingDirectoryDao = workingDirectoryDao()
         val existingWorkingDirectoriesById = workingDirectoryDao.getWorkingDirectories().associateBy { it.id }
         val workingDirectories = importWorkingDirectories.map { workingDirectory ->
+            val existingWorkingDirectory = existingWorkingDirectoriesById[workingDirectory.id]
             WorkingDirectory(
                 id = workingDirectory.id ?: newUUID(),
                 name = workingDirectory.name!!,
-                directory = workingDirectory.directory!!.toUri(),
-                accessed = existingWorkingDirectoriesById[workingDirectory.id]?.accessed,
+                directory = if (!fromSameDevice && existingWorkingDirectory != null) {
+                    existingWorkingDirectory.directory
+                } else {
+                    workingDirectory.directory!!.toUri()
+                },
+                accessed = existingWorkingDirectory?.accessed,
             )
         }
         workingDirectories.forEach { workingDirectory ->

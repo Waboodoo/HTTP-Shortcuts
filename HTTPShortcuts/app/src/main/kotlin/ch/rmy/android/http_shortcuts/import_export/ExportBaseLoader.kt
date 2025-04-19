@@ -47,6 +47,7 @@ import ch.rmy.android.http_shortcuts.import_export.models.ExportShortcut
 import ch.rmy.android.http_shortcuts.import_export.models.ExportVariable
 import ch.rmy.android.http_shortcuts.import_export.models.ExportWorkingDirectory
 import ch.rmy.android.http_shortcuts.usecases.GetUsedWorkingDirectoryIdsUseCase
+import ch.rmy.android.http_shortcuts.utils.Settings
 import javax.inject.Inject
 import kotlin.collections.filter
 import kotlin.collections.map
@@ -64,6 +65,7 @@ constructor(
     private val certificatePinRepository: CertificatePinRepository,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
     private val getUsedWorkingDirectoryIds: GetUsedWorkingDirectoryIdsUseCase,
+    private val settings: Settings,
 ) {
     suspend fun getBase(
         shortcutIds: Collection<ShortcutId>?,
@@ -100,6 +102,7 @@ constructor(
         return ExportBase(
             version = VERSION,
             compatibilityVersion = COMPATIBILITY_VERSION,
+            originDeviceId = settings.deviceId,
             categories = categories.map { category ->
                 ExportCategory(
                     id = category.id,
