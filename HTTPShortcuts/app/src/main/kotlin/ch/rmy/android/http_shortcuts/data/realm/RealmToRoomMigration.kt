@@ -57,6 +57,7 @@ import io.realm.kotlin.types.RealmInstant
 import java.time.Instant
 import javax.inject.Inject
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.cancel
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -108,30 +109,38 @@ constructor(
 
     suspend fun migrate() {
         logInfo("Room migration starting at version $version")
-        if (version != MIGRATION_VERSION) {
-            val realm = RealmFactory.createRealm()
-            if (realm != null) {
-                database.withTransaction {
-                    if (version < 1) {
-                        migrateToVersion1(realm)
+        try {
+            if (version != MIGRATION_VERSION) {
+                val realm = RealmFactory.createRealm()
+                if (realm != null) {
+                    database.withTransaction {
+                        if (version < 1) {
+                            migrateToVersion1(realm)
+                            logInfo("Room migration to version 1 complete")
+                        }
+                        if (version < 2) {
+                            migrateToVersion2(realm)
+                            logInfo("Room migration to version 2 complete")
+                        }
+                        if (version < 3) {
+                            migrateToVersion3(realm)
+                            logInfo("Room migration to version 3 complete")
+                        }
                     }
-                    logInfo("Room migration to version 1 complete")
-                    if (version < 2) {
-                        migrateToVersion2(realm)
+                    preferences.edit {
+                        putInt(MIGRATION_VERSION_KEY, MIGRATION_VERSION)
                     }
-                    logInfo("Room migration to version 2 complete")
-                    if (version < 3) {
-                        migrateToVersion3(realm)
+                    realm.close()
+                } else {
+                    createInitialState()
+                    preferences.edit {
+                        putInt(MIGRATION_VERSION_KEY, MIGRATION_VERSION)
                     }
-                    logInfo("Room migration to version 3 complete")
                 }
-                realm.close()
-            } else {
-                createInitialState()
             }
-            preferences.edit {
-                putInt(MIGRATION_VERSION_KEY, MIGRATION_VERSION)
-            }
+        } catch (e: Exception) {
+            migrationDone.cancel()
+            throw e
         }
         migrationDone.complete(Unit)
     }
@@ -272,6 +281,7 @@ constructor(
             .firstOrNull()
             ?.categories
             ?.forEachIndexed { categoryIndex, category ->
+                logInfo("Migrating category ${category.id}")
                 migrationDao.insertCategory(
                     Category(
                         id = category.id,
@@ -291,6 +301,7 @@ constructor(
                 )
 
                 category.sections.forEachIndexed { sectionIndex, section ->
+                    logInfo("Migrating section ${section.id}")
                     migrationDao.insertSection(
                         Section(
                             id = section.id,
@@ -302,10 +313,17 @@ constructor(
                 }
 
                 category.shortcuts.forEachIndexed { shortcutIndex, shortcut ->
+                    logInfo("Migrating shortcut ${shortcut.id}")
                     val type = shortcut.executionType?.let { ShortcutExecutionType.parse(it) } ?: ShortcutExecutionType.HTTP
+                    val shortcutId = if (database.shortcutDao().getShortcutById(shortcut.id).isEmpty()) {
+                        shortcut.id
+                    } else {
+                        logInfo("Duplicate detected, generating new id")
+                        newUUID()
+                    }
                     migrationDao.insertShortcut(
                         Shortcut(
-                            id = shortcut.id,
+                            id = shortcutId,
                             executionType = type,
                             categoryId = category.id,
                             name = shortcut.name.truncate(Constants.SHORTCUT_NAME_MAX_LENGTH),
@@ -383,9 +401,10 @@ constructor(
                     )
 
                     shortcut.headers.forEachIndexed { headerIndex, header ->
+                        logInfo("Migrating header")
                         migrationDao.insertRequestHeader(
                             RequestHeader(
-                                shortcutId = shortcut.id,
+                                shortcutId = shortcutId,
                                 key = header.key,
                                 value = header.value,
                                 sortingOrder = headerIndex,
@@ -394,9 +413,10 @@ constructor(
                     }
 
                     shortcut.parameters.forEachIndexed { parameterIndex, parameter ->
+                        logInfo("Migrating parameter")
                         migrationDao.insertRequestParameter(
                             RequestParameter(
-                                shortcutId = shortcut.id,
+                                shortcutId = shortcutId,
                                 key = parameter.key,
                                 value = parameter.value,
                                 parameterType = ParameterType.parse(parameter.type) ?: ParameterType.STRING,

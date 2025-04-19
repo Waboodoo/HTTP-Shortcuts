@@ -14,6 +14,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.LinkAnnotation
@@ -65,7 +67,8 @@ class MainActivity : BaseComposeActivity() {
 
     @Composable
     override fun Content() {
-        Application.startupError?.let { error ->
+        val startupError by Application.startupError.collectAsState()
+        startupError?.let { error ->
             StartupErrorDialog(
                 message = error,
                 onDismissed = {
@@ -94,6 +97,8 @@ class MainActivity : BaseComposeActivity() {
             title = { Text(stringResource(R.string.dialog_title_error)) },
             text = {
                 val text = buildAnnotatedString {
+                    appendLine("An unexpected problem occurred while migrating your data to the new app version.")
+                    appendLine()
                     withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onSurface)) {
                         append(message)
                     }
