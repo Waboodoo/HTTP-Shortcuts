@@ -41,7 +41,7 @@ class OutputFileNameVariantAction : Action<ApplicationVariant> {
 android {
     namespace = "ch.rmy.android.http_shortcuts"
 
-    compileSdk = 35
+    compileSdk = 36
 
     kotlinOptions {
         jvmTarget = "11"
