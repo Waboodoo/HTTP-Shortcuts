@@ -2,6 +2,7 @@ package ch.rmy.android.framework.utils
 
 import android.content.ContentResolver
 import android.content.Context
+import android.content.res.AssetFileDescriptor
 import android.net.Uri
 import android.provider.OpenableColumns
 import androidx.core.content.FileProvider
@@ -10,6 +11,7 @@ import ch.rmy.android.framework.extensions.minus
 import ch.rmy.android.framework.extensions.tryOrLog
 import java.io.BufferedWriter
 import java.io.File
+import java.io.FileNotFoundException
 import java.io.OutputStreamWriter
 import java.time.Instant
 import java.util.concurrent.ConcurrentHashMap
@@ -82,6 +84,17 @@ object FileUtil {
         }
         return null
     }
+
+    fun getFileSize(contentResolver: ContentResolver, fileUri: Uri): Long? =
+        try {
+            contentResolver.openAssetFileDescriptor(fileUri, "r")
+                ?.use {
+                    it.length
+                }
+                ?.takeUnless { it == AssetFileDescriptor.UNKNOWN_LENGTH }
+        } catch (_: FileNotFoundException) {
+            null
+        }
 
     fun getCacheFileOriginalName(cacheFileUri: Uri): String? =
         cacheFileNames[cacheFileUri]

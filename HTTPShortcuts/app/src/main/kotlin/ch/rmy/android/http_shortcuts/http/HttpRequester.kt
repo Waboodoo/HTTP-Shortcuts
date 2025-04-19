@@ -8,6 +8,7 @@ import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.fromHexString
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.HostVerificationConfig
@@ -200,7 +201,7 @@ constructor(
                     fileUploadResult?.getFile(0)
                         ?.let { file ->
                             contentType(requestData.contentType ?: file.mimeType)
-                            body(contentResolver.openInputStream(file.data)!!, length = file.fileSize)
+                            body(contentResolver.openInputStream(file.data)!!, length = FileUtil.getFileSize(contentResolver, file.data))
                         }
                 }
                 if (shortcut.usesRequestParameters()) {

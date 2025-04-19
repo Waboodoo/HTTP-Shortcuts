@@ -56,7 +56,7 @@ class FileUploadManager internal constructor(
                 ?.let { newUri ->
                     file.copy(
                         data = newUri,
-                        fileSize = getFileSize(newUri),
+                        fileSize = FileUtil.getFileSize(contentResolver, newUri),
                     )
                 }
                 ?: file
@@ -90,7 +90,7 @@ class FileUploadManager internal constructor(
                 mimeType = type,
                 fileName = getFileName(uri, type),
                 data = uri,
-                fileSize = getFileSize(uri),
+                fileSize = FileUtil.getFileSize(contentResolver, uri),
                 metaData = if (withMetaData) getMetaData(uri, type) else null,
             )
         }
@@ -121,17 +121,6 @@ class FileUploadManager internal constructor(
         }
         return potentialFileName
     }
-
-    private fun getFileSize(file: Uri): Long? =
-        try {
-            contentResolver.openAssetFileDescriptor(file, "r")
-                ?.use {
-                    it.length
-                }
-                ?.takeUnless { it == AssetFileDescriptor.UNKNOWN_LENGTH }
-        } catch (e: FileNotFoundException) {
-            null
-        }
 
     private fun getMetaData(file: Uri, type: String): FileMetaData? {
         if (!type.startsWith("image/", ignoreCase = true)) {
