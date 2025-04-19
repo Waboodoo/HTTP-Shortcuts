@@ -1,8 +1,11 @@
 package ch.rmy.android.http_shortcuts.activities.about
 
 import android.app.Application
+import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.framework.utils.InstallUtil
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.Settings
@@ -18,6 +21,7 @@ constructor(
     private val settings: Settings,
     private val versionUtil: VersionUtil,
     private val installUtil: InstallUtil,
+    private val clipboardUtil: ClipboardUtil,
 ) : BaseViewModel<Unit, AboutViewState>(application) {
 
     override suspend fun initialize(data: Unit): AboutViewState =
@@ -25,6 +29,8 @@ constructor(
             versionNumber = versionUtil.getVersionName(),
             fDroidVisible = !installUtil.isAppInstalledFromPlayStore(),
             changeLogDialogPermanentlyHidden = settings.isChangeLogPermanentlyHidden,
+            deviceId = settings.deviceId,
+            crashReportingAllowed = Logging.supportsCrashReporting && settings.isCrashReportingAllowed,
         )
 
     fun onChangeLogDialogPermanentlyHiddenChanged(hidden: Boolean) = runAction {
@@ -75,6 +81,11 @@ constructor(
 
     fun onAcknowledgementButtonClicked() = runAction {
         navigate(NavigationDestination.Acknowledgment)
+    }
+
+    fun onDeviceIdButtonClicked() = runAction {
+        clipboardUtil.copyToClipboard(settings.deviceId)
+        showSnackbar(R.string.message_device_id_copied)
     }
 
     fun onDialogDismissalRequested() = runAction {

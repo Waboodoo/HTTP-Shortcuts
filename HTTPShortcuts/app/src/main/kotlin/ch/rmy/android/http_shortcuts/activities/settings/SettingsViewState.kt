@@ -12,7 +12,6 @@ data class SettingsViewState(
     val selectedDarkModeOption: String,
     val selectedClickActionOption: ShortcutClickBehavior,
     val crashReportingAllowed: Boolean,
-    val deviceId: String,
     val colorTheme: String,
     val showHiddenShortcuts: Boolean,
 )

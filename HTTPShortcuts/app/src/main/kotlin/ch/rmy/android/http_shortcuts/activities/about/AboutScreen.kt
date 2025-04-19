@@ -18,6 +18,8 @@ fun AboutScreen() {
         AboutContent(
             versionNumber = viewState.versionNumber,
             fDroidVisible = viewState.fDroidVisible,
+            deviceId = viewState.deviceId,
+            crashReportingAllowed = viewState.crashReportingAllowed,
             onChangeLogButtonClicked = viewModel::onChangeLogButtonClicked,
             onDocumentationButtonClicked = viewModel::onDocumentationButtonClicked,
             onContactButtonClicked = viewModel::onContactButtonClicked,
@@ -28,6 +30,7 @@ fun AboutScreen() {
             onDonateButtonClicked = viewModel::onDonateButtonClicked,
             onAcknowledgementButtonClicked = viewModel::onAcknowledgementButtonClicked,
             onPrivacyPolicyButtonClicked = viewModel::onPrivacyPolicyButtonClicked,
+            onDeviceIdButtonClicked = viewModel::onDeviceIdButtonClicked,
         )
     }
 

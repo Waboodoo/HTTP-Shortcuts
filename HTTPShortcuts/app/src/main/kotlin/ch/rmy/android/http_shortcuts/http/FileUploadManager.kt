@@ -1,14 +1,12 @@
 package ch.rmy.android.http_shortcuts.http
 
 import android.content.ContentResolver
-import android.content.res.AssetFileDescriptor
 import android.net.Uri
 import android.webkit.MimeTypeMap
 import androidx.exifinterface.media.ExifInterface
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
-import java.io.FileNotFoundException
 import java.io.IOException
 
 class FileUploadManager internal constructor(

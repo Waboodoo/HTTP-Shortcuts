@@ -10,6 +10,7 @@ import androidx.compose.material.icons.automirrored.outlined.LiveHelp
 import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.People
+import androidx.compose.material.icons.outlined.PermDeviceInformation
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,6 +24,8 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 fun AboutContent(
     versionNumber: String,
     fDroidVisible: Boolean,
+    deviceId: String,
+    crashReportingAllowed: Boolean,
     onChangeLogButtonClicked: () -> Unit,
     onDocumentationButtonClicked: () -> Unit,
     onContactButtonClicked: () -> Unit,
@@ -33,19 +36,13 @@ fun AboutContent(
     onDonateButtonClicked: () -> Unit,
     onAcknowledgementButtonClicked: () -> Unit,
     onPrivacyPolicyButtonClicked: () -> Unit,
+    onDeviceIdButtonClicked: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .padding(bottom = Spacing.SMALL),
     ) {
-        SettingsButton(
-            icon = Icons.Outlined.Code,
-            title = stringResource(R.string.settings_changelog),
-            subtitle = stringResource(R.string.settings_changelog_summary, versionNumber),
-            onClick = onChangeLogButtonClicked,
-        )
-
         SettingsButton(
             icon = Icons.AutoMirrored.Outlined.LiveHelp,
             title = stringResource(R.string.settings_documentation),
@@ -54,10 +51,35 @@ fun AboutContent(
         )
 
         SettingsButton(
+            icon = Icons.Outlined.Code,
+            title = stringResource(R.string.settings_changelog),
+            subtitle = stringResource(R.string.settings_changelog_summary, versionNumber),
+            onClick = onChangeLogButtonClicked,
+        )
+
+        SettingsButton(
             icon = Icons.Outlined.Email,
             title = stringResource(R.string.settings_mail),
             subtitle = stringResource(R.string.settings_mail_summary),
             onClick = onContactButtonClicked,
+        )
+
+        SettingsButton(
+            icon = Icons.Outlined.PermDeviceInformation,
+            title = stringResource(R.string.settings_device_id),
+            subtitle = if (crashReportingAllowed) {
+                stringResource(R.string.settings_device_id_summary, deviceId)
+            } else {
+                deviceId
+            },
+            onClick = onDeviceIdButtonClicked,
+        )
+
+        SettingsButton(
+            icon = painterResource(R.drawable.ic_gift),
+            title = stringResource(R.string.settings_donate),
+            subtitle = stringResource(R.string.settings_donate_summary),
+            onClick = onDonateButtonClicked,
         )
 
         SettingsButton(
@@ -91,10 +113,10 @@ fun AboutContent(
         )
 
         SettingsButton(
-            icon = painterResource(R.drawable.ic_gift),
-            title = stringResource(R.string.settings_donate),
-            subtitle = stringResource(R.string.settings_donate_summary),
-            onClick = onDonateButtonClicked,
+            icon = Icons.AutoMirrored.Outlined.Article,
+            title = stringResource(R.string.settings_privacy_policy),
+            subtitle = stringResource(R.string.settings_privacy_policy_summary),
+            onClick = onPrivacyPolicyButtonClicked,
         )
 
         SettingsButton(
@@ -102,13 +124,6 @@ fun AboutContent(
             title = stringResource(R.string.settings_licenses),
             subtitle = stringResource(R.string.settings_licenses_summary),
             onClick = onAcknowledgementButtonClicked,
-        )
-
-        SettingsButton(
-            icon = Icons.AutoMirrored.Outlined.Article,
-            title = stringResource(R.string.settings_privacy_policy),
-            subtitle = stringResource(R.string.settings_privacy_policy_summary),
-            onClick = onPrivacyPolicyButtonClicked,
         )
     }
 }

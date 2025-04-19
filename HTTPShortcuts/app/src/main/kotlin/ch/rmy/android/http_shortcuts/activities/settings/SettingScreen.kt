@@ -21,7 +21,6 @@ fun SettingsScreen() {
             selectedDarkModeOption = viewState.selectedDarkModeOption,
             selectedClickActionOption = viewState.selectedClickActionOption,
             crashReportingEnabled = viewState.crashReportingAllowed,
-            deviceId = viewState.deviceId,
             colorTheme = viewState.colorTheme,
             showHiddenShortcuts = viewState.showHiddenShortcuts,
             onLanguageSelected = viewModel::onLanguageSelected,
@@ -34,7 +33,6 @@ fun SettingsScreen() {
             onCertificatePinningButtonClicked = viewModel::onCertificatePinningButtonClicked,
             onGlobalScriptingButtonClicked = viewModel::onGlobalScriptingButtonClicked,
             onCrashReportingChanged = viewModel::onCrashReportingChanged,
-            onDeviceIdButtonClicked = viewModel::onDeviceIdButtonClicked,
             onColorThemeChanged = viewModel::onColorThemeChanged,
             onShowHiddenShortcutsChanged = viewModel::onShowHiddenShortcutsChanged,
         )
