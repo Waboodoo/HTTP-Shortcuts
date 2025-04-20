@@ -49,7 +49,7 @@ constructor(
 
     override suspend fun initialize(data: InitData): ExportViewState {
         val items = buildList {
-            val shortcutsByCategoryId = shortcutRepository.getShortcuts().groupBy { it.categoryId }
+            val shortcutsByCategoryId = shortcutRepository.getShortcutsByCategoryId()
             categoryRepository.getCategories().forEach { category ->
                 val shortcuts = shortcutsByCategoryId[category.id] ?: emptyList()
                 if (shortcuts.isNotEmpty()) {

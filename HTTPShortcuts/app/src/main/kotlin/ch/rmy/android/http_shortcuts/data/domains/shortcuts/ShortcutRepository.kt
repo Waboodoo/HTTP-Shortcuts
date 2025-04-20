@@ -13,6 +13,7 @@ import javax.inject.Inject
 import kotlin.collections.forEach
 import kotlin.collections.map
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class ShortcutRepository
 @Inject
@@ -33,15 +34,37 @@ constructor(
     }
 
     fun observeShortcuts(): Flow<List<Shortcut>> = queryFlow {
+        val categories = categoryDao().getCategories()
         shortcutDao().observeShortcuts()
+            .map { shortcuts ->
+                buildList {
+                    categories.forEach { category ->
+                        addAll(shortcuts.filter { it.categoryId == category.id })
+                    }
+                }
+            }
     }
 
     fun observeShortcutsByCategoryId(categoryId: CategoryId): Flow<List<Shortcut>> = queryFlow {
         shortcutDao().observeShortcutsByCategoryId(categoryId)
     }
 
+    suspend fun hasShortcuts(): Boolean = query {
+        shortcutDao().getShortcutCount() != 0
+    }
+
     suspend fun getShortcuts(): List<Shortcut> = query {
-        shortcutDao().getShortcuts()
+        val categories = categoryDao().getCategories()
+        val shortcuts = shortcutDao().getShortcuts()
+        buildList {
+            categories.forEach { category ->
+                addAll(shortcuts.filter { it.categoryId == category.id })
+            }
+        }
+    }
+
+    suspend fun getShortcutsByCategoryId(): Map<CategoryId, List<Shortcut>> = query {
+        shortcutDao().getShortcuts().groupBy { it.categoryId }
     }
 
     suspend fun getQuickSettingsShortcuts(): List<Shortcut> = query {

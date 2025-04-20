@@ -49,7 +49,7 @@ constructor(
 
     override suspend fun initialize(data: Unit): CategoriesViewState {
         sectionsByCategoryId = sectionRepository.getSections().groupBy { it.categoryId }
-        shortcutsByCategoryId = shortcutRepository.getShortcuts().groupBy { it.categoryId }
+        shortcutsByCategoryId = shortcutRepository.getShortcutsByCategoryId()
         val categoriesFlow = categoryRepository.observeCategories()
         categories = categoriesFlow.first()
         viewModelScope.launch {

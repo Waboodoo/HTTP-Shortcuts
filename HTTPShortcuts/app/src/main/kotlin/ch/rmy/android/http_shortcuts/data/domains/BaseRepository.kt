@@ -15,7 +15,7 @@ abstract class BaseRepository(
         return database.get()
     }
 
-    protected fun <T> queryFlow(get: Database.() -> Flow<T>): Flow<T> =
+    protected fun <T> queryFlow(get: suspend Database.() -> Flow<T>): Flow<T> =
         flow {
             query(get)
                 .distinctUntilChanged()

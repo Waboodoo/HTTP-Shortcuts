@@ -44,6 +44,9 @@ interface ShortcutDao {
     @Query("SELECT COUNT(*) FROM shortcut WHERE category_id = :categoryId AND id != ${Shortcut.TEMPORARY_ID}")
     suspend fun getShortcutCountByCategoryId(categoryId: CategoryId): Int
 
+    @Query("SELECT COUNT(*) FROM shortcut WHERE id != ${Shortcut.TEMPORARY_ID}")
+    suspend fun getShortcutCount(): Int
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrUpdateShortcut(shortcut: Shortcut)
 

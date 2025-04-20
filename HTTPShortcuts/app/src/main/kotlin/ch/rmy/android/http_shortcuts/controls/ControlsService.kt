@@ -48,8 +48,7 @@ class ControlsService : ControlsProviderService() {
     private fun createPublisher(filter: ((Pair<Category, Shortcut>) -> Boolean)? = null): Flow.Publisher<Control?> =
         flowPublish<Control?> {
             val categories = categoryRepository.getCategories()
-            val shortcutsByCategoryId = shortcutRepository.getShortcuts()
-                .groupBy { it.categoryId }
+            val shortcutsByCategoryId = shortcutRepository.getShortcutsByCategoryId()
 
             categories.flatMap { category ->
                 (shortcutsByCategoryId[category.id] ?: emptyList())

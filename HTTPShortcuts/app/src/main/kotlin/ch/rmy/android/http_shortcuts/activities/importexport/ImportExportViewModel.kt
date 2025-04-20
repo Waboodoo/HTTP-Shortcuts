@@ -47,7 +47,7 @@ constructor(
     private var categoriesChanged = false
 
     override suspend fun initialize(data: InitData): ImportExportViewState {
-        hasShortcuts = shortcutRepository.getShortcuts().isNotEmpty()
+        hasShortcuts = shortcutRepository.hasShortcuts()
 
         if (initData.importUrl != null) {
             viewModelScope.launch {
