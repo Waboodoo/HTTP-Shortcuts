@@ -7,6 +7,7 @@ data class ImportExportBase(
     val version: Long? = null,
     val compatibilityVersion: Long? = null,
     val originDeviceId: String? = null,
+    val createdAt: String? = null,
     val categories: List<ImportExportCategory>? = null,
     val variables: List<ImportExportVariable>? = null,
     val certificatePins: List<ImportExportCertificatePin>? = null,

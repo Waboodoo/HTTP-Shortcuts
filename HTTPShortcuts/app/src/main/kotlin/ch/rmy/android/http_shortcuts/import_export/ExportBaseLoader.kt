@@ -48,6 +48,7 @@ import ch.rmy.android.http_shortcuts.import_export.models.ExportVariable
 import ch.rmy.android.http_shortcuts.import_export.models.ExportWorkingDirectory
 import ch.rmy.android.http_shortcuts.usecases.GetUsedWorkingDirectoryIdsUseCase
 import ch.rmy.android.http_shortcuts.utils.Settings
+import java.time.Instant
 import javax.inject.Inject
 import kotlin.collections.filter
 import kotlin.collections.map
@@ -103,6 +104,7 @@ constructor(
             version = VERSION,
             compatibilityVersion = COMPATIBILITY_VERSION,
             originDeviceId = settings.deviceId,
+            createdAt = Instant.now().toString(),
             categories = categories.map { category ->
                 ExportCategory(
                     id = category.id,
