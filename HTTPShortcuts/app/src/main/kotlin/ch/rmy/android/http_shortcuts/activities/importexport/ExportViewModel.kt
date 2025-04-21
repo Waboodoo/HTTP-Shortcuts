@@ -112,6 +112,7 @@ constructor(
                 shortcutIds = shortcutIds,
                 variableIds = variableIds,
                 excludeDefaults = true,
+                password = viewState.password,
             )
 
             showSnackbar(
@@ -275,6 +276,19 @@ constructor(
                         is ExportItem.Shortcut -> item.copy(checked = false)
                     }
                 },
+            )
+        }
+    }
+
+    fun onPasswordButtonClicked() = runAction {
+        setDialogState(ExportDialogState.ExportPasswordPrompt(viewState.password))
+    }
+
+    fun onPasswordSubmitted(password: String) = runAction {
+        updateViewState {
+            copy(
+                dialogState = null,
+                password = password,
             )
         }
     }

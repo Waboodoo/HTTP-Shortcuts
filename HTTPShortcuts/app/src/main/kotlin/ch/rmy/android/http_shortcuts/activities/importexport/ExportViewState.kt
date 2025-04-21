@@ -5,6 +5,7 @@ import ch.rmy.android.http_shortcuts.activities.importexport.models.ExportItem
 
 @Stable
 data class ExportViewState(
+    val password: String = "",
     val dialogState: ExportDialogState? = null,
     val items: List<ExportItem>,
 ) {

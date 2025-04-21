@@ -1810,6 +1810,8 @@
     <string name="accessibility_label_add_category_section">Add section</string>
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
     <string name="accessibility_label_show_documentation">Go to documentation</string>
+    <!-- Accessibility label for "Set Password" button in exporter -->
+    <string name="accessibility_label_set_password_for_export">Set Password</string>
     <!-- Accessibility label for "Select all" button in exporter -->
     <string name="accessibility_label_select_all_for_export">Select all</string>
     <!-- Accessibility label for "Unselect all" button in exporter -->
@@ -1848,4 +1850,8 @@
     <string name="dialog_text_import_with_password_retry">Wrong password. Please try again.</string>
     <!-- Error message: shown when a file for an HTTP request could not be found. %s is a placeholder for the file's name. -->
     <string name="error_failed_to_access_file">Failed to access file \“%s\”. Make sure that the file exists and that the directory that contains it is mounted.</string>
+    <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
+    <string name="dialog_title_export_encryption">Set Password</string>
+    <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
+    <string name="dialog_text_export_with_password">To protect your data, you can encrypt the exported file with a password. Leave blank to omit encryption.</string>
 </resources>

@@ -8,4 +8,6 @@ sealed class ExportDialogState {
     data class Progress(val text: Localizable) : ExportDialogState()
 
     data class Error(val message: Localizable) : ExportDialogState()
+
+    data class ExportPasswordPrompt(val password: String) : ExportDialogState()
 }

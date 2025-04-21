@@ -5,6 +5,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Deselect
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.LockOpen
 import androidx.compose.material.icons.filled.SelectAll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
@@ -46,6 +48,15 @@ fun ExportScreen(toFile: Boolean) {
         viewState = state,
         title = stringResource(R.string.settings_title_export),
         actions = { viewState ->
+            ToolbarIcon(
+                if (viewState.password.isEmpty()) {
+                    Icons.Filled.LockOpen
+                } else {
+                    Icons.Filled.Lock
+                },
+                contentDescription = stringResource(R.string.accessibility_label_set_password_for_export),
+                onClick = viewModel::onPasswordButtonClicked,
+            )
             if (viewState.isSelectAllEnabled) {
                 ToolbarIcon(
                     Icons.Filled.SelectAll,
@@ -76,6 +87,7 @@ fun ExportScreen(toFile: Boolean) {
 
     ExportDialog(
         state?.dialogState,
+        onPasswordSubmitted = viewModel::onPasswordSubmitted,
         onDismissRequest = viewModel::onDialogDismissalRequested,
     )
 }

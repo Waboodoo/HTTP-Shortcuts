@@ -10,7 +10,7 @@ data class ImportExportFileUploadOptions(
     val useImageEditor: Boolean? = null,
 ) {
     fun validate() {
-        require(fileName == null || fileName.contains("/")) {
+        require(fileName == null || !fileName.contains("/")) {
             "Invalid parameter file upload file name: $fileName"
         }
     }
