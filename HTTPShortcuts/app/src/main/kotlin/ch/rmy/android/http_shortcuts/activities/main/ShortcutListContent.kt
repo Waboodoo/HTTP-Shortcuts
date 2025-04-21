@@ -94,7 +94,11 @@ fun ShortcutListContent(
                 interactionSource = null,
                 indication = null,
                 onLongClick = onLongPress,
-                onClick = {},
+                onClick = {
+                    if (!hasMultipleCategories && state.shortcutListItems.isEmpty()) {
+                        viewModel.onDocumentationLinkClicked()
+                    }
+                },
             ),
     ) {
         ShortcutList(
@@ -107,6 +111,7 @@ fun ShortcutListContent(
             isLongClickingEnabled = state.isLongClickingEnabled,
             onShortcutClicked = viewModel::onShortcutClicked,
             onShortcutLongClicked = viewModel::onShortcutLongClicked,
+            onDocumentationLinkClicked = viewModel::onDocumentationLinkClicked,
         )
     }
 

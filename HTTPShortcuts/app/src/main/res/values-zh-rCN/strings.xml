@@ -94,7 +94,7 @@
     <string name="action_export_as_file">文件</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">无快捷方式</string>
-    <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
+    <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
     <string name="empty_state_shortcuts_instructions">按 + 以开始</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <string name="empty_state_no_shortcuts_in_category">此类别中尚无快捷方式</string>
@@ -1836,4 +1836,7 @@
     <string name="empty_state_category_sections_instructions">部分让你将快捷方式分组到一个类别中。\n\n单击 + 按钮添加新的部分。</string>
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
     <string name="placeholder_empty_category_section_main_screen">此部分为空。您可以长按快捷方式并选择 \“%s\” 将快捷方式移动到该部分。</string>
+    <!-- Dialog title: shown on import dialog, e.g. when a password needs to be entered -->
+    <!-- Dialog text: Asks user to enter a password to import password-encrypted data into the app -->
+    <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
 </resources>

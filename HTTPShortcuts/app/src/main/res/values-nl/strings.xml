@@ -93,7 +93,7 @@
     <string name="action_export_as_file">Bestand</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">nog geen snelkoppelingen</string>
-    <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
+    <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
     <string name="empty_state_shortcuts_instructions">Klik op de + knop om te beginnen</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <string name="empty_state_no_shortcuts_in_category">nog geen snelkoppelingen in deze categorie</string>
@@ -1838,4 +1838,7 @@ Mogelijk moet je de app ook uitsluiten van Batterijoptimalisaties. Dit kun je vi
     <string name="empty_state_category_sections_instructions">Met secties kunt u snelkoppelingen groeperen binnen een categorie.\n\nKlik op de + knop om een nieuwe sectie toe te voegen.</string>
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
     <string name="placeholder_empty_category_section_main_screen">Deze sectie is leeg. Je kunt snelkoppelingen naar deze sectie verplaatsen door lang op een snelkoppeling te drukken en \"%s \” te selecteren.</string>
+    <!-- Dialog title: shown on import dialog, e.g. when a password needs to be entered -->
+    <!-- Dialog text: Asks user to enter a password to import password-encrypted data into the app -->
+    <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
 </resources>

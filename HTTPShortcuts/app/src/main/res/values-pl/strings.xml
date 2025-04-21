@@ -93,10 +93,10 @@
     <string name="action_export_as_file">Plik</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">brak skrótów</string>
-    <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
+    <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
     <string name="empty_state_shortcuts_instructions">Skrót pozwala na wysłanie pojedynczego żądania HTTP, opcjonalnie przetwarzając i wyświetlając odpowiedź.
 
-Kliknij przycisk +, aby rozpocząć, lub sprawdź Dokumentację w sekcji Informacje.</string>
+Kliknij przycisk +, aby rozpocząć, lub sprawdź [Dokumentację] w sekcji Informacje.</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <string name="empty_state_no_shortcuts_in_category">jeszcze nie ma skrótów w tej kategorii</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
@@ -1881,4 +1881,7 @@ W przypadku certyfikatów z podpisem własnym sprawdź zamiast tego sekcję skr�
     <string name="empty_state_category_sections_instructions">Sekcje pozwalają na grupowanie skrótów w ramach kategorii.\n\nKliknij przycisk +, aby dodać nową sekcję.</string>
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
     <string name="placeholder_empty_category_section_main_screen">Ta sekcja jest pusta. Możesz przenieść do niej skróty przez długie naciśnięcie skrótu i wybranie \“%s\”.</string>
+    <!-- Dialog title: shown on import dialog, e.g. when a password needs to be entered -->
+    <!-- Dialog text: Asks user to enter a password to import password-encrypted data into the app -->
+    <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
 </resources>

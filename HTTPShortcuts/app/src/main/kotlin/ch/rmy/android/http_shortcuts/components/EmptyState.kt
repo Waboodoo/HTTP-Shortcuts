@@ -10,11 +10,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun EmptyState(title: String? = null, description: String? = null) {
+    EmptyState(title, description?.let { AnnotatedString(it) })
+}
+
+@Composable
+fun EmptyState(title: String? = null, description: AnnotatedString? = null) {
     Column(
         modifier = Modifier
             .semantics(mergeDescendants = true) {}

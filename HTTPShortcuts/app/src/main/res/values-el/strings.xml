@@ -82,10 +82,10 @@
     <string name="action_export_as_file">Αρχείο</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">Δεν έχετε δημιουργήσει συντομεύσεις ακόμα.</string>
-    <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
+    <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
     <string name="empty_state_shortcuts_instructions">Μία συντόμευση επιτρέπει την αποστολή ενός HTTP request, προαιρετικά με την επεξεργασία και προβολή της απάντησης.
 
-Πιέστε το + για να ξεκινήσετε, ή διαβάστε την Τεκμηρίωση στην ενότητα με τις Πληροφορίες.</string>
+Πιέστε το + για να ξεκινήσετε, ή διαβάστε την [Τεκμηρίωση] στην ενότητα με τις Πληροφορίες.</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Δεν έχετε προσθέσει ακόμη συντομεύσεις για την ενεργοποίηση.</string>
@@ -1611,4 +1611,7 @@
     <!-- Empty state, shown in list when there are no category sections yet -->
     <!-- Empty state instructions, shown in list when there are no category sections yet -->
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
+    <!-- Dialog title: shown on import dialog, e.g. when a password needs to be entered -->
+    <!-- Dialog text: Asks user to enter a password to import password-encrypted data into the app -->
+    <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
 </resources>

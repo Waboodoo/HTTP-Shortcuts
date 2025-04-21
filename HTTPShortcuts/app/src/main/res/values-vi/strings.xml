@@ -85,7 +85,7 @@
     <string name="action_export_as_file">Tập tin</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">Bạn chưa có phím tắt nào.</string>
-    <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
+    <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
     <string name="empty_state_shortcuts_instructions">Một lối tắt cho phép bạn gửi một yêu cầu HTTP duy nhất, tùy chọn xử lý và hiển thị phản hồi.
 
 Nhấp vào nút + để bắt đầu hoặc kiểm tra Tài liệu trong phần Giới thiệu.</string>
@@ -1545,4 +1545,7 @@ Vẫn xóa?</string>
     <!-- Empty state, shown in list when there are no category sections yet -->
     <!-- Empty state instructions, shown in list when there are no category sections yet -->
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
+    <!-- Dialog title: shown on import dialog, e.g. when a password needs to be entered -->
+    <!-- Dialog text: Asks user to enter a password to import password-encrypted data into the app -->
+    <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
 </resources>

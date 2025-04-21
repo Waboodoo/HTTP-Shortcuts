@@ -93,8 +93,8 @@
     <string name="action_export_as_file">Файл</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">Ярлыков пока нет</string>
-    <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts_instructions">Нажмите кнопку +, чтобы начать.</string>
+    <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
+    <string name="empty_state_shortcuts_instructions">Ярлык позволяет отправлять один HTTP-запрос, по желанию обрабатывать и отображать ответ.\n\nНажмите кнопку +, чтобы начать, или проверьте [Документация].</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <string name="empty_state_no_shortcuts_in_category">в этой категории пока нет ярлыков</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
@@ -1847,4 +1847,7 @@
     <!-- Empty state instructions, shown in list when there are no category sections yet -->
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
     <string name="placeholder_empty_category_section_main_screen">Этот раздел пуст. Вы можете переместить ярлыки в него путем долгого нажатия и выбора \“%s\”.</string>
+    <!-- Dialog title: shown on import dialog, e.g. when a password needs to be entered -->
+    <!-- Dialog text: Asks user to enter a password to import password-encrypted data into the app -->
+    <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
 </resources>

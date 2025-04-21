@@ -93,10 +93,10 @@
     <string name="action_export_as_file">File</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">Ancora nessuna scorciatoia</string>
-    <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
+    <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
     <string name="empty_state_shortcuts_instructions">Una scorciatoia ti permette di inviare una singola richiesta HTTP, eventualmente processando e mostrando la risposta.
 
-Fai clic sul pulsante + per iniziare, o controlla la Documentazione sulla sezione Informazioni.</string>
+Fai clic sul pulsante + per iniziare, o controlla la [Documentazione] sulla sezione Informazioni.</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <string name="empty_state_no_shortcuts_in_category">nessuna scorciatoia ancora in questa categoria</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
@@ -1866,4 +1866,7 @@ Per i certificati autofirmati, controllare invece la sezione \"%s\" della scorci
     <string name="empty_state_category_sections_instructions">Le sezioni consentono di raggruppare le scorciatoie all\'interno di una categoria.\n\nFare clic sul pulsante + per aggiungere una nuova sezione.</string>
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
     <string name="placeholder_empty_category_section_main_screen">Questa sezione è vuota. Puoi spostare le scorciatoie premendo a lungo una scorciatoia e selezionando \“%s\”.</string>
+    <!-- Dialog title: shown on import dialog, e.g. when a password needs to be entered -->
+    <!-- Dialog text: Asks user to enter a password to import password-encrypted data into the app -->
+    <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
 </resources>

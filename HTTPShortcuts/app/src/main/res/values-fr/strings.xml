@@ -94,8 +94,8 @@
     <string name="action_export_as_file">Fichier</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">Vous n\'avez aucun raccourci</string>
-    <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts_instructions">Cliquer sur le bouton + pour commencer</string>
+    <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
+    <string name="empty_state_shortcuts_instructions">Un raccourci vous permet d\'envoyer une seule requête HTTP, qui peut éventuellement traiter et afficher la réponse.\n\nCliquez sur le bouton + pour commencer, ou consultez [la documentation].</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <string name="empty_state_no_shortcuts_in_category">pas encore de raccourcis dans cette catégorie</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
@@ -1842,4 +1842,7 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <string name="empty_state_category_sections_instructions">Les sections vous permettent de regrouper les raccourcis dans une catégorie.\n\nCliquez sur le bouton + pour ajouter une nouvelle section.</string>
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
     <string name="placeholder_empty_category_section_main_screen">Cette section est vide. Vous pouvez y déplacer des raccourcis en appuyant longuement sur un raccourci et en sélectionnant \“%s\”.</string>
+    <!-- Dialog title: shown on import dialog, e.g. when a password needs to be entered -->
+    <!-- Dialog text: Asks user to enter a password to import password-encrypted data into the app -->
+    <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
 </resources>

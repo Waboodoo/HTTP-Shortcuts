@@ -94,10 +94,10 @@
     <string name="action_export_as_file">Datei</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">noch keine Shortcuts vorhanden</string>
-    <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
+    <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
     <string name="empty_state_shortcuts_instructions">Ein Shortcut ermöglicht es dir, einen einzelnen HTTP-Request zu senden, und nach Bedarf die Response zu verarbeiten und anzuzeigen.
 
-Drücke den + Knopf um loszulegen, oder lies die Dokumentation, welche du auf der ”Information”-Seite findest.</string>
+Drücke den + Knopf um loszulegen, oder lies die [Dokumentation].</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <string name="empty_state_no_shortcuts_in_category">noch keine Shortcuts in dieser Kategorie</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
@@ -1868,4 +1868,10 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="empty_state_category_sections_instructions">Sektionen erlauben es dir, Shortcuts innerhalb einer Kategorie zusammenzufassen.\n\nKlicke auf den + Knopf um eine neue Sektion hinzuzufügen.</string>
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
     <string name="placeholder_empty_category_section_main_screen">Diese Sektion ist leer. Du kannst Shortcuts hinein verschieben, indem du sie lange drückst und \“%s\” auswählst.</string>
+    <!-- Dialog title: shown on import dialog, e.g. when a password needs to be entered -->
+    <string name="dialog_title_import">Importieren</string>
+    <!-- Dialog text: Asks user to enter a password to import password-encrypted data into the app -->
+    <string name="dialog_text_import_with_password">Für diesen Import ist ein Passwort erforderlich.</string>
+    <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
+    <string name="dialog_text_import_with_password_retry">Falsches Passwort. Bitte erneut versuchen.</string>
 </resources>

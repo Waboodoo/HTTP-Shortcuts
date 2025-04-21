@@ -83,7 +83,7 @@
     <string name="action_export_as_file">파일</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">바로가기가 없습니다.</string>
-    <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
+    <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
     <string name="empty_state_shortcuts_instructions">바로가기로 HTTP 요청을 보내고, 응답 내용을 처리하거나 표시할 수 있습니다.
 
 🞣 버튼을 누르면 바로 시작할 수 있고, 정보 메뉴에서 도움말(영문)을 확인할 수도 있습니다.</string>
@@ -1630,4 +1630,7 @@
     <!-- Empty state, shown in list when there are no category sections yet -->
     <!-- Empty state instructions, shown in list when there are no category sections yet -->
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
+    <!-- Dialog title: shown on import dialog, e.g. when a password needs to be entered -->
+    <!-- Dialog text: Asks user to enter a password to import password-encrypted data into the app -->
+    <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
 </resources>

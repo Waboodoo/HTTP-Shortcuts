@@ -73,10 +73,10 @@
     <string name="action_export_as_file">Archivo</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">Aún no cuenta con ningún atajo creado</string>
-    <!-- Empty state instructions, shown in list when there are no shortcuts yet -->
+    <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
     <string name="empty_state_shortcuts_instructions">Un atajo le permite enviar solicitudes individuales HTTP, opcionalmente se puede mostrar y procesar las respuestas (request).
 
-Haga clic en el botón + de la pantalla principal para comenzar o consulte la documentación en la sección Acerca de.</string>
+Haga clic en el botón + de la pantalla principal para comenzar o consulte la [documentación].</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
@@ -1287,4 +1287,7 @@ Todos los atajos dentro de esta se eliminaran también.</string>
     <!-- Empty state, shown in list when there are no category sections yet -->
     <!-- Empty state instructions, shown in list when there are no category sections yet -->
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
+    <!-- Dialog title: shown on import dialog, e.g. when a password needs to be entered -->
+    <!-- Dialog text: Asks user to enter a password to import password-encrypted data into the app -->
+    <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
 </resources>

@@ -52,6 +52,7 @@ import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scheduling.AlarmScheduler
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
+import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
 import ch.rmy.android.http_shortcuts.utils.SecondaryLauncherManager
@@ -586,6 +587,10 @@ constructor(
 
     fun onExecuteDialogResult(result: Any) {
         dialogHandler.onDialogResult(result)
+    }
+
+    fun onDocumentationLinkClicked() = runAction {
+        openURL(ExternalURLs.DOCUMENTATION_PAGE)
     }
 
     data class InitData(
