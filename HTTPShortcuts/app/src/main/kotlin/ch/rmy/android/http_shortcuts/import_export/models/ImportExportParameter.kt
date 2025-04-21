@@ -11,6 +11,10 @@ data class ImportExportParameter(
         require(key != null && key.isNotEmpty()) {
             "Parameter without a key found"
         }
+        require(fileName == null || fileName.contains("/")) {
+            "Invalid parameter file name: $fileName"
+        }
+        fileUploadOptions?.validate()
     }
 }
 

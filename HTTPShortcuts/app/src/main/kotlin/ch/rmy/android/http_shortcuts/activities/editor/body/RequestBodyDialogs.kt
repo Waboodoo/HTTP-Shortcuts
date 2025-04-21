@@ -219,7 +219,7 @@ private fun EditParameterDialog(
                             Text(stringResource(R.string.label_post_param_file_name))
                         },
                         onValueChange = {
-                            fileName = it
+                            fileName = it.replace("/", "")
                         },
                         textStyle = TextStyle(
                             fontSize = FontSize.SMALL,

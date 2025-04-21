@@ -78,7 +78,9 @@ fun FileOptions(
                     label = {
                         Text(stringResource(R.string.label_file_data_source_file_name))
                     },
-                    onValueChange = onSourceFileNameChanged,
+                    onValueChange = {
+                        onSourceFileNameChanged(it.replace("/", ""))
+                    },
                     textStyle = TextStyle(
                         fontSize = FontSize.SMALL,
                     ),

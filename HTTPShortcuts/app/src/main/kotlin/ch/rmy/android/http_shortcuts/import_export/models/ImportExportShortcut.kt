@@ -70,6 +70,7 @@ data class ImportExportShortcut(
         require(certificateFingerprint.isNullOrEmpty() || certificateFingerprint.isValidCertificateFingerprint()) {
             "Invalid certificate fingerprint: $certificateFingerprint"
         }
+        fileUploadOptions?.validate()
         headers?.forEach { it.validate() }
         parameters?.forEach { it.validate() }
     }

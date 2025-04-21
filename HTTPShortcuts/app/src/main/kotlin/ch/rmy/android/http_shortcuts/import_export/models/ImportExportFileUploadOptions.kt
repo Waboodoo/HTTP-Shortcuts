@@ -8,7 +8,13 @@ data class ImportExportFileUploadOptions(
     val fileName: String? = null,
     val value: String? = null,
     val useImageEditor: Boolean? = null,
-)
+) {
+    fun validate() {
+        require(fileName == null || fileName.contains("/")) {
+            "Invalid parameter file upload file name: $fileName"
+        }
+    }
+}
 
 typealias ImportFileUploadOptions = ImportExportFileUploadOptions
 
