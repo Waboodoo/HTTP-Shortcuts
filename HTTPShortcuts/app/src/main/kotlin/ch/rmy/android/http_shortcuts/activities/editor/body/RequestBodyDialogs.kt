@@ -11,8 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -28,6 +30,8 @@ import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
 import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
+import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.delay
 
 @Composable
 fun RequestBodyDialogs(
@@ -133,6 +137,18 @@ private fun EditParameterDialog(
     var useImageEditor by rememberSaveable(key = "edit-parameter-use-image-editor") {
         mutableStateOf(initialUseImageEditor)
     }
+    var temporarilyHidden by remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(temporarilyHidden) {
+        if (temporarilyHidden) {
+            delay(1.seconds)
+            temporarilyHidden = false
+        }
+    }
+    if (temporarilyHidden) {
+        return
+    }
 
     AlertDialog(
         onDismissRequest = onDismissed,
@@ -222,7 +238,10 @@ private fun EditParameterDialog(
                         sourceFileName = sourceFileName,
                         useImageEditor = useImageEditor,
                         onFileUploadTypeChanged = onFileUploadTypeChanged,
-                        onSourceDirectoryNameClicked = onSourceDirectoryNameClicked,
+                        onSourceDirectoryNameClicked = {
+                            temporarilyHidden = true
+                            onSourceDirectoryNameClicked()
+                        },
                         onSourceFileNameChanged = {
                             sourceFileName = it
                         },
