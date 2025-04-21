@@ -52,9 +52,11 @@ import ch.rmy.curlcommand.CurlCommand
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -78,17 +80,7 @@ constructor(
     private val settings: Settings,
 ) : BaseViewModel<ShortcutEditorViewModel.InitData, ShortcutEditorViewState>(application) {
 
-    private var isSaving = false
-        set(value) {
-            if (field != value) {
-                field = value
-                viewModelScope.launch {
-                    updateViewState {
-                        copy(isInputDisabled = value)
-                    }
-                }
-            }
-        }
+    private val isSaving = MutableStateFlow(false)
 
     private var isFinishing = false
 
@@ -144,28 +136,38 @@ constructor(
         oldParameters = this.parameters
 
         viewModelScope.launch {
-            combine(shortcutFlow, headersFlow, parametersFlow) { shortcut, headers, parameters ->
+            isSaving.drop(1).collect { value ->
+                updateViewState {
+                    copy(isInputDisabled = value)
+                }
+            }
+        }
+
+        viewModelScope.launch {
+            combine(shortcutFlow, headersFlow, parametersFlow, isSaving) { shortcut, headers, parameters, isSaving ->
                 this@ShortcutEditorViewModel.shortcut = shortcut
                 this@ShortcutEditorViewModel.headers = headers
                 this@ShortcutEditorViewModel.parameters = parameters
-                updateViewState {
-                    copy(
-                        toolbarSubtitle = getToolbarSubtitle(),
-                        shortcutExecutionType = shortcut.executionType,
-                        shortcutIcon = shortcut.icon,
-                        shortcutName = shortcut.name,
-                        shortcutDescription = shortcut.description,
-                        isExecutable = canExecute(),
-                        hasChanges = hasChanges(),
-                        requestBodyButtonEnabled = shortcut.allowsBody(),
-                        basicSettingsSubtitle = getBasicSettingsSubtitle(),
-                        headersSubtitle = getHeadersSubtitle(),
-                        requestBodySubtitle = getRequestBodySubtitle(),
-                        mqttMessagesSubtitle = getMqttMessagesSubtitle(),
-                        authenticationSettingsSubtitle = getAuthenticationSubtitle(),
-                        scriptingSubtitle = getScriptingSubtitle(),
-                        triggerShortcutsSubtitle = getTriggerShortcutsSubtitle(),
-                    )
+                if (!isSaving) {
+                    updateViewState {
+                        copy(
+                            toolbarSubtitle = getToolbarSubtitle(),
+                            shortcutExecutionType = shortcut.executionType,
+                            shortcutIcon = shortcut.icon,
+                            shortcutName = shortcut.name,
+                            shortcutDescription = shortcut.description,
+                            isExecutable = canExecute(),
+                            hasChanges = hasChanges(),
+                            requestBodyButtonEnabled = shortcut.allowsBody(),
+                            basicSettingsSubtitle = getBasicSettingsSubtitle(),
+                            headersSubtitle = getHeadersSubtitle(),
+                            requestBodySubtitle = getRequestBodySubtitle(),
+                            mqttMessagesSubtitle = getMqttMessagesSubtitle(),
+                            authenticationSettingsSubtitle = getAuthenticationSubtitle(),
+                            scriptingSubtitle = getScriptingSubtitle(),
+                            triggerShortcutsSubtitle = getTriggerShortcutsSubtitle(),
+                        )
+                    }
                 }
             }
                 .collect()
@@ -412,7 +414,7 @@ constructor(
             updateDialogState(ShortcutEditorDialogState.ResponseHandlingWarning)
             skipAction()
         }
-        isSaving = true
+        isSaving.value = true
         waitForOperationsToFinish()
         trySave()
     }
@@ -421,28 +423,28 @@ constructor(
         if (shortcut.name.isBlank()) {
             showSnackbar(R.string.validation_name_not_empty, long = true)
             emitEvent(ShortcutEditorEvent.FocusNameInputField)
-            isSaving = false
+            isSaving.value = false
             return
         }
         when (shortcut.executionType) {
             ShortcutExecutionType.HTTP -> if (!isAcceptableHttpUrl(shortcut.url)) {
                 showSnackbar(R.string.validation_url_invalid, long = true)
-                isSaving = false
+                isSaving.value = false
                 return
             }
             ShortcutExecutionType.BROWSER -> if (!isAcceptableUrl(shortcut.url)) {
                 showSnackbar(R.string.validation_url_invalid, long = true)
-                isSaving = false
+                isSaving.value = false
                 return
             }
             ShortcutExecutionType.MQTT -> if (!hasUrl()) {
                 showSnackbar(R.string.validation_mqtt_server_url_invalid, long = true)
-                isSaving = false
+                isSaving.value = false
                 return
             }
             ShortcutExecutionType.WAKE_ON_LAN -> if (shortcut.wolMacAddress.isEmpty()) {
                 showSnackbar(R.string.validation_mac_address_invalid, long = true)
-                isSaving = false
+                isSaving.value = false
                 return
             }
             ShortcutExecutionType.SCRIPTING,
@@ -465,7 +467,7 @@ constructor(
             }
             onSaveSuccessful(shortcutId)
         } catch (e: Exception) {
-            isSaving = false
+            isSaving.value = false
             throw e
         }
     }
@@ -632,7 +634,7 @@ constructor(
     }
 
     private fun ViewModelScope<*>.skipIfBusy() {
-        if (isSaving || isFinishing) {
+        if (isSaving.value || isFinishing) {
             skipAction()
         }
     }
