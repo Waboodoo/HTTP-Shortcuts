@@ -353,8 +353,16 @@ constructor(
                             delay = shortcut.delay,
                             repetitionInterval = shortcut.repetition?.interval,
                             contentType = shortcut.contentType,
-                            fileUploadType = shortcut.fileUploadOptions?.fileUploadType?.let { FileUploadType.parse(it) },
-                            fileUploadSourceFile = shortcut.fileUploadOptions?.file,
+                            fileUploadType = shortcut.fileUploadOptions?.fileUploadType?.let { FileUploadType.parse(it) }
+                                ?.let {
+                                    if (it == FileUploadType.FILE) {
+                                        FileUploadType.FILE_PICKER
+                                    } else {
+                                        it
+                                    }
+                                },
+                            fileUploadSourceDirectoryId = null,
+                            fileUploadSourceFileName = null,
                             fileUploadUseImageEditor = shortcut.fileUploadOptions?.useImageEditor == true,
                             confirmationType = shortcut.confirmation?.let { ConfirmationType.parse(it) },
                             followRedirects = shortcut.followRedirects,
@@ -420,8 +428,17 @@ constructor(
                                 key = parameter.key,
                                 value = parameter.value,
                                 parameterType = ParameterType.parse(parameter.type) ?: ParameterType.STRING,
-                                fileUploadType = parameter.fileUploadOptions?.fileUploadType?.let { FileUploadType.parse(it) },
-                                fileUploadSourceFile = parameter.fileUploadOptions?.file,
+                                fileUploadType = parameter.fileUploadOptions?.fileUploadType
+                                    ?.let { FileUploadType.parse(it) }
+                                    ?.let {
+                                        if (it == FileUploadType.FILE) {
+                                            FileUploadType.FILE_PICKER
+                                        } else {
+                                            it
+                                        }
+                                    },
+                                fileUploadSourceDirectoryId = null,
+                                fileUploadSourceFileName = null,
                                 fileUploadFileName = parameter.fileName,
                                 fileUploadUseImageEditor = parameter.fileUploadOptions?.useImageEditor == true,
                                 sortingOrder = parameterIndex,

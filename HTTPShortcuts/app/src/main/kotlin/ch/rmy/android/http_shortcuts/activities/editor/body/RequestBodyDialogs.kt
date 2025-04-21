@@ -34,10 +34,10 @@ fun RequestBodyDialogs(
     dialogState: RequestBodyDialogState?,
     savedStateHandle: SavedStateHandle,
     onParameterTypeSelected: (ParameterType) -> Unit,
-    onParameterEdited: (key: String, value: String, fileName: String, useImageEditor: Boolean) -> Unit,
+    onParameterEdited: (key: String, value: String, fileName: String, sourceFileName: String, useImageEditor: Boolean) -> Unit,
     onParameterDeleted: () -> Unit,
     onFileUploadTypeChanged: (FileUploadType) -> Unit,
-    onSourceFileNameClicked: () -> Unit,
+    onSourceDirectoryNameClicked: () -> Unit,
     onDismissed: () -> Unit,
 ) {
     when (dialogState) {
@@ -57,11 +57,12 @@ fun RequestBodyDialogs(
                 initialValue = dialogState.value,
                 initialFileName = dialogState.fileName,
                 initialUseImageEditor = dialogState.useImageEditor,
-                sourceFileName = dialogState.sourceFileName,
+                sourceDirectoryName = dialogState.sourceDirectoryName,
+                initialSourceFileName = dialogState.sourceFileName,
                 onConfirmed = onParameterEdited,
                 onDelete = onParameterDeleted,
                 onFileUploadTypeChanged = onFileUploadTypeChanged,
-                onSourceFileNameClicked = onSourceFileNameClicked,
+                onSourceDirectoryNameClicked = onSourceDirectoryNameClicked,
                 onDismissed = onDismissed,
             )
         }
@@ -103,15 +104,17 @@ private fun EditParameterDialog(
     initialValue: String = "",
     initialFileName: String,
     initialUseImageEditor: Boolean,
-    sourceFileName: String?,
+    sourceDirectoryName: String?,
+    initialSourceFileName: String,
     onConfirmed: (
         key: String,
         value: String,
         fileName: String,
+        sourceFileName: String,
         useImageEditor: Boolean,
     ) -> Unit,
     onFileUploadTypeChanged: (FileUploadType) -> Unit,
-    onSourceFileNameClicked: () -> Unit,
+    onSourceDirectoryNameClicked: () -> Unit,
     onDelete: () -> Unit = {},
     onDismissed: () -> Unit,
 ) {
@@ -123,6 +126,9 @@ private fun EditParameterDialog(
     }
     var fileName by rememberSaveable(key = "edit-parameter-filename") {
         mutableStateOf(initialFileName)
+    }
+    var sourceFileName by rememberSaveable(key = "edit-parameter-source-filename") {
+        mutableStateOf(initialSourceFileName)
     }
     var useImageEditor by rememberSaveable(key = "edit-parameter-use-image-editor") {
         mutableStateOf(initialUseImageEditor)
@@ -212,10 +218,14 @@ private fun EditParameterDialog(
                         allowMultiple = true,
                         useHorizontalPadding = false,
                         fileUploadType = fileUploadType,
-                        fileName = sourceFileName,
+                        sourceDirectoryName = sourceDirectoryName,
+                        sourceFileName = sourceFileName,
                         useImageEditor = useImageEditor,
                         onFileUploadTypeChanged = onFileUploadTypeChanged,
-                        onFileNameClicked = onSourceFileNameClicked,
+                        onSourceDirectoryNameClicked = onSourceDirectoryNameClicked,
+                        onSourceFileNameChanged = {
+                            sourceFileName = it
+                        },
                         onUseImageEditorChanged = {
                             useImageEditor = it
                         },
@@ -227,7 +237,7 @@ private fun EditParameterDialog(
             TextButton(
                 enabled = key.isNotEmpty(),
                 onClick = {
-                    onConfirmed(key, value, fileName, useImageEditor)
+                    onConfirmed(key, value, fileName, sourceFileName, useImageEditor)
                 },
             ) {
                 Text(stringResource(R.string.dialog_ok))

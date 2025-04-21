@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 
@@ -25,8 +26,10 @@ data class RequestParameter(
     val fileUploadType: FileUploadType?,
     @ColumnInfo(name = "file_upload_file_name")
     val fileUploadFileName: String?,
-    @ColumnInfo(name = "file_upload_source_file")
-    val fileUploadSourceFile: String?,
+    @ColumnInfo(name = "file_upload_source_directory_id")
+    val fileUploadSourceDirectoryId: WorkingDirectoryId?,
+    @ColumnInfo(name = "file_upload_source_file_name")
+    val fileUploadSourceFileName: String?,
     @ColumnInfo(name = "file_upload_use_image_editor")
     val fileUploadUseImageEditor: Boolean,
     @ColumnInfo(name = "sorting_order", index = true)

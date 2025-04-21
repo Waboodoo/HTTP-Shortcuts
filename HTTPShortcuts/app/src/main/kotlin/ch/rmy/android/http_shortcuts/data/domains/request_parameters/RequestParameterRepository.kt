@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.data.domains.request_parameters
 import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.BaseRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
@@ -37,7 +38,8 @@ constructor(
         parameterType: ParameterType,
         fileUploadType: FileUploadType?,
         fileUploadFileName: String?,
-        fileUploadSourceFile: String?,
+        fileUploadSourceDirectoryId: WorkingDirectoryId?,
+        fileUploadSourceFileName: String?,
         fileUploadUseImageEditor: Boolean,
     ): RequestParameter =
         commitTransaction {
@@ -49,7 +51,8 @@ constructor(
                 parameterType = parameterType,
                 fileUploadType = fileUploadType,
                 fileUploadFileName = fileUploadFileName,
-                fileUploadSourceFile = fileUploadSourceFile,
+                fileUploadSourceDirectoryId = fileUploadSourceDirectoryId,
+                fileUploadSourceFileName = fileUploadSourceFileName,
                 fileUploadUseImageEditor = fileUploadUseImageEditor,
                 sortingOrder = requestParameterDao.getRequestParameterCountByShortcutId(TEMPORARY_ID),
             )
@@ -63,7 +66,8 @@ constructor(
         value: String,
         fileUploadType: FileUploadType?,
         fileUploadFileName: String?,
-        fileUploadSourceFile: String?,
+        fileUploadSourceDirectoryId: WorkingDirectoryId?,
+        fileUploadSourceFileName: String?,
         fileUploadUseImageEditor: Boolean,
     ) = commitTransaction {
         val requestParameterDao = requestParameterDao()
@@ -74,7 +78,8 @@ constructor(
                 value = value,
                 fileUploadType = fileUploadType,
                 fileUploadFileName = fileUploadFileName,
-                fileUploadSourceFile = fileUploadSourceFile,
+                fileUploadSourceDirectoryId = fileUploadSourceDirectoryId?.takeIf { fileUploadType == FileUploadType.FILE },
+                fileUploadSourceFileName = fileUploadSourceFileName?.takeIf { fileUploadType == FileUploadType.FILE },
                 fileUploadUseImageEditor = fileUploadUseImageEditor,
             ),
         )

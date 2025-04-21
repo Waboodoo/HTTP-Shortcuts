@@ -1,25 +1,18 @@
 package ch.rmy.android.http_shortcuts.activities.editor.body
 
-import android.content.ActivityNotFoundException
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
-import ch.rmy.android.framework.extensions.consume
-import ch.rmy.android.framework.extensions.launch
-import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.FloatingAddButton
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.bindViewModel
-import ch.rmy.android.http_shortcuts.logging.Logging.logException
-import ch.rmy.android.http_shortcuts.utils.PickFileContract
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
+import ch.rmy.android.http_shortcuts.navigation.ResultHandler
 
 @Composable
 fun RequestBodyScreen(
@@ -27,38 +20,16 @@ fun RequestBodyScreen(
 ) {
     val (viewModel, state) = bindViewModel<RequestBodyViewState, RequestBodyViewModel>()
 
-    val context = LocalContext.current
-    val pickFileForBody = rememberLauncherForActivityResult(PickFileContract) { getFileUri ->
-        viewModel.onFilePickedForBody(getFileUri(context.contentResolver) ?: return@rememberLauncherForActivityResult)
-    }
-    val pickFileForParameter = rememberLauncherForActivityResult(PickFileContract) { getFileUri ->
-        viewModel.onFilePickedForParameter(getFileUri(context.contentResolver) ?: return@rememberLauncherForActivityResult)
-    }
-
-    EventHandler { event ->
-        when (event) {
-            is RequestBodyEvent.PickFileForBody -> consume {
-                try {
-                    pickFileForBody.launch()
-                } catch (e: ActivityNotFoundException) {
-                    logException("RequestBodyScreen", e)
-                    context.showToast(R.string.error_not_supported)
-                }
-            }
-            is RequestBodyEvent.PickFileForParameter -> consume {
-                try {
-                    pickFileForParameter.launch()
-                } catch (e: ActivityNotFoundException) {
-                    logException("RequestBodyScreen", e)
-                    context.showToast(R.string.error_not_supported)
-                }
-            }
-            else -> false
-        }
-    }
-
     BackHandler(state != null) {
         viewModel.onBackPressed()
+    }
+
+    ResultHandler(savedStateHandle) { result ->
+        when (result) {
+            is NavigationDestination.WorkingDirectories.WorkingDirectoryPickerResult -> {
+                viewModel.onWorkingDirectoryPicked(result.workingDirectoryId, result.name)
+            }
+        }
     }
 
     SimpleScaffold(
@@ -81,7 +52,8 @@ fun RequestBodyScreen(
             savedStateHandle = savedStateHandle,
             requestBodyType = viewState.requestBodyType,
             fileUploadType = viewState.fileUploadType,
-            fileName = viewState.fileName,
+            sourceDirectoryName = viewState.sourceDirectoryName,
+            sourceFileName = viewState.sourceFileName,
             parameters = viewState.parameters,
             contentType = viewState.contentType,
             bodyContent = viewState.bodyContent,
@@ -90,7 +62,8 @@ fun RequestBodyScreen(
             useImageEditor = viewState.useImageEditor,
             onRequestBodyTypeChanged = viewModel::onRequestBodyTypeChanged,
             onFileUploadTypeChanged = viewModel::onFileUploadTypeChanged,
-            onFileNameClicked = viewModel::onBodyFileNameClicked,
+            onSourceDirectoryNameClicked = viewModel::onBodySourceDirectoryNameClicked,
+            onSourceFileNameChanged = viewModel::onBodySourceFileNameChanged,
             onContentTypeChanged = viewModel::onContentTypeChanged,
             onBodyContentChanged = viewModel::onBodyContentChanged,
             onFormatButtonClicked = viewModel::onFormatButtonClicked,
@@ -107,7 +80,7 @@ fun RequestBodyScreen(
         onParameterEdited = viewModel::onEditParameterDialogConfirmed,
         onParameterDeleted = viewModel::onRemoveParameterButtonClicked,
         onFileUploadTypeChanged = viewModel::onParameterFileUploadTypeChanged,
-        onSourceFileNameClicked = viewModel::onParameterFileNameClicked,
+        onSourceDirectoryNameClicked = viewModel::onParameterSourceDirectoryNameClicked,
         onDismissed = viewModel::onDialogDismissed,
     )
 }

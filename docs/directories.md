@@ -6,5 +6,7 @@ You can revoke access by deleting the directory from this screen. This will not 
 
 Mounted directories can be used for the following:
 - Store the response of an HTTP request into a file. This can be configured on the "Response Handling" screen when editing a shortcut.
+- Use a file as the body of an HTTP request
+- Use a file as a form parameter in an HTTP request
 - [Read and write files](scripting.md#read-write-files) using the Scripting feature.
 

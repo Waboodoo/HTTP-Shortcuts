@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.data.domains.shortcuts
 
-import android.net.Uri
 import ch.rmy.android.framework.extensions.getCaseInsensitive
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.Database
@@ -84,7 +83,8 @@ constructor(
                 repetitionInterval = null,
                 contentType = "",
                 fileUploadType = null,
-                fileUploadSourceFile = null,
+                fileUploadSourceDirectoryId = null,
+                fileUploadSourceFileName = null,
                 fileUploadUseImageEditor = false,
                 confirmationType = null,
                 followRedirects = true,
@@ -250,7 +250,8 @@ constructor(
                                     parameterType = ParameterType.STRING,
                                     fileUploadType = null,
                                     fileUploadFileName = null,
-                                    fileUploadSourceFile = null,
+                                    fileUploadSourceDirectoryId = null,
+                                    fileUploadSourceFileName = null,
                                     fileUploadUseImageEditor = false,
                                 ),
                             )
@@ -494,19 +495,35 @@ constructor(
 
     suspend fun setFileUploadType(fileUploadType: FileUploadType) {
         updateShortcut {
-            copy(fileUploadType = fileUploadType)
+            copy(
+                fileUploadType = fileUploadType,
+                fileUploadSourceDirectoryId = if (fileUploadType == FileUploadType.FILE) {
+                    fileUploadSourceDirectoryId
+                } else {
+                    null
+                },
+                fileUploadSourceFileName = if (fileUploadType == FileUploadType.FILE) {
+                    fileUploadSourceFileName
+                } else {
+                    null
+                },
+            )
         }
     }
 
-    suspend fun setFileUploadUri(fileUploadUri: Uri?) {
+    suspend fun setSourceFileWorkingDirectoryId(workingDirectoryId: WorkingDirectoryId) {
         updateShortcut {
             copy(
-                fileUploadSourceFile = fileUploadUri?.toString(),
-                fileUploadType = if (fileUploadUri != null) {
-                    FileUploadType.FILE
-                } else {
-                    fileUploadType
-                },
+                fileUploadSourceDirectoryId = workingDirectoryId,
+                fileUploadSourceFileName = null,
+            )
+        }
+    }
+
+    suspend fun setFileUploadSourceFileName(name: String) {
+        updateShortcut {
+            copy(
+                fileUploadSourceFileName = name,
             )
         }
     }
@@ -609,7 +626,8 @@ constructor(
                                 parameterType = if (isFileParameter) ParameterType.FILE else ParameterType.STRING,
                                 fileUploadType = null,
                                 fileUploadFileName = null,
-                                fileUploadSourceFile = null,
+                                fileUploadSourceDirectoryId = null,
+                                fileUploadSourceFileName = null,
                                 fileUploadUseImageEditor = false,
                                 sortingOrder = parameterSortingOrder,
                             )

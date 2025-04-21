@@ -3,12 +3,13 @@ package ch.rmy.android.http_shortcuts.activities.execute
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.core.net.toUri
+import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.showToast
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
@@ -27,6 +28,8 @@ import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderR
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
@@ -35,6 +38,7 @@ import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.exceptions.FailedToAccessFileException
 import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
 import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.extensions.getRequestHeadersForShortcut
@@ -96,6 +100,9 @@ class Execution(
         get() = entryPoint.shortcutRepository()
     private val categoryRepository: CategoryRepository
         get() = entryPoint.categoryRepository()
+    private val workingDirectoryRepository: WorkingDirectoryRepository by lazy(LazyThreadSafetyMode.NONE) {
+        entryPoint.workingDirectoryRepository()
+    }
     private val requestHeaderRepository: RequestHeaderRepository
         get() = entryPoint.requestHeaderRepository()
     private val requestParameterRepository: RequestParameterRepository
@@ -349,7 +356,7 @@ class Execution(
                     multiple = shortcut.fileUploadType == FileUploadType.FILE_PICKER_MULTI,
                     withImageEditor = shortcut.fileUploadUseImageEditor,
                     fromFile = if (shortcut.fileUploadType == FileUploadType.FILE) {
-                        shortcut.fileUploadSourceFile?.toUri()
+                        getFileUri(shortcut.fileUploadSourceDirectoryId, shortcut.fileUploadSourceFileName)
                     } else {
                         null
                     },
@@ -363,7 +370,7 @@ class Execution(
                         multiple = parameter.fileUploadType == FileUploadType.FILE_PICKER_MULTI,
                         withImageEditor = parameter.fileUploadUseImageEditor,
                         fromFile = if (parameter.fileUploadType == FileUploadType.FILE) {
-                            parameter.fileUploadSourceFile?.toUri()
+                            getFileUri(parameter.fileUploadSourceDirectoryId, parameter.fileUploadSourceFileName)
                         } else {
                             null
                         },
@@ -401,6 +408,25 @@ class Execution(
         fileUploadManager.getResult()
     }
 
+    private suspend fun getFileUri(workingDirectoryId: WorkingDirectoryId?, fileName: String?): Uri? {
+        fileName?.takeUnlessEmpty() ?: return null
+        val workingDirectory = try {
+            workingDirectoryRepository.getWorkingDirectoryById(workingDirectoryId ?: return null)
+        } catch (_: NoSuchElementException) {
+            throw FailedToAccessFileException(fileName)
+        }
+        val directory = try {
+            DocumentFile.fromTreeUri(context, workingDirectory.directory)!!
+        } catch (_: IllegalArgumentException) {
+            throw FailedToAccessFileException(fileName)
+        }
+        workingDirectoryRepository.touchWorkingDirectory(workingDirectoryId)
+        return directory.findFile(fileName)
+            ?.takeIf { it.isFile }
+            ?.uri
+            ?: throw FailedToAccessFileException(fileName)
+    }
+
     private suspend fun processFileIfNeeded(fileRequest: FileUploadManager.FileRequest, uri: Uri, mimeType: String): Uri? {
         if (fileRequest.withImageEditor && FileTypeUtil.isImage(mimeType)) {
             return externalRequests.cropImage(
@@ -436,6 +462,7 @@ class Execution(
         fun shortcutRepository(): ShortcutRepository
         fun pendingExecutionsRepository(): PendingExecutionsRepository
         fun categoryRepository(): CategoryRepository
+        fun workingDirectoryRepository(): WorkingDirectoryRepository
         fun requestHeaderRepository(): RequestHeaderRepository
         fun requestParameterRepository(): RequestParameterRepository
         fun appConfigRepository(): AppConfigRepository

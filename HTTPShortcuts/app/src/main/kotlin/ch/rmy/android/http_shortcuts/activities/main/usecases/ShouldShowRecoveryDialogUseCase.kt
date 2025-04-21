@@ -20,7 +20,7 @@ constructor(
         val shortcutId = sessionInfoStore.editingShortcutId
         val categoryId = sessionInfoStore.editingShortcutCategoryId
         return if (categoryId != null) {
-            // TODO(room): Check whether there are actually unsaved changes
+            // TODO(???): Check whether there are actually unsaved changes
             RecoveryInfo(
                 shortcutName = shortcut.name,
                 shortcutId = shortcutId,

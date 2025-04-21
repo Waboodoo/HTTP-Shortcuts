@@ -174,7 +174,7 @@ constructor(
 
     private suspend fun getShortcutNamesWhereVariableIsInUse(variableId: VariableId): List<String> {
         val variableLookup = VariableManager(variables)
-        // TODO: Also check if the variable is used inside another variable
+        // TODO(???): Also check if the variable is used inside another variable
 
         val shortcuts = shortcutRepository.getShortcuts()
         val headersByShortcutId = requestHeaderRepository.getRequestHeadersByShortcutIds(shortcuts.ids())

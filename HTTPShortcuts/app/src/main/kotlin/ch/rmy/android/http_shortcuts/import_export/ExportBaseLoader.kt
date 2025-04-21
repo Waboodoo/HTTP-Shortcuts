@@ -17,6 +17,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
+import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseFailureOutput
@@ -201,7 +202,10 @@ constructor(
                                 fileUploadOptions = if (type == HTTP && shortcut.requestBodyType == RequestBodyType.FILE) {
                                     ExportFileUploadOptions(
                                         fileUploadType = shortcut.fileUploadType?.type,
-                                        file = shortcut.fileUploadSourceFile,
+                                        directoryId = shortcut.fileUploadSourceDirectoryId
+                                            ?.takeIf { shortcut.fileUploadType == FileUploadType.FILE },
+                                        fileName = shortcut.fileUploadSourceFileName
+                                            ?.takeIf { shortcut.fileUploadType == FileUploadType.FILE },
                                         useImageEditor = shortcut.fileUploadUseImageEditor.trueOrNull(),
                                     )
                                 } else {
@@ -290,10 +294,13 @@ constructor(
                                             fileUploadOptions = if (parameter.parameterType == ParameterType.FILE) {
                                                 ExportFileUploadOptions(
                                                     fileUploadType = parameter.fileUploadType?.type,
-                                                    file = parameter.fileUploadSourceFile,
+                                                    directoryId = parameter.fileUploadSourceDirectoryId
+                                                        ?.takeIf { parameter.fileUploadType == FileUploadType.FILE },
+                                                    fileName = parameter.fileUploadSourceFileName
+                                                        ?.takeIf { parameter.fileUploadType == FileUploadType.FILE },
                                                     useImageEditor = parameter.fileUploadUseImageEditor.trueOrNull(),
                                                 )
-                                                    .takeIf { it.fileUploadType != null || it.file != null || it.useImageEditor != null }
+                                                    .takeIf { it.fileUploadType != null || it.directoryId != null || it.useImageEditor != null }
                                             } else {
                                                 null
                                             },

@@ -1610,10 +1610,12 @@
     <string name="option_file_data_source_camera">Take Camera Picture</string>
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a specific static file stored on the device -->
     <string name="option_file_data_source_specific_file">Use Specific File</string>
-    <!-- Button label, for choosing a file to use as a request body or parameter -->
-    <string name="label_file_data_source_choose_file">Choose File</string>
-    <!-- Subtitle, shown on button for selecting a file to use as a request body or parameter. %s is a placeholder for the selected file's name -->
-    <string name="subtitle_file_data_source_choose_file">File “%s”</string>
+    <!-- Button label, for choosing a directory that contains a file to use as a request body or parameter -->
+    <string name="label_file_data_source_choose_directory">Choose Directory</string>
+    <!-- Subtitle, shown on button for selecting a directory that contains file to use as a request body or parameter. %s is a placeholder for the selected directory's name -->
+    <string name="subtitle_file_data_source_choose_directory">Use file from “%s”</string>
+    <!-- Label for input field, to enter the name of a file that should be used as a request body parameter. -->
+    <string name="label_file_data_source_file_name">File</string>
     <!-- Label on button, shown in Response settings of shortcut editor, allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
     <string name="button_select_response_toolbar_buttons">Show Toolbar Buttons</string>
     <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
@@ -1840,4 +1842,6 @@
     <string name="dialog_text_import_with_password">This import requires a password.</string>
     <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
     <string name="dialog_text_import_with_password_retry">Wrong password. Please try again.</string>
+    <!-- Error message: shown when a file for an HTTP request could not be found. %s is a placeholder for the file's name. -->
+    <string name="error_failed_to_access_file">Failed to access file \“%s\”. Make sure that the file exists and that the directory that contains it is mounted.</string>
 </resources>

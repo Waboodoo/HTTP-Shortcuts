@@ -248,7 +248,7 @@
             </intent-filter>
         </activity>
 
-        <!-- TODO: This alias can probably be removed now -->
+        <!-- TODO(???): This alias can probably be removed now -->
         <activity-alias
             android:name=".ExecuteActivity"
             android:configChanges="orientation|screenSize"

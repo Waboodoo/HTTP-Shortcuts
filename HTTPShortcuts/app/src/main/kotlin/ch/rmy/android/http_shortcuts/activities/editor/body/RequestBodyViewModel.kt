@@ -1,10 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor.body
 
 import android.app.Application
-import android.net.Uri
-import androidx.core.net.toUri
-import androidx.documentfile.provider.DocumentFile
-import ch.rmy.android.framework.extensions.context
+import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.swapped
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
@@ -12,16 +9,21 @@ import ch.rmy.android.http_shortcuts.activities.editor.body.models.ParameterList
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterId
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
+import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
+import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import com.google.gson.JsonParseException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @HiltViewModel
@@ -31,13 +33,27 @@ constructor(
     application: Application,
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
     private val requestParameterRepository: RequestParameterRepository,
+    private val workingDirectoryRepository: WorkingDirectoryRepository,
 ) : BaseViewModel<Unit, RequestBodyViewState>(application) {
 
     private var parameters: List<RequestParameter> = emptyList()
+    private var workingDirectoriesById: Map<WorkingDirectoryId, WorkingDirectory> = emptyMap()
 
     override suspend fun initialize(data: Unit): RequestBodyViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        workingDirectoriesById = workingDirectoryRepository.getWorkingDirectories().associateBy { it.id }
+        val directoryName = shortcut.fileUploadSourceDirectoryId
+            ?.let { id ->
+                workingDirectoriesById[id]?.name
+            }
         parameters = requestParameterRepository.getRequestParametersByShortcutId(TEMPORARY_ID)
+        viewModelScope.launch {
+            workingDirectoryRepository.observeWorkingDirectories()
+                .collect { workingDirectories ->
+                    workingDirectoriesById = workingDirectories.associateBy { it.id }
+                }
+        }
+
         return RequestBodyViewState(
             requestBodyType = shortcut.requestBodyType,
             fileUploadType = shortcut.fileUploadType ?: FileUploadType.FILE_PICKER,
@@ -45,7 +61,10 @@ constructor(
             contentType = shortcut.contentType,
             parameters = mapParameters(parameters),
             useImageEditor = shortcut.fileUploadUseImageEditor,
-            fileName = shortcut.fileUploadSourceFile?.toUri()?.getFileName(),
+            sourceDirectoryName = directoryName,
+            sourceFileName = shortcut.fileUploadSourceFileName
+                ?.takeIf { directoryName != null }
+                ?: "",
         )
     }
 
@@ -57,7 +76,8 @@ constructor(
                         parameterType = ParameterType.STRING,
                         fileUploadType = null,
                         fileUploadFileName = null,
-                        fileUploadSourceFile = null,
+                        fileUploadSourceDirectoryId = null,
+                        fileUploadSourceFileName = null,
                         fileUploadUseImageEditor = false,
                     )
                 } else {
@@ -92,10 +112,17 @@ constructor(
         }
     }
 
-    fun onEditParameterDialogConfirmed(key: String, value: String = "", fileName: String = "", useImageEditor: Boolean = false) =
+    fun onEditParameterDialogConfirmed(
+        key: String,
+        value: String = "",
+        fileName: String = "",
+        sourceFileName: String = "",
+        useImageEditor: Boolean = false,
+    ) =
         runAction {
             val dialogState = (viewState.dialogState as? RequestBodyDialogState.ParameterEditor ?: skipAction())
             val parameterId = dialogState.id
+            val workingDirectoryId = dialogState.sourceDirectoryId
             updateDialogState(null)
             if (parameterId != null) {
                 updateParameters(
@@ -108,7 +135,8 @@ constructor(
                                     value = value,
                                     fileUploadType = dialogState.fileUploadType,
                                     fileUploadFileName = fileName,
-                                    fileUploadSourceFile = dialogState.sourceFile?.toString(),
+                                    fileUploadSourceDirectoryId = workingDirectoryId,
+                                    fileUploadSourceFileName = sourceFileName,
                                     fileUploadUseImageEditor = useImageEditor,
                                 )
                             } else {
@@ -123,7 +151,8 @@ constructor(
                         value = value,
                         fileUploadType = dialogState.fileUploadType,
                         fileUploadFileName = fileName,
-                        fileUploadSourceFile = dialogState.sourceFile?.toString(),
+                        fileUploadSourceDirectoryId = workingDirectoryId,
+                        fileUploadSourceFileName = sourceFileName,
                         fileUploadUseImageEditor = useImageEditor,
                     )
                 }
@@ -135,7 +164,8 @@ constructor(
                         parameterType = dialogState.type,
                         fileUploadType = dialogState.fileUploadType,
                         fileUploadFileName = fileName,
-                        fileUploadSourceFile = dialogState.sourceFile?.toString(),
+                        fileUploadSourceDirectoryId = workingDirectoryId,
+                        fileUploadSourceFileName = sourceFileName,
                         fileUploadUseImageEditor = useImageEditor,
                     )
                     updateParameters(parameters.plus(newParameter))
@@ -174,6 +204,7 @@ constructor(
                 value = "",
                 fileName = "",
                 type = type,
+                sourceFileName = "",
             ),
         )
     }
@@ -192,8 +223,11 @@ constructor(
                         type = parameter.parameterType,
                         useImageEditor = parameter.fileUploadUseImageEditor,
                         fileUploadType = parameter.fileUploadType ?: FileUploadType.FILE_PICKER,
-                        sourceFile = parameter.fileUploadSourceFile?.toUri(),
-                        sourceFileName = parameter.fileUploadSourceFile?.toUri()?.getFileName(),
+                        sourceDirectoryId = parameter.fileUploadSourceDirectoryId,
+                        sourceDirectoryName = parameter.fileUploadSourceDirectoryId?.let {
+                            workingDirectoriesById[it]?.name
+                        },
+                        sourceFileName = parameter.fileUploadSourceFileName ?: "",
                     ),
                 )
             }
@@ -266,55 +300,45 @@ constructor(
         }
     }
 
-    fun onFilePickedForBody(fileUri: Uri) = runAction {
-        updateViewState {
-            copy(
-                fileName = fileUri.getFileName(),
-                fileUploadType = FileUploadType.FILE,
-            )
-        }
-        withProgressTracking {
-            temporaryShortcutRepository.setFileUploadUri(fileUri)
-        }
+    fun onBodySourceDirectoryNameClicked() = runAction {
+        navigate(NavigationDestination.WorkingDirectories.buildRequest(picker = true))
     }
 
-    fun onFilePickedForParameter(fileUri: Uri) = runAction {
+    fun onParameterSourceDirectoryNameClicked() = runAction {
+        navigate(NavigationDestination.WorkingDirectories.buildRequest(picker = true))
+    }
+
+    fun onBodySourceFileNameChanged(name: String) = runAction {
         updateViewState {
-            copy(
-                dialogState = (dialogState as? RequestBodyDialogState.ParameterEditor)?.copy(
-                    sourceFile = fileUri,
-                    sourceFileName = fileUri.getFileName(),
-                    fileUploadType = FileUploadType.FILE,
-                ),
-            )
+            copy(sourceFileName = name)
+        }
+        withProgressTracking {
+            temporaryShortcutRepository.setFileUploadSourceFileName(name)
         }
     }
 
     fun onFileUploadTypeChanged(fileUploadType: FileUploadType) = runAction {
-        if (fileUploadType == FileUploadType.FILE) {
-            emitEvent(RequestBodyEvent.PickFileForBody)
-            skipAction()
-        }
         updateViewState {
-            copy(fileUploadType = fileUploadType)
+            copy(
+                fileUploadType = fileUploadType,
+                sourceDirectoryName = if (fileUploadType == FileUploadType.FILE) {
+                    sourceDirectoryName
+                } else {
+                    null
+                },
+                sourceFileName = if (fileUploadType == FileUploadType.FILE) {
+                    sourceFileName
+                } else {
+                    ""
+                },
+            )
         }
         withProgressTracking {
             temporaryShortcutRepository.setFileUploadType(fileUploadType)
         }
     }
 
-    private fun Uri.getFileName(): String? =
-        DocumentFile.fromSingleUri(context, this)?.name
-
-    fun onBodyFileNameClicked() = runAction {
-        emitEvent(RequestBodyEvent.PickFileForBody)
-    }
-
     fun onParameterFileUploadTypeChanged(fileUploadType: FileUploadType) = runAction {
-        if (fileUploadType == FileUploadType.FILE) {
-            emitEvent(RequestBodyEvent.PickFileForParameter)
-            skipAction()
-        }
         updateViewState {
             copy(
                 dialogState = (dialogState as? RequestBodyDialogState.ParameterEditor)?.copy(
@@ -324,8 +348,26 @@ constructor(
         }
     }
 
-    fun onParameterFileNameClicked() = runAction {
-        emitEvent(RequestBodyEvent.PickFileForParameter)
+    fun onWorkingDirectoryPicked(id: WorkingDirectoryId, name: String) = runAction {
+        val dialogState = viewState.dialogState
+        if (dialogState is RequestBodyDialogState.ParameterEditor) {
+            updateDialogState(
+                dialogState.copy(
+                    sourceDirectoryId = id,
+                    sourceDirectoryName = name,
+                ),
+            )
+        } else {
+            updateViewState {
+                copy(
+                    sourceDirectoryName = name,
+                    sourceFileName = "",
+                )
+            }
+            withProgressTracking {
+                temporaryShortcutRepository.setSourceFileWorkingDirectoryId(id)
+            }
+        }
     }
 
     companion object {

@@ -81,8 +81,10 @@ data class Shortcut(
     val contentType: String,
     @ColumnInfo(name = "file_upload_type")
     val fileUploadType: FileUploadType?,
-    @ColumnInfo(name = "file_upload_source_file")
-    val fileUploadSourceFile: String?,
+    @ColumnInfo(name = "file_upload_source_directory_id")
+    val fileUploadSourceDirectoryId: WorkingDirectoryId?,
+    @ColumnInfo(name = "file_upload_source_file_name")
+    val fileUploadSourceFileName: String?,
     @ColumnInfo(name = "file_upload_use_image_editor")
     val fileUploadUseImageEditor: Boolean,
     @ColumnInfo(name = "confirmation_type")

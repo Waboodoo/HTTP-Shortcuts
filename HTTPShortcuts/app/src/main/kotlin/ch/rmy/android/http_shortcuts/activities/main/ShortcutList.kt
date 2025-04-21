@@ -323,8 +323,8 @@ private fun ShortcutListItem(
             },
             trailingContent = if (shortcut.isPending) {
                 {
-                    // TODO: Add background / shadow if needed
-                    // TODO: Animate in & out
+                    // TODO(???): Add background / shadow if needed
+                    // TODO(???): Animate in & out
                     Icon(Icons.Outlined.HourglassEmpty, null)
                 }
             } else {
@@ -448,8 +448,8 @@ private fun ShortcutGridItem(
                 size = 44.dp * scale,
             )
             if (shortcut.isPending) {
-                // TODO: Add background / shadow if needed
-                // TODO: Animate in & out
+                // TODO(???): Add background / shadow if needed
+                // TODO(???): Animate in & out
                 Icon(
                     Icons.Outlined.HourglassEmpty,
                     contentDescription = null,

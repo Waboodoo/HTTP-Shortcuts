@@ -17,6 +17,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutDao
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableDao
 import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetDao
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryDao
+import ch.rmy.android.http_shortcuts.data.migrations.Migration4
 import ch.rmy.android.http_shortcuts.data.models.AppConfig
 import ch.rmy.android.http_shortcuts.data.models.AppLock
 import ch.rmy.android.http_shortcuts.data.models.Category
@@ -50,10 +51,15 @@ import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigrationDao
         Widget::class,
         WorkingDirectory::class,
     ],
-    version = 3,
+    version = 4,
     autoMigrations = [
         AutoMigration(from = 1, to = 2),
         AutoMigration(from = 2, to = 3),
+        AutoMigration(
+            from = 3,
+            to = 4,
+            spec = Migration4::class,
+        ),
     ],
     exportSchema = true,
 )
