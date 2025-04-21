@@ -22,6 +22,8 @@ See the [Execution Flow](execution-flow.md) page for more information on how a s
 
 Instead of starting from scratch you can use the *"Import from cURL"* option to type or paste an existing cURL command which then serves as a template for your shortcut.
 
+> The cURL command is parsed on a best-effort basis. Not all parameters are supported, so some may be ignored or coerced.
+
 ## Other Types of Shortcuts
 
 In some cases you need to create shortcuts that don't correspond to a single HTTP request but instead need to perform a different workflow.

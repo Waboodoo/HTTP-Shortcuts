@@ -93,7 +93,7 @@ This will essentially override the resolution order.
 
 ## I hid one of my shortcuts and now I can't access it anymore. How do I make it visible again?
 
-If you go to the app's Settings screen, you'll find an option in the "Appearance" section which lets you configure whether hidden shortcuts should be visible or not. By default, hidden shortcuts will not be shown, but if you change this setting, the shortcuts will instead be visible but appear partially opaque.
+If you go to the app's Settings screen, you'll find an option in the "Appearance" section which lets you configure whether hidden shortcuts should be visible or not. By default, hidden shortcuts will not be shown, but if you change this setting, the shortcuts will instead be visible but appear partially transparent.
 
 <a name="debugging"></a>
 ## Something's not working with my requests. Can I get more detailed information for debugging?
