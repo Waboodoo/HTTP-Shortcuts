@@ -299,6 +299,9 @@ constructor(
                                                     fileName = parameter.fileUploadSourceFileName
                                                         ?.takeIf { parameter.fileUploadType == FileUploadType.FILE },
                                                     useImageEditor = parameter.fileUploadUseImageEditor.trueOrNull(),
+                                                    value = parameter.value
+                                                        .takeIf { parameter.fileUploadType == FileUploadType.STATIC_VALUE }
+                                                        ?.takeUnlessEmpty(),
                                                 )
                                                     .takeIf { it.fileUploadType != null || it.directoryId != null || it.useImageEditor != null }
                                             } else {

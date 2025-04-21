@@ -53,7 +53,7 @@ constructor(
                 fileUploadFileName = fileUploadFileName,
                 fileUploadSourceDirectoryId = fileUploadSourceDirectoryId,
                 fileUploadSourceFileName = fileUploadSourceFileName,
-                fileUploadUseImageEditor = fileUploadUseImageEditor,
+                fileUploadUseImageEditor = fileUploadUseImageEditor && fileUploadType != FileUploadType.STATIC_VALUE,
                 sortingOrder = requestParameterDao.getRequestParameterCountByShortcutId(TEMPORARY_ID),
             )
             val newId = requestParameterDao.insertOrUpdateRequestParameter(requestParameter)
@@ -80,7 +80,7 @@ constructor(
                 fileUploadFileName = fileUploadFileName,
                 fileUploadSourceDirectoryId = fileUploadSourceDirectoryId?.takeIf { fileUploadType == FileUploadType.FILE },
                 fileUploadSourceFileName = fileUploadSourceFileName?.takeIf { fileUploadType == FileUploadType.FILE },
-                fileUploadUseImageEditor = fileUploadUseImageEditor,
+                fileUploadUseImageEditor = fileUploadUseImageEditor && fileUploadType != FileUploadType.STATIC_VALUE,
             ),
         )
     }

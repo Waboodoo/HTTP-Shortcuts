@@ -24,15 +24,18 @@ import ch.rmy.android.http_shortcuts.extensions.runIf
 @Composable
 fun FileOptions(
     allowMultiple: Boolean,
+    allowStaticValues: Boolean,
     useHorizontalPadding: Boolean = true,
     fileUploadType: FileUploadType,
     sourceDirectoryName: String?,
     sourceFileName: String,
     useImageEditor: Boolean,
+    staticValue: String,
     onFileUploadTypeChanged: (FileUploadType) -> Unit,
     onSourceDirectoryNameClicked: () -> Unit,
     onSourceFileNameChanged: (String) -> Unit,
     onUseImageEditorChanged: (Boolean) -> Unit,
+    onStaticValueChanged: (String) -> Unit,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(Spacing.TINY),
@@ -50,6 +53,9 @@ fun FileOptions(
                 }
                 add(FileUploadType.CAMERA to stringResource(R.string.option_file_data_source_camera))
                 add(FileUploadType.FILE to stringResource(R.string.option_file_data_source_specific_file))
+                if (allowStaticValues) {
+                    add(FileUploadType.STATIC_VALUE to stringResource(R.string.option_file_data_source_static_value))
+                }
             },
             onItemSelected = onFileUploadTypeChanged,
         )
@@ -81,12 +87,37 @@ fun FileOptions(
             }
         }
 
-        VerticalSpacer(Spacing.MEDIUM)
+        AnimatedVisibility(visible = fileUploadType == FileUploadType.STATIC_VALUE) {
+            TextField(
+                modifier = Modifier
+                    .runIf(useHorizontalPadding) {
+                        padding(horizontal = Spacing.MEDIUM)
+                    }
+                    .fillMaxWidth(),
+                value = staticValue,
+                label = {
+                    Text(stringResource(R.string.label_file_data_source_static_value))
+                },
+                onValueChange = {
+                    onStaticValueChanged(it.take(20_000))
+                },
+                textStyle = TextStyle(
+                    fontSize = FontSize.SMALL,
+                ),
+                maxLines = 10,
+            )
+        }
 
-        Checkbox(
-            label = stringResource(R.string.label_file_upload_options_allow_image_editing),
-            checked = useImageEditor,
-            onCheckedChange = onUseImageEditorChanged,
-        )
+        AnimatedVisibility(visible = fileUploadType != FileUploadType.STATIC_VALUE) {
+            Column {
+                VerticalSpacer(Spacing.MEDIUM)
+
+                Checkbox(
+                    label = stringResource(R.string.label_file_upload_options_allow_image_editing),
+                    checked = useImageEditor,
+                    onCheckedChange = onUseImageEditorChanged,
+                )
+            }
+        }
     }
 }

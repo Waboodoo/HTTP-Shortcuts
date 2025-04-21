@@ -232,11 +232,13 @@ private fun EditParameterDialog(
                     VerticalSpacer(Spacing.SMALL)
                     FileOptions(
                         allowMultiple = true,
+                        allowStaticValues = true,
                         useHorizontalPadding = false,
                         fileUploadType = fileUploadType,
                         sourceDirectoryName = sourceDirectoryName,
                         sourceFileName = sourceFileName,
                         useImageEditor = useImageEditor,
+                        staticValue = value,
                         onFileUploadTypeChanged = onFileUploadTypeChanged,
                         onSourceDirectoryNameClicked = {
                             temporarilyHidden = true
@@ -247,6 +249,9 @@ private fun EditParameterDialog(
                         },
                         onUseImageEditorChanged = {
                             useImageEditor = it
+                        },
+                        onStaticValueChanged = {
+                            value = it
                         },
                     )
                 }

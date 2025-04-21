@@ -224,4 +224,16 @@ class CurlParserTest {
         val command = CurlParser.parse(target)
         assertEquals("HEAD", command.method)
     }
+
+    @Test
+    fun `static value file for form`() {
+        val target = "curl -X POST -F 'data=foo\nbar;filename=test123.txt;type=application/octet-stream' http://example.com"
+        val command = CurlParser.parse(target)
+
+        assertTrue(command.isFormData)
+        assertEquals(
+            listOf("data=foo\nbar;filename=test123.txt;type=application/octet-stream"),
+            command.data,
+        )
+    }
 }

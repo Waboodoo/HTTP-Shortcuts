@@ -5,6 +5,7 @@ enum class FileUploadType(val type: String) {
     FILE_PICKER_MULTI("file_picker_multi"),
     CAMERA("camera"),
     FILE("stored_file"),
+    STATIC_VALUE("static_value"),
     ;
 
     override fun toString() =

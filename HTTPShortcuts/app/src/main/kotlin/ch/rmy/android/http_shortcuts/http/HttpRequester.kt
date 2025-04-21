@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.http
 
+import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
@@ -33,6 +34,7 @@ import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import ch.rmy.android.http_shortcuts.variables.Variables
 import java.io.IOException
+import java.io.InputStream
 import java.net.UnknownHostException
 import java.nio.charset.Charset
 import javax.inject.Inject
@@ -201,8 +203,9 @@ constructor(
                 if (shortcut.usesGenericFileBody()) {
                     fileUploadResult?.getFile(0)
                         ?.let { file ->
+                            val (stream, length) = file.getInputStreamAndLength()
                             contentType(requestData.contentType ?: file.mimeType)
-                            body(contentResolver.openInputStream(file.data)!!, length = FileUtil.getFileSize(contentResolver, file.data))
+                            body(stream, length)
                         }
                 }
                 if (shortcut.usesRequestParameters()) {
@@ -320,23 +323,25 @@ constructor(
                         if (parameter.fileUploadType == FileUploadType.FILE_PICKER_MULTI) {
                             fileUploadResult.getFiles(fileIndex)
                                 .forEach { file ->
+                                    val (stream, length) = file.getInputStreamAndLength()
                                     fileParameter(
                                         name = "$parameterName[]",
                                         fileName = parameter.fileUploadFileName?.takeUnlessEmpty() ?: file.fileName,
                                         type = file.mimeType,
-                                        data = contentResolver.openInputStream(file.data)!!,
-                                        length = file.fileSize,
+                                        data = stream,
+                                        length = length,
                                     )
                                 }
                         } else {
                             fileUploadResult.getFile(fileIndex)
                                 ?.let { file ->
+                                    val (stream, length) = file.getInputStreamAndLength()
                                     fileParameter(
                                         name = parameterName,
                                         fileName = parameter.fileUploadFileName?.takeUnlessEmpty() ?: file.fileName,
                                         type = file.mimeType,
-                                        data = contentResolver.openInputStream(file.data)!!,
-                                        length = file.fileSize,
+                                        data = stream,
+                                        length = length,
                                     )
                                 }
                         }
@@ -350,6 +355,16 @@ constructor(
                 }
             }
         }
+    }
+
+    @SuppressLint("Recycle")
+    private fun FileUploadManager.File.getInputStreamAndLength(): Pair<InputStream, Long?> {
+        if (data.scheme == "data") {
+            val value = data.schemeSpecificPart!!.drop(1)
+            val bytes = value.toByteArray()
+            return bytes.inputStream() to bytes.size.toLong()
+        }
+        return contentResolver.openInputStream(data)!! to FileUtil.getFileSize(contentResolver, data)
     }
 
     companion object {

@@ -613,27 +613,40 @@ constructor(
                 val requestParameterDao = requestParameterDao()
                 var parameterSortingOrder = 0
                 curlCommand.data.forEach { potentialParameter ->
-                    potentialParameter.split("=")
-                        .takeIf { it.size == 2 }
-                        ?.let { parameterParts ->
-                            val key = parameterParts[0]
-                            val value = parameterParts[1]
-                            val isFileParameter = value.startsWith("@") && curlCommand.isFormData
-                            val parameter = RequestParameter(
-                                key = decode(key),
-                                value = if (!isFileParameter) decode(value) else "",
-                                shortcutId = TEMPORARY_ID,
-                                parameterType = if (isFileParameter) ParameterType.FILE else ParameterType.STRING,
-                                fileUploadType = null,
-                                fileUploadFileName = null,
-                                fileUploadSourceDirectoryId = null,
-                                fileUploadSourceFileName = null,
-                                fileUploadUseImageEditor = false,
-                                sortingOrder = parameterSortingOrder,
-                            )
-                            requestParameterDao.insertOrUpdateRequestParameter(parameter)
-                            parameterSortingOrder++
-                        }
+                    val parts = potentialParameter.split(";")
+                    val fileName = parts.find { it.startsWith("filename=") }
+                        ?.removePrefix("filename=")
+                    val keyAndValue = parts[0].split("=")
+                    val key = keyAndValue[0]
+                    val value = keyAndValue.getOrNull(1) ?: ""
+
+                    val isFileParameter = (value.startsWith("@") || fileName != null) && curlCommand.isFormData
+                    val parameter = RequestParameter(
+                        key = decode(key),
+                        value = if (!isFileParameter || (fileName != null && !value.startsWith("@"))) {
+                            decode(value)
+                        } else {
+                            ""
+                        },
+                        shortcutId = TEMPORARY_ID,
+                        parameterType = if (isFileParameter) ParameterType.FILE else ParameterType.STRING,
+                        fileUploadType = if (isFileParameter) {
+                            if (fileName != null) {
+                                FileUploadType.STATIC_VALUE
+                            } else {
+                                FileUploadType.FILE
+                            }
+                        } else {
+                            null
+                        },
+                        fileUploadFileName = fileName,
+                        fileUploadSourceDirectoryId = null,
+                        fileUploadSourceFileName = null,
+                        fileUploadUseImageEditor = false,
+                        sortingOrder = parameterSortingOrder,
+                    )
+                    requestParameterDao.insertOrUpdateRequestParameter(parameter)
+                    parameterSortingOrder++
                 }
             }
         }
@@ -667,7 +680,7 @@ constructor(
         internal fun decode(text: String): String =
             try {
                 URLDecoder.decode(text, "utf-8")
-            } catch (e: IllegalArgumentException) {
+            } catch (_: IllegalArgumentException) {
                 text
             }
     }

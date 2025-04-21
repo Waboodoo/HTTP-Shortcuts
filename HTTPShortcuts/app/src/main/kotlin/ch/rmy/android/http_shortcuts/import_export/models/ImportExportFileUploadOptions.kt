@@ -6,6 +6,7 @@ data class ImportExportFileUploadOptions(
     val fileUploadType: String? = null,
     val directoryId: WorkingDirectoryId? = null,
     val fileName: String? = null,
+    val value: String? = null,
     val useImageEditor: Boolean? = null,
 )
 

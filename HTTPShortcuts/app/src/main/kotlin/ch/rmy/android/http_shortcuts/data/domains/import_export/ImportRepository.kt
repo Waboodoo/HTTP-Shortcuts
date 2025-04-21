@@ -253,7 +253,16 @@ constructor(
                 delay = shortcut.delay ?: 0,
                 repetitionInterval = shortcut.repetitionInterval,
                 contentType = shortcut.contentType ?: "",
-                fileUploadType = shortcut.fileUploadOptions?.fileUploadType?.let { FileUploadType.parse(it) },
+                fileUploadType = shortcut.fileUploadOptions
+                    ?.fileUploadType
+                    ?.let { FileUploadType.parse(it) }
+                    ?.let {
+                        if (it == FileUploadType.STATIC_VALUE) {
+                            FileUploadType.FILE_PICKER
+                        } else {
+                            it
+                        }
+                    },
                 fileUploadSourceDirectoryId = shortcut.fileUploadOptions?.directoryId,
                 fileUploadSourceFileName = shortcut.fileUploadOptions?.fileName,
                 fileUploadUseImageEditor = shortcut.fileUploadOptions?.useImageEditor == true,
@@ -391,7 +400,12 @@ constructor(
             RequestParameter(
                 shortcutId = shortcutId,
                 key = parameter.key!!,
-                value = parameter.value?.takeIf { type == ParameterType.STRING } ?: "",
+                value = when {
+                    type == ParameterType.STRING -> parameter.value
+                    fileUploadOptions?.fileUploadType == FileUploadType.STATIC_VALUE.type -> fileUploadOptions.value
+                    else -> null
+                }
+                    .orEmpty(),
                 parameterType = type,
                 fileUploadType = fileUploadOptions?.fileUploadType?.let { FileUploadType.parse(it) },
                 fileUploadFileName = parameter.fileName?.takeIf { type == ParameterType.FILE },

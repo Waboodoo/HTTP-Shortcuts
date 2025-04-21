@@ -130,14 +130,17 @@ fun RequestBodyContent(
             -> {
                 FileOptions(
                     allowMultiple = false,
+                    allowStaticValues = false,
                     fileUploadType = fileUploadType,
                     sourceDirectoryName = sourceDirectoryName,
                     sourceFileName = sourceFileName,
                     useImageEditor = useImageEditor,
+                    staticValue = "",
                     onFileUploadTypeChanged = onFileUploadTypeChanged,
                     onSourceDirectoryNameClicked = onSourceDirectoryNameClicked,
                     onSourceFileNameChanged = onSourceFileNameChanged,
                     onUseImageEditorChanged = onUseImageEditorChanged,
+                    onStaticValueChanged = {},
                 )
             }
         }

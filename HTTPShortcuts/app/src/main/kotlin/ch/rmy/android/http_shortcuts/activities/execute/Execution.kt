@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.execute
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
+import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
@@ -371,6 +372,8 @@ class Execution(
                         withImageEditor = parameter.fileUploadUseImageEditor,
                         fromFile = if (parameter.fileUploadType == FileUploadType.FILE) {
                             getFileUri(parameter.fileUploadSourceDirectoryId, parameter.fileUploadSourceFileName)
+                        } else if (parameter.fileUploadType == FileUploadType.STATIC_VALUE) {
+                            "data:,${Uri.encode(parameter.value)}".toUri()
                         } else {
                             null
                         },
