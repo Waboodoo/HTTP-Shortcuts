@@ -83,6 +83,7 @@ fun ImportExportScreen(
     ImportExportDialog(
         state?.dialogState,
         onImportFromUrl = viewModel::onImportFromUrlDialogSubmitted,
+        onImportPasswordSubmitted = viewModel::onImportPasswordSubmitted,
         onDismissRequest = viewModel::onDialogDismissalRequested,
     )
 }

@@ -1834,4 +1834,10 @@
     <string name="empty_state_category_sections_instructions">Sections let you group shortcuts together within a category.\n\nClick the + button to add a new section.</string>
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
     <string name="placeholder_empty_category_section_main_screen">This section is empty. You can move shortcuts into it by long-pressing a shortcut and selecting \“%s\”.</string>
+    <!-- Dialog title: shown on import dialog, e.g. when a password needs to be entered -->
+    <string name="dialog_title_import">Import</string>
+    <!-- Dialog text: Asks user to enter a password to import password-encrypted data into the app -->
+    <string name="dialog_text_import_with_password">This import requires a password.</string>
+    <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
+    <string name="dialog_text_import_with_password_retry">Wrong password. Please try again.</string>
 </resources>

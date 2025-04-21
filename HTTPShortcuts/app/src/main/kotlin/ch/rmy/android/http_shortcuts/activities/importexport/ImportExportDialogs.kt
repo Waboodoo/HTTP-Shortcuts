@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.extensions.localize
 fun ImportExportDialog(
     dialogState: ImportExportDialogState?,
     onImportFromUrl: (String) -> Unit,
+    onImportPasswordSubmitted: (String) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     when (dialogState) {
@@ -24,6 +25,13 @@ fun ImportExportDialog(
         }
         is ImportExportDialogState.ImportFromUrl -> {
             ImportFromUrlDialog(dialogState.initialValue, onImportFromUrl, onDismissRequest)
+        }
+        is ImportExportDialogState.ImportPasswordPrompt -> {
+            ImportPasswordDialog(
+                tryAgain = dialogState.tryAgain,
+                onSubmitted = onImportPasswordSubmitted,
+                onDismissed = onDismissRequest,
+            )
         }
         null -> Unit
     }
@@ -43,5 +51,27 @@ private fun ImportFromUrlDialog(initialValue: String, onImportFromUrl: (String) 
                 onDismissRequest()
             }
         },
+    )
+}
+
+@Composable
+private fun ImportPasswordDialog(
+    tryAgain: Boolean,
+    onSubmitted: (String) -> Unit,
+    onDismissed: () -> Unit,
+) {
+    TextInputDialog(
+        title = stringResource(R.string.dialog_title_import),
+        message = stringResource(if (tryAgain) R.string.dialog_text_import_with_password_retry else R.string.dialog_text_import_with_password),
+        confirmButton = stringResource(R.string.dialog_ok),
+        allowEmpty = false,
+        onDismissRequest = {
+            if (it != null) {
+                onSubmitted(it)
+            } else {
+                onDismissed()
+            }
+        },
+        keyboardType = KeyboardType.Password,
     )
 }

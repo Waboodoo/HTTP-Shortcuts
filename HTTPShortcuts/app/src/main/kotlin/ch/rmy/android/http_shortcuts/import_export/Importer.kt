@@ -62,7 +62,7 @@ constructor(
                 } catch (zipException: ZipException) {
                     when (zipException.type) {
                         ZipException.Type.WRONG_PASSWORD -> {
-                            throw ImportException("Password protected ZIP files are not yet supported")
+                            throw ImportPasswordException()
                         }
                         ZipException.Type.UNKNOWN -> {
                             context.contentResolver.openInputStream(cacheFile)!!.use { stream ->

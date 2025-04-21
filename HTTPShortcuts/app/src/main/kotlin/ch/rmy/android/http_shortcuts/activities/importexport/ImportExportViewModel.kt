@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.ImportMode
+import ch.rmy.android.http_shortcuts.import_export.ImportPasswordException
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.ImportExport.RESULT_CATEGORIES_CHANGED_FROM_IMPORT
@@ -23,8 +24,11 @@ import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlin.random.Random
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -117,12 +121,12 @@ constructor(
         showError(StringResLocalizable(R.string.error_can_only_import_from_http_url))
     }
 
-    private fun ViewModelScope<*>.startImport(uri: Uri) {
+    private fun ViewModelScope<*>.startImport(uri: Uri, password: String? = null) {
         currentJob?.cancel()
         currentJob = launch {
             try {
                 showProgressDialog(R.string.import_in_progress)
-                val status = importer.importFromUri(uri, importMode = ImportMode.MERGE)
+                val status = importer.importFromUri(uri, importMode = ImportMode.MERGE, password)
 
                 showSnackbar(
                     QuantityStringLocalizable(
@@ -134,6 +138,11 @@ constructor(
                 categoriesChanged = true
             } catch (e: CancellationException) {
                 throw e
+            } catch (_: ImportPasswordException) {
+                if (password != null) {
+                    delay(Random.nextInt(from = 100, until = 1000).milliseconds)
+                }
+                setDialogState(ImportExportDialogState.ImportPasswordPrompt(uri, tryAgain = password != null))
             } catch (e: Exception) {
                 if (e !is ImportException) {
                     logException(e)
@@ -143,6 +152,12 @@ constructor(
                 hideProgressDialog()
             }
         }
+    }
+
+    fun onImportPasswordSubmitted(password: String) = runAction {
+        val url = (viewState.dialogState as? ImportExportDialogState.ImportPasswordPrompt)?.url ?: skipAction()
+        hideDialog()
+        startImport(url, password)
     }
 
     fun onHelpButtonClicked() = runAction {
