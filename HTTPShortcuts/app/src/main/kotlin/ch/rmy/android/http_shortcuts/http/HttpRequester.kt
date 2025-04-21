@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.http
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
+import android.text.format.Formatter
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.fromHexString
@@ -244,7 +245,14 @@ constructor(
                     }
                     .execute()
                     .use { okHttpResponse ->
-                        logInfo("HTTP request completed")
+                        logInfo(
+                            "HTTP request completed (body content length=${
+                                Formatter.formatShortFileSize(
+                                    context,
+                                    okHttpResponse.body.contentLength(),
+                                )
+                            })",
+                        )
                         val contentFile = if (shortcut.usesResponseBody()) {
                             responseFileStorage.store(okHttpResponse)
                         } else {
