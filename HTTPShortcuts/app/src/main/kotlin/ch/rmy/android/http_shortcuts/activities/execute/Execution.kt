@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.execute
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.logException
@@ -437,6 +438,11 @@ class Execution(
                 compressFormat = when (mimeType) {
                     "image/png" -> Bitmap.CompressFormat.PNG
                     "image/jpg", "image/jpeg" -> Bitmap.CompressFormat.JPEG
+                    "image/webp" -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        Bitmap.CompressFormat.WEBP_LOSSLESS
+                    } else {
+                        return null
+                    }
                     else -> return null
                 },
             )

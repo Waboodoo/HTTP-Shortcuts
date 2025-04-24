@@ -291,7 +291,7 @@ dependencies {
     implementation(libs.composableTable)
 
     /* Image cropping */
-    implementation(libs.ucrop)
+    implementation(libs.androidImageCropper)
 
     /* Image display */
     implementation(libs.coil.compose)

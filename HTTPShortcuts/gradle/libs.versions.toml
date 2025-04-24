@@ -1,6 +1,7 @@
 [versions]
 activity = "1.10.1"
 androidGradle = "8.8.2" # 8.9.0 has made me waste 2 hours of my life debugging a useless error message
+androidImageCropper = "4.6.0"
 androidXCore = "1.15.0"
 androidXNavigation = "2.8.9"
 androidxHiltCompiler = "1.2.0"
@@ -49,13 +50,13 @@ realm = "3.0.0"  # no longer being actively developed, time to phase it out
 room = "2.7.0"
 reorderable = "2.4.3"
 taskerplugin = "0.4.10"
-ucrop = "2.2.8"
 unmockplugin = "0.7.9"
 workRuntime = "2.10.0"
 zip4j = "2.11.5"
 zoomable = "1.6.2"
 
 [libraries]
+androidImageCropper = { module = "com.vanniktech:android-image-cropper", version.ref = "androidImageCropper" }
 android-gradle = { module = "com.android.tools.build:gradle", version.ref = "androidGradle" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
@@ -118,7 +119,6 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 taskerplugin = { module = "com.joaomgcd:taskerpluginlibrary", version.ref = "taskerplugin" }
-ucrop = { module = "com.github.yalantis:ucrop", version.ref = "ucrop" }
 unmock = { module = "com.github.bjoernq:unmockplugin", version.ref = "unmockplugin" }
 zip4j = { module = "net.lingala.zip4j:zip4j", version.ref = "zip4j" }
 zoomable = { module = "net.engawapg.lib:zoomable", version.ref = "zoomable" }

@@ -11,7 +11,7 @@ import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.framework.utils.FileUtil.getUriFromFile
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.icons.CropImageContract
+import ch.rmy.android.http_shortcuts.icons.EditImageContract
 import ch.rmy.android.http_shortcuts.utils.BarcodeScannerContract
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
@@ -33,10 +33,10 @@ class ExternalRequestFragment : Fragment() {
             }
             ?: cancel()
     }
-    private val cropImage = registerForActivityResult(CropImageContract()) { result ->
+    private val cropImage = registerForActivityResult(EditImageContract()) { result ->
         returnResult(
             when (result) {
-                is CropImageContract.Result.Success -> ExternalResult.File(fileUri = getUriFromFile(requireContext(), result.imageFile))
+                is EditImageContract.Result.Success -> ExternalResult.File(fileUri = getUriFromFile(requireContext(), result.imageFile))
                 else -> ExternalResult.Cancelled
             },
         )
@@ -59,7 +59,7 @@ class ExternalRequestFragment : Fragment() {
                 when (val request = request) {
                     is ExternalRequest.PickFiles -> pickFiles.launch(request.multiple)
                     is ExternalRequest.OpenCamera -> openCamera.launch()
-                    is ExternalRequest.CropImage -> cropImage.launch(CropImageContract.Input(request.imageUri, request.compressFormat))
+                    is ExternalRequest.CropImage -> cropImage.launch(EditImageContract.Input(request.imageUri, request.compressFormat))
                     is ExternalRequest.ScanBarcode -> scanBarcode.launch()
                     null -> error("Request was not set")
                 }
