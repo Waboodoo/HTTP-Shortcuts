@@ -264,9 +264,7 @@
             </intent-filter>
         </activity-alias>
 
-        <activity
-            android:name="com.yalantis.ucrop.UCropActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activities.imageeditor.ImageEditorActivity" />
 
         <receiver
             android:name=".widget.WidgetProvider"

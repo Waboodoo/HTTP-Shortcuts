@@ -13,9 +13,6 @@
 -keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$NetworkError { *; }
 -keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$Error { *; }
 -keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$CustomEvent { *; }
--dontwarn com.yalantis.ucrop**
--keep class com.yalantis.ucrop** { *; }
--keep interface com.yalantis.ucrop** { *; }
 -keep class com.joaomgcd.taskerpluginlibrary.** { *; }
 -keep class net.dinglisch.android.tasker.** { *; }
 -keep class androidx.compose.material3.TabRowKt { *; } # here because I had to resort to reflection to change a hard-coded value

@@ -16,7 +16,7 @@ import ch.rmy.android.http_shortcuts.components.FloatingAddButton
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
-import ch.rmy.android.http_shortcuts.icons.CropImageContract
+import ch.rmy.android.http_shortcuts.icons.EditImageContract
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 
 @Composable
@@ -28,16 +28,16 @@ fun IconPickerScreen() {
     }
     val context = LocalContext.current
     val cropImageIntoCustomIcon = rememberLauncherForActivityResult(
-        CropImageContract(
+        EditImageContract(
             title = stringResource(R.string.title_edit_custom_icon),
             enforceSquare = true,
             maxSize = IconUtil.getIconSize(context),
         ),
     ) { result ->
         when (result) {
-            is CropImageContract.Result.Success -> viewModel.onIconCreated(result.imageFile)
-            is CropImageContract.Result.Failure -> viewModel.onIconCreationFailed()
-            is CropImageContract.Result.Canceled -> Unit
+            is EditImageContract.Result.Success -> viewModel.onIconCreated(result.imageFile)
+            is EditImageContract.Result.Failure -> viewModel.onIconCreationFailed()
+            is EditImageContract.Result.Canceled -> Unit
         }
     }
 
@@ -51,7 +51,7 @@ fun IconPickerScreen() {
                 }
             }
             is IconPickerEvent.ShowImageCropper -> consume {
-                cropImageIntoCustomIcon.launch(CropImageContract.Input(event.imageUri, circle = event.shape == IconShape.CIRCLE))
+                cropImageIntoCustomIcon.launch(EditImageContract.Input(event.imageUri, circle = event.shape == IconShape.CIRCLE))
             }
             else -> false
         }
