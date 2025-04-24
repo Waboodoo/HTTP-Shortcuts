@@ -11,7 +11,11 @@ class WorkingDirectoryMigration : RealmMigration {
     override fun migrateRealm(migrationContext: AutomaticSchemaMigration.MigrationContext) {
         var counter = 1
         val base = migrationContext.newRealm.query("Base").first().find()!!
-        val workingDirectories = base.getObjectList("workingDirectories")
+        val workingDirectories = try {
+            base.getObjectList("workingDirectories")
+        } catch (_: IllegalArgumentException) {
+            return
+        }
         migrationContext.enumerate("ResponseHandling") { oldResponseHandling, newResponseHandling ->
             val storeDirectoryUri = oldResponseHandling.getNullableValue<String>("storeDirectory") ?: return@enumerate
             val id = UUIDUtils.newUUID()
