@@ -60,6 +60,7 @@ fun RequestBodyScreen(
             bodyContentError = viewState.bodyContentError,
             syntaxHighlightingLanguage = viewState.syntaxHighlightingLanguage,
             useImageEditor = viewState.useImageEditor,
+            fileNameSuggestions = viewState.fileNameSuggestions,
             onRequestBodyTypeChanged = viewModel::onRequestBodyTypeChanged,
             onFileUploadTypeChanged = viewModel::onFileUploadTypeChanged,
             onSourceDirectoryNameClicked = viewModel::onBodySourceDirectoryNameClicked,

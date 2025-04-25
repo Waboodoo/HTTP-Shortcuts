@@ -8,6 +8,7 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.utils.WorkingDirectoryUtil
 import ch.rmy.android.scripting.JsObject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
@@ -22,6 +23,7 @@ constructor(
     @ApplicationContext
     private val context: Context,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
+    private val workingDirectoryUtil: WorkingDirectoryUtil,
 ) : Action<GetDirectoryAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext): JsObject {
         val workingDirectory = try {
@@ -32,8 +34,8 @@ constructor(
             }
         }
         workingDirectoryRepository.touchWorkingDirectory(workingDirectory.id)
-        val directory = DocumentFile.fromTreeUri(context, workingDirectory.directory)!!
-        if (!directory.isDirectory) {
+        val directory = workingDirectoryUtil.getDocumentFile(workingDirectory)
+        if (directory == null || !directory.isDirectory) {
             throw ActionException {
                 "Directory \"${workingDirectory.name}\" is not mounted"
             }

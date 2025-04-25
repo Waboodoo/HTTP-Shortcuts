@@ -6,6 +6,7 @@ import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.http.HttpRequester.Companion.isStreaming
 import ch.rmy.android.http_shortcuts.http.HttpRequester.Companion.isUnknownLength
+import ch.rmy.android.http_shortcuts.utils.WorkingDirectoryUtil
 import java.io.File
 import java.io.InputStream
 import java.net.SocketTimeoutException
@@ -13,6 +14,7 @@ import okhttp3.Response
 
 class ResponseFileStorage(
     private val context: Context,
+    private val workingDirectoryUtil: WorkingDirectoryUtil,
     private val sessionId: String,
     private val storeDirectoryUri: Uri?,
 ) {
@@ -25,7 +27,7 @@ class ResponseFileStorage(
 
         val documentFile = storeDirectoryUri
             ?.let {
-                val directory = DocumentFile.fromTreeUri(context, it)
+                val directory = workingDirectoryUtil.getDocumentFile(it)
                 directory?.createFile(response.getMimeType(), fileName)
             }
             ?: run {

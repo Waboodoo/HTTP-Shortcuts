@@ -23,5 +23,6 @@ sealed class RequestBodyDialogState {
         val sourceDirectoryId: WorkingDirectoryId? = null,
         val sourceDirectoryName: String? = null,
         val sourceFileName: String,
+        val fileNameSuggestions: List<String>,
     ) : RequestBodyDialogState()
 }

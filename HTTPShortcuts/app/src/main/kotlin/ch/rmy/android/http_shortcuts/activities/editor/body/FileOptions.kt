@@ -2,13 +2,19 @@ package ch.rmy.android.http_shortcuts.activities.editor.body
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import ch.rmy.android.http_shortcuts.R
@@ -17,6 +23,7 @@ import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.components.SuggestionDropdown
 import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.extensions.runIf
@@ -31,6 +38,7 @@ fun FileOptions(
     sourceFileName: String,
     useImageEditor: Boolean,
     staticValue: String,
+    fileNameSuggestions: List<String>,
     onFileUploadTypeChanged: (FileUploadType) -> Unit,
     onSourceDirectoryNameClicked: () -> Unit,
     onSourceFileNameChanged: (String) -> Unit,
@@ -67,25 +75,45 @@ fun FileOptions(
                     onClick = onSourceDirectoryNameClicked,
                 )
 
-                TextField(
-                    modifier = Modifier
-                        .runIf(useHorizontalPadding) {
-                            padding(horizontal = Spacing.MEDIUM)
-                        }
-                        .fillMaxWidth(),
-                    value = sourceFileName,
-                    enabled = sourceDirectoryName != null,
-                    label = {
-                        Text(stringResource(R.string.label_file_data_source_file_name))
-                    },
-                    onValueChange = {
-                        onSourceFileNameChanged(it.replace("/", ""))
-                    },
-                    textStyle = TextStyle(
-                        fontSize = FontSize.SMALL,
-                    ),
-                    singleLine = true,
-                )
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    var hasFocus by remember {
+                        mutableStateOf(false)
+                    }
+                    TextField(
+                        modifier = Modifier
+                            .onFocusChanged {
+                                hasFocus = it.isFocused
+                            }
+                            .runIf(useHorizontalPadding) {
+                                padding(horizontal = Spacing.MEDIUM)
+                            }
+                            .fillMaxWidth(),
+                        value = sourceFileName,
+                        enabled = sourceDirectoryName != null,
+                        label = {
+                            Text(stringResource(R.string.label_file_data_source_file_name))
+                        },
+                        onValueChange = {
+                            onSourceFileNameChanged(it.replace("/", ""))
+                        },
+                        textStyle = TextStyle(
+                            fontSize = FontSize.SMALL,
+                        ),
+                        singleLine = true,
+                    )
+
+                    SuggestionDropdown(
+                        prompt = sourceFileName,
+                        isActive = hasFocus,
+                        options = fileNameSuggestions.toTypedArray(),
+                        minPromptLength = 1,
+                        onSuggestionSelected = {
+                            onSourceFileNameChanged(it)
+                        },
+                    )
+                }
             }
         }
 

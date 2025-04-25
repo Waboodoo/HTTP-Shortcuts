@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import androidx.core.net.toUri
-import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runFor
@@ -61,6 +60,7 @@ import ch.rmy.android.http_shortcuts.utils.CacheFilesCleanupWorker
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
+import ch.rmy.android.http_shortcuts.utils.WorkingDirectoryUtil
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import dagger.hilt.EntryPoint
@@ -104,6 +104,9 @@ class Execution(
         get() = entryPoint.categoryRepository()
     private val workingDirectoryRepository: WorkingDirectoryRepository by lazy(LazyThreadSafetyMode.NONE) {
         entryPoint.workingDirectoryRepository()
+    }
+    private val workingDirectoryUtil: WorkingDirectoryUtil by lazy(LazyThreadSafetyMode.NONE) {
+        entryPoint.workingDirectoryUtil()
     }
     private val requestHeaderRepository: RequestHeaderRepository
         get() = entryPoint.requestHeaderRepository()
@@ -419,11 +422,8 @@ class Execution(
         } catch (_: NoSuchElementException) {
             throw FailedToAccessFileException(fileName)
         }
-        val directory = try {
-            DocumentFile.fromTreeUri(context, workingDirectory.directory)!!
-        } catch (_: IllegalArgumentException) {
-            throw FailedToAccessFileException(fileName)
-        }
+        val directory = workingDirectoryUtil.getDocumentFile(workingDirectory)
+            ?: throw FailedToAccessFileException(fileName)
         workingDirectoryRepository.touchWorkingDirectory(workingDirectoryId)
         return directory.findFile(fileName)
             ?.takeIf { it.isFile }
@@ -472,6 +472,7 @@ class Execution(
         fun pendingExecutionsRepository(): PendingExecutionsRepository
         fun categoryRepository(): CategoryRepository
         fun workingDirectoryRepository(): WorkingDirectoryRepository
+        fun workingDirectoryUtil(): WorkingDirectoryUtil
         fun requestHeaderRepository(): RequestHeaderRepository
         fun requestParameterRepository(): RequestParameterRepository
         fun appConfigRepository(): AppConfigRepository

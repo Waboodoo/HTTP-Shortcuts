@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
@@ -12,20 +13,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
+import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.delay
 
 @Composable
 fun SuggestionDropdown(
     options: Array<String>,
     prompt: String,
     isActive: Boolean,
+    minPromptLength: Int = 2,
     onSuggestionSelected: (String) -> Unit,
 ) {
     var suggestions by remember {
         mutableStateOf(emptyList<String>())
     }
     LaunchedEffect(prompt, isActive, options) {
-        if (isActive && prompt.length >= 2) {
+        if (isActive && prompt.length >= minPromptLength) {
+            suggestions = emptyList()
+            delay(300.milliseconds)
             suggestions = options.filter {
                 isMatch(it, prompt)
             }
@@ -35,6 +42,7 @@ fun SuggestionDropdown(
     }
 
     DropdownMenu(
+        modifier = Modifier.heightIn(max = 250.dp),
         expanded = suggestions.isNotEmpty(),
         onDismissRequest = { suggestions = emptyList() },
         properties = PopupProperties(focusable = false),

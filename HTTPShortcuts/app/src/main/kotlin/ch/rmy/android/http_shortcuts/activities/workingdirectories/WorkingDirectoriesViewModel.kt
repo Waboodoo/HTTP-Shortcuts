@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.workingdirectories
 import android.app.Application
 import android.content.Intent
 import android.net.Uri
-import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.tryOrIgnore
@@ -16,6 +15,7 @@ import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDir
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
+import ch.rmy.android.http_shortcuts.utils.WorkingDirectoryUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -31,6 +31,7 @@ class WorkingDirectoriesViewModel
 constructor(
     application: Application,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
+    private val workingDirectoryUtil: WorkingDirectoryUtil,
 ) : BaseViewModel<WorkingDirectoriesViewModel.InitData, WorkingDirectoriesViewState>(application) {
 
     private lateinit var workingDirectories: List<WorkingDirectory>
@@ -66,11 +67,7 @@ constructor(
             lastAccessed = accessed?.let {
                 LocalDateTime.ofInstant(it, ZoneId.systemDefault())
             },
-            unmounted = try {
-                DocumentFile.fromTreeUri(context, directory)?.isDirectory != true
-            } catch (_: IllegalArgumentException) {
-                true
-            },
+            unmounted = !workingDirectoryUtil.isMounted(directory),
         )
 
     fun onHelpButtonClicked() = runAction {
@@ -140,7 +137,7 @@ constructor(
     }
 
     private fun Uri.getStoreDirectoryName(): String? =
-        DocumentFile.fromTreeUri(context, this)?.name
+        workingDirectoryUtil.getDocumentFile(this)?.name
 
     fun onRenameClicked() = runAction {
         val workingDirectoryId = viewState.getWorkingDirectoryIdFromContextMenu() ?: return@runAction

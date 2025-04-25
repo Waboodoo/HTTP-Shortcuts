@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.execute.types
 import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
-import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.showToast
@@ -50,6 +49,7 @@ import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
+import ch.rmy.android.http_shortcuts.utils.WorkingDirectoryUtil
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.Variables
 import java.io.IOException
@@ -80,6 +80,7 @@ constructor(
     private val showResultDialog: ShowResultDialogUseCase,
     private val showResultNotification: ShowResultNotificationUseCase,
     private val navigationArgStore: NavigationArgStore,
+    private val workingDirectoryUtil: WorkingDirectoryUtil,
 ) : ExecutionType() {
 
     override fun invoke(
@@ -241,8 +242,8 @@ constructor(
 
         if (shortcut.responseStoreDirectoryId != null && response.contentFile != null) {
             workingDirectoryRepository.touchWorkingDirectory(shortcut.responseStoreDirectoryId)
-            withContext(Dispatchers.IO) {
-                workingDirectory?.directory?.let {
+            workingDirectory?.directory?.let {
+                withContext(Dispatchers.IO) {
                     renameResponseFile(shortcut, response, variableManager, it)
                 }
             }
@@ -405,7 +406,7 @@ constructor(
         directoryUri: Uri,
     ) {
         try {
-            val directory = DocumentFile.fromTreeUri(context, directoryUri)
+            val directory = workingDirectoryUtil.getDocumentFile(directoryUri)
             val fileName = shortcut.responseStoreFileName
                 ?.takeUnlessEmpty()
                 ?.let {

@@ -18,6 +18,7 @@ data class RequestBodyViewState(
     val useImageEditor: Boolean,
     val sourceDirectoryName: String?,
     val sourceFileName: String,
+    val fileNameSuggestions: List<String>,
 ) {
     val addParameterButtonVisible: Boolean
         get() = requestBodyType == RequestBodyType.FORM_DATA ||

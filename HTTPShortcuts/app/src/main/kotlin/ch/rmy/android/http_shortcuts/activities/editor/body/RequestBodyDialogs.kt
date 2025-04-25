@@ -63,6 +63,7 @@ fun RequestBodyDialogs(
                 initialUseImageEditor = dialogState.useImageEditor,
                 sourceDirectoryName = dialogState.sourceDirectoryName,
                 initialSourceFileName = dialogState.sourceFileName,
+                fileNameSuggestions = dialogState.fileNameSuggestions,
                 onConfirmed = onParameterEdited,
                 onDelete = onParameterDeleted,
                 onFileUploadTypeChanged = onFileUploadTypeChanged,
@@ -110,6 +111,7 @@ private fun EditParameterDialog(
     initialUseImageEditor: Boolean,
     sourceDirectoryName: String?,
     initialSourceFileName: String,
+    fileNameSuggestions: List<String>,
     onConfirmed: (
         key: String,
         value: String,
@@ -239,6 +241,7 @@ private fun EditParameterDialog(
                         sourceFileName = sourceFileName,
                         useImageEditor = useImageEditor,
                         staticValue = value,
+                        fileNameSuggestions = fileNameSuggestions,
                         onFileUploadTypeChanged = onFileUploadTypeChanged,
                         onSourceDirectoryNameClicked = {
                             temporarilyHidden = true

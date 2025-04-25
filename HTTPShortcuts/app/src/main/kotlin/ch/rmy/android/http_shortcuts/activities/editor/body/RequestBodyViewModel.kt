@@ -19,6 +19,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
+import ch.rmy.android.http_shortcuts.utils.WorkingDirectoryUtil
 import com.google.gson.JsonParseException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -34,6 +35,7 @@ constructor(
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
     private val requestParameterRepository: RequestParameterRepository,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
+    private val workingDirectoryUtil: WorkingDirectoryUtil,
 ) : BaseViewModel<Unit, RequestBodyViewState>(application) {
 
     private var parameters: List<RequestParameter> = emptyList()
@@ -54,6 +56,19 @@ constructor(
                 }
         }
 
+        if (shortcut.fileUploadType == FileUploadType.FILE) {
+            shortcut.fileUploadSourceDirectoryId?.let { workingDirectoryId ->
+                runAction {
+                    val suggestions = withContext(Dispatchers.IO) {
+                        findFileNameSuggestions(workingDirectoryId)
+                    }
+                    updateViewState {
+                        copy(fileNameSuggestions = suggestions)
+                    }
+                }
+            }
+        }
+
         return RequestBodyViewState(
             requestBodyType = shortcut.requestBodyType,
             fileUploadType = shortcut.fileUploadType ?: FileUploadType.FILE_PICKER,
@@ -65,8 +80,16 @@ constructor(
             sourceFileName = shortcut.fileUploadSourceFileName
                 ?.takeIf { directoryName != null }
                 ?: "",
+            fileNameSuggestions = emptyList(),
         )
     }
+
+    private fun findFileNameSuggestions(workingDirectoryId: WorkingDirectoryId): List<String> =
+        workingDirectoriesById[workingDirectoryId]
+            ?.let { workingDirectory ->
+                workingDirectoryUtil.getFileNames(workingDirectory)
+            }
+            ?: emptyList()
 
     fun onRequestBodyTypeChanged(type: RequestBodyType) = runAction {
         if (type == RequestBodyType.X_WWW_FORM_URLENCODE) {
@@ -205,6 +228,7 @@ constructor(
                 fileName = "",
                 type = type,
                 sourceFileName = "",
+                fileNameSuggestions = emptyList(),
             ),
         )
     }
@@ -228,6 +252,11 @@ constructor(
                             workingDirectoriesById[it]?.name
                         },
                         sourceFileName = parameter.fileUploadSourceFileName ?: "",
+                        fileNameSuggestions = parameter.fileUploadSourceDirectoryId?.let { id ->
+                            withContext(Dispatchers.IO) {
+                                findFileNameSuggestions(id)
+                            }
+                        } ?: emptyList(),
                     ),
                 )
             }
@@ -349,12 +378,16 @@ constructor(
     }
 
     fun onWorkingDirectoryPicked(id: WorkingDirectoryId, name: String) = runAction {
+        val suggestions = withContext(Dispatchers.IO) {
+            findFileNameSuggestions(id)
+        }
         val dialogState = viewState.dialogState
         if (dialogState is RequestBodyDialogState.ParameterEditor) {
             updateDialogState(
                 dialogState.copy(
                     sourceDirectoryId = id,
                     sourceDirectoryName = name,
+                    fileNameSuggestions = suggestions,
                 ),
             )
         } else {
@@ -362,6 +395,7 @@ constructor(
                 copy(
                     sourceDirectoryName = name,
                     sourceFileName = "",
+                    fileNameSuggestions = suggestions,
                 )
             }
             withProgressTracking {
