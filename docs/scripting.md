@@ -273,7 +273,7 @@ showWindow({
 
 Similar to how JavaScript works in a browser, you can use `prompt()` and `confirm()` to ask the user for input as part of a workflow.
 
-`prompt()` will open a dialog window asking for text input. The entered text is then returned as a string. If the dialog is cancelled, `null` is returned instead. Pass a message in as the first parameter, and optionally a second parameter to prefill the text input field.
+`prompt()` will open a dialog window asking for text input. The entered text is then returned as a string. If the dialog is cancelled, `null` is returned instead. Pass a message in as the first parameter, and optionally a second parameter to prefill the text input field. As an optional third parameter, you may pass an object with additional options. Currently only the `multiline` option is supported, which when set to `true` will change the text input field to allow for multiline text.
 
 `confirm()` will open a confirmation dialog. It returns true if the dialog is confirmed, or false if it is cancelled. Pass a message in as the first parameter.
 
@@ -285,6 +285,8 @@ if (confirm('Are you sure?')) {
 
 ```js
 const myName = prompt('What is your name?');
+
+prompt("What's your story?", "I was born in...", { multiline: true });
 ```
 
 <a name="prompt-number"></a>

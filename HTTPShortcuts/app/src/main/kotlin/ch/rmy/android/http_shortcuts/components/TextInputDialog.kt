@@ -115,6 +115,7 @@ fun TextInputDialog(
                         VisualTransformation.None
                     },
                     singleLine = singleLine,
+                    maxLines = 20,
                 )
 
                 bottomContent?.invoke()

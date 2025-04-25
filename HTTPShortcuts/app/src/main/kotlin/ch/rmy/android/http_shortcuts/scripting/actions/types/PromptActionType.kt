@@ -18,12 +18,13 @@ constructor(
             params = PromptAction.Params(
                 message = args.getString(0) ?: "",
                 prefill = args.getString(1) ?: "",
+                multiline = args.getObject(2)?.get("multiline") as? Boolean ?: false,
             ),
         )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
-        parameters = 2,
+        parameters = 3,
     )
 
     companion object {

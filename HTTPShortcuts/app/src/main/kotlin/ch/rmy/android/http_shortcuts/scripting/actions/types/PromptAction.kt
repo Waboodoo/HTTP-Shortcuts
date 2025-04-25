@@ -24,11 +24,11 @@ constructor() : Action<PromptAction.Params> {
             executionContext.dialogHandle.showDialog(
                 ExecuteDialogState.TextInput(
                     message = finalMessage.toLocalizable(),
-                    type = ExecuteDialogState.TextInput.Type.TEXT,
+                    type = if (multiline) ExecuteDialogState.TextInput.Type.MULTILINE_TEXT else ExecuteDialogState.TextInput.Type.TEXT,
                     initialValue = prefill,
                 ),
             )
-        } catch (e: DialogCancellationException) {
+        } catch (_: DialogCancellationException) {
             null
         }
     }
@@ -36,5 +36,6 @@ constructor() : Action<PromptAction.Params> {
     data class Params(
         val message: String,
         val prefill: String,
+        val multiline: Boolean,
     )
 }
