@@ -287,10 +287,10 @@ private fun BuiltInIconPicker(
                         ?: run {
                             if (topRowIcons.isNotEmpty()) {
                                 iconSection(topRowIcons, onIconSelected, keySuffix = "-top")
-                                divider()
+                                divider(key = "divider1")
                             }
                             iconSection(coloredIcons, onIconSelected)
-                            divider()
+                            divider(key = "divider2")
                             iconSection(tintableIcons, onIconSelected)
                         }
                 }
@@ -325,8 +325,8 @@ private fun SearchBar(
     }
 }
 
-private fun LazyGridScope.divider() {
-    item(key = "divider", contentType = "divider", span = { GridItemSpan(maxLineSpan) }) {
+private fun LazyGridScope.divider(key: String) {
+    item(key = key, contentType = "divider", span = { GridItemSpan(maxLineSpan) }) {
         HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.SMALL))
     }
 }
