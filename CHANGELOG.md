@@ -1,3 +1,24 @@
+## Version 3.29.0
+
+### Breaking Change
+The "Use specific file" feature was reworked to address a bug and a technical limitation. If you've previously configured a shortcut to use a specific file as a request parameter or as the request body, you will need to reconfigure that.
+
+Instead of directly picking a file, you now need to first select the directory that contains the file and then enter the name of the file. This has the advantage that it is possible to modify the file through Scripting, which would previously always fail.
+
+### Improvements
+- The [`prompt()` function](https://http-shortcuts.rmy.ch/scripting#prompt-confirm) can now be configured to allow the input of multiline text
+- When using file form parameters, it is now possible to enter static text directly, without the need of an actual file
+- Various small improvements around import & export, such as the ability to protect the export file with a password, and including more useful meta data
+
+### Bugfixes
+- Fixed the sorting order of shortcuts in various dialogs, which was broken in the previous version
+- Fully replaced the image editor, which fixes the issue that on Android 15 custom icons could no longer be used due to the editor's buttons being covered up by other UI elements
+- Fixed a crash that would sometimes happen when the icon picker was opened
+
+### Miscellaneous
+- When opening the app for the first time, you can now click the "Documentation" link in the empty view to open the documentation screen
+- Rearranged the items on the "Information" screen for clarity
+
 ## Version 3.28.0
 
 ### Improvements
@@ -8,7 +29,7 @@
 - The category editor can now be opened by long-pressing on the background of the main screen
 
 ### Miscellaneous
-- The entire internal database was migrated and refactored. This should not have any noticeable impact, but might have introduced new bugs. As always, if you find something, please [report it](https://http-shortcuts.rmy.ch/contact).
+- The entire internal database was migrated and refactored. This should not have any noticeable impact, but might have introduced new bugs.
 
 ## Version 3.27.0
 
