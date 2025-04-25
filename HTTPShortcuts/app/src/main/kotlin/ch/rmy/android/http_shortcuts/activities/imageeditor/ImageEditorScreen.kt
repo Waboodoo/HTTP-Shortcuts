@@ -11,6 +11,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Rotate90DegreesCw
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -90,6 +91,15 @@ fun ImageEditorScreen(
         title = title,
         backButton = BackButton.CROSS,
         actions = {
+            ToolbarIcon(
+                Icons.Filled.Rotate90DegreesCw,
+                enabled = !isLoading && !isExporting,
+                contentDescription = stringResource(R.string.accessibility_rotate_cw),
+                onClick = {
+                    val cropImageView = rootView.findViewById<CropImageView>(R.id.cropImageView)
+                    cropImageView.rotateImage(90)
+                },
+            )
             ToolbarIcon(
                 Icons.Filled.Check,
                 enabled = !isLoading && !isExporting,

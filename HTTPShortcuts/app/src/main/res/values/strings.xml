@@ -1854,4 +1854,6 @@
     <string name="dialog_title_export_encryption">Set Password</string>
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <string name="dialog_text_export_with_password">To protect your data, you can encrypt the exported file with a password. Leave blank to omit encryption.</string>
+    <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <string name="accessibility_rotate_cw">Rotate clockwise</string>
 </resources>
