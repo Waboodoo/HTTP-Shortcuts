@@ -1625,10 +1625,16 @@
     <string name="option_file_data_source_camera">カメラで撮影する</string>
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a specific static file stored on the device -->
     <string name="option_file_data_source_specific_file">指定したファイルを使用</string>
-    <!-- Button label, for choosing a file to use as a request body or parameter -->
-    <string name="label_file_data_source_choose_file">ファイルを選択</string>
-    <!-- Subtitle, shown on button for selecting a file to use as a request body or parameter. %s is a placeholder for the selected file's name -->
-    <string name="subtitle_file_data_source_choose_file">ファイル「%s」</string>
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a static (text) value -->
+    <string name="option_file_data_source_static_value">静的な値を使用</string>
+    <!-- Button label, for choosing a directory that contains a file to use as a request body or parameter -->
+    <string name="label_file_data_source_choose_directory">ディレクトリを選択</string>
+    <!-- Subtitle, shown on button for selecting a directory that contains file to use as a request body or parameter. %s is a placeholder for the selected directory's name -->
+    <string name="subtitle_file_data_source_choose_directory">「%s」のファイルを使用</string>
+    <!-- Label for input field, to enter the name of a file that should be used as a request body parameter. -->
+    <string name="label_file_data_source_file_name">ファイル</string>
+    <!-- Label for input field, to enter static text that should be used as a file request body parameter. -->
+    <string name="label_file_data_source_static_value">値</string>
     <!-- Label on button, shown in Response settings of shortcut editor, allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
     <string name="button_select_response_toolbar_buttons">ツールバーボタンを表示</string>
     <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
@@ -1817,6 +1823,8 @@
     <string name="accessibility_label_add_category_section">セクションを追加</string>
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
     <string name="accessibility_label_show_documentation">ドキュメントに移動</string>
+    <!-- Accessibility label for "Set Password" button in exporter -->
+    <string name="accessibility_label_set_password_for_export">パスワードを設定</string>
     <!-- Accessibility label for "Select all" button in exporter -->
     <string name="accessibility_label_select_all_for_export">すべてを選択</string>
     <!-- Accessibility label for "Unselect all" button in exporter -->
@@ -1848,6 +1856,17 @@
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
     <string name="placeholder_empty_category_section_main_screen">このセクションは空です。ショートカットを長押しして「%s」を選択するとショートカットを移動できます。</string>
     <!-- Dialog title: shown on import dialog, e.g. when a password needs to be entered -->
+    <string name="dialog_title_import">インポート</string>
     <!-- Dialog text: Asks user to enter a password to import password-encrypted data into the app -->
+    <string name="dialog_text_import_with_password">このインポートにはパスワードが必要です。</string>
     <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
+    <string name="dialog_text_import_with_password_retry">パスワードが不正です。もう一度お試しください。</string>
+    <!-- Error message: shown when a file for an HTTP request could not be found. %s is a placeholder for the file's name. -->
+    <string name="error_failed_to_access_file">ファイル「%s」へのアクセスに失敗しました。そのファイルが存在していること、そのディレクトリがマウントされていることを確認してください。</string>
+    <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
+    <string name="dialog_title_export_encryption">パスワードを設定</string>
+    <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
+    <string name="dialog_text_export_with_password">データを保護するには、書き出したファイルをパスワードで暗号化できます。暗号化を省略するには空白のままにしてください。</string>
+    <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <string name="accessibility_rotate_cw">時計回りに回転</string>
 </resources>

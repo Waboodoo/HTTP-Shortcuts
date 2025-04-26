@@ -282,7 +282,7 @@ Drücke den + Knopf um eine Variable zu erstellen.</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
     <string name="label_timeout">Timeout</string>
     <!-- Label, for dropdown picker, allowing to select the Internet Protocol version used for hostname resolution by a shortcut -->
-    <string name="label_ip_version">Internet Protocol Version</string>
+    <string name="label_ip_version">Internet-Protocol Version</string>
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">Proxy-Typ</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
@@ -387,7 +387,7 @@ Drücke den + Knopf um eine Variable zu erstellen.</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">Allgemeine Einstellungen</string>
     <!-- Section title, shown in shortcut editor for non-HTTP shortcuts, for section containing basic settings (e.g. URL) -->
-    <string name="section_basic_settings">Grundeinstellungen</string>
+    <string name="section_basic_settings">Allgemeine Einstellungen</string>
     <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">Erweiterte Einstellungen</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
@@ -1644,10 +1644,16 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="option_file_data_source_camera">Kamera öffnen</string>
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a specific static file stored on the device -->
     <string name="option_file_data_source_specific_file">Statische Datei verwenden</string>
-    <!-- Button label, for choosing a file to use as a request body or parameter -->
-    <string name="label_file_data_source_choose_file">Datei auswählen</string>
-    <!-- Subtitle, shown on button for selecting a file to use as a request body or parameter. %s is a placeholder for the selected file's name -->
-    <string name="subtitle_file_data_source_choose_file">Datei “%s”</string>
+    <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a static (text) value -->
+    <string name="option_file_data_source_static_value">Statischen Wert verwenden</string>
+    <!-- Button label, for choosing a directory that contains a file to use as a request body or parameter -->
+    <string name="label_file_data_source_choose_directory">Verzeichnis wählen</string>
+    <!-- Subtitle, shown on button for selecting a directory that contains file to use as a request body or parameter. %s is a placeholder for the selected directory's name -->
+    <string name="subtitle_file_data_source_choose_directory">Datei aus “%s ” verwenden</string>
+    <!-- Label for input field, to enter the name of a file that should be used as a request body parameter. -->
+    <string name="label_file_data_source_file_name">Datei</string>
+    <!-- Label for input field, to enter static text that should be used as a file request body parameter. -->
+    <string name="label_file_data_source_static_value">Wert</string>
     <!-- Label on button, shown in Response settings of shortcut editor, allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
     <string name="button_select_response_toolbar_buttons">Funktionsknöpfe</string>
     <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
@@ -1838,6 +1844,8 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="accessibility_label_add_category_section">Sektion hinzufügen</string>
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
     <string name="accessibility_label_show_documentation">Zur Dokumentation</string>
+    <!-- Accessibility label for "Set Password" button in exporter -->
+    <string name="accessibility_label_set_password_for_export">Passwort setzen</string>
     <!-- Accessibility label for "Select all" button in exporter -->
     <string name="accessibility_label_select_all_for_export">Alle auswählen</string>
     <!-- Accessibility label for "Unselect all" button in exporter -->
@@ -1874,4 +1882,12 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="dialog_text_import_with_password">Für diesen Import ist ein Passwort erforderlich.</string>
     <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
     <string name="dialog_text_import_with_password_retry">Falsches Passwort. Bitte erneut versuchen.</string>
+    <!-- Error message: shown when a file for an HTTP request could not be found. %s is a placeholder for the file's name. -->
+    <string name="error_failed_to_access_file">Fehler beim Zugriff auf die Datei \“%s\”. Stelle sicher, dass die Datei existiert und dass das Verzeichnis, das sie enthält, eingehängt ist.</string>
+    <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
+    <string name="dialog_title_export_encryption">Passwort setzen</string>
+    <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
+    <string name="dialog_text_export_with_password">Um Ihre Daten zu schützen, können Sie die exportierte Datei mit einem Passwort verschlüsseln. Leer lassen, um die Verschlüsselung zu unterlassen.</string>
+    <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <string name="accessibility_rotate_cw">Im Uhrzeigersinn drehen</string>
 </resources>
