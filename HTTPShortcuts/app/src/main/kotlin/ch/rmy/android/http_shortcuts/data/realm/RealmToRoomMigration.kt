@@ -276,10 +276,12 @@ constructor(
     private suspend fun migrateToVersion3(realm: Realm) {
         logInfo("Migrating categories, sections and shortcuts")
         val migrationDao = database.realmToRoomMigrationDao()
+        database.categoryDao().deleteAllCategories()
         realm.query<RealmBase>()
             .find()
             .firstOrNull()
             ?.categories
+            ?.distinctBy { it.id }
             ?.forEachIndexed { categoryIndex, category ->
                 logInfo("Migrating category ${category.id}")
                 migrationDao.insertCategory(
@@ -300,7 +302,7 @@ constructor(
                     ),
                 )
 
-                category.sections.forEachIndexed { sectionIndex, section ->
+                category.sections.distinctBy { it.id }.forEachIndexed { sectionIndex, section ->
                     logInfo("Migrating section ${section.id}")
                     migrationDao.insertSection(
                         Section(
@@ -312,7 +314,7 @@ constructor(
                     )
                 }
 
-                category.shortcuts.forEachIndexed { shortcutIndex, shortcut ->
+                category.shortcuts.distinctBy { it.id }.forEachIndexed { shortcutIndex, shortcut ->
                     logInfo("Migrating shortcut ${shortcut.id}")
                     val type = shortcut.executionType?.let { ShortcutExecutionType.parse(it) } ?: ShortcutExecutionType.HTTP
                     val shortcutId = if (database.shortcutDao().getShortcutById(shortcut.id).isEmpty()) {

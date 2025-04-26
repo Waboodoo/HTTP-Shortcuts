@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.data
 
 import android.net.Uri
 import androidx.room.TypeConverter
-import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.toCharset
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
