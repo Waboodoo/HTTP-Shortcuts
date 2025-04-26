@@ -124,6 +124,8 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             applicationIdSuffix = ".debug"
             signingConfig = signingConfigs["development"]
+
+            buildConfigField("String", "BUILD_TYPE", "\"DEBUG\"")
         }
 
         /* Used for F-Droid */
@@ -132,6 +134,8 @@ android {
             isShrinkResources = true
 
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            buildConfigField("String", "BUILD_TYPE", "\"RELEASE\"")
         }
 
         /* Used for Play Store & GitHub release page */
@@ -141,6 +145,8 @@ android {
             ndk.debugSymbolLevel = "SYMBOL_TABLE"
 
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            buildConfigField("String", "BUILD_TYPE", "\"RELEASE_FULL\"")
         }
     }
 

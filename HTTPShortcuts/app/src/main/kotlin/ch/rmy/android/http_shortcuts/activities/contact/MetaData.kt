@@ -6,4 +6,5 @@ data class MetaData(
     val device: String,
     val language: String,
     val deviceId: String,
+    val buildType: String,
 )
