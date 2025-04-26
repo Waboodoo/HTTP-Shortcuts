@@ -67,8 +67,8 @@ class Converters {
         ShortcutIcon.fromName(value)
 
     @TypeConverter
-    fun serializeShortcutIcon(shortcutIcon: ShortcutIcon?): String? =
-        shortcutIcon?.toString()?.takeUnlessEmpty()
+    fun serializeShortcutIcon(shortcutIcon: ShortcutIcon?): String =
+        (shortcutIcon ?: ShortcutIcon.NoIcon).toString()
 
     @TypeConverter
     fun deserializeCategoryLayoutType(value: String?): CategoryLayoutType? =
