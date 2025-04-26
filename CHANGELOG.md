@@ -14,6 +14,7 @@ Instead of directly picking a file, you now need to first select the directory t
 - Fixed the sorting order of shortcuts in various dialogs, which was broken in the previous version
 - Fully replaced the image editor, which fixes the issue that on Android 15 custom icons could no longer be used due to the editor's buttons being covered up by other UI elements
 - Fixed a crash that would sometimes happen when the icon picker was opened
+- Fixed issues with the data migrations which would cause the app to crash on startup for a few users
 
 ### Miscellaneous
 - When opening the app for the first time, you can now click the "Documentation" link in the empty view to open the documentation screen
