@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.realm.migration
 
 import ch.rmy.android.framework.extensions.logInfo
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.utils.UUIDUtils
 import io.realm.kotlin.dynamic.getNullableValue
 import io.realm.kotlin.dynamic.getValue
@@ -248,7 +249,9 @@ class RealmDatabaseMigration : AutomaticSchemaMigration {
         }
 
         if (oldVersion in (58 until 78)) {
-            WorkingDirectoryMigration().migrateRealm(migrationContext)
+            tryOrLog {
+                WorkingDirectoryMigration().migrateRealm(migrationContext)
+            }
         }
 
         if (oldVersion < 80 && oldVersion >= 36) {

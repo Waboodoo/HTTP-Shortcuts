@@ -10,17 +10,11 @@ import io.realm.kotlin.migration.AutomaticSchemaMigration
 class WorkingDirectoryMigration : RealmMigration {
     override fun migrateRealm(migrationContext: AutomaticSchemaMigration.MigrationContext) {
         var counter = 1
-        val base = migrationContext.newRealm.query("Base").first().find()!!
-        val workingDirectories = try {
-            base.getObjectList("workingDirectories")
-        } catch (_: IllegalArgumentException) {
-            return
-        }
         migrationContext.enumerate("ResponseHandling") { oldResponseHandling, newResponseHandling ->
             val storeDirectoryUri = oldResponseHandling.getNullableValue<String>("storeDirectory") ?: return@enumerate
             val id = UUIDUtils.newUUID()
 
-            val workingDirectory = migrationContext.newRealm.copyToRealm(
+            migrationContext.newRealm.copyToRealm(
                 DynamicMutableRealmObject.create(
                     type = "WorkingDirectory",
                     mapOf(
@@ -31,7 +25,6 @@ class WorkingDirectoryMigration : RealmMigration {
                     ),
                 ),
             )
-            workingDirectories.add(workingDirectory)
 
             newResponseHandling?.set("storeDirectoryId", id)
             counter++
