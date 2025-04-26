@@ -232,6 +232,7 @@ constructor(
             .find()
             .firstOrNull()
             ?.variables
+            ?.distinctBy { it.id }
             ?.mapIndexed { index, variable ->
                 Variable(
                     id = variable.id,
