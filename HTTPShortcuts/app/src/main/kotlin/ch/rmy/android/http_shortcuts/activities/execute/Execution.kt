@@ -399,12 +399,15 @@ class Execution(
             ensureActive()
             val files = when {
                 fileRequest.fromFile != null -> {
+                    logInfo("Fulfilling file request from a specific file")
                     listOf(fileRequest.fromFile)
                 }
                 fileRequest.fromCamera -> {
+                    logInfo("Fulfilling file request from the camera")
                     externalRequests.openCamera()
                 }
                 else -> {
+                    logInfo("Fulfilling file request from the file picker")
                     externalRequests.openFilePicker(fileRequest.multiple)
                 }
             }
