@@ -39,6 +39,7 @@ import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.navigation.NavigationRoot
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs.CONTACT_PAGE
+import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -102,6 +103,7 @@ class MainActivity : BaseComposeActivity() {
                     withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onSurface)) {
                         append(message)
                     }
+                    appendLine(Settings(context).deviceId)
                     appendLine()
                     appendLine()
                     append("Please ")
