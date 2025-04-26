@@ -278,16 +278,23 @@ constructor(
         logInfo("Migrating categories, sections and shortcuts")
         val migrationDao = database.realmToRoomMigrationDao()
         database.categoryDao().deleteAllCategories()
+        val usedIds = mutableSetOf<String>()
         realm.query<RealmBase>()
             .find()
             .firstOrNull()
             ?.categories
-            ?.distinctBy { it.id }
             ?.forEachIndexed { categoryIndex, category ->
                 logInfo("Migrating category ${category.id}")
+                val id = if (category.id in usedIds) {
+                    logInfo("Duplicate category id detected, generating new id")
+                    newUUID()
+                } else {
+                    category.id
+                }
+                usedIds.add(id)
                 migrationDao.insertCategory(
                     Category(
-                        id = category.id,
+                        id = id,
                         name = category.name,
                         icon = ShortcutIcon.fromName(category.iconName),
                         layoutType = if (category.layoutType == "grid") {
@@ -308,7 +315,7 @@ constructor(
                     migrationDao.insertSection(
                         Section(
                             id = section.id,
-                            categoryId = category.id,
+                            categoryId = id,
                             name = section.name,
                             sortingOrder = sectionIndex,
                         ),
@@ -321,14 +328,14 @@ constructor(
                     val shortcutId = if (database.shortcutDao().getShortcutById(shortcut.id).isEmpty()) {
                         shortcut.id
                     } else {
-                        logInfo("Duplicate detected, generating new id")
+                        logInfo("Duplicate shortcut id detected, generating new id")
                         newUUID()
                     }
                     migrationDao.insertShortcut(
                         Shortcut(
                             id = shortcutId,
                             executionType = type,
-                            categoryId = category.id,
+                            categoryId = id,
                             name = shortcut.name.truncate(Constants.SHORTCUT_NAME_MAX_LENGTH),
                             description = shortcut.description.truncate(Constants.SHORTCUT_DESCRIPTION_MAX_LENGTH),
                             icon = shortcut.iconName?.let { ShortcutIcon.fromName(it) } ?: ShortcutIcon.NoIcon,
