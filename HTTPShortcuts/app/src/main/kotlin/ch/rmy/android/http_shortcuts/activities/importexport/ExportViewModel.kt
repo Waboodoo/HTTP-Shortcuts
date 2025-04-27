@@ -7,6 +7,7 @@ import android.net.Uri
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runIfNotNull
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -112,7 +113,7 @@ constructor(
                 shortcutIds = shortcutIds,
                 variableIds = variableIds,
                 excludeDefaults = true,
-                password = viewState.password,
+                password = viewState.password.takeUnlessEmpty(),
             )
 
             showSnackbar(
