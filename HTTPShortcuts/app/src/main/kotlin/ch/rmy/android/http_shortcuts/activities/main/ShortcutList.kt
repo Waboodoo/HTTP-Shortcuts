@@ -35,16 +35,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.text.withLink
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.extensions.runIf
@@ -59,7 +57,6 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
-import ch.rmy.android.http_shortcuts.utils.ExternalURLs.CONTACT_PAGE
 
 private const val HIDDEN_ALPHA = 0.4f
 
@@ -74,7 +71,6 @@ fun ShortcutList(
     isLongClickingEnabled: Boolean,
     onShortcutClicked: (ShortcutId) -> Unit,
     onShortcutLongClicked: (ShortcutId) -> Unit,
-    onDocumentationLinkClicked: () -> Unit,
 ) {
     if (shortcutListItems.isEmpty()) {
         if (hasMultipleCategories) {
@@ -93,15 +89,7 @@ fun ShortcutList(
                             append(description)
                         } else {
                             append(parts[0])
-                            withLink(
-                                LinkAnnotation.Url(
-                                    CONTACT_PAGE,
-                                    styles = TextLinkStyles(style = SpanStyle(color = linkColor)),
-                                    linkInteractionListener = {
-                                        onDocumentationLinkClicked()
-                                    },
-                                ),
-                            ) {
+                            withStyle(SpanStyle(color = linkColor)) {
                                 append(parts[1])
                             }
                             append(parts[2])

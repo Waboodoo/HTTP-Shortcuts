@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
@@ -90,6 +91,7 @@ fun ShortcutListContent(
             .runIfNotNull(category.background as? CategoryBackgroundType.Color) {
                 background(Color(it.color))
             }
+            .focusProperties { canFocus = false }
             .combinedClickable(
                 interactionSource = null,
                 indication = null,
@@ -111,7 +113,6 @@ fun ShortcutListContent(
             isLongClickingEnabled = state.isLongClickingEnabled,
             onShortcutClicked = viewModel::onShortcutClicked,
             onShortcutLongClicked = viewModel::onShortcutLongClicked,
-            onDocumentationLinkClicked = viewModel::onDocumentationLinkClicked,
         )
     }
 
