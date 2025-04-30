@@ -178,6 +178,10 @@ class Converters {
         value?.let { ResponseContentType.parse(value) }
 
     @TypeConverter
+    fun serializeResponseContentType(responseContentType: ResponseContentType): String =
+        responseContentType.key
+
+    @TypeConverter
     fun deserializeTargetBrowser(value: String?): TargetBrowser? =
         value?.let { TargetBrowser.parse(value) }
 
