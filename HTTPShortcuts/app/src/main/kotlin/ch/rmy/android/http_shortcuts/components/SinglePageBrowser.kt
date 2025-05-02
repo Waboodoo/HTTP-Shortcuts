@@ -24,7 +24,6 @@ import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
 import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.framework.navigation.NavigationRequest
-import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.activities.documentation.DocumentationUrlManager
 import ch.rmy.android.http_shortcuts.extensions.rememberWebView
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
@@ -36,11 +35,8 @@ import kotlinx.coroutines.delay
 fun SinglePageBrowser(
     url: String,
     modifier: Modifier = Modifier,
+    onNavigationRequest: (NavigationRequest) -> Unit,
 ) {
-    val eventinator = LocalEventinator.current
-    val onNavigationRequest = { request: NavigationRequest ->
-        eventinator.onEvent(ViewModelEvent.Navigate(request))
-    }
     val webView = rememberWebView(key = url) { context, isRestore ->
         SinglePageWebView(context, url, isRestore, onNavigationRequest)
     }
