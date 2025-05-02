@@ -473,7 +473,7 @@ constructor(
     }
 
     private suspend fun ViewModelScope<*>.onSaveSuccessful(shortcutId: ShortcutId) {
-        logInfo("Shortcut saved successfully")
+        logInfo("Shortcut saved successfully ($shortcutId)")
         isFinishing = true
         tryOrLog {
             launcherShortcutUpdater.updatePinnedShortcut(shortcutId)

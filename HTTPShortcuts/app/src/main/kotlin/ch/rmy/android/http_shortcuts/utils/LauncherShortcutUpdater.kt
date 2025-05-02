@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Intent
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderRepository
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
@@ -75,6 +76,7 @@ constructor(
     }
 
     private suspend fun getLauncherShortcut(shortcutId: ShortcutId): LauncherShortcut {
+        logInfo("getLauncherShortcut($shortcutId)")
         val shortcut = shortcutRepository.getShortcutById(shortcutId)
         val variables = variableRepository.getVariables()
         return getLauncherShortcut(
@@ -86,7 +88,7 @@ constructor(
         )
     }
 
-    private suspend fun getLauncherShortcut(
+    private fun getLauncherShortcut(
         shortcut: Shortcut,
         headers: List<RequestHeader>,
         parameters: List<RequestParameter>,
