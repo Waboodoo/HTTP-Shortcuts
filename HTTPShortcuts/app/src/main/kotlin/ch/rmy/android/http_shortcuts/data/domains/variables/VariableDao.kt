@@ -95,13 +95,13 @@ abstract class VariableDao {
     }
 
     @Transaction
-    open suspend fun saveTemporaryVariable(variableId: VariableId?) {
-        val existingVariable = variableId?.let { getVariableById(it) }?.firstOrNull()
+    open suspend fun saveTemporaryVariable(variableId: VariableId) {
+        val existingVariable = getVariableById(variableId).firstOrNull()
         val temporaryVariable = getVariableById(Variable.TEMPORARY_ID).firstOrNull() ?: return
 
         insertOrUpdateVariable(
             temporaryVariable.copy(
-                id = existingVariable?.id ?: UUIDUtils.newUUID(),
+                id = variableId,
                 sortingOrder = existingVariable?.sortingOrder ?: (getMaxSortingOrder() + 1),
             ),
         )
