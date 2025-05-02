@@ -150,6 +150,8 @@ constructor(
     }
 
     fun onCodeSnippetPicked(textBeforeCursor: String, textAfterCursor: String) = runAction {
+        // TODO: This slight delay was added to give the UI enough time to register a listener for this event. There needs to be a better way...
+        delay(100)
         emitEvent(
             ScriptingEvent.InsertCodeSnippet(
                 textBeforeCursor = textBeforeCursor,
