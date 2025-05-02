@@ -157,6 +157,7 @@ private fun UrlField(
         ),
         value = url,
         onValueChange = onUrlChanged,
+        textFilter = { it.replace("\n", "") },
         maxLines = 12,
     )
 }

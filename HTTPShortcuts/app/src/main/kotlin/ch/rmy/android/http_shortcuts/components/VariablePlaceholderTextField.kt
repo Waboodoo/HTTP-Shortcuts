@@ -166,6 +166,7 @@ fun VariablePlaceholderTextField(
     maxLines: Int = Int.MAX_VALUE,
     minLines: Int = 1,
     singleLine: Boolean = false,
+    textFilter: (String) -> String = { it },
     transformation: AnnotatedString.Builder.(String) -> Unit = {},
     showVariableButton: Boolean = true,
 ) {
@@ -222,6 +223,7 @@ fun VariablePlaceholderTextField(
                     }
                     ""
                 }
+                .run(textFilter)
                 .take(maxLength)
             val textChanged = newText != textFieldValue.text
             textFieldValue = newValue.copy(text = newText, selection = selection)
