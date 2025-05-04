@@ -1,3 +1,10 @@
+## Version 3.29.1
+- Changing the Response Content Type option is no longer ignored
+- The initial empty screen no longer interferes with the selection of UI elements when using a DPAD or accessibility options
+- It is no longer possible to insert newline characters into URLs
+- When adding a placeholder for a newly created variable, it now adds the correct variable instead of a random non-existing one
+- Added missing launcher icon for use on Android TV
+
 ## Version 3.29.0
 
 ### Breaking Change
