@@ -104,11 +104,7 @@ class ExecutionService : Service() {
                 startOrUpdateForegroundService()
             }
         }
-        return super.onStartCommand(intent, flags, startId)
-    }
-
-    override fun onCreate() {
-        super.onCreate()
+        return START_NOT_STICKY
     }
 
     override fun onDestroy() {
