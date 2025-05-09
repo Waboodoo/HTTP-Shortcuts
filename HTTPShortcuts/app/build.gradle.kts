@@ -104,6 +104,11 @@ android {
             "pt",
             "vi",
         )
+
+        ignoreAssetsPatterns += setOf(
+            "!*.js",
+            "!*.mjs",
+        )
     }
 
     signingConfigs {
