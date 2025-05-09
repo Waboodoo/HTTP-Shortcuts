@@ -24,7 +24,8 @@ constructor(
     ) {
         requiredGlobalVariableIds
             .filter { globalVariableId ->
-                !variableManager.isResolved(globalVariableId)
+                val globalVariable = variableManager.getGlobalVariableById(globalVariableId)
+                globalVariable != null && !variableManager.isResolved(globalVariable.key)
             }
             .toSet()
             .let { globalVariableIds ->
@@ -44,7 +45,7 @@ constructor(
         if (recursionDepth >= MAX_RECURSION_DEPTH) {
             return
         }
-        if (variableManager.isResolved(globalVariable.id)) {
+        if (variableManager.isResolved(globalVariable.key)) {
             return
         }
 

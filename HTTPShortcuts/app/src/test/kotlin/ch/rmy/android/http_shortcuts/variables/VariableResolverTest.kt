@@ -176,7 +176,7 @@ class VariableResolverTest {
             listOf(
                 variable(id = "123", key = "myVariable1", value = "Hello {{789}}"),
                 variable(id = "456", key = "myVariable2", value = "!!!"),
-                variable(id = "789", key = "myVariable2", value = "World"),
+                variable(id = "789", key = "myVariable3", value = "World"),
             ),
         )
         VariableResolver(variableTypeFactory)
@@ -206,7 +206,7 @@ class VariableResolverTest {
             listOf(
                 variable(id = "123", key = "myVariable1", value = "Hello {{456}}"),
                 variable(id = "456", key = "myVariable2", value = "World{{789}}"),
-                variable(id = "789", key = "myVariable2", value = "!!!"),
+                variable(id = "789", key = "myVariable3", value = "!!!"),
             ),
         )
         VariableResolver(variableTypeFactory)

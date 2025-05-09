@@ -16,52 +16,52 @@ class VariableManager(
     var globalVariables = globalVariables
         private set
 
-    private val variablesById: MutableMap<GlobalVariableId, GlobalVariable> = globalVariables.associateBy { it.id }.toMutableMap()
-    private val variablesByKey: MutableMap<VariableKey, GlobalVariable> = globalVariables.associateBy { it.key }.toMutableMap()
-    private val variableValuesById = mutableMapOf<String, String>()
+    private val globalVariablesById: MutableMap<GlobalVariableId, GlobalVariable> = globalVariables.associateBy { it.id }.toMutableMap()
+    private val globalVariablesByKey: MutableMap<VariableKey, GlobalVariable> = globalVariables.associateBy { it.key }.toMutableMap()
+    private val variableValuesByKey = mutableMapOf<VariableKey, String>()
 
     init {
         preResolvedValues.forEach { (variableKeyOrId, value) ->
             val variable = getGlobalVariableByKeyOrId(variableKeyOrId) ?: return@forEach
-            variableValuesById[variable.id] = encodeValue(variable, value)
+            variableValuesByKey[variable.key] = encodeValue(variable, value)
         }
     }
 
     fun getGlobalVariableById(id: GlobalVariableId): GlobalVariable? =
-        variablesById[id]
+        globalVariablesById[id]
 
     fun getGlobalVariableByKey(key: VariableKey): GlobalVariable? =
-        variablesByKey[key]
+        globalVariablesByKey[key]
 
     fun getGlobalVariableByKeyOrId(keyOrId: VariableKeyOrId): GlobalVariable? =
-        if (variablesById.containsKey(keyOrId)) {
+        if (globalVariablesById.containsKey(keyOrId)) {
             getGlobalVariableById(keyOrId)
         } else {
             getGlobalVariableByKey(keyOrId)
         }
 
     fun getGlobalVariableValueById(globalVariableId: GlobalVariableId): String? =
-        variableValuesById[globalVariableId]
-
-    fun getVariableValueByKey(variableKey: VariableKey): String? =
-        getGlobalVariableByKey(variableKey)?.id
-            ?.let { variableId ->
-                getGlobalVariableValueById(variableId)
+        getGlobalVariableById(globalVariableId)?.key
+            ?.let { variableKey ->
+                getVariableValueByKey(variableKey)
             }
 
+    fun getVariableValueByKey(variableKey: VariableKey): String? =
+        variableValuesByKey[variableKey]
+
     fun getVariableValueByKeyOrId(variableKeyOrId: VariableKeyOrId): String? =
-        getGlobalVariableByKeyOrId(variableKeyOrId)?.id
-            ?.let { variableId ->
-                getGlobalVariableValueById(variableId)
+        getGlobalVariableByKeyOrId(variableKeyOrId)?.key
+            ?.let { variableKey ->
+                getVariableValueByKey(variableKey)
             }
 
     fun setGlobalVariableValue(variable: GlobalVariable, value: String, storeOnly: Boolean = false) {
         val newVariable = variable.copy(value = value)
         this@VariableManager.globalVariables = this@VariableManager.globalVariables.map { if (it.id == variable.id) newVariable else it }
-        variablesById[variable.id] = newVariable
-        variablesByKey[variable.key] = newVariable
+        globalVariablesById[variable.id] = newVariable
+        globalVariablesByKey[variable.key] = newVariable
         if (!storeOnly) {
-            variableValuesById[variable.id] = encodeValue(variable, value)
+            variableValuesByKey[variable.key] = encodeValue(variable, value)
         }
     }
 
@@ -73,29 +73,27 @@ class VariableManager(
     }
 
     fun getVariableValuesByIds(): Map<GlobalVariableId, String> =
-        variableValuesById
-
-    fun getVariableValuesByKeys(): Map<VariableKey, String> =
-        variableValuesById
+        variableValuesByKey
             .mapKeys { entry ->
-                getGlobalVariableById(entry.key)!!.key
+                getGlobalVariableByKey(entry.key)!!.id
             }
 
-    fun isResolved(globalVariableId: GlobalVariableId): Boolean =
-        variableValuesById.containsKey(globalVariableId)
+    fun getVariableValuesByKeys(): Map<VariableKey, String> =
+        variableValuesByKey
 
-    companion object {
-        internal fun encodeValue(variable: GlobalVariable, value: String) =
-            value
-                .runIf(variable.jsonEncode) {
-                    JSONObject.quote(this).drop(1).dropLast(1)
+    fun isResolved(variableKey: VariableKey): Boolean =
+        variableValuesByKey.containsKey(variableKey)
+
+    private fun encodeValue(variable: GlobalVariable, value: String) =
+        value
+            .runIf(variable.jsonEncode) {
+                JSONObject.quote(this).drop(1).dropLast(1)
+            }
+            .runIf(variable.urlEncode) {
+                try {
+                    URLEncoder.encode(this, "utf-8")
+                } catch (_: UnsupportedEncodingException) {
+                    this
                 }
-                .runIf(variable.urlEncode) {
-                    try {
-                        URLEncoder.encode(this, "utf-8")
-                    } catch (_: UnsupportedEncodingException) {
-                        this
-                    }
-                }
-    }
+            }
 }

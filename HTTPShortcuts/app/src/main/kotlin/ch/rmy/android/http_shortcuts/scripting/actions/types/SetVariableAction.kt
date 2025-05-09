@@ -37,7 +37,6 @@ constructor(
     )
 
     companion object {
-
         private const val MAX_VARIABLE_LENGTH = 40_000
     }
 }
