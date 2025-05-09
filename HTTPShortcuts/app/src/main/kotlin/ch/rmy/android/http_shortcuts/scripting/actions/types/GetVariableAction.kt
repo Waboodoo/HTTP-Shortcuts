@@ -19,7 +19,7 @@ constructor(
     override suspend fun Params.execute(executionContext: ExecutionContext): String =
         try {
             getVariableValue(variableKeyOrId, executionContext.variableManager)
-        } catch (e: VariableNotFoundException) {
+        } catch (_: VariableNotFoundException) {
             try {
                 resolveVariable(variableKeyOrId, executionContext.variableManager, executionContext.dialogHandle)
                 getVariableValue(variableKeyOrId, executionContext.variableManager)

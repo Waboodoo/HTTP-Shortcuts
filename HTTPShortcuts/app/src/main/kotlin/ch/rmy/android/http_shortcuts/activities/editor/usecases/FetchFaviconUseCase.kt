@@ -28,11 +28,10 @@ constructor(
     private val variableResolver: VariableResolver,
     httpClientFactory: HttpClientFactory,
 ) {
-
     private val client = httpClientFactory.getClient(context)
 
-    suspend operator fun invoke(url: String, variables: List<GlobalVariable>, dialogHandle: DialogHandle): ShortcutIcon? {
-        val variableManager = VariableManager(variables)
+    suspend operator fun invoke(url: String, globalVariables: List<GlobalVariable>, dialogHandle: DialogHandle): ShortcutIcon? {
+        val variableManager = VariableManager(globalVariables)
         variableResolver.resolve(variableManager, Variables.extractGlobalVariableIds(url), dialogHandle)
         val finalUrl = Variables.rawPlaceholdersToResolvedValues(url, variableManager.getVariableValuesByIds())
 

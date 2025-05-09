@@ -41,13 +41,15 @@ constructor(
 
     private suspend fun resolveVariables(shortcut: Shortcut, dialogHandle: DialogHandle): VariableManager {
         val variables = globalVariableRepository.getGlobalVariables()
-        return variableResolver.resolve(
-            variableManager = VariableManager(variables),
+        val variableManager = VariableManager(variables)
+        variableResolver.resolve(
+            variableManager = variableManager,
             shortcut = shortcut,
             headers = requestHeaderRepository.getRequestHeadersByShortcutId(shortcut.id),
             parameters = requestParameterRepository.getRequestParametersForShortcut(shortcut),
             dialogHandle = dialogHandle,
         )
+        return variableManager
     }
 
     private suspend fun generateCommand(shortcut: Shortcut, variableValues: Map<VariableKey, String>): CurlCommand =

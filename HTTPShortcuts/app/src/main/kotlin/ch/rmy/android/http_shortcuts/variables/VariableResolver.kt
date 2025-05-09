@@ -17,12 +17,11 @@ class VariableResolver
 constructor(
     private val variableTypeFactory: VariableTypeFactory,
 ) {
-
     suspend fun resolve(
         variableManager: VariableManager,
         requiredGlobalVariableIds: Set<GlobalVariableId>,
         dialogHandle: DialogHandle,
-    ): VariableManager {
+    ) {
         requiredGlobalVariableIds
             .filter { globalVariableId ->
                 !variableManager.isResolved(globalVariableId)
@@ -34,7 +33,6 @@ constructor(
             .forEach { globalVariable ->
                 resolveVariable(variableManager, globalVariable, dialogHandle)
             }
-        return variableManager
     }
 
     private suspend fun resolveVariable(

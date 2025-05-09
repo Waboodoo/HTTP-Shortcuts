@@ -13,11 +13,14 @@ suspend fun VariableResolver.resolve(
     headers: List<RequestHeader>,
     parameters: List<RequestParameter>,
     dialogHandle: DialogHandle,
-): VariableManager {
-    val requiredVariableIds = VariableResolver.extractGlobalVariableIdsExcludingScripting(
-        shortcut = shortcut,
-        headers = headers,
-        parameters = parameters,
+) {
+    resolve(
+        variableManager,
+        requiredGlobalVariableIds = VariableResolver.extractGlobalVariableIdsExcludingScripting(
+            shortcut = shortcut,
+            headers = headers,
+            parameters = parameters,
+        ),
+        dialogHandle,
     )
-    return resolve(variableManager, requiredVariableIds, dialogHandle)
 }
