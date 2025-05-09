@@ -82,22 +82,41 @@ constructor(
 val VARIABLE_PLACEHOLDER_REGEX = RAW_PLACEHOLDER_REGEX.toRegex()
 private val BROKEN_VARIABLE_PLACEHOLDER_REGEX = BROKEN_RAW_PLACEHOLDER_REGEX.toRegex()
 
+private data class RangeMapping(
+    val isLocalVariable: Boolean,
+    val isReferencedById: Boolean,
+    val originalRange: IntRange,
+    val transformedRange: IntRange,
+)
+
 @Stable
 private fun transformVariablePlaceholders(
     text: String,
     placeholders: List<VariablePlaceholder>,
-    style: SpanStyle,
+    globalVariablePlaceholderStyle: SpanStyle,
+    localVariablePlaceholderStyle: SpanStyle,
     additionalTransformation: AnnotatedString.Builder.(String) -> Unit = {},
 ): TransformedText {
-    val rangeMappings = mutableListOf<Pair<IntRange, IntRange>>()
+    val rangeMappings = mutableListOf<RangeMapping>()
     var offsetSum = 0
     val transformedText = VARIABLE_PLACEHOLDER_REGEX.replace(text) { result ->
-        val (variableId) = result.destructured
-        val placeholder = placeholders.find { it.globalVariableId == variableId } ?: return@replace result.value
-        val variableKey = placeholder.variableKey
-        val replacement = "{$variableKey}"
+        val (variableKeyOrId) = result.destructured
+        val placeholder = placeholders.find { it.globalVariableId == variableKeyOrId || it.variableKey == variableKeyOrId }
+        val isReferencedById = placeholder != null && placeholder.globalVariableId == variableKeyOrId
+        val replacement = if (isReferencedById) {
+            "{${placeholder.variableKey}}"
+        } else {
+            result.value
+        }
         val lengthDiff = replacement.length - result.value.length
-        rangeMappings.add(result.range to IntRange(result.range.first + offsetSum, result.range.last + lengthDiff + offsetSum))
+        rangeMappings.add(
+            RangeMapping(
+                isLocalVariable = placeholder == null,
+                isReferencedById = isReferencedById,
+                originalRange = result.range,
+                transformedRange = IntRange(result.range.first + offsetSum, result.range.last + lengthDiff + offsetSum),
+            ),
+        )
         offsetSum += lengthDiff
         replacement
     }
@@ -105,14 +124,19 @@ private fun transformVariablePlaceholders(
         buildAnnotatedString {
             append(transformedText)
             additionalTransformation(transformedText)
-            rangeMappings.forEach { (_, range) ->
-                addStyle(style, range.first, range.last + 1)
+            rangeMappings.forEach { (isLocalVariable, _, _, transformedRange) ->
+                val style = if (isLocalVariable) {
+                    localVariablePlaceholderStyle
+                } else {
+                    globalVariablePlaceholderStyle
+                }
+                addStyle(style, transformedRange.first, transformedRange.last + 1)
             }
         },
         object : OffsetMapping {
             override fun originalToTransformed(offset: Int): Int {
                 var shift = 0
-                for ((originalRange, transformedRange) in rangeMappings) {
+                for ((_, isReferencedById, originalRange, transformedRange) in rangeMappings) {
                     if (offset < originalRange.first) {
                         break
                     }
@@ -120,7 +144,11 @@ private fun transformVariablePlaceholders(
                         return transformedRange.first
                     }
                     if (offset in originalRange) {
-                        return transformedRange.last + 1
+                        return if (isReferencedById) {
+                            transformedRange.last + 1
+                        } else {
+                            offset + shift
+                        }
                     }
                     shift = transformedRange.last - originalRange.last
                 }
@@ -129,7 +157,7 @@ private fun transformVariablePlaceholders(
 
             override fun transformedToOriginal(offset: Int): Int {
                 var shift = 0
-                for ((originalRange, transformedRange) in rangeMappings) {
+                for ((_, isReferencedById, originalRange, transformedRange) in rangeMappings) {
                     if (offset < transformedRange.first) {
                         break
                     }
@@ -137,7 +165,11 @@ private fun transformVariablePlaceholders(
                         return originalRange.first
                     }
                     if (offset in transformedRange) {
-                        return originalRange.last + 1
+                        return if (isReferencedById) {
+                            originalRange.last + 1
+                        } else {
+                            offset + shift
+                        }
                     }
                     shift = originalRange.last - transformedRange.last
                 }
@@ -175,10 +207,17 @@ fun VariablePlaceholderTextField(
     val focusRequester = remember {
         FocusRequester()
     }
-    val placeholderColor = colorResource(R.color.variable)
-    val placeholderStyle = remember {
+    val globalVariablePlaceholderColor = colorResource(R.color.global_variable)
+    val globalVariablePlaceholderStyle = remember(globalVariablePlaceholderColor) {
         SpanStyle(
-            color = placeholderColor,
+            color = globalVariablePlaceholderColor,
+            fontFamily = FontFamily.Monospace,
+        )
+    }
+    val localVariablePlaceholderColor = colorResource(R.color.local_variable)
+    val localVariablePlaceholderStyle = remember(localVariablePlaceholderColor) {
+        SpanStyle(
+            color = localVariablePlaceholderColor,
             fontFamily = FontFamily.Monospace,
         )
     }
@@ -259,7 +298,7 @@ fun VariablePlaceholderTextField(
             null
         },
         visualTransformation = {
-            transformVariablePlaceholders(it.text, placeholders, placeholderStyle, transformation)
+            transformVariablePlaceholders(it.text, placeholders, globalVariablePlaceholderStyle, localVariablePlaceholderStyle, transformation)
                 .also {
                     transformedText = it.text.text
                 }

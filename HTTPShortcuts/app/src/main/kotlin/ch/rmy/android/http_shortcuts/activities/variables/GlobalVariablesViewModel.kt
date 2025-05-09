@@ -19,6 +19,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
+import ch.rmy.android.http_shortcuts.extensions.getGlobalVariables
 import ch.rmy.android.http_shortcuts.extensions.getRequestParametersForShortcuts
 import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
@@ -182,12 +183,12 @@ constructor(
 
         return shortcuts
             .filter { shortcut ->
-                VariableResolver.extractGlobalVariableIdsIncludingScripting(
+                VariableResolver.findResolvableVariableIdentifiersIncludingScripting(
                     shortcut = shortcut,
                     headers = headersByShortcutId[shortcut.id] ?: emptyList(),
                     parameters = parametersByShortcutId[shortcut.id] ?: emptyList(),
-                    variableManager = variableManager,
                 )
+                    .getGlobalVariables(variableManager)
                     .contains(globalVariableId)
             }
             .map { shortcut ->

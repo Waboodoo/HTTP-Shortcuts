@@ -7,7 +7,6 @@ import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderRepository
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
@@ -19,6 +18,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.getRequestParametersForShortcut
 import ch.rmy.android.http_shortcuts.extensions.resolve
 import ch.rmy.android.http_shortcuts.http.HttpHeaders
+import ch.rmy.android.http_shortcuts.variables.ResolvedVariableValues
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import ch.rmy.android.http_shortcuts.variables.Variables.rawPlaceholdersToResolvedValues
@@ -36,7 +36,7 @@ constructor(
 
     suspend fun generateCommand(shortcut: Shortcut, dialogHandle: DialogHandle): CurlCommand {
         val variableManager = resolveVariables(shortcut, dialogHandle)
-        return generateCommand(shortcut, variableManager.getVariableValuesByIds())
+        return generateCommand(shortcut, variableManager.getVariableValues())
     }
 
     private suspend fun resolveVariables(shortcut: Shortcut, dialogHandle: DialogHandle): VariableManager {
@@ -52,7 +52,7 @@ constructor(
         return variableManager
     }
 
-    private suspend fun generateCommand(shortcut: Shortcut, variableValues: Map<VariableKey, String>): CurlCommand =
+    private suspend fun generateCommand(shortcut: Shortcut, variableValues: ResolvedVariableValues): CurlCommand =
         CurlCommand.Builder()
             .url(rawPlaceholdersToResolvedValues(shortcut.url, variableValues))
             .runIf(shortcut.authenticationType?.usesUsernameAndPassword == true) {

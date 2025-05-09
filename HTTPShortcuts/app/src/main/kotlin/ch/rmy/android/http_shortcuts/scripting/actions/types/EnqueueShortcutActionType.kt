@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
 import ch.rmy.android.scripting.JsFunctionArgs
@@ -18,7 +19,7 @@ constructor(
             action = enqueueShortcutAction,
             params = EnqueueShortcutAction.Params(
                 shortcutNameOrId = args.getString(0)?.takeUnlessEmpty(),
-                variableValues = args.getObject(1),
+                variableValues = args.getObject(1)?.mapKeys { (variableKeyOrId, _) -> VariableKeyOrId(variableKeyOrId) },
                 delay = args.getInt(2)?.coerceIn(0, MAX_DELAY),
             ),
         )

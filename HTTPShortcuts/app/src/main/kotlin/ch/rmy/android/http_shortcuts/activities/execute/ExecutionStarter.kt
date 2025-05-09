@@ -8,7 +8,7 @@ import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.extensions.shouldUseForegroundService
 import javax.inject.Inject
@@ -27,7 +27,7 @@ constructor(
     fun execute(
         shortcutId: ShortcutId,
         trigger: ShortcutTriggerType,
-        variableValues: Map<VariableKey, String> = emptyMap(),
+        variableValues: Map<VariableKeyOrId, String> = emptyMap(),
         fileUris: List<Uri> = emptyList(),
     ) {
         scope.launch {

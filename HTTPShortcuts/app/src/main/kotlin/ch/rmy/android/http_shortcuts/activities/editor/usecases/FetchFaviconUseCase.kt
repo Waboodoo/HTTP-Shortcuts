@@ -32,8 +32,8 @@ constructor(
 
     suspend operator fun invoke(url: String, globalVariables: List<GlobalVariable>, dialogHandle: DialogHandle): ShortcutIcon? {
         val variableManager = VariableManager(globalVariables)
-        variableResolver.resolve(variableManager, Variables.extractGlobalVariableIds(url), dialogHandle)
-        val finalUrl = Variables.rawPlaceholdersToResolvedValues(url, variableManager.getVariableValuesByIds())
+        variableResolver.resolve(variableManager, Variables.findResolvableVariableIdentifiers(url), dialogHandle)
+        val finalUrl = Variables.rawPlaceholdersToResolvedValues(url, variableManager.getVariableValues())
 
         val iconSize = IconUtil.getIconSize(context)
         return withContext(Dispatchers.IO) {

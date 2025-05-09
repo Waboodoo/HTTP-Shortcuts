@@ -27,5 +27,5 @@ abstract class ExecutionType {
     ): Flow<ExecutionStatus>
 
     protected fun injectVariables(string: String, variableManager: VariableManager): String =
-        Variables.rawPlaceholdersToResolvedValues(string, variableManager.getVariableValuesByIds())
+        Variables.rawPlaceholdersToResolvedValues(string, variableManager.getVariableValues())
 }

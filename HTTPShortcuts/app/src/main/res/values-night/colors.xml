@@ -2,7 +2,8 @@
 <resources>
     <item name="primary" type="color">#FFFFFFFF</item>
     <item name="primary_dark" type="color">#FFFFFFFF</item>
-    <item name="variable" type="color">#acb4e2</item>
+    <item name="global_variable" type="color">#acb4e2</item>
+    <item name="local_variable" type="color">#E2CAAC</item>
     <item name="textarea_background" type="color">#FF000000</item>
     <item name="splash_background" type="color">#1F1F1F</item>
 </resources>

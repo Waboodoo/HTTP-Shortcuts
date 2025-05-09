@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.execute.models
 
-import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.variables.ResolvedVariableValues
 import java.io.IOException
 
 sealed interface ExecutionStatus {
@@ -9,24 +9,24 @@ sealed interface ExecutionStatus {
     data object Preparing : ExecutionStatus
 
     data class InProgress(
-        override val variableValues: Map<GlobalVariableId, String>,
+        override val variableValues: ResolvedVariableValues,
     ) : ExecutionStatus, WithVariables
 
     data class WrappingUp(
-        override val variableValues: Map<GlobalVariableId, String>,
+        override val variableValues: ResolvedVariableValues,
         override val result: String?,
     ) : ExecutionStatus, WithVariables, WithResult
 
     data class CompletedSuccessfully(
         override val response: ShortcutResponse?,
-        override val variableValues: Map<GlobalVariableId, String>,
+        override val variableValues: ResolvedVariableValues,
         override val result: String?,
     ) : ExecutionStatus, WithResponse, WithVariables, WithResult
 
     data class CompletedWithError(
         val error: IOException?,
         override val response: ShortcutResponse?,
-        override val variableValues: Map<GlobalVariableId, String>,
+        override val variableValues: ResolvedVariableValues,
         override val result: String?,
     ) : ExecutionStatus, WithResponse, WithVariables, WithResult
 
@@ -35,7 +35,7 @@ sealed interface ExecutionStatus {
     }
 
     interface WithVariables {
-        val variableValues: Map<GlobalVariableId, String>
+        val variableValues: ResolvedVariableValues
     }
 
     interface WithResult {

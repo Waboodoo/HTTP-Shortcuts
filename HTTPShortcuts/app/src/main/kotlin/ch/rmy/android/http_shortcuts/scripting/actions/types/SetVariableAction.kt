@@ -17,17 +17,19 @@ constructor(
     override suspend fun Params.execute(executionContext: ExecutionContext) {
         logInfo("Setting variable value (${value.length} characters)")
         executionContext.variableManager.setVariableValueByKeyOrId(variableKeyOrId, value, storeOnly)
-        val variable = try {
-            globalVariableRepository.getVariableByKeyOrId(variableKeyOrId)
+        try {
+            val variable = globalVariableRepository.getVariableByKeyOrId(variableKeyOrId)
+            globalVariableRepository.setVariableValue(variable.id, value.truncate(MAX_VARIABLE_LENGTH))
         } catch (_: NoSuchElementException) {
-            throw ActionException {
-                getString(
-                    R.string.error_variable_not_found_write,
-                    variableKeyOrId,
-                )
+            if (variableKeyOrId.globalVariableId != null) {
+                throw ActionException {
+                    getString(
+                        R.string.error_variable_not_found_write,
+                        variableKeyOrId,
+                    )
+                }
             }
         }
-        globalVariableRepository.setVariableValue(variable.id, value.truncate(MAX_VARIABLE_LENGTH))
     }
 
     data class Params(

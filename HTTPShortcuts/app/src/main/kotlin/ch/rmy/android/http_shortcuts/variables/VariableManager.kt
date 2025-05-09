@@ -11,19 +11,27 @@ import org.json.JSONObject
 
 class VariableManager(
     globalVariables: List<GlobalVariable>,
-    preResolvedValues: Map<VariableKey, String> = emptyMap(),
+    preResolvedValues: Map<VariableKeyOrId, String> = emptyMap(),
 ) {
     var globalVariables = globalVariables
         private set
 
     private val globalVariablesById: MutableMap<GlobalVariableId, GlobalVariable> = globalVariables.associateBy { it.id }.toMutableMap()
     private val globalVariablesByKey: MutableMap<VariableKey, GlobalVariable> = globalVariables.associateBy { it.key }.toMutableMap()
-    private val variableValuesByKey = mutableMapOf<VariableKey, String>()
+
+    private val globalVariableValues = mutableMapOf<GlobalVariableId, String>()
+    private val localVariablesValues = mutableMapOf<VariableKey, String>()
 
     init {
         preResolvedValues.forEach { (variableKeyOrId, value) ->
-            val variable = getGlobalVariableByKeyOrId(variableKeyOrId) ?: return@forEach
-            variableValuesByKey[variable.key] = encodeValue(variable, value)
+            val variable = getGlobalVariableByKeyOrId(variableKeyOrId)
+            if (variable != null) {
+                globalVariableValues[variable.id] = encodeValue(variable, value)
+            } else {
+                variableKeyOrId.variableKey?.let { variableKey ->
+                    localVariablesValues[variableKey] = value
+                }
+            }
         }
     }
 
@@ -34,26 +42,8 @@ class VariableManager(
         globalVariablesByKey[key]
 
     fun getGlobalVariableByKeyOrId(keyOrId: VariableKeyOrId): GlobalVariable? =
-        if (globalVariablesById.containsKey(keyOrId)) {
-            getGlobalVariableById(keyOrId)
-        } else {
-            getGlobalVariableByKey(keyOrId)
-        }
-
-    fun getGlobalVariableValueById(globalVariableId: GlobalVariableId): String? =
-        getGlobalVariableById(globalVariableId)?.key
-            ?.let { variableKey ->
-                getVariableValueByKey(variableKey)
-            }
-
-    fun getVariableValueByKey(variableKey: VariableKey): String? =
-        variableValuesByKey[variableKey]
-
-    fun getVariableValueByKeyOrId(variableKeyOrId: VariableKeyOrId): String? =
-        getGlobalVariableByKeyOrId(variableKeyOrId)?.key
-            ?.let { variableKey ->
-                getVariableValueByKey(variableKey)
-            }
+        keyOrId.globalVariableId?.let(::getGlobalVariableById)
+            ?: keyOrId.variableKey?.let(::getGlobalVariableByKey)
 
     fun setGlobalVariableValue(variable: GlobalVariable, value: String, storeOnly: Boolean = false) {
         val newVariable = variable.copy(value = value)
@@ -61,28 +51,30 @@ class VariableManager(
         globalVariablesById[variable.id] = newVariable
         globalVariablesByKey[variable.key] = newVariable
         if (!storeOnly) {
-            variableValuesByKey[variable.key] = encodeValue(variable, value)
+            globalVariableValues[variable.id] = encodeValue(variable, value)
         }
     }
 
     fun setVariableValueByKeyOrId(variableKeyOrId: VariableKeyOrId, value: String, storeOnly: Boolean = false) {
-        getGlobalVariableByKeyOrId(variableKeyOrId)
-            ?.let { variable ->
-                setGlobalVariableValue(variable, value, storeOnly)
+        val variable = getGlobalVariableByKeyOrId(variableKeyOrId)
+        if (variable != null) {
+            setGlobalVariableValue(variable, value, storeOnly)
+        } else if (!storeOnly) {
+            variableKeyOrId.variableKey?.let { variableKey ->
+                localVariablesValues[variableKey] = value
             }
+        }
     }
 
-    fun getVariableValuesByIds(): Map<GlobalVariableId, String> =
-        variableValuesByKey
-            .mapKeys { entry ->
-                getGlobalVariableByKey(entry.key)!!.id
-            }
+    fun getVariableValues(): ResolvedVariableValues =
+        ResolvedVariableValues(
+            globalVariableValues = globalVariableValues.toMap(),
+            localVariablesValues = localVariablesValues.toMap(),
+            globalVariableKeysToIds = globalVariables.associate { it.key to it.id },
+        )
 
-    fun getVariableValuesByKeys(): Map<VariableKey, String> =
-        variableValuesByKey
-
-    fun isResolved(variableKey: VariableKey): Boolean =
-        variableValuesByKey.containsKey(variableKey)
+    fun isResolved(variable: GlobalVariable): Boolean =
+        globalVariableValues.containsKey(variable.id)
 
     private fun encodeValue(variable: GlobalVariable, value: String) =
         value

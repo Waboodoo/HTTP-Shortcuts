@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.extensions.getGlobalVariables
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import javax.inject.Inject
@@ -47,12 +48,12 @@ constructor() {
         globalVariableIds: Set<GlobalVariableId>,
         variableManager: VariableManager,
     ): Boolean {
-        val globalVariableIdsInShortcut = VariableResolver.extractGlobalVariableIdsIncludingScripting(
+        val globalVariableIdsInShortcut = VariableResolver.findResolvableVariableIdentifiersIncludingScripting(
             shortcut,
             headers = headers,
             parameters = parameters,
-            variableManager,
         )
+            .getGlobalVariables(variableManager)
         return globalVariableIds.any { globalVariableIdsInShortcut.contains(it) }
     }
 

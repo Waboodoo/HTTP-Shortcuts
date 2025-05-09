@@ -98,7 +98,7 @@ constructor(
         if ((params.recursionDepth == 0 || params.trigger == SCHEDULE_IMMEDIATELY) && checkHeadlessExecution(
                 shortcut,
                 requestParameters,
-                variableManager.getVariableValuesByIds(),
+                variableManager.getVariableValues(),
             )
         ) {
             logInfo("Preparing to execute HTTP request in headless mode")
@@ -106,7 +106,7 @@ constructor(
                 httpRequesterStarter.invoke(
                     shortcutId = shortcut.id,
                     sessionId = sessionId,
-                    variableValues = variableManager.getVariableValuesByIds(),
+                    variableValues = variableManager.getVariableValues(),
                     fileUploadResult = fileUploadResult,
                 )
                 return@flow
@@ -133,7 +133,7 @@ constructor(
                         parameters = requestParameters,
                         storeDirectoryUri = workingDirectory?.directory,
                         sessionId = sessionId,
-                        variableValues = variableManager.getVariableValuesByIds(),
+                        variableValues = variableManager.getVariableValues(),
                         fileUploadResult = fileUploadResult,
                         useCookieJar = shortcut.acceptCookies,
                         certificatePins = certificatePinRepository.getCertificatePins(),
@@ -190,7 +190,7 @@ constructor(
                     ExecutionStatus.CompletedWithError(
                         error = e as? IOException,
                         response = (e as? ErrorResponse)?.shortcutResponse,
-                        variableValues = variableManager.getVariableValuesByIds(),
+                        variableValues = variableManager.getVariableValues(),
                         result = resultHandler.getResult(),
                     ),
                 )
@@ -233,7 +233,7 @@ constructor(
                 ExecutionStatus.CompletedWithError(
                     error = null,
                     response = response,
-                    variableValues = variableManager.getVariableValuesByIds(),
+                    variableValues = variableManager.getVariableValues(),
                     result = resultHandler.getResult(),
                 ),
             )
@@ -251,7 +251,7 @@ constructor(
 
         emit(
             ExecutionStatus.WrappingUp(
-                variableManager.getVariableValuesByIds(),
+                variableManager.getVariableValues(),
                 result = resultHandler.getResult(),
             ),
         )
@@ -266,7 +266,7 @@ constructor(
         emit(
             ExecutionStatus.CompletedSuccessfully(
                 response = response,
-                variableValues = variableManager.getVariableValuesByIds(),
+                variableValues = variableManager.getVariableValues(),
                 result = resultHandler.getResult(),
             ),
         )
@@ -296,7 +296,7 @@ constructor(
             pendingExecutionsRepository
                 .createPendingExecution(
                     shortcutId = shortcut.id,
-                    resolvedVariables = variableManager.getVariableValuesByKeys(),
+                    resolvedVariables = variableManager.getVariableValues().getAll(),
                     tryNumber = params.tryNumber + 1,
                     delay = calculateDelay(params),
                     recursionDepth = params.recursionDepth,
@@ -410,7 +410,7 @@ constructor(
             val fileName = shortcut.responseStoreFileName
                 ?.takeUnlessEmpty()
                 ?.let {
-                    Variables.rawPlaceholdersToResolvedValues(it, variableManager.getVariableValuesByIds())
+                    Variables.rawPlaceholdersToResolvedValues(it, variableManager.getVariableValues())
                 }
                 ?: run {
                     response.contentDispositionFileName

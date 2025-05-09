@@ -30,7 +30,7 @@ import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.utils.Settings
@@ -157,9 +157,14 @@ class ExecuteActivity : BaseComposeActivity() {
             }
         }
 
-        fun variableValues(variableValues: Map<VariableKey, String>) = also {
+        fun variableValues(variableValues: Map<VariableKeyOrId, String>) = also {
             if (variableValues.isNotEmpty()) {
-                intent.putExtra(EXTRA_VARIABLE_VALUES, HashMap(variableValues))
+                intent.putExtra(
+                    EXTRA_VARIABLE_VALUES,
+                    variableValues.mapKeysTo(HashMap()) { (variableKeyOrId, value) ->
+                        variableKeyOrId.value
+                    },
+                )
             }
         }
 
@@ -202,8 +207,9 @@ class ExecuteActivity : BaseComposeActivity() {
                 ?: data?.lastPathSegment
                 ?: ""
 
-        fun Intent.extractVariableValues(): Map<VariableKey, String> =
-            getSerializable<HashMap<VariableKey, String>>(EXTRA_VARIABLE_VALUES)
+        fun Intent.extractVariableValues(): Map<VariableKeyOrId, String> =
+            getSerializable<HashMap<String, String>>(EXTRA_VARIABLE_VALUES)
+                ?.mapKeys { (variableKeyOrId, _) -> VariableKeyOrId(variableKeyOrId) }
                 ?: emptyMap()
 
         fun Intent.toExecutionParams(): ExecutionParams =

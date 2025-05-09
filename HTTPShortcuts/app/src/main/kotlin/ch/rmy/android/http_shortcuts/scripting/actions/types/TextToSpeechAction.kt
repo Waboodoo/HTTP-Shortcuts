@@ -26,7 +26,7 @@ constructor(
     private val context: Context,
 ) : Action<TextToSpeechAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext) {
-        val finalMessage = Variables.rawPlaceholdersToResolvedValues(message, executionContext.variableManager.getVariableValuesByIds())
+        val finalMessage = Variables.rawPlaceholdersToResolvedValues(message, executionContext.variableManager.getVariableValues())
             .truncate(MAX_TEXT_LENGTH)
         if (finalMessage.isEmpty()) {
             return

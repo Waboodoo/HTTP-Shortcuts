@@ -6,11 +6,13 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.extensions.getGlobalVariables
 import ch.rmy.android.http_shortcuts.extensions.getRequestParametersForShortcuts
 import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.variables.VariableManager
@@ -55,34 +57,34 @@ constructor(
         val variableManager = VariableManager(variables)
         return shortcuts
             .flatMap { shortcut ->
-                VariableResolver.extractGlobalVariableIdsIncludingScripting(
+                VariableResolver.findResolvableVariableIdentifiersIncludingScripting(
                     shortcut = shortcut,
                     headers = headersByShortcutId[shortcut.id] ?: emptyList(),
                     parameters = parametersByShortcutId[shortcut.id] ?: emptyList(),
-                    variableManager = variableManager,
                 )
             }
             .plus(getVariablesInUseInVariables(variables))
+            .getGlobalVariables(variableManager)
             .toSet()
     }
 
-    private fun getVariablesInUseInVariables(variables: List<GlobalVariable>): List<GlobalVariableId> =
+    private fun getVariablesInUseInVariables(variables: List<GlobalVariable>): List<VariableKeyOrId> =
         variables.flatMap(::getVariablesInUseInVariable)
 
-    private fun getVariablesInUseInVariable(variable: GlobalVariable): Set<GlobalVariableId> =
+    private fun getVariablesInUseInVariable(variable: GlobalVariable): Set<VariableKeyOrId> =
         when (variable.type) {
-            VariableType.CONSTANT -> variable.value?.let(Variables::extractGlobalVariableIds)
+            VariableType.CONSTANT -> variable.value?.let(Variables::findResolvableVariableIdentifiers)
             VariableType.SELECT -> {
                 variable.getStringListData(SelectType.KEY_VALUES)
                     ?.flatMap { value ->
-                        Variables.extractGlobalVariableIds(value)
+                        Variables.findResolvableVariableIdentifiers(value)
                     }
                     ?.toSet()
             }
             VariableType.TOGGLE -> {
                 variable.getStringListData(ToggleType.KEY_VALUES)
                     ?.flatMap { value ->
-                        Variables.extractGlobalVariableIds(value)
+                        Variables.findResolvableVariableIdentifiers(value)
                     }
                     ?.toSet()
             }

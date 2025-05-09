@@ -52,7 +52,7 @@ constructor(
 
             emit(
                 ExecutionStatus.WrappingUp(
-                    variableManager.getVariableValuesByIds(),
+                    variableManager.getVariableValues(),
                     result = resultHandler.getResult(),
                 ),
             )
