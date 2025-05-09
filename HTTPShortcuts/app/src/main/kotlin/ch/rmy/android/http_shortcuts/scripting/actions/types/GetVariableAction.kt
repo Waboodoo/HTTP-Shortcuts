@@ -16,34 +16,25 @@ class GetVariableAction
 constructor(
     private val variableResolver: VariableResolver,
 ) : Action<GetVariableAction.Params> {
-    override suspend fun Params.execute(executionContext: ExecutionContext): String =
-        try {
-            getVariableValue(variableKeyOrId, executionContext.variableManager)
-        } catch (_: VariableNotFoundException) {
-            try {
-                resolveVariable(variableKeyOrId, executionContext.variableManager, executionContext.dialogHandle)
-                getVariableValue(variableKeyOrId, executionContext.variableManager)
-            } catch (e2: VariableNotFoundException) {
+    override suspend fun Params.execute(executionContext: ExecutionContext): String {
+        var value = executionContext.variableManager.getVariableValues()[variableKeyOrId]
+        if (value == null) {
+            resolveVariable(variableKeyOrId, executionContext.variableManager, executionContext.dialogHandle)
+            value = executionContext.variableManager.getVariableValues()[variableKeyOrId]
+            if (value == null) {
                 throw ActionException {
-                    getString(R.string.error_variable_not_found_read, variableKeyOrId)
+                    getString(R.string.error_variable_not_found_read, variableKeyOrId.value)
                 }
             }
         }
-
-    private fun getVariableValue(variableKeyOrId: VariableKeyOrId, variableManager: VariableManager): String =
-        variableManager.getVariableValueByKeyOrId(variableKeyOrId)
-            ?: throw VariableNotFoundException()
-
-    private suspend fun resolveVariable(variableKeyOrId: VariableKeyOrId, variableManager: VariableManager, dialogHandle: DialogHandle) {
-        val variable = variableManager.getGlobalVariableByKeyOrId(variableKeyOrId)
-            ?: throw VariableNotFoundException()
-
-        withContext(Dispatchers.Main) {
-            variableResolver.resolve(variableManager, requiredGlobalVariableIds = setOf(variable.id), dialogHandle)
-        }
+        return value
     }
 
-    private class VariableNotFoundException : Throwable()
+    private suspend fun resolveVariable(variableKeyOrId: VariableKeyOrId, variableManager: VariableManager, dialogHandle: DialogHandle) {
+        withContext(Dispatchers.Main) {
+            variableResolver.resolve(variableManager, variableKeysOrIds = setOf(variableKeyOrId), dialogHandle)
+        }
+    }
 
     data class Params(
         val variableKeyOrId: VariableKeyOrId,

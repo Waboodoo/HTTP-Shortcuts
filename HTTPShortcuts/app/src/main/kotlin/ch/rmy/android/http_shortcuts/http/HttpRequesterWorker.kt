@@ -21,7 +21,8 @@ import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderR
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.ResponseFailureOutput
 import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
@@ -35,6 +36,7 @@ import ch.rmy.android.http_shortcuts.extensions.getSafeName
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
+import ch.rmy.android.http_shortcuts.variables.ResolvedVariableValues
 import ch.rmy.android.http_shortcuts.variables.Variables
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -50,6 +52,7 @@ constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     private val shortcutRepository: ShortcutRepository,
+    private val globalVariableRepository: GlobalVariableRepository,
     private val requestHeaderRepository: RequestHeaderRepository,
     private val requestParameterRepository: RequestParameterRepository,
     private val certificatePinRepository: CertificatePinRepository,
@@ -67,6 +70,8 @@ constructor(
             return Result.failure()
         }
 
+        val variableValues = getVariableValues(params.variableValues)
+
         val response = try {
             httpRequester
                 .executeShortcut(
@@ -83,7 +88,7 @@ constructor(
                             }
                         },
                     sessionId = params.sessionId,
-                    variableValues = params.variableValues,
+                    variableValues = variableValues,
                     fileUploadResult = params.fileUploadResult,
                     useCookieJar = shortcut.acceptCookies,
                     certificatePins = certificatePinRepository.getCertificatePins(),
@@ -113,7 +118,7 @@ constructor(
             return Result.success()
         }
 
-        handleDisplayingOfResult(shortcut, response, params.variableValues)
+        handleDisplayingOfResult(shortcut, response, variableValues)
 
         return Result.success()
     }
@@ -124,7 +129,32 @@ constructor(
                 GsonUtil.gson.fromJson(it, Params::class.java)
             }
 
-    private suspend fun handleDisplayingOfResult(shortcut: Shortcut, response: ShortcutResponse, variableValues: Map<GlobalVariableId, String>) {
+    private suspend fun getVariableValues(resolvedVariableValues: Map<VariableKeyOrId, String>): ResolvedVariableValues {
+        if (resolvedVariableValues.isEmpty()) {
+            return ResolvedVariableValues.empty
+        }
+        return ResolvedVariableValues(
+            globalVariableValues = buildMap {
+                resolvedVariableValues.forEach { (variableKeyOrId, value) ->
+                    variableKeyOrId.globalVariableId?.let { globalVariableId ->
+                        put(globalVariableId, value)
+                    }
+                }
+            },
+            localVariablesValues = buildMap {
+                resolvedVariableValues.forEach { (variableKeyOrId, value) ->
+                    variableKeyOrId.globalVariableId?.let { globalVariableId ->
+                        put(globalVariableId, value)
+                    }
+                }
+            },
+            globalVariableKeysToIds = globalVariableRepository.getGlobalVariables().associate { variable ->
+                variable.key to variable.id
+            },
+        )
+    }
+
+    private suspend fun handleDisplayingOfResult(shortcut: Shortcut, response: ShortcutResponse, variableValues: ResolvedVariableValues) {
         when (shortcut.responseSuccessOutput) {
             ResponseSuccessOutput.MESSAGE -> {
                 displayResult(
@@ -143,7 +173,7 @@ constructor(
         }
     }
 
-    private fun injectVariables(string: String, variableValues: Map<GlobalVariableId, String>): String =
+    private fun injectVariables(string: String, variableValues: ResolvedVariableValues): String =
         Variables.rawPlaceholdersToResolvedValues(string, variableValues)
 
     private suspend fun displayResult(shortcut: Shortcut, output: String?, response: ShortcutResponse? = null) {
@@ -172,7 +202,7 @@ constructor(
     private data class Params(
         val shortcutId: ShortcutId,
         val sessionId: String,
-        val variableValues: Map<GlobalVariableId, String>,
+        val variableValues: Map<VariableKeyOrId, String>,
         val fileUploadResult: FileUploadManager.Result?,
     )
 
@@ -184,10 +214,15 @@ constructor(
         operator fun invoke(
             shortcutId: ShortcutId,
             sessionId: String,
-            variableValues: Map<GlobalVariableId, String>,
+            variableValues: ResolvedVariableValues,
             fileUploadResult: FileUploadManager.Result?,
         ) {
-            val params = Params(shortcutId, sessionId, variableValues, fileUploadResult)
+            val params = Params(
+                shortcutId = shortcutId,
+                sessionId = sessionId,
+                variableValues = variableValues.getAll(),
+                fileUploadResult = fileUploadResult,
+            )
             with(WorkManager.getInstance(context)) {
                 enqueue(
                     OneTimeWorkRequestBuilder<HttpRequesterWorker>()

@@ -13,7 +13,7 @@ constructor() : Action<ConfirmAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext): Boolean? {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(
             message,
-            executionContext.variableManager.getVariableValuesByIds(),
+            executionContext.variableManager.getVariableValues(),
         )
 
         if (finalMessage.isEmpty()) {
@@ -25,7 +25,7 @@ constructor() : Action<ConfirmAction.Params> {
                 ExecuteDialogState.GenericConfirm(finalMessage.toLocalizable()),
             )
             true
-        } catch (e: DialogCancellationException) {
+        } catch (_: DialogCancellationException) {
             false
         }
     }

@@ -20,7 +20,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
@@ -63,7 +63,7 @@ constructor(
     private lateinit var fileUris: List<Uri>
 
     private lateinit var shortcutsForFileSharing: List<Shortcut>
-    private var variableValues: Map<VariableKey, String> = emptyMap()
+    private var variableValues: Map<VariableKeyOrId, String> = emptyMap()
 
     override suspend fun initialize(data: InitData): ShareViewState {
         shortcuts = shortcutRepository.getShortcuts()
@@ -117,7 +117,7 @@ constructor(
         val shortcuts = getTextShareTargets(globalVariableIds, variableManager)
 
         variableValues = globalVariables.associate { variable ->
-            variable.key to when {
+            VariableKeyOrId(variable.key) to when {
                 variable.isShareText && variable.isShareTitle -> "$title - $text"
                 variable.isShareTitle -> title
                 else -> text
@@ -165,7 +165,7 @@ constructor(
         }
     }
 
-    private suspend fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKey, String> = emptyMap()) {
+    private suspend fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKeyOrId, String> = emptyMap()) {
         executionStarter.execute(
             shortcutId = shortcutId,
             variableValues = variableValues,

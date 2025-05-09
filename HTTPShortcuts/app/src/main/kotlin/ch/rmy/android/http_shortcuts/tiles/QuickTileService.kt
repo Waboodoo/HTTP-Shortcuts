@@ -188,7 +188,7 @@ class QuickTileService : TileService() {
         if (!checkHeadlessExecution.invoke(shortcut, requestParameters ?: emptyList())) {
             return false
         }
-        val globalVariableIds = VariableResolver.extractGlobalVariableIdsExcludingScripting(
+        val globalVariableIds = VariableResolver.findResolvableVariableIdentifiersExcludingScripting(
             shortcut = shortcut,
             headers = requestHeaders ?: emptyList(),
             parameters = requestParameters ?: emptyList(),

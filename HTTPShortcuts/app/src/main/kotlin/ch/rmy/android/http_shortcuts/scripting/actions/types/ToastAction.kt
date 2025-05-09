@@ -14,7 +14,7 @@ constructor(
     override suspend fun Params.execute(executionContext: ExecutionContext) {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(
             message,
-            executionContext.variableManager.getVariableValuesByIds(),
+            executionContext.variableManager.getVariableValues(),
         )
         if (finalMessage.isEmpty()) {
             return

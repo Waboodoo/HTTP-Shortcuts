@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionWithVariablesModel
 import ch.rmy.android.http_shortcuts.data.models.ResolvedVariableModel
@@ -35,13 +35,13 @@ abstract class PendingExecutionDao {
     abstract suspend fun getNextPendingExecutionWaitingForNetwork(): PendingExecutionWithVariablesModel?
 
     @Transaction
-    open suspend fun insert(pendingExecution: PendingExecutionModel, resolvedVariables: Map<VariableKey, String>) {
+    open suspend fun insert(pendingExecution: PendingExecutionModel, resolvedVariables: Map<VariableKeyOrId, String>) {
         val pendingExecutionId = insertPendingExecution(pendingExecution).toInt()
         insertResolvedVariables(
-            resolvedVariables.entries.map { (key, value) ->
+            resolvedVariables.map { (variableKeyOrId, value) ->
                 ResolvedVariableModel(
                     pendingExecutionId = pendingExecutionId,
-                    key = key,
+                    variableKeyOrId = variableKeyOrId.value,
                     value = value,
                 )
             },

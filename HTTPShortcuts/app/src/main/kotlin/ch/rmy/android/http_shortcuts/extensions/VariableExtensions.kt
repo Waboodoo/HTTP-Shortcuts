@@ -1,6 +1,8 @@
 package ch.rmy.android.http_shortcuts.extensions
 
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -16,7 +18,7 @@ suspend fun VariableResolver.resolve(
 ) {
     resolve(
         variableManager,
-        requiredGlobalVariableIds = VariableResolver.extractGlobalVariableIdsExcludingScripting(
+        variableKeysOrIds = VariableResolver.findResolvableVariableIdentifiersExcludingScripting(
             shortcut = shortcut,
             headers = headers,
             parameters = parameters,
@@ -24,3 +26,12 @@ suspend fun VariableResolver.resolve(
         dialogHandle,
     )
 }
+
+fun Collection<VariableKeyOrId>.getGlobalVariables(
+    variableManager: VariableManager,
+): Set<GlobalVariableId> =
+    mapNotNull { variableKeyOrId ->
+        variableKeyOrId.globalVariableId
+            ?: variableKeyOrId.variableKey?.let(variableManager::getGlobalVariableByKey)?.id
+    }
+        .toSet()

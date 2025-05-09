@@ -8,13 +8,13 @@ import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.exceptions.UserAbortException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.scripting.ResponseObjectFactory
+import ch.rmy.android.http_shortcuts.variables.ResolvedVariableValues
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.scripting.JsObject
 import ch.rmy.android.scripting.ScriptingEngine
@@ -40,7 +40,7 @@ constructor(
         }
         val shortcut = try {
             shortcutRepository.getShortcutByNameOrId(shortcutNameOrId ?: executionContext.shortcutId)
-        } catch (e: NoSuchElementException) {
+        } catch (_: NoSuchElementException) {
             logInfo("Not executing shortcut, not found")
             throw ActionException {
                 getString(R.string.error_shortcut_not_found_for_triggering, shortcutNameOrId)
@@ -50,7 +50,9 @@ constructor(
         val execution = executionFactory.createExecution(
             ExecutionParams(
                 shortcutId = shortcut.id,
-                variableValues = executionContext.variableManager.getVariableValuesByIds()
+                variableValues = executionContext.variableManager
+                    .getVariableValues()
+                    .getAll()
                     .runIfNotNull(variableValues) { overriddenVariableValues ->
                         plus(overriddenVariableValues.mapValues { it.value?.toString().orEmpty() })
                     },
@@ -103,16 +105,16 @@ constructor(
 
     data class Params(
         val shortcutNameOrId: ShortcutNameOrId?,
-        val variableValues: Map<VariableKey, Any?>?,
+        val variableValues: Map<VariableKeyOrId, Any?>?,
     )
 
     companion object {
 
         private const val MAX_RECURSION_DEPTH = 3
 
-        internal fun VariableManager.storeVariableValues(variableValues: Map<GlobalVariableId, String>) {
-            variableValues.forEach { (variableId, value) ->
-                setVariableValueByKeyOrId(variableId, value)
+        internal fun VariableManager.storeVariableValues(variableValues: ResolvedVariableValues) {
+            variableValues.getAll().forEach { (variableKeyOrId, value) ->
+                setVariableValueByKeyOrId(variableKeyOrId, value)
             }
         }
 

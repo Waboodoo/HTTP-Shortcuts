@@ -30,7 +30,7 @@ constructor(
     }
 
     private suspend fun Params.renameShortcut(shortcutNameOrId: ShortcutNameOrId, variableManager: VariableManager) {
-        val newName = Variables.rawPlaceholdersToResolvedValues(name, variableManager.getVariableValuesByIds())
+        val newName = Variables.rawPlaceholdersToResolvedValues(name, variableManager.getVariableValues())
             .trim()
             .truncate(Constants.SHORTCUT_NAME_MAX_LENGTH)
         if (newName.isEmpty()) {

@@ -4,7 +4,7 @@ import ch.rmy.android.framework.extensions.plus
 import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.BaseRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
@@ -39,7 +39,7 @@ constructor(
             delayUntil = pendingExecution.delayUntil,
             waitForNetwork = pendingExecution.waitForNetwork,
             recursionDepth = pendingExecution.recursionDepth,
-            resolvedVariables = resolvedVariables.associate { it.key to it.value },
+            resolvedVariables = resolvedVariables.associate { VariableKeyOrId(it.variableKeyOrId) to it.value },
             requestCode = pendingExecution.requestCode,
             type = PendingExecutionType.parse(pendingExecution.type) ?: PendingExecutionType.UNKNOWN,
         )
@@ -63,7 +63,7 @@ constructor(
 
     suspend fun createPendingExecution(
         shortcutId: ShortcutId,
-        resolvedVariables: Map<VariableKey, String> = emptyMap(),
+        resolvedVariables: Map<VariableKeyOrId, String> = emptyMap(),
         tryNumber: Int = 0,
         delay: Duration? = null,
         requiresNetwork: Boolean = false,

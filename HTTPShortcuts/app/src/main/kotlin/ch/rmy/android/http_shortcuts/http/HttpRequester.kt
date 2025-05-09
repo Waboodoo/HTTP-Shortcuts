@@ -11,7 +11,6 @@ import ch.rmy.android.framework.extensions.fromHexString
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.FileUtil
-import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.HostVerificationConfig
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
@@ -32,6 +31,7 @@ import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYP
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE_WITH_CHARSET
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
+import ch.rmy.android.http_shortcuts.variables.ResolvedVariableValues
 import ch.rmy.android.http_shortcuts.variables.Variables
 import java.io.IOException
 import java.io.InputStream
@@ -69,7 +69,7 @@ constructor(
         parameters: List<RequestParameter>,
         storeDirectoryUri: Uri?,
         sessionId: String,
-        variableValues: Map<GlobalVariableId, String>,
+        variableValues: ResolvedVariableValues,
         fileUploadResult: FileUploadManager.Result? = null,
         useCookieJar: Boolean = false,
         certificatePins: List<CertificatePin>,
@@ -138,7 +138,7 @@ constructor(
             }
         }
 
-    private fun getProxyParams(shortcut: Shortcut, variableValues: Map<GlobalVariableId, String>): ProxyParams? {
+    private fun getProxyParams(shortcut: Shortcut, variableValues: ResolvedVariableValues): ProxyParams? {
         val host = (shortcut.proxyHost ?: return null)
             .let {
                 Variables.rawPlaceholdersToResolvedValues(it, variableValues)
@@ -168,7 +168,7 @@ constructor(
         shortcut: Shortcut,
         headers: List<RequestHeader>,
         parameters: List<RequestParameter>,
-        variablesValues: Map<GlobalVariableId, String>,
+        variablesValues: ResolvedVariableValues,
         requestData: RequestData,
         responseFileStorage: ResponseFileStorage,
         fileUploadResult: FileUploadManager.Result? = null,
@@ -309,7 +309,7 @@ constructor(
 
     private fun RequestBuilder.attachParameters(
         parameters: List<RequestParameter>,
-        variables: Map<GlobalVariableId, String>,
+        variables: ResolvedVariableValues,
         fileUploadResult: FileUploadManager.Result?,
     ) {
         var fileIndex = -1

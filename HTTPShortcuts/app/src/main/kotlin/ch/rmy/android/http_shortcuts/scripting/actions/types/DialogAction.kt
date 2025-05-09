@@ -15,7 +15,7 @@ constructor() : Action<DialogAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext): JsObject {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(
             message,
-            executionContext.variableManager.getVariableValuesByIds(),
+            executionContext.variableManager.getVariableValues(),
         )
         val result = if (finalMessage.isEmpty()) {
             "not-shown"

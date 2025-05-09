@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.variables
 
-import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.enums.HttpMethod
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
@@ -52,7 +51,7 @@ class VariableResolverTest {
         VariableResolver(variableTypeFactory)
             .resolve(
                 variableManager = variableManager,
-                requiredGlobalVariableIds = VariableResolver.extractGlobalVariableIdsExcludingScripting(
+                variableKeysOrIds = VariableResolver.findResolvableVariableIdentifiersExcludingScripting(
                     shortcutWithContent("{{1234}}"),
                     headers = emptyList(),
                     parameters = emptyList(),
@@ -60,21 +59,22 @@ class VariableResolverTest {
                 dialogHandle = mockk(),
             )
 
+        val values = variableManager.getVariableValues()
         assertEquals(
             "Hello World",
-            variableManager.getGlobalVariableValueById("1234"),
+            values[VariableKeyOrId("1234")],
         )
         assertEquals(
             "Hello World",
-            variableManager.getVariableValueByKeyOrId("myVariable"),
+            values[VariableKeyOrId("myVariable")],
         )
         assertEquals(
             "Hello World",
-            variableManager.getVariableValueByKeyOrId("1234"),
+            values[VariableKeyOrId("1234")],
         )
         assertEquals(
             "Hello World",
-            variableManager.getVariableValueByKeyOrId("myVariable"),
+            values[VariableKeyOrId("myVariable")],
         )
     }
 
@@ -89,7 +89,7 @@ class VariableResolverTest {
         VariableResolver(variableTypeFactory)
             .resolve(
                 variableManager = variableManager,
-                requiredGlobalVariableIds = VariableResolver.extractGlobalVariableIdsExcludingScripting(
+                variableKeysOrIds = VariableResolver.findResolvableVariableIdentifiersExcludingScripting(
                     shortcutWithContent("{{1234}}"),
                     headers = emptyList(),
                     parameters = emptyList(),
@@ -97,38 +97,39 @@ class VariableResolverTest {
                 dialogHandle = mockk(),
             )
 
+        val values = variableManager.getVariableValues()
         assertEquals(
             "World",
-            variableManager.getGlobalVariableValueById("5678"),
+            values[VariableKeyOrId("5678")],
         )
         assertEquals(
             "World",
-            variableManager.getVariableValueByKey("myVariable2"),
+            values[VariableKeyOrId("myVariable2")],
         )
         assertEquals(
             "World",
-            variableManager.getVariableValueByKeyOrId("5678"),
+            values[VariableKeyOrId("5678")],
         )
         assertEquals(
             "World",
-            variableManager.getVariableValueByKeyOrId("myVariable2"),
+            values[VariableKeyOrId("myVariable2")],
         )
 
         assertEquals(
             "Hello World",
-            variableManager.getGlobalVariableValueById("1234"),
+            values[VariableKeyOrId("1234")],
         )
         assertEquals(
             "Hello World",
-            variableManager.getVariableValueByKey("myVariable1"),
+            values[VariableKeyOrId("myVariable1")],
         )
         assertEquals(
             "Hello World",
-            variableManager.getVariableValueByKeyOrId("1234"),
+            values[VariableKeyOrId("1234")],
         )
         assertEquals(
             "Hello World",
-            variableManager.getVariableValueByKeyOrId("myVariable1"),
+            values[VariableKeyOrId("myVariable1")],
         )
     }
 
@@ -140,32 +141,14 @@ class VariableResolverTest {
             getVariable("my_variable");
             """.trimIndent(),
         )
-        val variableManager = mockk<VariableManager> {
-            every { getGlobalVariableById(any()) } answers {
-                when (firstArg<GlobalVariableId>()) {
-                    "1234" -> mockk()
-                    else -> null
-                }
-            }
-
-            every { getGlobalVariableByKey(any()) } answers {
-                when (firstArg<VariableKeyOrId>()) {
-                    "my_variable" -> mockk {
-                        every { id } returns "5678"
-                    }
-                    else -> null
-                }
-            }
-        }
-        val globalVariableIds = VariableResolver.extractGlobalVariableIdsIncludingScripting(
+        val globalVariableIds = VariableResolver.findResolvableVariableIdentifiersIncludingScripting(
             shortcut,
             headers = emptyList(),
             parameters = emptyList(),
-            variableManager = variableManager,
         )
 
         assertEquals(
-            setOf("1234", "5678"),
+            setOf(VariableKeyOrId("1234"), VariableKeyOrId("my_variable")),
             globalVariableIds,
         )
     }
@@ -182,7 +165,7 @@ class VariableResolverTest {
         VariableResolver(variableTypeFactory)
             .resolve(
                 variableManager = variableManager,
-                requiredGlobalVariableIds = setOf("123", "456"),
+                variableKeysOrIds = setOf(VariableKeyOrId("123"), VariableKeyOrId("456")),
                 dialogHandle = mockk(),
             )
 
@@ -191,12 +174,20 @@ class VariableResolverTest {
             resolutionOrder,
         )
         assertEquals(
-            mapOf(
-                "123" to "Hello World",
-                "456" to "!!!",
-                "789" to "World",
+            ResolvedVariableValues(
+                globalVariableValues = mapOf(
+                    "123" to "Hello World",
+                    "456" to "!!!",
+                    "789" to "World",
+                ),
+                localVariablesValues = emptyMap(),
+                globalVariableKeysToIds = mapOf(
+                    "myVariable1" to "123",
+                    "myVariable2" to "456",
+                    "myVariable3" to "789",
+                ),
             ),
-            variableManager.getVariableValuesByIds(),
+            variableManager.getVariableValues(),
         )
     }
 
@@ -212,7 +203,7 @@ class VariableResolverTest {
         VariableResolver(variableTypeFactory)
             .resolve(
                 variableManager = variableManager,
-                requiredGlobalVariableIds = setOf("123"),
+                variableKeysOrIds = setOf(VariableKeyOrId("123")),
                 dialogHandle = mockk(),
             )
 
@@ -222,7 +213,7 @@ class VariableResolverTest {
                 "456" to "World!!!",
                 "789" to "!!!",
             ),
-            variableManager.getVariableValuesByIds(),
+            variableManager.getVariableValues().globalVariableValues,
         )
     }
 
@@ -236,7 +227,7 @@ class VariableResolverTest {
         VariableResolver(variableTypeFactory)
             .resolve(
                 variableManager = variableManager,
-                requiredGlobalVariableIds = setOf("123"),
+                variableKeysOrIds = setOf(VariableKeyOrId("123")),
                 dialogHandle = mockk(),
             )
 
@@ -244,7 +235,7 @@ class VariableResolverTest {
             mapOf(
                 "123" to "Hello Hello Hello {{123}}",
             ),
-            variableManager.getVariableValuesByIds(),
+            variableManager.getVariableValues().globalVariableValues,
         )
     }
 

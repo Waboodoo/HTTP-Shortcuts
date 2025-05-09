@@ -9,7 +9,7 @@ import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -57,7 +57,7 @@ constructor(
         }
     }
 
-    private fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKey, String>) {
+    private fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKeyOrId, String>) {
         executionStarter.execute(
             shortcutId = shortcutId,
             trigger = ShortcutTriggerType.DEEP_LINK,
@@ -81,11 +81,11 @@ constructor(
             ?: lastPathSegment
             ?: ""
 
-    private fun Uri.getVariableValues(): Map<VariableKey, String> =
+    private fun Uri.getVariableValues(): Map<VariableKeyOrId, String> =
         queryParameterNames
             .filterNot { it.isEmpty() }
-            .associateWith { key ->
-                getQueryParameter(key) ?: ""
+            .associate { key ->
+                VariableKeyOrId(key) to (getQueryParameter(key) ?: "")
             }
 
     fun onDialogDismissed() = runAction {

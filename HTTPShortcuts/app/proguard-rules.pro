@@ -6,6 +6,7 @@
 -keep class ch.rmy.android.http_shortcuts.http.FileUploadManager$Result { *; }
 -keep class ch.rmy.android.http_shortcuts.http.FileUploadManager$File { *; }
 -keep class ch.rmy.android.http_shortcuts.http.HttpRequesterWorker$Params { *; }
+-keep class ch.rmy.android.http_shortcuts.variables.ResolvedVariableValues { *; }
 -keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$ShortcutTriggered { *; }
 -keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$ShortcutCancelled { *; }
 -keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$HttpRequestSent { *; }

@@ -261,7 +261,7 @@ class Execution(
             logInfo("Delaying execution")
             pendingExecutionsRepository.createPendingExecution(
                 shortcutId = shortcut.id,
-                resolvedVariables = variableManager.getVariableValuesByKeys(),
+                resolvedVariables = variableManager.getVariableValues().getAll(),
                 delay = shortcut.delay.milliseconds,
                 tryNumber = 1,
                 recursionDepth = params.recursionDepth,
@@ -275,7 +275,7 @@ class Execution(
 
         val fileUploadResult = handleFiles(loadMetaData = usesScripting)
 
-        emit(ExecutionStatus.InProgress(variableManager.getVariableValuesByIds()))
+        emit(ExecutionStatus.InProgress(variableManager.getVariableValues()))
 
         val resultHandler = ResultHandler()
 

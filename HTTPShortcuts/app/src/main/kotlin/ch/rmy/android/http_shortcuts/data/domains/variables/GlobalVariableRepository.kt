@@ -14,7 +14,7 @@ constructor(
 
     suspend fun getVariableByKeyOrId(keyOrId: VariableKeyOrId): GlobalVariable = query {
         globalVariableDao()
-            .getVariableByKeyOrId(keyOrId)
+            .getVariableByKeyOrId(keyOrId.value)
             .first()
     }
 

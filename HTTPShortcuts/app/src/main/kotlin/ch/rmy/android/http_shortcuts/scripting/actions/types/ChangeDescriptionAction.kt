@@ -24,7 +24,7 @@ constructor(
     }
 
     private suspend fun Params.changeDescription(shortcutNameOrId: ShortcutNameOrId, variableManager: VariableManager) {
-        val newDescription = Variables.rawPlaceholdersToResolvedValues(description, variableManager.getVariableValuesByIds())
+        val newDescription = Variables.rawPlaceholdersToResolvedValues(description, variableManager.getVariableValues())
             .trim()
             .truncate(Constants.SHORTCUT_DESCRIPTION_MAX_LENGTH)
         if (newDescription.isEmpty()) {

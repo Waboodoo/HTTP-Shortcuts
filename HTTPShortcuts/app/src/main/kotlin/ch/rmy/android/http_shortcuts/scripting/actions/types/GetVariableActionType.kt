@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
 import ch.rmy.android.scripting.JsFunctionArgs
@@ -16,7 +17,7 @@ constructor(
         ActionRunnable(
             action = getVariableAction,
             params = GetVariableAction.Params(
-                variableKeyOrId = args.getString(0) ?: "",
+                variableKeyOrId = VariableKeyOrId(args.getString(0) ?: ""),
             ),
         )
 

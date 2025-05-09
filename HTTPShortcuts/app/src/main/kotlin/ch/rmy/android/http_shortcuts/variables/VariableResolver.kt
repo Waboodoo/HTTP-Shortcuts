@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
-import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.extensions.getGlobalVariables
 import ch.rmy.android.http_shortcuts.variables.types.VariableTypeFactory
 import javax.inject.Inject
 
@@ -19,24 +20,18 @@ constructor(
 ) {
     suspend fun resolve(
         variableManager: VariableManager,
-        requiredGlobalVariableIds: Set<GlobalVariableId>,
+        variableKeysOrIds: Set<VariableKeyOrId>,
         dialogHandle: DialogHandle,
     ) {
-        requiredGlobalVariableIds
-            .filter { globalVariableId ->
-                val globalVariable = variableManager.getGlobalVariableById(globalVariableId)
-                globalVariable != null && !variableManager.isResolved(globalVariable.key)
-            }
-            .toSet()
-            .let { globalVariableIds ->
-                variableManager.globalVariables.filter { it.id in globalVariableIds }
-            }
+        val globalVariableIds = variableKeysOrIds.getGlobalVariables(variableManager)
+        variableManager.globalVariables
+            .filter { it.id in globalVariableIds }
             .forEach { globalVariable ->
-                resolveVariable(variableManager, globalVariable, dialogHandle)
+                resolveGlobalVariable(variableManager, globalVariable, dialogHandle)
             }
     }
 
-    private suspend fun resolveVariable(
+    private suspend fun resolveGlobalVariable(
         variableManager: VariableManager,
         globalVariable: GlobalVariable,
         dialogHandle: DialogHandle,
@@ -45,24 +40,25 @@ constructor(
         if (recursionDepth >= MAX_RECURSION_DEPTH) {
             return
         }
-        if (variableManager.isResolved(globalVariable.key)) {
+        if (variableManager.isResolved(globalVariable)) {
             return
         }
 
         val variableType = variableTypeFactory.getType(globalVariable.type)
         val rawValue = variableType.resolve(globalVariable, dialogHandle)
 
-        Variables.extractGlobalVariableIds(rawValue)
+        Variables.findResolvableVariableIdentifiers(rawValue)
+            .getGlobalVariables(variableManager)
             .forEach { variableId ->
                 variableManager.getGlobalVariableById(variableId)
                     ?.let { referencedVariable ->
-                        resolveVariable(variableManager, referencedVariable, dialogHandle, recursionDepth = recursionDepth + 1)
+                        resolveGlobalVariable(variableManager, referencedVariable, dialogHandle, recursionDepth = recursionDepth + 1)
                     }
             }
 
         val finalValue = Variables.rawPlaceholdersToResolvedValues(
             rawValue,
-            variableManager.getVariableValuesByIds(),
+            variableManager.getVariableValues(),
         )
         variableManager.setGlobalVariableValue(globalVariable, finalValue)
     }
@@ -71,104 +67,88 @@ constructor(
 
         private const val MAX_RECURSION_DEPTH = 3
 
-        fun extractGlobalVariableIdsIncludingScripting(
+        fun findResolvableVariableIdentifiersIncludingScripting(
             shortcut: Shortcut,
             headers: List<RequestHeader>,
             parameters: List<RequestParameter>,
-            variableManager: VariableManager,
-        ): Set<GlobalVariableId> =
-            extractGlobalVariableIds(
+        ): Set<VariableKeyOrId> =
+            findResolvableVariableIdentifiers(
                 shortcut = shortcut,
                 headers = headers,
                 parameters = parameters,
-                variableManager = variableManager,
                 includeScripting = true,
             )
 
-        fun extractGlobalVariableIdsExcludingScripting(
+        fun findResolvableVariableIdentifiersExcludingScripting(
             shortcut: Shortcut,
             headers: List<RequestHeader>,
             parameters: List<RequestParameter>,
-        ): Set<GlobalVariableId> =
-            extractGlobalVariableIds(
+        ): Set<VariableKeyOrId> =
+            findResolvableVariableIdentifiers(
                 shortcut = shortcut,
                 headers = headers,
                 parameters = parameters,
-                variableManager = null,
                 includeScripting = false,
             )
 
-        private fun extractGlobalVariableIds(
+        private fun findResolvableVariableIdentifiers(
             shortcut: Shortcut,
             headers: List<RequestHeader>,
             parameters: List<RequestParameter>,
-            variableManager: VariableManager?,
             includeScripting: Boolean,
-        ): Set<GlobalVariableId> =
+        ): Set<VariableKeyOrId> =
             buildSet {
-                addAll(Variables.extractGlobalVariableIds(shortcut.url))
+                addAll(Variables.findResolvableVariableIdentifiers(shortcut.url))
                 if (shortcut.authenticationType?.usesUsernameAndPassword == true) {
-                    addAll(Variables.extractGlobalVariableIds(shortcut.authUsername))
-                    addAll(Variables.extractGlobalVariableIds(shortcut.authPassword))
+                    addAll(Variables.findResolvableVariableIdentifiers(shortcut.authUsername))
+                    addAll(Variables.findResolvableVariableIdentifiers(shortcut.authPassword))
                 }
                 if (shortcut.authenticationType == ShortcutAuthenticationType.BEARER) {
-                    addAll(Variables.extractGlobalVariableIds(shortcut.authToken))
+                    addAll(Variables.findResolvableVariableIdentifiers(shortcut.authToken))
                 }
                 if (shortcut.usesCustomBody() || shortcut.executionType == ShortcutExecutionType.MQTT) {
-                    addAll(Variables.extractGlobalVariableIds(shortcut.bodyContent))
+                    addAll(Variables.findResolvableVariableIdentifiers(shortcut.bodyContent))
                 }
                 if (shortcut.usesRequestParameters()) {
                     for (parameter in parameters) {
-                        addAll(Variables.extractGlobalVariableIds(parameter.key))
-                        addAll(Variables.extractGlobalVariableIds(parameter.value))
+                        addAll(Variables.findResolvableVariableIdentifiers(parameter.key))
+                        addAll(Variables.findResolvableVariableIdentifiers(parameter.value))
                     }
                 }
                 for (header in headers) {
-                    addAll(Variables.extractGlobalVariableIds(header.key))
-                    addAll(Variables.extractGlobalVariableIds(header.value))
+                    addAll(Variables.findResolvableVariableIdentifiers(header.key))
+                    addAll(Variables.findResolvableVariableIdentifiers(header.value))
                 }
 
                 if (shortcut.proxyHost != null) {
-                    addAll(Variables.extractGlobalVariableIds(shortcut.proxyHost))
+                    addAll(Variables.findResolvableVariableIdentifiers(shortcut.proxyHost))
                     if (shortcut.proxyType?.supportsAuthentication == true) {
-                        shortcut.proxyUsername?.let { addAll(Variables.extractGlobalVariableIds(it)) }
-                        shortcut.proxyPassword?.let { addAll(Variables.extractGlobalVariableIds(it)) }
+                        shortcut.proxyUsername?.let { addAll(Variables.findResolvableVariableIdentifiers(it)) }
+                        shortcut.proxyPassword?.let { addAll(Variables.findResolvableVariableIdentifiers(it)) }
                     }
                 }
 
                 if (includeScripting) {
-                    addAll(extractGlobalVariableIdsFromJS(shortcut.codeOnPrepare, variableManager!!))
-                    addAll(extractGlobalVariableIdsFromJS(shortcut.codeOnSuccess, variableManager))
-                    addAll(extractGlobalVariableIdsFromJS(shortcut.codeOnFailure, variableManager))
+                    addAll(Variables.findResolvableVariableIdentifiersFromJS(shortcut.codeOnPrepare))
+                    addAll(Variables.findResolvableVariableIdentifiersFromJS(shortcut.codeOnSuccess))
+                    addAll(Variables.findResolvableVariableIdentifiersFromJS(shortcut.codeOnFailure))
 
-                    addAll(Variables.extractGlobalVariableIds(shortcut.codeOnPrepare))
-                    addAll(Variables.extractGlobalVariableIds(shortcut.codeOnSuccess))
-                    addAll(Variables.extractGlobalVariableIds(shortcut.codeOnFailure))
+                    addAll(Variables.findResolvableVariableIdentifiers(shortcut.codeOnPrepare))
+                    addAll(Variables.findResolvableVariableIdentifiers(shortcut.codeOnSuccess))
+                    addAll(Variables.findResolvableVariableIdentifiers(shortcut.codeOnFailure))
                 }
 
                 if (shortcut.responseSuccessOutput == ResponseSuccessOutput.MESSAGE) {
-                    addAll(Variables.extractGlobalVariableIds(shortcut.responseSuccessMessage))
+                    addAll(Variables.findResolvableVariableIdentifiers(shortcut.responseSuccessMessage))
                 }
 
                 shortcut.responseStoreFileName?.let {
-                    addAll(Variables.extractGlobalVariableIds(it))
+                    addAll(Variables.findResolvableVariableIdentifiers(it))
                 }
 
                 if (shortcut.executionType == ShortcutExecutionType.WAKE_ON_LAN) {
-                    addAll(Variables.extractGlobalVariableIds(shortcut.wolMacAddress))
+                    addAll(Variables.findResolvableVariableIdentifiers(shortcut.wolMacAddress))
                 }
             }
-
-        private fun extractGlobalVariableIdsFromJS(
-            code: String,
-            variableManager: VariableManager,
-        ): Set<GlobalVariableId> =
-            Variables.extractGlobalVariableIdsFromJS(code)
-                .plus(
-                    Variables.extractVariableKeysFromJS(code)
-                        .map { variableKey ->
-                            variableManager.getGlobalVariableByKey(variableKey)?.id ?: variableKey
-                        },
-                )
     }
 }

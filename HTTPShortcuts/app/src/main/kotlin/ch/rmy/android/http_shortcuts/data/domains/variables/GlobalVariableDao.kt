@@ -24,7 +24,7 @@ abstract class GlobalVariableDao {
     abstract suspend fun getVariableById(id: GlobalVariableId): List<GlobalVariable>
 
     @Query("SELECT * FROM variable WHERE `key` = :keyOrId OR id = :keyOrId")
-    abstract suspend fun getVariableByKeyOrId(keyOrId: VariableKeyOrId): List<GlobalVariable>
+    abstract suspend fun getVariableByKeyOrId(keyOrId: String): List<GlobalVariable>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertOrUpdateVariable(variable: GlobalVariable)

@@ -13,7 +13,7 @@ constructor() : Action<PromptNumberAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext): Double? {
         val finalMessage = Variables.rawPlaceholdersToResolvedValues(
             message,
-            executionContext.variableManager.getVariableValuesByIds(),
+            executionContext.variableManager.getVariableValues(),
         )
 
         if (finalMessage.isEmpty()) {
