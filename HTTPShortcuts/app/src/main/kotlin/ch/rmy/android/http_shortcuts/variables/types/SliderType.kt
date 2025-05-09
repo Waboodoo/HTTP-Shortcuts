@@ -21,7 +21,7 @@ constructor(
             ExecuteDialogState.NumberSlider(
                 title = variable.title.takeUnlessEmpty()?.toLocalizable(),
                 message = variable.message.takeUnlessEmpty()?.toLocalizable(),
-                initialValue = variable.realValue?.takeIf { variable.rememberValue }?.toFloatOrNull(),
+                initialValue = variable.value?.takeIf { variable.rememberValue }?.toFloatOrNull(),
                 min = variable.findMin(),
                 max = variable.findMax(),
                 stepSize = variable.findStep(),

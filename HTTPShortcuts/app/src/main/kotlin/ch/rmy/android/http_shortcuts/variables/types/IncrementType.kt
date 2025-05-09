@@ -11,7 +11,7 @@ constructor(
     private val variablesRepository: VariableRepository,
 ) : VariableType {
     override suspend fun resolve(variable: Variable, dialogHandle: DialogHandle): String {
-        val previousValue = variable.realValue?.toLongOrNull() ?: 0
+        val previousValue = variable.value?.toLongOrNull() ?: 0
         val newValue = (previousValue + 1).toString()
         variablesRepository.setVariableValue(variable.id, newValue)
         return newValue

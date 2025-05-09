@@ -18,7 +18,7 @@ constructor(
             ExecuteDialogState.TextInput(
                 title = variable.title.takeUnlessEmpty()?.toLocalizable(),
                 message = variable.message.takeUnlessEmpty()?.toLocalizable(),
-                initialValue = variable.realValue?.takeIf { variable.rememberValue } ?: "",
+                initialValue = variable.value?.takeIf { variable.rememberValue } ?: "",
                 type = ExecuteDialogState.TextInput.Type.PASSWORD,
             ),
         )

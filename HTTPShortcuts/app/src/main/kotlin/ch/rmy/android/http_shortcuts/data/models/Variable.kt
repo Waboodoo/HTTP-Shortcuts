@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.data.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
@@ -44,13 +43,6 @@ data class Variable(
     @ColumnInfo(name = "sorting_order", index = true)
     val sortingOrder: Int = 0,
 ) {
-    // TODO(???): Find a better way to store values changed during execution
-    @Ignore
-    var valueOverride: String? = null
-
-    val realValue: String?
-        get() = valueOverride ?: value
-
     private val dataCache: JSONObject by lazy(LazyThreadSafetyMode.NONE) {
         try {
             JSONObject(data ?: "{}")

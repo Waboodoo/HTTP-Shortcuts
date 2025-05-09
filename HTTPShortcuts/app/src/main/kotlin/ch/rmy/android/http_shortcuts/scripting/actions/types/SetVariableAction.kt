@@ -19,7 +19,7 @@ constructor(
         executionContext.variableManager.setVariableValueByKeyOrId(variableKeyOrId, value, storeOnly)
         val variable = try {
             variableRepository.getVariableByKeyOrId(variableKeyOrId)
-        } catch (e: NoSuchElementException) {
+        } catch (_: NoSuchElementException) {
             throw ActionException {
                 getString(
                     R.string.error_variable_not_found_write,

@@ -24,7 +24,7 @@ constructor(
         val selectedTime = dialogHandle.showDialog(
             ExecuteDialogState.TimePicker(
                 title = variable.title.takeUnlessEmpty(),
-                initialTime = getInitialTime(variable.realValue.takeIf { variable.rememberValue }),
+                initialTime = getInitialTime(variable.value.takeIf { variable.rememberValue }),
             ),
         )
         if (variable.rememberValue) {
@@ -39,7 +39,7 @@ constructor(
             ?.let {
                 try {
                     LocalTime.parse(it, TIME_FORMAT)
-                } catch (e: DateTimeParseException) {
+                } catch (_: DateTimeParseException) {
                     null
                 }
             }

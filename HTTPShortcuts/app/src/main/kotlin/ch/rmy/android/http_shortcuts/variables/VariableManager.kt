@@ -10,13 +10,14 @@ import java.net.URLEncoder
 import org.json.JSONObject
 
 class VariableManager(
-    val variables: List<Variable>,
+    variables: List<Variable>,
     preResolvedValues: Map<VariableKey, String> = emptyMap(),
 ) : VariableLookup {
-    private val variablesById: Map<VariableId, Variable> = variables.associateBy { it.id }
+    var variables = variables
+        private set
 
-    private val variablesByKey: Map<VariableKey, Variable> = variables.associateBy { it.key }
-
+    private val variablesById: MutableMap<VariableId, Variable> = variables.associateBy { it.id }.toMutableMap()
+    private val variablesByKey: MutableMap<VariableKey, Variable> = variables.associateBy { it.key }.toMutableMap()
     private val variableValuesById = mutableMapOf<String, String>()
 
     init {
@@ -55,7 +56,10 @@ class VariableManager(
             }
 
     fun setVariableValue(variable: Variable, value: String, storeOnly: Boolean = false) {
-        variable.valueOverride = value
+        val newVariable = variable.copy(value = value)
+        variables = variables.map { if (it.id == variable.id) newVariable else it }
+        variablesById[variable.id] = newVariable
+        variablesByKey[variable.key] = newVariable
         if (!storeOnly) {
             variableValuesById[variable.id] = encodeValue(variable, value)
         }
@@ -95,7 +99,7 @@ class VariableManager(
                 .runIf(variable.urlEncode) {
                     try {
                         URLEncoder.encode(this, "utf-8")
-                    } catch (e: UnsupportedEncodingException) {
+                    } catch (_: UnsupportedEncodingException) {
                         this
                     }
                 }
