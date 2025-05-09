@@ -3,31 +3,31 @@ package ch.rmy.android.http_shortcuts.data.domains.variables
 import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.BaseRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import org.json.JSONObject
 
-class TemporaryVariableRepository
+class TemporaryGlobalVariableRepository
 @Inject
 constructor(
     database: Database,
 ) : BaseRepository(database) {
 
-    fun observeTemporaryVariable(): Flow<Variable> = queryFlow {
-        variableDao()
+    fun observeTemporaryVariable(): Flow<GlobalVariable> = queryFlow {
+        globalVariableDao()
             .observeTemporaryVariable()
             .filterNotNull()
             .distinctUntilChanged()
     }
 
     suspend fun createNewTemporaryVariable(type: VariableType) = query {
-        variableDao()
+        globalVariableDao()
             .insertOrUpdateVariable(
-                Variable(
-                    id = Variable.TEMPORARY_ID,
+                GlobalVariable(
+                    id = GlobalVariable.TEMPORARY_ID,
                     type = type,
                     key = "",
                     value = "",
@@ -114,7 +114,7 @@ constructor(
         }
     }
 
-    private suspend fun update(transform: (Variable) -> Variable) = query {
-        variableDao().update(Variable.TEMPORARY_ID, transform)
+    private suspend fun update(transform: (GlobalVariable) -> GlobalVariable) = query {
+        globalVariableDao().update(GlobalVariable.TEMPORARY_ID, transform)
     }
 }

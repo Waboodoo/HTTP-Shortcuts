@@ -20,14 +20,14 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.types.TimeTypeV
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.TimestampTypeViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.ToggleTypeViewModel
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.VariableTypeViewState
-import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryVariableRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryGlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Companion.RESULT_CHANGES_DISCARDED
-import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.VariableEditor.VariableCreatedResult
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.GlobalVariableEditor.VariableCreatedResult
 import ch.rmy.android.http_shortcuts.variables.Variables
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -36,23 +36,23 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class VariableEditorViewModel
+class GlobalVariableEditorViewModel
 @Inject
 constructor(
     application: Application,
-    private val variableRepository: VariableRepository,
-    private val temporaryVariableRepository: TemporaryVariableRepository,
-) : BaseViewModel<VariableEditorViewModel.InitData, VariableEditorViewState>(application) {
+    private val globalVariableRepository: GlobalVariableRepository,
+    private val temporaryGlobalVariableRepository: TemporaryGlobalVariableRepository,
+) : BaseViewModel<GlobalVariableEditorViewModel.InitData, GlobalVariableEditorViewState>(application) {
 
-    private val variableId: VariableId?
-        get() = initData.variableId
+    private val globalVariableId: GlobalVariableId?
+        get() = initData.globalVariableId
     private val variableType: VariableType
         get() = initData.variableType
 
     private var typeViewModel: BaseTypeViewModel? = null
 
-    private lateinit var variable: Variable
-    private lateinit var oldVariable: Variable
+    private lateinit var globalVariable: GlobalVariable
+    private lateinit var oldGlobalVariable: GlobalVariable
     private lateinit var variableKeysInUse: List<VariableKey>
 
     private var isSaving = false
@@ -66,13 +66,13 @@ constructor(
                         copy(variableKeyInputError = value?.let { StringResLocalizable(it) })
                     }
                     if (value != null) {
-                        emitEvent(VariableEditorEvent.FocusVariableKeyInput)
+                        emitEvent(GlobalVariableEditorEvent.FocusGlobalVariableKeyInput)
                     }
                 }
             }
         }
 
-    override suspend fun initialize(data: InitData): VariableEditorViewState {
+    override suspend fun initialize(data: InitData): GlobalVariableEditorViewState {
         typeViewModel = when (data.variableType) {
             VariableType.COLOR -> ColorTypeViewModel()
             VariableType.CONSTANT -> ConstantTypeViewModel()
@@ -91,18 +91,18 @@ constructor(
             VariableType.CLIPBOARD,
             -> null
         }
-        if (data.variableId != null) {
-            variableRepository.createTemporaryVariableFromVariable(data.variableId)
+        if (data.globalVariableId != null) {
+            globalVariableRepository.createTemporaryVariableFromVariable(data.globalVariableId)
         } else {
-            temporaryVariableRepository.createNewTemporaryVariable(variableType)
+            temporaryGlobalVariableRepository.createNewTemporaryVariable(variableType)
         }
 
         viewModelScope.launch {
-            variableRepository.observeVariables()
+            globalVariableRepository.observeVariables()
                 .collect { variables ->
                     variableKeysInUse = variables
                         .filter { variable ->
-                            variable.id != variableId
+                            variable.id != globalVariableId
                         }
                         .map { variable ->
                             variable.key
@@ -110,13 +110,13 @@ constructor(
                 }
         }
 
-        val variableFlow = temporaryVariableRepository.observeTemporaryVariable()
-        variable = variableFlow.first()
-        oldVariable = variable
+        val variableFlow = temporaryGlobalVariableRepository.observeTemporaryVariable()
+        globalVariable = variableFlow.first()
+        oldGlobalVariable = globalVariable
 
         viewModelScope.launch {
             variableFlow.collect { variable ->
-                this@VariableEditorViewModel.variable = variable
+                this@GlobalVariableEditorViewModel.globalVariable = variable
                 updateViewState {
                     copy(
                         variableKey = variable.key,
@@ -131,10 +131,10 @@ constructor(
                 }
             }
         }
-        return VariableEditorViewState(
+        return GlobalVariableEditorViewState(
             dialogTitleVisible = variableType.supportsDialogTitle,
             dialogMessageVisible = variableType.supportsDialogMessage,
-            variableTypeViewState = typeViewModel?.createViewState(variable),
+            variableTypeViewState = typeViewModel?.createViewState(globalVariable),
             excludeValueCheckboxVisible = variableType.storesValue,
         )
     }
@@ -158,12 +158,12 @@ constructor(
 
     private suspend fun save() {
         try {
-            val id = variableId ?: newUUID()
-            variableRepository.copyTemporaryVariableToVariable(id)
+            val id = globalVariableId ?: newUUID()
+            globalVariableRepository.copyTemporaryVariableToVariable(id)
             closeScreen(
-                result = if (variableId == null) {
+                result = if (globalVariableId == null) {
                     VariableCreatedResult(
-                        variableId = id,
+                        globalVariableId = id,
                     )
                 } else {
                     null
@@ -215,10 +215,10 @@ constructor(
     }
 
     private fun hasChanges() =
-        variable != oldVariable
+        globalVariable != oldGlobalVariable
 
     private suspend fun showDiscardDialog() {
-        updateDialogState(VariableEditorDialogState.DiscardWarning)
+        updateDialogState(GlobalVariableEditorDialogState.DiscardWarning)
     }
 
     fun onDiscardDialogConfirmed() = runAction {
@@ -229,7 +229,7 @@ constructor(
     fun onVariableKeyChanged(key: String) = runAction {
         updateVariableKey(key)
         withProgressTracking {
-            temporaryVariableRepository.setKey(key)
+            temporaryGlobalVariableRepository.setKey(key)
         }
     }
 
@@ -249,7 +249,7 @@ constructor(
             copy(dialogTitle = title)
         }
         withProgressTracking {
-            temporaryVariableRepository.setTitle(title)
+            temporaryGlobalVariableRepository.setTitle(title)
         }
     }
 
@@ -258,7 +258,7 @@ constructor(
             copy(dialogMessage = message)
         }
         withProgressTracking {
-            temporaryVariableRepository.setMessage(message)
+            temporaryGlobalVariableRepository.setMessage(message)
         }
     }
 
@@ -267,7 +267,7 @@ constructor(
             copy(urlEncodeChecked = enabled)
         }
         withProgressTracking {
-            temporaryVariableRepository.setUrlEncode(enabled)
+            temporaryGlobalVariableRepository.setUrlEncode(enabled)
         }
     }
 
@@ -276,7 +276,7 @@ constructor(
             copy(jsonEncodeChecked = enabled)
         }
         withProgressTracking {
-            temporaryVariableRepository.setJsonEncode(enabled)
+            temporaryGlobalVariableRepository.setJsonEncode(enabled)
         }
     }
 
@@ -285,7 +285,7 @@ constructor(
             copy(allowShareChecked = enabled)
         }
         withProgressTracking {
-            temporaryVariableRepository.setSharingSupport(
+            temporaryGlobalVariableRepository.setSharingSupport(
                 shareText = enabled && viewState.shareSupport.text,
                 shareTitle = enabled && viewState.shareSupport.title,
             )
@@ -297,14 +297,14 @@ constructor(
             copy(shareSupport = shareSupport)
         }
         withProgressTracking {
-            temporaryVariableRepository.setSharingSupport(
+            temporaryGlobalVariableRepository.setSharingSupport(
                 shareText = shareSupport.text,
                 shareTitle = shareSupport.title,
             )
         }
     }
 
-    private fun Variable.getShareSupport(): ShareSupport {
+    private fun GlobalVariable.getShareSupport(): ShareSupport {
         if (isShareTitle) {
             if (isShareText) {
                 return ShareSupport.TITLE_AND_TEXT
@@ -319,7 +319,7 @@ constructor(
             copy(excludeValueFromExports = exclude)
         }
         withProgressTracking {
-            temporaryVariableRepository.setExcludeValueFromExports(exclude)
+            temporaryGlobalVariableRepository.setExcludeValueFromExports(exclude)
         }
     }
 
@@ -327,7 +327,7 @@ constructor(
         updateDialogState(null)
     }
 
-    private suspend fun updateDialogState(dialogState: VariableEditorDialogState?) {
+    private suspend fun updateDialogState(dialogState: GlobalVariableEditorDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }
@@ -338,12 +338,12 @@ constructor(
             copy(variableTypeViewState = variableTypeViewState)
         }
         withProgressTracking {
-            typeViewModel?.save(temporaryVariableRepository, variableTypeViewState)
+            typeViewModel?.save(temporaryGlobalVariableRepository, variableTypeViewState)
         }
     }
 
     data class InitData(
-        val variableId: VariableId?,
+        val globalVariableId: GlobalVariableId?,
         val variableType: VariableType,
     )
 }

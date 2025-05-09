@@ -35,11 +35,11 @@ constructor(
             ?: throw VariableNotFoundException()
 
     private suspend fun resolveVariable(variableKeyOrId: VariableKeyOrId, variableManager: VariableManager, dialogHandle: DialogHandle) {
-        val variable = variableManager.getVariableByKeyOrId(variableKeyOrId)
+        val variable = variableManager.getGlobalVariableByKeyOrId(variableKeyOrId)
             ?: throw VariableNotFoundException()
 
         withContext(Dispatchers.Main) {
-            variableResolver.resolve(variableManager, requiredVariableIds = setOf(variable.id), dialogHandle)
+            variableResolver.resolve(variableManager, requiredGlobalVariableIds = setOf(variable.id), dialogHandle)
         }
     }
 

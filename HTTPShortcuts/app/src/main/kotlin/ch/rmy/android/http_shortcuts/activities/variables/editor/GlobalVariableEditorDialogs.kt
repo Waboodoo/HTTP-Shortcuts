@@ -4,13 +4,13 @@ import androidx.compose.runtime.Composable
 import ch.rmy.android.http_shortcuts.components.DiscardWarningDialog
 
 @Composable
-fun VariableEditorDialogs(
-    dialogState: VariableEditorDialogState?,
+fun GlobalVariableEditorDialogs(
+    dialogState: GlobalVariableEditorDialogState?,
     onDiscardDialogConfirmed: () -> Unit,
     onDismissed: () -> Unit,
 ) {
     when (dialogState) {
-        is VariableEditorDialogState.DiscardWarning -> {
+        is GlobalVariableEditorDialogState.DiscardWarning -> {
             DiscardWarningDialog(
                 onConfirmed = onDiscardDialogConfirmed,
                 onDismissRequested = onDismissed,

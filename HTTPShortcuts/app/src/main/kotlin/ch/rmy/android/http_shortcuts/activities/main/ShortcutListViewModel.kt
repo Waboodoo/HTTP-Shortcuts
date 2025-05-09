@@ -22,7 +22,7 @@ import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogHandler
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.activities.main.models.ShortcutListItem
-import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
+import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedGlobalVariableIdsUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app_lock.AppLockRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
@@ -31,17 +31,17 @@ import ch.rmy.android.http_shortcuts.data.domains.sections.SectionId
 import ch.rmy.android.http_shortcuts.data.domains.sections.SectionRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.extensions.usesUrl
@@ -80,14 +80,14 @@ constructor(
     private val shortcutRepository: ShortcutRepository,
     private val categoryRepository: CategoryRepository,
     private val sectionRepository: SectionRepository,
-    private val variableRepository: VariableRepository,
+    private val globalVariableRepository: GlobalVariableRepository,
     private val pendingExecutionsRepository: PendingExecutionsRepository,
     private val widgetsRepository: WidgetsRepository,
     private val curlExporter: CurlExporter,
     private val executionScheduler: ExecutionScheduler,
     private val settings: Settings,
     private val exporter: Exporter,
-    private val getUsedVariableIds: GetUsedVariableIdsUseCase,
+    private val getUsedGlobalVariableIds: GetUsedGlobalVariableIdsUseCase,
     private val launcherShortcutManager: LauncherShortcutManager,
     private val launcherShortcutUpdater: LauncherShortcutUpdater,
     private val secondaryLauncherManager: SecondaryLauncherManager,
@@ -102,7 +102,7 @@ constructor(
     private lateinit var category: Category
     private lateinit var sections: List<Section>
     private lateinit var shortcuts: List<Shortcut>
-    private var variables: List<Variable> = emptyList()
+    private var variables: List<GlobalVariable> = emptyList()
     private var pendingShortcuts: List<PendingExecution> = emptyList()
 
     private var activeShortcutId: ShortcutId? = null
@@ -131,7 +131,7 @@ constructor(
                 .collect()
         }
         viewModelScope.launch {
-            variableRepository.observeVariables()
+            globalVariableRepository.observeVariables()
                 .collect { variables ->
                     this@ShortcutListViewModel.variables = variables
                 }
@@ -479,12 +479,11 @@ constructor(
             updateDialogState(ShortcutListDialogState.ExportProgress)
             try {
                 val status = try {
-                    val variableIds = getUsedVariableIds(shortcut.id)
                     exporter.exportToUri(
                         file,
                         excludeDefaults = true,
                         shortcutIds = setOf(shortcut.id),
-                        variableIds = variableIds,
+                        globalVariableIds = getUsedGlobalVariableIds(shortcut.id),
                     )
                 } finally {
                     hideExportProgressDialog()
@@ -521,7 +520,7 @@ constructor(
                     cacheFile,
                     excludeDefaults = true,
                     shortcutIds = setOf(shortcut.id),
-                    variableIds = getUsedVariableIds(shortcut.id),
+                    globalVariableIds = getUsedGlobalVariableIds(shortcut.id),
                 )
 
                 sendIntent(

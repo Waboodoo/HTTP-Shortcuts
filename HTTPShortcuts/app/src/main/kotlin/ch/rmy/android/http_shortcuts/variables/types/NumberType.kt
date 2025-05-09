@@ -4,16 +4,16 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import javax.inject.Inject
 
 class NumberType
 @Inject
 constructor(
-    private val variablesRepository: VariableRepository,
+    private val variablesRepository: GlobalVariableRepository,
 ) : VariableType {
-    override suspend fun resolve(variable: Variable, dialogHandle: DialogHandle): String {
+    override suspend fun resolve(variable: GlobalVariable, dialogHandle: DialogHandle): String {
         val value = dialogHandle.showDialog(
             ExecuteDialogState.TextInput(
                 title = variable.title.takeUnlessEmpty()?.toLocalizable(),

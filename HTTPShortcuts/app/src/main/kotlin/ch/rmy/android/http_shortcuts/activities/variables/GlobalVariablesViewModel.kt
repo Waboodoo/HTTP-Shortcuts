@@ -7,18 +7,18 @@ import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.variables.GlobalVariablesViewModel.InitData
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings.getTypeName
-import ch.rmy.android.http_shortcuts.activities.variables.VariablesViewModel.InitData
-import ch.rmy.android.http_shortcuts.activities.variables.models.VariableListItem
+import ch.rmy.android.http_shortcuts.activities.variables.models.GlobalVariableListItem
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GenerateVariableKeyUseCase
-import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
+import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedGlobalVariableIdsUseCase
 import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderRepository
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.extensions.getRequestParametersForShortcuts
 import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
@@ -33,147 +33,147 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @HiltViewModel
-class VariablesViewModel
+class GlobalVariablesViewModel
 @Inject
 constructor(
     application: Application,
-    private val variableRepository: VariableRepository,
+    private val globalVariableRepository: GlobalVariableRepository,
     private val shortcutRepository: ShortcutRepository,
     private val requestHeaderRepository: RequestHeaderRepository,
     private val requestParameterRepository: RequestParameterRepository,
-    private val getUsedVariableIdsUseCase: GetUsedVariableIdsUseCase,
+    private val getUsedGlobalVariableIdsUseCase: GetUsedGlobalVariableIdsUseCase,
     private val generateVariableKey: GenerateVariableKeyUseCase,
 ) : BaseViewModel<InitData, VariablesViewState>(application) {
 
-    private var activeVariableId: VariableId? = null
-    private var variablesInitialized = false
-    private var variables: List<Variable> = emptyList()
+    private var activeGlobalVariableId: GlobalVariableId? = null
+    private var globalVariablesInitialized = false
+    private var globalVariables: List<GlobalVariable> = emptyList()
         set(value) {
             field = value
-            variablesInitialized = true
+            globalVariablesInitialized = true
         }
-    private var usedVariableIds: Set<VariableId>? = null
+    private var usedGlobalVariableIds: Set<GlobalVariableId>? = null
         set(value) {
             if (field != value) {
                 field = value
-                if (variablesInitialized) {
+                if (globalVariablesInitialized) {
                     viewModelScope.launch {
-                        recomputeVariablesInViewState()
+                        recomputeGlobalVariablesInViewState()
                     }
                 }
             }
         }
 
     override suspend fun initialize(data: InitData): VariablesViewState {
-        val variablesFlow = variableRepository.observeVariables()
-        variables = variablesFlow.first()
+        val variablesFlow = globalVariableRepository.observeVariables()
+        globalVariables = variablesFlow.first()
 
         viewModelScope.launch {
             variablesFlow
                 .collect { variables ->
-                    this@VariablesViewModel.variables = variables
-                    recomputeVariablesInViewState()
+                    this@GlobalVariablesViewModel.globalVariables = variables
+                    recomputeGlobalVariablesInViewState()
                     recomputeUsedVariableIds()
                 }
         }
         return VariablesViewState(
-            variables = mapVariables(variables),
+            variables = mapVariables(globalVariables),
         )
     }
 
-    private suspend fun recomputeVariablesInViewState() {
+    private suspend fun recomputeGlobalVariablesInViewState() {
         updateViewState {
-            copy(variables = mapVariables(this@VariablesViewModel.variables))
+            copy(variables = mapVariables(this@GlobalVariablesViewModel.globalVariables))
         }
     }
 
-    private fun mapVariables(variables: List<Variable>): List<VariableListItem> =
+    private fun mapVariables(variables: List<GlobalVariable>): List<GlobalVariableListItem> =
         variables.map { variable ->
-            VariableListItem(
+            GlobalVariableListItem(
                 id = variable.id,
                 key = variable.key,
                 type = StringResLocalizable(variable.type.getTypeName()),
-                isUnused = usedVariableIds?.contains(variable.id) == false,
+                isUnused = usedGlobalVariableIds?.contains(variable.id) == false,
             )
         }
 
-    fun onVariableMoved(variableId1: VariableId, variableId2: VariableId) = runAction {
+    fun onVariableMoved(globalVariableId1: GlobalVariableId, globalVariableId2: GlobalVariableId) = runAction {
         updateViewState {
-            copy(variables = variables.swapped(variableId1, variableId2) { id })
+            copy(variables = variables.swapped(globalVariableId1, globalVariableId2) { id })
         }
         withProgressTracking {
-            variableRepository.moveVariable(variableId1, variableId2)
+            globalVariableRepository.moveVariable(globalVariableId1, globalVariableId2)
         }
     }
 
     fun onCreateButtonClicked() = runAction {
-        updateDialogState(VariablesDialogState.Creation)
+        updateDialogState(GlobalVariablesDialogState.Creation)
     }
 
     fun onHelpButtonClicked() = runAction {
         openURL(ExternalURLs.VARIABLES_DOCUMENTATION)
     }
 
-    fun onVariableClicked(variableId: VariableId) = runAction {
-        val variable = getVariable(variableId) ?: skipAction()
-        activeVariableId = variableId
+    fun onVariableClicked(globalVariableId: GlobalVariableId) = runAction {
+        val variable = getVariable(globalVariableId) ?: skipAction()
+        activeGlobalVariableId = globalVariableId
         updateDialogState(
-            VariablesDialogState.ContextMenu(
+            GlobalVariablesDialogState.ContextMenu(
                 showUse = initData.asPicker,
                 variableKey = variable.key,
             ),
         )
     }
 
-    private fun getVariable(variableId: VariableId) =
-        variables.firstOrNull { it.id == variableId }
+    private fun getVariable(globalVariableId: GlobalVariableId) =
+        globalVariables.firstOrNull { it.id == globalVariableId }
 
     fun onCreationDialogVariableTypeSelected(variableType: VariableType) = runAction {
         updateDialogState(null)
-        navigate(NavigationDestination.VariableEditor.buildRequest(variableType))
+        navigate(NavigationDestination.GlobalVariableEditor.buildRequest(variableType))
     }
 
     fun onUseSelected() = runAction {
         updateDialogState(null)
-        val variableId = activeVariableId ?: skipAction()
-        closeScreen(result = NavigationDestination.Variables.VariableSelectedResult(variableId))
+        val variableId = activeGlobalVariableId ?: skipAction()
+        closeScreen(result = NavigationDestination.GlobalVariables.VariableSelectedResult(variableId))
     }
 
     fun onEditOptionSelected() = runAction {
         updateDialogState(null)
-        val variableId = activeVariableId ?: skipAction()
+        val variableId = activeGlobalVariableId ?: skipAction()
         val variable = getVariable(variableId) ?: skipAction()
-        navigate(NavigationDestination.VariableEditor.buildRequest(variable.type, variableId))
+        navigate(NavigationDestination.GlobalVariableEditor.buildRequest(variable.type, variableId))
     }
 
     fun onDuplicateOptionSelected() = runAction {
         updateDialogState(null)
-        val variableId = activeVariableId ?: skipAction()
+        val variableId = activeGlobalVariableId ?: skipAction()
         val variable = getVariable(variableId) ?: skipAction()
         withProgressTracking {
-            val newKey = generateVariableKey(variable.key, variables.map { it.key })
-            variableRepository.duplicateVariable(variableId, newKey)
+            val newKey = generateVariableKey(variable.key, globalVariables.map { it.key })
+            globalVariableRepository.duplicateVariable(variableId, newKey)
             showSnackbar(StringResLocalizable(R.string.message_variable_duplicated, variable.key))
         }
     }
 
     fun onDeletionOptionSelected() = runAction {
         updateDialogState(null)
-        val variableId = activeVariableId ?: skipAction()
+        val variableId = activeGlobalVariableId ?: skipAction()
         val variable = getVariable(variableId) ?: skipAction()
         val shortcutNames = withContext(Dispatchers.Default) {
             getShortcutNamesWhereVariableIsInUse(variableId)
         }
         updateDialogState(
-            VariablesDialogState.Delete(
+            GlobalVariablesDialogState.Delete(
                 variableKey = variable.key,
                 shortcutNames = shortcutNames,
             ),
         )
     }
 
-    private suspend fun getShortcutNamesWhereVariableIsInUse(variableId: VariableId): List<String> {
-        val variableLookup = VariableManager(variables)
+    private suspend fun getShortcutNamesWhereVariableIsInUse(globalVariableId: GlobalVariableId): List<String> {
+        val variableManager = VariableManager(globalVariables)
         // TODO(???): Also check if the variable is used inside another variable
 
         val shortcuts = shortcutRepository.getShortcuts()
@@ -182,13 +182,13 @@ constructor(
 
         return shortcuts
             .filter { shortcut ->
-                VariableResolver.extractVariableIdsIncludingScripting(
+                VariableResolver.extractGlobalVariableIdsIncludingScripting(
                     shortcut = shortcut,
                     headers = headersByShortcutId[shortcut.id] ?: emptyList(),
                     parameters = parametersByShortcutId[shortcut.id] ?: emptyList(),
-                    variableLookup = variableLookup,
+                    variableManager = variableManager,
                 )
-                    .contains(variableId)
+                    .contains(globalVariableId)
             }
             .map { shortcut ->
                 shortcut.name
@@ -198,10 +198,10 @@ constructor(
 
     fun onDeletionConfirmed() = runAction {
         updateDialogState(null)
-        val variableId = activeVariableId ?: skipAction()
+        val variableId = activeGlobalVariableId ?: skipAction()
         val variable = getVariable(variableId) ?: skipAction()
         withProgressTracking {
-            variableRepository.deleteVariable(variableId)
+            globalVariableRepository.deleteVariable(variableId)
             showSnackbar(StringResLocalizable(R.string.variable_deleted, variable.key))
             recomputeUsedVariableIds()
         }
@@ -214,15 +214,15 @@ constructor(
 
     private suspend fun recomputeUsedVariableIds() {
         tryOrLog {
-            usedVariableIds = withContext(Dispatchers.Default) {
-                getUsedVariableIdsUseCase()
+            usedGlobalVariableIds = withContext(Dispatchers.Default) {
+                getUsedGlobalVariableIdsUseCase()
             }
         }
     }
 
     fun onSortButtonClicked() = runAction {
         withProgressTracking {
-            variableRepository.sortVariablesAlphabetically()
+            globalVariableRepository.sortVariablesAlphabetically()
             showSnackbar(R.string.message_variables_sorted)
         }
     }
@@ -231,7 +231,7 @@ constructor(
         updateDialogState(null)
     }
 
-    private suspend fun updateDialogState(dialogState: VariablesDialogState?) {
+    private suspend fun updateDialogState(dialogState: GlobalVariablesDialogState?) {
         updateViewState {
             copy(dialogState = dialogState)
         }
@@ -241,9 +241,9 @@ constructor(
         showSnackbar(R.string.message_changes_discarded)
     }
 
-    fun onVariableCreated(variableId: VariableId) = runAction {
+    fun onVariableCreated(globalVariableId: GlobalVariableId) = runAction {
         if (initData.asPicker) {
-            closeScreen(result = NavigationDestination.Variables.VariableSelectedResult(variableId))
+            closeScreen(result = NavigationDestination.GlobalVariables.VariableSelectedResult(globalVariableId))
         }
     }
 

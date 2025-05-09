@@ -21,7 +21,7 @@ import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderR
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.ResponseFailureOutput
 import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
@@ -124,7 +124,7 @@ constructor(
                 GsonUtil.gson.fromJson(it, Params::class.java)
             }
 
-    private suspend fun handleDisplayingOfResult(shortcut: Shortcut, response: ShortcutResponse, variableValues: Map<VariableId, String>) {
+    private suspend fun handleDisplayingOfResult(shortcut: Shortcut, response: ShortcutResponse, variableValues: Map<GlobalVariableId, String>) {
         when (shortcut.responseSuccessOutput) {
             ResponseSuccessOutput.MESSAGE -> {
                 displayResult(
@@ -143,7 +143,7 @@ constructor(
         }
     }
 
-    private fun injectVariables(string: String, variableValues: Map<VariableId, String>): String =
+    private fun injectVariables(string: String, variableValues: Map<GlobalVariableId, String>): String =
         Variables.rawPlaceholdersToResolvedValues(string, variableValues)
 
     private suspend fun displayResult(shortcut: Shortcut, output: String?, response: ShortcutResponse? = null) {
@@ -172,7 +172,7 @@ constructor(
     private data class Params(
         val shortcutId: ShortcutId,
         val sessionId: String,
-        val variableValues: Map<VariableId, String>,
+        val variableValues: Map<GlobalVariableId, String>,
         val fileUploadResult: FileUploadManager.Result?,
     )
 
@@ -184,7 +184,7 @@ constructor(
         operator fun invoke(
             shortcutId: ShortcutId,
             sessionId: String,
-            variableValues: Map<VariableId, String>,
+            variableValues: Map<GlobalVariableId, String>,
             fileUploadResult: FileUploadManager.Result?,
         ) {
             val params = Params(shortcutId, sessionId, variableValues, fileUploadResult)

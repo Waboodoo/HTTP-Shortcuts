@@ -4,11 +4,11 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import ch.rmy.android.http_shortcuts.data.models.Category
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
 
 @Deprecated("Must only be used for Realm-to-Room migration")
 @Dao
@@ -23,7 +23,7 @@ interface RealmToRoomMigrationDao {
     suspend fun insertShortcut(shortcut: Shortcut)
 
     @Insert(onConflict = REPLACE)
-    suspend fun insertVariable(variable: Variable)
+    suspend fun insertVariable(variable: GlobalVariable)
 
     @Insert(onConflict = REPLACE)
     suspend fun insertRequestHeader(requestHeader: RequestHeader)

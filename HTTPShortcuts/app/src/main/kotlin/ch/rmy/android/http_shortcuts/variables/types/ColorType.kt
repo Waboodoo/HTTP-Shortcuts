@@ -4,8 +4,8 @@ import android.graphics.Color
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.colorIntToHexString
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.hexStringToColorInt
 import javax.inject.Inject
@@ -13,9 +13,9 @@ import javax.inject.Inject
 class ColorType
 @Inject
 constructor(
-    private val variablesRepository: VariableRepository,
+    private val variablesRepository: GlobalVariableRepository,
 ) : VariableType {
-    override suspend fun resolve(variable: Variable, dialogHandle: DialogHandle): String {
+    override suspend fun resolve(variable: GlobalVariable, dialogHandle: DialogHandle): String {
         val value = dialogHandle.showDialog(
             ExecuteDialogState.ColorPicker(
                 title = variable.title.toLocalizable(),
@@ -29,7 +29,7 @@ constructor(
         return value
     }
 
-    private fun getInitialColor(variable: Variable): Int =
+    private fun getInitialColor(variable: GlobalVariable): Int =
         variable.takeIf { it.rememberValue }?.value?.hexStringToColorInt()
             ?: Color.WHITE
 }

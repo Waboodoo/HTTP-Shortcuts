@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.result.launch
 import ch.rmy.android.http_shortcuts.activities.BaseActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import com.joaomgcd.taskerpluginlibrary.config.TaskerPluginConfig
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInputInfo
@@ -17,7 +17,7 @@ import kotlinx.coroutines.runBlocking
 class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input> {
 
     @Inject
-    lateinit var variableRepository: VariableRepository
+    lateinit var globalVariableRepository: GlobalVariableRepository
 
     private val selectShortcut = registerForActivityResult(MainActivity.SelectShortcut) { result ->
         if (result != null) {
@@ -64,7 +64,7 @@ class PluginEditActivity : BaseActivity(), TaskerPluginConfig<Input> {
         }
 
     private suspend fun getVariableKeys() =
-        variableRepository.getVariables()
+        globalVariableRepository.getGlobalVariables()
             .map { it.key }
 
     override fun assignFromInput(input: TaskerInput<Input>) {

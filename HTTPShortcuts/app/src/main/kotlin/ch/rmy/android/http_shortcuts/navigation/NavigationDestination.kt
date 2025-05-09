@@ -7,7 +7,7 @@ import androidx.navigation.NamedNavArgument
 import ch.rmy.android.framework.navigation.NavigationRequest
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
@@ -398,9 +398,9 @@ sealed interface NavigationDestination {
         override val path = "troubleShooting"
     }
 
-    object Variables : NavigationDestination {
+    object GlobalVariables : NavigationDestination {
         private const val ARG_AS_PICKER = "asPicker"
-        override val path = "variables"
+        override val path = "globalVariables"
 
         override val arguments: List<NamedNavArgument> =
             listOf(
@@ -415,15 +415,15 @@ sealed interface NavigationDestination {
             bundle.getBoolean(ARG_AS_PICKER)
 
         data class VariableSelectedResult(
-            val variableId: VariableId,
+            val globalVariableId: GlobalVariableId,
         ) : Serializable
     }
 
-    object VariableEditor : NavigationDestination {
+    object GlobalVariableEditor : NavigationDestination {
         private const val ARG_VARIABLE_TYPE = "variableType"
         private const val ARG_VARIABLE_ID = "variableId"
 
-        override val path = "variables/edit"
+        override val path = "globalVariables/edit"
 
         override val arguments =
             listOf(
@@ -431,19 +431,19 @@ sealed interface NavigationDestination {
                 optionalStringArg(ARG_VARIABLE_ID),
             )
 
-        fun buildRequest(variableType: VariableType, variableId: VariableId? = null) = buildNavigationRequest {
+        fun buildRequest(variableType: VariableType, globalVariableId: GlobalVariableId? = null) = buildNavigationRequest {
             pathPart(variableType.type)
-            parameter(ARG_VARIABLE_ID, variableId)
+            parameter(ARG_VARIABLE_ID, globalVariableId)
         }
 
         fun extractVariableType(bundle: Bundle): VariableType =
             VariableType.parse(bundle.getEncodedString(ARG_VARIABLE_TYPE)!!)!!
 
-        fun extractVariableId(bundle: Bundle): VariableId? =
+        fun extractVariableId(bundle: Bundle): GlobalVariableId? =
             bundle.getEncodedString(ARG_VARIABLE_ID)
 
         data class VariableCreatedResult(
-            val variableId: VariableId,
+            val globalVariableId: GlobalVariableId,
         ) : Serializable
     }
 

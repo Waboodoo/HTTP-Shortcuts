@@ -188,14 +188,14 @@ class QuickTileService : TileService() {
         if (!checkHeadlessExecution.invoke(shortcut, requestParameters ?: emptyList())) {
             return false
         }
-        val variableIds = VariableResolver.extractVariableIdsExcludingScripting(
+        val globalVariableIds = VariableResolver.extractGlobalVariableIdsExcludingScripting(
             shortcut = shortcut,
             headers = requestHeaders ?: emptyList(),
             parameters = requestParameters ?: emptyList(),
         )
         // If a shortcut uses any variables, we cannot know whether those variables can be resolved
         // without the ExecuteActivity being present, so we have to err on the side of caution.
-        return variableIds.isEmpty()
+        return globalVariableIds.isEmpty()
     }
 
     override fun onStartListening() {

@@ -33,11 +33,11 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -67,7 +67,7 @@ constructor(
             shortcutDao().deleteAllShortcuts()
             requestHeaderDao().deleteAllRequestHeaders()
             requestParameterDao().deleteAllRequestParameters()
-            variableDao().deleteAll()
+            globalVariableDao().deleteAll()
             certificatePinDao().deleteAllCertificatePins()
             workingDirectoryDao().deleteAllWorkingDirectories()
         }
@@ -424,7 +424,7 @@ constructor(
 
     private suspend fun Database.importVariables(importVariables: List<ImportVariable>, mode: ImportMode) {
         val variables = importVariables.mapIndexed { index, variable ->
-            Variable(
+            GlobalVariable(
                 id = variable.id ?: newUUID(),
                 key = variable.key!!,
                 type = variable.type?.let { VariableType.parse(it) } ?: VariableType.CONSTANT,
@@ -442,7 +442,7 @@ constructor(
                 sortingOrder = index,
             )
         }
-        with(variableDao()) {
+        with(globalVariableDao()) {
             when (mode) {
                 ImportMode.MERGE -> {
                     val existingVariables = getVariables()

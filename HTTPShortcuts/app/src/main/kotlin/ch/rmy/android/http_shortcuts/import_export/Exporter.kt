@@ -6,7 +6,7 @@ import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.import_export.ImportExport.JSON_FILE
 import ch.rmy.android.http_shortcuts.import_export.models.ExportBase
@@ -37,12 +37,12 @@ constructor(
         format: ExportFormat = ExportFormat.ZIP,
         password: String? = null,
         shortcutIds: Collection<ShortcutId>? = null,
-        variableIds: Collection<VariableId>? = null,
+        globalVariableIds: Collection<GlobalVariableId>? = null,
         excludeDefaults: Boolean,
         excludeVariableValuesIfNeeded: Boolean = true,
     ): ExportStatus {
         val base = withContext(Dispatchers.Default) {
-            exportBaseLoader.getBase(shortcutIds, variableIds, excludeVariableValuesIfNeeded)
+            exportBaseLoader.getBase(shortcutIds, globalVariableIds, excludeVariableValuesIfNeeded)
         }
         return withContext(Dispatchers.IO) {
             when (format) {

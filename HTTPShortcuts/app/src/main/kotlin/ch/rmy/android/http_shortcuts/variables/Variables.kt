@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import ch.rmy.android.framework.utils.UUIDUtils.UUID_REGEX
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -12,12 +12,12 @@ object Variables {
     const val KEY_MAX_LENGTH = 30
 
     const val VARIABLE_KEY_REGEX = "[A-Za-z0-9_]{1,$KEY_MAX_LENGTH}"
-    const val VARIABLE_ID_REGEX = "($UUID_REGEX|[0-9]+)"
+    const val GLOBAL_VARIABLE_ID_REGEX = "($UUID_REGEX|[0-9]+)"
 
     private const val RAW_PLACEHOLDER_PREFIX = "{{"
     private const val RAW_PLACEHOLDER_SUFFIX = "}}"
-    val RAW_PLACEHOLDER_REGEX = "${quote(RAW_PLACEHOLDER_PREFIX)}$VARIABLE_ID_REGEX${quote(RAW_PLACEHOLDER_SUFFIX)}"
-    val BROKEN_RAW_PLACEHOLDER_REGEX = "${quote(RAW_PLACEHOLDER_PREFIX)}$VARIABLE_ID_REGEX\\}(?!\\})"
+    val RAW_PLACEHOLDER_REGEX = "${quote(RAW_PLACEHOLDER_PREFIX)}$GLOBAL_VARIABLE_ID_REGEX${quote(RAW_PLACEHOLDER_SUFFIX)}"
+    val BROKEN_RAW_PLACEHOLDER_REGEX = "${quote(RAW_PLACEHOLDER_PREFIX)}$GLOBAL_VARIABLE_ID_REGEX\\}(?!\\})"
 
     private const val JS_PLACEHOLDER_REGEX = """/\*\[variable]\*/"([^"]+)"/\*\[/variable]\*/"""
     private const val JS_PLACEHOLDER_REGEX2 = """getVariable\(["']($VARIABLE_KEY_REGEX)["']\)"""
@@ -29,7 +29,7 @@ object Variables {
     fun isValidVariableKey(variableKey: String) =
         VARIABLE_KEY_REGEX.toRegex().matchEntire(variableKey) != null
 
-    fun rawPlaceholdersToResolvedValues(string: String, variables: Map<VariableId, String>): String {
+    fun rawPlaceholdersToResolvedValues(string: String, variables: Map<GlobalVariableId, String>): String {
         val builder = StringBuilder()
         val matcher = match(string)
         var previousEnd = 0
@@ -46,7 +46,7 @@ object Variables {
     /**
      * Searches for variable placeholders and returns all variable IDs found in them.
      */
-    internal fun extractVariableIds(string: String): Set<VariableId> =
+    internal fun extractGlobalVariableIds(string: String): Set<GlobalVariableId> =
         buildSet {
             val matcher = match(string)
             while (matcher.find()) {
@@ -59,7 +59,7 @@ object Variables {
     /**
      * Searches for variable placeholders in JS code and returns all variable IDs found in them.
      */
-    internal fun extractVariableIdsFromJS(string: String): Set<VariableId> =
+    internal fun extractGlobalVariableIdsFromJS(string: String): Set<GlobalVariableId> =
         buildSet {
             val matcher = JS_PATTERN.matcher(string)
             while (matcher.find()) {

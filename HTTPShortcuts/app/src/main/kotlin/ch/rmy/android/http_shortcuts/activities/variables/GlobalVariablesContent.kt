@@ -25,21 +25,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.extensions.move
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.variables.models.VariableListItem
+import ch.rmy.android.http_shortcuts.activities.variables.models.GlobalVariableListItem
 import ch.rmy.android.http_shortcuts.components.EmptyState
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VerticalSpacer
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.extensions.localize
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun VariablesContent(
-    variables: List<VariableListItem>,
-    onVariableClicked: (VariableId) -> Unit,
-    onVariableMoved: (VariableId, VariableId) -> Unit,
+fun GlobalVariablesContent(
+    variables: List<GlobalVariableListItem>,
+    onVariableClicked: (GlobalVariableId) -> Unit,
+    onVariableMoved: (GlobalVariableId, GlobalVariableId) -> Unit,
 ) {
     if (variables.isEmpty()) {
         EmptyState(
@@ -53,7 +53,7 @@ fun VariablesContent(
     val lazyListState = rememberLazyListState()
     val reorderableState = rememberReorderableLazyListState(lazyListState) { from, to ->
         localVariables = localVariables.move(from.index, to.index)
-        onVariableMoved(from.key as VariableId, to.key as VariableId)
+        onVariableMoved(from.key as GlobalVariableId, to.key as GlobalVariableId)
     }
 
     LazyColumn(
@@ -92,7 +92,7 @@ fun VariablesContent(
 
 @Composable
 private fun VariableItem(
-    variable: VariableListItem,
+    variable: GlobalVariableListItem,
     modifier: Modifier = Modifier,
 ) {
     Column(

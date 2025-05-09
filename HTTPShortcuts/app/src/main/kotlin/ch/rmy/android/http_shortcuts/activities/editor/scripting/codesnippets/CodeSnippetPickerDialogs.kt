@@ -11,7 +11,7 @@ import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.ShortcutPickerDialog
 import ch.rmy.android.http_shortcuts.components.VariablePickerDialog
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.extensions.localize
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -24,7 +24,7 @@ fun CodeSnippetPickerDialogs(
     onCurrentShortcutSelected: () -> Unit,
     onIconSelected: (ShortcutIcon) -> Unit,
     onCustomIconOptionSelected: () -> Unit,
-    onVariableSelected: (VariableId) -> Unit,
+    onVariableSelected: (GlobalVariableId) -> Unit,
     onVariableEditorButtonClicked: () -> Unit,
     onWorkingDirectorySelected: (String) -> Unit,
     onDismissRequested: () -> Unit,

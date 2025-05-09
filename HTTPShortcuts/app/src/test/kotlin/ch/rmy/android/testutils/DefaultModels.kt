@@ -9,8 +9,8 @@ import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
 import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
@@ -85,7 +85,7 @@ object DefaultModels {
         sortingOrder = 0,
     )
 
-    val variable = Variable(
+    val variable = GlobalVariable(
         id = "",
         key = "",
         type = VariableType.CONSTANT,

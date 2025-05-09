@@ -1,6 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.execute.usecases
 
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType.FILE
 import ch.rmy.android.http_shortcuts.data.enums.ResponseFailureOutput
 import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
@@ -21,7 +21,7 @@ constructor(
     operator fun invoke(
         shortcut: Shortcut,
         requestParameters: List<RequestParameter>,
-        variableValuesByIds: Map<VariableId, String> = emptyMap(),
+        variableValuesByIds: Map<GlobalVariableId, String> = emptyMap(),
     ): Boolean {
         val usesNoOutput = shortcut.responseSuccessOutput == ResponseSuccessOutput.NONE &&
             shortcut.responseFailureOutput == ResponseFailureOutput.NONE
@@ -38,7 +38,7 @@ constructor(
             computeVariablesSize(variableValuesByIds) < MAX_VARIABLES_SIZE
     }
 
-    private fun computeVariablesSize(variableValuesByIds: Map<VariableId, String>): Int =
+    private fun computeVariablesSize(variableValuesByIds: Map<GlobalVariableId, String>): Int =
         variableValuesByIds.entries.sumOf { (id, value) -> id.length + value.length }
 
     companion object {

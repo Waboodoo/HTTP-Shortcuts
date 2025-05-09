@@ -26,7 +26,7 @@ import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExec
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.models.Category
@@ -81,7 +81,7 @@ constructor(
     private val widgetManager: WidgetManager,
     private val pendingExecutionsRepository: PendingExecutionsRepository,
     private val appOverlayUtil: AppOverlayUtil,
-    private val variableRepository: VariableRepository,
+    private val globalVariableRepository: GlobalVariableRepository,
     private val variablePlaceholderProvider: VariablePlaceholderProvider,
     private val settings: Settings,
     private val versionUtil: VersionUtil,
@@ -109,7 +109,7 @@ constructor(
 
         viewModelScope.launch(Dispatchers.Default) {
             // Ensure that the VariablePlaceholderProvider is initialized
-            variablePlaceholderProvider.applyVariables(variableRepository.getVariables())
+            variablePlaceholderProvider.applyVariables(globalVariableRepository.getGlobalVariables())
         }
 
         viewModelScope.launch {
@@ -326,7 +326,7 @@ constructor(
 
     fun onVariablesButtonClicked() = runAction {
         logInfo("Variables button clicked")
-        navigate(NavigationDestination.Variables.buildRequest())
+        navigate(NavigationDestination.GlobalVariables.buildRequest())
     }
 
     fun onWorkingDirectoriesClicked() = runAction {

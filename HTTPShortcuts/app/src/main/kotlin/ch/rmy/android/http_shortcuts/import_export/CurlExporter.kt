@@ -6,8 +6,8 @@ import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderRepository
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
@@ -30,7 +30,7 @@ class CurlExporter
 constructor(
     private val requestHeaderRepository: RequestHeaderRepository,
     private val requestParameterRepository: RequestParameterRepository,
-    private val variableRepository: VariableRepository,
+    private val globalVariableRepository: GlobalVariableRepository,
     private val variableResolver: VariableResolver,
 ) {
 
@@ -40,7 +40,7 @@ constructor(
     }
 
     private suspend fun resolveVariables(shortcut: Shortcut, dialogHandle: DialogHandle): VariableManager {
-        val variables = variableRepository.getVariables()
+        val variables = globalVariableRepository.getGlobalVariables()
         return variableResolver.resolve(
             variableManager = VariableManager(variables),
             shortcut = shortcut,

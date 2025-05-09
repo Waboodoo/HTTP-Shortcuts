@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
@@ -31,9 +31,9 @@ constructor(
 
     private val client = httpClientFactory.getClient(context)
 
-    suspend operator fun invoke(url: String, variables: List<Variable>, dialogHandle: DialogHandle): ShortcutIcon? {
+    suspend operator fun invoke(url: String, variables: List<GlobalVariable>, dialogHandle: DialogHandle): ShortcutIcon? {
         val variableManager = VariableManager(variables)
-        variableResolver.resolve(variableManager, Variables.extractVariableIds(url), dialogHandle)
+        variableResolver.resolve(variableManager, Variables.extractGlobalVariableIds(url), dialogHandle)
         val finalUrl = Variables.rawPlaceholdersToResolvedValues(url, variableManager.getVariableValuesByIds())
 
         val iconSize = IconUtil.getIconSize(context)

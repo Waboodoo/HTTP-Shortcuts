@@ -3,8 +3,8 @@ package ch.rmy.android.http_shortcuts.variables.types
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalTime
@@ -18,9 +18,9 @@ import javax.inject.Inject
 class TimeType
 @Inject
 constructor(
-    private val variablesRepository: VariableRepository,
+    private val variablesRepository: GlobalVariableRepository,
 ) : VariableType {
-    override suspend fun resolve(variable: Variable, dialogHandle: DialogHandle): String {
+    override suspend fun resolve(variable: GlobalVariable, dialogHandle: DialogHandle): String {
         val selectedTime = dialogHandle.showDialog(
             ExecuteDialogState.TimePicker(
                 title = variable.title.takeUnlessEmpty(),
@@ -52,7 +52,7 @@ constructor(
 
         private val TIME_FORMAT = DateTimeFormatter.ofPattern("HH-mm", Locale.US)
 
-        fun getTimeFormat(variable: Variable) =
+        fun getTimeFormat(variable: GlobalVariable) =
             variable.getStringData(DateType.KEY_FORMAT) ?: DEFAULT_FORMAT
     }
 }

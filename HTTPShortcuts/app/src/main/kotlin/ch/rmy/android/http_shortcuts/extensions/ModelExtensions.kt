@@ -13,20 +13,20 @@ import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin as CertificatePinModel
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.http.CertificatePin as HttpCertificatePin
 
 @JvmName(name = "shortcutIds")
 fun List<Shortcut>.ids() = map { it.id }
 
-@JvmName(name = "variableIds")
-fun List<Variable>.ids() = map { it.id }
+@JvmName(name = "globalVariableIds")
+fun List<GlobalVariable>.ids() = map { it.id }
 
-@JvmName(name = "variableIds")
-fun Set<Variable>.ids() = map { it.id }.toSet()
+@JvmName(name = "globalVariableIds")
+fun Set<GlobalVariable>.ids() = map { it.id }.toSet()
 
 @JvmName(name = "categoryIds")
 fun List<Category>.ids() = map { it.id }
@@ -51,9 +51,9 @@ val Shortcut.isTemporaryShortcut
 fun Shortcut.shouldIncludeInHistory() =
     !excludeFromHistory && !isTemporaryShortcut
 
-fun Variable.toVariablePlaceholder() =
+fun GlobalVariable.toVariablePlaceholder() =
     VariablePlaceholder(
-        variableId = id,
+        globalVariableId = id,
         variableKey = key,
         variableType = type,
     )

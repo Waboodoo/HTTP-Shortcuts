@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.variables.types
 
 import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -12,7 +12,7 @@ class ClipboardType
 constructor(
     private val clipboardUtil: ClipboardUtil,
 ) : VariableType {
-    override suspend fun resolve(variable: Variable, dialogHandle: DialogHandle) =
+    override suspend fun resolve(variable: GlobalVariable, dialogHandle: DialogHandle) =
         withContext(Dispatchers.Main) {
             clipboardUtil.getFromClipboard()
                 ?.toString()

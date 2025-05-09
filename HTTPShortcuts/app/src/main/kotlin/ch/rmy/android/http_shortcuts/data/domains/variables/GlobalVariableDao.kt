@@ -6,34 +6,34 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import ch.rmy.android.framework.utils.UUIDUtils
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-abstract class VariableDao {
-    @Query("SELECT * FROM variable WHERE id != ${Variable.TEMPORARY_ID} ORDER BY sorting_order ASC")
-    abstract suspend fun getVariables(): List<Variable>
+abstract class GlobalVariableDao {
+    @Query("SELECT * FROM variable WHERE id != ${GlobalVariable.TEMPORARY_ID} ORDER BY sorting_order ASC")
+    abstract suspend fun getVariables(): List<GlobalVariable>
 
-    @Query("SELECT * FROM variable WHERE id != ${Variable.TEMPORARY_ID} ORDER BY sorting_order ASC")
-    abstract fun observeVariables(): Flow<List<Variable>>
+    @Query("SELECT * FROM variable WHERE id != ${GlobalVariable.TEMPORARY_ID} ORDER BY sorting_order ASC")
+    abstract fun observeVariables(): Flow<List<GlobalVariable>>
 
-    @Query("SELECT * FROM variable WHERE id == ${Variable.TEMPORARY_ID}")
-    abstract fun observeTemporaryVariable(): Flow<Variable?>
+    @Query("SELECT * FROM variable WHERE id == ${GlobalVariable.TEMPORARY_ID}")
+    abstract fun observeTemporaryVariable(): Flow<GlobalVariable?>
 
     @Query("SELECT * FROM variable WHERE id = :id LIMIT 1")
-    abstract suspend fun getVariableById(id: VariableId): List<Variable>
+    abstract suspend fun getVariableById(id: GlobalVariableId): List<GlobalVariable>
 
     @Query("SELECT * FROM variable WHERE `key` = :keyOrId OR id = :keyOrId")
-    abstract suspend fun getVariableByKeyOrId(keyOrId: VariableKeyOrId): List<Variable>
+    abstract suspend fun getVariableByKeyOrId(keyOrId: VariableKeyOrId): List<GlobalVariable>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertOrUpdateVariable(variable: Variable)
+    abstract suspend fun insertOrUpdateVariable(variable: GlobalVariable)
 
-    @Query("DELETE FROM variable WHERE id != ${Variable.TEMPORARY_ID}")
+    @Query("DELETE FROM variable WHERE id != ${GlobalVariable.TEMPORARY_ID}")
     abstract suspend fun deleteAll()
 
     @Transaction
-    open suspend fun update(id: VariableId, transformation: (Variable) -> Variable) {
+    open suspend fun update(id: GlobalVariableId, transformation: (GlobalVariable) -> GlobalVariable) {
         getVariableById(id)
             .firstOrNull()
             ?.let(transformation)
@@ -41,11 +41,11 @@ abstract class VariableDao {
     }
 
     @Query("DELETE FROM variable WHERE id = :id")
-    protected abstract suspend fun deleteById(id: VariableId)
+    protected abstract suspend fun deleteById(id: GlobalVariableId)
 
     @Transaction
-    open suspend fun duplicate(variableId: VariableId, newKey: String) {
-        val variable = getVariableById(variableId).firstOrNull() ?: return
+    open suspend fun duplicate(globalVariableId: GlobalVariableId, newKey: String) {
+        val variable = getVariableById(globalVariableId).firstOrNull() ?: return
         updateSortingOrder(from = variable.sortingOrder + 1, until = Int.MAX_VALUE, diff = 1)
         insertOrUpdateVariable(
             variable.copy(
@@ -58,9 +58,9 @@ abstract class VariableDao {
 
     // TODO(???): Consider moving all the @Transaction-annotated logic into the VariableRepository
     @Transaction
-    open suspend fun swap(variableId1: VariableId, variableId2: VariableId) {
-        val variable1 = getVariableById(variableId1).firstOrNull() ?: return
-        val variable2 = getVariableById(variableId2).firstOrNull() ?: return
+    open suspend fun swap(globalVariableId1: GlobalVariableId, globalVariableId2: GlobalVariableId) {
+        val variable1 = getVariableById(globalVariableId1).firstOrNull() ?: return
+        val variable2 = getVariableById(globalVariableId2).firstOrNull() ?: return
         if (variable1.sortingOrder < variable2.sortingOrder) {
             updateSortingOrder(from = variable1.sortingOrder + 1, until = variable2.sortingOrder, diff = -1)
         } else {
@@ -70,9 +70,9 @@ abstract class VariableDao {
     }
 
     @Transaction
-    open suspend fun delete(variableId: VariableId) {
-        val variable = getVariableById(variableId).firstOrNull() ?: return
-        deleteById(variableId)
+    open suspend fun delete(globalVariableId: GlobalVariableId) {
+        val variable = getVariableById(globalVariableId).firstOrNull() ?: return
+        deleteById(globalVariableId)
         updateSortingOrder(from = variable.sortingOrder, until = Int.MAX_VALUE, diff = -1)
     }
 
@@ -95,13 +95,13 @@ abstract class VariableDao {
     }
 
     @Transaction
-    open suspend fun saveTemporaryVariable(variableId: VariableId) {
-        val existingVariable = getVariableById(variableId).firstOrNull()
-        val temporaryVariable = getVariableById(Variable.TEMPORARY_ID).firstOrNull() ?: return
+    open suspend fun saveTemporaryVariable(globalVariableId: GlobalVariableId) {
+        val existingVariable = getVariableById(globalVariableId).firstOrNull()
+        val temporaryVariable = getVariableById(GlobalVariable.TEMPORARY_ID).firstOrNull() ?: return
 
         insertOrUpdateVariable(
             temporaryVariable.copy(
-                id = variableId,
+                id = globalVariableId,
                 sortingOrder = existingVariable?.sortingOrder ?: (getMaxSortingOrder() + 1),
             ),
         )

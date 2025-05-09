@@ -12,8 +12,8 @@ import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.us
 import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.usecases.GetItemWrappersUseCase
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
@@ -34,7 +34,7 @@ class CodeSnippetPickerViewModel
 constructor(
     application: Application,
     private val shortcutRepository: ShortcutRepository,
-    private val variableRepository: VariableRepository,
+    private val globalVariableRepository: GlobalVariableRepository,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
     private val generateCodeSnippetItems: GenerateCodeSnippetItemsUseCase,
     private val variablePlaceholderProvider: VariablePlaceholderProvider,
@@ -59,7 +59,7 @@ constructor(
             }
         }
         viewModelScope.launch {
-            variableRepository.observeVariables()
+            globalVariableRepository.observeVariables()
                 .collect(variablePlaceholderProvider::applyVariables)
         }
         viewModelScope.launch {
@@ -138,11 +138,11 @@ constructor(
 
     fun onVariableEditorButtonClicked() = runAction {
         updateDialogState(null)
-        navigate(NavigationDestination.Variables.buildRequest(asPicker = true))
+        navigate(NavigationDestination.GlobalVariables.buildRequest(asPicker = true))
     }
 
-    fun onVariableSelected(variableId: VariableId) = runAction {
-        val variableKey = variablePlaceholderProvider.findPlaceholderById(variableId)
+    fun onVariableSelected(globalVariableId: GlobalVariableId) = runAction {
+        val variableKey = variablePlaceholderProvider.findPlaceholderById(globalVariableId)
             ?.variableKey
             ?: skipAction()
         when (viewState.dialogState) {

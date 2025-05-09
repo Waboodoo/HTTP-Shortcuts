@@ -36,7 +36,7 @@ fun VariablePlaceholderText(
         val ranges = mutableListOf<IntRange>()
         val transformedText = VARIABLE_PLACEHOLDER_REGEX.replace(text) { result ->
             val (variableId) = result.destructured
-            val placeholder = placeholders.find { it.variableId == variableId } ?: return@replace result.value
+            val placeholder = placeholders.find { it.globalVariableId == variableId } ?: return@replace result.value
             val variableKey = placeholder.variableKey
             val replacement = "{$variableKey}"
             val lengthDiff = replacement.length - result.value.length

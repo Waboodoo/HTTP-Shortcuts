@@ -39,7 +39,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun VariableEditorContent(
+fun GlobalVariableEditorContent(
     variableKey: String,
     dialogTitle: String,
     dialogMessage: String,
@@ -165,7 +165,7 @@ private fun VariableKey(
     val keyboard = LocalSoftwareKeyboardController.current
     EventHandler {
         when (it) {
-            is VariableEditorEvent.FocusVariableKeyInput -> consume {
+            is GlobalVariableEditorEvent.FocusGlobalVariableKeyInput -> consume {
                 focusRequester.requestFocus()
                 keyboard?.show()
             }

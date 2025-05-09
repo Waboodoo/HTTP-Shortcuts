@@ -1,13 +1,13 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor.types
 
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
-import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryVariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryGlobalVariableRepository
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.variables.types.SelectType
 
 class SelectTypeViewModel : BaseTypeViewModel() {
 
-    override fun createViewState(variable: Variable) = SelectTypeViewState(
+    override fun createViewState(variable: GlobalVariable) = SelectTypeViewState(
         options = run {
             val labels = variable.getStringListData(SelectType.KEY_LABELS) ?: emptyList<String>()
             val values = variable.getStringListData(SelectType.KEY_VALUES) ?: emptyList<String>()
@@ -23,9 +23,9 @@ class SelectTypeViewModel : BaseTypeViewModel() {
         separator = SelectType.getSeparator(variable),
     )
 
-    override suspend fun save(temporaryVariableRepository: TemporaryVariableRepository, viewState: VariableTypeViewState) {
+    override suspend fun save(temporaryGlobalVariableRepository: TemporaryGlobalVariableRepository, viewState: VariableTypeViewState) {
         viewState as SelectTypeViewState
-        temporaryVariableRepository.setData(
+        temporaryGlobalVariableRepository.setData(
             mapOf(
                 SelectType.KEY_LABELS to viewState.options.map { it.label },
                 SelectType.KEY_VALUES to viewState.options.map { it.text },

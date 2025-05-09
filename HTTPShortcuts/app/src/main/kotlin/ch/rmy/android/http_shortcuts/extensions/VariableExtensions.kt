@@ -14,7 +14,7 @@ suspend fun VariableResolver.resolve(
     parameters: List<RequestParameter>,
     dialogHandle: DialogHandle,
 ): VariableManager {
-    val requiredVariableIds = VariableResolver.extractVariableIdsExcludingScripting(
+    val requiredVariableIds = VariableResolver.extractGlobalVariableIdsExcludingScripting(
         shortcut = shortcut,
         headers = headers,
         parameters = parameters,

@@ -39,8 +39,8 @@ import ch.rmy.android.http_shortcuts.activities.moving.MoveScreen
 import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditScreen
 import ch.rmy.android.http_shortcuts.activities.settings.SettingsScreen
 import ch.rmy.android.http_shortcuts.activities.troubleshooting.TroubleShootingScreen
-import ch.rmy.android.http_shortcuts.activities.variables.VariablesScreen
-import ch.rmy.android.http_shortcuts.activities.variables.editor.VariableEditorScreen
+import ch.rmy.android.http_shortcuts.activities.variables.GlobalVariablesScreen
+import ch.rmy.android.http_shortcuts.activities.variables.editor.GlobalVariableEditorScreen
 import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsScreen
 import ch.rmy.android.http_shortcuts.activities.workingdirectories.WorkingDirectoriesScreen
 import ch.rmy.android.http_shortcuts.widget.WidgetManager
@@ -241,18 +241,18 @@ fun NavigationRoot() {
             TroubleShootingScreen()
         }
 
-        composable(NavigationDestination.Variables) { backStackEntry ->
-            VariablesScreen(
+        composable(NavigationDestination.GlobalVariables) { backStackEntry ->
+            GlobalVariablesScreen(
                 savedStateHandle = backStackEntry.savedStateHandle,
-                asPicker = NavigationDestination.Variables.extractAsPicker(backStackEntry.arguments!!),
+                asPicker = NavigationDestination.GlobalVariables.extractAsPicker(backStackEntry.arguments!!),
             )
         }
 
-        composable(NavigationDestination.VariableEditor) { backStackEntry ->
-            VariableEditorScreen(
+        composable(NavigationDestination.GlobalVariableEditor) { backStackEntry ->
+            GlobalVariableEditorScreen(
                 savedStateHandle = backStackEntry.savedStateHandle,
-                variableId = NavigationDestination.VariableEditor.extractVariableId(backStackEntry.arguments!!),
-                variableType = NavigationDestination.VariableEditor.extractVariableType(backStackEntry.arguments!!),
+                globalVariableId = NavigationDestination.GlobalVariableEditor.extractVariableId(backStackEntry.arguments!!),
+                variableType = NavigationDestination.GlobalVariableEditor.extractVariableType(backStackEntry.arguments!!),
             )
         }
 

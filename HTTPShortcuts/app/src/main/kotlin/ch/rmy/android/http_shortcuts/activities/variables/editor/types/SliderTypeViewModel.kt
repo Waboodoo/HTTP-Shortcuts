@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor.types
 
-import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryVariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryGlobalVariableRepository
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.variables.types.SliderType
 import ch.rmy.android.http_shortcuts.variables.types.SliderType.Companion.findMax
 import ch.rmy.android.http_shortcuts.variables.types.SliderType.Companion.findMin
@@ -11,7 +11,7 @@ import ch.rmy.android.http_shortcuts.variables.types.SliderType.Companion.findSu
 
 class SliderTypeViewModel : BaseTypeViewModel() {
 
-    override fun createViewState(variable: Variable) = SliderTypeViewState(
+    override fun createViewState(variable: GlobalVariable) = SliderTypeViewState(
         rememberValue = variable.rememberValue,
         minValueText = variable.findMin().toString(),
         maxValueText = variable.findMax().toString(),
@@ -20,10 +20,10 @@ class SliderTypeViewModel : BaseTypeViewModel() {
         suffix = variable.findSuffix(),
     )
 
-    override suspend fun save(temporaryVariableRepository: TemporaryVariableRepository, viewState: VariableTypeViewState) {
+    override suspend fun save(temporaryGlobalVariableRepository: TemporaryGlobalVariableRepository, viewState: VariableTypeViewState) {
         viewState as SliderTypeViewState
-        temporaryVariableRepository.setRememberValue(viewState.rememberValue)
-        temporaryVariableRepository.setData(
+        temporaryGlobalVariableRepository.setRememberValue(viewState.rememberValue)
+        temporaryGlobalVariableRepository.setData(
             SliderType.getData(
                 maxValue = viewState.maxValue,
                 minValue = viewState.minValue,

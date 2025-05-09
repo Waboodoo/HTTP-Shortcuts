@@ -8,7 +8,7 @@ import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
@@ -110,7 +110,7 @@ constructor(
 
         private const val MAX_RECURSION_DEPTH = 3
 
-        internal fun VariableManager.storeVariableValues(variableValues: Map<VariableId, String>) {
+        internal fun VariableManager.storeVariableValues(variableValues: Map<GlobalVariableId, String>) {
             variableValues.forEach { (variableId, value) ->
                 setVariableValueByKeyOrId(variableId, value)
             }

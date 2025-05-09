@@ -11,7 +11,7 @@ import ch.rmy.android.framework.extensions.fromHexString
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.FileUtil
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.HostVerificationConfig
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
@@ -69,7 +69,7 @@ constructor(
         parameters: List<RequestParameter>,
         storeDirectoryUri: Uri?,
         sessionId: String,
-        variableValues: Map<VariableId, String>,
+        variableValues: Map<GlobalVariableId, String>,
         fileUploadResult: FileUploadManager.Result? = null,
         useCookieJar: Boolean = false,
         certificatePins: List<CertificatePin>,
@@ -138,7 +138,7 @@ constructor(
             }
         }
 
-    private fun getProxyParams(shortcut: Shortcut, variableValues: Map<VariableId, String>): ProxyParams? {
+    private fun getProxyParams(shortcut: Shortcut, variableValues: Map<GlobalVariableId, String>): ProxyParams? {
         val host = (shortcut.proxyHost ?: return null)
             .let {
                 Variables.rawPlaceholdersToResolvedValues(it, variableValues)
@@ -168,7 +168,7 @@ constructor(
         shortcut: Shortcut,
         headers: List<RequestHeader>,
         parameters: List<RequestParameter>,
-        variablesValues: Map<VariableId, String>,
+        variablesValues: Map<GlobalVariableId, String>,
         requestData: RequestData,
         responseFileStorage: ResponseFileStorage,
         fileUploadResult: FileUploadManager.Result? = null,
@@ -309,7 +309,7 @@ constructor(
 
     private fun RequestBuilder.attachParameters(
         parameters: List<RequestParameter>,
-        variables: Map<VariableId, String>,
+        variables: Map<GlobalVariableId, String>,
         fileUploadResult: FileUploadManager.Result?,
     ) {
         var fileIndex = -1

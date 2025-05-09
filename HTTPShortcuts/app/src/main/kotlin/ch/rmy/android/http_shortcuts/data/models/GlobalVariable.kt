@@ -3,17 +3,17 @@ package ch.rmy.android.http_shortcuts.data.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import org.json.JSONException
 import org.json.JSONObject
 
 @Entity(tableName = "variable")
-data class Variable(
+data class GlobalVariable(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    val id: VariableId,
+    val id: GlobalVariableId,
     @ColumnInfo(name = "key")
     val key: VariableKey,
     @ColumnInfo(name = "variable_type")
@@ -75,6 +75,6 @@ data class Variable(
         }
 
     companion object {
-        const val TEMPORARY_ID: VariableId = "0"
+        const val TEMPORARY_ID: GlobalVariableId = "0"
     }
 }

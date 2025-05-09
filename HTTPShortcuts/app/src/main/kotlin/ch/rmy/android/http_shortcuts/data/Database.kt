@@ -14,7 +14,7 @@ import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderD
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterDao
 import ch.rmy.android.http_shortcuts.data.domains.sections.SectionDao
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutDao
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableDao
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableDao
 import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetDao
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryDao
 import ch.rmy.android.http_shortcuts.data.migrations.Migration4
@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.data.models.AppConfig
 import ch.rmy.android.http_shortcuts.data.models.AppLock
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.HistoryEvent
 import ch.rmy.android.http_shortcuts.data.models.PendingExecutionModel
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
@@ -29,7 +30,6 @@ import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.ResolvedVariableModel
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigrationDao
@@ -47,7 +47,7 @@ import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigrationDao
         ResolvedVariableModel::class,
         Section::class,
         Shortcut::class,
-        Variable::class,
+        GlobalVariable::class,
         Widget::class,
         WorkingDirectory::class,
     ],
@@ -76,7 +76,7 @@ abstract class Database : RoomDatabase() {
     abstract fun requestParameterDao(): RequestParameterDao
     abstract fun sectionDao(): SectionDao
     abstract fun shortcutDao(): ShortcutDao
-    abstract fun variableDao(): VariableDao
+    abstract fun globalVariableDao(): GlobalVariableDao
     abstract fun widgetDao(): WidgetDao
     abstract fun workingDirectoryDao(): WorkingDirectoryDao
 }

@@ -17,12 +17,12 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.importexport.models.ExportItem
-import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedVariableIdsUseCase
+import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedGlobalVariableIdsUseCase
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,7 +38,7 @@ constructor(
     application: Application,
     private val categoryRepository: CategoryRepository,
     private val shortcutRepository: ShortcutRepository,
-    private val getUsedVariableIds: GetUsedVariableIdsUseCase,
+    private val getUsedVariableIds: GetUsedGlobalVariableIdsUseCase,
     private val exporter: Exporter,
 ) : BaseViewModel<ExportViewModel.InitData, ExportViewState>(application) {
 
@@ -107,11 +107,11 @@ constructor(
         val shortcutIds = viewState.getSelectedShortcutIds()
         try {
             showProgressDialog(R.string.export_in_progress)
-            val variableIds = getVariableIdsForExport(shortcutIds)
+            val globalVariableIds = getGlobalVariableIdsForExport(shortcutIds)
             val status = exporter.exportToUri(
                 file,
                 shortcutIds = shortcutIds,
-                variableIds = variableIds,
+                globalVariableIds = globalVariableIds,
                 excludeDefaults = true,
                 password = viewState.password.takeUnlessEmpty(),
             )
@@ -139,12 +139,11 @@ constructor(
 
         try {
             showProgressDialog(R.string.export_in_progress)
-            val variableIds = getVariableIdsForExport(shortcutIds)
             exporter
                 .exportToUri(
                     cacheFile,
                     shortcutIds = shortcutIds,
-                    variableIds = variableIds,
+                    globalVariableIds = getGlobalVariableIdsForExport(shortcutIds),
                     excludeDefaults = true,
                 )
 
@@ -169,7 +168,7 @@ constructor(
         }
     }
 
-    private suspend fun getVariableIdsForExport(shortcutIds: Collection<ShortcutId>?): Set<VariableId>? =
+    private suspend fun getGlobalVariableIdsForExport(shortcutIds: Collection<ShortcutId>?): Set<GlobalVariableId>? =
         if (shortcutIds != null) {
             getUsedVariableIds(shortcutIds)
         } else {

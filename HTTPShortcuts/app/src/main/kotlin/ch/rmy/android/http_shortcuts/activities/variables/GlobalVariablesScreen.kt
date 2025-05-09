@@ -17,12 +17,12 @@ import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Companion.
 import ch.rmy.android.http_shortcuts.navigation.ResultHandler
 
 @Composable
-fun VariablesScreen(
+fun GlobalVariablesScreen(
     savedStateHandle: SavedStateHandle,
     asPicker: Boolean,
 ) {
-    val (viewModel, state) = bindViewModel<VariablesViewModel.InitData, VariablesViewState, VariablesViewModel>(
-        VariablesViewModel.InitData(asPicker),
+    val (viewModel, state) = bindViewModel<GlobalVariablesViewModel.InitData, VariablesViewState, GlobalVariablesViewModel>(
+        GlobalVariablesViewModel.InitData(asPicker),
     )
 
     BackHandler(state != null) {
@@ -32,7 +32,7 @@ fun VariablesScreen(
     ResultHandler(savedStateHandle) { result ->
         when (result) {
             RESULT_CHANGES_DISCARDED -> viewModel.onChangesDiscarded()
-            is NavigationDestination.VariableEditor.VariableCreatedResult -> viewModel.onVariableCreated(result.variableId)
+            is NavigationDestination.GlobalVariableEditor.VariableCreatedResult -> viewModel.onVariableCreated(result.globalVariableId)
         }
     }
 
@@ -59,14 +59,14 @@ fun VariablesScreen(
             )
         },
     ) { viewState ->
-        VariablesContent(
+        GlobalVariablesContent(
             variables = viewState.variables,
             onVariableClicked = viewModel::onVariableClicked,
             onVariableMoved = viewModel::onVariableMoved,
         )
     }
 
-    VariablesDialogs(
+    GlobalVariablesDialogs(
         state?.dialogState,
         onUseClicked = viewModel::onUseSelected,
         onVariableTypeSelected = viewModel::onCreationDialogVariableTypeSelected,

@@ -1,9 +1,9 @@
 package ch.rmy.android.http_shortcuts.scripting
 
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.variables.Variables.VARIABLE_KEY_REGEX
 import javax.inject.Inject
 import kotlinx.coroutines.async
@@ -13,7 +13,7 @@ class CodeTransformer
 @Inject
 constructor(
     private val shortcutRepository: ShortcutRepository,
-    private val variableRepository: VariableRepository,
+    private val globalVariableRepository: GlobalVariableRepository,
 ) {
     suspend fun transformForEditing(code: String): String {
         val (shortcuts, variables) = getShortcutsAndVariables()
@@ -21,13 +21,13 @@ constructor(
             .replaceVariableIdsWithKeys(variables)
     }
 
-    private suspend fun getShortcutsAndVariables(): Pair<List<Shortcut>, List<Variable>> =
+    private suspend fun getShortcutsAndVariables(): Pair<List<Shortcut>, List<GlobalVariable>> =
         coroutineScope {
             val deferredShortcuts = async {
                 shortcutRepository.getShortcuts()
             }
             val deferredVariables = async {
-                variableRepository.getVariables()
+                globalVariableRepository.getGlobalVariables()
             }
             Pair(deferredShortcuts.await(), deferredVariables.await())
         }
@@ -44,7 +44,7 @@ constructor(
         replace("\\", "\\\\")
             .replace("\"", "\\\"")
 
-    private fun String.replaceVariableIdsWithKeys(variables: List<Variable>): String =
+    private fun String.replaceVariableIdsWithKeys(variables: List<GlobalVariable>): String =
         VARIABLE_PLACEHOLDER_REGEX.replace(this) { result ->
             val variableId = result.groupValues[1]
             val variable = variables.find { it.id == variableId }
@@ -73,7 +73,7 @@ constructor(
             }
         }
 
-    private fun String.replaceVariableCallSites(variables: List<Variable>): String =
+    private fun String.replaceVariableCallSites(variables: List<GlobalVariable>): String =
         VARIABLE_CALL_SITE_REGEX.replace(this) { result ->
             val (functionName, quotedVariableKey, nextChar) = result.destructured
             val variableKey = quotedVariableKey.substring(1, quotedVariableKey.length - 1)

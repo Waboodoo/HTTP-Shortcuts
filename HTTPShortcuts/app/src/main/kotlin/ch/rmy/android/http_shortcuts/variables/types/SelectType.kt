@@ -5,16 +5,16 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import javax.inject.Inject
 
 class SelectType
 @Inject
 constructor(
-    private val variablesRepository: VariableRepository,
+    private val variablesRepository: GlobalVariableRepository,
 ) : VariableType {
-    override suspend fun resolve(variable: Variable, dialogHandle: DialogHandle): String {
+    override suspend fun resolve(variable: GlobalVariable, dialogHandle: DialogHandle): String {
         // TODO: Remove this log statement again soon
         logInfo("Variable data: ${variable.data}")
         val value = if (isMultiSelect(variable)) {
@@ -60,10 +60,10 @@ constructor(
         const val KEY_MULTI_SELECT = "multi_select"
         const val KEY_SEPARATOR = "separator"
 
-        fun isMultiSelect(variable: Variable) =
+        fun isMultiSelect(variable: GlobalVariable) =
             variable.getBooleanData(KEY_MULTI_SELECT) == true
 
-        fun getSeparator(variable: Variable) =
+        fun getSeparator(variable: GlobalVariable) =
             variable.getStringData(KEY_SEPARATOR) ?: ","
     }
 }

@@ -12,17 +12,17 @@ import ch.rmy.android.http_shortcuts.components.BackButton
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
 import ch.rmy.android.http_shortcuts.components.bindViewModel
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 
 @Composable
-fun VariableEditorScreen(
+fun GlobalVariableEditorScreen(
     savedStateHandle: SavedStateHandle,
-    variableId: VariableId?,
+    globalVariableId: GlobalVariableId?,
     variableType: VariableType,
 ) {
-    val (viewModel, state) = bindViewModel<VariableEditorViewModel.InitData, VariableEditorViewState, VariableEditorViewModel>(
-        VariableEditorViewModel.InitData(variableId, variableType),
+    val (viewModel, state) = bindViewModel<GlobalVariableEditorViewModel.InitData, GlobalVariableEditorViewState, GlobalVariableEditorViewModel>(
+        GlobalVariableEditorViewModel.InitData(globalVariableId, variableType),
     )
 
     BackHandler(state != null) {
@@ -31,7 +31,7 @@ fun VariableEditorScreen(
 
     SimpleScaffold(
         viewState = state,
-        title = stringResource(if (variableId == null) R.string.create_variable else R.string.edit_variable),
+        title = stringResource(if (globalVariableId == null) R.string.create_variable else R.string.edit_variable),
         subtitle = stringResource(variableType.getTypeName()),
         backButton = BackButton.CROSS,
         actions = {
@@ -42,7 +42,7 @@ fun VariableEditorScreen(
             )
         },
     ) { viewState ->
-        VariableEditorContent(
+        GlobalVariableEditorContent(
             variableKey = viewState.variableKey,
             dialogTitle = viewState.dialogTitle,
             dialogMessage = viewState.dialogMessage,
@@ -73,7 +73,7 @@ fun VariableEditorScreen(
         }
     }
 
-    VariableEditorDialogs(
+    GlobalVariableEditorDialogs(
         dialogState = state?.dialogState,
         onDiscardDialogConfirmed = viewModel::onDiscardDialogConfirmed,
         onDismissed = viewModel::onDismissDialog,

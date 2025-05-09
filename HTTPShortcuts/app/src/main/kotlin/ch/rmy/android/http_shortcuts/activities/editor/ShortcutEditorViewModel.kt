@@ -24,7 +24,7 @@ import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestPara
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.SecurityPolicy
@@ -69,7 +69,7 @@ constructor(
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
     private val requestHeaderRepository: RequestHeaderRepository,
     private val requestParameterRepository: RequestParameterRepository,
-    private val variableRepository: VariableRepository,
+    private val globalVariableRepository: GlobalVariableRepository,
     private val widgetManager: WidgetManager,
     private val fetchFavicon: FetchFaviconUseCase,
     private val sessionInfoStore: SessionInfoStore,
@@ -594,8 +594,8 @@ constructor(
             )
         }
         try {
-            val variables = variableRepository.getVariables()
-            val icon = fetchFavicon(shortcut.url, variables, dialogHandler)
+            val globalVariables = globalVariableRepository.getGlobalVariables()
+            val icon = fetchFavicon(shortcut.url, globalVariables, dialogHandler)
             if (icon != null) {
                 onShortcutIconChanged(icon)
             } else {

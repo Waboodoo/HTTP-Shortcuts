@@ -18,20 +18,19 @@ import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderR
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.extensions.getRequestParametersForShortcuts
 import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
-import ch.rmy.android.http_shortcuts.variables.VariableLookup
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -48,14 +47,14 @@ constructor(
     private val shortcutRepository: ShortcutRepository,
     private val requestHeaderRepository: RequestHeaderRepository,
     private val requestParameterRepository: RequestParameterRepository,
-    private val variableRepository: VariableRepository,
+    private val globalVariableRepository: GlobalVariableRepository,
     private val shareUtil: ShareUtil,
     private val executionStarter: ExecutionStarter,
 ) : BaseViewModel<ShareViewModel.InitData, ShareViewState>(application) {
     private lateinit var shortcuts: List<Shortcut>
     private lateinit var headersByShortcutId: Map<ShortcutId, List<RequestHeader>>
     private lateinit var parametersByShortcutId: Map<ShortcutId, List<RequestParameter>>
-    private lateinit var variables: List<Variable>
+    private lateinit var variables: List<GlobalVariable>
 
     private val text: String
         get() = initData.text ?: ""
@@ -75,7 +74,7 @@ constructor(
             }
         headersByShortcutId = requestHeaderRepository.getRequestHeadersByShortcutIds(shortcuts.ids())
         parametersByShortcutId = requestParameterRepository.getRequestParametersForShortcuts(shortcuts)
-        variables = variableRepository.getVariables()
+        variables = globalVariableRepository.getGlobalVariables()
 
         if (initData.fileUris.isEmpty()) {
             fileUris = emptyList()
@@ -112,12 +111,12 @@ constructor(
     }
 
     private suspend fun handleTextSharing() {
-        val variableLookup = VariableManager(variables)
-        val variables = shareUtil.getTextShareVariables(variables)
-        val variableIds = variables.ids()
-        val shortcuts = getTextShareTargets(variableIds, variableLookup)
+        val variableManager = VariableManager(variables)
+        val globalVariables = shareUtil.getTextShareGlobalVariables(variables)
+        val globalVariableIds = globalVariables.ids()
+        val shortcuts = getTextShareTargets(globalVariableIds, variableManager)
 
-        variableValues = variables.associate { variable ->
+        variableValues = globalVariables.associate { variable ->
             variable.key to when {
                 variable.isShareText && variable.isShareTitle -> "$title - $text"
                 variable.isShareTitle -> title
@@ -131,15 +130,15 @@ constructor(
         }
     }
 
-    private fun getTextShareTargets(variableIds: Set<VariableId>, variableLookup: VariableLookup): List<Shortcut> =
+    private fun getTextShareTargets(globalVariableIds: Set<GlobalVariableId>, variableManager: VariableManager): List<Shortcut> =
         shortcuts
             .filter {
                 shareUtil.isTextShareTarget(
                     shortcut = it,
                     headers = headersByShortcutId[it.id] ?: emptyList(),
                     parameters = parametersByShortcutId[it.id] ?: emptyList(),
-                    variableIds = variableIds,
-                    variableLookup = variableLookup,
+                    globalVariableIds = globalVariableIds,
+                    variableManager = variableManager,
                 )
             }
 

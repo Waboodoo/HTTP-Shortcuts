@@ -44,7 +44,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 import ch.rmy.android.http_shortcuts.extensions.insertAtCursor
 import ch.rmy.android.http_shortcuts.logging.Logging.logInfo
@@ -62,7 +62,7 @@ class VariablePlaceholderViewModel
 @Inject
 constructor(
     application: Application,
-    private val variableRepository: VariableRepository,
+    private val globalVariableRepository: GlobalVariableRepository,
     private val variablePlaceholderProvider: VariablePlaceholderProvider,
 ) : AndroidViewModel(application) {
 
@@ -71,7 +71,7 @@ constructor(
 
     init {
         viewModelScope.launch {
-            variableRepository.observeVariables().collect { variables ->
+            globalVariableRepository.observeVariables().collect { variables ->
                 variablePlaceholderProvider.applyVariables(variables)
                 _variablePlaceholders.value = variablePlaceholderProvider.placeholders
             }
@@ -93,7 +93,7 @@ private fun transformVariablePlaceholders(
     var offsetSum = 0
     val transformedText = VARIABLE_PLACEHOLDER_REGEX.replace(text) { result ->
         val (variableId) = result.destructured
-        val placeholder = placeholders.find { it.variableId == variableId } ?: return@replace result.value
+        val placeholder = placeholders.find { it.globalVariableId == variableId } ?: return@replace result.value
         val variableKey = placeholder.variableKey
         val replacement = "{$variableKey}"
         val lengthDiff = replacement.length - result.value.length

@@ -37,11 +37,11 @@ import ch.rmy.android.http_shortcuts.data.models.AppConfig
 import ch.rmy.android.http_shortcuts.data.models.AppLock
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.http_shortcuts.data.models.Widget
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import ch.rmy.android.http_shortcuts.data.realm.models.RealmAppLock
@@ -57,7 +57,6 @@ import io.realm.kotlin.types.RealmInstant
 import java.time.Instant
 import javax.inject.Inject
 import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.cancel
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -90,7 +89,7 @@ constructor(
                     database.categoryDao().getCategories().size == 1 &&
                         database.shortcutDao().getShortcuts().isEmpty() &&
                         database.sectionDao().getSections().isEmpty() &&
-                        database.variableDao().getVariables().isEmpty(),
+                        database.globalVariableDao().getVariables().isEmpty(),
                 ) {
                     "Can only import legacy file into a fresh app installation"
                 }
@@ -234,7 +233,7 @@ constructor(
             ?.variables
             ?.distinctBy { it.id }
             ?.mapIndexed { index, variable ->
-                Variable(
+                GlobalVariable(
                     id = variable.id,
                     key = variable.key,
                     type = VariableType.parse(variable.type) ?: VariableType.CONSTANT,

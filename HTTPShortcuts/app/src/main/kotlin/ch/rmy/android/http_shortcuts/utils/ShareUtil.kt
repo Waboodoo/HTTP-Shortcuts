@@ -6,14 +6,14 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType.CAMERA
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType.FILE
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
-import ch.rmy.android.http_shortcuts.variables.VariableLookup
+import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import javax.inject.Inject
 
@@ -36,7 +36,7 @@ constructor() {
         }
     }
 
-    fun getTextShareVariables(variables: List<Variable>) =
+    fun getTextShareGlobalVariables(variables: List<GlobalVariable>) =
         variables.filter { it.isShareText || it.isShareTitle }
             .toSet()
 
@@ -44,16 +44,16 @@ constructor() {
         shortcut: Shortcut,
         headers: List<RequestHeader>,
         parameters: List<RequestParameter>,
-        variableIds: Set<VariableId>,
-        variableLookup: VariableLookup,
+        globalVariableIds: Set<GlobalVariableId>,
+        variableManager: VariableManager,
     ): Boolean {
-        val variableIdsInShortcut = VariableResolver.extractVariableIdsIncludingScripting(
+        val globalVariableIdsInShortcut = VariableResolver.extractGlobalVariableIdsIncludingScripting(
             shortcut,
             headers = headers,
             parameters = parameters,
-            variableLookup,
+            variableManager,
         )
-        return variableIds.any { variableIdsInShortcut.contains(it) }
+        return globalVariableIds.any { globalVariableIdsInShortcut.contains(it) }
     }
 
     fun isFileShareTarget(shortcut: Shortcut, parameters: List<RequestParameter>, forImage: Boolean? = null): Boolean {

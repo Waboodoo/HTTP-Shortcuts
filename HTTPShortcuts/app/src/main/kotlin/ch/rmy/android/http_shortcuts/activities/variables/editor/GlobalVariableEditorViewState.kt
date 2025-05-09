@@ -6,8 +6,8 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.models.ShareSup
 import ch.rmy.android.http_shortcuts.activities.variables.editor.types.VariableTypeViewState
 
 @Stable
-data class VariableEditorViewState(
-    val dialogState: VariableEditorDialogState? = null,
+data class GlobalVariableEditorViewState(
+    val dialogState: GlobalVariableEditorDialogState? = null,
     val dialogTitleVisible: Boolean,
     val dialogMessageVisible: Boolean,
     val variableKeyInputError: Localizable? = null,

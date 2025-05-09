@@ -12,8 +12,8 @@ import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestPara
 import ch.rmy.android.http_shortcuts.data.domains.sections.SectionRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
@@ -63,7 +63,7 @@ constructor(
     private val requestParameterRepository: RequestParameterRepository,
     private val categoryRepository: CategoryRepository,
     private val sectionRepository: SectionRepository,
-    private val variableRepository: VariableRepository,
+    private val globalVariableRepository: GlobalVariableRepository,
     private val certificatePinRepository: CertificatePinRepository,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
     private val getUsedWorkingDirectoryIds: GetUsedWorkingDirectoryIdsUseCase,
@@ -71,7 +71,7 @@ constructor(
 ) {
     suspend fun getBase(
         shortcutIds: Collection<ShortcutId>?,
-        variableIds: Collection<VariableId>?,
+        globalVariableIds: Collection<GlobalVariableId>?,
         excludeVariableValuesIfNeeded: Boolean,
     ): ExportBase {
         val shortcuts = shortcutRepository.getShortcuts()
@@ -90,9 +90,9 @@ constructor(
             }
         val sectionsByCategoryId = sections.groupBy { it.categoryId }
 
-        val variables = variableRepository.getVariables()
-            .runIfNotNull(variableIds) { variableIds ->
-                filter { it.id in variableIds }
+        val variables = globalVariableRepository.getGlobalVariables()
+            .runIfNotNull(globalVariableIds) { globalVariableIds ->
+                filter { it.id in globalVariableIds }
             }
 
         val appConfig = appConfigRepository.getAppConfig()

@@ -6,17 +6,17 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import javax.inject.Inject
 
 class SliderType
 @Inject
 constructor(
-    private val variablesRepository: VariableRepository,
+    private val variablesRepository: GlobalVariableRepository,
 ) : VariableType {
     @SuppressLint("SetTextI18n")
-    override suspend fun resolve(variable: Variable, dialogHandle: DialogHandle): String {
+    override suspend fun resolve(variable: GlobalVariable, dialogHandle: DialogHandle): String {
         val value = dialogHandle.showDialog(
             ExecuteDialogState.NumberSlider(
                 title = variable.title.takeUnlessEmpty()?.toLocalizable(),
@@ -52,22 +52,22 @@ constructor(
         const val DEFAULT_MAX = 100.0f
         const val DEFAULT_STEP = 1.0f
 
-        fun Variable.findMax(): Float =
+        fun GlobalVariable.findMax(): Float =
             getStringData(KEY_MAX)?.toFloatOrNull() ?: DEFAULT_MAX
 
-        fun Variable.findMin(): Float =
+        fun GlobalVariable.findMin(): Float =
             getStringData(KEY_MIN)?.toFloatOrNull() ?: DEFAULT_MIN
 
-        fun Variable.findStep(): Float =
+        fun GlobalVariable.findStep(): Float =
             getStringData(KEY_STEP)?.toFloatOrNull() ?: DEFAULT_STEP
 
-        fun Variable.isIntsOnly() =
+        fun GlobalVariable.isIntsOnly() =
             findMin().toString().endsWith(".0") && findMax().toString().endsWith(".0") && findStep().toString().endsWith(".0")
 
-        fun Variable.findPrefix(): String =
+        fun GlobalVariable.findPrefix(): String =
             getStringData(KEY_PREFIX) ?: ""
 
-        fun Variable.findSuffix(): String =
+        fun GlobalVariable.findSuffix(): String =
             getStringData(KEY_SUFFIX) ?: ""
 
         fun getData(maxValue: Float, minValue: Float, stepValue: Float, prefix: String, suffix: String) = mapOf(

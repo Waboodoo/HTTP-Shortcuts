@@ -28,7 +28,7 @@ import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExec
 import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderRepository
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
@@ -114,7 +114,7 @@ class Execution(
         get() = entryPoint.requestParameterRepository()
     private val appConfigRepository: AppConfigRepository
         get() = entryPoint.appConfigRepository()
-    private val variableRepository: VariableRepository
+    private val globalVariableRepository: GlobalVariableRepository
         get() = entryPoint.variableRepository()
     private val variableResolver: VariableResolver
         get() = entryPoint.variableResolver()
@@ -253,7 +253,7 @@ class Execution(
         }
 
         val variableManager = VariableManager(
-            variables = variableRepository.getVariables(),
+            globalVariables = globalVariableRepository.getGlobalVariables(),
             preResolvedValues = params.variableValues,
         )
 
@@ -479,7 +479,7 @@ class Execution(
         fun requestHeaderRepository(): RequestHeaderRepository
         fun requestParameterRepository(): RequestParameterRepository
         fun appConfigRepository(): AppConfigRepository
-        fun variableRepository(): VariableRepository
+        fun variableRepository(): GlobalVariableRepository
         fun variableResolver(): VariableResolver
         fun launcherShortcutManager(): LauncherShortcutManager
         fun requestSimpleConfirmation(): RequestSimpleConfirmationUseCase

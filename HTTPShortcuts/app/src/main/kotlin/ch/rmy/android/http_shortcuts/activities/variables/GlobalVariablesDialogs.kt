@@ -18,8 +18,8 @@ import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 
 @Composable
-fun VariablesDialogs(
-    dialogState: VariablesDialogState?,
+fun GlobalVariablesDialogs(
+    dialogState: GlobalVariablesDialogState?,
     onUseClicked: () -> Unit,
     onVariableTypeSelected: (VariableType) -> Unit,
     onEditClicked: () -> Unit,
@@ -29,7 +29,7 @@ fun VariablesDialogs(
     onDismissed: () -> Unit,
 ) {
     when (dialogState) {
-        is VariablesDialogState.ContextMenu -> {
+        is GlobalVariablesDialogState.ContextMenu -> {
             ContextMenuDialog(
                 title = dialogState.variableKey,
                 showUse = dialogState.showUse,
@@ -40,13 +40,13 @@ fun VariablesDialogs(
                 onDismissed = onDismissed,
             )
         }
-        is VariablesDialogState.Creation -> {
+        is GlobalVariablesDialogState.Creation -> {
             CreationDialog(
                 onVariableTypeSelected = onVariableTypeSelected,
                 onDismissed = onDismissed,
             )
         }
-        is VariablesDialogState.Delete -> {
+        is GlobalVariablesDialogState.Delete -> {
             DeletionDialog(
                 title = dialogState.variableKey,
                 shortcutNames = dialogState.shortcutNames,

@@ -1,20 +1,20 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor.types
 
-import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryVariableRepository
-import ch.rmy.android.http_shortcuts.data.models.Variable
+import ch.rmy.android.http_shortcuts.data.domains.variables.TemporaryGlobalVariableRepository
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.variables.types.TimestampType
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class TimestampTypeViewModel : BaseTypeViewModel() {
 
-    override fun createViewState(variable: Variable) = TimestampTypeViewState(
+    override fun createViewState(variable: GlobalVariable) = TimestampTypeViewState(
         timeFormat = TimestampType.getTimeFormat(variable),
     )
 
-    override suspend fun save(temporaryVariableRepository: TemporaryVariableRepository, viewState: VariableTypeViewState) {
+    override suspend fun save(temporaryGlobalVariableRepository: TemporaryGlobalVariableRepository, viewState: VariableTypeViewState) {
         viewState as TimestampTypeViewState
-        temporaryVariableRepository.setData(
+        temporaryGlobalVariableRepository.setData(
             mapOf(TimestampType.KEY_FORMAT to viewState.timeFormat),
         )
     }

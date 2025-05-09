@@ -2,11 +2,11 @@ package ch.rmy.android.http_shortcuts.scripting
 
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Variable
 import ch.rmy.android.testutils.DefaultModels
 import io.mockk.coEvery
 import io.mockk.impl.annotations.InjectMockKs
@@ -27,7 +27,7 @@ class CodeTransformerTest {
     lateinit var shortcutRepository: ShortcutRepository
 
     @RelaxedMockK
-    lateinit var variableRepository: VariableRepository
+    lateinit var globalVariableRepository: GlobalVariableRepository
 
     @InjectMockKs
     lateinit var codeTransformer: CodeTransformer
@@ -40,7 +40,7 @@ class CodeTransformerTest {
             mockShortcut(id = ID3, name = "My 'Shortcut'"),
             mockShortcut(id = ID4, name = "My \\\"Shortcut\\\""),
         )
-        coEvery { variableRepository.getVariables() } returns listOf(
+        coEvery { globalVariableRepository.getGlobalVariables() } returns listOf(
             mockVariable(id = ID1, key = "my_variable"),
         )
     }
@@ -248,7 +248,7 @@ class CodeTransformerTest {
                 name = name,
             )
 
-        private fun mockVariable(id: VariableId, key: VariableKey): Variable =
+        private fun mockVariable(id: GlobalVariableId, key: VariableKey): GlobalVariable =
             DefaultModels.variable.copy(
                 id = id,
                 key = key,

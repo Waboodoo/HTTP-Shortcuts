@@ -7,8 +7,8 @@ import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderR
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.dtos.LauncherShortcut
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
@@ -16,7 +16,6 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.getRequestParametersForShortcut
 import ch.rmy.android.http_shortcuts.extensions.getRequestParametersForShortcuts
 import ch.rmy.android.http_shortcuts.extensions.ids
-import ch.rmy.android.http_shortcuts.variables.VariableLookup
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import javax.inject.Inject
 
@@ -24,7 +23,7 @@ class LauncherShortcutUpdater
 @Inject
 constructor(
     private val categoryRepository: CategoryRepository,
-    private val variableRepository: VariableRepository,
+    private val globalVariableRepository: GlobalVariableRepository,
     private val shortcutRepository: ShortcutRepository,
     private val requestHeaderRepository: RequestHeaderRepository,
     private val requestParameterRepository: RequestParameterRepository,
@@ -36,8 +35,8 @@ constructor(
         val shortcuts = shortcutRepository.getShortcuts()
         val shortcutIds = shortcuts.ids()
         val shortcutsByCategoryId = shortcuts.groupBy { it.categoryId }
-        val variables = variableRepository.getVariables()
-        val variableIds = shareUtil.getTextShareVariables(variables).ids()
+        val variables = globalVariableRepository.getGlobalVariables()
+        val globalVariableIds = shareUtil.getTextShareGlobalVariables(variables).ids()
         val headersByShortcutId = requestHeaderRepository.getRequestHeadersByShortcutIds(shortcutIds)
         val parametersById = requestParameterRepository.getRequestParametersForShortcuts(shortcuts)
         val launcherShortcuts = categoryIds
@@ -50,8 +49,8 @@ constructor(
                     shortcut = shortcut,
                     headers = headersByShortcutId[shortcut.id] ?: emptyList(),
                     parameters = parametersById[shortcut.id] ?: emptyList(),
-                    variableIds = variableIds,
-                    variableLookup = VariableManager(variables),
+                    globalVariableIds = globalVariableIds,
+                    variableManager = VariableManager(variables),
                 )
             }
         launcherShortcutManager.updateAppShortcuts(launcherShortcuts)
@@ -78,13 +77,13 @@ constructor(
     private suspend fun getLauncherShortcut(shortcutId: ShortcutId): LauncherShortcut {
         logInfo("getLauncherShortcut($shortcutId)")
         val shortcut = shortcutRepository.getShortcutById(shortcutId)
-        val variables = variableRepository.getVariables()
+        val variables = globalVariableRepository.getGlobalVariables()
         return getLauncherShortcut(
             shortcut = shortcut,
             headers = requestHeaderRepository.getRequestHeadersByShortcutId(shortcutId),
             parameters = requestParameterRepository.getRequestParametersForShortcut(shortcut),
-            variableIds = shareUtil.getTextShareVariables(variables).ids(),
-            variableLookup = VariableManager(variables),
+            globalVariableIds = shareUtil.getTextShareGlobalVariables(variables).ids(),
+            variableManager = VariableManager(variables),
         )
     }
 
@@ -92,14 +91,14 @@ constructor(
         shortcut: Shortcut,
         headers: List<RequestHeader>,
         parameters: List<RequestParameter>,
-        variableIds: Set<VariableId>,
-        variableLookup: VariableLookup,
+        globalVariableIds: Set<GlobalVariableId>,
+        variableManager: VariableManager,
     ): LauncherShortcut =
         LauncherShortcut(
             id = shortcut.id,
             name = shortcut.name,
             icon = shortcut.icon,
-            isTextShareTarget = shareUtil.isTextShareTarget(shortcut, headers, parameters, variableIds, variableLookup),
+            isTextShareTarget = shareUtil.isTextShareTarget(shortcut, headers, parameters, globalVariableIds, variableManager),
             isFileShareTarget = shareUtil.isFileShareTarget(shortcut, parameters),
         )
 

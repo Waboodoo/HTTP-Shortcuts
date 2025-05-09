@@ -19,7 +19,7 @@ import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings.getTypeName
-import ch.rmy.android.http_shortcuts.data.domains.variables.VariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.ResultHandler
@@ -32,7 +32,7 @@ fun VariablePickerDialog(
     title: String,
     variables: List<VariablePlaceholder>,
     showEditButton: Boolean = true,
-    onVariableSelected: (VariableId) -> Unit,
+    onVariableSelected: (GlobalVariableId) -> Unit,
     onDismissRequested: () -> Unit,
 ) {
     val eventHandler = LocalEventinator.current
@@ -42,8 +42,8 @@ fun VariablePickerDialog(
     }
     if (pickerOpened) {
         ResultHandler(savedStateHandle) { result ->
-            if (result is NavigationDestination.Variables.VariableSelectedResult) {
-                onVariableSelected(result.variableId)
+            if (result is NavigationDestination.GlobalVariables.VariableSelectedResult) {
+                onVariableSelected(result.globalVariableId)
                 onDismissRequested()
                 pickerOpened = false
             }
@@ -57,7 +57,7 @@ fun VariablePickerDialog(
     val onEditVariablesClicked = {
         temporarilyHidden = true
         pickerOpened = true
-        eventHandler.onEvent(ViewModelEvent.Navigate(NavigationDestination.Variables.buildRequest(asPicker = true)))
+        eventHandler.onEvent(ViewModelEvent.Navigate(NavigationDestination.GlobalVariables.buildRequest(asPicker = true)))
     }
 
     LaunchedEffect(temporarilyHidden) {
@@ -122,13 +122,13 @@ fun VariablePickerDialog(
         ) {
             items(
                 items = variables,
-                key = { it.variableId },
+                key = { it.globalVariableId },
             ) { variable ->
                 SelectDialogEntry(
                     label = variable.variableKey,
                     description = stringResource(variable.variableType.getTypeName()),
                     onClick = {
-                        onVariableSelected(variable.variableId)
+                        onVariableSelected(variable.globalVariableId)
                     },
                 )
             }
