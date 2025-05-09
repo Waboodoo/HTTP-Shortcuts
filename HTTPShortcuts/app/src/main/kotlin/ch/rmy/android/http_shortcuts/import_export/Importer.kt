@@ -83,9 +83,6 @@ constructor(
             } finally {
                 FileUtil.deleteCacheFile(context, IMPORT_TEMP_FILE)
             }
-                .also {
-                    settings.isAwareOfResponseHandling = true
-                }
         }
 
     private suspend fun importFromZIP(inputStream: InputStream, importMode: ImportMode, password: String? = null): ImportStatus =
@@ -139,6 +136,7 @@ constructor(
                 throw ImportException(e.message!!)
             }
             logInfo("Import validation complete")
+            settings.isAwareOfResponseHandling = true
             ImportStatus(
                 importedShortcuts = importBase.categories?.sumOf { it.shortcuts?.size ?: 0 } ?: 0,
             )

@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.usecases
 
+import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.models.AppConfig
@@ -19,6 +20,10 @@ class GetUsedWorkingDirectoriesUseCaseTest {
 
     @RelaxedMockK
     private lateinit var workingDirectoryRepository: WorkingDirectoryRepository
+
+    @Suppress("unused")
+    @RelaxedMockK
+    private lateinit var requestParameterRepository: RequestParameterRepository
 
     @InjectMockKs
     private lateinit var useCase: GetUsedWorkingDirectoryIdsUseCase

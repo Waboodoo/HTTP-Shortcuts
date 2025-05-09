@@ -228,13 +228,15 @@ constructor() {
             91L -> { // 3.29.0
                 for (category in base.getObjectArray("categories")) {
                     for (shortcut in category.getObjectArray("shortcuts")) {
-                        val fileUploadOptions = shortcut.getOrCreateObject("fileUploadOptions")
+                        val fileUploadOptions = shortcut.getObject("fileUploadOptions")
+                            ?: continue
                         if (fileUploadOptions.getString("fileUploadType") == "stored_file") {
                             fileUploadOptions.addProperty("fileUploadType", "file_picker")
                         }
 
                         for (parameter in shortcut.getObjectArray("parameters")) {
-                            val fileUploadOptions = parameter.getOrCreateObject("fileUploadOptions")
+                            val fileUploadOptions = parameter.getObject("fileUploadOptions")
+                                ?: continue
                             if (fileUploadOptions.getString("fileUploadType") == "stored_file") {
                                 fileUploadOptions.addProperty("fileUploadType", "file_picker")
                             }

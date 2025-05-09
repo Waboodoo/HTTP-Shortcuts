@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.import_export
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.data.domains.import_export.ImportRepository
+import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigration
 import ch.rmy.android.http_shortcuts.import_export.models.ImportBase
 import ch.rmy.android.http_shortcuts.import_export.models.ImportCategory
 import ch.rmy.android.http_shortcuts.import_export.models.ImportCertificatePin
@@ -11,12 +12,14 @@ import ch.rmy.android.http_shortcuts.import_export.models.ImportSection
 import ch.rmy.android.http_shortcuts.import_export.models.ImportShortcut
 import ch.rmy.android.http_shortcuts.import_export.models.ImportVariable
 import ch.rmy.android.http_shortcuts.import_export.models.ImportWorkingDirectory
+import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.testutils.ResourceLoader
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.verify
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.test.runTest
@@ -39,6 +42,13 @@ class ImporterTest {
     @Suppress("unused")
     private val importExportDefaultsProvider = ImportExportDefaultsProvider()
 
+    @RelaxedMockK
+    private lateinit var settings: Settings
+
+    @Suppress("unused")
+    @RelaxedMockK
+    private lateinit var realmToRoomMigration: RealmToRoomMigration
+
     @InjectMockKs
     private lateinit var importer: Importer
 
@@ -58,7 +68,7 @@ class ImporterTest {
         coVerify(exactly = 1) { importRepository.import(base = any(), mode = ImportMode.MERGE) }
         assertEquals(
             ImportBase(
-                version = 90,
+                version = 91,
                 compatibilityVersion = 90,
                 categories = listOf(
                     ImportCategory(
@@ -212,5 +222,6 @@ class ImporterTest {
             ),
             importBase,
         )
+        verify { settings.isAwareOfResponseHandling = true }
     }
 }
