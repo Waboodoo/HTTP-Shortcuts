@@ -109,16 +109,6 @@ First, force stop the app. Then, assuming you're viewing this page in a browser 
 ## What does the app need all of these permissions for?
 See the [Permissions](permissions.md) page for details.
 
-<a id="app-size"></a>
-## Why is the app so big? Why does it use so much storage space?
-The app contains two large-ish binaries (i.e., 3rd party software components), one for its internal database (Realm) and one for the built-in JavaScript engine for the [Scripting](scripting.md) feature. Each of those comes in different variants, one for each processor architecture type that the app supports. These are the main contributors to the app's size, and their size is outside of my control.
-
-If you install the app from the Play Store, you will get a version of the app that only contains the binary variants that are needed by your device, i.e., the ones specific to your device's processor architecture, and it will therefore be significantly smaller in size.
-
-If you install the app from an APK from the [Releases Page](https://github.com/Waboodoo/HTTP-Shortcuts/releases), you will see that there is an APK for each architecture, as well as a "universal" one which works for all architectures. If size is a concern to you make sure to pick the one suitable for your device. Don't worry, if you pick the wrong one it simply won't install or crash at startup. If this happens, just pick a different one or go with the universal one.
-
-If you install the app from F-Droid, then unfortunately you won't get an architecture-specific variant, as that is currently not supported by F-Droid. As a result, the app you're installing will contain all the variants and therefore be 3 - 4 times larger than it needs to be.
-
 ## I would like to help translate the app. How can I contribute?
 
 First of all, thank you for even considering this. I appreciate the effort. You can join the translation project here: [HTTP Shortcuts on crowdin.com](https://crowdin.com/project/http-shortcuts)

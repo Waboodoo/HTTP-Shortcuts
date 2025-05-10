@@ -47,7 +47,6 @@ persistentCookieJar = "v1.0.1"
 playServicesLocation = "21.3.0"
 preference = "1.2.1"
 quickJsWrapper = "3.2.3"
-realm = "3.0.0"  # no longer being actively developed, time to phase it out
 room = "2.7.2"
 reorderable = "2.5.1"
 taskerplugin = "0.4.10"
@@ -115,7 +114,6 @@ peko = { module = "com.markodevcic:peko", version.ref = "peko" }
 persistentCookieJar = { module = "com.github.franmontiel:PersistentCookieJar", version.ref = "persistentCookieJar" }
 playServices-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 quickJsWrapper = { module = "wang.harlon.quickjs:wrapper-android", version.ref = "quickJsWrapper" }
-realm = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
 reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
@@ -131,4 +129,3 @@ hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-realm = { id = "io.realm.kotlin", version.ref = "realm" }

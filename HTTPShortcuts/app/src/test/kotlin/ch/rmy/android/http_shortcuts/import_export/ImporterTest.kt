@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.import_export
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.data.domains.import_export.ImportRepository
-import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigration
 import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.import_export.models.ImportBase
 import ch.rmy.android.http_shortcuts.import_export.models.ImportCategory
@@ -44,10 +43,6 @@ class ImporterTest {
 
     @RelaxedMockK
     private lateinit var settings: Settings
-
-    @Suppress("unused")
-    @RelaxedMockK
-    private lateinit var realmToRoomMigration: RealmToRoomMigration
 
     @InjectMockKs
     private lateinit var importer: Importer

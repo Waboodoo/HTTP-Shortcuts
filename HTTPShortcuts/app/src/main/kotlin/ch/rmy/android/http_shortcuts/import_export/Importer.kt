@@ -3,12 +3,10 @@ package ch.rmy.android.http_shortcuts.import_export
 import android.content.Context
 import android.net.Uri
 import ch.rmy.android.framework.extensions.isWebUrl
-import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.import_export.ImportRepository
-import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigration
 import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.import_export.ImportExport.JSON_FILE
 import ch.rmy.android.http_shortcuts.import_export.models.ImportExportBase
@@ -40,7 +38,6 @@ constructor(
     private val importMigrator: ImportMigrator,
     private val importRepository: ImportRepository,
     private val importExportDefaultsProvider: ImportExportDefaultsProvider,
-    private val realmToRoomMigration: RealmToRoomMigration,
     private val settings: Settings,
 ) {
     suspend fun importFromUri(uri: Uri, importMode: ImportMode, password: String? = null): ImportStatus =
@@ -89,7 +86,6 @@ constructor(
         withContext(Dispatchers.IO) {
             logInfo("Importing from ZIP, using $importMode")
             var importStatus: ImportStatus? = null
-            var shouldRunRealmToRoomMigration = false
             ZipInputStream(inputStream, password?.toCharArray()).use { stream ->
                 while (true) {
                     val entry = stream.getNextEntry(null, true) ?: break
@@ -97,23 +93,11 @@ constructor(
                         entry.fileName == JSON_FILE -> {
                             importStatus = importFromJSON(NoCloseInputStream(stream), importMode)
                         }
-                        entry.fileName == "shortcuts_db_v2" -> {
-                            NoCloseInputStream(stream).copyTo(FileOutputStream(File(context.filesDir, entry.fileName)))
-                            shouldRunRealmToRoomMigration = true
-                        }
                         IconUtil.isCustomIconName(entry.fileName) || entry.fileName.endsWith(".p12") -> {
                             NoCloseInputStream(stream).copyTo(FileOutputStream(File(context.filesDir, entry.fileName)))
                         }
                         else -> Unit
                     }
-                }
-            }
-            if (shouldRunRealmToRoomMigration) {
-                try {
-                    importStatus = ImportStatus(importedShortcuts = realmToRoomMigration.forceMigration())
-                } catch (e: Exception) {
-                    logException(e)
-                    throw ImportException("Failed to import: ${e.message}")
                 }
             }
             importStatus ?: throw ZipException("Invalid file")

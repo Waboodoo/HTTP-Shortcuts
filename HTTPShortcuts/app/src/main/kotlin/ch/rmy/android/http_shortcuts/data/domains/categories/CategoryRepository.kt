@@ -168,4 +168,26 @@ constructor(
             )
         }
     }
+
+    suspend fun createInitialCategory(name: String) {
+        commitTransaction {
+            val categoryDao = categoryDao()
+            if (categoryDao.getCategoryCount() != 0) {
+                return@commitTransaction
+            }
+            categoryDao.insertOrUpdateCategory(
+                Category(
+                    id = newUUID(),
+                    name = name,
+                    icon = null,
+                    layoutType = CategoryLayoutType.LINEAR_LIST,
+                    background = CategoryBackgroundType.Default,
+                    hidden = false,
+                    scale = 1f,
+                    shortcutClickBehavior = null,
+                    sortingOrder = 0,
+                ),
+            )
+        }
+    }
 }

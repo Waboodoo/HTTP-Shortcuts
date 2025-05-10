@@ -3,7 +3,7 @@
     <!-- The name of the app -->
     <string name="app_name">HTTP Shortcuts</string>
     <!-- The name of the default category -->
-    <string name="shortcuts">Shortcuts</string>
+    <string name="shortcuts">My Shortcuts</string>
     <!-- The name used as a fallback for shortcuts without a name -->
     <string name="shortcut_safe_name">Shortcut</string>
     <!-- Title in editor when editing a shortcut -->
@@ -1888,4 +1888,18 @@
     <string name="label_variable_widget_select_variable">Global Variable</string>
     <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
     <string name="empty_state_variable_widget">With this widget you can display the value of a global variable of type \“%s\” on your home screen.\n\nYou don\'t have any such variables yet. You can create them from the app\'s main menu.</string>
+    <!-- Error message, shown when app is updated after a long time and data can not be restored, instructs the user how to recover the app data -->
+    <string name="error_manual_data_migration">It looks like you have not updated the app in a long while. As a result, it is not possible to automatically update your shortcuts, variables, etc. to be compatible with this version. But don\'t worry, your data is not lost. Here\'s what you can do:\n\nGo to %s and follow the instructions there.</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data. Clicking the button will attempt to restore the shortcuts, variables etc. -->
+    <string name="button_restore_data">Restore Data</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data -->
+    <string name="button_export_data">Export Data</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to import data from the external Restore app. -->
+    <string name="button_import_data">Import Data</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to delete all data -->
+    <string name="button_delete_data">Delete Data</string>
+    <!-- Warning message shown on dialog when the user is about the delete all the app's data, as part of the app recovery process -->
+    <string name="message_delete_all">You are about to delete all of your shortcuts, variables, etc. This can not be undone. Continue?</string>
+    <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
+    <string name="message_data_restored">Data successfully restored.</string>
 </resources>

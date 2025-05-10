@@ -5,49 +5,71 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.LinkAnnotation
-import androidx.compose.ui.text.LinkInteractionListener
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextLinkStyles
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withLink
-import androidx.compose.ui.text.withStyle
+import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
+import ch.rmy.android.framework.extensions.getParcelable
 import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.framework.extensions.openURL
+import ch.rmy.android.framework.extensions.logInfo
+import ch.rmy.android.framework.extensions.showToast
+import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.ui.BaseIntentBuilder
+import ch.rmy.android.framework.utils.FilePickerUtil
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.Application
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.RealmMigrator
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
+import ch.rmy.android.http_shortcuts.components.ProgressDialog
+import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.import_export.ImportException
+import ch.rmy.android.http_shortcuts.import_export.ImportMode
+import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.navigation.NavigationRoot
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
-import ch.rmy.android.http_shortcuts.utils.ExternalURLs.CONTACT_PAGE
+import ch.rmy.android.http_shortcuts.utils.IntegrationUtil
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class MainActivity : BaseComposeActivity() {
 
     @Inject
-    lateinit var settings: Settings
+    lateinit var importer: Importer
+
+    @Inject
+    lateinit var integrationUtil: IntegrationUtil
 
     override fun onCreated(savedState: Bundle?) {
         fixTabMinWidth()
@@ -72,14 +94,109 @@ class MainActivity : BaseComposeActivity() {
 
     @Composable
     override fun Content() {
-        val startupError by Application.startupError.collectAsState()
-        startupError?.let { error ->
-            StartupErrorDialog(
-                message = error,
+        if (Application.unmigratedRealmFound) {
+            var showDeletionWarning by remember { mutableStateOf(false) }
+
+            val openFilePickerForImport = rememberLauncherForActivityResult(FilePickerUtil.PickFile) { fileUri ->
+                fileUri?.let {
+                    lifecycleScope.launch {
+                        try {
+                            logInfo("Starting restore from import")
+                            importer.importFromUri(it, importMode = ImportMode.MERGE)
+                            RealmMigrator.setMigrated(context)
+                            showToast(R.string.message_data_restored)
+                            recreate()
+                        } catch (e: CancellationException) {
+                            throw e
+                        } catch (e: Exception) {
+                            if (e !is ImportException) {
+                                logException(e)
+                            }
+                            showToast(context.getString(R.string.import_failed_with_reason, e.message ?: e::class.java.simpleName))
+                        }
+                    }
+                }
+            }
+
+            LaunchedEffect(Unit) {
+                val importUri = intent.getParcelable<Uri>(Intent.EXTRA_STREAM)
+                importUri?.let {
+                    lifecycleScope.launch {
+                        try {
+                            logInfo("Starting restore from Restore app")
+                            importer.importFromUri(it, importMode = ImportMode.MERGE)
+                            RealmMigrator.setMigrated(context)
+                            showToast(R.string.message_data_restored)
+                            recreate()
+                        } catch (e: CancellationException) {
+                            throw e
+                        } catch (e: Exception) {
+                            if (e !is ImportException) {
+                                logException(e)
+                            }
+                            showToast(context.getString(R.string.import_failed_with_reason, e.message ?: e::class.java.simpleName))
+                        }
+                    }
+                }
+            }
+
+            var isBusy by remember {
+                mutableStateOf(false)
+            }
+            val coroutineScope = rememberCoroutineScope()
+            fun runAction(action: suspend () -> Unit) {
+                coroutineScope.launch {
+                    if (!isBusy) {
+                        isBusy = true
+                        action()
+                        try {
+                        } finally {
+                            isBusy = false
+                        }
+                    }
+                }
+            }
+
+            if (showDeletionWarning) {
+                DeletionWarning(
+                    onConfirm = {
+                        RealmMigrator.deleteRealmFile(context)
+                        recreate()
+                    },
+                    onDismissed = {
+                        finishWithoutAnimation()
+                    },
+                )
+                return
+            }
+
+            if (isBusy) {
+                ProgressDialog(onDismissRequest = {})
+            }
+
+            UnmigratedRealmError(
+                showRestoreButton = integrationUtil.isRestoreAppAvailable(),
+                onRestoreClicked = {
+                    runAction {
+                        invokeRestoreApp()
+                    }
+                },
+                onExportClicked = {
+                    runAction {
+                        exportRealmFile()
+                    }
+                },
+                onImportClicked = {
+                    openFilePickerForImport.launch(null)
+                },
+                onDeleteClicked = {
+                    showDeletionWarning = true
+                },
                 onDismissed = {
                     finishWithoutAnimation()
                 },
             )
+
             return
         }
 
@@ -93,50 +210,122 @@ class MainActivity : BaseComposeActivity() {
     }
 
     @Composable
-    private fun StartupErrorDialog(
-        message: String,
+    private fun UnmigratedRealmError(
+        showRestoreButton: Boolean,
+        onRestoreClicked: () -> Unit,
+        onExportClicked: () -> Unit,
+        onImportClicked: () -> Unit,
+        onDeleteClicked: () -> Unit,
         onDismissed: () -> Unit,
     ) {
         AlertDialog(
             onDismissRequest = onDismissed,
-            title = { Text(stringResource(R.string.dialog_title_error)) },
             text = {
-                val text = buildAnnotatedString {
-                    appendLine("An unexpected problem occurred while migrating your data to the new app version.")
-                    appendLine()
-                    withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onSurface)) {
-                        append(message)
+                Column(
+                    modifier = Modifier.verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text(stringResource(R.string.error_manual_data_migration, "http-shortcuts.rmy.ch/recover"))
+
+                    VerticalSpacer(height = Spacing.MEDIUM)
+
+                    if (showRestoreButton) {
+                        Button(
+                            onClick = onRestoreClicked,
+                        ) {
+                            Text(stringResource(R.string.button_restore_data))
+                        }
                     }
-                    appendLine(settings.deviceId)
-                    appendLine()
-                    appendLine()
-                    append("Please ")
-                    withLink(
-                        LinkAnnotation.Url(
-                            CONTACT_PAGE,
-                            styles = TextLinkStyles(style = SpanStyle(color = MaterialTheme.colorScheme.primary)),
-                            linkInteractionListener = object : LinkInteractionListener {
-                                override fun onClick(link: LinkAnnotation) {
-                                    context.openURL(CONTACT_PAGE)
-                                    onDismissed()
-                                }
-                            },
-                        ),
+
+                    VerticalSpacer(height = Spacing.MEDIUM)
+
+                    Button(
+                        onClick = onExportClicked,
                     ) {
-                        append("contact")
+                        Text(stringResource(R.string.button_export_data))
                     }
-                    append(" the developer for help.")
+                    Button(
+                        onClick = onImportClicked,
+                    ) {
+                        Text(stringResource(R.string.button_import_data))
+                    }
+                    Button(
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colorResource(R.color.warning),
+                        ),
+                        onClick = onDeleteClicked,
+                    ) {
+                        Text(stringResource(R.string.button_delete_data))
+                    }
                 }
-                Text(text)
             },
             confirmButton = {
                 TextButton(
                     onClick = onDismissed,
                 ) {
-                    Text(stringResource(R.string.dialog_ok))
+                    Text(stringResource(R.string.dialog_cancel))
                 }
             },
         )
+    }
+
+    @Composable
+    private fun DeletionWarning(
+        onConfirm: () -> Unit,
+        onDismissed: () -> Unit,
+    ) {
+        AlertDialog(
+            onDismissRequest = onDismissed,
+            title = { Text(stringResource(R.string.warning_dialog_title)) },
+            text = {
+                Text(stringResource(R.string.message_delete_all))
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = onConfirm,
+                ) {
+                    Text(stringResource(R.string.dialog_delete))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = onDismissed,
+                ) {
+                    Text(stringResource(R.string.dialog_cancel))
+                }
+            },
+        )
+    }
+
+    private suspend fun invokeRestoreApp() {
+        val zipFile = withContext(Dispatchers.IO) {
+            RealmMigrator.getShareableRealmExportFile(context)
+        }
+        Intent(Intent.ACTION_SEND)
+            .setClassName(
+                "ch.rmy.android.http_shortcuts.restore",
+                "ch.rmy.android.http_shortcuts.activities.main.MainActivity",
+            )
+            .addCategory(Intent.CATEGORY_DEFAULT)
+            .setType("application/zip")
+            .putExtra(Intent.EXTRA_STREAM, zipFile)
+            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            .startActivity(this)
+        finish()
+    }
+
+    private suspend fun exportRealmFile() {
+        val zipFile = withContext(Dispatchers.IO) {
+            RealmMigrator.getShareableRealmExportFile(context)
+        }
+        Intent(Intent.ACTION_SEND)
+            .setType("application/zip")
+            .putExtra(Intent.EXTRA_STREAM, zipFile)
+            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            .let {
+                Intent.createChooser(it, getString(R.string.button_export_data))
+            }
+            .startActivity(this@MainActivity)
     }
 
     override fun handleEvent(event: ViewModelEvent) {

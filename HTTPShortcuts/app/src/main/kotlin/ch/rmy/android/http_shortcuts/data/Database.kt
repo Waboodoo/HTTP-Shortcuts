@@ -34,7 +34,6 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.ShortcutWidget
 import ch.rmy.android.http_shortcuts.data.models.VariableWidget
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
-import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigrationDao
 
 @DatabaseAnnotation(
     entities = [
@@ -76,7 +75,6 @@ abstract class Database : RoomDatabase() {
     abstract fun globalVariableDao(): GlobalVariableDao
     abstract fun historyEventDao(): HistoryEventDao
     abstract fun pendingExecutionDao(): PendingExecutionDao
-    abstract fun realmToRoomMigrationDao(): RealmToRoomMigrationDao
     abstract fun requestHeaderDao(): RequestHeaderDao
     abstract fun requestParameterDao(): RequestParameterDao
     abstract fun sectionDao(): SectionDao

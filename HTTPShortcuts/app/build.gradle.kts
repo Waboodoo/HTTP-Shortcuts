@@ -15,7 +15,6 @@ plugins {
     id("kotlin-android")
     alias(libs.plugins.ksp)
     id("com.bugsnag.android.gradle")
-    id("io.realm.kotlin")
     id("de.mobilej.unmock")
     id("com.google.dagger.hilt.android")
     alias(libs.plugins.compose.compiler)
@@ -193,7 +192,6 @@ android {
     packaging {
         jniLibs {
             excludes.add("META-INF/*")
-            useLegacyPackaging = true
         }
         resources {
             excludes.add("META-INF/*")
@@ -282,7 +280,6 @@ dependencies {
     implementation(libs.androidx.splashscreen)
 
     /* Database */
-    implementation(libs.realm) // doomed, to be phased out 💔
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)

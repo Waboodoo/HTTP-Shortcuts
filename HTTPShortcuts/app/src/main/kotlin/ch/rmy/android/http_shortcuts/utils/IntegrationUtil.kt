@@ -19,6 +19,9 @@ constructor(
     fun isWireguardAvailable(): Boolean =
         isAppInstalled("com.wireguard.android")
 
+    fun isRestoreAppAvailable(): Boolean =
+        isAppInstalled("ch.rmy.android.http_shortcuts.restore")
+
     private fun isAppInstalled(packageName: String) =
         try {
             context.packageManager.getPackageInfo(packageName, 0)
