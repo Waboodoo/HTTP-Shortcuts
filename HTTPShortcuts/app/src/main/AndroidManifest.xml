@@ -69,6 +69,7 @@
         <package android:name="net.dinglisch.android.taskerm" />
         <package android:name="com.wireguard.android" />
         <package android:name="com.termux" />
+        <package android:name="ch.rmy.android.http_shortcuts.restore" />
     </queries>
 
     <application

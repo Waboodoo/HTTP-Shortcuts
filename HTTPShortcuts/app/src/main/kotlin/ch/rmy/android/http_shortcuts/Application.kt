@@ -5,7 +5,6 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import ch.rmy.android.framework.extensions.GlobalLogger
 import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigration
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
@@ -13,11 +12,6 @@ import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import dagger.hilt.android.HiltAndroidApp
 import java.security.Security
 import javax.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import org.conscrypt.Conscrypt
 
 @HiltAndroidApp
@@ -30,9 +24,6 @@ class Application : android.app.Application(), Configuration.Provider {
 
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
-
-    @Inject
-    lateinit var realmToRoomMigration: RealmToRoomMigration
 
     @Inject
     lateinit var userPreferences: UserPreferences
@@ -52,22 +43,15 @@ class Application : android.app.Application(), Configuration.Provider {
         Logging.initCrashReporting(context)
         GlobalLogger.registerLogging(Logging)
 
-        if (realmToRoomMigration.needsMigration()) {
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    realmToRoomMigration.migrate()
-                } catch (e: Exception) {
-                    logException(e)
-                    _startupError.value = e.message ?: e.toString()
-                }
-            }
+        if (!RealmMigrator.check(context)) {
+            logException(RuntimeException("Unmigrated Realm found"))
+            unmigratedRealmFound = true
         }
 
         DarkThemeHelper.applyDarkThemeSettings(userPreferences.darkThemeSetting)
     }
 
     companion object {
-        private val _startupError = MutableStateFlow<String?>(null)
-        val startupError = _startupError.asStateFlow()
+        var unmigratedRealmFound = false
     }
 }

@@ -58,6 +58,7 @@ import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -105,6 +106,10 @@ constructor(
         logInfo("Init with mode=${data.selectionMode}")
         val categoriesFlow = categoryRepository.observeCategories()
         this.categories = categoriesFlow.first()
+        if (categories.isEmpty()) {
+            categoryRepository.createInitialCategory(context.getString(R.string.shortcuts))
+            this.categories = categoriesFlow.filter { it.isNotEmpty() }.first()
+        }
 
         viewModelScope.launch(Dispatchers.Default) {
             if (settings.firstSeenVersionCode == null) {
