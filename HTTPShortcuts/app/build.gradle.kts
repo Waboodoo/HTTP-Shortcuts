@@ -93,6 +93,7 @@ android {
             "ru",
             "tr",
             "zh-rCN",
+            "zh-rTW",
             "ja",
             "ko",
             "iw",
