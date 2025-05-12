@@ -90,6 +90,7 @@ fun SettingsContent(
                     "vi" to stringResource(R.string.language_vietnamese),
                     "tr" to stringResource(R.string.language_turkish),
                     "zh-rCN" to stringResource(R.string.language_chinese),
+                    "zh-rTW" to stringResource(R.string.language_traditional_chinese),
                     "ja" to stringResource(R.string.language_japanese),
                     "ko" to stringResource(R.string.language_korean),
                     "ar" to stringResource(R.string.language_arabic),
