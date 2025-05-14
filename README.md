@@ -17,7 +17,7 @@ A simple Android app that allows you to create shortcuts that can be placed on y
 
 or [download the latest APK](https://github.com/Waboodoo/HTTP-Shortcuts/releases) directly.
 
-Find more information and documentation on the [official website](https://http-shortcuts.rmy.ch/).
+Find more information and documentation on the [official website](https://http-shortcuts.rmy.ch/), or check out the (still very new and sparsely populated) [official subreddit](https://www.reddit.com/r/HTTP_Shortcuts/).
 
 [Support this app](https://http-shortcuts.rmy.ch/support-me) by helping me [translate it](https://crowdin.com/project/http-shortcuts) or by becoming a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_shortcuts)!
 
