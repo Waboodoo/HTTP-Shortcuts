@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.domains.import_export
 
 import androidx.core.net.toUri
+import ch.rmy.android.framework.extensions.hasDuplicatesBy
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.toCharset
 import ch.rmy.android.framework.extensions.truncate
@@ -52,6 +53,7 @@ import ch.rmy.android.http_shortcuts.import_export.models.ImportShortcut
 import ch.rmy.android.http_shortcuts.import_export.models.ImportVariable
 import ch.rmy.android.http_shortcuts.import_export.models.ImportWorkingDirectory
 import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.variables.types.SelectType
 import javax.inject.Inject
 
 class ImportRepository
@@ -529,6 +531,14 @@ constructor(
         val categories = categoryDao().getCategories()
         require(categories.isNotEmpty() && categories.any { !it.hidden }) {
             "There must be at least one non-hidden category"
+        }
+        val variables = globalVariableDao().getVariables()
+        variables.forEach { variable ->
+            if (variable.type == VariableType.SELECT) {
+                val values = variable.getStringListData(SelectType.KEY_VALUES)
+                require(!values.isNullOrEmpty()) { "'select' variable without options found" }
+                require(!values.hasDuplicatesBy { it }) { "'select' variable with duplicate option values found" }
+            }
         }
     }
 }

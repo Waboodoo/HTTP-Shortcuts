@@ -591,6 +591,8 @@
     <string name="error_not_enough_toggle_values">Please add at least two values.</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">Please add at least one selectable option.</string>
+    <!-- Error message, shown in variable editor when a select option uses the same value as another -->
+    <string name="error_select_value_already_in_use">This value is already used by a different option.</string>
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">The date format is not valid.</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->

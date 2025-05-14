@@ -104,6 +104,9 @@ fun SelectTypeEditor(
     var dialogOptionValue by rememberSaveable(key = "select-dialog-option-value") {
         mutableStateOf("")
     }
+    var dialogOptionValuesAlreadyInUse by rememberSaveable(key = "select-dialog-values-already-in-use") {
+        mutableStateOf(emptyList<String>())
+    }
 
     SettingsGroup(
         title = stringResource(R.string.section_select_options),
@@ -114,6 +117,7 @@ fun SelectTypeEditor(
                 dialogOptionId = optionItem.id
                 dialogOptionValue = optionItem.text
                 dialogOptionLabel = optionItem.label
+                dialogOptionValuesAlreadyInUse = viewState.options.map { it.text }.minus(optionItem.text)
                 dialogVisible = true
             },
             onOptionMoved = { optionId1, optionId2 ->
@@ -159,6 +163,7 @@ fun SelectTypeEditor(
             isEdit = dialogOptionId != null,
             label = dialogOptionLabel,
             value = dialogOptionValue,
+            valuesAlreadyInUse = dialogOptionValuesAlreadyInUse,
             onLabelChanged = {
                 dialogOptionLabel = it
             },
@@ -284,12 +289,14 @@ private fun EditDialog(
     isEdit: Boolean,
     label: String,
     value: String,
+    valuesAlreadyInUse: List<String>,
     onLabelChanged: (String) -> Unit,
     onValueChanged: (String) -> Unit,
     onConfirm: () -> Unit,
     onDelete: () -> Unit,
     onDismiss: () -> Unit,
 ) {
+    val isAlreadyInUse = value in valuesAlreadyInUse
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
@@ -328,12 +335,21 @@ private fun EditDialog(
                         fontSize = FontSize.SMALL,
                     ),
                     maxLines = 5,
+                    isError = isAlreadyInUse,
+                    supportingText = if (isAlreadyInUse) {
+                        {
+                            Text(stringResource(R.string.error_select_value_already_in_use))
+                        }
+                    } else {
+                        null
+                    },
                 )
             }
         },
         confirmButton = {
             TextButton(
                 onClick = onConfirm,
+                enabled = !isAlreadyInUse,
             ) {
                 Text(stringResource(R.string.dialog_ok))
             }
