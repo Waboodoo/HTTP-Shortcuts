@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.net.Uri
 import ch.rmy.android.http_shortcuts.variables.Variables.RAW_PLACEHOLDER_REGEX
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
 object Validation {
 
@@ -23,7 +24,8 @@ object Validation {
                     scheme.equals("http", ignoreCase = true) ||
                         scheme.equals("https", ignoreCase = true)
                 } == true
-                )
+                ) &&
+            uri.toString().toHttpUrlOrNull() != null
 
     fun isValidInHeaderName(c: Char): Boolean =
         c in '!'..'~'

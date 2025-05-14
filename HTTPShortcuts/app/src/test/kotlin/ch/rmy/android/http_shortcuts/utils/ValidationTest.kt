@@ -125,4 +125,9 @@ class ValidationTest {
     fun testUrlWithWhitespacesIsValid() {
         assertTrue(isValidHttpUrl("http://example.com/?cmd=Hello World".toUri()))
     }
+
+    @Test
+    fun testSpacesInUrl() {
+        assertFalse(isValidHttpUrl("http:// devmgmt. msc ".toUri()))
+    }
 }
