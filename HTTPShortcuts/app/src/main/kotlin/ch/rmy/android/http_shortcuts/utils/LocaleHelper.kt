@@ -6,7 +6,6 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.getSystemService
 import androidx.core.os.LocaleListCompat
-import ch.rmy.android.framework.extensions.replacePrefix
 import ch.rmy.android.framework.extensions.runIfNotNull
 import java.util.Locale
 import javax.inject.Inject
@@ -49,7 +48,7 @@ constructor(
     private fun getLocale(localeSpec: String): Locale {
         val localeParts = localeSpec.split('-')
         val language = localeParts[0]
-        val country = localeParts.getOrNull(1)?.replacePrefix("r", "")
+        val country = localeParts.getOrNull(1)?.removePrefix("r")
         return if (country != null) {
             Locale(language, country)
         } else {
