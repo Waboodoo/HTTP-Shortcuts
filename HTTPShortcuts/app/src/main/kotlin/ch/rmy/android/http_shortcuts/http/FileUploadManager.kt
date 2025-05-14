@@ -7,6 +7,7 @@ import androidx.exifinterface.media.ExifInterface
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
+import ch.rmy.android.http_shortcuts.exceptions.UserException
 import java.io.IOException
 
 class FileUploadManager internal constructor(
@@ -67,10 +68,16 @@ class FileUploadManager internal constructor(
         fileRequests.takeIf { it.hasNext() }?.next()
 
     suspend fun fulfillFileRequest(fileRequest: FileRequest, fileUris: List<Uri>) {
-        registerFiles(
-            fileRequest,
-            fileUris.map(::uriToFile),
-        )
+        try {
+            registerFiles(
+                fileRequest,
+                fileUris.map(::uriToFile),
+            )
+        } catch (e: SecurityException) {
+            throw UserException.create {
+                e.message?.let { "Security Error: $it" } ?: e.toString()
+            }
+        }
     }
 
     private fun getType(file: Uri): String {
