@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.net.Uri
 import android.webkit.MimeTypeMap
 import androidx.exifinterface.media.ExifInterface
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
@@ -74,8 +75,14 @@ class FileUploadManager internal constructor(
                 fileUris.map(::uriToFile),
             )
         } catch (e: SecurityException) {
+            logException(e)
             throw UserException.create {
                 e.message?.let { "Security Error: $it" } ?: e.toString()
+            }
+        } catch (e: IllegalArgumentException) {
+            logException(e)
+            throw UserException.create {
+                e.message?.let { "Failed to access file: $it" } ?: e.toString()
             }
         }
     }
