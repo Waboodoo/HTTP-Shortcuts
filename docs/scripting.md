@@ -777,6 +777,7 @@ The `sendHttpRequest` function allows you to send a simple HTTP request. The fir
 |body|The body to use in the request, for when you want to send data|string|
 |formData|Form parameters to add to the request, as key-value-pairs. Can not be combined with `body`.|object|
 |charset|Defines which charset to use to decode the response body. If not provided, the charset is derived from the response headers, or falls back to UTF-8|string|
+|followRedirects|Whether to follow HTTP redirects. Enabled by default.|boolean|
 
 The function returns an object which includes a `status` field, which has the value "success", "httpError" or "networkError". If it is "networkError", you can check the field `networkError` for details. Otherwise, you can check the `response` field for the HTTP response object. It includes fields `body`, `headers`, `cookies` and `statusCode`.
 

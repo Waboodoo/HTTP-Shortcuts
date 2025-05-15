@@ -31,7 +31,10 @@ constructor(
     override suspend fun Params.execute(executionContext: ExecutionContext): JsObject =
         try {
             val (response, shortcutResponse) = withContext(Dispatchers.IO) {
-                val client = httpClientFactory.getClient(context)
+                val client = httpClientFactory.getClient(
+                    context,
+                    followRedirects = followRedirects,
+                )
                 val storage = responseFileStorageFactory.create(
                     sessionId = "${executionContext.shortcutId}_${newUUID()}",
                 )
@@ -98,5 +101,6 @@ constructor(
         val headers: Map<String, String>?,
         val formData: Map<String, String>?,
         val charsetOverride: String?,
+        val followRedirects: Boolean,
     )
 }

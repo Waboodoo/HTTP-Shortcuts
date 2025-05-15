@@ -25,6 +25,8 @@ constructor(
                 formData = (options["formData"] as? Map<*, *>)
                     ?.toStringMap(),
                 charsetOverride = options["charset"] as? String,
+                followRedirects = options["followRedirects"]?.toString()
+                    ?.toBooleanStrictOrNull() != false,
             ),
         )
     }
