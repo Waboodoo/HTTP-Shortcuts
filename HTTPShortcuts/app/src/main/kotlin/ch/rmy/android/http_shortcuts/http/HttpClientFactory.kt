@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.http
 
 import android.content.Context
 import android.util.Base64
+import androidx.collection.LruCache
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
@@ -26,6 +27,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import javax.net.ssl.KeyManagerFactory
 import javax.net.ssl.SSLContext
+import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import okhttp3.CertificatePinner
 import okhttp3.ConnectionSpec
 import okhttp3.CookieJar
@@ -42,6 +49,23 @@ constructor() {
         .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.CLEARTEXT))
         .build()
 
+    private val coroutineScope = CoroutineScope(Dispatchers.Default)
+    private var cleanupJob: Job? = null
+    private val cache = LruCache<CacheKey, OkHttpClient>(maxSize = 3)
+
+    private data class CacheKey(
+        val clientCertParams: ClientCertParams?,
+        val username: String?,
+        val password: String?,
+        val followRedirects: Boolean,
+        val timeout: Long,
+        val ipVersion: IpVersion?,
+        val proxy: ProxyParams?,
+        val cookieJar: CookieJar?,
+        val certificatePins: List<CertificatePin>,
+        val hostVerificationConfig: HostVerificationConfig,
+    )
+
     fun getClient(
         context: Context,
         clientCertParams: ClientCertParams? = null,
@@ -54,67 +78,101 @@ constructor() {
         cookieJar: CookieJar? = null,
         certificatePins: List<CertificatePin> = emptyList(),
         hostVerificationConfig: HostVerificationConfig = HostVerificationConfig.Default,
-    ): OkHttpClient = baseClient.newBuilder()
-        .configureTLS(context, hostVerificationConfig, clientCertParams)
-        .runIf(username != null && password != null) {
-            val authenticator = DigestAuthenticator(Credentials(username, password))
-            authenticator(authenticator)
+    ): OkHttpClient {
+        val cacheKey = CacheKey(
+            clientCertParams = clientCertParams,
+            username = username,
+            password = password,
+            followRedirects = followRedirects,
+            timeout = timeout,
+            ipVersion = ipVersion,
+            proxy = proxy,
+            cookieJar = cookieJar,
+            certificatePins = certificatePins,
+            hostVerificationConfig = hostVerificationConfig,
+        )
+        val cachedClient = cache[cacheKey]
+        if (cachedClient != null) {
+            scheduleCacheCleanup()
+            return cachedClient
         }
-        .addInterceptor(CompressionInterceptor)
-        .followRedirects(followRedirects)
-        .followSslRedirects(followRedirects)
-        .connectTimeout(timeout, TimeUnit.MILLISECONDS)
-        .readTimeout(timeout, TimeUnit.MILLISECONDS)
-        .writeTimeout(timeout, TimeUnit.MILLISECONDS)
-        .runIf(certificatePins.isNotEmpty()) {
-            certificatePinner(
-                CertificatePinner.Builder()
-                    .runFor(certificatePins) { pin ->
-                        val hash = Base64.encodeToString(pin.hash, Base64.NO_WRAP)
-                        val prefix = if (pin.isSha256) "sha256" else "sha1"
-                        add(pin.pattern, "$prefix/$hash")
-                    }
-                    .build(),
-            )
-        }
-        .runIfNotNull(cookieJar) {
-            cookieJar(it)
-        }
-        .runIfNotNull(proxy) {
-            Authenticator.setDefault(object : Authenticator() {
-                override fun getPasswordAuthentication(): PasswordAuthentication {
-                    if (it.host.equals(requestingHost, ignoreCase = true) && it.port == requestingPort) {
-                        return PasswordAuthentication(it.username, it.password.toCharArray())
-                    }
-                    return super.passwordAuthentication
-                }
-            })
-            try {
-                proxy(
-                    Proxy(
-                        when (it.type) {
-                            ProxyType.HTTP -> Proxy.Type.HTTP
-                            ProxyType.SOCKS -> Proxy.Type.SOCKS
-                        },
-                        InetSocketAddress(it.host, it.port),
-                    ),
+
+        val client = baseClient.newBuilder()
+            .configureTLS(context, hostVerificationConfig, clientCertParams)
+            .runIf(username != null && password != null) {
+                val authenticator = DigestAuthenticator(Credentials(username, password))
+                authenticator(authenticator)
+            }
+            .addInterceptor(CompressionInterceptor)
+            .followRedirects(followRedirects)
+            .followSslRedirects(followRedirects)
+            .connectTimeout(timeout, TimeUnit.MILLISECONDS)
+            .readTimeout(timeout, TimeUnit.MILLISECONDS)
+            .writeTimeout(timeout, TimeUnit.MILLISECONDS)
+            .runIf(certificatePins.isNotEmpty()) {
+                certificatePinner(
+                    CertificatePinner.Builder()
+                        .runFor(certificatePins) { pin ->
+                            val hash = Base64.encodeToString(pin.hash, Base64.NO_WRAP)
+                            val prefix = if (pin.isSha256) "sha256" else "sha1"
+                            add(pin.pattern, "$prefix/$hash")
+                        }
+                        .build(),
                 )
-            } catch (e: IllegalArgumentException) {
-                throw InvalidProxyException(e.message!!)
             }
-        }
-        .runIfNotNull(ipVersion) {
-            dns { hostname ->
-                when (it) {
-                    IpVersion.V4 -> Dns.SYSTEM.lookup(hostname).filterIsInstance<Inet4Address>()
-                    IpVersion.V6 -> Dns.SYSTEM.lookup(hostname).filterIsInstance<Inet6Address>()
+            .runIfNotNull(cookieJar) {
+                cookieJar(it)
+            }
+            .runIfNotNull(proxy) {
+                Authenticator.setDefault(
+                    object : Authenticator() {
+                        override fun getPasswordAuthentication(): PasswordAuthentication {
+                            if (it.host.equals(requestingHost, ignoreCase = true) && it.port == requestingPort) {
+                                return PasswordAuthentication(it.username, it.password.toCharArray())
+                            }
+                            return super.passwordAuthentication
+                        }
+                    },
+                )
+                try {
+                    proxy(
+                        Proxy(
+                            when (it.type) {
+                                ProxyType.HTTP -> Proxy.Type.HTTP
+                                ProxyType.SOCKS -> Proxy.Type.SOCKS
+                            },
+                            InetSocketAddress(it.host, it.port),
+                        ),
+                    )
+                } catch (e: IllegalArgumentException) {
+                    throw InvalidProxyException(e.message!!)
                 }
-                    .ifEmpty {
-                        throw NoIpAddressException(hostname, it)
-                    }
             }
+            .runIfNotNull(ipVersion) {
+                dns { hostname ->
+                    when (it) {
+                        IpVersion.V4 -> Dns.SYSTEM.lookup(hostname).filterIsInstance<Inet4Address>()
+                        IpVersion.V6 -> Dns.SYSTEM.lookup(hostname).filterIsInstance<Inet6Address>()
+                    }
+                        .ifEmpty {
+                            throw NoIpAddressException(hostname, it)
+                        }
+                }
+            }
+            .build()
+        cache.put(cacheKey, client)
+        scheduleCacheCleanup()
+
+        return client
+    }
+
+    private fun scheduleCacheCleanup() {
+        cleanupJob?.cancel()
+        cleanupJob = coroutineScope.launch {
+            delay(CACHE_CLEAR_TIMEOUT)
+            cache.evictAll()
         }
-        .build()
+    }
 
     private fun OkHttpClient.Builder.configureTLS(
         context: Context,
@@ -165,4 +223,8 @@ constructor() {
                     }
                 }
             }
+
+    companion object {
+        private val CACHE_CLEAR_TIMEOUT = 15.seconds
+    }
 }
