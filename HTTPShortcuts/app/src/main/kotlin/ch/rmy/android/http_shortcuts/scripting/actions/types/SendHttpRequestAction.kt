@@ -40,7 +40,12 @@ constructor(
                 )
 
                 val request = buildRequest(method, url) {
-                    header(HttpHeaders.CONNECTION, "close")
+                    if (!hasHeader(HttpHeaders.CONNECTION)) {
+                        header(HttpHeaders.CONNECTION, "close")
+                    }
+                    if (!hasHeader(HttpHeaders.USER_AGENT)) {
+                        userAgent(UserAgentProvider.getUserAgent(context))
+                    }
                     if (body != null) {
                         body(body)
                     } else if (formData != null) {
@@ -52,7 +57,6 @@ constructor(
                     headers?.forEach { (key, value) ->
                         header(key, value)
                     }
-                    userAgent(UserAgentProvider.getUserAgent(context))
                 }
                 val response = client.newCall(request)
                     .execute()
@@ -93,6 +97,9 @@ constructor(
                 property("response", null as String?)
             }
         }
+
+    private fun Params.hasHeader(headerName: String): Boolean =
+        headers?.any { it.key.equals(headerName, ignoreCase = true) } == true
 
     data class Params(
         val url: String,
