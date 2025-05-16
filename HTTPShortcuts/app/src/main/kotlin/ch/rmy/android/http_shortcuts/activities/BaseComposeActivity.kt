@@ -16,7 +16,6 @@ import ch.rmy.android.http_shortcuts.components.LocalEventinator
 abstract class BaseComposeActivity : BaseActivity() {
 
     override fun onCreated(savedState: Bundle?) {
-        enableEdgeToEdge()
         setContent {
             val darkTheme = isSystemInDarkTheme()
             DisposableEffect(darkTheme) {

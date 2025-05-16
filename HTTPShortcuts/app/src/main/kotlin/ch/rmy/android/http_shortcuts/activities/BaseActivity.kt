@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities
 
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import ch.rmy.android.framework.ui.BaseActivity
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
@@ -12,6 +13,7 @@ abstract class BaseActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(if (initializeWithTheme) R.style.LightTheme else R.style.Theme_Transparent)
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         onCreated(savedInstanceState)
     }
