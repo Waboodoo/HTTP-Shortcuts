@@ -335,6 +335,10 @@
     <string name="settings_changelog_summary">Version %1$s</string>
     <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">Contact Developer</string>
+    <!-- Button title, for option to go to the app's official subreddit -->
+    <string name="settings_reddit">Reddit Community</string>
+    <!-- Button subtitle, for option to go to the app's official subreddit -->
+    <string name="settings_reddit_summary">The app\'s official subreddit, for discussions and idea exchanges</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Questions, feature requests, feedback, …</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->

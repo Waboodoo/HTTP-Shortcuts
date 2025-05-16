@@ -4,6 +4,7 @@ A simple but powerful Android app that allows you to create shortcuts and widget
 
 This app is free and open-source and can be found on [GitHub](https://github.com/Waboodoo/HTTP-Shortcuts).
 If you find bugs, have questions or feature requests, feel free to [contact me](https://http-shortcuts.rmy.ch/contact).
+Also check out the [official subreddit](https://www.reddit.com/r/HTTP_Shortcuts/) for idea exchange, discussions and news.
 
 If you like this app, please consider [supporting my work](https://http-shortcuts.rmy.ch/support-me) on it. Thank you.
 

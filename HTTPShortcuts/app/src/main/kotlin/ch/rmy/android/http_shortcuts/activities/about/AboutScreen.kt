@@ -31,6 +31,7 @@ fun AboutScreen() {
             onAcknowledgementButtonClicked = viewModel::onAcknowledgementButtonClicked,
             onPrivacyPolicyButtonClicked = viewModel::onPrivacyPolicyButtonClicked,
             onDeviceIdButtonClicked = viewModel::onDeviceIdButtonClicked,
+            onRedditButtonClicked = viewModel::onRedditButtonClicked,
         )
     }
 

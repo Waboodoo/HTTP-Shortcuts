@@ -88,6 +88,10 @@ constructor(
         showSnackbar(R.string.message_device_id_copied)
     }
 
+    fun onRedditButtonClicked() = runAction {
+        openURL(ExternalURLs.REDDIT)
+    }
+
     fun onDialogDismissalRequested() = runAction {
         updateViewState {
             copy(changeLogDialogVisible = false)

@@ -37,6 +37,7 @@ fun AboutContent(
     onAcknowledgementButtonClicked: () -> Unit,
     onPrivacyPolicyButtonClicked: () -> Unit,
     onDeviceIdButtonClicked: () -> Unit,
+    onRedditButtonClicked: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -73,6 +74,13 @@ fun AboutContent(
                 deviceId
             },
             onClick = onDeviceIdButtonClicked,
+        )
+
+        SettingsButton(
+            icon = painterResource(R.drawable.ic_reddit),
+            title = stringResource(R.string.settings_reddit),
+            subtitle = stringResource(R.string.settings_reddit_summary),
+            onClick = onRedditButtonClicked,
         )
 
         SettingsButton(
