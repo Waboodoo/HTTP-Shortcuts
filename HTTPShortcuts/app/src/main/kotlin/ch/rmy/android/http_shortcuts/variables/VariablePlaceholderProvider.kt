@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.variables
 
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
-import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
+import ch.rmy.android.http_shortcuts.data.dtos.GlobalVariablePlaceholder
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.extensions.toVariablePlaceholder
 import javax.inject.Inject
@@ -16,10 +16,10 @@ constructor() {
         placeholders = variables.map(GlobalVariable::toVariablePlaceholder)
     }
 
-    var placeholders: List<VariablePlaceholder> = emptyList()
+    var placeholders: List<GlobalVariablePlaceholder> = emptyList()
         private set
 
-    fun findPlaceholderById(globalVariableId: GlobalVariableId): VariablePlaceholder? =
+    fun findPlaceholderById(globalVariableId: GlobalVariableId): GlobalVariablePlaceholder? =
         placeholders
             .firstOrNull { it.globalVariableId == globalVariableId }
 }

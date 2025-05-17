@@ -2,8 +2,8 @@ package ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets
 
 import androidx.compose.runtime.Stable
 import ch.rmy.android.framework.utils.localization.Localizable
+import ch.rmy.android.http_shortcuts.data.dtos.GlobalVariablePlaceholder
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
-import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 
 @Stable
 sealed class CodeSnippetPickerDialogState {
@@ -18,12 +18,12 @@ sealed class CodeSnippetPickerDialogState {
 
     @Stable
     data class SelectVariableForReading(
-        val variables: List<VariablePlaceholder>,
+        val globalVariables: List<GlobalVariablePlaceholder>,
     ) : CodeSnippetPickerDialogState()
 
     @Stable
     data class SelectVariableForWriting(
-        val variables: List<VariablePlaceholder>,
+        val globalVariables: List<GlobalVariablePlaceholder>,
     ) : CodeSnippetPickerDialogState()
 
     @Stable

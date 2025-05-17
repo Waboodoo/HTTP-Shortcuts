@@ -8,8 +8,8 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
+import ch.rmy.android.http_shortcuts.data.dtos.GlobalVariablePlaceholder
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
-import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin as CertificatePinModel
@@ -52,7 +52,7 @@ fun Shortcut.shouldIncludeInHistory() =
     !excludeFromHistory && !isTemporaryShortcut
 
 fun GlobalVariable.toVariablePlaceholder() =
-    VariablePlaceholder(
+    GlobalVariablePlaceholder(
         globalVariableId = id,
         variableKey = key,
         variableType = type,

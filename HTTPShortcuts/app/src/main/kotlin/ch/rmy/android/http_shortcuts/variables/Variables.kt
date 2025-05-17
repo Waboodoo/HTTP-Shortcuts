@@ -11,7 +11,6 @@ import java.util.regex.Pattern.quote
 object Variables {
 
     const val KEY_MAX_LENGTH = 30
-
     const val VARIABLE_KEY_REGEX = "[A-Za-z0-9_]{1,$KEY_MAX_LENGTH}"
     private const val VARIABLE_PLACEHOLDER_INNER_REGEX = "($UUID_REGEX|[0-9]+|$VARIABLE_KEY_REGEX)"
 
@@ -29,6 +28,9 @@ object Variables {
 
     fun isValidVariableKey(variableKey: String) =
         VARIABLE_KEY_REGEX.toRegex().matchEntire(variableKey) != null
+
+    fun coerceToVariableKey(variableKey: String) =
+        variableKey.replace("[^A-Za-z0-9_]".toRegex(), "").take(KEY_MAX_LENGTH)
 
     fun isValidGlobalVariableId(variableId: String) =
         variableId.isUUID() || variableId.isInt()

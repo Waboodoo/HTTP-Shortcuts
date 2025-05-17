@@ -13,9 +13,9 @@ object UUIDUtils {
         try {
             UUID.fromString(input)
             true
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             false
-        } catch (e: NumberFormatException) {
+        } catch (_: NumberFormatException) {
             false
         }
 }

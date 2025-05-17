@@ -4,14 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.IconPickerDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.ShortcutPickerDialog
 import ch.rmy.android.http_shortcuts.components.VariablePickerDialog
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
+import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.extensions.localize
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -24,8 +23,7 @@ fun CodeSnippetPickerDialogs(
     onCurrentShortcutSelected: () -> Unit,
     onIconSelected: (ShortcutIcon) -> Unit,
     onCustomIconOptionSelected: () -> Unit,
-    onVariableSelected: (GlobalVariableId) -> Unit,
-    onVariableEditorButtonClicked: () -> Unit,
+    onVariableSelected: (VariableKeyOrId) -> Unit,
     onWorkingDirectorySelected: (String) -> Unit,
     onDismissRequested: () -> Unit,
 ) {
@@ -47,40 +45,22 @@ fun CodeSnippetPickerDialogs(
             )
         }
         is CodeSnippetPickerDialogState.SelectVariableForReading -> {
-            if (dialogState.variables.isEmpty()) {
-                ConfirmDialog(
-                    message = stringResource(R.string.help_text_code_snippet_get_variable_no_variable),
-                    confirmButton = stringResource(R.string.button_create_first_variable),
-                    onConfirmRequest = onVariableEditorButtonClicked,
-                    onDismissRequest = onDismissRequested,
-                )
-            } else {
-                VariablePickerDialog(
-                    savedStateHandle = savedStateHandle,
-                    title = stringResource(R.string.title_variables),
-                    variables = dialogState.variables,
-                    onVariableSelected = onVariableSelected,
-                    onDismissRequested = onDismissRequested,
-                )
-            }
+            VariablePickerDialog(
+                savedStateHandle = savedStateHandle,
+                title = stringResource(R.string.dialog_title_variable_selection),
+                globalVariables = dialogState.globalVariables,
+                onVariableSelected = onVariableSelected,
+                onDismissRequested = onDismissRequested,
+            )
         }
         is CodeSnippetPickerDialogState.SelectVariableForWriting -> {
-            if (dialogState.variables.isEmpty()) {
-                ConfirmDialog(
-                    message = stringResource(R.string.help_text_code_snippet_set_variable_no_variable),
-                    confirmButton = stringResource(R.string.button_create_first_variable),
-                    onConfirmRequest = onVariableEditorButtonClicked,
-                    onDismissRequest = onDismissRequested,
-                )
-            } else {
-                VariablePickerDialog(
-                    savedStateHandle = savedStateHandle,
-                    title = stringResource(R.string.title_variables),
-                    variables = dialogState.variables,
-                    onVariableSelected = onVariableSelected,
-                    onDismissRequested = onDismissRequested,
-                )
-            }
+            VariablePickerDialog(
+                savedStateHandle = savedStateHandle,
+                title = stringResource(R.string.dialog_title_variable_selection),
+                globalVariables = dialogState.globalVariables,
+                onVariableSelected = onVariableSelected,
+                onDismissRequested = onDismissRequested,
+            )
         }
         is CodeSnippetPickerDialogState.SelectWorkingDirectory -> {
             SelectWorkingDirectory(

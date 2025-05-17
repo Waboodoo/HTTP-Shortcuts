@@ -578,13 +578,19 @@
     <!-- Button, for opening help article page -->
     <string name="button_show_help">Show Help</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button">This button allows you to include placeholders for variables, i.e., dynamic values, into your shortcut.\n</string>
+    <string name="help_text_variable_button">This button allows you to insert placeholders for dynamic values, through the use of local or global variables.</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button_for_variables">This button allows you to include placeholders for the values of other variables into this one.</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <string name="help_text_no_global_variables_yet_create">You don\’t have any global variables yet. Click the %s button below to get started.</string>
-    <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
-    <string name="button_create_first_variable">Create</string>
+    <string name="help_text_no_global_variables_yet">You don\’t have any global variables yet. Click the \“%s\” button below to get started.</string>
+    <!-- Dialog option: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <string name="dialog_option_label_local_variable">Local Variable</string>
+    <!-- Dialog option subtitle: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <string name="dialog_option_subtitle_local_variable">Value must be passed in or set through Scripting</string>
+    <!-- Dialog title, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <string name="dialog_title_local_variable">Local Variable</string>
+    <!-- Dialog instructions, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <string name="dialog_instructions_local_variable">Enter a name for your local variable, consisting of numbers, letters and underscores.</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">Variables</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->

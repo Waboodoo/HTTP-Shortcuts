@@ -45,7 +45,7 @@ import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
-import ch.rmy.android.http_shortcuts.data.dtos.VariablePlaceholder
+import ch.rmy.android.http_shortcuts.data.dtos.GlobalVariablePlaceholder
 import ch.rmy.android.http_shortcuts.extensions.insertAtCursor
 import ch.rmy.android.http_shortcuts.logging.Logging.logInfo
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
@@ -92,7 +92,7 @@ private data class RangeMapping(
 @Stable
 private fun transformVariablePlaceholders(
     text: String,
-    placeholders: List<VariablePlaceholder>,
+    placeholders: List<GlobalVariablePlaceholder>,
     globalVariablePlaceholderStyle: SpanStyle,
     localVariablePlaceholderStyle: SpanStyle,
     additionalTransformation: AnnotatedString.Builder.(String) -> Unit = {},
@@ -311,7 +311,7 @@ fun VariablePlaceholderTextField(
         VariablePickerDialog(
             savedStateHandle = savedStateHandle,
             title = stringResource(R.string.dialog_title_variable_selection),
-            variables = placeholders,
+            globalVariables = placeholders,
             onVariableSelected = {
                 val newTextFieldValue = textFieldValue.insertAtCursor("{{$it}}", "")
                 if (newTextFieldValue.text.length > maxLength) {

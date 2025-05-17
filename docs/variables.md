@@ -16,6 +16,7 @@ You can also insert these placeholders into some of your global variables, i.e.,
 
 Placeholders for local variables are shown as orange and are enclosed by 2 sets of curly brackets, whereas those for global variables are shown as purple with only 1 set of curly brackets.
 
+<a name="local-variables"></a>
 ## Local Variables
 
 Local variables are implicitly created when a placeholder for them is used and only exist in the context of the shortcut they are used in. You can assign a value to a local variable by using the [setVariable](scripting.md#set-variable) Scripting function or by passing in a value via [deep linking](advanced.md#deep-link), the [executeShortcut](#execute-shortcut) or [enqueueShortcut](#trigger-shortcut) functions, or from [Tasker](advanced.md#integrate-with-tasker).
@@ -84,7 +85,7 @@ The *Incrementing Counter* type tracks a and returns a number. Each time the var
 <a name="uuid"></a>
 ### UUID
 
-The *uuid* type will generate a random UUID (*U*niversally *U*nique *Id*entifier) and use that as its value.
+The *uuid* type will generate a random UUID (*U*niversally *U*nique *Id*entifier, version 4) and use that as its value.
 
 > Please note that the UUID is generated once per shortcut execution, not once per variable use, meaning that if you use the same variable multiple times within one shortcut it will have the same value in all places. If you need multiple UUIDs for a single shortcut execution you'll need to use multiple different variables.
 
