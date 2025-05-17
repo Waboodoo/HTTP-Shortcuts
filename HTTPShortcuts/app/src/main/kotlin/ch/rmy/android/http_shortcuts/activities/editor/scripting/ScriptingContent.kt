@@ -61,7 +61,7 @@ fun ScriptingContent(
                     fillMaxSize()
                 },
             isFocused = activeFieldType == CodeFieldType.PREPARE,
-            autoFocus = codeOnPrepare.isEmpty() && codeOnSuccess.isEmpty() && codeOnFailure.isEmpty(),
+            autoFocus = activeFieldType == CodeFieldType.PREPARE && codeOnPrepare.isEmpty() && codeOnSuccess.isEmpty() && codeOnFailure.isEmpty(),
             code = codeOnPrepare,
             placeholder = stringResource(
                 if (shortcutExecutionType == ShortcutExecutionType.SCRIPTING) {
