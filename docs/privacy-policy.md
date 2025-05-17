@@ -1,5 +1,7 @@
 # Privacy Policy
 
+## Data Collection
+
 With the exception of Crash Reporting and the Remote Edit ("Edit on Computer") feature (see below for these), all data entered into the app is only ever sent to the servers specified by the user through the use of shortcuts. No data about the user, their activity or device is collected or sent to the developer or any other third-party as part of this app.
 
 <a name="crash-reporting"></a>

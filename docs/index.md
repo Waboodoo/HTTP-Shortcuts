@@ -25,7 +25,7 @@ If you like this app, please consider [supporting my work](https://http-shortcut
 - Display responses as a toast, fullscreen window, dialog window, notification, or run silently
 - Store response into a file
 - Big set of colorful built-in icons, support for custom icons
-- Value injection through [global variables](variables.md) with dynamically determined values (e.g., text, numbers, passwords, selections, colors, dates, …)
+- Value injection through [local and global variables](variables.md) with dynamically determined values (e.g., text, numbers, passwords, selections, colors, dates, …)
 - Run arbitrary [JavaScript](scripting.md) before & after execution, which allows for lots of customization with features such as:
   - compute values such as timestamps, random numbers, UUIDs, hashes, HMACs, base64, etc.
   - parse JSON, HTML or XML and extract data from it

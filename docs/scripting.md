@@ -80,14 +80,14 @@ Please note that the `response` object will be `null` if there was no response f
 <a name="variables"></a>
 ## Reading & Writing Variables
 
-In the app you can create [global variables](variables) to be used in your shortcuts, e.g. to dynamically insert values for a URL, a query parameter or part of the request body. You'll find the variable editor via the "Variables" option in the menu in the app's main screen.
+In the app you can create [local and global variables](variables) to be used in your shortcuts, e.g. to dynamically insert values for a URL, a query parameter or part of the request body. You'll find the global variable editor via the "Global Variables" option in the menu in the app's main screen.
 
 This section explains how you can interact with these variables from a script.
 
 <a name="get-variable"></a>
 ### getVariable
 
-You can access the value of any of your variables via the `getVariable()` function. Simply pass the variable's name or ID as a parameter.
+You can access the value of any of your local or global variables via the `getVariable()` function. Simply pass the variable's name or ID as a parameter.
 
 ```js
 const myValue = getVariable('myVariable');
@@ -100,15 +100,15 @@ const myValue = getVariable('myVariable');
 
 You can store a value as a string into a variable via the `setVariable()` function. Simply pass the variable's name or ID as the first parameter and the value you want to store as the second parameter.
 
+In the case of a global variable, if its type supports it, the value will be used for the current shortcut execution and will also be stored. In the case of a local variable, the value will only be used for the current execution, as local variables are not persisted.
+
 ```js
 setVariable('myVariable', 'Hello World');
 ```
 
 > Please note that there is a size limit of 30'000 characters. If you set a value larger than that, it will be used unaltered for the current execution, but the value that is stored will be truncated.
 
-> If the variable does not exist an error is raised.
-
-As an optional third parameter you can pass a boolean. If it is `true`, the new value will be stored but not used immediately for the current execution. This is useful for variable types which support the 'Remember value' feature (such as Date Input, Time Input, Text Input, etc.) as it allows to change the stored previous value which is used as the default selected value.
+As an optional third parameter you can pass a boolean. If it is `true`, the new value will be stored but not used immediately for the current execution. This is useful for global variables of types which support the 'Remember value' feature (such as Date Input, Time Input, Text Input, etc.) as it allows to change the stored previous value which is used as the default selected value. This parameter has no effect for local variables, as they are not persisted.
 
 ```js
 setVariable('myVariable', 'Hello World', true); // only changes the stored value, but variable will still resolve normally if used afterwards
@@ -940,7 +940,7 @@ Please note the following technical limitations:
 
 <a name="set-result"></a>
 #### Passing data back
-If you wish to pass data from the called shortcut to the calling shortcut, you can either do this by storing values into variables (using [setVariable()](#set-variable)) in the called shortcut and then reading those values in the calling shortcut (using [getVariable()](#get-variable)), or you can use the `setResult` function. The latter accepts a single string argument. This string can then be accessed by the calling shortcut on the object returned by the `executeShortcut` function via its `result` key.
+If you wish to pass data from the called shortcut to the calling shortcut, you can either do this by storing values into global variables (using [setVariable()](#set-variable)) in the called shortcut and then reading those values in the calling shortcut (using [getVariable()](#get-variable)), or you can use the `setResult` function. The latter accepts a single string argument. This string can then be accessed by the calling shortcut on the object returned by the `executeShortcut` function via its `result` key.
 
 ```js
 // What the called shortcut does:

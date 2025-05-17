@@ -6,9 +6,9 @@ On the same screen you'll also find the option to import shortcuts from a file, 
 
 You can also export a single shortcut by long pressing on it and selecting the "Export" option from the context menu.
 
-## Variables
+## Global Variables
 
-When exporting shortcuts, the app will automatically also export all of the variables that are used by those shortcuts. If these variables contain sensitive or device-specific information, you can configure them such that their value will be excluded from the export. This option can be found in the variable editor.
+When exporting shortcuts, the app will automatically also export all of the global variables that are used by those shortcuts. If these global variables contain sensitive or device-specific information, you can configure them such that their value will be excluded from the export. This option can be found in the global variable editor.
 
 <a name="remote-edit"></a>
 ## Remote Editing

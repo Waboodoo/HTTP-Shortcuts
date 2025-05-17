@@ -19,15 +19,15 @@ Headless mode is automatically enabled for a shortcut if all of the following co
 <a name="share-text"></a>
 ## Share text into a shortcut
 
-You might want to be able to share a piece of text (e.g. the URL of the current page in a browser) from an app and use it as part of an HTTP request. You can do this with the use of [variables](variables.md).
+You might want to be able to share a piece of text (e.g. the URL of the current page in a browser) from an app and use it as part of an HTTP request. You can do this with the use of [global variables](variables.md).
 
-When you create or edit a variable, you'll find a checkbox labelled "Allow Receiving Value from Share Dialog". Enable this and save your changes. From now on you can share text from another app into the HTTP Shortcuts app, and it will use the shared text as the value of that variable, in whatever place you used the variable.
+When you create or edit a global variable, you'll find a checkbox labelled "Allow Receiving Value from Share Dialog". Enable this and save your changes. From now on you can share text from another app into the HTTP Shortcuts app, and it will use the shared text as the value of that variable, in whatever place you used the variable.
 
 If you use this variable in multiple shortcuts, you will be prompted to choose which shortcut should be executed.
 
 If you are on Android 11 or newer, you can enhance this by enabling a shortcut as a Direct Share target. You will find the checkbox for this in its "Trigger & Execution Settings". When this is enabled, the shortcut will appear in the Direct Share sheet, making it easier to quickly share text with that specific shortcut.
 
-Note that the value that you share will not be stored into that variable, but will only be used temporarily for the execution of the shortcut, meaning that the next time you execute the shortcut that variable will still have its previous value.
+Note that the value that you share will not be stored, but will only be used temporarily for the execution of the shortcut, meaning that the next time you execute the shortcut that global variable will still have its previous value.
 
 See also the [variables documentation](variables.md#sharing) for more information.
 
@@ -47,13 +47,15 @@ Each shortcut has an associated deep-link URL. You can use this URL to trigger t
 
 You can get a shortcut's deep-link URL by long-pressing the shortcut in the app's main screen and selecting "Show Info". This will open a dialog window which shows you the URL.
 
-It is also possible to pass additional values to that shortcut, to temporarily override the values of variables used by those shortcuts (similar to how the ["Share into"](#share-text) feature works). Simply append them as query parameters, so e.g. if you have a variable called "myVariable" and you want to invoke a shortcut that uses it, you can do so and pass the value "Hello World" to it via a URL that might look like this:
+It is also possible to pass additional values to that shortcut, to temporarily set the values of variables used by those shortcuts (similar to how the ["Share into"](#share-text) feature works). Simply append them as query parameters, so e.g. if you have a variable called "myVariable" and you want to invoke a shortcut that uses it, you can do so and pass the value "Hello World" to it via a URL that might look like this:
 
 ```
 http-shortcuts://f943652a-5f4b-47d9-a4dd-6588292e63dd?myVariable=Hello%20World
 ```
 
-Make sure to properly URL-encode the value. You'll find tools online that help you achieve this.
+This works with both local and global variables.
+
+> Make sure to properly URL-encode the value if it contains special characters. You'll find tools online that help you achieve this.
 
 <a name="secondary-launcher"></a>
 ## Trigger shortcut via secondary launcher app
@@ -88,7 +90,7 @@ Please note that there is a limited number of shortcuts that can be shown on the
 ## Integrating with Tasker
 
 ### Trigger a shortcut from Tasker
-You can use [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) to trigger a shortcut. To pass a value from Tasker to HTTP Shortcuts you need to create a variable of type *Static Variable* in HTTP Shortcuts and a global variable with the same name in Tasker. Make sure to do so BEFORE you select the shortcut from Tasker. All global variables that have matching variables in HTTP Shortcuts are automatically passed over.
+You can use [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) to trigger a shortcut. To pass a value from Tasker to HTTP Shortcuts you need to add a local variable to your shortcut, or create a global variable of type *Static Variable* and add it to your shortcut. Afterwards, create a global variable with the same name in Tasker. Make sure to do so *before* you select the shortcut from Tasker. All of Tasker's global variables that have matching local or global variables in HTTP Shortcuts are automatically passed over.
 
 You can use the [setResult()](scripting.md#set-result) function (part of the [Scripting feature](scripting.md)) to pass data back to Tasker.
 

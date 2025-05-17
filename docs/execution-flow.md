@@ -36,13 +36,13 @@ If the script fails (e.g., due to a syntax error) then an error message will be 
 
 For more details see the documentation on [Scripting](scripting.md).
 
-## 7. Resolve Variables
+## 7. Resolve Global Variables
 
-If you use any variables in your shortcut, they will be resolved in this step. E.g., if you used a variable of type *"Color Input*" you will be asked to pick a color, or if you have a variable of type *"Text Input"* you will be presented with a dialog window that asks you to enter a text value.
+If you use any global variables in your shortcut, they will be resolved in this step. E.g., if you used a global variable of type *"Color Input*" you will be asked to pick a color, or if you have a global variable of type *"Text Input"* you will be presented with a dialog window that asks you to enter a text value.
 
 If you select *"Cancel"* on any of the variable resolution dialogs then the remaining steps will not be executed.
 
-Note that it is possible for some variables to already be resolved before this step, e.g. if you ask for their value via Scripting in step 5 or 6 or if you explicitly passed a value for a variable when triggering the shortcut (which is possible when starting a shortcut via Intent, deep-link or Scripting).
+Note that it is possible for some variables to already be resolved before this step, e.g. if you ask for their value via Scripting in step 5 or 6 or if you explicitly passed a value for a variable when triggering the shortcut (which is possible when starting a shortcut via Tasker, Intent, deep-link or Scripting).
 
 For more information see the [Variables](variables.md) documentation.
 

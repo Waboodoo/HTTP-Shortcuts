@@ -50,7 +50,7 @@ If you need more advanced or more precise scheduling, you can try to achieve tha
 If you want to share text via an HTTP shortcut, you can do so like this:
 
 1. Open the app
-2. Open the dropdown menu at the top right and select *Variables*
+2. Open the dropdown menu at the top right and select *Global Variables*
 3. Click the + button and select *Static Variable* as the variable type
 4. Enter a name for the variable
 5. **Tick the *Allow 'Share...'* checkbox
@@ -59,7 +59,7 @@ If you want to share text via an HTTP shortcut, you can do so like this:
 8. Go back to the app's main screen
 9. Click the + button to start creating a new shortcut or long press an existing shortcut and select *Edit* to open the shortcut editor
 10. Find the input field for the place where you want to share the text as, e.g. the URL, the request body or a header. Click the *{}* button next to that field
-11. Select the variable that you created earlier
+11. Select the global variable that you created earlier
 12. Save the changes to your shortcut
 13. You should now be able to share text from other apps (e.g. a URL from a browser) into the HTTP Shortcuts app and there select your shortcut as the share target. It will execute the shortcut and insert the shared text into where you put the variable placeholder.
 
@@ -69,7 +69,7 @@ Yes, you can. You'll find information about this on the [advanced features](adva
 
 ## Can I pass values from one shortcut to another?
 
-Yes, you can. To do so, you need to first create a [global variable](variables.md) (of static type) to hold the value. You can then use the [Scripting](scripting.md) feature to store a value into that variable from one of your shortcuts and then use or read out the value again in the other shortcut. To store a value into a variable, use the [setVariable](scripting.md#variables) function.
+Yes, you can. To do so, you can either use a [local variable](variables.md#local-variable) or create a [global variable](variables.md) of static type to hold the value. You can then use the [Scripting](scripting.md) feature to store a value into that variable from one of your shortcuts and then use or read out the value again in the other shortcut. To store a value into a variable, use the [setVariable](scripting.md#variables) function.
 
 If you use [executeShortcut](scripting.md#execute-shortcut) to call another shortcut, you can also use the [setResult](scripting.md#set-result) function to pass data back to the calling shortcut.
 
@@ -77,19 +77,19 @@ If you use [executeShortcut](scripting.md#execute-shortcut) to call another shor
 
 See the guide on [integrating with Tasker](advanced.md#integrate-with-tasker).
 
-## In what order are variables resolved? Can I change the variable resolution order?
+## In what order are global variables resolved? Can I change the variable resolution order?
 
-Primarily, variables are resolved in the order in which they appear on the Variables screen. You can change this order by rearranging the variables there. If this is not sufficient, e.g. because you use the same variables in multiple shortcuts but want a different order per shortcut, there is a workaround you can do:
+Primarily, global variables are resolved in the order in which they appear on the Global Variables screen. You can change this order by rearranging the variables there. If this is not sufficient, e.g. because you use the same global variables in multiple shortcuts but want a different order per shortcut, there is a workaround you can do:
 
 1. In the shortcut editor, click on "Scripting"
-2. In the "Run before Execution" field, add a line like the following, one for each variable that you want to use, in the desired order:
+2. In the "Run before Execution" field, add a line like the following, one for each global variable that you want to use, in the desired order:
 
 ```js
 getVariable("my_variable2");
 getVariable("my_variable1");
 ```
 
-This will essentially override the resolution order.
+This will essentially override the resolution order, as the Scripting forces the variables to be resolved before the regular variable resolution step.
 
 ## I hid one of my shortcuts and now I can't access it anymore. How do I make it visible again?
 

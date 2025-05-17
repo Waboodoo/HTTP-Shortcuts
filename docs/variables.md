@@ -1,6 +1,6 @@
 # Variables
 
-Variables allow you to inject pieces of information dynamically into your shortcuts when executing them. A variable consists of a name and a value which is resolved at execution time, based on its type. For some variable types this means that a prompt dialog is shown that asks for a value, others can be resolved without user input. They are global, meaning that they do not belong to a specific shortcut but can be used by any of them.
+Variables allow you to inject pieces of information dynamically into your shortcuts when executing them. Each variable, at the very least, consists of a name and a value. There are two kinds of variables; local variables and global variables.
 
 Variables are also particularly useful when combined with the app's [Scripting](scripting.md) capabilities, as it allows you to compute a value using a piece of JavaScript code, store that value into a variable and then use that value as part of the HTTP request.
 
@@ -10,13 +10,23 @@ For more details on when variables are resolved see the [Execution Flow](executi
 
 You can insert a placeholder for a variable into your shortcuts' url, requests parameters, request body, authentication and header fields by clicking the *"{ }"* button next to the input field and selecting a variable.
 
-When executing a shortcut that contains variable placeholders all of them are resolved according to their type. They are resolved in the order in which they appear in the Variables screen, so if you want one variable to be resolved before another, make sure to rearrange them accordingly by dragging.
+When executing a shortcut that contains variable placeholders, all of them are resolved according to their type. For some variable types this means that a prompt dialog is shown that asks for a value, others can be resolved without user input. They are resolved in the order in which they appear in the Global Variables screen, so if you want one variable to be resolved before another, make sure to rearrange them accordingly by dragging.
 
-You can also insert these placeholders into some of your variables, i.e., you can have variables reference other variables, and you can use them when writing [scripts](scripting.md#variables).
+You can also insert these placeholders into some of your global variables, i.e., you can have variables reference other variables, and you can use them when writing [scripts](scripting.md#variables).
 
-## Variable Types
+Placeholders for local variables are shown as orange and are enclosed by 2 sets of curly brackets, whereas those for global variables are shown as purple with only 1 set of curly brackets.
 
-When creating a variable, you have to select its type. The type dictates how the variable will receive its value, and what types of values it supports.
+## Local Variables
+
+Local variables are implicitly created when a placeholder for them is used and only exist in the context of the shortcut they are used in. You can assign a value to a local variable by using the [setVariable](scripting.md#set-variable) Scripting function or by passing in a value via [deep linking](advanced.md#deep-link), the [executeShortcut](#execute-shortcut) or [enqueueShortcut](#trigger-shortcut) functions, or from [Tasker](advanced.md#integrate-with-tasker).
+
+The assigned value is not stored and will be forgotten after the execution of the shortcut completes. If you want to store a value, use a global variable instead.
+
+## Global Variable
+
+As opposed to local variables, global variables exist independently of shortcuts and can be used by multiple of them. They can be created and managed from the *Global Variables* screen, accessed via the menu on the main screen.
+
+When creating a global variable, you have to select its type. The type dictates how the variable will receive its value, and what types of values it supports.
 
 <a name="constant"></a>
 ### Static Variable
@@ -87,7 +97,7 @@ Variables of type *clipboard content* will resolve to the latest textual value t
 
 <a name="sharing"></a>
 ## Sharing Values into Variables
-In the advanced settings section of a variable you can mark it as *Allow Receiving Value from Share Dialog*. This makes it possible to provide the value of this variable through Android's *Share*-dialog, e.g., by sharing a URL or text snippet from another app. The variable will then assume the shared value during the execution of a shortcut.
+In the advanced settings section of a global variable you can mark it as *Allow Receiving Value from Share Dialog*. This makes it possible to provide the value of this variable through Android's *Share*-dialog, e.g., by sharing a URL or text snippet from another app. The variable will then assume the shared value during the execution of a shortcut.
 
 If you enable this option, you will also find a dropdown further down which lets you pick which part of the shared value the variable should assume: the text, the title/subject (if any), or both.
 

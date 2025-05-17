@@ -12,6 +12,7 @@
 - [Directories](directories.md)
 - [Execution Flow](execution-flow.md)
 - [Variables](variables.md)
+    - [Local Variables](variables.md#local-variables)
     - [Static Variable (Constant)](variables.md#constant)
     - [Multiple Choice Selection](variables.md#multiple-choice)
     - [Text, Number, Password Input](variables.md#text-number-password)

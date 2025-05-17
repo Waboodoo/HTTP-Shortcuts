@@ -103,9 +103,9 @@
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts_instructions">Add all the shortcuts to this list that you want to trigger as part of this multi-shortcut.\n\nClick the + button to get started.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
-    <string name="empty_state_variables">You don\’t have any variables yet.</string>
+    <string name="empty_state_variables">You don\’t have any global variables yet.</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">Variables allow you to dynamically insert values into your shortcuts, e.g., into the URL, headers or request body. Look for the \“{}\” button when editing a shortcut to find all the places where a variable placeholder can be inserted.\n\nClick the + button to add a variable.</string>
+    <string name="empty_state_variables_instructions">Variables allow you to dynamically insert values into your shortcuts, e.g., into the URL, headers or request body. Look for the \“{}\” button when editing a shortcut to find all the places where a variable placeholder can be inserted.\n\nClick the + button to add a new global variable.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">Delete this shortcut?</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
@@ -458,7 +458,7 @@
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">Execute HTTP Shortcut</string>
     <!-- Button/page title, for viewing list of variables -->
-    <string name="title_variables">Variables</string>
+    <string name="title_variables">Global Variables</string>
     <!-- Button, to edit a variable -->
     <string name="edit_variable">Edit Variable</string>
     <!-- Button, to create a new variable -->
@@ -578,19 +578,17 @@
     <!-- Button, for opening help article page -->
     <string name="button_show_help">Show Help</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button">This button allows you to include placeholders for variables, i.e., dynamic values, into your shortcut.\n\nYou don\’t have any variables configured yet. You can do so by clicking the CREATE button below.</string>
+    <string name="help_text_variable_button">This button allows you to include placeholders for variables, i.e., dynamic values, into your shortcut.\n</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button_for_variables">This button allows you to include placeholders for the values of other variables into this one.\n\nYou don\’t have any variables configured yet, however.</string>
+    <string name="help_text_variable_button_for_variables">This button allows you to include placeholders for the values of other variables into this one.</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_get_variable_no_variable">You don\’t have any variables yet. Click the Create button below to get started.</string>
-    <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">You don\’t have any variables yet that can be set by this action. Click the Create button below to get started.</string>
+    <string name="help_text_no_global_variables_yet_create">You don\’t have any global variables yet. Click the %s button below to get started.</string>
     <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
     <string name="button_create_first_variable">Create</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">Variables</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
-    <string name="label_edit_variables">Edit variables</string>
+    <string name="label_edit_variables">Edit global variables</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_toggle_values">Please add at least two values.</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
@@ -1180,8 +1178,8 @@
     <string name="error_invalid_character">Invalid character: %s</string>
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
     <plurals name="warning_variable_still_in_use_in_shortcuts">
-        <item quantity="one">This variable is still in use in %2$d shortcut: %1$s</item>
-        <item quantity="other">This variable is still in use in %2$d shortcuts: %1$s</item>
+        <item quantity="one">This global variable is still in use in %2$d shortcut: %1$s</item>
+        <item quantity="other">This global variable is still in use in %2$d shortcuts: %1$s</item>
     </plurals>
     <!-- Error: Shown when the text-to-speech action fails to speak a piece of text -->
     <string name="error_tts_failed">Failed to speak text</string>
@@ -1706,7 +1704,7 @@
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
     <string name="message_device_id_copied">Device ID copied to clipboard.</string>
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
-    <string name="instructions_export">Select which shortcuts should be exported. All required variables will be exported automatically.</string>
+    <string name="instructions_export">Select which shortcuts should be exported. All required global variables will be exported automatically.</string>
     <!-- Title shown on Response screen which allows to expand a panel showing some meta information about the response -->
     <string name="title_response_meta_information">Meta Information</string>
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute values (e.g. 13:37) -->
