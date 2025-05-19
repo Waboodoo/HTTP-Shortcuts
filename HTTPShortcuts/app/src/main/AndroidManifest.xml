@@ -276,6 +276,11 @@
 
         <activity android:name=".activities.imageeditor.ImageEditorActivity" />
 
+
+        <activity
+            android:name="com.canhub.cropper.CropImageActivity"
+            tools:node="remove" />
+
         <receiver
             android:name=".widget.WidgetProvider"
             android:exported="true"
