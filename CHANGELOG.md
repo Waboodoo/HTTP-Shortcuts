@@ -1,3 +1,18 @@
+## Version 3.30.0
+
+### Improvements
+- You can now add placeholders for [local variables](https://http-shortcuts.rmy.ch/variables#local-variables) to your shortcuts, to dynamically insert values without having to explicitly create variables on the Variables screen for them. The existing Variables feature was renamed to "Global Variables" to make the distinction clearer.
+- The app now also support Traditional Chinese as a language (thanks [@ray2c](https://github.com/ray2c))
+- The `sendHttpRequest` Scripting function now supports an option to disable the following of redirects, and it is possible to override the `Connection` and `User-Agent` headers which are added by default.
+
+### Bugfixes
+- It is now no longer possible to create multiple options in a Select variable that use the same value
+- When selecting a code snippet for Scripting, it is now inserted into the correct text box instead of always the "Run before execution" one
+- Various fixes for rare crashes
+
+### Miscellaneous
+- This app now has an [official subreddit](https://www.reddit.com/r/HTTP_Shortcuts/). A link to it was added to the Information screen
+
 ## Version 3.29.1
 - Changing the Response Content Type option is no longer ignored
 - The initial empty screen no longer interferes with the selection of UI elements when using a DPAD or accessibility options
