@@ -10,6 +10,9 @@ import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.R
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class NetworkUtil
 @Inject
@@ -51,8 +54,10 @@ constructor(
                     .putExtra("wifi_enable_next_on_connect", true)
                     .startActivity(activity)
             }
-        } catch (e: ActivityNotFoundException) {
-            context.showToast(R.string.error_not_supported)
+        } catch (_: ActivityNotFoundException) {
+            CoroutineScope(Dispatchers.Main).launch {
+                context.showToast(R.string.error_not_supported)
+            }
         }
     }
 }
