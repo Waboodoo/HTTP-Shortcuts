@@ -342,6 +342,10 @@ Drücke den + Knopf um eine Variable zu erstellen.</string>
     <string name="settings_changelog_summary">Version %1$s</string>
     <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">Entwickler kontaktieren</string>
+    <!-- Button title, for option to go to the app's official subreddit -->
+    <string name="settings_reddit">Reddit-Community</string>
+    <!-- Button subtitle, for option to go to the app's official subreddit -->
+    <string name="settings_reddit_summary">Der offizielle Subreddit der App, für Diskussionen und Ideenaustausch</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Fragen, Wünsche, sonstige Kommentare, …</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -591,11 +595,15 @@ Du hast jedoch noch keine Variablen konfiguriert. Drücke den ERSTELLEN-Knopf un
 
 Du hast jedoch noch keine Variablen konfiguriert.</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_get_variable_no_variable">Du hast noch keine Variablen erstellt. Drücke den ERSTELLEN-Knopf um loszulegen.</string>
-    <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">Du hast noch keine statischen Variablen erstellt dessen Wert verändert werden könnte. Drücke den ERSTELLEN-Knopf um loszulegen.</string>
-    <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
-    <string name="button_create_first_variable">Erstellen</string>
+    <string name="help_text_no_global_variables_yet">Du hast noch keine globalen Variablen erstellt. Drücke den \“%s\” Knopf um loszulegen.</string>
+    <!-- Dialog option: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <string name="dialog_option_label_local_variable">Lokale Variable</string>
+    <!-- Dialog option subtitle: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <string name="dialog_option_subtitle_local_variable">Wert muss übergeben oder per Scripting gesetzt werden</string>
+    <!-- Dialog title, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <string name="dialog_title_local_variable">Lokale Variable</string>
+    <!-- Dialog instructions, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <string name="dialog_instructions_local_variable">Gib einen Namen für die lokale Variable ein, bestehend aus Zahlen, Buchstaben und Unterstrichen.</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">Variablen</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
@@ -604,6 +612,8 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="error_not_enough_toggle_values">Bitte mindestens zwei Toggle-Werte hinzufügen.</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">Bitte mindestens eine Auswahloption hinzufügen.</string>
+    <!-- Error message, shown in variable editor when a select option uses the same value as another -->
+    <string name="error_select_value_already_in_use">Dieser Wert wird bereits von einer anderen Option verwendet.</string>
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">Das Datumsformat ist ungültig.</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->

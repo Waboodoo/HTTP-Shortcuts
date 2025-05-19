@@ -312,6 +312,8 @@
     <string name="settings_changelog_summary">버전 %1$s</string>
     <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">개발자에게 문의</string>
+    <!-- Button title, for option to go to the app's official subreddit -->
+    <!-- Button subtitle, for option to go to the app's official subreddit -->
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">질문, 기능 건의, 피드백 등…</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -549,11 +551,10 @@
 
 그러나 아직 변수를 구성하지 않았습니다.</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_get_variable_no_variable">이 동작을 사용하려면 값을 가져올 변수를 만들어야 합니다.</string>
-    <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">이 동작을 사용하려면 값을 설정할 수 있는 스태틱 변수를 만들어야 합니다.</string>
-    <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
-    <string name="button_create_first_variable">새 변수</string>
+    <!-- Dialog option: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <!-- Dialog option subtitle: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <!-- Dialog title, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <!-- Dialog instructions, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">변수</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
@@ -562,6 +563,7 @@
     <string name="error_not_enough_toggle_values">값을 둘 이상 추가해 주세요.</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">옵션을 추가해 주세요.</string>
+    <!-- Error message, shown in variable editor when a select option uses the same value as another -->
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">날짜 형식이 잘못됐습니다.</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->

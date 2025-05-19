@@ -309,6 +309,8 @@ Kattintson a + gombra a kezdéshez.</string>
     <string name="settings_changelog_summary">Verzió %1$s</string>
     <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">Kapcsolat a fejlesztővel</string>
+    <!-- Button title, for option to go to the app's official subreddit -->
+    <!-- Button subtitle, for option to go to the app's official subreddit -->
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Kérdések, funkciókérések, visszajelzések,…</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -546,11 +548,10 @@ Még nincsenek változók beállítva. Ezt az alábbi CREATE gombra kattintva te
 
 Egyelőre azonban még nincs beállítva semmilyen változó.</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_get_variable_no_variable">Még nem rendelkezik változóval. Az induláshoz kattints az alábbi LÉTREHOZÁS gombra.</string>
-    <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">Még nincs olyan ÁLLANDÓ típusú változó, amelyet ezzel a művelettel beállíthatsz. Az induláshoz kattints az alábbi LÉTREHOZÁS gombra.</string>
-    <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
-    <string name="button_create_first_variable">Létrehozás</string>
+    <!-- Dialog option: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <!-- Dialog option subtitle: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <!-- Dialog title, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <!-- Dialog instructions, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">Változók</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
@@ -559,6 +560,7 @@ Egyelőre azonban még nincs beállítva semmilyen változó.</string>
     <string name="error_not_enough_toggle_values">Adj hozzá legalább két értéket.</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">Adj hozzá legalább egy választható lehetőséget</string>
+    <!-- Error message, shown in variable editor when a select option uses the same value as another -->
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">Érvénytelen dátum formátum</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->
@@ -1534,6 +1536,7 @@ Saját aláírású tanúsítványok esetén ehelyett ellenőrizze a parancsikon
     <!-- Subtitle on button, shown in Response settings of shortcut editor, shows how many buttons the user has selected to be shown in the response window toolbar -->
     <!-- Option in settings, allows to set whether hidden shortcuts should be visible or not -->
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
+    <string name="settings_option_show_hidden_shortcuts">Elrejtett parancsikonok megjelenítése</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Végrehajtási mód</string>

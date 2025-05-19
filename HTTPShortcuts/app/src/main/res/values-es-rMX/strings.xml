@@ -18,6 +18,7 @@
     <!-- Label above input field in editor, for shortcut URL -->
     <!-- Label above input field in editor, for wake-on-lan shortcut's MAC address -->
     <!-- Label above input field in editor, for wake-on-lan shortcut's broadcast address -->
+    <string name="label_broadcast_address">Transmitir Dirección</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">Buscador</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
@@ -37,6 +38,7 @@
     <!-- Label above input field in editor, for shortcut authentication token -->
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the response content should be treated as -->
+    <string name="label_response_type_selection">Tipo de respuesta</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the custom message that they enter should be treated as -->
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
@@ -51,6 +53,7 @@
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">Ejecutar</string>
     <!-- Generic dropdown option: Use/select the variable/..., used in pickers that let the user select which variable/... to use for a specific purpose -->
+    <string name="action_select">Seleccionar</string>
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Editar</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
@@ -61,7 +64,9 @@
     <!-- Shortcut dropdown option: export the shortcut -->
     <string name="action_export">Exportar</string>
     <!-- Menu button: Confirm exporting the selected shortcuts -->
+    <string name="dialog_button_export">Exportar</string>
     <!-- Shortcut dropdown option: display information about the shortcut -->
+    <string name="action_shortcut_information">Mostrar Información</string>
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">Mover</string>
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
@@ -278,6 +283,8 @@ Haga clic en el botón + de la pantalla principal para comenzar o consulte la [d
     <string name="settings_changelog_summary">Versión %1$s</string>
     <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">Contactar al Desarrollador</string>
+    <!-- Button title, for option to go to the app's official subreddit -->
+    <!-- Button subtitle, for option to go to the app's official subreddit -->
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Preguntas, solicitud de características, retroalimentación, ...</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -485,9 +492,10 @@ Todos los atajos dentro de esta se eliminaran también.</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
     <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
-    <string name="button_create_first_variable">Crear</string>
+    <!-- Dialog option: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <!-- Dialog option subtitle: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <!-- Dialog title, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <!-- Dialog instructions, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
     <string name="label_edit_variables">Editar varíables</string>
@@ -495,6 +503,7 @@ Todos los atajos dentro de esta se eliminaran también.</string>
     <string name="error_not_enough_toggle_values">Porfavor agregue por lo menos dos valores.</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">Agregue al menos una opción seleccionable.</string>
+    <!-- Error message, shown in variable editor when a select option uses the same value as another -->
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">Formato de Fecha no válido.</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->

@@ -302,6 +302,8 @@ Klik tombol + untuk menambah variabel.</string>
     <string name="settings_changelog_summary">Versi %1$s</string>
     <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">Hubungi Pengembang</string>
+    <!-- Button title, for option to go to the app's official subreddit -->
+    <!-- Button subtitle, for option to go to the app's official subreddit -->
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Pertanyaan, permintaan fitur, masukan, …</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -535,11 +537,10 @@ Anda belum memiliki variabel terkonfigurasi. Anda bisa melakukannya dengan menek
 
 Namun, Anda belum memiliki variabel yang terkonfigurasi.</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_get_variable_no_variable">Anda belum memiliki variabel sama sekali. Tekan tombol BUAT di bawah untuk memulai.</string>
-    <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">Anda tidak memiliki variabel statis (konstan) yang bisa diatur dengan aksi ini. Klik tombol BUAT di bawah untuk memulai.</string>
-    <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
-    <string name="button_create_first_variable">Buat</string>
+    <!-- Dialog option: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <!-- Dialog option subtitle: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <!-- Dialog title, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <!-- Dialog instructions, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">Variabel</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
@@ -548,6 +549,7 @@ Namun, Anda belum memiliki variabel yang terkonfigurasi.</string>
     <string name="error_not_enough_toggle_values">Tolong tambahkan setidaknya dua nilai.</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">Tolong tambahkan setidaknya pilihan yang dapat dipilih.</string>
+    <!-- Error message, shown in variable editor when a select option uses the same value as another -->
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">Format tanggal tidak valid.</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->

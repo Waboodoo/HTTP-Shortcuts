@@ -334,6 +334,10 @@
     <string name="settings_changelog_summary">バージョン %1$s</string>
     <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">開発者へ連絡</string>
+    <!-- Button title, for option to go to the app's official subreddit -->
+    <string name="settings_reddit">Reddit コミュニティ</string>
+    <!-- Button subtitle, for option to go to the app's official subreddit -->
+    <string name="settings_reddit_summary">アプリ公式 Subreddit：ディスカッションとアイデアの交換の場</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">質問、新機能リクエスト、ユーザーの声をフィードバック…</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -579,11 +583,15 @@
 
 ただし変数はまだ未定義のようですが。</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_get_variable_no_variable">定義済みの変数がありません。 下の[作成]ボタンをクリックして開始します。</string>
-    <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">このアクションで設定できる固定変数（定数）がありません。 下の[作成]ボタンをクリックして開始します。</string>
-    <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
-    <string name="button_create_first_variable">作成する</string>
+    <string name="help_text_no_global_variables_yet">グローバル変数がありません。下の[%s]ボタンをクリックして開始してください。</string>
+    <!-- Dialog option: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <string name="dialog_option_label_local_variable">ローカル変数</string>
+    <!-- Dialog option subtitle: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <string name="dialog_option_subtitle_local_variable">値はスクリプトで引き渡すか、または設定する必要があります</string>
+    <!-- Dialog title, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <string name="dialog_title_local_variable">ローカル変数</string>
+    <!-- Dialog instructions, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <string name="dialog_instructions_local_variable">ローカル変数の名前を入力してください。名前には数字、文字、アンダースコアが使用可能。</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">変数</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
@@ -592,6 +600,8 @@
     <string name="error_not_enough_toggle_values">少なくとも２つの値を追加してください。</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">少なくとも１つの選択肢を追加してください。</string>
+    <!-- Error message, shown in variable editor when a select option uses the same value as another -->
+    <string name="error_select_value_already_in_use">この値はすでに別のオプションで使用済みです。</string>
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">日付の形式が無効です</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->

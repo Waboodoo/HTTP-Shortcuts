@@ -333,6 +333,10 @@
     <string name="settings_changelog_summary">版本%1$s</string>
     <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">联系开发者</string>
+    <!-- Button title, for option to go to the app's official subreddit -->
+    <string name="settings_reddit">Reddit 社区</string>
+    <!-- Button subtitle, for option to go to the app's official subreddit -->
+    <string name="settings_reddit_summary">应用的官方 Reddit 子版，供讨论和交流想法</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">提问题，请求新功能，其它…</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -574,11 +578,15 @@
     <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
     <string name="help_text_variable_button_for_variables">这个按钮可以让你引入代表某一变量的占位符即动态值进入这里，而你还没有设置任何变量。</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_get_variable_no_variable">你还没有声明任何变量，请按下面的新建按钮开始</string>
-    <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">你还没有声明任何常量，请按下面的新建按钮开始</string>
-    <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
-    <string name="button_create_first_variable">新建</string>
+    <string name="help_text_no_global_variables_yet">你还没有任何全局变量。单击下方的 \“%s\” 按钮开始。</string>
+    <!-- Dialog option: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <string name="dialog_option_label_local_variable">本地变量</string>
+    <!-- Dialog option subtitle: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <string name="dialog_option_subtitle_local_variable">值必须通过脚本传递或设置</string>
+    <!-- Dialog title, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <string name="dialog_title_local_variable">本地变量</string>
+    <!-- Dialog instructions, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <string name="dialog_instructions_local_variable">为本地变量输入一个名称，包含数字、字母和下划线。</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">变量</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
@@ -587,6 +595,8 @@
     <string name="error_not_enough_toggle_values">请至少添加两个值</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">请至少选择一个选项</string>
+    <!-- Error message, shown in variable editor when a select option uses the same value as another -->
+    <string name="error_select_value_already_in_use">此值已被另一个选项使用。</string>
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">日期格式不正确</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->

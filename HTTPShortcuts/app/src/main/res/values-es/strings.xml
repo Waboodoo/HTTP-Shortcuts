@@ -338,6 +338,8 @@ Haga clic en el botón + para añadir una variable.</string>
     <string name="settings_changelog_summary">Versión %1$s</string>
     <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">Contacte al desarrollador</string>
+    <!-- Button title, for option to go to the app's official subreddit -->
+    <!-- Button subtitle, for option to go to the app's official subreddit -->
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Preguntas, solicitudes de funciones, comentarios, …</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -585,11 +587,10 @@ No tienes ninguna variable configurada todavía. Puede hacerlo haciendo clic en 
 
 Sin embargo, todavía no tiene ninguna variable configurada.</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_get_variable_no_variable">Si no tienen ninguna variable más</string>
-    <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">Aún no tienes ninguna variable. Haga clic en el botón CREAR a continuación para comenzar.</string>
-    <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
-    <string name="button_create_first_variable">Crear</string>
+    <!-- Dialog option: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <!-- Dialog option subtitle: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <!-- Dialog title, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <!-- Dialog instructions, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">Variables</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
@@ -598,6 +599,7 @@ Sin embargo, todavía no tiene ninguna variable configurada.</string>
     <string name="error_not_enough_toggle_values">Por favor agregar al menos dos valores</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">Por favor agregar al menos una opción seleccionable</string>
+    <!-- Error message, shown in variable editor when a select option uses the same value as another -->
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">El formato de fecha no es válido.</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->

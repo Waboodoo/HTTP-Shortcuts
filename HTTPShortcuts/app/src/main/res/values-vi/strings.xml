@@ -310,6 +310,8 @@ Nhấp vào nút + để thêm một biến.</string>
     <string name="settings_changelog_summary">Phiên bản %1$s</string>
     <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">Liên hệ với nhà phát triển</string>
+    <!-- Button title, for option to go to the app's official subreddit -->
+    <!-- Button subtitle, for option to go to the app's official subreddit -->
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Câu hỏi, yêu cầu tính năng, phản hồi, …</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -544,11 +546,10 @@ Bạn chưa định cấu hình bất kỳ biến nào. Bạn có thể làm nh�
 
 Tuy nhiên, bạn chưa có bất kỳ biến nào được định cấu hình.</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_get_variable_no_variable">Bạn chưa có bất kỳ biến nào. Nhấp vào nút TẠO bên dưới để bắt đầu.</string>
-    <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">Bạn chưa có bất kỳ biến tĩnh nào có thể được đặt bằng hành động này. Nhấp vào nút TẠO bên dưới để bắt đầu.</string>
-    <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
-    <string name="button_create_first_variable">Tạo ra</string>
+    <!-- Dialog option: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <!-- Dialog option subtitle: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <!-- Dialog title, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <!-- Dialog instructions, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">Biến</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
@@ -557,6 +558,7 @@ Tuy nhiên, bạn chưa có bất kỳ biến nào được định cấu hình.
     <string name="error_not_enough_toggle_values">Vui lòng thêm ít nhất hai giá trị.</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">Vui lòng thêm ít nhất một tùy chọn có thể chọn.</string>
+    <!-- Error message, shown in variable editor when a select option uses the same value as another -->
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">Định dạng ngày không hợp lệ.</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->

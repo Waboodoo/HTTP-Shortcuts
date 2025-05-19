@@ -327,6 +327,8 @@
     <string name="settings_changelog_summary">نسخه %1$s</string>
     <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">با توسعه دهنده تماس بگیرید</string>
+    <!-- Button title, for option to go to the app's official subreddit -->
+    <!-- Button subtitle, for option to go to the app's official subreddit -->
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">سوالات، درخواست های ویژگی، بازخورد، …</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -567,11 +569,10 @@
 
 با این حال، شما هنوز هیچ متغیری را پیکربندی نکرده‌اید.</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_get_variable_no_variable">شما هنوز هیچ متغیری ندارید. برای شروع روی دکمه ایجاد زیر کلیک کنید.</string>
-    <!-- Instructions shown in code snippet picker when the user selects the "Set Variable" option and there are no variables yet -->
-    <string name="help_text_code_snippet_set_variable_no_variable">شما هنوز هیچ متغیر ثابتی ندارید که بتوان با این عمل تنظیم کرد. برای شروع روی دکمه ایجاد زیر کلیک کنید.</string>
-    <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
-    <string name="button_create_first_variable">ایجاد</string>
+    <!-- Dialog option: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <!-- Dialog option subtitle: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <!-- Dialog title, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <!-- Dialog instructions, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">متغیر ها</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
@@ -580,6 +581,7 @@
     <string name="error_not_enough_toggle_values">لطفا حداقل دو مقدار اضافه کنید.</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">لطفاً حداقل یک گزینه قابل انتخاب اضافه کنید.</string>
+    <!-- Error message, shown in variable editor when a select option uses the same value as another -->
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">قالب تاریخ معتبر نیست.</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->
