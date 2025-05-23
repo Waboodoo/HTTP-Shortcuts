@@ -437,9 +437,6 @@ Du har ikke konfigurert noen variabler ennå. Du kan gjøre det ved å klikk på
 
 Du har ikke satt opp noen variabler ennå, riktignok."</string>
 
-    <!-- Text of button on help dialog that is displayed when no variables exist yet. Clicking it allows the user to go to the variables settings to create a first variable -->
-    <string name="button_create_first_variable">"Lag"</string>
-
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">"Variabler"</string>
 
