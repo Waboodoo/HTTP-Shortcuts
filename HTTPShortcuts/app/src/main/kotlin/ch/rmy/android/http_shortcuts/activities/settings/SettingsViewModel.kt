@@ -18,6 +18,7 @@ import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
 import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
@@ -127,7 +128,10 @@ constructor(
 
     fun onUserAgentButtonClicked() = runAction {
         updateDialogState(
-            SettingsDialogState.ChangeUserAgent(settings.userAgent ?: ""),
+            SettingsDialogState.ChangeUserAgent(
+                oldUserAgent = settings.userAgent ?: "",
+                placeholder = UserAgentProvider.getUserAgent(context),
+            ),
         )
     }
 

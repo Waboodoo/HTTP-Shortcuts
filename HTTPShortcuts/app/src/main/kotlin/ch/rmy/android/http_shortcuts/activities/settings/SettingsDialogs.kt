@@ -35,6 +35,7 @@ fun SettingsDialogs(
         is SettingsDialogState.ChangeUserAgent -> {
             ChangeUserAgentDialog(
                 initialValue = dialogState.oldUserAgent,
+                placeholder = dialogState.placeholder,
                 onConfirm = onUserAgentChangeConfirmed,
                 onDismissalRequested = onDismissalRequested,
             )
@@ -59,6 +60,7 @@ fun SettingsDialogs(
 @Composable
 private fun ChangeUserAgentDialog(
     initialValue: String,
+    placeholder: String,
     onConfirm: (String) -> Unit,
     onDismissalRequested: () -> Unit,
 ) {
@@ -66,6 +68,7 @@ private fun ChangeUserAgentDialog(
         title = stringResource(R.string.title_set_user_agent),
         message = stringResource(R.string.instructions_set_user_agent),
         initialValue = initialValue,
+        placeholder = placeholder,
         transformValue = {
             it.filter(Validation::isValidInHeaderValue).take(300)
         },

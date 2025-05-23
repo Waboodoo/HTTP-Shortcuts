@@ -51,6 +51,7 @@ fun TextInputDialog(
     transformValue: (String) -> String = { it },
     dismissButton: @Composable (() -> Unit)? = null,
     singleLine: Boolean = false,
+    placeholder: String? = null,
     bottomContent: (@Composable () -> Unit)? = null,
     onDismissRequest: (newValue: String?) -> Unit,
 ) {
@@ -95,6 +96,11 @@ fun TextInputDialog(
                     value = value,
                     onValueChange = {
                         value = it.copy(text = transformValue(it.text))
+                    },
+                    placeholder = placeholder?.let {
+                        {
+                            Text(text = placeholder)
+                        }
                     },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = keyboardType,
