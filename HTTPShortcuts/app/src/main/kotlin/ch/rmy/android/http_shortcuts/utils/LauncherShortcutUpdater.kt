@@ -18,6 +18,8 @@ import ch.rmy.android.http_shortcuts.extensions.getRequestParametersForShortcuts
 import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.delay
 
 class LauncherShortcutUpdater
 @Inject
@@ -76,7 +78,13 @@ constructor(
 
     private suspend fun getLauncherShortcut(shortcutId: ShortcutId): LauncherShortcut {
         logInfo("getLauncherShortcut($shortcutId)")
-        val shortcut = shortcutRepository.getShortcutById(shortcutId)
+        val shortcut = try {
+            shortcutRepository.getShortcutById(shortcutId)
+        } catch (_: NoSuchElementException) {
+            // Sometimes, the shortcut is not (yet?) available at this time, so we try again after a short delay
+            delay(300.milliseconds)
+            shortcutRepository.getShortcutById(shortcutId)
+        }
         val variables = globalVariableRepository.getGlobalVariables()
         return getLauncherShortcut(
             shortcut = shortcut,
