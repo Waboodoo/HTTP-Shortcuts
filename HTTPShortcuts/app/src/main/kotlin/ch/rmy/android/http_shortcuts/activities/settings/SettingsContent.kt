@@ -82,7 +82,6 @@ fun SettingsContent(
                     "iw" to stringResource(R.string.language_hebrew),
                     "hu" to stringResource(R.string.language_hungarian),
                     "nl" to stringResource(R.string.language_dutch),
-                    "nb" to stringResource(R.string.language_norwegian_bokmal),
                     "pl" to stringResource(R.string.language_polish),
                     "pt" to stringResource(R.string.language_portuguese),
                     "pt-rBR" to stringResource(R.string.language_brazilian_portuguese),

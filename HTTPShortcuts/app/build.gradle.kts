@@ -87,7 +87,6 @@ android {
             "in",
             "it",
             "hu",
-            "nb",
             "pl",
             "pt-rBR",
             "ru",
