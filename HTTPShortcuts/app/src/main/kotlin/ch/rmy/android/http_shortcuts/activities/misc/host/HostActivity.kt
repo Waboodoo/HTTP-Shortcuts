@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.awaitNonNull
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
@@ -55,6 +56,7 @@ class HostActivity : BaseComposeActivity() {
             dialogState,
             onResult = { result ->
                 val deferred = deferredResult
+                logInfo("onResult: $result, $deferred")
                 deferredResult = null
                 dialogStateFlow.value = null
                 deferred?.complete(result)
@@ -76,6 +78,7 @@ class HostActivity : BaseComposeActivity() {
 
         suspend fun showDialog(context: Context, dialogState: ExecuteDialogState<*>): Any {
             val deferred = CompletableDeferred<Any>()
+            logInfo("HostActivity showing new dialog (deferredResult: $deferredResult)")
             deferredResult?.cancel()
             deferredResult = deferred
             dialogStateFlow.value = dialogState

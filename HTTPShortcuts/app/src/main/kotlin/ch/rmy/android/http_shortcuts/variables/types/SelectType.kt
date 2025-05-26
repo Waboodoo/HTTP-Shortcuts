@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.variables.types
 
-import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
@@ -15,8 +14,6 @@ constructor(
     private val variablesRepository: GlobalVariableRepository,
 ) : VariableType {
     override suspend fun resolve(variable: GlobalVariable, dialogHandle: DialogHandle): String {
-        // TODO: Remove this log statement again soon
-        logInfo("Variable data: ${variable.data}")
         val value = if (isMultiSelect(variable)) {
             dialogHandle.showDialog(
                 ExecuteDialogState.MultiSelection(
