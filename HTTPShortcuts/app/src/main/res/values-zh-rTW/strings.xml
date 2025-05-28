@@ -121,7 +121,7 @@
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
     <string name="error_shortcut_deleted">此捷徑已經刪除。</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
-    <string name="validation_name_not_empty">請輸入一個名稱</string>
+    <string name="validation_name_not_empty">請輸入一個名稱。</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">請輸入一個 HTTP(S) URL。</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
@@ -1236,7 +1236,7 @@
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
     <string name="instructions_remote_edit_step_1">在上方欄位中輸入一個密碼。</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: click the push button -->
-    <string name="instructions_remote_edit_step_2">\"按一下<pre>「推送至伺服器」</pre>按鈕\"。</string>
+    <string name="instructions_remote_edit_step_2">按一下<pre>「推送至伺服器」</pre>按鈕。</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">在您的電腦上以瀏覽器開啟 %s，輸入您的裝置識別碼和密碼，即可開始編輯。</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
