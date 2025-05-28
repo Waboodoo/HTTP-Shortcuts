@@ -63,7 +63,12 @@ constructor(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        val params = getParams()
+        val params = try {
+            getParams()
+        } catch (e: Exception) {
+            logException(e)
+            return Result.failure()
+        }
         val shortcut = try {
             shortcutRepository.getShortcutById(params.shortcutId)
         } catch (_: NoSuchElementException) {
@@ -129,20 +134,21 @@ constructor(
                 GsonUtil.gson.fromJson(it, Params::class.java)
             }
 
-    private suspend fun getVariableValues(resolvedVariableValues: Map<VariableKeyOrId, String>): ResolvedVariableValues {
+    private suspend fun getVariableValues(resolvedVariableValues: Map<String, String>): ResolvedVariableValues {
+        val variableValues = resolvedVariableValues.mapKeys { (key, _) -> VariableKeyOrId(key) }
         if (resolvedVariableValues.isEmpty()) {
             return ResolvedVariableValues.empty
         }
         return ResolvedVariableValues(
             globalVariableValues = buildMap {
-                resolvedVariableValues.forEach { (variableKeyOrId, value) ->
+                variableValues.forEach { (variableKeyOrId, value) ->
                     variableKeyOrId.globalVariableId?.let { globalVariableId ->
                         put(globalVariableId, value)
                     }
                 }
             },
             localVariablesValues = buildMap {
-                resolvedVariableValues.forEach { (variableKeyOrId, value) ->
+                variableValues.forEach { (variableKeyOrId, value) ->
                     variableKeyOrId.globalVariableId?.let { globalVariableId ->
                         put(globalVariableId, value)
                     }
@@ -202,7 +208,7 @@ constructor(
     private data class Params(
         val shortcutId: ShortcutId,
         val sessionId: String,
-        val variableValues: Map<VariableKeyOrId, String>,
+        val variableValues: Map<String, String>,
         val fileUploadResult: FileUploadManager.Result?,
     )
 
@@ -220,7 +226,7 @@ constructor(
             val params = Params(
                 shortcutId = shortcutId,
                 sessionId = sessionId,
-                variableValues = variableValues.getAll(),
+                variableValues = variableValues.getAll().mapKeys { (key, _) -> key.value },
                 fileUploadResult = fileUploadResult,
             )
             with(WorkManager.getInstance(context)) {
