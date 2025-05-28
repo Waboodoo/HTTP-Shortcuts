@@ -1,3 +1,14 @@
+## Version 3.30.1
+
+### Bugfixes
+- Fixed a critical issue, which caused shortcuts to fail silently under certain circumstances
+- Slider variables should now no longer show rounding errors when floating point numbers are used for step size, minimum or maximum value
+- When exporting a shortcut, variables referenced from global code are now also included in the export
+
+### Miscellaneous
+- The text field for setting a custom user-agent header now shows the default header as a placeholder
+- Removed the incomplete and unmaintained Norwegian translations
+
 ## Version 3.30.0
 
 ### Improvements
