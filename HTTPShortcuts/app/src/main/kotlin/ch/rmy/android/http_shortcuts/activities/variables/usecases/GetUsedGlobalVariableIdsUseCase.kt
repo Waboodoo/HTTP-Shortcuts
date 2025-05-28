@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.variables.usecases
 
+import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderRepository
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -29,6 +30,7 @@ constructor(
     private val requestHeaderRepository: RequestHeaderRepository,
     private val requestParameterRepository: RequestParameterRepository,
     private val globalVariableRepository: GlobalVariableRepository,
+    private val appConfigRepository: AppConfigRepository,
 ) {
 
     suspend operator fun invoke(shortcutId: ShortcutId?) =
@@ -45,6 +47,7 @@ constructor(
             shortcuts = shortcuts,
             headersByShortcutId = requestHeaderRepository.getRequestHeadersByShortcutIds(shortcuts.ids()),
             parametersByShortcutId = requestParameterRepository.getRequestParametersForShortcuts(shortcuts),
+            globalCode = appConfigRepository.getGlobalCode(),
         )
     }
 
@@ -53,6 +56,7 @@ constructor(
         shortcuts: List<Shortcut>,
         headersByShortcutId: Map<ShortcutId, List<RequestHeader>>,
         parametersByShortcutId: Map<ShortcutId, List<RequestParameter>>,
+        globalCode: String,
     ): Set<GlobalVariableId> {
         val variableManager = VariableManager(variables)
         return shortcuts
@@ -64,6 +68,8 @@ constructor(
                 )
             }
             .plus(getVariablesInUseInVariables(variables))
+            .plus(Variables.findResolvableVariableIdentifiersFromJS(globalCode))
+            .plus(Variables.findResolvableVariableIdentifiers(globalCode))
             .getGlobalVariables(variableManager)
             .toSet()
     }
