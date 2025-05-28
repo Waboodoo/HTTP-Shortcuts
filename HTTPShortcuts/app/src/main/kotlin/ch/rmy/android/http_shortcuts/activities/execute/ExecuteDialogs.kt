@@ -303,11 +303,18 @@ private fun NumberSliderDialog(
     onConfirmed: (Float) -> Unit,
     onDismissed: () -> Unit,
 ) {
+    val decimalPoints = stepSize.toString().split(".").getOrNull(1)?.length ?: 0
     var sliderValue by rememberSaveable(key = "number-picker-value") {
         mutableFloatStateOf(((initialValue ?: min) - min) / (max - min) * 10000f)
     }
-    val roundedValue = remember(sliderValue, min, max, stepSize) {
-        ((sliderValue / 10000f) * (max - min) / stepSize).roundToInt() * stepSize + min
+    val roundedValue = remember(sliderValue, min, max, stepSize, decimalPoints) {
+        val value = (((sliderValue / 10000f) * (max - min) / stepSize).roundToInt() * stepSize + min)
+            .coerceIn(min, max)
+        if (decimalPoints == 0) {
+            value.roundToInt().toString()
+        } else {
+            "%.${decimalPoints}f".format(value)
+        }
     }
 
     AlertDialog(
@@ -347,7 +354,7 @@ private fun NumberSliderDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    onConfirmed(roundedValue)
+                    onConfirmed(roundedValue.toFloat())
                 },
             ) {
                 Text(stringResource(R.string.dialog_ok))
