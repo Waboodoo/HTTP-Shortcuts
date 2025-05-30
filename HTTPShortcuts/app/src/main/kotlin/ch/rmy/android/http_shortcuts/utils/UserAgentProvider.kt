@@ -9,7 +9,7 @@ object UserAgentProvider {
         Settings(context).userAgent
             ?: getDefaultUserAgent()
 
-    private fun getDefaultUserAgent(): String {
+    fun getDefaultUserAgent(): String {
         val base = "HttpShortcuts/${BuildConfig.VERSION_NAME}"
         val userAgent = System.getProperty("http.agent")
             ?.filter { c ->

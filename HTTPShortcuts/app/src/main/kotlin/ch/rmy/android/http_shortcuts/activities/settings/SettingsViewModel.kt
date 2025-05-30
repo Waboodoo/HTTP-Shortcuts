@@ -130,7 +130,7 @@ constructor(
         updateDialogState(
             SettingsDialogState.ChangeUserAgent(
                 oldUserAgent = settings.userAgent ?: "",
-                placeholder = UserAgentProvider.getUserAgent(context),
+                placeholder = UserAgentProvider.getDefaultUserAgent(),
             ),
         )
     }
