@@ -57,6 +57,7 @@ import coil.compose.AsyncImage
 import java.time.Instant
 import java.time.LocalTime
 import java.time.ZoneId
+import java.util.Locale
 import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
@@ -313,7 +314,7 @@ private fun NumberSliderDialog(
         if (decimalPoints == 0) {
             value.roundToInt().toString()
         } else {
-            "%.${decimalPoints}f".format(value)
+            "%.${decimalPoints}f".format(Locale.US, value)
         }
     }
 
