@@ -1,3 +1,9 @@
+## Version 3.30.2
+
+### Bugfixes
+- Fixed slider variables causing a crash depending on app language
+- The user-agent field now also shows the default value as a placeholder when a custom user-agent had already been set
+
 ## Version 3.30.1
 
 ### Bugfixes
