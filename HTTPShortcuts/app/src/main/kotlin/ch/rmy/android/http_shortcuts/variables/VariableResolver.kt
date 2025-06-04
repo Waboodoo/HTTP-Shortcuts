@@ -142,8 +142,10 @@ constructor(
                     addAll(Variables.findResolvableVariableIdentifiers(shortcut.responseSuccessMessage))
                 }
 
-                shortcut.responseStoreFileName?.let {
-                    addAll(Variables.findResolvableVariableIdentifiers(it))
+                if (shortcut.responseStoreDirectoryId != null) {
+                    shortcut.responseStoreFileName?.let {
+                        addAll(Variables.findResolvableVariableIdentifiers(it))
+                    }
                 }
 
                 if (shortcut.executionType == ShortcutExecutionType.WAKE_ON_LAN) {
