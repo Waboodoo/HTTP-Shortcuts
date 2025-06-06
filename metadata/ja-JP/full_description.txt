@@ -1,0 +1,8 @@
+ホーム画面にショートカット（ウィジェット）を配置して、お気に入りの RESTful API、Webサービス、その他のURLリソースの全てにHTTPリクエストを送信できます。
+
+ホーム自動化プロジェクトに最適です！ 
+ - HTTP および HTTPS <ul><li>GET、POST、PUT、DELETE、PATCH、HEAD、OPTIONS、TRACE </li><li>基本認証、ダイジェスト認証、ベアラー認証、クライアント証明書認証 </li><li>リクエスト ヘッダー をカスタム</li><li>リクエスト ボディ をカスタム (テキストのみ) </li><li>フォーム データ形式またはリクエスト ボディとしてファイルをアップロード </li><li>HTTP プロキシに対応 </li><li>自己署名証明書に対応 </li><li>組み込みアイコン、カスタムアイコンまたはサイトのファビコンの使用に対応</li><li>レスポンスをトースト表示、ウィンドウ表示、ダイアログ表示、またはサイレントに実行 </li><li>タブによるカテゴリ別にグループ化 </li><li>変数による値の挿入 (例: テキスト、数値、パスワード、選択、色、日付など) </li><li>実行の前後に任意の JavaScript を実行、(以下に限らず特別なアクションを含む): </li><li>ダイアログ表示 </li><li>トースト表示 </li><li>ユーザー入力のプロンプト表示 (例: 日付、パスワード、テキストなどの入力を求める) </li><li>JSON または XML レスポンスの解析 </li><li>HMAC の計算 </li><li>値をグローバル変数に保存して後に使用 </li><li>バイブレーション </li><li>通知音の再生 </li><li>TCP または UDP パケット送信 </li><li>MQTT メッセージをブローカーに送信 </li><li>Wake-on-LAN </li><li>Android インテントを送信 </li><li>Tasker タスクをトリガー </li><li>QR コードを読み取る (サードパーティ アプリ経由) </li><li>現在の位置情報を読み取る </li><li>JSON または cURL 形式でインポートとエクスポート </li><li>サードパーティの統合 (例: Tasker) </li><li>ダーク モードに対応 </li></ul>
+HTTP ショートカットの使用例: <ul><li>Web サーバー上でスクリプトを実行する </li><li>ホーム自動化システムと IoT デバイスを制御する </li><li>RaspberryPi および Arduino の改造プロジェクトを操作する </li><li>ワークフローを自動化する </li><li>ファイルをダウンロードする </li></ul>
+GitHub で探す: <a href="https://github.com/Waboodoo/HTTP-Shortcuts">https://github.com/Waboodoo/HTTP-Shortcuts</a>
+
+または公式 Web サイトでドキュメントをご覧ください: <a href="https://http-shortcuts.rmy.ch">https://http-shortcuts.rmy.ch</a>

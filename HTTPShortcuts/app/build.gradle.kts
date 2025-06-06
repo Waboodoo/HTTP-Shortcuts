@@ -7,6 +7,8 @@ import `in`.wilsonl.minifyhtml.MinifyHtml
 import org.intellij.markdown.flavours.gfm.GFMFlavourDescriptor
 import org.intellij.markdown.html.HtmlGenerator
 import org.intellij.markdown.parser.MarkdownParser
+import com.opencsv.CSVReader
+import java.io.FileReader
 
 plugins {
     id("com.android.application")
@@ -411,6 +413,86 @@ fun generateHtmlFromMarkdown(
     )
 }
 
+fun processStoreListings() {
+    val root = File("..")
+    val sourceDir = File(root, "store_listings")
+    val translatedFiles = sourceDir
+        .listFiles { file: File -> file.isDirectory }
+        .map { File(it, "store_listing.csv") }
+        .filter { it.exists() }
+        .map { it.parentFile.name to it }
+        .plus("en-US" to File(sourceDir, "store_listing.csv"))
+        .forEach { (language, csvFile) ->
+            val targetDir = File(root, "metadata/$language")
+            CSVReader(FileReader(csvFile))
+                .filter { (_, value) -> value.isNotEmpty() }
+                .forEach { (key, value) ->
+                    when (key) {
+                        "short_description" -> {
+                            targetDir.mkdirs()
+                            val targetFile = File(targetDir, "short_description.txt")
+                            targetFile.createNewFile()
+                            targetFile.writeText(value)
+                        }
+                        "full_description" -> {
+                            targetDir.mkdirs()
+                            val targetFile = File(targetDir, "full_description.txt")
+                            targetFile.createNewFile()
+                            targetFile.writer().use { writer ->
+                                var firstLine = true
+                                var listDepth = 0
+                                value.lines()
+                                    .plus("END")
+                                    .forEach { line ->
+                                        val newDepth = when {
+                                            line.startsWith("- ") -> 1
+                                            line.startsWith("  - ") -> 2
+                                            else -> 0
+                                        }
+                                        val line = when {
+                                            line.startsWith("- ") -> line.removePrefix("- ")
+                                            line.startsWith("  - ") -> line.removePrefix("  - ")
+                                            else -> line
+                                        }
+
+                                        if (listDepth < newDepth) {
+                                            for (i in listDepth until newDepth) {
+                                                writer.append("<ul>")
+                                                writer.append("<li>")
+                                            }
+                                        } else if (listDepth > newDepth) {
+                                            for (i in newDepth until listDepth) {
+                                                writer.append("</li>")
+                                                writer.append("</ul>")
+                                            }
+                                            if (newDepth != 0) {
+                                                writer.append("</li>")
+                                                writer.append("<li>")
+                                            }
+                                        } else if (newDepth != 0) {
+                                            writer.append("</li>")
+                                            writer.append("<li>")
+                                        } else if (!firstLine) {
+                                            writer.appendLine()
+                                        }
+
+                                        listDepth = newDepth
+
+                                        if (line != "END") {
+                                            writer.append(line)
+                                        }
+
+                                        firstLine = false
+                                    }
+                            }
+                        }
+                    }
+                }
+        }
+
+    println(translatedFiles)
+}
+
 tasks.register("syncChangeLog") {
     description = "copies the CHANGELOG.md file's content into the app so it can be displayed"
     val maxSections = 10
@@ -467,5 +549,12 @@ tasks.register("syncDocumentation") {
                 },
             )
         }
+    }
+}
+
+tasks.register("syncStoreListings") {
+    description = "processes the store listing CSV files to generate the metadata files for F-Droid"
+    doFirst {
+        processStoreListings()
     }
 }

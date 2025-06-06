@@ -2,3 +2,4 @@
 venv
 processed-docs/
 crowdin.yml
+store_listings

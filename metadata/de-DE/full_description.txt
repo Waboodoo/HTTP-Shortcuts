@@ -1,20 +1,5 @@
 Platziere Shortcuts auf deinem Home Screen um HTTP-Requests an deine Lieblings-REST-APIs und Webservices zu verschicken. Ideal zum Basteln und Tüfteln mit Heimautomatisierung.
-
-<ul>
-<li>HTTP und HTTPS</li>
-<li>GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS und TRACE</li>
-<li>Basic, Digest & Bearer Authentication</li>
-<li>Unterstützung für selbst-signierte Zertifikate</li>
-<li>Benutzerdefinierte Request-Header und -Body</li>
-<li>Eingebaute oder eigene Icons für Shortcuts</li>
-<li>Optional die Server Response als Toast, Dialog oder in neuem Fenster anzeigen</li>
-<li>Einfügen dynamischer Werte durch Variablen</li>
-<li>Fortgeschrittene Abläufe und Daten-Verarbeitung durch JavaScript möglich</li>
-<li>Import und Export als cURL-Befehl</li>
-<li>Plugin für Tasker und andere Automatisierungs-Apps</li>
-<li>Dark-Mode</li>
-</ul>
-
+<ul><li>HTTP und HTTPS</li><li>GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS und TRACE</li><li>Basic Authentication, Digest Authentication, Bearer Authentication und Client Certificate Authentication</li><li>Benutzerdefinierte Request-Header</li><li>Benutzerdefinierter Request-Body</li><li>Hochladen von Dateien als form-data oder Request-Body</li><li>Unterstützung von HTTP- und SOCKS-Proxies</li><li>Unterstützung von selbst-signierten Zertifikaten</li><li>Vordefinierte Icons, benutzerdefinierte Icons oder Favicons direkt herunterladen</li><li>Response als Toast, Dialogfenster oder Vollbild anzeigen, oder gar nichts anzeigen</li><li>Groupieren durch Kategorien und Sektionen</li><li>Dynamisch Werte einfügen durch Variablen (z.B. mit Text-, Zahl- oder Passworteingabe, Datums- oder Farbauswahl, …)</li><li>Ausführen von JavaScript-Code vor und nach dem Request, inklusive Unterstützung von vielen nützlichen Funktionen, z.B.:<ul><li>Dialogfenster öffnen</li><li>Toasts anzeigen</li><li>Benutzereingaben anfordern (z.B. für Uhrzeiten, Passwörter, Text, ...)</li><li>XML oder JSON parsen</li><li>HMAC berechnen</li><li>Werte in globalen Variablen speichern und später wieder auslesen</li><li>vibrieren</li><li>Benachrichtungstöne abspielen</li><li>TCP- oder UDP-Pakete verschicken</li><li>MQTT-Nachrichten an einen Broker verschicken</li><li>Computer über Wake-on-LAN starten</li><li>Android-Intents verschicken</li><li>Mit Drittanbieter-Apps wie Tasker, QR-Code-Scanner oder Wireguard integrieren</li><li>Physikalische Koordinaten auslesen</li></ul></li><li>Importieren und Exportieren in JSON- oder cURL-Format</li><li>Dark Mode</li></ul>
+Einige Ideen, wofür HTTP Shortcuts gut geeignet ist:<ul><li>Scripts auf einem Web-Server aufrufen</li><li>Mit Heimautomatisierungs-Systemen oder IoT-Geräten interagieren</li><li>Mit RaspberryPi- und Arduino-Bastelprojekten interagieren</li><li>Abläufe auf dem Handy automatiseren</li><li>Dateien hoch- oder herunterladen</li></ul>
 Finde die App auf Github: <a href="https://github.com/Waboodoo/HTTP-Shortcuts">https://github.com/Waboodoo/HTTP-Shortcuts</a>.
 Oder besuche die offizielle Website für Dokumentation: <a href="https://http-shortcuts.rmy.ch">https://http-shortcuts.rmy.ch</a>
-

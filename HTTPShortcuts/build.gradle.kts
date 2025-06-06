@@ -9,6 +9,7 @@ buildscript {
         classpath(libs.bugsnag.gradle)
         classpath(libs.jetbrains.markdown)
         classpath(libs.minifyHtml)
+        classpath(libs.opencsv)
         classpath(libs.unmock)
     }
 }
