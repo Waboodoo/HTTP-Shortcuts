@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.SavedStateHandle
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.models.InstalledBrowser
 import ch.rmy.android.http_shortcuts.components.SelectionField
@@ -157,7 +158,12 @@ private fun UrlField(
         ),
         value = url,
         onValueChange = onUrlChanged,
-        textFilter = { it.replace("\n", "") },
+        textFilter = {
+            it.replace("\n", "")
+                .runIf(it.startsWith("https://https://")) {
+                    removePrefix("https://")
+                }
+        },
         maxLines = 12,
     )
 }
