@@ -33,9 +33,7 @@ import ch.rmy.android.http_shortcuts.components.SelectDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
-import java.lang.AssertionError
 import kotlinx.coroutines.delay
-import okhttp3.internal.toCanonicalHost
 
 @Composable
 fun CertPinningDialogs(
@@ -195,11 +193,7 @@ private val PATTERN_REGEX = """^(\*{1,2}\.)?([A-Za-z0-9_\-]+\.)*[A-Za-z0-9_\-]+$
 private val UNSUPPORTED_PATTERN_SYMBOLS_REGEX = "[\\s,;]".toRegex()
 
 private fun String.isValidPattern(): Boolean =
-    matches(PATTERN_REGEX) && try {
-        toCanonicalHost() != null
-    } catch (_: AssertionError) {
-        false
-    }
+    matches(PATTERN_REGEX)
 
 private fun sanitizePattern(input: String): String =
     input.lowercase()
