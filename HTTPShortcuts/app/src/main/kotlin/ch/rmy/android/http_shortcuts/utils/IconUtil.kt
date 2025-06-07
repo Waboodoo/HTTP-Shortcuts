@@ -73,12 +73,18 @@ object IconUtil {
         null
     }
 
+    fun getRasterizedIconFileName(icon: ShortcutIcon.BuiltInIcon, adaptive: Boolean): String =
+        "icon_${if (adaptive) "a_" else ""}${icon.iconName}.png"
+
+    fun isRasterizedIconFileName(fileName: String) =
+        fileName.startsWith("icon_") && fileName.endsWith(".png")
+
     fun generateRasterizedIconForBuiltInIcon(
         context: Context,
         icon: ShortcutIcon.BuiltInIcon,
         adaptive: Boolean = false,
     ): File {
-        val fileName = "icon${if (adaptive) "_a" else ""}_${icon.iconName}.png"
+        val fileName = getRasterizedIconFileName(icon, adaptive)
         val file = context.getFileStreamPath(fileName)
         if (file.exists()) {
             return file

@@ -2,8 +2,8 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.provider.MediaStore
+import androidx.core.graphics.scale
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
@@ -31,9 +31,9 @@ object IntentUtil {
             val iconUri = shortcut.icon.getIconURI(context, external = true)
             val scaledIcon = MediaStore.Images.Media.getBitmap(context.contentResolver, iconUri)
             val size = IconUtil.getIconSize(context, scaled = false)
-            val unscaledIcon = Bitmap.createScaledBitmap(scaledIcon, size, size, false)
+            val unscaledIcon = scaledIcon.scale(size, size, false)
             addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, unscaledIcon)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             addIntent.putExtra(
                 Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
                 Intent.ShortcutIconResource.fromContext(context.applicationContext, ShortcutIcon.NoIcon.iconResource),

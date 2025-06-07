@@ -56,9 +56,9 @@ import ch.rmy.android.http_shortcuts.plugin.SessionMonitor
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionSchedulerWorker
 import ch.rmy.android.http_shortcuts.scripting.ResultHandler
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
-import ch.rmy.android.http_shortcuts.utils.CacheFilesCleanupWorker
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
+import ch.rmy.android.http_shortcuts.utils.FilesCleanupWorker
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.WorkingDirectoryUtil
 import ch.rmy.android.http_shortcuts.variables.VariableManager
@@ -130,8 +130,8 @@ class Execution(
         get() = entryPoint.extractFileIdsFromVariableValues()
     private val errorFormatter: ErrorFormatter
         get() = entryPoint.errorFormatter()
-    private val cacheFilesCleanupStarter: CacheFilesCleanupWorker.Starter
-        get() = entryPoint.cacheFilesCleanupStarter()
+    private val filesCleanupStarter: FilesCleanupWorker.Starter
+        get() = entryPoint.filesCleanupStarter()
     private val historyCleanUpStarter: HistoryCleanUpWorker.Starter
         get() = entryPoint.historyCleanUpStarter()
     private val executionSchedulerStarter: ExecutionSchedulerWorker.Starter
@@ -177,7 +177,7 @@ class Execution(
         } finally {
             scriptExecutor.destroy()
             tryOrLog {
-                cacheFilesCleanupStarter()
+                filesCleanupStarter()
                 historyCleanUpStarter()
                 executionSchedulerStarter()
             }
@@ -490,7 +490,7 @@ class Execution(
         fun externalRequests(): ExternalRequests
         fun errorFormatter(): ErrorFormatter
         fun historyEventLogger(): HistoryEventLogger
-        fun cacheFilesCleanupStarter(): CacheFilesCleanupWorker.Starter
+        fun filesCleanupStarter(): FilesCleanupWorker.Starter
         fun historyCleanUpStarter(): HistoryCleanUpWorker.Starter
         fun executionSchedulerStarter(): ExecutionSchedulerWorker.Starter
         fun sessionMonitor(): SessionMonitor
