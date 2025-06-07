@@ -149,8 +149,8 @@ constructor(
             },
             localVariablesValues = buildMap {
                 variableValues.forEach { (variableKeyOrId, value) ->
-                    variableKeyOrId.globalVariableId?.let { globalVariableId ->
-                        put(globalVariableId, value)
+                    variableKeyOrId.variableKey?.let { variableKey ->
+                        put(variableKey, value)
                     }
                 }
             },
