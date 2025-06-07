@@ -34,6 +34,9 @@ fun <T> Map<String, T>.getCaseInsensitive(key: String): T? =
 fun <T> T.takeUnlessEmpty(): T? where T : Collection<*> =
     takeUnless { it.isEmpty() }
 
+fun <T> Array<T>.takeUnlessEmpty(): Array<T>? =
+    takeUnless { it.isEmpty() }
+
 @CheckResult
 fun <T, ID : Any> List<T>.swapped(id1: ID, id2: ID, getId: T.() -> ID?): List<T> {
     val oldPosition = indexOfFirstOrNull { it.getId() == id1 } ?: return this

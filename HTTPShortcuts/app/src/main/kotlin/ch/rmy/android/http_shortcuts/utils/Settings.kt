@@ -6,6 +6,7 @@ import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.PreferencesStore
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -111,6 +112,10 @@ constructor(
         get() = getBoolean(KEY_HISTORY_USE_RELATIVE_TIMES)
         set(value) = putBoolean(KEY_HISTORY_USE_RELATIVE_TIMES, value)
 
+    var lastFilesCleanupTime: Instant
+        get() = getLong(KEY_LAST_FILES_CLEANUP_TIME)?.let(Instant::ofEpochMilli) ?: Instant.MIN
+        set(value) = putLong(KEY_LAST_FILES_CLEANUP_TIME, value.toEpochMilli())
+
     var isAwareOfVariablePlaceholders: Boolean
         get() = getBoolean(KEY_AWARE_OF_VARIABLE_PLACEHOLDERS)
         set(value) = putBoolean(KEY_AWARE_OF_VARIABLE_PLACEHOLDERS, value)
@@ -156,6 +161,7 @@ constructor(
         private const val KEY_USER_AGENT = "user_agent"
         private const val KEY_COLOR_THEME = "color_theme"
         private const val KEY_HISTORY_USE_RELATIVE_TIMES = "history_relative_times"
+        private const val KEY_LAST_FILES_CLEANUP_TIME = "last_files_cleanup_time"
         private const val KEY_MALFORMED_JSON_WARNING_PERMANENTLY_HIDDEN = "malformed_json_warning_permanently_hidden"
         private const val KEY_AWARE_OF_RUN_IN_BACKGROUND_LIMITATIONS = "aware_of_run_in_background_limitations"
         private const val KEY_AWARE_OF_RESPONSE_HANDLING = "aware_of_response_handling"
