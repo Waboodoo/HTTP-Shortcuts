@@ -101,7 +101,7 @@ constructor(
                             NoCloseInputStream(stream).copyTo(FileOutputStream(File(context.filesDir, entry.fileName)))
                             shouldRunRealmToRoomMigration = true
                         }
-                        IconUtil.isCustomIconName(entry.fileName) -> {
+                        IconUtil.isCustomIconName(entry.fileName) || entry.fileName.endsWith(".p12") -> {
                             NoCloseInputStream(stream).copyTo(FileOutputStream(File(context.filesDir, entry.fileName)))
                         }
                         else -> Unit
