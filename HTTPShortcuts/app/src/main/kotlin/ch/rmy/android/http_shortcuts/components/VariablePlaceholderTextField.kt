@@ -200,7 +200,6 @@ fun VariablePlaceholderTextField(
     singleLine: Boolean = false,
     textFilter: (String) -> String = { it },
     transformation: AnnotatedString.Builder.(String) -> Unit = {},
-    showVariableButton: Boolean = true,
 ) {
     val viewModel = hiltViewModel<VariablePlaceholderViewModel>()
     val placeholders by viewModel.variablePlaceholders.collectAsStateWithLifecycle()
@@ -280,22 +279,18 @@ fun VariablePlaceholderTextField(
         minLines = minLines,
         singleLine = singleLine,
         placeholder = placeholder,
-        trailingIcon = if (showVariableButton) {
-            {
-                IconButton(
-                    onClick = {
-                        logInfo("VariablePlaceholderTextField", "Variable button clicked")
-                        dialogVisible = true
-                    },
-                ) {
-                    Icon(
-                        Icons.Filled.DataObject,
-                        contentDescription = stringResource(R.string.accessibility_variable_field_button),
-                    )
-                }
+        trailingIcon = {
+            IconButton(
+                onClick = {
+                    logInfo("VariablePlaceholderTextField", "Variable button clicked")
+                    dialogVisible = true
+                },
+            ) {
+                Icon(
+                    Icons.Filled.DataObject,
+                    contentDescription = stringResource(R.string.accessibility_variable_field_button),
+                )
             }
-        } else {
-            null
         },
         visualTransformation = {
             transformVariablePlaceholders(it.text, placeholders, globalVariablePlaceholderStyle, localVariablePlaceholderStyle, transformation)
@@ -320,6 +315,7 @@ fun VariablePlaceholderTextField(
                 }
                 textFieldValue = newTextFieldValue
                 onValueChange(textFieldValue.text)
+                logInfo("VariablePlaceholderTextField", "Variable placeholder inserted")
                 dialogVisible = false
                 focusRequester.requestFocus()
                 keyboard?.show()
