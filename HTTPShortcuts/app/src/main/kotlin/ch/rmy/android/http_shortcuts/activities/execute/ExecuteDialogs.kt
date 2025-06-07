@@ -19,6 +19,7 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -304,17 +305,23 @@ private fun NumberSliderDialog(
     onConfirmed: (Float) -> Unit,
     onDismissed: () -> Unit,
 ) {
-    val decimalPoints = stepSize.toString().split(".").getOrNull(1)?.length ?: 0
+    val decimalPoints = getDecimalPoints(min, max, stepSize)
     var sliderValue by rememberSaveable(key = "number-picker-value") {
         mutableFloatStateOf(((initialValue ?: min) - min) / (max - min) * 10000f)
     }
     val roundedValue = remember(sliderValue, min, max, stepSize, decimalPoints) {
-        val value = (((sliderValue / 10000f) * (max - min) / stepSize).roundToInt() * stepSize + min)
-            .coerceIn(min, max)
+        val value = (((sliderValue / 10000f) * (max - min) / stepSize).roundToInt() * stepSize + min).coerceIn(min, max)
         if (decimalPoints == 0) {
-            value.roundToInt().toString()
+            value.roundToInt().toFloat()
         } else {
-            "%.${decimalPoints}f".format(Locale.US, value)
+            "%.${decimalPoints}f".format(Locale.US, value).toFloat()
+        }
+    }
+    val formattedValue = remember(roundedValue) {
+        if (decimalPoints == 0) {
+            roundedValue.roundToInt().toString()
+        } else {
+            "%.${decimalPoints}f".format(roundedValue)
         }
     }
 
@@ -338,7 +345,7 @@ private fun NumberSliderDialog(
                     )
                 }
                 Text(
-                    prefix + roundedValue.toString().removeSuffix(".0") + suffix,
+                    prefix + formattedValue + suffix,
                     textAlign = TextAlign.Center,
                     fontSize = FontSize.HUGE,
                 )
@@ -355,7 +362,7 @@ private fun NumberSliderDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    onConfirmed(roundedValue.toFloat())
+                    onConfirmed(roundedValue)
                 },
             ) {
                 Text(stringResource(R.string.dialog_ok))
@@ -363,6 +370,12 @@ private fun NumberSliderDialog(
         },
     )
 }
+
+@Stable
+private fun getDecimalPoints(vararg numbers: Float): Int =
+    numbers.maxOf {
+        it.toString().split(".").getOrNull(1)?.trimEnd('0')?.length ?: 0
+    }
 
 @Composable
 private fun RichTextDisplayDialog(
