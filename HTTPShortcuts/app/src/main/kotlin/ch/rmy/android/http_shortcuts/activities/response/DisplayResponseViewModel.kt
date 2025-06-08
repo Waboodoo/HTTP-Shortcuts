@@ -17,6 +17,7 @@ import ch.rmy.android.http_shortcuts.activities.response.models.DetailInfo
 import ch.rmy.android.http_shortcuts.activities.response.models.ResponseData
 import ch.rmy.android.http_shortcuts.activities.response.usecases.GetTableDataUseCase
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
+import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.extensions.readIntoString
 import ch.rmy.android.http_shortcuts.http.HttpStatus
 import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
@@ -24,7 +25,6 @@ import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil.isImage
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
-import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import ch.rmy.android.http_shortcuts.utils.SizeLimitedReader
 import com.google.gson.JsonParseException

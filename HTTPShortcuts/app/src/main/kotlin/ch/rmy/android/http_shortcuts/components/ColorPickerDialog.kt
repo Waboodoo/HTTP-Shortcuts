@@ -38,9 +38,9 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.AndroidViewModel
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.colorIntToHexString
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.hexStringToColorInt
-import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

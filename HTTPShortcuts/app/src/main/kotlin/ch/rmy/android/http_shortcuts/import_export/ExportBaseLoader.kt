@@ -31,6 +31,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType.HTTP
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType.MQTT
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
+import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.extensions.getRequestHeadersForShortcuts
 import ch.rmy.android.http_shortcuts.extensions.getRequestParametersForShortcuts
 import ch.rmy.android.http_shortcuts.extensions.usesUrl
@@ -48,7 +49,6 @@ import ch.rmy.android.http_shortcuts.import_export.models.ExportShortcut
 import ch.rmy.android.http_shortcuts.import_export.models.ExportVariable
 import ch.rmy.android.http_shortcuts.import_export.models.ExportWorkingDirectory
 import ch.rmy.android.http_shortcuts.usecases.GetUsedWorkingDirectoryIdsUseCase
-import ch.rmy.android.http_shortcuts.utils.Settings
 import java.time.Instant
 import javax.inject.Inject
 import kotlin.collections.filter

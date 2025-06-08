@@ -42,6 +42,8 @@ import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.extensions.usesUrl
@@ -56,7 +58,6 @@ import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
 import ch.rmy.android.http_shortcuts.utils.SecondaryLauncherManager
-import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import ch.rmy.curlcommand.CurlConstructor
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -85,6 +86,7 @@ constructor(
     private val widgetsRepository: WidgetsRepository,
     private val curlExporter: CurlExporter,
     private val executionScheduler: ExecutionScheduler,
+    private val userPreferences: UserPreferences,
     private val settings: Settings,
     private val exporter: Exporter,
     private val getUsedGlobalVariableIds: GetUsedGlobalVariableIdsUseCase,
@@ -171,7 +173,7 @@ constructor(
     }
 
     private fun mapShortcuts(): List<ShortcutListItem> {
-        val includeHidden = settings.showHiddenShortcuts
+        val includeHidden = userPreferences.showHiddenShortcuts
 
         val validSectionIds = sections.ids()
         val shortcutsBySectionId = mutableMapOf<SectionId?, MutableList<Shortcut>>()
@@ -236,7 +238,7 @@ constructor(
             executeShortcut(shortcutId)
             skipAction()
         }
-        when (category.shortcutClickBehavior ?: settings.clickBehavior) {
+        when (category.shortcutClickBehavior ?: userPreferences.clickBehavior) {
             ShortcutClickBehavior.RUN -> executeShortcut(shortcutId)
             ShortcutClickBehavior.EDIT -> editShortcut(shortcutId)
             ShortcutClickBehavior.MENU -> showContextMenu(shortcutId)

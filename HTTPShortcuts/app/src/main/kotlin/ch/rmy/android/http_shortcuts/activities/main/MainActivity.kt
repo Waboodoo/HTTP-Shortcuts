@@ -36,14 +36,18 @@ import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
+import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.navigation.NavigationRoot
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs.CONTACT_PAGE
-import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseComposeActivity() {
+
+    @Inject
+    lateinit var settings: Settings
 
     override fun onCreated(savedState: Bundle?) {
         fixTabMinWidth()
@@ -103,7 +107,7 @@ class MainActivity : BaseComposeActivity() {
                     withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onSurface)) {
                         append(message)
                     }
-                    appendLine(Settings(context).deviceId)
+                    appendLine(settings.deviceId)
                     appendLine()
                     appendLine()
                     append("Please ")

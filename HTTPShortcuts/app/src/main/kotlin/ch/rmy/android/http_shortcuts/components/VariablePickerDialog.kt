@@ -24,9 +24,9 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings.getTypeName
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.dtos.GlobalVariablePlaceholder
+import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.ResultHandler
-import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.variables.Variables
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.delay

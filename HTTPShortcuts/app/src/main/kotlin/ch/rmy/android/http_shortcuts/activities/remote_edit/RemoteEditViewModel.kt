@@ -9,12 +9,13 @@ import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
 import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.RemoteEdit.RESULT_CHANGES_IMPORTED
-import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.Validation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -32,6 +33,7 @@ class RemoteEditViewModel
 @Inject
 constructor(
     application: Application,
+    private val userPreferences: UserPreferences,
     private val settings: Settings,
     private val exporter: Exporter,
     private val importer: Importer,
@@ -41,9 +43,9 @@ constructor(
     private var currentJob: Job? = null
 
     private var serverUrl: String
-        get() = settings.remoteEditServerUrl ?: REMOTE_BASE_URL
+        get() = userPreferences.remoteEditServerUrl ?: REMOTE_BASE_URL
         set(value) {
-            settings.remoteEditServerUrl = value
+            userPreferences.remoteEditServerUrl = value
             viewModelScope.launch {
                 updateViewState {
                     copy(hostAddress = humanReadableEditorAddress)
@@ -58,9 +60,9 @@ constructor(
         get() = settings.deviceId
 
     private var password: String
-        get() = settings.remoteEditPassword ?: ""
+        get() = userPreferences.remoteEditPassword ?: ""
         set(value) {
-            settings.remoteEditPassword = value
+            userPreferences.remoteEditPassword = value
             viewModelScope.launch {
                 updateViewState {
                     copy(password = value)

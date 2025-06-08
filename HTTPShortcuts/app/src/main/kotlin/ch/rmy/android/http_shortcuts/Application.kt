@@ -6,10 +6,10 @@ import androidx.work.Configuration
 import ch.rmy.android.framework.extensions.GlobalLogger
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigration
+import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
-import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.HiltAndroidApp
 import java.security.Security
 import javax.inject.Inject
@@ -33,6 +33,9 @@ class Application : android.app.Application(), Configuration.Provider {
 
     @Inject
     lateinit var realmToRoomMigration: RealmToRoomMigration
+
+    @Inject
+    lateinit var userPreferences: UserPreferences
 
     override val workManagerConfiguration: Configuration by lazy {
         Configuration.Builder()
@@ -60,7 +63,7 @@ class Application : android.app.Application(), Configuration.Provider {
             }
         }
 
-        DarkThemeHelper.applyDarkThemeSettings(Settings(context).darkThemeSetting)
+        DarkThemeHelper.applyDarkThemeSettings(userPreferences.darkThemeSetting)
     }
 
     companion object {

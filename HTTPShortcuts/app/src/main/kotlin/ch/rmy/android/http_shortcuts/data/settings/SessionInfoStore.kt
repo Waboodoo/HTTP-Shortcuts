@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.data
+package ch.rmy.android.http_shortcuts.data.settings
 
 import android.content.Context
 import ch.rmy.android.framework.utils.PreferencesStore

@@ -1,7 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.main.usecases
 
+import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
-import ch.rmy.android.http_shortcuts.utils.Settings
 import javax.inject.Inject
 
 class ShouldShowNetworkRestrictionDialogUseCase

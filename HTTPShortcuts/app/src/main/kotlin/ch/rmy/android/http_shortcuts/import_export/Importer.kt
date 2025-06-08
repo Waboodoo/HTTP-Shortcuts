@@ -9,12 +9,12 @@ import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.import_export.ImportRepository
 import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigration
+import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.import_export.ImportExport.JSON_FILE
 import ch.rmy.android.http_shortcuts.import_export.models.ImportExportBase
 import ch.rmy.android.http_shortcuts.utils.GsonUtil.gson
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.NoCloseInputStream
-import ch.rmy.android.http_shortcuts.utils.Settings
 import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
 import java.io.BufferedReader

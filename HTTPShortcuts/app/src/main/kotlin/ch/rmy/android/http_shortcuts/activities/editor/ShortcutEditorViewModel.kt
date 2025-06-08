@@ -17,7 +17,6 @@ import ch.rmy.android.http_shortcuts.activities.editor.usecases.FetchFaviconUseC
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogHandler
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
-import ch.rmy.android.http_shortcuts.data.SessionInfoStore
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderRepository
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
@@ -35,6 +34,8 @@ import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
+import ch.rmy.android.http_shortcuts.data.settings.SessionInfoStore
+import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.extensions.usesResponse
 import ch.rmy.android.http_shortcuts.extensions.usesTriggerShortcuts
 import ch.rmy.android.http_shortcuts.icons.Icons
@@ -44,7 +45,6 @@ import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
 import ch.rmy.android.http_shortcuts.utils.MqttUtil
-import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableHttpUrl
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableUrl
 import ch.rmy.android.http_shortcuts.widget.WidgetManager

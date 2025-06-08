@@ -1,8 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.main.usecases
 
 import ch.rmy.android.http_shortcuts.activities.main.models.RecoveryInfo
-import ch.rmy.android.http_shortcuts.data.SessionInfoStore
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
+import ch.rmy.android.http_shortcuts.data.settings.SessionInfoStore
 import javax.inject.Inject
 
 class ShouldShowRecoveryDialogUseCase

@@ -2,11 +2,18 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.BuildConfig
+import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
 
 object UserAgentProvider {
 
     fun getUserAgent(context: Context): String =
-        Settings(context).userAgent
+        EntryPointAccessors.fromApplication<UserAgentProviderEntryPoint>(context)
+            .userPreferences()
+            .userAgent
             ?: getDefaultUserAgent()
 
     fun getDefaultUserAgent(): String {
@@ -21,5 +28,11 @@ object UserAgentProvider {
             return base
         }
         return "$base ${userAgent.substring(start)}"
+    }
+
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface UserAgentProviderEntryPoint {
+        fun userPreferences(): UserPreferences
     }
 }

@@ -40,6 +40,7 @@ import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
+import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.import_export.ImportMode
@@ -52,7 +53,6 @@ import ch.rmy.android.http_shortcuts.import_export.models.ImportSection
 import ch.rmy.android.http_shortcuts.import_export.models.ImportShortcut
 import ch.rmy.android.http_shortcuts.import_export.models.ImportVariable
 import ch.rmy.android.http_shortcuts.import_export.models.ImportWorkingDirectory
-import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.variables.types.SelectType
 import javax.inject.Inject
 

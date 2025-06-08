@@ -14,9 +14,9 @@ import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
-import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.VersionUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Locale

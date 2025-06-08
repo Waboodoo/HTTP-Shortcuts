@@ -4,13 +4,13 @@ import android.app.Application
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
+import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
-import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +21,7 @@ class TroubleShootingViewModel
 @Inject
 constructor(
     application: Application,
-    private val settings: Settings,
+    private val userPreferences: UserPreferences,
     private val pendingExecutionsRepository: PendingExecutionsRepository,
     private val cookieManager: CookieManager,
     private val appOverlayUtil: AppOverlayUtil,
@@ -31,11 +31,11 @@ constructor(
     override suspend fun initialize(data: Unit) = TroubleShootingViewState(
         privacySectionVisible = Logging.supportsCrashReporting,
         quickSettingsTileButtonVisible = restrictionsUtil.canCreateQuickSettingsTiles(),
-        selectedLanguage = settings.language,
-        selectedDarkModeOption = settings.darkThemeSetting,
-        selectedClickActionOption = settings.clickBehavior,
-        crashReportingAllowed = settings.isCrashReportingAllowed,
-        colorTheme = settings.colorTheme,
+        selectedLanguage = userPreferences.language,
+        selectedDarkModeOption = userPreferences.darkThemeSetting,
+        selectedClickActionOption = userPreferences.clickBehavior,
+        crashReportingAllowed = userPreferences.isCrashReportingAllowed,
+        colorTheme = userPreferences.colorTheme,
         batteryOptimizationButtonVisible = !restrictionsUtil.isIgnoringBatteryOptimizations(),
         allowXiaomiOverlayButtonVisible = restrictionsUtil.hasPermissionEditor(),
     )

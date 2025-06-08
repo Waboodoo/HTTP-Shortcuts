@@ -12,7 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
@@ -88,10 +88,10 @@ fun AppTheme(
 ) {
     val context = LocalContext.current
     val useDarkTheme: Boolean = isSystemInDarkTheme()
-    val settings = remember {
-        EntryPointAccessors.fromApplication<AppThemeEntryPoint>(context).settings()
+    val userPreferences = remember {
+        EntryPointAccessors.fromApplication<AppThemeEntryPoint>(context).userPreferences()
     }
-    val colorTheme by settings.colorThemeFlow.collectAsStateWithLifecycle()
+    val colorTheme by userPreferences.colorThemeFlow.collectAsStateWithLifecycle()
     val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && colorTheme == "dynamic-color"
 
     val colors = when {
@@ -110,5 +110,5 @@ fun AppTheme(
 @EntryPoint
 @InstallIn(SingletonComponent::class)
 interface AppThemeEntryPoint {
-    fun settings(): Settings
+    fun userPreferences(): UserPreferences
 }

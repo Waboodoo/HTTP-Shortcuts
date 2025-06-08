@@ -8,13 +8,13 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRep
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
+import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.extensions.canUseFiles
 import ch.rmy.android.http_shortcuts.extensions.canWaitForConnection
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.BiometricUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
-import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlin.time.Duration

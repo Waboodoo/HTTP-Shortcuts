@@ -7,8 +7,8 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.history.usecases.CopyHistoryItemUseCase
 import ch.rmy.android.http_shortcuts.activities.history.usecases.MapEventsUseCase
 import ch.rmy.android.http_shortcuts.data.domains.history.HistoryRepository
+import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
-import ch.rmy.android.http_shortcuts.utils.Settings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.hours
@@ -23,7 +23,7 @@ constructor(
     private val mapEvents: MapEventsUseCase,
     private val historyCleanUpStarter: HistoryCleanUpWorker.Starter,
     private val copyHistoryItemUseCase: CopyHistoryItemUseCase,
-    private val settings: Settings,
+    private val userPreferences: UserPreferences,
 ) : BaseViewModel<Unit, HistoryViewState>(application) {
 
     override suspend fun initialize(data: Unit): HistoryViewState {
@@ -39,7 +39,7 @@ constructor(
         }
         return HistoryViewState(
             historyItems = emptyList(),
-            useRelativeTimes = settings.useRelativeTimesInHistory,
+            useRelativeTimes = userPreferences.useRelativeTimesInHistory,
         )
     }
 
@@ -61,7 +61,7 @@ constructor(
     fun onTimeModeToggleButtonClicked() = runAction {
         val useRelative = !getCurrentViewState().useRelativeTimes
         updateViewState {
-            settings.useRelativeTimesInHistory = useRelative
+            userPreferences.useRelativeTimesInHistory = useRelative
             copy(useRelativeTimes = useRelative)
         }
         showSnackbar(if (useRelative) R.string.message_history_switched_to_relative_times else R.string.message_history_switched_to_absolute_times)

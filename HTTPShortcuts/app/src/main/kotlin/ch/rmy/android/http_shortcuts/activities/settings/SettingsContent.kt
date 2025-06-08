@@ -28,9 +28,9 @@ import ch.rmy.android.http_shortcuts.components.SettingsGroup
 import ch.rmy.android.http_shortcuts.components.SettingsSelection
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
-import ch.rmy.android.http_shortcuts.utils.Settings.Companion.DARK_THEME_AUTO
-import ch.rmy.android.http_shortcuts.utils.Settings.Companion.DARK_THEME_OFF
-import ch.rmy.android.http_shortcuts.utils.Settings.Companion.DARK_THEME_ON
+import ch.rmy.android.http_shortcuts.data.settings.UserPreferences.Companion.DARK_THEME_AUTO
+import ch.rmy.android.http_shortcuts.data.settings.UserPreferences.Companion.DARK_THEME_OFF
+import ch.rmy.android.http_shortcuts.data.settings.UserPreferences.Companion.DARK_THEME_ON
 
 @Composable
 fun SettingsContent(

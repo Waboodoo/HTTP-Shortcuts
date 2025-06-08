@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.activities.settings.usecases.CreateQuickSet
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.data.domains.app_lock.AppLockRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
+import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
@@ -17,7 +18,6 @@ import ch.rmy.android.http_shortcuts.utils.BiometricUtil
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
-import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -31,7 +31,7 @@ class SettingsViewModel
 @Inject
 constructor(
     application: Application,
-    private val settings: Settings,
+    private val userPreferences: UserPreferences,
     private val appConfigRepository: AppConfigRepository,
     private val appLockRepository: AppLockRepository,
     private val localeHelper: LocaleHelper,
@@ -44,12 +44,12 @@ constructor(
     override suspend fun initialize(data: Unit) = SettingsViewState(
         privacySectionVisible = Logging.supportsCrashReporting,
         quickSettingsTileButtonVisible = restrictionsUtil.canCreateQuickSettingsTiles(),
-        selectedLanguage = settings.language,
-        selectedDarkModeOption = settings.darkThemeSetting,
-        selectedClickActionOption = settings.clickBehavior,
-        crashReportingAllowed = settings.isCrashReportingAllowed,
-        colorTheme = settings.colorTheme,
-        showHiddenShortcuts = settings.showHiddenShortcuts,
+        selectedLanguage = userPreferences.language,
+        selectedDarkModeOption = userPreferences.darkThemeSetting,
+        selectedClickActionOption = userPreferences.clickBehavior,
+        crashReportingAllowed = userPreferences.isCrashReportingAllowed,
+        colorTheme = userPreferences.colorTheme,
+        showHiddenShortcuts = userPreferences.showHiddenShortcuts,
     )
 
     fun onLockButtonClicked() = runAction {
@@ -87,7 +87,7 @@ constructor(
 
     fun onUserAgentChangeConfirmed(newUserAgent: String) = runAction {
         updateDialogState(null)
-        settings.userAgent = newUserAgent
+        userPreferences.userAgent = newUserAgent
         showSnackbar(R.string.message_user_agent_changed)
     }
 
@@ -99,7 +99,7 @@ constructor(
     }
 
     fun onLanguageSelected(language: String?) = runAction {
-        settings.language = language
+        userPreferences.language = language
         updateViewState {
             copy(selectedLanguage = language)
         }
@@ -107,7 +107,7 @@ constructor(
     }
 
     fun onDarkModeOptionSelected(option: String) = runAction {
-        settings.darkThemeSetting = option
+        userPreferences.darkThemeSetting = option
         updateViewState {
             copy(selectedDarkModeOption = option)
         }
@@ -115,7 +115,7 @@ constructor(
     }
 
     fun onClickActionOptionSelected(option: ShortcutClickBehavior) = runAction {
-        settings.clickBehavior = option
+        userPreferences.clickBehavior = option
         updateViewState {
             copy(selectedClickActionOption = option)
         }
@@ -129,7 +129,7 @@ constructor(
     fun onUserAgentButtonClicked() = runAction {
         updateDialogState(
             SettingsDialogState.ChangeUserAgent(
-                oldUserAgent = settings.userAgent ?: "",
+                oldUserAgent = userPreferences.userAgent ?: "",
                 placeholder = UserAgentProvider.getDefaultUserAgent(),
             ),
         )
@@ -147,7 +147,7 @@ constructor(
         updateViewState {
             copy(crashReportingAllowed = allowed)
         }
-        settings.isCrashReportingAllowed = allowed
+        userPreferences.isCrashReportingAllowed = allowed
         if (!allowed) {
             Logging.disableCrashReporting(context)
         }
@@ -164,14 +164,14 @@ constructor(
     }
 
     fun onColorThemeChanged(colorTheme: String) = runAction {
-        settings.colorTheme = colorTheme
+        userPreferences.colorTheme = colorTheme
         updateViewState {
-            copy(colorTheme = settings.colorTheme)
+            copy(colorTheme = userPreferences.colorTheme)
         }
     }
 
     fun onShowHiddenShortcutsChanged(show: Boolean) = runAction {
-        settings.showHiddenShortcuts = show
+        userPreferences.showHiddenShortcuts = show
         updateViewState {
             copy(showHiddenShortcuts = show)
         }

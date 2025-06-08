@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.import_export
 import android.content.Context
 import ch.rmy.android.http_shortcuts.data.domains.import_export.ImportRepository
 import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigration
+import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.import_export.models.ImportBase
 import ch.rmy.android.http_shortcuts.import_export.models.ImportCategory
 import ch.rmy.android.http_shortcuts.import_export.models.ImportCertificatePin
@@ -12,7 +13,6 @@ import ch.rmy.android.http_shortcuts.import_export.models.ImportSection
 import ch.rmy.android.http_shortcuts.import_export.models.ImportShortcut
 import ch.rmy.android.http_shortcuts.import_export.models.ImportVariable
 import ch.rmy.android.http_shortcuts.import_export.models.ImportWorkingDirectory
-import ch.rmy.android.http_shortcuts.utils.Settings
 import ch.rmy.android.testutils.ResourceLoader
 import io.mockk.coEvery
 import io.mockk.coVerify
