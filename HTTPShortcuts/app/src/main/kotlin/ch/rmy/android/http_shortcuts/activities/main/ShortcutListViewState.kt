@@ -7,9 +7,10 @@ import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 @Stable
 data class ShortcutListViewState(
     val dialogState: ShortcutListDialogState? = null,
-    val shortcutListItems: List<ShortcutListItem> = emptyList(),
-    val isAppLocked: Boolean = false,
-    val background: CategoryBackgroundType = CategoryBackgroundType.Default,
+    val shortcutListItems: List<ShortcutListItem>,
+    val isAppLocked: Boolean,
+    val background: CategoryBackgroundType,
+    val showEmptySectionText: Boolean,
 ) {
     val isLongClickingEnabled
         get() = !isAppLocked

@@ -69,6 +69,7 @@ fun ShortcutList(
     useTextShadows: Boolean,
     scale: Float,
     isLongClickingEnabled: Boolean,
+    showEmptySectionText: Boolean,
     onShortcutClicked: (ShortcutId) -> Unit,
     onShortcutLongClicked: (ShortcutId) -> Unit,
 ) {
@@ -114,6 +115,7 @@ fun ShortcutList(
             scale = scale,
             lesserScale = lesserScale,
             isLongClickingEnabled = isLongClickingEnabled,
+            showEmptySectionText = showEmptySectionText,
             onShortcutClicked = onShortcutClicked,
             onShortcutLongClicked = onShortcutLongClicked,
         )
@@ -131,6 +133,7 @@ fun ShortcutList(
             scale = scale,
             lesserScale = lesserScale,
             isLongClickingEnabled = isLongClickingEnabled,
+            showEmptySectionText = showEmptySectionText,
             onShortcutClicked = onShortcutClicked,
             onShortcutLongClicked = onShortcutLongClicked,
         )
@@ -146,6 +149,7 @@ private fun ShortcutLinearList(
     scale: Float,
     lesserScale: Float,
     isLongClickingEnabled: Boolean,
+    showEmptySectionText: Boolean,
     onShortcutClicked: (ShortcutId) -> Unit,
     onShortcutLongClicked: (ShortcutId) -> Unit,
 ) {
@@ -171,13 +175,15 @@ private fun ShortcutLinearList(
                         HorizontalDivider(color = DividerDefaults.color.copy(alpha = 0.3f))
                     }
                 }
-                is ShortcutListItemModel.EmptyState -> item(
-                    key = "empty_${item.id}",
-                    contentType = "empty-state",
-                ) {
-                    EmptySection(
-                        textColor = textColor,
-                    )
+                is ShortcutListItemModel.EmptyState -> if (showEmptySectionText) {
+                    item(
+                        key = "empty_${item.id}",
+                        contentType = "empty-state",
+                    ) {
+                        EmptySection(
+                            textColor = textColor,
+                        )
+                    }
                 }
                 is ShortcutListItemModel.ShortcutItem -> item(
                     key = item.id,
@@ -333,6 +339,7 @@ private fun ShortcutGrid(
     scale: Float,
     lesserScale: Float,
     isLongClickingEnabled: Boolean,
+    showEmptySectionText: Boolean,
     onShortcutClicked: (ShortcutId) -> Unit,
     onShortcutLongClicked: (ShortcutId) -> Unit,
 ) {
@@ -360,16 +367,18 @@ private fun ShortcutGrid(
                         lesserScale = lesserScale,
                     )
                 }
-                is ShortcutListItemModel.EmptyState -> item(
-                    key = "empty_${item.id}",
-                    contentType = "empty-state",
-                    span = {
-                        GridItemSpan(maxLineSpan)
-                    },
-                ) {
-                    EmptySection(
-                        textColor = textColor,
-                    )
+                is ShortcutListItemModel.EmptyState -> if (showEmptySectionText) {
+                    item(
+                        key = "empty_${item.id}",
+                        contentType = "empty-state",
+                        span = {
+                            GridItemSpan(maxLineSpan)
+                        },
+                    ) {
+                        EmptySection(
+                            textColor = textColor,
+                        )
+                    }
                 }
                 is ShortcutListItemModel.ShortcutItem -> item(
                     key = item.id,

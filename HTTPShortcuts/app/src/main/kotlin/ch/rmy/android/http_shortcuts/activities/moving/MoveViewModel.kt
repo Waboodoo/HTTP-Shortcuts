@@ -17,15 +17,21 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.MoveShortcuts.RESULT_SHORTCUTS_MOVED
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.dropWhile
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -37,6 +43,7 @@ constructor(
     private val categoryRepository: CategoryRepository,
     private val sectionRepository: SectionRepository,
     private val shortcutRepository: ShortcutRepository,
+    private val settings: Settings,
 ) : BaseViewModel<Unit, Unit>(application) {
 
     private val _categorySections = MutableStateFlow<List<CategorySectionItem>>(emptyList())
@@ -57,6 +64,18 @@ constructor(
                 _categorySections.value = toCategorySectionItems(categories, sectionsByCategoryId, shortcutsByCategoryId)
             }
                 .collect()
+        }
+
+        viewModelScope.launch(Dispatchers.Default) {
+            _categorySections
+                .dropWhile { it.isEmpty() }
+                .map { categorySections ->
+                    categorySections.count { it.sectionName != null && it.shortcuts.isEmpty() }
+                }
+                .distinctUntilChanged()
+                .drop(1)
+                .first()
+            settings.isAwareOfSectionPopulation = true
         }
     }
 

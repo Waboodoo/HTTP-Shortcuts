@@ -159,6 +159,7 @@ constructor(
             isAppLocked = isAppLocked,
             shortcutListItems = mapShortcuts(),
             background = category.background,
+            showEmptySectionText = !settings.isAwareOfSectionPopulation,
         )
     }
 

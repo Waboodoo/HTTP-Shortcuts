@@ -111,6 +111,7 @@ fun ShortcutListContent(
             useTextShadows = category.background.useTextShadow,
             scale = category.scale,
             isLongClickingEnabled = state.isLongClickingEnabled,
+            showEmptySectionText = state.showEmptySectionText,
             onShortcutClicked = viewModel::onShortcutClicked,
             onShortcutLongClicked = viewModel::onShortcutLongClicked,
         )

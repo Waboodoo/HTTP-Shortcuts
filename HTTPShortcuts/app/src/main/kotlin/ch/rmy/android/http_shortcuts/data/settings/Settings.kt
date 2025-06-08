@@ -76,6 +76,10 @@ constructor(
         get() = getBoolean(KEY_AWARE_OF_SHORTCUT_UNHIDING)
         set(value) = putBoolean(KEY_AWARE_OF_SHORTCUT_UNHIDING, value)
 
+    var isAwareOfSectionPopulation: Boolean
+        get() = getBoolean(KEY_AWARE_OF_SECTION_POPULATION)
+        set(value) = putBoolean(KEY_AWARE_OF_SECTION_POPULATION, value)
+
     companion object {
         private const val KEY_DEVICE_ID = "device_id_v2"
         private const val KEY_FIRST_SEEN_VERSION_CODE = "first_version_code"
@@ -91,6 +95,7 @@ constructor(
         private const val KEY_AWARE_OF_RESPONSE_HANDLING = "aware_of_response_handling"
         private const val KEY_AWARE_OF_SHORTCUT_UNHIDING = "aware_of_shortcut_unhiding"
         private const val KEY_AWARE_OF_VARIABLE_PLACEHOLDERS = "aware_of_variable_placeholders"
+        private const val KEY_AWARE_OF_SECTION_POPULATION = "aware_of_section_population"
 
         // Intentionally excluding I and O to avoid mixing them up with 1 and 0
         private const val DEVICE_ID_CHARACTERS = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789"
