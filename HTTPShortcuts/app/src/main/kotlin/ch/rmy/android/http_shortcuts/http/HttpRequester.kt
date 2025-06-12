@@ -220,9 +220,16 @@ constructor(
                 }
                 if (shortcut.authenticationType == ShortcutAuthenticationType.BASIC) {
                     basicAuth(requestData.username, requestData.password)
-                }
-                if (shortcut.authenticationType == ShortcutAuthenticationType.BEARER) {
+                } else if (shortcut.authenticationType == ShortcutAuthenticationType.BEARER) {
                     bearerAuth(requestData.authToken)
+                } else if (shortcut.authenticationType == null) {
+                    requestData.uri.userInfo
+                        ?.takeUnlessEmpty()
+                        ?.split(':')
+                        ?.takeIf { it.size == 2 }
+                        ?.let { (username, password) ->
+                            basicAuth(username, password)
+                        }
                 }
             }
 
