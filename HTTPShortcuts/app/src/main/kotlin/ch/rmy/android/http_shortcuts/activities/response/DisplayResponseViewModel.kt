@@ -63,6 +63,9 @@ constructor(
         responseData = navigationArgStore.takeArg(data.responseDataId) as ResponseData?
             ?: terminateInitialization()
 
+        logInfo("text_length = ${responseData.text?.length}")
+        logInfo("mime_type = ${responseData.mimeType}")
+
         responseText = if (isImage(responseData.mimeType)) {
             ""
         } else {
