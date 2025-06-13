@@ -35,9 +35,9 @@ import kotlinx.coroutines.delay
 fun ResponseBrowser(
     text: String,
     baseUrl: String?,
+    modifier: Modifier = Modifier,
     javaScriptEnabled: Boolean = false,
     onExternalUrl: (Uri) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     val webView = rememberWebView(key = "response") { context, _ ->
         ResponseWebView(context)

@@ -26,7 +26,7 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
     }
 
     @Suppress("MayBeConstant")
-    val supportsCrashReporting: Boolean = true // false
+    val supportsCrashReporting: Boolean = true
 
     override fun logException(origin: String?, e: Throwable) {
         if (BuildConfig.DEBUG) {

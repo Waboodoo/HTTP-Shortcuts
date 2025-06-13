@@ -395,6 +395,7 @@ fun generateHtmlFromMarkdown(
     val parsedTree = MarkdownParser(flavour).buildMarkdownTreeFromString(changelogMarkdown)
     val html = HtmlGenerator(changelogMarkdown, parsedTree, flavour)
         .generateHtml()
+        .replace("<a name=", "<a id=")
         .removePrefix("<body>")
         .removeSuffix("</body>")
         .processHtml()

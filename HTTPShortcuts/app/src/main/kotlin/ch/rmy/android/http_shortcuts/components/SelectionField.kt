@@ -24,8 +24,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
@@ -114,9 +114,9 @@ fun <T> SelectionField(
                 .width(with(LocalDensity.current) { dropdownWidth.toDp() }),
         ) {
             val sizeOfOneItem = 50.dp
-            val configuration = LocalConfiguration.current
-            val screenHeight = remember {
-                configuration.screenHeightDp.dp
+            val windowInfo = LocalWindowInfo.current
+            val screenHeight = remember(windowInfo) {
+                windowInfo.containerSize.height.dp
             }
             val height by remember(items.size) {
                 mutableStateOf(minOf(sizeOfOneItem * items.size, screenHeight / 2))

@@ -161,7 +161,7 @@ class ExecuteActivity : BaseComposeActivity() {
             if (variableValues.isNotEmpty()) {
                 intent.putExtra(
                     EXTRA_VARIABLE_VALUES,
-                    variableValues.mapKeysTo(HashMap()) { (variableKeyOrId, value) ->
+                    variableValues.mapKeysTo(HashMap()) { (variableKeyOrId, _) ->
                         variableKeyOrId.value
                     },
                 )

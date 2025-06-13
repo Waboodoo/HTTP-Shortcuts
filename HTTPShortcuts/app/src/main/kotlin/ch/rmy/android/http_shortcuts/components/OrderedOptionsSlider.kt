@@ -8,9 +8,9 @@ import androidx.compose.ui.Modifier
 fun <T : Comparable<T>> OrderedOptionsSlider(
     options: Array<T>,
     value: T,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     onValueChange: (T) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     Slider(
         modifier = modifier,
