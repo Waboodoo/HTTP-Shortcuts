@@ -197,5 +197,91 @@ data class Shortcut(
     companion object {
         const val TEMPORARY_ID: ShortcutId = "0"
         const val DEFAULT_CONTENT_TYPE = "text/plain"
+
+        fun createNew(initialIcon: ShortcutIcon, executionType: ShortcutExecutionType, categoryId: CategoryId) =
+            Shortcut(
+                id = TEMPORARY_ID,
+                icon = initialIcon,
+                executionType = executionType,
+                categoryId = categoryId,
+                name = "",
+                description = "",
+                hidden = false,
+                method = HttpMethod.GET,
+                url = when (executionType) {
+                    ShortcutExecutionType.HTTP,
+                    ShortcutExecutionType.BROWSER,
+                    -> "https://"
+                    ShortcutExecutionType.MQTT -> "tcp://"
+                    else -> ""
+                },
+                authenticationType = null,
+                authUsername = "",
+                authPassword = "",
+                authToken = "",
+                sectionId = null,
+                bodyContent = "",
+                timeout = 10_000,
+                isWaitForNetwork = false,
+                securityPolicy = null,
+                launcherShortcut = true,
+                secondaryLauncherShortcut = false,
+                quickSettingsTileShortcut = false,
+                delay = 0,
+                repetitionInterval = null,
+                contentType = "",
+                fileUploadType = null,
+                fileUploadSourceDirectoryId = null,
+                fileUploadSourceFileName = null,
+                fileUploadUseImageEditor = false,
+                confirmationType = null,
+                followRedirects = true,
+                acceptCookies = true,
+                keepConnectionOpen = false,
+                wifiSsid = null,
+                codeOnPrepare = "",
+                codeOnSuccess = "",
+                codeOnFailure = "",
+                targetBrowser = TargetBrowser.Browser(packageName = null),
+                excludeFromHistory = false,
+                clientCertParams = null,
+                requestBodyType = RequestBodyType.CUSTOM_TEXT,
+                ipVersion = null,
+                proxyType = null,
+                proxyHost = null,
+                proxyPort = null,
+                proxyUsername = null,
+                proxyPassword = null,
+                excludeFromFileSharing = false,
+                runInForegroundService = false,
+                wolMacAddress = "",
+                wolPort = if (executionType == ShortcutExecutionType.WAKE_ON_LAN) 9 else 0,
+                wolBroadcastAddress = if (executionType == ShortcutExecutionType.WAKE_ON_LAN) "255.255.255.255" else "",
+                responseActions = if (executionType == ShortcutExecutionType.HTTP) {
+                    listOf(
+                        ResponseDisplayAction.RERUN,
+                        ResponseDisplayAction.SHARE,
+                        ResponseDisplayAction.SAVE,
+                    )
+                        .joinToString(separator = ",") { it.key }
+                } else {
+                    ""
+                },
+                responseUiType = ResponseUiType.WINDOW,
+                responseSuccessOutput = ResponseSuccessOutput.RESPONSE,
+                responseFailureOutput = ResponseFailureOutput.DETAILED,
+                responseContentType = null,
+                responseCharset = null,
+                responseSuccessMessage = "",
+                responseIncludeMetaInfo = false,
+                responseJsonArrayAsTable = true,
+                responseMonospace = false,
+                responseFontSize = null,
+                responseJavaScriptEnabled = false,
+                responseStoreDirectoryId = null,
+                responseStoreFileName = null,
+                responseReplaceFileIfExists = false,
+                sortingOrder = -1,
+            )
     }
 }
