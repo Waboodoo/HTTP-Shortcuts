@@ -1248,11 +1248,11 @@
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
     <string name="instructions_remote_edit_step_1">Enter a password into the field above.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: click the push button -->
-    <string name="instructions_remote_edit_step_2">"Click the <pre>\”Push to Server\”</pre> button".</string>
+    <string name="instructions_remote_edit_step_2">Click the <pre>\”Push to Server\”</pre> button.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">Open %s in a browser on your computer, enter your device ID and password and start editing.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Once you are done editing and have saved your changes click the <pre>\”Pull Changes\”</pre> button below to download your changes back into the app."</string>
+    <string name="instructions_remote_edit_step_4">Once you are done editing and have saved your changes click the <pre>\”Pull Changes\”</pre> button below to download your changes back into the app.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">Push to Server</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1571,7 +1571,7 @@
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <string name="placeholder_empty_category_section_for_moving">no shortcuts in this section</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
-    <string name="label_file_upload_options_allow_image_editing">"Allow cropping and rotating images"</string>
+    <string name="label_file_upload_options_allow_image_editing">Allow cropping and rotating images</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <string name="label_host_verification">Host Verification</string>
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
