@@ -42,6 +42,7 @@ constructor(
             resolvedVariables = resolvedVariables.associate { VariableKeyOrId(it.variableKeyOrId) to it.value },
             requestCode = pendingExecution.requestCode,
             type = PendingExecutionType.parse(pendingExecution.type) ?: PendingExecutionType.UNKNOWN,
+            triggeredAt = pendingExecution.triggeredAt,
         )
 
     fun observePendingExecutions(): Flow<List<PendingExecution>> = queryFlow {
@@ -65,6 +66,8 @@ constructor(
         shortcutId: ShortcutId,
         resolvedVariables: Map<VariableKeyOrId, String> = emptyMap(),
         tryNumber: Int = 0,
+        triggeredAt: Instant,
+        delayUntil: Instant? = null,
         delay: Duration? = null,
         requiresNetwork: Boolean = false,
         recursionDepth: Int = 0,
@@ -75,12 +78,12 @@ constructor(
                 PendingExecutionModel(
                     shortcutId = shortcutId,
                     tryNumber = tryNumber,
-                    delayUntil = calculateInstant(delay),
+                    delayUntil = delayUntil ?: calculateInstant(delay),
                     waitForNetwork = requiresNetwork,
                     recursionDepth = recursionDepth,
                     type = type.name,
                     requestCode = Random.nextInt(10_000),
-                    enqueuedAt = Instant.now(),
+                    triggeredAt = triggeredAt,
                 ),
                 resolvedVariables,
             )

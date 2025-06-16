@@ -3,11 +3,11 @@ package ch.rmy.android.http_shortcuts.scheduling
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
-import android.os.SystemClock
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
+import java.time.Instant
 import javax.inject.Inject
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
 
 class AlarmScheduler
 @Inject
@@ -17,12 +17,15 @@ constructor(
     private val alarmManager: AlarmManager
         get() = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-    fun createAlarm(id: ExecutionId, requestCode: Int, delay: Duration) {
+    fun createAlarm(id: ExecutionId, requestCode: Int, time: Instant, interval: Duration) {
         val pendingIntent = getPendingIntent(id, requestCode)
+        val windowSize = (interval * 0.25)
+            .coerceIn(10.minutes, 20.minutes)
         alarmManager.cancel(pendingIntent)
-        alarmManager.set(
-            AlarmManager.ELAPSED_REALTIME_WAKEUP,
-            SystemClock.elapsedRealtime() + delay.compensateInaccuracy().inWholeMilliseconds,
+        alarmManager.setWindow(
+            AlarmManager.RTC_WAKEUP,
+            time.toEpochMilli() - (windowSize * 0.25).inWholeMilliseconds,
+            windowSize.inWholeMilliseconds,
             pendingIntent,
         )
     }
@@ -40,11 +43,4 @@ constructor(
     fun cancelAlarm(id: ExecutionId, requestCode: Int) {
         alarmManager.cancel(getPendingIntent(id, requestCode))
     }
-
-    private fun Duration.compensateInaccuracy(): Duration =
-        when {
-            this <= 2.hours -> this * 0.85
-            this <= 8.hours -> this * 0.95
-            else -> this
-        }
 }

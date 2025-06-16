@@ -113,6 +113,9 @@ constructor(
                         else -> ShortcutTriggerType.SCHEDULE
                     },
                 )
+                .runIfNotNull(pendingExecution.triggeredAt) {
+                    triggeredAt(it)
+                }
                 .startActivity(context)
         }
     }

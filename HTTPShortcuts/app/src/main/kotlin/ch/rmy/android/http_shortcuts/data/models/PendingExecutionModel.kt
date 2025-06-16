@@ -27,5 +27,5 @@ data class PendingExecutionModel(
     @ColumnInfo(name = "type")
     val type: String,
     @ColumnInfo(name = "enqueued_at")
-    val enqueuedAt: Instant,
+    val triggeredAt: Instant,
 )

@@ -20,6 +20,7 @@ import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
 import ch.rmy.android.http_shortcuts.activities.execute.types.ExecutionTypeFactory
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.CheckWifiSSIDUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.ExtractFileIdsFromVariableValuesUseCase
+import ch.rmy.android.http_shortcuts.activities.execute.usecases.GetNextRepetitionTimeUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.RequestBiometricConfirmationUseCase
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.RequestSimpleConfirmationUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
@@ -67,6 +68,7 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
+import java.time.Instant
 import java.util.concurrent.Executors
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
@@ -138,6 +140,8 @@ class Execution(
         get() = entryPoint.executionSchedulerStarter()
     private val executionTypeFactory: ExecutionTypeFactory
         get() = entryPoint.executionTypeFactory()
+    private val getNextRepetitionTime: GetNextRepetitionTimeUseCase
+        get() = entryPoint.getNextRepetitionTime()
 
     private lateinit var globalCode: String
     private lateinit var category: Category
@@ -230,7 +234,7 @@ class Execution(
             throw CancellationException("Cancelling because shortcut was not found")
         }
 
-        scheduleRepetitionIfNeeded()
+        scheduleRepetitionIfNeeded(params.triggeredAt)
 
         if (shortcut.shouldIncludeInHistory()) {
             historyEventLogger.logEvent(
@@ -263,6 +267,7 @@ class Execution(
                 shortcutId = shortcut.id,
                 resolvedVariables = variableManager.getVariableValues().getAll(),
                 delay = shortcut.delay.milliseconds,
+                triggeredAt = params.triggeredAt,
                 tryNumber = 1,
                 recursionDepth = params.recursionDepth,
                 requiresNetwork = shortcut.isWaitForNetwork,
@@ -335,16 +340,17 @@ class Execution(
         requestParameters = requestParameterRepository.getRequestParametersForShortcut(shortcut)
     }
 
-    private suspend fun scheduleRepetitionIfNeeded() {
+    private suspend fun scheduleRepetitionIfNeeded(triggeredAt: Instant) {
         if (shortcut.isTemporaryShortcut) {
             return
         }
-        val repetitionInterval = shortcut.repetitionInterval ?: return
+        val repetitionInterval = shortcut.repetitionInterval?.minutes ?: return
         pendingExecutionsRepository.removePendingExecutionsForShortcut(shortcut.id)
         pendingExecutionsRepository
             .createPendingExecution(
                 shortcutId = shortcut.id,
-                delay = repetitionInterval.minutes,
+                triggeredAt = params.triggeredAt,
+                delayUntil = getNextRepetitionTime(triggeredAt, repetitionInterval),
                 requiresNetwork = false,
                 type = PendingExecutionType.REPEAT,
             )
@@ -495,5 +501,6 @@ class Execution(
         fun executionSchedulerStarter(): ExecutionSchedulerWorker.Starter
         fun sessionMonitor(): SessionMonitor
         fun executionTypeFactory(): ExecutionTypeFactory
+        fun getNextRepetitionTime(): GetNextRepetitionTimeUseCase
     }
 }

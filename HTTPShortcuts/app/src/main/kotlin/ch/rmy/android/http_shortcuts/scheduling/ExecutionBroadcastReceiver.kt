@@ -23,7 +23,7 @@ class ExecutionBroadcastReceiver : BroadcastReceiver() {
             runBlocking {
                 pendingExecutionsRepository.getPendingExecution(intent.extractId())
             }
-        } catch (e: NoSuchElementException) {
+        } catch (_: NoSuchElementException) {
             alarmScheduler.cancelAlarm(intent.extractId(), intent.extractRequestCode())
             return
         }
