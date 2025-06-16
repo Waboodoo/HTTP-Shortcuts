@@ -10,6 +10,7 @@
 - The dialog for slider variables now displays numbers using the locale-appropriate format
 - Variable placeholders used in the file name field for storing responses are no longer resolved when the shortcut is not actually configured to store responses
 - Certificate files are now correctly restored when importing from a file
+- Headers and request parameters are no longer getting duplicated when importing
 - The recovery dialog will now only show if there actually are unsaved changes
 - The soft keyboard no longer overlap important UI elements, e.g., in the Scripting editor (thanks [@ray2c](https://github.com/ray2c))
 

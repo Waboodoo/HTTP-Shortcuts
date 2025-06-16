@@ -380,6 +380,7 @@ constructor(
     }
 
     private suspend fun Database.importRequestHeaders(shortcutId: ShortcutId, importHeaders: List<ImportHeader>) {
+        val requestHeaderDao = requestHeaderDao()
         val headers = importHeaders.mapIndexed { index, header ->
             RequestHeader(
                 shortcutId = shortcutId,
@@ -388,14 +389,14 @@ constructor(
                 sortingOrder = index,
             )
         }
-
-        val requestHeaderDao = requestHeaderDao()
+        requestHeaderDao.deleteRequestHeaderByShortcutId(shortcutId)
         headers.forEach { header ->
             requestHeaderDao.insertOrUpdateRequestHeader(header)
         }
     }
 
     private suspend fun Database.importRequestParameters(shortcutId: ShortcutId, importParameters: List<ImportParameter>) {
+        val requestParameterDao = requestParameterDao()
         val parameters = importParameters.mapIndexed { index, parameter ->
             val type = parameter.type?.let { ParameterType.parse(it) } ?: ParameterType.STRING
             val fileUploadOptions = parameter.fileUploadOptions?.takeIf { type == ParameterType.FILE }
@@ -417,8 +418,7 @@ constructor(
                 sortingOrder = index,
             )
         }
-
-        val requestParameterDao = requestParameterDao()
+        requestParameterDao.deleteRequestParametersByShortcutId(shortcutId)
         parameters.forEach { parameter ->
             requestParameterDao.insertOrUpdateRequestParameter(parameter)
         }
