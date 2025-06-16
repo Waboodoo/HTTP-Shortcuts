@@ -16,7 +16,7 @@ You can also insert these placeholders into some of your global variables, i.e.,
 
 Placeholders for local variables are shown as orange and are enclosed by 2 sets of curly brackets, whereas those for global variables are shown as purple with only 1 set of curly brackets.
 
-<a name="local-variables"></a>
+<a id="local-variables"></a>
 ## Local Variables
 
 Local variables are implicitly created when a placeholder for them is used and only exist in the context of the shortcut they are used in. You can assign a value to a local variable by using the [setVariable](scripting.md#set-variable) Scripting function or by passing in a value via [deep linking](advanced.md#deep-link), the [executeShortcut](#execute-shortcut) or [enqueueShortcut](#trigger-shortcut) functions, or from [Tasker](advanced.md#integrate-with-tasker).
@@ -29,7 +29,7 @@ As opposed to local variables, global variables exist independently of shortcuts
 
 When creating a global variable, you have to select its type. The type dictates how the variable will receive its value, and what types of values it supports.
 
-<a name="constant"></a>
+<a id="constant"></a>
 ### Static Variable
 
 A *Static Variable* (formerly called *constant*) stores a static value. A typical use case is to store a piece of information that is shared across multiple shortcuts, such as an authentication token or a domain name. This way it can easily be changed.
@@ -38,65 +38,65 @@ It is also possible to change the value of a static variable programmatically be
 
 > The value of a static variable can be at most 40'000 characters long.
 
-<a name="multiple-choice"></a>
+<a id="multiple-choice"></a>
 ### Multiple Choice Selection
 
 The *Multiple Choice Selection* type consists of a list of options, each of which has a value and a label. It triggers a dialog from which one of the options can be selected.
 
 It can also be configured to allow selecting multiple values. The selected values will be concatenated using the specified separator. The order in which they were selected is preserved.
 
-<a name="text-number-password"></a>
+<a id="text-number-password"></a>
 ### Text Input, Number and Password Input
 
 The *Text Input*, *Number Input* and *Password Input* types trigger a prompt dialog where a value can be entered into a text field.
 
-<a name="number-slider"></a>
+<a id="number-slider"></a>
 ### Number Slider
 
 The *Number Slider* type is similar to the *number* type. It allows you to pick a number. However, the number is entered using a horizontal slider, for which you can define the minimum and maximum value, as well as the step size.
 
-<a name="date-time"></a>
+<a id="date-time"></a>
 ### Date Input and Time Input
 
 The *Date Input* and *Time Input* types trigger a prompt dialog where a date or time can be selected. If you just want the current date or time without showing a picker dialog, use the *timestamp* type instead.
 
 The output format can be specified according to Android's [SimpleDateFormat](https://developer.android.com/reference/java/text/SimpleDateFormat.html).
 
-<a name="timestamp"></a>
+<a id="timestamp"></a>
 ### Timestamp
 
 A variable of *timestamp* type will use the current date and/or time as its valid, using the specified format. The output format can be specified according to Android's [SimpleDateFormat](https://developer.android.com/reference/java/text/SimpleDateFormat.html).
 
-<a name="color"></a>
+<a id="color"></a>
 ### Color Input
 
 The *Color Input* type triggers a prompt dialog where a color can be selected. Its value is returned in RGB hex format (e.g., ff0000 for red).
 
-<a name="toggle"></a>
+<a id="toggle"></a>
 ### Toggle
 
 The *Toggle* type consists of a list of values. Every time it is used it resolves to the next value in the list. When the last value is reached it starts again from the first.
 
-<a name="increment"></a>
+<a id="increment"></a>
 ### Incrementing Counter
 
 The *Incrementing Counter* type tracks a and returns a number. Each time the variable is resolved, the number is increased by 1.
 
-<a name="uuid"></a>
+<a id="uuid"></a>
 ### UUID
 
 The *uuid* type will generate a random UUID (*U*niversally *U*nique *Id*entifier, version 4) and use that as its value.
 
 > Please note that the UUID is generated once per shortcut execution, not once per variable use, meaning that if you use the same variable multiple times within one shortcut it will have the same value in all places. If you need multiple UUIDs for a single shortcut execution you'll need to use multiple different variables.
 
-<a name="clipboard-content"></a>
+<a id="clipboard-content"></a>
 ### Clipboard Content
 
 Variables of type *clipboard content* will resolve to the latest textual value that was copied to the clipboard. If there is no text in the clipboard or the last thing that was copied does not have a textual representation, the variable will have an empty value.
 
 > This variable type can not be used when executing shortcuts in the background, as the Android OS (starting from Android 10) does not allow apps in the background to access the clipboard. In this case the variable will just assume an empty string as its value.
 
-<a name="sharing"></a>
+<a id="sharing"></a>
 ## Sharing Values into Variables
 In the advanced settings section of a global variable you can mark it as *Allow Receiving Value from Share Dialog*. This makes it possible to provide the value of this variable through Android's *Share*-dialog, e.g., by sharing a URL or text snippet from another app. The variable will then assume the shared value during the execution of a shortcut.
 

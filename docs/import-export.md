@@ -10,12 +10,12 @@ You can also export a single shortcut by long pressing on it and selecting the "
 
 When exporting shortcuts, the app will automatically also export all of the global variables that are used by those shortcuts. If these global variables contain sensitive or device-specific information, you can configure them such that their value will be excluded from the export. This option can be found in the global variable editor.
 
-<a name="remote-edit"></a>
+<a id="remote-edit"></a>
 ## Remote Editing
 
 On the Import / Export Screen you'll also find the "Edit on Computer" option. It allows you to temporarily upload all of your shortcuts to a remote server and then conveniently edit them from a computer via the [Web Editor](https://http-shortcuts.rmy.ch/editor), and then download the changes back into the app. This way you can avoid doing tedious amounts of typing on your phone.
 
-<a name="import-deep-linking"></a>
+<a id="import-deep-linking"></a>
 ## Hosting Templates for Easy Importing
 If you want to share your shortcuts as a template or as part of a tutorial, you can allow others to easily import them by uploading the exported zip file somewhere on your website (or any publicly accessible host) and then constructing a deep-link URL using the following format:
 

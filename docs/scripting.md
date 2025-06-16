@@ -1,4 +1,4 @@
-<a name="scripting"></a>
+<a id="scripting"></a>
 # Scripting
 
 When a shortcut is executed it is possible to run JavaScript code snippets before or after execution. You'll find the corresponding settings in the shortcut editor in the *"Scripting"* section.
@@ -14,7 +14,7 @@ Using these code blocks, there are a number of things you can achieve. See the [
 
 **Pro-tip:** Writing code on a phone is tedious. If you're intending to write longer blocks of code, I recommend you check out the [Web Editor](https://http-shortcuts.rmy.ch/editor/) for more convenient configuration of your shortcuts.
 
-<a name="handle-response"></a>
+<a id="handle-response"></a>
 ## Handling the Response
 
 You can access the response of your HTTP request via the `response` object.
@@ -35,7 +35,7 @@ If you know that the response body is in JSON format, you can use `JSON.parse()`
 const myJson = JSON.parse(response.body);
 ```
 
-<a name="response-headers"></a>
+<a id="response-headers"></a>
 ### Getting Response Headers
 
 The response headers are available as an object (key-value-pairs) via `response.headers`. Each key corresponds to the name of the header and its value is an array of strings of all the headers with that name.
@@ -48,7 +48,7 @@ const contentType = response.headers['Content-Type'][0];
 const contentLength = response.getHeader('Content-Length');
 ```
 
-<a name="response-status"></a>
+<a id="response-status"></a>
 ### Getting the Status Code
 
 The response's HTTP status code is available as an integer via `response.statusCode`.
@@ -57,7 +57,7 @@ The response's HTTP status code is available as an integer via `response.statusC
 const isNotFound = response.statusCode == 404;
 ```
 
-<a name="response-cookies"></a>
+<a id="response-cookies"></a>
 ### Getting Cookies
 
 The response's cookies are available as an object (key-value-pairs) via `response.cookies`. Each key corresponds to the name of the cookie and its value is an array of strings of all the cookies with that name.
@@ -72,19 +72,19 @@ const myCookieValue2 = response.getCookie('MyCookieName2');
 
 If you need more details about a cookie (e.g. its expiration timestamp) you can use `response.headers['Set-Cookie']` to read out the cookie headers directly.
 
-<a name="response-errors"></a>
+<a id="response-errors"></a>
 ### Errors
 
 Please note that the `response` object will be `null` if there was no response from the server, i.e., in case of a network error. In that case, you can inspect the `networkError` to get a string describing the error.
 
-<a name="variables"></a>
+<a id="variables"></a>
 ## Reading & Writing Variables
 
 In the app you can create [local and global variables](variables) to be used in your shortcuts, e.g. to dynamically insert values for a URL, a query parameter or part of the request body. You'll find the global variable editor via the "Global Variables" option in the menu in the app's main screen.
 
 This section explains how you can interact with these variables from a script.
 
-<a name="get-variable"></a>
+<a id="get-variable"></a>
 ### getVariable
 
 You can access the value of any of your local or global variables via the `getVariable()` function. Simply pass the variable's name or ID as a parameter.
@@ -95,7 +95,7 @@ const myValue = getVariable('myVariable');
 
 > Please note that the returned value will always be a string. If the variable does not exist an error is raised.
 
-<a name="set-variable"></a>
+<a id="set-variable"></a>
 ### setVariable
 
 You can store a value as a string into a variable via the `setVariable()` function. Simply pass the variable's name or ID as the first parameter and the value you want to store as the second parameter.
@@ -114,7 +114,7 @@ As an optional third parameter you can pass a boolean. If it is `true`, the new 
 setVariable('myVariable', 'Hello World', true); // only changes the stored value, but variable will still resolve normally if used afterwards
 ```
 
-<a name="shortcut-info"></a>
+<a id="shortcut-info"></a>
 ## Getting Information about the Current Shortcut
 
 You can easily retrieve information about the current shortcut and the category it belongs to from the `shortcut` object. This includes the shortcut's ID, name, description and whether it is hidden, as well as its category's ID and name.
@@ -129,7 +129,7 @@ shortcut.category.name;
 ```
 
 
-<a name="files"></a>
+<a id="files"></a>
 ## Files
 
 ### Selected Files
@@ -181,7 +181,7 @@ The `orientation` field is an integer with the following meaning:
 - 8 means a rotation of 270 degrees, and the image is mirrored
 
 
-<a name="read-write-files"></a>
+<a id="read-write-files"></a>
 ### Reading and Writing Files
 
 If you want to read from an existing file or write data to a file, you first need to mount the directory which contains the file. This can be done via the ["(Mounted) Directories screen](directories.md). Once you have a mounted directory, you can use the `getDirectory()` function to get a handle to it. Pass the name of the mounted directory as the first parameter. This handle then lets you read and write files, using the `readFile()`, `writeFile()` and `appendFile()` functions.
@@ -205,12 +205,12 @@ dir.writeFile('someFile.txt', 'New file content');
 dir.appendFile('someFile.txt', [72, 101, 108, 108, 111]);
 ```
 
-<a name="user-interaction"></a>
+<a id="user-interaction"></a>
 ## User Interaction
 
 This section describes how you can interact with the user (i.e., you), during the execution of a shortcut, e.g., to ask for additional input, to confirm an action or to display information.
 
-<a name="show-toast"></a>
+<a id="show-toast"></a>
 ### showToast
 
 With this function you can display a toast message on the screen. Simply pass your message as the first parameter.
@@ -221,7 +221,7 @@ showToast('Hello World');
 
 > Please note that no toast will be displayed if the string you pass is empty. Also note that a toast will show at most two lines of text, so it is best suited for short messages.
 
-<a name="show-dialog"></a>
+<a id="show-dialog"></a>
 ### showDialog
 
 With this function you can display a dialog window on the screen. Simply pass your message as the first parameter, and optionally a title for the dialog as the second parameter. The dialog will be displayed until its *"OK"* button is pressed.
@@ -245,7 +245,7 @@ if (dialogResult.result == 'button1') {
 }
 ```
 
-<a name="show-window"></a>
+<a id="show-window"></a>
 ### showWindow
 
 With this function you can display arbitrary text in a fullscreen window, by passing in an object with the configuration for the screen.
@@ -268,7 +268,7 @@ showWindow({
 });
 ```
 
-<a name="prompt-confirm"></a>
+<a id="prompt-confirm"></a>
 ### prompt, confirm
 
 Similar to how JavaScript works in a browser, you can use `prompt()` and `confirm()` to ask the user for input as part of a workflow.
@@ -289,7 +289,7 @@ const myName = prompt('What is your name?');
 prompt("What's your story?", "I was born in...", { multiline: true });
 ```
 
-<a name="prompt-number"></a>
+<a id="prompt-number"></a>
 ### promptNumber
 
 You can use the `promptNumber`function to open an input dialog that asks for a number. The entered number will be the return value, or `null` if the dialog is cancelled. If the entered value is not a valid number `NaN` will be returned.
@@ -300,7 +300,7 @@ As the first parameter pass the text to display on the dialog. This must not be 
 const myNumber = promptNumber('What is your favorite number?', 42);
 ```
 
-<a name="prompt-password"></a>
+<a id="prompt-password"></a>
 ### promptPassword
 
 The `promptPassword()` function opens a text input dialog that asks for a password. The entered password is then returned, or `null` if the dialog is cancelled. Pass a message in as the first parameter, and optionally a second parameter to prefill the text input field.
@@ -310,7 +310,7 @@ const myPassword = promptPassword("Please enter your password:");
 const myPassword2 = promptPassword("Please enter your password:", "secret123");
 ```
 
-<a name="prompt-color"></a>
+<a id="prompt-color"></a>
 ### promptColor
 
 The `promptColor()` function opens a color picker. The selected color is returned in hex RGB (e.g. FF0000 for red), or `null` if the picker is cancelled. As an optional first parameter you can pass in the pre-selected color. As an optional second parameter you can pass a title for the picker dialog.
@@ -323,7 +323,7 @@ const myColor3 = promptColor(null, "Pick a color");
 
 If you need the red, green and blue components separately, check out [this example](scripting-examples.md#split-color).
 
-<a name="prompt-date"></a>
+<a id="prompt-date"></a>
 ### promptDate
 
 The `promptDate()` function opens a date picker. The selected date is returned, or `null` if the picker is cancelled. As the first parameter, you may pass the date format that should be used for the return value (defaults to yyyy-MM-dd), and as a second parameter you may pass the preselected date (in yyyy-MM-dd format). As an optional third parameter you can pass a title for the picker dialog.
@@ -334,7 +334,7 @@ const myDate2 = promptDate("yyyy-MM-dd", "2050-12-31");
 const myDate3 = promptDate(null, null, "Pick a date");
 ```
 
-<a name="prompt-time"></a>
+<a id="prompt-time"></a>
 ### promptTime
 
 The `promptTime()` function opens a time picker. The selected time is returned, or `null` if the picker is cancelled. As the first parameter, you may pass the time format that should be used for the return value (defaults to HH:mm), and as a second parameter you may pass the preselected time (in HH:mm format). As an optional third parameter you can pass a title for the picker dialog.
@@ -345,7 +345,7 @@ const myTime2 = promptTime("HH/mm", "13:37");
 const myTime3 = promptTime(null, null, "Pick a time");
 ```
 
-<a name="show-selection"></a>
+<a id="show-selection"></a>
 ### showSelection
 
 This function allows you to display a multiple-choice dialog from which an option can be picked. The first parameter must be either an object consisting of key-value string pairs, or a list of strings. As an optional second parameter you may pass a title for the dialog. The function returns the selected value as a string, or `null` if the dialog is closed without a selection (e.g. by pressing the back button).
@@ -362,7 +362,7 @@ const favoriteColor = showSelection({
 }, 'Pick your favorite color');
 ```
 
-<a name="show-notification"></a>
+<a id="show-notification"></a>
 ### showNotification
 
 The `showNotification()` function allows you to display text in a notification. As the first parameter, pass the title of the notification and as an optional second parameter you can pass a message.
@@ -374,7 +374,7 @@ showNotification('Hello World');
 showNotification('Hello World', 'This is a notification');
 ```
 
-<a name="play-sound"></a>
+<a id="play-sound"></a>
 ### playSound
 
 With this function you can play a notification sound. If no argument is passed, it will use the system's default notification sound. You can use the Code Snippet picker inside the app to select a different sound.
@@ -383,7 +383,7 @@ With this function you can play a notification sound. If no argument is passed, 
 playSound();
 ```
 
-<a name="speak"></a>
+<a id="speak"></a>
 ### speak
 
 With this function you can have a piece of text be read out loud, using the device's text-to-speech engine. Simply pass the text you want to read as the first parameter, and optionally a language identifier as the second parameter.
@@ -398,7 +398,7 @@ speak('Dieser Text ist deutsch', 'de');
 
 > This function may not be supported by all devices.
 
-<a name="vibrate"></a>
+<a id="vibrate"></a>
 ### vibrate
 
 With this function you can cause the device to vibrate (if supported). As an optional first parameter, you can pass the number of the vibration pattern you want to use, and as an optional second parameter you can pass a boolean denoting whether the execution should wait for the vibration pattern to finish or not.
@@ -413,7 +413,7 @@ Vibration patterns:
 vibrate(2, true);
 ```
 
-<a name="scan-barcode"></a>
+<a id="scan-barcode"></a>
 ### scanBarcode
 
 The `scanBarcode` function lets you scan a barcode (e.g. a QR code). On success the function returns the raw data of the barcode as a string. If the scanner is cancelled, `null` is returned instead.
@@ -424,12 +424,12 @@ const code = scanBarcode();
 
 The scanning itself is done by an external app, specifically either [QR Droid](https://play.google.com/store/apps/details?id=la.droid.qr), [Barcode Scanner](https://play.google.com/store/apps/details?id=com.google.zxing.client.android) or [Binary Eye](https://play.google.com/store/apps/details?id=de.markusfisch.android.binaryeye), which means you need to have that app installed for this function to work. This also means that the HTTP Shortcuts app itself will not need access to your camera directly.
 
-<a name="modify-shortcuts"></a>
+<a id="modify-shortcuts"></a>
 ## Modify Shortcuts
 
 This section lists all the built-in functions which you can use to modify existing shortcuts programmatically.
 
-<a name="rename-shortcut"></a>
+<a id="rename-shortcut"></a>
 ### renameShortcut
 
 With this function you can rename a shortcut. Simply pass the name or ID of a shortcut as the first parameter and the new name as the second one. You can also pass an empty string as the first parameter to target the current shortcut.
@@ -438,7 +438,7 @@ With this function you can rename a shortcut. Simply pass the name or ID of a sh
 renameShortcut('Old Name', 'New Name');
 ```
 
-<a name="change-description"></a>
+<a id="change-description"></a>
 ### changeDescription
 
 With this function you can change the description of a shortcut. Simply pass the name or ID of a shortcut as the first parameter and the new description as the second one. You can also pass an empty string as the first parameter to target the current shortcut.
@@ -449,7 +449,7 @@ changeDescription('My Shortcut', 'New Description');
 
 > A shortcut's description is only visible in categories that use a list layout, not in those that use a grid layout.
 
-<a name="change-icon"></a>
+<a id="change-icon"></a>
 ### changeIcon
 
 With this function you can change the icon of a shortcut. Simply pass the name or ID of a shortcut as the first parameter and the name of the icon as the second one. You can also pass an empty string as the first parameter to target the current shortcut. Use the *"Add Code Snippet"* button in the app to select an icon. Alternatively, you can check the [source code](https://github.com/Waboodoo/HTTP-Shortcuts/blob/develop/HTTPShortcuts/app/src/main/kotlin/ch/rmy/android/http_shortcuts/icons/Icons.kt) for all the available icons names (look for the prefix "R.drawable.", everything after it is a valid icon name).
@@ -458,7 +458,7 @@ With this function you can change the icon of a shortcut. Simply pass the name o
 changeIcon('My Shortcut', 'bitsies_lightbulb');
 ```
 
-<a name="set-shortcut-hidden"></a>
+<a id="set-shortcut-hidden"></a>
 ### setShortcutHidden
 
 This function allows you to show or hide individual shortcuts inside the app. Simply pass the name or ID of a shortcut as the first parameter and `true` or `false` as the second parameter. You can also pass an empty string as the first parameter to target the current shortcut.
@@ -469,7 +469,7 @@ setShortcutHidden('My Shortcut', true);
 
 > You can make hidden shortcuts visible via an option on the Settings screen.
 
-<a name="set-category-hidden"></a>
+<a id="set-category-hidden"></a>
 ### setCategoryHidden
 
 This function allows you to show or hide categories. Simply pass the name or ID of a category as the first parameter and `true` or `false` as the second parameter.
@@ -480,12 +480,12 @@ setCategoryHidden('My Category', true);
 
 > There must always be at least one non-hidden category. If you try to hide the last visible category with this, nothing will happen.
 
-<a name="control-flow"></a>
+<a id="control-flow"></a>
 ## Control Flow
 
 This section lists some of the options you have to control the execution flow of your script.
 
-<a name="wait"></a>
+<a id="wait"></a>
 ### wait
 
 The `wait` function allows you to delay execution by waiting (also called sleeping) for a specified number of milliseconds before continuing with the execution of the script.
@@ -496,7 +496,7 @@ wait(3000); // delay execution by 3 seconds
 
 > Please note that this is a blocking action, meaning that you will not be able to interact with the app during the waiting time.
 
-<a name="abort"></a>
+<a id="abort"></a>
 ### abort, abortAll and abortAndTreatAsFailure
 
 With the `abort` function you can abort the execution of the shortcut.
@@ -520,12 +520,12 @@ if (responseBody.status === 'error') {
 }
 ```
 
-<a name="text-processing"></a>
+<a id="text-processing"></a>
 ## Text Processing
 
 This section lists some of the built-in text processing functions.
 
-<a name="base-64"></a>
+<a id="base-64"></a>
 ### base64encode and base64decode
 
 With the `base64encode` and `base64decode` functions you can encode or decode a given string using Base64.
@@ -537,7 +537,7 @@ const decoded = base64decode(encoded);
 
 The return type of `base64encode` is a string, the returned value of `base64decode` is a `Uint8Array`. You can use `toString()` to convert it to a string if needed.
 
-<a name="html-encode"></a>
+<a id="html-encode"></a>
 ### htmlEncode and htmlDecode
 
 The `htmlEncode` function allows you to encode text such that it is HTML-safe, i.e., certain characters will be escaped such that the string can safely be embedded in HTML.
@@ -551,7 +551,7 @@ htmlDecode("&lt;b&gt;Hello&lt;/b&gt"); // returns <b>Hello</b>
 htmlDecode("<b>Hello</b>"); // returns Hello
 ```
 
-<a name="hash"></a>
+<a id="hash"></a>
 ### hash
 
 With the `hash` function you can compute the hash of a given string. The first parameter denotes the hashing algorithm to use (supported algorithms are `MD5`, `SHA-1`, `SHA-256`, and `SHA-512`) and the second one the string to hash. The return value is in hex format.
@@ -561,7 +561,7 @@ const hashed = hash('SHA-256', 'Hello world');
 // the value of `hashed` is '64ec88ca00b268e5ba1a35678a1b5316d212f4f366b2477232534a8aeca37f3c' now.
 ```
 
-<a name="hmac"></a>
+<a id="hmac"></a>
 ### hmac
 
 With the `hmac` function you can compute the [HMAC](https://en.wikipedia.org/wiki/HMAC) of a given message. The first parameter denotes the hashing algorithm to use (supported algorithms are `MD5`, `SHA-1`, `SHA-256`, and `SHA-512`), the second one the secret key, and the third one the message (as a string or byte array) for which to compute the HMAC. The returned value is a `Uint8Array`.
@@ -572,7 +572,7 @@ const myHMACasHex = toHexString(myHMAC);
 // the value of `myHMACasHex` is '34d60d40202ae16ae3dd70c9715b1900f9fe30cf10af483e74ea8f6bef18bd09' now.
 ```
 
-<a name="parse-html"></a>
+<a id="parse-html"></a>
 ### parseHTML
 
 The `parseHTML` function allows to parse an HTML string into an object representation. Each HTML element is converted into a JS object with attributes `name`, `attributes`, `children`, and `text` (if any), as is showcased by the following example:
@@ -680,7 +680,7 @@ In case you're not familiar with CSS selectors, here's some examples:
 - `[id="my-id"]` would select all elements which have the `id="my-id"` attribute
 - `ul.my-class > li` would select all `<li>` elements which are direct child elements of `<ul>` elements which have the "my-class" class
 
-<a name="parse-xml"></a>
+<a id="parse-xml"></a>
 ### parseXML
 
 The `parseXML` function allows to parse an XML string into an object representation. Each XML element is converted into a JS object with attributes `name`, `attributes`, `children`, and `text` (if any), as is showcased by the following example:
@@ -720,7 +720,7 @@ const childBarAttribute = result.children[0].attributes.bar; // will be "123"
 const childText = result.children[0].text; // will be "Hello World"
 ```
 
-<a name="to-string-to-hex-string"></a>
+<a id="to-string-to-hex-string"></a>
 ### toString and toHexString
 
 The functions `toString` and `toHexString` can be used to convert a `Uint8Array` to a string, which is particularly useful in combination with the `hmac` and `base64decode` functions.
@@ -731,10 +731,10 @@ const result = toString(myValue);
 // the value of `result` is 'Hello' now.
 ```
 
-<a name="network"></a>
+<a id="network"></a>
 ## Network
 
-<a name="get-wifi-ip-address"></a>
+<a id="get-wifi-ip-address"></a>
 ### getWifiIPAddress
 
 With this function you can retrieve the IPv4 address of the device on the current Wi-Fi. It will return `null` if there is currently no Wi-Fi connection.
@@ -743,7 +743,7 @@ With this function you can retrieve the IPv4 address of the device on the curren
 const myIP = getWifiIPAddress();
 ```
 
-<a name="get-wifi-ssid"></a>
+<a id="get-wifi-ssid"></a>
 ### getWifiSSID
 
 With this function you can retrieve the SSID (i.e., the name) of the Wi-Fi network the device is currently connected to. It will return `null` if there is currently no Wi-Fi connection or if the SSID can not be determined.
@@ -754,7 +754,7 @@ const mySSID = getWifiSSID();
 
 For this function to work, location services need to be enabled and the app needs to be granted the permission to access the device's location. This is a technical limitation imposed by the Android OS. See also the [Permissions](permissions.md) page for details.
 
-<a name="wol"></a>
+<a id="wol"></a>
 ### Wake-on-LAN
 
 You can use the `wakeOnLan` function to send a magic packet to turn on another device on your network. The first parameter has to be the MAC-address of the device. As the optional second parameter, you can pass the network/broadcast address to be used, and as the third parameter you can define the port.
@@ -765,7 +765,7 @@ wakeOnLan('01-23-45-67-89-ab');
 wakeOnLan('01-23-45-67-89-ab', '255.255.255.255', 9);
 ```
 
-<a name="send-http-request"></a>
+<a id="send-http-request"></a>
 ### Send HTTP request
 
 The `sendHttpRequest` function allows you to send a simple HTTP request. The first parameter is the URL, the second (optional) parameter provides an object with additional options. The following fields are supported in the options object:
@@ -804,7 +804,7 @@ if (result.status == "success") {
 }
 ```
 
-<a name="send-mqtt-message"></a>
+<a id="send-mqtt-message"></a>
 ### Send MQTT message
 
 The `sendMqttMessages` function allows you to connect to an MQTT broker, send (i.e. publish) one or more messages to it, and then disconnect again. The first parameter is the URI of the server/broker, the second (optional) parameter provides options for the connection (e.g. username and password) and the third parameter is a list of all the messages that should be sent.
@@ -822,7 +822,7 @@ sendMQTTMessages(
 
 > Please note that this does not provide any particular quality of service guarantees, and that it is not possible to subscribe to topics this way, meaning you can't receive any MQTT messages.
 
-<a name="send-tcp-packet"></a>
+<a id="send-tcp-packet"></a>
 ### Send TCP Packet
 
 You can use the `sendTCPPacket` function to send a TCP packet to another device on your network. This can be useful when interacting with devices that have a telnet interface.
@@ -848,7 +848,7 @@ const reply = sendTCPPacket('hello', '192.168.1.42', 1337, {
 });
 ```
 
-<a name="send-udp-packet"></a>
+<a id="send-udp-packet"></a>
 ### Send UDP Packet
 
 You can use the `sendUDPPacket` function to send a UDP packet to another device on your network. Pass the packet data as the first parameter (either as a string, `Uint8Array` or array of numbers denoting bytes), the target host's name or IP address as the second parameter and its UDP port as the third parameter.
@@ -859,12 +859,12 @@ sendUDPPacket('hello', '192.168.1.42', 1337);
 sendUDPPacket([0x68, 0x65, 0x6C, 0x6C, 0x6F], 'example.com', 4242);
 ```
 
-<a name="misc"></a>
+<a id="misc"></a>
 ## Miscellaneous Built-In Functions
 
 This section lists all of the built-in functions which do not fall into a specific category.
 
-<a name="trigger-shortcut"></a>
+<a id="trigger-shortcut"></a>
 ### enqueueShortcut
 
 With this function you can enqueue a shortcut to execute after the current one (or after the last enqueued one if there are already shortcuts scheduled to execute). Simply pass the name or ID of a shortcut as the first parameter.
@@ -894,7 +894,7 @@ Note that the shortcut will only be executed once the current shortcut (and all 
 
 Also note that this might lead to infinite loops if the enqueued shortcut also enqueues shortcuts. To reduce the impact of this in case it happens accidentally, the app will delay every 10th execution by 5 seconds so that you have enough time to stop the execution manually. If you're really sure that you *do* want an infinite loop, you can work around this protection by setting a delay of at least 500 milliseconds.
 
-<a name="execute-shortcut"></a>
+<a id="execute-shortcut"></a>
 ### executeShortcut
 
 This function allows you to execute another shortcut within the current one and receive its result. Pass the name or ID of a shortcut as the first parameter.
@@ -938,7 +938,7 @@ Please note the following technical limitations:
 - A shortcut that is executed this way shares the resolution of variable values with the original, i.e., calling shortcut. This means that if you have e.g. a multiple choice variable that is used in both of the shortcuts, you will be prompted to select a value only once (not twice) and the selected value will be used for both shortcut executions.
 - There is a maximum recursion depth of 3, meaning that you can not arbitrarily nest shortcut executions within shortcut executions. This is to prevent infinite recursion and stack overflows. If you want to chain more shortcuts together, consider using [enqueueShortcut()](#trigger-shortcut).
 
-<a name="set-result"></a>
+<a id="set-result"></a>
 #### Passing data back
 If you wish to pass data from the called shortcut to the calling shortcut, you can either do this by storing values into global variables (using [setVariable()](#set-variable)) in the called shortcut and then reading those values in the calling shortcut (using [getVariable()](#get-variable)), or you can use the `setResult` function. The latter accepts a single string argument. This string can then be accessed by the calling shortcut on the object returned by the `executeShortcut` function via its `result` key.
 
@@ -975,7 +975,7 @@ enqueueShortcut('My Other Shortcut', {
 
 This mechanism works both for the `enqueueShortcut` and the `executeShortcut` function.
 
-<a name="log-event"></a>
+<a id="log-event"></a>
 ### Log Event
 
 The `logEvent` function allows you to log custom events into the Event History (which you'll find in the app's main menu). This can be used for debugging and troubleshooting. Pass an event title as the first parameter and optionally a message with details as the second parameter.
@@ -988,7 +988,7 @@ logEvent('My title', 'My message');
 logEvent('My complex event', {'foo': 'bar'});
 ```
 
-<a name="uuid-v4"></a>
+<a id="uuid-v4"></a>
 ### Generate UUID
 
 You can use the `uuidv4()` function to generate a random UUID (**U**niversal **U**nique **Id**entifier, version 4). The returned value is of type string.
@@ -997,7 +997,7 @@ You can use the `uuidv4()` function to generate a random UUID (**U**niversal **U
 const myUUID = uuidv4();
 ```
 
-<a name="get-clipboard-content"></a>
+<a id="get-clipboard-content"></a>
 ### Get Clipboard Content
 
 The `getClipboardContent` function allows you to query the latest item in your device's clipboard, i.e., the last piece of text that you copied from somewhere. If there is nothing in the clipboard or if its content is not text (e.g., if you copied an image instead), this function will return null instead.
@@ -1008,7 +1008,7 @@ const clipboardValue = getClipboardContent();
 
 > This function can not be used when executing shortcuts in the background, as the Android OS (starting from Android 10) does not allow apps in the background to access the clipboard. In this case the function will return `null`.
 
-<a name="copy-to-clipboard"></a>
+<a id="copy-to-clipboard"></a>
 ### Copy to the Clipboard
 
 With the `copyToClipboard` function you can copy a value to the device's clipboard. Simply pass the value you want to copy as the first parameter.
@@ -1019,7 +1019,7 @@ copyToClipboard('Hello World');
 
 > This function can not be used when executing shortcuts in the background, as the Android OS (starting from Android 10) does not allow apps in the background to access the clipboard.
 
-<a name="share-text"></a>
+<a id="share-text"></a>
 ### Share Text with Another App
 
 You can use the `shareText` function to share a piece of text with another app. Simply pass the value you want to share as the first parameter. This will open the system's share picker where you can select which app to share into.
@@ -1030,7 +1030,7 @@ shareText('Hello World');
 
 > Please note that the text that is shared can be at most 200000 characters long, otherwise it will be truncated.
 
-<a name="open-app"></a>
+<a id="open-app"></a>
 ### Open another App
 
 The `openApp` function allows you to open another app via its package name. If no app with the given package name is installed, an error is displayed.
@@ -1039,7 +1039,7 @@ The `openApp` function allows you to open another app via its package name. If n
 openApp('com.github.android'); // Opens the GitHub app
 ```
 
-<a name="open-url"></a>
+<a id="open-url"></a>
 ### Open a URL
 
 This function allows you to open a URL in another app. This typically opens a browser, but it can also be used to invoke a deep-link into another app. An error message is displayed if the URL is malformed or if there is no app installed that can handle the URL.
@@ -1057,7 +1057,7 @@ openUrl('https://example.com', 'org.mozilla.firefox');
 openUrl('https://example.com', 'custom-tabs(org.mozilla.firefox)');
 ```
 
-<a name="send-intent"></a>
+<a id="send-intent"></a>
 ### Send Intent
 With this function you can send an [Intent](https://developer.android.com/guide/components/intents-filters). It takes an object as its only parameter, where the object should have one or more of the following properties:
 
@@ -1128,7 +1128,7 @@ sendIntent({
 
 The above example is equivalent to calling `openApp('com.android.chrome')`.
 
-<a name="trigger-tasker-task"></a>
+<a id="trigger-tasker-task"></a>
 ### Trigger Tasker Task
 If you have [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) installed on your device, you can use this function to trigger one of its tasks. Pass in the name of the task as the first parameter, and optionally an object containing some key-value pairs to pass along as local variables as the second argument.
 
@@ -1143,7 +1143,7 @@ triggerTaskerTask('mytask', {
 
 > Please note that you may need to manually go to the app's permissions and allow the app to run Tasker tasks for this to work, and also you will need to allow this in Tasker's settings under "Preferences > Misc > Allow External Access".
 
-<a name="run-termux-command"></a>
+<a id="run-termux-command"></a>
 ### Run Termux Command
 If you have [Termux](https://github.com/termux/termux-app) installed, you can use the `runTermuxCommand` function to run a command in a Termux terminal.
 
@@ -1166,7 +1166,7 @@ runTermuxCommand({
 
 > It is currently not possible to pass data from Termux back to the app. As a workaround, you might be able to write data into a file and then later have the app read from that same file.
 
-<a name="set-wireguard-tunnel-state"></a>
+<a id="set-wireguard-tunnel-state"></a>
 ### Set Wireguard Tunnel State
 If you have [Wireguard](https://play.google.com/store/apps/details?id=com.wireguard.android) installed, you can use the `setWireguardTunnelState` function to enable or disable a tunnel. Pass in the name of the tunnel as the first parameter, and as the second parameter pass `true` to enable the tunnel or `false` to disable it.
 
@@ -1177,7 +1177,7 @@ setWireguardTunnelState('my-tunnel', true);
 > For this to work, you will need to grant the app a special permission, and you will need to enable the "Allow remote control apps" setting in the Wireguard app. You might also need to exclude the Wireguard app from battery optimizations and allow it to run unrestricted.
 
 
-<a name="get-location"></a>
+<a id="get-location"></a>
 ### Get Location
 If you want to query your device's physical location, you can do so via the `getLocation()` function. It can take up to 20 seconds for the location request to complete, and it might not always be possible to determine the location.
 

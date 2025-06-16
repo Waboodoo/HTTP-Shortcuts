@@ -18,7 +18,7 @@ Unfortunately, this icon overlay is added by the Android system itself, not the 
 
 Alternatively, you can use the *"Customizable Widget"* from your home screen's widgets menu. This widget looks a bit different from a regular shortcut and offers a few customization options.
 
-<a name="trigger-from-other-app"></a>
+<a id="trigger-from-other-app"></a>
 ## Can I trigger a shortcut from another app?
 
 Most automation apps offer some way to trigger a shortcut directly. If that isn't an option you can instead trigger a shortcut by sending a *broadcast intent* with the following parameters:
@@ -95,21 +95,21 @@ This will essentially override the resolution order, as the Scripting forces the
 
 If you go to the app's Settings screen, you'll find an option in the "Appearance" section which lets you configure whether hidden shortcuts should be visible or not. By default, hidden shortcuts will not be shown, but if you change this setting, the shortcuts will instead be visible but appear partially transparent.
 
-<a name="debugging"></a>
+<a id="debugging"></a>
 ## Something's not working with my requests. Can I get more detailed information for debugging?
 The easiest way to get more details about the shortcuts that you're executing in the app is by going to the *Event History* screen. You will find it in the app's main menu under *Troubleshooting*. The Event History shows all recently triggered shortcuts, the HTTP requests that were sent out and the HTTP responses that were received, as well as all the (network) errors that have occurred.
 
 Another way to get more information about the request and the response is by opening the *Response Handling* section when editing a shortcut and changing the *Display Type* to *Fullscreen Window* and then ticking the *Show Meta Information* checkbox. This will display the full response in a window, along with all response headers and some additional meta information.
 
-<a name="infinite-loops"></a>
+<a id="infinite-loops"></a>
 ## I accidentally created an infinite loop of shortcuts triggering other shortcuts, how do I stop it?
 First, force stop the app. Then, assuming you're viewing this page in a browser on the same device where you have the app installed, click this link: <a href="http-shortcuts://cancel-executions">CANCEL ALL EXECUTIONS</a>. The link will open the app but in a safe mode, where all scheduled shortcut executions are cancelled.
 
-<a name="permissions"></a>
+<a id="permissions"></a>
 ## What does the app need all of these permissions for?
 See the [Permissions](permissions.md) page for details.
 
-<a name="app-size"></a>
+<a id="app-size"></a>
 ## Why is the app so big? Why does it use so much storage space?
 The app contains two large-ish binaries (i.e., 3rd party software components), one for its internal database (Realm) and one for the built-in JavaScript engine for the [Scripting](scripting.md) feature. Each of those comes in different variants, one for each processor architecture type that the app supports. These are the main contributors to the app's size, and their size is outside of my control.
 

@@ -1,4 +1,4 @@
-<a name="examples"></a>
+<a id="examples"></a>
 # Scripting Examples
 
 This page lists some examples for typical use-cases of the code execution feature.
@@ -69,7 +69,7 @@ This example shows how you can have the received response be read out loud (usin
 ```js
 speak(response.body);
 ```
-<a name="split-color"></a>
+<a id="split-color"></a>
 ### Show a color picker and split the result into R, G, and B
 
 This example shows how you can open a color picker dialog, then separate the selected color into its red, green and blue components and convert them to a number from 0 to 255. It assumes that you created variables "red", "green" and "blue", into which the result is stored such that you can use it in your shortcut, e.g., in query parameters within the URL.
