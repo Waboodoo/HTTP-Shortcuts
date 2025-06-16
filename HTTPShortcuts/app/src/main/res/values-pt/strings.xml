@@ -94,23 +94,17 @@
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">sem atalhos ainda</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
-    <string name="empty_state_shortcuts_instructions">Um atalho permite-lhe enviar um único pedido HTTP, opcionalmente processando e exibindo a resposta.
-
-Clique no botão + para começar, ou consulte a [Documentação].</string>
+    <string name="empty_state_shortcuts_instructions">Um atalho permite-lhe enviar um único pedido HTTP, opcionalmente processando e exibindo a resposta.\n\nClique no botão + para começar, ou consulte a [Documentação].</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <string name="empty_state_no_shortcuts_in_category">sem atalhos ainda nesta categoria</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Ainda não acrescentou nenhum atalho para activar.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts_instructions">Adicione todos os atalhos a esta lista que pretende accionar como parte deste multi-corte.
-
-Clique no botão + para começar.</string>
+    <string name="empty_state_trigger_shortcuts_instructions">Adicione todos os atalhos a esta lista que pretende accionar como parte deste multi-corte.\n\nClique no botão + para começar.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">Ainda não tem quaisquer variáveis.</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">As variáveis permitem-lhe inserir dinamicamente valores nos seus atalhos, por exemplo, no URL, cabeçalhos ou corpo do pedido. Procure o botão \"{}\" ao editar um atalho para encontrar todos os locais onde um espaço reservado a uma variável pode ser inserido.
-
-Clique no botão + para adicionar uma variável.</string>
+    <string name="empty_state_variables_instructions">As variáveis permitem-lhe inserir dinamicamente valores nos seus atalhos, por exemplo, no URL, cabeçalhos ou corpo do pedido. Procure o botão \"{}\" ao editar um atalho para encontrar todos os locais onde um espaço reservado a uma variável pode ser inserido.\n\nClique no botão + para adicionar uma variável.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">Apagar este atalho</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
@@ -257,8 +251,7 @@ Clique no botão + para adicionar uma variável.</string>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">A exportação...</string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">A importação de atalhos falhou:
-%s</string>
+    <string name="import_failed_with_reason">A importação de atalhos falhou:\n%s</string>
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">Exportar atalhos falhou: %s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
@@ -418,9 +411,7 @@ Clique no botão + para adicionar uma variável.</string>
     <!-- Page title, shown in editor when creating a new category -->
     <string name="title_create_category">Criar Categoria</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">Eliminar esta categoria?
-
-Todos os atalhos contidos no interior serão eliminados.</string>
+    <string name="confirm_delete_category_message">Eliminar esta categoria?\n\nTodos os atalhos contidos no interior serão eliminados.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">Categoria oculta.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
@@ -618,11 +609,7 @@ No entanto, ainda não tem nenhuma variável configurada.</string>
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Enviar para...</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">Não foram encontrados atalhos adequados.
-
-Para utilizar esta funcionalidade é necessário ter pelo menos um atalho que utilize uma variável que permita receber o texto partilhado como seu valor, ou um atalho que tenha um parâmetro de ficheiro ou que utilize um ficheiro como seu corpo de pedido.
-
-Clique no botão de ajuda na secção variável para mais informações.</string>
+    <string name="error_not_suitable_shortcuts">Não foram encontrados atalhos adequados.\n\nPara utilizar esta funcionalidade é necessário ter pelo menos um atalho que utilize uma variável que permita receber o texto partilhado como seu valor, ou um atalho que tenha um parâmetro de ficheiro ou que utilize um ficheiro como seu corpo de pedido.\n\nClique no botão de ajuda na secção variável para mais informações.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Permitir o recebimento de valor do diálogo de acções</string>
     <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
@@ -859,6 +846,7 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <string name="action_type_trigger_tasker_title">Tarefa Tasker do gatilho</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
     <string name="action_type_set_wireguard_tunnel_state_title">Ativar ou desativar Túnel do Wireguard</string>
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Obter Localização Actual</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -1008,11 +996,9 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">Erro</string>
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">Erro de JavaScript:
-%s</string>
+    <string name="error_js_pattern">Erro de JavaScript:\n%s</string>
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">Erro de JavaScript (na linha %1$d):
-%2$s</string>
+    <string name="error_js_pattern_with_line_number">Erro de JavaScript (na linha %1$d):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_read">Erro variável: tentou obter valor de variável que não existe: %s</string>
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
@@ -1120,9 +1106,7 @@ Clique no botão de ajuda na secção variável para mais informações.</string
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <string name="action_quick_settings_tile_trigger">Atalho de gatilho</string>
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile">Ainda não tem atalhos que possam ser accionados através do azulejo Quick Settings.
-
-Pode activar esta funcionalidade editando um atalho e seleccionando a caixa de verificação \"%1$s\" encontrada em \"%2$s\".</string>
+    <string name="instructions_quick_settings_tile">Ainda não tem atalhos que possam ser accionados através do azulejo Quick Settings.\n\nPode activar esta funcionalidade editando um atalho e seleccionando a caixa de verificação \"%1$s\" encontrada em \"%2$s\".</string>
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">Código de estado</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
@@ -1239,7 +1223,7 @@ Pode activar esta funcionalidade editando um atalho e seleccionando a caixa de v
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">Abra %s num browser no seu computador, introduza o seu ID de dispositivo e palavra-passe e comece a editar.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Uma vez terminada a edição e guardadas as suas alterações clique no botão &lt;pre&gt;\"Pull Changes\"&lt;/pre&gt; abaixo para descarregar as suas alterações de volta para a aplicação."</string>
+    <string name="instructions_remote_edit_step_4">Uma vez terminada a edição e guardadas as suas alterações clique no botão &lt;pre&gt;\"Pull Changes\"&lt;/pre&gt; abaixo para descarregar as suas alterações de volta para a aplicação.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">Enviar para o Servidor</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1281,9 +1265,7 @@ Pode activar esta funcionalidade editando um atalho e seleccionando a caixa de v
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
     <string name="error_shortcut_not_found_for_deep_link">Atalho \"%s\" não encontrado</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
-    <string name="instructions_deep_linking">Para utilizar a funcionalidade de ligação profunda, certifique-se de utilizar um URL válido do formulário:
-
-%s</string>
+    <string name="instructions_deep_linking">Para utilizar a funcionalidade de ligação profunda, certifique-se de utilizar um URL válido do formulário:\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">Atalho eliminado</string>
     <!-- Label: Wi-Fi network selection config in shortcut settings -->
@@ -1353,9 +1335,7 @@ Pode activar esta funcionalidade editando um atalho e seleccionando a caixa de v
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
     <string name="confirm_delete_custom_icon_message">Eliminar este ícone?</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
-    <string name="confirm_delete_custom_icon_still_in_use_message">Este ícone ainda está a ser utilizado em pelo menos 1 atalho. A sua eliminação pode causar problemas.
-
-Eliminar de qualquer maneira?</string>
+    <string name="confirm_delete_custom_icon_still_in_use_message">Este ícone ainda está a ser utilizado em pelo menos 1 atalho. A sua eliminação pode causar problemas.\n\nEliminar de qualquer maneira?</string>
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
     <string name="button_delete_all_unused_icons">Eliminar ícones não utilizados</string>
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
@@ -1444,8 +1424,7 @@ Eliminar de qualquer maneira?</string>
     <!-- Empty state, shown in event history when there are no recent events -->
     <string name="empty_state_history">Nenhum evento recente</string>
     <!-- Empty state instructions, shown in event history when there are no events -->
-    <string name="empty_state_history_instructions">Verá aqui detalhes sobre atalhos recentemente activados, que pode utilizar para a resolução de problemas.
-Pode excluir atalhos individuais de aparecerem aqui através de uma opção encontrada no ecrã \"%s\".</string>
+    <string name="empty_state_history_instructions">Verá aqui detalhes sobre atalhos recentemente activados, que pode utilizar para a resolução de problemas.\nPode excluir atalhos individuais de aparecerem aqui através de uma opção encontrada no ecrã \"%s\".</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
     <string name="label_exclude_from_history">Excluir da história do evento</string>
     <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
@@ -1491,9 +1470,7 @@ Pode excluir atalhos individuais de aparecerem aqui através de uma opção enco
     <!-- Generic dialog button: Configure (e.g. some settings) -->
     <string name="dialog_configure">Configurar</string>
     <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_plugin_dialog_configure_app_overlay">Para poder acionar um atalho a partir de outra aplicação, primeiro é necessário permitir que a aplicação Atalhos HTTP desenhe sobre outras aplicações.
-
-Toque no botão \"%s\" abaixo para configurar isso agora.</string>
+    <string name="message_plugin_dialog_configure_app_overlay">Para poder acionar um atalho a partir de outra aplicação, primeiro é necessário permitir que a aplicação Atalhos HTTP desenhe sobre outras aplicações.\n\nToque no botão \"%s\" abaixo para configurar isso agora.</string>
     <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
     <string name="title_activity_secondary_launcher_trigger">Atalho de acionamento</string>
     <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
@@ -1501,11 +1478,7 @@ Toque no botão \"%s\" abaixo para configurar isso agora.</string>
     <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
     <string name="label_run_repeatedly">Executar repetidamente</string>
     <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_run_repeatedly_dialog_configure_app_overlay">Para que um atalho possa ser executado repetidamente de forma fiável, é necessário, em primeiro lugar, permitir que a aplicação Atalhos HTTP se sobreponha a outras aplicações.
-
-Toque no botão \"%s\" abaixo para configurar isso agora.
-
-Também pode ser necessário excluir a aplicação das Optimizações da bateria. Pode encontrar isto nas definições da aplicação.</string>
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">Para que um atalho possa ser executado repetidamente de forma fiável, é necessário, em primeiro lugar, permitir que a aplicação Atalhos HTTP se sobreponha a outras aplicações.\n\nToque no botão \"%s\" abaixo para configurar isso agora.\n\nTambém pode ser necessário excluir a aplicação das Optimizações da bateria. Pode encontrar isto nas definições da aplicação.</string>
     <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
     <string name="instructions_repetitions">O tempo de repetição não é exato, podendo variar alguns minutos, uma vez que está sujeito às optimizações de energia do Android. Tenha em atenção que a utilização desta funcionalidade pode aumentar significativamente o consumo de bateria da aplicação.</string>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
@@ -1537,9 +1510,7 @@ Também pode ser necessário excluir a aplicação das Optimizações da bateria
     <!-- Title of editor for configuring certificate pinning -->
     <string name="title_certificate_pinning">Pinagem de certificados</string>
     <!-- Empty state instructions for certificate pinning screen -->
-    <string name="empty_state_certificate_pinning_instructions">Se precisar de ter mais certezas de que os seus pedidos HTTP são enviados através de uma ligação segura, pode ativar a fixação de certificados para anfitriões específicos, adicionando aqui a impressão digital SHA-1 ou SHA-256 do respetivo certificado.
-
-Para certificados auto-assinados, verifique a secção \"%s\" do atalho.</string>
+    <string name="empty_state_certificate_pinning_instructions">Se precisar de ter mais certezas de que os seus pedidos HTTP são enviados através de uma ligação segura, pode ativar a fixação de certificados para anfitriões específicos, adicionando aqui a impressão digital SHA-1 ou SHA-256 do respetivo certificado.\n\nPara certificados auto-assinados, verifique a secção \"%s\" do atalho.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
     <string name="message_certificate_pinning_deleted">Impressão digital do certificado eliminada.</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
@@ -1571,7 +1542,7 @@ Para certificados auto-assinados, verifique a secção \"%s\" do atalho.</string
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <string name="placeholder_empty_category_section_for_moving">sem atalhos nesta seção</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
-    <string name="label_file_upload_options_allow_image_editing">"Permitir o corte e a rotação de imagens"</string>
+    <string name="label_file_upload_options_allow_image_editing">Permitir o corte e a rotação de imagens</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <string name="label_host_verification">Verificação do anfitrião</string>
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
@@ -1696,8 +1667,10 @@ Para certificados auto-assinados, verifique a secção \"%s\" do atalho.</string
     <string name="font_size_huge">Gigante</string>
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
     <string name="wireguard_setup_instructions">Certifique-se também de ativar a configuração \"Permitir aplicativos de controle remoto\" no aplicativo WireGuard.</string>
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
     <string name="wireguard_permission_not_granted">A permissão do Wireguard não foi concedida.</string>
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">ID do dispositivo</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
@@ -1851,4 +1824,5 @@ Para certificados auto-assinados, verifique a secção \"%s\" do atalho.</string
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
 </resources>

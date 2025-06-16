@@ -100,9 +100,7 @@
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Вы еще не добавили ни одного ярлыка для запуска.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts_instructions">Добавьте в этот список все ярлыки, которые вы хотите задействовать как часть этого мульти-ярлыка.
-
-Нажмите кнопку +, чтобы начать работу.</string>
+    <string name="empty_state_trigger_shortcuts_instructions">Добавьте в этот список все ярлыки, которые вы хотите задействовать как часть этого мульти-ярлыка.\n\nНажмите кнопку +, чтобы начать работу.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">Переменных пока нет</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
@@ -249,8 +247,7 @@
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Выполняется экспорт…</string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">Не удалось импортировать ярлыки:
-%s</string>
+    <string name="import_failed_with_reason">Не удалось импортировать ярлыки:\n%s</string>
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">Не удалось экспортировать ярлыки: %s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
@@ -420,9 +417,7 @@
     <!-- Page title, shown in editor when creating a new category -->
     <string name="title_create_category">Создать категорию</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">Удалить эту категорию?
-
-Все находящиеся в ней ярлыки будут удалены.</string>
+    <string name="confirm_delete_category_message">Удалить эту категорию?\n\nВсе находящиеся в ней ярлыки будут удалены.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">Категория скрыта</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
@@ -612,10 +607,7 @@
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Отправка в…</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">Не найдено подходящих ярлыков.
-
-Чтобы использовать эту функцию, у вас должен быть хотя бы один ярлык, использующий переменную, которая позволяет «Поделиться…». 
-Для получения дополнительной информации см. раздел переменных в Документации.</string>
+    <string name="error_not_suitable_shortcuts">Не найдено подходящих ярлыков.\n\nЧтобы использовать эту функцию, у вас должен быть хотя бы один ярлык, использующий переменную, которая позволяет «Поделиться…». \n\nДля получения дополнительной информации см. раздел переменных в Документации.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Разрешить \"Делиться…\"</string>
     <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
@@ -854,6 +846,7 @@
     <string name="action_type_trigger_tasker_title">Запуск задачи Tasker</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
     <string name="action_type_set_wireguard_tunnel_state_title">Включение или отключение туннеля Wireguard</string>
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Получить текущее местоположение</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -1010,8 +1003,7 @@
     <string name="error_js_pattern">Ошибка JavaScript: 
 %s</string>
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">Ошибка JavaScript (в строке %1$d):
-%2$s</string>
+    <string name="error_js_pattern_with_line_number">Ошибка JavaScript (в строке %1$d):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_read">Ошибка переменной: попытка получить значение несуществующей переменной: %s</string>
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
@@ -1240,7 +1232,7 @@
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">Откройте %s в браузере на своем компьютере, введите идентификатор устройства и пароль и начните редактирование.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"После того, как вы закончите редактирование и сохраните изменения, нажмите кнопку &lt;pre&gt;«Извлечь изменения»&lt;/pre&gt; ниже, чтобы загрузить изменения обратно в приложение."</string>
+    <string name="instructions_remote_edit_step_4">После того, как вы закончите редактирование и сохраните изменения, нажмите кнопку &lt;pre&gt;«Извлечь изменения»&lt;/pre&gt; ниже, чтобы загрузить изменения обратно в приложение.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">Отправить на сервер</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1282,9 +1274,7 @@
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
     <string name="error_shortcut_not_found_for_deep_link">Ярлык \"%s\" не найден</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
-    <string name="instructions_deep_linking">Чтобы использовать функцию глубокой ссылки, убедитесь, что вы используете действительный URL-адрес в форме:
-
-%s</string>
+    <string name="instructions_deep_linking">Чтобы использовать функцию глубокой ссылки, убедитесь, что вы используете действительный URL-адрес в форме:\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">Удален ярлык</string>
     <!-- Label: Wi-Fi network selection config in shortcut settings -->
@@ -1354,9 +1344,7 @@
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
     <string name="confirm_delete_custom_icon_message">Удалить этот значок?</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
-    <string name="confirm_delete_custom_icon_still_in_use_message">Этот значок все еще используется по крайней мере в 1 ярлыке. Его удаление может вызвать проблемы.
-
-Удалить в любом случае?</string>
+    <string name="confirm_delete_custom_icon_still_in_use_message">Этот значок все еще используется по крайней мере в 1 ярлыке. Его удаление может вызвать проблемы.\n\nУдалить в любом случае?</string>
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
     <string name="button_delete_all_unused_icons">Удаление неиспользуемых значков</string>
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
@@ -1445,7 +1433,7 @@
     <!-- Empty state, shown in event history when there are no recent events -->
     <string name="empty_state_history">Никаких недавних событий</string>
     <!-- Empty state instructions, shown in event history when there are no events -->
-    <string name="empty_state_history_instructions">Здесь отображаются сведения о недавно сработавших ярлыках, которые можно использовать для устранения неполадок.
+    <string name="empty_state_history_instructions">Здесь отображаются сведения о недавно сработавших ярлыках, которые можно использовать для устранения неполадок.\n
 Вы можете исключить отображение отдельных ярлыков с помощью опции, расположенной на экране \"%s\".</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
     <string name="label_exclude_from_history">Исключить из истории событий</string>
@@ -1502,11 +1490,7 @@
     <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
     <string name="label_run_repeatedly">Выполняйте несколько раз</string>
     <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_run_repeatedly_dialog_configure_app_overlay">Чтобы ярлык можно было надежно запускать многократно, сначала нужно разрешить приложению HTTP Shortcuts рисовать поверх других приложений.
-
-Нажмите кнопку \"%s\" ниже, чтобы настроить это сейчас.
-
-Вам также может понадобиться исключить приложение из Оптимизации батареи. Вы можете найти это в настройках приложения.</string>
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">Чтобы ярлык можно было надежно запускать многократно, сначала нужно разрешить приложению HTTP Shortcuts рисовать поверх других приложений.\n\nНажмите кнопку \"%s\" ниже, чтобы настроить это сейчас.\n\nВам также может понадобиться исключить приложение из Оптимизации батареи. Вы можете найти это в настройках приложения.</string>
     <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
     <string name="instructions_repetitions">Время повтора не является точным, оно может отличаться на несколько минут, поскольку зависит от оптимизации энергопотребления Android. Обратите внимание, что использование этой функции может значительно увеличить расход заряда батареи приложением.</string>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
@@ -1574,7 +1558,7 @@
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <string name="placeholder_empty_category_section_for_moving">в этом разделе нет ярлыков</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
-    <string name="label_file_upload_options_allow_image_editing">"Позволяет обрезать и поворачивать изображение"</string>
+    <string name="label_file_upload_options_allow_image_editing">Позволяет обрезать и поворачивать изображение</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <string name="label_host_verification">Проверка хоста</string>
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
@@ -1701,8 +1685,10 @@
     <string name="font_size_huge">Огромный</string>
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
     <string name="wireguard_setup_instructions">Убедитесь, что в приложении Wireguard также включена опция «Разрешать приложения для дистанционного управления».</string>
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
     <string name="wireguard_permission_not_granted">Разрешение Wireguard не предоставлено.</string>
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">ID устройства</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
@@ -1858,4 +1844,5 @@
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
 </resources>

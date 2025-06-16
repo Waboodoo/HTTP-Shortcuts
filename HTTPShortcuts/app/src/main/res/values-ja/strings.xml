@@ -95,17 +95,13 @@
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">ショートカットがありません</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
-    <string name="empty_state_shortcuts_instructions">ショートカットは、任意のレスポンス処理や表示を含め、１行のHTTPリクエストを送信できます。
-
-開始するには[＋]ボタンをクリックするか、「アプリについて」項目のドキュメントを確認してください。</string>
+    <string name="empty_state_shortcuts_instructions">ショートカットは、任意のレスポンス処理や表示を含め、１行のHTTPリクエストを送信できます。\n\n開始するには[＋]ボタンをクリックするか、「アプリについて」項目のドキュメントを確認してください。</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <string name="empty_state_no_shortcuts_in_category">このカテゴリーにショートカットなし</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">トリガーするショートカットが追加されていません。</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts_instructions">このマルチショートカットとしてトリガー実行する全てのショートカットをこのリストに追加してください。
-
-［＋］ボタンをクリックして既存のトリガーから選択して追加します</string>
+    <string name="empty_state_trigger_shortcuts_instructions">このマルチショートカットとしてトリガー実行する全てのショートカットをこのリストに追加してください。\n\n［＋］ボタンをクリックして既存のトリガーから選択して追加します</string>
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">変数がありません</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
@@ -629,11 +625,7 @@
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">送信…</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">適切なショートカットが見つかりません。
-
-この機能を使用するには、少なくとも次のショートカットが必要です：「共有…」を許可されている変数を使用しているショートカット、またはファイルパラメーター付きのショートカット、もしくはリクエスト ボディにファイルを含んでいるショートカット。
-
-詳細については、変数セクションの［ヘルプ］ボタンをクリックしてください。</string>
+    <string name="error_not_suitable_shortcuts">適切なショートカットが見つかりません。\n\nこの機能を使用するには、少なくとも次のショートカットが必要です：「共有…」を許可されている変数を使用しているショートカット、またはファイルパラメーター付きのショートカット、もしくはリクエスト ボディにファイルを含んでいるショートカット。\n\n詳細については、変数セクションの［ヘルプ］ボタンをクリックしてください。</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">「共有する…」から値の受け取りを許可する</string>
     <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
@@ -871,6 +863,7 @@
     <string name="action_type_trigger_tasker_title">Taskerタスクをトリガー</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
     <string name="action_type_set_wireguard_tunnel_state_title">Wireguardトンネルを有効または無効</string>
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">現在の位置情報を取得</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -1026,10 +1019,9 @@
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">エラー</string>
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">JavaScriptエラー：%s</string>
+    <string name="error_js_pattern">JavaScriptエラー：\n%s</string>
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">JavaScript エラー (ライン行： %1$d):
-%2$s</string>
+    <string name="error_js_pattern_with_line_number">JavaScript エラー (ライン行： %1$d):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_read">変数エラー：存在しない変数値を取得しようとしました：%s</string>
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
@@ -1137,9 +1129,7 @@
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <string name="action_quick_settings_tile_trigger">ショートカットをトリガー</string>
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile">「クイック設定タイル」でトリガーできるショートカットがありません。
-
-この機能を有効にするには、ショートカットの編集で、「%2$s」にある「%1$s」チェックボックスを選択してください。</string>
+    <string name="instructions_quick_settings_tile">「クイック設定タイル」でトリガーできるショートカットがありません。\n\nこの機能を有効にするには、ショートカットの編集で、「%2$s」にある「%1$s」チェックボックスを選択してください。</string>
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">ステータスコード</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
@@ -1255,7 +1245,7 @@
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">コンピューターのブラウザで %s を開き、デバイスIDとパスワードを入力して、編集を開始します。</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"編集作業が完了して変更を保存したら、下記の「変更を取り込む」ボタンをクリックして、変更をダウンロードしてアプリに取り込みます。"</string>
+    <string name="instructions_remote_edit_step_4">編集作業が完了して変更を保存したら、下記の「変更を取り込む」ボタンをクリックして、変更をダウンロードしてアプリに取り込みます。</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">サーバーへ送る</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1297,9 +1287,7 @@
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
     <string name="error_shortcut_not_found_for_deep_link">ショートカット「%s」が見つかりません</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
-    <string name="instructions_deep_linking">深いリンク機能を使用するには、有効なフォームURLを使用していることを確認してください：
-
-%s</string>
+    <string name="instructions_deep_linking">深いリンク機能を使用するには、有効なフォームURLを使用していることを確認してください：\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">ショートカットを削除しました</string>
     <!-- Label: Wi-Fi network selection config in shortcut settings -->
@@ -1369,9 +1357,7 @@
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
     <string name="confirm_delete_custom_icon_message">このアイコンを削除</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
-    <string name="confirm_delete_custom_icon_still_in_use_message">少なくとも１つのショートカットで、このアイコンを使用中です。削除すると問題が発生するかもしれません。
-
-それでも削除しますか？</string>
+    <string name="confirm_delete_custom_icon_still_in_use_message">少なくとも１つのショートカットで、このアイコンを使用中です。削除すると問題が発生するかもしれません。\n\nそれでも削除しますか？</string>
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
     <string name="button_delete_all_unused_icons">未使用のアイコンを削除</string>
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
@@ -1461,8 +1447,7 @@
     <!-- Empty state, shown in event history when there are no recent events -->
     <string name="empty_state_history">最近のイベントなし</string>
     <!-- Empty state instructions, shown in event history when there are no events -->
-    <string name="empty_state_history_instructions">最近トリガーされたショートカットの詳細がここに表示され、トラブルシューティングに使用できます。
-「%s」画面にあるオプションを使用すると、個々のショートカットがここに表示されないようにできます。</string>
+    <string name="empty_state_history_instructions">最近トリガーされたショートカットの詳細がここに表示され、トラブルシューティングに使用できます。\n「%s」画面にあるオプションを使用すると、個々のショートカットがここに表示されないようにできます。</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
     <string name="label_exclude_from_history">イベント履歴から除外</string>
     <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
@@ -1508,9 +1493,7 @@
     <!-- Generic dialog button: Configure (e.g. some settings) -->
     <string name="dialog_configure">設定</string>
     <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_plugin_dialog_configure_app_overlay">別のアプリからショートカットをトリガーできるようにするには、最初に「HTTP Shortcuts」アプリを他のアプリ上で表示できるように設定する必要があります。
-
-下記の「%s」ボタンをタップして、今すぐ設定してください。</string>
+    <string name="message_plugin_dialog_configure_app_overlay">別のアプリからショートカットをトリガーできるようにするには、最初に「HTTP Shortcuts」アプリを他のアプリ上で表示できるように設定する必要があります。\n\n下記の「%s」ボタンをタップして、今すぐ設定してください。</string>
     <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
     <string name="title_activity_secondary_launcher_trigger">トリガー ショートカット</string>
     <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
@@ -1518,11 +1501,7 @@
     <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
     <string name="label_run_repeatedly">繰り返し動作</string>
     <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_run_repeatedly_dialog_configure_app_overlay">信頼できる方法でショートカットを繰り返し実行するには、まず「HTTP Shortcut」アプリが他のアプリ上に表示できるように設定する必要があります。
-
-下の「%s」ボタンをタップして、今すぐ設定できます。
-
-このアプリを「バッテリーの最適化」から除外する必要があるかもしれません。スマホ本体のアプリ設定で確認してください。</string>
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">信頼できる方法でショートカットを繰り返し実行するには、まず「HTTP Shortcut」アプリが他のアプリ上に表示できるように設定する必要があります。\n\n下の「%s」ボタンをタップして、今すぐ設定できます。\n\nこのアプリを「バッテリーの最適化」から除外する必要があるかもしれません。スマホ本体のアプリ設定で確認してください。</string>
     <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
     <string name="instructions_repetitions">Android の「バッテリー最適化」の対象となるため、繰り返しのタイミングは正確ではなく数分の誤差があります。【注意】この機能を使用すると、アプリのバッテリー消費量が大幅に増加する可能性があります。</string>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
@@ -1552,9 +1531,7 @@
     <!-- Title of editor for configuring certificate pinning -->
     <string name="title_certificate_pinning">証明書のピン留め</string>
     <!-- Empty state instructions for certificate pinning screen -->
-    <string name="empty_state_certificate_pinning_instructions">HTTP リクエストが安全な接続を通して確実に送信したい場合には、ここで SHA-1 または SHA-256 の指紋証明書を追加することで、特定のホストに向けて証明書にピン留めを有効にすることができます。
-
-自己署名証明書の場合は、代わりにショートカットの「%s」セクションを確認してください。</string>
+    <string name="empty_state_certificate_pinning_instructions">HTTP リクエストが安全な接続を通して確実に送信したい場合には、ここで SHA-1 または SHA-256 の指紋証明書を追加することで、特定のホストに向けて証明書にピン留めを有効にすることができます。\n\n自己署名証明書の場合は、代わりにショートカットの「%s」セクションを確認してください。</string>
     <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
     <string name="message_certificate_pinning_deleted">指紋証明を削除しました</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
@@ -1586,7 +1563,7 @@
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <string name="placeholder_empty_category_section_for_moving">このセクションにショートカットなし</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
-    <string name="label_file_upload_options_allow_image_editing">"画像の切り取りや回転を許可"</string>
+    <string name="label_file_upload_options_allow_image_editing">画像の切り取りや回転を許可</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <string name="label_host_verification">ホスト検証</string>
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
@@ -1715,8 +1692,10 @@
     <string name="font_size_huge">巨大</string>
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
     <string name="wireguard_setup_instructions">Wireguardアプリの設定で「リモートコントロールアプリを許可する」も有効にしてください。</string>
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
     <string name="wireguard_permission_not_granted">Wireguardアクセス許可が付与されていませんでした。</string>
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">デバイスID</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
@@ -1879,4 +1858,5 @@
     <string name="dialog_text_export_with_password">データを保護するには、書き出したファイルをパスワードで暗号化できます。暗号化を省略するには空白のままにしてください。</string>
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
     <string name="accessibility_rotate_cw">時計回りに回転</string>
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
 </resources>

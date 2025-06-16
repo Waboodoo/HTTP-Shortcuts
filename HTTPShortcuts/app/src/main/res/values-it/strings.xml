@@ -94,23 +94,17 @@
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">Ancora nessuna scorciatoia</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
-    <string name="empty_state_shortcuts_instructions">Una scorciatoia ti permette di inviare una singola richiesta HTTP, eventualmente processando e mostrando la risposta.
-
-Fai clic sul pulsante + per iniziare, o controlla la [Documentazione] sulla sezione Informazioni.</string>
+    <string name="empty_state_shortcuts_instructions">Una scorciatoia ti permette di inviare una singola richiesta HTTP, eventualmente processando e mostrando la risposta.\n\nFai clic sul pulsante + per iniziare, o controlla la [Documentazione] sulla sezione Informazioni.</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <string name="empty_state_no_shortcuts_in_category">nessuna scorciatoia ancora in questa categoria</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Non hai ancora aggiunto una scorciatoia da attivare.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts_instructions">Aggiungi tutte le scorciatoie a questa lista che desideri attivare come parte di questa scorciatoia multipla.
-
-Fai clic sul pulsante + per iniziare.</string>
+    <string name="empty_state_trigger_shortcuts_instructions">Aggiungi tutte le scorciatoie a questa lista che desideri attivare come parte di questa scorciatoia multipla.\n\nFai clic sul pulsante + per iniziare.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">Ancora nessuna variabile</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">Le variabili ti permettono di inserire valori dinamicamente nelle scorciatoie, ad es. nell\'URL, negli header o nel corpo della richiesta. Cerca il pulsante \"{}\" mentre modifichi una scorciatoia per trovare tutti i posti dove le variabili possono essere inserite.
-
-Fai clic sul pulsante + per aggiungere una variabile.</string>
+    <string name="empty_state_variables_instructions">Le variabili ti permettono di inserire valori dinamicamente nelle scorciatoie, ad es. nell\'URL, negli header o nel corpo della richiesta. Cerca il pulsante \"{}\" mentre modifichi una scorciatoia per trovare tutti i posti dove le variabili possono essere inserite.\n\nFai clic sul pulsante + per aggiungere una variabile.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">Vuoi cancellare questa scorciatoia?</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
@@ -263,8 +257,7 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Esportazione in corso…</string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">Importazione delle scorciatoie non riuscita:
-%s</string>
+    <string name="import_failed_with_reason">Importazione delle scorciatoie non riuscita:\n%s</string>
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">Esportazione delle scorciatoie non riuscita: %s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
@@ -432,9 +425,7 @@ Fai clic sul pulsante + per aggiungere una variabile.</string>
     <!-- Page title, shown in editor when creating a new category -->
     <string name="title_create_category">Crea Categoria</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">Elimina questa categoria?
-
-Tutte le scorciatoie contenute all\'interno verranno eliminate.</string>
+    <string name="confirm_delete_category_message">Elimina questa categoria?\n\nTutte le scorciatoie contenute all\'interno verranno eliminate.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">Categoria nascosta.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
@@ -632,11 +623,7 @@ Non hai nessuna variabile configurata.</string>
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Invia a…</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">Nessuna scorciatoia adatta trovata.
-
-Per utilizzare questa funzione è necessario avere almeno una scorciatoia che utilizza una variabile che consenta \"Condividi …\".
-
-Vedere la documentazione nella sezione variabile per maggiori informazioni.</string>
+    <string name="error_not_suitable_shortcuts">Nessuna scorciatoia adatta trovata.\n\nPer utilizzare questa funzione è necessario avere almeno una scorciatoia che utilizza una variabile che consenta \"Condividi …\".\n\nVedere la documentazione nella sezione variabile per maggiori informazioni.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Consenti \'Condividi…\'</string>
     <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
@@ -875,6 +862,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <string name="action_type_trigger_tasker_title">Attiva attività Tasker</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
     <string name="action_type_set_wireguard_tunnel_state_title">Abilita o disabilita il tunnel Wireguard</string>
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Ottenere la posizione corrente</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -1032,11 +1020,9 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">Errore</string>
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">Errore JavaScript:
-%s</string>
+    <string name="error_js_pattern">Errore JavaScript:\n%s</string>
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">Errore JavaScript (alla linea %1$d):
-%2$s</string>
+    <string name="error_js_pattern_with_line_number">Errore JavaScript (alla linea %1$d):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_read">Errore nella variabile: tentato di ottenere il valore di una variabile che non esiste: %s</string>
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
@@ -1144,9 +1130,7 @@ Vedere la documentazione nella sezione variabile per maggiori informazioni.</str
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <string name="action_quick_settings_tile_trigger">Attiva scorciatoia</string>
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile">Non hai ancora scorciatoie che possono essere attivate tramite le Impostazioni Rapide.
-
-Puoi abilitare questa funzione modificando un collegamento e selezionando la casella di controllo \"%1$s\" presente in \"%2$s\".</string>
+    <string name="instructions_quick_settings_tile">Non hai ancora scorciatoie che possono essere attivate tramite le Impostazioni Rapide.\n\nPuoi abilitare questa funzione modificando un collegamento e selezionando la casella di controllo \"%1$s\" presente in \"%2$s\".</string>
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">Codice di stato</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
@@ -1263,7 +1247,7 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">Apri %s in un browser sul tuo PC, inserisci l\'ID e la password del dispositivo ed inizia a modificare.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Terminate le modifiche e dopo averle salvate, fai clic sul pulsante &lt;pre&gt; \"Pull Changes\" &lt;/pre&gt; in basso per scaricare le modifiche nell'app."</string>
+    <string name="instructions_remote_edit_step_4">Terminate le modifiche e dopo averle salvate, fai clic sul pulsante &lt;pre&gt; \"Pull Changes\" &lt;/pre&gt; in basso per scaricare le modifiche nell\'app.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">Carica sul server</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1305,9 +1289,7 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
     <string name="error_shortcut_not_found_for_deep_link">Scorciatoia \"%s\" non trovata</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
-    <string name="instructions_deep_linking">Per utilizzare la funzione di \"deep-linking\", assicurati di utilizzare un URL valido del modulo:
-
-%s</string>
+    <string name="instructions_deep_linking">Per utilizzare la funzione di \"deep-linking\", assicurati di utilizzare un URL valido del modulo:\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">Scorciatoia cancellata</string>
     <!-- Label: Wi-Fi network selection config in shortcut settings -->
@@ -1377,9 +1359,7 @@ Puoi abilitare questa funzione modificando un collegamento e selezionando la cas
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
     <string name="confirm_delete_custom_icon_message">Cancellare questa icona?</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
-    <string name="confirm_delete_custom_icon_still_in_use_message">Questa icona è ancora utilizzata in almeno 1 collegamento. L\'eliminazione potrebbe causare problemi.
-
-Eliminare comunque?</string>
+    <string name="confirm_delete_custom_icon_still_in_use_message">Questa icona è ancora utilizzata in almeno 1 collegamento. L\'eliminazione potrebbe causare problemi.\n\nEliminare comunque?</string>
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
     <string name="button_delete_all_unused_icons">Eliminare le icone inutilizzate</string>
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
@@ -1468,8 +1448,7 @@ Eliminare comunque?</string>
     <!-- Empty state, shown in event history when there are no recent events -->
     <string name="empty_state_history">Nessun evento recente</string>
     <!-- Empty state instructions, shown in event history when there are no events -->
-    <string name="empty_state_history_instructions">Qui vengono visualizzati i dettagli delle scorciatoie attivate di recente, che possono essere utilizzati per la risoluzione dei problemi.
-È possibile escludere la visualizzazione di singole scorciatoie tramite un\'opzione presente nella schermata \"%s\".</string>
+    <string name="empty_state_history_instructions">Qui vengono visualizzati i dettagli delle scorciatoie attivate di recente, che possono essere utilizzati per la risoluzione dei problemi.\nÈ possibile escludere la visualizzazione di singole scorciatoie tramite un\'opzione presente nella schermata \"%s\".</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
     <string name="label_exclude_from_history">Escludere dalla cronologia degli eventi</string>
     <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
@@ -1515,9 +1494,7 @@ Eliminare comunque?</string>
     <!-- Generic dialog button: Configure (e.g. some settings) -->
     <string name="dialog_configure">Configura</string>
     <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_plugin_dialog_configure_app_overlay">Per poter attivare una scorciatoia da un\'altra app, devi prima permettere all\'app HTTP Shortcuts di visualizzare sopra le altre app.
-
-Premi il bottone \“%s\” qui sotto per configurare.</string>
+    <string name="message_plugin_dialog_configure_app_overlay">Per poter attivare una scorciatoia da un\'altra app, devi prima permettere all\'app HTTP Shortcuts di visualizzare sopra le altre app.\n\nPremi il bottone \“%s\” qui sotto per configurare.</string>
     <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
     <string name="title_activity_secondary_launcher_trigger">Attiva scorciatoia</string>
     <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
@@ -1525,11 +1502,7 @@ Premi il bottone \“%s\” qui sotto per configurare.</string>
     <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
     <string name="label_run_repeatedly">Esegui più volte</string>
     <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_run_repeatedly_dialog_configure_app_overlay">Perché una scorciatoia possa eseguire più volte in modo affidabile, prima devi permettere all\'app HTTP Shortcuts di visualizzare sopra le altre app.
-
-Premi il pulsante \“%s\” per configurare.
-
-Potresti inoltre dover escludere l\'app dalle Ottimizzazioni della Batteria. Le puoi trovare nelle impostazioni dell\'app.</string>
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">Perché una scorciatoia possa eseguire più volte in modo affidabile, prima devi permettere all\'app HTTP Shortcuts di visualizzare sopra le altre app.\n\nPremi il pulsante \“%s\” per configurare.\n\nPotresti inoltre dover escludere l\'app dalle Ottimizzazioni della Batteria. Le puoi trovare nelle impostazioni dell\'app.</string>
     <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
     <string name="instructions_repetitions">Il timing delle ripetizioni non è preciso ma potrebbe variare di alcuni minuti, essendo soggetto alle ottimizzazioni energetiche di Android. Nota che l\'utilizzo di questa funzionalità potrebbe aumentare significativamente l\'uso della batteria.</string>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
@@ -1561,9 +1534,7 @@ Potresti inoltre dover escludere l\'app dalle Ottimizzazioni della Batteria. Le 
     <!-- Title of editor for configuring certificate pinning -->
     <string name="title_certificate_pinning">Appuntatura del certificato</string>
     <!-- Empty state instructions for certificate pinning screen -->
-    <string name="empty_state_certificate_pinning_instructions">Se si vuole essere più sicuri che le richieste HTTP siano inviate tramite una connessione sicura, si può attivare il pinning del certificato per host specifici, aggiungendo qui l\'impronta digitale SHA-1 o SHA-256 del loro certificato.
-
-Per i certificati autofirmati, controllare invece la sezione \"%s\" della scorciatoia.</string>
+    <string name="empty_state_certificate_pinning_instructions">Se si vuole essere più sicuri che le richieste HTTP siano inviate tramite una connessione sicura, si può attivare il pinning del certificato per host specifici, aggiungendo qui l\'impronta digitale SHA-1 o SHA-256 del loro certificato.\n\nPer i certificati autofirmati, controllare invece la sezione \"%s\" della scorciatoia.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
     <string name="message_certificate_pinning_deleted">Impronta digitale del certificato cancellata.</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
@@ -1595,7 +1566,7 @@ Per i certificati autofirmati, controllare invece la sezione \"%s\" della scorci
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <string name="placeholder_empty_category_section_for_moving">nessuna scorciatoia in questa sezione</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
-    <string name="label_file_upload_options_allow_image_editing">"Consente di ritagliare e ruotare le immagini"</string>
+    <string name="label_file_upload_options_allow_image_editing">Consente di ritagliare e ruotare le immagini</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <string name="label_host_verification">Verifica dell\'host</string>
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
@@ -1720,8 +1691,10 @@ Per i certificati autofirmati, controllare invece la sezione \"%s\" della scorci
     <string name="font_size_huge">Enorme</string>
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
     <string name="wireguard_setup_instructions">Assicurarsi di abilitare anche il “Consenti applicazioni di controllo remoto” impostazione nell\'app Wireguard.</string>
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
     <string name="wireguard_permission_not_granted">Il permesso Wireguard non è stato concesso.</string>
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">Id Del Dispositivo</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
@@ -1877,4 +1850,5 @@ Per i certificati autofirmati, controllare invece la sezione \"%s\" della scorci
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
 </resources>

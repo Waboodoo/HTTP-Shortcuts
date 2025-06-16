@@ -31,7 +31,7 @@
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
     <string name="option_custom_browser_in_custom_tab">%s (Onglet personnalisé)</string>
     <!-- Button to save changes made to shortcut/variable -->
-    <string name="save_button">Sauvegarder</string>
+    <string name="save_button">Enregistrer</string>
     <!-- Button to test changes made to shortcut -->
     <string name="test_button">Tester</string>
     <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, …) -->
@@ -57,9 +57,9 @@
     <!-- Subtitle for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
     <string name="subtitle_enable_javascript_in_webview">Permet l\'utilisation de JavaScript dans le corps de réponse HTML affiché. Cela peut ne pas fonctionner pour certaines pages web.</string>
     <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
-    <string name="label_monospace_response">Afficher le texte en utilisant une police monospaciale</string>
+    <string name="label_monospace_response">Afficher le texte en utilisant une police monospace</string>
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
-    <string name="subtitle_include_meta_information">En-têtes de réponse, Code d\'état, ...</string>
+    <string name="subtitle_include_meta_information">En-têtes de réponse, Code de retour, …</string>
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">Placer sur l\'écran d\'accueil</string>
     <!-- Category dropdown option: Place category on home screen -->
@@ -93,7 +93,7 @@
     <!-- Dialog option, for exporting a single shortcut as a file -->
     <string name="action_export_as_file">Fichier</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts">Vous n\'avez aucun raccourci</string>
+    <string name="empty_state_shortcuts">Vous n\'avez aucun raccourci.</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
     <string name="empty_state_shortcuts_instructions">Un raccourci vous permet d\'envoyer une seule requête HTTP, qui peut éventuellement traiter et afficher la réponse.\n\nCliquez sur le bouton + pour commencer, ou consultez [la documentation].</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
@@ -101,19 +101,21 @@
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Vous n\'avez pas encore ajouté de raccourcis au déclencheur.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts_instructions">Ajoutez à cette liste tous les raccourcis que vous souhaitez déclencher dans le cadre de ce multi-court.
+    <string name="empty_state_trigger_shortcuts_instructions">Ajoutez à cette liste tous les raccourcis que vous souhaitez déclencher dans le cadre de ce multi-raccourci.
 
-Cliquez sur le bouton + pour commencer.</string>
+Cliquez sur + pour commencer.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
-    <string name="empty_state_variables">Pas encore de variable</string>
+    <string name="empty_state_variables">Pas encore de variable globale définie.</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">Cliquer sur + pour ajouter une variable</string>
+    <string name="empty_state_variables_instructions">Les variables vous permettent d\'ajouter des valeurs dynamiquement dans vos raccourcis, par exemple, dans l\'URL, les headers ou le corps de la requête. Cherchez le bouton \“{}\” lors de l\'édition d\'un raccourci pour trouver tous les endroits où une variable peut être insérée.
+
+Cliquer sur + pour ajouter une variable.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
-    <string name="confirm_delete_shortcut_message">Supprimer ce raccourci?</string>
+    <string name="confirm_delete_shortcut_message">Supprimer ce raccourci ?</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
-    <string name="confirm_discard_changes_message">Vous avez des modifications non enregistrées. Annuler les modifications?</string>
+    <string name="confirm_discard_changes_message">Vous avez des modifications non enregistrées. Abandonner les modifications ?</string>
     <!-- Dialog option: Discard (unsaved changes) -->
-    <string name="dialog_discard">Retour</string>
+    <string name="dialog_discard">Abandonner</string>
     <!-- Title of fullscreen window when shortcut is executed/run -->
     <string name="title_activity_execute">Exécuter un raccourci</string>
     <!-- Confirmation message shown in Toast when a shortcut was executed. %s is a placeholder for the shortcut's name -->
@@ -129,8 +131,9 @@ Cliquez sur le bouton + pour commencer.</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
     <string name="validation_mac_address_invalid">Veuillez entrer une adresse MAC valide.</string>
     <!-- Validation error, shown when user tries to save an MQTT shortcut without a valid MQTT server URL set -->
+    <string name="validation_mqtt_server_url_invalid">Veuillez entrer une adresse de serveur MQTT valide.</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
-    <string name="error_http">%1$s échoué avec le code d\'état %2$d (%3$s)</string>
+    <string name="error_http">%1$s échoué avec le code d\'état %2$d (%3$s).</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
     <string name="error_other">%1$s échoué: %2$s</string>
     <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
@@ -188,7 +191,9 @@ Cliquez sur le bouton + pour commencer.</string>
     <!-- Label of input field to provide request body of a shortcut -->
     <string name="label_custom_body">Requête: Body</string>
     <!-- Label of input field to provide topic of MQTT message, for MQTT shortcut -->
+    <string name="label_mqtt_topic">Sujet</string>
     <!-- Label of input field to provide payload of MQTT message, for MQTT shortcut -->
+    <string name="label_mqtt_payload">Corps</string>
     <!-- Title of dialog to edit an MQTT message of an MQTT shortcut -->
     <string name="title_mqtt_message_edit">Éditer le message</string>
     <!-- Title of dialog to add an MQTT message to an MQTT shortcut -->
@@ -320,6 +325,10 @@ Cliquez sur le bouton + pour commencer.</string>
         <item quantity="other">%d millisecondes</item>
     </plurals>
     <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %d is a placeholder for the actual number. -->
+    <plurals name="minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
     <string name="pattern_minutes_seconds">%1$s, %2$s</string>
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
@@ -331,7 +340,9 @@ Cliquez sur le bouton + pour commencer.</string>
     <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">Contacter le développeur</string>
     <!-- Button title, for option to go to the app's official subreddit -->
+    <string name="settings_reddit">Communauté Reddit</string>
     <!-- Button subtitle, for option to go to the app's official subreddit -->
+    <string name="settings_reddit_summary">Le subreddit officiel de l\'application, pour discuter et s\'échanger des idées</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Questions, demandes de fonctionnalités, autres commentaires, …</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -440,6 +451,10 @@ Tous les raccourcis contenus dans cette catégorie seront supprimés.</string>
         <item quantity="other">%d raccourcis</item>
     </plurals>
     <!-- Shows numerical count of sections, used to show how many sections are in a given category -->
+    <plurals name="section_count">
+        <item quantity="one">Section %d</item>
+        <item quantity="other">Sections %d</item>
+    </plurals>
     <!-- Pattern used to determine the subtitle of a category in the categories screen. %1$s is a placeholder for the number of shortcuts, %2$s is a placeholder for the number of sections -->
     <string name="shortcut_section_count_pattern">%1$s, %2$s</string>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
@@ -577,10 +592,15 @@ Vous n\'avez pas encore configuré de variables. Vous pouvez le faire en cliquan
 
 Cependant, vous n\'avez pas encore configuré de variables.</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
+    <string name="help_text_no_global_variables_yet">Vous n\'avez encore défini aucune variable. Cliquez sur le bouton \“%s\” pour commencer.</string>
     <!-- Dialog option: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <string name="dialog_option_label_local_variable">Variable locale</string>
     <!-- Dialog option subtitle: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <string name="dialog_option_subtitle_local_variable">La valeur doit être définie ici ou via un Script</string>
     <!-- Dialog title, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <string name="dialog_title_local_variable">Variable locale</string>
     <!-- Dialog instructions, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <string name="dialog_instructions_local_variable">Choisir un nom pour votre variable locale, il doit être composé de chiffres, lettres et underscores (\"tiret bas\").</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">Variables</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
@@ -590,6 +610,7 @@ Cependant, vous n\'avez pas encore configuré de variables.</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">Veuillez ajouter au moins une option sélectionnable.</string>
     <!-- Error message, shown in variable editor when a select option uses the same value as another -->
+    <string name="error_select_value_already_in_use">Cette valeur est déjà utilisée par un une autre option.</string>
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">Le format de date n\'est pas valide.</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->
@@ -617,11 +638,7 @@ Cependant, vous n\'avez pas encore configuré de variables.</string>
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Envoyer à …</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">Aucun raccourci approprié trouvé.
-
-Pour utiliser cette fonctionnalité, vous devez disposer d\'au moins un raccourci qui utilise une variable permettant de \'partager …\'
-
-Voir la documentation dans la section variable pour plus d\'informations.</string>
+    <string name="error_not_suitable_shortcuts">Aucun raccourci approprié trouvé.\n\nPour utiliser cette fonctionnalité, vous devez disposer d\'au moins un raccourci qui utilise une variable permettant de \'partager …\'\n\nVoir la documentation dans la section variable pour plus d\'informations.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Autoriser \'Partager …\'</string>
     <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
@@ -649,11 +666,13 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Raccourci de navigateur</string>
     <!-- Option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
+    <string name="button_create_mqtt_shortcut">Raccourci MQTT</string>
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <string name="button_create_wol_shortcut">Raccourci Wake-on-LAN</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">Ouvrir l\'URL dans le navigateur</string>
     <!-- Description for option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
+    <string name="button_description_create_mqtt_shortcut">Envoie un message MQTT</string>
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <string name="button_description_create_wol_shortcut">Réveille un ordinateur sur le réseau</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
@@ -677,7 +696,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Dropdown option for "Authentication" of a shortcut: "Digest Authentication", aka. DigestAuth (username & password) -->
     <string name="authentication_digest">Authentification Digest</string>
     <!-- Dropdown option for "Authentication" of a shortcut: "Bearer Authentication", aka. BearerAuth (token) -->
-    <string name="authentication_bearer">Authentification du porteur</string>
+    <string name="authentication_bearer">Authentification par Bearer token</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">Afficher en tant que raccourci d\'application sur le lanceur</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
@@ -785,7 +804,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Shortcut Action Title: Show fullscreen window -->
     <string name="action_type_window_title">Afficher la fenêtre</string>
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
-    <string name="action_type_selection_title">Sélection des spectacles (choix multiple)</string>
+    <string name="action_type_selection_title">Afficher sélecteur (choix multiple)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
     <string name="action_type_prompt_title">Demande de texte</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
@@ -817,7 +836,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Shortcut Action Title: Scan Barcode (e.g. QR Code) -->
     <string name="action_type_scan_barcode_title">Scanner un code barre</string>
     <!-- Shortcut Action Description: Scan Barcode (e.g. QR Code) -->
-    <string name="action_type_scan_barcode_description">L\'application \"QR Droid\", \"Barcode Scanner\" ou \"Binary Eye\" doit être installée.</string>
+    <string name="action_type_scan_barcode_description">L\'application \"QR Droid\", \"Barcode Scanner\" ou \"Binary Eye\" doit être installée</string>
     <!-- Shortcut Action Title: Change Shortcut Name -->
     <string name="action_type_rename_shortcut_title">Renommer Raccourci</string>
     <!-- Shortcut Action Title: Change Shortcut Icon -->
@@ -858,6 +877,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <string name="action_type_trigger_tasker_title">Déclencher la tâche Tasker</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
     <string name="action_type_set_wireguard_tunnel_state_title">Activer ou désactiver le tunnel Wireguard</string>
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Obtenir la position actuelle</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -935,11 +955,13 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">Multi-Raccourci</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is an "MQTT Shortcut" -->
+    <string name="subtitle_editor_toolbar_mqtt_shortcut">Raccourci MQTT</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
     <string name="subtitle_editor_toolbar_wol_shortcut">Raccourci Wake-on-LAN</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">Définir l\'URL et la méthode HTTP du raccourci</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no mqtt server set yet for an MQTT shortcut -->
+    <string name="subtitle_basic_request_settings_prompt_for_mqtt">Définir l\'adresse du serveur MQTT</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
     <string name="subtitle_basic_request_settings_prompt_for_wol">Définir l\'adresse MAC et le port du raccourci</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
@@ -973,6 +995,10 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
         <item quantity="other">%d paramètres définis</item>
     </plurals>
     <!-- Section subtitle, shown in shortcut editor for MQTT shortcuts, to indicate how many MQTT messages are configured -->
+    <plurals name="subtitle_mqtt_messages">
+        <item quantity="one">%d message défini</item>
+        <item quantity="other">%d messages définis</item>
+    </plurals>
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
     <string name="subtitle_request_body_none">Aucun corps de requête défini</string>
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
@@ -990,6 +1016,7 @@ Voir la documentation dans la section variable pour plus d\'informations.</strin
     <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers_instructions">Cliquez sur le bouton + pour ajouter un en-tête.</string>
     <!-- Empty state instructions, shown in list when there are no MQTT messages yet, for an MQTT shortcut -->
+    <string name="empty_state_mqtt_messages_instructions">Cliquer sur le + pour ajouter un message MQTT.</string>
     <!-- Empty state, shown in list when there are no request parameters yet -->
     <string name="empty_state_request_parameters">aucun paramètre défini</string>
     <!-- Empty state instructions, shown in list when there are no parameters yet -->
@@ -1236,11 +1263,11 @@ Vous pouvez activer cette fonctionnalité en modifiant un raccourci et en cochan
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
     <string name="instructions_remote_edit_step_1">Saisissez un mot de passe dans le champ ci-dessus.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: click the push button -->
-    <string name="instructions_remote_edit_step_2">Cliquez sur le bouton &lt;pre&gt;\"Push to Server\"&lt;/pre&gt;.</string>
+    <string name="instructions_remote_edit_step_2">Cliquez sur le bouton <pre>\"Pousser vers le serveur\"</pre>.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">Ouvrez %s dans un navigateur sur votre ordinateur, saisissez votre identifiant et votre mot de passe et commencez à éditer.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Une fois que vous avez fini d'éditer et que vous avez enregistré vos modifications, cliquez sur le bouton &lt;pre&gt;\"Pull Changes\"&lt;/pre&gt; ci-dessous pour télécharger à nouveau vos modifications dans l'application."</string>
+    <string name="instructions_remote_edit_step_4">Une fois que vous avez fini d\'éditer et que vous avez enregistré vos modifications, cliquez sur le bouton <pre>\"Pull Changes\"</pre> ci-dessous pour télécharger à nouveau vos modifications dans l\'application.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">Pousser vers le serveur</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1250,17 +1277,17 @@ Vous pouvez activer cette fonctionnalité en modifiant un raccourci et en cochan
     <!-- Label: Shown above a textfield for entering a password, used to log in to edit server when editing shortcuts on a computer -->
     <string name="label_remote_edit_password">Mot de passe</string>
     <!-- Status message shown while shortcuts & variables are being pushed to the remote server, shown on progress dialog -->
-    <string name="remote_edit_upload_in_progress">Poussée vers le serveur...</string>
+    <string name="remote_edit_upload_in_progress">Envoi au serveur…</string>
     <!-- Status message shown while changes to shortcuts & variables are being pulled down from the remote server, shown on progress dialog -->
-    <string name="remote_edit_download_in_progress">Tirer des changements...</string>
+    <string name="remote_edit_download_in_progress">Récupération des changements…</string>
     <!-- Message: Success message shown in snackbar when pushing shortcuts and variables to the editing server was successful -->
-    <string name="message_remote_edit_upload_successful">Poussé avec succès vers le serveur.</string>
+    <string name="message_remote_edit_upload_successful">Envoyé avec succès au serveur.</string>
     <!-- Message: Success message shown in snackbar when pulling changes to shortcuts and variables from the editing server was successful -->
     <string name="message_remote_edit_download_successful">Modifications appliquées.</string>
     <!-- Error message: shown in dialog when pushing shortcuts to the editing server failed -->
     <string name="error_remote_edit_upload">Échec de l\'envoi au serveur. Veuillez réessayer plus tard.</string>
     <!-- Error message: shown in dialog when pulling changes to shortcuts from the editing server failed -->
-    <string name="error_remote_edit_download">Impossible d\'extraire les modifications du serveur. Veuillez vérifier votre connexion réseau et vous assurer que vous n\'avez pas changé le mot de passe.</string>
+    <string name="error_remote_edit_download">Impossible de récupérer les modifications du serveur. Veuillez vérifier votre connexion réseau et vous assurer que vous n\'avez pas changé le mot de passe.</string>
     <!-- Option for dropdown menu in remote editor, allows to change the remote editing server -->
     <string name="button_change_remote_server">Modifier l\'adresse du serveur</string>
     <!-- Dialog title: allows to change the remote editing server -->
@@ -1274,11 +1301,11 @@ Vous pouvez activer cette fonctionnalité en modifiant un raccourci et en cochan
     <!-- Button in settings page to open editor for configuring certificate pinning -->
     <string name="settings_certificate_pinning">Épinglage du certificat</string>
     <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
-    <string name="settings_global_scripting_summary">Exécuter le code JavaScript avant chaque exécution du raccourci</string>
+    <string name="settings_global_scripting_summary">Exécuter le code JavaScript avant chaque exécution de raccourci</string>
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
     <string name="placeholder_javascript_global_scripting">Ajoutez ici du code JavaScript à exécuter au début de chaque exécution d\'un raccourci, par exemple pour préparer certaines variables ou définir certaines fonctions qui peuvent être utilisées dans la section Scripting du raccourci.</string>
     <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
-    <string name="action_save_global_scripting">Sauvegarder les changements</string>
+    <string name="action_save_global_scripting">Enregistrer les modifications</string>
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
     <string name="error_shortcut_not_found_for_deep_link">Le raccourci \"%s\" n\'a pas été trouvé</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
@@ -1302,7 +1329,7 @@ Vous pouvez activer cette fonctionnalité en modifiant un raccourci et en cochan
     <!-- Message: Success message shown when a response was saved to a file -->
     <string name="message_response_saved_to_file">Réponse enregistrée dans le fichier.</string>
     <!-- Dialog title: Shown in progress dialog while a file is being saved -->
-    <string name="saving_in_progress">Sauvegarde …</string>
+    <string name="saving_in_progress">Sauvegarde…</string>
     <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
     <string name="error_invalid_remote_edit_host_url">URL non valide. Doit être http(s).</string>
     <!-- Section title on import/export screen for options related to importing -->
@@ -1318,7 +1345,7 @@ Vous pouvez activer cette fonctionnalité en modifiant un raccourci et en cochan
     <!-- Label shown above a text field showing a shortcut's deep link URL -->
     <string name="label_deep_link_url">URL de lien profond</string>
     <!-- Message: instructions shown below a shortcut's deep-linking URL -->
-    <string name="message_deep_link_instructions">Vous pouvez déclencher ce raccourci en invoquant cette URL depuis une autre application, par exemple via un scanner QR ou un lecteur NFC. Ajoutez des paramètres de requête à l\'URL pour transmettre des valeurs variables.</string>
+    <string name="message_deep_link_instructions">Vous pouvez déclencher ce raccourci en invoquant cette URL depuis une autre application, par exemple via un scanner de QR code ou un lecteur NFC. Ajoutez des paramètres de requête à l\'URL pour transmettre des valeurs variables.</string>
     <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting.  -->
     <string name="message_response_handling_scripting_hint">Si vous avez besoin d\'options plus avancées pour le traitement et l\'affichage de la réponse, consultez la section \"%s\", qui vous permet de définir une logique personnalisée à l\'aide de code JavaScript.</string>
     <!-- Message: Brief explanation of what a toast message is and what its limitations are  -->
@@ -1328,13 +1355,13 @@ Vous pouvez activer cette fonctionnalité en modifiant un raccourci et en cochan
     <!-- Shortcut Action Title: Allows converting a byte array into a string using the Scripting feature -->
     <string name="action_type_to_string">Octets vers chaîne de caractères</string>
     <!-- Shortcut Action Description: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
-    <string name="action_type_to_hex_string_description">Convertit un tableau Uint8Array en une chaîne de chiffres hexadécimaux.</string>
+    <string name="action_type_to_hex_string_description">Convertit un tableau Uint8Array en une chaîne de chiffres hexadécimaux</string>
     <!-- Shortcut Action Description: Allows converting a byte array into a string using the Scripting feature -->
     <string name="action_type_to_string_description">Convertir un \"Uint8Array\" en \"string\"</string>
     <!-- Description for Base64decode function in scripting -->
-    <string name="action_type_base64decode_description">Convertit une chaîne de caractères encodée en Base64 en un Unit8Array (tableau d\'octets).</string>
+    <string name="action_type_base64decode_description">Convertit une chaîne de caractères encodée en Base64 en un Unit8Array (tableau d\'octets)</string>
     <!-- Description for Base64encode function in scripting -->
-    <string name="action_type_base64encode_description">Convertit une chaîne de caractères ou un tableau d\'octets (Uint8Array) en une chaîne de caractères codée en Base64.</string>
+    <string name="action_type_base64encode_description">Convertit une chaîne de caractères ou un tableau d\'octets (Uint8Array) en une chaîne de caractères encodée en Base64</string>
     <!-- Description for htmlEncode function in scripting -->
     <string name="action_type_html_encode_description">Encode une chaîne en texte brut pour la rendre sécurisée au format HTML</string>
     <!-- Description for htmlDecode function in scripting -->
@@ -1571,7 +1598,7 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <string name="placeholder_empty_category_section_for_moving">aucun raccourci dans cette section</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
-    <string name="label_file_upload_options_allow_image_editing">"Permettre le recadrage et la rotation de l'image"</string>
+    <string name="label_file_upload_options_allow_image_editing">Permettre le recadrage et la rotation de l\'image</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <string name="label_host_verification">Vérification de l\'hôte</string>
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
@@ -1621,10 +1648,15 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a specific static file stored on the device -->
     <string name="option_file_data_source_specific_file">Utiliser un fichier spécifique</string>
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a static (text) value -->
+    <string name="option_file_data_source_static_value">Utiliser une valeur fixe</string>
     <!-- Button label, for choosing a directory that contains a file to use as a request body or parameter -->
+    <string name="label_file_data_source_choose_directory">Choisir un dossier</string>
     <!-- Subtitle, shown on button for selecting a directory that contains file to use as a request body or parameter. %s is a placeholder for the selected directory's name -->
+    <string name="subtitle_file_data_source_choose_directory">Utiliser le fichier de “%s”</string>
     <!-- Label for input field, to enter the name of a file that should be used as a request body parameter. -->
+    <string name="label_file_data_source_file_name">Fichier</string>
     <!-- Label for input field, to enter static text that should be used as a file request body parameter. -->
+    <string name="label_file_data_source_static_value">Valeur</string>
     <!-- Label on button, shown in Response settings of shortcut editor, allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
     <string name="button_select_response_toolbar_buttons">Afficher les boutons de la barre d\'outils</string>
     <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
@@ -1696,8 +1728,10 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <string name="font_size_huge">Énorme</string>
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
     <string name="wireguard_setup_instructions">Assurez-vous également d\'activer le paramètre \"Autoriser les applications de contrôle à distance\" dans l\'application Wiregarde.</string>
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
     <string name="wireguard_permission_not_granted">La permission Wireguard n\'a pas été accordée.</string>
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">ID de l\'appareil</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
@@ -1816,6 +1850,7 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
     <string name="accessibility_label_show_documentation">Aller à la documentation</string>
     <!-- Accessibility label for "Set Password" button in exporter -->
+    <string name="accessibility_label_set_password_for_export">Définir un mot de passe</string>
     <!-- Accessibility label for "Select all" button in exporter -->
     <string name="accessibility_label_select_all_for_export">Tout sélectionner</string>
     <!-- Accessibility label for "Unselect all" button in exporter -->
@@ -1847,10 +1882,18 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
     <string name="placeholder_empty_category_section_main_screen">Cette section est vide. Vous pouvez y déplacer des raccourcis en appuyant longuement sur un raccourci et en sélectionnant \“%s\”.</string>
     <!-- Dialog title: shown on import dialog, e.g. when a password needs to be entered -->
+    <string name="dialog_title_import">Importer</string>
     <!-- Dialog text: Asks user to enter a password to import password-encrypted data into the app -->
+    <string name="dialog_text_import_with_password">Cet import est protégé par un mot de passe.</string>
     <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
+    <string name="dialog_text_import_with_password_retry">Mauvais mot de passe. Réessayez s\'il vous plaît.</string>
     <!-- Error message: shown when a file for an HTTP request could not be found. %s is a placeholder for the file's name. -->
+    <string name="error_failed_to_access_file">Impossible d\'accéder au fichier \“%s\”. Assurez-vous que le fichier existe et que le dossier le contenant est monté.</string>
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
+    <string name="dialog_title_export_encryption">Définir un mot de passe</string>
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
+    <string name="dialog_text_export_with_password">Pour protéger vos données, vous pouvez chiffrer le fichier exporté avec un mot de passe. Laisser vide pour ne pas chiffrer.</string>
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <string name="accessibility_rotate_cw">Rotation dans le sens horaire</string>
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
 </resources>

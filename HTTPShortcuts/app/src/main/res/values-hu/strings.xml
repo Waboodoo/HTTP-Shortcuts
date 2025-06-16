@@ -89,9 +89,7 @@
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Még nem adtál hozzá egyetlen gyorsbillentyűt sem az indításhoz.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts_instructions">Adja hozzá az összes olyan parancsikont ehhez a listához, amelyet a többszörös parancsikon részeként szeretne elindítani.
-
-Kattintson a + gombra a kezdéshez.</string>
+    <string name="empty_state_trigger_shortcuts_instructions">Adja hozzá az összes olyan parancsikont ehhez a listához, amelyet a többszörös parancsikon részeként szeretne elindítani.\n\nKattintson a + gombra a kezdéshez.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">Nincs ilyen változó</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
@@ -237,7 +235,7 @@ Kattintson a + gombra a kezdéshez.</string>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Exportálás…</string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">Hiba a parancsikonok importálásakor: %s</string>
+    <string name="import_failed_with_reason">Hiba a parancsikonok importálásakor:\n%s</string>
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">Parancsikonok exportálása sikertelen: %s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
@@ -399,9 +397,7 @@ Kattintson a + gombra a kezdéshez.</string>
     <!-- Page title, shown in editor when creating a new category -->
     <string name="title_create_category">Kategória létrehozása</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">Törli ezt a kategóriát?
-
-Az összes benne található parancsikon törlődik.</string>
+    <string name="confirm_delete_category_message">Törli ezt a kategóriát?\n\nAz összes benne található parancsikon törlődik.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">Kategória elrejtve.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
@@ -588,11 +584,7 @@ Egyelőre azonban még nincs beállítva semmilyen változó.</string>
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Küldés…</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">Nem található megfelelő hivatkozás.
-
-Ennek a szolgáltatásnak a használatához rendelkezned kell legalább egy parancsikonnal, amely egy olyan változót használ, amely lehetővé teszi a „Megosztás…”, vagy egy parancsikonnal, amely rendelkezik fájlparaméterrel.
-
-További információt a változó dokumentációjában találsz.</string>
+    <string name="error_not_suitable_shortcuts">Nem található megfelelő hivatkozás.\n\nEnnek a szolgáltatásnak a használatához rendelkezned kell legalább egy parancsikonnal, amely egy olyan változót használ, amely lehetővé teszi a „Megosztás…”, vagy egy parancsikonnal, amely rendelkezik fájlparaméterrel.\n\nTovábbi információt a változó dokumentációjában találsz.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Engedélyezze a „Megosztás…”</string>
     <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
@@ -807,6 +799,7 @@ További információt a változó dokumentációjában találsz.</string>
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">Trigger Tasker feladat</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Jelenlegi hely lekérdezése</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -944,11 +937,9 @@ További információt a változó dokumentációjában találsz.</string>
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">Hiba</string>
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">JavaScript hiba:
-%s</string>
+    <string name="error_js_pattern">JavaScript hiba:\n%s</string>
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">JavaScript hiba (a %1$d sorban):
-%2$s</string>
+    <string name="error_js_pattern_with_line_number">JavaScript hiba (a %1$d sorban):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_read">Változó hiba: nem létező változó értékét próbálta lekérni: %s</string>
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
@@ -1051,9 +1042,7 @@ További információt a változó dokumentációjában találsz.</string>
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <string name="action_quick_settings_tile_trigger">Trigger parancsikon</string>
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile">Még nincs olyan parancsikon, amelyet a Gyorsbeállítások csempén keresztül lehet elindítani.
-
-Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\" jelölőnégyzet bejelölésével, amely a \"%2$s\" -ban található.</string>
+    <string name="instructions_quick_settings_tile">Még nincs olyan parancsikon, amelyet a Gyorsbeállítások csempén keresztül lehet elindítani.\n\nEzt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\" jelölőnégyzet bejelölésével, amely a \"%2$s\" -ban található.</string>
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">Státusz kód</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
@@ -1164,7 +1153,7 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">Nyissa meg a %s-t egy böngészőben a számítógépén, adja meg a készülék azonosítóját és jelszavát, és kezdje el a szerkesztést.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Miután befejezte a szerkesztést és elmentette a módosításokat, kattintson az alábbi &lt;pre&gt;\"Változások lehívása\"&lt;/pre&gt; gombra, hogy a módosításokat visszatöltse az alkalmazásba."</string>
+    <string name="instructions_remote_edit_step_4">Miután befejezte a szerkesztést és elmentette a módosításokat, kattintson az alábbi &lt;pre&gt;\"Változások lehívása\"&lt;/pre&gt; gombra, hogy a módosításokat visszatöltse az alkalmazásba.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
     <string name="button_remote_edit_download">Húzás Változások</string>
@@ -1204,9 +1193,7 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
     <string name="error_shortcut_not_found_for_deep_link">A \"%s\" parancsikon nem található</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
-    <string name="instructions_deep_linking">A mélylinkelési funkció használatához győződjön meg róla, hogy az űrlap érvényes URL-címét használja:
-
-%s</string>
+    <string name="instructions_deep_linking">A mélylinkelési funkció használatához győződjön meg róla, hogy az űrlap érvényes URL-címét használja:\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">Törölt parancsikon</string>
     <!-- Label: Wi-Fi network selection config in shortcut settings -->
@@ -1273,9 +1260,7 @@ Ezt a funkciót engedélyezheted egy parancsikon szerkesztésével és a \"%1$s\
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
     <string name="confirm_delete_custom_icon_message">Törölje ezt az ikont?</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
-    <string name="confirm_delete_custom_icon_still_in_use_message">Ez az ikon még mindig legalább 1 parancsikonban használatos. Törlése problémákat okozhat.
-
-Egyébként is törölje?</string>
+    <string name="confirm_delete_custom_icon_still_in_use_message">Ez az ikon még mindig legalább 1 parancsikonban használatos. Törlése problémákat okozhat.\n\nEgyébként is törölje?</string>
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
     <string name="button_delete_all_unused_icons">Nem használt ikonok törlése</string>
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
@@ -1360,8 +1345,7 @@ Egyébként is törölje?</string>
     <!-- Empty state, shown in event history when there are no recent events -->
     <string name="empty_state_history">Nincsenek közelmúltbeli események</string>
     <!-- Empty state instructions, shown in event history when there are no events -->
-    <string name="empty_state_history_instructions">Itt láthatja a nemrég indított parancsikonok részleteit, amelyeket a hibaelhárításhoz használhat.
-A \"%s\" képernyőn található opcióval kizárhatja az egyes parancsikonok megjelenését.</string>
+    <string name="empty_state_history_instructions">Itt láthatja a nemrég indított parancsikonok részleteit, amelyeket a hibaelhárításhoz használhat.\nA \"%s\" képernyőn található opcióval kizárhatja az egyes parancsikonok megjelenését.</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
     <string name="label_exclude_from_history">Kizárás az eseménytörténetből</string>
     <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
@@ -1406,9 +1390,7 @@ A \"%s\" képernyőn található opcióval kizárhatja az egyes parancsikonok me
     <!-- Generic dialog button: Configure (e.g. some settings) -->
     <string name="dialog_configure">A  beállítása</string>
     <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_plugin_dialog_configure_app_overlay">Ahhoz, hogy egy parancsikon egy másik alkalmazásból indítható legyen, először engedélyeznie kell, hogy a HTTP parancsikonok alkalmazás más alkalmazások fölé rajzolhasson.
-
-Ennek beállításához koppintson az alábbi \"%s\" gombra.</string>
+    <string name="message_plugin_dialog_configure_app_overlay">Ahhoz, hogy egy parancsikon egy másik alkalmazásból indítható legyen, először engedélyeznie kell, hogy a HTTP parancsikonok alkalmazás más alkalmazások fölé rajzolhasson.\n\nEnnek beállításához koppintson az alábbi \"%s\" gombra.</string>
     <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
     <string name="title_activity_secondary_launcher_trigger">Trigger parancsikon</string>
     <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
@@ -1416,11 +1398,7 @@ Ennek beállításához koppintson az alábbi \"%s\" gombra.</string>
     <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
     <string name="label_run_repeatedly">Ismételten futtatni</string>
     <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_run_repeatedly_dialog_configure_app_overlay">Ahhoz, hogy egy parancsikon megbízhatóan, többször is futtatható legyen, először engedélyeznie kell, hogy a HTTP parancsikonok alkalmazás más alkalmazások fölé rajzolhasson.
-
-Érintse meg az alábbi \"%s\" gombot, hogy ezt most beállítsa.
-
-Az is előfordulhat, hogy ki kell zárnia az alkalmazást az akkumulátor-optimalizálásból. Ezt az alkalmazás beállításaiban találja meg.</string>
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">Ahhoz, hogy egy parancsikon megbízhatóan, többször is futtatható legyen, először engedélyeznie kell, hogy a HTTP parancsikonok alkalmazás más alkalmazások fölé rajzolhasson.\n\nÉrintse meg az alábbi \"%s\" gombot, hogy ezt most beállítsa.\n\nAz is előfordulhat, hogy ki kell zárnia az alkalmazást az akkumulátor-optimalizálásból. Ezt az alkalmazás beállításaiban találja meg.</string>
     <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
     <string name="instructions_repetitions">Az ismétlés időzítése nem pontos, hanem néhány perccel eltérhet, mivel az Android energiaoptimalizálásának függvénye. Felhívjuk figyelmét, hogy ennek a funkciónak a használata jelentősen megnövelheti az alkalmazás akkumulátorhasználatát.</string>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
@@ -1444,9 +1422,7 @@ Az is előfordulhat, hogy ki kell zárnia az alkalmazást az akkumulátor-optima
     <!-- Title of editor for configuring certificate pinning -->
     <string name="title_certificate_pinning">Tanúsítvány kitűzése</string>
     <!-- Empty state instructions for certificate pinning screen -->
-    <string name="empty_state_certificate_pinning_instructions">Ha különösen biztosra akar menni abban, hogy a HTTP-kérelmek biztonságos kapcsolaton keresztül kerülnek elküldésre, akkor engedélyezheti a tanúsítványok kitűzését bizonyos hosztok számára, ha itt hozzáadja a tanúsítványuk SHA-1 vagy SHA-256 ujjlenyomatát.
-
-Saját aláírású tanúsítványok esetén ehelyett ellenőrizze a parancsikon \"%s\" szakaszát.</string>
+    <string name="empty_state_certificate_pinning_instructions">Ha különösen biztosra akar menni abban, hogy a HTTP-kérelmek biztonságos kapcsolaton keresztül kerülnek elküldésre, akkor engedélyezheti a tanúsítványok kitűzését bizonyos hosztok számára, ha itt hozzáadja a tanúsítványuk SHA-1 vagy SHA-256 ujjlenyomatát.\n\nSaját aláírású tanúsítványok esetén ehelyett ellenőrizze a parancsikon \"%s\" szakaszát.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
     <string name="message_certificate_pinning_deleted">A tanúsítvány ujjlenyomata törölve.</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
@@ -1476,7 +1452,7 @@ Saját aláírású tanúsítványok esetén ehelyett ellenőrizze a parancsikon
     <string name="placeholder_empty_category_for_moving">nincs rövidítés ebben a kategóriában</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
-    <string name="label_file_upload_options_allow_image_editing">"Képek vágásának és forgatásának engedélyezése"</string>
+    <string name="label_file_upload_options_allow_image_editing">Képek vágásának és forgatásának engedélyezése</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <string name="label_host_verification">Gazdai ellenőrzés</string>
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
@@ -1570,7 +1546,9 @@ Saját aláírású tanúsítványok esetén ehelyett ellenőrizze a parancsikon
     <!-- Option in font size drop down: Very large -->
     <!-- Option in font size drop down: Huge -->
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
@@ -1651,4 +1629,5 @@ Saját aláírású tanúsítványok esetén ehelyett ellenőrizze a parancsikon
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
 </resources>

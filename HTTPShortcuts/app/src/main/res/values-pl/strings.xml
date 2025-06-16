@@ -94,23 +94,17 @@
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">brak skrótów</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
-    <string name="empty_state_shortcuts_instructions">Skrót pozwala na wysłanie pojedynczego żądania HTTP, opcjonalnie przetwarzając i wyświetlając odpowiedź.
-
-Kliknij przycisk +, aby rozpocząć, lub sprawdź [Dokumentację] w sekcji Informacje.</string>
+    <string name="empty_state_shortcuts_instructions">Skrót pozwala na wysłanie pojedynczego żądania HTTP, opcjonalnie przetwarzając i wyświetlając odpowiedź.\n\nKliknij przycisk +, aby rozpocząć, lub sprawdź [Dokumentację] w sekcji Informacje.</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <string name="empty_state_no_shortcuts_in_category">jeszcze nie ma skrótów w tej kategorii</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Nie dodałeś jeszcze żadnych skrótów do uruchomienia.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts_instructions">Dodaj do tej listy wszystkie skróty, które chcesz uruchomić w ramach tego multi-skrótu.
-
-Kliknij przycisk +, aby rozpocząć.</string>
+    <string name="empty_state_trigger_shortcuts_instructions">Dodaj do tej listy wszystkie skróty, które chcesz uruchomić w ramach tego multi-skrótu.\n\nKliknij przycisk +, aby rozpocząć.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">Nie masz jeszcze żadnych zmiennych.</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">Zmienne umożliwiają dynamiczne wstawianie wartości do skrótów, np. do adresu URL, nagłówków lub treści żądania. Podczas edytowania skrótu poszukaj przycisku „{}”, aby znaleźć wszystkie miejsca, w których można wstawić symbol zastępczy zmiennej.
-
-Kliknij przycisk +, aby dodać zmienną.</string>
+    <string name="empty_state_variables_instructions">Zmienne umożliwiają dynamiczne wstawianie wartości do skrótów, np. do adresu URL, nagłówków lub treści żądania. Podczas edytowania skrótu poszukaj przycisku „{}”, aby znaleźć wszystkie miejsca, w których można wstawić symbol zastępczy zmiennej.\n\nKliknij przycisk +, aby dodać zmienną.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">Usunąć ten skrót?</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
@@ -259,8 +253,7 @@ Kliknij przycisk +, aby dodać zmienną.</string>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Eksportuję…</string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">Importowanie skrótów nie powiodło się:
-%s</string>
+    <string name="import_failed_with_reason">Importowanie skrótów nie powiodło się:\n%s</string>
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">Eksportowanie skrótów nie powiodło się:
 %s</string>
@@ -438,9 +431,7 @@ Upewnij się, że masz zainstalowaną najnowszą wersję aplikacji.</string>
     <!-- Page title, shown in editor when creating a new category -->
     <string name="title_create_category">Tworzenie kategorii</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">Usunąć tę kategorię?
-
-Wszystkie zawarte w nim skróty zostaną usunięte.</string>
+    <string name="confirm_delete_category_message">Usunąć tę kategorię?\n\nWszystkie zawarte w nim skróty zostaną usunięte.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">Kategoria ukryta.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
@@ -642,11 +633,7 @@ Nie masz jednak jeszcze skonfigurowanych żadnych zmiennych.</string>
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Wyślij do…</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">Nie znaleziono odpowiednich skrótów.
-
- Aby skorzystać z tej funkcji, musisz mieć co najmniej jeden skrót, który używa zmiennej umożliwiającej „Udostępnij…” lub skrótu z parametrem pliku.
-
-Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych.</string>
+    <string name="error_not_suitable_shortcuts">Nie znaleziono odpowiednich skrótów.\n\n Aby skorzystać z tej funkcji, musisz mieć co najmniej jeden skrót, który używa zmiennej umożliwiającej „Udostępnij…” lub skrótu z parametrem pliku.\n\nWięcej informacji można znaleźć w dokumentacji w sekcji zmiennych.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Zezwól na „Udostępnij…”</string>
     <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
@@ -885,6 +872,7 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych.</string>
     <string name="action_type_trigger_tasker_title">Trigger Tasker Zadanie</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
     <string name="action_type_set_wireguard_tunnel_state_title">Włącz lub wyłącz VPN WireGuard</string>
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Uzyskaj bieżącą lokalizację</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -1038,11 +1026,9 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych.</string>
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">Błąd</string>
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">Błąd JavaScript:
-%s</string>
+    <string name="error_js_pattern">Błąd JavaScript:\n%s</string>
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">Błąd JavaScript (linia %1$d):
-%2$s</string>
+    <string name="error_js_pattern_with_line_number">Błąd JavaScript (linia %1$d):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_read">Błąd zmiennej: próbowano uzyskać wartość zmiennej, która nie istnieje: %s</string>
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
@@ -1150,9 +1136,7 @@ Więcej informacji można znaleźć w dokumentacji w sekcji zmiennych.</string>
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <string name="action_quick_settings_tile_trigger">Wyzwalacz skrótu</string>
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile">Nie masz jeszcze żadnych skrótów, które można uruchomić za pomocą kafelka Szybkie ustawienia.
-
-Możesz włączyć tę funkcję, edytując skrót i zaznaczając pole wyboru \"%1$s\" znajdujące się w \"%2$s\".</string>
+    <string name="instructions_quick_settings_tile">Nie masz jeszcze żadnych skrótów, które można uruchomić za pomocą kafelka Szybkie ustawienia.\n\nMożesz włączyć tę funkcję, edytując skrót i zaznaczając pole wyboru \"%1$s\" znajdujące się w \"%2$s\".</string>
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">Kod statusu</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
@@ -1271,7 +1255,7 @@ Możesz włączyć tę funkcję, edytując skrót i zaznaczając pole wyboru \"%
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">Otwórz %s w przeglądarce na swoim komputerze, wprowadź identyfikator urządzenia oraz hasło i rozpocznij edycję.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Po zakończeniu edycji i zapisaniu zmian kliknij przycisk &lt;pre&gt; ”Pobierz zmiany” &lt;/pre&gt; poniżej, aby pobrać zmiany z powrotem do aplikacji."</string>
+    <string name="instructions_remote_edit_step_4">Po zakończeniu edycji i zapisaniu zmian kliknij przycisk &lt;pre&gt; ”Pobierz zmiany” &lt;/pre&gt; poniżej, aby pobrać zmiany z powrotem do aplikacji.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">Prześlij na serwer</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1313,9 +1297,7 @@ Możesz włączyć tę funkcję, edytując skrót i zaznaczając pole wyboru \"%
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
     <string name="error_shortcut_not_found_for_deep_link">Nie znaleziono skrótu \"%s\"</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
-    <string name="instructions_deep_linking">Aby skorzystać z funkcji precyzyjnych linków, upewnij się, że używasz prawidłowego adresu URL formularza:
-
-%s</string>
+    <string name="instructions_deep_linking">Aby skorzystać z funkcji precyzyjnych linków, upewnij się, że używasz prawidłowego adresu URL formularza:\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">Skrót usunięty</string>
     <!-- Label: Wi-Fi network selection config in shortcut settings -->
@@ -1385,9 +1367,7 @@ Możesz włączyć tę funkcję, edytując skrót i zaznaczając pole wyboru \"%
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
     <string name="confirm_delete_custom_icon_message">Usunąć tą ikonę ?</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
-    <string name="confirm_delete_custom_icon_still_in_use_message">Ta ikona jest nadal używana w co najmniej 1 skrócie. Usunięcie jej może spowodować problemy.
-
-Usunąć mimo to?</string>
+    <string name="confirm_delete_custom_icon_still_in_use_message">Ta ikona jest nadal używana w co najmniej 1 skrócie. Usunięcie jej może spowodować problemy.\n\nUsunąć mimo to?</string>
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
     <string name="button_delete_all_unused_icons">Usuń nieużywane ikony</string>
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
@@ -1476,8 +1456,7 @@ Usunąć mimo to?</string>
     <!-- Empty state, shown in event history when there are no recent events -->
     <string name="empty_state_history">Brak ostatnich wydarzeń</string>
     <!-- Empty state instructions, shown in event history when there are no events -->
-    <string name="empty_state_history_instructions">Widoczne są tu szczegóły dotyczące ostatnio uruchamianych skrótów, które można wykorzystać do rozwiązywania problemów.
-Możesz wykluczyć poszczególne skróty z wyświetlania tutaj za pomocą opcji znajdującej się na ekranie \"%s\".</string>
+    <string name="empty_state_history_instructions">Widoczne są tu szczegóły dotyczące ostatnio uruchamianych skrótów, które można wykorzystać do rozwiązywania problemów.\nMożesz wykluczyć poszczególne skróty z wyświetlania tutaj za pomocą opcji znajdującej się na ekranie \"%s\".</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
     <string name="label_exclude_from_history">Wyłączenie z historii zdarzeń</string>
     <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
@@ -1523,9 +1502,7 @@ Możesz wykluczyć poszczególne skróty z wyświetlania tutaj za pomocą opcji 
     <!-- Generic dialog button: Configure (e.g. some settings) -->
     <string name="dialog_configure">Skonfiguruj</string>
     <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_plugin_dialog_configure_app_overlay">Aby móc uruchamiać skrót z innej aplikacji, musisz najpierw zezwolić aplikacji Skróty HTTP na rysowanie nad innymi aplikacjami.
-
-Kliknij przycisk „%s” poniżej, aby to teraz skonfigurować.</string>
+    <string name="message_plugin_dialog_configure_app_overlay">Aby móc uruchamiać skrót z innej aplikacji, musisz najpierw zezwolić aplikacji Skróty HTTP na rysowanie nad innymi aplikacjami.\n\nKliknij przycisk „%s” poniżej, aby to teraz skonfigurować.</string>
     <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
     <string name="title_activity_secondary_launcher_trigger">Uruchom skrót</string>
     <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
@@ -1533,11 +1510,7 @@ Kliknij przycisk „%s” poniżej, aby to teraz skonfigurować.</string>
     <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
     <string name="label_run_repeatedly">Uruchom wielokrotnie</string>
     <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_run_repeatedly_dialog_configure_app_overlay">Aby skrót mógł być wielokrotnie i niezawodnie uruchamiany, musisz najpierw zezwolić aplikacji Skróty HTTP na rysowanie nad innymi aplikacjami.
-
-Kliknij przycisk „%s” poniżej, aby to teraz skonfigurować.
-
-Może być również konieczne wykluczenie aplikacji z optymalizacji baterii. Znajdziesz to w ustawieniach aplikacji.</string>
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">Aby skrót mógł być wielokrotnie i niezawodnie uruchamiany, musisz najpierw zezwolić aplikacji Skróty HTTP na rysowanie nad innymi aplikacjami.\n\nKliknij przycisk „%s” poniżej, aby to teraz skonfigurować.\n\nMoże być również konieczne wykluczenie aplikacji z optymalizacji baterii. Znajdziesz to w ustawieniach aplikacji.</string>
     <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
     <string name="instructions_repetitions">Czas powtórzenia nie jest dokładny, ale może się różnić o kilka minut, ponieważ zależy od optymalizacji mocy Androida. Pamiętaj, że korzystanie z tej funkcji może znacznie zwiększyć zużycie baterii przez aplikację.</string>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
@@ -1573,9 +1546,7 @@ Może być również konieczne wykluczenie aplikacji z optymalizacji baterii. Zn
     <!-- Title of editor for configuring certificate pinning -->
     <string name="title_certificate_pinning">Przypinanie certyfikatu</string>
     <!-- Empty state instructions for certificate pinning screen -->
-    <string name="empty_state_certificate_pinning_instructions">Jeśli chcesz mieć pewność, że żądania HTTP są wysyłane przez bezpieczne połączenie, możesz włączyć przypinanie certyfikatów dla określonych hostów, dodając tutaj odcisk palca SHA-1 lub SHA-256 ich certyfikatu.
-
-W przypadku certyfikatów z podpisem własnym sprawdź zamiast tego sekcję skrótu „%s”.</string>
+    <string name="empty_state_certificate_pinning_instructions">Jeśli chcesz mieć pewność, że żądania HTTP są wysyłane przez bezpieczne połączenie, możesz włączyć przypinanie certyfikatów dla określonych hostów, dodając tutaj odcisk palca SHA-1 lub SHA-256 ich certyfikatu.\n\nW przypadku certyfikatów z podpisem własnym sprawdź zamiast tego sekcję skrótu „%s”.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
     <string name="message_certificate_pinning_deleted">Usunięto odcisk palca certyfikatu.</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
@@ -1607,7 +1578,7 @@ W przypadku certyfikatów z podpisem własnym sprawdź zamiast tego sekcję skr�
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <string name="placeholder_empty_category_section_for_moving">brak skrótów w tej sekcji</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
-    <string name="label_file_upload_options_allow_image_editing">"Zezwalaj na przycinanie i obracanie obrazów"</string>
+    <string name="label_file_upload_options_allow_image_editing">Zezwalaj na przycinanie i obracanie obrazów</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <string name="label_host_verification">Weryfikacja gospodarza</string>
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
@@ -1734,8 +1705,10 @@ W przypadku certyfikatów z podpisem własnym sprawdź zamiast tego sekcję skr�
     <string name="font_size_huge">Ogromny</string>
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
     <string name="wireguard_setup_instructions">Upewnij się, że włącz również ustawienia \"Zezwalaj na zdalne sterowanie aplikacjami\" w aplikacji Wireguard.</string>
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
     <string name="wireguard_permission_not_granted">Pozwolenie Wireguard nie zostało udzielone.</string>
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">ID urządzenia</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
@@ -1892,4 +1865,5 @@ W przypadku certyfikatów z podpisem własnym sprawdź zamiast tego sekcję skr�
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
 </resources>

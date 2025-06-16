@@ -83,16 +83,12 @@
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">Δεν έχετε δημιουργήσει συντομεύσεις ακόμα.</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
-    <string name="empty_state_shortcuts_instructions">Μία συντόμευση επιτρέπει την αποστολή ενός HTTP request, προαιρετικά με την επεξεργασία και προβολή της απάντησης.
-
-Πιέστε το + για να ξεκινήσετε, ή διαβάστε την [Τεκμηρίωση] στην ενότητα με τις Πληροφορίες.</string>
+    <string name="empty_state_shortcuts_instructions">Μία συντόμευση επιτρέπει την αποστολή ενός HTTP request, προαιρετικά με την επεξεργασία και προβολή της απάντησης.\n\nΠιέστε το + για να ξεκινήσετε, ή διαβάστε την [Τεκμηρίωση] στην ενότητα με τις Πληροφορίες.</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Δεν έχετε προσθέσει ακόμη συντομεύσεις για την ενεργοποίηση.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts_instructions">Προσθέστε σε αυτή τη λίστα όλες τις συντομεύσεις που θέλετε να ενεργοποιήσετε ως μέρος αυτής της πολλαπλής συντόμευσης.
-
-Κάντε κλικ στο κουμπί + για να ξεκινήσετε.</string>
+    <string name="empty_state_trigger_shortcuts_instructions">Προσθέστε σε αυτή τη λίστα όλες τις συντομεύσεις που θέλετε να ενεργοποιήσετε ως μέρος αυτής της πολλαπλής συντόμευσης.\n\nΚάντε κλικ στο κουμπί + για να ξεκινήσετε.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">Δεν έχετε δημιουργήσει μεταβλητές ακόμα.</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
@@ -235,8 +231,7 @@
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Εξαγωγή...</string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">Η εισαγωγή συντομεύσεων απέτυχε:
-%s</string>
+    <string name="import_failed_with_reason">Η εισαγωγή συντομεύσεων απέτυχε:\n%s</string>
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">Η εξαγωγή συντομεύσεων απέτυχε: %s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
@@ -380,9 +375,7 @@
     <!-- Page title, shown in editor when creating a new category -->
     <string name="title_create_category">Δημιουργία κατηγορίας</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">Να διαγράψετε αυτή την κατηγορία;
-
-Όλες οι συντομεύσεις που περιέχονται σε αυτήν θα διαγραφούν.</string>
+    <string name="confirm_delete_category_message">Να διαγράψετε αυτή την κατηγορία;\n\nΌλες οι συντομεύσεις που περιέχονται σε αυτήν θα διαγραφούν.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">Κατηγορία κρυμμένη.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
@@ -566,11 +559,7 @@
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Στείλτε στο...</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">Δεν βρέθηκαν κατάλληλες συντομεύσεις.
-
-Για να χρησιμοποιήσετε αυτή τη δυνατότητα, πρέπει να έχετε τουλάχιστον μια συντόμευση που χρησιμοποιεί μια μεταβλητή που επιτρέπει τη λήψη του κοινόχρηστου κειμένου ως τιμή, ή μια συντόμευση που έχει μια παράμετρο αρχείου ή χρησιμοποιεί ένα αρχείο ως σώμα αίτησης.
-
-Κάντε κλικ στο κουμπί βοήθειας στην ενότητα μεταβλητών για περισσότερες πληροφορίες.</string>
+    <string name="error_not_suitable_shortcuts">Δεν βρέθηκαν κατάλληλες συντομεύσεις.\n\nΓια να χρησιμοποιήσετε αυτή τη δυνατότητα, πρέπει να έχετε τουλάχιστον μια συντόμευση που χρησιμοποιεί μια μεταβλητή που επιτρέπει τη λήψη του κοινόχρηστου κειμένου ως τιμή, ή μια συντόμευση που έχει μια παράμετρο αρχείου ή χρησιμοποιεί ένα αρχείο ως σώμα αίτησης.\n\nΚάντε κλικ στο κουμπί βοήθειας στην ενότητα μεταβλητών για περισσότερες πληροφορίες.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Επιτρέψτε τη λήψη αξίας από το παράθυρο διαλόγου Share</string>
     <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
@@ -785,6 +774,7 @@
     <string name="error_action_type_send_wol_invalid_mac_address">Μη έγκυρη διεύθυνση MAC: %s</string>
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Λήψη τρέχουσας τοποθεσίας</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -918,11 +908,9 @@
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">Σφάλμα</string>
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">Σφάλμα JavaScript:
-%s</string>
+    <string name="error_js_pattern">Σφάλμα JavaScript:\n%s</string>
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">Σφάλμα JavaScript (στη γραμμή %1$d):
-%2$s</string>
+    <string name="error_js_pattern_with_line_number">Σφάλμα JavaScript (στη γραμμή %1$d):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_read">Σφάλμα μεταβλητής: Προσπάθησα να πάρω την τιμή μιας μεταβλητής που δεν υπάρχει: %s</string>
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
@@ -1025,9 +1013,7 @@
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <string name="action_quick_settings_tile_trigger">Συντόμευση σκανδάλης</string>
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile">Δεν έχετε ακόμη συντομεύσεις που μπορούν να ενεργοποιηθούν μέσω του πλακιδίου Γρήγορες ρυθμίσεις.
-
-Μπορείτε να ενεργοποιήσετε αυτή τη λειτουργία επεξεργαζόμενοι μια συντόμευση και επιλέγοντας το πλαίσιο ελέγχου \"%1$s\" που βρίσκεται στο \"%2$s\".</string>
+    <string name="instructions_quick_settings_tile">Δεν έχετε ακόμη συντομεύσεις που μπορούν να ενεργοποιηθούν μέσω του πλακιδίου Γρήγορες ρυθμίσεις.\n\nΜπορείτε να ενεργοποιήσετε αυτή τη λειτουργία επεξεργαζόμενοι μια συντόμευση και επιλέγοντας το πλαίσιο ελέγχου \"%1$s\" που βρίσκεται στο \"%2$s\".</string>
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">Κωδικός κατάστασης</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
@@ -1134,7 +1120,7 @@
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">Ανοίξτε το %s σε ένα πρόγραμμα περιήγησης στον υπολογιστή σας, εισαγάγετε το αναγνωριστικό της συσκευής σας και τον κωδικό πρόσβασής σας και ξεκινήστε την επεξεργασία.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Μόλις ολοκληρώσετε την επεξεργασία και αποθηκεύσετε τις αλλαγές σας, κάντε κλικ στο παρακάτω κουμπί &lt;pre&gt;\"Pull Changes\"&lt;/pre&gt; για να κατεβάσετε τις αλλαγές σας πίσω στην εφαρμογή."</string>
+    <string name="instructions_remote_edit_step_4">Μόλις ολοκληρώσετε την επεξεργασία και αποθηκεύσετε τις αλλαγές σας, κάντε κλικ στο παρακάτω κουμπί &lt;pre&gt;\"Pull Changes\"&lt;/pre&gt; για να κατεβάσετε τις αλλαγές σας πίσω στην εφαρμογή.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">Push στον διακομιστή</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1174,9 +1160,7 @@
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
     <string name="error_shortcut_not_found_for_deep_link">Η συντόμευση \"%s\" δεν βρέθηκε</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
-    <string name="instructions_deep_linking">Για να χρησιμοποιήσετε τη λειτουργία βαθιάς σύνδεσης, βεβαιωθείτε ότι χρησιμοποιείτε μια έγκυρη διεύθυνση URL της φόρμας:
-
-%s</string>
+    <string name="instructions_deep_linking">Για να χρησιμοποιήσετε τη λειτουργία βαθιάς σύνδεσης, βεβαιωθείτε ότι χρησιμοποιείτε μια έγκυρη διεύθυνση URL της φόρμας:\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">Διαγραμμένη συντόμευση</string>
     <!-- Label: Wi-Fi network selection config in shortcut settings -->
@@ -1244,9 +1228,7 @@
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
     <string name="confirm_delete_custom_icon_message">Να διαγράψω αυτό το εικονίδιο;</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
-    <string name="confirm_delete_custom_icon_still_in_use_message">Αυτό το εικονίδιο εξακολουθεί να χρησιμοποιείται σε τουλάχιστον 1 συντόμευση. Η διαγραφή του μπορεί να προκαλέσει προβλήματα.
-
-Διαγραφή ούτως ή άλλως;</string>
+    <string name="confirm_delete_custom_icon_still_in_use_message">Αυτό το εικονίδιο εξακολουθεί να χρησιμοποιείται σε τουλάχιστον 1 συντόμευση. Η διαγραφή του μπορεί να προκαλέσει προβλήματα.\n\nΔιαγραφή ούτως ή άλλως;</string>
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
     <string name="button_delete_all_unused_icons">Διαγραφή αχρησιμοποίητων εικονιδίων</string>
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
@@ -1332,8 +1314,7 @@
     <!-- Empty state, shown in event history when there are no recent events -->
     <string name="empty_state_history">Δεν υπάρχουν πρόσφατες εκδηλώσεις</string>
     <!-- Empty state instructions, shown in event history when there are no events -->
-    <string name="empty_state_history_instructions">Εδώ θα δείτε λεπτομέρειες σχετικά με τις συντομεύσεις που ενεργοποιήθηκαν πρόσφατα, τις οποίες μπορείτε να χρησιμοποιήσετε για την αντιμετώπιση προβλημάτων.
-Μπορείτε να αποκλείσετε μεμονωμένες συντομεύσεις από το να εμφανίζονται εδώ μέσω μιας επιλογής που βρίσκεται στην οθόνη \"%s\".</string>
+    <string name="empty_state_history_instructions">Εδώ θα δείτε λεπτομέρειες σχετικά με τις συντομεύσεις που ενεργοποιήθηκαν πρόσφατα, τις οποίες μπορείτε να χρησιμοποιήσετε για την αντιμετώπιση προβλημάτων.\nΜπορείτε να αποκλείσετε μεμονωμένες συντομεύσεις από το να εμφανίζονται εδώ μέσω μιας επιλογής που βρίσκεται στην οθόνη \"%s\".</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
     <string name="label_exclude_from_history">Εξαίρεση από το ιστορικό συμβάντων</string>
     <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
@@ -1377,9 +1358,7 @@
     <!-- Generic dialog button: Configure (e.g. some settings) -->
     <string name="dialog_configure">Ρύθμιση παραμέτρων</string>
     <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_plugin_dialog_configure_app_overlay">Για να μπορέσετε να ενεργοποιήσετε μια συντόμευση από μια άλλη εφαρμογή, πρέπει πρώτα να επιτρέψετε στην εφαρμογή Συντομεύσεις HTTP να σχεδιάζει πάνω από άλλες εφαρμογές.
-
-Πατήστε το κουμπί \"%s\" παρακάτω για να το ρυθμίσετε τώρα.</string>
+    <string name="message_plugin_dialog_configure_app_overlay">Για να μπορέσετε να ενεργοποιήσετε μια συντόμευση από μια άλλη εφαρμογή, πρέπει πρώτα να επιτρέψετε στην εφαρμογή Συντομεύσεις HTTP να σχεδιάζει πάνω από άλλες εφαρμογές.\n\nΠατήστε το κουμπί \"%s\" παρακάτω για να το ρυθμίσετε τώρα.</string>
     <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
     <string name="title_activity_secondary_launcher_trigger">Συντόμευση σκανδάλης</string>
     <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
@@ -1387,11 +1366,7 @@
     <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
     <string name="label_run_repeatedly">Τρέξτε επανειλημμένα</string>
     <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_run_repeatedly_dialog_configure_app_overlay">Για να μπορεί μια συντόμευση να εκτελείται επανειλημμένα με αξιόπιστο τρόπο, πρέπει πρώτα να επιτρέψετε στην εφαρμογή Συντομεύσεις HTTP να σχεδιάζει πάνω από άλλες εφαρμογές.
-
-Πατήστε το κουμπί \"%s\" παρακάτω για να το ρυθμίσετε τώρα.
-
-Μπορεί επίσης να χρειαστεί να αποκλείσετε την εφαρμογή από τις βελτιστοποιήσεις μπαταρίας. Μπορείτε να το βρείτε αυτό στις ρυθμίσεις της εφαρμογής.</string>
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">Για να μπορεί μια συντόμευση να εκτελείται επανειλημμένα με αξιόπιστο τρόπο, πρέπει πρώτα να επιτρέψετε στην εφαρμογή Συντομεύσεις HTTP να σχεδιάζει πάνω από άλλες εφαρμογές.\n\nΠατήστε το κουμπί \"%s\" παρακάτω για να το ρυθμίσετε τώρα.\n\nΜπορεί επίσης να χρειαστεί να αποκλείσετε την εφαρμογή από τις βελτιστοποιήσεις μπαταρίας. Μπορείτε να το βρείτε αυτό στις ρυθμίσεις της εφαρμογής.</string>
     <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
     <string name="instructions_repetitions">Ο χρόνος της επανάληψης δεν είναι ακριβής, αλλά μπορεί να διαφέρει κατά μερικά λεπτά, καθώς υπόκειται στις βελτιστοποιήσεις ισχύος του Android. Λάβετε υπόψη ότι η χρήση αυτής της λειτουργίας ενδέχεται να αυξήσει σημαντικά τη χρήση της μπαταρίας από την εφαρμογή.</string>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
@@ -1415,9 +1390,7 @@
     <!-- Title of editor for configuring certificate pinning -->
     <string name="title_certificate_pinning">Καρφίτσωμα πιστοποιητικού</string>
     <!-- Empty state instructions for certificate pinning screen -->
-    <string name="empty_state_certificate_pinning_instructions">Εάν θέλετε να είστε ιδιαίτερα σίγουροι ότι τα αιτήματά σας HTTP αποστέλλονται μέσω ασφαλούς σύνδεσης, μπορείτε να ενεργοποιήσετε την καρφίτσα πιστοποιητικού για συγκεκριμένους κεντρικούς υπολογιστές προσθέτοντας το αποτύπωμα SHA-1 ή SHA-256 του πιστοποιητικού τους εδώ.
-
-Για αυτο-υπογεγραμμένα πιστοποιητικά, ελέγξτε αντ\' αυτού την ενότητα \"%s\" της συντόμευσης.</string>
+    <string name="empty_state_certificate_pinning_instructions">Εάν θέλετε να είστε ιδιαίτερα σίγουροι ότι τα αιτήματά σας HTTP αποστέλλονται μέσω ασφαλούς σύνδεσης, μπορείτε να ενεργοποιήσετε την καρφίτσα πιστοποιητικού για συγκεκριμένους κεντρικούς υπολογιστές προσθέτοντας το αποτύπωμα SHA-1 ή SHA-256 του πιστοποιητικού τους εδώ.\n\nΓια αυτο-υπογεγραμμένα πιστοποιητικά, ελέγξτε αντ\' αυτού την ενότητα \"%s\" της συντόμευσης.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
     <string name="message_certificate_pinning_deleted">Διαγραφή δακτυλικού αποτυπώματος πιστοποιητικού.</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
@@ -1447,7 +1420,7 @@
     <string name="placeholder_empty_category_for_moving">δεν υπάρχουν συντομεύσεις σε αυτή την κατηγορία</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
-    <string name="label_file_upload_options_allow_image_editing">"Επιτρέπει την περικοπή και την περιστροφή εικόνων"</string>
+    <string name="label_file_upload_options_allow_image_editing">Επιτρέπει την περικοπή και την περιστροφή εικόνων</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <string name="label_host_verification">Επαλήθευση οικοδεσπότη</string>
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
@@ -1541,7 +1514,9 @@
     <!-- Option in font size drop down: Very large -->
     <!-- Option in font size drop down: Huge -->
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
@@ -1622,4 +1597,5 @@
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
 </resources>

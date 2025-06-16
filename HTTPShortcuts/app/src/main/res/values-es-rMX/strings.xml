@@ -79,18 +79,14 @@
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">Aún no cuenta con ningún atajo creado</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
-    <string name="empty_state_shortcuts_instructions">Un atajo le permite enviar solicitudes individuales HTTP, opcionalmente se puede mostrar y procesar las respuestas (request).
-
-Haga clic en el botón + de la pantalla principal para comenzar o consulte la [documentación].</string>
+    <string name="empty_state_shortcuts_instructions">Un atajo le permite enviar solicitudes individuales HTTP, opcionalmente se puede mostrar y procesar las respuestas (request).\n\nHaga clic en el botón + de la pantalla principal para comenzar o consulte la [documentación].</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">Aún no has creado ninguna variables</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">Las variables permiten insertar valores dinámicamente en los accesos directos, por ejemplo, al editar un atajo encontrará en todos los lugares donde se puede insertar una  variableen la URL, encabezados o cuerpo de la solicitud. Agregue variables pulsando el botón {}, al editar un acceso directo para encontrar todos los lugares donde se puede insertar un marcador de posición variable.
-
- Haga clic en el botón + para agregar una variable.</string>
+    <string name="empty_state_variables_instructions">Las variables permiten insertar valores dinámicamente en los accesos directos, por ejemplo, al editar un atajo encontrará en todos los lugares donde se puede insertar una variableen la URL, encabezados o cuerpo de la solicitud. Agregue variables pulsando el botón {}, al editar un acceso directo para encontrar todos los lugares donde se puede insertar un marcador de posición variable.\n\n Haga clic en el botón + para agregar una variable.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">Eliminara este atajo?</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
@@ -220,7 +216,7 @@ Haga clic en el botón + de la pantalla principal para comenzar o consulte la [d
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Exportando...</string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">Fallo al importar los atajos:</string>
+    <string name="import_failed_with_reason">Fallo al importar los atajos:\n%s</string>
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">Fallo al exportar los atajos: %s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
@@ -366,9 +362,7 @@ Haga clic en el botón + de la pantalla principal para comenzar o consulte la [d
     <!-- Page title, shown in editor when creating a new category -->
     <string name="title_create_category">Crear Categoría</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">¿Eliminar esta Categoría?
-
-Todos los atajos dentro de esta se eliminaran también.</string>
+    <string name="confirm_delete_category_message">¿Eliminar esta Categoría?\n\nTodos los atajos dentro de esta se eliminaran también.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">Categoría Oculta.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
@@ -705,6 +699,7 @@ Todos los atajos dentro de esta se eliminaran también.</string>
     <string name="error_action_type_send_wol_invalid_mac_address">Dirección MAC Invalida: %s</string>
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
     <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
@@ -812,11 +807,9 @@ Todos los atajos dentro de esta se eliminaran también.</string>
     <string name="label_post_request_failure_script">Correr al fallar.</string>
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">Error JavaScript:
-%s</string>
+    <string name="error_js_pattern">Error JavaScript:\n%s</string>
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">Error JavaScript (en la linea %1$d):
-%2$s</string>
+    <string name="error_js_pattern_with_line_number">Error JavaScript (en la línea %1$d):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <!-- Button: Shown below JavaScript editor (for pre-request and post-request actions), allows to add snippets of JS code -->
@@ -1226,7 +1219,9 @@ Todos los atajos dentro de esta se eliminaran también.</string>
     <!-- Option in font size drop down: Very large -->
     <!-- Option in font size drop down: Huge -->
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
@@ -1307,4 +1302,5 @@ Todos los atajos dentro de esta se eliminaran también.</string>
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
 </resources>

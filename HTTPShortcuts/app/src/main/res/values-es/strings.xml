@@ -95,23 +95,17 @@
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">Todavía no tienes ningún atajo.</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
-    <string name="empty_state_shortcuts_instructions">Un acceso directo permite enviar una única petición HTTP, procesando y mostrando opcionalmente la respuesta.
-
-Haga clic en el botón + para empezar, o consulte la [Documentación].</string>
+    <string name="empty_state_shortcuts_instructions">Un acceso directo permite enviar una única petición HTTP, procesando y mostrando opcionalmente la respuesta.\n\nHaga clic en el botón + para empezar, o consulte la [Documentación].</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <string name="empty_state_no_shortcuts_in_category">no hay accesos directos aún en esta categoría</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Todavía no has añadido ningún atajo para disparar.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts_instructions">Añade a esta lista todos los atajos que quieras activar como parte de este atajo múltiple.
-
-Haz clic en el botón + para empezar.</string>
+    <string name="empty_state_trigger_shortcuts_instructions">Añade a esta lista todos los atajos que quieras activar como parte de este atajo múltiple.\n\nHaz clic en el botón + para empezar.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">Todavía no tienes ninguna variable.</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">Las variables le permiten insertar dinámicamente valores en sus accesos directos, por ejemplo, en la URL, las cabeceras o el cuerpo de la solicitud. Busque el botón \"{}\" al editar un acceso directo para encontrar todos los lugares en los que se puede insertar un marcador de posición variable.
-
-Haga clic en el botón + para añadir una variable.</string>
+    <string name="empty_state_variables_instructions">Las variables le permiten insertar dinámicamente valores en sus accesos directos, por ejemplo, en la URL, las cabeceras o el cuerpo de la solicitud. Busque el botón \"{}\" al editar un acceso directo para encontrar todos los lugares en los que se puede insertar un marcador de posición variable.\n\nHaga clic en el botón + para añadir una variable.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">Eliminar programa?</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
@@ -260,8 +254,7 @@ Haga clic en el botón + para añadir una variable.</string>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Exportando…</string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">La importación de accesos directos falló:
-%s</string>
+    <string name="import_failed_with_reason">La importación de accesos directos falló:\n%s</string>
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">Error al exportar accesos directos: %s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
@@ -429,7 +422,7 @@ Haga clic en el botón + para añadir una variable.</string>
     <!-- Page title, shown in editor when creating a new category -->
     <string name="title_create_category">Crear categoría</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">Eliminar esta categoría? Todos los accesos directos contenidos dentro serán eliminados.</string>
+    <string name="confirm_delete_category_message">Eliminar esta categoría?\n\nTodos los accesos directos contenidos dentro serán eliminados.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">Categoría oculta.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
@@ -627,11 +620,7 @@ Sin embargo, todavía no tiene ninguna variable configurada.</string>
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Enviar a…</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">No se encontraron accesos directos adecuados.
-
-Para usar esta función, debe tener al menos un acceso directo que use una variable que permita \'Compartir …\'.
-
-Consulte la documentación en la sección de variables para más información.</string>
+    <string name="error_not_suitable_shortcuts">No se encontraron accesos directos adecuados.\n\nPara usar esta función, debe tener al menos un acceso directo que use una variable que permita \'Compartir …\'.\n\nConsulte la documentación en la sección de variables para más información.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Permitir \'Compartir…\'</string>
     <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
@@ -868,6 +857,7 @@ Consulte la documentación en la sección de variables para más información.</
     <string name="action_type_trigger_tasker_title">Activación de la tarea Tasker</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
     <string name="action_type_set_wireguard_tunnel_state_title">Activar o desactivar túnel Wireguard</string>
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Obtener la ubicación actual</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -1019,11 +1009,9 @@ Consulte la documentación en la sección de variables para más información.</
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">Error</string>
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">Error de JavaScript:
-%s</string>
+    <string name="error_js_pattern">Error de JavaScript:\n%s</string>
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">Error de JavaScript (en la línea %1$d):
-%2$s</string>
+    <string name="error_js_pattern_with_line_number">Error de JavaScript (en la línea %1$d):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_read">Error de variable: se ha intentado obtener el valor de una variable que no existe: %s</string>
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
@@ -1131,9 +1119,7 @@ Consulte la documentación en la sección de variables para más información.</
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <string name="action_quick_settings_tile_trigger">Atajo de disparo</string>
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile">Todavía no tiene ningún acceso directo que pueda activarse a través del mosaico de ajustes rápidos.
-
-Puede activar esta función editando un acceso directo y seleccionando la casilla \"%1$s\" que se encuentra en \"%2$s\".</string>
+    <string name="instructions_quick_settings_tile">Todavía no tiene ningún acceso directo que pueda activarse a través del mosaico de ajustes rápidos.\n\nPuede activar esta función editando un acceso directo y seleccionando la casilla \"%1$s\" que se encuentra en \"%2$s\".</string>
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">Código de estado</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
@@ -1250,7 +1236,7 @@ Puede activar esta función editando un acceso directo y seleccionando la casill
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">Abre %s en un navegador de tu ordenador, introduce tu ID de dispositivo y tu contraseña y empieza a editar.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Una vez que hayas terminado de editar y hayas guardado los cambios, haz clic en el botón &lt;pre&gt;\"Pull Changes\"&lt;/pre&gt; que aparece a continuación para descargar los cambios en la aplicación."</string>
+    <string name="instructions_remote_edit_step_4">Una vez que hayas terminado de editar y hayas guardado los cambios, haz clic en el botón &lt;pre&gt;\"Pull Changes\"&lt;/pre&gt; que aparece a continuación para descargar los cambios en la aplicación.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">Empujar al servidor</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1292,9 +1278,7 @@ Puede activar esta función editando un acceso directo y seleccionando la casill
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
     <string name="error_shortcut_not_found_for_deep_link">Acceso directo \"%s\" no encontrado</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
-    <string name="instructions_deep_linking">Para utilizar la función de enlace profundo, asegúrese de utilizar una URL válida del formulario:
-
-%s</string>
+    <string name="instructions_deep_linking">Para utilizar la función de enlace profundo, asegúrese de utilizar una URL válida del formulario:\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">Acceso directo eliminado</string>
     <!-- Label: Wi-Fi network selection config in shortcut settings -->
@@ -1364,9 +1348,7 @@ Puede activar esta función editando un acceso directo y seleccionando la casill
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
     <string name="confirm_delete_custom_icon_message">¿Borrar este icono?</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
-    <string name="confirm_delete_custom_icon_still_in_use_message">Este icono se sigue utilizando en al menos 1 acceso directo. Borrarlo podría causar problemas.
-
-¿Borrarlo de todos modos?</string>
+    <string name="confirm_delete_custom_icon_still_in_use_message">Este icono se sigue utilizando en al menos 1 acceso directo. Borrarlo podría causar problemas.\n\n¿Borrarlo de todos modos?</string>
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
     <string name="button_delete_all_unused_icons">Eliminar los iconos no utilizados</string>
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
@@ -1456,8 +1438,7 @@ Puede activar esta función editando un acceso directo y seleccionando la casill
     <!-- Empty state, shown in event history when there are no recent events -->
     <string name="empty_state_history">Ningún acontecimiento reciente</string>
     <!-- Empty state instructions, shown in event history when there are no events -->
-    <string name="empty_state_history_instructions">Aquí verás detalles sobre los accesos directos activados recientemente, que puedes utilizar para solucionar problemas.
-Puedes excluir atajos individuales de aparecer aquí a través de una opción que se encuentra en la pantalla \"%s\".</string>
+    <string name="empty_state_history_instructions">Aquí verás detalles sobre los accesos directos activados recientemente, que puedes utilizar para solucionar problemas.\nPuedes excluir atajos individuales de aparecer aquí a través de una opción que se encuentra en la pantalla \"%s\".</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
     <string name="label_exclude_from_history">Excluir del historial de eventos</string>
     <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
@@ -1503,9 +1484,7 @@ Puedes excluir atajos individuales de aparecer aquí a través de una opción qu
     <!-- Generic dialog button: Configure (e.g. some settings) -->
     <string name="dialog_configure">Configurar</string>
     <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_plugin_dialog_configure_app_overlay">Para poder activar un acceso directo desde otra aplicación, primero debe permitir que la aplicación de accesos directos HTTP dibuje sobre otras aplicaciones.
-
-Toque el botón \“%s\” a continuación para configurar esto ahora.</string>
+    <string name="message_plugin_dialog_configure_app_overlay">Para poder activar un acceso directo desde otra aplicación, primero debe permitir que la aplicación de accesos directos HTTP dibuje sobre otras aplicaciones.\n\nToque el botón \“%s\” a continuación para configurar esto ahora.</string>
     <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
     <string name="title_activity_secondary_launcher_trigger">Atajo de activación</string>
     <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
@@ -1513,11 +1492,7 @@ Toque el botón \“%s\” a continuación para configurar esto ahora.</string>
     <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
     <string name="label_run_repeatedly">Ejecutar repetidamente</string>
     <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_run_repeatedly_dialog_configure_app_overlay">Para que un atajo pueda ejecutarse repetidamente de manera confiable, primero debe permitir que la aplicación Atajos HTTP se dibuje sobre otras aplicaciones.
-
-Toque el botón \“%s\” a continuación para configurar esto ahora.
-
-Es posible que también deba excluir la aplicación de Optimizaciones de batería. Puede encontrar esto en la configuración de la aplicación.</string>
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">Para que un atajo pueda ejecutarse repetidamente de manera confiable, primero debe permitir que la aplicación Atajos HTTP se dibuje sobre otras aplicaciones.\n\nToque el botón \“%s\” a continuación para configurar esto ahora.\n\nEs posible que también deba excluir la aplicación de Optimizaciones de batería. Puede encontrar esto en la configuración de la aplicación.</string>
     <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
     <string name="instructions_repetitions">El momento de la repetición no es exacto, pero puede variar unos minutos, ya que está sujeto a las optimizaciones de energía de Android. Tenga en cuenta que el uso de esta función puede aumentar significativamente el uso de la batería de la aplicación.</string>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
@@ -1581,7 +1556,7 @@ Es posible que también deba excluir la aplicación de Optimizaciones de baterí
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <string name="placeholder_empty_category_section_for_moving">no hay accesos directos en esta sección</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
-    <string name="label_file_upload_options_allow_image_editing">"Permite recortar y girar la imagen"</string>
+    <string name="label_file_upload_options_allow_image_editing">Permite recortar y girar la imagen</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <string name="label_host_verification">Verificación de anfitriones</string>
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
@@ -1706,8 +1681,10 @@ Es posible que también deba excluir la aplicación de Optimizaciones de baterí
     <string name="font_size_huge">Enorme</string>
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
     <string name="wireguard_setup_instructions">Asegúrese de activar también la opción “Permitir aplicaciones de control remoto” en la aplicación Wireguard.</string>
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
     <string name="wireguard_permission_not_granted">No se ha concedido el permiso de Wireguard.</string>
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">ID del dispositivo</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
@@ -1862,4 +1839,5 @@ Es posible que también deba excluir la aplicación de Optimizaciones de baterí
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
 </resources>

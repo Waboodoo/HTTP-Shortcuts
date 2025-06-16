@@ -86,22 +86,16 @@
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">Bạn chưa có phím tắt nào.</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
-    <string name="empty_state_shortcuts_instructions">Một lối tắt cho phép bạn gửi một yêu cầu HTTP duy nhất, tùy chọn xử lý và hiển thị phản hồi.
-
-Nhấp vào nút + để bắt đầu hoặc kiểm tra Tài liệu trong phần Giới thiệu.</string>
+    <string name="empty_state_shortcuts_instructions">Một lối tắt cho phép bạn gửi một yêu cầu HTTP duy nhất, tùy chọn xử lý và hiển thị phản hồi.\n\nNhấp vào nút + để bắt đầu hoặc kiểm tra Tài liệu trong phần Giới thiệu.</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Bạn chưa thêm bất kỳ phím tắt nào để kích hoạt.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts_instructions">Thêm tất cả các phím tắt vào danh sách này mà bạn muốn kích hoạt như một phần của phím tắt đa năng này.
-
-Nhấp vào nút + để bắt đầu.</string>
+    <string name="empty_state_trigger_shortcuts_instructions">Thêm tất cả các phím tắt vào danh sách này mà bạn muốn kích hoạt như một phần của phím tắt đa năng này.\n\nNhấp vào nút + để bắt đầu.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">Bạn chưa có bất kỳ biến nào.</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">Các biến cho phép bạn tự động chèn các giá trị vào lối tắt của mình, ví dụ: vào URL, tiêu đề hoặc nội dung yêu cầu. Tìm nút \"{}\" khi chỉnh sửa phím tắt để tìm tất cả các vị trí có thể chèn trình giữ chỗ biến.
-
-Nhấp vào nút + để thêm một biến.</string>
+    <string name="empty_state_variables_instructions">Các biến cho phép bạn tự động chèn các giá trị vào lối tắt của mình, ví dụ: vào URL, tiêu đề hoặc nội dung yêu cầu. Tìm nút \"{}\" khi chỉnh sửa phím tắt để tìm tất cả các vị trí có thể chèn trình giữ chỗ biến.\n\nNhấp vào nút + để thêm một biến.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">Xóa phím tắt này?</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
@@ -240,8 +234,7 @@ Nhấp vào nút + để thêm một biến.</string>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Đang xuất…</string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">Nhập phím tắt không thành công:
-%S</string>
+    <string name="import_failed_with_reason">Nhập phím tắt không thành công:\n%s</string>
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">Xuất phím tắt không thành công: %s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
@@ -400,9 +393,7 @@ Nhấp vào nút + để thêm một biến.</string>
     <!-- Page title, shown in editor when creating a new category -->
     <string name="title_create_category">Tạo danh mục</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">Xóa danh mục này?
-
-Tất cả các phím tắt chứa bên trong sẽ bị xóa.</string>
+    <string name="confirm_delete_category_message">Xóa danh mục này?\n\nTất cả các phím tắt chứa bên trong sẽ bị xóa.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">Danh mục ẩn.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
@@ -586,11 +577,7 @@ Tuy nhiên, bạn chưa có bất kỳ biến nào được định cấu hình.
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Gửi đến…</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">Không tìm thấy phím tắt phù hợp.
-
-Để sử dụng tính năng này, bạn cần có ít nhất một lối tắt sử dụng biến cho phép nhận văn bản được chia sẻ làm giá trị của nó hoặc lối tắt có tham số tệp hoặc sử dụng tệp làm nội dung yêu cầu của nó.
-
-Nhấp vào nút trợ giúp trong phần biến để biết thêm thông tin.</string>
+    <string name="error_not_suitable_shortcuts">Không tìm thấy phím tắt phù hợp.\n\nĐể sử dụng tính năng này, bạn cần có ít nhất một lối tắt sử dụng biến cho phép nhận văn bản được chia sẻ làm giá trị của nó hoặc lối tắt có tham số tệp hoặc sử dụng tệp làm nội dung yêu cầu của nó.\n\nNhấp vào nút trợ giúp trong phần biến để biết thêm thông tin.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Cho phép nhận giá trị từ hộp thoại chia sẻ</string>
     <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
@@ -806,6 +793,7 @@ Nhấp vào nút trợ giúp trong phần biến để biết thêm thông tin.<
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">Kích hoạt tác vụ Tasker</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Nhận vị trí hiện tại</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -946,11 +934,9 @@ Nhấp vào nút trợ giúp trong phần biến để biết thêm thông tin.<
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">Lỗi</string>
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">lỗi JavaScript:
-%s</string>
+    <string name="error_js_pattern">lỗi JavaScript:%s%s</string>
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">Lỗi JavaScript (tại dòng %1$d):
-%2$s</string>
+    <string name="error_js_pattern_with_line_number">Lỗi JavaScript (tại dòng %1$d):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_read">Lỗi biến: đã cố lấy giá trị của biến không tồn tại: %s</string>
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
@@ -1052,9 +1038,7 @@ Nhấp vào nút trợ giúp trong phần biến để biết thêm thông tin.<
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <string name="action_quick_settings_tile_trigger">Phím tắt kích hoạt</string>
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile">Bạn chưa có bất kỳ lối tắt nào có thể được kích hoạt thông qua ô Cài đặt nhanh.
-
-Bạn có thể bật tính năng này bằng cách chỉnh sửa phím tắt và chọn hộp kiểm \"%1$s\" trong \"%2$s\".</string>
+    <string name="instructions_quick_settings_tile">Bạn chưa có bất kỳ lối tắt nào có thể được kích hoạt thông qua ô Cài đặt nhanh.\n\nBạn có thể bật tính năng này bằng cách chỉnh sửa phím tắt và chọn hộp kiểm \"%1$s\" trong \"%2$s\".</string>
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">Mã trạng thái</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
@@ -1163,7 +1147,7 @@ Bạn có thể bật tính năng này bằng cách chỉnh sửa phím tắt v�
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">Mở %s trong một trình duyệt trên máy tính của bạn, nhập ID và mật khẩu thiết bị của bạn và bắt đầu chỉnh sửa.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Khi bạn chỉnh sửa xong và đã lưu các thay đổi của mình, hãy nhấp vào nút &lt;pre&gt;\"Kéo thay đổi\"&lt;/pre&gt; bên dưới để tải các thay đổi của bạn xuống lại ứng dụng."</string>
+    <string name="instructions_remote_edit_step_4">Khi bạn chỉnh sửa xong và đã lưu các thay đổi của mình, hãy nhấp vào nút &lt;pre&gt;\"Kéo thay đổi\"&lt;/pre&gt; bên dưới để tải các thay đổi của bạn xuống lại ứng dụng.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">Đẩy lên máy chủ</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1204,9 +1188,7 @@ Bạn có thể bật tính năng này bằng cách chỉnh sửa phím tắt v�
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
     <string name="error_shortcut_not_found_for_deep_link">Không tìm thấy phím tắt \"%s\"</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
-    <string name="instructions_deep_linking">Để sử dụng tính năng liên kết sâu, hãy đảm bảo sử dụng URL hợp lệ có dạng:
-
-%S</string>
+    <string name="instructions_deep_linking">Để sử dụng tính năng liên kết sâu, hãy đảm bảo sử dụng URL hợp lệ có dạng:\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">Phím tắt đã xóa</string>
     <!-- Label: Wi-Fi network selection config in shortcut settings -->
@@ -1274,9 +1256,7 @@ Bạn có thể bật tính năng này bằng cách chỉnh sửa phím tắt v�
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
     <string name="confirm_delete_custom_icon_message">Xóa biểu tượng này?</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
-    <string name="confirm_delete_custom_icon_still_in_use_message">Biểu tượng này vẫn đang được sử dụng trong ít nhất 1 phím tắt. Xóa nó có thể gây ra vấn đề.
-
-Vẫn xóa?</string>
+    <string name="confirm_delete_custom_icon_still_in_use_message">Biểu tượng này vẫn đang được sử dụng trong ít nhất 1 phím tắt. Xóa nó có thể gây ra vấn đề.\n\nVẫn xóa?</string>
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
     <string name="button_delete_all_unused_icons">Xóa các biểu tượng không sử dụng</string>
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
@@ -1477,7 +1457,9 @@ Vẫn xóa?</string>
     <!-- Option in font size drop down: Very large -->
     <!-- Option in font size drop down: Huge -->
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
@@ -1558,4 +1540,5 @@ Vẫn xóa?</string>
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
 </resources>

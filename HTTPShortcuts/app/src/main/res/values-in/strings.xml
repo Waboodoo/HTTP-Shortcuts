@@ -80,22 +80,16 @@
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">Anda belum memiliki pintasan.</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
-    <string name="empty_state_shortcuts_instructions">Sebuah pintasan mengizinkan Anda untuk membuat sebuah permintaan HTTP, pemrosesan opsional dan menampilkan respon.
-
-Klik tombol + untuk memulai, atau cek [Dokumentasi] di bagian Tentang.</string>
+    <string name="empty_state_shortcuts_instructions">Sebuah pintasan mengizinkan Anda untuk membuat sebuah permintaan HTTP, pemrosesan opsional dan menampilkan respon.\n\nKlik tombol + untuk memulai, atau cek [Dokumentasi] di bagian Tentang.</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Anda belum menambahkan pintasan apa pun untuk dipicu.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts_instructions">Tambahkan semua pintasan ke daftar ini yang ingin Anda picu sebagai bagian dari multipintasan ini.
-
-Klik tombol + untuk memulai.</string>
+    <string name="empty_state_trigger_shortcuts_instructions">Tambahkan semua pintasan ke daftar ini yang ingin Anda picu sebagai bagian dari multipintasan ini.\n\nKlik tombol + untuk memulai.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">Anda belum memiliki variabel</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">Variabel mengizinkan Anda untuk memasukkan nilai dinamis ke dalam pintasan, mis., ke dalam URL, header atau request body. Lihat tombol \"{}\" disaat mengubah pintasan untuk menemukan tempat dimana tempat penampung variabel dapat dimasukkan.
-
-Klik tombol + untuk menambah variabel.</string>
+    <string name="empty_state_variables_instructions">Variabel mengizinkan Anda untuk memasukkan nilai dinamis ke dalam pintasan, mis., ke dalam URL, header atau request body. Lihat tombol \"{}\" disaat mengubah pintasan untuk menemukan tempat dimana tempat penampung variabel dapat dimasukkan.\n\nKlik tombol + untuk menambah variabel.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">Hapus pintasan ini?</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
@@ -232,8 +226,7 @@ Klik tombol + untuk menambah variabel.</string>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Mengekspor…</string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">Mengimpor pintasan gagal:
-%s</string>
+    <string name="import_failed_with_reason">Mengimpor pintasan gagal:\n%s</string>
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">Mengekspor pintasan gagal: %s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
@@ -392,9 +385,7 @@ Klik tombol + untuk menambah variabel.</string>
     <!-- Page title, shown in editor when creating a new category -->
     <string name="title_create_category">Buat Kategori</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">Hapus kategori ini?
-
-Semua pintasan didalamnya akan terhapus.</string>
+    <string name="confirm_delete_category_message">Hapus kategori ini?\n\nSemua pintasan didalamnya akan terhapus.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">Kategori tersembunyi.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
@@ -576,9 +567,7 @@ Namun, Anda belum memiliki variabel yang terkonfigurasi.</string>
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Kirim ke…</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">Tidak ada pintasan yang cocok ditemukan.
-
-Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang menggunakan variabel yang mengizinkan \'Berbagi \', atau pintasan yang memiliki parameter file atau menggunakan file sebagai tubuh permintaan.</string>
+    <string name="error_not_suitable_shortcuts">Tidak ada pintasan yang cocok ditemukan.\n\nUntuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang menggunakan variabel yang mengizinkan \'Berbagi \', atau pintasan yang memiliki parameter file atau menggunakan file sebagai tubuh permintaan.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Izinkan \'Berbagi …\'</string>
     <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
@@ -794,6 +783,7 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">Tugas Pemicu Tasker</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Dapatkan Lokasi Saat Ini</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -934,11 +924,9 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">Kesalahan</string>
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">Error JavaScript:
-%s</string>
+    <string name="error_js_pattern">Error JavaScript:\n%s</string>
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">Kesalahan JavaScript (di baris %1$d):
-%2$s</string>
+    <string name="error_js_pattern_with_line_number">Kesalahan JavaScript (di baris %1$d):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_read">Kesalahan variabel: mencoba mendapatkan nilai dari variabel yang tidak ada: %s</string>
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
@@ -1040,9 +1028,7 @@ Untuk menggunakan fitur ini setidaknya Anda memiliki satu pintasan yang mengguna
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <string name="action_quick_settings_tile_trigger">Jalankan pintasan</string>
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile">Anda belum memiliki pintasan apa pun yang dapat dipicu melalui ubin Setelan Cepat.
-
-Anda dapat mengaktifkan fitur ini dengan mengedit pintasan dan mencentang kotak \"%1$s\" yang ditemukan di \"%2$s\".</string>
+    <string name="instructions_quick_settings_tile">Anda belum memiliki pintasan apa pun yang dapat dipicu melalui ubin Setelan Cepat.\n\nAnda dapat mengaktifkan fitur ini dengan mengedit pintasan dan mencentang kotak \"%1$s\" yang ditemukan di \"%2$s\".</string>
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">Kode Status</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
@@ -1150,7 +1136,7 @@ Anda dapat mengaktifkan fitur ini dengan mengedit pintasan dan mencentang kotak 
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">Buka %s di browser komputer Anda, masukkan ID perangkat dan kata sandi Anda dan mulai mengubah.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Setelah Anda selesai mengubah dan telah menyimpan perubahan Anda klik tombol &lt;pre&gt;\"Tarik Perubahan\"&lt;/pre&gt; di bawah untuk mengunduh perubahan Anda kembali ke dalam aplikasi."</string>
+    <string name="instructions_remote_edit_step_4">Setelah Anda selesai mengubah dan telah menyimpan perubahan Anda klik tombol &lt;pre&gt;\"Tarik Perubahan\"&lt;/pre&gt; di bawah untuk mengunduh perubahan Anda kembali ke dalam aplikasi.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">Kirim ke Server</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1191,9 +1177,7 @@ Anda dapat mengaktifkan fitur ini dengan mengedit pintasan dan mencentang kotak 
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
     <string name="error_shortcut_not_found_for_deep_link">Pintasan \"%s\" tidak ditemukan</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
-    <string name="instructions_deep_linking">Untuk menggunakan fitur tautan dalam, pastikan untuk menggunakan URL formulir yang valid:
-
-%s</string>
+    <string name="instructions_deep_linking">Untuk menggunakan fitur tautan dalam, pastikan untuk menggunakan URL formulir yang valid:\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">Pintasan Terhapus</string>
     <!-- Label: Wi-Fi network selection config in shortcut settings -->
@@ -1261,9 +1245,7 @@ Anda dapat mengaktifkan fitur ini dengan mengedit pintasan dan mencentang kotak 
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
     <string name="confirm_delete_custom_icon_message">Hapus ikon ini?</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
-    <string name="confirm_delete_custom_icon_still_in_use_message">Ikon ini masih digunakan di setidaknya 1 pintasan. Menghapusnya dapat menyebabkan masalah.
-
-Tetap hapus?</string>
+    <string name="confirm_delete_custom_icon_still_in_use_message">Ikon ini masih digunakan di setidaknya 1 pintasan. Menghapusnya dapat menyebabkan masalah.\n\nTetap hapus?</string>
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
     <string name="button_delete_all_unused_icons">Hapus ikon yang tidak digunakan</string>
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
@@ -1464,7 +1446,9 @@ Tetap hapus?</string>
     <!-- Option in font size drop down: Very large -->
     <!-- Option in font size drop down: Huge -->
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
@@ -1545,4 +1529,5 @@ Tetap hapus?</string>
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
 </resources>

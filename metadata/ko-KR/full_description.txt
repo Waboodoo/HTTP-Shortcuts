@@ -1,0 +1,7 @@
+홈 화면 아이콘으로 HTTP 요청 보내기
+
+RESTful API, 웹서비스 등 모든 URL에 HTTP 요청을 보내는 바로가기 위젯을 만들어 보세요. 스마트 홈 자동화에도 유용해요!
+<ul><li>HTTP와 HTTPS</li><li>GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS, TRACE</li><li>기본 인증, Digest 인증, Bearer 인증, 클라이언트 인증서 인증</li><li>자유롭게 설정하는 요청 헤더</li><li>자유롭게 설정하는 요청 본문 텍스트</li><li>FormData나 요청 본문으로 파일 업로드</li><li>HTTP 및 SOCKS 프록시 지원</li><li>자체 서명 인증서 지원</li><li>내장 아이콘, 직접 설정한 아이콘, 사이트 Favicon 사용 가능</li><li>응답을 토스트(팝업) 메시지, 전체화면, 안내창 등으로 표시 가능(선택)</li><li>터치해서 카테고리별·섹션별로 분류</li><li>변수를 활용한 값 입력(예: 텍스트, 숫자, 패스워드, 선택창, 색상, 날짜 등등…)</li><li>요청 전이나 후에 지정한 동작을 하도록 JavaScript 설정 가능<ul><li>안내창 표시</li><li>토스트(팝업) 메시지</li><li>사용자에게 입력받기(날짜, 패스워드, 입력값 등등…)</li><li>JSON과 XML 응답 파싱</li><li>HMAC 계산</li><li>나중에도 사용할 수 있는 앱 전역 변수</li><li>기기 진동</li><li>소리 알림</li><li>TCP나 UDP 패킷 전송</li><li>MQTT 브로커에 메시지 전송</li><li>Wake-on-LAN</li><li>Android 인텐트 전송</li><li>Tasker 작업 시작</li><li>외부 앱으로 QR코드 인식</li><li>현재 위치 확인</li></ul></li><li>JSON이나 cURL 형식으로 가져오기 및 내보내기</li><li>Tasker 등 다른 앱과 연동</li><li>다크 모드 지원</li></ul>
+HTTP Shortcuts 활용 아이디어 몇 가지:<ul><li>웹 서버의 코드 실행</li><li>스마트 홈 자동화와 IoT 기기 제어</li><li>RaspberryPi나 Arduino 프로젝트와 상호작용</li><li>업무 처리 자동화</li><li>파일 다운로드</li></ul>
+프로젝트 GitHub: <a href="https://github.com/Waboodoo/HTTP-Shortcuts">https://github.com/Waboodoo/HTTP-Shortcuts</a>
+공식 홈페이지(영문): <a href="https://http-shortcuts.rmy.ch">https://http-shortcuts.rmy.ch</a>

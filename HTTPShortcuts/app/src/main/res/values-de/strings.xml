@@ -95,23 +95,17 @@
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">noch keine Shortcuts vorhanden</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
-    <string name="empty_state_shortcuts_instructions">Ein Shortcut ermöglicht es dir, einen einzelnen HTTP-Request zu senden, und nach Bedarf die Response zu verarbeiten und anzuzeigen.
-
-Drücke den + Knopf um loszulegen, oder lies die [Dokumentation].</string>
+    <string name="empty_state_shortcuts_instructions">Ein Shortcut ermöglicht es dir, einen einzelnen HTTP-Request zu senden, und nach Bedarf die Response zu verarbeiten und anzuzeigen.\n\nDrücke den + Knopf um loszulegen, oder lies die [Dokumentation].</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <string name="empty_state_no_shortcuts_in_category">noch keine Shortcuts in dieser Kategorie</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">noch keine Shortcuts ausgewählt</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts_instructions">Füge hier diejenigen Shortcuts ein, welche du als Teil des Multi-Shortcuts aufrufen möchtest.
-
-Drücke den + Knopf um loszulegen.</string>
+    <string name="empty_state_trigger_shortcuts_instructions">Füge hier diejenigen Shortcuts ein, welche du als Teil des Multi-Shortcuts aufrufen möchtest.\n\nDrücke den + Knopf um loszulegen.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">noch keine Variablen vorhanden</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">Variablen ermöglichen es, dynamisch Werte in deine Shortcuts einzufügen, z.B. in die URL, die Header oder den Request-Body. Halte nach dem ”{}”-Knopf Ausschau um zu sehen wo du Variablen verwenden kannst.
-
-Drücke den + Knopf um eine Variable zu erstellen.</string>
+    <string name="empty_state_variables_instructions">Variablen ermöglichen es, dynamisch Werte in deine Shortcuts einzufügen, z.B. in die URL, die Header oder den Request-Body. Halte nach dem ”{}”-Knopf Ausschau um zu sehen wo du Variablen verwenden kannst.\n\nDrücke den + Knopf um eine Variable zu erstellen.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">Diesen Shortcut wirklich löschen?</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
@@ -264,8 +258,7 @@ Drücke den + Knopf um eine Variable zu erstellen.</string>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Exportiere…</string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">Importieren fehlgeschlagen:
-%s</string>
+    <string name="import_failed_with_reason">Importieren fehlgeschlagen:\n%s</string>
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">Export fehlgeschlagen: %s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
@@ -435,9 +428,7 @@ Drücke den + Knopf um eine Variable zu erstellen.</string>
     <!-- Page title, shown in editor when creating a new category -->
     <string name="title_create_category">Kategorie erstellen</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">Diese Kategorie wirklich löschen?
-
-Alle darin enthaltenen Shortcuts werden gelöscht.</string>
+    <string name="confirm_delete_category_message">Diese Kategorie wirklich löschen?\n\nAlle darin enthaltenen Shortcuts werden gelöscht.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">Kategorie verborgen.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
@@ -641,11 +632,7 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Senden an…</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">Keine verwendbaren Shortcuts gefunden.
-
-Um dieses Feature zu verwenden muss mindestens ein Shortcut vorhanden sein der eine Variable verwendet welche \'Teilen …\' erlaubt, oder ein Shortcut welcher einen Datei-Parameter oder Datei-Request-Body verwendet.
-
-Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informationen.</string>
+    <string name="error_not_suitable_shortcuts">Keine verwendbaren Shortcuts gefunden.\n\nUm dieses Feature zu verwenden muss mindestens ein Shortcut vorhanden sein der eine Variable verwendet welche \'Teilen …\' erlaubt, oder ein Shortcut welcher einen Datei-Parameter oder Datei-Request-Body verwendet.\n\nKonsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informationen.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">”Teilen …” erlauben</string>
     <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
@@ -884,6 +871,8 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <string name="action_type_trigger_tasker_title">Task in Tasker auslösen</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
     <string name="action_type_set_wireguard_tunnel_state_title">Wireguard-Tunnel aktivieren oder deaktivieren</string>
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
+    <string name="action_type_run_termux_command_title">Befehl in Termux ausführen</string>
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Aktuellen Standort abfragen</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -1042,10 +1031,9 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">Fehler</string>
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">JavaScript-Fehler: %s</string>
+    <string name="error_js_pattern">JavaScript-Fehler:\n%s</string>
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">JavaScript-Fehler (auf Zeile %1$d):
-%2$s</string>
+    <string name="error_js_pattern_with_line_number">JavaScript-Fehler (auf Zeile %1$d):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_read">Variablen-Fehler: %s existiert nicht</string>
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
@@ -1153,9 +1141,7 @@ Konsultiere die Hilfe-Dokumentation in der Variablen-Sektion für mehr Informati
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <string name="action_quick_settings_tile_trigger">Shortcut auslösen</string>
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile">Du hast noch keine Shortcuts eingerichtet welche via diesem Quick Settings Tile ausgelöst werden können.
-
-Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die Checkbox ”%1$s” in ”%2$s” aktivierst.</string>
+    <string name="instructions_quick_settings_tile">Du hast noch keine Shortcuts eingerichtet welche via diesem Quick Settings Tile ausgelöst werden können.\n\nDu kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die Checkbox ”%1$s” in ”%2$s” aktivierst.</string>
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">Status-Code</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
@@ -1272,7 +1258,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">Öffne %s in einem Browser auf deinem Computer, gib die Geräte-ID und dein Passwort ein und du kannst mit Änderungen loslegen.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Wenn du fertig bist und deine Änderungen gespeichert hast, drücke den &lt;pre&gt;”Änderungen herunterladen”&lt;/pre&gt;-Knopf unten."</string>
+    <string name="instructions_remote_edit_step_4">Wenn du fertig bist und deine Änderungen gespeichert hast, drücke den &lt;pre&gt;”Änderungen herunterladen”&lt;/pre&gt;-Knopf unten.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">Hochladen</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1314,9 +1300,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
     <string name="error_shortcut_not_found_for_deep_link">Shortcut ”%s” nicht gefunden</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
-    <string name="instructions_deep_linking">Um das Deep-Linking-Feature zu verwenden muss deine URL wie folgt aussehen:
-
-%s</string>
+    <string name="instructions_deep_linking">Um das Deep-Linking-Feature zu verwenden muss deine URL wie folgt aussehen:\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">Gelöschter Shortcut</string>
     <!-- Label: Wi-Fi network selection config in shortcut settings -->
@@ -1386,9 +1370,7 @@ Du kannst dieses Feature aktivieren indem du beim Bearbeiten eines Shortcuts die
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
     <string name="confirm_delete_custom_icon_message">Dieses Symbol löschen?</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
-    <string name="confirm_delete_custom_icon_still_in_use_message">Dieses Symbol wird noch von mindestens 1 Shortcut verwendet. Es zu löschen kann Probleme verursachen.
-
-Trotzdem löschen?</string>
+    <string name="confirm_delete_custom_icon_still_in_use_message">Dieses Symbol wird noch von mindestens 1 Shortcut verwendet. Es zu löschen kann Probleme verursachen.\n\nTrotzdem löschen?</string>
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
     <string name="button_delete_all_unused_icons">Unbenutzte Symbole löschen</string>
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
@@ -1478,8 +1460,7 @@ Trotzdem löschen?</string>
     <!-- Empty state, shown in event history when there are no recent events -->
     <string name="empty_state_history">Keine Ereignisse</string>
     <!-- Empty state instructions, shown in event history when there are no events -->
-    <string name="empty_state_history_instructions">Details über das Ausführen von Shortcuts werden hier aufgelistet, was bei der Problembehebung helfen kann.
-Du kannst einzelne Shortcuts verbergen durch eine Einstellung in ”%s”.</string>
+    <string name="empty_state_history_instructions">Details über das Ausführen von Shortcuts werden hier aufgelistet, was bei der Problembehebung helfen kann.\nDu kannst einzelne Shortcuts verbergen durch eine Einstellung in ”%s”.</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
     <string name="label_exclude_from_history">Von Verlauf ausschließen</string>
     <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
@@ -1525,9 +1506,7 @@ Du kannst einzelne Shortcuts verbergen durch eine Einstellung in ”%s”.</stri
     <!-- Generic dialog button: Configure (e.g. some settings) -->
     <string name="dialog_configure">Konfigurieren</string>
     <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_plugin_dialog_configure_app_overlay">Um einen Shortcut von einer anderen App aus auslösen zu können, musst du zuerst der HTTP Shortcuts App erlauben, über anderen Apps angezeigt werden zu können.
-
-Tippe dazu den ”%s”-Knopf unten um dies einzurichten.</string>
+    <string name="message_plugin_dialog_configure_app_overlay">Um einen Shortcut von einer anderen App aus auslösen zu können, musst du zuerst der HTTP Shortcuts App erlauben, über anderen Apps angezeigt werden zu können.\n\nTippe dazu den ”%s”-Knopf unten um dies einzurichten.</string>
     <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
     <string name="title_activity_secondary_launcher_trigger">Shortcut auslösen</string>
     <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
@@ -1535,11 +1514,7 @@ Tippe dazu den ”%s”-Knopf unten um dies einzurichten.</string>
     <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
     <string name="label_run_repeatedly">Wiederholt ausführen</string>
     <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_run_repeatedly_dialog_configure_app_overlay">Um einen Shortcut automatisch wiederholt ausführen zu können, musst du zuerst der HTTP Shortcuts App erlauben, über anderen Apps angezeigt werden zu können.
-
-Tippe dazu den ”%s”-Knopf unten um dies einzurichten.
-
-Zusätzlich musst du eventuell auch noch die App von Akku-Optimierungen ausschließen. Du findest diese Option in den Einstellungen.</string>
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">Um einen Shortcut automatisch wiederholt ausführen zu können, musst du zuerst der HTTP Shortcuts App erlauben, über anderen Apps angezeigt werden zu können.\n\nTippe dazu den ”%s”-Knopf unten um dies einzurichten.\n\nZusätzlich musst du eventuell auch noch die App von Akku-Optimierungen ausschließen. Du findest diese Option in den Einstellungen.</string>
     <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
     <string name="instructions_repetitions">Die Wiederholung ist nicht exakt und kann aufgrund von Androids Akku-Optimierungen zeitlich um mehrere Minuten abweichen. Die Verwendung dieser Funktion kann den Akkuverbrauch der App erheblich erhöhen.</string>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
@@ -1571,9 +1546,7 @@ Zusätzlich musst du eventuell auch noch die App von Akku-Optimierungen ausschli
     <!-- Title of editor for configuring certificate pinning -->
     <string name="title_certificate_pinning">Zertifikat-Pinnen</string>
     <!-- Empty state instructions for certificate pinning screen -->
-    <string name="empty_state_certificate_pinning_instructions">Für zusätzliche Sicherheit deiner HTTP-Requests kannst du hier Zertifikate pinnen, indem du ihren SHA-1 oder SHA-256 Fingerabdruck eingibst.
-
-Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter “%s”.</string>
+    <string name="empty_state_certificate_pinning_instructions">Für zusätzliche Sicherheit deiner HTTP-Requests kannst du hier Zertifikate pinnen, indem du ihren SHA-1 oder SHA-256 Fingerabdruck eingibst.\n\nOptionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter “%s”.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
     <string name="message_certificate_pinning_deleted">Zertifikat-Fingerabdruck gelöscht</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
@@ -1605,7 +1578,7 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <string name="placeholder_empty_category_section_for_moving">keine Shortcuts in dieser Sektion</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
-    <string name="label_file_upload_options_allow_image_editing">"Drehen und Zuschneiden von Bildern erlauben"</string>
+    <string name="label_file_upload_options_allow_image_editing">Drehen und Zuschneiden von Bildern erlauben</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <string name="label_host_verification">Host-Verifikation</string>
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
@@ -1735,8 +1708,12 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="font_size_huge">Riesig</string>
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
     <string name="wireguard_setup_instructions">Stelle sicher, dass du in der Wireguard-App auch die Einstellung „Allow remote control apps“ aktiviert hast.</string>
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
+    <string name="termux_setup_instructions">Stelle sicher, dass du auch die “allow-external-apps”-Einstellung in der “termux.properties”-Datei aktivierst.</string>
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
     <string name="wireguard_permission_not_granted">Die Wireguard-Berechtigung wurde nicht erteilt.</string>
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
+    <string name="termux_permission_not_granted">Die Termux-Berechtigung wurde nicht erteilt.</string>
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">Geräte-ID</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
@@ -1900,4 +1877,6 @@ Optionen für selbst-signierte Zertifikate findest du im Shortcut-Editor unter �
     <string name="dialog_text_export_with_password">Um Ihre Daten zu schützen, können Sie die exportierte Datei mit einem Passwort verschlüsseln. Leer lassen, um die Verschlüsselung zu unterlassen.</string>
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
     <string name="accessibility_rotate_cw">Im Uhrzeigersinn drehen</string>
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
+    <string name="error_termux_not_running">Fehler beim Ausführen des Befehls, Termux-App ist nicht aktiv.</string>
 </resources>

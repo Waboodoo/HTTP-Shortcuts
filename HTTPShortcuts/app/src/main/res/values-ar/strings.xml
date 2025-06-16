@@ -894,6 +894,7 @@
     <string name="action_type_trigger_tasker_title">تاسكر الزناد المهمة</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
     <string name="action_type_set_wireguard_tunnel_state_title">تمكين أو تعطيل نفق Wireguard</string>
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">احصل على الموقع الحالي</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -1286,7 +1287,7 @@
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">افتح%s في مستعرض على جهاز الكمبيوتر الخاص بك ، وأدخل معرف جهازك وكلمة المرور وابدأ التحرير.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"بمجرد الانتهاء من التحرير وحفظ التغييرات ، انقر فوق الزر &lt;pre&gt; \"سحب التغييرات\" &lt;/ pre&gt; أدناه لتنزيل التغييرات مرة أخرى في التطبيق."</string>
+    <string name="instructions_remote_edit_step_4">بمجرد الانتهاء من التحرير وحفظ التغييرات ، انقر فوق الزر &lt;pre&gt; \"سحب التغييرات\" &lt;/ pre&gt; أدناه لتنزيل التغييرات مرة أخرى في التطبيق.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">ادفع إلى الخادم</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1618,7 +1619,7 @@
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <string name="placeholder_empty_category_section_for_moving">لا توجد اختصارات في هذا القسم</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
-    <string name="label_file_upload_options_allow_image_editing">"السماح بقطع الصور وتدوير الصور"</string>
+    <string name="label_file_upload_options_allow_image_editing">السماح بقطع الصور وتدوير الصور</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <string name="label_host_verification">التحقق المضيف</string>
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
@@ -1747,8 +1748,10 @@
     <string name="font_size_huge">ضخم</string>
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
     <string name="wireguard_setup_instructions">تأكد أيضا من تمكين إعداد \"السماح بتطبيقات التحكم عن بعد\" في تطبيق Wireguard.</string>
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
     <string name="wireguard_permission_not_granted">لم يتم منح إذن Wireguard.</string>
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">معرف الجهاز</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
@@ -1905,4 +1908,5 @@
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
 </resources>

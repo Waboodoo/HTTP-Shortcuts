@@ -835,6 +835,7 @@
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">Tasker Task را فعال کنید</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">مکان فعلی را دریافت کنید</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -1201,7 +1202,7 @@
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">%s را در مرورگر رایانه خود باز کنید، شناسه دستگاه و رمز عبور خود را وارد کرده و ویرایش را شروع کنید.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"پس از اتمام ویرایش و ذخیره تغییرات خود، روی دکمه &lt;pre&gt;\”دریافت تغییرات\”&lt;/pre&gt;  در زیر کلیک کنید تا تغییرات خود را دوباره در برنامه بارگیری کنید."</string>
+    <string name="instructions_remote_edit_step_4">پس از اتمام ویرایش و ذخیره تغییرات خود، روی دکمه &lt;pre&gt;\”دریافت تغییرات\”&lt;/pre&gt;  در زیر کلیک کنید تا تغییرات خود را دوباره در برنامه بارگیری کنید.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">فشار به سرور</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1493,9 +1494,7 @@
     <!-- Title of editor for configuring certificate pinning -->
     <string name="title_certificate_pinning">استفاده از سرتیفیکیت</string>
     <!-- Empty state instructions for certificate pinning screen -->
-    <string name="empty_state_certificate_pinning_instructions">اگر باید مطمئن باشید که درخواست‌های HTTP شما از طریق یک اتصال ایمن ارسال می‌شوند، می‌توانید با افزودن فینگرپرینت SHA-1 یا SHA-256 گواهینامه در اینجا، استفاده از سرتیفیکیت را برای میزبان‌های خاص فعال کنید.
-
-برای گواهی‌های self-signed، به جای آن، بخش میانبر «%s» را بررسی کنید.</string>
+    <string name="empty_state_certificate_pinning_instructions">اگر باید مطمئن باشید که درخواست‌های HTTP شما از طریق یک اتصال ایمن ارسال می‌شوند، می‌توانید با افزودن فینگرپرینت SHA-1 یا SHA-256 گواهینامه در اینجا، استفاده از سرتیفیکیت را برای میزبان‌های خاص فعال کنید.\n\nبرای گواهی‌های self-signed، به جای آن، بخش میانبر «%s» را بررسی کنید.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
     <string name="message_certificate_pinning_deleted">فینگرپرینت گواهینامه حذف شد.</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
@@ -1525,7 +1524,7 @@
     <string name="placeholder_empty_category_for_moving">هیچ میانبری در این دسته بندی وجود ندارد</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
-    <string name="label_file_upload_options_allow_image_editing">"به برش و چرخش تصاویر اجازه دهید"</string>
+    <string name="label_file_upload_options_allow_image_editing">به برش و چرخش تصاویر اجازه دهید</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <string name="label_host_verification">تأیید میزبانی</string>
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
@@ -1620,7 +1619,9 @@
     <!-- Option in font size drop down: Very large -->
     <!-- Option in font size drop down: Huge -->
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
@@ -1701,4 +1702,5 @@
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
 </resources>

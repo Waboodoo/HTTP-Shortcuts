@@ -81,22 +81,16 @@
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">No teniu cap drecera encara.</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
-    <string name="empty_state_shortcuts_instructions">Una drecera us permet enviar una única sol·licitud HTTP, opcionalment processant i mostrant la resposta.
-
-Feu clic al botó + per començar o consulteu la [documentació] a la secció Quant a.</string>
+    <string name="empty_state_shortcuts_instructions">Una drecera us permet enviar una única sol·licitud HTTP, opcionalment processant i mostrant la resposta.\n\nFeu clic al botó + per començar o consulteu la [documentació] a la secció Quant a.</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Encara no has afegit cap drecera per activar.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts_instructions">Afegiu totes les dreceres a aquesta llista que voleu activar com a part d\'aquesta drecera múltiple.
-
-Feu clic al botó + per començar.</string>
+    <string name="empty_state_trigger_shortcuts_instructions">Afegiu totes les dreceres a aquesta llista que voleu activar com a part d\'aquesta drecera múltiple.\n\nFeu clic al botó + per començar.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">No teniu cap variable encara.</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">Les variables us permeten inserir valors de manera dinàmica a les vostres dreceres, per exemple, a l\'URL, les capçaleres o el cos de la sol·licitud. Cerqueu el botó \"{}\" quan editeu una drecera per trobar tots els llocs on es pot inserir un marcador de posició variable.
-
-Feu clic al botó + per afegir una variable.</string>
+    <string name="empty_state_variables_instructions">Les variables us permeten inserir valors de manera dinàmica a les vostres dreceres, per exemple, a l\'URL, les capçaleres o el cos de la sol·licitud. Cerqueu el botó \"{}\" quan editeu una drecera per trobar tots els llocs on es pot inserir un marcador de posició variable.\n\nFeu clic al botó + per afegir una variable.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">Esborrar aquesta drecera?</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
@@ -236,8 +230,7 @@ Feu clic al botó + per afegir una variable.</string>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Exportant…</string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">No s\'han pogut importar les dreceres:
-%s</string>
+    <string name="import_failed_with_reason">No s\'han pogut importar les dreceres:\n%s</string>
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">No s\'han pogut exportar les dreceres: %s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
@@ -394,7 +387,7 @@ Feu clic al botó + per afegir una variable.</string>
     <!-- Page title, shown in editor when creating a new category -->
     <string name="title_create_category">Crear categoria</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">Esborrar aquesta categoria? Totes les dreceres contingudes dins de la mateixa seran suprimides.</string>
+    <string name="confirm_delete_category_message">Esborrar aquesta categoria?\n\nTotes les dreceres contingudes dins de la mateixa seran suprimides.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">Categoria oculta.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
@@ -577,11 +570,7 @@ Malgrat tot, encara no tens cap variable configurada.</string>
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Enviar a…</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">No s\'ha trobat cap drecera adequada.
-
-Per utilitzar aquesta funció, has de tenir com a mínim una drecera que utilitzi una variable que permeti \'Compartir …\'.
-
-Per a més informació consulteu la documentació a la secció de variables.</string>
+    <string name="error_not_suitable_shortcuts">No s\'ha trobat cap drecera adequada.\n\nPer utilitzar aquesta funció, has de tenir com a mínim una drecera que utilitzi una variable que permeti \'Compartir …\'.\n\nPer a més informació consulteu la documentació a la secció de variables.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Permetre \'Compartir…\'</string>
     <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
@@ -794,6 +783,7 @@ Per a més informació consulteu la documentació a la secció de variables.</st
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <string name="action_type_trigger_tasker_title">Activa la tasca Tasker</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Obteniu la ubicació actual</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -927,11 +917,9 @@ Per a més informació consulteu la documentació a la secció de variables.</st
     <string name="label_post_request_failure_script">Executar en cas de fallada</string>
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">Error de JavaScript:
-%s</string>
+    <string name="error_js_pattern">Error de JavaScript:\n%s</string>
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">Error de JavaScript (a la línia %1$d):
-%2$s</string>
+    <string name="error_js_pattern_with_line_number">Error de JavaScript (a la línia %1$d):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_read">Error de variable: s\'ha intentat obtenir el valor de la variable que no existeix: %s</string>
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
@@ -1033,9 +1021,7 @@ Per a més informació consulteu la documentació a la secció de variables.</st
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <string name="action_quick_settings_tile_trigger">Activa la drecera</string>
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile">Encara no teniu cap drecera que es pugui activar mitjançant la fitxa Configuració ràpida.
-
-Podeu activar aquesta funció editant una drecera i seleccionant la casella de selecció \"%1$s\" que es troba a \"%2$s\".</string>
+    <string name="instructions_quick_settings_tile">Encara no teniu cap drecera que es pugui activar mitjançant la fitxa Configuració ràpida.\n\nPodeu activar aquesta funció editant una drecera i seleccionant la casella de selecció \"%1$s\" que es troba a \"%2$s\".</string>
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">Codi d\'estat</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
@@ -1139,7 +1125,7 @@ Podeu activar aquesta funció editant una drecera i seleccionant la casella de s
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">Obriu %s en un navegador de l\'ordinador, introduïu l\'identificador i la contrasenya del vostre dispositiu i comenceu a editar.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Un cop hagis acabat d'editar i hagis desat els canvis, fes clic al botó &lt;pre&gt;\"Extreu els canvis\"&lt;/pre&gt; a continuació per tornar a baixar els canvis a l'aplicació."</string>
+    <string name="instructions_remote_edit_step_4">Un cop hagis acabat d\'editar i hagis desat els canvis, fes clic al botó &lt;pre&gt;\"Extreu els canvis\"&lt;/pre&gt; a continuació per tornar a baixar els canvis a l\'aplicació.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">Premeu al servidor</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1180,9 +1166,7 @@ Podeu activar aquesta funció editant una drecera i seleccionant la casella de s
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
     <string name="error_shortcut_not_found_for_deep_link">No s\'ha trobat la drecera \"%s\".</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
-    <string name="instructions_deep_linking">Per utilitzar la funció d\'enllaç profund, assegureu-vos d\'utilitzar un URL vàlid del formulari:
-
-%s</string>
+    <string name="instructions_deep_linking">Per utilitzar la funció d\'enllaç profund, assegureu-vos d\'utilitzar un URL vàlid del formulari:\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">Drecera esborrada</string>
     <!-- Label: Wi-Fi network selection config in shortcut settings -->
@@ -1250,9 +1234,7 @@ Podeu activar aquesta funció editant una drecera i seleccionant la casella de s
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
     <string name="confirm_delete_custom_icon_message">Vols suprimir aquesta icona?</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
-    <string name="confirm_delete_custom_icon_still_in_use_message">Aquesta icona encara s\'està utilitzant en almenys 1 drecera. Suprimir-lo pot causar problemes.
-
-Suprimir de totes maneres?</string>
+    <string name="confirm_delete_custom_icon_still_in_use_message">Aquesta icona encara s\'està utilitzant en almenys 1 drecera. Suprimir-lo pot causar problemes.\n\nSuprimir de totes maneres?</string>
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
     <string name="button_delete_all_unused_icons">Elimina les icones no utilitzades</string>
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
@@ -1456,7 +1438,9 @@ Suprimir de totes maneres?</string>
     <!-- Option in font size drop down: Very large -->
     <!-- Option in font size drop down: Huge -->
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
@@ -1537,4 +1521,5 @@ Suprimir de totes maneres?</string>
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
 </resources>

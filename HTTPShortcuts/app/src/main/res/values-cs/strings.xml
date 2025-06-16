@@ -94,23 +94,17 @@
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">Zatím nemáte žádné zkratky.</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
-    <string name="empty_state_shortcuts_instructions">Zkratka umožňuje odeslat jeden požadavek HTTP, volitelně zpracovat a zobrazit odpověď.
-
-Chcete-li začít, klikněte na tlačítko + nebo se podívejte na [dokumentaci] v části O aplikaci.</string>
+    <string name="empty_state_shortcuts_instructions">Zkratka umožňuje odeslat jeden požadavek HTTP, volitelně zpracovat a zobrazit odpověď.\n\nChcete-li začít, klikněte na tlačítko + nebo se podívejte na [dokumentaci] v části O aplikaci.</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <string name="empty_state_no_shortcuts_in_category">v této kategorii zatím nejsou žádné zkratky</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">Zatím jste do spouštěče nepřidali žádné zkratky.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
-    <string name="empty_state_trigger_shortcuts_instructions">Do tohoto seznamu přidejte všechny zkratky, které chcete spustit jako součást této vícezkratkové klávesové zkratky.
-
-Kliknutím na tlačítko + začněte.</string>
+    <string name="empty_state_trigger_shortcuts_instructions">Do tohoto seznamu přidejte všechny zkratky, které chcete spustit jako součást této vícezkratkové klávesové zkratky.\n\nKliknutím na tlačítko + začněte.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
     <string name="empty_state_variables">Zatím nemáte žádné proměnné.</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">Proměnné umožňují dynamicky vkládat hodnoty do zkratek, např. do adresy URL, hlaviček nebo těla požadavku. Při úpravě zkratky vyhledejte tlačítko \"{}\", kde najdete všechna místa, kam lze vložit zástupnou proměnnou.
-
-Klepnutím na tlačítko + přidáte proměnnou.</string>
+    <string name="empty_state_variables_instructions">Proměnné umožňují dynamicky vkládat hodnoty do zkratek, např. do adresy URL, hlaviček nebo těla požadavku. Při úpravě zkratky vyhledejte tlačítko \"{}\", kde najdete všechna místa, kam lze vložit zástupnou proměnnou.\n\nKlepnutím na tlačítko + přidáte proměnnou.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">Smazat tuto zkratku?</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
@@ -259,8 +253,7 @@ Klepnutím na tlačítko + přidáte proměnnou.</string>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">Exportování...</string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">Import zkratek se nezdařil:
-%s</string>
+    <string name="import_failed_with_reason">Import zkratek se nezdařil:\n%s</string>
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
     <string name="export_failed_with_reason">Export zkratek se nezdařil: %s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
@@ -436,9 +429,7 @@ Klepnutím na tlačítko + přidáte proměnnou.</string>
     <!-- Page title, shown in editor when creating a new category -->
     <string name="title_create_category">Vytvořit kategorii</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">Smazat tuto kategorii?
-
-Všechny zkratky v ní obsažené budou smazány.</string>
+    <string name="confirm_delete_category_message">Smazat tuto kategorii?\n\nVšechny zkratky v ní obsažené budou smazány.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
     <string name="message_category_hidden">Kategorie skrytá.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
@@ -640,11 +631,7 @@ Zatím však nemáte žádné proměnné nakonfigurovány.</string>
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
     <string name="action_send_to">Odeslat na...</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
-    <string name="error_not_suitable_shortcuts">Nebyly nalezeny žádné vhodné zkratky.
-
-Chcete-li tuto funkci použít, musíte mít alespoň jednoho zástupce, který používá proměnnou umožňující přijímat sdílený text jako hodnotu, nebo zástupce, který má parametr souboru nebo používá soubor jako tělo požadavku.
-
-Další informace získáte po kliknutí na tlačítko nápovědy v sekci proměnné.</string>
+    <string name="error_not_suitable_shortcuts">Nebyly nalezeny žádné vhodné zkratky.\n\nChcete-li tuto funkci použít, musíte mít alespoň jednoho zástupce, který používá proměnnou umožňující přijímat sdílený text jako hodnotu, nebo zástupce, který má parametr souboru nebo používá soubor jako tělo požadavku.\n\nDalší informace získáte po kliknutí na tlačítko nápovědy v sekci proměnné.</string>
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <string name="label_allow_share_into">Povolit příjem hodnoty z dialogového okna sdílení</string>
     <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
@@ -883,6 +870,7 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <string name="action_type_trigger_tasker_title">Spouštěč Tasker Task</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
     <string name="action_type_set_wireguard_tunnel_state_title">Povolit nebo zakázat Wireguard tunel</string>
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Získat aktuální polohu</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -1030,11 +1018,9 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">Chyba</string>
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">Chyba JavaScriptu:
-%s</string>
+    <string name="error_js_pattern">Chyba JavaScriptu:\n%s</string>
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">Chyba JavaScriptu (na řádku %1$d):
-%2$s</string>
+    <string name="error_js_pattern_with_line_number">Chyba JavaScriptu (na řádku %1$d):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <string name="error_variable_not_found_read">Chyba proměnné: pokus o získání hodnoty proměnné, která neexistuje: %s</string>
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
@@ -1142,9 +1128,7 @@ Další informace získáte po kliknutí na tlačítko nápovědy v sekci promě
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <string name="action_quick_settings_tile_trigger">Spouštěcí zkratka</string>
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
-    <string name="instructions_quick_settings_tile">Zatím nemáte k dispozici žádné zástupce, které by bylo možné spustit prostřednictvím dlaždice Rychlá nastavení.
-
-Tuto funkci můžete povolit úpravou zástupce a zaškrtnutím políčka \"%1$s\", které se nachází v části \"%2$s\".</string>
+    <string name="instructions_quick_settings_tile">Zatím nemáte k dispozici žádné zástupce, které by bylo možné spustit prostřednictvím dlaždice Rychlá nastavení.\n\nTuto funkci můžete povolit úpravou zástupce a zaškrtnutím políčka \"%1$s\", které se nachází v části \"%2$s\".</string>
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">Stavový kód</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
@@ -1263,7 +1247,7 @@ Tuto funkci můžete povolit úpravou zástupce a zaškrtnutím políčka \"%1$s
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">Otevřete %s v prohlížeči na počítači, zadejte ID zařízení a heslo a začněte upravovat.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"Po dokončení úprav a uložení změn klikněte na tlačítko &lt;pre&gt;\"Pull Changes\"&lt;/pre&gt; níže a stáhněte změny zpět do aplikace."</string>
+    <string name="instructions_remote_edit_step_4">Po dokončení úprav a uložení změn klikněte na tlačítko &lt;pre&gt;\"Pull Changes\"&lt;/pre&gt; níže a stáhněte změny zpět do aplikace.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">Push na server</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1305,9 +1289,7 @@ Tuto funkci můžete povolit úpravou zástupce a zaškrtnutím políčka \"%1$s
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
     <string name="error_shortcut_not_found_for_deep_link">Zkratka \"%s\" nebyla nalezena</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
-    <string name="instructions_deep_linking">Chcete-li použít funkci hloubkového odkazování, nezapomeňte použít platnou adresu URL formuláře:
-
-%s</string>
+    <string name="instructions_deep_linking">Chcete-li použít funkci hloubkového odkazování, nezapomeňte použít platnou adresu URL formuláře:\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
     <string name="placeholder_deleted_shortcut">Odstraněná zkratka</string>
     <!-- Label: Wi-Fi network selection config in shortcut settings -->
@@ -1377,9 +1359,7 @@ Tuto funkci můžete povolit úpravou zástupce a zaškrtnutím políčka \"%1$s
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
     <string name="confirm_delete_custom_icon_message">Smazat tuto ikonu?</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
-    <string name="confirm_delete_custom_icon_still_in_use_message">Tato ikona se stále používá alespoň v 1 zástupci. Její odstranění by mohlo způsobit problémy.
-
-Odstranit v každém případě?</string>
+    <string name="confirm_delete_custom_icon_still_in_use_message">Tato ikona se stále používá alespoň v 1 zástupci. Její odstranění by mohlo způsobit problémy.\n\nOdstranit v každém případě?</string>
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
     <string name="button_delete_all_unused_icons">Odstranění nepoužívaných ikon</string>
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
@@ -1468,8 +1448,7 @@ Odstranit v každém případě?</string>
     <!-- Empty state, shown in event history when there are no recent events -->
     <string name="empty_state_history">Žádné nedávné události</string>
     <!-- Empty state instructions, shown in event history when there are no events -->
-    <string name="empty_state_history_instructions">Zde se zobrazí podrobnosti o nedávno spuštěných zkratkách, které můžete použít při řešení problémů.
-Jednotlivé zkratky můžete ze zobrazování vyloučit pomocí možnosti, kterou najdete na obrazovce \"%s\".</string>
+    <string name="empty_state_history_instructions">Zde se zobrazí podrobnosti o nedávno spuštěných zkratkách, které můžete použít při řešení problémů.\nJednotlivé zkratky můžete ze zobrazování vyloučit pomocí možnosti, kterou najdete na obrazovce \"%s\".</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
     <string name="label_exclude_from_history">Vyloučit z historie událostí</string>
     <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
@@ -1515,9 +1494,7 @@ Jednotlivé zkratky můžete ze zobrazování vyloučit pomocí možnosti, ktero
     <!-- Generic dialog button: Configure (e.g. some settings) -->
     <string name="dialog_configure">Konfigurace</string>
     <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_plugin_dialog_configure_app_overlay">Abyste mohli spouštět zástupce z jiné aplikace, musíte nejprve povolit aplikaci HTTP Shortcuts kreslení přes jiné aplikace.
-
-Klepněte na tlačítko \"%s\" níže a nakonfigurujte to nyní.</string>
+    <string name="message_plugin_dialog_configure_app_overlay">Abyste mohli spouštět zástupce z jiné aplikace, musíte nejprve povolit aplikaci HTTP Shortcuts kreslení přes jiné aplikace.\n\nKlepněte na tlačítko \"%s\" níže a nakonfigurujte to nyní.</string>
     <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
     <string name="title_activity_secondary_launcher_trigger">Spouštěcí zkratka</string>
     <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
@@ -1525,11 +1502,7 @@ Klepněte na tlačítko \"%s\" níže a nakonfigurujte to nyní.</string>
     <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
     <string name="label_run_repeatedly">Opakované spuštění</string>
     <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
-    <string name="message_run_repeatedly_dialog_configure_app_overlay">Aby bylo možné zástupce spolehlivě spouštět opakovaně, je třeba nejprve povolit aplikaci HTTP Shortcuts kreslení přes jiné aplikace.
-
-Klepněte na tlačítko \"%s\" níže a nakonfigurujte to nyní.
-
-Možná bude také nutné vyloučit aplikaci z funkce Optimalizace baterie. Tuto možnost najdete v nastavení aplikace.</string>
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">Aby bylo možné zástupce spolehlivě spouštět opakovaně, je třeba nejprve povolit aplikaci HTTP Shortcuts kreslení přes jiné aplikace.\n\nKlepněte na tlačítko \"%s\" níže a nakonfigurujte to nyní.\n\nMožná bude také nutné vyloučit aplikaci z funkce Optimalizace baterie. Tuto možnost najdete v nastavení aplikace.</string>
     <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
     <string name="instructions_repetitions">Čas opakování není přesný, ale může se lišit o několik minut, protože podléhá optimalizaci výkonu systému Android. Upozorňujeme, že používání této funkce může výrazně zvýšit spotřebu baterie aplikace.</string>
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
@@ -1565,9 +1538,7 @@ Možná bude také nutné vyloučit aplikaci z funkce Optimalizace baterie. Tuto
     <!-- Title of editor for configuring certificate pinning -->
     <string name="title_certificate_pinning">Připínání certifikátů</string>
     <!-- Empty state instructions for certificate pinning screen -->
-    <string name="empty_state_certificate_pinning_instructions">Pokud potřebujete mít větší jistotu, že jsou vaše požadavky HTTP odesílány přes zabezpečené připojení, můžete povolit připnutí certifikátu pro konkrétní hostitele přidáním otisku SHA-1 nebo SHA-256 jejich certifikátu.
-
-V případě certifikátů podepsaných vlastním podpisem zkontrolujte místo toho sekci \"%s\" zástupce.</string>
+    <string name="empty_state_certificate_pinning_instructions">Pokud potřebujete mít větší jistotu, že jsou vaše požadavky HTTP odesílány přes zabezpečené připojení, můžete povolit připnutí certifikátu pro konkrétní hostitele přidáním otisku SHA-1 nebo SHA-256 jejich certifikátu.\n\nV případě certifikátů podepsaných vlastním podpisem zkontrolujte místo toho sekci \"%s\" zástupce.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
     <string name="message_certificate_pinning_deleted">Otisk certifikátu odstraněn.</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
@@ -1599,7 +1570,7 @@ V případě certifikátů podepsaných vlastním podpisem zkontrolujte místo t
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <string name="placeholder_empty_category_section_for_moving">v této sekci nejsou žádné zkratky</string>
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
-    <string name="label_file_upload_options_allow_image_editing">"Povolení ořezávání a otáčení obrázků"</string>
+    <string name="label_file_upload_options_allow_image_editing">Povolení ořezávání a otáčení obrázků</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <string name="label_host_verification">Ověřování hostitele</string>
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
@@ -1726,8 +1697,10 @@ V případě certifikátů podepsaných vlastním podpisem zkontrolujte místo t
     <string name="font_size_huge">Obrovské</string>
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
     <string name="wireguard_setup_instructions">Ujistěte se, že v aplikaci Wireguard také povolíte nastavení \"Povolit vzdálené ovládání\".</string>
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
     <string name="wireguard_permission_not_granted">Povolení Wireguard nebylo uděleno.</string>
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">ID zařízení</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
@@ -1883,4 +1856,5 @@ V případě certifikátů podepsaných vlastním podpisem zkontrolujte místo t
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
 </resources>

@@ -19,13 +19,17 @@
     <!-- Label above input field in editor, for shortcut URL -->
     <string name="label_url">כתובת</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's MAC address -->
+    <string name="label_mac_address">כתובת MAC</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's broadcast address -->
+    <string name="label_broadcast_address">כתובת שידור</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">דפדפן</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">השתמש בדפדפן ברירת המחדל</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
+    <string name="option_browser_custom_tab">השתמש בלשונית מותאמת אישית</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
+    <string name="option_custom_browser_in_custom_tab">%s (לשונית מותאמת אישית)</string>
     <!-- Button to save changes made to shortcut/variable -->
     <string name="save_button">שמור</string>
     <!-- Button to test changes made to shortcut -->
@@ -41,15 +45,21 @@
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
     <string name="label_response_on_success">בעת הצלחה</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the response content should be treated as -->
+    <string name="label_response_type_selection">סוג תגובה</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the custom message that they enter should be treated as -->
+    <string name="label_response_message_type_selection">סוג הודעה</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
     <string name="label_response_on_failure">בעת כישלון</string>
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <string name="label_include_meta_information">הצג מידע מטא</string>
     <!-- Label for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="label_enable_javascript_in_webview">הפעלת JavaScript (ניסיוני)</string>
     <!-- Subtitle for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="subtitle_enable_javascript_in_webview">מאפשר שימוש ב-JavaScript בגוף תגובת ה-HTML המוצג. ייתכן שזה לא יעבוד עבור דפי אינטרנט מסוימים.</string>
     <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
+    <string name="label_monospace_response">השתמש בגופן monospace להצגת טקסט</string>
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
+    <string name="subtitle_include_meta_information">כותרות תגובה, סטטוס קוד, …</string>
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">הצב בדף הבית</string>
     <!-- Category dropdown option: Place category on home screen -->
@@ -57,9 +67,11 @@
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">בצע</string>
     <!-- Generic dropdown option: Use/select the variable/..., used in pickers that let the user select which variable/... to use for a specific purpose -->
+    <string name="action_select">בחר</string>
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">ערוך</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
+    <string name="action_manage_sections">ניהול מקטעים</string>
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">שכפל</string>
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
@@ -87,6 +99,7 @@
 
 לחץ על כפתור ה+ על מנת להתחיל, או בדוק את התיעוד בסעיף האודות.</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
+    <string name="empty_state_no_shortcuts_in_category">אין עדיין קיצורי דרך בקטגוריה הזו</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts">עדיין לא הוספת קיצורי דרך להפעלה.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
@@ -112,11 +125,13 @@
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">קיצור דרך לא נמצא. ייתכן שתצטרך להוסיף אותו מחדש למסך הבית.</string>
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
+    <string name="error_shortcut_deleted">קיצור דרך זה נמחק.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">נא להכניס את השם.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
     <string name="validation_url_invalid">נא להכניס כתובת HTTP(S).</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
+    <string name="validation_mac_address_invalid">אנא הזן כתובת MAC חוקית.</string>
     <!-- Validation error, shown when user tries to save an MQTT shortcut without a valid MQTT server URL set -->
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">%1$s נכשל עם קוד מצב %2$d (%3$s).</string>
@@ -163,6 +178,7 @@
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
     <string name="section_request_headers">כותרות בקשה</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the messages sent by an MQTT shortcut -->
+    <string name="section_mqtt_messages">הודעות</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
     <string name="section_request_body">פרמטרים / תוכן הבקשה</string>
     <!-- Title of dialog to edit a custom header of a shortcut -->
@@ -176,9 +192,13 @@
     <!-- Label of input field to provide request body of a shortcut -->
     <string name="label_custom_body">תוכן הבקשה</string>
     <!-- Label of input field to provide topic of MQTT message, for MQTT shortcut -->
+    <string name="label_mqtt_topic">נושא</string>
     <!-- Label of input field to provide payload of MQTT message, for MQTT shortcut -->
+    <string name="label_mqtt_payload">מטען</string>
     <!-- Title of dialog to edit an MQTT message of an MQTT shortcut -->
+    <string name="title_mqtt_message_edit">עריכת הודעה</string>
     <!-- Title of dialog to add an MQTT message to an MQTT shortcut -->
+    <string name="title_mqtt_message_add">הוסף הודעה</string>
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">הגדרות</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
@@ -188,6 +208,7 @@
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">הגדרות בסיסיות</string>
     <!-- Title of section in "Settings" screen: (Visual) Appearance of the app itself (e.g. themes, dark mode) -->
+    <string name="settings_appearance">מראה</string>
     <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
     <string name="settings_click_behavior">פעולה בעת לחיצה על קיצור הדרך</string>
     <!-- Name of setting that allows the user to change the app's language -->
@@ -195,6 +216,7 @@
     <!-- Name of button in settings screen that allows to clear all HTTP cookies -->
     <string name="settings_clear_cookies">מחק עוגיות</string>
     <!-- Name of button in settings screen that allows to cancel all scheduled shortcuts executions -->
+    <string name="settings_cancel_all_pending_executions">ביטול כל הפעולות הממתינות</string>
     <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay">אפשר הצגה מעל אפליקציות אחרות</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
@@ -227,6 +249,7 @@
     <!-- Button in settings page to start import of shortcuts from a url -->
     <string name="settings_import_from_url">ייבוא מכתובת URL</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts into a file -->
+    <string name="settings_export_to_file">ייצוא לקובץ</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">ערוך במחשב</string>
@@ -271,6 +294,7 @@
     <!-- Label, for option to set the proxy password for a shortcut -->
     <string name="label_proxy_password">סיסמת פרוקסי</string>
     <!-- Label, for option to set the UDP port for a wake-on-lan shortcut -->
+    <string name="label_wake_on_lan_port">יציאה</string>
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
     <string name="label_client_cert">אימות תעודת לקוח</string>
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
@@ -314,6 +338,7 @@
         <item quantity="other">%d דקות</item>
     </plurals>
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
+    <string name="pattern_minutes_seconds">%1$s, %2$s</string>
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
     <string name="settings_troubleshooting">פתרון תקלות</string>
     <!-- Title of option in settings to show change changelog of current and past versions -->
@@ -323,7 +348,9 @@
     <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">צור קשר עם המפתח</string>
     <!-- Button title, for option to go to the app's official subreddit -->
+    <string name="settings_reddit">קהילת Reddit</string>
     <!-- Button subtitle, for option to go to the app's official subreddit -->
+    <string name="settings_reddit_summary">ה-subreddit הרשמי של האפליקציה, לדיונים וחילופי רעיונות</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">שאלות, בקשת תכונות, משוב, …</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -331,9 +358,9 @@
     <!-- Button subtitle for "View on GitHub" button -->
     <string name="settings_github_summary">זה נכון, האפליקציה היא בקוד פתוח.</string>
     <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
-    <string name="settings_donate">לִתְרוֹם</string>
+    <string name="settings_donate">תרום / תמוך</string>
     <!-- Button subtitle, for option to open the app's Donate page in a browser, for users who wish to support the app -->
-    <string name="settings_donate_summary">הראה את הערכתך בכך שתקנה לי משקה</string>
+    <string name="settings_donate_summary">תראו לי את הערכתכם על ידי קניית משקה או חסות על עבודתי</string>
     <!-- Dialog title, for changelog, shown when a new version of the app is released -->
     <string name="changelog_title_whats_new">מה חדש?</string>
     <!-- Dialog title, for changelog, showing what's new in a release -->
@@ -369,6 +396,7 @@
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
     <string name="section_basic_request">הגדרות בקשה בסיסיות</string>
     <!-- Section title, shown in shortcut editor for non-HTTP shortcuts, for section containing basic settings (e.g. URL) -->
+    <string name="section_basic_settings">הגדרות בסיסיות</string>
     <!-- Section title, shown in variable editor, for section containing advanced settings -->
     <string name="section_advanced_settings">הגדרות מתקדמות</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
@@ -434,9 +462,11 @@
     </plurals>
     <!-- Shows numerical count of sections, used to show how many sections are in a given category -->
     <!-- Pattern used to determine the subtitle of a category in the categories screen. %1$s is a placeholder for the number of shortcuts, %2$s is a placeholder for the number of sections -->
+    <string name="shortcut_section_count_pattern">%1$s, %2$s</string>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
     <string name="label_category_hidden">%s (הוסתר)</string>
     <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
+    <string name="title_move_shortcuts">העברת קיצורי דרך</string>
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">בצע קיצור דרך HTTP</string>
     <!-- Button/page title, for viewing list of variables -->
@@ -490,11 +520,15 @@
     <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
     <string name="variable_type_toggle_description">עובר לערך שונה בכל פעם בשימוש</string>
     <!-- Type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment">מונה מצטבר</string>
     <!-- Description for type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment_description">מגדיל מספר בכל פעם שנעשה שימוש</string>
     <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid">UUID</string>
     <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
     <string name="variable_type_uuid_description">יוצר UUID אקראי חדש בכל ביצוע</string>
     <!-- Type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp">חותמת זמן</string>
     <!-- Description for type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
     <!-- Type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
     <string name="variable_type_clipboard">תוכן הלוח</string>
@@ -523,7 +557,9 @@
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
     <string name="label_json_encode">קידוד JSON</string>
     <!-- Checkbox label, for option to enable/disable the exclusion of a variable's value in exports -->
+    <string name="label_exclude_variable_value_from_exports">החרגת ערך מאוחסן בייצוא</string>
     <!-- Instructions shown below the "IExclude stored value from exports" checkbox in the variable editor -->
+    <string name="message_exclude_variable_value_from_exports_instructions">הפעל אפשרות זו אם אינך רוצה שהערך המאוחסן של משתנה זה (אם קיים) ייכלל בייצוא.</string>
     <!-- Section title, for section containing basic settings for a shortcut -->
     <string name="section_basic_variable_settings">הגדרות בסיסיות</string>
     <!-- Error message, informing user that the entered variable name is empty -->
@@ -562,9 +598,12 @@
 לא הגדרת עדיין אף משתנה.</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
     <!-- Dialog option: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <string name="dialog_option_label_local_variable">משתנים מקומיים</string>
     <!-- Dialog option subtitle: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
     <!-- Dialog title, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <string name="dialog_title_local_variable">משתנה מקומי</string>
     <!-- Dialog instructions, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <string name="dialog_instructions_local_variable">הזן שם למשתנה המקומי שלך, המורכב ממספרים, אותיות וקו תחתון.</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">משתנים</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
@@ -574,6 +613,7 @@
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">נא הוסף לפחות אפשרות אחת לבחירה.</string>
     <!-- Error message, shown in variable editor when a select option uses the same value as another -->
+    <string name="error_select_value_already_in_use">ערך זה כבר נמצא בשימוש על ידי אפשרות אחרת.</string>
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">תבנית התאריך לא חוקית.</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->
@@ -621,28 +661,33 @@
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
     <string name="button_export_send_to">יישומן אחר (שתף)</string>
     <!-- Instruction text, shown at the top of the screen when creating a new shortcut, shows options below -->
+    <string name="instructions_create_new_shortcut_options_dialog">בחר את סוג קיצור הדרך שברצונך ליצור.</string>
     <!-- Option in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
     <string name="button_create_new">קיצור דרך HTTP רגיל</string>
     <!-- Button in shortcut creation screen, to select the type of shortcut: from scratch (i.e., start with a blank editor) -->
+    <string name="button_create_from_scratch">צור מאפס</string>
     <!-- Section title, shown on shortcut creation screen, above the section that lets the user pick advanced shortcut types -->
+    <string name="section_title_advanced_shortcut_types">קיצורי דרך מתקדמים</string>
     <!-- Option in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
     <string name="button_curl_import">ייבוא מפקודת cURL</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">קיצור דרך דפדפן</string>
     <!-- Option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_create_wol_shortcut">קיצורי דרך Wake-on-LAN</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">פתח את כתובת ה-URL בדפדפן</string>
     <!-- Description for option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_description_create_wol_shortcut">מעיר מחשב ברשת</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
-    <string name="button_create_scripting_shortcut">סקריפט לקיצרו הדרך</string>
+    <string name="button_create_scripting_shortcut">קיצור דרך לסקריפטים</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_description_create_scripting_shortcut">כתובת קוד JavaScript למצבי עבודה מתקדמים</string>
     <!-- Option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
     <string name="button_create_trigger_shortcut">קיצור דרך מרובה</string>
     <!-- Description for option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
-    <string name="button_description_create_trigger_shortcut">הזנק הרבה קיצורי דרך בבת אחת</string>
+    <string name="button_description_create_trigger_shortcut">מפעיל מספר קיצורי דרך ברצף</string>
     <!-- Window title for cURL import -->
     <string name="title_curl_import">ייבוא cURL</string>
     <!-- Instruction text for shortcut import from cURL format -->
@@ -666,7 +711,7 @@
     <!-- Label for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
     <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
-    <string name="label_quick_tile_shortcut">אפשר הזנקה דרך תפריט הגדרות מהירות</string>
+    <string name="label_quick_tile_shortcut">אפשר הפעלה דרך משבצת ההגדרות המהירות</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">שגיאה התרחשה בזמן השיתוף.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
@@ -690,7 +735,7 @@
     <!-- Title of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_title">כותרת האפליקציה</string>
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
-    <string name="settings_app_title_summary">שנה את הכותרת של המסך הראשי של האפליקציה</string>
+    <string name="settings_app_title_summary">שנה את כותרת המסך הראשי של האפליקציה</string>
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">מינימום</string>
     <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
@@ -731,7 +776,7 @@
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
     <string name="label_scripting_subtitle">הרץ קוד JavaScript לפני או אחרי ביצוע</string>
     <!-- Section title in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger -->
-    <string name="label_trigger_shortcuts">הזנק קיצורי דרך</string>
+    <string name="label_trigger_shortcuts">קיצורי דרך</string>
     <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
     <string name="label_trigger_shortcuts_subtitle_none">שום קיצור דרך לא נבחר עדיין</string>
     <plurals name="label_trigger_shortcuts_subtitle">
@@ -757,11 +802,13 @@
     <!-- Shortcut Action Title: Show Dialog -->
     <string name="action_type_dialog_title">הצג דיאלוג</string>
     <!-- Shortcut Action Title: Show fullscreen window -->
+    <string name="action_type_window_title">הצג חלון</string>
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
     <string name="action_type_selection_title">הצג בחירה (בחירה מרובה)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
     <string name="action_type_prompt_title">הצג בקשה לטקסט</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
+    <string name="action_type_prompt_number_title">בקשה למספר</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
     <string name="action_type_prompt_date_title">בקשה לתאריך</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a time -->
@@ -775,11 +822,13 @@
     <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->
     <string name="action_copy_to_clipboard_title">העתק ללוח העתקה</string>
     <!-- Shortcut Action Title: Action that allows to share text to another app -->
+    <string name="action_share_text_title">שיתוף טקסט</string>
     <!-- Shortcut Action Title: Action that allows to retrieve the latest item from the device's clipboard -->
     <string name="action_get_clipboard_content_title">קבל תוכן ללוח</string>
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
     <string name="action_tts">דבר (טקסט לדיבור)</string>
     <!-- Shortcut Action Title: Action that allows to display a notification -->
+    <string name="action_show_notification">הצגת התראות</string>
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
     <string name="action_play_sound">נגן צליל</string>
     <!-- Shortcut Action Title: Vibrate -->
@@ -795,12 +844,15 @@
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <string name="action_type_change_icon_description">שנה את תיאור קיצור הדרך</string>
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
+    <string name="action_type_change_shortcut_hidden_title">הצג/הסתר קיצור דרך</string>
     <!-- Shortcut Action Title: Change Category Visibility -->
+    <string name="action_type_change_category_hidden_title">הצג/הסתר קטגוריות</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
-    <string name="action_type_trigger_shortcut_title">הזנק קיצור דרך</string>
+    <string name="action_type_trigger_shortcut_title">קיצור דרך להכנסה לתור</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_title">בצע קיצור דרך</string>
     <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
+    <string name="action_type_set_result_title">הגדר תוצאה</string>
     <!-- Shortcut Action Description: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
     <!-- Shortcut Action Title: generate a random UUID (Universal Unique Identifier, version 4) -->
     <string name="action_type_generate_uuid">צור UUID אקראי</string>
@@ -821,13 +873,15 @@
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails because on an invalid MAC address -->
     <string name="error_action_type_send_wol_invalid_mac_address">כתובת MAC לא חוקית: %s</string>
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
-    <string name="action_type_trigger_tasker_title">הזנק משימה של Tasker</string>
+    <string name="action_type_trigger_tasker_title">הפעלת משימת Tasker</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
+    <!-- Shortcut Action Title: Run a command in the Termux app -->
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">קבל מיקום נוכחי</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
     <string name="action_type_get_location_description">שואל את המיקום הפיזי של המכשיר ומחזיר אותו כאובייקט</string>
     <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
+    <string name="action_type_wake_on_lan">Wake-on-LAN</string>
     <!-- Shortcut Action Title: Send a UDP packet to another device on the network -->
     <string name="action_type_send_udp_packet">שלח חבילת UDP</string>
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
@@ -838,6 +892,7 @@
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
     <string name="action_type_abort_execution">בטל ביצוע</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut and instead run the steps as if the request had failed -->
+    <string name="action_type_abort_and_treat_as_failure">ביטול והתייחסות ככישלון</string>
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
     <string name="action_type_wait">המתן</string>
     <!-- Shortcut Action Title: Get the IP Address of the current Wi-Fi -->
@@ -905,6 +960,7 @@
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
     <string name="subtitle_basic_request_settings_url_only_prompt">קבע את ה-URL של קיצור הדרך</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
+    <string name="subtitle_basic_request_settings_pattern">%1$s %2$s</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
     <string name="subtitle_request_headers_none">אין כותרות</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
@@ -925,6 +981,7 @@
     <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
     <string name="subtitle_authentication_bearer">אימות בעזרת טוקן (Bearer)</string>
     <!-- Section subtitle, shown in shortcut editor when a username and password was set (used for MQTT shortcuts only) -->
+    <string name="subtitle_authentication_username_and_password_set">שם משתמש וסיסמה מוגדרים</string>
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">אין פרמטרים</string>
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
@@ -1005,8 +1062,11 @@
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_id">קבל ID של קיצור דרך</string>
     <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
+    <string name="dialog_code_snippet_read_from_file">קריאה מקובץ</string>
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
+    <string name="dialog_code_snippet_write_to_file">כתיבה לקובץ</string>
     <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
+    <string name="dialog_code_snippet_append_to_file">הוסף לקובץ</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
     <string name="dialog_code_snippet_get_file_name">קבל שם של קובץ נבחר</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
@@ -1014,6 +1074,7 @@
     <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
     <string name="dialog_code_snippet_get_file_size">קבל גודל של קובץ נבחר (בבתים)</string>
     <!-- Dialog option: shown in code snippet picker, option to get the meta data of a selected file -->
+    <string name="dialog_code_snippet_get_file_meta">קבל מטא-נתונים של הקובץ שנבחר</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_name">קבל שם קיצור דרך</string>
     <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
@@ -1081,6 +1142,7 @@
     <!-- Label: Status code, shows the HTTP status code of the response -->
     <string name="label_status_code">קוד מצב</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
+    <string name="label_response_url">כתובת אינטרנט</string>
     <!-- Label: Response time, shows how long the HTTP request took -->
     <string name="label_response_timing">זמן תגובה</string>
     <!-- Label: Shown above section that lists general information about the HTTP response, e.g. status code -->
@@ -1106,12 +1168,15 @@
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <string name="instructions_select_shortcut_for_home_screen">בחר או צור קיצור דרך על מנת למקמו במסך הבית.</string>
     <!-- Instructions: Shown in info text at the top of the screen to inform user that they should select or create a shortcut, which is then used as by the 3rd party app (e.g. Tasker) -->
+    <string name="instructions_select_shortcut_for_plugin">בחר או צור קיצור דרך שיופעל.</string>
     <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
     <string name="label_widget">ווידג\'ט מותאם אישית</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
     <string name="label_show_widget_label">הצג תווית</string>
     <!-- Label: Shown when configuring a widget, above a slider, to choose the size of the widget's icon -->
+    <string name="label_widget_icon_size">גודל הסמל</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
+    <string name="label_show_widget_icon">הצג סמל</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
     <string name="action_create_widget">צור ווידג\'ט</string>
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
@@ -1156,6 +1221,7 @@
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
     <string name="option_response_handling_type_toast">הודעה קופצת</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a notification -->
+    <string name="option_response_handling_type_notification">התראה</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
     <string name="option_response_handling_type_dialog">חלון דיאלוג</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
@@ -1179,7 +1245,9 @@
     <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
     <string name="message_cookies_cleared">עוגיות נמחקו.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
+    <string name="message_pending_executions_cancelled">ביטול הרצות ממתינות.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
+    <string name="message_changes_discarded">שינויים נמחקו.</string>
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
     <string name="instructions_remote_edit">תכונה זאת מאפשרת לך לערוך את קיצורי הדרך שלך על המחשב, מהנוחות של הדפדפן. בבקשה קרא את מדיניות הפרטיות של היישומון לפני שאתה מתחיל, לאחר מכך עקוב אחרי הצעדים:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
@@ -1189,7 +1257,7 @@
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">פתח את %s בדפדפן על המחשב שלך, הכנס את מזהה המצלמה והסיסמה והתחל לערוך.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
-    <string name="instructions_remote_edit_step_4">"כאשר סיימת לערוך ושמרת את השיוניים שלך לחץ על כפתור &lt;pre&gt;\"משוך שינויים\"&lt;/pre&gt; למטה כדי להוריד את השינויים חזרה ליישומון."</string>
+    <string name="instructions_remote_edit_step_4">כאשר סיימת לערוך ושמרת את השיוניים שלך לחץ על כפתור &lt;pre&gt;\"משוך שינויים\"&lt;/pre&gt; למטה כדי להוריד את השינויים חזרה ליישומון.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
     <string name="button_remote_edit_upload">דחוף לשרת</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
@@ -1221,6 +1289,7 @@
     <!-- Button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="settings_global_scripting">סקריפט גלובלי</string>
     <!-- Button in settings page to open editor for configuring certificate pinning -->
+    <string name="settings_certificate_pinning">הצמדת תעודה</string>
     <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <string name="settings_global_scripting_summary">הרץ קוד JavaScript לפני ביצוע של כל קיצור דרך</string>
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
@@ -1346,7 +1415,7 @@
     <!-- Button text: translate app (prompt to help & become a translator) -->
     <string name="settings_help_translate">הפוך למתרגם</string>
     <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
-    <string name="settings_help_translate_summary">עזור לי לשפר את האפליקציה הזו על ידי תרגום אותה לשפה שלך!</string>
+    <string name="settings_help_translate_summary">עזור לי לשפר את האפליקציה הזו על ידי תרגומה לשפה שלך!</string>
     <!-- Button in Variables menu, allowing the user to (alphabetically) sort all variables -->
     <string name="button_sort_variables">סוג</string>
     <!-- Message: Shown in a snackbar after all variables have been sorted (alphabetically) -->
@@ -1379,44 +1448,76 @@
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">פתיחת קבצים באמצעות openUrl() אינה נתמכת</string>
     <!-- Page title, for page showing all events that happened recently -->
+    <string name="title_event_history">היסטורית אירועים</string>
     <!-- Button in Event History screen, to clear all events and empty the history -->
+    <string name="button_clear_history">נקה היסטוריה</string>
     <!-- Button in Event History screen, to switch between showing absolute times and relative times -->
+    <string name="button_history_toggle_time_mode">מצב זמן</string>
     <!-- Message: Shown in snackbar after all events were deleted from the Event History -->
+    <string name="message_history_cleared">ההיסטוריה נוקתה.</string>
     <!-- Empty state, shown in event history when there are no recent events -->
+    <string name="empty_state_history">אין אירועים אחרונים</string>
     <!-- Empty state instructions, shown in event history when there are no events -->
+    <string name="empty_state_history_instructions">אתה תראה פרטים על קיצורי דרך שהופעלו לאחרונה, בהם תוכלו להשתמש לפתרון בעיות.\nניתן להחריג קיצורי דרך בודדים כאן באמצעות אפשרות שנמצאת במסך \“%s\”.</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to not appear in the event history anymore when it is triggered -->
+    <string name="label_exclude_from_history">החרג מהיסטוריית האירועים</string>
     <!-- Title of event history entry, which states that a shortcut was triggered. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_shortcut_triggered">\“%s\” הופעל</string>
     <!-- Title of event history entry, which states that a shortcut was cancelled. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_shortcut_cancelled">\“%s\” בוטל</string>
     <!-- Title of event history entry, which states that an HTTP request was sent. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_http_request_sent">בקשת HTTP נשלחה עבור \“%s\”</string>
     <!-- Title of event history entry, which states that an HTTP response was received. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the status code (e.g. "404 Not Found") -->
+    <string name="event_history_title_http_response_received">התקבלה תגובת HTTP עבור \“%1$s\”: %2$s</string>
     <!-- Title of event history entry, which states that a network error has occurred. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_network_error">שגיאת רשת עבור \“%s\”</string>
     <!-- Title of event history entry, which states that an execution error has occurred. %s is a placeholder for the shortcut's name -->
+    <string name="event_history_title_execution_error">שגיאת ביצוע עבור \“%s\”</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, which indicates how a shortcut was triggered. %s is a placeholder for the trigger source, e.g. "homescreen" -->
+    <string name="label_prefix_event_history_trigger_origin">הופעל באמצעות: %s</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_rerun_from_dialog">הפעלה חוזרת מתוך תיבת דו-שיח</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_rerun_from_window">הפעלה חוזרת מהחלון</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_main_screen">מסך ראשי</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_share">שיתוף לתוך אפליקציה</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_quick_settings_tile">אריח הגדרות מהירות</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_app_shortcut">קיצור יישום</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_home_screen_shortcut">קיצור דרך ב-מסך הבית</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_legacy_shortcut">קיצור דרך מדור קודם</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_widget">ווידג\'ט</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_scripting">תסריטים</string>
     <!-- Message shown in snackbar to let the user know that the details of a (selected) history event were copied to the clipboard -->
+    <string name="message_history_event_details_copied">פרטי האירוע הועתקו.</string>
     <!-- Label/description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
+    <string name="label_plugin_result">תוצאה</string>
     <!-- Description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
+    <string name="label_plugin_result_detail">מחרוזת נתונים מותאמת אישית כפי שנקבעה על ידי הפונקציה `setResult()`</string>
     <!-- Generic dialog button: Configure (e.g. some settings) -->
+    <string name="dialog_configure">הגדר תצורה</string>
     <!-- Dialog message, shown when selecting a shortcut to run from an external app (e.g. Tasker), to prompt the user to enable the "Draw over apps" option -->
     <!-- Name of secondary app, which can be enabled to trigger specific shortcuts when clicked -->
     <!-- Shortcut Action Title: log (i.e., track/record) a custom user-specified event, consisting of a title and a message, for debugging purposes -->
+    <string name="action_type_log_event">אירוע רישום</string>
     <!-- Label, for dropdown picker, allowing to configure a shortcut to be executed repeatedly. The picker allows to select the interval -->
     <!-- Dialog message, shown when configuring a shortcut to run repeatedly, to prompt the user to enable the "Draw over apps" option -->
+    <string name="message_run_repeatedly_dialog_configure_app_overlay">כדי שקיצור דרך יוכל לפעול שוב ושוב בצורה אמינה, תחילה עליך לאפשר לאפליקציית קיצורי הדרך של HTTP לצייר מעל אפליקציות אחרות.\n\nהקש על הלחצן \“%s\” למטה כדי להגדיר זאת כעת.\n\nייתכן שתצטרך גם להחריג את האפליקציה באופטימיזציות סוללה. תוכל למצוא זאת בהגדרות האפליקציה.</string>
     <!-- Instructions: shown below settings for configuring a shortcut to run repeatedly, to inform the user about the limitations of the feature -->
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: don't repeat -->
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d minutes -->
     <!-- Label: Option in dropdown menu for configuring a shortcut's repetition pattern: repeat every %d hours -->
     <!-- Title of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
+    <string name="settings_ignore_battery_optimizations">החרג מאופטימיזציית סוללה</string>
     <!-- Subtitle of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
+    <string name="settings_ignore_battery_optimizations_summary">הפעל אפשרות זו אם אתה נתקל בבעיות בתזמון או בביצוע חוזר של קיצורי דרך.</string>
     <!-- Label for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen -->
     <!-- Subtitle for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen. The %s is a placeholder for the directory name. -->
     <!-- Label: Shown above text input field that lets the user pick the file name that should be used for storing the HTTP response into a file -->
@@ -1431,34 +1532,49 @@
     <!-- Label for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
     <!-- Hint text for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
     <!-- Placeholder text shown when a toggle or multi-select variable option is just an empty string -->
+    <string name="empty_option_placeholder">- ריק -</string>
     <!-- Empty state shown on the custom icons screen when the user has no icons set up -->
+    <string name="empty_state_custom_icons">אין לך אייקונים מותאמים אישית.</string>
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
+    <string name="label_require_specific_wifi_ssid">דורש Wi-Fi ספציפי</string>
     <!-- Option in dropdown menu, for selecting the Internet Protocol version to be used for hostname resolution by a shortcut. This option is used by default when no specific option is chosen. -->
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
+    <string name="option_no_proxy">ללא פרוקסי</string>
     <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
+    <string name="button_format_json">פורמט</string>
     <!-- Error, shown in snackbar, when the user tries to format a custom request body, but it is invalid JSON syntax -->
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
+    <string name="option_host_verification_default">מאובטח ברירת מחדל</string>
     <!-- Option in host verification dropdown, for only checking the server's certificate fingerprint without validating the trust chain -->
     <!-- Option in host verification dropdown, for disabling any host verification, which is considered insecure and discouraged -->
     <!-- Label for text input field in host verification settings, for specifying the fingerprint of the certificate -->
+    <string name="label_host_verification_certificate_fingerprint">תעודת טביעת אצבע</string>
     <!-- Hint text for text input field in host verification settings, for specifying the fingerprint of the certificate -->
     <!-- Button label, for button shown in Scripting editor nav bar to allow the user to undo a recent change -->
+    <string name="button_undo">בטל</string>
     <!-- Error message shown when biometric (e.g. fingerprint) execution confirmation fails. %s is a placeholder for a more detailed description of the error -->
+    <string name="error_biometric_confirmation_failed">אימות ביומטרי נכשל: %s</string>
     <!-- Subtitle shown on biometric confirmation dialog (e.g. asking for a fingerprint), for confirming the execution of a shortcut -->
     <!-- Option in dropdown to select the confirmation type for a shortcut: no confirmation -->
     <!-- Option in dropdown to select the confirmation type for a shortcut: simple confirmation, i.e., only asking the user to press a button -->
     <!-- Option in dropdown to select the confirmation type for a shortcut: biometric confirmation, i.e., asking the user to authenticate by fingerprint or similar -->
     <!-- Title of section in settings that allows user to change the "User-Agent" header that is sent by default with all shortcuts -->
+    <string name="settings_user_agent">User-Agent מותאם אישית</string>
     <!-- Message shown in snackbar as confirmation when the user changes the "User-Agent" header's value in the settings -->
+    <string name="message_user_agent_changed">User-Agent השתנה.</string>
     <!-- Dialog title: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
+    <string name="title_set_user_agent">שינוי User-Agent</string>
     <!-- Dialog message: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
+    <string name="instructions_set_user_agent">הגדר User-Agent מותאם אישית שישמש עבור כל בקשות ה-HTTP, או השאר ריק כדי להשתמש בהגדרת ברירת המחדל.</string>
     <!-- Subtitle shown on biometric app unlock dialog (e.g. asking for a fingerprint) -->
     <!-- Button label, shown on negative button below biometric prompt for unlocking the app. clicking it allows the user to instead try unlocking the app with their password -->
+    <string name="button_app_unlock_use_password">שימוש בסיסמה</string>
     <!-- Checkbox label, shown on dialog that lets the user lock the app -->
+    <string name="label_app_lock_use_biometrics">אפשר פתיחה באמצעות ביומטריה</string>
     <!-- Label for dropdown, as part of configuring a shortcut to use a file body or file parameter. The dropdown lets the user choose the source of the file data -->
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker -->
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Open a file picker for selecting multiple files -->
@@ -1479,15 +1595,24 @@
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
+    <string name="settings_dynamic_color">עיצוב</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
+    <string name="settings_dynamic_color_option_dynamic_color">השתמש בצבע דינמי</string>
     <!-- Option in "Theme" setting, to use Dynamic Color, i.e., use the same color scheme as the OS -->
+    <string name="settings_dynamic_color_option_default_theme">השתמש בעיצוב ברירת מחדל</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This is the default option, i.e., determine the type automatically from the response headers -->
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as plain text -->
+    <string name="option_response_content_type_plain_text">טקסט פשוט</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as JSON -->
+    <string name="option_response_content_type_json">JSON</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as XML -->
+    <string name="option_response_content_type_xml">XML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as HTML -->
+    <string name="option_response_content_type_html">HTML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response charset. This is the default option, i.e., determine the charset automatically from the response headers -->
+    <string name="option_response_charset_auto">קבע באופן אוטומטי</string>
     <!-- Label for dropdown in "Response Handling" settings, allows the user to choose which character set should be used to decode the HTTP response -->
+    <string name="label_response_charset">קבוצת תווים לתגובה</string>
     <!-- Warning message shown at the bottom of the cURL import screen when curl options have been detected that are not known to the app. The list of unsupported options is shown after this warning. -->
     <!-- Dialog title for dialog that lets the user choose the shape of their custom icon: square or circular -->
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
@@ -1503,14 +1628,19 @@
     <!-- Option in font size drop down: Very large -->
     <!-- Option in font size drop down: Huge -->
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
+    <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
+    <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
+    <string name="settings_device_id">מזהה מכשיר</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
     <!-- Title shown on Response screen which allows to expand a panel showing some meta information about the response -->
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute values (e.g. 13:37) -->
+    <string name="message_history_switched_to_absolute_times">השתנה לזמנים מוחלטים.</string>
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute relative (e.g. 42 sec ago) -->
+    <string name="message_history_switched_to_relative_times">השתנה לזמנים יחסיים.</string>
     <!-- Error message used as a fallback when the abortAndTreatAsFailure function is used but no custom error message was provided -->
     <!-- Accessibility description for main menu button -->
     <!-- Accessibility description for the variable button on the right of text input fields -->
@@ -1524,17 +1654,27 @@
     <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
     <!-- Label for checkbox in editor, to allow JSON responses to be displayed as a table instead of plain JSON -->
     <!-- Screen title, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="title_working_directories">ספריות מורכבות</string>
     <!-- Option in main screen's menu, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="menu_action_working_directories">ספריות</string>
     <!-- Empty state, shown in list when there are no Directories yet -->
+    <string name="empty_state_working_directories">עדיין לא התקנת אף ספרייה.</string>
     <!-- Empty state instructions, shown in list when there are no directories yet -->
+    <string name="empty_state_working_directories_instructions">כאן תוכל לטעון ספריות ממערכת הקבצים של המכשיר שלך, מה שמאפשר לאפליקציה לגשת לתוכן שלהן וליצור קבצים חדשים בתוכן.\n\nלחץ על כפתור + כדי לטעון ספרייה.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a directory was created/mounted -->
     <!-- Message, shown in snackbar, confirming to user that a directory was deleted. %1$s is a placeholder for the directory's name -->
     <!-- Action button label, shown in context menu of Directories screen, to allow re-mounting a directory, i.e., connecting it to a directory in the device's file system -->
+    <string name="button_mount_working_directory">טעינה</string>
     <!-- Generic action button label, shown in context menus, allows renaming things, e.g. directories -->
+    <string name="action_rename">שינוי שם</string>
     <!-- Subtitle shown below directory name on Directories screen, when a directory is not mounted, i.e., it is disconnected from its counterpart on the device's file system -->
+    <string name="working_directory_unmounted_subtitle">מנותק</string>
     <!-- Subtitle shown below directory name on Directories screen, to indicate when this directory was last read from or written to -->
+    <string name="working_directory_last_accessed">גישה אחרונה: %s</string>
     <!-- Subtitle shown below directory name on Directories screen, to indicate that this directory was never read from or written to -->
+    <string name="working_directory_never_accessed">מעולם לא ניגשה</string>
     <!-- Instructions: Shown at the top of the Directories screen when picking a directory that should be used for a specific feature -->
+    <string name="instructions_select_directory">בחר או התקן ספרייה חדשה כדי לאפשר לאפליקציה לקרוא ולכתוב קבצים בתוכה.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a directory -->
     <!-- Title for the dialog window that lets the user rename a directory -->
     <!-- Error message, informing user that the entered directory name already exists -->
@@ -1584,4 +1724,5 @@
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
 </resources>
