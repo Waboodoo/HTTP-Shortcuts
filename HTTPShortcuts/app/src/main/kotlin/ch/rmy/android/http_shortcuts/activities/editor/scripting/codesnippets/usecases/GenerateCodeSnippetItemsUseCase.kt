@@ -672,6 +672,15 @@ constructor(
                         sendEvent(Event.PickTaskerTask)
                     }
                 }
+                if (integrationUtil.isTermuxAvailable()) {
+                    item(
+                        R.string.action_type_run_termux_command_title,
+                        docRef = "run-termux-command",
+                        keywords = setOf("terminal", "linux", "bash", "shell"),
+                    ) {
+                        insertText("runTermuxCommand(\"command\", [\"arg1\", \"arg2\"]);\n")
+                    }
+                }
                 if (integrationUtil.isWireguardAvailable()) {
                     item(
                         R.string.action_type_set_wireguard_tunnel_state_title,

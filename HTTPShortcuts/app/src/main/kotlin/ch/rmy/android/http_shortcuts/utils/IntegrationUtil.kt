@@ -13,11 +13,17 @@ constructor(
     fun isTaskerAvailable(): Boolean =
         TaskerIntent.isTaskerInstalled(context)
 
+    fun isTermuxAvailable(): Boolean =
+        isAppInstalled("com.termux")
+
     fun isWireguardAvailable(): Boolean =
+        isAppInstalled("com.wireguard.android")
+
+    private fun isAppInstalled(packageName: String) =
         try {
-            context.packageManager.getPackageInfo("com.wireguard.android", 0)
+            context.packageManager.getPackageInfo(packageName, 0)
             true
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (_: PackageManager.NameNotFoundException) {
             false
         }
 }

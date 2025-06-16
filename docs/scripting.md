@@ -1143,6 +1143,29 @@ triggerTaskerTask('mytask', {
 
 > Please note that you may need to manually go to the app's permissions and allow the app to run Tasker tasks for this to work, and also you will need to allow this in Tasker's settings under "Preferences > Misc > Allow External Access".
 
+<a name="run-termux-command"></a>
+### Run Termux Command
+If you have [Termux](https://github.com/termux/termux-app) installed, you can use the `runTermuxCommand` function to run a command in a Termux terminal.
+
+For this to work, you will need to grant the "Run commands in Termux environment" permission to the app and you will need set `allow-external-apps` to `true` in `~/.termux/termux.properties`. See https://github.com/termux/termux-app/wiki/RUN_COMMAND-Intent#setup-instructions for more details.
+
+```js
+// simple syntax
+runTermuxCommand('/data/data/com.termux/files/usr/bin/top', ['-n', '5']);
+
+// complete set of options
+runTermuxCommand({
+  command: '/data/data/com.termux/files/usr/bin/top',
+  arguments: ['-n', '5'],
+  workingDir: '/data/data/com.termux/files/home',
+  resultDir: '/data/data/com.termux/files/home',
+  background: false,
+  sessionAction: '0',
+})
+```
+
+> It is currently not possible to pass data from Termux back to the app. As a workaround, you might be able to write data into a file and then later have the app read from that same file.
+
 <a name="set-wireguard-tunnel-state"></a>
 ### Set Wireguard Tunnel State
 If you have [Wireguard](https://play.google.com/store/apps/details?id=com.wireguard.android) installed, you can use the `setWireguardTunnelState` function to enable or disable a tunnel. Pass in the name of the tunnel as the first parameter, and as the second parameter pass `true` to enable the tunnel or `false` to disable it.

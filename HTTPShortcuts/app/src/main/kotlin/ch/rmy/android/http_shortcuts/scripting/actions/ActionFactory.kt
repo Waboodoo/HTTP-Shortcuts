@@ -46,6 +46,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.SetShortcutHiddenAc
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetVariableActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetWireguardTunnelStateActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ShareTextActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.TermuxActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.TextToSpeechActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ToHexStringActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ToStringActionType
@@ -109,6 +110,7 @@ constructor(
     setVariableActionType: SetVariableActionType,
     setWireguardTunnelStateActionType: SetWireguardTunnelStateActionType,
     shareTextActionType: ShareTextActionType,
+    termuxActionType: TermuxActionType,
     textToSpeechActionType: TextToSpeechActionType,
     toastActionType: ToastActionType,
     toHexStringActionType: ToHexStringActionType,
@@ -177,6 +179,7 @@ constructor(
             setVariableActionType,
             setWireguardTunnelStateActionType,
             shareTextActionType,
+            termuxActionType,
             textToSpeechActionType,
             toastActionType,
             toHexStringActionType,
