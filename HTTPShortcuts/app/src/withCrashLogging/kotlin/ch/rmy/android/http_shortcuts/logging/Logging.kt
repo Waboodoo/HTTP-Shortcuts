@@ -5,7 +5,8 @@ import android.view.InflateException
 import ch.rmy.android.framework.extensions.minus
 import ch.rmy.android.framework.utils.InstallUtil
 import ch.rmy.android.http_shortcuts.BuildConfig
-import ch.rmy.android.http_shortcuts.utils.Settings
+import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import com.bugsnag.android.Bugsnag
 import com.bugsnag.android.Configuration
 import com.bugsnag.android.ErrorTypes
@@ -26,8 +27,8 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
     private var initialized = false
 
     fun initCrashReporting(context: Context) {
-        val settings = Settings(context)
-        if (isAppOutdated || !settings.isCrashReportingAllowed) {
+        val userPreferences = UserPreferences(context)
+        if (isAppOutdated || !userPreferences.isCrashReportingAllowed) {
             return
         }
 
@@ -35,6 +36,7 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
             error("Bugsnag API key not set")
         }
 
+        val settings = Settings(context)
         Bugsnag.start(context, createBugsnagConfig())
         Bugsnag.setUser(settings.deviceId, null, null)
         Bugsnag.addOnError { event ->
