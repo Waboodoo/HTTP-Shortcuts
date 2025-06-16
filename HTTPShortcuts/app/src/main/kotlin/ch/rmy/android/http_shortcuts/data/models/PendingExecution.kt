@@ -16,4 +16,5 @@ data class PendingExecution(
     val resolvedVariables: Map<VariableKeyOrId, String>,
     val requestCode: Int,
     val type: PendingExecutionType,
+    val triggeredAt: Instant?,
 )

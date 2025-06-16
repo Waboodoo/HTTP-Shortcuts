@@ -35,6 +35,7 @@ import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.settings.Settings
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.Instant
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
@@ -65,6 +66,7 @@ class ExecuteActivity : BaseComposeActivity() {
                 .createPendingExecution(
                     shortcutId = intent.extractShortcutId(),
                     resolvedVariables = intent.extractVariableValues(),
+                    triggeredAt = intent.extractTriggeredAt() ?: Instant.now(),
                     tryNumber = 0,
                     type = PendingExecutionType.NEW_INTENT,
                 )
@@ -188,6 +190,10 @@ class ExecuteActivity : BaseComposeActivity() {
         fun trigger(trigger: ShortcutTriggerType) = also {
             intent.putExtra(EXTRA_TRIGGER, trigger.name)
         }
+
+        fun triggeredAt(triggeredAt: Instant) = also {
+            intent.putExtra(EXTRA_TRIGGERED_AT, triggeredAt.toEpochMilli())
+        }
     }
 
     companion object {
@@ -201,6 +207,7 @@ class ExecuteActivity : BaseComposeActivity() {
         private const val EXTRA_FILES = "files"
         private const val EXTRA_EXECUTION_SCHEDULE_ID = "schedule_id"
         private const val EXTRA_TRIGGER = "trigger"
+        private const val EXTRA_TRIGGERED_AT = "triggered_at"
 
         fun Intent.extractShortcutId(): ShortcutId =
             getStringExtra(EXTRA_SHORTCUT_ID)
@@ -212,6 +219,9 @@ class ExecuteActivity : BaseComposeActivity() {
                 ?.mapKeys { (variableKeyOrId, _) -> VariableKeyOrId(variableKeyOrId) }
                 ?: emptyMap()
 
+        fun Intent.extractTriggeredAt(): Instant? =
+            extras?.getLong(EXTRA_TRIGGERED_AT)?.takeUnless { it == 0L }?.let { Instant.ofEpochMilli(it) }
+
         fun Intent.toExecutionParams(): ExecutionParams =
             ExecutionParams(
                 shortcutId = extractShortcutId(),
@@ -221,6 +231,7 @@ class ExecuteActivity : BaseComposeActivity() {
                 recursionDepth = extras?.getInt(EXTRA_RECURSION_DEPTH) ?: 0,
                 fileUris = getParcelableList(EXTRA_FILES) ?: emptyList(),
                 trigger = extras?.getString(EXTRA_TRIGGER)?.let { ShortcutTriggerType.parse(it) },
+                triggeredAt = extractTriggeredAt() ?: Instant.now(),
             )
     }
 }

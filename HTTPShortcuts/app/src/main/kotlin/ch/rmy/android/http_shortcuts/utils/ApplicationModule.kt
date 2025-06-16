@@ -11,6 +11,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
+import java.time.Instant
 
 @Module
 @InstallIn(ActivityComponent::class, ViewModelComponent::class, SingletonComponent::class)
@@ -30,4 +31,8 @@ object ApplicationModule {
     @Provides
     fun provideDatabase(databaseProvider: DatabaseProvider): Database =
         databaseProvider.db
+
+    @Provides
+    fun provideNow(): () -> Instant =
+        Instant::now
 }

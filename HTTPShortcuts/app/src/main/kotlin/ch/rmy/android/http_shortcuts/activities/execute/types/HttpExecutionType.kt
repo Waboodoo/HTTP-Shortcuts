@@ -297,6 +297,7 @@ constructor(
                 .createPendingExecution(
                     shortcutId = shortcut.id,
                     resolvedVariables = variableManager.getVariableValues().getAll(),
+                    triggeredAt = params.triggeredAt,
                     tryNumber = params.tryNumber + 1,
                     delay = calculateDelay(params),
                     recursionDepth = params.recursionDepth,

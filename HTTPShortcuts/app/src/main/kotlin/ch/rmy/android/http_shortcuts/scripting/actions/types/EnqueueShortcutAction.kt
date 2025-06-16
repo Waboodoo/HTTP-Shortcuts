@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import java.time.Instant
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -45,6 +46,7 @@ constructor(
         pendingExecutionsRepository.createPendingExecution(
             shortcutId = shortcut.id,
             resolvedVariables = variableValues?.mapValues { it.value?.toString() ?: "" } ?: emptyMap(),
+            triggeredAt = Instant.now(),
             tryNumber = 0,
             delay = delay.milliseconds,
             requiresNetwork = shortcut.isWaitForNetwork,
