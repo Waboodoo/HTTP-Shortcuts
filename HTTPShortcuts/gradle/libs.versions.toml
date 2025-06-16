@@ -1,6 +1,6 @@
 [versions]
 activity = "1.10.1"
-androidGradle = "8.10.1"
+androidGradle = "8.8.2" # 8.9.0 and beyond is broken when building the bundle. See https://issuetracker.google.com/issues/402800800?pli=1
 androidImageCropper = "4.6.0"
 androidXCore = "1.16.0"
 androidXNavigation = "2.9.0"
