@@ -1,3 +1,23 @@
+## Version 3.31.0
+
+### Improvements
+- The execution times of repeating shortcuts will no longer drift over time and adhere to a more reliable schedule. When the device is rebooted, the schedule is recreated instead of dropped.
+- If you have [Termux](https://github.com/termux/termux-app) installed, you can now use the [runTermuxCommand](scripting.md#run-termux-command) function to run a command in a Termux terminal
+- URLs can now be pasted into the URL field without first having to clear the prefilled "https://"
+
+### Bugfixes
+- Local variables now also work correctly in ["Headless Mode"](https://http-shortcuts.rmy.ch/advanced#headless-mode)
+- The dialog for slider variables now displays numbers using the locale-appropriate format
+- Variable placeholders used in the file name field for storing responses are no longer resolved when the shortcut is not actually configured to store responses
+- Certificate files are now correctly restored when importing from a file
+- The recovery dialog will now only show if there actually are unsaved changes
+- The soft keyboard no longer overlap important UI elements, e.g., in the Scripting editor (thanks [@ray2c](https://github.com/ray2c))
+
+### Miscellaneous
+- Automatic deletion of obsolete icon and certificate files
+- Static variables can now reference other variables again. This is a revert of a change made in version 3.16.0. I've changed my mind.
+- Empty sections will stop showing the placeholder text once shortcuts were moved into any section, allowing to have truly empty sections
+
 ## Version 3.30.2
 
 ### Bugfixes
