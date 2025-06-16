@@ -24,6 +24,9 @@
     <!-- Integration with Wireguard -->
     <uses-permission android:name="com.wireguard.android.permission.CONTROL_TUNNELS" />
 
+    <!-- Integration with Termux -->
+    <uses-permission android:name="com.termux.permission.RUN_COMMAND" />
+
     <uses-sdk tools:overrideLibrary="com.sunnychung.lib.android.composabletable" />
 
     <uses-feature
@@ -48,7 +51,6 @@
         android:name="android.software.webview"
         android:required="false" />
 
-
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
@@ -66,6 +68,7 @@
         <package android:name="net.dinglisch.android.tasker" />
         <package android:name="net.dinglisch.android.taskerm" />
         <package android:name="com.wireguard.android" />
+        <package android:name="com.termux" />
     </queries>
 
     <application

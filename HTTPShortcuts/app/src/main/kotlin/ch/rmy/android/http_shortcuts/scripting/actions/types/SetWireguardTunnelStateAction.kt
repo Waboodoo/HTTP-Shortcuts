@@ -21,7 +21,7 @@ constructor(
 ) : Action<SetWireguardTunnelStateAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext) {
         val hadPermission = permissionManager.hasWireguardPermission()
-        requestLocationPermissionIfNeeded()
+        requestWireguardPermissionIfNeeded()
         if (!hadPermission) {
             try {
                 executionContext.dialogHandle.showDialog(
@@ -29,14 +29,14 @@ constructor(
                         message = StringResLocalizable(R.string.wireguard_setup_instructions),
                     ),
                 )
-            } catch (e: DialogCancellationException) {
+            } catch (_: DialogCancellationException) {
                 // Ignore cancellation and continue
             }
         }
         sendBroadcast(tunnel, state)
     }
 
-    private suspend fun requestLocationPermissionIfNeeded() {
+    private suspend fun requestWireguardPermissionIfNeeded() {
         val granted = permissionManager.requestWireguardPermissionIfNeeded()
         if (!granted) {
             throw ActionException {

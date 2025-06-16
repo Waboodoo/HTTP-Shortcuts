@@ -26,11 +26,17 @@ constructor(
             true
         }
 
+    suspend fun requestTermuxPermissionIfNeeded(): Boolean =
+        requestPermissionIfNeeded(TERMUX_PERMISSION)
+
+    fun hasTermuxPermission(): Boolean =
+        hasPermission(TERMUX_PERMISSION)
+
     suspend fun requestWireguardPermissionIfNeeded(): Boolean =
         requestPermissionIfNeeded(WIREGUARD_PERMISSION)
 
     fun hasWireguardPermission(): Boolean =
-        ActivityCompat.checkSelfPermission(context, WIREGUARD_PERMISSION) == PackageManager.PERMISSION_GRANTED
+        hasPermission(WIREGUARD_PERMISSION)
 
     suspend fun shouldShowRationaleForLocationPermission(): Boolean =
         activityProvider.withActivity { activity ->
@@ -39,10 +45,13 @@ constructor(
 
     fun hasNotificationPermission(): Boolean =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ActivityCompat.checkSelfPermission(context, POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+            hasPermission(POST_NOTIFICATIONS)
         } else {
             true
         }
+
+    private fun hasPermission(permission: String) =
+        ActivityCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
 
     private suspend fun requestPermissionIfNeeded(permission: String): Boolean =
         activityProvider.withActivity { activity ->
@@ -51,5 +60,6 @@ constructor(
 
     companion object {
         private const val WIREGUARD_PERMISSION = "com.wireguard.android.permission.CONTROL_TUNNELS"
+        private const val TERMUX_PERMISSION = "com.termux.permission.RUN_COMMAND"
     }
 }

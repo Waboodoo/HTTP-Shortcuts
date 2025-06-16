@@ -42,7 +42,7 @@ If you like this app, please consider [supporting my work](https://http-shortcut
 - Configure it from your browser using the [Web Editor](https://http-shortcuts.rmy.ch/editor) 
 
 ### And More
-- 3rd party integration (e.g. Tasker, Wireguard)
+- 3rd party integration (e.g. Tasker, [Termux](scripting.md#run-termux-command), [Wireguard](scripting.md#set-wireguard-tunnel-state))
 - Support for non-HTTP use-cases:
   - [Browser Shortcuts](shortcuts.md#browser-shortcut) allow opening a URL in a browser or custom tab
   - [MQTT Shortcuts](shortcuts.md#mqtt-shortcut) allow sending MQTT messages
