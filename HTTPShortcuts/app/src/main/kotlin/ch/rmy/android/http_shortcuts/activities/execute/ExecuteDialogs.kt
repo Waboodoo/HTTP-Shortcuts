@@ -37,6 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isUnspecified
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState.RichTextDisplay.ButtonResult
@@ -310,7 +312,13 @@ private fun NumberSliderDialog(
         mutableFloatStateOf(((initialValue ?: min) - min) / (max - min) * 10000f)
     }
     val roundedValue = remember(sliderValue, min, max, stepSize, decimalPoints) {
-        val value = (((sliderValue / 10000f) * (max - min) / stepSize).roundToInt() * stepSize + min).coerceIn(min, max)
+        val value = try {
+            (((sliderValue / 10000f) * (max - min) / stepSize).roundToInt() * stepSize + min).coerceIn(min, max)
+        } catch (e: Exception) {
+            logInfo("slider", "min: $min, max: $max, step: $stepSize, slider: $sliderValue")
+            logException("slider", e)
+            min
+        }
         if (decimalPoints == 0) {
             value.roundToInt().toFloat()
         } else {
