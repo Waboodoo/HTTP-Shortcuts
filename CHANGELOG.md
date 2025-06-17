@@ -2,8 +2,9 @@
 
 ### Improvements
 - The execution times of repeating shortcuts will no longer drift over time and adhere to a more reliable schedule. When the device is rebooted, the schedule is recreated instead of dropped.
-- If you have [Termux](https://github.com/termux/termux-app) installed, you can now use the [runTermuxCommand](scripting.md#run-termux-command) function to run a command in a Termux terminal
+- If you have [Termux](https://github.com/termux/termux-app) installed, you can now use the [runTermuxCommand](https://http-shortcuts.rmy.ch/scripting#run-termux-command) function to run a command in a Termux terminal
 - URLs can now be pasted into the URL field without first having to clear the prefilled "https://"
+- Custom tabs opened via Browser Shortcuts or the [openUrl()](https://http-shortcuts.rmy.ch/scripting#open-url) function will now show the 'Share' button (if the browser supports it)
 
 ### Bugfixes
 - Local variables now also work correctly in ["Headless Mode"](https://http-shortcuts.rmy.ch/advanced#headless-mode)

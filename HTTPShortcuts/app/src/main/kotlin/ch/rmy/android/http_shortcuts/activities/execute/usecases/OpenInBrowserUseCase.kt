@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.execute.usecases
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.browser.customtabs.CustomTabsIntent.SHARE_STATE_OFF
+import androidx.browser.customtabs.CustomTabsIntent.SHARE_STATE_ON
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.applyIfNotNull
 import ch.rmy.android.framework.extensions.runIfNotNull
@@ -47,7 +47,7 @@ constructor(
                     }
                     is TargetBrowser.CustomTabs -> {
                         val intent = CustomTabsIntent.Builder()
-                            .setShareState(SHARE_STATE_OFF)
+                            .setShareState(SHARE_STATE_ON)
                             .build()
                             .applyIfNotNull(targetBrowser.packageName) {
                                 intent.setPackage(it)
