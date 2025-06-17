@@ -864,6 +864,7 @@
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
     <string name="action_type_set_wireguard_tunnel_state_title">Wireguardトンネルを有効または無効</string>
     <!-- Shortcut Action Title: Run a command in the Termux app -->
+    <string name="action_type_run_termux_command_title">Termux Command を実行</string>
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">現在の位置情報を取得</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -1693,9 +1694,11 @@
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
     <string name="wireguard_setup_instructions">Wireguardアプリの設定で「リモートコントロールアプリを許可する」も有効にしてください。</string>
     <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
+    <string name="termux_setup_instructions">「termux.properties」ファイルの「allow-external-apps」設定も有効にしてください。</string>
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
     <string name="wireguard_permission_not_granted">Wireguardアクセス許可が付与されていませんでした。</string>
     <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
+    <string name="termux_permission_not_granted">Termuxアクセス許可が付与されいませんでした。</string>
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">デバイスID</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
@@ -1859,4 +1862,5 @@
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
     <string name="accessibility_rotate_cw">時計回りに回転</string>
     <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
+    <string name="error_termux_not_running">コマンドの実行に失敗しました。Termux アプリがアクティブではありません。</string>
 </resources>
