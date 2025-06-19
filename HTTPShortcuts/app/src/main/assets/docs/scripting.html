@@ -322,7 +322,7 @@ enqueueShortcut('My Other Shortcut', {
 enqueueShortcut('My Other Shortcut', {
   '$files': selectedFiles.map(file => file.id),
 });
-</code></pre><p>This mechanism works both for the <code>enqueueShortcut</code> and the <code>executeShortcut</code> function.<p><a id=log-event></a><h3>Log Event</h3><p>The <code>logEvent</code> function allows you to log custom events into the Event History (which you'll find in the app's main menu). This can be used for debugging and troubleshooting. Pass an event title as the first parameter and optionally a message with details as the second parameter.<pre><code class=language-js>logEvent('Hello World');
+</code></pre><p>This mechanism works both for the <code>enqueueShortcut</code> and the <code>executeShortcut</code> function.<p><a id=log-event></a><h3>Log Event</h3><p>The <code>logEvent</code> function allows you to log custom events into the Event History (which you'll find by selecting "Trouble Shooting" in the app's main menu). This can be used for debugging and troubleshooting. Pass an event title as the first parameter and optionally a message with details as the second parameter.<pre><code class=language-js>logEvent('Hello World');
 
 logEvent('My title', 'My message');
 
