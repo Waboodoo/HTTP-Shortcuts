@@ -12,7 +12,10 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.ContentType
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentType
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
@@ -68,7 +71,10 @@ fun AuthenticationContent(
                         savedStateHandle = savedStateHandle,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = Spacing.MEDIUM),
+                            .padding(horizontal = Spacing.MEDIUM)
+                            .semantics {
+                                contentType = ContentType.Username
+                            },
                         username = username,
                         onUsernameChanged = onUsernameChanged,
                     )
@@ -77,7 +83,10 @@ fun AuthenticationContent(
                         savedStateHandle = savedStateHandle,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = Spacing.MEDIUM),
+                            .padding(horizontal = Spacing.MEDIUM)
+                            .semantics {
+                                contentType = ContentType.Password
+                            },
                         password = password,
                         onPasswordChanged = onPasswordChanged,
                     )
