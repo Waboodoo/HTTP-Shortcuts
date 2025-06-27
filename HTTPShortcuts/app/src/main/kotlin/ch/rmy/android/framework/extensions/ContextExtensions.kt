@@ -25,8 +25,10 @@ fun Context.openURL(url: Uri) {
     try {
         Intent(Intent.ACTION_VIEW, url)
             .startActivity(this)
-    } catch (e: ActivityNotFoundException) {
-        showToast(R.string.error_not_supported)
+    } catch (_: ActivityNotFoundException) {
+        showToast(getString(R.string.error_no_app_found_for_url, url.toString()))
+    } catch (_: SecurityException) {
+        showToast(getString(R.string.error_permission_required_for_url, url.toString()))
     }
 }
 

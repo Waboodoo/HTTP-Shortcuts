@@ -57,12 +57,16 @@ constructor(
                     }
                 }
             }
-        } catch (e: ActivityNotFoundException) {
+        } catch (_: ActivityNotFoundException) {
             targetBrowser.packageName?.let {
                 throw BrowserNotFoundException(it)
             }
             throw UserException.create {
                 getString(R.string.error_no_app_found_for_url, url)
+            }
+        } catch (_: SecurityException) {
+            throw UserException.create {
+                getString(R.string.error_permission_required_for_url, url)
             }
         }
     }

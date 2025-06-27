@@ -97,7 +97,7 @@ constructor(
                     }
                 }
             }
-        } catch (e: ActivityNotFoundException) {
+        } catch (_: ActivityNotFoundException) {
             showToast(R.string.error_not_supported)
         }
     }

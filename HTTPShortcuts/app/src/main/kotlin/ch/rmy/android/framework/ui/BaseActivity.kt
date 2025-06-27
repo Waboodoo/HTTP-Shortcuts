@@ -24,7 +24,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 logInfo("handleEvent: sending intent")
                 try {
                     event.intentBuilder.startActivity(this)
-                } catch (e: ActivityNotFoundException) {
+                } catch (_: ActivityNotFoundException) {
                     showToast(R.string.error_not_supported)
                 }
             }

@@ -46,7 +46,7 @@ fun IconPickerScreen() {
             is IconPickerEvent.ShowImagePicker -> consume {
                 try {
                     pickImage.launch("image/*")
-                } catch (e: ActivityNotFoundException) {
+                } catch (_: ActivityNotFoundException) {
                     viewModel.onImagePickerFailed()
                 }
             }

@@ -53,7 +53,7 @@ fun AuthenticationScreen(
             try {
                 viewModel.onDialogDismissed()
                 openFilePickerForCertificate.launch("application/x-pkcs12")
-            } catch (e: ActivityNotFoundException) {
+            } catch (_: ActivityNotFoundException) {
                 viewModel.onCertificateFilePickerFailed()
             }
         },

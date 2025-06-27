@@ -38,7 +38,7 @@ fun DisplayResponseScreen(
             is DisplayResponseEvent.PickFileForSaving -> consume {
                 try {
                     openFilePicker.launch(SaveFileContract.Params(type = event.mimeType, title = title))
-                } catch (e: ActivityNotFoundException) {
+                } catch (_: ActivityNotFoundException) {
                     viewModel.onFilePickerFailed()
                 }
             }

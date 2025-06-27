@@ -51,7 +51,7 @@ fun ImportExportScreen(
             is ImportExportEvent.OpenFilePickerForImport -> consume {
                 try {
                     openFilePickerForImport.launch(null)
-                } catch (e: ActivityNotFoundException) {
+                } catch (_: ActivityNotFoundException) {
                     context.showToast(R.string.error_not_supported)
                 }
             }

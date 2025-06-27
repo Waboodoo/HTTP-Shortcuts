@@ -32,9 +32,9 @@ constructor(
                             ?: throwUnsupportedError(packageName)
                     }
                 }
-            } catch (e: ActivityNotFoundException) {
+            } catch (_: ActivityNotFoundException) {
                 throwUnsupportedError(packageName)
-            } catch (e: SendIntentException) {
+            } catch (_: SendIntentException) {
                 throwUnsupportedError(packageName)
             }
         }

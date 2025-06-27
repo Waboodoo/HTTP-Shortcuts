@@ -38,7 +38,7 @@ fun WorkingDirectoriesScreen(
             is WorkingDirectoriesEvent.OpenDirectoryPicker -> consume {
                 try {
                     pickDirectory.launch(event.initialDirectory)
-                } catch (e: ActivityNotFoundException) {
+                } catch (_: ActivityNotFoundException) {
                     context.showToast(R.string.error_not_supported)
                 }
             }
