@@ -15,6 +15,6 @@ data class ExecutionParams(
     val recursionDepth: Int = 0,
     val fileUris: List<Uri> = emptyList(),
     val trigger: ShortcutTriggerType? = null,
-    val triggeredAt: Instant = Instant.now(),
+    val triggeredAt: Instant?,
     val isNested: Boolean = false,
 )

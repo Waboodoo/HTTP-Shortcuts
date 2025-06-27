@@ -66,7 +66,7 @@ constructor(
         shortcutId: ShortcutId,
         resolvedVariables: Map<VariableKeyOrId, String> = emptyMap(),
         tryNumber: Int = 0,
-        triggeredAt: Instant,
+        triggeredAt: Instant?,
         delayUntil: Instant? = null,
         delay: Duration? = null,
         requiresNetwork: Boolean = false,
@@ -83,7 +83,7 @@ constructor(
                     recursionDepth = recursionDepth,
                     type = type.name,
                     requestCode = Random.nextInt(10_000),
-                    triggeredAt = triggeredAt,
+                    triggeredAt = triggeredAt ?: Instant.now(),
                 ),
                 resolvedVariables,
             )

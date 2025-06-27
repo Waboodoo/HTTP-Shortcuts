@@ -231,7 +231,7 @@ class ExecuteActivity : BaseComposeActivity() {
                 recursionDepth = extras?.getInt(EXTRA_RECURSION_DEPTH) ?: 0,
                 fileUris = getParcelableList(EXTRA_FILES) ?: emptyList(),
                 trigger = extras?.getString(EXTRA_TRIGGER)?.let { ShortcutTriggerType.parse(it) },
-                triggeredAt = extractTriggeredAt() ?: Instant.now(),
+                triggeredAt = extractTriggeredAt(),
             )
     }
 }

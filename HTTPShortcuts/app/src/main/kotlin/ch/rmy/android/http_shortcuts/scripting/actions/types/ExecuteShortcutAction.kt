@@ -18,6 +18,7 @@ import ch.rmy.android.http_shortcuts.variables.ResolvedVariableValues
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.scripting.JsObject
 import ch.rmy.android.scripting.ScriptingEngine
+import java.time.Instant
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.lastOrNull
@@ -58,6 +59,7 @@ constructor(
                     },
                 recursionDepth = executionContext.recursionDepth + 1,
                 trigger = ShortcutTriggerType.SCRIPTING,
+                triggeredAt = Instant.now(),
                 isNested = true,
             ),
             dialogHandle = executionContext.dialogHandle,

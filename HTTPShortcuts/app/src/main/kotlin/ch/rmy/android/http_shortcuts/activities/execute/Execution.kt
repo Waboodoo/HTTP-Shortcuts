@@ -234,7 +234,7 @@ class Execution(
             throw CancellationException("Cancelling because shortcut was not found")
         }
 
-        scheduleRepetitionIfNeeded(params.triggeredAt)
+        scheduleRepetitionIfNeeded(params.triggeredAt ?: Instant.now())
 
         if (shortcut.shouldIncludeInHistory()) {
             historyEventLogger.logEvent(
@@ -349,7 +349,7 @@ class Execution(
         pendingExecutionsRepository
             .createPendingExecution(
                 shortcutId = shortcut.id,
-                triggeredAt = params.triggeredAt,
+                triggeredAt = triggeredAt,
                 delayUntil = getNextRepetitionTime(triggeredAt, repetitionInterval),
                 requiresNetwork = false,
                 type = PendingExecutionType.REPEAT,

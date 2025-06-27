@@ -30,6 +30,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.Instant
 import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -151,6 +152,7 @@ class QuickTileService : TileService() {
                     ExecutionParams(
                         shortcutId = shortcut.id,
                         trigger = ShortcutTriggerType.QUICK_SETTINGS_TILE,
+                        triggeredAt = Instant.now(),
                     ),
                     dialogHandle = object : DialogHandle {
                         override suspend fun <T : Any> showDialog(dialogState: ExecuteDialogState<T>): T {
