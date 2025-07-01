@@ -18,7 +18,7 @@ constructor(
             params = DialogAction.Params(
                 message = args.getString(0) ?: "",
                 title = args.getString(1) ?: "",
-                buttons = (args.getObject(2)?.getValue("buttons") as? List<Any?>)?.map { it.toString() },
+                buttons = (args.getObject(2)?.get("buttons") as? List<Any?>)?.map { it.toString() },
             ),
         )
 
