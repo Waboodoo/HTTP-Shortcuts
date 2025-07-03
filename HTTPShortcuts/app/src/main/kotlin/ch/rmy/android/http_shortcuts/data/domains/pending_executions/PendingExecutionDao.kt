@@ -27,11 +27,11 @@ abstract class PendingExecutionDao {
     abstract suspend fun getPendingExecutionsForShortcut(shortcutId: ShortcutId): List<PendingExecutionWithVariablesModel>
 
     @Transaction
-    @Query("SELECT * FROM pending_execution ORDER BY enqueued_at ASC LIMIT 1")
+    @Query("SELECT * FROM pending_execution ORDER BY delay_until ASC, enqueued_at ASC LIMIT 1")
     abstract suspend fun getNextPendingExecution(): PendingExecutionWithVariablesModel?
 
     @Transaction
-    @Query("SELECT * FROM pending_execution WHERE wait_for_network = 1 ORDER BY enqueued_at ASC LIMIT 1")
+    @Query("SELECT * FROM pending_execution WHERE wait_for_network = 1 ORDER BY delay_until ASC, enqueued_at ASC LIMIT 1")
     abstract suspend fun getNextPendingExecutionWaitingForNetwork(): PendingExecutionWithVariablesModel?
 
     @Transaction
