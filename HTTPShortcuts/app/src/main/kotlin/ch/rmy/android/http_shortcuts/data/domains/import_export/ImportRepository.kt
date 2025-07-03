@@ -231,7 +231,7 @@ constructor(
                 executionType = ShortcutExecutionType.parse(shortcut.executionType!!) ?: ShortcutExecutionType.HTTP,
                 categoryId = categoryId,
                 name = shortcut.name!!.truncate(Constants.SHORTCUT_NAME_MAX_LENGTH),
-                description = shortcut.description?.truncate(Constants.CATEGORY_NAME_MAX_LENGTH) ?: "",
+                description = shortcut.description?.truncate(Constants.SHORTCUT_DESCRIPTION_MAX_LENGTH) ?: "",
                 icon = ShortcutIcon.fromName(shortcut.iconName),
                 hidden = shortcut.hidden == true,
                 method = HttpMethod.parse(shortcut.method!!) ?: HttpMethod.GET,
