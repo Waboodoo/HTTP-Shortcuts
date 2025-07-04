@@ -95,6 +95,9 @@ private fun ExecuteDialog(
     onResult: (Any) -> Unit,
     onDismissed: () -> Unit,
 ) {
+    LaunchedEffect(dialogState) {
+        logInfo("ExecuteDialogs", "Dialog State: $dialogState")
+    }
     when (dialogState) {
         is ExecuteDialogState.GenericMessage -> {
             MessageDialog(

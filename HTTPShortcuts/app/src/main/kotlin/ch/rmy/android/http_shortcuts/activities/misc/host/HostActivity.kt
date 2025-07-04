@@ -56,7 +56,7 @@ class HostActivity : BaseComposeActivity() {
             dialogState,
             onResult = { result ->
                 val deferred = deferredResult
-                logInfo("onResult: $result, $deferred")
+                logInfo("onResult: $result")
                 deferredResult = null
                 dialogStateFlow.value = null
                 deferred?.complete(result)
@@ -78,7 +78,7 @@ class HostActivity : BaseComposeActivity() {
 
         suspend fun showDialog(context: Context, dialogState: ExecuteDialogState<*>): Any {
             val deferred = CompletableDeferred<Any>()
-            logInfo("HostActivity showing new dialog (deferredResult: $deferredResult)")
+            logInfo("HostActivity showing new dialog (deferredResult: $deferredResult, $dialogState)")
             deferredResult?.cancel()
             deferredResult = deferred
             dialogStateFlow.value = dialogState
