@@ -894,6 +894,15 @@ Note that the shortcut will only be executed once the current shortcut (and all 
 
 Also note that this might lead to infinite loops if the enqueued shortcut also enqueues shortcuts. To reduce the impact of this in case it happens accidentally, the app will delay every 10th execution by 5 seconds so that you have enough time to stop the execution manually. If you're really sure that you *do* want an infinite loop, you can work around this protection by setting a delay of at least 500 milliseconds.
 
+<a id="cancel-shortcut"></a>
+### cancelShortcut
+
+The `cancelShortcut` function can be used to cancel the execution of a shortcut, i.e., a shortcut that is enqueued to run at a later point in time, e.g. because it was scheduled with `enqueueShortcut`, or was configured to run with a delay or to repeat. Pass the ID or name as the first parameter.
+
+```js
+cancelShortcut('My Repeating Shortcut');
+```
+
 <a id="execute-shortcut"></a>
 ### executeShortcut
 

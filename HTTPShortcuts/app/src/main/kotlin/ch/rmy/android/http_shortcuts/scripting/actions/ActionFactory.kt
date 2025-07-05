@@ -4,6 +4,7 @@ import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.Base64DecodeActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.Base64EncodeActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.CancelShortcutActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeDescriptionActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ChangeIconActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ConfirmActionType
@@ -68,6 +69,7 @@ class ActionFactory
 constructor(
     base64DecodeActionType: Base64DecodeActionType,
     base64EncodeActionType: Base64EncodeActionType,
+    cancelShortcutActionType: CancelShortcutActionType,
     changeDescriptionActionType: ChangeDescriptionActionType,
     changeIconActionType: ChangeIconActionType,
     confirmActionType: ConfirmActionType,
@@ -137,6 +139,7 @@ constructor(
         listOf(
             base64DecodeActionType,
             base64EncodeActionType,
+            cancelShortcutActionType,
             changeDescriptionActionType,
             changeIconActionType,
             confirmActionType,

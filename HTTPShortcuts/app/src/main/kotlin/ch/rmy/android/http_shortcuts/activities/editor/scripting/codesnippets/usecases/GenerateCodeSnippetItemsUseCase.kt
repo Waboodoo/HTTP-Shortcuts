@@ -614,6 +614,16 @@ constructor(
                     }
                 }
                 item(
+                    R.string.action_type_cancel_shortcut_title,
+                    R.string.action_type_cancel_shortcut_description,
+                    docRef = "cancel-shortcut",
+                    keywords = setOf("enqueue", "start", "invoke", "execute"),
+                ) {
+                    pickShortcut(R.string.action_type_cancel_shortcut_title) { shortcutPlaceholder ->
+                        insertText("cancelShortcut($shortcutPlaceholder);\n")
+                    }
+                }
+                item(
                     R.string.action_type_set_result_title,
                     R.string.action_type_set_result_description,
                     docRef = "set-result",

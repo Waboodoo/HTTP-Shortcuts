@@ -30,7 +30,7 @@ constructor(
 
         val shortcut = try {
             shortcutRepository.getShortcutByNameOrId(shortcutNameOrId ?: executionContext.shortcutId)
-        } catch (e: NoSuchElementException) {
+        } catch (_: NoSuchElementException) {
             logInfo("Not enqueueing shortcut, not found")
             throw ActionException {
                 getString(R.string.error_shortcut_not_found_for_triggering, shortcutNameOrId)
@@ -62,7 +62,6 @@ constructor(
     )
 
     companion object {
-
         private const val MAX_RECURSION_DEPTH = 10
     }
 }

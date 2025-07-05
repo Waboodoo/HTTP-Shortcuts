@@ -839,6 +839,8 @@
     <string name="action_type_change_category_hidden_title">Show/Hide Category</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Enqueue Shortcut</string>
+    <!-- Shortcut Action Title: Cancel a scheduled shortcut, i.e., don't execute it if it was scheduled or is repeating -->
+    <string name="action_type_cancel_shortcut_title">Cancel Shortcut</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_title">Execute Shortcut</string>
     <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
@@ -849,6 +851,8 @@
     <string name="action_type_generate_uuid">Generate Random UUID</string>
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_description">Schedule another shortcut to run after the current one finishes</string>
+    <!-- Shortcut Action Description: Cancel a scheduled shortcut -->
+    <string name="action_type_cancel_shortcut_description">Cancel a scheduled, delayed, or repeating shortcut execution</string>
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">Execute another shortcut immediately and return its result</string>
     <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
