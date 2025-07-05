@@ -42,7 +42,12 @@ If you like this app, please consider [supporting my work](https://http-shortcut
 - Configure it from your browser using the [Web Editor](https://http-shortcuts.rmy.ch/editor) 
 
 ### And More
-- 3rd party integration (e.g. Tasker, [Termux](scripting.md#run-termux-command), [Wireguard](scripting.md#set-wireguard-tunnel-state))
+- Integrations with 3rd-party apps, for example:
+  - [Tasker](dvanced.md#integrate-with-tasker)
+  - [MacroDroid](advanced.md#integrate-with-macrodroid)
+  - [Termux](scripting.md#run-termux-command)
+  - [Wireguard](scripting.md#set-wireguard-tunnel-state)
+  - [QR Code Scanners](scripting.md#scan-barcode)
 - Support for non-HTTP use-cases:
   - [Browser Shortcuts](shortcuts.md#browser-shortcut) allow opening a URL in a browser or custom tab
   - [MQTT Shortcuts](shortcuts.md#mqtt-shortcut) allow sending MQTT messages

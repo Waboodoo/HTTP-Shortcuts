@@ -98,6 +98,14 @@ You can use the [setResult()](scripting.md#set-result) function (part of the [Sc
 
 See the [triggerTaskerTask documentation](scripting.md#trigger-tasker-task) for details about triggering a Tasker task.
 
+<a id="integrate-with-macrodroid"></a>
+## Integrate with MacroDroid
+The [MacroDroid](https://play.google.com/store/apps/details?id=com.arlosoft.macrodroid) app can be used to trigger a shortcut via its "Applications > Tasker/Locale Plugin > HTTP Shortcuts > Execute HTTP Shortcut" action.
+
+If you want to pass values from MacroDroid to your shortcut, you need to define a local variable in your shortcut and a local variable with the same name in MacroDroid. You need to do this before you create the action in MacroDroid.
+
+You can use the [setResult()](scripting.md#set-result) function (part of the [Scripting feature](scripting.md)) to pass data back to MacroDroid.
+
 <a id="certificate-pinning"></a>
 ## Certificate pinning
 
