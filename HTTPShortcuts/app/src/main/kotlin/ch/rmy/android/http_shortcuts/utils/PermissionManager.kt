@@ -6,8 +6,8 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.ActivityCompat
-import com.markodevcic.peko.Peko
-import com.markodevcic.peko.PermissionResult
+import com.markodevcic.peko.PermissionRequester
+import com.markodevcic.peko.allGranted
 import javax.inject.Inject
 
 class PermissionManager
@@ -53,10 +53,12 @@ constructor(
     private fun hasPermission(permission: String) =
         ActivityCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
 
-    private suspend fun requestPermissionIfNeeded(permission: String): Boolean =
-        activityProvider.withActivity { activity ->
-            Peko.requestPermissionsAsync(activity, permission) is PermissionResult.Granted
-        }
+    private suspend fun requestPermissionIfNeeded(permission: String): Boolean {
+        PermissionRequester.initialize(context)
+        return PermissionRequester.instance()
+            .request(permission)
+            .allGranted()
+    }
 
     companion object {
         private const val WIREGUARD_PERMISSION = "com.wireguard.android.permission.CONTROL_TUNNELS"
