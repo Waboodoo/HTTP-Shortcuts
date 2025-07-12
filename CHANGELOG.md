@@ -1,3 +1,13 @@
+## Version 3.32.0
+
+### Improvements
+- There is a now a [cancelShortcut()](https://http-shortcuts.rmy.ch/scripting#cancel-shortcut) Scripting function, which can be used to cancel the execution of a scheduled or repeating shortcut
+
+### Bugfixes
+- Delayed and scheduled shortcuts are no longer blocked by repeating shortcuts (thanks [@ray2c](https://github.com/ray2c))
+- Shortcut descriptions are no longer truncated unnecessarily when importing (thanks [@ray2c](https://github.com/ray2c))
+- A few other very minor tweaks in some edge-cases
+
 ## Version 3.31.0
 
 ### Improvements
