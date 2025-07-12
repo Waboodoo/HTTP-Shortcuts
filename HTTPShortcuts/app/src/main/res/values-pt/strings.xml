@@ -818,6 +818,7 @@ No entanto, ainda não tem nenhuma variável configurada.</string>
     <string name="action_type_change_category_hidden_title">Mostrar/Ocultar Categoria</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Atalho de Enqueue</string>
+    <!-- Shortcut Action Title: Cancel a scheduled shortcut, i.e., don't execute it if it was scheduled or is repeating -->
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_title">Executar Atalho</string>
     <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
@@ -828,6 +829,7 @@ No entanto, ainda não tem nenhuma variável configurada.</string>
     <string name="action_type_generate_uuid">Gerar UUID aleatório</string>
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_description">Agendar outro atalho para correr depois de terminar o actual</string>
+    <!-- Shortcut Action Description: Cancel a scheduled shortcut -->
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">Executar outro atalho imediatamente e devolver o seu resultado</string>
     <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
@@ -1322,6 +1324,7 @@ No entanto, ainda não tem nenhuma variável configurada.</string>
     <string name="action_type_html_decode_description">Decodifica uma cadeia de caracteres HTML em texto simples</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">Não foi encontrada nenhuma aplicação que possa abrir o URL %s.</string>
+    <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
     <string name="error_no_app_found">Não foi encontrada nenhuma aplicação com nome de pacote %s.</string>
     <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->

@@ -835,6 +835,8 @@
     <string name="action_type_change_category_hidden_title">カテゴリを表示／非表示</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">トリガー 待ちショートカット</string>
+    <!-- Shortcut Action Title: Cancel a scheduled shortcut, i.e., don't execute it if it was scheduled or is repeating -->
+    <string name="action_type_cancel_shortcut_title">ショートカットをキャンセル</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_title">ショートカットを実行</string>
     <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
@@ -845,6 +847,8 @@
     <string name="action_type_generate_uuid">ランダムなUUIDを生成</string>
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_description">現在のものが完了したら、他のショットカット実行を予約する</string>
+    <!-- Shortcut Action Description: Cancel a scheduled shortcut -->
+    <string name="action_type_cancel_shortcut_description">実行スケジュール、遅延実行、またはショートカット実行の繰り返しをキャンセルします</string>
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">その他のショートカットをすぐに実行して結果を表示する</string>
     <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
@@ -1345,6 +1349,8 @@
     <string name="action_type_html_decode_description">HTML文字列をプレーンテキストに変換する</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">URL %s を開けるアプリが見つかりませんでした。</string>
+    <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
+    <string name="error_permission_required_for_url">%s を開く権限がありません。</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
     <string name="error_no_app_found">パッケージ名 %s アプリが見つかりませんでした。</string>
     <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->

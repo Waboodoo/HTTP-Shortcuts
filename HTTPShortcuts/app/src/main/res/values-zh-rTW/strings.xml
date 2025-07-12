@@ -831,6 +831,7 @@
     <string name="action_type_change_category_hidden_title">顯示/隱藏類別</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">佇列捷徑</string>
+    <!-- Shortcut Action Title: Cancel a scheduled shortcut, i.e., don't execute it if it was scheduled or is repeating -->
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_title">執行捷徑</string>
     <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
@@ -841,6 +842,7 @@
     <string name="action_type_generate_uuid">產生隨機唯一識別碼</string>
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_description">排程另一個捷徑於目前捷徑完成後執行</string>
+    <!-- Shortcut Action Description: Cancel a scheduled shortcut -->
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">立即執行另一個捷徑並傳回其結果</string>
     <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
@@ -1341,6 +1343,7 @@
     <string name="action_type_html_decode_description">將一個 HTML 字串解碼成純文字</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">找不到可供開啟 URL %s 的應用程式。</string>
+    <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
     <string name="error_no_app_found">找不到套件名稱為 %s 的應用程式。</string>
     <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->

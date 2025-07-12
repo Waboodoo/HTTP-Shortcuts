@@ -866,6 +866,7 @@
     <string name="action_type_change_category_hidden_title">إظهار/إخفاء الفئة</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">اختصارات قائمة الانتظار</string>
+    <!-- Shortcut Action Title: Cancel a scheduled shortcut, i.e., don't execute it if it was scheduled or is repeating -->
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_title">تنفيذ الاختصار</string>
     <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
@@ -876,6 +877,7 @@
     <string name="action_type_generate_uuid">إنشاء UUID عشوائي</string>
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_description">جدولة اختصار آخر للتشغيل بعد انتهاء الاختصار الحالي</string>
+    <!-- Shortcut Action Description: Cancel a scheduled shortcut -->
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">نفّذ اختصارًا آخر على الفور وأعد نتيجته</string>
     <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
@@ -1388,6 +1390,7 @@
     <string name="action_type_html_decode_description">فك ترتيب سلسلة HTML إلى نص عادي</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">لم يتم العثور على تطبيق يمكنه فتح URL%s.</string>
+    <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
     <string name="error_no_app_found">لم يتم العثور على تطبيق باسم الحزمة%s.</string>
     <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->

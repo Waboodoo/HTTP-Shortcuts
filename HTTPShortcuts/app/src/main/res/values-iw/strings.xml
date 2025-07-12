@@ -281,8 +281,9 @@
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">מייבא…</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
-    <string name="label_timeout">זמן פקיעה</string>
+    <string name="label_timeout">פסק זמן</string>
     <!-- Label, for dropdown picker, allowing to select the Internet Protocol version used for hostname resolution by a shortcut -->
+    <string name="label_ip_version">גרסת פרוטוקול אינטרנט</string>
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
     <string name="label_proxy_type">סוג פרוקסי</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
@@ -430,9 +431,9 @@
     <!-- Option when picking the layout for a category: Show shortcuts in a wide grid -->
     <string name="layout_type_wide_grid">רשת רחבה</string>
     <!-- Option to choose from when selecting the background of a category: Default (white, or black in night mode) -->
-    <string name="category_background_type_default">בְּרִירַת מֶחדָל</string>
+    <string name="category_background_type_default">ברירת מחדל</string>
     <!-- Option to choose from when selecting the background of a category: custom color -->
-    <string name="category_background_type_color">צֶבַע</string>
+    <string name="category_background_type_color">צבע</string>
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
     <string name="placeholder_category_name">הכנה שם קטגוריה…</string>
     <!-- Placeholder in input field, asking user to enter a value. Used in varies places -->
@@ -849,6 +850,7 @@
     <string name="action_type_change_category_hidden_title">הצג/הסתר קטגוריות</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">קיצור דרך להכנסה לתור</string>
+    <!-- Shortcut Action Title: Cancel a scheduled shortcut, i.e., don't execute it if it was scheduled or is repeating -->
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_title">בצע קיצור דרך</string>
     <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
@@ -858,6 +860,7 @@
     <string name="action_type_generate_uuid">צור UUID אקראי</string>
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_description">תזמן קיצור דרך נוסף שיפעל לאחר סיום הקיצור הנוכחי</string>
+    <!-- Shortcut Action Description: Cancel a scheduled shortcut -->
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">בצע קיצור דרך נוסף מיד והחזר את התוצאה שלו</string>
     <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
@@ -916,7 +919,7 @@
     <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
     <string name="title_select_placement_method">שיטת מיקום</string>
     <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->
-    <string name="description_select_placement_method">בחר את הדרך למקם את קיצור הדרך. אם אתה נתקל בבעיות עם שיטת \"ברירת מחדל\" אתה יכול לנסות את השיטה ה\"ישנה (Legacy)\" במקום. שים לב שכמה תכונות (לדוגמא, שינוי שם קיצור דרך) לא אפשריים בשיטה ה\"ישנה (Legacy)\".</string>
+    <string name="description_select_placement_method">בחר את הדרך למקם את קיצור הדרך. אם אתה נתקל בבעיות עם שיטת \"ברירת מחדל\" אתה יכול לנסות את השיטה ה-\"ישנה\" במקום. שים לב שכמה תכונות (לדוגמא, שינוי שם קיצור דרך) לא אפשריים בשיטה ה-\"ישנה\".</string>
     <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
     <string name="label_placement_method_default">ברירת מחדל</string>
     <!-- Label: Alternative option in dialog for selecting how to place the shortcut on the homescreen: Legacy (method) -->
@@ -926,7 +929,7 @@
     <!-- Dialog title: Unlock the app (after it was locked. user is required to enter a password) -->
     <string name="dialog_title_unlock_app">בטל נעילת יישומן</string>
     <!-- Dialog button: Unlock the app (after entering a password) -->
-    <string name="button_unlock_app">בטל נעילה</string>
+    <string name="button_unlock_app">ביטול נעילה</string>
     <!-- Dialog text: Asks user to enter a password to unlock the app's settings -->
     <string name="dialog_text_unlock_app">הכנס סיסמה על מנת לבטל נעילת הגדרות היישומון.</string>
     <!-- Dialog text: Asks user to enter the password to unlock the app's settings again, after an incorrect try -->
@@ -1017,6 +1020,7 @@
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether cookies should be stored for the HTTP request -->
     <string name="label_accept_cookies">אחסן עוגיות</string>
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether the HTTP connection should be kept open after a request is made -->
+    <string name="label_keep_connection_open">שמור את החיבור פתוח לאחר בקשה</string>
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
     <string name="label_pre_request_script">הרץ לפני ביצוע</string>
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
@@ -1104,7 +1108,9 @@
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_renaming">לא יכול לשנות שם לקיצור דרך \"%1$s\" בגלל שהוא לא קיים.</string>
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
+    <string name="error_shortcut_not_found_for_set_visible">לא ניתן היה לשנות את הנראות של קיצור הדרך “%1$s” מכיוון שהוא לא קיים.</string>
     <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
+    <string name="error_category_not_found_for_set_visible">לא ניתן היה לשנות את הנראות של הקטגוריה “%1$s” מכיוון שהיא לא קיימת.</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">לא יכול לשנות אייקון של קיצור דרך \"%1$s\" בגלל שהוא לא קיים.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1116,13 +1122,13 @@
     <!-- Error message: Shown when the user tries to use the 'scanBarcode' function but doesn't have the required app installed -->
     <string name="error_barcode_scanner_not_installed">יש להתקין את האפליקציה \'QR Droid\', \'Barcode Scanner\' או \'Binary Eye\' כדי לסרוק ברקודים.</string>
     <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
-    <string name="settings_dark_theme_options_on">תמיד כהה</string>
+    <string name="settings_dark_theme_options_on">כהה</string>
     <!-- Settings option for dark mode: when selected the app will never use Dark Mode -->
-    <string name="settings_dark_theme_options_off">תמיד בהיר</string>
+    <string name="settings_dark_theme_options_off">בהיר</string>
     <!-- Settings option for dark mode: when selected the app will use Dark Mode according to the system settings (i.e., automatically switch) -->
     <string name="settings_dark_theme_options_auto">כמו הגדרות מערכת</string>
     <!-- Title of dark mode theme settings (which allows user to pick how/when the app should use dark mode) -->
-    <string name="settings_dark_theme">מצב כהה</string>
+    <string name="settings_dark_theme">עיצוב</string>
     <!-- Message: Shown as a placeholder when the HTTP response has no content that could be displayed -->
     <string name="message_blank_response">תגובה ריקה</string>
     <!-- Message shown in snackbar when the title on the main title bar was changed. -->
@@ -1231,13 +1237,13 @@
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show a pre-defined message -->
     <string name="option_response_handling_success_output_message">הצג את ההודעה</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show nothing -->
-    <string name="option_response_handling_success_output_none">הצג כלום (רוץ בשקט)</string>
+    <string name="option_response_handling_success_output_none">לא להציג כלום (הרצה שקטה)</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show the full/detailed error message -->
     <string name="option_response_handling_failure_output_detailed">הצג הודעת שגיאה מפורטת</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show a simplified error message -->
     <string name="option_response_handling_failure_output_simple">הצג הודעת שגיאה פשוטה</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show nothing -->
-    <string name="option_response_handling_failure_output_none">הצג כלום (רוץ בשקט)</string>
+    <string name="option_response_handling_failure_output_none">לא להציג כלום (הרצה שקטה)</string>
     <!-- Label for text area in shortcut editor that allows to enter a custom message which should be displayed when the request succeeds -->
     <string name="label_response_handling_success_message">הודעה</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of all cookies -->
@@ -1356,6 +1362,7 @@
     <!-- Description for htmlDecode function in scripting -->
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">לא נמצאה אפליקציה שיכולה לפתוח את כתובת האתר %s.</string>
+    <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
     <string name="error_no_app_found">לא נמצאה אפליקציה עם שם החבילה %s.</string>
     <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->
@@ -1411,7 +1418,7 @@
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. -->
     <string name="message_unsaved_changes_detected_no_name">נמצאו שינויים שלא נשמרו על קיצור דרך. האם תרצה לשחזר את השינויים ולהמשיך לערוך?</string>
     <!-- Button label, shown on dialog that asks user if they want to recover a shortcut that has unsaved changes -->
-    <string name="button_recover">לְהַחלִים</string>
+    <string name="button_recover">שחזור</string>
     <!-- Button text: translate app (prompt to help & become a translator) -->
     <string name="settings_help_translate">הפוך למתרגם</string>
     <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
@@ -1519,16 +1526,23 @@
     <!-- Subtitle of setting that allows the user to have the app ignore battery optimization modes. This is a troubleshooting option, to prevent scheduled requests from failing -->
     <string name="settings_ignore_battery_optimizations_summary">הפעל אפשרות זו אם אתה נתקל בבעיות בתזמון או בביצוע חוזר של קיצורי דרך.</string>
     <!-- Label for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen -->
+    <string name="label_store_response_into_file">אחסון התגובה בקובץ</string>
     <!-- Subtitle for checkbox which lets the user enable the storing of HTTP response bodies into a file, as part of the response handling settings screen. The %s is a placeholder for the directory name. -->
+    <string name="subtitle_store_response_into_file_directory">אחסון בספרייה \"%s\"</string>
     <!-- Label: Shown above text input field that lets the user pick the file name that should be used for storing the HTTP response into a file -->
+    <string name="label_store_response_file_name">שם קובץ</string>
     <!-- Label for checkbox which lets the user configure that when storing the HTTP response into a file, if the target file already exists whether the app is allowed to overwrite it -->
+    <string name="label_store_response_replace_file">החלף קובץ אם הוא קיים</string>
     <!-- Title on dialog that lets the user choose an icon for a category -->
     <!-- Title of editor for configuring certificate pinning -->
     <!-- Empty state instructions for certificate pinning screen -->
+    <string name="empty_state_certificate_pinning_instructions">אם ברצונך לוודא במיוחד שבקשות ה-HTTP שלך נשלחות דרך חיבור מאובטח, תוכל להפעיל הצמדת אישורים עבור מארחים ספציפיים על ידי הוספת טביעת האצבע SHA-1 או SHA-256 של האישור שלהם כאן.\n\nעבור אישורים חתומים עצמית, בדוק במקום זאת את הקטע \"%s\" של קיצור הדרך.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a certificate pinning was deleted -->
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
     <!-- Label for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="label_certificate_pinning_hostname_pattern">תבנית שם מארח</string>
     <!-- Hint text for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="hint_certificate_pinning_hostname_pattern">דוגמא. *.example.com </string>
     <!-- Label for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
     <!-- Hint text for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
     <!-- Placeholder text shown when a toggle or multi-select variable option is just an empty string -->
@@ -1538,6 +1552,7 @@
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
     <string name="label_require_specific_wifi_ssid">דורש Wi-Fi ספציפי</string>
     <!-- Option in dropdown menu, for selecting the Internet Protocol version to be used for hostname resolution by a shortcut. This option is used by default when no specific option is chosen. -->
+    <string name="option_ip_version_auto">קבע באופן אוטומטי</string>
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
     <string name="option_no_proxy">ללא פרוקסי</string>
     <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
@@ -1546,10 +1561,12 @@
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
+    <string name="label_file_upload_options_allow_image_editing">אפשר חיתוך וסיבוב תמונות</string>
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
     <!-- Option in host verification dropdown, secure default means to use regular SSL settings for establishing a secure connection -->
     <string name="option_host_verification_default">מאובטח ברירת מחדל</string>
     <!-- Option in host verification dropdown, for only checking the server's certificate fingerprint without validating the trust chain -->
+    <string name="option_host_verification_self_signed">בדיקת טביעת אצבע של האישור בלבד</string>
     <!-- Option in host verification dropdown, for disabling any host verification, which is considered insecure and discouraged -->
     <!-- Label for text input field in host verification settings, for specifying the fingerprint of the certificate -->
     <string name="label_host_verification_certificate_fingerprint">תעודת טביעת אצבע</string>
@@ -1586,11 +1603,15 @@
     <!-- Label for input field, to enter the name of a file that should be used as a request body parameter. -->
     <!-- Label for input field, to enter static text that should be used as a file request body parameter. -->
     <!-- Label on button, shown in Response settings of shortcut editor, allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
+    <string name="button_select_response_toolbar_buttons">הצג כפתורי סרגל הכלים</string>
     <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
     <!-- Subtitle on button, shown in Response settings of shortcut editor, shows how many buttons the user has selected to be shown in the response window toolbar -->
     <!-- Option in settings, allows to set whether hidden shortcuts should be visible or not -->
+    <string name="settings_title_show_hidden_shortcuts">קיצורי דרך נסתרים</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
+    <string name="settings_option_show_hidden_shortcuts">הצג קיצורי דרך מוסתרים</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
+    <string name="settings_option_hide_hidden_shortcuts">אל תציג קיצורי דרך נסתרים</string>
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
@@ -1601,6 +1622,7 @@
     <!-- Option in "Theme" setting, to use Dynamic Color, i.e., use the same color scheme as the OS -->
     <string name="settings_dynamic_color_option_default_theme">השתמש בעיצוב ברירת מחדל</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This is the default option, i.e., determine the type automatically from the response headers -->
+    <string name="option_response_content_type_auto">קבע באופן אוטומטי</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as plain text -->
     <string name="option_response_content_type_plain_text">טקסט פשוט</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as JSON -->
@@ -1645,14 +1667,19 @@
     <!-- Accessibility description for main menu button -->
     <!-- Accessibility description for the variable button on the right of text input fields -->
     <!-- Label on button shown on the Response Handling screen, clicking it leads to a settings screen that lets the user configure how the response (or custom message) is displayed -->
+    <string name="button_display_settings">הגדרות תצוגה</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_response">הגדר את אופן הצגת התגובה</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_message">הגדר את אופן הצגת ההודעה</string>
     <!-- Subtitle on button shown on the Response Handling screen -->
+    <string name="subtitle_display_settings_for_error">הגדר את אופן הצגת הודעת השגיאה</string>
     <!-- Title of screen that lets the user configure how the HTTP response is displayed -->
     <!-- Title of screen that lets the user configure how their custom message is displayed -->
     <!-- Title of a generic warning dialog. The dialog may be used in various situations. -->
     <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
     <!-- Label for checkbox in editor, to allow JSON responses to be displayed as a table instead of plain JSON -->
+    <string name="label_json_array_as_table">הצגת מערך JSON כטבלה</string>
     <!-- Screen title, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
     <string name="title_working_directories">ספריות מורכבות</string>
     <!-- Option in main screen's menu, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
@@ -1680,10 +1707,14 @@
     <!-- Error message, informing user that the entered directory name already exists -->
     <!-- Action, shown on dropdown when editing a shortcut, for allowing to hide a shortcut -->
     <!-- Action, shown on dropdown when editing a shortcut, for allowing to show a hidden shortcut -->
+    <string name="action_show_shortcut">הצג</string>
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut was hidden -->
+    <string name="message_shortcut_hidden">קיצור דרך מוסתר.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
+    <string name="message_shortcut_visible">קיצור הדרך אינו מוסתר עוד.</string>
     <!-- Title for dialog, when selecting a directory (to be used in Scripting) -->
     <!-- Warning message shown to user when saving their first shortcut, but not having opened the Response Handling screen -->
+    <string name="warning_make_aware_of_response_handling">ודא שאתה בודק גם את הקטע \"%s\", שם תוכל להגדיר כיצד או אם תוצג תגובת ה-HTTP.</string>
     <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
     <!-- Title for notification channel, used for displaying responses or custom messages -->
     <!-- Message shown in notification when a shortcut is being executed -->
@@ -1709,6 +1740,7 @@
     <!-- Accessibility label for the "go to next result" button in search bars -->
     <!-- Accessibility label for the "go to previous result" button in search bars -->
     <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
+    <string name="instructions_shortcut_unhiding">ניתן להפוך את קיצורי הדרך המוסתרים לגלויים על ידי מעבר למסך ההגדרות וחיפוש האפשרות \"%s\".</string>
     <!-- Pattern used to construct the category / section headers on the "Move Shortcut" screen. %s$1 is a placeholder for a category name, %2$s is a placeholder for a section name -->
     <!-- Title of "Category Sections" screen, which lets the user manage sections within a category -->
     <!-- Title of dialog to edit a section within a category -->

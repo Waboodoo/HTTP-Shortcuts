@@ -684,11 +684,13 @@
     <!-- Shortcut Action Title: Change Category Visibility -->
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Poner en Cola el  Atajo</string>
+    <!-- Shortcut Action Title: Cancel a scheduled shortcut, i.e., don't execute it if it was scheduled or is repeating -->
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
     <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
     <!-- Shortcut Action Description: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
     <!-- Shortcut Action Title: generate a random UUID (Universal Unique Identifier, version 4) -->
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
+    <!-- Shortcut Action Description: Cancel a scheduled shortcut -->
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
     <!-- Shortcut Action Title: Open a URL (e.g. in a browser) -->
@@ -1034,6 +1036,7 @@
     <!-- Description for htmlEncode function in scripting -->
     <!-- Description for htmlDecode function in scripting -->
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
+    <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
     <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->
     <!-- Error message: Shown to the user when the app tries to determine the SSID (name) of the current Wi-Fi but failed, e.g. because of a missing permission -->

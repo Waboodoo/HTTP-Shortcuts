@@ -831,6 +831,8 @@
     <string name="action_type_change_category_hidden_title">显示/隐藏类别</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">启动此快捷方式</string>
+    <!-- Shortcut Action Title: Cancel a scheduled shortcut, i.e., don't execute it if it was scheduled or is repeating -->
+    <string name="action_type_cancel_shortcut_title">取消快捷方式</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_title">执行快捷方式</string>
     <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
@@ -841,6 +843,8 @@
     <string name="action_type_generate_uuid">生成随机 UUID</string>
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_description">安排另一个快捷方式在当前快捷方式完成运行后运行</string>
+    <!-- Shortcut Action Description: Cancel a scheduled shortcut -->
+    <string name="action_type_cancel_shortcut_description">取消计划的、 延迟的或重复的快捷方式执行</string>
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">立即执行另一个快捷方式并返回其结果</string>
     <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
@@ -1341,6 +1345,8 @@
     <string name="action_type_html_decode_description">将 HTML 字符串解码为纯文本</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">未找到能打开 URL %s 的应用。</string>
+    <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
+    <string name="error_permission_required_for_url">没有打开 %s 的权限。</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
     <string name="error_no_app_found">未找到包名为 %s 的应用。</string>
     <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->

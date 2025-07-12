@@ -842,6 +842,7 @@ Zatím však nemáte žádné proměnné nakonfigurovány.</string>
     <string name="action_type_change_category_hidden_title">Zobrazit/skrýt kategorii</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Zkratka Enqueue</string>
+    <!-- Shortcut Action Title: Cancel a scheduled shortcut, i.e., don't execute it if it was scheduled or is repeating -->
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_title">Spustit klávesovou zkratku</string>
     <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
@@ -852,6 +853,7 @@ Zatím však nemáte žádné proměnné nakonfigurovány.</string>
     <string name="action_type_generate_uuid">Generování náhodného UUID</string>
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_description">naplánovat spuštění dalšího zástupce po dokončení aktuálního.</string>
+    <!-- Shortcut Action Description: Cancel a scheduled shortcut -->
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">Okamžité spuštění dalšího zástupce a vrácení jeho výsledku</string>
     <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
@@ -1346,6 +1348,7 @@ Zatím však nemáte žádné proměnné nakonfigurovány.</string>
     <string name="action_type_html_decode_description">Dekóduje HTML řetězec do prostého textu</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">Nebyla nalezena žádná aplikace, která by mohla otevřít adresu URL %s.</string>
+    <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
     <string name="error_no_app_found">Nebyla nalezena žádná aplikace s názvem balíčku %s.</string>
     <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->
