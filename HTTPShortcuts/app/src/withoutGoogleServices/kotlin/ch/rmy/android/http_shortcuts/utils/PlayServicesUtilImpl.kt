@@ -7,7 +7,5 @@ class PlayServicesUtilImpl(@Suppress("UNUSED_PARAMETER") context: Context) : Pla
     override fun isPlayServicesAvailable(): Boolean =
         false
 
-    override suspend fun getLocation(): Location? {
-        throw NotImplementedError()
-    }
+    override suspend fun getLocation(): Location? = throw NotImplementedError()
 }

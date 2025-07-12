@@ -40,10 +40,8 @@ constructor(
         }
     }
 
-    private fun throwUnsupportedError(packageName: String): Nothing {
-        throw ActionException {
-            getString(R.string.error_no_app_found, packageName)
-        }
+    private fun throwUnsupportedError(packageName: String): Nothing = throw ActionException {
+        getString(R.string.error_no_app_found, packageName)
     }
 
     data class Params(

@@ -102,7 +102,8 @@ class QuickTileService : TileService() {
                 executeShortcut(shortcut, headersByShortcutId[shortcut.id] ?: emptyList(), parametersByShortcutId[shortcut.id] ?: emptyList())
             }
             ?: run {
-                if (shortcuts.isNotEmpty() && shortcuts.all {
+                if (shortcuts.isNotEmpty() &&
+                    shortcuts.all {
                         canRunWithoutExecuteActivity(
                             it,
                             headersByShortcutId[it.id],

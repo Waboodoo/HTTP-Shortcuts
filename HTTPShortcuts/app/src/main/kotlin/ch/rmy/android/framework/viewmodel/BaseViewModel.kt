@@ -92,9 +92,7 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
 
     protected open suspend fun onReactivated() {}
 
-    protected fun terminateInitialization(): Nothing {
-        throw ViewModelCancellationException()
-    }
+    protected fun terminateInitialization(): Nothing = throw ViewModelCancellationException()
 
     protected fun runAction(action: suspend ViewModelScope<ViewState>.() -> Unit) {
         viewModelScope.launch {

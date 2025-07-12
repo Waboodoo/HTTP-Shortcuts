@@ -95,7 +95,8 @@ constructor(
         scriptExecutor: ScriptExecutor,
     ): Flow<ExecutionStatus> = flow {
         val sessionId = "${shortcut.id}_${newUUID()}"
-        if ((params.recursionDepth == 0 || params.trigger == SCHEDULE_IMMEDIATELY) && checkHeadlessExecution(
+        if ((params.recursionDepth == 0 || params.trigger == SCHEDULE_IMMEDIATELY) &&
+            checkHeadlessExecution(
                 shortcut,
                 requestParameters,
                 variableManager.getVariableValues(),

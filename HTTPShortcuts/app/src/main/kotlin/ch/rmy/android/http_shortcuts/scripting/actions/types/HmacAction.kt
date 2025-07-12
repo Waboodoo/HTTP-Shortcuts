@@ -23,14 +23,12 @@ constructor() : Action<HmacAction.Params> {
         }
     }
 
-    private fun Params.throwUnsupportedError(): Nothing {
-        throw ActionException {
-            getString(
-                R.string.error_unsupported_hmac_algorithm,
-                algorithm,
-                SUPPORTED_ALGORITHMS.keys.joinToString(),
-            )
-        }
+    private fun Params.throwUnsupportedError(): Nothing = throw ActionException {
+        getString(
+            R.string.error_unsupported_hmac_algorithm,
+            algorithm,
+            SUPPORTED_ALGORITHMS.keys.joinToString(),
+        )
     }
 
     data class Params(

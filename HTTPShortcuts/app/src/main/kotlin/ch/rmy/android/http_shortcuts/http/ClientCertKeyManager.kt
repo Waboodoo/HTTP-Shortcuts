@@ -23,17 +23,11 @@ class ClientCertKeyManager(
     override fun getPrivateKey(alias: String): PrivateKey? =
         if (alias == this.alias) privateKey else null
 
-    override fun chooseServerAlias(keyType: String, issuers: Array<Principal>?, socket: Socket?): String {
-        throw UnsupportedOperationException()
-    }
+    override fun chooseServerAlias(keyType: String, issuers: Array<Principal>?, socket: Socket?): String = throw UnsupportedOperationException()
 
-    override fun getClientAliases(keyType: String, issuers: Array<Principal>?): Array<String> {
-        throw UnsupportedOperationException()
-    }
+    override fun getClientAliases(keyType: String, issuers: Array<Principal>?): Array<String> = throw UnsupportedOperationException()
 
-    override fun getServerAliases(keyType: String, issuers: Array<Principal>?): Array<String> {
-        throw UnsupportedOperationException()
-    }
+    override fun getServerAliases(keyType: String, issuers: Array<Principal>?): Array<String> = throw UnsupportedOperationException()
 
     companion object {
         fun getClientCertKeyManager(context: Context, alias: String): ClientCertKeyManager {

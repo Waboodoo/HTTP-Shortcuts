@@ -83,28 +83,26 @@ constructor(
         categories: List<Category>,
         sectionsByCategoryId: Map<CategoryId, List<Section>>,
         shortcutsByCategoryId: Map<CategoryId, List<Shortcut>>,
-    ): List<CategorySectionItem> {
-        return buildList {
-            categories.forEach { category ->
-                val sections = sectionsByCategoryId[category.id] ?: emptyList()
-                val shortcuts = shortcutsByCategoryId[category.id] ?: emptyList()
-                val validSectionIds = sections.ids()
-                val shortcutsBySectionId = mutableMapOf<SectionId?, MutableList<Shortcut>>()
-                shortcuts.forEach { shortcut ->
-                    val sectionId = shortcut.sectionId?.takeIf { it in validSectionIds }
-                    shortcutsBySectionId.getOrPut(sectionId, ::mutableListOf).add(shortcut)
-                }
+    ): List<CategorySectionItem> = buildList {
+        categories.forEach { category ->
+            val sections = sectionsByCategoryId[category.id] ?: emptyList()
+            val shortcuts = shortcutsByCategoryId[category.id] ?: emptyList()
+            val validSectionIds = sections.ids()
+            val shortcutsBySectionId = mutableMapOf<SectionId?, MutableList<Shortcut>>()
+            shortcuts.forEach { shortcut ->
+                val sectionId = shortcut.sectionId?.takeIf { it in validSectionIds }
+                shortcutsBySectionId.getOrPut(sectionId, ::mutableListOf).add(shortcut)
+            }
 
-                (listOf(null) + sections).forEach { section ->
-                    add(
-                        CategorySectionItem(
-                            id = CategorySectionId(category.id, section?.id),
-                            categoryName = category.name,
-                            sectionName = section?.name,
-                            shortcuts = shortcutsBySectionId[section?.id]?.map(Shortcut::toShortcutPlaceholder) ?: emptyList(),
-                        ),
-                    )
-                }
+            (listOf(null) + sections).forEach { section ->
+                add(
+                    CategorySectionItem(
+                        id = CategorySectionId(category.id, section?.id),
+                        categoryName = category.name,
+                        sectionName = section?.name,
+                        shortcuts = shortcutsBySectionId[section?.id]?.map(Shortcut::toShortcutPlaceholder) ?: emptyList(),
+                    ),
+                )
             }
         }
     }

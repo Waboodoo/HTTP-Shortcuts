@@ -52,16 +52,18 @@ sealed interface ShortcutIcon {
 
         val isUsableAsSilhouette
             get() = iconName.run {
-                startsWith("bitsies_") || startsWith("black_") ||
+                startsWith("bitsies_") ||
+                    startsWith("black_") ||
                     (
-                        startsWith("freepik_") && this !in arrayOf(
-                            "freepik_accept",
-                            "freepik_add",
-                            "freepik_minus",
-                            "freepik_cancel",
-                            "freepik_heart",
-                            "freepik_rate",
-                        )
+                        startsWith("freepik_") &&
+                            this !in arrayOf(
+                                "freepik_accept",
+                                "freepik_add",
+                                "freepik_minus",
+                                "freepik_cancel",
+                                "freepik_heart",
+                                "freepik_rate",
+                            )
                         )
             }
 

@@ -10,7 +10,5 @@ interface ViewModelScope<ViewState> : CoroutineScope {
 
     suspend fun updateViewState(mutation: ViewState.() -> ViewState)
 
-    fun skipAction(): Nothing {
-        throw ViewModelCancellationException()
-    }
+    fun skipAction(): Nothing = throw ViewModelCancellationException()
 }

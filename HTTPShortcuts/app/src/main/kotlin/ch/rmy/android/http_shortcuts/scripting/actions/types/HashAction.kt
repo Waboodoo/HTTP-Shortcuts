@@ -23,14 +23,12 @@ constructor() : Action<HashAction.Params> {
         }
     }
 
-    private fun Params.throwUnsupportedError(): Nothing {
-        throw ActionException {
-            getString(
-                R.string.error_unsupported_hash_algorithm,
-                algorithm,
-                SUPPORTED_ALGORITHMS.keys.joinToString(),
-            )
-        }
+    private fun Params.throwUnsupportedError(): Nothing = throw ActionException {
+        getString(
+            R.string.error_unsupported_hash_algorithm,
+            algorithm,
+            SUPPORTED_ALGORITHMS.keys.joinToString(),
+        )
     }
 
     data class Params(

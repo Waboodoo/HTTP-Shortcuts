@@ -188,7 +188,8 @@ data class Shortcut(
         executionType.usesResponse &&
             (
                 (responseSuccessOutput == ResponseSuccessOutput.RESPONSE || responseFailureOutput == ResponseFailureOutput.DETAILED) ||
-                    codeOnSuccess.isNotEmpty() || codeOnFailure.isNotEmpty()
+                    codeOnSuccess.isNotEmpty() ||
+                    codeOnFailure.isNotEmpty()
                 )
 
     val responseDisplayActions: List<ResponseDisplayAction>
