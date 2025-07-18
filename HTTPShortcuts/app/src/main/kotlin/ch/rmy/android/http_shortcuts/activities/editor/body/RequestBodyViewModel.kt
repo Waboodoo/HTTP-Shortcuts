@@ -416,7 +416,7 @@ constructor(
                 )
             }
 
-        private val JSON_OBJECT_START = "^\\s*\\{\\s*\".*".toRegex()
+        private val JSON_OBJECT_START = "^\\s*\\{\\s*\".*".toRegex(RegexOption.DOT_MATCHES_ALL)
 
         internal fun String.isJsonObjectStart() =
             matches(JSON_OBJECT_START)
