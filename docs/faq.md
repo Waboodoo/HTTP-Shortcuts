@@ -2,7 +2,7 @@
 
 ## This app is free and contains no ads. What's the catch?
 
-There is no catch. I'm a developer who one day realized he needed an app like this, built it, and then decided to share it. HTTP Shortcuts is essentially a one-man show, and I'm only working on it in my spare time. I'm doing it because I enjoy the project, which is why the app is completely free and will remain so. No ads, no tracking, no premium features, just a simple open-source app that aims to be useful.
+There is no catch. I'm a developer who one day realized he needed an app like this, built it, and then decided to share it. HTTP Shortcuts is essentially a one-man show, and I'm only working on it in my spare time. I'm doing it because I enjoy the project and because it lets me try out and learn new things, which is why the app is completely free and will remain so. No ads, no tracking, no premium features, just a simple open-source app that aims to be useful.
 
 If you want to show your support though, check out [this page](https://http-shortcuts.rmy.ch/support-me).
 
@@ -10,7 +10,7 @@ If you want to show your support though, check out [this page](https://http-shor
 
 This usually happens when Data Saver or Battery Saver is enabled, as those restrict how apps can use the network. Try disabling them or whitelisting the HTTP Shortcuts app.
 
-It might also be that you need to enable the "Allow drawing over other apps" option. You'll find it in the app's Settings page in the Troubleshooting section.
+It might also be that you need to enable the "Allow drawing over other apps" option. You'll find it by opening the app's main menu and selecting *Troubleshooting*.
 
 ## I don't like the blue arrow icon that overlays all my shortcuts on the home screen. Can I remove it?
 
@@ -21,7 +21,7 @@ Alternatively, you can use the *"Customizable Widget"* from your home screen's w
 <a id="trigger-from-other-app"></a>
 ## Can I trigger a shortcut from another app?
 
-Most automation apps offer some way to trigger a shortcut directly. If that isn't an option you can instead trigger a shortcut by sending a *broadcast intent* with the following parameters:
+Most automation apps offer some way to trigger a shortcut directly. Look for "shortcut" or "plugin". If that isn't an option you can instead trigger a shortcut by sending a *broadcast intent* with the following parameters:
 
 - action: "ch.rmy.android.http_shortcuts.execute"
 - package name: "ch.rmy.android.http_shortcuts"
@@ -37,15 +37,15 @@ See also the [documentation on deep-linking](advanced.md#deep-link).
 
 A normal shortcut corresponds to a single request. You can, however, have one shortcut trigger one or more other shortcuts. The easiest way to achieve that is by creating a ["Multi-Shortcut"](shortcuts.md#multi-shortcut), which allows you to pick one or more shortcuts which are then all triggered when the multi-shortcut itself is executed, one after the other. 
 
-In some cases using a Multi Shortcut might not be enough, e.g., when you want to trigger the same shortcut twice, want to trigger it only under certain conditions or if you want to pass variable values to it. In this case you can create a ["Scripting Shortcut"](shortcuts.md#scripting-shortcut) instead and add one or more instances of the ["enqueueShortcut"](scripting.md#trigger-shortcut) action to it. When creating or editing your scripting shortcut, open the section "Scripting" and then click the button "Add Code Snippet" underneath the textarea. In the dialog that opens select "Miscellaneous" and then "Enqueue Shortcut". This way, whenever you run your first shortcut, it will trigger the selected other one after it completed. See [the Scripting documentation](scripting.md#trigger-shortcut) for more information.
+In some cases using a Multi Shortcut might not be enough, e.g., when you want to trigger the same shortcut twice, want to trigger it only under certain conditions or if you want to pass variable values to it. In this case you can create a ["Scripting Shortcut"](shortcuts.md#scripting-shortcut) instead and add one or more instances of the ["enqueueShortcut"](scripting.md#trigger-shortcut) action to it. When creating or editing your scripting shortcut, open the section "Scripting" and then click the "+" button underneath the textarea. On the screen that opens select "Miscellaneous" and then "Enqueue Shortcut". This way, whenever you run your first shortcut, it will trigger the selected other one after it completed. See [the Scripting documentation](scripting.md#trigger-shortcut) for more information.
 
 ## Can I schedule requests to be sent periodically or at a specific time?
 
 Currently the app only has basic functionality for running a shortcut repeatedly. When creating or editing the shortcut, go to the *Trigger & Execution Settings* section and look for the *Run repeatedly* dropdown at the bottom.
 
-If you need more advanced or more precise scheduling, you can try to achieve that by combining the app with an automation app, such as Tasker or Macrodroid.
+If you need more advanced or more precise scheduling, you can try to achieve that by combining the app with an automation app, such as Tasker or MacroDroid.
 
-## Can I trigger a shortcut with text shared from another app? Can I share text (e.g. a link) into a shortcut?
+## Can I trigger a shortcut with text shared from another app? Can I share text (e.g. a URL from a browser) into a shortcut?
 
 If you want to share text via an HTTP shortcut, you can do so like this:
 
@@ -93,7 +93,7 @@ This will essentially override the resolution order, as the Scripting forces the
 
 ## I hid one of my shortcuts and now I can't access it anymore. How do I make it visible again?
 
-If you go to the app's Settings screen, you'll find an option in the "Appearance" section which lets you configure whether hidden shortcuts should be visible or not. By default, hidden shortcuts will not be shown, but if you change this setting, the shortcuts will instead be visible but appear partially transparent.
+If you go to the app's Settings screen, you'll find an option in the "Appearance" section which lets you configure whether hidden shortcuts should be visible or not. By default, hidden shortcuts will not be shown, but if you change this setting, the shortcuts will instead be visible but appear partially transparent. You can long-press them and select "Show" from the menu to make them fully visible again.
 
 <a id="debugging"></a>
 ## Something's not working with my requests. Can I get more detailed information for debugging?
