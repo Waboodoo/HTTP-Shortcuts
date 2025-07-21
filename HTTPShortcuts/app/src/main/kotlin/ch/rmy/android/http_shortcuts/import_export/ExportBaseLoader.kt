@@ -28,13 +28,13 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType.BASIC
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType.BEARER
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType.DIGEST
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType.BROWSER
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType.HTTP
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType.MQTT
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.extensions.getRequestHeadersForShortcuts
 import ch.rmy.android.http_shortcuts.extensions.getRequestParametersForShortcuts
-import ch.rmy.android.http_shortcuts.extensions.usesUrl
 import ch.rmy.android.http_shortcuts.import_export.ImportExport.COMPATIBILITY_VERSION
 import ch.rmy.android.http_shortcuts.import_export.ImportExport.VERSION
 import ch.rmy.android.http_shortcuts.import_export.models.ExportBase
@@ -137,7 +137,9 @@ constructor(
                                 iconName = shortcut.icon.toString(),
                                 hidden = shortcut.hidden.trueOrNull(),
                                 method = shortcut.takeIf { type == HTTP }?.method?.method,
-                                url = shortcut.takeIf { shortcut.executionType.usesUrl }?.url,
+                                url = shortcut
+                                    .takeIf { type == HTTP || type == BROWSER || type == MQTT }
+                                    ?.url,
                                 username = shortcut
                                     .takeIf { (type == HTTP && (authType == BASIC || authType == DIGEST)) || type == MQTT }
                                     ?.authUsername
@@ -151,7 +153,9 @@ constructor(
                                     ?.authToken
                                     ?.takeUnlessEmpty(),
                                 section = shortcut.sectionId,
-                                bodyContent = shortcut.takeIf { type == HTTP }?.bodyContent,
+                                bodyContent = shortcut
+                                    .takeIf { type == HTTP || type == MQTT }
+                                    ?.bodyContent,
                                 timeout = shortcut.takeIf { type == HTTP }?.timeout?.takeIf { it != 10_000 },
                                 waitForInternet = shortcut.takeIf { type == HTTP }?.isWaitForNetwork?.trueOrNull(),
                                 acceptAllCertificates = (shortcut.takeIf { type == HTTP }?.securityPolicy == SecurityPolicy.AcceptAll).trueOrNull(),

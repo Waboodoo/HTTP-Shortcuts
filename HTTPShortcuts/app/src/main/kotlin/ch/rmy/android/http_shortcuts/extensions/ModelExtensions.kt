@@ -76,19 +76,6 @@ suspend fun ShortcutRepository.shouldUseForegroundService(shortcutId: ShortcutId
     }
 
 @Stable
-val ShortcutExecutionType.usesUrl: Boolean
-    get() = when (this) {
-        ShortcutExecutionType.HTTP,
-        ShortcutExecutionType.BROWSER,
-        -> true
-        ShortcutExecutionType.SCRIPTING,
-        ShortcutExecutionType.TRIGGER,
-        ShortcutExecutionType.MQTT,
-        ShortcutExecutionType.WAKE_ON_LAN,
-        -> false
-    }
-
-@Stable
 val ShortcutExecutionType.usesBasicSettingsScreen: Boolean
     get() = when (this) {
         ShortcutExecutionType.HTTP,

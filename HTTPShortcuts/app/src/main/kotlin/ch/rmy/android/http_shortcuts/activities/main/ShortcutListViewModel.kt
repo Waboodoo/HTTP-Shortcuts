@@ -36,6 +36,7 @@ import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
@@ -46,7 +47,6 @@ import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
-import ch.rmy.android.http_shortcuts.extensions.usesUrl
 import ch.rmy.android.http_shortcuts.import_export.CurlExporter
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
@@ -407,7 +407,7 @@ constructor(
         val shortcutId = activeShortcutId ?: skipAction()
         val shortcut = getShortcutById(shortcutId) ?: skipAction()
 
-        if (shortcut.executionType.usesUrl) {
+        if (shortcut.executionType.let { it == ShortcutExecutionType.HTTP || it == ShortcutExecutionType.BROWSER }) {
             showExportOptionsDialog(shortcutId)
         } else {
             showFileExportDialog()
