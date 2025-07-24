@@ -75,7 +75,14 @@ constructor(
             }
 
             executionContext.scriptingEngine.buildJsObject {
-                property("status", if (response.isSuccessful) "success" else "httpError")
+                property(
+                    "status",
+                    if (response.isSuccessful || (!followRedirects && response.isRedirect)) {
+                        "success"
+                    } else {
+                        "httpError"
+                    },
+                )
                 objectProperty("response") {
                     property(
                         "body",
