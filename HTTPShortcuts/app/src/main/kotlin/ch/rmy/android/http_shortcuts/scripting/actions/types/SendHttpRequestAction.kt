@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.content.Context
+import ch.rmy.android.framework.extensions.isSuccessfulOrRedirect
 import ch.rmy.android.framework.extensions.toCharset
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
@@ -77,7 +78,7 @@ constructor(
             executionContext.scriptingEngine.buildJsObject {
                 property(
                     "status",
-                    if (response.isSuccessful || (!followRedirects && response.isRedirect)) {
+                    if (response.isSuccessfulOrRedirect()) {
                         "success"
                     } else {
                         "httpError"

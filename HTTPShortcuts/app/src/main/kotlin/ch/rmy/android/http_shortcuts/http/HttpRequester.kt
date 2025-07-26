@@ -8,6 +8,7 @@ import android.text.format.Formatter
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.fromHexString
+import ch.rmy.android.framework.extensions.isSuccessfulOrRedirect
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.FileUtil
@@ -269,7 +270,7 @@ constructor(
                             null
                         }
 
-                        val isSuccess = okHttpResponse.code in 200..399
+                        val isSuccess = okHttpResponse.isSuccessfulOrRedirect()
 
                         if (shortcut.shouldIncludeInHistory()) {
                             historyEventLogger.logEvent(
