@@ -13,19 +13,19 @@ import kotlinx.coroutines.launch
 class WidgetProvider : AppWidgetProvider() {
 
     @Inject
-    lateinit var widgetManager: WidgetManager
+    lateinit var shortcutWidgetManager: ShortcutWidgetManager
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, widgetIds: IntArray) {
         // TODO(???): Use more appropriate scope, maybe a worker?
         CoroutineScope(Dispatchers.Default).launch {
-            widgetManager.updateWidgets(context, widgetIds.toList())
+            shortcutWidgetManager.updateWidgets(context, widgetIds.toList())
         }
     }
 
     override fun onDeleted(context: Context, widgetIds: IntArray) {
         // TODO(???): Use more appropriate scope, maybe a worker?
         CoroutineScope(Dispatchers.Default).launch {
-            widgetManager.deleteWidgets(widgetIds.toList())
+            shortcutWidgetManager.deleteWidgets(widgetIds.toList())
         }
     }
 }

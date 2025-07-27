@@ -47,7 +47,7 @@ import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
 import ch.rmy.android.http_shortcuts.utils.MqttUtil
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableHttpUrl
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableUrl
-import ch.rmy.android.http_shortcuts.widget.WidgetManager
+import ch.rmy.android.http_shortcuts.widget.ShortcutWidgetManager
 import ch.rmy.curlcommand.CurlCommand
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -70,7 +70,7 @@ constructor(
     private val requestHeaderRepository: RequestHeaderRepository,
     private val requestParameterRepository: RequestParameterRepository,
     private val globalVariableRepository: GlobalVariableRepository,
-    private val widgetManager: WidgetManager,
+    private val shortcutWidgetManager: ShortcutWidgetManager,
     private val fetchFavicon: FetchFaviconUseCase,
     private val sessionInfoStore: SessionInfoStore,
     private val dialogHandler: ExecuteDialogHandler,
@@ -478,7 +478,7 @@ constructor(
         tryOrLog {
             launcherShortcutUpdater.updatePinnedShortcut(shortcutId)
             withProgressTracking {
-                widgetManager.updateWidgets(context, shortcutId)
+                shortcutWidgetManager.updateWidgets(context, shortcutId)
             }
         }
         waitForOperationsToFinish()

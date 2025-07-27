@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.activities.widget
+package ch.rmy.android.http_shortcuts.activities.shortcutwidget
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -15,14 +15,18 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @Composable
-fun WidgetSettingsScreen(
+fun ShortcutWidgetSettingsScreen(
     shortcutId: ShortcutId,
     shortcutName: String,
     shortcutIcon: ShortcutIcon,
     widgetId: Int?,
 ) {
-    val (viewModel, state) = bindViewModel<WidgetSettingsViewModel.InitData, WidgetSettingsViewState, WidgetSettingsViewModel>(
-        WidgetSettingsViewModel.InitData(shortcutId, shortcutName, shortcutIcon, widgetId),
+    val (viewModel, state) = bindViewModel<
+        ShortcutWidgetSettingsViewModel.InitData,
+        ShortcutWidgetSettingsViewState,
+        ShortcutWidgetSettingsViewModel,
+        >(
+        ShortcutWidgetSettingsViewModel.InitData(shortcutId, shortcutName, shortcutIcon, widgetId),
     )
 
     SimpleScaffold(
@@ -37,7 +41,7 @@ fun WidgetSettingsScreen(
             )
         },
     ) { viewState ->
-        WidgetSettingsContent(
+        ShortcutWidgetSettingsContent(
             showLabel = viewState.showLabel,
             showIcon = viewState.showIcon,
             labelColor = Color(viewState.labelColor),

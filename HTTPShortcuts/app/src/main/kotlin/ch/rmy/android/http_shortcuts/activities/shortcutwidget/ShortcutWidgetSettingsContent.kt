@@ -1,4 +1,4 @@
-package ch.rmy.android.http_shortcuts.activities.widget
+package ch.rmy.android.http_shortcuts.activities.shortcutwidget
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -34,7 +34,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon as ShortcutIconModel
 private val ICON_SCALE_OPTIONS = arrayOf(0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1f)
 
 @Composable
-fun WidgetSettingsContent(
+fun ShortcutWidgetSettingsContent(
     showLabel: Boolean,
     showIcon: Boolean,
     labelColor: Color,

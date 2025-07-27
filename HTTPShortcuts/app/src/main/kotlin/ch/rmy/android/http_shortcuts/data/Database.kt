@@ -15,7 +15,7 @@ import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestPara
 import ch.rmy.android.http_shortcuts.data.domains.sections.SectionDao
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutDao
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableDao
-import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetDao
+import ch.rmy.android.http_shortcuts.data.domains.widgets.ShortcutWidgetDao
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryDao
 import ch.rmy.android.http_shortcuts.data.migrations.Migration4
 import ch.rmy.android.http_shortcuts.data.models.AppConfig
@@ -30,7 +30,7 @@ import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.ResolvedVariableModel
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Widget
+import ch.rmy.android.http_shortcuts.data.models.ShortcutWidget
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigrationDao
 
@@ -40,6 +40,7 @@ import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigrationDao
         AppLock::class,
         Category::class,
         CertificatePin::class,
+        GlobalVariable::class,
         HistoryEvent::class,
         PendingExecutionModel::class,
         RequestHeader::class,
@@ -47,8 +48,7 @@ import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigrationDao
         ResolvedVariableModel::class,
         Section::class,
         Shortcut::class,
-        GlobalVariable::class,
-        Widget::class,
+        ShortcutWidget::class,
         WorkingDirectory::class,
     ],
     version = 4,
@@ -69,6 +69,7 @@ abstract class Database : RoomDatabase() {
     abstract fun appLockDao(): AppLockDao
     abstract fun categoryDao(): CategoryDao
     abstract fun certificatePinDao(): CertificatePinDao
+    abstract fun globalVariableDao(): GlobalVariableDao
     abstract fun historyEventDao(): HistoryEventDao
     abstract fun pendingExecutionDao(): PendingExecutionDao
     abstract fun realmToRoomMigrationDao(): RealmToRoomMigrationDao
@@ -76,7 +77,6 @@ abstract class Database : RoomDatabase() {
     abstract fun requestParameterDao(): RequestParameterDao
     abstract fun sectionDao(): SectionDao
     abstract fun shortcutDao(): ShortcutDao
-    abstract fun globalVariableDao(): GlobalVariableDao
-    abstract fun widgetDao(): WidgetDao
+    abstract fun shortcutWidgetDao(): ShortcutWidgetDao
     abstract fun workingDirectoryDao(): WorkingDirectoryDao
 }

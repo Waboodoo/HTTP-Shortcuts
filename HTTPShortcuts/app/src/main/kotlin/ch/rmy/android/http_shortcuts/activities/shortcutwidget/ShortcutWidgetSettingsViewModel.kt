@@ -1,10 +1,10 @@
-package ch.rmy.android.http_shortcuts.activities.widget
+package ch.rmy.android.http_shortcuts.activities.shortcutwidget
 
 import android.app.Application
 import android.graphics.Color
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
+import ch.rmy.android.http_shortcuts.data.domains.widgets.ShortcutWidgetsRepository
 import ch.rmy.android.http_shortcuts.extensions.labelColorInt
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
@@ -12,12 +12,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class WidgetSettingsViewModel
+class ShortcutWidgetSettingsViewModel
 @Inject
 constructor(
     application: Application,
-    private val widgetsRepository: WidgetsRepository,
-) : BaseViewModel<WidgetSettingsViewModel.InitData, WidgetSettingsViewState>(application) {
+    private val shortcutWidgetsRepository: ShortcutWidgetsRepository,
+) : BaseViewModel<ShortcutWidgetSettingsViewModel.InitData, ShortcutWidgetSettingsViewState>(application) {
 
     private val shortcutId: ShortcutId
         get() = initData.shortcutId
@@ -33,12 +33,12 @@ constructor(
         val widgetId: Int?,
     )
 
-    override suspend fun initialize(data: InitData): WidgetSettingsViewState {
+    override suspend fun initialize(data: InitData): ShortcutWidgetSettingsViewState {
         val widget = data.widgetId
             ?.let {
-                widgetsRepository.getWidgetById(it)
+                shortcutWidgetsRepository.getShortcutWidgetById(it)
             }
-        return WidgetSettingsViewState(
+        return ShortcutWidgetSettingsViewState(
             showLabel = widget?.showLabel != false,
             showIcon = widget?.showIcon != false,
             labelColor = widget?.labelColorInt() ?: Color.WHITE,
@@ -83,7 +83,7 @@ constructor(
 
     fun onCreateButtonClicked() = runAction {
         closeScreen(
-            result = NavigationDestination.Widget.Result(
+            result = NavigationDestination.ShortcutWidget.Result(
                 shortcutId = shortcutId,
                 labelColor = viewState.labelColorFormatted,
                 showLabel = viewState.showLabel,

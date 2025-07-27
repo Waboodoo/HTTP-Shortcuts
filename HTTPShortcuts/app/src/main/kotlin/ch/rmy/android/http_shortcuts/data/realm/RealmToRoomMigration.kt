@@ -42,7 +42,7 @@ import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Widget
+import ch.rmy.android.http_shortcuts.data.models.ShortcutWidget
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import ch.rmy.android.http_shortcuts.data.realm.models.RealmAppLock
 import ch.rmy.android.http_shortcuts.data.realm.models.RealmBase
@@ -145,7 +145,7 @@ constructor(
     }
 
     private suspend fun migrateToVersion1(realm: Realm) {
-        val widgetDao = database.widgetDao()
+        val widgetDao = database.shortcutWidgetDao()
         logInfo("Migrating widgets")
 
         realm.query<RealmWidget>()
@@ -154,7 +154,7 @@ constructor(
                 val shortcutId = widget.shortcut?.id
                 if (shortcutId != null) {
                     widgetDao.insert(
-                        Widget(
+                        ShortcutWidget(
                             widgetId = widget.widgetId,
                             shortcutId = shortcutId,
                             showLabel = widget.showLabel,

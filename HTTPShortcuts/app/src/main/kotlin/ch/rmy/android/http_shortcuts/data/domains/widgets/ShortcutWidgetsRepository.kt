@@ -3,15 +3,15 @@ package ch.rmy.android.http_shortcuts.data.domains.widgets
 import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.BaseRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
-import ch.rmy.android.http_shortcuts.data.models.Widget
+import ch.rmy.android.http_shortcuts.data.models.ShortcutWidget
 import javax.inject.Inject
 
-class WidgetsRepository
+class ShortcutWidgetsRepository
 @Inject
 constructor(
     database: Database,
 ) : BaseRepository(database) {
-    suspend fun createWidget(
+    suspend fun createShortcutWidget(
         widgetId: Int,
         shortcutId: ShortcutId,
         showLabel: Boolean,
@@ -19,8 +19,8 @@ constructor(
         labelColor: String?,
         iconScale: Float,
     ) = query {
-        widgetDao().insert(
-            Widget(
+        shortcutWidgetDao().insert(
+            ShortcutWidget(
                 widgetId = widgetId,
                 shortcutId = shortcutId,
                 showLabel = showLabel,
@@ -31,21 +31,21 @@ constructor(
         )
     }
 
-    suspend fun getWidgetById(widgetId: Int): Widget? = query {
-        widgetDao().getWidget(widgetId)
+    suspend fun getShortcutWidgetById(widgetId: Int): ShortcutWidget? = query {
+        shortcutWidgetDao().getWidget(widgetId)
     }
 
-    suspend fun getWidgetsByIds(widgetIds: List<Int>): List<Widget> = query {
-        widgetDao().getWidgets(widgetIds)
+    suspend fun getShortcutWidgetsByIds(widgetIds: List<Int>): List<ShortcutWidget> = query {
+        shortcutWidgetDao().getWidgets(widgetIds)
     }
 
-    suspend fun getWidgetsByShortcutId(shortcutId: ShortcutId): List<Widget> = query {
-        widgetDao().getWidgetsByShortcutId(shortcutId)
+    suspend fun getShortcutWidgetsByShortcutId(shortcutId: ShortcutId): List<ShortcutWidget> = query {
+        shortcutWidgetDao().getWidgetsByShortcutId(shortcutId)
     }
 
-    suspend fun deleteDeadWidgets() = query {
+    suspend fun deleteDeadShortcutWidgets() = query {
         val shortcutDao = shortcutDao()
-        val widgetDao = widgetDao()
+        val widgetDao = shortcutWidgetDao()
         widgetDao.getWidgets()
             .mapNotNull { widget ->
                 val shortcutExists = shortcutDao.getShortcutById(widget.shortcutId).firstOrNull() != null
@@ -56,7 +56,7 @@ constructor(
             }
     }
 
-    suspend fun deleteWidgets(widgetIds: List<Int>) = query {
-        widgetDao().deleteWidgets(widgetIds)
+    suspend fun deleteShortcutWidgets(widgetIds: List<Int>) = query {
+        shortcutWidgetDao().deleteWidgets(widgetIds)
     }
 }

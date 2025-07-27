@@ -16,7 +16,7 @@ import ch.rmy.android.http_shortcuts.data.models.CertificatePin as CertificatePi
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.models.Widget
+import ch.rmy.android.http_shortcuts.data.models.ShortcutWidget
 import ch.rmy.android.http_shortcuts.http.CertificatePin as HttpCertificatePin
 
 @JvmName(name = "shortcutIds")
@@ -64,7 +64,7 @@ fun CertificatePinModel.toCertificatePin(): HttpCertificatePin =
         hash = hash.fromHexString(),
     )
 
-fun Widget.labelColorInt() =
+fun ShortcutWidget.labelColorInt() =
     labelColor?.let(Color::parseColor) ?: Color.WHITE
 
 suspend fun ShortcutRepository.shouldUseForegroundService(shortcutId: ShortcutId): Boolean =

@@ -11,7 +11,7 @@ import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.Variables
-import ch.rmy.android.http_shortcuts.widget.WidgetManager
+import ch.rmy.android.http_shortcuts.widget.ShortcutWidgetManager
 import javax.inject.Inject
 
 class RenameShortcutAction
@@ -19,7 +19,7 @@ class RenameShortcutAction
 constructor(
     private val context: Context,
     private val shortcutRepository: ShortcutRepository,
-    private val widgetManager: WidgetManager,
+    private val shortcutWidgetManager: ShortcutWidgetManager,
     private val launcherShortcutUpdater: LauncherShortcutUpdater,
 ) : Action<RenameShortcutAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext) {
@@ -47,7 +47,7 @@ constructor(
         shortcutRepository.setName(shortcut.id, newName)
 
         launcherShortcutUpdater.updatePinnedShortcut(shortcut.id)
-        widgetManager.updateWidgets(context, shortcut.id)
+        shortcutWidgetManager.updateWidgets(context, shortcut.id)
     }
 
     data class Params(

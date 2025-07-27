@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 
 @Entity(tableName = "widget")
-data class Widget(
+data class ShortcutWidget(
     @PrimaryKey
     @ColumnInfo(name = "widget_id")
     val widgetId: Int,

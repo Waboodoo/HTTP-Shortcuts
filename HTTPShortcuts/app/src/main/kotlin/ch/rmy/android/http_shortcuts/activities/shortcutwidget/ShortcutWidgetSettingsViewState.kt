@@ -1,10 +1,10 @@
-package ch.rmy.android.http_shortcuts.activities.widget
+package ch.rmy.android.http_shortcuts.activities.shortcutwidget
 
 import androidx.compose.runtime.Stable
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @Stable
-data class WidgetSettingsViewState(
+data class ShortcutWidgetSettingsViewState(
     val showLabel: Boolean,
     val showIcon: Boolean,
     val labelColor: Int,

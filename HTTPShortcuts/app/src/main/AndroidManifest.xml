@@ -306,7 +306,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info" />
+                android:resource="@xml/shortcut_widget_info" />
         </receiver>
 
         <receiver

@@ -447,13 +447,13 @@ sealed interface NavigationDestination {
         ) : Serializable
     }
 
-    object Widget : NavigationDestination {
+    object ShortcutWidget : NavigationDestination {
         private const val ARG_SHORTCUT_ID = "shortcut_id"
         private const val ARG_SHORTCUT_NAME = "shortcut_name"
         private const val ARG_SHORTCUT_ICON = "shortcut_icon"
         private const val ARG_WIDGET_ID = "widget_id"
 
-        override val path = "widget"
+        override val path = "shortcutWidget"
 
         override val arguments =
             listOf(
@@ -490,7 +490,7 @@ sealed interface NavigationDestination {
             val iconScale: Float,
         ) : Serializable
 
-        const val RESULT_WIDGET_SETTINGS_CANCELLED = "widget-settings-cancelled"
+        const val RESULT_SHORTCUT_WIDGET_SETTINGS_CANCELLED = "shortcut-widget-settings-cancelled"
     }
 
     object WorkingDirectories : NavigationDestination {

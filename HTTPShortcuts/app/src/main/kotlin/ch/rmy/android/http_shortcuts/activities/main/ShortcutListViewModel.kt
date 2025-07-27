@@ -32,7 +32,7 @@ import ch.rmy.android.http_shortcuts.data.domains.sections.SectionRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
-import ch.rmy.android.http_shortcuts.data.domains.widgets.WidgetsRepository
+import ch.rmy.android.http_shortcuts.data.domains.widgets.ShortcutWidgetsRepository
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
@@ -83,7 +83,7 @@ constructor(
     private val sectionRepository: SectionRepository,
     private val globalVariableRepository: GlobalVariableRepository,
     private val pendingExecutionsRepository: PendingExecutionsRepository,
-    private val widgetsRepository: WidgetsRepository,
+    private val shortcutWidgetsRepository: ShortcutWidgetsRepository,
     private val curlExporter: CurlExporter,
     private val executionScheduler: ExecutionScheduler,
     private val userPreferences: UserPreferences,
@@ -562,7 +562,7 @@ constructor(
             shortcutRepository.deleteShortcut(shortcutId)
             pendingExecutionsRepository.removePendingExecutionsForShortcut(shortcutId)
             cancelAlarms(shortcutId)
-            widgetsRepository.deleteDeadWidgets()
+            shortcutWidgetsRepository.deleteDeadShortcutWidgets()
             launcherShortcutManager.removeShortcut(shortcutId)
             showSnackbar(StringResLocalizable(R.string.shortcut_deleted, shortcut.name))
             emitEvent(ShortcutListEvent.RemoveShortcutFromHomeScreen(shortcut.toShortcutPlaceholder()))

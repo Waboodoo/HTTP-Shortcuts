@@ -38,12 +38,12 @@ import ch.rmy.android.http_shortcuts.activities.main.MainScreen
 import ch.rmy.android.http_shortcuts.activities.moving.MoveScreen
 import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditScreen
 import ch.rmy.android.http_shortcuts.activities.settings.SettingsScreen
+import ch.rmy.android.http_shortcuts.activities.shortcutwidget.ShortcutWidgetSettingsScreen
 import ch.rmy.android.http_shortcuts.activities.troubleshooting.TroubleShootingScreen
 import ch.rmy.android.http_shortcuts.activities.variables.GlobalVariablesScreen
 import ch.rmy.android.http_shortcuts.activities.variables.editor.GlobalVariableEditorScreen
-import ch.rmy.android.http_shortcuts.activities.widget.WidgetSettingsScreen
 import ch.rmy.android.http_shortcuts.activities.workingdirectories.WorkingDirectoriesScreen
-import ch.rmy.android.http_shortcuts.widget.WidgetManager
+import ch.rmy.android.http_shortcuts.widget.ShortcutWidgetManager
 
 @Composable
 fun NavigationRoot() {
@@ -60,7 +60,7 @@ fun NavigationRoot() {
                 savedStateHandle = backStackEntry.savedStateHandle,
                 selectionMode = MainActivity.determineMode(intent.action),
                 initialCategoryId = intent.getStringExtra(MainActivity.EXTRA_CATEGORY_ID),
-                widgetId = WidgetManager.getWidgetIdFromIntent(intent),
+                widgetId = ShortcutWidgetManager.getWidgetIdFromIntent(intent),
                 importUrl = intent.getParcelable(MainActivity.EXTRA_IMPORT_URL),
                 cancelPendingExecutions = intent.getBooleanExtra(MainActivity.EXTRA_CANCEL_PENDING_EXECUTIONS, false),
             )
@@ -256,13 +256,13 @@ fun NavigationRoot() {
             )
         }
 
-        composable(NavigationDestination.Widget) { backStackEntry ->
+        composable(NavigationDestination.ShortcutWidget) { backStackEntry ->
             val arguments = backStackEntry.arguments!!
-            WidgetSettingsScreen(
-                shortcutId = NavigationDestination.Widget.extractShortcutId(arguments),
-                shortcutName = NavigationDestination.Widget.extractShortcutName(arguments),
-                shortcutIcon = NavigationDestination.Widget.extractShortcutIcon(arguments),
-                widgetId = NavigationDestination.Widget.extractWidgetId(arguments),
+            ShortcutWidgetSettingsScreen(
+                shortcutId = NavigationDestination.ShortcutWidget.extractShortcutId(arguments),
+                shortcutName = NavigationDestination.ShortcutWidget.extractShortcutName(arguments),
+                shortcutIcon = NavigationDestination.ShortcutWidget.extractShortcutIcon(arguments),
+                widgetId = NavigationDestination.ShortcutWidget.extractWidgetId(arguments),
             )
         }
 

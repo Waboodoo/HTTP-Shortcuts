@@ -45,7 +45,7 @@ import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
 import ch.rmy.android.http_shortcuts.utils.SecondaryLauncherManager
 import ch.rmy.android.http_shortcuts.utils.VersionUtil
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
-import ch.rmy.android.http_shortcuts.widget.WidgetManager
+import ch.rmy.android.http_shortcuts.widget.ShortcutWidgetManager
 import ch.rmy.curlcommand.CurlCommand
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -78,7 +78,7 @@ constructor(
     private val launcherShortcutManager: LauncherShortcutManager,
     private val launcherShortcutUpdater: LauncherShortcutUpdater,
     private val secondaryLauncherManager: SecondaryLauncherManager,
-    private val widgetManager: WidgetManager,
+    private val shortcutWidgetManager: ShortcutWidgetManager,
     private val pendingExecutionsRepository: PendingExecutionsRepository,
     private val appOverlayUtil: AppOverlayUtil,
     private val globalVariableRepository: GlobalVariableRepository,
@@ -154,8 +154,8 @@ constructor(
                     SelectionMode.NORMAL -> showNormalStartupDialogsIfNeeded()
                     SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT -> Unit
                     SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT -> {
-                        if (initData.widgetId != null) {
-                            setActivityResult(Activity.RESULT_CANCELED, WidgetManager.getIntent(initData.widgetId!!))
+                        initData.widgetId?.let { widgetId ->
+                            setActivityResult(Activity.RESULT_CANCELED, ShortcutWidgetManager.getIntent(widgetId))
                         }
                     }
                     SelectionMode.PLUGIN -> showPluginStartupDialogsIfNeeded()
@@ -437,7 +437,7 @@ constructor(
     private suspend fun openWidgetSettings(shortcutId: ShortcutId, widgetId: Int?) {
         val shortcut = getShortcutById(shortcutId) ?: return
         navigate(
-            NavigationDestination.Widget.buildRequest(
+            NavigationDestination.ShortcutWidget.buildRequest(
                 shortcutId = shortcut.id,
                 shortcutName = shortcut.name,
                 shortcutIcon = shortcut.icon,
@@ -465,10 +465,10 @@ constructor(
         iconScale: Float,
     ) {
         val widgetId = initData.widgetId ?: return
-        widgetManager.createWidget(widgetId, shortcutId, showLabel, showIcon, labelColor, iconScale)
-        widgetManager.updateWidgets(context, shortcutId)
+        shortcutWidgetManager.createWidget(widgetId, shortcutId, showLabel, showIcon, labelColor, iconScale)
+        shortcutWidgetManager.updateWidgets(context, shortcutId)
         finish(
-            intent = WidgetManager.getIntent(widgetId),
+            intent = ShortcutWidgetManager.getIntent(widgetId),
             okResultCode = true,
         )
     }
@@ -527,14 +527,14 @@ constructor(
             null
         }
 
-    fun onWidgetSettingsSubmitted(
+    fun onShortcutWidgetSettingsSubmitted(
         shortcutId: ShortcutId,
         showLabel: Boolean,
         showIcon: Boolean,
         labelColor: String?,
         iconScale: Float,
     ) = runAction {
-        logInfo("Widget settings submitted")
+        logInfo("Shortcut widget settings submitted")
         returnForHomeScreenWidgetPlacement(shortcutId, showLabel, showIcon, labelColor, iconScale)
     }
 
@@ -591,7 +591,7 @@ constructor(
         emitEvent(MainEvent.Restart(viewState.activeCategoryId))
     }
 
-    fun onWidgetSettingsCancelled() = runAction {
+    fun onShortcutWidgetSettingsCancelled() = runAction {
         finish()
     }
 
