@@ -55,36 +55,53 @@ object IconUtil {
                     Icon.createWithResource(context.packageName, ShortcutIcon.NoIcon.iconResource)
                 } else {
                     val density = context.resources.displayMetrics.density
-                    val outerSize = (108 * density).toInt()
-                    val innerSize = (72 * density).toInt()
-                    val offset = (outerSize - innerSize) / 2f
-
                     val options = BitmapFactory.Options()
                     options.inPreferredConfig = Bitmap.Config.ARGB_8888
                     val originalBitmap = BitmapFactory.decodeFile(file.absolutePath, options)
-                    val scaledBitmap = originalBitmap.scale(innerSize, innerSize, false)
 
-                    val paddedBitmap = createBitmap(outerSize, outerSize)
-                    try {
-                        val canvas = Canvas(paddedBitmap)
-                        canvas.drawARGB(0, 0, 0, 0)
+                    if (adaptive) {
+                        val outerSize = (108 * density).toInt()
+                        val innerSize = (76 * density).toInt()
+                        val offset = (outerSize - innerSize) / 2f
+                        val scaledBitmap = originalBitmap.scale(innerSize, innerSize, false)
+                        val paddedBitmap = createBitmap(outerSize, outerSize)
+                        try {
+                            val canvas = Canvas(paddedBitmap)
+                            canvas.drawARGB(0, 0, 0, 0)
 
-                        val paint = Paint(Paint.FILTER_BITMAP_FLAG)
-                        paint.isAntiAlias = true
-
-                        if (icon.isCircular) {
-                            canvas.drawCircle(outerSize / 2f, outerSize / 2f, innerSize / 2f, paint)
-                            paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+                            val paint = Paint(Paint.FILTER_BITMAP_FLAG)
+                            paint.isAntiAlias = true
+                            if (icon.isCircular) {
+                                canvas.drawCircle(outerSize / 2f, outerSize / 2f, innerSize / 2f, paint)
+                                paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+                            }
                             canvas.drawBitmap(scaledBitmap, offset, offset, paint)
-                        } else {
-                            canvas.drawBitmap(scaledBitmap, offset, offset, paint)
+
+                            Icon.createWithAdaptiveBitmap(paddedBitmap)
+                        } finally {
+                            originalBitmap.recycle()
+                            scaledBitmap.recycle()
+                            paddedBitmap.recycle()
                         }
-
-                        Icon.createWithAdaptiveBitmap(paddedBitmap)
-                    } finally {
-                        originalBitmap.recycle()
-                        scaledBitmap.recycle()
-                        paddedBitmap.recycle()
+                    } else {
+                        val size = options.outWidth
+                        if (icon.isCircular) {
+                            val canvasBitmap = createBitmap(size, size)
+                            try {
+                                val paint = Paint(Paint.FILTER_BITMAP_FLAG)
+                                paint.isAntiAlias = true
+                                val canvas = Canvas(canvasBitmap)
+                                canvas.drawARGB(0, 0, 0, 0)
+                                canvas.drawCircle(size / 2f, size / 2f, size / 2f, paint)
+                                paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+                                canvas.drawBitmap(originalBitmap, 0f, 0f, paint)
+                                Icon.createWithBitmap(canvasBitmap)
+                            } finally {
+                                originalBitmap.recycle()
+                            }
+                        } else {
+                            Icon.createWithBitmap(originalBitmap)
+                        }
                     }
                 }
             }
