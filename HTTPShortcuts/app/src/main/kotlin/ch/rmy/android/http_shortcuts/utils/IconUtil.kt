@@ -6,6 +6,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.graphics.drawable.Icon
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.getSystemService
@@ -51,10 +54,38 @@ object IconUtil {
                 if (file == null) {
                     Icon.createWithResource(context.packageName, ShortcutIcon.NoIcon.iconResource)
                 } else {
+                    val density = context.resources.displayMetrics.density
+                    val outerSize = (108 * density).toInt()
+                    val innerSize = (72 * density).toInt()
+                    val offset = (outerSize - innerSize) / 2f
+
                     val options = BitmapFactory.Options()
                     options.inPreferredConfig = Bitmap.Config.ARGB_8888
-                    val bitmap = BitmapFactory.decodeFile(file.absolutePath, options)
-                    Icon.createWithBitmap(bitmap)
+                    val originalBitmap = BitmapFactory.decodeFile(file.absolutePath, options)
+                    val scaledBitmap = originalBitmap.scale(innerSize, innerSize, false)
+
+                    val paddedBitmap = createBitmap(outerSize, outerSize)
+                    try {
+                        val canvas = Canvas(paddedBitmap)
+                        canvas.drawARGB(0, 0, 0, 0)
+
+                        val paint = Paint(Paint.FILTER_BITMAP_FLAG)
+                        paint.isAntiAlias = true
+
+                        if (icon.isCircular) {
+                            canvas.drawCircle(outerSize / 2f, outerSize / 2f, innerSize / 2f, paint)
+                            paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+                            canvas.drawBitmap(scaledBitmap, offset, offset, paint)
+                        } else {
+                            canvas.drawBitmap(scaledBitmap, offset, offset, paint)
+                        }
+
+                        Icon.createWithAdaptiveBitmap(paddedBitmap)
+                    } finally {
+                        originalBitmap.recycle()
+                        scaledBitmap.recycle()
+                        paddedBitmap.recycle()
+                    }
                 }
             }
             is ShortcutIcon.BuiltInIcon -> {
