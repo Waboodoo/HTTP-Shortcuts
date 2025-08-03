@@ -61,7 +61,14 @@ constructor(
         runWithExceptionHandling {
             registerShortcut(shortcut, category)
             registerFiles(fileUploadResult)
-            registerActions(shortcut.id, variableManager, resultHandler, dialogHandle, recursionDepth)
+            registerActions(
+                shortcutId = shortcut.id,
+                variableManager = variableManager,
+                resultHandler = resultHandler,
+                fileUploadResult = fileUploadResult,
+                dialogHandle = dialogHandle,
+                recursionDepth = recursionDepth,
+            )
         }
     }
 
@@ -213,6 +220,7 @@ constructor(
         shortcutId: ShortcutId,
         variableManager: VariableManager,
         resultHandler: ResultHandler,
+        fileUploadResult: FileUploadManager.Result?,
         dialogHandle: DialogHandle,
         recursionDepth: Int,
     ) {
@@ -236,6 +244,7 @@ constructor(
                                     shortcutId = shortcutId,
                                     variableManager = variableManager,
                                     resultHandler = resultHandler,
+                                    fileUploadResult = fileUploadResult,
                                     recursionDepth = recursionDepth,
                                     dialogHandle = dialogHandle,
                                     cleanupHandler = cleanupHandler,

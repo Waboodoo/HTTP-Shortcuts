@@ -146,7 +146,7 @@ selectedFiles[0].type;
 selectedFiles[0].meta;
 ```
 
-Each file also has a unique ID, which is currently only useful if you want to forward these files to another shortcut using the [`enqueueShortcut`](#trigger-shortcut) function.
+Each file also has a unique ID, which can be used within the app to uniquely identify the file during the shortcut execution. It is useful if you want to forward these files to another shortcut using the [`enqueueShortcut`](#trigger-shortcut) function, or if you want to [read from a file](#read-selected-files).
 
 ```js
 selectedFiles[0].id;
@@ -204,6 +204,18 @@ const dir = getDirectory('myMountedDirectory');
 dir.writeFile('someFile.txt', 'New file content');
 dir.appendFile('someFile.txt', [72, 101, 108, 108, 111]);
 ```
+
+<a id="read-selected-files"></a>
+### Reading selected files
+
+The `getDirectory` function can also be used to read the contents of files that have been selected or shared, i.e., the files listed in `selectedFiles`. Instead of passing the name or ID of a mounted directory, simply omit the parameter. You can then call the `readFile()` function on the returned object, using either the file name or ID as the first parameter.
+
+```js
+const dir = getDirectory();
+const fileContent = dir.readFile(selectedFiles[0].id);
+```
+
+> It is not possible to write to the selected files.
 
 <a id="user-interaction"></a>
 ## User Interaction

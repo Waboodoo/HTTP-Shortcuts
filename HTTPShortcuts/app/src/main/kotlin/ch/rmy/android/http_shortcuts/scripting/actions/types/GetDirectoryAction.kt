@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.content.Context
+import android.net.Uri
 import android.webkit.MimeTypeMap
 import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.logInfo
@@ -26,33 +27,14 @@ constructor(
     private val workingDirectoryUtil: WorkingDirectoryUtil,
 ) : Action<GetDirectoryAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext): JsObject {
-        val workingDirectory = try {
-            workingDirectoryRepository.getWorkingDirectoryByNameOrId(directoryNameOrId)
-        } catch (_: NoSuchElementException) {
-            throw ActionException {
-                "Directory \"${directoryNameOrId}\" not found"
-            }
-        }
-        workingDirectoryRepository.touchWorkingDirectory(workingDirectory.id)
-        val directory = workingDirectoryUtil.getDocumentFile(workingDirectory)
-        if (directory == null || !directory.isDirectory) {
-            throw ActionException {
-                "Directory \"${workingDirectory.name}\" is not mounted"
-            }
-        }
-
+        val directoryHandle = getDirectoryHandle(directoryNameOrId, executionContext)
         val contentResolver = context.contentResolver
         return executionContext.scriptingEngine.buildJsObject {
             function("readFile") { args ->
                 logInfo("directory.readFile() called")
                 val filePath = args.getString(0)!!
                 val encoding = args.getString(1)
-                val file = directory.findFileFromPath(filePath)
-                    ?: executionContext.throwException(
-                        ActionException {
-                            "File \"$filePath\" not found in directory \"${workingDirectory.name}\""
-                        },
-                    )
+                val fileUri = directoryHandle.getFileUriForReading(filePath)
                 val charset = encoding?.let {
                     try {
                         Charset.forName(it)
@@ -70,7 +52,7 @@ constructor(
                         )
                     }
                 } ?: Charsets.UTF_8
-                contentResolver.openInputStream(file.uri)!!
+                contentResolver.openInputStream(fileUri)!!
                     .use {
                         it.reader(charset).readText()
                     }
@@ -79,13 +61,8 @@ constructor(
                 logInfo("directory.writeFile() called")
                 val filePath = args.getString(0)!!
                 val content = args.getByteArray(1) ?: return@function null
-                val file = directory.findOrCreateFileFromPath(filePath)
-                    ?: executionContext.throwException(
-                        ActionException {
-                            "File \"$filePath\" not found in directory \"${workingDirectory.name}\""
-                        },
-                    )
-                contentResolver.openOutputStream(file.uri, "wt")!!
+                val fileUri = directoryHandle.getFileUriForWriting(filePath)
+                contentResolver.openOutputStream(fileUri, "wt")!!
                     .use { out ->
                         out.write(content)
                     }
@@ -94,19 +71,75 @@ constructor(
                 logInfo("directory.appendFile() called")
                 val filePath = args.getString(0)!!
                 val content = args.getByteArray(1) ?: return@function null
-                val file = directory.findOrCreateFileFromPath(filePath)
-                    ?: executionContext.throwException(
-                        ActionException {
-                            "File \"$filePath\" not found in directory \"${workingDirectory.name}\""
-                        },
-                    )
-                contentResolver.openOutputStream(file.uri, "wa")!!
+                val fileUri = directoryHandle.getFileUriForWriting(filePath)
+                contentResolver.openOutputStream(fileUri, "wa")!!
                     .use { out ->
                         out.write(content)
                     }
             }
         }
     }
+
+    private suspend fun getDirectoryHandle(directoryNameOrId: String, executionContext: ExecutionContext): DirectoryHandle {
+        if (directoryNameOrId == TEMPORARY_DIRECTORY_ID) {
+            return getTemporaryDirectoryHandle(executionContext)
+        }
+
+        val workingDirectory = try {
+            workingDirectoryRepository.getWorkingDirectoryByNameOrId(directoryNameOrId)
+        } catch (_: NoSuchElementException) {
+            throw ActionException {
+                "Directory \"${directoryNameOrId}\" not found"
+            }
+        }
+        workingDirectoryRepository.touchWorkingDirectory(workingDirectory.id)
+        val directory = workingDirectoryUtil.getDocumentFile(workingDirectory)
+        if (directory == null || !directory.isDirectory) {
+            throw ActionException {
+                "Directory \"${workingDirectory.name}\" is not mounted"
+            }
+        }
+
+        return object : DirectoryHandle {
+            override fun getFileUriForReading(filePath: String): Uri =
+                directory.findFileFromPath(filePath)
+                    ?.uri
+                    ?: executionContext.throwException(
+                        ActionException {
+                            "File \"$filePath\" not found in directory \"${workingDirectory.name}\""
+                        },
+                    )
+
+            override fun getFileUriForWriting(filePath: String): Uri =
+                directory.findOrCreateFileFromPath(filePath)
+                    ?.uri
+                    ?: executionContext.throwException(
+                        ActionException {
+                            "File \"$filePath\" not found in directory \"${workingDirectory.name}\""
+                        },
+                    )
+        }
+    }
+
+    private fun getTemporaryDirectoryHandle(executionContext: ExecutionContext): DirectoryHandle =
+        object : DirectoryHandle {
+            override fun getFileUriForReading(filePath: String): Uri =
+                executionContext.fileUploadResult?.getFiles()
+                    ?.find { it.id == filePath || it.fileName == it.id }
+                    ?.data
+                    ?: executionContext.throwException(
+                        ActionException {
+                            "No file with name or id \"$filePath\" found"
+                        },
+                    )
+
+            override fun getFileUriForWriting(filePath: String): Uri =
+                executionContext.throwException(
+                    ActionException {
+                        "Selected files are readonly"
+                    },
+                )
+        }
 
     private fun DocumentFile.findFileFromPath(filePath: String): DocumentFile? {
         var fileHandle: DocumentFile = this
@@ -146,7 +179,17 @@ constructor(
         }
             ?: "text/plain"
 
+    interface DirectoryHandle {
+        fun getFileUriForReading(filePath: String): Uri
+
+        fun getFileUriForWriting(filePath: String): Uri
+    }
+
     data class Params(
         val directoryNameOrId: String,
     )
+
+    companion object {
+        private const val TEMPORARY_DIRECTORY_ID = ""
+    }
 }
