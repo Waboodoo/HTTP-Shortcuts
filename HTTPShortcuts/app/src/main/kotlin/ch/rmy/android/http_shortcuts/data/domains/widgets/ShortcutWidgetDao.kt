@@ -10,7 +10,7 @@ import ch.rmy.android.http_shortcuts.data.models.ShortcutWidget
 @Dao
 interface ShortcutWidgetDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(shortcutWidget: ShortcutWidget)
+    suspend fun insertOrReplace(shortcutWidget: ShortcutWidget)
 
     @Query("SELECT * FROM widget WHERE widget_id = :widgetId")
     suspend fun getWidget(widgetId: Int): ShortcutWidget?

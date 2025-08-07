@@ -6,6 +6,7 @@ import androidx.compose.runtime.Stable
 enum class SelectionMode {
     NORMAL,
     HOME_SCREEN_SHORTCUT_PLACEMENT,
-    HOME_SCREEN_WIDGET_PLACEMENT,
+    SHORTCUT_WIDGET_PLACEMENT,
+    VARIABLE_WIDGET_PLACEMENT,
     PLUGIN,
 }

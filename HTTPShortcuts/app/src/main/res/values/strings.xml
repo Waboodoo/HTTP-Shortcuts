@@ -1186,6 +1186,8 @@
     <string name="title_configure_widget">Configure Widget</string>
     <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
     <string name="label_widget_label_color">Label Color</string>
+    <!-- Label: Name of the "Variable" widget, i.e., the widget that lets the user display the value of a global variable on the homescreen -->
+    <string name="label_variable_widget">Variable Widget</string>
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
     <string name="error_invalid_character">Invalid character: %s</string>
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
@@ -1401,6 +1403,8 @@
     <string name="label_category_background">Background</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
     <string name="description_customizable_widget">Choose the color of your shortcut\’s label, or whether to hide the label completely.</string>
+    <!-- Description for the "Variable Widget", shown in Android's widget picker -->
+    <string name="description_variable_widget">Display the value of a static global variable.</string>
     <!-- Title of an action in the code snippet picker: Parse a JSON string -->
     <string name="action_type_parse_json">Parse JSON</string>
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
@@ -1880,4 +1884,8 @@
     <string name="accessibility_rotate_cw">Rotate clockwise</string>
     <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
     <string name="error_termux_not_running">Failed to run command, Termux app is not active.</string>
+    <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
+    <string name="label_variable_widget_select_variable">Global Variable</string>
+    <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
+    <string name="empty_state_variable_widget">With this widget you can display the value of a global variable of type \“%s\” on your home screen.\n\nYou don\'t have any such variables yet. You can create them from the app\'s main menu.</string>
 </resources>

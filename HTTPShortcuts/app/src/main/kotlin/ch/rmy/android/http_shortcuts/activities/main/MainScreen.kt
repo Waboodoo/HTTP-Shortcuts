@@ -27,6 +27,7 @@ import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.ImportExpo
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.MoveShortcuts.RESULT_SHORTCUTS_MOVED
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Settings.RESULT_APP_LOCKED
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.ShortcutWidget.RESULT_SHORTCUT_WIDGET_SETTINGS_CANCELLED
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.VariableWidget.RESULT_VARIABLE_WIDGET_SETTINGS_CANCELLED
 import ch.rmy.android.http_shortcuts.navigation.ResultHandler
 import ch.rmy.curlcommand.CurlCommand
 
@@ -92,8 +93,17 @@ fun MainScreen(
                     iconScale = result.iconScale,
                 )
             }
+            is NavigationDestination.VariableWidget.Result -> {
+                viewModel.onVariableWidgetSettingsSubmitted(
+                    variableId = result.variableId,
+                    fontSize = result.fontSize,
+                )
+            }
             RESULT_SHORTCUT_WIDGET_SETTINGS_CANCELLED -> {
                 viewModel.onShortcutWidgetSettingsCancelled()
+            }
+            RESULT_VARIABLE_WIDGET_SETTINGS_CANCELLED -> {
+                viewModel.onVariableWidgetSettingsCancelled()
             }
             is NavigationDestination.IconPicker.Result -> {
                 viewModel.onCategoryIconSelected(result.icon)

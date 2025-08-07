@@ -493,6 +493,31 @@ sealed interface NavigationDestination {
         const val RESULT_SHORTCUT_WIDGET_SETTINGS_CANCELLED = "shortcut-widget-settings-cancelled"
     }
 
+    object VariableWidget : NavigationDestination {
+        private const val ARG_WIDGET_ID = "widget_id"
+
+        override val path = "variableWidget"
+
+        override val arguments =
+            listOf(
+                optionalIntArg(ARG_WIDGET_ID),
+            )
+
+        fun buildRequest(widgetId: Int?) = buildNavigationRequest {
+            parameter(ARG_WIDGET_ID, widgetId)
+        }
+
+        fun extractWidgetId(bundle: Bundle): Int? =
+            bundle.getInt(ARG_WIDGET_ID, -1).takeUnless { it == -1 }
+
+        data class Result(
+            val variableId: GlobalVariableId,
+            val fontSize: Int,
+        ) : Serializable
+
+        const val RESULT_VARIABLE_WIDGET_SETTINGS_CANCELLED = "variable-widget-settings-cancelled"
+    }
+
     object WorkingDirectories : NavigationDestination {
         private const val ARG_PICKER = "picker"
 

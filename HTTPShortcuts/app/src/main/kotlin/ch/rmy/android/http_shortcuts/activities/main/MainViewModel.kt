@@ -26,6 +26,7 @@ import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExec
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
@@ -46,6 +47,8 @@ import ch.rmy.android.http_shortcuts.utils.SecondaryLauncherManager
 import ch.rmy.android.http_shortcuts.utils.VersionUtil
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.widget.ShortcutWidgetManager
+import ch.rmy.android.http_shortcuts.widget.VariableWidgetManager
+import ch.rmy.android.http_shortcuts.widget.WidgetsUtil
 import ch.rmy.curlcommand.CurlCommand
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -79,6 +82,7 @@ constructor(
     private val launcherShortcutUpdater: LauncherShortcutUpdater,
     private val secondaryLauncherManager: SecondaryLauncherManager,
     private val shortcutWidgetManager: ShortcutWidgetManager,
+    private val variableWidgetManager: VariableWidgetManager,
     private val pendingExecutionsRepository: PendingExecutionsRepository,
     private val appOverlayUtil: AppOverlayUtil,
     private val globalVariableRepository: GlobalVariableRepository,
@@ -136,7 +140,7 @@ constructor(
             }
         }
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             if (initData.cancelPendingExecutions) {
                 pendingExecutionsRepository.removeAllPendingExecutions()
                 showSnackbar(R.string.message_pending_executions_cancelled)
@@ -144,6 +148,8 @@ constructor(
                 scheduleExecutions()
             }
             updateLauncherSettings(categories)
+            shortcutWidgetManager.updateAllWidgets(context)
+            variableWidgetManager.updateAllWidgets(context)
         }
 
         viewModelScope.launch {
@@ -153,9 +159,15 @@ constructor(
                 when (selectionMode) {
                     SelectionMode.NORMAL -> showNormalStartupDialogsIfNeeded()
                     SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT -> Unit
-                    SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT -> {
+                    SelectionMode.SHORTCUT_WIDGET_PLACEMENT -> {
                         initData.widgetId?.let { widgetId ->
-                            setActivityResult(Activity.RESULT_CANCELED, ShortcutWidgetManager.getIntent(widgetId))
+                            setActivityResult(Activity.RESULT_CANCELED, WidgetsUtil.getIntent(widgetId))
+                        }
+                    }
+                    SelectionMode.VARIABLE_WIDGET_PLACEMENT -> {
+                        initData.widgetId?.let { widgetId ->
+                            navigate(NavigationDestination.VariableWidget.buildRequest(widgetId))
+                            setActivityResult(Activity.RESULT_CANCELED, WidgetsUtil.getIntent(widgetId))
                         }
                     }
                     SelectionMode.PLUGIN -> showPluginStartupDialogsIfNeeded()
@@ -428,13 +440,15 @@ constructor(
     private suspend fun selectShortcut(shortcutId: ShortcutId) {
         when (selectionMode) {
             SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT -> returnForHomeScreenShortcutPlacement(shortcutId)
-            SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT -> openWidgetSettings(shortcutId, initData.widgetId)
+            SelectionMode.SHORTCUT_WIDGET_PLACEMENT -> openShortcutWidgetSettings(shortcutId, initData.widgetId)
             SelectionMode.PLUGIN -> returnForPlugin(shortcutId)
-            SelectionMode.NORMAL -> Unit
+            SelectionMode.VARIABLE_WIDGET_PLACEMENT,
+            SelectionMode.NORMAL,
+            -> Unit
         }
     }
 
-    private suspend fun openWidgetSettings(shortcutId: ShortcutId, widgetId: Int?) {
+    private suspend fun openShortcutWidgetSettings(shortcutId: ShortcutId, widgetId: Int?) {
         val shortcut = getShortcutById(shortcutId) ?: return
         navigate(
             NavigationDestination.ShortcutWidget.buildRequest(
@@ -455,22 +469,6 @@ constructor(
         } else {
             placeOnHomeScreenWithLegacyAndFinish(shortcutId)
         }
-    }
-
-    private suspend fun returnForHomeScreenWidgetPlacement(
-        shortcutId: ShortcutId,
-        showLabel: Boolean,
-        showIcon: Boolean,
-        labelColor: String?,
-        iconScale: Float,
-    ) {
-        val widgetId = initData.widgetId ?: return
-        shortcutWidgetManager.createWidget(widgetId, shortcutId, showLabel, showIcon, labelColor, iconScale)
-        shortcutWidgetManager.updateWidgets(context, shortcutId)
-        finish(
-            intent = ShortcutWidgetManager.getIntent(widgetId),
-            okResultCode = true,
-        )
     }
 
     fun onShortcutPlacementConfirmed(useLegacyMethod: Boolean) = runAction {
@@ -523,7 +521,7 @@ constructor(
     private suspend fun getShortcutById(shortcutId: ShortcutId): Shortcut? =
         try {
             shortcutRepository.getShortcutById(shortcutId)
-        } catch (e: NoSuchElementException) {
+        } catch (_: NoSuchElementException) {
             null
         }
 
@@ -535,7 +533,31 @@ constructor(
         iconScale: Float,
     ) = runAction {
         logInfo("Shortcut widget settings submitted")
-        returnForHomeScreenWidgetPlacement(shortcutId, showLabel, showIcon, labelColor, iconScale)
+        val widgetId = initData.widgetId ?: skipAction()
+        shortcutWidgetManager.createOrUpdateWidget(widgetId, shortcutId, showLabel, showIcon, labelColor, iconScale)
+        shortcutWidgetManager.updateWidgets(context, shortcutId)
+        finish(
+            intent = WidgetsUtil.getIntent(widgetId),
+            okResultCode = true,
+        )
+    }
+
+    fun onVariableWidgetSettingsSubmitted(
+        variableId: GlobalVariableId,
+        fontSize: Int,
+    ) = runAction {
+        logInfo("Variable widget settings submitted")
+        val widgetId = initData.widgetId ?: skipAction()
+        variableWidgetManager.createOrUpdateWidget(
+            widgetId = widgetId,
+            globalVariableId = variableId,
+            fontSize = fontSize,
+        )
+        variableWidgetManager.updateWidgets(context, variableId)
+        finish(
+            intent = WidgetsUtil.getIntent(widgetId),
+            okResultCode = true,
+        )
     }
 
     fun onShortcutEdited() = runAction {
@@ -592,6 +614,10 @@ constructor(
     }
 
     fun onShortcutWidgetSettingsCancelled() = runAction {
+        finish()
+    }
+
+    fun onVariableWidgetSettingsCancelled() = runAction {
         finish()
     }
 

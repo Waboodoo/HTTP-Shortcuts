@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.data.domains.sections.SectionDao
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutDao
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableDao
 import ch.rmy.android.http_shortcuts.data.domains.widgets.ShortcutWidgetDao
+import ch.rmy.android.http_shortcuts.data.domains.widgets.VariableWidgetDao
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryDao
 import ch.rmy.android.http_shortcuts.data.migrations.Migration4
 import ch.rmy.android.http_shortcuts.data.models.AppConfig
@@ -31,6 +32,7 @@ import ch.rmy.android.http_shortcuts.data.models.ResolvedVariableModel
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.ShortcutWidget
+import ch.rmy.android.http_shortcuts.data.models.VariableWidget
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigrationDao
 
@@ -49,9 +51,10 @@ import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigrationDao
         Section::class,
         Shortcut::class,
         ShortcutWidget::class,
+        VariableWidget::class,
         WorkingDirectory::class,
     ],
-    version = 4,
+    version = 5,
     autoMigrations = [
         AutoMigration(from = 1, to = 2),
         AutoMigration(from = 2, to = 3),
@@ -60,6 +63,7 @@ import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigrationDao
             to = 4,
             spec = Migration4::class,
         ),
+        AutoMigration(from = 4, to = 5),
     ],
     exportSchema = true,
 )
@@ -78,5 +82,6 @@ abstract class Database : RoomDatabase() {
     abstract fun sectionDao(): SectionDao
     abstract fun shortcutDao(): ShortcutDao
     abstract fun shortcutWidgetDao(): ShortcutWidgetDao
+    abstract fun variableWidgetDao(): VariableWidgetDao
     abstract fun workingDirectoryDao(): WorkingDirectoryDao
 }

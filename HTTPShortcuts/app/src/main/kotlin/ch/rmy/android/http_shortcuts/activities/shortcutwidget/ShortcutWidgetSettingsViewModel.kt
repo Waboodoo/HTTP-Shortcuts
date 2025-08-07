@@ -98,4 +98,8 @@ constructor(
             copy(colorDialogVisible = false)
         }
     }
+
+    fun onBackPressed() = runAction {
+        closeScreen(result = NavigationDestination.ShortcutWidget.RESULT_SHORTCUT_WIDGET_SETTINGS_CANCELLED)
+    }
 }

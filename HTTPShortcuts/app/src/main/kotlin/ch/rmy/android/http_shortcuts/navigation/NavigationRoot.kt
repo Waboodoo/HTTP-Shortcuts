@@ -42,8 +42,9 @@ import ch.rmy.android.http_shortcuts.activities.shortcutwidget.ShortcutWidgetSet
 import ch.rmy.android.http_shortcuts.activities.troubleshooting.TroubleShootingScreen
 import ch.rmy.android.http_shortcuts.activities.variables.GlobalVariablesScreen
 import ch.rmy.android.http_shortcuts.activities.variables.editor.GlobalVariableEditorScreen
+import ch.rmy.android.http_shortcuts.activities.variablewidget.VariableWidgetSettingsScreen
 import ch.rmy.android.http_shortcuts.activities.workingdirectories.WorkingDirectoriesScreen
-import ch.rmy.android.http_shortcuts.widget.ShortcutWidgetManager
+import ch.rmy.android.http_shortcuts.widget.WidgetsUtil
 
 @Composable
 fun NavigationRoot() {
@@ -55,12 +56,13 @@ fun NavigationRoot() {
         startDestination = NavigationDestination.Main.routePattern,
     ) {
         composable(NavigationDestination.Main) { backStackEntry ->
-            val intent = LocalActivity.current!!.intent!!
+            val activity = LocalActivity.current!!
+            val intent = activity.intent!!
             MainScreen(
                 savedStateHandle = backStackEntry.savedStateHandle,
-                selectionMode = MainActivity.determineMode(intent.action),
+                selectionMode = MainActivity.determineMode(activity, intent),
                 initialCategoryId = intent.getStringExtra(MainActivity.EXTRA_CATEGORY_ID),
-                widgetId = ShortcutWidgetManager.getWidgetIdFromIntent(intent),
+                widgetId = WidgetsUtil.getWidgetIdFromIntent(intent),
                 importUrl = intent.getParcelable(MainActivity.EXTRA_IMPORT_URL),
                 cancelPendingExecutions = intent.getBooleanExtra(MainActivity.EXTRA_CANCEL_PENDING_EXECUTIONS, false),
             )
@@ -263,6 +265,13 @@ fun NavigationRoot() {
                 shortcutName = NavigationDestination.ShortcutWidget.extractShortcutName(arguments),
                 shortcutIcon = NavigationDestination.ShortcutWidget.extractShortcutIcon(arguments),
                 widgetId = NavigationDestination.ShortcutWidget.extractWidgetId(arguments),
+            )
+        }
+
+        composable(NavigationDestination.VariableWidget) { backStackEntry ->
+            val arguments = backStackEntry.arguments!!
+            VariableWidgetSettingsScreen(
+                widgetId = NavigationDestination.VariableWidget.extractWidgetId(arguments),
             )
         }
 

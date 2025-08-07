@@ -153,7 +153,7 @@ constructor(
             .forEach { widget ->
                 val shortcutId = widget.shortcut?.id
                 if (shortcutId != null) {
-                    widgetDao.insert(
+                    widgetDao.insertOrReplace(
                         ShortcutWidget(
                             widgetId = widget.widgetId,
                             shortcutId = shortcutId,

@@ -194,6 +194,10 @@ class MainActivity : BaseComposeActivity() {
             intent.putExtra(EXTRA_CATEGORY_ID, categoryId)
         }
 
+        fun widgetId(widgetId: Int?) = also {
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
+        }
+
         fun importUrl(importUrl: Uri) = also {
             intent.putExtra(EXTRA_IMPORT_URL, importUrl)
         }
@@ -213,9 +217,24 @@ class MainActivity : BaseComposeActivity() {
         const val EXTRA_IMPORT_URL = "ch.rmy.android.http_shortcuts.import_url"
         const val EXTRA_CANCEL_PENDING_EXECUTIONS = "ch.rmy.android.http_shortcuts.cancel_executions"
 
-        fun determineMode(action: String?) = when (action) {
+        fun determineMode(context: Context, intent: Intent) = when (intent.action) {
             Intent.ACTION_CREATE_SHORTCUT -> SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT
-            AppWidgetManager.ACTION_APPWIDGET_CONFIGURE -> SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT
+            AppWidgetManager.ACTION_APPWIDGET_CONFIGURE -> {
+                val variableLayout = AppWidgetManager.getInstance(context)
+                    .getAppWidgetInfo(intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0))
+                    ?.initialLayout
+                when (variableLayout) {
+                    R.layout.variable_widget -> {
+                        SelectionMode.VARIABLE_WIDGET_PLACEMENT
+                    }
+                    R.layout.shortcut_widget -> {
+                        SelectionMode.SHORTCUT_WIDGET_PLACEMENT
+                    }
+                    else -> {
+                        SelectionMode.NORMAL
+                    }
+                }
+            }
             ACTION_SELECT_SHORTCUT_FOR_PLUGIN -> SelectionMode.PLUGIN
             else -> SelectionMode.NORMAL
         }

@@ -292,7 +292,6 @@
 
         <activity android:name=".activities.imageeditor.ImageEditorActivity" />
 
-
         <activity
             android:name="com.canhub.cropper.CropImageActivity"
             tools:node="remove" />
@@ -307,6 +306,18 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/shortcut_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.VariableWidgetProvider"
+            android:exported="true"
+            android:label="@string/label_variable_widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/variable_widget_info" />
         </receiver>
 
         <receiver

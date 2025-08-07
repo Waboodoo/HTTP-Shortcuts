@@ -1,0 +1,1197 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 5,
+    "identityHash": "b968e95ca501cce17149a5116123a1e3",
+    "entities": [
+      {
+        "tableName": "app_config",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `global_code` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "globalCode",
+            "columnName": "global_code",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "app_lock",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `password_hash` TEXT NOT NULL, `use_biometrics` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "passwordHash",
+            "columnName": "password_hash",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "useBiometrics",
+            "columnName": "use_biometrics",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "category",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `icon` TEXT, `layout_type` TEXT NOT NULL, `background` TEXT NOT NULL, `hidden` INTEGER NOT NULL, `scale` REAL NOT NULL, `shortcut_click_behavior` TEXT, `sorting_order` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "icon",
+            "columnName": "icon",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "layoutType",
+            "columnName": "layout_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "background",
+            "columnName": "background",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hidden",
+            "columnName": "hidden",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scale",
+            "columnName": "scale",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "shortcutClickBehavior",
+            "columnName": "shortcut_click_behavior",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "sortingOrder",
+            "columnName": "sorting_order",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_category_sorting_order",
+            "unique": false,
+            "columnNames": [
+              "sorting_order"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_category_sorting_order` ON `${TABLE_NAME}` (`sorting_order`)"
+          }
+        ]
+      },
+      {
+        "tableName": "certificate_pin",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `pattern` TEXT NOT NULL, `hash` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pattern",
+            "columnName": "pattern",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hash",
+            "columnName": "hash",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "variable",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `key` TEXT NOT NULL, `variable_type` TEXT NOT NULL, `value` TEXT, `data` TEXT, `remember_value` INTEGER NOT NULL, `url_encode` INTEGER NOT NULL, `json_encode` INTEGER NOT NULL, `title` TEXT NOT NULL, `message` TEXT NOT NULL, `share_text` INTEGER NOT NULL, `share_title` INTEGER NOT NULL, `multiline` INTEGER NOT NULL, `exclude_from_export` INTEGER NOT NULL, `sorting_order` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "key",
+            "columnName": "key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "variable_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "data",
+            "columnName": "data",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "rememberValue",
+            "columnName": "remember_value",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "urlEncode",
+            "columnName": "url_encode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "jsonEncode",
+            "columnName": "json_encode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "message",
+            "columnName": "message",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isShareText",
+            "columnName": "share_text",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isShareTitle",
+            "columnName": "share_title",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isMultiline",
+            "columnName": "multiline",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isExcludeValueFromExport",
+            "columnName": "exclude_from_export",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sortingOrder",
+            "columnName": "sorting_order",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_variable_sorting_order",
+            "unique": false,
+            "columnNames": [
+              "sorting_order"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_variable_sorting_order` ON `${TABLE_NAME}` (`sorting_order`)"
+          }
+        ]
+      },
+      {
+        "tableName": "history_event",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `type` TEXT NOT NULL, `data` TEXT NOT NULL, `time` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "data",
+            "columnName": "data",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_history_event_time",
+            "unique": false,
+            "columnNames": [
+              "time"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_history_event_time` ON `${TABLE_NAME}` (`time`)"
+          }
+        ]
+      },
+      {
+        "tableName": "pending_execution",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `shortcut_id` TEXT NOT NULL, `try_number` INTEGER NOT NULL, `delay_until` INTEGER, `wait_for_network` INTEGER NOT NULL, `recursion_depth` INTEGER NOT NULL, `request_code` INTEGER NOT NULL, `type` TEXT NOT NULL, `enqueued_at` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "shortcutId",
+            "columnName": "shortcut_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tryNumber",
+            "columnName": "try_number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "delayUntil",
+            "columnName": "delay_until",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "waitForNetwork",
+            "columnName": "wait_for_network",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "recursionDepth",
+            "columnName": "recursion_depth",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "requestCode",
+            "columnName": "request_code",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "triggeredAt",
+            "columnName": "enqueued_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "request_header",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `shortcut_id` TEXT NOT NULL, `key` TEXT NOT NULL, `value` TEXT NOT NULL, `sorting_order` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "shortcutId",
+            "columnName": "shortcut_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "key",
+            "columnName": "key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sortingOrder",
+            "columnName": "sorting_order",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_request_header_shortcut_id",
+            "unique": false,
+            "columnNames": [
+              "shortcut_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_request_header_shortcut_id` ON `${TABLE_NAME}` (`shortcut_id`)"
+          },
+          {
+            "name": "index_request_header_sorting_order",
+            "unique": false,
+            "columnNames": [
+              "sorting_order"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_request_header_sorting_order` ON `${TABLE_NAME}` (`sorting_order`)"
+          }
+        ]
+      },
+      {
+        "tableName": "request_parameter",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `shortcut_id` TEXT NOT NULL, `key` TEXT NOT NULL, `value` TEXT NOT NULL, `type` TEXT NOT NULL, `file_upload_type` TEXT, `file_upload_file_name` TEXT, `file_upload_source_directory_id` TEXT, `file_upload_source_file_name` TEXT, `file_upload_use_image_editor` INTEGER NOT NULL, `sorting_order` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "shortcutId",
+            "columnName": "shortcut_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "key",
+            "columnName": "key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parameterType",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fileUploadType",
+            "columnName": "file_upload_type",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "fileUploadFileName",
+            "columnName": "file_upload_file_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "fileUploadSourceDirectoryId",
+            "columnName": "file_upload_source_directory_id",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "fileUploadSourceFileName",
+            "columnName": "file_upload_source_file_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "fileUploadUseImageEditor",
+            "columnName": "file_upload_use_image_editor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sortingOrder",
+            "columnName": "sorting_order",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_request_parameter_shortcut_id",
+            "unique": false,
+            "columnNames": [
+              "shortcut_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_request_parameter_shortcut_id` ON `${TABLE_NAME}` (`shortcut_id`)"
+          },
+          {
+            "name": "index_request_parameter_sorting_order",
+            "unique": false,
+            "columnNames": [
+              "sorting_order"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_request_parameter_sorting_order` ON `${TABLE_NAME}` (`sorting_order`)"
+          }
+        ]
+      },
+      {
+        "tableName": "resolved_variable",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `pending_execution_id` INTEGER NOT NULL, `key` TEXT NOT NULL, `value` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pendingExecutionId",
+            "columnName": "pending_execution_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "variableKeyOrId",
+            "columnName": "key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "section",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `category_id` TEXT NOT NULL, `name` TEXT NOT NULL, `sorting_order` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoryId",
+            "columnName": "category_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sortingOrder",
+            "columnName": "sorting_order",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_section_category_id",
+            "unique": false,
+            "columnNames": [
+              "category_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_section_category_id` ON `${TABLE_NAME}` (`category_id`)"
+          },
+          {
+            "name": "index_section_sorting_order",
+            "unique": false,
+            "columnNames": [
+              "sorting_order"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_section_sorting_order` ON `${TABLE_NAME}` (`sorting_order`)"
+          }
+        ]
+      },
+      {
+        "tableName": "shortcut",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `execution_type` TEXT NOT NULL, `category_id` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `icon` TEXT NOT NULL, `hidden` INTEGER NOT NULL, `method` TEXT NOT NULL, `url` TEXT NOT NULL, `authentication_type` TEXT, `auth_username` TEXT NOT NULL, `auth_password` TEXT NOT NULL, `auth_token` TEXT NOT NULL, `section_id` TEXT, `body_content` TEXT NOT NULL, `timeout` INTEGER NOT NULL, `wait_for_network` INTEGER NOT NULL, `host_verification_policy` TEXT, `launcher_shortcut` INTEGER NOT NULL, `secondary_launcher_shortcut` INTEGER NOT NULL, `quick_settings_tile_shortcut` INTEGER NOT NULL, `delay` INTEGER NOT NULL, `repetition_interval` INTEGER, `content_type` TEXT NOT NULL, `file_upload_type` TEXT, `file_upload_source_directory_id` TEXT, `file_upload_source_file_name` TEXT, `file_upload_use_image_editor` INTEGER NOT NULL, `confirmation_type` TEXT, `follow_redirects` INTEGER NOT NULL, `accept_cookies` INTEGER NOT NULL, `keep_connection_open` INTEGER NOT NULL, `wifi_ssid` TEXT, `code_on_prepare` TEXT NOT NULL, `code_on_success` TEXT NOT NULL, `code_on_failure` TEXT NOT NULL, `target_browser` TEXT NOT NULL, `exclude_from_history` INTEGER NOT NULL, `client_cert_params` TEXT, `request_body_type` TEXT NOT NULL, `ip_version` TEXT, `proxy_type` TEXT, `proxy_host` TEXT, `proxy_port` INTEGER, `proxy_username` TEXT, `proxy_password` TEXT, `exclude_from_file_sharing` INTEGER NOT NULL, `run_in_foreground_service` INTEGER NOT NULL, `wol_mac_address` TEXT NOT NULL, `wol_port` INTEGER NOT NULL, `wol_broadcast_address` TEXT NOT NULL, `response_actions` TEXT NOT NULL, `response_ui_type` TEXT NOT NULL, `response_success_output` TEXT NOT NULL, `response_failure_output` TEXT NOT NULL, `response_content_type` TEXT, `response_charset` TEXT, `response_success_message` TEXT NOT NULL, `response_include_meta_info` INTEGER NOT NULL, `response_json_array_as_table` INTEGER NOT NULL, `response_monospace` INTEGER NOT NULL, `response_font_size` INTEGER, `response_java_script_enabled` INTEGER NOT NULL, `response_store_directory_id` TEXT, `response_store_file_name` TEXT, `response_replace_file_if_exists` INTEGER NOT NULL, `sorting_order` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "executionType",
+            "columnName": "execution_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoryId",
+            "columnName": "category_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "icon",
+            "columnName": "icon",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hidden",
+            "columnName": "hidden",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "method",
+            "columnName": "method",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "authenticationType",
+            "columnName": "authentication_type",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "authUsername",
+            "columnName": "auth_username",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "authPassword",
+            "columnName": "auth_password",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "authToken",
+            "columnName": "auth_token",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sectionId",
+            "columnName": "section_id",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "bodyContent",
+            "columnName": "body_content",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timeout",
+            "columnName": "timeout",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isWaitForNetwork",
+            "columnName": "wait_for_network",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "securityPolicy",
+            "columnName": "host_verification_policy",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "launcherShortcut",
+            "columnName": "launcher_shortcut",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "secondaryLauncherShortcut",
+            "columnName": "secondary_launcher_shortcut",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quickSettingsTileShortcut",
+            "columnName": "quick_settings_tile_shortcut",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "delay",
+            "columnName": "delay",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "repetitionInterval",
+            "columnName": "repetition_interval",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "contentType",
+            "columnName": "content_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fileUploadType",
+            "columnName": "file_upload_type",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "fileUploadSourceDirectoryId",
+            "columnName": "file_upload_source_directory_id",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "fileUploadSourceFileName",
+            "columnName": "file_upload_source_file_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "fileUploadUseImageEditor",
+            "columnName": "file_upload_use_image_editor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "confirmationType",
+            "columnName": "confirmation_type",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "followRedirects",
+            "columnName": "follow_redirects",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "acceptCookies",
+            "columnName": "accept_cookies",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "keepConnectionOpen",
+            "columnName": "keep_connection_open",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wifiSsid",
+            "columnName": "wifi_ssid",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "codeOnPrepare",
+            "columnName": "code_on_prepare",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "codeOnSuccess",
+            "columnName": "code_on_success",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "codeOnFailure",
+            "columnName": "code_on_failure",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "targetBrowser",
+            "columnName": "target_browser",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "excludeFromHistory",
+            "columnName": "exclude_from_history",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clientCertParams",
+            "columnName": "client_cert_params",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "requestBodyType",
+            "columnName": "request_body_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ipVersion",
+            "columnName": "ip_version",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "proxyType",
+            "columnName": "proxy_type",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "proxyHost",
+            "columnName": "proxy_host",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "proxyPort",
+            "columnName": "proxy_port",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "proxyUsername",
+            "columnName": "proxy_username",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "proxyPassword",
+            "columnName": "proxy_password",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "excludeFromFileSharing",
+            "columnName": "exclude_from_file_sharing",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "runInForegroundService",
+            "columnName": "run_in_foreground_service",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wolMacAddress",
+            "columnName": "wol_mac_address",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wolPort",
+            "columnName": "wol_port",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wolBroadcastAddress",
+            "columnName": "wol_broadcast_address",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "responseActions",
+            "columnName": "response_actions",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "responseUiType",
+            "columnName": "response_ui_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "responseSuccessOutput",
+            "columnName": "response_success_output",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "responseFailureOutput",
+            "columnName": "response_failure_output",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "responseContentType",
+            "columnName": "response_content_type",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "responseCharset",
+            "columnName": "response_charset",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "responseSuccessMessage",
+            "columnName": "response_success_message",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "responseIncludeMetaInfo",
+            "columnName": "response_include_meta_info",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "responseJsonArrayAsTable",
+            "columnName": "response_json_array_as_table",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "responseMonospace",
+            "columnName": "response_monospace",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "responseFontSize",
+            "columnName": "response_font_size",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "responseJavaScriptEnabled",
+            "columnName": "response_java_script_enabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "responseStoreDirectoryId",
+            "columnName": "response_store_directory_id",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "responseStoreFileName",
+            "columnName": "response_store_file_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "responseReplaceFileIfExists",
+            "columnName": "response_replace_file_if_exists",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sortingOrder",
+            "columnName": "sorting_order",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_shortcut_category_id",
+            "unique": false,
+            "columnNames": [
+              "category_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_shortcut_category_id` ON `${TABLE_NAME}` (`category_id`)"
+          },
+          {
+            "name": "index_shortcut_sorting_order",
+            "unique": false,
+            "columnNames": [
+              "sorting_order"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_shortcut_sorting_order` ON `${TABLE_NAME}` (`sorting_order`)"
+          }
+        ]
+      },
+      {
+        "tableName": "widget",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`widget_id` INTEGER NOT NULL, `shortcut_id` TEXT NOT NULL, `label_color` TEXT, `show_label` INTEGER NOT NULL, `show_icon` INTEGER NOT NULL, `icon_scale` REAL NOT NULL, PRIMARY KEY(`widget_id`))",
+        "fields": [
+          {
+            "fieldPath": "widgetId",
+            "columnName": "widget_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "shortcutId",
+            "columnName": "shortcut_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "labelColor",
+            "columnName": "label_color",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "showLabel",
+            "columnName": "show_label",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "showIcon",
+            "columnName": "show_icon",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "iconScale",
+            "columnName": "icon_scale",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "widget_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_widget_shortcut_id",
+            "unique": false,
+            "columnNames": [
+              "shortcut_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_widget_shortcut_id` ON `${TABLE_NAME}` (`shortcut_id`)"
+          }
+        ]
+      },
+      {
+        "tableName": "variable_widget",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`widget_id` INTEGER NOT NULL, `variable_id` TEXT NOT NULL, `font_size` INTEGER NOT NULL DEFAULT 22, PRIMARY KEY(`widget_id`))",
+        "fields": [
+          {
+            "fieldPath": "widgetId",
+            "columnName": "widget_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "variableId",
+            "columnName": "variable_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fontSize",
+            "columnName": "font_size",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "22"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "widget_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_variable_widget_variable_id",
+            "unique": false,
+            "columnNames": [
+              "variable_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_variable_widget_variable_id` ON `${TABLE_NAME}` (`variable_id`)"
+          }
+        ]
+      },
+      {
+        "tableName": "working_directory",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `directory` TEXT NOT NULL, `accessed` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "directory",
+            "columnName": "directory",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accessed",
+            "columnName": "accessed",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b968e95ca501cce17149a5116123a1e3')"
+    ]
+  }
+}

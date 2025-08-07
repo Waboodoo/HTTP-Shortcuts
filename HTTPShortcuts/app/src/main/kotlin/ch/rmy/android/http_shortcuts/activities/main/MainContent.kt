@@ -72,7 +72,7 @@ fun MainContent(
         }
 
         when (selectionMode) {
-            SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT, SelectionMode.HOME_SCREEN_WIDGET_PLACEMENT -> {
+            SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT, SelectionMode.SHORTCUT_WIDGET_PLACEMENT -> {
                 ScreenInstructionsHeaders(stringResource(R.string.instructions_select_shortcut_for_home_screen))
             }
             SelectionMode.PLUGIN -> {

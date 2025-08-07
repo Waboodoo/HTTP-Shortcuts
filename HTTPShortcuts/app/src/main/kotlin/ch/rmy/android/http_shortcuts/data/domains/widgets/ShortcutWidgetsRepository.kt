@@ -11,7 +11,7 @@ class ShortcutWidgetsRepository
 constructor(
     database: Database,
 ) : BaseRepository(database) {
-    suspend fun createShortcutWidget(
+    suspend fun createOrUpdateShortcutWidget(
         widgetId: Int,
         shortcutId: ShortcutId,
         showLabel: Boolean,
@@ -19,7 +19,7 @@ constructor(
         labelColor: String?,
         iconScale: Float,
     ) = query {
-        shortcutWidgetDao().insert(
+        shortcutWidgetDao().insertOrReplace(
             ShortcutWidget(
                 widgetId = widgetId,
                 shortcutId = shortcutId,
@@ -29,6 +29,10 @@ constructor(
                 iconScale = iconScale,
             ),
         )
+    }
+
+    suspend fun getShortcutWidgets(): List<ShortcutWidget> = query {
+        shortcutWidgetDao().getWidgets()
     }
 
     suspend fun getShortcutWidgetById(widgetId: Int): ShortcutWidget? = query {

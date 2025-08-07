@@ -3,11 +3,9 @@ package ch.rmy.android.http_shortcuts.widget
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
-import android.content.Intent
 import android.util.TypedValue.COMPLEX_UNIT_SP
 import android.view.View
 import android.widget.RemoteViews
-import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
@@ -27,7 +25,7 @@ constructor(
     private val shortcutRepository: ShortcutRepository,
 ) {
 
-    suspend fun createWidget(
+    suspend fun createOrUpdateWidget(
         widgetId: Int,
         shortcutId: ShortcutId,
         showLabel: Boolean,
@@ -35,7 +33,11 @@ constructor(
         labelColor: String?,
         iconScale: Float,
     ) {
-        shortcutWidgetsRepository.createShortcutWidget(widgetId, shortcutId, showLabel, showIcon, labelColor, iconScale)
+        shortcutWidgetsRepository.createOrUpdateShortcutWidget(widgetId, shortcutId, showLabel, showIcon, labelColor, iconScale)
+    }
+
+    suspend fun updateAllWidgets(context: Context) {
+        updateWidgets(context, shortcutWidgetsRepository.getShortcutWidgets())
     }
 
     suspend fun updateWidgets(context: Context, widgetIds: List<Int>) {
@@ -100,22 +102,5 @@ constructor(
     suspend fun deleteWidgets(widgetIds: List<Int>) {
         shortcutWidgetsRepository.deleteDeadShortcutWidgets()
         shortcutWidgetsRepository.deleteShortcutWidgets(widgetIds)
-    }
-
-    companion object {
-
-        fun getIntent(widgetId: Int) =
-            createIntent {
-                putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
-            }
-
-        fun getWidgetIdFromIntent(intent: Intent): Int? =
-            intent.extras?.getInt(
-                AppWidgetManager.EXTRA_APPWIDGET_ID,
-                AppWidgetManager.INVALID_APPWIDGET_ID,
-            )
-                ?.takeUnless {
-                    it == AppWidgetManager.INVALID_APPWIDGET_ID
-                }
     }
 }

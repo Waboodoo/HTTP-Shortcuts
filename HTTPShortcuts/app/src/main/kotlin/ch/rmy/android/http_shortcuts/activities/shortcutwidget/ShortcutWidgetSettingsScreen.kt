@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.shortcutwidget
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
@@ -28,6 +29,10 @@ fun ShortcutWidgetSettingsScreen(
         >(
         ShortcutWidgetSettingsViewModel.InitData(shortcutId, shortcutName, shortcutIcon, widgetId),
     )
+
+    BackHandler(state != null) {
+        viewModel.onBackPressed()
+    }
 
     SimpleScaffold(
         viewState = state,

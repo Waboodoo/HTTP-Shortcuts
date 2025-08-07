@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.variables.editor
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
+import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
@@ -29,6 +30,7 @@ import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Companion.RESULT_CHANGES_DISCARDED
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.GlobalVariableEditor.VariableCreatedResult
 import ch.rmy.android.http_shortcuts.variables.Variables
+import ch.rmy.android.http_shortcuts.widget.VariableWidgetManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
@@ -42,6 +44,7 @@ constructor(
     application: Application,
     private val globalVariableRepository: GlobalVariableRepository,
     private val temporaryGlobalVariableRepository: TemporaryGlobalVariableRepository,
+    private val variableWidgetManager: VariableWidgetManager,
 ) : BaseViewModel<GlobalVariableEditorViewModel.InitData, GlobalVariableEditorViewState>(application) {
 
     private val globalVariableId: GlobalVariableId?
@@ -160,6 +163,9 @@ constructor(
         try {
             val id = globalVariableId ?: newUUID()
             globalVariableRepository.copyTemporaryVariableToVariable(id)
+            globalVariableId?.let {
+                variableWidgetManager.updateWidgets(context, it)
+            }
             closeScreen(
                 result = if (globalVariableId == null) {
                     VariableCreatedResult(

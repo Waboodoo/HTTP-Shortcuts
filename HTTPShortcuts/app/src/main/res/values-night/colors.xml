@@ -6,4 +6,6 @@
     <item name="local_variable" type="color">#E2CAAC</item>
     <item name="textarea_background" type="color">#FF000000</item>
     <item name="splash_background" type="color">#1F1F1F</item>
+    <item name="variable_widget_foreground" type="color">#DEDEDE</item>
+    <item name="variable_widget_background" type="color">#872F2F2F</item>
 </resources>
