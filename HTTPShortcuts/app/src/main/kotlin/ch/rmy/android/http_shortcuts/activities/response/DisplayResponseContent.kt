@@ -349,7 +349,7 @@ private fun ResponseDisplay(
                 LoadingIndicator()
             }
         }
-        FileTypeUtil.TYPE_XML -> {
+        FileTypeUtil.TYPE_XML, FileTypeUtil.TYPE_XML_ALT -> {
             SyntaxHighlightedText(text, language = "xml", fontSize = fontSize)
         }
         FileTypeUtil.TYPE_YAML, FileTypeUtil.TYPE_YAML_ALT -> {
