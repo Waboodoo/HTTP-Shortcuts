@@ -8,9 +8,11 @@ import javax.inject.Inject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Attributes
 import org.jsoup.nodes.DataNode
+import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
 import org.jsoup.nodes.TextNode
+import org.jsoup.select.Elements
 import org.jsoup.select.Selector.SelectorParseException
 
 class ParseHTMLAction
@@ -18,12 +20,12 @@ class ParseHTMLAction
 constructor() : Action<ParseHTMLAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext): Any {
         val results = try {
-            Jsoup.parse(htmlInput).select(query).filterIsInstance<Element>().map { node ->
+            Jsoup.parse(htmlInput).select(query, queryType).filterIsInstance<Element>().map { node ->
                 processNode(executionContext.scriptingEngine, node)
             }
         } catch (e: SelectorParseException) {
             throw ActionException {
-                "Error in parseHTML: ${e.message}"
+                "Error in parseHTML selector: ${e.message}"
             }
         }
         if (query == ":root" && results.size == 1) {
@@ -31,6 +33,17 @@ constructor() : Action<ParseHTMLAction.Params> {
         }
         return results
     }
+
+    private fun Document.select(query: String, queryType: String): Elements =
+        if (queryType.equals("xpath", ignoreCase = true) || queryType.equals("x-path", ignoreCase = true)) {
+            selectXpath(query)
+        } else if (queryType.isEmpty() || queryType.equals("css", ignoreCase = true)) {
+            select(query)
+        } else {
+            throw ActionException {
+                "Error in parseHTML: unknown query type $queryType"
+            }
+        }
 
     private fun processNode(scriptingEngine: ScriptingEngine, node: Node): JsObject =
         scriptingEngine.buildJsObject {
@@ -69,5 +82,6 @@ constructor() : Action<ParseHTMLAction.Params> {
     data class Params(
         val htmlInput: String,
         val query: String,
+        val queryType: String,
     )
 }

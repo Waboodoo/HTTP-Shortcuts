@@ -18,13 +18,14 @@ constructor(
             params = ParseHTMLAction.Params(
                 htmlInput = args.getString(0) ?: "",
                 query = args.getString(1) ?: ":root",
+                queryType = args.getString(2) ?: "",
             ),
         )
 
     override fun getAlias() = ActionAlias(
         functionName = FUNCTION_NAME,
         functionNameAliases = setOf("parseHtml"),
-        parameters = 2,
+        parameters = 3,
     )
 
     companion object {

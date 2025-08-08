@@ -659,7 +659,7 @@ The result variable now holds the following object (blank text fields omitted fo
 const title = result.children[0].children[0].text;
 ```
 
-As a second parameter, you can provide a CSS-style selector query to search for and parse only specific parts of the HTML. In this case, the returned value is an array of all found elements.
+As a second parameter, you can provide a query to search for and parse only specific parts of the HTML. In this case, the returned value is an array of all found elements. By default, this query string is interpreted as a CSS-style selector, but you can also provide an XPath query by passing the string "xpath" as the third parameter.
 ```js
 const myHTML = '...'; // same as in the example above
 
