@@ -1,3 +1,16 @@
+## Version 3.33.0
+
+### Improvements
+- There is now a new type of widget, which allows you to display the value of a static global variable on your home screen.
+- The [getDirectory](https://http-shortcuts.rmy.ch/scripting#read-write-files) Scripting function can now be used to read the contents of shared or selected files
+- The [parseHtml](https://http-shortcuts.rmy.ch/scripting#parse-html) Scripting function now supports XPath queries
+
+### Bugfixes
+- Exporting MQTT shortcuts no longer results in incomplete exports
+- Icons in widgets are now properly cropped into a circle when needed
+- Syntax highlighting now also works for XML responses
+- The [sendHttpRequest](https://http-shortcuts.rmy.ch/scripting#send-http-request) Scripting function now considers redirects (i.e., 3xx responses) as successful as well (thanks [@ray2c](https://github.com/ray2c))
+
 ## Version 3.32.0
 
 ### Improvements

@@ -47,6 +47,7 @@ If you like this app, please consider [supporting my work](https://http-shortcut
 - Configure it from your browser using the [Web Editor](https://http-shortcuts.rmy.ch/editor) 
 
 ### And More
+- Display variable values in widgets on your home screen
 - Integrations with 3rd-party apps, for example:
   - [Tasker](dvanced.md#integrate-with-tasker)
   - [MacroDroid](advanced.md#integrate-with-macrodroid)
