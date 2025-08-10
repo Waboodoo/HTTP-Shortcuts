@@ -1081,6 +1081,7 @@ Tuy nhiên, bạn chưa có bất kỳ biến nào được định cấu hình.
     <string name="title_configure_widget">Định cấu hình tiện ích</string>
     <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
     <string name="label_widget_label_color">Màu nhãn</string>
+    <!-- Label: Name of the "Variable" widget, i.e., the widget that lets the user display the value of a global variable on the homescreen -->
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
     <string name="error_invalid_character">Ký tự không hợp lệ: %s</string>
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
@@ -1287,6 +1288,7 @@ Tuy nhiên, bạn chưa có bất kỳ biến nào được định cấu hình.
     <string name="label_category_background">Tiểu sử</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
     <string name="description_customizable_widget">Chọn màu nhãn của lối tắt hoặc chọn ẩn nhãn hoàn toàn hay không.</string>
+    <!-- Description for the "Variable Widget", shown in Android's widget picker -->
     <!-- Title of an action in the code snippet picker: Parse a JSON string -->
     <string name="action_type_parse_json">Phân tích cú pháp JSON</string>
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
@@ -1544,4 +1546,6 @@ Tuy nhiên, bạn chưa có bất kỳ biến nào được định cấu hình.
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
     <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
+    <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
+    <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
 </resources>

@@ -719,7 +719,7 @@
     <!-- Title of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_title">應用程式標題</string>
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
-    <string name="settings_app_title_summary">變更應用程式主畫面的標題</string>
+    <string name="settings_app_title_summary">變更應用程式主頁面的標題</string>
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">最小值</string>
     <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
@@ -832,6 +832,7 @@
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">佇列捷徑</string>
     <!-- Shortcut Action Title: Cancel a scheduled shortcut, i.e., don't execute it if it was scheduled or is repeating -->
+    <string name="action_type_cancel_shortcut_title">取消捷徑</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_title">執行捷徑</string>
     <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
@@ -843,6 +844,7 @@
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_description">排程另一個捷徑於目前捷徑完成後執行</string>
     <!-- Shortcut Action Description: Cancel a scheduled shortcut -->
+    <string name="action_type_cancel_shortcut_description">取消捷徑的排程、延遲或重複執行</string>
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">立即執行另一個捷徑並傳回其結果</string>
     <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
@@ -1173,6 +1175,7 @@
     <string name="title_configure_widget">設置小工具</string>
     <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
     <string name="label_widget_label_color">標籤色彩</string>
+    <!-- Label: Name of the "Variable" widget, i.e., the widget that lets the user display the value of a global variable on the homescreen -->
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
     <string name="error_invalid_character">字元無效：%s</string>
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
@@ -1344,6 +1347,7 @@
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">找不到可供開啟 URL %s 的應用程式。</string>
     <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
+    <string name="error_permission_required_for_url">權限不足以開啟 %s。</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
     <string name="error_no_app_found">找不到套件名稱為 %s 的應用程式。</string>
     <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->
@@ -1386,6 +1390,7 @@
     <string name="label_category_background">背景</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
     <string name="description_customizable_widget">選擇您的捷徑標籤色彩，或是完全隱藏標籤。</string>
+    <!-- Description for the "Variable Widget", shown in Android's widget picker -->
     <!-- Title of an action in the code snippet picker: Parse a JSON string -->
     <string name="action_type_parse_json">剖析 JSON</string>
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
@@ -1469,7 +1474,7 @@
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_rerun_from_window">從視窗重新執行</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
-    <string name="label_event_history_trigger_type_main_screen">主畫面</string>
+    <string name="label_event_history_trigger_type_main_screen">主頁面</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <string name="label_event_history_trigger_type_share">分享至應用程式</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
@@ -1862,4 +1867,6 @@
     <string name="accessibility_rotate_cw">順時針旋轉</string>
     <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
     <string name="error_termux_not_running">無法執行命令，Termux 應用程式不在使用中。</string>
+    <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
+    <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
 </resources>

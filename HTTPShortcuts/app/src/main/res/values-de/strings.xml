@@ -1190,6 +1190,8 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="title_configure_widget">Widget konfigurieren</string>
     <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
     <string name="label_widget_label_color">Namenfarbe</string>
+    <!-- Label: Name of the "Variable" widget, i.e., the widget that lets the user display the value of a global variable on the homescreen -->
+    <string name="label_variable_widget">Variablen-Widget</string>
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
     <string name="error_invalid_character">Ungültiges Zeichen: %s</string>
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
@@ -1405,6 +1407,8 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="label_category_background">Hintergrund</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
     <string name="description_customizable_widget">Wähle die Farbe des Shortcut-Namens, und ob dieser angezeigt werden soll.</string>
+    <!-- Description for the "Variable Widget", shown in Android's widget picker -->
+    <string name="description_variable_widget">Zeigt den Wert einer statischen globalen Variable an.</string>
     <!-- Title of an action in the code snippet picker: Parse a JSON string -->
     <string name="action_type_parse_json">JSON parsen</string>
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
@@ -1885,4 +1889,8 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="accessibility_rotate_cw">Im Uhrzeigersinn drehen</string>
     <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
     <string name="error_termux_not_running">Fehler beim Ausführen des Befehls, Termux-App ist nicht aktiv.</string>
+    <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
+    <string name="label_variable_widget_select_variable">Globale Variable</string>
+    <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
+    <string name="empty_state_variable_widget">Mit diesem Widget kannst du den Wert einer globalen Variable des Typs \“%s\” auf deinem Startbildschirm anzeigen.\n\nDu hast noch keine solchen Variablen. Du kannst sie aus dem Hauptmenü der App erstellen.</string>
 </resources>
