@@ -81,7 +81,6 @@ object IconUtil {
                         } finally {
                             originalBitmap.recycle()
                             scaledBitmap.recycle()
-                            paddedBitmap.recycle()
                         }
                     } else {
                         val size = options.outWidth
