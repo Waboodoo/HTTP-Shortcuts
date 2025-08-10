@@ -37,12 +37,13 @@ fun VariablePickerDialog(
     title: String,
     globalVariables: List<GlobalVariablePlaceholder>,
     showEditButton: Boolean = true,
+    skipFirstTimeDialog: Boolean = false,
     onVariableSelected: (VariableKeyOrId) -> Unit,
     onDismissRequested: () -> Unit,
 ) {
     val context = LocalContext.current
     var showFirstTimeDialog by rememberSaveable {
-        mutableStateOf(!Settings(context).isAwareOfVariablePlaceholders)
+        mutableStateOf(!skipFirstTimeDialog && !Settings(context).isAwareOfVariablePlaceholders)
     }
 
     if (showFirstTimeDialog) {

@@ -49,6 +49,7 @@ fun CodeSnippetPickerDialogs(
                 savedStateHandle = savedStateHandle,
                 title = stringResource(R.string.dialog_title_variable_selection),
                 globalVariables = dialogState.globalVariables,
+                skipFirstTimeDialog = true,
                 onVariableSelected = onVariableSelected,
                 onDismissRequested = onDismissRequested,
             )
@@ -58,6 +59,7 @@ fun CodeSnippetPickerDialogs(
                 savedStateHandle = savedStateHandle,
                 title = stringResource(R.string.dialog_title_variable_selection),
                 globalVariables = dialogState.globalVariables,
+                skipFirstTimeDialog = true,
                 onVariableSelected = onVariableSelected,
                 onDismissRequested = onDismissRequested,
             )
