@@ -115,19 +115,19 @@ constructor() {
             }
             22L -> { // 1.24.0
                 for (category in base.getObjectArray("categories")) {
-                    val oldCategoryId = category["id"].asLong
+                    val oldCategoryId = category["id"]?.asLong
                     category.remove("id")
-                    category.addProperty("id", oldCategoryId.toString())
+                    category.addProperty("id", oldCategoryId?.toString() ?: newUUID())
                     for (shortcut in category.getObjectArray("shortcuts")) {
-                        val oldShortcutId = shortcut["id"].asLong
+                        val oldShortcutId = shortcut["id"]?.asLong
                         shortcut.remove("id")
-                        shortcut.addProperty("id", oldShortcutId.toString())
+                        shortcut.addProperty("id", oldShortcutId?.toString() ?: newUUID())
                     }
                 }
                 for (variable in base.getObjectArray("variables")) {
-                    val oldVariableId = variable["id"].asLong
+                    val oldVariableId = variable["id"]?.asLong
                     variable.remove("id")
-                    variable.addProperty("id", oldVariableId.toString())
+                    variable.addProperty("id", oldVariableId?.toString() ?: newUUID())
                 }
             }
             23L -> { // 1.24.0
