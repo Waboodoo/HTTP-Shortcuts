@@ -224,15 +224,9 @@ class MainActivity : BaseComposeActivity() {
                     .getAppWidgetInfo(intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0))
                     ?.initialLayout
                 when (variableLayout) {
-                    R.layout.variable_widget -> {
-                        SelectionMode.VARIABLE_WIDGET_PLACEMENT
-                    }
-                    R.layout.shortcut_widget -> {
-                        SelectionMode.SHORTCUT_WIDGET_PLACEMENT
-                    }
-                    else -> {
-                        SelectionMode.NORMAL
-                    }
+                    R.layout.variable_widget -> SelectionMode.VARIABLE_WIDGET_PLACEMENT
+                    R.layout.shortcut_widget -> SelectionMode.SHORTCUT_WIDGET_PLACEMENT
+                    else -> SelectionMode.SHORTCUT_WIDGET_PLACEMENT // TODO: Find a better fallback
                 }
             }
             ACTION_SELECT_SHORTCUT_FOR_PLUGIN -> SelectionMode.PLUGIN
