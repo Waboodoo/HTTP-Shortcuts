@@ -630,6 +630,7 @@ constructor(
     }
 
     fun onExecuteDialogResult(result: Any) {
+        logInfo("ShortcutEditorViewModel dialog result received")
         dialogHandler.onDialogResult(result)
     }
 

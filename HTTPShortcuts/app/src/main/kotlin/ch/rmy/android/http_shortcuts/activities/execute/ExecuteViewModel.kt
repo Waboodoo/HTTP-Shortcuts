@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.execute
 import android.app.Application
 import android.os.SystemClock
 import androidx.lifecycle.viewModelScope
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
@@ -92,6 +93,7 @@ constructor(
     }
 
     fun onDialogResult(result: Any) {
+        logInfo("ExecuteViewModel dialog result received")
         dialogHandler.onDialogResult(result)
     }
 

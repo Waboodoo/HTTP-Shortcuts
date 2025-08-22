@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.execute
 
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import javax.inject.Inject
 import kotlinx.coroutines.CompletableDeferred
@@ -14,24 +15,32 @@ constructor() : DialogHandle {
     val dialogState = _dialogState.asStateFlow()
 
     override suspend fun <T : Any> showDialog(dialogState: ExecuteDialogState<T>): T {
+        logInfo("Showing dialog")
         dialogResult?.cancel()
         val dialogResult = CompletableDeferred<Any>()
         this.dialogResult = dialogResult
         _dialogState.value = dialogState
-        return dialogResult.await() as T
+        logInfo("Awaiting dialog result")
+        val result = dialogResult.await() as T
+        logInfo("Dialog result awaiting done")
+        return result
     }
 
     fun onDialogDismissed() {
+        logInfo("Dismissing dialog")
         _dialogState.value = null
         val dialogResult = dialogResult
         this.dialogResult = null
         dialogResult?.cancel(DialogCancellationException())
+        logInfo("Dialog dismissed")
     }
 
     fun onDialogResult(result: Any) {
+        logInfo("Dialog result received")
         _dialogState.value = null
         val dialogResult = dialogResult
         this.dialogResult = null
         dialogResult?.complete(result)
+        logInfo("Dialog result submitted")
     }
 }

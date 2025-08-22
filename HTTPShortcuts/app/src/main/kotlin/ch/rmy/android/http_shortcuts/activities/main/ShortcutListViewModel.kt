@@ -588,6 +588,7 @@ constructor(
     }
 
     fun onExecuteDialogResult(result: Any) {
+        logInfo("ShortcutListViewModel dialog result received")
         dialogHandler.onDialogResult(result)
     }
 
