@@ -21,6 +21,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.HmacActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.HtmlDecodeActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.HtmlEncodeActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.LogEventActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.MultiSelectionActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.NotificationActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenAppActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenURLActionType
@@ -86,6 +87,7 @@ constructor(
     htmlDecodeActionType: HtmlDecodeActionType,
     htmlEncodeActionType: HtmlEncodeActionType,
     logEventActionType: LogEventActionType,
+    multiSelectionActionType: MultiSelectionActionType,
     notificationActionType: NotificationActionType,
     openAppActionType: OpenAppActionType,
     openURLActionType: OpenURLActionType,
@@ -156,6 +158,7 @@ constructor(
             htmlDecodeActionType,
             htmlEncodeActionType,
             logEventActionType,
+            multiSelectionActionType,
             notificationActionType,
             openAppActionType,
             openURLActionType,
