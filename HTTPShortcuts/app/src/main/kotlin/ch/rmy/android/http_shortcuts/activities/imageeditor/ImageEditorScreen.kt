@@ -25,7 +25,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
-import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.BackButton
@@ -45,7 +44,7 @@ fun ImageEditorScreen(
     compressFormat: Bitmap.CompressFormat,
     maxSize: Int?,
     onDone: (Uri) -> Unit,
-    onError: () -> Unit,
+    onError: (Exception?) -> Unit,
 ) {
     var isLoading by remember {
         mutableStateOf(true)
@@ -62,8 +61,7 @@ fun ImageEditorScreen(
                 cropImageView.setOnSetImageUriCompleteListener { _, _, e ->
                     isLoading = false
                     if (e != null) {
-                        logException(e)
-                        onError()
+                        onError(e)
                     }
                 }
 
@@ -110,7 +108,7 @@ fun ImageEditorScreen(
                     cropImageView.setOnCropImageCompleteListener { _, result ->
                         isExporting = false
                         if (result.error != null || result.uriContent == null) {
-                            onError()
+                            onError(result.error)
                         } else {
                             onDone(result.uriContent!!)
                         }

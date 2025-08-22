@@ -5,8 +5,10 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.Composable
 import ch.rmy.android.framework.extensions.getParcelable
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
+import com.canhub.cropper.CropException
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,8 +28,13 @@ class ImageEditorActivity : BaseComposeActivity() {
                 setResult(RESULT_OK, Intent().putExtra(EXTRA_OUTPUT_URI, imageUri))
                 finish()
             },
-            onError = {
-                setResult(-2)
+            onError = { e ->
+                if (e != null && e !is CropException) {
+                    logException(e)
+                }
+                if (e !is CropException.Cancellation) {
+                    setResult(2)
+                }
                 finish()
             },
         )
