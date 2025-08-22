@@ -102,6 +102,7 @@ constructor(
     private var settingsRequestHandled: Boolean = false
 
     override suspend fun initialize(data: InitData): MainViewState {
+        logInfo("Init with mode=${data.selectionMode}")
         val categoriesFlow = categoryRepository.observeCategories()
         this.categories = categoriesFlow.first()
 
