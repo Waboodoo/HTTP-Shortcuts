@@ -30,7 +30,7 @@ constructor(
         if (variable.rememberValue) {
             variablesRepository.setVariableValue(variable.id, DATE_FORMAT.format(selectedDate))
         }
-        return SimpleDateFormat(getDateFormat(variable), Locale.US)
+        return SimpleDateFormat(getDateFormat(variable), Locale.getDefault())
             .format(Date.from(selectedDate.atStartOfDay(ZoneId.systemDefault()).toInstant()))
     }
 
@@ -38,7 +38,7 @@ constructor(
         previousValue
             ?.let {
                 try {
-                    LocalDate.parse(it, DateTimeFormatter.ofPattern(DEFAULT_FORMAT, Locale.US))
+                    LocalDate.parse(it, DateTimeFormatter.ofPattern(DEFAULT_FORMAT, Locale.getDefault()))
                 } catch (_: DateTimeParseException) {
                     null
                 }
@@ -50,7 +50,7 @@ constructor(
         const val KEY_FORMAT = "format"
         private const val DEFAULT_FORMAT = "yyyy-MM-dd"
 
-        internal val DATE_FORMAT: DateTimeFormatter = DateTimeFormatter.ofPattern(DEFAULT_FORMAT, Locale.US)
+        internal val DATE_FORMAT: DateTimeFormatter = DateTimeFormatter.ofPattern(DEFAULT_FORMAT, Locale.getDefault())
 
         fun getDateFormat(variable: GlobalVariable) =
             variable.getStringData(KEY_FORMAT) ?: DEFAULT_FORMAT
