@@ -358,20 +358,38 @@ const myTime3 = promptTime(null, null, "Pick a time");
 ```
 
 <a id="show-selection"></a>
-### showSelection
+### showSelection & showMultiSelection
 
-This function allows you to display a multiple-choice dialog from which an option can be picked. The first parameter must be either an object consisting of key-value string pairs, or a list of strings. As an optional second parameter you may pass a title for the dialog. The function returns the selected value as a string, or `null` if the dialog is closed without a selection (e.g. by pressing the back button).
+These functions allows you to display a dialog with multiple options to choose from. The first parameter must be either an object consisting of key-value string pairs, or an array of strings. As an optional second parameter you may pass a title for the dialog.
+
+For `showSelection`, a single option can be selected, and the function returns its key or value, or `null` if the dialog is closed without a selection (e.g. by pressing the back button).
+
+For `showMultiSelection`, multiple options can be selected and the function returns an array of of the selected keys or values, or `null` if the dialog is closed without a selection.
 
 ```js
-// Using an array of strings
+// Using an array of strings, for a single selection
 const starterPokemon = showSelection(['Bulbasaur', 'Charmander', 'Squirtle']);
 
-// Using an object
+// Using an object, for a single selection
 const favoriteColor = showSelection({
   '#ff0000': 'Red',
   '#00ff00': 'Green',
   '#0000ff': 'Blue',
 }, 'Pick your favorite color');
+
+// Using an array of strings, for multiple selection
+const favoriteSeasons = showMultiSelection(['spring', 'summer', 'fall', 'winter']);
+
+// Using an object, for multiple selection
+const availableWeekdays = showMultiSelection({
+  '0': 'Sunday',
+  '1': 'Monday',
+  '2': 'Tuesday',
+  '3': 'Wednesday',
+  '4': 'Thursday',
+  '5': 'Friday',
+  '6': 'Saturday',
+}, 'Weekday availability?');
 ```
 
 <a id="show-notification"></a>
@@ -666,7 +684,7 @@ const myHTML = '...'; // same as in the example above
 const result = parseHTML(myHTML, 'ul > li'); // query for all `li` elements which are direct descendants of `ul` elements.
 
 /*
-The result variable now holds the following list of objects:
+The result variable now holds the following array of objects:
 [
   {
     "name": "li",
@@ -819,7 +837,7 @@ if (result.status == "success") {
 <a id="send-mqtt-message"></a>
 ### Send MQTT message
 
-The `sendMqttMessages` function allows you to connect to an MQTT broker, send (i.e. publish) one or more messages to it, and then disconnect again. The first parameter is the URI of the server/broker, the second (optional) parameter provides options for the connection (e.g. username and password) and the third parameter is a list of all the messages that should be sent.
+The `sendMqttMessages` function allows you to connect to an MQTT broker, send (i.e. publish) one or more messages to it, and then disconnect again. The first parameter is the URI of the server/broker, the second (optional) parameter provides options for the connection (e.g. username and password) and the third parameter is an array of all the messages that should be sent.
 
 ```js
 sendMQTTMessages(
@@ -1087,12 +1105,12 @@ With this function you can send an [Intent](https://developer.android.com/guide/
 |type|Defines how the intent should be sent.|`'broadcast'` (default), `'activity'` or `'service'`|
 |action|A string that specifies the generic action to perform (such as view or pick).|string|
 |category|A string containing additional information about the kind of component that should handle the intent.|string|
-|categories|Same as `category` but allows specifying multiple values.|list of strings|
+|categories|Same as `category` but allows specifying multiple values.|array of strings|
 |dataUri|A URI that references the data to be acted on|string|
 |dataType|The MIME type of the data|string|
 |className|The full name of a class that is to be started by the Intent|string|
 |packageName|The name of an application package that is to be started by the Intent|string|
-|extras|A list of extras, i.e., additional parameters to be sent|list of objects (see below)|
+|extras|An array of extras, i.e., additional parameters to be sent|array of objects (see below)|
 |clearTask|Whether to set the [`FLAG_ACTIVITY_CLEAR_TASK`](https://developer.android.com/reference/android/content/Intent#FLAG_ACTIVITY_CLEAR_TASK) flag|boolean|
 |excludeFromRecents|Whether to set the [`FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS`](https://developer.android.com/reference/android/content/Intent#FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS) flag|boolean|
 |newTask|Whether to set the [`FLAG_ACTIVITY_NEW_TASK`](https://developer.android.com/reference/android/content/Intent#FLAG_ACTIVITY_NEW_TASK) flag|boolean|
