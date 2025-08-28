@@ -38,7 +38,7 @@ constructor(
         previousValue
             ?.let {
                 try {
-                    LocalDate.parse(it, DateTimeFormatter.ofPattern(DEFAULT_FORMAT, Locale.getDefault()))
+                    LocalDate.parse(it, DATE_FORMAT)
                 } catch (_: DateTimeParseException) {
                     null
                 }
@@ -50,7 +50,7 @@ constructor(
         const val KEY_FORMAT = "format"
         private const val DEFAULT_FORMAT = "yyyy-MM-dd"
 
-        internal val DATE_FORMAT: DateTimeFormatter = DateTimeFormatter.ofPattern(DEFAULT_FORMAT, Locale.getDefault())
+        internal val DATE_FORMAT: DateTimeFormatter = DateTimeFormatter.ofPattern(DEFAULT_FORMAT, Locale.US)
 
         fun getDateFormat(variable: GlobalVariable) =
             variable.getStringData(KEY_FORMAT) ?: DEFAULT_FORMAT

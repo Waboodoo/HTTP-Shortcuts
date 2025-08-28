@@ -50,7 +50,7 @@ constructor(
         const val KEY_FORMAT = "format"
         private const val DEFAULT_FORMAT = "HH:mm"
 
-        private val TIME_FORMAT = DateTimeFormatter.ofPattern("HH-mm", Locale.getDefault())
+        private val TIME_FORMAT = DateTimeFormatter.ofPattern("HH-mm", Locale.US)
 
         fun getTimeFormat(variable: GlobalVariable) =
             variable.getStringData(DateType.KEY_FORMAT) ?: DEFAULT_FORMAT
