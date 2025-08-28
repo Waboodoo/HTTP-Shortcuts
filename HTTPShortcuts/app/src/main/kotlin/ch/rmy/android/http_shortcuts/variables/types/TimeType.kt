@@ -30,7 +30,7 @@ constructor(
         if (variable.rememberValue) {
             variablesRepository.setVariableValue(variable.id, TIME_FORMAT.format(selectedTime))
         }
-        return SimpleDateFormat(getTimeFormat(variable), Locale.US)
+        return SimpleDateFormat(getTimeFormat(variable), Locale.getDefault())
             .format(Date.from(LocalDate.now().atTime(selectedTime).atZone(ZoneOffset.systemDefault()).toInstant()))
     }
 

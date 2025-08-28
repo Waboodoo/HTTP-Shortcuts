@@ -30,7 +30,7 @@ constructor(
         if (variable.rememberValue) {
             variablesRepository.setVariableValue(variable.id, DATE_FORMAT.format(selectedDate))
         }
-        return SimpleDateFormat(getDateFormat(variable), Locale.US)
+        return SimpleDateFormat(getDateFormat(variable), Locale.getDefault())
             .format(Date.from(selectedDate.atStartOfDay(ZoneId.systemDefault()).toInstant()))
     }
 
@@ -38,7 +38,7 @@ constructor(
         previousValue
             ?.let {
                 try {
-                    LocalDate.parse(it, DateTimeFormatter.ofPattern(DEFAULT_FORMAT, Locale.US))
+                    LocalDate.parse(it, DATE_FORMAT)
                 } catch (_: DateTimeParseException) {
                     null
                 }
