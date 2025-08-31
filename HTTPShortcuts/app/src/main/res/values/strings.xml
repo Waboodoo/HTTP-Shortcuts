@@ -254,6 +254,10 @@
     <string name="settings_export_via_share">Export via Share Dialog</string>
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">Edit on Computer</string>
+    <!-- Title for "Advanced" section on Import & Export settings screen -->
+    <string name="title_import_export_advanced_settings">Advanced</string>
+    <!-- Title for "Automatic Import / Export" feature, shown in "Advanced" section of "Import & Export" screen -->
+    <string name="settings_automatic_import_export">Automatic Import / Export</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
     <plurals name="shortcut_export_success">
         <item quantity="one">1 shortcut exported.</item>
@@ -1946,4 +1950,16 @@
     <string name="button_show_password">Show password</string>
     <!-- Accessibility description for the "Hide password" button that is displayed next to password input fields -->
     <string name="button_hide_password">Hide password</string>
+    <!-- Label for setting on "Automatic Import / Export" screen, for when the feature is disabled -->
+    <string name="sync_type_disabled">Disabled</string>
+    <!-- Label for setting on "Automatic Import / Export" screen, for when the automatic import is enabled -->
+    <string name="sync_type_automatic_import">Automatic Import</string>
+    <!-- Label for setting on "Automatic Import / Export" screen, for when the automatic export is enabled -->
+    <string name="sync_type_automatic_export">Automatic Export</string>
+    <!-- Description for setting on "Automatic Import / Export" screen, for when the automatic import is enabled -->
+    <string name="sync_type_automatic_import_description">Periodically import shortcuts, variables, etc., to sync with other devices.</string>
+    <!-- Description for setting on "Automatic Import / Export" screen, for when the automatic export is enabled -->
+    <string name="sync_type_automatic_export_description">Periodically export shortcuts, variables, etc. to back them up or sync with other devices.</string>
+    <!-- Label on button to configure the automatic import or export -->
+    <string name="button_sync_configure">Configure</string>
 </resources>

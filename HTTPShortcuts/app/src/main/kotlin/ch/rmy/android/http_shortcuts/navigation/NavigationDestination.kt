@@ -233,6 +233,10 @@ sealed interface NavigationDestination {
         const val RESULT_SHORTCUTS_MOVED = "shortcuts-moved"
     }
 
+    object SyncOverview : NoArgNavigationDestination {
+        override val path = "sync"
+    }
+
     object RemoteEdit : NoArgNavigationDestination {
         override val path = "remoteEdit"
 

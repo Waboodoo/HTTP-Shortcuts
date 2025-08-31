@@ -92,6 +92,10 @@ constructor(
         navigate(NavigationDestination.Export.buildRequest(toFile = false))
     }
 
+    fun onSyncButtonClicked() = runAction {
+        navigate(NavigationDestination.SyncOverview)
+    }
+
     fun onRemoteEditorChangesImported() = runAction {
         categoriesChanged = true
     }

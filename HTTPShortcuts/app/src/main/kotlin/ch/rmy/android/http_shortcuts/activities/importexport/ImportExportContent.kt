@@ -19,6 +19,7 @@ fun ImportExportContent(
     onImportFromUrlClicked: () -> Unit,
     onExportToFileClicked: () -> Unit,
     onExportViaShareClicked: () -> Unit,
+    onSyncButtonClicked: () -> Unit,
     onRemoteEditButtonClicked: () -> Unit,
 ) {
     Column(
@@ -60,8 +61,13 @@ fun ImportExportContent(
         }
 
         SettingsGroup(
-            title = stringResource(R.string.settings_title_remote_edit),
+            title = stringResource(R.string.title_import_export_advanced_settings),
         ) {
+            SettingsButton(
+                icon = Icons.Outlined.Sync,
+                title = stringResource(R.string.settings_automatic_import_export),
+                onClick = onSyncButtonClicked,
+            )
             SettingsButton(
                 icon = painterResource(R.drawable.outline_devices_24),
                 title = stringResource(R.string.settings_remote_edit),

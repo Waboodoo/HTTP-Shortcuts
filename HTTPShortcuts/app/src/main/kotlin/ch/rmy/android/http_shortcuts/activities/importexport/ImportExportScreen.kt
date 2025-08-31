@@ -75,6 +75,7 @@ fun ImportExportScreen(
             onImportFromUrlClicked = viewModel::onImportFromURLButtonClicked,
             onExportToFileClicked = viewModel::onExportToFileButtonClicked,
             onExportViaShareClicked = viewModel::onExportViaShareButtonClicked,
+            onSyncButtonClicked = viewModel::onSyncButtonClicked,
             onRemoteEditButtonClicked = viewModel::onRemoteEditButtonClicked,
         )
     }
