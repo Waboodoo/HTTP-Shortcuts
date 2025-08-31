@@ -28,7 +28,7 @@ import ch.rmy.android.http_shortcuts.data.enums.SyncType
 fun SyncOverviewContent(
     viewState: SyncOverviewViewState,
     onConfigureClicked: () -> Unit,
-    onSyncTypeSelected: (SyncType) -> Unit,
+    onSyncTypeSelected: (SyncType?) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -40,9 +40,9 @@ fun SyncOverviewContent(
 
         SyncTypeCard(
             title = stringResource(R.string.sync_type_disabled),
-            selected = viewState.syncType == SyncType.DISABLED,
+            selected = viewState.syncType == null,
             onClick = {
-                onSyncTypeSelected(SyncType.DISABLED)
+                onSyncTypeSelected(null)
             },
         )
 

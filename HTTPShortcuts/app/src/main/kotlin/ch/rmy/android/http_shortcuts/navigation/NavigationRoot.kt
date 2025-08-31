@@ -40,6 +40,7 @@ import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditScreen
 import ch.rmy.android.http_shortcuts.activities.settings.SettingsScreen
 import ch.rmy.android.http_shortcuts.activities.shortcutwidget.ShortcutWidgetSettingsScreen
 import ch.rmy.android.http_shortcuts.activities.sync.SyncOverviewScreen
+import ch.rmy.android.http_shortcuts.activities.sync.SyncSettingsScreen
 import ch.rmy.android.http_shortcuts.activities.troubleshooting.TroubleShootingScreen
 import ch.rmy.android.http_shortcuts.activities.variables.GlobalVariablesScreen
 import ch.rmy.android.http_shortcuts.activities.variables.editor.GlobalVariableEditorScreen
@@ -155,6 +156,10 @@ fun NavigationRoot(navController: NavHostController) {
 
         composable(NavigationDestination.SyncOverview) {
             SyncOverviewScreen()
+        }
+
+        composable(NavigationDestination.SyncSettings) {
+            SyncSettingsScreen()
         }
 
         composable(NavigationDestination.RemoteEdit) {

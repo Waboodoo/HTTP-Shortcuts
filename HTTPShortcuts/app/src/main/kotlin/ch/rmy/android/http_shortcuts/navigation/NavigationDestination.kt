@@ -237,6 +237,10 @@ sealed interface NavigationDestination {
         override val path = "sync"
     }
 
+    object SyncSettings : NoArgNavigationDestination {
+        override val path = "sync/settings"
+    }
+
     object RemoteEdit : NoArgNavigationDestination {
         override val path = "remoteEdit"
 

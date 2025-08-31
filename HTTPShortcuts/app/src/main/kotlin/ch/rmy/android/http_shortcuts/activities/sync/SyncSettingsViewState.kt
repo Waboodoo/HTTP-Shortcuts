@@ -4,6 +4,6 @@ import androidx.compose.runtime.Stable
 import ch.rmy.android.http_shortcuts.data.enums.SyncType
 
 @Stable
-data class SyncOverviewViewState(
-    val syncType: SyncType?,
+data class SyncSettingsViewState(
+    val syncType: SyncType,
 )

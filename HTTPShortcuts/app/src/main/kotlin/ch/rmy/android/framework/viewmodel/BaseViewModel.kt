@@ -77,7 +77,7 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         viewModelScope.launch {
             try {
                 mutableViewState.value = initialize(data)
-            } catch (e: ViewModelCancellationException) {
+            } catch (_: ViewModelCancellationException) {
                 closeScreen()
             } catch (e: CancellationException) {
                 throw e

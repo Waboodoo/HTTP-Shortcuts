@@ -4,7 +4,12 @@ import androidx.compose.runtime.Stable
 
 @Stable
 enum class SyncType {
-    DISABLED,
     IMPORT,
     EXPORT,
+    ;
+
+    companion object {
+        fun parse(value: String) =
+            entries.find { it.name == value }
+    }
 }
