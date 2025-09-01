@@ -17,7 +17,8 @@ fun SyncOverviewScreen() {
         SyncOverviewContent(
             viewState,
             onSyncTypeSelected = viewModel::onSyncTypeSelected,
-            onConfigureClicked = viewModel::onConfigureClicked,
+            onConfigureImportClicked = viewModel::onConfigureImportClicked,
+            onConfigureExportClicked = viewModel::onConfigureExportClicked,
         )
     }
 }

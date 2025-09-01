@@ -27,8 +27,9 @@ import ch.rmy.android.http_shortcuts.data.enums.SyncType
 @Composable
 fun SyncOverviewContent(
     viewState: SyncOverviewViewState,
-    onConfigureClicked: () -> Unit,
     onSyncTypeSelected: (SyncType?) -> Unit,
+    onConfigureImportClicked: () -> Unit,
+    onConfigureExportClicked: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -57,7 +58,7 @@ fun SyncOverviewContent(
             },
         ) {
             Button(
-                onClick = onConfigureClicked,
+                onClick = onConfigureImportClicked,
                 enabled = viewState.syncType == SyncType.IMPORT,
             ) {
                 Text(stringResource(R.string.button_sync_configure))
@@ -75,7 +76,7 @@ fun SyncOverviewContent(
             },
         ) {
             Button(
-                onClick = onConfigureClicked,
+                onClick = onConfigureExportClicked,
                 enabled = viewState.syncType == SyncType.EXPORT,
             ) {
                 Text(stringResource(R.string.button_sync_configure))
@@ -142,7 +143,8 @@ private fun SyncContent_Preview() {
         viewState = SyncOverviewViewState(
             syncType = SyncType.IMPORT,
         ),
-        onConfigureClicked = {},
         onSyncTypeSelected = {},
+        onConfigureImportClicked = {},
+        onConfigureExportClicked = {},
     )
 }
