@@ -5,9 +5,9 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
+import org.json.JSONObject
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
-import org.json.JSONObject
 
 class VariableManager(
     globalVariables: List<GlobalVariable>,

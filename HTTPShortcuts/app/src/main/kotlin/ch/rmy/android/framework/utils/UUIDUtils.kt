@@ -1,6 +1,5 @@
 package ch.rmy.android.framework.utils
 
-import java.lang.NumberFormatException
 import java.util.UUID
 
 object UUIDUtils {

@@ -2,44 +2,37 @@ package ch.rmy.android.http_shortcuts.activities.importexport
 
 import android.app.Application
 import android.net.Uri
-import androidx.core.net.toUri
-import androidx.lifecycle.viewModelScope
-import ch.rmy.android.framework.extensions.isWebUrl
-import ch.rmy.android.framework.extensions.logException
-import ch.rmy.android.framework.extensions.logInfo
+import ch.rmy.android.framework.extensions.context
+import ch.rmy.android.framework.extensions.toLocalizable
+import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.settings.Settings
-import ch.rmy.android.http_shortcuts.import_export.ImportException
+import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.ImportMode
 import ch.rmy.android.http_shortcuts.import_export.ImportPasswordException
 import ch.rmy.android.http_shortcuts.import_export.Importer
-import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
-import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.ImportExport.RESULT_CATEGORIES_CHANGED_FROM_IMPORT
-import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import kotlin.random.Random
-import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.File
+import javax.inject.Inject
+import kotlin.random.Random
+import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class ImportExportViewModel
 @Inject
 constructor(
     application: Application,
-    private val settings: Settings,
-    private val shortcutRepository: ShortcutRepository,
     private val importer: Importer,
-) : BaseViewModel<ImportExportViewModel.InitData, ImportExportViewState>(application) {
+    private val exporter: Exporter,
+) : BaseViewModel<Unit, ImportExportViewState>(application) {
 
     private var currentJob: Job? = null
         set(value) {
@@ -47,95 +40,35 @@ constructor(
             field = value
         }
 
-    private var hasShortcuts = false
-    private var categoriesChanged = false
-
-    override suspend fun initialize(data: InitData): ImportExportViewState {
-        hasShortcuts = shortcutRepository.hasShortcuts()
-
-        if (initData.importUrl != null) {
-            viewModelScope.launch {
-                openImportUrlDialog(initData.importUrl!!.toString())
-            }
-        }
-
-        viewModelScope.launch {
-            shortcutRepository.observeShortcuts().collect {
-                updateViewState {
-                    copy(exportEnabled = it.isNotEmpty())
-                }
-            }
-        }
-
-        return ImportExportViewState(
-            exportEnabled = hasShortcuts,
-        )
-    }
+    override suspend fun initialize(data: Unit): ImportExportViewState = ImportExportViewState()
 
     fun onImportFromFileButtonClicked() = runAction {
         emitEvent(ImportExportEvent.OpenFilePickerForImport)
     }
 
-    fun onImportFromURLButtonClicked() = runAction {
-        openImportUrlDialog(prefill = settings.importUrl?.toString() ?: "")
-    }
-
-    private suspend fun openImportUrlDialog(prefill: String) {
-        setDialogState(ImportExportDialogState.ImportFromUrl(initialValue = prefill))
-    }
-
-    fun onExportToFileButtonClicked() = runAction {
-        navigate(NavigationDestination.Export.buildRequest(toFile = true))
-    }
-
-    fun onExportViaShareButtonClicked() = runAction {
-        navigate(NavigationDestination.Export.buildRequest(toFile = false))
-    }
-
-    fun onRemoteEditorChangesImported() = runAction {
-        categoriesChanged = true
-    }
-
     fun onFilePickedForImport(file: Uri) = runAction {
-        logInfo("Starting import from file $file")
         startImport(file)
     }
 
-    fun onImportFromUrlDialogSubmitted(urlValue: String) = runAction {
-        val url = urlValue.toUri()
-        hideDialog()
-        persistImportUrl(url)
-        if (url.isWebUrl) {
-            logInfo("Starting info from external URL")
-            startImport(url)
-        } else {
-            onImportFailedDueToInvalidUrl()
-        }
-    }
-
-    private fun persistImportUrl(url: Uri) {
-        settings.importUrl = url
-    }
-
-    private suspend fun onImportFailedDueToInvalidUrl() {
-        showError(StringResLocalizable(R.string.error_can_only_import_from_http_url))
-    }
-
-    private fun ViewModelScope<*>.startImport(uri: Uri, password: String? = null) {
+    private fun ViewModelScope<*>.startImport(uri: Uri, password: String? = null, onComplete: suspend () -> Unit = {}) {
         currentJob?.cancel()
         currentJob = launch {
             try {
                 showProgressDialog(R.string.import_in_progress)
                 val status = importer.importFromUri(uri, importMode = ImportMode.MERGE, password)
-
-                showSnackbar(
+                showToast(
                     QuantityStringLocalizable(
                         R.plurals.shortcut_import_success,
                         status.importedShortcuts,
                         status.importedShortcuts,
                     ),
                 )
-                categoriesChanged = true
+                runAction {
+                    updateViewState {
+                        copy(importStatus = status)
+                    }
+                }
+                onComplete()
             } catch (e: CancellationException) {
                 throw e
             } catch (_: ImportPasswordException) {
@@ -144,9 +77,6 @@ constructor(
                 }
                 setDialogState(ImportExportDialogState.ImportPasswordPrompt(uri, tryAgain = password != null))
             } catch (e: Exception) {
-                if (e !is ImportException) {
-                    logException(e)
-                }
                 showError(StringResLocalizable(R.string.import_failed_with_reason, e.message ?: e::class.java.simpleName))
             } finally {
                 hideProgressDialog()
@@ -160,8 +90,45 @@ constructor(
         startImport(url, password)
     }
 
-    fun onHelpButtonClicked() = runAction {
-        openURL(ExternalURLs.IMPORT_EXPORT_DOCUMENTATION)
+    fun onFilePickedForExport(file: Uri) = runAction {
+        currentJob?.cancel()
+        currentJob = launch {
+            try {
+                showProgressDialog(R.string.export_in_progress)
+                exporter.exportToUri(
+                    file,
+                    excludeDefaults = true,
+                )
+                showToast(StringResLocalizable(R.string.export_success))
+            } catch (e: Exception) {
+                showError((e.message ?: e::class.java.simpleName ?: "Failed to export").toLocalizable())
+            } finally {
+                hideProgressDialog()
+            }
+        }
+    }
+
+    fun onExternalFileReceived(file: Uri) = runAction {
+        startImport(file) {
+            onExternalFileProcessed()
+        }
+    }
+
+    private suspend fun onExternalFileProcessed() {
+        val exportFile = File(context.cacheDir, "export.zip")
+        val exportUri = FileUtil.getUriFromFile(context, exportFile)
+        try {
+            showProgressDialog(R.string.export_in_progress)
+            exporter.exportToUri(
+                exportUri,
+                excludeDefaults = true,
+            )
+            emitEvent(ImportExportEvent.SendExport(exportUri))
+        } catch (e: Exception) {
+            showError((e.message ?: e::class.java.simpleName ?: "Failed to export").toLocalizable())
+        } finally {
+            hideProgressDialog()
+        }
     }
 
     fun onDialogDismissalRequested() = runAction {
@@ -194,14 +161,6 @@ constructor(
     }
 
     fun onBackPressed() = runAction {
-        closeScreen(result = if (categoriesChanged) RESULT_CATEGORIES_CHANGED_FROM_IMPORT else null)
+        closeScreen()
     }
-
-    fun onRemoteEditButtonClicked() = runAction {
-        navigate(NavigationDestination.RemoteEdit)
-    }
-
-    data class InitData(
-        val importUrl: Uri?,
-    )
 }

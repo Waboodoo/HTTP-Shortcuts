@@ -1,9 +1,6 @@
 package ch.rmy.android.http_shortcuts.components
 
 import androidx.compose.runtime.Stable
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -24,10 +21,3 @@ object FontSize {
     val SMALL = 14.sp
     val TINY = 12.sp
 }
-
-@Stable
-val DefaultTextShadow = Shadow(
-    offset = Offset(2f, 2f),
-    color = Color.Black.copy(alpha = 0.5f),
-    blurRadius = 1f,
-)

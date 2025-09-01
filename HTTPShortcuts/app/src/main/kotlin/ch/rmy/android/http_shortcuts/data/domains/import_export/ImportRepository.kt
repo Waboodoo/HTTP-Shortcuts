@@ -53,7 +53,6 @@ import ch.rmy.android.http_shortcuts.import_export.models.ImportSection
 import ch.rmy.android.http_shortcuts.import_export.models.ImportShortcut
 import ch.rmy.android.http_shortcuts.import_export.models.ImportVariable
 import ch.rmy.android.http_shortcuts.import_export.models.ImportWorkingDirectory
-import ch.rmy.android.http_shortcuts.variables.types.SelectType
 import javax.inject.Inject
 
 class ImportRepository
@@ -535,7 +534,7 @@ constructor(
         val variables = globalVariableDao().getVariables()
         variables.forEach { variable ->
             if (variable.type == VariableType.SELECT) {
-                val values = variable.getStringListData(SelectType.KEY_VALUES)
+                val values = variable.getStringListData("values")
                 require(!values.isNullOrEmpty()) { "'select' variable without options found" }
                 require(!values.hasDuplicatesBy { it }) { "'select' variable with duplicate option values found" }
             }

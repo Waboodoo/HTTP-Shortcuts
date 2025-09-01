@@ -1,27 +1,17 @@
 package ch.rmy.android.http_shortcuts
 
 import android.content.Context
-import androidx.hilt.work.HiltWorkerFactory
-import androidx.work.Configuration
 import ch.rmy.android.framework.extensions.GlobalLogger
-import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigration
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import dagger.hilt.android.HiltAndroidApp
-import java.security.Security
 import javax.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import org.conscrypt.Conscrypt
 
 @HiltAndroidApp
-class Application : android.app.Application(), Configuration.Provider {
+class Application : android.app.Application() {
     private val context: Context
         get() = this
 
@@ -29,45 +19,18 @@ class Application : android.app.Application(), Configuration.Provider {
     lateinit var localeHelper: LocaleHelper
 
     @Inject
-    lateinit var workerFactory: HiltWorkerFactory
-
-    @Inject
     lateinit var realmToRoomMigration: RealmToRoomMigration
 
     @Inject
     lateinit var userPreferences: UserPreferences
 
-    override val workManagerConfiguration: Configuration by lazy {
-        Configuration.Builder()
-            .setWorkerFactory(workerFactory)
-            .build()
-    }
-
     override fun onCreate() {
         super.onCreate()
         localeHelper.applyLocaleFromSettings()
 
-        Security.insertProviderAt(Conscrypt.newProvider(), 1)
-
         Logging.initCrashReporting(context)
         GlobalLogger.registerLogging(Logging)
 
-        if (realmToRoomMigration.needsMigration()) {
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    realmToRoomMigration.migrate()
-                } catch (e: Exception) {
-                    logException(e)
-                    _startupError.value = e.message ?: e.toString()
-                }
-            }
-        }
-
         DarkThemeHelper.applyDarkThemeSettings(userPreferences.darkThemeSetting)
-    }
-
-    companion object {
-        private val _startupError = MutableStateFlow<String?>(null)
-        val startupError = _startupError.asStateFlow()
     }
 }

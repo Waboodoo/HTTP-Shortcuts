@@ -10,7 +10,5 @@ sealed class ImportExportDialogState {
 
     data class Error(val message: Localizable) : ImportExportDialogState()
 
-    data class ImportFromUrl(val initialValue: String) : ImportExportDialogState()
-
     data class ImportPasswordPrompt(val url: Uri, val tryAgain: Boolean) : ImportExportDialogState()
 }

@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
-import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.framework.utils.SnackbarManager
@@ -30,10 +29,6 @@ abstract class BaseActivity : AppCompatActivity() {
             }
             is ViewModelEvent.SendBroadcast -> {
                 sendBroadcast(event.intent)
-            }
-            is ViewModelEvent.OpenURL -> {
-                logInfo("handleEvent: Opening URL ${event.url}")
-                openURL(event.url)
             }
             is ViewModelEvent.CloseScreen -> {
                 logInfo("handleEvent: closing screen")

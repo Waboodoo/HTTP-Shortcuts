@@ -10,7 +10,6 @@ import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePi
 import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderRepository
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterRepository
 import ch.rmy.android.http_shortcuts.data.domains.sections.SectionRepository
-import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
@@ -48,11 +47,8 @@ import ch.rmy.android.http_shortcuts.import_export.models.ExportSection
 import ch.rmy.android.http_shortcuts.import_export.models.ExportShortcut
 import ch.rmy.android.http_shortcuts.import_export.models.ExportVariable
 import ch.rmy.android.http_shortcuts.import_export.models.ExportWorkingDirectory
-import ch.rmy.android.http_shortcuts.usecases.GetUsedWorkingDirectoryIdsUseCase
 import java.time.Instant
 import javax.inject.Inject
-import kotlin.collections.filter
-import kotlin.collections.map
 
 class ExportBaseLoader
 @Inject
@@ -66,28 +62,16 @@ constructor(
     private val globalVariableRepository: GlobalVariableRepository,
     private val certificatePinRepository: CertificatePinRepository,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
-    private val getUsedWorkingDirectoryIds: GetUsedWorkingDirectoryIdsUseCase,
     private val settings: Settings,
 ) {
     suspend fun getBase(
-        shortcutIds: Collection<ShortcutId>?,
         globalVariableIds: Collection<GlobalVariableId>?,
         excludeVariableValuesIfNeeded: Boolean,
     ): ExportBase {
         val shortcuts = shortcutRepository.getShortcuts()
-            .runIfNotNull(shortcutIds) { shortcutIds ->
-                filter { shortcut -> shortcut.id in shortcutIds }
-            }
         val shortcutsByCategoryId = shortcuts.groupBy { it.categoryId }
-        val categoriesIdsInUse = shortcutsByCategoryId.keys
         val categories = categoryRepository.getCategories()
-            .runIfNotNull(shortcutIds) {
-                filter { it.id in categoriesIdsInUse }
-            }
         val sections = sectionRepository.getSections()
-            .runIfNotNull(shortcutIds) {
-                filter { section -> shortcuts.any { it.sectionId == section.id } }
-            }
         val sectionsByCategoryId = sections.groupBy { it.categoryId }
 
         val variables = globalVariableRepository.getGlobalVariables()
@@ -96,7 +80,7 @@ constructor(
             }
 
         val appConfig = appConfigRepository.getAppConfig()
-        val relevantWorkingDirectoryIds = getUsedWorkingDirectoryIds(shortcuts, appConfig)
+        val relevantWorkingDirectoryIds = workingDirectoryRepository.getWorkingDirectories().map { it.id }
 
         val requestHeadersByShortcutId = requestHeaderRepository.getRequestHeadersForShortcuts(shortcuts)
         val requestParametersByShortcutId = requestParameterRepository.getRequestParametersForShortcuts(shortcuts)

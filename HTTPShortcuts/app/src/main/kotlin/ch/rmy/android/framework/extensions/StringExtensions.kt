@@ -16,17 +16,6 @@ fun String.replacePrefix(oldPrefix: String, newPrefix: String) =
 fun <T : CharSequence> T.takeUnlessEmpty(): T? =
     takeUnless { it.isEmpty() }
 
-@OptIn(ExperimentalStdlibApi::class)
-fun ByteArray.toChunkedHexString() =
-    toHexString(HexFormat.UpperCase)
-        .chunked(2)
-        .joinToString(":")
-
-fun String.fromHexString(): ByteArray =
-    chunked(2)
-        .map { it.toInt(16).toByte() }
-        .toByteArray()
-
 fun String.toLocalizable() =
     StaticLocalizable(this)
 

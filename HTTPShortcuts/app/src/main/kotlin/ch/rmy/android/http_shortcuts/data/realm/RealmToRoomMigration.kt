@@ -54,12 +54,11 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.types.RealmInstant
-import java.time.Instant
-import javax.inject.Inject
-import kotlinx.coroutines.CompletableDeferred
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.time.Instant
+import javax.inject.Inject
 
 class RealmToRoomMigration
 @Inject
@@ -72,28 +71,11 @@ constructor(
 
     private val version = preferences.getInt(MIGRATION_VERSION_KEY, 0)
 
-    fun needsMigration(): Boolean {
-        val needsMigration = version < MIGRATION_VERSION
-        logInfo("Detected version $version, needsMigration=$needsMigration")
-        if (!needsMigration) {
-            migrationDone.complete(Unit)
-        }
-        return needsMigration
-    }
-
     suspend fun forceMigration(): Int {
         val realm = RealmFactory.createRealm()
         if (realm != null) {
             database.withTransaction {
-                require(
-                    database.categoryDao().getCategories().size == 1 &&
-                        database.shortcutDao().getShortcuts().isEmpty() &&
-                        database.sectionDao().getSections().isEmpty() &&
-                        database.globalVariableDao().getVariables().isEmpty(),
-                ) {
-                    "Can only import legacy file into a fresh app installation"
-                }
-                database.categoryDao().deleteAllCategories()
+                database.clearAllTables()
                 migrateToVersion1(realm)
                 migrateToVersion2(realm)
                 migrateToVersion3(realm)
@@ -104,44 +86,6 @@ constructor(
             }
         }
         return database.shortcutDao().getShortcuts().size
-    }
-
-    suspend fun migrate() {
-        logInfo("Room migration starting at version $version")
-        try {
-            if (version != MIGRATION_VERSION) {
-                val realm = RealmFactory.createRealm()
-                if (realm != null) {
-                    database.withTransaction {
-                        if (version < 1) {
-                            migrateToVersion1(realm)
-                            logInfo("Room migration to version 1 complete")
-                        }
-                        if (version < 2) {
-                            migrateToVersion2(realm)
-                            logInfo("Room migration to version 2 complete")
-                        }
-                        if (version < 3) {
-                            migrateToVersion3(realm)
-                            logInfo("Room migration to version 3 complete")
-                        }
-                    }
-                    preferences.edit {
-                        putInt(MIGRATION_VERSION_KEY, MIGRATION_VERSION)
-                    }
-                    realm.close()
-                } else {
-                    createInitialState()
-                    preferences.edit {
-                        putInt(MIGRATION_VERSION_KEY, MIGRATION_VERSION)
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            migrationDone.cancel()
-            throw e
-        }
-        migrationDone.complete(Unit)
     }
 
     private suspend fun migrateToVersion1(realm: Realm) {
@@ -165,19 +109,6 @@ constructor(
                     )
                 }
             }
-
-        logInfo("Migrating app lock")
-        val appLock = realm.query<RealmAppLock>()
-            .find()
-            .firstOrNull()
-        if (appLock != null) {
-            database.appLockDao().insert(
-                AppLock(
-                    passwordHash = appLock.passwordHash,
-                    useBiometrics = appLock.useBiometrics,
-                ),
-            )
-        }
     }
 
     private suspend fun migrateToVersion2(realm: Realm) {
@@ -483,7 +414,5 @@ constructor(
         private const val PREFERENCES_NAME = "http_shortcuts.realm_to_room_preferences"
         private const val MIGRATION_VERSION_KEY = "migration_version"
         private const val MIGRATION_VERSION = 3
-
-        val migrationDone = CompletableDeferred<Unit>()
     }
 }

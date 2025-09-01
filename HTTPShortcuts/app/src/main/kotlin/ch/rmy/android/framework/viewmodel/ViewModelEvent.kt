@@ -23,8 +23,6 @@ abstract class ViewModelEvent {
         val intent: Intent? = null,
     ) : ViewModelEvent()
 
-    data class OpenURL(val url: String) : ViewModelEvent()
-
     data class SendIntent(
         val intentBuilder: IntentBuilder,
     ) : ViewModelEvent()

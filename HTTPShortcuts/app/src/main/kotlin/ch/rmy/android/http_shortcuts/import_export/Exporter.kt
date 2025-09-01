@@ -3,18 +3,12 @@ package ch.rmy.android.http_shortcuts.import_export
 import android.content.Context
 import android.net.Uri
 import ch.rmy.android.framework.extensions.runIf
-import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.utils.FileUtil
-import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.import_export.ImportExport.JSON_FILE
 import ch.rmy.android.http_shortcuts.import_export.models.ExportBase
-import ch.rmy.android.http_shortcuts.usecases.GetUsedCustomIconsUseCase
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
-import java.io.File
-import java.io.FileInputStream
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
@@ -23,6 +17,9 @@ import net.lingala.zip4j.model.ZipParameters
 import net.lingala.zip4j.model.enums.AesKeyStrength
 import net.lingala.zip4j.model.enums.CompressionMethod
 import net.lingala.zip4j.model.enums.EncryptionMethod
+import java.io.File
+import java.io.FileInputStream
+import javax.inject.Inject
 
 class Exporter
 @Inject
@@ -30,19 +27,17 @@ constructor(
     private val context: Context,
     private val exportBaseLoader: ExportBaseLoader,
     private val importExportDefaultsProvider: ImportExportDefaultsProvider,
-    private val getUsedCustomIcons: GetUsedCustomIconsUseCase,
 ) {
     suspend fun exportToUri(
         uri: Uri,
         format: ExportFormat = ExportFormat.ZIP,
         password: String? = null,
-        shortcutIds: Collection<ShortcutId>? = null,
         globalVariableIds: Collection<GlobalVariableId>? = null,
         excludeDefaults: Boolean,
         excludeVariableValuesIfNeeded: Boolean = true,
     ): ExportStatus {
         val base = withContext(Dispatchers.Default) {
-            exportBaseLoader.getBase(shortcutIds, globalVariableIds, excludeVariableValuesIfNeeded)
+            exportBaseLoader.getBase(globalVariableIds, excludeVariableValuesIfNeeded)
         }
         return withContext(Dispatchers.IO) {
             when (format) {
@@ -64,7 +59,7 @@ constructor(
                         writer.flush()
                         out.closeEntry()
 
-                        getFilesToExport(context, base, shortcutIds).forEach { file ->
+                        getFilesToExport(context, base).forEach { file ->
                             ensureActive()
                             zipParameters.fileNameInZip = file.name
                             out.putNextEntry(zipParameters)
@@ -75,6 +70,7 @@ constructor(
                         exportStatus
                     }
                 }
+
                 ExportFormat.LEGACY_JSON -> {
                     FileUtil.getWriter(context, uri).use { writer ->
                         export(writer, base, excludeDefaults)
@@ -109,25 +105,23 @@ constructor(
         }
     }
 
-    private suspend fun getFilesToExport(context: Context, base: ExportBase, shortcutIds: Collection<ShortcutId>?): List<File> =
-        getShortcutIconFiles(context, shortcutIds)
-            .plus(getClientCertFiles(context, base, shortcutIds))
+    private suspend fun getFilesToExport(context: Context, base: ExportBase): List<File> =
+        getShortcutIconFiles(context)
+            .plus(getClientCertFiles(context, base))
             .filter { it.exists() }
             .toList()
 
-    private suspend fun getShortcutIconFiles(context: Context, shortcutIds: Collection<ShortcutId>?) =
-        getUsedCustomIcons(shortcutIds)
-            .mapNotNull {
-                it.getFile(context)
-            }
+    private suspend fun getShortcutIconFiles(context: Context): List<File> =
+        context.filesDir.listFiles {
+            it.name.endsWith(".png") || it.name.endsWith(".jpg")
+        }
+            ?.toList()
+            ?: emptyList()
 
-    private fun getClientCertFiles(context: Context, base: ExportBase, shortcutIds: Collection<ShortcutId>?) =
+    private fun getClientCertFiles(context: Context, base: ExportBase) =
         (base.categories ?: emptyList())
             .flatMap { it.shortcuts ?: emptyList() }
             .asSequence()
-            .runIfNotNull(shortcutIds) { ids ->
-                filter { shortcut -> shortcut.id in ids }
-            }
             .mapNotNull { ClientCertParams.parse(it.clientCert ?: "") as? ClientCertParams.File }
             .map { it.getFile(context) }
 

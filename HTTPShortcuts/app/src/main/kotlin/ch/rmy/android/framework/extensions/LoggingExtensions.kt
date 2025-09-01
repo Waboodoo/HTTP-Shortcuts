@@ -1,6 +1,5 @@
 package ch.rmy.android.framework.extensions
 
-import android.util.Log
 import ch.rmy.android.http_shortcuts.BuildConfig
 
 object GlobalLogger {
@@ -47,15 +46,5 @@ inline fun <T> Any.tryOrLog(block: () -> T): T? =
         block()
     } catch (e: Throwable) {
         logException(e)
-        null
-    }
-
-inline fun <T> Any.tryOrIgnore(block: () -> T): T? =
-    try {
-        block()
-    } catch (e: Throwable) {
-        if (BuildConfig.DEBUG) {
-            Log.e(this.javaClass.name, "An ignorable error occurred", e)
-        }
         null
     }

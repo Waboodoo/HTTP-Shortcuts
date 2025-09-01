@@ -16,10 +16,10 @@ import ch.rmy.android.http_shortcuts.import_export.migration.ResponseHandlingMig
 import ch.rmy.android.http_shortcuts.import_export.migration.WorkingDirectoryMigration
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import javax.inject.Inject
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import javax.inject.Inject
 
 class ImportMigrator
 @Inject

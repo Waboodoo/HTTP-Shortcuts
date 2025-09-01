@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import ch.rmy.android.framework.ui.BaseActivity
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 
 abstract class BaseActivity : BaseActivity() {
 
@@ -20,15 +19,5 @@ abstract class BaseActivity : BaseActivity() {
 
     protected open fun onCreated(savedState: Bundle?) {
         // intentionally left blank
-    }
-
-    override fun onStart() {
-        super.onStart()
-        ActivityProvider.registerActivity(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        ActivityProvider.deregisterActivity(this)
     }
 }

@@ -8,12 +8,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.core.net.toUri
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
@@ -27,21 +22,9 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.navigation.NavigationRequest
 import ch.rmy.android.framework.navigation.NavigationRequestImpl
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
-import ch.rmy.android.http_shortcuts.activities.documentation.DocumentationUrlManager
 import ch.rmy.android.http_shortcuts.components.EventHandler
 
 private const val RESULT_KEY = "result"
-
-@Composable
-fun ResultHandler(savedStateHandle: SavedStateHandle, onResult: (result: Any) -> Unit) {
-    val result by savedStateHandle.getStateFlow(RESULT_KEY, null as Any?).collectAsStateWithLifecycle()
-    LaunchedEffect(result) {
-        result?.let {
-            onResult(it)
-            savedStateHandle[RESULT_KEY] = null
-        }
-    }
-}
 
 @Composable
 fun NavigationEventHandler(navController: NavController) {
@@ -54,16 +37,6 @@ fun NavigationEventHandler(navController: NavController) {
                 val route = event.navigationRequest.route
                 logInfo("Navigation", "Navigating to $route")
                 navController.navigate(route = route)
-            }
-            is ViewModelEvent.OpenURL -> {
-                val uri = event.url.toUri()
-                if (DocumentationUrlManager.canHandle(uri)) {
-                    consume {
-                        navController.navigate(route = NavigationDestination.Documentation.buildRequest(uri).route)
-                    }
-                } else {
-                    false
-                }
             }
             is ViewModelEvent.CloseScreen -> {
                 focusManager.clearFocus()

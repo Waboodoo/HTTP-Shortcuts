@@ -1,15 +1,11 @@
 package ch.rmy.android.http_shortcuts.data
 
 import androidx.room.AutoMigration
-import androidx.room.Database as DatabaseAnnotation
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigDao
-import ch.rmy.android.http_shortcuts.data.domains.app_lock.AppLockDao
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryDao
 import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinDao
-import ch.rmy.android.http_shortcuts.data.domains.history.HistoryEventDao
-import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionDao
 import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderDao
 import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestParameterDao
 import ch.rmy.android.http_shortcuts.data.domains.sections.SectionDao
@@ -35,6 +31,7 @@ import ch.rmy.android.http_shortcuts.data.models.ShortcutWidget
 import ch.rmy.android.http_shortcuts.data.models.VariableWidget
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigrationDao
+import androidx.room.Database as DatabaseAnnotation
 
 @DatabaseAnnotation(
     entities = [
@@ -70,12 +67,9 @@ import ch.rmy.android.http_shortcuts.data.realm.RealmToRoomMigrationDao
 @TypeConverters(Converters::class)
 abstract class Database : RoomDatabase() {
     abstract fun appConfigDao(): AppConfigDao
-    abstract fun appLockDao(): AppLockDao
     abstract fun categoryDao(): CategoryDao
     abstract fun certificatePinDao(): CertificatePinDao
     abstract fun globalVariableDao(): GlobalVariableDao
-    abstract fun historyEventDao(): HistoryEventDao
-    abstract fun pendingExecutionDao(): PendingExecutionDao
     abstract fun realmToRoomMigrationDao(): RealmToRoomMigrationDao
     abstract fun requestHeaderDao(): RequestHeaderDao
     abstract fun requestParameterDao(): RequestParameterDao

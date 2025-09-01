@@ -4,8 +4,6 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.awaitNonNull
@@ -14,8 +12,8 @@ import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.navigation.NavigationRequest
 import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.utils.localization.Localizable
+import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.http_shortcuts.R
-import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -26,6 +24,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Application) : AndroidViewModel(application) {
 
@@ -137,19 +136,11 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
 
     protected suspend fun handleUnexpectedError(error: Throwable) {
         logException(error)
-        showSnackbar(R.string.error_generic, long = true)
+        showToast(StringResLocalizable(R.string.error_generic), long = true)
     }
 
-    protected suspend fun showSnackbar(@StringRes stringRes: Int, long: Boolean = false) {
-        emitEvent(ViewModelEvent.ShowSnackbar(stringRes, long = long))
-    }
-
-    protected suspend fun showSnackbar(message: Localizable, long: Boolean = false) {
-        emitEvent(ViewModelEvent.ShowSnackbar(message, long = long))
-    }
-
-    protected suspend fun showToast(@StringRes stringRes: Int, long: Boolean = false) {
-        emitEvent(ViewModelEvent.ShowToast(stringRes, long = long))
+    protected suspend fun showToast(message: Localizable, long: Boolean = false) {
+        emitEvent(ViewModelEvent.ShowToast(message, long = long))
     }
 
     protected suspend fun closeScreen(result: Any? = null) {
@@ -168,14 +159,6 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
 
     protected suspend fun setActivityResult(result: Int = Activity.RESULT_CANCELED, intent: Intent? = null) {
         emitEvent(ViewModelEvent.SetActivityResult(result, intent))
-    }
-
-    protected suspend fun openURL(url: String) {
-        emitEvent(ViewModelEvent.OpenURL(url))
-    }
-
-    protected suspend fun openURL(url: Uri) {
-        emitEvent(ViewModelEvent.OpenURL(url.toString()))
     }
 
     protected suspend fun navigate(navigationRequest: NavigationRequest) {

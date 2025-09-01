@@ -17,6 +17,12 @@ import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.NoCloseInputStream
 import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.withContext
+import net.lingala.zip4j.exception.ZipException
+import net.lingala.zip4j.io.inputstream.ZipInputStream
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
@@ -26,12 +32,6 @@ import java.io.InputStreamReader
 import java.net.URISyntaxException
 import java.net.URL
 import javax.inject.Inject
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.withContext
-import net.lingala.zip4j.exception.ZipException
-import net.lingala.zip4j.io.inputstream.ZipInputStream
 
 class Importer
 @Inject
