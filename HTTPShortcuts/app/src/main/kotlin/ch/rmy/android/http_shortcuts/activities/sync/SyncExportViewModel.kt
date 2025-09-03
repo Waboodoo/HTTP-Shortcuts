@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.data.domains.sync.SyncRepository
+import ch.rmy.android.http_shortcuts.data.enums.SyncSchedule
 import ch.rmy.android.http_shortcuts.data.enums.SyncType
 import ch.rmy.android.http_shortcuts.data.models.SyncConfig
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
@@ -53,10 +54,21 @@ constructor(
         configFlow.update { update(it) }
     }
 
+    fun onScheduleChanged(schedule: SyncSchedule) = runAction {
+        updateViewState {
+            copy(schedule = schedule)
+        }
+        updateConfig {
+            copy(schedule = schedule)
+        }
+    }
+
     fun onPasswordChanged(password: String) = runAction {
         updateViewState {
             copy(password = password)
         }
-        updateConfig { copy(password = password) }
+        updateConfig {
+            copy(password = password)
+        }
     }
 }

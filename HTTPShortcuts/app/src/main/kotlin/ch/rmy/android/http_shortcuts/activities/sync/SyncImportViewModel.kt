@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.data.domains.sync.SyncRepository
+import ch.rmy.android.http_shortcuts.data.enums.SyncSchedule
 import ch.rmy.android.http_shortcuts.data.enums.SyncType
 import ch.rmy.android.http_shortcuts.data.models.SyncConfig
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
@@ -18,7 +19,6 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.time.debounce
 
 @HiltViewModel
 class SyncImportViewModel
@@ -53,6 +53,15 @@ constructor(
 
     private fun updateConfig(update: SyncConfig.() -> SyncConfig) {
         configFlow.update { update(it) }
+    }
+
+    fun onScheduleChanged(schedule: SyncSchedule) = runAction {
+        updateViewState {
+            copy(schedule = schedule)
+        }
+        updateConfig {
+            copy(schedule = schedule)
+        }
     }
 
     fun onPasswordChanged(password: String) = runAction {

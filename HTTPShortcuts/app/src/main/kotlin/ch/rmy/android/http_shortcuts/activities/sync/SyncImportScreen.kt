@@ -16,6 +16,7 @@ fun SyncImportScreen() {
     ) { viewState ->
         SyncImportContent(
             viewState = viewState,
+            onScheduleChanged = viewModel::onScheduleChanged,
             onPasswordChanged = viewModel::onPasswordChanged,
         )
     }

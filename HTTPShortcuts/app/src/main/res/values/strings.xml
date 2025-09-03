@@ -1962,4 +1962,8 @@
     <string name="sync_type_automatic_export_description">Periodically export shortcuts, variables, etc. to back them up or sync with other devices.</string>
     <!-- Label on button to configure the automatic import or export -->
     <string name="button_sync_configure">Configure</string>
+    <string name="label_export_schedule">Schedule</string>
+    <string name="label_import_schedule">Schedule</string>
+    <string name="sync_schedule_every_day">Once per day</string>
+    <string name="sync_schedule_every_week">Once per week</string>
 </resources>
