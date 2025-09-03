@@ -11,7 +11,7 @@ import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.days
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -68,6 +68,6 @@ constructor(
     }
 
     companion object {
-        private val MAX_AGE = 8.hours
+        private val MAX_AGE = 7.days
     }
 }

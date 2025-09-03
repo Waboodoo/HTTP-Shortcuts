@@ -33,5 +33,9 @@ constructor(
             is HistoryEvent.NetworkError -> HistoryEventType.NETWORK_ERROR
             is HistoryEvent.Error -> HistoryEventType.ERROR
             is HistoryEvent.CustomEvent -> HistoryEventType.CUSTOM_EVENT
+            is HistoryEvent.SyncExportFailed -> HistoryEventType.SYNC_EXPORT_FAILED
+            is HistoryEvent.SyncExportSucceed -> HistoryEventType.SYNC_EXPORT_SUCCESS
+            is HistoryEvent.SyncImportFailed -> HistoryEventType.SYNC_IMPORT_FAILED
+            is HistoryEvent.SyncImportSucceed -> HistoryEventType.SYNC_IMPORT_SUCCESS
         }
 }

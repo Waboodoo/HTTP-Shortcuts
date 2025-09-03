@@ -258,6 +258,10 @@
     <string name="title_import_export_advanced_settings">Advanced</string>
     <!-- Title for "Automatic Import / Export" feature, shown in "Advanced" section of "Import & Export" screen -->
     <string name="settings_automatic_import_export">Automatic Import / Export</string>
+    <!-- Label on floating action button on automatic sync screen, to trigger an import of shortcuts & other daa -->
+    <string name="fab_automatic_import_now">Import now</string>
+    <!-- Label on floating action button on automatic sync screen, to trigger an export of shortcuts & other daa -->
+    <string name="fab_automatic_export_now">Export now</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
     <plurals name="shortcut_export_success">
         <item quantity="one">1 shortcut exported.</item>
@@ -1515,6 +1519,14 @@
     <string name="event_history_title_network_error">Network error for \“%s\”</string>
     <!-- Title of event history entry, which states that an execution error has occurred. %s is a placeholder for the shortcut's name -->
     <string name="event_history_title_execution_error">Execution error for \“%s\”</string>
+    <!-- Title of event history entry, which states that the automatic periodic import ran successfully -->
+    <string name="event_history_title_sync_import_succeeded">Automatic import succeeded</string>
+    <!-- Title of event history entry, which states that the automatic periodic import failed -->
+    <string name="event_history_title_sync_import_failed">Automatic import failed</string>
+    <!-- Title of event history entry, which states that the automatic periodic export ran successfully -->
+    <string name="event_history_title_sync_export_succeeded">Automatic export succeeded</string>
+    <!-- Title of event history entry, which states that the automatic periodic export failed -->
+    <string name="event_history_title_sync_export_failed">Automatic export failed</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, which indicates how a shortcut was triggered. %s is a placeholder for the trigger source, e.g. "homescreen" -->
     <string name="label_prefix_event_history_trigger_origin">Triggered via: %s</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
@@ -1962,8 +1974,60 @@
     <string name="sync_type_automatic_export_description">Periodically export shortcuts, variables, etc. to back them up or sync with other devices.</string>
     <!-- Label on button to configure the automatic import or export -->
     <string name="button_sync_configure">Configure</string>
+    <!-- Label above dropdown menu which lets the user select how the automatic import feature should behave -->
+    <string name="label_sync_import_mode">Import Strategy</string>
+    <!-- Option in dropdown menu for configuring how the automatic import feature behaves  -->
+    <string name="option_sync_import_mode_merge">Merge with existing data</string>
+    <!-- Warning message displayed when the user selects the "Replace" strategy for the automatic import feature. %s is a placeholder for the name of the strategy -->
+    <string name="warning_sync_import_mode_replace">While the "%s" strategy is active the creation and editing of shortcuts, variables, etc. is disabled. All local data will be deleted and replaced with the imported data. Please make sure this is what you want.</string>
+    <!-- Option in dropdown menu for configuring how the automatic import feature behaves  -->
+    <string name="option_sync_import_mode_replace">Replace existing data</string>
+    <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic export feature -->
     <string name="label_export_schedule">Schedule</string>
+    <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic import feature -->
     <string name="label_import_schedule">Schedule</string>
+    <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per day -->
     <string name="sync_schedule_every_day">Once per day</string>
+    <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per week -->
     <string name="sync_schedule_every_week">Once per week</string>
+    <!-- Label above input field in automatic export, to protect the file with a password -->
+    <string name="label_export_protect_with_password">Protect with Password</string>
+    <!-- Label above input field in automatic import, to enter the password that was used to protect the file -->
+    <string name="label_import_protected_with_password">Protected with Password</string>
+    <!-- Label above dropdown menu, to select where to the automatic export should be made -->
+    <string name="label_sync_export_target">Export to</string>
+    <!-- Label above dropdown menu, to select where from the automatic import should be made -->
+    <string name="label_sync_import_target">Import from</string>
+    <!-- Option in dropdown for selecting where to/from automatic import/export should happen: from a locally stored file -->
+    <string name="option_sync_target_file">Local File</string>
+    <!-- Option in dropdown for selecting where to/from automatic import/export should happen: from a web server -->
+    <string name="option_sync_target_url">Web Server</string>
+    <!-- Button label to select the local directory in which the file for automatic import/export resides -->
+    <string name="label_sync_directory">Directory</string>
+    <!-- Label for input field, where the user can specify the name of the file that is used for automatic import/export to/from the local file system -->
+    <string name="label_sync_file_name">File Name</string>
+    <!-- Instruction text for automatic export to a web server -->
+    <string name="instructions_sync_export_web">An HTTP PUT request will be made to the provided URL (e.g. of a WebDAV server), using Basic Auth if a username and password is provided.</string>
+    <!-- Instruction text for automatic export to a local file -->
+    <string name="instructions_sync_export_file">A file will be created in the selected directory, using the provided name. If a file with the given name already exists, it will be replaced.</string>
+    <!-- Instruction text for automatic import from a web server -->
+    <string name="instructions_sync_import_web">An HTTP GET request will be made to the provided URL, using Basic Auth if a username and password is provided.</string>
+    <!-- Instruction text for automatic import from a local file -->
+    <string name="instructions_sync_import_file">The app will look for a file with the provided name in the selected directory and import from it. If no name is provided, the newest ZIP file in the directory will be used.</string>
+    <!-- Snackbar message, which states that the automatic periodic import ran successfully -->
+    <string name="message_sync_import_succeeded">Import succeeded.</string>
+    <!-- Snackbar message, which states that the automatic periodic import failed -->
+    <string name="message_sync_import_failed">Import failed.</string>
+    <!-- Snackbar message, which states that the automatic periodic export ran successfully -->
+    <string name="message_sync_export_succeeded">Export succeeded.</string>
+    <!-- Snackbar message, which states that the automatic periodic export failed -->
+    <string name="message_sync_export_failed">Export failed.</string>
+    <!-- Label used to display the time at which the automatic import/export feature has last run successfully. %s is a placeholder for the time. -->
+    <string name="label_sync_last_success_pattern">Last success: %s</string>
+    <!-- Label used to display the time at which the automatic import/export feature has last failed. %s is a placeholder for the time. -->
+    <string name="label_sync_last_failure_pattern">Last failure: %s</string>
+    <!-- Error message shown when automatic import fails due to an incorrect (or missing) password -->
+    <string name="error_sync_import_wrong_password">ZIP file is password protected, but wrong password was provided</string>
+    <!-- Description: Dialog text automatic import / export was disabled after failing too many times. Shown when the app is opened, to inform the user. -->
+    <string name="description_sync_failed_too_many_times">The automatic import or export has failed to run multiple times and has therefore been disabled. Please check its configuration and ensure that it is valid.</string>
 </resources>

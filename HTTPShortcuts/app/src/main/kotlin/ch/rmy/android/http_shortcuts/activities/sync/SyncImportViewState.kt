@@ -2,9 +2,18 @@ package ch.rmy.android.http_shortcuts.activities.sync
 
 import androidx.compose.runtime.Stable
 import ch.rmy.android.http_shortcuts.data.enums.SyncSchedule
+import ch.rmy.android.http_shortcuts.data.enums.SyncTargetType
 
 @Stable
 data class SyncImportViewState(
     val schedule: SyncSchedule,
-    val password: String,
+    val targetType: SyncTargetType,
+    val filePassword: String,
+    val directoryName: String,
+    val fileName: String,
+    val webUrl: String,
+    val webAuthUsername: String,
+    val webAuthPassword: String,
+    val replaceLocal: Boolean,
+    val hasChanged: Boolean,
 )

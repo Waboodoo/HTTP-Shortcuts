@@ -71,6 +71,7 @@ fun ImportExportScreen(
     ) { viewState ->
         ImportExportContent(
             exportEnabled = viewState.exportEnabled,
+            isInSyncReplaceMode = viewState.isInSyncReplaceMode,
             onImportFromFileClicked = viewModel::onImportFromFileButtonClicked,
             onImportFromUrlClicked = viewModel::onImportFromURLButtonClicked,
             onExportToFileClicked = viewModel::onExportToFileButtonClicked,

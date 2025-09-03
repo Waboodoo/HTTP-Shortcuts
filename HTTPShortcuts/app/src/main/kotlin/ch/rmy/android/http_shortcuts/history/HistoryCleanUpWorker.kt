@@ -12,7 +12,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.days
 
 @HiltWorker
 class HistoryCleanUpWorker
@@ -53,6 +53,6 @@ constructor(
     companion object {
         private const val TAG = "history-cleanup"
 
-        private val MAX_AGE = 12.hours
+        private val MAX_AGE = 7.days
     }
 }

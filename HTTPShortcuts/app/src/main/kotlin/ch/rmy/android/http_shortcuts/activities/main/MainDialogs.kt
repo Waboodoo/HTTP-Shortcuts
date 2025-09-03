@@ -114,6 +114,11 @@ fun MainDialogs(
                 onDismissRequested = onDismissed,
             )
         }
+        is MainDialogState.TooManySyncErrors -> {
+            TooManySyncErrorsDialog(
+                onDismissed = onDismissed,
+            )
+        }
         null -> Unit
     }
 }
@@ -233,4 +238,26 @@ private fun CategoryMenuDialog(
             )
         }
     }
+}
+
+@Composable
+private fun TooManySyncErrorsDialog(
+    onDismissed: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismissed,
+        title = {
+            Text(stringResource(R.string.warning_dialog_title))
+        },
+        text = {
+            Text(stringResource(R.string.description_sync_failed_too_many_times))
+        },
+        confirmButton = {
+            TextButton(
+                onClick = onDismissed,
+            ) {
+                Text(stringResource(R.string.dialog_ok))
+            }
+        },
+    )
 }

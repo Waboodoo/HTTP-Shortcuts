@@ -10,6 +10,10 @@ enum class HistoryEventType(
     NETWORK_ERROR("network_error"),
     ERROR("error"),
     CUSTOM_EVENT("custom_event"),
+    SYNC_IMPORT_SUCCESS("sync_import_success"),
+    SYNC_IMPORT_FAILED("sync_import_failed"),
+    SYNC_EXPORT_SUCCESS("sync_export_success"),
+    SYNC_EXPORT_FAILED("sync_export_failed"),
     ;
 
     override fun toString() =

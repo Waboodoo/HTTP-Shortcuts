@@ -29,6 +29,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 @Composable
 fun ShortcutListDialogs(
     dialogState: ShortcutListDialogState?,
+    isInSyncReplaceMode: Boolean,
     onPlaceOnHomeScreenOptionSelected: () -> Unit,
     onExecuteOptionSelected: () -> Unit,
     onCancelPendingExecutionOptionSelected: () -> Unit,
@@ -90,6 +91,7 @@ fun ShortcutListDialogs(
         is ShortcutListDialogState.ContextMenu -> {
             ContextMenuDialog(
                 shortcutName = dialogState.shortcutName,
+                isInSyncReplaceMode = isInSyncReplaceMode,
                 isPending = dialogState.isPending,
                 isHidden = dialogState.isHidden,
                 onPlaceOnHomeScreenOptionSelected = onPlaceOnHomeScreenOptionSelected,
@@ -283,6 +285,7 @@ private fun ExportDestinationOptionsDialog(
 @Composable
 private fun ContextMenuDialog(
     shortcutName: String,
+    isInSyncReplaceMode: Boolean,
     isPending: Boolean,
     isHidden: Boolean,
     onPlaceOnHomeScreenOptionSelected: () -> Unit,
@@ -323,34 +326,40 @@ private fun ContextMenuDialog(
             modifier = Modifier.padding(vertical = Spacing.MEDIUM),
         )
         SelectDialogEntry(
+            enabled = !isInSyncReplaceMode,
             label = stringResource(R.string.action_edit),
             icon = painterResource(R.drawable.outline_edit_24),
             onClick = onEditOptionSelected,
         )
         SelectDialogEntry(
+            enabled = !isInSyncReplaceMode,
             label = stringResource(R.string.action_move),
             icon = painterResource(R.drawable.outline_move_down_24),
             onClick = onMoveOptionSelected,
         )
         SelectDialogEntry(
+            enabled = !isInSyncReplaceMode,
             label = stringResource(R.string.action_duplicate),
             icon = painterResource(R.drawable.outline_file_copy_24),
             onClick = onDuplicateOptionSelected,
         )
         if (isHidden) {
             SelectDialogEntry(
+                enabled = !isInSyncReplaceMode,
                 label = stringResource(R.string.action_show_shortcut),
                 icon = painterResource(R.drawable.outline_visibility_24),
                 onClick = onShowSelected,
             )
         } else {
             SelectDialogEntry(
+                enabled = !isInSyncReplaceMode,
                 label = stringResource(R.string.action_hide_shortcut),
                 icon = painterResource(R.drawable.outline_visibility_off_24),
                 onClick = onHideSelected,
             )
         }
         SelectDialogEntry(
+            enabled = !isInSyncReplaceMode,
             label = stringResource(R.string.action_delete),
             icon = painterResource(R.drawable.outline_delete_24),
             onClick = onDeleteOptionSelected,

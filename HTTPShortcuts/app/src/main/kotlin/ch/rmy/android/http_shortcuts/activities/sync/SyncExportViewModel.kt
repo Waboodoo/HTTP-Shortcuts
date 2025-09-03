@@ -1,13 +1,20 @@
 package ch.rmy.android.http_shortcuts.activities.sync
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.viewModelScope
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.data.domains.sync.SyncRepository
 import ch.rmy.android.http_shortcuts.data.enums.SyncSchedule
+import ch.rmy.android.http_shortcuts.data.enums.SyncTargetType
 import ch.rmy.android.http_shortcuts.data.enums.SyncType
 import ch.rmy.android.http_shortcuts.data.models.SyncConfig
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
+import ch.rmy.android.http_shortcuts.sync.SyncConfigMonitor
+import ch.rmy.android.http_shortcuts.utils.ExternalURLs
+import ch.rmy.android.http_shortcuts.utils.WorkingDirectoryUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
@@ -27,11 +34,17 @@ constructor(
     application: Application,
     private val userPreferences: UserPreferences,
     private val syncRepository: SyncRepository,
+    private val workingDirectoryUtil: WorkingDirectoryUtil,
+    private val syncConfigMonitor: SyncConfigMonitor,
 ) : BaseViewModel<Unit, SyncExportViewState>(application) {
     private lateinit var configFlow: MutableStateFlow<SyncConfig>
 
     @OptIn(FlowPreview::class)
     override suspend fun initialize(data: Unit): SyncExportViewState {
+        viewModelScope.launch {
+            syncConfigMonitor.configurationInProgress()
+        }
+
         if (userPreferences.syncType != SyncType.EXPORT) {
             terminateInitialization()
         }
@@ -46,7 +59,14 @@ constructor(
         }
         return SyncExportViewState(
             schedule = config.schedule,
-            password = config.password,
+            targetType = config.targetType,
+            filePassword = config.filePassword,
+            directoryName = config.targetDirectoryUri?.let { workingDirectoryUtil.getDocumentFile(it) }?.name ?: "",
+            fileName = config.targetFileName ?: SyncConfig.DEFAULT_FILE_NAME,
+            webUrl = config.targetUrl ?: "https://",
+            webAuthUsername = config.targetAuthUsername ?: "",
+            webAuthPassword = config.targetAuthPassword ?: "",
+            hasChanged = false,
         )
     }
 
@@ -56,19 +76,106 @@ constructor(
 
     fun onScheduleChanged(schedule: SyncSchedule) = runAction {
         updateViewState {
-            copy(schedule = schedule)
+            copy(
+                schedule = schedule,
+                hasChanged = true,
+            )
         }
         updateConfig {
             copy(schedule = schedule)
         }
     }
 
-    fun onPasswordChanged(password: String) = runAction {
+    fun onFilePasswordChanged(password: String) = runAction {
         updateViewState {
-            copy(password = password)
+            copy(
+                filePassword = password,
+                hasChanged = true,
+            )
         }
         updateConfig {
-            copy(password = password)
+            copy(filePassword = password)
         }
+    }
+
+    fun onTargetTypeChanged(targetType: SyncTargetType) = runAction {
+        updateViewState {
+            copy(
+                targetType = targetType,
+                hasChanged = true,
+            )
+        }
+        updateConfig {
+            copy(targetType = targetType)
+        }
+    }
+
+    fun onDirectoryPicked(directory: Uri) = runAction {
+        updateViewState {
+            copy(
+                directoryName = workingDirectoryUtil.getDocumentFile(directory)?.name ?: "",
+                hasChanged = true,
+            )
+        }
+        updateConfig {
+            copy(targetDirectoryUri = directory)
+        }
+    }
+
+    fun onFileNameChanged(fileName: String) = runAction {
+        val fileName = fileName.replace("/", "")
+        updateViewState {
+            copy(
+                fileName = fileName,
+                hasChanged = true,
+            )
+        }
+        updateConfig {
+            copy(targetFileName = fileName.takeUnlessEmpty()?.takeUnless { it == SyncConfig.DEFAULT_FILE_NAME })
+        }
+    }
+
+    fun onWebUrlChanged(url: String) = runAction {
+        updateViewState {
+            copy(
+                webUrl = url,
+                hasChanged = true,
+            )
+        }
+        updateConfig {
+            copy(targetUrl = url.takeUnlessEmpty()?.takeUnless { it == "https://" })
+        }
+    }
+
+    fun onWebAuthUsernameChanged(username: String) = runAction {
+        updateViewState {
+            copy(
+                webAuthUsername = username,
+                hasChanged = true,
+            )
+        }
+        updateConfig {
+            copy(targetAuthUsername = username.takeUnlessEmpty())
+        }
+    }
+
+    fun onWebAuthPasswordChanged(password: String) = runAction {
+        updateViewState {
+            copy(
+                webAuthPassword = password,
+                hasChanged = true,
+            )
+        }
+        updateConfig {
+            copy(targetAuthPassword = password.takeUnlessEmpty())
+        }
+    }
+
+    fun onBackPressed() = runAction {
+        closeScreen(NavigationDestination.SyncExport.RESULT_CHANGED)
+    }
+
+    fun onHelpButtonClicked() = runAction {
+        openURL(ExternalURLs.SYNC_DOCUMENTATION)
     }
 }

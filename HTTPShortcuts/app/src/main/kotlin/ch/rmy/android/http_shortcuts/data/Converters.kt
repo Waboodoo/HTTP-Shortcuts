@@ -24,6 +24,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.SyncSchedule
+import ch.rmy.android.http_shortcuts.data.enums.SyncTargetType
 import ch.rmy.android.http_shortcuts.data.enums.SyncType
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -237,6 +238,14 @@ class Converters {
 
     @TypeConverter
     fun serializeSyncType(syncType: SyncType) =
+        syncType.value
+
+    @TypeConverter
+    fun deserializeSyncTargetType(value: String?): SyncTargetType? =
+        value?.let { SyncTargetType.parse(it) }
+
+    @TypeConverter
+    fun serializeSyncTargetType(syncType: SyncTargetType) =
         syncType.value
 
     @TypeConverter

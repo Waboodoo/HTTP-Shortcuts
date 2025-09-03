@@ -129,6 +129,7 @@ fun MainScreen(
                         )
                     }
                     MainMenu(
+                        isInSyncReplaceMode = viewState.isInSyncReplaceMode,
                         onCategoriesButtonClicked = viewModel::onCategoriesButtonClicked,
                         onVariablesButtonClicked = viewModel::onVariablesButtonClicked,
                         onWorkingDirectoriesClicked = viewModel::onWorkingDirectoriesClicked,
@@ -140,7 +141,7 @@ fun MainScreen(
                 }
             }
         },
-        onTitleClicked = if (state?.isLocked == false) {
+        onTitleClicked = if (state?.isLocked == false && !state.isInSyncReplaceMode) {
             viewModel::onToolbarTitleClicked
         } else {
             null
@@ -159,6 +160,7 @@ fun MainScreen(
         },
     ) { viewState ->
         MainContent(
+            isInSyncReplaceMode = viewState.isInSyncReplaceMode,
             categoryItems = viewState.categoryItems,
             hasMultipleCategories = viewState.hasMultipleCategories,
             activeCategoryId = viewState.activeCategoryId,

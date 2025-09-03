@@ -48,4 +48,7 @@ sealed class MainDialogState {
         val currentIcon: ShortcutIcon.BuiltInIcon?,
         val suggestionBase: String?,
     ) : MainDialogState()
+
+    @Stable
+    data object TooManySyncErrors : MainDialogState()
 }

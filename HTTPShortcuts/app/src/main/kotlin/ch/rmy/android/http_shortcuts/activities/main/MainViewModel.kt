@@ -39,6 +39,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
+import ch.rmy.android.http_shortcuts.sync.ObserveSyncReplaceUseCase
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
@@ -95,6 +96,7 @@ constructor(
     private val versionUtil: VersionUtil,
     private val unlockApp: UnlockAppUseCase,
     private val navigationArgStore: NavigationArgStore,
+    private val observeSyncReplace: ObserveSyncReplaceUseCase,
 ) : BaseViewModel<MainViewModel.InitData, MainViewState>(application) {
 
     private lateinit var categories: List<Category>
@@ -160,16 +162,20 @@ constructor(
                 }
         }
 
+        val isInSyncReplaceMode = monitorFlow(observeSyncReplace()) { isInSyncReplaceMode ->
+            updateViewState {
+                copy(
+                    isInSyncReplaceMode = isInSyncReplaceMode,
+                )
+            }
+        }
+
         val appHasLockFlow = appLockController.observeLock()
             .map { it != null }
-        val appHasLock = appHasLockFlow.first()
-        viewModelScope.launch {
-            appHasLockFlow
-                .collect { hasLock ->
-                    updateViewState {
-                        copy(hasLock = hasLock)
-                    }
-                }
+        val appHasLock = monitorFlow(appHasLockFlow) { hasLock ->
+            updateViewState {
+                copy(hasLock = hasLock)
+            }
         }
 
         viewModelScope.launch(Dispatchers.Default) {
@@ -230,6 +236,7 @@ constructor(
             hasMultipleCategories = categories.size > 1,
             isLocked = isAppLocked,
             hasLock = appHasLock,
+            isInSyncReplaceMode = isInSyncReplaceMode,
             highlightedShortcutId = widgetShortcutForEditing?.id,
         )
     }
@@ -264,6 +271,11 @@ constructor(
                     MainDialogState.RecoverShortcut(
                         recoveryInfo = recoveryInfo,
                     ),
+                )
+            } else if (deviceLocalPreferences.syncTooManyErrors) {
+                deviceLocalPreferences.syncTooManyErrors = false
+                updateDialogState(
+                    MainDialogState.TooManySyncErrors,
                 )
             } else if (shouldShowChangeLogDialog()) {
                 updateDialogState(

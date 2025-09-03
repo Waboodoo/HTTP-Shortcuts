@@ -239,10 +239,14 @@ sealed interface NavigationDestination {
 
     object SyncImport : NoArgNavigationDestination {
         override val path = "sync/import"
+
+        const val RESULT_CHANGED = "sync-import-changed"
     }
 
     object SyncExport : NoArgNavigationDestination {
         override val path = "sync/export"
+
+        const val RESULT_CHANGED = "sync-export-changed"
     }
 
     object RemoteEdit : NoArgNavigationDestination {

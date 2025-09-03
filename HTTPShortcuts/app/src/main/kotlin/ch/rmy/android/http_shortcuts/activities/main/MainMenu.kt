@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.components.MenuItem
 
 @Composable
 fun MainMenu(
+    isInSyncReplaceMode: Boolean,
     onCategoriesButtonClicked: () -> Unit,
     onVariablesButtonClicked: () -> Unit,
     onWorkingDirectoriesClicked: () -> Unit,
@@ -19,16 +20,19 @@ fun MainMenu(
 ) {
     Menu {
         MenuItem(
+            enabled = !isInSyncReplaceMode,
             title = stringResource(R.string.title_categories),
             icon = painterResource(R.drawable.outline_view_week_24),
             onClick = onCategoriesButtonClicked,
         )
         MenuItem(
+            enabled = !isInSyncReplaceMode,
             title = stringResource(R.string.title_variables),
             icon = painterResource(R.drawable.outline_data_object_24),
             onClick = onVariablesButtonClicked,
         )
         MenuItem(
+            enabled = !isInSyncReplaceMode,
             title = stringResource(R.string.menu_action_working_directories),
             icon = painterResource(R.drawable.outline_folder_24),
             onClick = onWorkingDirectoriesClicked,

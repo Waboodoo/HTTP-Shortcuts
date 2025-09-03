@@ -4,6 +4,15 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.trySendBlocking
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.withContext
 
 abstract class PreferencesStore(context: Context, preferencesName: String? = null) {
 
@@ -41,4 +50,23 @@ abstract class PreferencesStore(context: Context, preferencesName: String? = nul
     protected fun putLong(key: String, value: Long) {
         preferences.edit { putLong(key, value) }
     }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    protected fun <T> observe(getValue: () -> T): Flow<T> =
+        callbackFlow {
+            val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
+                channel.trySendBlocking(Unit)
+            }
+            preferences.registerOnSharedPreferenceChangeListener(listener)
+            channel.send(Unit)
+            awaitClose {
+                preferences.unregisterOnSharedPreferenceChangeListener(listener)
+            }
+        }
+            .mapLatest {
+                withContext(Dispatchers.IO) {
+                    getValue()
+                }
+            }
+            .distinctUntilChanged()
 }
