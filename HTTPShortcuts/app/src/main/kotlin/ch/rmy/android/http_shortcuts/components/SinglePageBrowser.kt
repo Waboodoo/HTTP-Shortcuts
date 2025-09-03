@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.components
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.webkit.WebResourceRequest
@@ -93,6 +94,10 @@ private class SinglePageWebView(
     init {
         layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         webViewClient = object : WebViewClient() {
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                setBackgroundColor(Color.TRANSPARENT)
+            }
+
             override fun onPageCommitVisible(view: WebView?, url: String?) {
                 setBackgroundColor(Color.TRANSPARENT)
             }
@@ -103,6 +108,7 @@ private class SinglePageWebView(
                     evaluateJavascript("document.getElementById('root').className = 'dark';") {
                         onLoaded()
                     }
+                    postDelayed({ setBackgroundColor(Color.TRANSPARENT) }, 1000)
                 } else {
                     onLoaded()
                 }

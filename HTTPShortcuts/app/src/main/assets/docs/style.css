@@ -137,3 +137,20 @@ blockquote {
 .dark td {
   border-color: #202020;
 }
+
+@media screen and (prefers-color-scheme: dark) {
+  * {
+    color: #FFFFFF;
+  }
+  blockquote {
+    border: 1px solid #059df7;
+    background: #062a40;
+  }
+  code, pre, th {
+    background: #090909;
+    border-color: #202020;
+  }
+  td {
+    border-color: #202020;
+  }
+}

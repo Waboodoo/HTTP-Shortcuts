@@ -58,6 +58,7 @@ class DocumentationWebView(context: Context) : WebView(context) {
             }
 
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                setBackgroundColor(Color.TRANSPARENT)
                 showLoading()
             }
 
@@ -67,6 +68,7 @@ class DocumentationWebView(context: Context) : WebView(context) {
 
             override fun onPageFinished(view: WebView, url: String) {
                 setBackgroundColor(Color.TRANSPARENT)
+                postDelayed({ setBackgroundColor(Color.TRANSPARENT) }, 1000)
                 _canGoBack.value = canGoBack()
                 onPageChanged(DocumentationUrlManager.toExternal(url.toUri()))
                 if (context.isDarkThemeEnabled()) {
