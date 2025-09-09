@@ -85,8 +85,7 @@ class ExternalRequestFragment : Fragment() {
     private fun cancel() {
         removeSelf()
         if (deferred == null) {
-            context?.showToast(R.string.error_generic)
-            logException(IllegalStateException("Failed to cancel from external app, process was restarted"))
+            logInfo("Failed to cancel from external app, process was restarted")
             return
         }
         deferred!!.cancel()
