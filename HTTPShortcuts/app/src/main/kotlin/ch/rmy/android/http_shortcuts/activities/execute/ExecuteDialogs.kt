@@ -311,7 +311,7 @@ private fun NumberSliderDialog(
     onDismissed: () -> Unit,
 ) {
     val decimalPoints = getDecimalPoints(min, max, stepSize)
-    var sliderValue by rememberSaveable(key = "number-picker-value") {
+    var sliderValue by rememberSaveable {
         mutableFloatStateOf(((initialValue ?: min) - min) / (max - min) * 10000f)
     }
     val roundedValue = remember(sliderValue, min, max, stepSize, decimalPoints) {

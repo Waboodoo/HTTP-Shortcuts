@@ -58,13 +58,13 @@ fun ToggleTypeEditor(
 ) {
     val currentViewState by rememberUpdatedState(viewState)
 
-    var dialogVisible by rememberSaveable(key = "toggle-dialog-visible") {
+    var dialogVisible by rememberSaveable {
         mutableStateOf(false)
     }
-    var dialogOptionId by rememberSaveable(key = "toggle-dialog-option-id") {
+    var dialogOptionId by rememberSaveable {
         mutableStateOf<String?>(null)
     }
-    var dialogOptionValue by rememberSaveable(key = "toggle-dialog-option-value") {
+    var dialogOptionValue by rememberSaveable {
         mutableStateOf("")
     }
 
@@ -251,7 +251,6 @@ private fun EditDialog(
                     savedStateHandle = savedStateHandle,
                     modifier = Modifier
                         .fillMaxWidth(),
-                    key = "toggle-option-text",
                     allowOpeningVariableEditor = false,
                     value = value,
                     label = {

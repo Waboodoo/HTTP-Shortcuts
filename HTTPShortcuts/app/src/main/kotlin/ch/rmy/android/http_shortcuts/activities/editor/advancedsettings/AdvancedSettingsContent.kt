@@ -248,7 +248,6 @@ private fun ProxyHostField(
 ) {
     VariablePlaceholderTextField(
         savedStateHandle = savedStateHandle,
-        key = "proxy-host-input",
         modifier = modifier,
         label = {
             Text(stringResource(R.string.label_proxy_host))
@@ -296,7 +295,6 @@ private fun ProxyUsernameField(
 ) {
     VariablePlaceholderTextField(
         savedStateHandle = savedStateHandle,
-        key = "proxy-username-input",
         modifier = modifier,
         label = {
             Text(stringResource(R.string.label_proxy_username))
@@ -320,7 +318,6 @@ private fun ProxyPasswordField(
 ) {
     VariablePlaceholderTextField(
         savedStateHandle = savedStateHandle,
-        key = "proxy-password-input",
         modifier = modifier,
         label = {
             Text(stringResource(R.string.label_proxy_password))

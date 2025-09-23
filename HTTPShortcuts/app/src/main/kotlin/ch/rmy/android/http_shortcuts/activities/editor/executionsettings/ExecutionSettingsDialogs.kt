@@ -70,7 +70,7 @@ private fun DelayPickerDialog(
     onConfirmed: (Duration) -> Unit,
     onDismissed: () -> Unit,
 ) {
-    var value by rememberSaveable(key = "delay-dialog-value") {
+    var value by rememberSaveable {
         mutableLongStateOf(initialDelay.inWholeMilliseconds)
     }
     val timeout = remember(value) {

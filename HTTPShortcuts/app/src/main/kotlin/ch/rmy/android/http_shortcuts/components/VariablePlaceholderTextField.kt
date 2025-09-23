@@ -182,7 +182,6 @@ private fun transformVariablePlaceholders(
 @Composable
 fun VariablePlaceholderTextField(
     savedStateHandle: SavedStateHandle,
-    key: String,
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -221,7 +220,7 @@ fun VariablePlaceholderTextField(
         )
     }
 
-    var dialogVisible by rememberSaveable(key = key) {
+    var dialogVisible by rememberSaveable {
         mutableStateOf(false)
     }
 

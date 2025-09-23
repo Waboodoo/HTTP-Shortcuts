@@ -160,7 +160,6 @@ private fun <T : View> rememberCropImageView(init: (Context, isRestore: Boolean)
             override fun SaverScope.save(value: T): Parcelable? =
                 value.findViewById<CropImageView>(R.id.cropImageView).onSaveInstanceState()
         },
-        key = "crop-image",
     ) {
         init(context, false)
     }

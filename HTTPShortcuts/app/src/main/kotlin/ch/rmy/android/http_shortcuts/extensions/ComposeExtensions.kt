@@ -39,7 +39,7 @@ fun LocalDateTime.formatMediumDateTime(): String =
     mediumDateTimeFormatter.format(this)
 
 @Composable
-fun <T : WebView> rememberWebView(key: String, init: (Context, isRestore: Boolean) -> T): T {
+fun <T : WebView> rememberWebView(init: (Context, isRestore: Boolean) -> T): T {
     val context = LocalContext.current
     val webView = rememberSaveable(
         saver = object : Saver<T, Bundle> {
@@ -55,7 +55,6 @@ fun <T : WebView> rememberWebView(key: String, init: (Context, isRestore: Boolea
                         value.saveState(this)
                     }
         },
-        key = key,
     ) {
         init(context, false)
     }

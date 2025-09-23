@@ -39,7 +39,7 @@ fun ResponseBrowser(
     javaScriptEnabled: Boolean = false,
     onExternalUrl: (Uri) -> Unit,
 ) {
-    val webView = rememberWebView(key = "response") { context, _ ->
+    val webView = rememberWebView { context, _ ->
         ResponseWebView(context)
     }
     LaunchedEffect(onExternalUrl) {

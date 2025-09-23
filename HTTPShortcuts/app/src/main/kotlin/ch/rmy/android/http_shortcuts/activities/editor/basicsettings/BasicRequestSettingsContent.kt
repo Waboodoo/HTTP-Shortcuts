@@ -145,7 +145,6 @@ private fun UrlField(
 ) {
     VariablePlaceholderTextField(
         savedStateHandle = savedStateHandle,
-        key = "url-input",
         modifier = Modifier
             .fillMaxWidth(),
         label = {
@@ -203,7 +202,6 @@ private fun MacAddressField(
 ) {
     VariablePlaceholderTextField(
         savedStateHandle = savedStateHandle,
-        key = "mac-address-input",
         modifier = Modifier.fillMaxWidth(),
         label = {
             Text(stringResource(R.string.label_mac_address))

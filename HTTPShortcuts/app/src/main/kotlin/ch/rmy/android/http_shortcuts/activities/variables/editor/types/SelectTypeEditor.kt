@@ -92,19 +92,19 @@ fun SelectTypeEditor(
         )
     }
 
-    var dialogVisible by rememberSaveable(key = "select-dialog-visible") {
+    var dialogVisible by rememberSaveable {
         mutableStateOf(false)
     }
-    var dialogOptionId by rememberSaveable(key = "select-dialog-option-id") {
+    var dialogOptionId by rememberSaveable {
         mutableStateOf<String?>(null)
     }
-    var dialogOptionLabel by rememberSaveable(key = "select-dialog-option-label") {
+    var dialogOptionLabel by rememberSaveable {
         mutableStateOf("")
     }
-    var dialogOptionValue by rememberSaveable(key = "select-dialog-option-value") {
+    var dialogOptionValue by rememberSaveable {
         mutableStateOf("")
     }
-    var dialogOptionValuesAlreadyInUse by rememberSaveable(key = "select-dialog-values-already-in-use") {
+    var dialogOptionValuesAlreadyInUse by rememberSaveable {
         mutableStateOf(emptyList<String>())
     }
 
@@ -325,7 +325,6 @@ private fun EditDialog(
                     savedStateHandle = savedStateHandle,
                     modifier = Modifier
                         .fillMaxWidth(),
-                    key = "select-option-text",
                     allowOpeningVariableEditor = false,
                     value = value,
                     label = {

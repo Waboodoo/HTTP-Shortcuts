@@ -115,10 +115,10 @@ private fun EditorDialog(
         keyboard?.show()
     }
 
-    var patternValue by rememberSaveable(key = "pattern") {
+    var patternValue by rememberSaveable {
         mutableStateOf(initialPattern)
     }
-    var hashValue by rememberSaveable(key = "hash") {
+    var hashValue by rememberSaveable {
         mutableStateOf(initialHash)
     }
     val isValidPattern by remember {

@@ -30,7 +30,7 @@ fun DocumentationBrowser(
     onSearchResults: (Int, Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val webView = rememberWebView(key = "documentation") { context, _ ->
+    val webView = rememberWebView { context, _ ->
         DocumentationWebView(context)
     }
 

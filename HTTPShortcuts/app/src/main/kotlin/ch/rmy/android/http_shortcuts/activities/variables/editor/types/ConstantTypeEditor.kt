@@ -20,7 +20,6 @@ fun ConstantTypeEditor(
         savedStateHandle = savedStateHandle,
         modifier = Modifier
             .padding(horizontal = Spacing.MEDIUM),
-        key = "constant-value-field",
         allowOpeningVariableEditor = false,
         label = {
             Text(stringResource(R.string.placeholder_value))

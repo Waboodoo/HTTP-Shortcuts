@@ -51,7 +51,7 @@ private fun TimeoutPickerDialog(
     onConfirmed: (Duration) -> Unit,
     onDismissed: () -> Unit,
 ) {
-    var value by rememberSaveable(key = "timeout-dialog-value") {
+    var value by rememberSaveable {
         mutableLongStateOf(initialTimeout.inWholeMilliseconds)
     }
     val timeout = remember(value) {

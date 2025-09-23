@@ -58,7 +58,7 @@ private fun EditSectionDialog(
     onDelete: () -> Unit = {},
     onDismissed: () -> Unit,
 ) {
-    var name by rememberSaveable(key = "edit-section-name") {
+    var name by rememberSaveable {
         mutableStateOf(initialName)
     }
 

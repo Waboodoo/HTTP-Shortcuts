@@ -67,10 +67,10 @@ private fun EditHeaderDialog(
     onDelete: () -> Unit = {},
     onDismissed: () -> Unit,
 ) {
-    var key by rememberSaveable(key = "edit-header-key") {
+    var key by rememberSaveable {
         mutableStateOf(initialKey)
     }
-    var value by rememberSaveable(key = "edit-header-value") {
+    var value by rememberSaveable {
         mutableStateOf(initialValue)
     }
 
@@ -99,7 +99,6 @@ private fun EditHeaderDialog(
                                 hasFocus = it.isFocused
                             }
                             .fillMaxWidth(),
-                        key = "header-edit-key",
                         value = key,
                         label = {
                             Text(stringResource(R.string.label_custom_header_key))
@@ -133,7 +132,6 @@ private fun EditHeaderDialog(
                     savedStateHandle = savedStateHandle,
                     modifier = Modifier
                         .fillMaxWidth(),
-                    key = "header-edit-value",
                     value = value,
                     label = {
                         Text(stringResource(R.string.label_custom_header_value))

@@ -395,7 +395,7 @@ private fun PlainText(text: String, monospace: Boolean = false, italic: Boolean 
 @Composable
 private fun SyntaxHighlightedText(text: String, language: String, fontSize: TextUnit) {
     val limitedText = text.truncate(120_000)
-    var wrapLines by rememberSaveable(key = "wrap-lines") {
+    var wrapLines by rememberSaveable {
         mutableStateOf(true)
     }
     val scrollState = rememberScrollState()

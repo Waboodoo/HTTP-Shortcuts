@@ -64,10 +64,10 @@ fun IconPickerDialog(
     onFaviconOptionSelected: (() -> Unit)? = null,
     onDismissRequested: () -> Unit,
 ) {
-    var state by rememberSaveable(key = "icon-picker-state") {
+    var state by rememberSaveable {
         mutableStateOf("")
     }
-    var persistedIcon by rememberSaveable(key = "icon-picker-icon") {
+    var persistedIcon by rememberSaveable {
         mutableStateOf("")
     }
     val icon = remember(persistedIcon) {

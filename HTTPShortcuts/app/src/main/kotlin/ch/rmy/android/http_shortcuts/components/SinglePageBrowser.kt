@@ -38,7 +38,7 @@ fun SinglePageBrowser(
     modifier: Modifier = Modifier,
     onNavigationRequest: (NavigationRequest) -> Unit,
 ) {
-    val webView = rememberWebView(key = url) { context, isRestore ->
+    val webView = rememberWebView { context, isRestore ->
         SinglePageWebView(context, url, isRestore, onNavigationRequest)
     }
 

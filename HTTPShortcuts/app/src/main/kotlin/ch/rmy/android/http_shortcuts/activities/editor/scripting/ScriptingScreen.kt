@@ -35,7 +35,7 @@ fun ScriptingScreen(
         ),
     )
 
-    var activeField by rememberSaveable(key = "active_field") {
+    var activeField by rememberSaveable {
         mutableStateOf(CodeFieldType.PREPARE)
     }
 

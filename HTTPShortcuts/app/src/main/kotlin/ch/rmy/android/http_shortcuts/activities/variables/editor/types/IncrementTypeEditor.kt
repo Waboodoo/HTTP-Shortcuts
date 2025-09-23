@@ -22,7 +22,6 @@ fun IncrementTypeEditor(
         savedStateHandle = savedStateHandle,
         modifier = Modifier
             .padding(horizontal = Spacing.MEDIUM),
-        key = "increment-value-field",
         allowOpeningVariableEditor = false,
         label = {
             Text(stringResource(R.string.placeholder_value))

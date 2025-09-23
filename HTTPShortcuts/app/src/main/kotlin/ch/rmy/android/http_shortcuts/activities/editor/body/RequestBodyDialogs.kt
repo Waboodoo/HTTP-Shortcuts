@@ -124,19 +124,19 @@ private fun EditParameterDialog(
     onDelete: () -> Unit = {},
     onDismissed: () -> Unit,
 ) {
-    var key by rememberSaveable(key = "edit-parameter-key") {
+    var key by rememberSaveable {
         mutableStateOf(initialKey)
     }
-    var value by rememberSaveable(key = "edit-parameter-value") {
+    var value by rememberSaveable {
         mutableStateOf(initialValue)
     }
-    var fileName by rememberSaveable(key = "edit-parameter-filename") {
+    var fileName by rememberSaveable {
         mutableStateOf(initialFileName)
     }
-    var sourceFileName by rememberSaveable(key = "edit-parameter-source-filename") {
+    var sourceFileName by rememberSaveable {
         mutableStateOf(initialSourceFileName)
     }
-    var useImageEditor by rememberSaveable(key = "edit-parameter-use-image-editor") {
+    var useImageEditor by rememberSaveable {
         mutableStateOf(initialUseImageEditor)
     }
     var temporarilyHidden by remember {
@@ -176,7 +176,6 @@ private fun EditParameterDialog(
                         savedStateHandle = savedStateHandle,
                         modifier = Modifier
                             .fillMaxWidth(),
-                        key = "parameter-edit-key",
                         value = key,
                         label = {
                             Text(stringResource(R.string.label_post_param_key))
@@ -196,7 +195,6 @@ private fun EditParameterDialog(
                         savedStateHandle = savedStateHandle,
                         modifier = Modifier
                             .fillMaxWidth(),
-                        key = "parameter-edit-value",
                         value = value,
                         label = {
                             Text(stringResource(R.string.label_post_param_value))

@@ -62,10 +62,10 @@ private fun EditMqttMessageDialog(
     onDelete: () -> Unit = {},
     onDismissed: () -> Unit,
 ) {
-    var topic by rememberSaveable(key = "edit-message-topic") {
+    var topic by rememberSaveable {
         mutableStateOf(initialTopic)
     }
-    var payload by rememberSaveable(key = "edit-message-payload") {
+    var payload by rememberSaveable {
         mutableStateOf(initialPayload)
     }
 
@@ -82,7 +82,6 @@ private fun EditMqttMessageDialog(
                     savedStateHandle = savedStateHandle,
                     modifier = Modifier
                         .fillMaxWidth(),
-                    key = "message-edit-topic",
                     value = topic,
                     label = {
                         Text(stringResource(R.string.label_mqtt_topic))
@@ -100,7 +99,6 @@ private fun EditMqttMessageDialog(
                     savedStateHandle = savedStateHandle,
                     modifier = Modifier
                         .fillMaxWidth(),
-                    key = "message-edit-payload",
                     value = payload,
                     label = {
                         Text(stringResource(R.string.label_mqtt_payload))

@@ -207,7 +207,6 @@ private fun ColumnScope.BodyTextEditor(
             VariablePlaceholderTextField(
                 savedStateHandle = savedStateHandle,
                 modifier = Modifier.weight(1f),
-                key = "body-content",
                 value = bodyContent,
                 minLines = 10,
                 label = {

@@ -155,7 +155,6 @@ private fun UsernameField(
 ) {
     VariablePlaceholderTextField(
         savedStateHandle = savedStateHandle,
-        key = "username-input",
         modifier = modifier,
         label = {
             Text(stringResource(R.string.label_username))
@@ -179,7 +178,6 @@ private fun PasswordField(
 ) {
     VariablePlaceholderTextField(
         savedStateHandle = savedStateHandle,
-        key = "password-input",
         modifier = modifier,
         label = {
             Text(stringResource(R.string.label_password))
@@ -203,7 +201,6 @@ private fun TokenField(
 ) {
     VariablePlaceholderTextField(
         savedStateHandle = savedStateHandle,
-        key = "token-input",
         modifier = modifier,
         label = {
             Text(stringResource(R.string.label_auth_token))

@@ -72,7 +72,6 @@ fun ResponseContent(
                         horizontal = Spacing.MEDIUM,
                         vertical = Spacing.SMALL,
                     ),
-                    key = "success-message-input",
                     label = {
                         Text(stringResource(R.string.label_response_handling_success_message))
                     },
@@ -173,7 +172,6 @@ fun ResponseContent(
                 VariablePlaceholderTextField(
                     savedStateHandle = savedStateHandle,
                     modifier = Modifier.padding(horizontal = Spacing.MEDIUM),
-                    key = "store-file-name",
                     label = {
                         Text(stringResource(R.string.label_store_response_file_name))
                     },
