@@ -150,6 +150,7 @@ fun SelectTypeEditor(
                 dialogOptionId = null
                 dialogOptionValue = ""
                 dialogOptionLabel = ""
+                dialogOptionValuesAlreadyInUse = viewState.options.map { it.text }
                 dialogVisible = true
             },
         ) {
