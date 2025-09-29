@@ -15,6 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.DialogProperties
 import ch.rmy.android.framework.extensions.addOrRemove
+import ch.rmy.android.framework.extensions.hasDuplicatesBy
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.models.MenuEntry
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -48,13 +50,21 @@ fun <T : Any> MultiSelectDialog(
             }
         },
         text = {
+            val keyFunction = remember<((MenuEntry<T>) -> T)?>(entries) {
+                if (entries.hasDuplicatesBy { it.key }) {
+                    logException("MultiSelectDialog", IllegalStateException("Duplicate keys found"))
+                    null
+                } else {
+                    { it.key }
+                }
+            }
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth(),
             ) {
                 items(
                     items = entries,
-                    key = { it.key },
+                    key = keyFunction,
                 ) { entry ->
                     SelectDialogEntry(
                         label = entry.name,
