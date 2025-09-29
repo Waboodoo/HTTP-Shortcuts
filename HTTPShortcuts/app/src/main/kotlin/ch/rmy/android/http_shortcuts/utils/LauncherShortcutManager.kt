@@ -13,6 +13,7 @@ import androidx.core.content.pm.ShortcutManagerCompat.EXTRA_SHORTCUT_ID
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIfNotNull
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
@@ -128,7 +129,14 @@ constructor(
     fun pinShortcut(shortcut: LauncherShortcut) {
         logInfo("Pinning shortcut")
         val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
-        shortcutManager.requestPinShortcut(shortcutInfo, null)
+        try {
+            shortcutManager.requestPinShortcut(shortcutInfo, null)
+        } catch (e: IllegalArgumentException) {
+            logException(e)
+            tryOrLog {
+                shortcutManager.enableShortcuts(listOf(shortcutInfo.id))
+            }
+        }
     }
 
     fun createShortcutPinIntent(shortcut: LauncherShortcut): Intent {
