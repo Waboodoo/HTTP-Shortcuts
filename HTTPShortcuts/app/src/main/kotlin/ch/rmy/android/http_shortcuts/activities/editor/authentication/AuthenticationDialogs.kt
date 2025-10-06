@@ -64,7 +64,7 @@ private fun PasswordPromptDialog(
 ) {
     TextInputDialog(
         title = stringResource(R.string.title_client_cert_file_password),
-        allowEmpty = false,
+        allowEmpty = true,
         onDismissRequest = {
             if (it != null) {
                 onConfirmed(it)
