@@ -45,6 +45,7 @@ Currently the app only has basic functionality for running a shortcut repeatedly
 
 If you need more advanced or more precise scheduling, you can try to achieve that by combining the app with an automation app, such as Tasker or MacroDroid.
 
+<a id="share-text"></a>
 ## Can I trigger a shortcut with text shared from another app? Can I share text (e.g. a URL from a browser) into a shortcut?
 
 If you want to share text via an HTTP shortcut, you can do so like this:
@@ -54,7 +55,7 @@ If you want to share text via an HTTP shortcut, you can do so like this:
 3. Click the + button and select *Static Variable* as the variable type
 4. Enter a name for the variable
 5. **Tick the *Allow 'Share...'* checkbox
-6. From the dropdown menu that appears below select which part of the shared text you want to handle: text, title, or both
+6. From the dropdown menu that appears below select which part of the shared text you want to handle: text, title, or both. Most apps will only share text, so if in doubt go with that.
 7. Click the checkmark button at the top right to save your variable
 8. Go back to the app's main screen
 9. Click the + button to start creating a new shortcut or long press an existing shortcut and select *Edit* to open the shortcut editor
