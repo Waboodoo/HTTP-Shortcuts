@@ -43,6 +43,7 @@ constructor(
                 layoutType = CategoryLayoutType.LINEAR_LIST,
                 background = CategoryBackgroundType.Default,
                 hidden = false,
+                hiddenLabels = false,
                 scale = 1f,
                 shortcutClickBehavior = null,
             )
@@ -54,6 +55,7 @@ constructor(
             categoryBackgroundType = category.background,
             categoryClickBehavior = category.shortcutClickBehavior,
             scale = category.scale,
+            hiddenLabels = category.hiddenLabels,
         )
     }
 
@@ -104,6 +106,12 @@ constructor(
         }
     }
 
+    fun onHiddenLabelsChanged(hiddenLabels: Boolean) = runAction {
+        updateViewState {
+            copy(hiddenLabels = hiddenLabels)
+        }
+    }
+
     fun onSaveButtonClicked() = runAction {
         if (!viewState.hasChanges) {
             skipAction()
@@ -120,6 +128,7 @@ constructor(
                 background = viewState.categoryBackgroundType,
                 clickBehavior = viewState.categoryClickBehavior,
                 scale = viewState.scale,
+                hiddenLabels = viewState.hiddenLabels,
             )
         } else {
             categoryRepository.updateCategory(
@@ -129,6 +138,7 @@ constructor(
                 background = viewState.categoryBackgroundType,
                 clickBehavior = viewState.categoryClickBehavior,
                 scale = viewState.scale,
+                hiddenLabels = viewState.hiddenLabels,
             )
             launcherShortcutManager.updatePinnedCategoryShortcut(
                 category.id,

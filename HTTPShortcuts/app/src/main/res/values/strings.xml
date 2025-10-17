@@ -1399,6 +1399,12 @@
     <string name="label_category_layout_type">Layout Type</string>
     <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
     <string name="label_category_scale">Scaling Factor</string>
+    <!-- Label above dropdown input field for selecting whether the labels of shortcuts within a category should be visible or hidden -->
+    <string name="label_category_shortcut_label_visibility">Shortcut Labels</string>
+    <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be visible (or hidden) -->
+    <string name="option_shortcut_labels_visible">Visible</string>
+    <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be hidden (or visible) -->
+    <string name="option_shortcut_labels_hidden">Hidden</string>
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">Background</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->

@@ -15,18 +15,21 @@ data class CategoryEditorViewState(
     val categoryBackgroundType: CategoryBackgroundType,
     val categoryClickBehavior: ShortcutClickBehavior?,
     val scale: Float,
+    val hiddenLabels: Boolean,
     private val originalCategoryName: String = categoryName,
     private val originalCategoryLayoutType: CategoryLayoutType = categoryLayoutType,
     private val originalCategoryBackgroundType: CategoryBackgroundType = categoryBackgroundType,
     private val originalCategoryClickBehavior: ShortcutClickBehavior? = categoryClickBehavior,
     private val originalScale: Float = scale,
+    private val originalHiddenLabels: Boolean = hiddenLabels,
 ) {
     val hasChanges: Boolean =
         categoryName != originalCategoryName ||
             categoryLayoutType != originalCategoryLayoutType ||
             categoryBackgroundType != originalCategoryBackgroundType ||
             categoryClickBehavior != originalCategoryClickBehavior ||
-            scale != originalScale
+            scale != originalScale ||
+            hiddenLabels != originalHiddenLabels
 
     val saveButtonEnabled: Boolean =
         hasChanges && categoryName.isNotBlank()

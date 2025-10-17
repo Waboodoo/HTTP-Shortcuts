@@ -53,7 +53,7 @@ import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
         VariableWidget::class,
         WorkingDirectory::class,
     ],
-    version = 5,
+    version = 6,
     autoMigrations = [
         AutoMigration(from = 1, to = 2),
         AutoMigration(from = 2, to = 3),
@@ -63,6 +63,7 @@ import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
             spec = Migration4::class,
         ),
         AutoMigration(from = 4, to = 5),
+        AutoMigration(from = 5, to = 6),
     ],
     exportSchema = true,
 )

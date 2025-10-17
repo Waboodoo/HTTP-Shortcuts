@@ -24,6 +24,8 @@ data class Category(
     val background: CategoryBackgroundType,
     @ColumnInfo(name = "hidden")
     val hidden: Boolean,
+    @ColumnInfo(name = "hidden_labels", defaultValue = "false")
+    val hiddenLabels: Boolean,
     @ColumnInfo(name = "scale")
     val scale: Float,
     @ColumnInfo(name = "shortcut_click_behavior")

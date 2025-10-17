@@ -44,12 +44,14 @@ fun CategoryEditorScreen(categoryId: CategoryId?) {
             backgroundColorAsText = viewState.backgroundColorAsText,
             selectedClickActionOption = viewState.categoryClickBehavior,
             scale = viewState.scale,
+            hiddenLabels = viewState.hiddenLabels,
             onCategoryNameChanged = viewModel::onCategoryNameChanged,
             onLayoutTypeSelected = viewModel::onLayoutTypeChanged,
             onBackgroundTypeSelected = viewModel::onBackgroundChanged,
             onColorButtonClicked = viewModel::onColorButtonClicked,
             onClickActionOptionSelected = viewModel::onClickBehaviorChanged,
             onScaleChanged = viewModel::onScaleChanged,
+            onHiddenLabelsChanged = viewModel::onHiddenLabelsChanged,
         )
     }
 

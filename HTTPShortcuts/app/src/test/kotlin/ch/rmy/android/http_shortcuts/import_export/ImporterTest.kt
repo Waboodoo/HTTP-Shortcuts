@@ -73,6 +73,7 @@ class ImporterTest {
                         layoutType = "medium_grid",
                         background = "color\u003d#FF0A11",
                         hidden = null,
+                        hiddenLabels = null,
                         scale = 1f,
                         shortcutClickBehavior = null,
                         sections = listOf(

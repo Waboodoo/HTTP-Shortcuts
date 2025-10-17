@@ -13,6 +13,7 @@ data class ImportExportCategory(
     val layoutType: String? = null,
     val background: String? = null,
     val hidden: Boolean? = null,
+    val hiddenLabels: Boolean? = null,
     val scale: Float? = null,
     val shortcutClickBehavior: String? = null,
     val sections: List<ImportExportSection>? = null,

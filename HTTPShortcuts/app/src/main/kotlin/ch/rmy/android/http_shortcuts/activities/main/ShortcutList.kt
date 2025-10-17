@@ -68,6 +68,7 @@ fun ShortcutList(
     textColor: Color?,
     useTextShadows: Boolean,
     scale: Float,
+    hiddenLabels: Boolean,
     isLongClickingEnabled: Boolean,
     showEmptySectionText: Boolean,
     onShortcutClicked: (ShortcutId) -> Unit,
@@ -132,6 +133,7 @@ fun ShortcutList(
             textStyle = textStyle,
             scale = scale,
             lesserScale = lesserScale,
+            hiddenLabels = hiddenLabels,
             isLongClickingEnabled = isLongClickingEnabled,
             showEmptySectionText = showEmptySectionText,
             onShortcutClicked = onShortcutClicked,
@@ -338,6 +340,7 @@ private fun ShortcutGrid(
     textStyle: TextStyle,
     scale: Float,
     lesserScale: Float,
+    hiddenLabels: Boolean,
     isLongClickingEnabled: Boolean,
     showEmptySectionText: Boolean,
     onShortcutClicked: (ShortcutId) -> Unit,
@@ -389,6 +392,7 @@ private fun ShortcutGrid(
                         textColor = textColor,
                         textStyle = textStyle,
                         scale = scale,
+                        hiddenLabel = hiddenLabels,
                         modifier = Modifier
                             .animateItem()
                             .combinedClickable(
@@ -430,6 +434,7 @@ private fun ShortcutGridItem(
     textColor: Color?,
     textStyle: TextStyle,
     scale: Float,
+    hiddenLabel: Boolean,
 ) {
     Column(
         modifier = modifier
@@ -463,13 +468,15 @@ private fun ShortcutGridItem(
             }
         }
 
-        Text(
-            shortcut.name,
-            color = textColor ?: Color.Unspecified,
-            style = textStyle,
-            maxLines = 2,
-            textAlign = TextAlign.Center,
-            overflow = TextOverflow.Ellipsis,
-        )
+        if (!hiddenLabel) {
+            Text(
+                shortcut.name,
+                color = textColor ?: Color.Unspecified,
+                style = textStyle,
+                maxLines = 2,
+                textAlign = TextAlign.Center,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
     }
 }

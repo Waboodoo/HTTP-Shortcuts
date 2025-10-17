@@ -39,12 +39,14 @@ fun CategoryEditorContent(
     backgroundColorAsText: String,
     selectedClickActionOption: ShortcutClickBehavior?,
     scale: Float,
+    hiddenLabels: Boolean,
     onCategoryNameChanged: (String) -> Unit,
     onLayoutTypeSelected: (CategoryLayoutType) -> Unit,
     onBackgroundTypeSelected: (CategoryBackground) -> Unit,
     onColorButtonClicked: () -> Unit,
     onClickActionOptionSelected: (ShortcutClickBehavior?) -> Unit,
     onScaleChanged: (Float) -> Unit,
+    onHiddenLabelsChanged: (Boolean) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -61,6 +63,12 @@ fun CategoryEditorContent(
         CategoryLayoutTypeSelection(
             categoryLayoutType,
             onLayoutTypeSelected,
+        )
+
+        CategoryHiddenLabelsSelection(
+            hiddenLabels = hiddenLabels,
+            enabled = categoryLayoutType != CategoryLayoutType.LINEAR_LIST,
+            onHiddenLabelsChanged = onHiddenLabelsChanged,
         )
 
         CategoryScaleSelection(
@@ -151,6 +159,24 @@ private fun CategoryScaleSelection(
             4f to "4x",
         ),
         onItemSelected = onScaleChanged,
+    )
+}
+
+@Composable
+private fun CategoryHiddenLabelsSelection(
+    hiddenLabels: Boolean,
+    enabled: Boolean,
+    onHiddenLabelsChanged: (Boolean) -> Unit,
+) {
+    SelectionField(
+        title = stringResource(R.string.label_category_shortcut_label_visibility),
+        selectedKey = hiddenLabels,
+        items = listOf(
+            false to stringResource(R.string.option_shortcut_labels_visible),
+            true to stringResource(R.string.option_shortcut_labels_hidden),
+        ),
+        enabled = enabled,
+        onItemSelected = onHiddenLabelsChanged,
     )
 }
 

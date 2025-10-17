@@ -12,4 +12,5 @@ data class CategoryItem(
     val layoutType: CategoryLayoutType,
     val background: CategoryBackgroundType,
     val scale: Float,
+    val hiddenLabels: Boolean,
 )

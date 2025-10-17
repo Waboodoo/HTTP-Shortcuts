@@ -51,6 +51,7 @@ constructor(
         background: CategoryBackgroundType,
         clickBehavior: ShortcutClickBehavior?,
         scale: Float,
+        hiddenLabels: Boolean,
     ) {
         commitTransaction {
             val categoryDao = categoryDao()
@@ -60,6 +61,7 @@ constructor(
                 layoutType = layoutType,
                 background = background,
                 shortcutClickBehavior = clickBehavior,
+                hiddenLabels = hiddenLabels,
                 icon = null,
                 hidden = false,
                 scale = scale,
@@ -93,6 +95,7 @@ constructor(
         background: CategoryBackgroundType,
         clickBehavior: ShortcutClickBehavior?,
         scale: Float,
+        hiddenLabels: Boolean,
     ) {
         commitTransactionForCategory(categoryId) { category ->
             categoryDao().insertOrUpdateCategory(
@@ -101,6 +104,7 @@ constructor(
                     layoutType = layoutType,
                     background = background,
                     shortcutClickBehavior = clickBehavior,
+                    hiddenLabels = hiddenLabels,
                     scale = scale,
                 ),
             )
@@ -185,6 +189,7 @@ constructor(
                     hidden = false,
                     scale = 1f,
                     shortcutClickBehavior = null,
+                    hiddenLabels = false,
                     sortingOrder = 0,
                 ),
             )

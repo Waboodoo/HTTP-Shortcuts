@@ -114,6 +114,7 @@ constructor(
                     layoutType = category.layoutType.takeIf { it != CategoryLayoutType.LINEAR_LIST }?.type,
                     background = category.background.takeIf { it != CategoryBackgroundType.Default }?.serialize(),
                     hidden = category.hidden.trueOrNull(),
+                    hiddenLabels = category.hiddenLabels.trueOrNull(),
                     scale = category.scale.takeUnless { it == 1f },
                     shortcutClickBehavior = category.shortcutClickBehavior?.type,
                     sections = sectionsByCategoryId[category.id]
