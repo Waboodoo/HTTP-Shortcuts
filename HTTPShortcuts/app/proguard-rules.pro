@@ -15,7 +15,6 @@
 -keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$CustomEvent { *; }
 -keep class com.joaomgcd.taskerpluginlibrary.** { *; }
 -keep class net.dinglisch.android.tasker.** { *; }
--keep class androidx.compose.material3.TabRowKt { *; } # here because I had to resort to reflection to change a hard-coded value
 -dontwarn org.apache.harmony.xnet.provider.jsse.SSLParametersImpl
 -dontwarn org.bouncycastle.jsse.BCSSLParameters
 -dontwarn org.bouncycastle.jsse.BCSSLSocket

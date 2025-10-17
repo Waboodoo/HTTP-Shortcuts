@@ -9,7 +9,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -117,10 +117,11 @@ private fun TabBar(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.BottomCenter,
     ) {
-        ScrollableTabRow(
+        PrimaryScrollableTabRow(
             selectedTabIndex = activeTabIndex,
             modifier = Modifier.fillMaxWidth(),
             edgePadding = 16.dp,
+            minTabWidth = 0.dp,
             divider = {},
         ) {
             categoryItems.forEachIndexed { index, category ->

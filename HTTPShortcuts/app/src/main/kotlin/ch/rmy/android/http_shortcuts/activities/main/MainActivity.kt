@@ -4,7 +4,6 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.compose.foundation.layout.Box
@@ -70,27 +69,6 @@ class MainActivity : BaseComposeActivity() {
 
     @Inject
     lateinit var integrationUtil: IntegrationUtil
-
-    override fun onCreated(savedState: Bundle?) {
-        fixTabMinWidth()
-        super.onCreated(savedState)
-    }
-
-    private fun fixTabMinWidth() {
-        // I'm sorry for this evil, but the M3 library left me no other choice
-        try {
-            Class
-                .forName("androidx.compose.material3.TabRowKt")
-                .getDeclaredField("ScrollableTabRowMinimumTabWidth")
-                .apply {
-                    isAccessible = true
-                }
-                .set(this, 0f)
-        } catch (e: Exception) {
-            // If it fails, it fails
-            logException(e)
-        }
-    }
 
     @Composable
     override fun Content() {
