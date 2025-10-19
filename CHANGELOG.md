@@ -1,3 +1,17 @@
+## Version 4.0.0
+
+### Breaking Change
+This versions drops backwards compatibility with the internal data format that was used up to version 3.28.0. If you're reading this inside the app, your data was already successfully migrated and you don't need to do anything. If you're upgrading from version 3.28.0 or older, you should install version 3.33.0 first to make sure your data is migrated. For more information and for recovery options, see [http-shortcuts.rmy.ch/restore](https://http-shortcuts.rmy.ch/restore).
+
+### Improvements
+- You can now configure a category to hide the labels of all shortcuts within, to show only a grid of shortcut icons
+- There is now a [showMultiSelection](https://http-shortcuts.rmy.ch/scripting#show-selection) Scripting function
+- It is now possible to use client certificates that don't require a password
+
+### Bugfixes
+- Date Input and Time Input variables now use the correct locale instead of defaulting to English, for resolving things like weekday of month names. (thanks [@f0sh](https://github.com/f0sh))
+- It is no longer possible to create select variables where the same key is used multiple times for different options
+
 ## Version 3.33.0
 
 ### Improvements
