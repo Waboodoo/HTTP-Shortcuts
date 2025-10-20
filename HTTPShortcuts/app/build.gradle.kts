@@ -44,8 +44,8 @@ android {
 
     compileSdk = 36
 
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin {
+        jvmToolchain(11)
     }
 
     lint {
@@ -238,7 +238,8 @@ android {
 }
 
 composeCompiler {
-    stabilityConfigurationFile = rootProject.layout.projectDirectory.file("stability_config.conf")
+    includeSourceInformation = true
+    stabilityConfigurationFiles.add(rootProject.layout.projectDirectory.file("stability_config.conf"))
 }
 
 unMock {
@@ -415,7 +416,7 @@ fun processStoreListings() {
     val root = File("..")
     val sourceDir = File(root, "store_listings")
     val translatedFiles = sourceDir
-        .listFiles { file: File -> file.isDirectory }
+        .listFiles { file: File -> file.isDirectory }!!
         .map { File(it, "store_listing.csv") }
         .filter { it.exists() }
         .map { it.parentFile.name to it }
