@@ -3,7 +3,7 @@
     <!-- The name of the app -->
     <string name="app_name">HTTP Shortcuts</string>
     <!-- The name of the default category -->
-    <string name="shortcuts">ショートカット</string>
+    <string name="shortcuts">マイショートカット</string>
     <!-- The name used as a fallback for shortcuts without a name -->
     <string name="shortcut_safe_name">ショートカット</string>
     <!-- Title in editor when editing a shortcut -->
@@ -95,7 +95,7 @@
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">ショートカットがありません</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
-    <string name="empty_state_shortcuts_instructions">ショートカットは、任意のレスポンス処理や表示を含め、１行のHTTPリクエストを送信できます。\n\n開始するには[＋]ボタンをクリックするか、「アプリについて」項目のドキュメントを確認してください。</string>
+    <string name="empty_state_shortcuts_instructions">ショートカットは、任意のレスポンス処理や表示を含め、１行のHTTPリクエストを送信できます。\n\n開始するには[＋]ボタンをクリックするか、「ドキュメント」を確認してください。</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <string name="empty_state_no_shortcuts_in_category">このカテゴリーにショートカットなし</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
@@ -103,9 +103,9 @@
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts_instructions">このマルチショートカットとしてトリガー実行する全てのショートカットをこのリストに追加してください。\n\n［＋］ボタンをクリックして既存のトリガーから選択して追加します</string>
     <!-- Empty state, shown in list when there are no variables yet -->
-    <string name="empty_state_variables">変数がありません</string>
+    <string name="empty_state_variables">グルーバル変数がありません。</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">変数を使用すると、動的に値をショートカットに代入できます（例：URL、ヘッダー、リクエスト ボディに保存する値を変数で指定する）ショートカット編集時に「{}」ボタンを押すと、使用できる変数から選択して変数名を記述できます。\n\n変数を追加するには[＋] ボタンをクリックします。</string>
+    <string name="empty_state_variables_instructions">変数を使用すると、動的に値をショートカットに代入できます（例：URL、ヘッダー、リクエスト ボディに保存する値を変数で指定する）ショートカット編集時に「{}」ボタンを押すと、使用可能な変数から選択して変数名を挿入できます。\n\nグローバル変数を追加するには[＋] ボタンをクリックします。</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
     <string name="confirm_delete_shortcut_message">このショートカットを削除しますか？</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
@@ -451,7 +451,7 @@
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
     <string name="plugin_name">HTTP Shortcut を実行</string>
     <!-- Button/page title, for viewing list of variables -->
-    <string name="title_variables">変数</string>
+    <string name="title_variables">グローバル変数</string>
     <!-- Button, to edit a variable -->
     <string name="edit_variable">変数を編集</string>
     <!-- Button, to create a new variable -->
@@ -571,13 +571,9 @@
     <!-- Button, for opening help article page -->
     <string name="button_show_help">ヘルプを表示</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button">このボタンを使用すると、ショートカットに変数のプレースホルダを配置することができ、動的に変動する値を含めることができます。
-
-定義済みの変数が何もありません。下記の［作成］ボタンをクリックして追加できます。</string>
+    <string name="help_text_variable_button">このボタンを使用すると、ローカル変数やグローバル変数のプレースホルダを配置することができ、動的に変動する値を挿入することができます。</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
-    <string name="help_text_variable_button_for_variables">このボタンを使用すると、他の変数のプレースホルダーをここに含めることができます。
-
-ただし変数はまだ未定義のようですが。</string>
+    <string name="help_text_variable_button_for_variables">このボタンを使用すると、他の変数の値を挿入するプレースホルダーをここに含めることができます。</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
     <string name="help_text_no_global_variables_yet">グローバル変数がありません。下の[%s]ボタンをクリックして開始してください。</string>
     <!-- Dialog option: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
@@ -591,7 +587,7 @@
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">変数</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
-    <string name="label_edit_variables">変数を編集</string>
+    <string name="label_edit_variables">グローバル変数を編集</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_toggle_values">少なくとも２つの値を追加してください。</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
@@ -665,11 +661,11 @@
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
     <string name="button_create_scripting_shortcut">ショートカットのスクリプト</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
-    <string name="button_description_create_scripting_shortcut">上級向けワークフローのJavaScriptコードを書く</string>
+    <string name="button_description_create_scripting_shortcut">上級向けワークフローのJavaScriptコードのみ実行</string>
     <!-- Option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
     <string name="button_create_trigger_shortcut">複数のショートカット</string>
     <!-- Description for option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
-    <string name="button_description_create_trigger_shortcut">一度に複数のショートカットをトリガーする</string>
+    <string name="button_description_create_trigger_shortcut">シーケンスを実行するために複数のショートカットをトリガー</string>
     <!-- Window title for cURL import -->
     <string name="title_curl_import">cURLインポート</string>
     <!-- Instruction text for shortcut import from cURL format -->
@@ -707,7 +703,7 @@
     <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
     <string name="error_browser_not_found">パッケージ名 %s のブラウザが見つかりません</string>
     <!-- Generic error shown when something went wrong and there is no better error message available -->
-    <string name="error_generic">何か失敗しました…</string>
+    <string name="error_generic">予想しないエラーが発生しました。</string>
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
     <string name="settings_privacy_policy">プライバシーポリシー</string>
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
@@ -950,13 +946,13 @@
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
     <string name="subtitle_editor_toolbar_wol_shortcut">Wake-on-LAN ショートカット</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
-    <string name="subtitle_basic_request_settings_prompt">ショートカットのURLとHTTPメソッドを設定</string>
+    <string name="subtitle_basic_request_settings_prompt">URLとHTTPメソッドを設定</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no mqtt server set yet for an MQTT shortcut -->
     <string name="subtitle_basic_request_settings_prompt_for_mqtt">MQTTサーバーのアドレスを設定</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
-    <string name="subtitle_basic_request_settings_prompt_for_wol">ショートカットのMACアドレスとポートを設定</string>
+    <string name="subtitle_basic_request_settings_prompt_for_wol">デバイスのMACアドレスとポートを設定</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
-    <string name="subtitle_basic_request_settings_url_only_prompt">ショートカットのURLを設定</string>
+    <string name="subtitle_basic_request_settings_url_only_prompt">URLを設定</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
     <string name="subtitle_basic_request_settings_pattern">%1$s %2$s</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
@@ -1038,7 +1034,7 @@
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
     <string name="dialog_code_snippet_shortcut_info">ショートカット情報</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files and to interact with the file system -->
-    <string name="dialog_code_snippet_files">選択されたファイル</string>
+    <string name="dialog_code_snippet_files">ファイル</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
     <string name="dialog_code_snippet_handle_response">レスポンスの取り扱い</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get or set variables -->
@@ -1391,6 +1387,12 @@
     <string name="label_category_layout_type">レイアウト タイプ</string>
     <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
     <string name="label_category_scale">倍率</string>
+    <!-- Label above dropdown input field for selecting whether the labels of shortcuts within a category should be visible or hidden -->
+    <string name="label_category_shortcut_label_visibility">ショートカット・ラベル</string>
+    <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be visible (or hidden) -->
+    <string name="option_shortcut_labels_visible">閲覧可能</string>
+    <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be hidden (or visible) -->
+    <string name="option_shortcut_labels_hidden">非表示</string>
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">バックグラウンド</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
@@ -1877,4 +1879,18 @@
     <string name="label_variable_widget_select_variable">グローバル変数</string>
     <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
     <string name="empty_state_variable_widget">このウィジェットを使用すると、ホーム画面に 「%s 型」のグローバル変数の値を表示できます。 \n\nまだ変数が作成されていません。アプリのメインメニューから作成できます。</string>
+    <!-- Error message, shown when app is updated after a long time and data can not be restored, instructs the user how to recover the app data -->
+    <string name="error_manual_data_migration">長い間アプリを更新していないようです。 そのため、自動更新により、ショートカット、変数などを、このバージョンと互換性を保つことができません。しかし、心配しないでください、あなたのデータを失うことはありません。\n\n %s に移動し、指示に従って進んでください。</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data. Clicking the button will attempt to restore the shortcuts, variables etc. -->
+    <string name="button_restore_data">データを復元</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data -->
+    <string name="button_export_data">データをエクスポート</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to import data from the external Restore app. -->
+    <string name="button_import_data">データをインポート</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to delete all data -->
+    <string name="button_delete_data">データを削除</string>
+    <!-- Warning message shown on dialog when the user is about the delete all the app's data, as part of the app recovery process -->
+    <string name="message_delete_all">ショートカット、変数などをすべて削除しようとしています。一度消すと元に戻すことはできません。続行しますか？</string>
+    <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
+    <string name="message_data_restored">データを正常に復元しました。</string>
 </resources>

@@ -3,7 +3,7 @@
     <!-- The name of the app -->
     <string name="app_name">HTTP 捷徑</string>
     <!-- The name of the default category -->
-    <string name="shortcuts">捷徑</string>
+    <string name="shortcuts">我的捷徑</string>
     <!-- The name used as a fallback for shortcuts without a name -->
     <string name="shortcut_safe_name">捷徑</string>
     <!-- Title in editor when editing a shortcut -->
@@ -1176,6 +1176,7 @@
     <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
     <string name="label_widget_label_color">標籤色彩</string>
     <!-- Label: Name of the "Variable" widget, i.e., the widget that lets the user display the value of a global variable on the homescreen -->
+    <string name="label_variable_widget">變數小工具</string>
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
     <string name="error_invalid_character">字元無效：%s</string>
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
@@ -1386,11 +1387,15 @@
     <string name="label_category_layout_type">版面配置類型</string>
     <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
     <string name="label_category_scale">比例因素</string>
+    <!-- Label above dropdown input field for selecting whether the labels of shortcuts within a category should be visible or hidden -->
+    <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be visible (or hidden) -->
+    <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be hidden (or visible) -->
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">背景</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
     <string name="description_customizable_widget">選擇您的捷徑標籤色彩，或是完全隱藏標籤。</string>
     <!-- Description for the "Variable Widget", shown in Android's widget picker -->
+    <string name="description_variable_widget">顯示一個靜態全域變數的數值。</string>
     <!-- Title of an action in the code snippet picker: Parse a JSON string -->
     <string name="action_type_parse_json">剖析 JSON</string>
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
@@ -1868,5 +1873,21 @@
     <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
     <string name="error_termux_not_running">無法執行命令，Termux 應用程式不在使用中。</string>
     <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
+    <string name="label_variable_widget_select_variable">全域變數</string>
     <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
+    <string name="empty_state_variable_widget">此小工具可讓您選定一個「%s」類型的全域變數，以便在您的主畫面顯示其數值。\n\n您尚未有任何此類變數。您可在應用程式的主功能表中建立。</string>
+    <!-- Error message, shown when app is updated after a long time and data can not be restored, instructs the user how to recover the app data -->
+    <string name="error_manual_data_migration">看來您好久沒更新過此應用程式了。可惜，現在已沒法自動更新您的捷徑、變數等，以便與此版本相容。但不用擔心，您的資料仍舊安好。您可以試試看：\n\n前往 %s 並遵循當中所述的指示。</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data. Clicking the button will attempt to restore the shortcuts, variables etc. -->
+    <string name="button_restore_data">還原資料</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data -->
+    <string name="button_export_data">匯出資料</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to import data from the external Restore app. -->
+    <string name="button_import_data">匯入資料</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to delete all data -->
+    <string name="button_delete_data">刪除資料</string>
+    <!-- Warning message shown on dialog when the user is about the delete all the app's data, as part of the app recovery process -->
+    <string name="message_delete_all">您即將刪除您所有的捷徑、變數等。此動作無法復原。要繼續嗎？</string>
+    <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
+    <string name="message_data_restored">資料已成功還原。</string>
 </resources>

@@ -1256,6 +1256,9 @@
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
     <string name="label_category_layout_type">Τύπος διάταξης</string>
     <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
+    <!-- Label above dropdown input field for selecting whether the labels of shortcuts within a category should be visible or hidden -->
+    <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be visible (or hidden) -->
+    <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be hidden (or visible) -->
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">Ιστορικό</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
@@ -1605,4 +1608,11 @@
     <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
     <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
     <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
+    <!-- Error message, shown when app is updated after a long time and data can not be restored, instructs the user how to recover the app data -->
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data. Clicking the button will attempt to restore the shortcuts, variables etc. -->
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data -->
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to import data from the external Restore app. -->
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to delete all data -->
+    <!-- Warning message shown on dialog when the user is about the delete all the app's data, as part of the app recovery process -->
+    <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
 </resources>

@@ -1403,6 +1403,12 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="label_category_layout_type">Layouttyp</string>
     <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
     <string name="label_category_scale">Skalierungsfaktor</string>
+    <!-- Label above dropdown input field for selecting whether the labels of shortcuts within a category should be visible or hidden -->
+    <string name="label_category_shortcut_label_visibility">Shortcut-Namen</string>
+    <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be visible (or hidden) -->
+    <string name="option_shortcut_labels_visible">Sichtbar</string>
+    <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be hidden (or visible) -->
+    <string name="option_shortcut_labels_hidden">Verborgen</string>
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">Hintergrund</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
@@ -1893,4 +1899,18 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="label_variable_widget_select_variable">Globale Variable</string>
     <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
     <string name="empty_state_variable_widget">Mit diesem Widget kannst du den Wert einer globalen Variable des Typs \“%s\” auf deinem Startbildschirm anzeigen.\n\nDu hast noch keine solchen Variablen. Du kannst sie aus dem Hauptmenü der App erstellen.</string>
+    <!-- Error message, shown when app is updated after a long time and data can not be restored, instructs the user how to recover the app data -->
+    <string name="error_manual_data_migration">Es sieht so aus, als hätten Sie die App seit einiger Zeit nicht mehr aktualisiert. Daher ist es nun nicht möglich, deine Shortcuts, Variablen usw. automatisch zu aktualisieren. Aber keine Sorge, deine Daten sind nicht verloren. Gehe auf %s und folge den Anweisungen dort, um deine Daten wiederherzustellen.</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data. Clicking the button will attempt to restore the shortcuts, variables etc. -->
+    <string name="button_restore_data">Daten wiederherstellen</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data -->
+    <string name="button_export_data">Daten exportieren</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to import data from the external Restore app. -->
+    <string name="button_import_data">Daten importieren</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to delete all data -->
+    <string name="button_delete_data">Daten löschen</string>
+    <!-- Warning message shown on dialog when the user is about the delete all the app's data, as part of the app recovery process -->
+    <string name="message_delete_all">Du bist dabei, alle deine Shortcuts, Variablen usw. zu löschen. Dies kann nicht rückgängig gemacht werden. Trotzdem fortfahren?</string>
+    <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
+    <string name="message_data_restored">Daten erfolgreich wiederhergestellt.</string>
 </resources>

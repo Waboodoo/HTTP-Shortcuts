@@ -1387,6 +1387,12 @@
     <string name="label_category_layout_type">布局类型</string>
     <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
     <string name="label_category_scale">比例系数</string>
+    <!-- Label above dropdown input field for selecting whether the labels of shortcuts within a category should be visible or hidden -->
+    <string name="label_category_shortcut_label_visibility">快捷方式标签</string>
+    <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be visible (or hidden) -->
+    <string name="option_shortcut_labels_visible">可见</string>
+    <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be hidden (or visible) -->
+    <string name="option_shortcut_labels_hidden">隐藏</string>
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">背景</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
@@ -1879,4 +1885,18 @@
     <string name="label_variable_widget_select_variable">全局变量</string>
     <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
     <string name="empty_state_variable_widget">这个小部件可以在主屏幕上展示 \“%s\” 类型的全局变量的值。\n\n你还没有任何这样的变量。你可以从应用的主菜单创建它们。</string>
+    <!-- Error message, shown when app is updated after a long time and data can not be restored, instructs the user how to recover the app data -->
+    <string name="error_manual_data_migration">看起来你很久没有更新应用了。因此无法自动更新快捷方式、变量等以兼容此版本。不过别担心，数据并未丢失。你可以做什么：\n\n转到 %s 并照着那里的操作说明做。</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data. Clicking the button will attempt to restore the shortcuts, variables etc. -->
+    <string name="button_restore_data">恢复数据</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data -->
+    <string name="button_export_data">导出数据</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to import data from the external Restore app. -->
+    <string name="button_import_data">导入数据</string>
+    <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to delete all data -->
+    <string name="button_delete_data">删除数据</string>
+    <!-- Warning message shown on dialog when the user is about the delete all the app's data, as part of the app recovery process -->
+    <string name="message_delete_all">即将删除所有的快捷方式、变量等。此操作无法撤销。继续吗？</string>
+    <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
+    <string name="message_data_restored">数据恢复成功。</string>
 </resources>
