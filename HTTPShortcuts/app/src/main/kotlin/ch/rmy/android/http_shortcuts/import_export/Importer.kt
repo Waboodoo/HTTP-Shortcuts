@@ -148,8 +148,7 @@ constructor(
                 getString(R.string.import_failure_reason_data_version_mismatch)
             }
             is InvalidFileException -> {
-                // TODO(???): Localize this error message
-                "Failed to import. The file doesn't seem to be of the right format."
+                getString(R.string.import_failure_invalid_file)
             }
             is URISyntaxException,
             is IllegalArgumentException,

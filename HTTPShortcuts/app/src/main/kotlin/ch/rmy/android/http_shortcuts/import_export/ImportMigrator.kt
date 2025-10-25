@@ -29,6 +29,7 @@ constructor() {
         val base = importData.asJsonObject
         val fromVersion = base["version"]?.takeUnless { it.isJsonNull }
             ?.asLong
+            ?.takeIf { it > 1L }
             ?: throw InvalidFileException()
         logInfo("Import version detected as $fromVersion")
         if (fromVersion > VERSION) {
