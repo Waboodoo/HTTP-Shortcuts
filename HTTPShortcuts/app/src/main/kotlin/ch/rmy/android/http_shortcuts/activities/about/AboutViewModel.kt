@@ -28,12 +28,15 @@ constructor(
 
     override suspend fun initialize(data: Unit): AboutViewState =
         AboutViewState(
-            versionNumber = versionUtil.getVersionName(),
+            versionNumber = getFormattedVersionNumber(),
             fDroidVisible = !installUtil.isAppInstalledFromPlayStore(),
             changeLogDialogPermanentlyHidden = settings.isChangeLogPermanentlyHidden,
             deviceId = settings.deviceId,
             crashReportingAllowed = Logging.supportsCrashReporting && userPreferences.isCrashReportingAllowed,
         )
+
+    private fun getFormattedVersionNumber() =
+        "${versionUtil.getVersionName()} (b${versionUtil.getBuildNumber()})"
 
     fun onChangeLogDialogPermanentlyHiddenChanged(hidden: Boolean) = runAction {
         updateViewState {

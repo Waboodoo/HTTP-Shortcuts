@@ -30,6 +30,9 @@ constructor(
             -1
         }
 
+    fun getBuildNumber(): Int =
+        getVersionCode().toInt() % 100
+
     private fun getPackageInfo(context: Context) =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             context.packageManager.getPackageInfo(context.packageName, PackageManager.PackageInfoFlags.of(0))
