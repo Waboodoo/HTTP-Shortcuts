@@ -23,9 +23,9 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.viewinterop.NoOpUpdate
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.isDarkThemeEnabled
-import ch.rmy.android.framework.extensions.openURL
 import ch.rmy.android.framework.navigation.NavigationRequest
 import ch.rmy.android.http_shortcuts.activities.documentation.DocumentationUrlManager
+import ch.rmy.android.http_shortcuts.extensions.openURL
 import ch.rmy.android.http_shortcuts.extensions.rememberWebView
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import kotlin.time.Duration.Companion.milliseconds

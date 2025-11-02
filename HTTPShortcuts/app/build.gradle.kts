@@ -263,6 +263,8 @@ dependencies {
     coreLibraryDesugaring(libs.desugar)
     implementation(libs.kotlin.stdlib)
 
+    implementation(project(path = ":framework"))
+
     /* Dependency Injection */
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

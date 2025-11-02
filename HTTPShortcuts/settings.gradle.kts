@@ -1,4 +1,5 @@
 include(":app")
+include(":framework")
 include(":curl_command")
 include(":favicon_grabber")
 include(":scripting")
