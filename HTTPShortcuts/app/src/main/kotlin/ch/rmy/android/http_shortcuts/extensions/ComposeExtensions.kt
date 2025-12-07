@@ -49,11 +49,17 @@ fun <T : WebView> rememberWebView(init: (Context, isRestore: Boolean) -> T): T {
                         restoreState(value)
                     }
 
-            override fun SaverScope.save(value: T): Bundle =
-                Bundle()
-                    .apply {
-                        value.saveState(this)
-                    }
+            override fun SaverScope.save(value: T): Bundle {
+                val bundle = Bundle()
+                value.saveState(bundle)
+
+                // If the bundle is too big, it's safer to discard it to avoid TransactionTooLargeException
+                val bytes = bundle.getByteArray("WEBVIEW_CHROMIUM_STATE")
+                if (bytes != null && bytes.size > 200_000) {
+                    return Bundle()
+                }
+                return bundle
+            }
         },
     ) {
         init(context, false)
