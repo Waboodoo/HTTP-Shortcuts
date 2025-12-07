@@ -587,6 +587,13 @@ constructor(
                     insertText("logEvent(\"title\", \"message\");")
                 }
                 item(
+                    R.string.action_type_get_device_id_title,
+                    docRef = "device-id",
+                    keywords = setOf("unique", "identifier", "differentiate"),
+                ) {
+                    insertText("getDeviceId()")
+                }
+                item(
                     R.string.action_type_generate_uuid,
                     docRef = "uuid-v4",
                     keywords = setOf("random", "id", "guid"),

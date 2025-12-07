@@ -1027,6 +1027,15 @@ logEvent('My title', 'My message');
 logEvent('My complex event', {'foo': 'bar'});
 ```
 
+<a id="device-id"></a>
+### Get Device ID
+
+When first opened, the app generates a random device ID, consisting of letters and digits. The `getDeviceId` function can be used to read this ID. This is mainly useful in cases where you use the same shortcut on multiple devices and need to differentiate the devices somehow.
+
+```js
+const myId = getDeviceId();
+```
+
 <a id="uuid-v4"></a>
 ### Generate UUID
 

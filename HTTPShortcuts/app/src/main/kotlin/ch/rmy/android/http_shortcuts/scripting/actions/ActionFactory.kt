@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.DialogActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.EnqueueShortcutActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ExecuteShortcutActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetClipboardContentActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.GetDeviceIdActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetDirectoryActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetLocationActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.GetVariableActionType
@@ -79,6 +80,7 @@ constructor(
     enqueueShortcutActionType: EnqueueShortcutActionType,
     executeShortcutActionType: ExecuteShortcutActionType,
     getClipboardContentActionType: GetClipboardContentActionType,
+    getDeviceIdActionType: GetDeviceIdActionType,
     getDirectoryActionType: GetDirectoryActionType,
     getLocationActionType: GetLocationActionType,
     getVariableActionType: GetVariableActionType,
@@ -146,6 +148,7 @@ constructor(
             changeIconActionType,
             confirmActionType,
             copyToClipboardActionType,
+            getDeviceIdActionType,
             getDirectoryActionType,
             dialogActionType,
             enqueueShortcutActionType,

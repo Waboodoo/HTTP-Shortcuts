@@ -863,6 +863,8 @@
     <string name="action_type_open_url_title">Open URL</string>
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">Open App</string>
+    <!-- Shortcut Action Title: get the device ID (i.e., a unique identifier for the app, to differentiate it from app installations on other devices) -->
+    <string name="action_type_get_device_id_title">Get Device-ID</string>
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">Failed to send intent: %s</string>
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
