@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import ch.rmy.android.framework.extensions.getParcelable
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.ui.BaseIntentBuilder
@@ -15,9 +16,17 @@ import dagger.hilt.android.AndroidEntryPoint
 class ImageEditorActivity : BaseComposeActivity() {
     @Composable
     override fun Content() {
+        val imageUri = intent.getParcelable<Uri>(EXTRA_INPUT_URI)
+        if (imageUri == null) {
+            LaunchedEffect(Unit) {
+                finish()
+            }
+            return
+        }
+
         ImageEditorScreen(
             title = intent.getStringExtra(EXTRA_TITLE) ?: "",
-            imageUri = intent.getParcelable(EXTRA_INPUT_URI)!!,
+            imageUri = imageUri,
             squareAspectRatio = intent.getBooleanExtra(EXTRA_SQUARE_ASPECT_RATIO, false),
             circular = intent.getBooleanExtra(EXTRA_CIRCULAR, false),
             compressFormat = intent.getStringExtra(EXTRA_COMPRESS_FORMAT)
