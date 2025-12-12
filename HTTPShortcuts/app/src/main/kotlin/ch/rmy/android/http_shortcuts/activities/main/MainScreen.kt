@@ -97,6 +97,7 @@ fun MainScreen(
                 viewModel.onVariableWidgetSettingsSubmitted(
                     variableId = result.variableId,
                     fontSize = result.fontSize,
+                    title = result.title,
                 )
             }
             RESULT_SHORTCUT_WIDGET_SETTINGS_CANCELLED -> {

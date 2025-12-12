@@ -9,6 +9,7 @@ data class VariableWidgetSettingsViewState(
     val selectedVariable: SelectableVariable?,
     val variableValue: String?,
     val fontSize: Int,
+    val title: String,
 ) {
     val isSaveEnabled
         get() = selectedVariable != null

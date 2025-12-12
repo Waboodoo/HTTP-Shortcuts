@@ -513,6 +513,7 @@ sealed interface NavigationDestination {
         data class Result(
             val variableId: GlobalVariableId,
             val fontSize: Int,
+            val title: String,
         ) : Serializable
 
         const val RESULT_VARIABLE_WIDGET_SETTINGS_CANCELLED = "variable-widget-settings-cancelled"

@@ -14,4 +14,6 @@ data class VariableWidget(
     val variableId: GlobalVariableId,
     @ColumnInfo(name = "font_size", defaultValue = "22")
     val fontSize: Int,
+    @ColumnInfo(name = "Title", defaultValue = "")
+    val title: String,
 )

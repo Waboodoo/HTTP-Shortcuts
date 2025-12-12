@@ -16,6 +16,17 @@
         android:paddingBottom="8dp">
 
         <TextView
+            android:id="@+id/widget_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:padding="4dp"
+            android:textAlignment="center"
+            android:textColor="@color/variable_widget_foreground"
+            android:textSize="15sp" />
+
+        <TextView
             android:id="@+id/widget_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

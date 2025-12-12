@@ -15,12 +15,14 @@ constructor(
         widgetId: Int,
         variableId: GlobalVariableId,
         fontSize: Int,
+        title: String,
     ) = query {
         variableWidgetDao().insertOrReplace(
             VariableWidget(
                 widgetId = widgetId,
                 variableId = variableId,
                 fontSize = fontSize,
+                title = title,
             ),
         )
     }

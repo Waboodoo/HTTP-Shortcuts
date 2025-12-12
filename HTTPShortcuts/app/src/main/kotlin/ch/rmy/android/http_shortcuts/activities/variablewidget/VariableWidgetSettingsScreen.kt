@@ -45,8 +45,10 @@ fun VariableWidgetSettingsScreen(
             selectedVariable = viewState.selectedVariable,
             variableValue = viewState.variableValue,
             fontSize = viewState.fontSize,
+            title = viewState.title,
             onVariableSelected = viewModel::onVariableSelected,
             onFontSizeChanged = viewModel::onFontSizeChanged,
+            onTitleChanged = viewModel::onTitleChanged,
         )
     }
 }

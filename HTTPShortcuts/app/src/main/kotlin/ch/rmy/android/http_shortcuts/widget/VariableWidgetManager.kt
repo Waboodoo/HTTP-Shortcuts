@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.widget
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
+import android.view.View
 import android.widget.RemoteViews
 import androidx.core.util.TypedValueCompat
 import ch.rmy.android.http_shortcuts.R
@@ -23,8 +24,9 @@ constructor(
         widgetId: Int,
         globalVariableId: GlobalVariableId,
         fontSize: Int,
+        title: String,
     ) {
-        variableWidgetsRepository.createOrUpdateVariableWidget(widgetId, globalVariableId, fontSize)
+        variableWidgetsRepository.createOrUpdateVariableWidget(widgetId, globalVariableId, fontSize, title)
     }
 
     suspend fun updateAllWidgets(context: Context) {
@@ -62,6 +64,17 @@ constructor(
             val fontSize = variableWidget.fontSize.toFloat()
             views.setFloat(R.id.widget_text, "setTextSize", fontSize)
             views.setInt(R.id.widget_text, "setLineHeight", TypedValueCompat.dpToPx(fontSize, context.resources.displayMetrics).toInt())
+
+            if (variableWidget.title.isNotEmpty()) {
+                views.setViewVisibility(R.id.widget_title, View.VISIBLE)
+                views.setTextViewText(R.id.widget_title, variableWidget.title)
+
+                val titleFontSize = fontSize * 0.75f
+                views.setFloat(R.id.widget_title, "setTextSize", titleFontSize)
+                views.setInt(R.id.widget_title, "setLineHeight", TypedValueCompat.dpToPx(titleFontSize, context.resources.displayMetrics).toInt())
+            } else {
+                views.setViewVisibility(R.id.widget_title, View.GONE)
+            }
 
             AppWidgetManager.getInstance(context)
                 .updateAppWidget(variableWidget.widgetId, views)

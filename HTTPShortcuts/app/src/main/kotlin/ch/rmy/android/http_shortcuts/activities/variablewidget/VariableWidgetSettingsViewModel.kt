@@ -41,6 +41,7 @@ constructor(
             selectedVariable = selectedVariable?.toSelectableVariable(),
             variableValue = selectedVariable?.value,
             fontSize = widget?.fontSize ?: 22,
+            title = widget?.title ?: "",
         )
     }
 
@@ -67,14 +68,21 @@ constructor(
         }
     }
 
+    fun onTitleChanged(title: String) = runAction {
+        updateViewState {
+            copy(
+                title = title,
+            )
+        }
+    }
+
     fun onSubmitButtonClicked() = runAction {
         val variableId = viewState.selectedVariable?.variableId ?: skipAction()
-        withProgressTracking {
-        }
         closeScreen(
             result = NavigationDestination.VariableWidget.Result(
                 variableId = variableId,
                 fontSize = viewState.fontSize,
+                title = viewState.title,
             ),
         )
     }

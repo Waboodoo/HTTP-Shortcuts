@@ -1912,4 +1912,6 @@
     <string name="message_delete_all">You are about to delete all of your shortcuts, variables, etc. This can not be undone. Continue?</string>
     <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
     <string name="message_data_restored">Data successfully restored.</string>
+    <!-- label, shown in variable widget editor, to allow the user to enter a title that will be shown on the widget variable -->
+    <string name="label_variable_widget_title">Widget Title</string>
 </resources>

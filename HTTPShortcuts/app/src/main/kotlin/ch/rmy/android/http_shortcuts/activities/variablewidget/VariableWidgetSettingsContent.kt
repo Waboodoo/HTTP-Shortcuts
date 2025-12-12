@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.variablewidget
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,8 +38,10 @@ fun VariableWidgetSettingsContent(
     selectedVariable: SelectableVariable?,
     variableValue: String?,
     fontSize: Int,
+    title: String,
     onVariableSelected: (GlobalVariableId?) -> Unit,
     onFontSizeChanged: (Int) -> Unit,
+    onTitleChanged: (String) -> Unit,
 ) {
     if (variables.isEmpty()) {
         Box(
@@ -75,6 +79,7 @@ fun VariableWidgetSettingsContent(
             WidgetPreview(
                 value = variableValue,
                 fontSize = fontSize,
+                title = title,
             )
         }
 
@@ -105,6 +110,19 @@ fun VariableWidgetSettingsContent(
             fontSize = fontSize,
             onFontSizeChanged = onFontSizeChanged,
         )
+
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = Spacing.MEDIUM)
+                .padding(bottom = Spacing.MEDIUM),
+            label = {
+                Text(stringResource(R.string.label_variable_widget_title))
+            },
+            value = title,
+            onValueChange = onTitleChanged,
+            maxLines = 2,
+        )
     }
 }
 
@@ -112,8 +130,9 @@ fun VariableWidgetSettingsContent(
 private fun WidgetPreview(
     value: String?,
     fontSize: Int,
+    title: String,
 ) {
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(
@@ -124,8 +143,21 @@ private fun WidgetPreview(
                 vertical = Spacing.SMALL,
                 horizontal = Spacing.MEDIUM,
             ),
-        contentAlignment = Alignment.Center,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        if (title.isNotEmpty()) {
+            Text(
+                text = title,
+                maxLines = 2,
+                fontSize = fontSize.sp * 0.75,
+                lineHeight = (fontSize * 1.2 * 0.75).sp,
+                color = colorResource(R.color.variable_widget_foreground),
+                overflow = TextOverflow.Ellipsis,
+                textAlign = TextAlign.Center,
+            )
+            VerticalSpacer(Spacing.SMALL)
+        }
         Text(
             text = value?.ifEmpty { "-" } ?: "???",
             maxLines = 10,
@@ -181,5 +213,16 @@ private fun WidgetPreview_Preview() {
     WidgetPreview(
         value = "Hello World",
         fontSize = 20,
+        title = "",
+    )
+}
+
+@Preview
+@Composable
+private fun WidgetPreview_WithTitle_Preview() {
+    WidgetPreview(
+        value = "Hello World",
+        fontSize = 20,
+        title = "My Widget",
     )
 }
