@@ -497,6 +497,13 @@ constructor(
                     insertText("htmlDecode(\"", "\")")
                 }
                 item(
+                    R.string.action_type_url_encode,
+                    R.string.action_type_url_encode_description,
+                    keywords = setOf("escape", "query", "url", "parameter", "encode", "special", "characters", "safe"),
+                ) {
+                    insertText("encodeURIComponent(\"", "\")")
+                }
+                item(
                     R.string.action_type_to_string,
                     R.string.action_type_to_string_description,
                     docRef = "to-string-to-hex-string",
