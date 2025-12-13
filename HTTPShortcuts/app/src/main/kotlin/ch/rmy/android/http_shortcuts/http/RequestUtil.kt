@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.http
 
+import android.os.Build
 import ch.rmy.android.http_shortcuts.exceptions.InvalidContentTypeException
 import java.net.URLEncoder
 import okhttp3.MediaType
@@ -13,10 +14,14 @@ object RequestUtil {
     const val FORM_URLENCODE_CONTENT_TYPE_WITH_CHARSET = "application/x-www-form-urlencoded; charset=UTF-8"
 
     private const val DEFAULT_CONTENT_TYPE = "text/plain"
-    private const val PARAMETER_ENCODING = "UTF-8"
 
     fun encode(text: String): String =
-        URLEncoder.encode(text, PARAMETER_ENCODING)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            URLEncoder.encode(text, Charsets.UTF_8)
+        } else {
+            URLEncoder.encode(text, "UTF-8")
+        }
+            .replace("+", "%20")
 
     fun sanitize(text: String): String =
         text.replace("\"", "")
@@ -24,7 +29,7 @@ object RequestUtil {
     fun getMediaType(contentType: String?): MediaType =
         try {
             (contentType ?: DEFAULT_CONTENT_TYPE).toMediaType()
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             throw InvalidContentTypeException(contentType!!)
         }
 }

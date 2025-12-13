@@ -5,8 +5,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
-import java.io.UnsupportedEncodingException
-import java.net.URLEncoder
+import ch.rmy.android.http_shortcuts.http.RequestUtil
 import org.json.JSONObject
 
 class VariableManager(
@@ -82,10 +81,6 @@ class VariableManager(
                 JSONObject.quote(this).drop(1).dropLast(1)
             }
             .runIf(variable.urlEncode) {
-                try {
-                    URLEncoder.encode(this, "utf-8")
-                } catch (_: UnsupportedEncodingException) {
-                    this
-                }
+                RequestUtil.encode(this)
             }
 }
