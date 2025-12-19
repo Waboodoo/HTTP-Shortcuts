@@ -1,6 +1,6 @@
 # Variables
 
-Variables allow you to inject pieces of information dynamically into your shortcuts when executing them. Each variable, at the very least, consists of a name and a value. There are two kinds of variables; local variables and global variables.
+Variables allow you to inject pieces of information dynamically into your shortcuts when executing them. Each variable, at the very least, consists of a name and a value. There are two kinds of variables; [local variables](#local-variables) and [global variables](#global-variables).
 
 Variables are also particularly useful when combined with the app's [Scripting](scripting.md) capabilities, as it allows you to compute a value using a piece of JavaScript code, store that value into a variable and then use that value as part of the HTTP request.
 
@@ -19,10 +19,11 @@ Placeholders for local variables are shown as orange and are enclosed by 2 sets 
 <a id="local-variables"></a>
 ## Local Variables
 
-Local variables are implicitly created when a placeholder for them is used and only exist in the context of the shortcut they are used in. You can assign a value to a local variable by using the [setVariable](scripting.md#set-variable) Scripting function or by passing in a value via [deep linking](advanced.md#deep-link), the [executeShortcut](#execute-shortcut) or [enqueueShortcut](#trigger-shortcut) functions, or from [Tasker](advanced.md#integrate-with-tasker).
+Local variables are implicitly created when a placeholder for them is used and only exist in the context of the shortcut they are used in. You can assign a value to a local variable by using the [setVariable](scripting.md#set-variable) Scripting function or by passing in a value via [deep linking](advanced.md#deep-link), the [executeShortcut](scripting.md#execute-shortcut) or [enqueueShortcut](scripting.md#trigger-shortcut) functions, or from [Tasker](advanced.md#integrate-with-tasker).
 
 The assigned value is not stored and will be forgotten after the execution of the shortcut completes. If you want to store a value, use a global variable instead.
 
+<a id="global-variables"></a>
 ## Global Variable
 
 As opposed to local variables, global variables exist independently of shortcuts and can be used by multiple of them. They can be created and managed from the *Global Variables* screen, accessed via the menu on the main screen.
