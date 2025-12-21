@@ -33,6 +33,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptColorActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptDateActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptNumberActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptNumberSliderActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptPasswordActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.PromptTimeActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.RenameShortcutActionType
@@ -100,6 +101,7 @@ constructor(
     promptColorActionType: PromptColorActionType,
     promptDateActionType: PromptDateActionType,
     promptNumberActionType: PromptNumberActionType,
+    promptNumberSliderActionType: PromptNumberSliderActionType,
     promptPasswordActionType: PromptPasswordActionType,
     promptTimeActionType: PromptTimeActionType,
     renameShortcutActionType: RenameShortcutActionType,
@@ -172,6 +174,7 @@ constructor(
             promptColorActionType,
             promptDateActionType,
             promptNumberActionType,
+            promptNumberSliderActionType,
             promptPasswordActionType,
             promptTimeActionType,
             renameShortcutActionType,

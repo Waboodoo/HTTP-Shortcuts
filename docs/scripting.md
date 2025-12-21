@@ -304,12 +304,44 @@ prompt("What's your story?", "I was born in...", { multiline: true });
 <a id="prompt-number"></a>
 ### promptNumber
 
-You can use the `promptNumber`function to open an input dialog that asks for a number. The entered number will be the return value, or `null` if the dialog is cancelled. If the entered value is not a valid number `NaN` will be returned.
+You can use the `promptNumber` function to open an input dialog that asks for a number. The entered number will be the return value, or `null` if the dialog is cancelled. If the entered value is not a valid number `NaN` will be returned.
+
+See also [promptNumberSlider](#prompt-number-slider).
 
 As the first parameter pass the text to display on the dialog. This must not be empty. As an optional second parameter you may pass a default value which is used to prefill the input field.
 
 ```js
 const myNumber = promptNumber('What is your favorite number?', 42);
+```
+
+<a id="prompt-number-slider"></a>
+### promptNumberSlider
+
+The `promptNumberSlider` function opens a dialog window that shows a horizontal number slider widget. The selected number will be the return value, or `null` if the dialog is cancelled.
+
+As the first parameter pass an object that may contain the following fields to configure the dialog and the slider:
+
+|Parameter|Description|Type / Values|
+|---|---|---|
+|title|Defines the title of the dialog|string|
+|text|The main content to duakig|string|
+|prefix|Text displayed before the number|string|
+|suffix|Text displayed after the number|string|
+|value|The initially selected value|number|
+|min|The minimum value of the slider. Defaults to 0|number|
+|max|The maximum value of the slider. Defaults to 100|number|
+|stepSize|The step size of the slider. Defaults to 1|number|
+
+```js
+const myNumber = promptNumberSlider({
+  title: 'Temperature',
+  text: 'Select the desired temperature',
+  suffix: '°C',
+  min: 20,
+  max: 35,
+  value: 24,
+  stepSize: 0.5,
+});
 ```
 
 <a id="prompt-password"></a>

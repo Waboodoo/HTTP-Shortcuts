@@ -30,7 +30,7 @@ constructor() : Action<PromptNumberAction.Params> {
             )
                 .toDoubleOrNull()
                 ?: Double.NaN
-        } catch (e: DialogCancellationException) {
+        } catch (_: DialogCancellationException) {
             null
         }
     }
